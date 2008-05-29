@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: n"
 "POT-Creation-Date: 2006-02-06 11:10+0600n"
 "PO-Revision-Date: 2007-05-02 HO:MI+ZONEn"
-"Last-Translator: FRAN BOON <FLAVOUR@PARTYVIBE.COM>n"
+"Last-Translator: Riza Manshuri <gueriza@gmail.COM>n"
 "Language-Team: LANGUAGE <LL@li.org>n"
 "MIME-Version: 1.0n"
 "Content-Type: text/plain; charset=CHARSETn"
@@ -22,7 +22,7 @@ msgstr "Membuat Pengguna"
 
 #: ../inc/lib_logger/actions.inc:3
 msgid "Edit User"
-msgstr "Merubah Pengguna"
+msgstr "Ubah Pengguna"
 
 #: ../inc/lib_logger/actions.inc:4
 msgid "Delete User"
@@ -93,7 +93,7 @@ msgstr "Pengguna : "
 
 #: ../inc/lib_security/acl_form_lib.inc:86
 msgid "Roles : "
-msgstr "Aturan : "
+msgstr "Fungsi : "
 
 #: ../inc/lib_security/acl_form_lib.inc:118
 msgid "Actions : "
@@ -101,16 +101,16 @@ msgstr "Aksi : "
 
 #: ../inc/lib_security/acl_form_lib.inc:151
 msgid "Action Groups : "
-msgstr "Aksi Beberapa Grup : "
+msgstr "Kelompok Aksi : "
 
 #: ../inc/lib_security/acl_form_lib.inc:153
 #: ../inc/lib_security/acl_form_lib.inc:190
 msgid "* Action Groups:"
-msgstr "* Aksi Beberapa Grup:"
+msgstr "* Kelompok Aksi:"
 
 #: ../inc/lib_security/acl_form_lib.inc:187
 msgid "Select the Action Group : "
-msgstr "Pilih Aksi Grup : "
+msgstr "Pilih Kelompok Aksi : "
 
 #: ../inc/lib_security/acl_form_lib.inc:219
 msgid "Organization :"
@@ -135,22 +135,22 @@ msgstr "Simpan"
 #: ../inc/lib_security/acl_module_form.inc:92
 #: ../inc/lib_security/acl_module_form.inc:160
 msgid "ACL Installed"
-msgstr ""
+msgstr "ACL Terinstall"
 
 #: ../inc/lib_security/acl_module_form.inc:94
 #: ../inc/lib_security/acl_module_form.inc:162
 msgid "ACL NOT Installed"
-msgstr ""
+msgstr "ACL Belum Terinstall"
 
 #: ../inc/lib_security/auth_form.inc:115 ../mod/ims/lib_ims.inc:425
 #: ../mod/or/lib_or.inc:540 ../mod/vol/lib_vol.inc:367
 msgid "Account Name : "
-msgstr "Nama Akun  : "
+msgstr "Nama Account  : "
 
 #: ../inc/lib_security/auth_form.inc:116 ../mod/ims/lib_ims.inc:426
 #: ../mod/or/lib_or.inc:541 ../mod/vol/lib_vol.inc:368
 msgid "* User Name for Login: "
-msgstr "* Nama Akun untuk Login: "
+msgstr "* Nama Pengguna untuk Login: "
 
 #: ../inc/lib_security/auth_form.inc:117 ../mod/ims/lib_ims.inc:427
 #: ../mod/or/lib_or.inc:542 ../mod/vol/lib_vol.inc:369
@@ -176,15 +176,15 @@ msgstr "* Konfirmasi Password Baru: "
 
 #: ../mod/admin/acl.inc:58
 msgid "ACL is Installed,choose below to reinstall"
-msgstr ""
+msgstr "ACL Terinstall,pilih dibawah untuk install ulang"
 
 #: ../mod/admin/acl.inc:280 ../mod/admin/acl.inc:284
 msgid "Sorry ! It seems you do not have an ACL script"
-msgstr ""
+msgstr "Maaf ! Nampaknya anda tidak mempunyai sebuah script ACL"
 
 #: ../mod/admin/acl.inc:307
 msgid "Default ACL was succesfully installed"
-msgstr ""
+msgstr "Default ACL sudah terinstall dengan sukses"
 
 #: ../mod/admin/forms.inc:22 ../mod/admin/location.inc:282
 msgid "Add Locations"
@@ -193,16 +193,16 @@ msgstr "Tambah Lokasi"
 #: ../mod/admin/forms.inc:24 ../mod/admin/location.inc:57
 #: ../mod/admin/location.inc:121 ../mod/admin/location.inc:284
 msgid "Fields marked with * are required (entry is compulsory)"
-msgstr "Ruang yang bertanda * butuh di isi (wajid di isi)"
+msgstr "Bagian yang bertanda * wajib diisi"
 
 #: ../mod/admin/forms.inc:57
 msgid "New Location Details)"
-msgstr "Informasi Lokasi Baru"
+msgstr "Detail Lokasi Baru"
 
 #: ../mod/admin/forms.inc:59 ../mod/admin/location.inc:134
 #: ../mod/admin/location.inc:296
 msgid "Location Name : "
-msgstr "* Nama Lokasi : "
+msgstr "Nama Lokasi : "
 
 #: ../mod/admin/forms.inc:61 ../mod/admin/location.inc:137
 #: ../mod/admin/location.inc:298
@@ -220,15 +220,15 @@ msgstr "Tipe Lokasi  (Level)"
 
 #: ../mod/admin/forms.inc:67 ../mod/admin/location.inc:306
 msgid "Now Select the parent Location"
-msgstr ""
+msgstr "Sekarang pilih lokasi awal"
 
 #: ../mod/admin/ims_assign.inc:20
 msgid "Currently Assign Incidents"
-msgstr ""
+msgstr "Kejadian yang sudah ada"
 
 #: ../mod/admin/ims_assign.inc:24
 msgid "Incident Name"
-msgstr ""
+msgstr "Nama Kejadian"
 
 #: ../mod/admin/ims_assign.inc:25 ../mod/admin/ims_assign.inc:42
 #: ../mod/admin/ims_level.inc:39 ../mod/admin/ims_level.inc:191
@@ -242,20 +242,20 @@ msgstr "Hapus"
 
 #: ../mod/admin/ims_assign.inc:76
 msgid "Added."
-msgstr ""
+msgstr "Telah ditambahkan"
 
 #: ../mod/admin/ims_assign.inc:82 ../mod/admin/ims_assign.inc:86
 #: ../mod/pref/ims_config.inc:44
 msgid "Incident Type"
-msgstr ""
+msgstr "Tipe Kejadian"
 
 #: ../mod/admin/ims_assign.inc:91
 msgid "New Incident"
-msgstr ""
+msgstr "Kejadian Baru"
 
 #: ../mod/admin/ims_assign.inc:94 ../mod/pref/ims_config.inc:45
 msgid "Select Incident"
-msgstr ""
+msgstr "Pilih Kejadian"
 
 #: ../mod/admin/ims_assign.inc:110 ../mod/admin/ims_config.inc:49
 #: ../mod/admin/ims_level.inc:98 ../mod/admin/ims_level.inc:264
@@ -265,69 +265,69 @@ msgstr ""
 #: ../mod/sync/add.inc:282 ../mod/sync/discovery.inc:132
 #: ../mod/sync/discovery.inc:259 ../mod/sync/edit.inc:247
 msgid "You have not completed the form"
-msgstr ""
+msgstr "Anda belum menyelesaikan form ini"
 
 #: ../mod/admin/ims_assign.inc:115
 msgid "Please specify the id"
-msgstr ""
+msgstr "Silahkan tentukan id"
 
 #: ../mod/admin/ims_assign.inc:120 ../mod/pref/ims_config.inc:72
-msgid "Please an incident"
-msgstr ""
+msgid "Please specify an incident"
+msgstr "Silakan tentukan sebuah kejadian"
 
 #: ../mod/admin/ims_config.inc:21
 msgid "Activate/Deactivate"
-msgstr ""
+msgstr "Aktifkan/Non Aktifkan"
 
 #: ../mod/admin/ims_config.inc:24
 msgid "Activate"
-msgstr ""
+msgstr "Aktifkan"
 
 #: ../mod/admin/ims_config.inc:27
 msgid "Grouping"
-msgstr ""
+msgstr "Pengelompokan"
 
 #: ../mod/admin/ims_config.inc:28
 msgid "Level1"
-msgstr ""
+msgstr "Level1"
 
 #: ../mod/admin/ims_config.inc:30
 msgid "Level2"
-msgstr ""
+msgstr "Level2"
 
 #: ../mod/admin/ims_config.inc:32
 msgid "Level3"
-msgstr ""
+msgstr "Level3"
 
 #: ../mod/admin/ims_config.inc:36 ../mod/admin/ims_level.inc:57
 #: ../mod/admin/ims_level.inc:222 ../mod/admin/ims_level.inc:408
 #: ../mod/mpr/admin.inc:109 ../mod/pref/ims_config.inc:49
 msgid "Update"
-msgstr ""
+msgstr "Perbaharui"
 
 #: ../mod/admin/ims_config.inc:54
 msgid "Please enter the name for Level1"
-msgstr ""
+msgstr "Silahkan masukkan nama untuk Level1"
 
 #: ../mod/admin/ims_config.inc:59
 msgid "Please enter the name for Level2"
-msgstr ""
+msgstr "Silahkan masukkan nama untuk Level2"
 
 #: ../mod/admin/ims_config.inc:64
 msgid "Please enter the name for Level3"
-msgstr ""
+msgstr "Silahkan masukkan nama untuk Level3"
 
 #: ../mod/admin/ims_level.inc:34 ../mod/admin/ims_level.inc:185
 #: ../mod/admin/ims_level.inc:371 ../mod/admin/ims_menus.inc:2
 #: ../mod/admin/ims_menus.inc:3 ../mod/admin/ims_menus.inc:4
 msgid "Manage "
-msgstr ""
+msgstr "Atur"
 
 #: ../mod/admin/ims_level.inc:34 ../mod/admin/ims_level.inc:70
 #: ../mod/admin/ims_level.inc:190 ../mod/admin/ims_level.inc:237
 #: ../mod/admin/ims_level.inc:423 ../mod/admin/ims_menus.inc:2
 msgid "mod_admin_ims_level1"
-msgstr ""
+msgstr "mod_admin_ins_level1"
 
 #: ../mod/admin/ims_level.inc:38 ../mod/admin/ims_level.inc:71
 #: ../mod/admin/ims_level.inc:189 ../mod/admin/ims_level.inc:236
@@ -359,21 +359,21 @@ msgstr "Tambah Baru"
 #: ../mod/admin/ims_level.inc:103 ../mod/admin/ims_level.inc:269
 #: ../mod/admin/ims_level.inc:455
 msgid "Please enter the name for "
-msgstr ""
+msgstr "Silahkan masukkan nama untuk"
 
 #: ../mod/admin/ims_level.inc:185 ../mod/admin/ims_level.inc:235
 #: ../mod/admin/ims_level.inc:376 ../mod/admin/ims_menus.inc:3
 msgid "mod_admin_ims_level2"
-msgstr ""
+msgstr "mod_admin_ims_level2"
 
 #: ../mod/admin/ims_level.inc:273 ../mod/admin/ims_level.inc:459
 msgid "Please select "
-msgstr "Pilih silahkan "
+msgstr "Silahkan Pilih "
 
 #: ../mod/admin/ims_level.inc:371 ../mod/admin/ims_level.inc:421
 #: ../mod/admin/ims_menus.inc:4
 msgid "mod_admin_ims_level3"
-msgstr ""
+msgstr "mod_admin_ims_level3"
 
 #: ../mod/admin/ims_menus.inc:1
 msgid "Configuration"
@@ -381,61 +381,61 @@ msgstr "Konfigurasi"
 
 #: ../mod/admin/lc_db.inc:30
 msgid "Table / Field Names"
-msgstr ""
+msgstr "Nama Tabel / Bagian"
 
 #: ../mod/admin/lc_db.inc:33
 msgid "Add Entry"
-msgstr ""
+msgstr "Tambah Input"
 
 #: ../mod/admin/lc_db.inc:50
 msgid "The Table name cannot be blank,"
-msgstr ""
+msgstr "Nama Tabel tidak boleh kosong"
 
 #: ../mod/admin/lc_db.inc:51
 msgid " please enter a valid Table name"
-msgstr ""
+msgstr "Silahkan masukkan nama Tabel yang validr"
 
 #: ../mod/admin/lc_db.inc:57
 msgid "The Field name cannot be blank, "
-msgstr ""
+msgstr "Nama Bagian tidak boleh kosong"
 
 #: ../mod/admin/lc_db.inc:58
 msgid "please enter a valid Field name"
-msgstr ""
+msgstr "Silahkan masukkan nama Bagian yang valid"
 
 #: ../mod/admin/lc_db.inc:72
 msgid "DB L10N Entry added successfully!"
-msgstr ""
+msgstr "Input DB L10N telah ditambahkan dengan sukses! "
 
 #: ../mod/admin/lc_db.inc:76
 msgid "The DB L10N Entry already exists"
-msgstr ""
+msgstr "Input DB L10N sudah ada"
 
 #: ../mod/admin/lc_db.inc:92 ../mod/rms/handler_plg_ls.inc:117
 #: ../mod/rms/handler_plg_sch.inc:86 ../mod/rms/handler_req_ls.inc:133
 #: ../mod/rms/handler_req_sch.inc:92
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: ../mod/admin/lc_db.inc:93
 msgid "Table Name"
-msgstr ""
+msgstr "Nama Tabel"
 
 #: ../mod/admin/lc_db.inc:94
 msgid "Field Name"
-msgstr ""
+msgstr "Nama Bagian"
 
 #: ../mod/admin/lc_db.inc:137
 msgid "DB L10N Entry removed successfully"
-msgstr ""
+msgstr "Input DB L10N telah dihapus dengan sukses"
 
 #: ../mod/admin/lc_db.inc:141
 msgid "Error occurred while removing DB L10N Entry"
-msgstr ""
+msgstr "Ada kesalahan saat menghapus Input DB L10N"
 
 #: ../mod/admin/lc_setlocale.inc:27 ../mod/admin/lc_translate.inc:33
 msgid "Current language : "
-msgstr "Bahasa yang Berlaku : "
+msgstr "Bahasa yang berlaku : "
 
 #: ../mod/admin/lc_setlocale.inc:33
 msgid "Select Locale"
@@ -443,11 +443,11 @@ msgstr "Pilih Locale"
 
 #: ../mod/admin/lc_setlocale.inc:38 ../mod/admin/menu.inc:32
 msgid "Set Locale"
-msgstr "Pengikat Locale"
+msgstr "Tentukan Locale"
 
 #: ../mod/admin/lc_setlocale.inc:50
 msgid "Current locale setting "
-msgstr "Pengikat locale yang berlaku "
+msgstr "Setting locale yang berlaku "
 
 #: ../mod/admin/lc_setlocale.inc:51
 msgid "in the Database : "
@@ -455,40 +455,40 @@ msgstr "di dalam Database : "
 
 #: ../mod/admin/lc_setlocale.inc:60
 msgid "The locale setting is not set in the Database"
-msgstr "Locale yang berlaku tidak ada dalam Database"
+msgstr "Setting Locale tidak ada dalam Database"
 
 #: ../mod/admin/lc_setlocale.inc:62
 msgid "Please select a valid locale from the list"
-msgstr "Pilih locale yang valid dari daftar"
+msgstr "Silakan pilih locale yang valid dari daftar"
 
 #: ../mod/admin/lc_translate.inc:31
 msgid "Sahana Localization Module"
-msgstr "Sahana Modul Localization"
+msgstr "Modul Lokalisasi Sahana"
 
 #: ../mod/admin/lc_translate.inc:32 ../mod/admin/menu.inc:34
 msgid "Language Translation"
-msgstr "Translasi Bahasa"
+msgstr "Penterjemahan Bahasa"
 
 #: ../mod/admin/location.inc:55
 msgid "First select the location to Edit & Delete"
-msgstr ""
+msgstr "Pertama pilih lokasi untuk Ubah & Hapus"
 
 #: ../mod/admin/location.inc:70 ../mod/or/search.inc:28
 msgid "Select location and then select the level(province,district,ect),"
-msgstr ""
+msgstr "Pilih lokasi kemudian pilih level (propinsi,kabupaten,dsb)"
 
 #: ../mod/admin/location.inc:71 ../mod/or/search.inc:29
 msgid "the selected location field at the end of the form will be updated"
-msgstr ""
+msgstr "Bagian yang telah dipilih pada akhir form akan diperbaharui"
 
 #: ../mod/admin/location.inc:88
 msgid "Selected Location for Edit/Delete"
-msgstr ""
+msgstr "Lokasi yang telah dipilih untuk Ubah/Hapus"
 
 #: ../mod/admin/location.inc:91 ../mod/ims/search.inc:238
 #: ../mod/or/search.inc:61 ../mod/vol/search.inc:36
 msgid "location"
-msgstr "lokasi"
+msgstr "Lokasi"
 
 #: ../mod/admin/location.inc:119
 msgid "Edit Location"
@@ -496,7 +496,7 @@ msgstr "Ubah Lokasi"
 
 #: ../mod/admin/location.inc:131
 msgid "Location Details"
-msgstr "Informasi Lokasi"
+msgstr "Penjelasan Lokasi"
 
 #: ../mod/admin/location.inc:149 ../mod/cr/edit.inc:190 ../mod/cs/edit.inc:130
 #: ../mod/cs/edit.inc:311 ../mod/cs/edit.inc:466 ../mod/ims/view_inv.inc:179
@@ -506,31 +506,31 @@ msgstr "Tutup"
 
 #: ../mod/admin/location.inc:172 ../mod/admin/menu.inc:24
 msgid "Location Levels"
-msgstr ""
+msgstr "Level Lokasi"
 
 #: ../mod/admin/location.inc:174
 msgid "The Location you add will be added after remaining ones)"
-msgstr ""
+msgstr "Lokasi yang anda tambah akan ditambahkan pada yang telah ada"
 
 #: ../mod/admin/location.inc:186
 msgid "New Level : "
-msgstr ""
+msgstr "Level Baru"
 
 #: ../mod/admin/location.inc:243 ../mod/ims/admin_forms.inc:70
 #: ../mod/or/admin_forms.inc:70 ../mod/vol/admin_forms.inc:69
 msgid "Set the Location Range"
-msgstr ""
+msgstr "Pilih Kisaran Lokasi"
 
 #: ../mod/admin/location.inc:245 ../mod/ims/admin_forms.inc:72
 #: ../mod/or/admin_forms.inc:72 ../mod/vol/admin_forms.inc:71
 msgid ""
 "In a Disaster,all the location levels might not be important ,set the range "
 "here"
-msgstr ""
+msgstr "Disaat bencana, semua level lokasi mungkin tidak terlalu penting, tentukan kisaran disini"
 
 #: ../mod/admin/location.inc:294
 msgid "New Location Details"
-msgstr "Informasi Lokasi Baru"
+msgstr "Penjelasan Lokasi Baru"
 
 #: ../mod/admin/main.inc:42
 msgid "You called the admin view"
@@ -538,35 +538,35 @@ msgstr "Anda memanggil tampilan admin"
 
 #: ../mod/admin/main.inc:43
 msgid " on module"
-msgstr " di atas modul"
+msgstr "pada modul"
 
 #: ../mod/admin/main.inc:51
 msgid "Sahana System Administration"
-msgstr ""
+msgstr "Sistem Administrasi Sahana"
 
 #: ../mod/admin/main.inc:52
 msgid ""
 "The System Adminisitration section allows you to configure and customize "
 "Sahana based on your requirements"
 msgstr ""
-"Bagian System Administration memperboleh anda untuk mengkonfigurasi dan melakukan kustomisasi"
-"Sahana berbasis dari kebutuhan anda"
+"Sistem Administrasi memungkinkan anda untuk membuat perubahan pada"
+"Sahana sesuai kebutuhan anda"
 
 #: ../mod/admin/main.inc:54
 msgid "System Config"
-msgstr "System Konfigurasi"
+msgstr "Konfigurasi Sistem"
 
 #: ../mod/admin/main.inc:54
 msgid ""
 "Contains all the configuration sections that apply across the Sahana "
 "application such as localization to location"
 msgstr ""
-"Isi semua bagian konfigurasi yang di implentasikan oleh Sahana"
-"seperti aplikasi localization untuk lokasi"
+"Berisi semua bagian konfigurasi yang dapat diimplentasikan oleh Sahana"
+"seperti aplikasi lokalisasi untuk lokasi"
 
 #: ../mod/admin/main.inc:55 ../mod/admin/menu.inc:36
 msgid "Module Config"
-msgstr "Konfig Modul"
+msgstr "Modul Konfigurasi"
 
 #: ../mod/admin/main.inc:55
 msgid ""
@@ -574,21 +574,21 @@ msgid ""
 "installed in the system allowing them to be customized individually and "
 "seperately."
 msgstr ""
-"Berisi konfigurasi spesifik untuk setiap modul yang telah di lakukan"
-"Di install pada system yang memperbolehkan untuk di kustomisasi secara individu dan "
+"Berisi halaman konfigurasi spesifik untuk setiap modul yang telah"
+"Di install pada system yang memungkinkan adanya perubahan secara individu dan "
 "terpisah."
 
 #: ../mod/admin/main.inc:56 ../mod/admin/menu.inc:44
 msgid "Security Config"
-msgstr "Konfig Keamanan"
+msgstr "Konfigurasi Keamanan"
 
 #: ../mod/admin/main.inc:56
 msgid ""
 "Allows the system administrator to configure who gets access to what modules "
 "and to what degree to high degree of granularity if required."
 msgstr ""
-"Memperbolehkan system administrator untuk mengkonfigurasi siapa yang dapat mengakses modul  "
-"dan membutuhkan setiap dari bagian tertentu sampai bagian tertinggi"
+"Memungkinkan sistem administrator untuk mengkonfigurasi siapa yang dapat mengakses modul  "
+"dan sampai dimana haknya, apabila dibutuhkan."
 
 #: ../mod/admin/menu.inc:23 ../mod/rms/handler_req_ls.inc:179
 msgid "Locations"
@@ -601,27 +601,27 @@ msgstr "Tambah Lokasi"
 
 #: ../mod/admin/menu.inc:26
 msgid "Edit & Delete Location"
-msgstr ""
+msgstr "Ubah & Hapus Lokasi"
 
 #: ../mod/admin/menu.inc:30
 msgid "Localization"
-msgstr ""
+msgstr "Lokalisasi"
 
 #: ../mod/admin/menu.inc:31
 msgid "Localization Main"
-msgstr ""
+msgstr "Awal Lokalisasi"
 
 #: ../mod/admin/menu.inc:33
 msgid "Database L10N"
-msgstr ""
+msgstr "Database L10N"
 
 #: ../mod/admin/menu.inc:41
-msgid "Mutiple Incidents"
-msgstr ""
+msgid "Multiple Incidents"
+msgstr "Kejadian Berganda"
 
 #: ../mod/admin/menu.inc:45
 msgid "System & User"
-msgstr "System & Pengguna"
+msgstr "Sistem & Pengguna"
 
 #: ../mod/admin/menu.inc:46
 msgid "Modules"
@@ -629,19 +629,19 @@ msgstr "Modul"
 
 #: ../mod/admin/menu.inc:70
 msgid "Welcome to the Sahana ACL Module Configuration page"
-msgstr "Selamat datang di halaman Sahana ACL Module Configuration"
+msgstr "Selamat datang di halaman Modul Konfigurasi ACL Sahana"
 
 #: ../mod/admin/menu.inc:72
 msgid "Current Status (Installed/Enabled)"
-msgstr ""
+msgstr "Status saat ini (Terinstall/Bisa Dipakai)"
 
 #: ../mod/admin/menu.inc:78
 msgid "ACL is not Installed! You need to Install ACL Base"
-msgstr "ACL belum di install! Anda butuh untuk melakukan Installasi ACL Base"
+msgstr "ACL belum di install! Anda harus melakukan Instalasi ACL Base"
 
 #: ../mod/admin/menu.inc:92 ../mod/admin/menu.inc:101
 msgid "<strong>A</strong>CL Base Install"
-msgstr ""
+msgstr "<strong>I</strong>nstalasi ACL Base"
 
 #: ../mod/admin/menu.inc:93
 msgid "<strong>U</strong>sers"
@@ -649,31 +649,31 @@ msgstr "<strong>P</strong>engguna"
 
 #: ../mod/admin/menu.inc:94
 msgid "<strong>R</strong>oles"
-msgstr "<strong>A</strong>turan"
+msgstr "<strong>F</strong>ungsi"
 
 #: ../mod/admin/menu.inc:97
 msgid "Welcome to the Sahana ACL System Configuration page"
-msgstr "Selamat datang di halaman Sahana ACL System Configuration"
+msgstr "Selamat datang di halaman Sistem Konfigurasi ACL Sahana"
 
 #: ../mod/admin/menu.inc:110
 msgid "Install Default ACL"
 msgstr "Instalasi Default ACL"
 
 #: ../mod/admin/menu.inc:111
-msgid "User  Permissions"
-msgstr "Hak  Pengguna"
+msgid "User Permissions"
+msgstr "Hak Pengguna"
 
 #: ../mod/admin/menu.inc:112
 msgid "Role Permissions"
-msgstr "Aturan Hak"
+msgstr "Hak Fungsi"
 
 #: ../mod/admin/menu.inc:113
 msgid "Add & Remove Actions"
-msgstr "Aksi Tambah dan Hapus "
+msgstr "Tambah & Hapus "
 
 #: ../mod/admin/menu.inc:114
 msgid "Action Groups"
-msgstr "Aksi Grups"
+msgstr "Kelompok Aksi"
 
 #: ../mod/admin/menu.inc:124
 msgid "Add User"
@@ -689,27 +689,27 @@ msgstr "Rubah Password"
 
 #: ../mod/admin/menu.inc:133
 msgid "Edit Roles of an User"
-msgstr "Editing Aturan Pengguna"
+msgstr "Ubah Fungsi Pengguna"
 
 #: ../mod/admin/menu.inc:134
 msgid "Add Users to Role"
-msgstr "Tambah Pengguna dan Aturannya"
+msgstr "Tambah Pengguna ke dalam Fungsi"
 
 #: ../mod/admin/menu.inc:147
 msgid "Add Role"
-msgstr "Tambah Aturan"
+msgstr "Tambah Fungsi"
 
 #: ../mod/admin/menu.inc:148
 msgid "Remove Role"
-msgstr "Hapus Aturan"
+msgstr "Hapus Fungsi"
 
 #: ../mod/admin/menu.inc:152
 msgid "Existing Role Permissions"
-msgstr ""
+msgstr "Hak Fungsi telah ada"
 
 #: ../mod/admin/menu.inc:153
 msgid "Add & Remove Role Permissions"
-msgstr ""
+msgstr "Tambah & Hapus Hak Fungsi"
 
 #: ../mod/admin/menu.inc:166
 msgid "Add Action"
@@ -721,15 +721,15 @@ msgstr "Hapus Aksi"
 
 #: ../mod/admin/menu.inc:177
 msgid "Add Action Group"
-msgstr "Tambah Aksi Grup"
+msgstr "Tambah Kelompok Aksi"
 
 #: ../mod/admin/menu.inc:178
 msgid "Remove Action Action Group"
-msgstr "Hilangkan Aksi Grup"
+msgstr "Hilangkan Kelompok Aksi "
 
 #: ../mod/cms/aidworker.inc:23
 msgid "Aid Worker Registration"
-msgstr "Pertolongan Pendaftaran Pekerja"
+msgstr "Pendaftaran Pekerja Kemanusiaan"
 
 #: ../mod/cms/aidworker.inc:30 ../mod/cms/victim.inc:38
 msgid "Individual Information"
@@ -737,7 +737,7 @@ msgstr "Informasi Individu"
 
 #: ../mod/cms/aidworker.inc:33 ../mod/cms/victim.inc:43
 msgid "ID/SSN/Passport"
-msgstr ""
+msgstr "KTP/Paspor"
 
 #: ../mod/cms/aidworker.inc:34 ../mod/cms/victim.inc:46 ../mod/mpr/add.inc:91
 #: ../mod/mpr/add.inc:457 ../mod/mpr/edit.inc:176 ../mod/mpr/edit.inc:425
@@ -776,7 +776,7 @@ msgstr "Nomor Telepon "
 #: ../mod/sync/add.inc:253 ../mod/sync/add.inc:557
 #: ../mod/sync/discovery.inc:230 ../mod/sync/discovery.inc:520
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: ../mod/cms/aidworker.inc:39 ../mod/lr/main_fns.inc:37
 msgid "Contact Type"
@@ -797,8 +797,8 @@ msgid "Organization Name"
 msgstr "Nama Organisasi"
 
 #: ../mod/cms/aidworker.inc:44
-msgid "Proffesion"
-msgstr "Profesi"
+msgid "Profession"
+msgstr "Pekerjaan"
 
 #: ../mod/cms/aidworker.inc:45 ../mod/ims/report.inc:477
 #: ../mod/or/report.inc:308 ../mod/vol/main.inc:174 ../mod/vol/report.inc:178
@@ -812,11 +812,11 @@ msgstr "Daftar"
 
 #: ../mod/cms/aidworker.inc:54
 msgid "Edit Aid Worker Information"
-msgstr "Ubah Informasi Bantuan Pekerja"
+msgstr "Ubah Informasi Pekerja Kemanusiaan"
 
 #: ../mod/cms/camp.inc:27
 msgid "Add New Camp - Details"
-msgstr "Tambah Camp Baru - Mendetail"
+msgstr "Tambah Kamp Baru - Detail"
 
 #: ../mod/cms/camp.inc:50
 msgid "Name and Type"
@@ -826,13 +826,13 @@ msgstr "Nama dan Tipe"
 #: ../mod/cr/edit.inc:127 ../mod/cr/main_fns.inc:61 ../mod/cr/main_fns.inc:90
 #: ../mod/cr/reports.inc:66 ../mod/cr/reports.inc:175 ../mod/cr/search.inc:29
 msgid "Camp Name"
-msgstr "Nama Camp"
+msgstr "Nama Kamp"
 
 #: ../mod/cms/camp.inc:53 ../mod/cr/camp.inc:43 ../mod/cr/edit.inc:41
 #: ../mod/cr/edit.inc:128 ../mod/cr/reports.inc:67 ../mod/cr/reports.inc:176
 #: ../mod/cr/search.inc:32 ../mod/cr/search.inc:175
 msgid "Camp Type"
-msgstr "Tipe Camp"
+msgstr "Tipe Kamp"
 
 #: ../mod/cms/camp.inc:54 ../mod/cr/camp.inc:71 ../mod/cr/edit.inc:42
 #: ../mod/cr/edit.inc:159 ../mod/cr/reports.inc:68 ../mod/cr/reports.inc:177
@@ -856,11 +856,11 @@ msgstr "Alamat"
 
 #: ../mod/cms/camp.inc:57
 msgid "Camp Administrator"
-msgstr "Administrator Camp"
+msgstr "Administrator Kamp"
 
 #: ../mod/cms/camp.inc:58
 msgid "Camp Admin Name"
-msgstr "Nama Admin Camp"
+msgstr "Nama Admin Kamp"
 
 #: ../mod/cms/camp.inc:59 ../mod/ims/main.inc:429 ../mod/ims/report.inc:481
 #: ../mod/or/report.inc:312 ../mod/vol/main.inc:178 ../mod/vol/report.inc:181
@@ -870,11 +870,11 @@ msgstr "Nomor Kontak"
 
 #: ../mod/cms/camp.inc:60
 msgid "Administrative Organization(s)"
-msgstr "Organisasi Administrasi"
+msgstr "Organisasi Administratif"
 
 #: ../mod/cms/camp.inc:62
 msgid "Demographics"
-msgstr ""
+msgstr "Demografi"
 
 #: ../mod/cms/camp.inc:65
 msgid "Approximate Capacity [people]"
@@ -882,7 +882,7 @@ msgstr "Perkiraan kapasitas [orang]"
 
 #: ../mod/cms/camp.inc:66
 msgid "Number of Shelters"
-msgstr "Jumlah Naungan"
+msgstr "Jumlah Tempat Tinggal"
 
 #: ../mod/cms/camp.inc:67
 msgid "Approximate Area Size [with units]"
@@ -890,7 +890,7 @@ msgstr "Perkiraan Luas Area [square meter]"
 
 #: ../mod/cms/camp.inc:68
 msgid "Number of Persons per camp"
-msgstr "Populasi Camp"
+msgstr "Populasi per kamp"
 
 #: ../mod/cms/camp.inc:70 ../mod/cms/camp.inc:88 ../mod/cms/camp.inc:120
 #: ../mod/cr/camp.inc:95 ../mod/cr/camp.inc:148 ../mod/cr/edit.inc:92
@@ -918,39 +918,39 @@ msgstr "Lanjut"
 
 #: ../mod/cms/camp.inc:80
 msgid "Camp Administrator Details"
-msgstr ""
+msgstr "Detail Administrator Kamp"
 
 #: ../mod/cms/camp.inc:82
 msgid "Administrator Full Name"
-msgstr ""
+msgstr "Nama Lengkap Administrator"
 
 #: ../mod/cms/camp.inc:83 ../mod/cms/camp.inc:86
 msgid "ID/Passport/SSN"
-msgstr ""
+msgstr "KTP/Paspor"
 
 #: ../mod/cms/camp.inc:84
 msgid "Camp Phone"
-msgstr ""
+msgstr "Nomor Telepon Kamp"
 
 #: ../mod/cms/camp.inc:85 ../mod/cr/camp.inc:85 ../mod/vol/report.inc:182
 msgid "Mobile Number"
-msgstr ""
+msgstr "Nomor Telepon Genggam"
 
 #: ../mod/cms/camp.inc:109
 msgid "Service Organizations"
-msgstr ""
+msgstr "Organisasi Pelayanan"
 
 #: ../mod/cms/camp.inc:138
 msgid "Accept"
-msgstr ""
+msgstr "Terima"
 
 #: ../mod/cms/camp.inc:143
 msgid "Camp Service Checklist"
-msgstr ""
+msgstr "Daftar Cek Pelayanan Camp"
 
 #: ../mod/cms/camp.inc:145
 msgid "Facilities / Services"
-msgstr "Fasilitas dan Layanan"
+msgstr "Fasilitas / Layanan"
 
 #: ../mod/cms/camp.inc:149 ../mod/gis/admin.inc:170
 msgid "Done"
@@ -962,11 +962,11 @@ msgstr "Informasi Lokasi"
 
 #: ../mod/cms/camp.inc:175 ../mod/cr/camp.inc:201
 msgid "Plot the Camp Location OR Enter its GPS coordinates below"
-msgstr "Plot Lokasi Camp atau masukan GPS coordinates di bawah ini"
+msgstr "Tentukan Lokasi Kamp atau masukan koordinat GPS di bawah ini"
 
 #: ../mod/cms/camp.inc:177 ../mod/lr/main_fns.inc:70
 msgid "Plot Location on Map"
-msgstr "Plot Location pada Peta"
+msgstr "Tentukan Location pada Peta"
 
 #: ../mod/cms/camp.inc:183
 msgid "Area Map"
@@ -974,68 +974,68 @@ msgstr "Peta Area"
 
 #: ../mod/cms/camp.inc:194
 msgid "Enter Camp Location. Click on Map where camp exists"
-msgstr "Masukan Lokasi Camp. Click Peta yang sudah ada"
+msgstr "Masukan Lokasi Kamp. Klik pada Peta yang tersedia"
 
 #: ../mod/cms/camp.inc:221 ../mod/gis/gis_fns.inc:178
 #: ../mod/lr/main_fns.inc:81
 msgid "GPS Coordinates"
-msgstr "Kordinat GPS"
+msgstr "Koordinat GPS"
 
 #: ../mod/cms/camp.inc:222 ../mod/gis/gis_fns.inc:179
 #: ../mod/lr/main_fns.inc:82
 msgid "Northing / Latitude"
-msgstr "Utara / Latitude"
+msgstr "Utara / Garis Lintang"
 
 #: ../mod/cms/camp.inc:223 ../mod/gis/gis_fns.inc:180
 #: ../mod/lr/main_fns.inc:83
 msgid "Easting / Longitude"
-msgstr "Timur / Longitude"
+msgstr "Timur / Garis Bujur"
 
 #: ../mod/cms/home.inc:21 ../mod/cms/main.inc:34
 msgid "Camp Management System"
-msgstr ""
+msgstr "Sistem Manajemen Kamp"
 
 #: ../mod/cms/main.inc:36 ../mod/cr/main.inc:27 ../mod/cr/main.inc:59
 #: ../mod/cs/main.inc:37 ../mod/lr/main.inc:28 ../mod/mpr/main.inc:44
 #: ../mod/pref/main.inc:53 ../mod/sync/main.inc:43
 msgid "Home"
-msgstr ""
+msgstr "Awal"
 
 #: ../mod/cms/main.inc:48
 msgid "Add New Camp"
-msgstr "Tambah Camp Baru"
+msgstr "Tambah Kamp Baru"
 
 #: ../mod/cms/main.inc:54
 msgid "Victims"
-msgstr ""
+msgstr "Korban"
 
 #: ../mod/cms/main.inc:56
 msgid "Register Victim"
-msgstr "Daftar Korban"
+msgstr "Masukkan daftar Korban"
 
 #: ../mod/cms/main.inc:57
 msgid "Edit Victim"
-msgstr "Ubah Kordan"
+msgstr "Ubah Korban"
 
 #: ../mod/cms/main.inc:58
 msgid "Update Victim"
-msgstr ""
+msgstr "Perbaharui Korban"
 
 #: ../mod/cms/main.inc:60
 msgid "Relief Workers"
-msgstr ""
+msgstr "Pekerja Kemanusiaan"
 
 #: ../mod/cms/main.inc:62
 msgid "Register Relief Worker"
-msgstr ""
+msgstr "Masukkan daftar Pekerja Kemanusiaan"
 
 #: ../mod/cms/main.inc:63
 msgid "Edit Relief Worker"
-msgstr ""
+msgstr "Ubah Pekerja Kemanusiaan"
 
 #: ../mod/cms/main.inc:64
 msgid "Update Relief Worker"
-msgstr ""
+msgstr "Perbaharui Pekerja Kemanusiaan"
 
 #: ../mod/cms/main.inc:66 ../mod/cr/main.inc:28 ../mod/cr/main.inc:60
 #: ../mod/cr/search.inc:179 ../mod/cs/main.inc:38 ../mod/cs/search.inc:54
@@ -1048,7 +1048,7 @@ msgstr "Cari"
 
 #: ../mod/cms/main.inc:67
 msgid "Statistics"
-msgstr ""
+msgstr "Statistik"
 
 #: ../mod/cms/main.inc:68 ../mod/cr/main.inc:63 ../mod/ims/main.inc:61
 #: ../mod/or/main.inc:38
@@ -1060,11 +1060,11 @@ msgstr "Laporan"
 #: ../mod/ims/report.inc:190 ../mod/ims/report.inc:269
 #: ../mod/ims/search.inc:145
 msgid "Inventory"
-msgstr ""
+msgstr "Inventaris"
 
 #: ../mod/cms/main.inc:70 ../mod/cr/edit.inc:113
 msgid "Camp Details"
-msgstr ""
+msgstr "Detail Kamp"
 
 #: ../mod/cms/main.inc:72 ../mod/cr/acl.inc:56 ../mod/cr/edit.inc:276
 #: ../mod/cr/main.inc:44 ../mod/cr/main.inc:62
@@ -1073,15 +1073,15 @@ msgstr "Ubah Camp"
 
 #: ../mod/cms/main.inc:73
 msgid "Camp Closure"
-msgstr ""
+msgstr "Penutupan Kamp"
 
 #: ../mod/cms/main.inc:74
 msgid "Synchronize"
-msgstr ""
+msgstr "Sinkronisasi"
 
 #: ../mod/cms/victim.inc:30
 msgid "Victim Registration"
-msgstr "Pendaftaran Calon Korban"
+msgstr "Pendaftaran Korban"
 
 #: ../mod/cms/victim.inc:40 ../mod/cr/camp.inc:83 ../mod/cr/edit.inc:82
 #: ../mod/cr/edit.inc:180 ../mod/mpr/add.inc:83 ../mod/mpr/add.inc:441
@@ -1110,7 +1110,7 @@ msgstr "Nama Keluarga"
 #: ../mod/sync/discovery.inc:404 ../mod/sync/edit.inc:170
 #: ../mod/sync/edit.inc:396 ../mod/sync/view.inc:69
 msgid "Local Name"
-msgstr ""
+msgstr "Nama Panggilan"
 
 #: ../mod/cms/victim.inc:44 ../mod/mpr/add.inc:87 ../mod/mpr/add.inc:449
 #: ../mod/mpr/edit.inc:172 ../mod/mpr/edit.inc:417 ../mod/mpr/view.inc:73
@@ -1118,7 +1118,7 @@ msgstr ""
 #: ../mod/sync/discovery.inc:408 ../mod/sync/edit.inc:172
 #: ../mod/sync/edit.inc:400 ../mod/sync/view.inc:73
 msgid "Age Group"
-msgstr "Grup Usia"
+msgstr "Kelompok Usia"
 
 #: ../mod/cms/victim.inc:45
 msgid "Person Status"
@@ -1126,19 +1126,19 @@ msgstr "Status Orang"
 
 #: ../mod/cms/victim.inc:49
 msgid "Previous Contact  Type"
-msgstr "Previous Tipe  Kontak"
+msgstr "Tipe Kontak Sebelumnya"
 
 #: ../mod/cms/victim.inc:50
 msgid "Previous Contact"
-msgstr "Previous Kontak"
+msgstr "Kontak Sebelumnya"
 
 #: ../mod/cms/victim.inc:52
 msgid "Group/Family"
-msgstr "Grup/Keluarga"
+msgstr "Kelompok/Keluarga"
 
 #: ../mod/cms/victim.inc:53
 msgid "Group Name/Sirname/Family Name"
-msgstr "Group Name/Nama Awal/Nama Akhiran"
+msgstr "Nama Kelompok/Nama Awal/Nama Keluarga"
 
 #: ../mod/cms/victim.inc:54 ../mod/mpr/add.inc:95 ../mod/mpr/add.inc:494
 #: ../mod/mpr/edit.inc:180 ../mod/mpr/edit.inc:462 ../mod/mpr/view.inc:115
@@ -1146,19 +1146,19 @@ msgstr "Group Name/Nama Awal/Nama Akhiran"
 #: ../mod/sync/discovery.inc:453 ../mod/sync/edit.inc:180
 #: ../mod/sync/edit.inc:445 ../mod/sync/view.inc:115
 msgid "Contact Details"
-msgstr "Kontak Detail"
+msgstr "Detail Kontak"
 
 #: ../mod/cms/victim.inc:55
 msgid "Number of Members in Group"
-msgstr "Jumlah Anggota Grup"
+msgstr "Jumlah Anggota dalam Kelompok"
 
 #: ../mod/cms/victim.inc:56
 msgid "Individual is head of Group/Family"
-msgstr "Kepala Keluarga/Grup "
+msgstr "Kepala Kelompok/Keluarga"
 
 #: ../mod/cms/victim.inc:57
 msgid "Members of Group/Family are Missing"
-msgstr "Anggota Grup/Keluarga yang hilang"
+msgstr "Anggota Kelompok/Keluarga yang hilang"
 
 #: ../mod/cms/victim.inc:66
 msgid "Edit Victim Information"
@@ -1166,31 +1166,31 @@ msgstr "Ubah Informasi Korban"
 
 #: ../mod/cr/acl.inc:26
 msgid "ACL Base for Camps Registry is already installed"
-msgstr ""
+msgstr "ACL Base untuk Pendaftaran Kamp sudah terinstall"
 
 #: ../mod/cr/acl.inc:39
 msgid "Camp Registry"
-msgstr "Pendaftaran Camp"
+msgstr "Pendaftaran Kamp"
 
 #: ../mod/cr/acl.inc:43 ../mod/mpr/admin.inc:140
 msgid "Deny admin group"
-msgstr ""
+msgstr "Kelompok Admin Deny"
 
 #: ../mod/cr/acl.inc:46 ../mod/mpr/admin.inc:142
 msgid "Display Admin page"
-msgstr ""
+msgstr "Tampilkan Halaman Admin"
 
 #: ../mod/cr/acl.inc:55 ../mod/cr/main.inc:29 ../mod/cr/main.inc:61
 msgid "Add Camp"
-msgstr "Tambah Camp"
+msgstr "Tambah Kamp"
 
 #: ../mod/cr/acl.inc:66
 msgid "ACL Base for Request Management System was succesfully installed"
-msgstr ""
+msgstr "ACL Base untuk Sistem Manajemen Perubahan sudah terinstall dengan sukses"
 
 #: ../mod/cr/admin.inc:34
 msgid "Camps Registry Administration"
-msgstr "Administrasi Pendaftaran Camp"
+msgstr "Administrasi Pendaftaran Kamp"
 
 #: ../mod/cr/camp.inc:29
 msgid "Register New Camp"
@@ -1198,19 +1198,19 @@ msgstr "Daftar Camp Baru"
 
 #: ../mod/cr/camp.inc:32 ../mod/cr/edit.inc:38 ../mod/cr/edit.inc:122
 msgid "General Details"
-msgstr ""
+msgstr "Detail Umum"
 
 #: ../mod/cr/camp.inc:82 ../mod/cr/edit.inc:81 ../mod/cr/edit.inc:179
 msgid "Contact Person Details"
-msgstr "Kontak Person Detail"
+msgstr "Detail Kontak"
 
 #: ../mod/cr/camp.inc:86 ../mod/vol/view_vol.inc:32
 msgid "Occupation"
-msgstr "Pendudukan"
+msgstr "Pekerjaan"
 
 #: ../mod/cr/camp.inc:88 ../mod/cr/edit.inc:85 ../mod/cr/edit.inc:183
 msgid "Camp Population"
-msgstr "Populasi Camp"
+msgstr "Populasi Kamp"
 
 #: ../mod/cr/camp.inc:89 ../mod/cr/edit.inc:86 ../mod/cr/edit.inc:184
 msgid "Family Count"
@@ -1243,31 +1243,31 @@ msgstr "Fasilitas Lainnya"
 
 #: ../mod/cr/camp.inc:253 ../mod/cr/edit.inc:298
 msgid "Please Enter the Camp Name"
-msgstr "Masukan nama Camp"
+msgstr "Masukan nama Kamp"
 
 #: ../mod/cr/camp.inc:259
 msgid "The Family Count is not a valid number"
-msgstr "Jumlah Keluarga tidak benar dan valid"
+msgstr "Jumlah Keluarga tidak benar"
 
 #: ../mod/cr/camp.inc:265 ../mod/cr/edit.inc:310
 msgid "The Total Count is not a valid number"
-msgstr "Jumlah Total tidak benar dan valid"
+msgstr "Jumlah Total tidak benar"
 
 #: ../mod/cr/camp.inc:271 ../mod/cr/edit.inc:316
 msgid "The Men Count is not a valid number"
-msgstr "Jumlah Pria tidak benar dan valid"
+msgstr "Jumlah Pria tidak benar"
 
 #: ../mod/cr/camp.inc:277 ../mod/cr/edit.inc:322
 msgid "The Women Count is not a valid number"
-msgstr "Jumlah Wanita tidak benar dan valid"
+msgstr "Jumlah Wanita tidak benar"
 
 #: ../mod/cr/camp.inc:283 ../mod/cr/edit.inc:328
 msgid "The Children Count is not a valid number"
-msgstr "Jumlah Anak tidak benar dan valid"
+msgstr "Jumlah Anak tidak benar"
 
 #: ../mod/cr/camp.inc:384
 msgid "The Availability of Services & Facilities of the Camp are as follows:"
-msgstr "Ketersediaan Layanan dan Fasilitas terdiri dari :"
+msgstr "Ketersediaan Layanan dan Fasilitas Kamp terdiri atas:"
 
 #: ../mod/cr/camp.inc:392 ../mod/cr/edit.inc:416
 msgid "Service Type"
@@ -1291,19 +1291,19 @@ msgstr "Gunakan Navigasi Kiri untuk melanjutkan ."
 
 #: ../mod/cr/conf.inc:3 ../mod/cr/main_fns.inc:23
 msgid "Camps Registry"
-msgstr "Pendaftaran Camp"
+msgstr "Pendaftaran Kamp"
 
 #: ../mod/cr/edit.inc:29
 msgid "Update Existing Camp"
-msgstr "Perbaharui Camp yang ada"
+msgstr "Perbaharui Kamp yang ada"
 
 #: ../mod/cr/edit.inc:248
 msgid "Deleted Camp Succesfully"
-msgstr "Penghapusan Camp Sukses"
+msgstr "Kamp  telah dihapus dengan sukses"
 
 #: ../mod/cr/edit.inc:278
 msgid "Name of Camp to edit"
-msgstr "Nama Camp yang akan di ubah"
+msgstr "Nama Kamp yang akan di ubah"
 
 #: ../mod/cr/edit.inc:280 ../mod/ims/mini_quantity.inc:241
 #: ../mod/ims/view_edit_item.inc:61 ../mod/mpr/search.inc:351
@@ -1313,11 +1313,11 @@ msgstr "Ubah"
 
 #: ../mod/cr/edit.inc:304
 msgid "The Familiy Count is not a valid number"
-msgstr "Jumlah keluarga tidak benar dan valid"
+msgstr "Jumlah keluarga tidak benar"
 
 #: ../mod/cr/edit.inc:408
 msgid "The availability of Services & Facilities of the camp are as follows"
-msgstr ""
+msgstr "Ketersediaan Layanan dan Fasilitas Kamp terdiri atas:"
 
 #: ../mod/cr/edit.inc:458
 msgid "Use the Navigation Menu to Continue"
@@ -1334,44 +1334,44 @@ msgid ""
 "affected area.n"
 "Current features include:"
 msgstr ""
-"Sub bagian aplikasi dari Sahana ini tetap menelusuri lokasi dari seluruh camp "
-"dan"
+"Sub bagian aplikasi dari Sahana ini menyimpan lokasi dari seluruh kamp "
+"yang mana"
 "agama dan beberapa data utama dari fasilitas yang di miliki serta "
 "nomor ofn"
-"orang orang tersebut. Juga menyediakan GIS untuk melihat plot lokasi dari  "
-"camp yang ada dan "
-"area.n yang di buat"
+"orang orang tersebut. Juga menyediakan tampilan GIS untuk melihat plot lokasi dari  "
+"kamp yang ada dan "
+"area.n yang terkena dampak"
 "Fitur yang ada termasuk :"
 
 #: ../mod/cr/main_fns.inc:30
 msgid ""
 "Tracking of basic meta-data on the location, facilities and size of the camp"
 msgstr ""
-"Menelusuri basic meta-data  pada lokasi, fasilitas dan ukuran camp"
+"Menelusuri meta-data dasar pada lokasi, fasilitas dan ukuran kamp"
 
 #: ../mod/cr/main_fns.inc:31
 msgid "Integration of google maps to provide a GIS view of the affected region"
-msgstr "Integrasi dengan google maps untu menyediakan GIS dan membuat area yang disediakan "
+msgstr "Integrasi dengan google maps untuk menyediakan tampilan GIS dari area yang terkena dampak "
 
 #: ../mod/cr/main_fns.inc:32
 msgid "Ability to customize the list of important facilities needed at a camp"
-msgstr "Kemampuan mengkustomisasi daftar fasilitas yang penting dan di butuhkan oleh camp"
+msgstr "Kemampuan mengubah daftar fasilitas penting yang di butuhkan oleh kamp"
 
 #: ../mod/cr/main_fns.inc:33
 msgid "Basic reports on the camps and drill-down by region"
-msgstr "Laporan dasar dari camp dan drill down oleh area "
+msgstr "Laporan dasar dari kamp dan lihat berdasarkan area "
 
 #: ../mod/cr/main_fns.inc:40
 msgid "Most Populated Camps"
-msgstr "Populasi Camp Terbesar"
+msgstr "Kamp dengan Populasi Terbesar"
 
 #: ../mod/cr/main_fns.inc:44
 msgid "Newest Camps"
-msgstr "Camp Terbaru"
+msgstr "Kamp Terbaru"
 
 #: ../mod/cr/main_fns.inc:62
 msgid "Population"
-msgstr "Hasil Pencarian"
+msgstr "Jumlah Penduduk"
 
 #: ../mod/cr/main_fns.inc:91 ../mod/cr/reports.inc:69
 #: ../mod/cr/reports.inc:137 ../mod/cr/reports.inc:174 ../mod/cr/search.inc:30
@@ -1387,19 +1387,19 @@ msgstr "Hasil Pencarian"
 
 #: ../mod/cr/main.inc:25
 msgid "Camps Registry Menu"
-msgstr "Menu Pendaftaran Camp"
+msgstr "Menu Pendaftaran Kamp"
 
 #: ../mod/cr/main.inc:32 ../mod/cr/main.inc:64
 msgid "View All Camps"
-msgstr "Lihat Seluruh Camps"
+msgstr "Lihat Seluruh Kamp"
 
 #: ../mod/cr/main.inc:33 ../mod/cr/main.inc:65
 msgid "View By Location"
-msgstr "Lihat via Lokasi"
+msgstr "Lihat berdasarkan Lokasi"
 
 #: ../mod/cr/main.inc:34 ../mod/cr/main.inc:66
 msgid "View Admin Details"
-msgstr ""
+msgstr "Lihat Detail Admin"
 
 #: ../mod/cr/main.inc:39 ../mod/cr/main.inc:68
 msgid "Location Map"
@@ -1407,11 +1407,11 @@ msgstr "Peta Lokasi "
 
 #: ../mod/cr/main.inc:58
 msgid "mod_cr_name"
-msgstr ""
+msgstr "mod_cr_name"
 
 #: ../mod/cr/reports.inc:49
 msgid "Report for all camps"
-msgstr "Laporan untuk seluruh camp"
+msgstr "Laporan seluruh kamp"
 
 #: ../mod/cr/reports.inc:52
 msgid "Generate Report"
@@ -1419,31 +1419,31 @@ msgstr "Pembuatan Laporan"
 
 #: ../mod/cr/reports.inc:62
 msgid "Camp Information"
-msgstr "Camp dalam"
+msgstr "Informasi Kamp"
 
 #: ../mod/cr/reports.inc:70 ../mod/cr/search.inc:36
 msgid "No: of Families"
-msgstr "No: Keluarga"
+msgstr "Jumlah Keluarga"
 
 #: ../mod/cr/reports.inc:71 ../mod/cr/search.inc:33
 msgid "No: of Males"
-msgstr "No: Pria"
+msgstr "Jumlah Pria"
 
 #: ../mod/cr/reports.inc:72 ../mod/cr/search.inc:34
 msgid "No: of Females"
-msgstr "No: Wanita"
+msgstr "Jumlah Wanita"
 
 #: ../mod/cr/reports.inc:73 ../mod/cr/search.inc:35
 msgid "No: of Children"
-msgstr ""
+msgstr "Jumlah Anak Anak"
 
 #: ../mod/cr/reports.inc:133
 msgid "Camp Information by Location"
-msgstr ""
+msgstr "Informasi Kamp berdasarkan Lokasi"
 
 #: ../mod/cr/reports.inc:138
 msgid "Total Number of Victims in Camps"
-msgstr ""
+msgstr "Jumlah Total Korban dalam Kamp"
 
 #: ../mod/cr/reports.inc:170
 msgid "Camp Information by Location Drilled"
@@ -1451,19 +1451,19 @@ msgstr ""
 
 #: ../mod/cr/reports.inc:178
 msgid "Total Victims"
-msgstr ""
+msgstr "Korban Total"
 
 #: ../mod/cr/reports.inc:186
 msgid "Camps in "
-msgstr ""
+msgstr "Kamp di"
 
 #: ../mod/cr/search.inc:77 ../mod/cr/search.inc:126
 msgid "edit"
-msgstr ""
+msgstr "Ubah"
 
 #: ../mod/cr/search.inc:166
 msgid "Search for a Camp"
-msgstr ""
+msgstr "Cari Kamp"
 
 #: ../mod/cr/search.inc:169
 msgid "SEARCH"
@@ -1471,141 +1471,142 @@ msgstr "CARI"
 
 #: ../mod/cr/search.inc:171
 msgid "Name of the Camp"
-msgstr "Nama Camp"
+msgstr "Nama Kamp"
 
 #: ../mod/cs/add.inc:32
 msgid "Details Of the catalogue"
-msgstr ""
+msgstr "Detail Katalog"
 
 #: ../mod/cs/add.inc:33 ../mod/cs/add.inc:105 ../mod/cs/add.inc:301
 #: ../mod/cs/add.inc:371 ../mod/cs/add.inc:376 ../mod/cs/search.inc:50
 msgid "Name   : "
-msgstr ""
+msgstr "Nama   : "
 
 #: ../mod/cs/add.inc:34 ../mod/cs/add.inc:106 ../mod/cs/add.inc:302
 #: ../mod/cs/add.inc:372 ../mod/cs/edit.inc:121 ../mod/cs/edit.inc:456
 msgid "Description   : "
-msgstr ""
+msgstr "Deskripsi      : "
 
 #: ../mod/cs/add.inc:104
 msgid "Sub Catalogue Details"
-msgstr ""
+msgstr "Detail Sub Katalog"
 
 #: ../mod/cs/add.inc:179 ../mod/cs/lib_cs.inc:185 ../mod/rms/lib_rms.inc:799
 msgid "Information"
-msgstr ""
+msgstr "Informasi"
 
 #: ../mod/cs/add.inc:181
 msgid "There is no any Measurement Unit category found. "
-msgstr ""
+msgstr "Kategori Unit Pengukuran yang dicari tidak ada "
 
 #: ../mod/cs/add.inc:181 ../mod/cs/lib_cs.inc:187
 msgid " First"
-msgstr ""
+msgstr "Pertama"
 
 #: ../mod/cs/add.inc:192 ../mod/cs/search.inc:136
 msgid "Select Measurement Unit Type"
-msgstr ""
+msgstr "Pilih Tipe Unit Pengukuran"
 
 #: ../mod/cs/add.inc:215 ../mod/cs/add.inc:310
 msgid "Measurement Unit"
-msgstr ""
+msgstr "Unit Pengukuran"
 
 #: ../mod/cs/add.inc:217 ../mod/ims/add_item.inc:145
 #: ../mod/ims/mini_quantity.inc:136 ../mod/ims/transfer_inv.inc:190
 #: ../mod/ims/transfer_inv.inc:419
 msgid "Unit : "
-msgstr ""
+msgstr "Unit : "
 
 #: ../mod/cs/add.inc:220
 msgid "Base Unit : "
-msgstr ""
+msgstr "Unit Dasar : "
 
 #: ../mod/cs/add.inc:222
 msgid "Multiplier : "
-msgstr ""
+msgstr "Pengali"
 
 #: ../mod/cs/add.inc:222
 msgid ""
 "Enter the Multiplier of the entered Unit to the base unit of the Unit Type. "
 "Eg: Unit = g, Base unit=kg, Multiplier=0.001 (g=kg*0.001)"
 msgstr ""
-
+"Masukkan Faktor Pengali dari Unit yang ada ke unit dasar dari Tipe Unit. "
+"Misal: Unit = g, Unit dasar=kg, Faktor Pengali=0.001 (g=kg*0.001)"
 #: ../mod/cs/add.inc:300
 msgid "Item Details"
-msgstr ""
+msgstr "Detail Barang"
 
 #: ../mod/cs/add.inc:306
 msgid "Measurement Type"
-msgstr ""
+msgstr "Tipe Pengukuran"
 
 #: ../mod/cs/add.inc:307
 msgid "Measurement Type :"
-msgstr ""
+msgstr "Tipe Pengukuran"
 
 #: ../mod/cs/add.inc:311
 msgid "Unit :"
-msgstr ""
+msgstr "Unit :"
 
 #: ../mod/cs/add.inc:370
 msgid "Unit Type Details"
-msgstr ""
+msgstr "Detail Tipe Unit"
 
 #: ../mod/cs/add.inc:375
 msgid "Base Unit Details"
-msgstr ""
+msgstr "Detail Unit Dasar"
 
 #: ../mod/cs/add.inc:376
 msgid "Specify a base unit here. Eg: Unit Type - Mass, Base Unit- kg"
-msgstr ""
+msgstr "Silahkan tentukan unit dasar. Misal: Tipe Unit - Massa, Unit Dasar - kg"
 
 #: ../mod/cs/add.inc:430
 msgid "Please Enter the Catalogue Name"
-msgstr ""
+msgstr "Silahkan Masukkan Nama Katalog"
 
 #: ../mod/cs/add.inc:452
 msgid "Please Enter the Unit Name"
-msgstr ""
+msgstr "Silahkan Masukkan Nama Unit"
 
 #: ../mod/cs/add.inc:458
 msgid "Please Enter the Multiplier"
-msgstr ""
+msgstr "Silahkan Masukkan Faktor Pengali"
 
 #: ../mod/cs/add.inc:476
 msgid "Please Enter the Sub Category Name"
-msgstr ""
+msgstr "Silahkan Masukkan Nama Sub Kategori"
 
 #: ../mod/cs/add.inc:491
 msgid "Please Enter the Item Name"
-msgstr ""
+msgstr "Silahkan Masukkan Nama Barang"
 
 #: ../mod/cs/add.inc:497
 msgid "Please Select the Unit Type"
-msgstr ""
+msgstr "Silahkan Pilih Tipe Unit"
 
 #: ../mod/cs/add.inc:503
 msgid "Please Select Unit/Units"
-msgstr ""
+msgstr "Silahkan pilih Unit"
 
 #: ../mod/cs/add.inc:519
 msgid "Please Enter the Unit Type Name"
-msgstr ""
+msgstr "Silahkan Masukkan Nama Tipe Unit"
 
 #: ../mod/cs/add.inc:525
 msgid "Please Enter the Base Unit Name"
-msgstr ""
+msgstr "Silahkan Masukkan Nama Unit Dasar"
 
 #: ../mod/cs/admin.inc:47
 msgid "Current Value of Maximum Depth"
-msgstr ""
+msgstr "Nilai Kedalaman Maksimum saat ini"
 
 #: ../mod/cs/admin.inc:53
 msgid "Select the New value of Maximum Depth"
-msgstr ""
+msgstr "Silahkan Masukkan nilai Kedalaman Maksimum yang baru"
 
 #: ../mod/cs/conf.inc:27 ../mod/cs/home.inc:21 ../mod/cs/main.inc:36
 msgid "Catalogue System"
-msgstr ""
+msgstr "Sistem Katalog"
 
 #: ../mod/cs/edit.inc:29
 msgid "Select Category"
@@ -1614,11 +1615,11 @@ msgstr "Pilih Kategori"
 #: ../mod/cs/edit.inc:53 ../mod/cs/edit.inc:403 ../mod/cs/search.inc:98
 #: ../mod/msg/handler_cap_new.inc:74
 msgid "Description"
-msgstr ""
+msgstr "Deskripsi"
 
 #: ../mod/cs/edit.inc:54
 msgid "Item/Catalogue"
-msgstr ""
+msgstr "Barang/Katalog"
 
 #: ../mod/cs/edit.inc:100
 msgid ""
@@ -1626,44 +1627,47 @@ msgid ""
 "Items, Unit or Unit Types.</b> By deleting a catalogue You will lose all the "
 "entries under the particular catalogue"
 msgstr ""
+"<b>Apabila dihapus, anda akan kehilangan seluruh data dari katalog, "
+" Barang, Unit atau Tipe Unit.</b>Dengan menghapus sebuah Katalog maka anda kehilangan "
+"seluruh data dari katalog tersebut"
 
 #: ../mod/cs/edit.inc:116
 msgid "Details Of the catalogue/Item"
-msgstr ""
+msgstr "Detail dari Katalog/Barang"
 
 #: ../mod/cs/edit.inc:118
 msgid "Catalogue / Item Name   : "
-msgstr ""
+msgstr "Katalog / Nama Barang"
 
 #: ../mod/cs/edit.inc:242 ../mod/cs/search.inc:195
 msgid "Multiplier"
-msgstr ""
+msgstr "Pengali"
 
 #: ../mod/cs/edit.inc:290
 msgid "Details Of the Unit"
-msgstr ""
+msgstr "Detail dari Unit"
 
 #: ../mod/cs/edit.inc:292 ../mod/cs/search.inc:141
 msgid "Unit Name   : "
-msgstr ""
+msgstr "Nama Unit   : "
 
 #: ../mod/cs/edit.inc:296 ../mod/cs/edit.inc:300
 msgid "Multiplier   : "
-msgstr ""
+msgstr "Pengali       : "
 
 #: ../mod/cs/edit.inc:296 ../mod/cs/edit.inc:300
 msgid ""
 "Specify the multiplier of the particular unit to the base unit of the unit "
 "type"
-msgstr ""
-
+msgstr "Tentukan faktor pengali dari unit yang dimaksud ke dalam unit dasar dari tipe"
+"unit"
 #: ../mod/cs/edit.inc:451
 msgid "Details Of the Unit Type"
-msgstr ""
+msgstr "Detail dari Tipe Unit"
 
 #: ../mod/cs/edit.inc:453
 msgid "Unit Type Name   : "
-msgstr ""
+msgstr "Nama Tipe Unit"
 
 #: ../mod/cs/home.inc:22
 msgid ""
@@ -1674,72 +1678,80 @@ msgid ""
 "capturing information about Items that you wish to use in Inventery "
 "Management System. Before go to add catalogues and Items add the measurement "
 "unit types and units that are used to measure the particular Item. "
-msgstr ""
+msgstr "Sistem Katalog membantu untuk menampilkan informasi tentang katalog, sub "
+"katalog, dan barang yang digunakan dalam Sistem Manajemen Inventaris. "
+""Tambah Katalog Utama" akan menambah barang dasar pada katalog. "Tambah Barang" akan"
+"menampilkan informasi dari barang yang ingin digunakan pada "
+"Sistem Manajemen Inventaris. Sebelum menambah katalog dan barang, tambahkan tipe unit "
+"pengukuran yang akan digunakan untuk mengukur barang tersebut. "
 
 #: ../mod/cs/lib_cs.inc:184
 msgid "None"
-msgstr ""
+msgstr "Tidak ada"
 
 #: ../mod/cs/lib_cs.inc:187
 msgid "There is no any root catalogue found. "
-msgstr ""
+msgstr "Tidak ada katalog dasar"
 
 #: ../mod/cs/lib_cs.inc:194
 msgid "Select the root Category"
-msgstr ""
+msgstr "Pilih Kategori dasar"
 
 #: ../mod/cs/lib_cs.inc:198
 msgid "Select the sub category"
-msgstr ""
+msgstr "Pilih sub kategori"
 
 #: ../mod/cs/lib_cs.inc:362
 msgid "Please Select the Catalogue that you need"
-msgstr ""
+msgstr "Silahkan pilih katalog yang anda butuhkan"
 
 #: ../mod/cs/main.inc:39
 msgid "Add Catalogue/Item"
-msgstr ""
+msgstr "Tambah Katalog/Barang"
 
 #: ../mod/cs/main.inc:40
 msgid "Add Main Catalogue"
-msgstr ""
+msgstr "Tambah Katalog Utama"
 
 #: ../mod/cs/main.inc:41
 msgid "Add Sub Catalogue"
-msgstr ""
+msgstr "Tambah Sub Katalog"
 
 #: ../mod/cs/main.inc:42 ../mod/ims/add_item.inc:43 ../mod/ims/main.inc:45
 msgid "Add Item"
-msgstr ""
+msgstr "Tambah Barang"
 
 #: ../mod/cs/main.inc:44
 msgid "Add Unit Category/ Unit"
-msgstr ""
+msgstr "Tambah Kategori Unit/Unit"
 
 #: ../mod/cs/main.inc:45
 msgid "Add Measurement Unit Type"
-msgstr ""
+msgstr "Tambah Tipe Unit Pengukuran"
 
 #: ../mod/cs/main.inc:46
 msgid "Add Measurement Unit"
-msgstr ""
+msgstr "Tambah Unit Pengukuran"
 
 #: ../mod/cs/main.inc:48
 msgid "View & Edit"
-msgstr ""
+msgstr "Lihat & Ubah"
 
 #: ../mod/cs/main.inc:69
 msgid ""
 "Select the Search Type in the select box that you need to search. By "
 "selecting Catalogue/Item, you are able to Search for a Item or a Catalogue "
 "and by selecting Unit, you are able to search for Units."
-msgstr ""
+msgstr "Pilih Tipe Pencarian pada kotak pilihan yang anda inginkan untuk melakukan pencarian"
+"Dengan memilih Katalog/Barang, anda akan bisa mencari barang atau katalog "
+"dan dengan memilih Unit, anda akan bisa mencari Unit."
 
 #: ../mod/cs/main.inc:145
 msgid ""
 "Here you are able to add Main catalogue types which are the root Items of "
 "the Item tree. Eg. Food, Medicine, clothing, etc."
-msgstr ""
+msgstr "Disini anda bisa menambahkan tipe Katalog Utama yang mana merupakan barang dasar "
+"dari daftar barang. Misalnya: Makanan, Obat-obatan, Pakaian, dll."
 
 #: ../mod/cs/main.inc:157
 msgid ""
@@ -1748,14 +1760,18 @@ msgid ""
 "catalogues. The system administrator should have to specify the Maximum "
 "Depth of the Catalogue / Item Tree. Eg: Maximum Depth = 5 will allow you to "
 "add catalogues /Items upto 5 levels."
-msgstr ""
+msgstr "Disini anda bisa menambahkan tipe sub katalog yang ada dibawah Katalog "
+"Utama. Misal: Makanan --> Buah-buahan, Makanan kering, dll. Buah-buahan dan makanan kering adalah sub "
+"katalog. Administrator Sistem dapat menentukan Jumlah tumpukan maksimum dari Katalog / Daftar Barang. Misal: Jumlah tumpukan maksimum = 5 akan "
+"memungkinkan anda menambah katalog / barang sampai dengan 5 tingkat"
 
 #: ../mod/cs/main.inc:222
 msgid ""
 " This feature allows to add measurement unit/units. Before adding a sub "
 "category you have to add the measurement unit/units that is  used by the "
-"purticular category."
-msgstr ""
+"particular category."
+msgstr "Kelebihan ini memungkinkan anda untuk menambah unit pengukuran/unit. Sebelum menambahkan sub "
+" kategori, anda harus menambahkan unit pengukuran/unit yang digunakan oleh kategor tersebut."
 
 #: ../mod/cs/main.inc:264
 msgid ""
@@ -1763,7 +1779,10 @@ msgid ""
 "Apple,Mango etc. Apple,Mango are Items. The system administrator should have "
 "to specify the Maximum Depth of the Catalogue / Item Tree. Eg: Maximum Depth "
 "= 5 will allow you to add catalogues /Items upto 5 levels."
-msgstr ""
+msgstr "Disini anda bisa menambahkan Barang yang terdapat pada katalog. Misal: Buah-buahan --> "
+"Apel, Mangga, dsb. Apple, Mangga adalah Barang. Administrator Sistem dapat menentukan "
+"jumlah tumpukan maksimum dari katalog/daftar barang. Misal: Jumlah tumpukan maksimum "
+"= 5 akan memungkinkan anda menambah katalog/barang sampai dengan 5 tingkat.
 
 #: ../mod/cs/main.inc:315
 msgid ""
@@ -1771,38 +1790,42 @@ msgid ""
 "and Unit Types which are handled by the catalogue system. <b>Using Delete, "
 "you will lose all the records of the particular catalogues, Items, Unit or "
 "Unit Types.</b>"
-msgstr ""
+msgstr "Disini anda dapat melihat, mengubah, dan menghapus semua katalog, barang, unit "
+"dan Tipe Unit yang diatur oleh sistem katalog. <b>Apabila dihapus, "
+"anda akan kehilangan semua daftar katalog, barang, unit atau tipe unit tersebut.</b>"
 
 #: ../mod/cs/main.inc:400
 msgid ""
 "Here you are able to add Unit type. For every Unit type you have to add a "
-"base unit. Eg. If you add volume as the unit type, Letre can be specified as "
+"base unit. Eg. If you add volume as the unit type, Litre can be specified as "
 "the base unit."
-msgstr ""
+msgstr "Disini anda dapat menambahkan tipe unit. Untuk setiap tipe unit yang ditambahkan, anda harus menambahkan "
+" sebuah unit dasar. Misal: Apabila anda menambahkan volume sebagai sebuah tipe unit, Liter bisa ditentukan sebagai "
+"unit dasar."
 
 #: ../mod/cs/search.inc:30
 msgid "Select Search Type"
-msgstr ""
+msgstr "Pilih Tipe Pencarian"
 
 #: ../mod/cs/search.inc:49 ../mod/cs/search.inc:139
 msgid "Search Details"
-msgstr ""
+msgstr "Cari Detail"
 
 #: ../mod/cs/search.inc:50
 msgid "Enter the Item/Catalogue to be searched"
-msgstr ""
+msgstr "Masukkan Barang/Katalog yang akan dicari"
 
 #: ../mod/cs/search.inc:97
 msgid "Category Name"
-msgstr ""
+msgstr "Nama Kategori"
 
 #: ../mod/cs/search.inc:141
 msgid "Enter the Unit name to be searched."
-msgstr ""
+msgstr "Masukkan nama unit yang akan dicari"
 
 #: ../mod/cs/search.inc:193
 msgid "Unit Type"
-msgstr ""
+msgstr "Tipe Unit"
 
 #: ../mod/cs/search.inc:194 ../mod/ims/home.inc:48
 #: ../mod/ims/mini_quantity.inc:239 ../mod/ims/report.inc:51
@@ -1810,91 +1833,92 @@ msgstr ""
 #: ../mod/ims/search.inc:144 ../mod/ims/transfer_inv.inc:74
 #: ../mod/ims/transfer_inv.inc:307 ../mod/ims/view_edit_item.inc:56
 msgid "Unit"
-msgstr ""
+msgstr "Unit"
 
 #: ../mod/cs/search.inc:265
 msgid "Please Enter the Item/Catalogue Name to be searched"
-msgstr ""
+msgstr "Silahkan masukkan nama barang/katalog yang akan dicari"
 
 #: ../mod/cs/search.inc:270
 msgid "Please Select either Item or Catalogue radio button to search"
-msgstr ""
+msgstr "Silahkan pilih antara tombol Barang atau Katalog untuk melakukan pencarian"
 
 #: ../mod/cs/search.inc:284
 msgid "Please Select the Measurement Unit Type"
-msgstr ""
+msgstr "Silahkan pilih Tipe Unit Pengukuran"
 
 #: ../mod/cs/search.inc:290
 msgid "Please Enter the Unit Name to be searched"
-msgstr ""
+msgstr "Silahkan masukkan Nama Unit yang akan dicari"
 
 #: ../mod/dvr/add.inc:136
 msgid "b.caption"
-msgstr ""
+msgstr "b.caption"
 
 #: ../mod/gis/admin.inc:43 ../mod/gis/admin.inc:57
 msgid "GIS / Mapping Admin Page"
-msgstr ""
+msgstr "Halaman Admin GIS / Pemetaan"
 
 #: ../mod/gis/admin.inc:106
 msgid "GIS Plugins Detected"
-msgstr ""
+msgstr "Plugin GIS Terdeteksi"
 
 #: ../mod/gis/admin.inc:111
 msgid "Sahana supports a modular GIS plugin architecture "
-msgstr ""
+msgstr "Sahana mendukung platform plugin GIS yang berbeda-beda"
 
 #: ../mod/gis/admin.inc:112
 msgid "You can select which GIS plugin to use as your default GIS"
-msgstr ""
+msgstr "Anda dapat memilih jenis plugin GIS sebagai patokan awal GIS anda"
 
 #: ../mod/gis/admin.inc:113
 msgid "Select the default GIS plugin from the detected plugins below:"
-msgstr ""
+msgstr "Pilih patokan awal plugin GIS dari berbagai plugin yang terdapat dibawah ini:"
 
 #: ../mod/gis/admin.inc:114
 msgid ""
 "For more information on adding custom plugins, refer to the documentation "
 "within the mod/gis subdirectory"
-msgstr ""
+msgstr "Untuk informasi lebih lanjut mengenai penambahan plugin buatan anda sendiri, silakan baca dokumentasi "
+"pada sub direktori mod/gis"
 
 #: ../mod/gis/admin.inc:155
 msgid "GIS Maps in Sahana can be set to display a default region"
-msgstr ""
+msgstr "Peta GIS pada Sahana dapat diset untuk menampilkan patokan awal daerah"
 
 #: ../mod/gis/admin.inc:156
 msgid "In order to set the map display for a particular region, "
-msgstr ""
+msgstr "Untuk melihat daerah tertentu, "
 
 #: ../mod/gis/admin.inc:157
 msgid ""
 "you should know the Northing/X coordinate and the Easting/Y coordinate of "
 "that region"
-msgstr ""
+msgstr "anda harus mengetahui daerah Utara/koordinat X dan daerah Timur/koordinat Y dari daerah tersebut"
 
 #: ../mod/gis/admin.inc:158
 msgid "If these values are known, you can set them below:"
-msgstr ""
+msgstr "Apabila nilai ini sudah diketahui, anda dapat mengesetnya dibawah ini:"
 
 #: ../mod/gis/admin.inc:164
 msgid "Default Center Coordinates"
-msgstr ""
+msgstr "Patokan Awal Koordinat Tengah"
 
 #: ../mod/gis/admin.inc:167
 msgid "Center Northing Value[x]"
-msgstr ""
+msgstr "Nilai Tengah daerah Utara[x]"
 
 #: ../mod/gis/admin.inc:168
 msgid "Center Easting Value[y]"
-msgstr ""
+msgstr "Nilai Tengah daerah Timur"
 
 #: ../mod/gis/admin.inc:194
 msgid "Your Changed Were Saved"
-msgstr ""
+msgstr "Perubahan yang anda buat telah disimpan"
 
 #: ../mod/gis/admin.inc:202
 msgid "Your Changes Were Saved"
-msgstr ""
+msgstr "Perubahan yang anda buat telah disimpan"
 
 #: ../mod/gis/conf.inc:23 ../mod/gis/main_fns.inc:26
 msgid "GIS Mapping"
@@ -1904,7 +1928,7 @@ msgstr "Pemetaan GIS"
 msgid ""
 "The GIS (Geographic Information System) Mapping Module provides Spatial and "
 "Mapping "
-msgstr ""
+msgstr "Modul pemetaan GIS (Geographic Information System - Sistem Informasi Geografis)"
 
 #: ../mod/gis/main_fns.inc:28
 msgid ""
