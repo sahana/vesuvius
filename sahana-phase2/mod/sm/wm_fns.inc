@@ -338,4 +338,78 @@ function shn_sm_wiki_map_commit()
 	add_confirmation(_t("Succesfully added wiki item ").$_SESSION['wiki_name']);
 }
 
+/**
+ * Report on Situations within a Radius of a Position
+ */
+function shn_sm_analysis_radius_form()
+{
+    shn_form_fopen('radius_analyse',null,array('req_message'=>true));
+    shn_form_fsopen(_t('Situation Analysis'));
+    shn_form_fsopen(_t('Radius'));
+    echo '<p>'._t("Report on which situations are located within a specified radius of a selected location").'.</p>';
+    shn_form_fsclose();
+    $lat_help=_t("Latitude is North-South (Up-Down). Latitude is zero on the equator and positive in the northern hemisphere and negative in the southern hemisphere");
+	$lon_help=_t("Longitude is West - East (sideways). Longitude is zero on the prime meridian (Greenwich Mean Time) and is positive to the east, across Europe and Asia.  Longitude is negative to the west, across the Atlantic and the Americas.");
+	$radius_help=_t("Distance from the selected location to the search circle's edge - measured in kilometers.");
+	shn_form_text(_t('Latitude: '),"sm_radius_lat",'size=40',array('req'=>true,"help"=>$lat_help));
+	shn_form_text(_t('Longitude: '),"sm_radius_lon",'size=40',array('req'=>true,"help"=>$lon_help));
+	shn_form_text(_t('Radius (km): '),"sm_radius_distance",'size=40',array('req'=>true,"help"=>$radius_help));
+	shn_form_fsclose();
+    shn_form_submit(_t('Analyse'));
+    shn_form_fclose();
+}
+
+/**
+ * Report on Situations within a Radius of a Position
+ */
+function shn_sm_radius_analyse_process()
+{
+    global $global;
+    global $conf;
+    if(!null==$_POST['sm_radius_lat'] && !null==$_POST['sm_radius_lon'] && !null==$_POST['sm_radius_distance']){
+        // ToDo: http://wiki.sahana.lk/doku.php?id=dev:form_validation
+        $lat = floatval($_POST['sm_radius_lat']);
+        $lon = floatval($_POST['sm_radius_lon']);
+        $radius = $_POST['sm_radius_distance'];
+        
+        // call GIS API
+        include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+        $array = shn_gis_features_in_radius($lat,$lon,$radius);
+        
+        if(!0==sizeof($array)){
+            print '<h2>'._t("Radius Report").'</h2>';
+            if ($lat > 0) {
+                $northing = "N";
+            } else {
+                $northing = "S";
+                $lat = ltrim($lat,"-");
+            }
+            if ($lon > 0) {
+                $easting = "E";
+            } else {
+                $easting = "W";
+                $lon = ltrim($lon,"-");
+            }
+            print '<p>'._t("These are the Situations within a")." $radius km "._t("radius of")." $lat $northing, $lon $easting:</p>";
+            print '<table><thead><td>'._t("Situation").'</td><td>'._t("Distance").'</td><td>Lat</td><td>Lon</td></thead><tbody>';
+            for($i=0;$i< sizeof($array);$i++){
+				$poc_uuid=$array[$i]["poc_uuid"];
+                // ToDo: Filter for only Situations
+                $lat=$array[$i]["lat"];
+				$lon=$array[$i]["lon"];
+				$distance=$array[$i]["distance"];
+                // ToDo: Make entries into clickable links
+                print "<tr><td>$poc_uuid</td><td>$distance</td><td>$lat</td><td>$lon</td></tr>";
+            }
+            print "</tbody></table>";
+        } else {
+            add_confirmation(_t('No Situations found within this Radius'));
+            shn_sm_analysis_radius_form();
+        }
+    } else {
+        add_warning(_t('Not all fields have data. Not possible to run analysis'));
+        shn_sm_analysis_radius_form();
+    }
+  
+}
 ?>
