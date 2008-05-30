@@ -10,7 +10,7 @@
 * 
 * @author       Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @version      $Id: gis_conf.inc,v 1.31 2008-05-30 21:35:51 franboon Exp $;
+* @version      $Id: gis_conf.inc,v 1.32 2008-05-30 21:54:13 franboon Exp $;
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.sourceforge.net    	
 * @subpackage   gis
@@ -82,7 +82,7 @@ $conf['gis_google_key']='ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1Nv
  * Switches for OpenStreetMap
  * 0 for off; 1 for on
  */
-$conf['gis_ol_osm']='0';
+$conf['gis_ol_osm']='1';
 $conf['gis_ol_osm_mapnik']='1';
 $conf['gis_ol_osm_tiles']='0';
  
