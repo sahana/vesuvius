@@ -11,7 +11,7 @@
 * @package		Sahana - http://sahana.sourceforge.net 		
 * @author   	Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @version		$Id: gis_fns.inc,v 1.5 2008-05-30 20:05:18 franboon Exp $
+* @version		$Id: gis_fns.inc,v 1.6 2008-05-30 23:27:48 franboon Exp $
 * @library		GIS
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -309,7 +309,8 @@ function shn_gis_density_map($array)
  * Report on Features within a Radius of a Position
  * Calling function has the job of filtering features by the type they are interested in
  * Formula from: http://blog.peoplesdns.com/archives/24
- * @ToDo: Do a Square query 1st & then run this query over subset
+ * Spherical Law of Cosines (accurate down to around 1m & computationally quick): http://www.movable-type.co.uk/scripts/latlong.html
+ * @ToDo: Do a Square query 1st & then run this query over subset (to improve performance)
  */
 function shn_gis_features_in_radius($lat,$lon,$radius)
 {
@@ -319,7 +320,6 @@ function shn_gis_features_in_radius($lat,$lon,$radius)
     $PI=3.141592653589793;
     
     global $global;
-    global $conf;
     $db = $global['db'];
     
     $calc = "$radius_earth * ACOS((SIN($PI * $lat /180) * SIN($PI * map_northing/180)) + (COS($PI * $lat /180) * cos($PI*map_northing/180) * COS($PI * map_easting/180-$PI* $lon /180)))";
@@ -337,4 +337,16 @@ function shn_gis_features_in_radius($lat,$lon,$radius)
     return $features_array;
 }
 
+/**
+ * Given a Start (1) & End (2) set of Coordinates, return a Bearing
+ * Formula from: http://www.movable-type.co.uk/scripts/latlong.html
+ */
+function shn_gis_bearing($lat1,$lon1,$lat2,$lon2)
+{
+    $delta_lon = $lon1 - $lon2;
+    $bearing = ATAN2( SIN($delta_lon)*COS($lat2) , (COS($lat1)*SIN($lat2)) - (SIN($lat1)*COS($lat2)*COS($delta_lon)) );
+    // Convert to a compass bearing
+    $bearing = ($bearing+360) % 360;
+    return $bearing;
+}
 ?>

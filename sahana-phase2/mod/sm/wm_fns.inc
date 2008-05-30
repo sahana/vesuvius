@@ -368,43 +368,54 @@ function shn_sm_radius_analyse_process()
 {
     global $global;
     global $conf;
+    $db = $global['db'];
     if(!null==$_POST['sm_radius_lat'] && !null==$_POST['sm_radius_lon'] && !null==$_POST['sm_radius_distance']){
         // ToDo: http://wiki.sahana.lk/doku.php?id=dev:form_validation
-        $lat = floatval($_POST['sm_radius_lat']);
-        $lon = floatval($_POST['sm_radius_lon']);
+        $latitude = floatval($_POST['sm_radius_lat']);
+        $longitude = floatval($_POST['sm_radius_lon']);
         $radius = $_POST['sm_radius_distance'];
         
         // call GIS API
         include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
-        $array = shn_gis_features_in_radius($lat,$lon,$radius);
+        $array = shn_gis_features_in_radius($latitude,$longitude,$radius);
         
         if(!0==sizeof($array)){
             print '<h2>'._t("Radius Report").'</h2>';
-            if ($lat > 0) {
+            if ($latitude > 0) {
                 $northing = "N";
+                $lat = $latitude;
             } else {
                 $northing = "S";
-                $lat = ltrim($lat,"-");
+                $lat = ltrim($latitude,"-");
             }
-            if ($lon > 0) {
+            if ($longitude > 0) {
                 $easting = "E";
+                $lon = $longitude;
             } else {
                 $easting = "W";
-                $lon = ltrim($lon,"-");
+                $lon = ltrim($longitude,"-");
             }
             print '<p>'._t("These are the Situations within a")." $radius km "._t("radius of")." $lat $northing, $lon $easting:</p>";
-            print '<table><thead><td>'._t("Situation").'</td><td>'._t("Distance").' (km)</td><td>Lat</td><td>Lon</td></thead><tbody>';
+            print '<table><thead><td>'._t("Situation").'</td><td>'._t("Description").'</td><td>'._t("Distance").' (km)</td><td>'._t("Date").'</td><td>'._t("Bearing").'</td></thead><tbody>';
             for($i=0;$i< sizeof($array);$i++){
 				$poc_uuid=$array[$i]["poc_uuid"];
                 // Filter for only Situations
                 $identifier="wm-";
                 if (!FALSE==strpos($poc_uuid,$identifier)) {
-                    $lat=round($array[$i]["lat"],2);
-                    $lon=round($array[$i]["lon"],2);
                     $distance=round($array[$i]["distance"],1);
-                    // ToDo: Convert poc_uuid to Situation Name
-                    // ToDo: Make entries into clickable links
-                    print "<tr><td>$poc_uuid</td><td align=center>$distance</td><td>$lat</td><td>$lon</td></tr>";
+                    // Keep precise if using in calculations instead of displaying to users
+                    $lat=$array[$i]["lat"];
+                    $lon=$array[$i]["lon"];
+                    // Lookup extra details in Situations table
+                    $query = "SELECT name,description,event_date FROM gis_wiki WHERE wiki_uuid = '$poc_uuid'";
+                    $res = $db->Execute($query);
+                    $name=$res->fields['name'];
+                    $description=$res->fields['description'];
+                    $date=$res->fields['event_date'];
+                    // Show Bearing, not Lat/Lon in table
+                    $bearing=shn_gis_bearing($latitude,$longitude,$lat,$lon);
+                    // ToDo: Make entries into clickable links to view on Map
+                    print "<tr><td>$name</td><td>$description</td><td align=center>$distance</td><td>$date</td><td>$bearing</td></tr>";
                 }
             }
             print "</tbody></table>";
