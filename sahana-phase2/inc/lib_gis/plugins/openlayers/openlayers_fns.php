@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.49 2008-05-30 17:49:07 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.50 2008-05-30 17:58:20 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -724,8 +724,8 @@
     var currentPopup;
 <?php
     for($i=0;$i< sizeof($array);$i++){
-        $lon=$array[$i]["lat"];
-        $lat=$array[$i]["lon"];
+        $lon=$array[$i]["lon"];
+        $lat=$array[$i]["lat"];
         $name=$array[$i]["name"];
         $desc=$array[$i]["desc"];
         if(!(($array[$i]["date"])=="0000-00-00 00:00:00")){
@@ -797,8 +797,8 @@
     var currentPopup;
 <?php
 	for($i=0;$i< sizeof($array);$i++){
-        $lon=$array[$i]["lat"];
-        $lat=$array[$i]["lon"];
+        $lon=$array[$i]["lon"];
+        $lat=$array[$i]["lat"];
         $name=$array[$i]["name"];
         $url=$array[$i]["url"];
         $pre_url="index.php?";
