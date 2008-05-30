@@ -11,7 +11,7 @@
 * @copyright  Respere - http://respere.com/
 * @package	  Sahana - http://sahana.lk/
 * @subpackage msg
-* @version 	  $Id: admin_fns.inc,v 1.2 2008-04-30 05:56:42 mifanc Exp $
+* @version 	  $Id: admin_fns.inc,v 1.3 2008-05-30 00:06:05 franboon Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -140,7 +140,8 @@ function shn_msg_adm_plugin_conf()
 	shn_form_fsclose();
 	//shn_form_hidden('req');
 	shn_form_fsopen(_t("Detected messaging module SMS plugins"));
-	shn_form_radio($options_array,_t("Select Messaging SMS plugin"),"mod_msg",null,((isset($mod_name))?array("value"=>$mod_name):null));
+	$mod_name = $conf['mod_msg_plugin'];
+    shn_form_radio($options_array,_t("Select Messaging SMS plugin"),"mod_msg",null,((isset($mod_name))?array("value"=>$mod_name):null));
 	shn_form_fsclose();
 	shn_form_submit(_t("Done"));
 	shn_form_fclose();	
