@@ -10,7 +10,7 @@
 * 
 * @author       Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @version      $Id: gis_conf.inc,v 1.30 2008-05-20 09:17:37 franboon Exp $;
+* @version      $Id: gis_conf.inc,v 1.31 2008-05-30 21:35:51 franboon Exp $;
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.sourceforge.net    	
 * @subpackage   gis
@@ -128,7 +128,7 @@ $conf['gis_yahoo_key']='euzuro-openlayers';
 $conf['gis_ol_wms']='1';
 $conf['gis_ol_wms_enable']='1';
 
-$conf['gis_ol_wms_projections'] = 'EPSG:900913';
+$conf['gis_ol_wms_projections'] = '0';
 $conf['gis_ol_wms_projection'] = 'EPSG:900913';
 $conf['gis_ol_wms_maxExtent'] = '-20037508, -20037508, 20037508, 20037508.34';
 $conf['gis_ol_wms_maxResolution'] = '156543.0339';
