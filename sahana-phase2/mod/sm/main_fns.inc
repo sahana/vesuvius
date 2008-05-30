@@ -4,12 +4,13 @@
 * 
 * PHP version 5
 * 
-* @author   	Mifan Careem <mifan@respere.com>
-* @package 		module
-* @subpackage 	sm
-* @version 		$id$
-* @copyright  	Lanka Software Foundation - http://www.opensource.lk
-* @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+* @author       Mifan Careem <mifan@respere.com>
+* @author       Fran Boon <flavour@partyvibe.com>
+* @package      module
+* @subpackage   sm
+* @version      $id$
+* @copyright    Lanka Software Foundation - http://www.opensource.lk
+* @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
 include_once $global['approot']."/mod/sm/wm_fns.inc";
@@ -18,50 +19,10 @@ include_once $global['approot']."/inc/lib_validate.inc";
 //Include home description
 include_once $global['approot']."/mod/sm/home.inc";
 
-
-//not being used any more
-//replaced by shn_gis_mapc()
-/*
-function shn_gis_show()
-{
-  //echo "showing";
-  global $global;
-  include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
-  
-  $options=array();
-  if((isset($_POST['mapa_x'])) && isset($_POST['mapa_y'])){
-  	//echo $_POST['mapa_x'];
-  }
-  //var_dump($_POST);
-  shn_gis_map();
-}
-*/
 function shn_sm_swik()
 {
 	shn_sm_show_wiki_map($_POST['opt_wikimap_type']);
 }
-
-function shn_sm_ewik()
-{
-	shn_sm_wiki_edit_com($_REQUEST['wiki_id']);
-}
-
-
-//-----------------------------
-
-function shn_gis_mapc()
-{
-	//earlier done by Mifan's shn_gis_show()
-	//main.inc, wm_fns.php and main_fns.inc were changed
-	
-	//needs coding for validation etc
-	
-					map_client(true);
-				
-}
-
-//-----------------------------
-
 
 /**
  * Wikimap situation addition main controller function
@@ -105,9 +66,33 @@ function shn_sm_awik()
 		shn_sm_show_wiki_add_detail();
 }
 
+function shn_sm_analysis_radius()
+{
+    shn_sm_analysis_radius_form();
+}
+
+function shn_sm_radius_analyse()
+{
+    shn_sm_radius_analyse_process();
+}
+
+// Currently unused
+function shn_sm_ewik()
+{
+    shn_sm_wiki_edit_com($_REQUEST['wiki_id']);
+}
+
+function shn_gis_mapc()
+{
+	//earlier done by Mifan's shn_gis_show()
+	//main.inc, wm_fns.php and main_fns.inc were changed
+	//needs coding for validation etc
+    map_client(true);
+}
+
 function shn_sm_wm_default()
 {
-	shn_sm_show_wiki_map();
+    shn_sm_show_wiki_map();
 }
 
 function shn_sm_wm_edit()
@@ -123,6 +108,22 @@ function shn_sm_wm_edit()
 	}
 }
 
-						
+//not being used any more
+//replaced by shn_gis_mapc()
+/*
+function shn_gis_show()
+{
+  //echo "showing";
+  global $global;
+  include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+  
+  $options=array();
+  if((isset($_POST['mapa_x'])) && isset($_POST['mapa_y'])){
+  	//echo $_POST['mapa_x'];
+  }
+  //var_dump($_POST);
+  shn_gis_map();
+}
+*/
 
 ?>

@@ -36,6 +36,7 @@ function shn_sm_default()
         <li><a href="index.php?mod=sm&act=swik"><b><?= _t('View Situation Map'); ?></b></a><br/><?= _t('Map of the developing situation with markers of incidents, locations and objects displayed on the map'); ?></li>
         <li><a href="index.php?mod=sm&act=awik"><b><?= _t('Add New Situation'); ?> </b> </a><br/><?= _t('Add markers on the map of incidents and objects with pictures'); ?></li>
         <!--<li><a href="index.php?mod=sm&act=ewik"><b><?= _t('Edit Situation'); ?> </b> </a><br/><?= _t('Edit Situations'); ?></li>-->
+        <li><a href="index.php?mod=sm&act=analysis_radius"><b><?= _t('Situation Analysis: Radius'); ?> </b> </a><br/><?= _t('Report on which situations are located within a specified radius of a selected location'); ?></li>
         <!--<li><a href="index.php?mod=sm&act=mapc"><b><?= _t('General Map'); ?> </b></a><br/><?= _t('Free form map of the location without markers'); ?></li>-->
     </ul>
 <br/>
