@@ -396,7 +396,7 @@ function shn_sm_radius_analyse_process()
                 $lon = ltrim($longitude,"-");
             }
             print '<p>'._t("These are the Situations within a")." $radius km "._t("radius of")." $lat $northing, $lon $easting:</p>";
-            print '<table><thead><td>'._t("Situation").'</td><td>'._t("Description").'</td><td>'._t("Distance").' (km)</td><td>'._t("Date").'</td><td>'._t("Bearing").'</td></thead><tbody>';
+            print '<table><thead><td>'._t("Situation").'</td><td>'._t("Description").'</td><td>'._t("Distance").' (km)</td><td>'._t("Bearing").'</td><td>'._t("Date").'</td></thead><tbody>';
             for($i=0;$i< sizeof($array);$i++){
 				$poc_uuid=$array[$i]["poc_uuid"];
                 // Filter for only Situations
@@ -415,7 +415,7 @@ function shn_sm_radius_analyse_process()
                     // Show Bearing, not Lat/Lon in table
                     $bearing=shn_gis_bearing($latitude,$longitude,$lat,$lon);
                     // ToDo: Make entries into clickable links to view on Map
-                    print "<tr><td>$name</td><td>$description</td><td align=center>$distance</td><td>$date</td><td>$bearing</td></tr>";
+                    print "<tr><td>$name</td><td>$description</td><td align=center>$distance</td><td>$bearing</td><td>$date</td></tr>";
                 }
             }
             print "</tbody></table>";
