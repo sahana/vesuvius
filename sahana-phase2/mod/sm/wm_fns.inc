@@ -340,6 +340,8 @@ function shn_sm_wiki_map_commit()
 
 /**
  * Report on Situations within a Radius of a Position
+ * ToDo: Provide Map Entry option for the Location
+ * ToDo: Provide Map Entry option for the Radius
  */
 function shn_sm_analysis_radius_form()
 {
@@ -391,15 +393,19 @@ function shn_sm_radius_analyse_process()
                 $lon = ltrim($lon,"-");
             }
             print '<p>'._t("These are the Situations within a")." $radius km "._t("radius of")." $lat $northing, $lon $easting:</p>";
-            print '<table><thead><td>'._t("Situation").'</td><td>'._t("Distance").'</td><td>Lat</td><td>Lon</td></thead><tbody>';
+            print '<table><thead><td>'._t("Situation").'</td><td>'._t("Distance").' (km)</td><td>Lat</td><td>Lon</td></thead><tbody>';
             for($i=0;$i< sizeof($array);$i++){
 				$poc_uuid=$array[$i]["poc_uuid"];
-                // ToDo: Filter for only Situations
-                $lat=$array[$i]["lat"];
-				$lon=$array[$i]["lon"];
-				$distance=$array[$i]["distance"];
-                // ToDo: Make entries into clickable links
-                print "<tr><td>$poc_uuid</td><td>$distance</td><td>$lat</td><td>$lon</td></tr>";
+                // Filter for only Situations
+                $identifier="wm-";
+                if (!FALSE==strpos($poc_uuid,$identifier)) {
+                    $lat=round($array[$i]["lat"],2);
+                    $lon=round($array[$i]["lon"],2);
+                    $distance=round($array[$i]["distance"],1);
+                    // ToDo: Convert poc_uuid to Situation Name
+                    // ToDo: Make entries into clickable links
+                    print "<tr><td>$poc_uuid</td><td align=center>$distance</td><td>$lat</td><td>$lon</td></tr>";
+                }
             }
             print "</tbody></table>";
         } else {
