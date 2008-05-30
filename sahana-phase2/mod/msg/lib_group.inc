@@ -13,7 +13,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: lib_group.inc,v 1.10 2008-05-12 08:23:34 pradeeper Exp $
+* @version		$Id: lib_group.inc,v 1.11 2008-05-30 09:58:16 priyanga Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 *  
 */
@@ -21,7 +21,7 @@
 include_once $global['approot'].'/inc/lib_form.inc';
 include_once $global['approot'].'/inc/lib_validate.inc';
 include_once $global['approot'].'/inc/lib_errors.inc';
-include_once $global['approot'].'/inc/handler_contacts.inc';
+include_once($global['approot'].'/mod/msg/handler_contacts.inc');
 
 
 /*

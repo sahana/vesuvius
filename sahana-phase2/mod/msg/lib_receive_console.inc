@@ -11,7 +11,7 @@
 * 
 * @author   	J P Fonseka <jo@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: lib_receive_console.inc,v 1.2 2008-04-30 06:02:42 mifanc Exp $
+* @version 		$Id: lib_receive_console.inc,v 1.3 2008-05-30 09:58:16 priyanga Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @license   	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -152,7 +152,7 @@ function _shn_msg_popup_div(){
     <?php
 }
 
-function _shn_msg_message_list($search){
+function _shn_msg_message_list($search=''){
     global $global;
     $datefn = $global['db']->SQLDate('Y-m-d','received');
     $timefn = $global['db']->SQLDate('H:i:s','received');
