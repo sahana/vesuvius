@@ -12,7 +12,7 @@
  * 
  * @author   	J P Fonseka <jo@respere.com>
  * @copyright  	Respere - http://respere.com/
- * @version 		$Id: smsfwd.c,v 1.1 2008-04-25 11:53:22 priyanga Exp $
+ * @version 	$Id: smsfwd.c,v 1.2 2008-05-30 00:29:53 franboon Exp $
  * @package 	Sahana - http://sahana.lk/
  * @subpackage  messaging   
  * @license     http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -42,7 +42,7 @@
 #define LOCK_FILE   "/var/lock/sahanasms.lock"
 #define LOG_FILE    "/var/log/sahanasms.log"
 #define RECEIVE_DIR "/var/spool/sms/incoming"
-#define URL "192.168.1.100/sms/index.php?mod=msg&act=receive_message&stream=text&plugin=smstools"
+#define URL "localhost/index.php?mod=msg&act=receive_message&stream=text&plugin=smstools"
 
 int remove_file=0;
 
