@@ -155,7 +155,7 @@ function show_map_with_markers($array)
 					$pre_url="index.php?";
 					$url=$pre_url.$url;
 ?>	
-					var point = new GLatLng(<?=$lon?>,<?=$lat?>);
+					var point = new GLatLng(<?=$lat?>,<?=$lon?>);
       				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_lc($name)?></strong><br><a href="<?=$url?>">View</a></div>');
       				map.addOverlay(marker);
 <?php
