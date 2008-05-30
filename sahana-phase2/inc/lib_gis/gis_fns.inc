@@ -11,7 +11,7 @@
 * @package		Sahana - http://sahana.sourceforge.net 		
 * @author   	Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @version		$Id: gis_fns.inc,v 1.3 2008-04-24 05:59:59 mifanc Exp $
+* @version		$Id: gis_fns.inc,v 1.4 2008-05-30 17:51:59 franboon Exp $
 * @library		GIS
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -127,7 +127,7 @@ function shn_gis_map($opt_array=null)
  * @todo change coordinate data type to standard format
  * @todo handle projection information and module specific functions
 */
-function shn_gis_dbinsert($uuid,$loc_id,$gis,$ycoord,$xcoord,$projection){
+function shn_gis_dbinsert($uuid,$loc_id,$gis,$xcoord,$ycoord,$projection){
 	global $global;
 	include_once $global['approot']."/inc/lib_uuid.inc";
 	$db = $global['db'];
@@ -154,7 +154,7 @@ function shn_gis_dbinsert($uuid,$loc_id,$gis,$ycoord,$xcoord,$projection){
  * @access public
  * @return void
 */
-function shn_gis_dbinsert_feature($uuid,$latcoord,$loncoord,$time=null){
+function shn_gis_dbinsert_feature($uuid,$loncoord,$latcoord,$time=null){
 	global $global;
 	include_once $global['approot']."/inc/lib_uuid.inc";
 	$db = $global['db'];
