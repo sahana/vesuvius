@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/    	
 * @library      GIS
-* @version      $Id: admin_fns.inc,v 1.13 2008-04-24 05:58:55 mifanc Exp $;
+* @version      $Id: admin_fns.inc,v 1.14 2008-05-30 11:26:42 franboon Exp $;
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -62,10 +62,10 @@ function shn_admin_gis_main_settings()
 		}
 	}
 	$mod_name = $conf['gis_dflt'];
-        shn_form_radio($options_array,_t("Select GIS Plugin: "),"mod_gis",null,((isset($mod_name))?array("value"=>$mod_name):null));
-        shn_form_fsclose();
-        shn_form_submit(_t('Save As Defaults'));
-        shn_form_close();
+    shn_form_radio($options_array,_t("Select GIS Plugin: "),"mod_gis",null,((isset($mod_name))?array("value"=>$mod_name):null));
+    shn_form_fsclose();
+    shn_form_submit(_t('Save As Defaults'));
+    shn_form_close();
 }
 
 /**
@@ -105,31 +105,39 @@ function shn_admin_gis_commit_main()
 	global $global;
 	$db = $global['db'];                  
 	if(!null==$_POST['x_center']){
-		$query = "SELECT * FROM config WHERE confkey='gis_center_x' AND module_id='admin'";
-		$res = $db->Execute($query);
-		if(!$res->EOF){
-			$q = "UPDATE config SET value = '{$_POST['x_center']}' WHERE module_id = 'admin' AND confkey = 'gis_center_x'";       
-			$db->Execute($q);
-		}
-		else{
-			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_center_x','{$_POST['x_center']}')";
-			$db->Execute($insert);
-		}
+		if (shn_valid_x_coordinate($_POST['x_center'])) {
+            $query = "SELECT * FROM config WHERE confkey='gis_center_x' AND module_id='admin'";
+            $res = $db->Execute($query);
+            if(!$res->EOF){
+                $q = "UPDATE config SET value = '{$_POST['x_center']}' WHERE module_id = 'admin' AND confkey = 'gis_center_x'";       
+                $db->Execute($q);
+            } else{
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_center_x','{$_POST['x_center']}')";
+                $db->Execute($insert);
+            }
+            add_confirmation(_("Longitude saved"));
+        } else {
+            add_error(_("Longitude Coordinate invalid"));
+        }
 	}
 	if(!null==$_POST['y_center']){
-		$query = "SELECT * FROM config WHERE confkey='gis_center_y' AND module_id='admin'";
-		$res = $db->Execute($query);
-		if(!$res->EOF){
-			$q="UPDATE config SET value = '{$_POST['y_center']}' WHERE module_id = 'admin' AND confkey = 'gis_center_y'";       
-			$db->Execute($q);
-		}
-		else{
-			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_center_y','{$_POST['y_center']}')";
-			$db->Execute($insert);
-		}
+		if (shn_valid_y_coordinate($_POST['y_center'])) {
+            $query = "SELECT * FROM config WHERE confkey='gis_center_y' AND module_id='admin'";
+            $res = $db->Execute($query);
+            if(!$res->EOF){
+                $q="UPDATE config SET value = '{$_POST['y_center']}' WHERE module_id = 'admin' AND confkey = 'gis_center_y'";       
+                $db->Execute($q);
+            } else {
+                $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_center_y','{$_POST['y_center']}')";
+                $db->Execute($insert);
+            }
+            add_confirmation(_("Latitude saved"));
+        } else {
+            add_error(_("Latitude Coordinate invalid"));
+        }
 	}
 	if(!null==$_POST['zoom']){
-		$query = "SELECT * FROM config WHERE confkey='gis_zoom' AND module_id='admin'";
+        $query = "SELECT * FROM config WHERE confkey='gis_zoom' AND module_id='admin'";
 		$res = $db->Execute($query);
 		if(!$res->EOF){
 			$q="UPDATE config SET value = '{$_POST['zoom']}' WHERE module_id = 'admin' AND confkey = 'gis_zoom'";       
@@ -139,6 +147,7 @@ function shn_admin_gis_commit_main()
 			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_zoom','{$_POST['zoom']}')";
 			$db->Execute($insert);
 		}
+		add_confirmation(_("Zoom saved"));
 	}
 	if(!null==$_POST['mod_gis']){
 		$query = "SELECT * FROM config WHERE confkey='gis_dflt' AND module_id='admin'";
@@ -151,6 +160,7 @@ function shn_admin_gis_commit_main()
 			$insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_dflt','{$_POST['mod_gis']}')";
 			$db->Execute($insert);
 		}
+        add_confirmation(_("Plugin saved"));
 	}
 }
 						
