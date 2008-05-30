@@ -11,7 +11,7 @@
 * @package		Sahana - http://sahana.sourceforge.net 		
 * @author   	Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @version		$Id: gis_fns.inc,v 1.4 2008-05-30 17:51:59 franboon Exp $
+* @version		$Id: gis_fns.inc,v 1.5 2008-05-30 20:05:18 franboon Exp $
 * @library		GIS
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -305,5 +305,36 @@ function shn_gis_density_map($array)
 	}	
 }
 
+/**
+ * Report on Features within a Radius of a Position
+ * Calling function has the job of filtering features by the type they are interested in
+ * Formula from: http://blog.peoplesdns.com/archives/24
+ * @ToDo: Do a Square query 1st & then run this query over subset
+ */
+function shn_gis_features_in_radius($lat,$lon,$radius)
+{
+    // km
+    $radius_earth=6378.137;
+    //MySQL's PI() isn't accurate enough - rounds to: 3.141593
+    $PI=3.141592653589793;
+    
+    global $global;
+    global $conf;
+    $db = $global['db'];
+    
+    $calc = "$radius_earth * ACOS((SIN($PI * $lat /180) * SIN($PI * map_northing/180)) + (COS($PI * $lat /180) * cos($PI*map_northing/180) * COS($PI * map_easting/180-$PI* $lon /180)))";
+    $query = "select poc_uuid,map_northing,map_easting, $calc AS distance FROM gis_location WHERE 1=1 AND $calc <= $radius ORDER BY $calc";
+    $res = $db->Execute($query);
+    
+    //create array
+    $features_array=array();
+
+    //populate array
+    while(!$res->EOF){
+        array_push($features_array,array("poc_uuid"=>$res->fields['poc_uuid'],"lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"distance"=>$res->fields['distance']));
+        $res->MoveNext();	
+    }
+    return $features_array;
+}
 
 ?>
