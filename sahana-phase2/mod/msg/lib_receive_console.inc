@@ -11,7 +11,7 @@
 * 
 * @author   	J P Fonseka <jo@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: lib_receive_console.inc,v 1.3 2008-05-30 09:58:16 priyanga Exp $
+* @version 		$Id: lib_receive_console.inc,v 1.4 2008-06-01 07:08:52 priyanga Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @license   	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -57,7 +57,7 @@ function _shn_msg_popup_div(){
     ?>
         <div id="console_holder">
             <div id="receive_console" style="border:10px solid #D6EDFF;width:750px;height:420px;overflow : auto;border-top:0px; " >
-            <div id="rc_heading" style="font-weight:bold;background:#D6EDFF;"><?php echo _t('New Messages')?></div>
+            <div id="rc_heading" style="padding:5px; font-weight:bold;background:#D6EDFF;"><?php echo _t('New Messages')?></div>
                 <table border="0" cellpadding="0" cellspacing="0" >
                     <thead>
                         <tr>
@@ -70,7 +70,7 @@ function _shn_msg_popup_div(){
                 </table>
                 <div id="message_list" style="width:100%;height:280px;overflow : auto; ">
                 </div>
-                <div id="message" style="border-top:10px solid #D6EDFF;height:80px;overflow : auto; padding-top:10px; padding:5px;"  >
+                <div id="message" style="border-top:10px solid #D6EDFF;height:70px;overflow : auto; padding-top:10px; padding:5px;"  >
                     <span></span>
                 </div>
             </div>

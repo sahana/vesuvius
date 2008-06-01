@@ -9,7 +9,7 @@
 * 
 * @author   	J P Fonseka <jo@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: handler_receive_console.inc,v 1.2 2008-04-30 05:57:28 mifanc Exp $
+* @version 		$Id: handler_receive_console.inc,v 1.3 2008-06-01 07:08:52 priyanga Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @license   	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -29,7 +29,11 @@ echo "<h2>"._t('Receive Console')."</h2>";
     shn_form_fclose();
 
 ?>
-<a onclick="msg_popout_rconsole(this)" id="pop_but">Pop out</a>&nbsp;
+<br />
+<a onclick="msg_popout_rconsole(this)" style="background:#D6EDFF;padding:2px 10px 2px 10px;cursor:pointer;-moz-border-radius: 5px 5px 0px 0px; text-decoration:none;
+" id="pop_but">Pop out</a>&nbsp;
+<div>
 <?php _shn_msg_popup_div() ?>
+</div>
 <br />
 
