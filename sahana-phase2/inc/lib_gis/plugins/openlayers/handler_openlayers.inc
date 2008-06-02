@@ -66,7 +66,7 @@ function show_map_with_markers($array)
 
 /**
  * Show map with wiki markers
- * called by shn_gis_map_with_markers in GIS API
+ * called by shn_gis_map_with_wiki_markers in GIS API
  */
 function show_map_with_wiki_marker($array)
 {
@@ -77,6 +77,22 @@ function show_map_with_wiki_marker($array)
     ol_js_loaders();
     ol_layers();
     ol_show_wiki_markers($array);
+    _shn_print_end_of_map();
+}
+
+/**
+ * Show map with wiki markers
+ * called by shn_gis_map_with_wiki_markers_select in GIS API
+ */
+function show_map_with_wiki_markers_select($array,$lat,$lon)
+{
+    global $global;
+    global $conf;
+    include_once('openlayers_fns.php');
+
+    ol_js_loaders();
+    ol_layers();
+    ol_show_wiki_markers_select($array,$lat,$lon);
     _shn_print_end_of_map();
 }
 
@@ -121,7 +137,8 @@ function _shn_print_end_of_map()
 }
 
 // Provides enhanced strstr function for versions of PHP <5.3.0
-function strstrbi($haystack, $needle, $before_needle=FALSE, $include_needle=TRUE, $case_sensitive=FALSE) {
+function strstrbi($haystack, $needle, $before_needle=FALSE, $include_needle=TRUE, $case_sensitive=FALSE)
+{
     //Find the position of $needle
     if($case_sensitive) {
         $pos=strpos($haystack,$needle);

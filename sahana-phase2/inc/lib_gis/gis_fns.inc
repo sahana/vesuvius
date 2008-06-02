@@ -11,7 +11,7 @@
 * @package		Sahana - http://sahana.sourceforge.net 		
 * @author   	Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @version		$Id: gis_fns.inc,v 1.6 2008-05-30 23:27:48 franboon Exp $
+* @version		$Id: gis_fns.inc,v 1.7 2008-06-02 20:16:46 franboon Exp $
 * @library		GIS
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -283,6 +283,35 @@ function shn_gis_map_with_wiki_markers($array)
 }
 
 /**
+ * Add map with markers with wiki like info
+ * + allows  selection of a Marker to fill-in a pair of Lat/Lon fields
+ * @param mixed $array 2d array of marker info to be shown
+ * @param strings of field labels to be updated 
+ * @access public
+ * @return void
+ */
+function shn_gis_map_with_wiki_markers_select($array,$lat,$lon)
+{
+	global $global;
+	global $conf;
+	if($conf['gis'])
+    {
+        // ToDo: Implement in GoogleMaps plugin
+        if("openlayers"==$conf['gis_dflt']) {
+            echo '<p>'._t("Click on a Marker to make that the selection").'</p>';
+            $plugin_name = $conf['gis_dflt'];
+            include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+            show_map_with_wiki_markers_select($array,$lat,$lon);
+        } else {
+            return;
+        }
+	}	
+	else{
+		shn_gis_print_msg();
+	}
+}
+
+/**
  * GIS reporting function
  * shows density based markers in different colors
  * statistical info and markers are specified in array
@@ -346,7 +375,7 @@ function shn_gis_bearing($lat1,$lon1,$lat2,$lon2)
     $delta_lon = $lon1 - $lon2;
     $bearing = ATAN2( SIN($delta_lon)*COS($lat2) , (COS($lat1)*SIN($lat2)) - (SIN($lat1)*COS($lat2)*COS($delta_lon)) );
     // Convert to a compass bearing
-    $bearing = ($bearing+360) % 360;
+    $bearing = ($bearing + 360) % 360;
     return $bearing;
 }
 ?>

@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.52 2008-06-02 18:15:20 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.53 2008-06-02 20:16:46 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -649,7 +649,7 @@
 
 /**
  * Show the Markers layer
- * called by show_map in openlayers plugin handler
+ * called by show_map_with_markers in openlayers plugin handler
  * @access public
  */
  function ol_show_markers($array)
@@ -708,7 +708,7 @@
 		
 /**
  * Show the Markers layer with Wiki information
- * called by show_map in openlayers plugin handler
+ * called by show_map_with_wiki_marker in openlayers plugin handler
  * @access public
  */
  function ol_show_wiki_markers($array)
@@ -774,6 +774,89 @@
                 this.popup.toggle();
             }
             currentPopup = this.popup;
+            OpenLayers.Event.stop(evt);
+        };
+        marker.events.register("mousedown", feature, markerClick);
+        markers.addMarker(marker);
+    }
+<?php   
+}
+
+/**
+ * Show the Markers layer with Wiki information
+ * + fill-in a pair of Lat/Lon fields based on which Marker is selected
+ * called by show_map_with_wiki_marker in openlayers plugin handler
+ * @access public
+ */
+ function ol_show_wiki_markers_select($array,$lat_field,$lon_field)
+ {
+    global $conf;
+    global $global;
+    $folder = $conf['gis_marker_folder'];
+    $marker = $conf['gis_marker'];
+    $markersize = $conf['gis_marker_size'];
+?>
+    var markers = new OpenLayers.Layer.Markers( "Markers" );
+    map.addLayer(markers);
+    var size = new OpenLayers.Size(<?=$markersize?>); // icon size
+	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+	var icon = new OpenLayers.Icon('<?=$folder?><?=$marker?>',size,offset);
+    var currentPopup;
+<?php
+    for($i=0;$i< sizeof($array);$i++){
+        $lon=$array[$i]["lon"];
+        $lat=$array[$i]["lat"];
+        $name=$array[$i]["name"];
+        $desc=$array[$i]["desc"];
+        if(!(($array[$i]["date"])=="0000-00-00 00:00:00")){
+            $date=_('Date: ').date('l dS \of F Y',strtotime($array[$i]["date"]));
+        } else {
+            $date="";
+        }
+        $author=($array[$i]["author"]!="")?$array[$i]["author"]:_("anonymous");
+        echo "popupContentHTML = \"<p><b>$name</b><br>$desc<br>";
+        if (!null == $array[$i]["image"]) {
+            $image = $array[$i]["image"];
+            echo "<img src=$image width=100 height=100><br>";
+        }
+        if (!null == $array[$i]["url"]) {
+            $url=$array[$i]["url"];
+            echo "<a href='$url' target='_blank'>View</a><br>";
+        }
+        echo "$date<br><b>Author</b>: $author<br>";
+        if (!null == $array[$i]["edit"]) {
+            $edit=$array[$i]["edit"];
+            echo "<a href='$edit'>Edit</a>";
+        }
+        echo "</p>\"\n";
+        echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
+        echo "var proj_current = map.getProjectionObject();\n";
+        echo "lonlat.transform(proj4326, proj_current);\n";
+        echo "addMarker(lonlat,popupContentHTML);\n";
+    }
+?>
+    function addMarker(lonlat, popupContentHTML) {
+        var feature = new OpenLayers.Feature(markers, lonlat,{'icon': icon.clone()}); 
+        feature.closeBox = true;
+        feature.popupClass = OpenLayers.Class(OpenLayers.Popup.AnchoredBubble,{'autoSize': true});
+        feature.data.popupContentHTML = popupContentHTML;
+        var marker = feature.createMarker();
+        var markerClick = function (evt) {
+            if (this.popup == null) {
+                this.popup = this.createPopup(true);
+                //this.popup.setOpacity(0.9);
+                map.addPopup(this.popup);
+                this.popup.show();
+            } else {
+                this.popup.toggle();
+            }
+            currentPopup = this.popup;
+            // Convert back to LonLat for form fields
+            var lonlat2 = new OpenLayers.LonLat(lonlat.lon,lonlat.lat);
+            lonlat2.transform(proj_current, proj4326);
+            // Update form fields
+            document.getElementById('<?=$lon_field?>').value = lonlat2.lon;
+            document.getElementById('<?=$lat_field?>').value = lonlat2.lat;
             OpenLayers.Event.stop(evt);
         };
         marker.events.register("mousedown", feature, markerClick);

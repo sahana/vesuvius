@@ -27,10 +27,10 @@ function shn_sm_show_wiki_map($category="all",$date=0)
 	global $conf;
 	include_once $global['approot']."/inc/lib_form.inc";
 	
-	//default to all categories
-	//set to something else if load problems occur, especially online
 	print ("<h2>"._t("View Situation Map")."</h2>");
 	
+	//default to all categories
+	//set to something else if load problems occur, especially online
 	if(!isset($category))
 		$category="all";
 	shn_form_fopen(swik,null,array('req'=>false));
@@ -359,6 +359,52 @@ function shn_sm_analysis_radius_form()
 	shn_form_fsclose();
     shn_form_submit(_t('Analyse'));
     shn_form_fclose();
+    echo '<p></p>';
+    
+    // Allow selection of Lat/Lon via selection of a Marker
+    global $global;
+	$db = $global['db'];
+	$query="SELECT a.wiki_uuid,a.name,a.description,a.url,date(a.event_date) as event_date,a.author,a.editable,b.map_northing,b.map_easting FROM gis_wiki as a, gis_location as b WHERE a.wiki_uuid=b.poc_uuid ";
+	$res = $db->Execute($query);
+	//create array
+	$map_array=array();
+	//populate array
+	while(!$res->EOF){
+			$editable=$res->fields['editable'];
+			if($editable==1){
+				$edit_url= "index.php?mod=sm&act=wm_edit&seq=ewmp&wmid=".$res->fields['wiki_uuid'];
+			}
+			else
+				$edit_url="";
+			//handle images
+			//@todo: image type
+			$image_name='wiki_thumb_'.$res->fields['wiki_uuid'].'.jpeg';
+			$image_path="tmp/".$image_name;
+			$image_file=$global['approot'].$conf['mod_sm_image_folder'].$image_name;
+			//no image available and other format support
+			if(!file_exists($image_file)){
+				//check jpg
+				$image_name='wiki_thumb_'.$res->fields['wiki_uuid'].'.jpg';
+				$image_path="tmp/".$image_name;
+				$image_file=$global['approot'].$conf['mod_sm_image_folder'].$image_name;
+				if(!file_exists($image_file)){
+					//check png
+					$image_name='wiki_thumb_'.$res->fields['wiki_uuid'].'.png';
+					$image_path="tmp/".$image_name;
+					$image_file=$global['approot'].$conf['mod_sm_image_folder'].$image_name;
+					if(!file_exists($image_file)){
+						$image_path=null;
+					}
+				}
+			}
+			array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
+				"desc"=>$res->fields['description'],"url"=>$res->fields['url'],"author"=>$res->fields['author'],"edit"=>$edit_url,"date"=>$res->fields['event_date'],"wiki_id"=>$res->fields['wiki_uuid'],"image"=>$image_path,"img_w"=>100,"img_h"=>100));
+			$res->MoveNext();	
+	}
+
+	// call GIS API
+	include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+	shn_gis_map_with_wiki_markers_select($map_array,"sm_radius_lat","sm_radius_lon");
 }
 
 /**
