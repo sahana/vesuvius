@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.79 2008-05-06 19:47:15 pradeeper Exp $ */
+/* $Id: lib_form.inc,v 1.80 2008-06-02 05:57:01 ravithb Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -549,9 +549,12 @@ function shn_form_textarea($label, $name, $text_opts=null, $extra_opts = null)
 	 * if(get_magic_quotes_gpc())
 	 * $value = stripslashes($value);
 	 */
-
+	if($extra_opts['no_label']!==true){
 	?>
 <label for="<?php echo $name?>"><?php echo $label?></label>
+    <?php 
+	}
+    ?>
 <textarea name="<?php echo $name?>" id="<?php echo $name?>"
 	cols="<?php echo $cols?>" rows="<?php echo $rows?>"
 	<?php echo $text_opts?> tabindex="<?php echo ++$shn_tabindex?>"><?php echo $value?></textarea>
