@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version      $Id: virtualearth.inc,v 1.14 2008-05-20 14:39:32 franboon Exp $
+* @version      $Id: virtualearth.inc,v 1.15 2008-06-02 13:35:43 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -25,7 +25,7 @@ class virtualearth implements layer{
 		shn_form_fsopen('INFO');
         echo '<p>'._t("Enable").' <a href="http://maps.live.com" target=_blank>Microsoft Virtual Earth</a> &trade; '._t("Mapping Service by selecting the checkbox option below").'.</p>';
         echo '<p>'._t("The Virtual Earth mapping API requires Internet connectivity").'.</p>';
-        if (!0==$conf['gis_ol_wms_projections']) {
+        if (!0==$conf['gis_ol_projections']) {
             echo '<h1>'._t("Virtual Earth base layer(s) are currently DISABLED due to use of a").' <a href="index.php?mod=admin&act=gis_projections" target=_blank>'._t("non-SphericalMercator Projection").'</a>!</h1>';
         }
         shn_form_fsclose();

@@ -10,7 +10,7 @@
 * 
 * @author       Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @version      $Id: gis_conf.inc,v 1.32 2008-05-30 21:54:13 franboon Exp $;
+* @version      $Id: gis_conf.inc,v 1.33 2008-06-02 13:35:43 franboon Exp $;
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.sourceforge.net    	
 * @subpackage   gis
@@ -75,6 +75,15 @@ $conf['gis_tmp_image_folder'] = 'theme/default/img/';
 $conf['gis_google_key']='ABQIAAAAb-bE-ljr4-6Hsb4x92lWhRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxQTjccCsxIjr0poUEEARUZJgolNfw';
 
 /**
+ * Projection
+ */
+$conf['gis_ol_projections'] = '0';
+$conf['gis_ol_projection'] = 'EPSG:900913';
+$conf['gis_ol_maxExtent'] = '-20037508, -20037508, 20037508, 20037508.34';
+$conf['gis_ol_maxResolution'] = '156543.0339';
+$conf['gis_ol_units'] = 'm';
+ 
+/**
  * Configuration for GIS Catalogue
  */
   
@@ -128,12 +137,6 @@ $conf['gis_yahoo_key']='euzuro-openlayers';
 $conf['gis_ol_wms']='1';
 $conf['gis_ol_wms_enable']='1';
 
-$conf['gis_ol_wms_projections'] = '0';
-$conf['gis_ol_wms_projection'] = 'EPSG:900913';
-$conf['gis_ol_wms_maxExtent'] = '-20037508, -20037508, 20037508, 20037508.34';
-$conf['gis_ol_wms_maxResolution'] = '156543.0339';
-$conf['gis_ol_wms_units'] = 'm';
- 
 $conf['gis_ol_wms_1_name'] = 'VMap0';
 $conf['gis_ol_wms_1_description'] = 'A Free low-resolution Vector Map of the whole world';
 $conf['gis_ol_wms_1_url'] = 'http://labs.metacarta.com/wms/vmap0';

@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.50 2008-05-30 17:58:20 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.51 2008-06-02 13:35:43 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -23,7 +23,7 @@
     global $global;
 
   //Disable other base layers if using a non-sphericalMercator WMS projection
-  if (0==$conf['gis_ol_wms_enable'] || "EPSG:900913"==$conf["gis_ol_wms_projection"]) {
+  if (0==$conf['gis_ol_wms_enable'] || "EPSG:900913"==$conf["gis_ol_projection"]) {
     if ((1 == $conf['gis_ol_google']) && (1 == $conf['gis_ol_google_sat'] || 1 == $conf['gis_ol_google_maps'] || 1 == $conf['gis_ol_google_hybrid'])) {
         $key = $conf['gis_google_key'];
         echo "<script src='http://maps.google.com/maps?file=api&v=2&key=$key' type=\"text/javascript\"></script>\n";
@@ -83,21 +83,21 @@
     var zoom = <?=$conf['gis_zoom']?>;
     // http://crschmidt.net/~crschmidt/spherical_mercator.html#reprojecting-points
     var proj4326 = new OpenLayers.Projection("EPSG:4326");
-    var projection_current = new OpenLayers.Projection("<?=$conf['gis_ol_wms_projection']?>");
+    var projection_current = new OpenLayers.Projection("<?=$conf['gis_ol_projection']?>");
     var point = new OpenLayers.LonLat(lon, lat);
     var options = {
         displayProjection: proj4326,
         projection: projection_current,
-        units: "<?=$conf['gis_ol_wms_units']?>",
-        maxResolution: <?=$conf['gis_ol_wms_maxResolution']?>,
-        maxExtent: new OpenLayers.Bounds(<?=$conf['gis_ol_wms_maxExtent']?>)
+        units: "<?=$conf['gis_ol_units']?>",
+        maxResolution: <?=$conf['gis_ol_maxResolution']?>,
+        maxExtent: new OpenLayers.Bounds(<?=$conf['gis_ol_maxExtent']?>)
     };
     map = new OpenLayers.Map('map',options);
     OpenLayers.ProxyHost='<?=$conf['proxy_path']?>';
 	       
 <?php
   //Disable other base layers if using a non-sphericalMercator WMS projection
-  if (0==$conf['gis_ol_wms_enable'] || "EPSG:900913"==$conf["gis_ol_wms_projection"]) {
+  if (0==$conf['gis_ol_wms_enable'] || "EPSG:900913"==$conf["gis_ol_projection"]) {
     //OSM layer(s) listed 1st - promote OpenData!
     if ((1 == $conf['gis_ol_osm']) && (1 == $conf['gis_ol_osm_mapnik'])) {
         echo "var mapnik = new OpenLayers.Layer.TMS( \"OpenStreetMap (Mapnik)\", \"http://tile.openstreetmap.org/\", {type: 'png', getURL: osm_getTileURL, displayOutsideMaxExtent: true } );\n";
@@ -164,10 +164,10 @@
   }
     // WMS
     if (1 == $conf['gis_ol_wms_enable']) {
-        $projection = $conf["gis_ol_wms_projection"];
-        $maxResolution = $conf["gis_ol_wms_maxResolution"];
-        $maxExtent = $conf["gis_ol_wms_maxExtent"];
-        $units = $conf["gis_ol_wms_units"];
+        $projection = $conf["gis_ol_projection"];
+        $maxResolution = $conf["gis_ol_maxResolution"];
+        $maxExtent = $conf["gis_ol_maxExtent"];
+        $units = $conf["gis_ol_units"];
         $wms = $conf["gis_ol_wms"];
         for ($i = 1; $i <= $wms; $i++) {
             if (1==$conf["gis_ol_wms_".$i."_enabled"]) {

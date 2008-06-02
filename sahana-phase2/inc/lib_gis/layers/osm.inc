@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version      $Id: osm.inc,v 1.6 2008-05-20 14:43:36 franboon Exp $
+* @version      $Id: osm.inc,v 1.7 2008-06-02 13:35:43 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -26,7 +26,7 @@ class osm implements layer{
         echo '<p>'._t("Enable ").'<a href="http://openstreetmap.org/" target=_blank>OpenStreetMap</a>' . _t(" Mapping Service by selecting the checkbox option below.").'</p>';
         echo '<p>'._t("The OpenStreetMap mapping API requires Internet connectivity, however data can be accessed offline by").' <a href="?mod=admin&act=gis_files">'._t("uploading").'</a> '._t("as an .osm file & accessing via the File layer instead").'.</p>';
         echo '<p>('._t("The").' <a href="http://wiki.openstreetmap.org/index.php/JOSM" target=_blank>JOSM</a> '._t("Editor is recommended for both downloading existing data & editing it).").'</p>';
-        if (!0==$conf['gis_ol_wms_projections']) {
+        if (!0==$conf['gis_ol_projections']) {
             echo '<h1>'._t("OpenStreetMap base layer(s) are currently DISABLED due to use of a").' <a href="index.php?mod=admin&act=gis_projections" target=_blank>'._t("non-SphericalMercator Projection").'</a>!</h1>';
         }
         shn_form_fsclose();
