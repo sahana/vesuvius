@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.53 2008-06-02 20:16:46 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.54 2008-06-02 21:20:57 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -288,6 +288,7 @@
             $dir = $global['approot'].'www/tmp/kml_cache';
             mkdir($dir);
             // Download KML/KMZ files & cache before display
+            // ToDo Make this an async call to a separate PHP script
             for ($i = 1; $i <= $conf['gis_ol_kml']; $i++) {
                 if (1==$conf["gis_ol_kml_".$i."_enabled"]) {
                     $name = $conf["gis_ol_kml_".$i."_name"];
@@ -924,6 +925,44 @@
         markers.addMarker(marker);
     }
 <?php   
+}
+
+/**
+ * Add Button to save current Viewport settings
+ * called by show_map_select function in openlayers plugin handler
+ * @access public
+ */
+function ol_viewport_save_button()
+{
+?>
+    <form>
+    <input type="button" value="Update Viewport Settings" OnClick="UpdateViewportFormFields();">
+    </form>
+<?php
+}
+
+/**
+ * Add Function to save current Viewport settings
+ * called by show_map_select function in openlayers plugin handler
+ * @access public
+ */
+function ol_viewport_save($lat_field,$lon_field,$zoom_field)
+{
+?>
+    function UpdateViewportFormFields() {
+        // Read current settings from map
+        var lonlat = map.getCenter();
+        var zoom = map.getZoom();
+        // Convert back to LonLat for form fields
+        var proj4326 = new OpenLayers.Projection("EPSG:4326");
+        var proj_current = map.getProjectionObject();
+        lonlat.transform(proj_current, proj4326);
+        // Update form fields
+        document.getElementById('<?=$lon_field?>').value = lonlat.lon;
+        document.getElementById('<?=$lat_field?>').value = lonlat.lat;
+        document.getElementById('<?=$zoom_field?>').value = zoom;
+    }
+<?php
 }
 
 /**

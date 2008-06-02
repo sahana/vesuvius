@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/    	
 * @library      GIS
-* @version      $Id: admin_fns.inc,v 1.14 2008-05-30 11:26:42 franboon Exp $;
+* @version      $Id: admin_fns.inc,v 1.15 2008-06-02 21:20:57 franboon Exp $;
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -18,7 +18,6 @@ include_once($global['approot'].'/inc/lib_errors.inc');
 
 /**
  * Main default GIS configuration settings
- * @todo: provide a map based center input selection
  * @todo: cite source URI for lat-lon help content
  */
 function shn_admin_gis_main_settings()
@@ -31,21 +30,7 @@ function shn_admin_gis_main_settings()
 	<h2><?php echo _t("GIS Defaults Configuration");?></h2>
 <?php
 	shn_form_fopen('gis_main_defaults',null,array('req_message'=>false));
-	shn_form_fsopen(_t("Default Map Location"));
-?>
-	<ul>
-	 <li><?php echo _t("Visual Maps are displayed within certain modules in Sahana");?> </li>
-	 <li><?php echo _t("In order to set the map to display a default region, you can set this below:");?></li>
-	</ul>
-<?php
-	$lat_help=_t("Latitude is North-South (Up-Down). Latitude is zero on the equator and positive in the northern hemisphere and negative in the southern hemisphere");
-	$lon_help=_t("Longitude is West - East (sideways). Longitude is zero on the prime meridian (Greenwich Mean Time) and is positive to the east, across Europe and Asia.  Longitude is negative to the west, across the Atlantic and the Americas.");
-	$zoom_help=_t("How much detail is seen. A high Zoom level means lot of detail, but not a wide area. A low Zoom level means seeing a wide area, but not a high level of detail.");
-	shn_form_text(_t("Center Latitude"),"y_center",null,array("value"=>$conf['gis_center_y'],"help"=>$lat_help));
-	shn_form_text(_t("Center Longitude "),"x_center",null,array("value"=>$conf['gis_center_x'],"help"=>$lon_help));
-	shn_form_text(_t("Zoom "),"zoom",null,array("value"=>$conf['gis_zoom'],"help"=>$zoom_help));
-	shn_form_fsclose();
-	shn_form_fsopen(_t("Default Plugin"));
+    shn_form_fsopen(_t("Default Plugin"));
 ?>
 	<ul>
 	 <li><?php echo _t("Sahana supports a modular GIS plugin architecture ");?> </li>
@@ -64,8 +49,28 @@ function shn_admin_gis_main_settings()
 	$mod_name = $conf['gis_dflt'];
     shn_form_radio($options_array,_t("Select GIS Plugin: "),"mod_gis",null,((isset($mod_name))?array("value"=>$mod_name):null));
     shn_form_fsclose();
+	shn_form_fsopen(_t("Default Map Location"));
+?>
+	<ul>
+	 <li><?php echo _t("Visual Maps are displayed within certain modules in Sahana");?> </li>
+	 <li><?php echo _t("In order to set the map to display a default region, you can set this below:");?></li>
+	</ul>
+<?php
+	$lat_help=_t("Latitude is North-South (Up-Down). Latitude is zero on the equator and positive in the northern hemisphere and negative in the southern hemisphere");
+	$lon_help=_t("Longitude is West - East (sideways). Longitude is zero on the prime meridian (Greenwich Mean Time) and is positive to the east, across Europe and Asia.  Longitude is negative to the west, across the Atlantic and the Americas.");
+	$zoom_help=_t("How much detail is seen. A high Zoom level means lot of detail, but not a wide area. A low Zoom level means seeing a wide area, but not a high level of detail.");
+	shn_form_text(_t("Center Latitude"),"y_center",null,array("value"=>$conf['gis_center_y'],"help"=>$lat_help));
+	shn_form_text(_t("Center Longitude "),"x_center",null,array("value"=>$conf['gis_center_x'],"help"=>$lon_help));
+	shn_form_text(_t("Zoom "),"zoom",null,array("value"=>$conf['gis_zoom'],"help"=>$zoom_help));
+	shn_form_fsclose();
+    
     shn_form_submit(_t('Save As Defaults'));
     shn_form_close();
+
+    // call GIS API
+	include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+	shn_gis_map_select("y_center","x_center","zoom");
+
 }
 
 /**

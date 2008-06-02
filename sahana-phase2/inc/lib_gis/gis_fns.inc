@@ -11,7 +11,7 @@
 * @package		Sahana - http://sahana.sourceforge.net 		
 * @author   	Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @version		$Id: gis_fns.inc,v 1.7 2008-06-02 20:16:46 franboon Exp $
+* @version		$Id: gis_fns.inc,v 1.8 2008-06-02 21:20:57 franboon Exp $
 * @library		GIS
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -108,6 +108,33 @@ function shn_gis_map($opt_array=null)
 		$plugin_name = $conf['gis_dflt'];
 		include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		show_map($opt_array);
+	}
+	else
+		shn_gis_print_msg();
+}
+
+/**
+ * Show basic GIS map with the ability to save current viewport settings
+ * for GIS Defaults
+ * @access public
+ * @return void
+ */
+function shn_gis_map_select($lat,$lon,$zoom)
+{
+	global $global;
+	global $conf;
+	$db = $global['db'];
+	if($conf['gis'])
+	{
+		// ToDo: Implement in GoogleMaps plugin
+        if("openlayers"==$conf['gis_dflt']) {
+            echo '<p>'._t("You can set the viewport to your desired settings & then click 'Update Viewport Settings' to update fields ready for saving").'.</p>';
+            $plugin_name = $conf['gis_dflt'];
+            include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+            show_map_select($lat,$lon,$zoom);
+        } else {
+            return;
+        }
 	}
 	else
 		shn_gis_print_msg();

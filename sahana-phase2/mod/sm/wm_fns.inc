@@ -91,6 +91,10 @@ function shn_sm_show_wiki_map($category="all",$date=0)
         print "<table><tr><td style=\"border: 0px;\">";
         print _t("GIS Administration:");
         print "</td><td style=\"border: 0px;\">";
+        shn_form_fopen(gis_main,admin,array('req'=>false));
+	    shn_form_submit(_t("Defaults"));
+        shn_form_fclose();
+        print "</td><td style=\"border: 0px;\">";
         shn_form_fopen(gis_files,admin,array('req'=>false));
 	    shn_form_submit(_t("Files"));
         shn_form_fclose();

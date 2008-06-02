@@ -27,6 +27,26 @@ function show_map($opt=null)
 
     ol_js_loaders();
     ol_layers();
+    ol_functions();
+    _shn_print_end_of_map();
+}
+
+/**
+ * Show basic map
+ * + provide way of saving the current viewport in form fields (for GIS Defaults)
+ * called by shn_gis_map_select in GIS API
+ */
+function show_map_select($lat,$lon,$zoom)
+{
+    global $global;
+    global $conf;
+    include_once('openlayers_fns.php');
+
+    ol_viewport_save_button();
+    ol_js_loaders();
+    ol_layers();
+    ol_functions();
+    ol_viewport_save($lat,$lon,$zoom);
     _shn_print_end_of_map();
 }
 
@@ -44,6 +64,7 @@ function show_add_marker_map($name)
     ol_js_loaders();
     ol_layers();
     ol_add_marker($name);
+    ol_functions();
     _shn_print_end_of_map();
 }
 
@@ -61,6 +82,7 @@ function show_map_with_markers($array)
     ol_js_loaders();
     ol_layers();
     ol_show_markers($array);
+    ol_functions();
     _shn_print_end_of_map();
 }
 
@@ -77,11 +99,13 @@ function show_map_with_wiki_marker($array)
     ol_js_loaders();
     ol_layers();
     ol_show_wiki_markers($array);
+    ol_functions();
     _shn_print_end_of_map();
 }
 
 /**
  * Show map with wiki markers
+ * + allow updating of form fields by selection of marker
  * called by shn_gis_map_with_wiki_markers_select in GIS API
  */
 function show_map_with_wiki_markers_select($array,$lat,$lon)
@@ -93,6 +117,7 @@ function show_map_with_wiki_markers_select($array,$lat,$lon)
     ol_js_loaders();
     ol_layers();
     ol_show_wiki_markers_select($array,$lat,$lon);
+    ol_functions();
     _shn_print_end_of_map();
 }
 
@@ -109,6 +134,7 @@ function show_map_with_custom_markers($array)
     ol_js_loaders();
     ol_layers();
     ol_show_custom_markers($array);
+    ol_functions();
     _shn_print_end_of_map();
 }
 
@@ -116,9 +142,6 @@ function _shn_print_end_of_map()
 {
     global $global;
     global $conf;
-    include_once('openlayers_fns.php');
-
-    ol_functions();
 ?>	
 </script>
 	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
