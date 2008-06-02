@@ -12,9 +12,6 @@
 * @package    sahana
 * @subpackage setup
 */
-define ('SIMPLE_SETUP','SIMPLE');
-define ('ADVANCED_SETUP','ADV');
-define ('SCENARIO_BASED','SCEN');
 
 define ('SETUP_DATA_PREFIX',"shn_setup_data_");
 
@@ -162,4 +159,40 @@ function _shn_setup_get_available_themes(){
 function _shn_setup_get_essencial_modules(){
 	return array ('home','admin','gis','pref');
 }
+
+function _shn_setup_set_step_function($funct){
+	$_SESSION['setup_step_function'] = $funct;
+}
+
+function _shn_setup_get_step_function(){
+	return $_SESSION['setup_step_function'];
+}
+
+function _shn_setup_get_step_no(){
+	return $_SESSION['setup_step_no'];
+}
+
+/**
+ * Determines and appropriately increments/decrements the step number
+ * depending on whether a page refresh occured or not.
+ *
+ * @param String $function_call The name of the function currently in execution
+ * @param boolean $back_button Whether the back button was presed.
+ */
+function _shn_setup_determine_step_no($function_call,$back_button){
+	//echo "Determining step number...<br/>";
+	//echo $_SESSION['setup_step_no']."<br/>";
+	if($function_call == $_SESSION['setup_previous_step_function']){
+		// page refresh occured.
+		// leave the number as it is.
+	}else{
+		if($back_button==true){
+			$_SESSION['setup_step_no'] = $_SESSION['setup_step_no']-1;
+		}else{
+			$_SESSION['setup_step_no'] = $_SESSION['setup_step_no']+1;
+		}
+		$_SESSION['setup_previous_step_function'] = $function_call;
+	}
+}
+
 ?>

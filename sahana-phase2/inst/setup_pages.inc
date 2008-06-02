@@ -35,7 +35,7 @@ function shn_setup_general_dependancies()
 <p><?=_t('First we need to check if all the relevant dependencies for the Sahana system to be install are available on your system')?></p>
 	<?php
 
-	shn_form_fopen('CHECK_DEPENDENCIES','setup');
+	shn_form_fopen('general_dependencies_submit',null,array('req_message'=>false));
 
 	shn_form_fsopen(_t('PHP libraries'));
 	?>
@@ -145,6 +145,36 @@ function shn_setup_general_dependancies()
 }
 
 /**
+ * Geterate the license page.
+ *
+ * @param unknown_type $step_no
+ */
+function shn_setup_license($step_no=null){
+	global $global;
+	$step_no = isset($step_no)?$step_no:$_SESSION['setup_step_no'];
+	?>
+<h2><?php echo _t('Sahana Web Setup - Step ').$step_no?></h2>
+	<?php
+
+	$license = file_get_contents($global['approot']."lgpl-2.1.txt");
+	$license = htmlentities($license,ENT_QUOTES,'utf-8',false);
+	shn_form_fopen('license_submit',null,array('req_message'=>false));
+	shn_form_fsopen(_t('License Agreement'));
+	echo _t("You will need to adhere to the following license to proceed with the setup.");
+	echo "<br/>";
+	shn_form_textarea(null,'license',null,array('value'=>$license,'rows'=>15,'cols'=>70,'no_label'=>true));
+	shn_form_fsclose();
+	shn_form_label("Do you accept the above license agreement?",null);
+	echo "<br/>";	
+	
+	shn_form_submit(_t('<< No, Go Back'),'name="back_button"');
+	shn_form_submit(_t('Yes, Continue >>'));
+
+	shn_form_fclose();
+
+}
+
+/**
  * Generate the select setup page.
  *
  * @param Integer $step_no The step number. Optional, if not provided will be taken from the session as $_SESSION['setup_step_no']
@@ -156,7 +186,7 @@ function shn_setup_select_setup($step_no=null)
 	?>
 <h2><?php echo _t('Sahana Database Setup - Step ').$step_no?></h2>
 	<?php
-	shn_form_fopen('SELECT_SETUP');
+	shn_form_fopen('select_setup_submit',null,array('req_message'=>false));
 	shn_form_fsopen(_t('Select a setup type to continue.'));
 	shn_form_fsopen(_t("Simple Setup"));
 	echo _t("To setup the most common modules and configuration.");
@@ -169,12 +199,23 @@ function shn_setup_select_setup($step_no=null)
 	shn_form_submit(_t("Advanced"),'name="setup_type_adv"');
 	shn_form_fsclose();
 	/*shn_form_fsopen(_t("Scenario Based Setup"));
-	echo _t("To customize modules and configuration for a specific scenario.");
-	echo "<br/>";
-	shn_form_submit(_t("Scenario Based"),'name="setup_type_scen"');
-	shn_form_fsclose();*/
+	 echo _t("To customize modules and configuration for a specific scenario.");
+	 echo "<br/>";
+	 shn_form_submit(_t("Scenario Based"),'name="setup_type_scen"');
+	 shn_form_fsclose();*/
 	shn_form_fsclose();
+	shn_form_submit(_t('<< Back'),'name="back_button"');
 	shn_form_fclose();
+}
+
+function shn_setup_select_dbsetup($step_no=null){
+	$step_no = isset($step_no)?$step_no:$_SESSION['setup_step_no'];
+    ?>
+<h2><?php
+echo _t('Sahana Web Setup - Step ').$step_no;
+?></h2>
+<?php
+display_errors();
 }
 
 /**
@@ -191,7 +232,7 @@ echo _t('Sahana Web Setup - Step ').$step_no;
 ?></h2>
 <?php
 display_errors();
-shn_form_fopen('DATABASE_SETUP');
+shn_form_fopen('simple_dbsetup_submit',null);
 if(isset($_SESSION['setup_system_db_user_exists'])){
 	/*
 	 * 	Duplicate system database username. Confirm to keep or give a different name.
@@ -199,7 +240,7 @@ if(isset($_SESSION['setup_system_db_user_exists'])){
 
 	shn_form_fsopen('User Exists.');
 	echo "<div class='warning message'>";
-	echo _t("Database user name ".$_SESSION[SETUP_DATA_PREFIX."db_user"]." already exists.                                                         
+	echo _t("Database user name ".$_SESSION[SETUP_DATA_PREFIX."db_user"]." already exists.
 To continue, select a different user name. If you want to keep the existing user click on 'Keep User'. ");
 	echo "</div>";
 	//add_warning('test');
@@ -273,7 +314,7 @@ global $global ,  $conf;
 support.</noscript>
 
 <?php
-shn_form_fopen('SIMPLE_CONFIGURATION');
+shn_form_fopen('simple_config_submit',null);
 
 // pass the previous post varibles into hidden for the configuration file
 
@@ -368,7 +409,7 @@ asort($all_modules);
 
 $_essencial_modules = _shn_setup_get_essencial_modules();
 
-shn_form_fopen('ADV_SELECT_MODULES');
+shn_form_fopen('adv_select_modules_submit',null,array('req_message'=>false));
 shn_form_fsopen(_t("Sahana Core"));
 echo _t("The following core modules will be installed by default.");
 echo "<hr/><ul>";
@@ -501,7 +542,7 @@ echo _t("Sahaha Web Setup - Step ").$step_no;
 
 <?php
 display_errors();
-shn_form_fopen('ADV_CONFIG_MODULES');
+shn_form_fopen('adv_advanced_config_submit');
 shn_form_fsopen(_t('System Settings'));
 
 shn_form_select(
@@ -517,15 +558,13 @@ foreach($available_themes as $tname){
 <link rel="stylesheet"
 	media="screen, projection" type="text/css"
 	href="theme/<?=$tname?>/sahana.css" />
-<link
-	rel="stylesheet" media="print" type="text/css"
-	href="theme/<?=$tname?>/print.css" />
-<link
-	rel="stylesheet" media="handheld" type="text/css"
-	href="theme/<?=$tname?>/mobile.css" />
+<link rel="stylesheet"
+	media="print" type="text/css" href="theme/<?=$tname?>/print.css" />
+<link rel="stylesheet"
+	media="handheld" type="text/css" href="theme/<?=$tname?>/mobile.css" />
 		<?php
-}
-$themelist[$tname] = ucwords($tname)._t(' Theme');
+	}
+	$themelist[$tname] = ucwords($tname)._t(' Theme');
 }
 shn_form_select($themelist,_t('Theme'),'theme','onchange=setActiveStyleSheet(this.options[this.selectedIndex].value)',isset($_SESSION[SETUP_DATA_PREFIX."theme"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."theme"]):array('value'=>'default'));
 shn_form_fsclose();
@@ -571,7 +610,7 @@ echo _t("Sahaha Web Setup - Step ").$step_no;
 ?></h1>
 <?php
 display_errors();
-shn_form_fopen('ADV_PWD_POLICY');
+shn_form_fopen('adv_pwd_policy_submit');
 shn_form_fsopen(_t('Define a system wide password policy'));
 shn_form_text(_t('Minimum No of characters'),'pwd_min_chars','maxlength="2" size="2"',isset($_SESSION[SETUP_DATA_PREFIX."pwd_min_chars"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."pwd_min_chars"]):array('value'=>8));
 shn_form_text(_t('Maximum No of characters'),'pwd_max_chars','maxlength="2" size="2"',isset($_SESSION[SETUP_DATA_PREFIX."pwd_max_chars"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."pwd_max_chars"],'maxlength'=>2,'size'=>2):array('value'=>16,'maxlength'=>2,'size'=>2));
@@ -595,114 +634,114 @@ shn_form_fclose();
  *
  * @param Integer $step_no The step number.
  */
- /*
-function shn_setup_scen_select_scenario($step_no=null){
-	$step_no = isset($step_no)?$step_no:$_SESSION['setup_step_no'];
+/*
+ function shn_setup_scen_select_scenario($step_no=null){
+ $step_no = isset($step_no)?$step_no:$_SESSION['setup_step_no'];
 
-	$tick_img = 'theme/default/img/tic.png';
-	$cross_img = 'theme/default/img/cross.png';
+ $tick_img = 'theme/default/img/tic.png';
+ $cross_img = 'theme/default/img/cross.png';
 
-	$scenario_module_map = array(
-	_t("Default")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_t("Tsunami Wave/Surge")=>"admin,cms,cs,dvr,gis,home,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_t("Forest  Fire")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,or,pref,rms,rs,sync,vm,vol",
-	_t("Flood")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,or,pref,rms,rs,sync,vm,vol",
-	_t("Hurricane")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,or,pref,rms,rs,sync,vm,vol",
-	_t("Drought")=>"admin,cms,cs,gis,home,ims,mpr,or,pref,rms,rs,sync,vm,vol",
-	_t("Conflicts")=>"admin,cms,cr,cs,dvr,gis,home,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_t("Epidemic")=>"admin,cms,cr,cs,dvr,gis,home,ims,pref,rms,rs,sync,vm,vol",
-	_t("Earthquake")=>"admin,cms,cr,cs,dvr,gis,home,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_t("Insect Infestation")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_t("Nuclear/Chemical Hazard")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_t("Famine")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_t("Land Slide")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	_t("Volcano")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
-	);
+ $scenario_module_map = array(
+ _t("Default")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+ _t("Tsunami Wave/Surge")=>"admin,cms,cs,dvr,gis,home,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+ _t("Forest  Fire")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,or,pref,rms,rs,sync,vm,vol",
+ _t("Flood")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,or,pref,rms,rs,sync,vm,vol",
+ _t("Hurricane")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,or,pref,rms,rs,sync,vm,vol",
+ _t("Drought")=>"admin,cms,cs,gis,home,ims,mpr,or,pref,rms,rs,sync,vm,vol",
+ _t("Conflicts")=>"admin,cms,cr,cs,dvr,gis,home,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+ _t("Epidemic")=>"admin,cms,cr,cs,dvr,gis,home,ims,pref,rms,rs,sync,vm,vol",
+ _t("Earthquake")=>"admin,cms,cr,cs,dvr,gis,home,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+ _t("Insect Infestation")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+ _t("Nuclear/Chemical Hazard")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+ _t("Famine")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+ _t("Land Slide")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+ _t("Volcano")=>"admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,or,pref,rms,rs,sync,vm,vol",
+ );
 
-	//ksort(&$scenario_module_map);
-	?>
-<h1><?php 
-echo _t("Sahaha Web Setup - Step ").$step_no;
-?></h1>
-<?php
-display_errors();
-shn_form_fopen('SCEN_SELECT_SCEN');
-shn_form_fsopen(_t('Select a scenario.'));
+ //ksort(&$scenario_module_map);
+ ?>
+ <h1><?php
+ echo _t("Sahaha Web Setup - Step ").$step_no;
+ ?></h1>
+ <?php
+ display_errors();
+ shn_form_fopen('SCEN_SELECT_SCEN');
+ shn_form_fsopen(_t('Select a scenario.'));
 
-shn_form_select(array_flip($scenario_module_map),_t("Scenario"),'selected_scenario','onchange="tickModules(this)"',isset($_SESSION[SETUP_DATA_PREFIX."selected_scenario"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."selected_scenario"]):array('value'=>'admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,pref,rms,rs,skel,sync,vm,vol,ws'));
-shn_form_fsclose();
-shn_form_submit(_t('<< Back'),'name="back_button"');
-shn_form_submit(_t("Next >>"));
-shn_form_submit(_t('Customize'),'name="scenario_customize"');
-?>
-<br />
-<br />
-<?php
-shn_form_fsopen("Selected Modules");
+ shn_form_select(array_flip($scenario_module_map),_t("Scenario"),'selected_scenario','onchange="tickModules(this)"',isset($_SESSION[SETUP_DATA_PREFIX."selected_scenario"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."selected_scenario"]):array('value'=>'admin,cms,cr,cs,dvr,gis,home,hr,ims,mpr,msg,pref,rms,rs,skel,sync,vm,vol,ws'));
+ shn_form_fsclose();
+ shn_form_submit(_t('<< Back'),'name="back_button"');
+ shn_form_submit(_t("Next >>"));
+ shn_form_submit(_t('Customize'),'name="scenario_customize"');
+ ?>
+ <br />
+ <br />
+ <?php
+ shn_form_fsopen("Selected Modules");
 
-// load configuration
-shn_config_module_conf_fetch('all');
+ // load configuration
+ shn_config_module_conf_fetch('all');
 
-$all_modules = shn_get_all_modules();
-asort($all_modules);
+ $all_modules = shn_get_all_modules();
+ asort($all_modules);
 
-$_essencial_modules = _shn_setup_get_essencial_modules();
-$_essencial_mod_str = implode(",",$_essencial_modules);
+ $_essencial_modules = _shn_setup_get_essencial_modules();
+ $_essencial_mod_str = implode(",",$_essencial_modules);
 
-?>
-<div id="modulePreview"><script type="text/javascript"
-	language="javascript">
-<!--
-	var tickImg = "<?php echo $tick_img; ?>";
-	var crossImg = "<?php echo $cross_img; ?>";
-	var essentialModules = "<?php echo $_essencial_mod_str; ?>";
-	
-	function tickModules(selectBox){
-		var mods = selectBox.options[selectBox.selectedIndex].value;
-		
-		mods += (","+essentialModules);
-		mods = mods.split(",");
-		
-		var allImgTags = document.getElementsByTagName("img");
-		for(i=0;i<allImgTags.length;i++){
-			var tagId = allImgTags[i].id;
-			var tag = allImgTags[i]; 
-			if(tagId && tagId.indexOf("img_")==0){
-				tag.src = crossImg;
-			}
-		}
-		for(i=0;i<mods.length;i++){
-			var imgElem = document.getElementById("img_"+mods[i]);
-			if(imgElem){
-				imgElem.src = tickImg;
-			}
-		}
-	}
-	
-	var modTable = '<?php 
-	echo "<table class=\"layout\">";
-	foreach($all_modules as $key=>$value){
-		echo "<tr><td>";
-		echo $value[1];
-		echo "</td><td>";
-		echo '<img id="img_'.$value[0].'" align="top" src="'.$tick_img.'" alt="tick"/>';
-		echo "</td><tr>";
+ ?>
+ <div id="modulePreview"><script type="text/javascript"
+ language="javascript">
+ <!--
+ var tickImg = "<?php echo $tick_img; ?>";
+ var crossImg = "<?php echo $cross_img; ?>";
+ var essentialModules = "<?php echo $_essencial_mod_str; ?>";
 
-	}
-	echo "</table>"; ?>';
-	// append if javascript is enabled.
-	document.getElementById("modulePreview").innerHTML = modTable;
+ function tickModules(selectBox){
+ var mods = selectBox.options[selectBox.selectedIndex].value;
+
+ mods += (","+essentialModules);
+ mods = mods.split(",");
+
+ var allImgTags = document.getElementsByTagName("img");
+ for(i=0;i<allImgTags.length;i++){
+ var tagId = allImgTags[i].id;
+ var tag = allImgTags[i];
+ if(tagId && tagId.indexOf("img_")==0){
+ tag.src = crossImg;
+ }
+ }
+ for(i=0;i<mods.length;i++){
+ var imgElem = document.getElementById("img_"+mods[i]);
+ if(imgElem){
+ imgElem.src = tickImg;
+ }
+ }
+ }
+
+ var modTable = '<?php
+ echo "<table class=\"layout\">";
+ foreach($all_modules as $key=>$value){
+ echo "<tr><td>";
+ echo $value[1];
+ echo "</td><td>";
+ echo '<img id="img_'.$value[0].'" align="top" src="'.$tick_img.'" alt="tick"/>';
+ echo "</td><tr>";
+
+ }
+ echo "</table>"; ?>';
+ // append if javascript is enabled.
+ document.getElementById("modulePreview").innerHTML = modTable;
  -->
  </script>
-<noscript>
-<p><?php echo _t("Module preview is not available without javascript."); ?></p>
-</noscript>
-</div>
-	<?php
-	shn_form_fsclose();
-	shn_form_fclose();
-}
-*/
+ <noscript>
+ <p><?php echo _t("Module preview is not available without javascript."); ?></p>
+ </noscript>
+ </div>
+ <?php
+ shn_form_fsclose();
+ shn_form_fclose();
+ }
+ */
 /**
  * Generate the complete setup page.
  *
@@ -792,4 +831,10 @@ shn_include_page_section('footer',$module);
 </html>
 <?php
 }
+
+/**
+ * Generate an error message page.
+ *
+ */
+
 ?>
