@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.51 2008-06-02 13:35:43 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.52 2008-06-02 18:15:20 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -634,6 +634,9 @@
         lonlat.transform(proj_current, proj4326);
         var lon_new = lonlat.lon;
         var lat_new = lonlat.lat;
+        // Update form fields
+        document.getElementById("gps_x").value = lon_new;
+        document.getElementById("gps_y").value = lat_new;
         // store x,y coords in hidden variables named loc_x, loc_y
         // must be set via calling page
         var x_point=document.getElementsByName("loc_x");
