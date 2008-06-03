@@ -15,7 +15,7 @@
 * @copyright  Respere - http://respere.com/
 * @package	  Sahana - http://sahana.lk/
 * @subpackage
-* @version	  $Id: lib_msg.inc,v 1.3 2008-04-30 06:02:28 mifanc Exp $
+* @version	  $Id: lib_msg.inc,v 1.4 2008-06-03 21:24:26 franboon Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -314,9 +314,10 @@ function _shn_msg_get_guid_from_group($group_entry)
 	*/
 	$pattern = '/\{/';
 	$guid = split(":",$group_entry);
-	print_r ($guid);
+	//print_r ($guid);
+	//@Commented as it was probably for debugging.
 	$val = preg_replace($pattern,'',$guid[0]);
-	echo "GID:".$val;
+	//echo "GID:".$val;
 	return $val;
 	
 }
