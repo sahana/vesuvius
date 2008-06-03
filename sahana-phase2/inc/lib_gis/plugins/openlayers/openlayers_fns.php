@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.55 2008-06-03 18:59:30 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.56 2008-06-03 21:04:06 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -353,7 +353,7 @@
                                                 $lines=file($input);
                                                 $handle = fopen($output, 'w');
                                                 foreach ($lines as $line_num => $line) {
-                                                    // Catch Network Links (work-in-progress!)
+                                                    // Catch Network Links
                                                     if ("<NetworkLink>"==trim($line)) {
                                                         foreach ($lines as $line_num => $line) {
                                                             if (strpos($line,"<href>")) {
