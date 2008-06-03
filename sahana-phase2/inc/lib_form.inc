@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.80 2008-06-02 05:57:01 ravithb Exp $ */
+/* $Id: lib_form.inc,v 1.81 2008-06-03 11:31:52 ravithb Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -324,9 +324,11 @@ function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = 
 	$value = ($_POST[$opt_field])? $_POST[$opt_field] : $extra_opts['value'];
 
 	//$req=(true == $extra_opts['req'])?'<em> * </em>':'';
+	if($extra_opts['no_label']!==true){
 	?>
 <label><?php echo $label;?></label>
 	<?php
+	}
 
 	$checked='';
 	foreach ($options as $opt_value => $desc ) {
