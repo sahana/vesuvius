@@ -277,10 +277,11 @@ function shn_mpr_editmp() {
 			
 			$_SESSION['mpr_edit']['entry'] = null;
 			shn_mpr_editmp_load($_GET['id']);//load details
-			if($_SESSION['mpr_edit']['entry']['opt_status']=='mis')
+			if($_SESSION['mpr_edit']['entry']['opt_status']=='mis'){
 			    echo '<h1 align="center">' . _t('Edit Missing Person Entry') . '</h1>';
-	        else
+			}else{
 			    echo '<h1 align="center">' . _t('Edit Found Person Entry') . '</h1>';
+			}
 			shn_mpr_editmp_entry();
 			break;
 
