@@ -1,7 +1,6 @@
 <?php
 
-/* $Id: camp.inc,v 1.63 2008-04-16 19:58:44 franboon Exp $ */
-/* $Id: camp.inc,v 1.63 2008-04-16 19:58:44 franboon Exp $ */
+/* $Id: camp.inc,v 1.64 2008-06-03 20:01:27 franboon Exp $ */
 
 /**Camp library for  CR
  *
@@ -136,12 +135,36 @@ function _shn_cr_cadd_chk($errors = false)
         $_SESSION['camp_address']=$_POST['camp_address'];
         $_SESSION['camp_contact_name']=$_POST['camp_contact_name'];
         $_SESSION['camp_contact_number']=$_POST['camp_contact_number'];
-        $_SESSION['camp_family']=$_POST['family'];
-        $_SESSION['camp_men']=$_POST['men'];
-        $_SESSION['camp_women']=$_POST['women'];
-        $_SESSION['camp_children']=$_POST['children'];
-        $_SESSION['camp_total']=$_POST['total'];
-        $_SESSION['camp_capacity']=$_POST['capacity'];
+        if($_POST['family']==null){
+            $_SESSION['camp_family']=0;
+		}else{
+			$_SESSION['camp_family']=$_POST['family'];
+		}
+        if($_POST['men']==null){
+			$_SESSION['camp_men']=0;
+		}else{
+			$_SESSION['camp_men']=$_POST['men'];
+		}
+        if($_POST['women']==null){
+			$_SESSION['camp_women']=0;
+		}else{
+			$_SESSION['camp_women']=$_POST['women'];
+		}
+        if($_POST['children']==null){
+			$_SESSION['camp_children']=0;
+		}else{
+			$_SESSION['camp_children']=$_POST['children'];
+		}
+        if($_POST['total']==null){
+			$_SESSION['camp_total']=0;
+		}else{
+			$_SESSION['camp_total']=$_POST['total'];
+		}
+        if($_POST['capacity']==null){
+			$_SESSION['camp_capacity']=0;
+		}else{
+			$_SESSION['camp_capacity']=$_POST['capacity'];
+		}
         $_SESSION['contact_mob']=$_POST['contact_mob'];
         $_SESSION['occupation']=$_POST['occupation'];
 
@@ -238,23 +261,47 @@ function _shn_cr_sel_map($errors = false)
         $_SESSION['camp_address'] = $_POST['camp_address'];
         $_SESSION['camp_contact_name'] = $_POST['camp_contact_name'];
         $_SESSION['camp_contact_number'] = $_POST['camp_contact_number'];
-        $_SESSION['camp_family'] = $_POST['family'];
-        $_SESSION['camp_men'] = $_POST['men'];
-        $_SESSION['camp_women'] = $_POST['women'];
-        $_SESSION['camp_children'] = $_POST['children'];
-        $_SESSION['camp_total'] = $_POST['total'];
-        $_SESSION['camp_capacity'] = $_POST['capacity'];
+        if($_POST['family']==null){
+            $_SESSION['camp_family']=0;
+		}else{
+			$_SESSION['camp_family']=$_POST['family'];
+		}
+        if($_POST['men']==null){
+			$_SESSION['camp_men']=0;
+		}else{
+			$_SESSION['camp_men']=$_POST['men'];
+		}
+        if($_POST['women']==null){
+			$_SESSION['camp_women']=0;
+		}else{
+			$_SESSION['camp_women']=$_POST['women'];
+		}
+        if($_POST['children']==null){
+			$_SESSION['camp_children']=0;
+		}else{
+			$_SESSION['camp_children']=$_POST['children'];
+		}
+        if($_POST['total']==null){
+			$_SESSION['camp_total']=0;
+		}else{
+			$_SESSION['camp_total']=$_POST['total'];
+		}
+        if($_POST['capacity']==null){
+			$_SESSION['camp_capacity']=0;
+		}else{
+			$_SESSION['camp_capacity']=$_POST['capacity'];
+		}
         if (isset($_POST['hospital'])) {
             $_SESSION['hospital'] = true;
         }
+        $_SESSION['contact_mob'] = $_POST['contact_mob'];
+        $_SESSION['occupation'] = $_POST['occupation'];
         $_SESSION['cr_loc'] = shn_location_get_form_submit_loc();
         $_SESSION['cr_1'] = $_POST['loc_select_1'];
         $_SESSION['cr_2'] = $_POST['loc_select_2'];
         $_SESSION['cr_3'] = $_POST['loc_select_3'];
         $_SESSION['cr_4'] = $_POST['loc_select_4'];
         $_SESSION['cr_5'] = $_POST['loc_select_5'];
-        $_SESSION['contact_mob'] = $_POST['contact_mob'];
-        $_SESSION['occupation'] = $_POST['occupation'];
     }
 
 
@@ -401,7 +448,7 @@ function _shn_cr_validate_error()
     if ($_POST['children'] != null || $_POST['women'] != null || $_POST['men'] != null) {
         $totalcount = $_POST['children'] + $_POST['women'] + $_POST['men'];
         if ($totalcount != $_POST['total']) {
-            add_error(_t("The total count should be equal to men,women and children count"));
+            add_error(_t("The total count should be equal to men, women and children count"));
             $error_flag = true;
         }
         	if($_POST['family'] > $totalcount){
