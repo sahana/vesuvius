@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.54 2008-06-02 21:20:57 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.55 2008-06-03 18:59:30 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -490,11 +490,19 @@
                         echo "}\n";
                         echo "function onFeatureSelectkml$i(feature) {\n";
                         echo "    selectedFeaturekml$i = feature;\n";
-                        echo "    popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
-                        echo "        feature.geometry.getBounds().getCenterLonLat(),\n";
-                        echo "        new OpenLayers.Size(100,100),\n";
-                        echo "        \"<h2>\"+feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
-                        echo "        null, true, onPopupClosekml$i);\n";
+                        echo "    if (\"undefined\" === feature.attributes.description)\n{\n";
+                        echo "        popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
+                        echo "            feature.geometry.getBounds().getCenterLonLat(),\n";
+                        echo "            new OpenLayers.Size(100,100),\n";
+                        echo "            \"<h2>\" + feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
+                        echo "            null, true, onPopupClose$i);\n";
+                        echo "    }\nelse\n{";
+                        echo "        popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
+                        echo "            feature.geometry.getBounds().getCenterLonLat(),\n";
+                        echo "            new OpenLayers.Size(100,100),\n";
+                        echo "            \"<h2>\" + feature.attributes.name + \"</h2>\",\n";
+                        echo "            null, true, onPopupClose$i);\n";
+                        echo "    }\n";
                         echo "    feature.popup = popup;\n";
                         echo "    map.addPopup(popup);\n";
                         echo     "}\n";
@@ -523,11 +531,19 @@
                     echo "}\n";
                     echo "function onFeatureSelectkml$i(feature) {\n";
                     echo "    selectedFeaturekml$i = feature;\n";
-                    echo "    popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
-                    echo "        feature.geometry.getBounds().getCenterLonLat(),\n";
-                    echo "        new OpenLayers.Size(100,100),\n";
-                    echo "        \"<h2>\"+feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
-                    echo "        null, true, onPopupClosekml$i);\n";
+                    echo "    if (\"undefined\" === feature.attributes.description)\n{\n";
+                    echo "        popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
+                    echo "            feature.geometry.getBounds().getCenterLonLat(),\n";
+                    echo "            new OpenLayers.Size(100,100),\n";
+                    echo "            \"<h2>\" + feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
+                    echo "            null, true, onPopupClose$i);\n";
+                    echo "    }\nelse\n{";
+                    echo "        popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
+                    echo "            feature.geometry.getBounds().getCenterLonLat(),\n";
+                    echo "            new OpenLayers.Size(100,100),\n";
+                    echo "            \"<h2>\" + feature.attributes.name + \"</h2>\",\n";
+                    echo "            null, true, onPopupClose$i);\n";
+                    echo "    }\n";
                     echo "    feature.popup = popup;\n";
                     echo "    map.addPopup(popup);\n";
                     echo "}\n";
@@ -579,11 +595,19 @@
                         echo "}\n";
                         echo "function onFeatureSelect$i(feature) {\n";
                         echo "    selectedFeature$i = feature;\n";
-                        echo "    popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
-                        echo "        feature.geometry.getBounds().getCenterLonLat(),\n";
-                        echo "        new OpenLayers.Size(100,100),\n";
-                        echo "        \"<h2>\"+feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
-                        echo "        null, true, onPopupClose$i);\n";
+                        echo "    if (\"undefined\" === feature.attributes.description)\n{\n";
+                        echo "        popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
+                        echo "            feature.geometry.getBounds().getCenterLonLat(),\n";
+                        echo "            new OpenLayers.Size(100,100),\n";
+                        echo "            \"<h2>\" + feature.attributes.name + \"</h2>\" + feature.attributes.description,\n";
+                        echo "            null, true, onPopupClose$i);\n";
+                        echo "    }\nelse\n{";
+                        echo "        popup = new OpenLayers.Popup.FramedCloud(\"chicken\",\n";
+                        echo "            feature.geometry.getBounds().getCenterLonLat(),\n";
+                        echo "            new OpenLayers.Size(100,100),\n";
+                        echo "            \"<h2>\" + feature.attributes.name + \"</h2>\",\n";
+                        echo "            null, true, onPopupClose$i);\n";
+                        echo "    }\n";
                         echo "    feature.popup = popup;\n";
                         echo "    map.addPopup(popup);\n";
                         echo "}\n";
