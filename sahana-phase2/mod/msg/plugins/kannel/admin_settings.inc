@@ -63,18 +63,13 @@ function _shn_kannel_config_setfile()
     shn_form_fclose();
 }
 
-function shn_msg_validate_settings(){
+function shn_msg_validate_settings()
+{
+    global $global;
+    $error_flag=false;
 
-        global $global;
-        $error_flag=false;
-
-        $conf['device']=trim($_POST['interface']);
-        $conf['id']=trim($_POST['model_no']);
-        $smtp_server=trim($_POST['host']);
-        $smtp_username=trim($_POST['username']);
-        $smtp_password=trim($_POST['password']);
-        $sender_name=trim($_POST['name']);
-        $sender_id=trim($_POST['mail_id']);
+    $conf['device']=trim($_POST['interface']);
+    $conf['id']=trim($_POST['model_no']);
    
         if( $conf['device']=='')
          {
@@ -100,29 +95,9 @@ function shn_msg_validate_settings(){
            add_error(_t("Please enter a valid model number"));
            $error_flag=true;
          }
-        if($smtp_username=='' || $smtp_password=='')
-         {
-           add_error(_t("Please enter a valid username and password"));
-	   $error_flag=true;
-         }
-        if($smtp_server=='' || !preg_match('/^[a-z.]*$/',$smtp_server))
-         { 
-           add_error(_t("Please enter a valid SMTP server name"));
-           $error_flag=true;
-         }
-        if($sender_name=='' || $sender_id=='')
-         {
-           add_error(_t("Please enter Sender name and Sender mail ID"));
-           $error_flag=true;
-         }
-        if(!shn_valid_email($sender_id))
-         {
-           add_error(_t("Please enter valid Sender mail ID"));
-           $error_flag=true;
-         }
      return $error_flag;
 
- }//end of function shn_msg_validate_settings()
+}//end of function shn_msg_validate_settings()
      
 function _shn_kannel_config_savefile()
 {
@@ -131,27 +106,12 @@ function _shn_kannel_config_savefile()
     $mod='msg';
     $interface='interface';
     $id='id';
-    $server='server';
-    $usrname='username';
-    $password='password';
-    $from_name='from_name';
-    $from_id='from_id';
  
     $conf['device']=trim($_POST['interface']);
     $conf['id']=trim($_POST['model_no']);
-    $smtp_server=trim($_POST['host']);
-    $smtp_username=trim($_POST['username']);
-    $smtp_password=trim($_POST['password']);
-    $sender_name=trim($_POST['name']);
-    $sender_id=trim($_POST['mail_id']);
 
     shn_db_config_update($mod,$interface,$conf['device']);
     shn_db_config_update($mod,$id,$conf['id']);
-    shn_db_config_update($mod,$server,$smtp_server);
-    shn_db_config_update($mod,$usrname,$smtp_username);
-    shn_db_config_update($mod,$password,$smtp_password);
-    shn_db_config_update($mod,$from_name,$sender_name);
-    shn_db_config_update($mod,$from_id,$sender_id);
     $array['device']=shn_db_get_config($mod,$interface);
     $array['id']=shn_db_get_config($mod,$id);
     $array['detect-string']=shn_db_get_config($mod,$id);
@@ -235,4 +195,3 @@ function shn_config_file_update_new($modify, $config_file, $output_file)
 
 ?>
 
- 	  	 
