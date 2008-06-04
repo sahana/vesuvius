@@ -17,21 +17,20 @@
 * Public License (LGPL)
 */
 
-   	global $global;
-	include_once($global['approot'].'/inc/lib_modules.inc');
-	include_once($global['approot'].'/inc/lib_form.inc');
-        include_once($global['approot'].'/inc/lib_validate.inc');
-        include_once($global['approot'].'/mod/msg/conf.inc');
-        require_once $global['approot']."/inc/handler_db.inc";
-        require_once $global['approot']."/inc/lib_config.inc";
-
+    global $global;
+    include_once($global['approot'].'/inc/lib_modules.inc');
+    include_once($global['approot'].'/inc/lib_form.inc');
+    include_once($global['approot'].'/inc/lib_validate.inc');
+    include_once($global['approot'].'/mod/msg/conf.inc');
+    require_once $global['approot']."/inc/handler_db.inc";
+    require_once $global['approot']."/inc/lib_config.inc";
 
 function _shn_kannel_config_setfile()
 {
     
     $mod = 'msg';
     $act = 'adm_set';
-    print '<h2>' . _t("Kannel Configurations & SMTP Settings") .'</h2>';
+    print '<h2>' . _t("Kannel Configuration") .'</h2>';
     global $conf;
     copy($conf['input_file'],$conf['output_file']);
 
@@ -39,9 +38,9 @@ function _shn_kannel_config_setfile()
     $form_opts['req_message']=true;
     shn_form_fopen($act,$msg,$form_opts);
  
-    $help_device_port = _t("The port to which the modem or phone is connected to, in a computer   through a data cable<br /> eg:- if connected to USB port the device port value should be /dev/ttyUSB0.<br/> This should be visible when you type 'dmesg | tail' on the terminal, after connecting the device to a computer");
+    $help_device_port = _t("The port to which the modem or phone is connected to, in a computer through a data cable").'<br />'._t("eg: if connected to USB port the device port value should be").' /dev/ttyUSB0.<br/>'._t("This should be visible when you type")." 'dmesg | tail' "._t("on the terminal, after connecting the device to a computer");
 
-    $help_id = _t("The model number of the phone or modem<br/>eg:-if the phone is SonyEriccson k700i,then the model number is 700.");
+    $help_id = _t("The model number of the phone or modem").'<br/>'._t("eg: if the phone is SonyEriccson k700i, then the model number is 700.");
 
     shn_form_fsopen(_t("Kannel Settings"));
 ?>
@@ -54,14 +53,14 @@ function _shn_kannel_config_setfile()
         </li>
     </ul>
 <?php    
-        shn_form_fsclose();
-        shn_form_fsopen(_t("Phone/Modem Settings"));
-		shn_form_text(_t("Interface"),'interface',null,array('req'=>true,'help'=>$help_device_port));
-        shn_form_text(_t("Model number"),'model_no',null,array('req'=>true,'help'=>$help_id));
-        shn_form_fsclose();
-	
-        shn_form_submit(_t('Save'));
-        shn_form_fclose();
+    shn_form_fsclose();
+    shn_form_fsopen(_t("Phone/Modem Settings"));
+    shn_form_text(_t("Interface"),'interface',null,array('req'=>true,'help'=>$help_device_port));
+    shn_form_text(_t("Model number"),'model_no',null,array('req'=>true,'help'=>$help_id));
+    shn_form_fsclose();
+
+    shn_form_submit(_t('Save'));
+    shn_form_fclose();
 }
 
 function shn_msg_validate_settings(){
@@ -127,40 +126,39 @@ function shn_msg_validate_settings(){
      
 function _shn_kannel_config_savefile()
 {
-        global $conf;
+    global $conf;
 
-        $mod='msg';
-	$interface='interface';
-	$id='id';
-        $server='server';
-        $usrname='username';
-        $password='password';
-        $from_name='from_name';
-        $from_id='from_id';
+    $mod='msg';
+    $interface='interface';
+    $id='id';
+    $server='server';
+    $usrname='username';
+    $password='password';
+    $from_name='from_name';
+    $from_id='from_id';
  
-        
-        $conf['device']=trim($_POST['interface']);
-        $conf['id']=trim($_POST['model_no']);
-        $smtp_server=trim($_POST['host']);
-        $smtp_username=trim($_POST['username']);
-        $smtp_password=trim($_POST['password']);
-        $sender_name=trim($_POST['name']);
-        $sender_id=trim($_POST['mail_id']);
+    $conf['device']=trim($_POST['interface']);
+    $conf['id']=trim($_POST['model_no']);
+    $smtp_server=trim($_POST['host']);
+    $smtp_username=trim($_POST['username']);
+    $smtp_password=trim($_POST['password']);
+    $sender_name=trim($_POST['name']);
+    $sender_id=trim($_POST['mail_id']);
 
-        shn_db_config_update($mod,$interface,$conf['device']);
-	shn_db_config_update($mod,$id,$conf['id']);
-        shn_db_config_update($mod,$server,$smtp_server);
-	shn_db_config_update($mod,$usrname,$smtp_username);
-	shn_db_config_update($mod,$password,$smtp_password);
-	shn_db_config_update($mod,$from_name,$sender_name);
-	shn_db_config_update($mod,$from_id,$sender_id);
-	$array['device']=shn_db_get_config($mod,$interface);
-	$array['id']=shn_db_get_config($mod,$id);
-	$array['detect-string']=shn_db_get_config($mod,$id);
-	$out="../msg/kannel.conf";
-	$in="../msg/kannel.con";
-        shn_config_file_update_new($array,$conf['input_file'],$conf['output_file']);
-	_shn_kannel_operation_file();
+    shn_db_config_update($mod,$interface,$conf['device']);
+    shn_db_config_update($mod,$id,$conf['id']);
+    shn_db_config_update($mod,$server,$smtp_server);
+    shn_db_config_update($mod,$usrname,$smtp_username);
+    shn_db_config_update($mod,$password,$smtp_password);
+    shn_db_config_update($mod,$from_name,$sender_name);
+    shn_db_config_update($mod,$from_id,$sender_id);
+    $array['device']=shn_db_get_config($mod,$interface);
+    $array['id']=shn_db_get_config($mod,$id);
+    $array['detect-string']=shn_db_get_config($mod,$id);
+    $out="../msg/kannel.conf";
+    $in="../msg/kannel.con";
+    shn_config_file_update_new($array,$conf['input_file'],$conf['output_file']);
+    _shn_kannel_operation_file();
 }
 
 function _shn_kannel_operation_file()
