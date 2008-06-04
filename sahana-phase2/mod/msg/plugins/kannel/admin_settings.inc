@@ -47,7 +47,7 @@ function _shn_kannel_config_setfile()
     <ul>
 	<li><?php echo _t("Kannel is the sms gateway used in the messaging module to send sms");?>
         </li>
-	<li><?php echo _t("kannel can be downloaded from ")."<a href='http://kannel.org/download.shtml'>"."www"."."."kannel"."."."org/download"."."."shtml"."</a><br>";?> 
+	<li><?php echo _t("kannel can be downloaded from ")."<a href='http://kannel.org/download.shtml' target=_blank>"."www"."."."kannel"."."."org/download"."."."shtml"."</a><br>";?> 
         </li>
         <li><?php echo _t("In order to configure kannel the following configuration values should be given");?>
         </li>
