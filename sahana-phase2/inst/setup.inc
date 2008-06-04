@@ -52,8 +52,12 @@ function shn_setup_start(){
 		shn_setup_general_dependancies();
 	}else{
 		$act = $_REQUEST['act'];
+		if($act==null || $act==''){
+			session_unset();
+			shn_setup_start();
+		}
 		$function_name = 'shn_setup_'.$act;
-	
+	    //echo $function_name;
 		$function_name();
 
 	}

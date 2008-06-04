@@ -14,6 +14,8 @@
  */
 
 include_once('setup_actions_sub.inc');
+global $execution_order_on_complete;
+$execution_order_on_complete = array('shn_setup_simple_dbsetup_complete','shn_setup_simple_config_complete','shn_setup_adv_select_modules_complete','shn_setup_adv_advanced_config_complete','shn_setup_adv_pwd_policy_complete');
 /*
  * ===================================================================
  * 				Actual System Setup Function
@@ -39,21 +41,29 @@ function shn_setup_do_setup(){
 		}
 	}
 
-	$debug_setup = true;
+	$debug_setup = false;
 	// the following code will execute the complete functions for each function called
 	// during the setup.
 	array_unique($_SESSION['shn_setup_function_list']);
-	foreach($_SESSION['shn_setup_function_list'] as $funct){
-		// construct the complete function as functname_complete.
-		$complete_function  = $funct."_complete";
-		if(function_exists($complete_function)){
-			if($debug_setup===true){
-				echo "Calling $complete_function<br/>";
-			}
-			// call it.
-			if($complete_function(array('config_key_vals'=>$config_key_vals))===false){
-				// break on error
-				return false;
+	//echo "<pre>";var_dump($_SESSION['shn_setup_function_list']);echo "</pre>";
+	foreach ($execution_order_on_complete as $pilot_funct){
+		if(array_search($pilot_funct,$_SESSION['shn_setup_function_list'])){
+			if(function_exists($pilot_funct)){
+				if($debug_setup===true){
+					echo "Calling $pilot_funct ";
+				}
+				// call it.
+				if($pilot_funct(array('config_key_vals'=>$config_key_vals))===false){
+					// break on error
+					if($debug_setup===true){
+						echo " Error occured.<br/>";
+					}
+					return false;
+				}else{
+					if($debug_setup===true){
+						echo " - Success<br/>";
+					}
+				}
 			}
 		}
 	}
@@ -68,7 +78,7 @@ function shn_setup_do_setup(){
 function shn_setup_general_dependencies_submit(){
 	if(shn_setup_validate_general_dependancies()){
 		_shn_setup_determine_step_no('shn_setup_general_dependencies_submit',false);
-		
+
 		shn_setup_license(_shn_setup_get_step_no());
 	}else{
 		shn_setup_general_dependancies();
@@ -79,11 +89,11 @@ function shn_setup_license_submit(){
 
 	if(!isset($_POST['back_button'])){
 		_shn_setup_determine_step_no('shn_setup_license_submit',false);
-		
+
 		shn_setup_select_setup();
 	}else{
 		_shn_setup_determine_step_no('shn_setup_license_submit',true);
-		
+
 		shn_setup_general_dependancies();
 	}
 }
@@ -91,9 +101,9 @@ function shn_setup_license_submit(){
 function shn_setup_select_setup_submit(){
 	global $global;
 	if(!isset($_POST['back_button'])){
-        _shn_setup_determine_step_no('shn_setup_select_setup_submit',false);
-		
-		
+		_shn_setup_determine_step_no('shn_setup_select_setup_submit',false);
+
+
 		// move to appropriate setup.
 		if(isset($_POST['setup_type_simple'])){
 			// set the setup type in the session.
@@ -119,7 +129,7 @@ function shn_setup_select_setup_submit(){
 		}
 	}else{
 		_shn_setup_determine_step_no('shn_setup_select_setup_submit',true);
-		
+
 		shn_setup_license();
 	}
 }
@@ -127,11 +137,11 @@ function shn_setup_select_setup_submit(){
 /*================= Simple Database Setup Step ====================*/
 function shn_setup_simple_dbsetup_submit(){
 	// the following line is required to complete the setup.
-	array_push($_SESSION['shn_setup_function_list'],"shn_setup_simple_dbsetup");
+	array_push($_SESSION['shn_setup_function_list'],"shn_setup_simple_dbsetup_complete");
 
 	if(!isset($_POST['back_button'])){
 		_shn_setup_determine_step_no('shn_setup_simple_dbsetup_submit',false);
-		
+
 		_shn_setup_transfer_to_session();
 		if(shn_setup_validate_simple_dbsetup()){
 			//separate the db host and port.
@@ -153,7 +163,7 @@ function shn_setup_simple_dbsetup_submit(){
 		}
 	}else{
 		_shn_setup_determine_step_no('shn_setup_simple_dbsetup_submit',true);
-		
+
 		$setup_type = _shn_setup_get_setup_type();
 		if($setup_type == 'SIMPLE'){
 			shn_setup_select_setup();
@@ -172,11 +182,11 @@ function shn_setup_simple_dbsetup_complete($extra_opts){
 /*================ Simple Configuration Step ========================*/
 function shn_setup_simple_config_submit(){
 	// the following line is required to complete the setup.
-	array_push($_SESSION['shn_setup_function_list'],"shn_setup_simple_config");
+	array_push($_SESSION['shn_setup_function_list'],"shn_setup_simple_config_complete");
 
 	if(!isset($_POST['back_button'])){
 		_shn_setup_determine_step_no('shn_setup_simple_config_submit',false);
-		
+
 		_shn_setup_transfer_to_session();
 		if(shn_setup_validate_simple_config()){
 			// do setup.
@@ -190,6 +200,7 @@ function shn_setup_simple_config_submit(){
 				if($ret==true){
 					shn_setup_complete();
 				}else{
+					echo "ERROR::";
 					shn_setup_error();
 				}
 			}
@@ -198,7 +209,7 @@ function shn_setup_simple_config_submit(){
 		}
 	}else{
 		_shn_setup_determine_step_no('shn_setup_simple_config_submit',true);
-		
+
 		shn_setup_simple_dbsetup();
 	}
 }
@@ -215,11 +226,11 @@ function shn_setup_start_sahana(){
 /*============== Advanced Setup Select Modules Step ==================*/
 function shn_setup_adv_select_modules_submit(){
 	// the following line is required to complete the setup.
-	array_push($_SESSION['shn_setup_function_list'],"shn_setup_adv_select_modules");
+	array_push($_SESSION['shn_setup_function_list'],"shn_setup_adv_select_modules_complete");
 
 	if(!isset($_POST['back_button'])){
 		_shn_setup_determine_step_no('shn_setup_adv_select_modules_submit',false);
-		
+
 		_shn_setup_transfer_to_session();
 		$selected_mod_codes = array();
 		foreach($_POST as $name=>$value){
@@ -242,22 +253,22 @@ function shn_setup_adv_select_modules_submit(){
 		}
 	}else{
 		_shn_setup_determine_step_no('shn_setup_adv_select_modules_submit',true);
-		
+
 		shn_setup_select_setup();
 	}
 }
 
 function shn_setup_adv_select_modules_complete(){
-	_shn_setup_adv_write_selected_modules();
+	return _shn_setup_adv_write_selected_modules();
 }
 
 /*=============== Advanced Setup Configuration Step ===================*/
 function shn_setup_adv_advanced_config_submit(){
 	// the following line is required to complete the setup.
-	array_push($_SESSION['shn_setup_function_list'],"shn_setup_adv_advanced_config");
+	array_push($_SESSION['shn_setup_function_list'],"shn_setup_adv_advanced_config_complete");
 	if(!isset($_POST['back_button'])){
 		_shn_setup_determine_step_no('shn_setup_adv_advanced_config_submit',false);
-		
+
 		_shn_setup_transfer_to_session();
 		if(shn_setup_adv_validate_advanced_config()){
 			shn_setup_adv_pwd_policy();
@@ -266,23 +277,23 @@ function shn_setup_adv_advanced_config_submit(){
 		}
 	}else{
 		_shn_setup_determine_step_no('shn_setup_adv_advanced_config_submit',true);
-		
+
 		shn_setup_adv_select_modules();
 	}
 }
 
 function shn_setup_adv_advanced_config_complete($extra_opts){
-	_shn_setup_adv_write_advanced_config($extra_opts['config_key_vals']);
+	return _shn_setup_adv_write_advanced_config($extra_opts['config_key_vals']);
 }
 
 /*============== Advanced Setup Password Policy Step ====================*/
 function shn_setup_adv_pwd_policy_submit(){
 	// the following line is required to complete the setup.
-	array_push($_SESSION['shn_setup_function_list'],"shn_setup_adv_pwd_policy");
+	array_push($_SESSION['shn_setup_function_list'],"shn_setup_adv_pwd_policy_complete");
 
 	if(!isset($_POST['back_button'])){
 		_shn_setup_determine_step_no('shn_setup_adv_pwd_policy_submit',false);
-		
+
 		_shn_setup_transfer_to_session();
 		if(shn_setup_adv_validate_pwd_policy()){
 			shn_setup_simple_dbsetup();
@@ -291,23 +302,23 @@ function shn_setup_adv_pwd_policy_submit(){
 		}
 	}else{
 		_shn_setup_determine_step_no('shn_setup_adv_pwd_policy_submit',true);
-		
+
 		shn_setup_adv_advanced_config();
 	}
 }
 
 function shn_setup_adv_pwd_policy_complete($extra_opts){
-	_shn_setup_adv_write_pwd_policy($extra_opts['config_key_vals']);
+	return _shn_setup_adv_write_pwd_policy($extra_opts['config_key_vals']);
 }
 
 /*============== Scenario Select Scenario Step =========================*/
 function shn_setup_scen_select_scen_submit(){
 	// the following line is required to complete the setup.
-	array_push($_SESSION['shn_setup_function_list'],"shn_setup_select_scen");
+	array_push($_SESSION['shn_setup_function_list'],"shn_setup_select_scen_complete");
 
 	if(!isset($_POST['back_button'])){
 		_shn_setup_determine_step_no('shn_setup_scen_select_scen_submit',false);
-		
+
 		_shn_setup_transfer_to_session();
 		// add the pre-selected modules for the scenario to the session.
 		$selected_mod_codes = explode(",",$_POST['selected_scenario']);
@@ -321,7 +332,7 @@ function shn_setup_scen_select_scen_submit(){
 		}
 	}else{
 		_shn_setup_determine_step_no('shn_setup_scen_select_scen_submit',true);
-		
+
 
 	}
 }

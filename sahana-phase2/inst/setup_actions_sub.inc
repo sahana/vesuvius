@@ -280,6 +280,7 @@ function _shn_setup_adv_write_advanced_config($config_key_vals){
 			}
 		}
 	}
+	return true;
 }
 
 /**
@@ -310,6 +311,7 @@ function _shn_setup_adv_write_pwd_policy($config_key_vals){
 	if(isset($config_key_vals['pwd_has_reppatterns'])){
 		shn_config_database_update('pwd_has_reppatterns',true,'admin');
 	}
+	return true;
 }
 
 /**
@@ -336,5 +338,7 @@ function _shn_setup_adv_write_selected_modules(){
 	foreach ($non_installed_mods as $mod){
 		shn_config_database_update('installed',false,$mod);
 	}
+	
+	return true;
 }
 ?>
