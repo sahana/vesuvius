@@ -1,4 +1,16 @@
 #!/bin/bash
+
+#############################
+# This script can be used to generate deb package from any sahana branch or release. This will work only in Debian base GNU/Linux systems.
+# LICENSE: This source file is subject to LGPL license
+# that is available through the world-wide-web at the following URI:
+# http://www.gnu.org/copyleft/lesser.html
+# @package    Sahana - http://sahana.sourceforge.net
+# @author   Ishan Liyanage <ishan@opensource.lk> 
+# @copyright  Lanka Software Foundation - http://www.opensource.lk
+#
+#############################
+
 dep_dpkg=`dpkg -l | grep "dpkg-dev"`;
 dep_rpm=`dpkg -l | grep "rpm"`;
 if [ "$dep_dpkg" == "" ]; then
