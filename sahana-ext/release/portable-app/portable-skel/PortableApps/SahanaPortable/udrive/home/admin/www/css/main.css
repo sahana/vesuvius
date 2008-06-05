@@ -1,0 +1,152 @@
+/*
+####################################################
+# Name: The Uniform Server Admin Panel 2.0 CSS 1.0
+# Developed By: The Uniform Server Development Team
+# Modified Last By: Olajide Olaolorun (empirex) 
+# Web: http://www.uniformserver.com
+####################################################
+*/
+
+a {
+	color:#FF9933;
+	text-decoration:none;
+}
+
+a.current {
+	color:#999999;
+}
+
+a:hover {
+	text-decoration:underline;
+}
+
+acronym {
+	color:#000000;
+	cursor:help;
+}
+
+body {
+	font-family: verdana, tahoma, helvetica, arial, sans-serif;
+	font-size: 100%;
+	margin: 1em;
+	background-color:#F8F8F8;
+}
+
+h2 {
+	color:#000000;
+	font-size:90%;
+	font-weight:bold;
+	padding-bottom:0.5em;
+	
+}
+
+h3 {
+	color:#4F4F97;
+	font-size:70%;
+	font-weight:bold;
+	padding-bottom:0.5em;
+	border-bottom-style: solid; 
+	border-bottom-width: 1px;
+	border-bottom-color:#4F4F97;
+}
+
+p {
+	text-align:left;
+	color:#000000;
+	font-size: 60%;
+	line-height: 2em;
+}
+
+ul {
+	font-size:60%;
+	color:#666666;
+	line-height: 2em;
+	list-style: none;
+}
+
+img {
+	border: 0px;
+}
+
+#main { 
+	background-color:#FFFFFF;
+	margin: 0em 0em 0.8em 0em;
+	padding: 0em 0.8em 0.8em 0.8em;
+	border-style:solid; 
+	border-width:1px; 
+	border-color:#E5E5E5;
+}
+
+#resolve { 
+	background-color:#FFFFFF;
+	margin: 0em 0em 0.0em 0em;
+	padding: 0em 0.8em 0.8em 0.8em;
+	border-style:solid; 
+	border-width:1px; 
+	border-color:#E5E5E5;
+}
+
+h3.sub {
+	color:#CCCCCC;
+	border-bottom-style: solid; 
+	border-bottom-width: 1px; 	
+	border-bottom-color:#E5E5E5;
+}
+
+#navbar {
+	width: 10em;
+	float: left;
+	clear: left;
+	background-color:#FFFFFF;
+	padding: 0.8em 0.8em 0.8em 0.8em;
+	border-style:solid; 
+	border-width:1px; 
+	border-color: #E5E5E5;
+	margin-bottom: 0.8em;
+}
+
+#loginbox {
+	width: 10em;
+	float: right;
+	clear: right;
+	background-color:#FFFFFF;
+	padding: 0.8em 0.8em 0.8em 0.8em;
+	border-style:solid; 
+	border-width:1px; 
+	border-color:#E5E5E5;
+}
+
+.textbox {
+	border-style:solid; 
+	border-width:1px; 
+	border-color:#CCCCCC;
+	font-size:60%;
+	margin-bottom:0.5em;
+	color:#B8CDE8;
+
+}
+
+.button { 
+	border-style:solid; 
+	border-width:1px; 
+	border-color:#CCCCCC;
+	font-size:60%;
+	color:#B8CDE8;
+	background-color: #FFFFFF;  
+}
+
+.name {
+	font-weight:bold;
+}
+
+#navbar a {
+	display:block;
+	position:relative;
+	line-height: 2em;
+	font-size: 60%;
+}
+
+.copyright {
+	text-align:center;
+	font-size:55%;
+}

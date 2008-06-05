@@ -1,0 +1,22 @@
+# This file provides security to the server limiting access to the localhost only. 
+# Comment to deactivate.
+
+Order Deny,Allow
+Deny from all
+Allow from 127.0.0.1
+
+# To disallow execution of cgi scripts in this directory comment next two lines.
+
+AddHandler cgi-script .bat .exe .pl .cgi
+Options +ExecCGI
+
+#--
+# Activate this to use the Admin Panel Feature!
+#--
+# To lock Admin Panel, uncomment the next 4 lines.
+# Defaults: Username - root; Password - root
+
+#AuthName "Uniform Server - Admin Panel 2.0"
+#AuthType Basic
+#AuthUserFile /htpasswd/home/admin/www/.htpasswd
+#Require valid-user

@@ -1,0 +1,196 @@
+<start>
+	<files>
+		<file name="Sahana in Default Browser">
+			<path>bin\launch-url-sahana.bat</path>
+			<icon>sahana.ico</icon>
+			<runcount>33</runcount>
+			<rundate>2007/11/26 01:21:04</rundate>
+			<windowstate>1</windowstate>
+		</file>
+		<file name="Firefox Portable">
+			<path>FirefoxPortable\FirefoxPortable.exe</path>
+			<icon>FirefoxPortable\FirefoxPortable.exe</icon>
+			<runcount>11</runcount>
+			<rundate>2007/11/01 18:23:18</rundate>
+		</file>
+		<file name="Re-Start Sahana Server">
+			<path>SahanaPortable\Sahana_Start.bat</path>
+			<icon>PStart.exe</icon>
+			<runcount>30</runcount>
+			<rundate>2007/11/26 01:12:12</rundate>
+			<windowstate>1</windowstate>
+		</file>
+		<file name="Check Server Ports">
+			<path>bin\xampp-portcheck.exe</path>
+			<icon>bin\shell32_dll_Ico676_ico_Ico1.ico</icon>
+			<runcount>60</runcount>
+			<rundate>2007/11/26 01:12:14</rundate>
+		</file>
+		<file name="Stop Sahana Server">
+			<path>SahanaPortable\Sahana_Stop.bat</path>
+			<icon>bin\explorer_exe_Ico62_ico_Ico2.ico</icon>
+			<runcount>50</runcount>
+			<rundate>2007/11/26 01:19:56</rundate>
+			<windowstate>1</windowstate>
+		</file>
+		<file name="WAMP Admin">
+			<path>bin\launch-url-UWSadmin.bat</path>
+			<icon>bin\shell32_dll_Ico676_ico_Ico2.ico</icon>
+			<runcount>26</runcount>
+			<rundate>2007/11/26 01:19:15</rundate>
+			<windowstate>1</windowstate>
+		</file>
+		<file name="Install Sahana to Disk">
+			<path>bin\AutoHotkey.exe</path>
+			<parameters>install-sahana.aks</parameters>
+			<icon>bin\shell32_dll_Ico259_ico_Ico2.ico</icon>
+			<runcount>37</runcount>
+			<rundate>2007/11/01 18:03:20</rundate>
+			<windowstate>1</windowstate>
+			<executionaction>3</executionaction>
+		</file>
+	</files>
+	<notes>
+		<note name="Help Starting Sahana">
+			<text>&#x3C;Here is some help&#x3E;</text>
+		</note>
+	</notes>
+	<colors>
+		<color name="0">
+			<value>A0A0FFh</value>
+		</color>
+		<color name="1">
+			<value>A0C0FFh</value>
+		</color>
+		<color name="2">
+			<value>A0FFFFh</value>
+		</color>
+		<color name="3">
+			<value>A0FFA0h</value>
+		</color>
+		<color name="4">
+			<value>FFA0A0h</value>
+		</color>
+	</colors>
+	<configurationfile>
+		<backupmode>pbmTemporary</backupmode>
+	</configurationfile>
+	<execution>
+		<count>106</count>
+		<overalltime>8:15:41.647</overalltime>
+	</execution>
+	<general>
+		<executionaction>0</executionaction>
+		<language>auto</language>
+		<singleclick>True</singleclick>
+	</general>
+	<info>
+		<visible>True</visible>
+	</info>
+	<menu>
+		<hotkeysvisible>True</hotkeysvisible>
+	</menu>
+	<mouse>
+		<sensors>
+			<bottom>
+				<leftaction>0</leftaction>
+				<rightaction>0</rightaction>
+			</bottom>
+			<bottomleft>
+				<leftaction>0</leftaction>
+				<rightaction>0</rightaction>
+			</bottomleft>
+			<bottomright>
+				<leftaction>0</leftaction>
+				<rightaction>0</rightaction>
+			</bottomright>
+			<cornersize>20</cornersize>
+			<left>
+				<leftaction>0</leftaction>
+				<rightaction>0</rightaction>
+			</left>
+			<monitor>1</monitor>
+			<right>
+				<leftaction>0</leftaction>
+				<rightaction>0</rightaction>
+			</right>
+			<top>
+				<leftaction>0</leftaction>
+				<rightaction>0</rightaction>
+			</top>
+			<topleft>
+				<leftaction>0</leftaction>
+				<rightaction>0</rightaction>
+			</topleft>
+			<topright>
+				<leftaction>0</leftaction>
+				<rightaction>0</rightaction>
+			</topright>
+		</sensors>
+	</mouse>
+	<note>
+		<alarm>
+			<notify>
+				<autoclose>False</autoclose>
+				<duration>10</duration>
+				<sound></sound>
+			</notify>
+			<recenttime>2007/03/07 23:01:55</recenttime>
+		</alarm>
+		<defaultcolor>A0FFFFh</defaultcolor>
+		<style>0</style>
+		<visible>True</visible>
+		<wordbreak>1</wordbreak>
+	</note>
+	<panel>
+		<closemode>2</closemode>
+		<hotkey>False</hotkey>
+		<hotkeyclose>True</hotkeyclose>
+		<hotkeycode>15</hotkeycode>
+		<hotkeymodifier>7</hotkeymodifier>
+		<pageindex>0</pageindex>
+		<position>0</position>
+		<showonstartup>True</showonstartup>
+		<staticsize>True</staticsize>
+		<title>Sahana Portable</title>
+	</panel>
+	<search>
+		<allusersstartmenu>True</allusersstartmenu>
+		<colorize>True</colorize>
+		<colors>
+			<allusersstartmenu>0080FFh</allusersstartmenu>
+			<currentuserstartmenu>40A000h</currentuserstartmenu>
+			<pstart>FF4040h</pstart>
+		</colors>
+		<currentuserstartmenu>True</currentuserstartmenu>
+		<pstart>True</pstart>
+		<sort>0</sort>
+	</search>
+	<style>
+		<backgroundimage></backgroundimage>
+		<captioncolor>000000h</captioncolor>
+		<iconsize>0</iconsize>
+		<iteminfomode>7</iteminfomode>
+	</style>
+	<tray>
+		<doubleclick>1</doubleclick>
+		<hotkey>False</hotkey>
+		<hotkeycode>12</hotkeycode>
+		<hotkeymodifier>7</hotkeymodifier>
+		<iconimage>0</iconimage>
+		<iconvisibility>0</iconvisibility>
+		<leftclick>2</leftclick>
+	</tray>
+	<window>
+		<main>
+			<position>
+				<x>30</x>
+				<y>224</y>
+			</position>
+			<size>
+				<x>225</x>
+				<y>385</y>
+			</size>
+		</main>
+	</window>
+</start>

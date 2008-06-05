@@ -1,0 +1,44 @@
+; Sahana Installation Script
+; Author: Chamindra de Silva (http://chamindra.googlepages.com)
+; Copyright Lanka Software Foundation
+
+#SingleInstance force
+
+SplashImage, splash.bmp, b, Sahana Installation
+Sleep, 2000
+SplashImage, Off
+
+FileSelectFolder, SetupDir, , 3, Select the directory you want Sahana installed to:
+if SetupDir =
+{
+    MsgBox, You didn't select a folder. Please try again.
+    Return
+}
+
+; vMyText creates the variable MyText
+Gui, Add, Text, vMyText w300
+Gui, Show,, Sahana Installation
+
+; Important to specify the working directory as commands are relative
+GuiControl,,MyText,Stopping any Instanes of Sahana 
+RunWait, ..\SahanaPortable\Sahana_Stop.bat,..\SahanaPortable
+Sleep 1000
+
+GuiControl,,MyText,Copying Files... Please wait
+
+; For file copy the new name of of destination directory has to be given
+SplitPath, A_WorkingDir, SourceFolderName  
+;MsgBox, the working die %A_WorkingDir% and %SourceFolderName%
+FileCopyDir, %A_WorkingDir%\..\.., %SetupDir%\Sahana  
+;Sleep 2000
+
+GuiControl,,MyText, Creating a Shortcut on your Desktop
+Sleep 1000
+FileCreateShortcut, %SetupDir%\Sahana\sahana.exe, %A_Desktop%\Sahana.lnk,%SetupDir%\Sahana,,Launch Sahana,%SetupDir%\Sahana\PortableApps\sahana.ico,,,7  
+
+GuiControl,,MyText, Sahana Installation Complete!
+
+Gui, Destroy
+Return
+
+

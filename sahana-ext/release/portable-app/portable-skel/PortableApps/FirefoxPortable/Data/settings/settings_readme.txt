@@ -1,0 +1,1 @@
+Firefox Portable keeps track of its internal settings here.

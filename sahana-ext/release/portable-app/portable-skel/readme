@@ -1,0 +1,65 @@
+22nd November 2007
+
+Sahana PortableApp - ReadMe
+===========================
+
+Sahana is a free and open source Disaster Management System.It mainly facilitates management of Missing people, disaster victims, Managing and administrating various organisations, managing camps and managing requests and assistance in the proper distribution of resources.
+
+
+Installing to Hard disk
+-----------------------
+
+You can run Sahana from the moment you unzip the PortableApp archive, without needing to setup a webserver, database or PHP. Just run sahana.exe to lauch the Sahana portable menu. However if you would like a shortcut on your desktop and the copying of files to another location use the install.exe.
+
+Installing to a USB
+-------------------
+
+The PortableApp version of Sahana can be run from a USB 2.0 disk. To install it to the USB simply unzip the archive to the root (base drive) of the USB disk. 
+
+Configuring the PortableApp version
+-----------------------------------
+
+When you first get the PortableApp version of Sahana, you will need to configure Sahana and the WAMP server. To configure follow the following steps
+
+(1) Install Sahana to a suitable location as above
+
+(2) Launch the Sahana portable by running sahana.exe. 
+
+(3) Click on the appropriate menu item to launch 'Sahana in your Default Browser' or in the 'Firefox Portable'.
+
+(4) Setup the Sahana database, users, passwords, by following the necessary steps. 
+
+(5) Also configure your WAMP (Web Server and Database) installation by clicking on the 'WAMP Admin'. Especially check the 'Server Security' to ensure the installation is secured. 
+
+Trouble shooting
+----------------
+Check if the WebServer (Apache) and Database (MySQL) has started by clicking on the 'Check Server Ports' menu items. You should see a report as below indicating port 80 and port 3306 is taken by programs Apache.exe and mysqld-opt.exe from the W: drive
+
+Apache (HTTP)          80   w:\usr\local\apache2\bin\Apache.exe
+Apache (WebDAV)        81   free
+Apache (HTTPS)        443   free
+
+MySQL                3306   W:\usr\local\mysql\bin\mysqld-opt.exe
+
+If you don't see the above click on 'Stop Sahana Server' followed by 'Re-Start Sahana Server'. If instead the above ports are taken by another program you need to stop that program before Sahana works. This could be another installation of Apache or MySQL that is creating the conflict. 
+
+
+PortableApp version - 0.6.1-beta2
+---------------------------------
+http://www.sahana.lk/
+
+Copyright (C) 2005 Lanka Software Foundation [http://www.opensource.lk/]
+
+This software is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this software; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA

@@ -1,0 +1,17 @@
+# HTTP Cookie File
+# http://www.netscape.com/newsref/std/cookie_spec.html
+# This is a generated file!  Do not edit.
+# To delete cookies, use the Cookie Manager.
+
+.portableapps.com	TRUE	/	FALSE	2147385600	__utma	99187359.209751897.1173208187.1173208187.1173337382.2
+.google.com	TRUE	/	FALSE	2147368447	PREF	ID=27172fcfbe7ff84d:TM=1173208137:LM=1173208137:S=vK5FOgnawuoVq2IH
+.mozilla.com	TRUE	/	FALSE	2147385600	__utma	183859642.1950506388.1173336472.1173336472.1173336472.1
+.google.lk	TRUE	/	FALSE	2147368447	PREF	ID=18e1af2685cc0f71:TM=1173208263:LM=1173208263:S=R3YUFkESJb5G3HdJ
+portable-apps.subiectiv.com	FALSE	/	FALSE	1204745040	style	null
+.statcounter.com	TRUE	/	FALSE	1330888967	session_1790571	1173208967%260
+.sourceforge.net	TRUE	/	FALSE	2147385600	__utma	191645736.1379625632.1173208817.1173208817.1173208817.1
+.doubleclick.net	TRUE	/	FALSE	1267813537	id	800000c56c3a727
+www.paypal.com	FALSE	/	FALSE	2119288302	Apache	124.43.245.250.58361173208301908
+www.u3.com	FALSE	/	FALSE	1577836800	CP	null*
+.ehg-u3.hitbox.com	TRUE	/	FALSE	1204744280	DM560731CHECV6	V1^e(#X"rz%%@XBriBir@XrBerz%zrzr"%%@XBriBirz%%@XBriBir"%%@XBriBir"%%@XBriBir@XrBer"rz(xB$_aqa~:GahFxB$_a7ID~fxB(IFGKz7}z)OuKr6i%zA6_aqa~:GahF6_a7ID~f|IFGKzOffGxXjxB$xB$kkkxB(W::W~axB(~dxB$FaIhcOxX$pxX[chaIf2TWxBrIxBrG:hfIu~axBrIGGxBe2axX[Df7xB[ixBe:axX[Df7xB[ixBeh~FxX[:hWxB(m:U2~~IxXjaTxB[=}xXj:772c2I~xBec~2aTfxX[72ha7:KxB[I
+.hitbox.com	TRUE	/	FALSE	1204744280	WSS_GW	V1z%%@XBriBir
