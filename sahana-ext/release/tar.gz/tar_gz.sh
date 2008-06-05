@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #############################
-# This script can be used to generate deb package from any sahana branch or release. This will work only in Debian base GNU/Linux systems.
+# This script can be used to generate tar.gz package from any sahana branch or release. This will work only in Debian base GNU/Linux systems.
 # LICENSE: This source file is subject to LGPL license
 # that is available through the world-wide-web at the following URI:
 # http://www.gnu.org/copyleft/lesser.html
@@ -11,15 +11,7 @@
 #
 #############################
 
-dep_dpkg=`dpkg -l | grep "dpkg-dev"`;
-dep_rpm=`dpkg -l | grep "rpm"`;
-if [ "$dep_dpkg" == "" ]; then
-sudo apt-get install dpkg-dev
-elif [ "$dep_rpm" == "" ]; then
-sudo apt-get install rpm	
-fi
 
-directory=`pwd`
 echo "Please, Enter the sourceforge sahana user name"
 read user
 echo "Please Enter the branch name"
