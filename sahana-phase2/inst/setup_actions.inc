@@ -101,9 +101,8 @@ function shn_setup_license_submit(){
 function shn_setup_select_setup_submit(){
 	global $global;
 	if(!isset($_POST['back_button'])){
+
 		_shn_setup_determine_step_no('shn_setup_select_setup_submit',false);
-
-
 		// move to appropriate setup.
 		if(isset($_POST['setup_type_simple'])){
 			// set the setup type in the session.
@@ -112,25 +111,69 @@ function shn_setup_select_setup_submit(){
 			include_once($global['approot']."inc/lib_modules.inc");
 			$_SESSION['shn_setup_data_selected_modules'] = shn_get_all_modules(false);
 
-			shn_setup_simple_dbsetup();
+			shn_setup_select_dbsetup();
+
 		}else if(isset($_POST['setup_type_adv'])){
 			// set the setup type in the session.
 			$_SESSION['setup_type'] = 'ADV';
-			shn_setup_adv_select_modules();
+
+			shn_setup_select_dbsetup();
 
 		}else if(isset($_POST['setup_type_scen'])){
 			// set the setup type in the session.
 			$_SESSION['setup_type'] = 'SCEN';
-			shn_setup_scen_select_scenario();
+
 		}else{
 			// set the setup type in the session.
 			$_SESSION['setup_type'] = $_POST['setup_type'];
-			shn_setup_simple_dbsetup();
+			shn_setup_select_setup();
 		}
+
 	}else{
 		_shn_setup_determine_step_no('shn_setup_select_setup_submit',true);
 
 		shn_setup_license();
+	}
+}
+
+function shn_setup_select_dbsetup_submit(){
+	array_push($_SESSION['shn_setup_function_list'],"shn_setup_select_dbsetup");
+	if(!isset($_POST['back_button'])){
+
+		_shn_setup_transfer_to_session();
+
+		if(shn_setup_validate_select_dbsetup()){
+			_shn_setup_determine_step_no('shn_setup_simple_dbsetup_submit',false);
+			if($_POST['dbsetup_method']=='use_new_db'){
+				$_SESSION['dbsetup_method'] = "USE_NEW_DB";
+				if($_SESSION['setup_type']=='SIMPLE'){
+					shn_setup_simple_dbsetup();
+				}else if($_SESSION['setup_type']=='ADV'){
+					shn_setup_adv_select_modules();
+				}else if($_SESSION['setup_type']=='SCEN'){
+
+				}
+			}else if($_POST['dbsetup_method']=='use_empty_db'){
+				$_SESSION['dbsetup_method'] = "USE_EMPTY_DB";
+				if($_SESSION['setup_type']=='SIMPLE'){
+					shn_setup_empty_dbsetup();
+				}else if($_SESSION['setup_type']=='ADV'){
+					shn_setup_adv_select_modules();
+				}else if($_SESSION['setup_type']=='SCEN'){
+
+				}
+			}else if($_POST['dbsetup_method']=='use_existing_db'){
+				$_SESSION['dbsetup_method'] = "USE_EXISTING_DB";
+
+				shn_setup_existing_dbsetup();
+
+			}
+		}else{
+			_shn_setup_determine_step_no('shn_setup_simple_dbsetup_submit',true);
+			shn_setup_select_dbsetup();
+		}
+	}else{
+		shn_setup_select_setup();
 	}
 }
 
@@ -165,8 +208,9 @@ function shn_setup_simple_dbsetup_submit(){
 		_shn_setup_determine_step_no('shn_setup_simple_dbsetup_submit',true);
 
 		$setup_type = _shn_setup_get_setup_type();
+
 		if($setup_type == 'SIMPLE'){
-			shn_setup_select_setup();
+			shn_setup_select_dbsetup();
 		}else if($setup_type ==  'ADV'){
 			shn_setup_adv_pwd_policy();
 		}else{
@@ -176,7 +220,69 @@ function shn_setup_simple_dbsetup_submit(){
 }
 
 function shn_setup_simple_dbsetup_complete($extra_opts){
-	return _shn_setup_setupdb($extra_opts['config_key_vals']);
+	return _shn_setup_setupdb($extra_opts['config_key_vals'],array('create_user','create_db','setup_db'));
+}
+
+function shn_setup_empty_dbsetup_submit(){
+	// the following line is required to complete the setup.
+	array_push($_SESSION['shn_setup_function_list'],"shn_setup_empty_dbsetup_complete");
+
+
+	$setup_type = _shn_setup_get_setup_type();
+	if(!isset($_POST['back_button'])){
+
+		_shn_setup_transfer_to_session();
+		// validation
+		if(shn_setup_validate_empty_dbsetup()){
+			_shn_setup_determine_step_no('shn_setup_empty_dbsetup_submit',false);
+			shn_setup_simple_config();
+		}else{
+			_shn_setup_determine_step_no('shn_setup_empty_dbsetup_submit',true);
+			shn_setup_empty_dbsetup();
+		}
+	}else{
+		_shn_setup_determine_step_no('shn_setup_empty_dbsetup_submit',true);
+
+		if($setup_type == 'SIMPLE'){
+			shn_setup_select_dbsetup();
+		}else if($setup_type ==  'ADV'){
+			shn_setup_adv_pwd_policy();
+		}else{
+			// nothing.
+			shn_setup_select_dbsetup();
+		}
+	}
+}
+
+function shn_setup_empty_dbsetup_complete(){
+	return _shn_setup_db_setup_db_mysql($extra_opts['config_key_vals'],array('setup_db'));
+}
+
+function shn_setup_existing_dbsetup_submit(){
+	// the following line is required to complete the setup.
+	array_push($_SESSION['shn_setup_function_list'],"shn_setup_existing_dbsetup_complete");
+
+	if(!isset($_POST['back_button'])){
+		_shn_setup_determine_step_no('shn_setup_existing_dbsetup_submit',false);
+		_shn_setup_transfer_to_session();
+		// validation
+		if(shn_setup_validate_existing_dbsetup()){
+			_shn_setup_determine_step_no('shn_setup_existing_dbsetup_submit',false);
+			shn_setup_complete();
+		}else{
+			_shn_setup_determine_step_no('shn_setup_existing_dbsetup_submit',true);
+			shn_setup_existing_dbsetup();
+		}
+
+	}else{
+		_shn_setup_determine_step_no('shn_setup_existing_dbsetup_submit',true);
+		shn_setup_select_dbsetup();
+
+	}
+}
+
+function shn_setup_existing_dbsetup_complete(){
+	return _shn_setup_write_config($extra_opts['config_key_vals']);
 }
 
 /*================ Simple Configuration Step ========================*/
@@ -185,10 +291,11 @@ function shn_setup_simple_config_submit(){
 	array_push($_SESSION['shn_setup_function_list'],"shn_setup_simple_config_complete");
 
 	if(!isset($_POST['back_button'])){
-		_shn_setup_determine_step_no('shn_setup_simple_config_submit',false);
 
 		_shn_setup_transfer_to_session();
 		if(shn_setup_validate_simple_config()){
+			_shn_setup_determine_step_no('shn_setup_simple_config_submit',false);
+
 			// do setup.
 			$res = shn_setup_do_setup();
 			if(isset($res) && $res == false){
@@ -205,6 +312,7 @@ function shn_setup_simple_config_submit(){
 				}
 			}
 		}else{
+			_shn_setup_determine_step_no('shn_setup_simple_config_submit',true);
 			shn_setup_simple_config();
 		}
 	}else{
@@ -267,12 +375,13 @@ function shn_setup_adv_advanced_config_submit(){
 	// the following line is required to complete the setup.
 	array_push($_SESSION['shn_setup_function_list'],"shn_setup_adv_advanced_config_complete");
 	if(!isset($_POST['back_button'])){
-		_shn_setup_determine_step_no('shn_setup_adv_advanced_config_submit',false);
 
 		_shn_setup_transfer_to_session();
 		if(shn_setup_adv_validate_advanced_config()){
+			_shn_setup_determine_step_no('shn_setup_adv_advanced_config_submit',false);
 			shn_setup_adv_pwd_policy();
 		}else{
+			_shn_setup_determine_step_no('shn_setup_adv_advanced_config_submit',true);
 			shn_setup_adv_advanced_config();
 		}
 	}else{
@@ -292,12 +401,20 @@ function shn_setup_adv_pwd_policy_submit(){
 	array_push($_SESSION['shn_setup_function_list'],"shn_setup_adv_pwd_policy_complete");
 
 	if(!isset($_POST['back_button'])){
-		_shn_setup_determine_step_no('shn_setup_adv_pwd_policy_submit',false);
 
 		_shn_setup_transfer_to_session();
 		if(shn_setup_adv_validate_pwd_policy()){
-			shn_setup_simple_dbsetup();
+			_shn_setup_determine_step_no('shn_setup_adv_pwd_policy_submit',false);
+			if($_SESSION['dbsetup_method'] = "USE_NEW_DB"){
+				shn_setup_simple_dbsetup();
+			}else if($_SESSION['dbsetup_method'] = "USE_EMPTY_DB"){
+				shn_setup_empty_dbsetup();
+			}else if($_SESSION['dbsetup_method'] = "USE_EXISTING_DB"){
+				shn_setup_existing_dbsetup();
+			}
+
 		}else{
+			_shn_setup_determine_step_no('shn_setup_adv_pwd_policy_submit',true);
 			shn_setup_adv_pwd_policy();
 		}
 	}else{
@@ -328,7 +445,7 @@ function shn_setup_scen_select_scen_submit(){
 		if(isset($_POST['scenario_customize'])){
 			shn_setup_adv_select_modules();
 		}else{
-			shn_setup_simple_dbsetup();
+			shn_setup_select_dbsetup();
 		}
 	}else{
 		_shn_setup_determine_step_no('shn_setup_scen_select_scen_submit',true);

@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS resource_to_shelter;
 DROP TABLE IF EXISTS camp_general;
 DROP TABLE IF EXISTS resource_to_incident;
 DROP TABLE IF EXISTS incident;
+DROP TABLE IF EXISTS version;
 
 -- drop tables from lib_uuid
 
@@ -99,7 +100,13 @@ CREATE TABLE sync_instance (
     PRIMARY KEY(base_uuid)
 );
 
-
+CREATE TABLE `version` (
+    version VARCHAR( 20 ) NOT NULL , -- Version String
+    release VARCHAR( 40 ) NOT NULL , -- Release String
+    release_date VARCHAR( 40 ) NOT NULL , -- Release Date
+    release_info LONGTEXT NOT NULL , -- Release Info
+    PRIMARY KEY ( version , release , release_date )
+)
 /**================= Security Tables ================================**/
 
 /**

@@ -45,8 +45,10 @@ include('setup_utils.inc');
  */
 function shn_setup_start(){
 	global $global;
+
 	if(isset($_SESSION['setup_step_no'])==false){
 		// initialize only the first time.
+		session_unset();
 		$_SESSION['setup_step_no'] = 1;
 		$_SESSION['shn_setup_function_list'] = array();
 		shn_setup_general_dependancies();
@@ -55,15 +57,14 @@ function shn_setup_start(){
 		if($act==null || $act==''){
 			session_unset();
 			shn_setup_start();
+		}else{
+			$function_name = 'shn_setup_'.$act;
+            //echo $function_name."<br/>";
+			$function_name();
 		}
-		$function_name = 'shn_setup_'.$act;
-	    //echo $function_name;
-		$function_name();
-
 	}
 }
 
-// Calling the setup
 shn_setup_header();
 
 shn_setup_start();

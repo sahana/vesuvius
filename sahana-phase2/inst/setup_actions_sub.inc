@@ -1,24 +1,24 @@
 <?php
 /**Action implementations of the Sahana Advanced Web Setup
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @author     Ravith Botejue. <ravithb@yahoo.com>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @package    sahana
-* @subpackage setup
-*/
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author     Ravith Botejue. <ravithb@yahoo.com>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    sahana
+ * @subpackage setup
+ */
 
 /**
  * Implementation of the call back to write all the configuration to persistant form.
  *
  * @todo To undo any changes to the database table config.
  * @param Array $config_key_vals The configuration key value paris.
- * @param boolean $undo The flag to indicate rollback. If true the appropriate functions will 
+ * @param boolean $undo The flag to indicate rollback. If true the appropriate functions will
  * be called to undo any changes made to the database table config and the file system.
  * @return boolean Whether the operation succeeded
  */
@@ -56,38 +56,31 @@ function _shn_setup_write_config($config_key_vals,$undo=false){
  * General Call back implementation to setup the database tables and users.
  *
  * @param Array $conf_key_vals The configuration key value pairs.
- * @param boolean $undo The flag to undo. If true it will roll back by calling the 
- * appropriate rollback functions.
+ * @param Array $db_action The names of the actions which are used to construct the delegate method call. 
+ *                          Executed in the order specified.
  * @return boolean Whether the operation succeeded or not.
  */
-function _shn_setup_setupdb($conf_key_vals,$undo=false)
+function _shn_setup_setupdb($conf_key_vals,$db_action_arr)
 {
 	global $global;
 	global $conf;
-	if($undo==false){
-		if($conf_key_vals['db_type']=='mysql'){
+	if($conf_key_vals['db_type']=='mysql'){
+		$res = true;
+		foreach($db_action_arr as $db_action){
 			// mysql specific setup
 			// the database specific function should handle any transactions.
-			$res = _shn_setup_db_setup_mysql($conf_key_vals);
-			return $res;
+			$function_name = '_shn_setup_db_'.$db_action.'_mysql';
+			if(function_exists($function_name)){
+				$res &= $function_name($conf_key_vals);
+			}else{
+				echo sprintf(_t("Function %s is not found"),$function_name)."<br/>";
+			}
 		}
-	}else{
-		if($conf_key_vals['db_type']=='mysql'){
-			// mysql specif undo
-			// The database specific function should handle any transactions.
-			$res = _shn_setup_db_undo_mysql($conf_key_vals);
-			return $res;
-		}
+		return $res;
 	}
 }
 
-/**
- * Setup the mysql database.
- *
- * @param Array $conf_key_vals The configuration key value pairs.
- * @return boolean Whether the operation succeeded or not.
- */
-function _shn_setup_db_setup_mysql($conf_key_vals){
+function _shn_setup_db_create_user_mysql($conf_key_vals){
 	global $global;
 
 	$_tdb1 =  &NewADOConnection('mysql');
@@ -96,16 +89,21 @@ function _shn_setup_db_setup_mysql($conf_key_vals){
 		// start a new connection
 		$_tdb1->Connect($_host_port,$conf_key_vals['root_db_user'],$conf_key_vals['root_db_pass']);
 		/*$res=$_tdb1->Execute("SELECT * FROM `user` WHERE `User`='".$conf_key_vals['db_user']."'");
-		if(!($res->EOF)){
-			add_error(_t("System database username already exists. Use a different system database username."));
-			$_tdb1->Close();
-			return false;
-		}*/
+		 if(!($res->EOF)){
+		 add_error(_t("System database username already exists. Use a different system database username."));
+		 $_tdb1->Close();
+		 return false;
+		 }*/
 
 		// create system user and privileges
 		$_tdb1->Execute("CREATE USER '".$conf_key_vals['db_user']."'@'".$conf_key_vals['db_host']."' IDENTIFIED BY '".$conf_key_vals['db_pass']."'");
 		$_tdb1->Close();
 	}
+
+}
+
+function _shn_setup_db_create_db_mysql($conf_key_vals){
+	global $global;
 
 	// another separate connection to create users and databases.
 	$_tdb2 = &NewADOConnection('mysql');
@@ -125,6 +123,16 @@ function _shn_setup_db_setup_mysql($conf_key_vals){
 
 	$_tdb2->Execute("GRANT ALL PRIVILEGES ON ".$conf_key_vals['db_name'].".* TO '".$conf_key_vals['db_user']."'@'".$conf_key_vals['db_host']."'");
 	$_tdb2->Close();
+}
+
+/**
+ * Setup the mysql database.
+ *
+ * @param Array $conf_key_vals The configuration key value pairs.
+ * @return boolean Whether the operation succeeded or not.
+ */
+function _shn_setup_db_setup_db_mysql($conf_key_vals){
+	global $global;
 
 	// another connection with transactions to create thetables and data.
 	$_tdb3 = &NewADOConnection('mysql');
@@ -179,17 +187,20 @@ function _shn_setup_db_setup_mysql($conf_key_vals){
 		}
 	}
 
-	include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
 	shn_acl_install($conf_key_vals['admin_name'],$conf_key_vals['root_pwd'],$conf_key_vals['user_name'],$conf_key_vals['user_pwd']);
 
 	//$res = $_tdb3->CompleteTrans();
 	//$_tdb3->Close();
 	//return $res;
+	
+	// add the version information to the database.
+	include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
+	$_tdb3->Execute("INSERT INTO version(version,release,release_date,release_info) VALUES ('".$about['version']."','".$about['release']."','".$about['release_date']."','".$about['release_info']."')");
 	return true;
 }
 
 /**
- * Undo any changes made to the database management system by the sahana setup. Used to roll back when the setup fails, to avoid 
+ * Undo any changes made to the database management system by the sahana setup. Used to roll back when the setup fails, to avoid
  * partial installations.
  *
  * @param Array $conf_key_vals The configuration key value paris.
@@ -323,22 +334,22 @@ function _shn_setup_adv_write_selected_modules(){
 	include_once($global['approot']."inc/lib_config.inc");
 	$selected_mods = _shn_setup_get_selected_modules();
 	$all_modules = shn_get_all_modules();
-	
+
 	$non_installed_mods = array();
 	foreach ($all_modules as $mod){
 		if(in_array($mod,$selected_mods)==false){
 			array_push($non_installed_mods,$mod);
 		}
 	}
-	
+
 	foreach ($selected_mods as $mod){
 		shn_config_database_update('installed',true,$mod);
 	}
-	
+
 	foreach ($non_installed_mods as $mod){
 		shn_config_database_update('installed',false,$mod);
 	}
-	
+
 	return true;
 }
 ?>

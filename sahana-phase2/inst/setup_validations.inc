@@ -1,17 +1,17 @@
 <?php
 /**Validation functions of the Sahana Advanced Web Setup
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @author     Ravith Botejue. <ravithb@yahoo.com>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @package    sahana
-* @subpackage setup
-*/
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author     Ravith Botejue. <ravithb@yahoo.com>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    sahana
+ * @subpackage setup
+ */
 
 /**
  * Function to validate an email address.
@@ -102,6 +102,10 @@ function shn_setup_validate_simple_dbsetup(){
 				add_error(_t("The database name cannot contain any of the following special characters.")." ~`!@#$%^&*()-+=[]{}\|:;\"',.<>/?");
 				$has_errors = true;
 			}
+			if(strlen($_POST['db_name'])>=16){
+				add_error(_t("The database name cannot be longer than 15 characters for MySQL server."));
+				$has_errors = true;
+			}
 		}
 
 		// check whether user exists,
@@ -150,12 +154,174 @@ function shn_setup_validate_simple_dbsetup(){
 	}else if(isset($_POST['db_type']) && $_POST['db_type']=='pgsql'){
 		add_error(_t('Unsupported database. Please select a valid database type.'));
 		return false;
-	}else if(isset($_POST['db_type'])){
+	}else if(!isset($_POST['db_type'])){
 		// the set value is not valid.
-		add_error(_t('Unsupported database. Please select a valid database type.'));
+		add_error(_t('Unsupported database or database not selected. Please select a valid database type.'));
+		return false;
+	}else{
+		return false;
+	}
+}
+
+function shn_setup_validate_select_dbsetup(){
+	global $global;
+
+	if(!isset($_POST['dbsetup_method'])){
+		add_error(_t('Please select a database setup method.'));
 		return false;
 	}else{
 		return true;
+	}
+}
+
+function shn_setup_validate_empty_dbsetup(){
+	global $global;
+
+	$has_errors = false;
+	if(isset($_POST['db_type']) && $_POST['db_type']=='mysql'){
+		$db = &NewADOConnection('mysql');
+
+		// check host name
+		if(isset($_POST['db_host']) && $_POST['db_host']!=''){
+			if(preg_match("/:?/",$_POST['db_host'])==false){
+				// more than one colon
+				add_error(_t("The host name has more than one port separator char (:)."));
+				$has_errors = true;
+			}
+			// check for patterns.
+			if(stripos($_POST['db_host'],':')>0 ){
+				// contains port
+				$vals = explode(':',$_POST['db_host']);
+				// check if port no is numeric.
+				if(is_numeric($vals[1])==false){
+					add_error(_t("The port number is invalid."));
+					$has_errors = true;
+				}else{
+					// check port number is in range 1024-65535
+					$_nport = $vals[1] + 0;
+					if($_nport<1024 || $_nport>65535){
+						add_error(_t("Invalid database port number. The port should be between 1024-65535"));
+					}
+				}
+			}
+		}else{
+			add_error(_t("The database host:port value cannot be empty."));
+			$has_errors = true;
+		}
+
+		// check sahana dbname.
+		if(isset($_POST['db_name'])==false || $_POST['db_name']==''){
+			add_error(_t("The database name cannot be empty."));
+			$has_errors = true;
+		}else{
+			if(preg_match('/[!@#$%\^&*()\-\+=~`[\]{}\|\\\\:;"\',\.<>\?\/]/',$_POST['db_name'])==1){
+				add_error(_t("The database name cannot contain any of the following special characters.")." ~`!@#$%^&*()-+=[]{}\|:;\"',.<>/?");
+				$has_errors = true;
+			}
+			if(strlen($_POST['db_name'])>=16){
+				add_error(_t("The database name cannot be longer than 15 characters for MySQL server."));
+				$has_errors = true;
+			}
+		}
+
+		// check whether user exists,
+		$db->Connect($_POST['db_host'],$_POST['db_user'],$_POST['db_pass'],$_POST['db_name']);
+		if($db->IsConnected()==false){
+			add_error(_t("Incorrect database hostname, username, password, or database name. <br/>Could not connect to the specified database on the specified server using the given username and password.<br/> Please re-check the values you entered."));
+			$has_errors = true;
+		}
+		// return the inverse.
+		return !$has_errors;
+
+	}else if(isset($_POST['db_type']) && $_POST['db_type']=='pgsql'){
+		add_error(_t('Unsupported database. Please select a valid database type.'));
+		return false;
+	}else if(!isset($_POST['db_type'])){
+		// the set value is not valid.
+		add_error(_t('Unsupported database or database not selected. Please select a valid database type.'));
+		return false;
+	}else{
+		return false;
+	}
+}
+
+function shn_setup_validate_existing_dbsetup(){
+	global $global;
+
+	$has_errors = false;
+	if(isset($_POST['db_type']) && $_POST['db_type']=='mysql'){
+		$db = &NewADOConnection('mysql');
+
+		// check host name
+		if(isset($_POST['db_host']) && $_POST['db_host']!=''){
+			if(preg_match("/:?/",$_POST['db_host'])==false){
+				// more than one colon
+				add_error(_t("The host name has more than one port separator char (:)."));
+				$has_errors = true;
+			}
+			// check for patterns.
+			if(stripos($_POST['db_host'],':')>0 ){
+				// contains port
+				$vals = explode(':',$_POST['db_host']);
+				// check if port no is numeric.
+				if(is_numeric($vals[1])==false){
+					add_error(_t("The port number is invalid."));
+					$has_errors = true;
+				}else{
+					// check port number is in range 1024-65535
+					$_nport = $vals[1] + 0;
+					if($_nport<1024 || $_nport>65535){
+						add_error(_t("Invalid database port number. The port should be between 1024-65535"));
+					}
+				}
+			}
+		}else{
+			add_error(_t("The database host:port value cannot be empty."));
+			$has_errors = true;
+		}
+
+		// check sahana dbname.
+		if(isset($_POST['db_name'])==false || $_POST['db_name']==''){
+			add_error(_t("The database name cannot be empty."));
+			$has_errors = true;
+		}else{
+			if(preg_match('/[!@#$%\^&*()\-\+=~`[\]{}\|\\\\:;"\',\.<>\?\/]/',$_POST['db_name'])==1){
+				add_error(_t("The database name cannot contain any of the following special characters.")." ~`!@#$%^&*()-+=[]{}\|:;\"',.<>/?");
+				$has_errors = true;
+			}
+			if(strlen($_POST['db_name'])>=16){
+				add_error(_t("The database name cannot be longer than 15 characters for MySQL server."));
+				$has_errors = true;
+			}
+		}
+
+		// check whether user exists,
+		$db->Connect($_POST['db_host'],$_POST['db_user'],$_POST['db_pass'],$_POST['db_name']);
+		if($db->IsConnected()==false){
+			add_error(_t("Incorrect database hostname, username, password, or database name. <br/>Could not connect to the specified database on the specified server using the given username and password.<br/> Please re-check the values you entered."));
+			$has_errors = true;
+		}else{
+			// execute only if connected.
+			$res = $db->Execute("SELECT version FROM version;");
+			include($global['approot']."about.inc");
+			if(trim($about['version'])!=trim($res->fields(0))){
+				add_error("The selected database is not compatible with this version of sahana.");
+				$has_errors = true;
+			}
+		}
+
+		// return the inverse.
+		return !$has_errors;
+
+	}else if(isset($_POST['db_type']) && $_POST['db_type']=='pgsql'){
+		add_error(_t('Unsupported database. Please select a valid database type.'));
+		return false;
+	}else if(!isset($_POST['db_type'])){
+		// the set value is not valid.
+		add_error(_t('Unsupported database or database not selected. Please select a valid database type.'));
+		return false;
+	}else{
+		return false;
 	}
 }
 

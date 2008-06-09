@@ -165,8 +165,8 @@ function shn_setup_license($step_no=null){
 	shn_form_textarea(null,'license',null,array('value'=>$license,'rows'=>15,'cols'=>70,'no_label'=>true));
 	shn_form_fsclose();
 	shn_form_label("Do you accept the above license agreement?",null);
-	echo "<br/>";	
-	
+	echo "<br/>";
+
 	shn_form_submit(_t('<< No, Go Back'),'name="back_button"');
 	shn_form_submit(_t('Yes, Continue >>'));
 
@@ -210,12 +210,21 @@ function shn_setup_select_setup($step_no=null)
 
 function shn_setup_select_dbsetup($step_no=null){
 	$step_no = isset($step_no)?$step_no:$_SESSION['setup_step_no'];
-    ?>
+	?>
 <h2><?php
 echo _t('Sahana Web Setup - Step ').$step_no;
 ?></h2>
 <?php
 display_errors();
+shn_form_fopen('select_dbsetup_submit',null);
+shn_form_fsopen(_t('Select a database setup method'));
+shn_form_radio(array("use_new_db"=>_t("New Database")),null,'dbsetup_method',null,array('no_label'=>true,'value'=>($_SESSION[SETUP_DATA_PREFIX."dbsetup_method"])));
+shn_form_radio(array("use_empty_db"=>_t("Use Empty Database")),null,'dbsetup_method',null,array('no_label'=>true,'value'=>($_SESSION[SETUP_DATA_PREFIX."dbsetup_method"])));
+shn_form_radio(array("use_existing_db"=>_t("Use Existing Database")),null,'dbsetup_method',null,array('no_label'=>true,'value'=>($_SESSION[SETUP_DATA_PREFIX."dbsetup_method"])));
+shn_form_fsclose();
+shn_form_submit(_t('<< Back'),'name="back_button"');
+shn_form_submit(_t("Next >>"));
+shn_form_fclose();
 }
 
 /**
@@ -287,6 +296,67 @@ shn_form_submit(_t('<< Back'),'name="back_button"');
 shn_form_submit(_t('Setup Database >>'));
 
 
+shn_form_fclose();
+}
+
+function shn_setup_empty_dbsetup(){
+	global $global;
+	$step_no = isset($step_no)?$step_no:$_SESSION['setup_step_no'];
+	add_warning(_t("Any existing tables in the selected database will be destroyed."));
+	
+	?>
+<h2><?php
+echo _t('Sahana Web Setup - Step ').$step_no;
+?></h2>
+
+<?php
+display_errors();
+display_submit_message();
+
+shn_form_fopen('empty_dbsetup_submit',null);
+shn_form_fsopen(_t('Select an empty database'));
+shn_form_fsopen(_t('Database'));
+shn_form_select(
+array( 'mysql' => 'MySQL 4.1 or above','pgsql"disabled="disabled' => 'PostgreSQL'),
+                'Database Types', 'db_type',(isset($_SESSION[SETUP_DATA_PREFIX."db_type"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_type"]):array());
+shn_form_text(_t('Database Host:Port'),'db_host','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_host"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_host"].((isset($_SESSION[SETUP_DATA_PREFIX."db_port"]))?':'.$_SESSION[SETUP_DATA_PREFIX."db_port"]:''),'req'=>true):array('value'=>'localhost:3306','req'=>true)
+);
+
+shn_form_text(_t('Database Name'),'db_name','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_name"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_name"],'req'=>true):array('value'=>'sahana','req'=>true)
+);
+shn_form_text(_t('System Database User'),'db_user','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_user"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_user"],'req'=>true):array('value'=>'sahana_sys','req'=>true));
+shn_form_password(_t('System Database Password'),'db_pass','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_pass"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_pass"],'req'=>true):array('value'=>'password','req'=>true));
+shn_form_fsclose();
+shn_form_submit(_t('<< Back'),'name="back_button"');
+shn_form_submit(_t('Setup Database >>'));
+shn_form_fclose();
+}
+
+
+function shn_setup_existing_dbsetup(){
+	$step_no = isset($step_no)?$step_no:$_SESSION['setup_step_no'];
+	?>
+<h2><?php
+echo _t('Sahana Web Setup - Step ').$step_no;
+?></h2>
+<?php
+display_errors();
+shn_form_fopen('existing_dbsetup_submit',null);
+shn_form_fsopen(_t('Select an existing database'));
+shn_form_fsopen(_t('Database'));
+shn_form_select(
+array( 'mysql' => 'MySQL 4.1 or above','pgsql"disabled="disabled' => 'PostgreSQL'),
+                'Database Types', 'db_type',(isset($_SESSION[SETUP_DATA_PREFIX."db_type"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_type"]):array());
+shn_form_text(_t('Database Host:Port'),'db_host','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_host"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_host"].((isset($_SESSION[SETUP_DATA_PREFIX."db_port"]))?':'.$_SESSION[SETUP_DATA_PREFIX."db_port"]:''),'req'=>true):array('value'=>'localhost:3306','req'=>true)
+);
+
+shn_form_text(_t('Database Name'),'db_name','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_name"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_name"],'req'=>true):array('value'=>'sahana','req'=>true)
+);
+shn_form_text(_t('System Database User'),'db_user','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_user"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_user"],'req'=>true):array('value'=>'sahana_sys','req'=>true));
+shn_form_password(_t('System Database Password'),'db_pass','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_pass"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_pass"],'req'=>true):array('value'=>'password','req'=>true));
+shn_form_fsclose();
+shn_form_submit(_t('<< Back'),'name="back_button"');
+shn_form_submit(_t('Setup Database >>'));
 shn_form_fclose();
 }
 
@@ -558,10 +628,12 @@ foreach($available_themes as $tname){
 <link rel="stylesheet"
 	media="screen, projection" type="text/css"
 	href="theme/<?=$tname?>/sahana.css" />
-<link rel="stylesheet"
-	media="print" type="text/css" href="theme/<?=$tname?>/print.css" />
-<link rel="stylesheet"
-	media="handheld" type="text/css" href="theme/<?=$tname?>/mobile.css" />
+<link
+	rel="stylesheet" media="print" type="text/css"
+	href="theme/<?=$tname?>/print.css" />
+<link
+	rel="stylesheet" media="handheld" type="text/css"
+	href="theme/<?=$tname?>/mobile.css" />
 		<?php
 	}
 	$themelist[$tname] = ucwords($tname)._t(' Theme');
