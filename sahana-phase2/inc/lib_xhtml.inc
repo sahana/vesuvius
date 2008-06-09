@@ -34,14 +34,14 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
     <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
     <head>
-        <title><?=_t($title)?></title>
+        <title><?echo _t($title);?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?=$theme?>/sahana.css" />
-	<link rel="stylesheet" media="print" type="text/css" href="theme/<?=$theme?>/print.css" />
-	<link rel="stylesheet" media="handheld" type="text/css" href="theme/<?=$theme?>/mobile.css" />
+        <link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?php echo $theme;?>/sahana.css" />
+	<link rel="stylesheet" media="print" type="text/css" href="theme/<?php echo $theme;?>/print.css" />
+	<link rel="stylesheet" media="handheld" type="text/css" href="theme/<?php echo $theme;?>/mobile.css" />
     <script type="text/javascript" src="res/js/libsahana.js"></script>
     <script type="text/javascript" src="res/js/libprint.js"></script>
-    <script type="text/javascript" src="theme/<?=$theme?>/sahana.js"></script>
+    <script type="text/javascript" src="theme/<?php echo $theme;?>/sahana.js"></script>
     <script type="text/javascript" src="res/js/popup.js"></script> 
     <script type="text/javascript" src="res/js/locale.js"></script>    
     <script type="text/javascript" src="index.php?stream=text&amp;mod=xst&amp;act=help"></script> 
