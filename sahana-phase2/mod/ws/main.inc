@@ -8,6 +8,7 @@
 * http://www.gnu.org/copyleft/lesser.html
 *
 * @author     Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
+* @author     Ishan Liyanage <ishan@opensource.lk>
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    sahana
 * @subpackage ws
@@ -380,9 +381,15 @@ function shn_ws_sahana_load_method(){
 			break;
 		}
 	}
-	
+	$input_form=$xml->services->service->input_form;
+	//echo $input_form;
     shn_form_hidden(array("method"=>$method,"wbsmod"=>$mod,"wsdl_url"=>$wsdl_url));
-    
+    if($input_form=="true"){
+    	include_once $global['approot']."mod/".$mod."/api.inc";
+    	$function="shn_".$mod."_ws_default";
+    	$function();
+    }
+    else{
 	if(count($target->params->param)>0){
 		echo "<h2>"._t(sprintf("Method : %s",$method))."</h2>";
 
@@ -402,6 +409,7 @@ function shn_ws_sahana_load_method(){
 		
 		shn_form_fsclose();
 	}
+    }
 	shn_form_fsopen(_t("Security"));
 	?>
 
