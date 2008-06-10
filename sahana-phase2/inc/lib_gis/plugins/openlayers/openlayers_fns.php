@@ -8,7 +8,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.56 2008-06-03 21:04:06 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.57 2008-06-10 09:53:18 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -161,6 +161,11 @@
         echo "var yahoomaps = new OpenLayers.Layer.Yahoo( \"Yahoo Map\", {'sphericalMercator': true } );\n";
         echo "map.addLayer(yahoomaps);\n";
     }
+    //TMS
+    if (1 == $conf['gis_ol_tms']) {
+        echo "var tms = new OpenLayers.Layer.TMS( \"OpenStreetMap (Mapnik)\", \"http://tile.openstreetmap.org/\", {type: 'png', getURL: osm_getTileURL, displayOutsideMaxExtent: true } );\n";
+        echo "map.addLayer(mapnik);\n";
+    }
   }
     // WMS
     if (1 == $conf['gis_ol_wms_enable']) {
@@ -202,6 +207,40 @@
             }
         }
     }
+    
+    // TMS : support available from OL 2.5 onwards
+    if (1 == $conf['gis_ol_tms_enable']) {
+        //Guess the following 4 aren't needed?
+        $projection = $conf["gis_ol_projection"];
+        $maxResolution = $conf["gis_ol_maxResolution"];
+        $maxExtent = $conf["gis_ol_maxExtent"];
+        $units = $conf["gis_ol_units"];
+        
+        $tms = $conf["gis_ol_tms"];
+        for ($i = 1; $i <= $tms; $i++) {
+            if (1==$conf["gis_ol_tms_".$i."_enabled"]) {
+                $name = $conf["gis_ol_tms_".$i."_name"];
+                $url = $conf["gis_ol_tms_".$i."_url"];
+                
+                $layers = $conf["gis_ol_tms_".$i."_layers"];
+                $format = $conf["gis_ol_tms_".$i."_format"];
+                echo "var tmslayer$i = new OpenLayers.Layer.TMS( \"$name\",\n"; 
+                echo "\"$url\",\n"; 
+                echo "{";
+                echo "layername: '$layers', ";
+                if (!null==$format) {
+                    echo "type:'$format', ";
+                }
+                echo "});\n";
+                echo "map.addLayer(tmslayer$i);\n";
+                if ("0" == $conf["gis_ol_tms_".$i."_visibility"]) {
+                    echo "tmslayer$i.setVisibility(false);\n";
+                }
+            }
+        }
+    }
+    
+    
     
     // GeoRSS
     if (1 == $conf['gis_ol_georss_enable']) {
