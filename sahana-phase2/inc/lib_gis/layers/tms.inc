@@ -6,7 +6,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: tms.inc,v 1.2 2008-06-10 10:10:46 mifanc Exp $
+* @version     	$Id: tms.inc,v 1.3 2008-06-10 10:18:38 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle available layer options of TMS
@@ -22,7 +22,7 @@ class tms implements layer{
         global $conf;
         shn_form_fsopen(_t('TMS'));
         shn_form_fsopen(_t('INFO'));
-        echo '<p>'._t("Enable access to maps from servers using the TMS standard by selecting the checkbox option below").'.</p>';
+        echo '<p>'._t("Enable access to maps from servers using the").' <a href="http://wiki.osgeo.org/wiki/Tile_Map_Service_Specification" target=_blank>TMS (Tile Map Service)</a> '._t("by selecting the checkbox option below").'.</p>';
 		echo '<p>'._t("These servers could be local or accessed over the Internet").'.</p>';
         shn_form_fsclose();
         shn_form_fsopen(_t('ENABLE'));
@@ -34,7 +34,7 @@ class tms implements layer{
         shn_form_fsclose();
         if (1==$conf['gis_ol_tms_enable']){
             shn_form_fsopen(_t('NUMBER'));
-            shn_form_text(_t('Number of tms layers'),'gis_ol_tms','size=2 maxlength=2',array('value'=>$conf['gis_ol_tms']));
+            shn_form_text(_t('Number of TMS layers'),'gis_ol_tms','size=2 maxlength=2',array('value'=>$conf['gis_ol_tms']));
             shn_form_fsclose();
             $name_help=_t("Name displayed in Layer-Switcher (mandatory)");
             $description_help=_t("Only displayed in GIS Catalogue (optional)");
