@@ -362,7 +362,7 @@ function shn_setup_adv_select_modules_submit(){
 	}else{
 		_shn_setup_determine_step_no('shn_setup_adv_select_modules_submit',true);
 
-		shn_setup_select_setup();
+		shn_setup_select_dbsetup();
 	}
 }
 
