@@ -1,15 +1,15 @@
 <?php
 /**
-* Sahana Messaging Module
-*
 * PHP version 5
 * 
 * @author       Mifan Careem <mifan@respere.com>
-* @copyright    Lanka Software Foundation - http://www.opensource.lk
-* @package      Sahana - http://sahana.lk/
-* @module	    Messaging
-* @version		$Id: tms.inc,v 1.1 2008-06-10 10:07:28 mifanc Exp $
+* @copyright  	Lanka Software Foundation - http://www.opensource.lk
+* @package    	Sahana - http://sahana.lk/
+* @library      GIS
+* @version     	$Id: tms.inc,v 1.2 2008-06-10 10:10:46 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+* 
+* @todo: handle available layer options of TMS
 */
 
 global $global;
