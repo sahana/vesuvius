@@ -100,12 +100,21 @@ CREATE TABLE sync_instance (
     PRIMARY KEY(base_uuid)
 );
 
+/**
+ * Setup Related Tables
+ * Modules : Not Applicable
+ * Created : 09-June-2008 - Ravith Botejue
+ * Last Change : 10-June-2008 Ravith Botejue
+ * 
+ * ** IMPORTANT - Removing the ` in the query below will make it invalid.
+ * Even though this violates the style, it is absolutely required.
+ */
 CREATE TABLE `version` (
-    version VARCHAR( 20 ) NOT NULL , -- Version String
-    release VARCHAR( 40 ) NOT NULL , -- Release String
-    release_date VARCHAR( 40 ) NOT NULL , -- Release Date
-    release_info LONGTEXT NOT NULL , -- Release Info
-    PRIMARY KEY ( version , release , release_date )
+    `version` VARCHAR( 20 ) NOT NULL , -- Version String
+    `release` VARCHAR( 40 ) NOT NULL , -- Release String
+    `release_date` VARCHAR( 40 ) NOT NULL , -- Release Date
+    `release_info` LONGTEXT NOT NULL , -- Release Info
+    PRIMARY KEY ( `version` , `release` , `release_date` )
 )
 /**================= Security Tables ================================**/
 
