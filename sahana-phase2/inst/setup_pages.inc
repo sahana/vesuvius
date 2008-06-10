@@ -216,7 +216,7 @@ echo _t('Sahana Web Setup - Step ').$step_no;
 ?></h2>
 <?php
 display_errors();
-shn_form_fopen('select_dbsetup_submit',null);
+shn_form_fopen('select_dbsetup_submit',null,array('req_message'=>false));
 shn_form_fsopen(_t('Select a database setup method'));
 shn_form_radio(array("use_new_db"=>_t("New Database")),null,'dbsetup_method',null,array('no_label'=>true,'value'=>($_SESSION[SETUP_DATA_PREFIX."dbsetup_method"])));
 shn_form_radio(array("use_empty_db"=>_t("Use Empty Database")),null,'dbsetup_method',null,array('no_label'=>true,'value'=>($_SESSION[SETUP_DATA_PREFIX."dbsetup_method"])));

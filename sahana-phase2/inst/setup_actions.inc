@@ -44,13 +44,16 @@ function shn_setup_do_setup(){
 	$debug_setup = false;
 	// the following code will execute the complete functions for each function called
 	// during the setup.
-	array_unique($_SESSION['shn_setup_function_list']);
+	$_SESSION['shn_setup_function_list'] = array_unique($_SESSION['shn_setup_function_list']);
+
+	//var_dump($_SESSION['shn_setup_function_list']);
 	//echo "<pre>";var_dump($_SESSION['shn_setup_function_list']);echo "</pre>";
 	foreach ($execution_order_on_complete as $pilot_funct){
 		if(array_search($pilot_funct,$_SESSION['shn_setup_function_list'])){
 			if(function_exists($pilot_funct)){
 				if($debug_setup===true){
-					echo "Calling $pilot_funct ";
+					echo "Calling $pilot_funct <br/>";
+					echo "Error Count : ".count($global['submit_errors'])."</br>";
 				}
 				// call it.
 				if($pilot_funct(array('config_key_vals'=>$config_key_vals))===false){
@@ -173,6 +176,7 @@ function shn_setup_select_dbsetup_submit(){
 			shn_setup_select_dbsetup();
 		}
 	}else{
+		_shn_setup_determine_step_no('shn_setup_simple_dbsetup_submit',true);
 		shn_setup_select_setup();
 	}
 }
@@ -297,19 +301,13 @@ function shn_setup_simple_config_submit(){
 			_shn_setup_determine_step_no('shn_setup_simple_config_submit',false);
 
 			// do setup.
-			$res = shn_setup_do_setup();
-			if(isset($res) && $res == false){
-				// there were errors during setup.
-				add_error(_t("There was an error, due to which the setup can not complete successfully. All changes made were attempted to be rolled back."));
-				shn_setup_error();
+
+			$ret = shn_setup_do_setup();
+			if($ret==true){
+				shn_setup_complete();
 			}else{
-				$ret = shn_setup_do_setup();
-				if($ret==true){
-					shn_setup_complete();
-				}else{
-					echo "ERROR::";
-					shn_setup_error();
-				}
+				//echo "ERROR::";
+				shn_setup_error();
 			}
 		}else{
 			_shn_setup_determine_step_no('shn_setup_simple_config_submit',true);
