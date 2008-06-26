@@ -77,14 +77,18 @@ document.writeln(
 		'<style type="text/css">'	+
 			'#print, #print-wrapper { width: 490pt; }'	+
 			'#print-wrapper { padding-left: 25pt; }'	+
-			'.top-layout .top-left { margin-left: 0; }'	+
+			'.top-layout .top-left { margin-left: 0;  }'	+
 			'.top-layout .top-middle { margin-left: 117pt; }'	+
 			'.bottom-layout .bottom-left { margin-left: 0; }'	+
+			'#instructions { margin-left: 1pt; }'	+
 			'.fieldset-heading { font-weight: bold; margin: 0; }'	+
-			'.item-wrap { border: #000 1px solid; margin-left: 0; width: 474pt; }'	+
-			'.item-wrap .label-left { width: 330pt; }'	+
+			'.item-wrap { margin-left: 0; width: 473pt; }'	+
+			'.item-wrap .label-left { width: 323pt; }'	+
 			'.item-wrap .label-right { width: 125pt; }'	+
-			'.character { height: 10pt; width: 15pt; padding: 2pt; }'	+
+			'.character { height: 10pt; width: 13pt; padding: 1pt; }'	+
+			'.item-warp-small { margin-left: 0; }'	+
+			'.item-wrap-small .small-left { width: 143pt; }'	+
+			'.item-wrap-small .small-right { width: 55pt; }'	+
 		'</style>'	+
 	'<![endif]-->'	+
 
@@ -461,6 +465,7 @@ function shn_print_display_legend(dom_legend) {
 	shn_print_add_line_brake('print-wrapper');
   	var _dom_legend = document.createElement('legend');
 	_dom_legend.setAttribute('class','fieldset-heading');
+	_dom_legend.setAttribute('className','fieldset-heading');
   	_dom_legend.appendChild(document.createTextNode(dom_legend));
   	document.getElementById('print-wrapper').appendChild(_dom_legend);
 
@@ -608,6 +613,7 @@ function shn_print_add_space(id) {
 
 	_dom_space = document.createElement('span');
 	_dom_space.setAttribute('class', 'space');
+	_dom_space.setAttribute('className', 'space');
 	_dom_space.innerHTML = '<br /><br />';
 	document.getElementById(id).appendChild(_dom_space);
 }
@@ -642,7 +648,7 @@ function shn_print_add_ocr_layout() {
  * @return void
  */
 function shn_print_appent_to_wrapper(_tdom_wrap, _class) {
-	//_tdom_wrap.setAttribute('class',_class);
+	_tdom_wrap.setAttribute('class',_class);
 	_tdom_wrap.setAttribute('className',_class);
 	document.getElementById('print-wrapper').appendChild(_tdom_wrap);
 }
