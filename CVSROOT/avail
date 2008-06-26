@@ -9,6 +9,9 @@ avail | trishan, participate | sahana-phase2/mod/vm
 avail | mifanc, rbcsoriano | sahana-phase2/docs
 # GSoC 2008
 avail | ajuonline, zigon, haniffa, virajed, nishantha, chamaracal, miyuru | sahana-phase2 | rel_gsoc_2008
+# GSoC 2008 - sahana-datamining (it goes as a sahana-ext module)
+avail | miyuru | sahana-ext/sahana-datamining
+# GSoC 2008 - sahana-datamining (it goes as a sahana-ext module)
 # Myanmar Deployment
 avail | nyilynnseck, imstanley, christophertun, kyawtun, yemyatthu, saturngod, thaungsunyein, eggersrj | sahana-phase2 | dep_0_6_2_myanmar
 # NYC-CSP deployment
