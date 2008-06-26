@@ -30,11 +30,11 @@ public class Miner
 		String variant = token.nextToken();
 		String ret = null;
 
-		if (type.equalsIgnoreCase("classifiers"))// classification selection
+		/*if (type.equalsIgnoreCase("classifiers"))// classification selection
 		{
 			if (variant.equalsIgnoreCase("bayes.AODE"))
 			{
-				ret = weka.classifiers.bayes.AODE.main(input);
+				ret = new sahana.algo.classifiers.bayes.AODE().mine(input);
 			} else if (variant.equalsIgnoreCase("bayes.BayesNet"))
 			{
 				ret = weka.classifiers.bayes.BayesNet.main(input);
@@ -54,19 +54,19 @@ public class Miner
 			{
 				ret = weka.classifiers.bayes.NaiveBayesUpdateable.main(input);
 			}
-		} else if (type.equalsIgnoreCase("associations"))
+		} else */if (type.equalsIgnoreCase("associations"))
 		{
 			if (variant.equalsIgnoreCase("Apriori"))
 			{
-				ret = weka.associations.Apriori.main(input);
+				ret = new sahana.algo.associations.Apriori().mine(input);
 			}
-		} else if (type.equalsIgnoreCase("clusterers"))
+		}/* else if (type.equalsIgnoreCase("clusterers"))
 		{
 			if (variant.equalsIgnoreCase("em"))
 			{
 				ret = weka.clusterers.EM.main(input);
 			}
-		}
+		}*/
 		return ret;
 	}
 }
