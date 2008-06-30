@@ -30,43 +30,46 @@ public class Miner
 		String variant = token.nextToken();
 		String ret = null;
 
-		/*if (type.equalsIgnoreCase("classifiers"))// classification selection
+		if (type.equalsIgnoreCase("classifiers"))// classification selection
 		{
 			if (variant.equalsIgnoreCase("bayes.AODE"))
 			{
 				ret = new sahana.algo.classifiers.bayes.AODE().mine(input);
 			} else if (variant.equalsIgnoreCase("bayes.BayesNet"))
 			{
-				ret = weka.classifiers.bayes.BayesNet.main(input);
+				ret = new sahana.algo.classifiers.bayes.ComplementNaiveBayes()
+						.mine(input);
 			} else if (variant.equalsIgnoreCase("bayes.ComplementNaiveBayes"))
 			{
-				ret = weka.classifiers.bayes.ComplementNaiveBayes.main(input);
+				ret = new sahana.algo.classifiers.bayes.NaiveBayes()
+						.mine(input);
 			} else if (variant.equalsIgnoreCase("bayes.NaiveBayes"))
 			{
-				ret = weka.classifiers.bayes.NaiveBayes.main(input);
+				ret = new sahana.algo.classifiers.bayes.NaiveBayesMultinomial()
+						.mine(input);
 			} else if (variant.equalsIgnoreCase("bayes.NaiveBayesMultinomial"))
 			{
-				ret = weka.classifiers.bayes.NaiveBayesMultinomial.main(input);
+				ret = new sahana.algo.classifiers.bayes.NaiveBayesSimple()
+						.mine(input);
 			} else if (variant.equalsIgnoreCase("bayes.NaiveBayesSimple"))
 			{
-				ret = weka.classifiers.bayes.NaiveBayesSimple.main(input);
+				ret = new sahana.algo.classifiers.bayes.NaiveBayesSimple()
+						.mine(input);
 			} else if (variant.equalsIgnoreCase("bayes.NaiveBayesUpdateable"))
 			{
-				ret = weka.classifiers.bayes.NaiveBayesUpdateable.main(input);
+				ret = new sahana.algo.classifiers.bayes.NaiveBayesUpdateable().mine(input);
 			}
-		} else */if (type.equalsIgnoreCase("associations"))
+		} else if (type.equalsIgnoreCase("associations"))
 		{
 			if (variant.equalsIgnoreCase("Apriori"))
 			{
 				ret = new sahana.algo.associations.Apriori().mine(input);
 			}
-		}/* else if (type.equalsIgnoreCase("clusterers"))
-		{
-			if (variant.equalsIgnoreCase("em"))
-			{
-				ret = weka.clusterers.EM.main(input);
-			}
-		}*/
+		}/*
+			 * else if (type.equalsIgnoreCase("clusterers")) { if
+			 * (variant.equalsIgnoreCase("em")) { ret =
+			 * weka.clusterers.EM.main(input); } }
+			 */
 		return ret;
 	}
 }
