@@ -35,7 +35,7 @@ require_once 'lib_rms_rss.inc';
 include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
 include_once $global['approot']."/mod/ims/lib_ims.inc";
 
-include 'report.inc';
+include_once 'report.inc';
 
 function shn_rms_default()
 {
@@ -58,6 +58,7 @@ function shn_rms_mainmenu()
     shn_sub_mod_menuitem("plg_new", _t("New Pledge"), $module);
     shn_sub_mod_menuitem("plg_ls", _t("List Pledges"), $module);
     shn_sub_mod_menuitem("plg_sch", _t("Search Pledges"), $module);
+    shn_sub_mod_menuitem('plg_history', _t("Pledge History"));
     shn_sub_mod_menuclose();
     shn_sub_mod_menuopen(_t("Manage"));
     shn_sub_mod_menuitem("req_ls", _t("Fulfill Request"), $module);
@@ -121,4 +122,7 @@ function shn_rms_fullfill_from_inventory()
     include_once('handler_mng_ff.inc');
 }
 
+function shn_rms_plg_history(){
+	include_once('handler_plg_history.inc');
+}
 ?>

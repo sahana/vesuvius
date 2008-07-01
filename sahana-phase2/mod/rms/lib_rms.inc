@@ -1214,8 +1214,8 @@ function _shn_rms_view_reqff($req_id)
            "WHERE req.req_uuid='$req_id'";
            
     $extra_opt=array('return'=>true, 'post'=>true);
-	$rs=shn_paging_get_report($sql,5,$headers=NULL,$extra_opt);
-	//$rs = $global['db']->Execute($sql);
+	//$rs=shn_paging_get_report($sql,5,$headers=NULL,$extra_opt);
+	$rs = $global['db']->Execute($sql);
 
 	if ($rs === false)
 	{

@@ -365,9 +365,8 @@ switch ($_REQUEST['seq'])
                 $_SESSION['rms_plg_added'] = true;
             }
             
-            _shn_html_print_alert(_t("The Pledge was successfully added"));
+            _shn_html_print_alert(_t("The Pledge was successfully added<br>Your Pledge Id is ".$_SESSION['rms_plg_id']));
             _shn_rms_view_pledge($_SESSION['rms_plg_id']);
-            
             print '<br />' .
                   '[ <a href="index.php?mod=rms">RMS Home</a> ] :: ' .
                   '[ <a href="index.php?mod=rms&amp;act=plg_new">New Pledge</a> ]';
