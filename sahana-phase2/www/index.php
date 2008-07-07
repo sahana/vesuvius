@@ -44,9 +44,9 @@ shn_main_filter_getpost();
 
 // === Setup if not setup and load configuration ===
 
-// if installed the sysconf.inc will exist in the conf directory
+// if installed the sysconf.inc.php will exist in the conf directory
 // if not start the web installer
-if (!file_exists($APPROOT.'conf/sysconf.inc')){
+if (!file_exists($APPROOT.'conf/sysconf.inc.php')){
 	$global["setup"]=true;
 	// Call the web installer
 	shn_main_web_installer();
@@ -55,7 +55,7 @@ if (!file_exists($APPROOT.'conf/sysconf.inc')){
 	$global["setup"]=false;
 
 	// include the main sysconf file
-	require ($APPROOT.'conf/sysconf.inc');
+	require ($APPROOT.'conf/sysconf.inc.php');
 
 	// include the main libraries the system depends on
 	require_once ($APPROOT.'inc/handler_db.inc');
@@ -298,7 +298,7 @@ function shn_main_web_installer()
 	global $global, $APPROOT, $conf;
 
 	// The 'help' action is a special case. The following allows the popup help text
-	// to be accessed before the sysconf.inc file has been created.
+	// to be accessed before the sysconf.inc.php file has been created.
 	if ($global['action'] == "help"){
 		require_once ($APPROOT."/inc/lib_stream_{$_REQUEST['stream']}.inc");
 
@@ -321,7 +321,7 @@ function shn_main_web_installer()
 	}
 	else{
 		// include the sysconfig template for basic conf dependancies
-		require_once ($APPROOT.'conf/sysconf.inc.tpl');
+		require_once ($APPROOT.'conf/sysconf.inc.tpl.php');
 
 		// launch the web setup wizard
 		require ($APPROOT.'inst/setup.inc');

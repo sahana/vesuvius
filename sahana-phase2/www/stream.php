@@ -21,9 +21,9 @@ $global['approot'] = realpath(dirname(__FILE__)).'/../';
 // $global['approot'] = '/usr/local/bin/sahana/';
 $global['previous']=false;
 // === initialize configuration variables ===
-if (file_exists($global['approot'].'conf/sysconf.inc')){
+if (file_exists($global['approot'].'conf/sysconf.inc.php')){
 
-    require_once ($global['approot'].'conf/sysconf.inc');
+    require_once ($global['approot'].'conf/sysconf.inc.php');
     require_once ($global['approot'].'inc/lib_modules.inc'); 
     require_once ($global['approot'].'inc/handler_db.inc');
     
