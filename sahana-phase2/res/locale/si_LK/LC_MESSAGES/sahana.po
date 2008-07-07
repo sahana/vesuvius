@@ -10773,7 +10773,7 @@ msgid "Configuration File"
 msgstr "සැකසුම් දත්ත ගොනුව"
 
 #: ../inst/setup.inc:395
-msgid "Location To Write Config File (sysconf.inc)"
+msgid "Location To Write Config File (sysconf.inc.php)"
 msgstr "සැකසුම් දත්ත ගොනුව, ලිවිය යුතු ස්ථානය"
 
 #: ../inst/setup.inc:402
@@ -10803,7 +10803,7 @@ msgstr "අවවාදයයි: ආරක්ෂක"
 #: ../inst/setup.inc:451
 msgid ""
 "To secure the configuration you have to remove write \n"
-"             permissions from the configuration file sysconf.inc located "
+"             permissions from the configuration file sysconf.inc.php located "
 "in \n"
 "             the Sahana directory conf/"
 msgstr ""
