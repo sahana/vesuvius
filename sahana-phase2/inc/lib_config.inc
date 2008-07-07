@@ -16,7 +16,7 @@
  */
 
 // define the configuration priority order
-require_once ($APPROOT.'conf/conf-order.inc');
+require_once ($APPROOT.'conf/conf-order.inc.php');
 
 // TODO: Clean up the meta-conf system
 // Configuration meta data.
