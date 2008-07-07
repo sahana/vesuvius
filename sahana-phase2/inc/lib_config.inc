@@ -83,7 +83,7 @@ function shn_config_file_update($modify, $config_file, $output_file)
 	return true;
 }
 
-// Load all .inc files in the main /conf including sysconf.inc
+// Load all .inc files in the main /conf including sysconf.inc.php
 function shn_config_base_conf_fetch()
 {
 	global $global;
@@ -100,7 +100,7 @@ function shn_config_base_conf_fetch()
         }
     }
 
-	// require ($approot.'conf/sysconf.inc');
+	// require ($approot.'conf/sysconf.inc.php');
 }
 
 // Load the repective module conf.inc file

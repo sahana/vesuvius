@@ -303,7 +303,7 @@ function shn_error_analyze_and_display_help($errno, $errmsg, $filename, $linenum
 	global $global;
 	global $conf;
 
-	include_once($global['approot'].'conf/sysconf.inc');
+	include_once($global['approot'].'conf/sysconf.inc.php');
 
 	//add_error("the error message was ".$errmsg);
 	//echo "the error message was ".$errmsg;

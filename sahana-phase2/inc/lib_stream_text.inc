@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_stream_text.inc,v 1.5 2008-02-22 04:43:50 ishanul Exp $ */
+/* $Id: lib_stream_text.inc,v 1.6 2008-07-07 13:13:20 chamindra Exp $ */
 
 /**
  *
@@ -23,7 +23,7 @@
 function shn_stream_init() {
 	//for install hack
 	$my_approot = realpath(dirname(__FILE__)) . '/../';
-	if (!file_exists($my_approot . 'conf/sysconf.inc')) {
+	if (!file_exists($my_approot . 'conf/sysconf.inc.php')) {
 		session_start();
 	}
 	//install hack ends

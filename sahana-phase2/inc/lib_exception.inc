@@ -21,8 +21,8 @@
 
 /**Documentation - http://www.sahana.lk/wiki/doku.php?id=dev:exeptions */
 
-if(file_exists($global['approot'].'conf/sysconf.inc'))
-	include_once($global['approot'].'conf/sysconf.inc');
+if(file_exists($global['approot'].'conf/sysconf.inc.php'))
+	include_once($global['approot'].'conf/sysconf.inc.php');
 require_once($global['approot'].'inc/lib_locale/gettext.inc');
 include_once($global['approot'].'inc/lib_errors.inc');
 
@@ -75,7 +75,7 @@ class SahanaSQLException extends Exception{
 		global $global;
 		global $conf;
 		//var_dump($global['db']);
-		if (file_exists($global['approot'].'conf/sysconf.inc')){
+		if (file_exists($global['approot'].'conf/sysconf.inc.php')){
 			if(!isset($dbms))
 				$dbms = $conf['db_engine'];
 			if(!isset($thisConnection))

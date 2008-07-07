@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_header.inc,v 1.18 2008-01-30 04:38:38 prabath321 Exp $ */
+/* $Id: handler_header.inc,v 1.19 2008-07-07 13:13:20 chamindra Exp $ */
 /**
  *
  * Sahana HTML footer
@@ -24,7 +24,7 @@
         <h1><?=_t("Sahana FOSS Disaster Management System")?></h1>
         <?php 
             global $conf;
-            if(file_exists($global['approot'].'conf/sysconf.inc'))
+            if(file_exists($global['approot'].'conf/sysconf.inc.php'))
             {
                 shn_db_get_incident_select();
                 _shn_lc_lang_list(); 
