@@ -18,7 +18,7 @@
 {
 	// print ('test');
 	/*require_once('../3rd/adodb/adodb.inc.php');
-	require_once('../conf/sysconf.inc');
+	require_once('../conf/sysconf.inc.php');
 	//Make the connection to $global['db']
 	$db = NewADOConnection($conf['db_engine']);
 	$db ->Connect($conf['db_host'].($conf['db_port']?':'.$conf['db_por
