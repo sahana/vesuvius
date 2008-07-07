@@ -435,12 +435,12 @@ if (is_writeable($global['approot'].'conf')) {
     directory, as this is a security risk. Please specify where to write the temporary file (e.g. /tmp). Subsequently you need to move this file to 
     the Sahana <b>/conf</b> directory.</p>';
 
-	$tmp_filename = tempnam('/tmp','sysconf.inc');
+	$tmp_filename = tempnam('/tmp','sysconf.inc.php');
 	// Need the temporary directory rather than the filename
-	$tmp_filename = preg_replace('/sysconf.inc.*$/','sysconf.inc',
+	$tmp_filename = preg_replace('/sysconf.inc.php.*$/','sysconf.inc.php',
 	$tmp_filename);
 
-	shn_form_text(_t('Location To Write Config File (sysconf.inc)'),
+	shn_form_text(_t('Location To Write Config File (sysconf.inc.php)'),
                 'conffile','size="50"', (isset($_SESSION[SETUP_DATA_PREFIX."conffile"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."conffile"],
                 'req'=>true ):array('value'=>"$tmp_filename",
                 'req'=>true )));
@@ -837,7 +837,7 @@ if (is_writeable($global['approot'].'conf')) {
 	?>
 <p><b><u><?php echo $oops_img._t('WARNING: Security')?></u></b></p>
 <p><?php echo _t('To secure the configuration you have to remove write 
-             permissions from the configuration file sysconf.inc located in 
+             permissions from the configuration file sysconf.inc.php located in 
              the Sahana directory conf/');?></p>
 
 <p><?php echo _t('Click the button below to start Sahana');?> <?php

@@ -24,7 +24,7 @@
  */
 function _shn_setup_write_config($config_key_vals,$undo=false){
 	global $global,$conf;
-	$conf_file = $global['approot']."conf/sysconf.inc";
+	$conf_file = $global['approot']."conf/sysconf.inc.php";
 	if($undo==false){
 
 		// replace the config values in the modify code array.
@@ -33,7 +33,7 @@ function _shn_setup_write_config($config_key_vals,$undo=false){
 			$modify["/\'$key\'/"] = '$conf[\''.$key.'\'] = \''.$value.'\';';
 		}
 
-		if ( @shn_config_file_update( $modify, $global['approot'].'conf/sysconf.inc.tpl',
+		if ( @shn_config_file_update( $modify, $global['approot'].'conf/sysconf.inc.tpl.php',
 		$conf_file) ) {
 			return true;
 		} else {
