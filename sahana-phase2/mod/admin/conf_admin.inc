@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: conf_admin.inc,v 1.20 2008-04-29 17:26:40 franboon Exp $ */
+/* $Id: conf_admin.inc,v 1.21 2008-07-08 11:09:41 ravithb Exp $ */
 
-/* $Id: conf_admin.inc,v 1.20 2008-04-29 17:26:40 franboon Exp $ */
+/* $Id: conf_admin.inc,v 1.21 2008-07-08 11:09:41 ravithb Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -21,6 +21,7 @@
  *
  */
 include_once($global['approot'].'inc/lib_config.inc');
+include_once($global['approot'].'inc/lib_config_meta.inc.php');
 
 function shn_admin_conf_list()
 {

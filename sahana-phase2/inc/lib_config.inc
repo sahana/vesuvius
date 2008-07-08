@@ -18,20 +18,6 @@
 // define the configuration priority order
 require_once ($APPROOT.'conf/conf-order.inc.php');
 
-// TODO: Clean up the meta-conf system
-// Configuration meta data.
-global $conf_meta;
-$conf_meta = array();
-include_once($global['approot'].'conf/sysconf_meta.inc');
-$approot = $global['approot'];
-// include the module configuration meta files
-$d = dir($approot.'mod/');
-while (false !== ($f = $d->read())) {
-	if (file_exists($approot.'mod/'.$f.'/conf_meta.inc')) {
-		include_once($approot.'mod/'.$f.'/conf_meta.inc');
-	}
-}
-
 // load all the configurations based on the database or file order
 function shn_config_load_in_order() {
 
@@ -176,15 +162,6 @@ function shn_config_database_update($key, $value, $type='base')
 
 		$sql = "INSERT INTO config VALUES (NULL,'$type', '$key', '$value')";
 		$global['db']->Execute($sql);
-	}
-}
-
-function shn_config_get_metadata($key){
-	global $global,$conf,$conf_meta;
-	if(isset($conf_meta[$key])){
-		return $conf_meta[$key];
-	}else{
-		return array('type'=>'unknown');
 	}
 }
 
