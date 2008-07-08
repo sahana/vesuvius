@@ -79,7 +79,7 @@ function shn_config_base_conf_fetch()
 
     $d = dir($approot.'conf/');
     while (false !== ($f = $d->read())) {
-        if ( preg_match('/\.inc$/',$f) ) {
+        if ( preg_match('/\.inc\.php$/',$f) ) {
 
             //echo 'included '.$f;
             require_once($approot.'conf/'.$f);
