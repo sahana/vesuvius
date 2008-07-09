@@ -26,13 +26,18 @@ _shn_rms_print_hedder(_t("Enter New Pledge"));
  *
  * @param unknown_type $id
  */
-function _shn_rms_donor() 
+function _shn_rms_donor()
 {
 	$_SESSION['rms_donor_id'] = null;
-    
+
     //_shn_rms_print_hedder(_t("Make New Pledge"));
     shn_form_fopen("plg_new",null,array('req_message'=>false));
     shn_form_hidden(array('seq'=>'add_donor'));
+    if(shn_acl_is_enabled()){
+    	shn_form_fsopen('Use the user account');
+    	shn_form_checkbox('User Account', 'user', 'onClick=submit(this)');
+    	shn_form_fsclose();
+    }
     shn_form_fsopen(_t("New Donor"));
     print '<div class="info">';
     print _t("Create New Donor: ");
@@ -42,7 +47,7 @@ function _shn_rms_donor()
     print '<br />';
     print '</div>';
     print '<br />';
-    
+
     $extra_opt['req']=true;
     shn_form_text(_t("Full Name"),'name',null,$extra_opt);
     shn_form_text(_t("Mobile"),'mobile');
@@ -52,8 +57,8 @@ function _shn_rms_donor()
     shn_form_text(_t("Telephone"),'telephone',null);
     shn_form_textarea(_t("Address"),'address',null);
    // shn_form_textarea(_t("Address"),'address',null);
-    
-    
+
+
     shn_form_fsclose();
     shn_form_submit(_t("Next"));
     shn_form_fclose();
@@ -90,7 +95,7 @@ function _shn_rms_items($category = null)
 {
     $categories = array();
     $items = array();
-    
+
     $cat_arr = _shn_rms_get_categories();
     if ($category == null)
     {
@@ -100,16 +105,16 @@ function _shn_rms_items($category = null)
     {
         $item_arr = _shn_rms_get_items($category);
     }
-    
+
     if ($cat_arr == false)
         return;
     $categories["none"] = "";
-    
+
     foreach ($cat_arr as $cat)
     {
         $categories[$cat['ct_uuid']] = $cat['name'];
     }
-    
+
     if (!empty($item_arr))
     {
         foreach ($item_arr as $item)
@@ -122,40 +127,40 @@ function _shn_rms_items($category = null)
             {
                 $items[$item['ct_uuid']] = $item['name'];
             }
-                
+
         }
     }
-    
+
     print '<a name="items"></a>';
     print '<br />';
     print '<div id="item_new">';
     shn_form_fopen("plg_new",null,array('req_message'=>false,'anchor'=>'items'));
     shn_form_hidden(array('seq'=>'add_item'));
     shn_form_hidden(array('cat_sel'=>'false'));
-    
+
     $info=_t("Select an item first");
     ?><div class="info"><?php echo $info;?></div><br /><?
-    
+
 	shn_form_fsopen(_t("New Item"));
     include_once('lib_ajax.inc');
     _shn_rms_ajax_init('sub_cat', 'item_div');
     shn_form_select($categories, _t("Category"),'category',"onChange='makeRequest(\"index.php?mod=rms&amp;act=req_new&amp;stream=text&amp;seq=ax_sub_cat\",this.value, \"cat\")'", array('req'=>true, 'value'=>$category));
     //shn_form_select($categories, _t("Category"),'category','onChange="selectCat();"', array('value'=>$category));
     //shn_form_select($items, _t("Item"),'item');
-    
+
     print '<div id="sub_cat">';
     print '</div>';
     print '<div id="item_div">';
     print '</div>';
     print '<div id="itm_unit">';
     print '</div>';
-    
+
     shn_form_text(_t("Quantity"),'qty',null,array('req'=>true));
     shn_form_fsclose();
-    
+
     $info=_t("Select an Inventory");
     ?><div class="info"><?php echo $info;?></div><br /><?
-    
+
     shn_form_fsopen(_t('Inventory Selection'));
     $inventory_array=array();
     global $global;
@@ -172,29 +177,29 @@ function _shn_rms_items($category = null)
     shn_form_submit(_t("Add"));
     shn_form_fclose();
     print '</div>';
-    
+
     _shn_rms_js_category();
 }
 
 function _shn_rms_show_items()
 {
     if (is_array($_SESSION['rms_items']))
-    {        
+    {
         $rms_items = $_SESSION['rms_items'];
 
-        $th_items[] = array (_t("Item"), _t("Quantity"), '&nbsp;'); 
+        $th_items[] = array (_t("Item"), _t("Quantity"), '&nbsp;');
         foreach ($rms_items as $itm)
         {
             $remove_link = '<a href="index.php?mod=rms&amp;act=plg_new' .
                            '&amp;seq=del_item&amp;itm_id=' .
                            $itm[0] . '">' . _t("Remove Item") . '</a>';
             $tb_items[] = array (
-                                 _shn_rms_get_itemname($itm[0]), 
-                                 $itm[1] . " " . _shn_rms_get_iunit_name($itm[3]) . "" , 
+                                 _shn_rms_get_itemname($itm[0]),
+                                 $itm[1] . " " . _shn_rms_get_iunit_name($itm[3]) . "" ,
                                  $remove_link
                                 );
         }
-        
+
         print '<br />';
         shn_html_table($tb_items, $th_items, null, array('class'=>'wide'));
         print '<br />';
@@ -205,7 +210,7 @@ function _shn_rms_show_items()
         shn_form_submit(_t("Finish"));
         shn_form_fclose();
     }
-    
+
 }
 
 function _shn_rms_get_subcat($cat_id)
@@ -215,7 +220,7 @@ function _shn_rms_get_subcat($cat_id)
     if (empty($car_arr))
     {
         $item_arr = _shn_rms_get_items($cat_id);
-        
+
         foreach ($item_arr as $item)
         {
             if (empty($_SESSION['rms_items']))
@@ -226,18 +231,18 @@ function _shn_rms_get_subcat($cat_id)
             {
                 $items[$item['ct_uuid']] = $item['name'];
             }
-                
+
         }
         if(_shn_rms_check_catalog_item($itm))
         {
 	add_error(_t("Please Select a Catalog Item"));
         return false;
         }
-        
+
         if (!isset($items) || empty($items))
         {
             print "<div class=info>" . _t("No items (left) for this category please select another category") . "</div>";
-            return false;            
+            return false;
         }
         else
         {
@@ -245,7 +250,7 @@ function _shn_rms_get_subcat($cat_id)
             shn_form_select($items, _t("Item"),'item',"onChange='makeRequest(\"index.php?mod=rms&amp;act=plg_new&amp;stream=text&amp;seq=ax_unit_itm\",this.value, \"item\", showUnit)'", array('req'=>true));
             return true;
         }
-        
+
     }
     else
     {
@@ -256,28 +261,21 @@ function _shn_rms_get_subcat($cat_id)
         }
         shn_form_select($categories, _t("Sub Category"),'category',"onChange='makeRequest(\"index.php?mod=rms&amp;act=plg_new&amp;stream=text&amp;seq=ax_sub_cat\",this.value, \"subcat\")'", array('req'=>true, 'value'=>$category));
     }
-    
+
 }
 
 switch ($_REQUEST['seq'])
 {
     case '':
-            
+
             $_SESSION['rms_items'] = null;
             $_SESSION['rms_plg_added'] = null;
-            if (shn_acl_is_enabled()) {
-                $id=$_SESSION['user_id'];
-                $_SESSION['rms_donor_id'] =  $_SESSION['user_id'];
-                _shn_rms_donor_display($id);
-                _shn_rms_items();	
-            }else{
-                 _shn_rms_donor();
-            }
+            _shn_rms_donor();
             break;
- 
+
     case 'add_donor':
- 
-    	    if($_POST['name']!=null && $_POST['card_number']!=null) {
+
+    	    if(!isset($_POST['user']) && ($_POST['name']!=null && $_POST['card_number']!=null)) {
     	        $donor['name'] = $_POST['name'];
 	            $donor['mobile'] = $_POST['mobile'];
 	            $donor['telephone'] = $_POST['telephone'];
@@ -285,13 +283,15 @@ switch ($_REQUEST['seq'])
 	            $donor['address'] = $_POST['address'];
 	            $donor['opt_id_type'] = $_POST['opt_id_type'];
     	        $donor['card_number'] = $_POST['card_number'];
-                
+
                 $_SESSION['rms_donor_id']=_shn_rms_add_donor($donor);
-                $_SESSION['user_id'] = $_SESSION['rms_donor_id'];
+                if(!shn_acl_is_enabled()){
+       	        	$_SESSION['user_id'] = $_SESSION['rms_donor_id'];
+                }
                 _shn_rms_donor_display($_SESSION['user_id']);
                 _shn_rms_items();
     	        break;
-    	        
+
     	    }elseif($_POST['name']==null && $_POST['card_number']==null) {
     	    	add_error(_t("Please fill the 'Name' and 'Card Number'"));
     	    	_shn_rms_donor();
@@ -309,20 +309,20 @@ switch ($_REQUEST['seq'])
             $cat_id=$_REQUEST['par'];
             _shn_rms_get_subcat($cat_id);
             break;
-            
+
     case 'ax_unit_itm':
             $itm_id=$_REQUEST['par'];
             $units_arr = _shn_rms_get_itm_units($itm_id);
             if(empty($units_arr))
                 return false;
-                
+
             foreach ($units_arr as $unit)
             {
-                $units[$unit['unit_uuid']] = $unit['name'];                    
+                $units[$unit['unit_uuid']] = $unit['name'];
             }
             shn_form_select($units, _t("Unit"),'unit');
             break;
-            
+
     case 'add_item':
             _shn_rms_view_donor($_SESSION['rms_donor_id']);
             if ($_POST['cat_sel'] == 'true')
@@ -348,28 +348,28 @@ switch ($_REQUEST['seq'])
             }
             _shn_rms_show_items();
             break;
-            
+
     case 'del_item':
             _shn_rms_del_itemfromsession($_REQUEST['itm_id']);
             _shn_rms_view_donor($_SESSION['rms_donor_id']);
             _shn_rms_items();
             _shn_rms_show_items();
             break;
-            
+
     case 'finish':
             $d_uuid = $_SESSION['rms_donor_id'];
-            
+
             if (!$_SESSION['rms_plg_added'])
             {
                 $_SESSION['rms_plg_id'] = _shn_rms_add_pledge($d_uuid);
                 $_SESSION['rms_plg_added'] = true;
             }
-            
+
             _shn_html_print_alert(_t("The Pledge was successfully added<br>Your Pledge Id is ".$_SESSION['rms_plg_id']));
             _shn_rms_view_pledge($_SESSION['rms_plg_id']);
             print '<br />' .
                   '[ <a href="index.php?mod=rms">RMS Home</a> ] :: ' .
                   '[ <a href="index.php?mod=rms&amp;act=plg_new">New Pledge</a> ]';
-            break;                  
+            break;
 }
 ?>
