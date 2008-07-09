@@ -185,13 +185,16 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     
     $loc = _shn_rms_get_location_array($_SESSION['user_id']);
     
-    //var_dump($loc);
     $location = array();
-    
+    $location[''] = 'All';
     foreach ($loc as $l)
     {
-      
-      $location[$l] = _shn_rms_get_location_name($l);
+      if(_shn_rms_get_location_name($l) != false){
+      	$location[$l] = _shn_rms_get_location_name($l);
+      }
+      else{
+      	$location[$l] = _shn_rms_get_name($l);
+      }
       //array_push($location,$temp);
     
     }
