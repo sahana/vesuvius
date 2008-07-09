@@ -37,7 +37,7 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
         if ($filter['status'] == '' || !_shn_rms_is_plgstatus($status))
             $status = false;
             
-        if (isset($filter['donor']))
+        if ($filter['donor'])
         {
             $fstr = " WHERE donor_uuid='$donor'";
             
@@ -106,7 +106,7 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
     
     //create the filter list
     $donors = array();
-    
+     
     foreach ($rs_arr as $r)
     {
 //        $donor = _shn_rms_get_donor($r['donor_uuid']);
@@ -114,7 +114,7 @@ function _shn_rms_plg_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
         $donors = _shn_rms_get_donors();
 	//print_r($donors);
     }
-    
+    $donors[''] = 'All';
     //Result table hedder
     /*$th_res[] = array (
                          _t("ID"), 
