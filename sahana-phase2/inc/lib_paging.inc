@@ -236,6 +236,13 @@ function _shn_page_draw_navi_post(&$res,$url){
     <form name='paging_form' class='paging_form' action='<?php echo $url?>' method='POST'>
 <?php
     foreach($_POST as $name=>$post){
+        //if a post values came in and array create a hidden array.
+        if(is_array($post)){
+            foreach($post as $val){
+                shn_form_hidden(array($name.'[]'=>$val));
+            }
+            continue;
+        }
         if('c_page'!=$name && 'page'!=$name){
             shn_form_hidden(array($name=>$post));
         }
