@@ -33,11 +33,12 @@ function shn_or_adm_default()
 {
     _shn_or_adm_sub_menu();
 ?>
-    <p><b> <?php echo _t("Welcome to the OR admin page")?> </b></p>
-    <p> <?php echo _t("Use the Above Navigation to Administer Org Registry")?></p>
-
-    
-
+    <h2> <?php echo _t("Organisation Registry Configuration.")?> </h2><br/>
+    <p><?php echo _t("Use the following links or the above tabs to chage organization types and sectors.") ?></p>
+<ul>
+    <li><b><a href="index.php?mod=or&act=adm_or_type"><?php echo _t("Organization Types") ?></a></b><br/> - <?php echo _t("Change the types of organizations, (add new, edit or delete)") ?></li><br/>
+    <li><b><a href="index.php?mod=or&act=adm_sector"><?php echo _t("Organization Sectors") ?></a></b><br/> - <?php echo _t("Change the organization sectors, (add new, edit or delete)")?></li><br/>
+</ul>
 
 <?php
 }
