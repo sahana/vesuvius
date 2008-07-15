@@ -653,12 +653,12 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 		 $info.=_t("* an Organization ")."<br /> ";
 		 $count=$count+1;
 	}
-	if(($extra_opts["camps"]==true)or ($extra_opts["inv"]==true) or ($extra_opts["orgs"]==true)){
+	if(($extra_opts["camps"]==true)or ($extra_opts["inv"]==true) or ($extra_opts["org"]==true)){
 		//$info.=_t("a Location ");
 		?><div class="info"><?php echo $info;?></div><br /><?
 	}
 	if($extra_opts["camps"]==true){
-		 if($count>1){
+		 if($count>=1){
 		 	$options=array("loc_camp"=>"Select a Camp/Shelter");
 		 	$select_opts='onclick=radio_click("loc_camp")';
 			shn_form_radio($options,null, "loc",$select_opts);
@@ -691,7 +691,7 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 		 global $global;
 		 include_once $global['approot']."/mod/or/api.inc";
 		 $orgs=shn_or_organization_list();
-		 if($count>1){
+		 if($count>=1){
 
 		 	$options=array("loc_org"=>_t("Select an Organization"));
 		 	$select_opts='onChange=radio_click("loc_org")';
@@ -1048,7 +1048,7 @@ please note that the levels can be customized, therefore it does not need to be 
                     $res_options->MoveNext();
             }
             
-            ?><div id='loc_div_<?php echo $res->fields[0]."'>";
+            ?><div id='loc_div_<?php echo $res->fields[0];?>'><?php
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
             shn_form_select($options,_lc($res->fields[1]).":","loc_select_".$res->fields[0],$select_opts,$extra_opts);
             ?></div><?
