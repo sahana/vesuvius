@@ -665,7 +665,7 @@ switch ($_REQUEST['seq'])
                 $_SESSION['rms_req_added'] = true;
             }
             
-            _shn_html_print_alert(_t("The Request was successfully submitted"));
+            add_confirmation(_t("The Request was successfully submitted"));
             _shn_rms_view_request($_SESSION['rms_req_id']);
             
             print '<br />' .
