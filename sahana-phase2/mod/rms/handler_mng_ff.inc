@@ -509,7 +509,7 @@ switch ($_REQUEST['seq'])
             
             if ($_SESSION['rms_mng_ff_added'])
             {
-                _shn_html_print_alert(_t("The Fulfillment Data was successfully added"));
+                add_confirmation(_t("The Fulfillment Data was successfully added"));
                 _shn_rms_view_reqff($_SESSION['rms_req_id']);
                 $_SESSION['rms_mng_ff_added'] = 0;
                 $stat = _shn_rms_mng_fulfill_check($_SESSION['rms_req_id']);
