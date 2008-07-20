@@ -56,7 +56,7 @@ function shn_skel_mainmenu()
     shn_mod_menuitem('form',_t('Form'));
     shn_mod_menuitem('report',_t('Report'));
     shn_sub_mod_menuclose();
-
+    shn_mod_menuitem('ajax_demo',_t('xAjax Demo'));
     shn_mod_menuclose();
    
     // include the main menu so that the user can navigate outside the module
@@ -208,3 +208,60 @@ function shn_skel_form()
     shn_form_submit("Delete", $submit_opts = null);
     shn_form_fclose();
 }
+
+/**
+ * This function will demo xajax support in framework
+ *
+ */
+
+function shn_skel_ajax_demo(){
+    global $global;
+    include_once $global['approot'].'/inc/lib_xajax.inc';
+    shn_xajax_registerFunction('skel_hello_world');
+    shn_xajax_registerFunction('skel_calculate');
+?>
+    <h2><?php echo _t('xAjax Demo'); ?></h2>
+    <h3>Demo 1 :: Changing content of an element</h3><br />
+    <a href="#" onclick="skel_hello_world()" id='click_me' >Click here</a>
+    <br />
+    <br />
+    <h3>Demo 2 :: Ajax calculater</h3><br />
+    <script language="javascript">
+        function cal(){
+            var val1=document.getElementById('val1').value;
+            var val2=document.getElementById('val2').value;
+            skel_calculate( val1 , val2 );
+            return false;
+        }
+    </script>
+    <form method="post" onsubmit="return false;">
+        <input type="text" size="5" id='val1' onchange="cal();"/> 
+        <span> + </span>
+        <input type="text" size="5" id='val2' onchange="cal();"/>
+        <span> = </span>
+        <span id='result'>0</span>
+        <br />
+        <input type="submit" value="Calculate" onclick="cal();" />
+    </form>
+    <br />
+    <br />
+    <h3>Demo 3 :: server side validation</h3><br />
+<?php
+
+    // this is xajax function we are goign to use to validate the user_id
+    shn_xajax_registerFunction('skel_check_user');
+    shn_xajax_registerFunction('skel_add_user');
+
+    shn_form_fopen('ajax_demo');
+    shn_form_fsopen('User Info');
+    shn_form_text('User Id','user_id',' onchange="skel_check_user(this.value)";',array('br'=>false));
+    echo "<span id='check' ></span><br /><br />";
+    shn_form_text('Email','email');
+    shn_form_fsclose();
+    shn_form_submit('Add Me', 'onclick="skel_add_user(xajax.getFormValues(\'form0\'));return false"');
+    shn_form_fclose();
+    echo "Existing Users : ";
+    $users=print_r($_SESSION['demo_users'], true);
+    echo "<span id='users'>".$users."</span><br />";
+}
+?>

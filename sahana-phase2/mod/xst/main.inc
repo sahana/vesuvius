@@ -87,4 +87,11 @@ function shn_xst_online_cam_upload_img(){
     }
 }
 
+/**
+ * Dumy function for ajax calles
+ */
+function shn_ajax_xst_xajax(){
+
+}
+
 ?>

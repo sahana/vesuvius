@@ -497,3 +497,5 @@ html>body #message_container textarea#message{ font-size:13px;} /*hacks for IE*/
 #message_container div#message{ background-color:transparent; border:none; color:white; margin:110px 0px 0px 47px; width:160px; font-size:15px;}
 html>body #message_container div#message{ font-size:13px;} /*hacks for IE*/
 
+/* xajax loading message */
+#loadingMessage{position:absolute;left:0;bottom:0;background:#FFFF99;font-size:large;padding:5px;}

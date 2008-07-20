@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.15 2008-02-14 09:04:56 ravids Exp $ */
+/* $Id: lib_stream_html.inc,v 1.16 2008-07-20 16:27:47 priyanga Exp $ */
 
 /**
  *
@@ -135,10 +135,13 @@ function shn_stream_close()
 	}
 
 	?></div>
-<!-- /content --> <?php
-
-// include the footer provided there is not a module override
-shn_include_page_section('footer',$global['module']);
+<!-- /content --> 
+<?php
+    // if xajax object exists print the javascript
+    if(isset($global['xajax']))
+        shn_xajax_printJavascript();
+    // include the footer provided there is not a module override
+    shn_include_page_section('footer',$global['module']);
 ?></div>
 <!-- /wrapper --></div>
 <!-- /container -->
