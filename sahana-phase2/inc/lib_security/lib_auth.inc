@@ -137,7 +137,7 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=n
 	global $global;
 	$db=$global['db'];
 	include_once($global['approot']."/inc/lib_uuid.inc");
-	
+
 	if($user_name==null){
 		return false;
 	}
@@ -161,7 +161,7 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=n
 	}
 
 	if($pid==null){
-		 
+			
 		// $pid = $db->GenID('person_seq',10);
 		$pid=shn_create_uuid($type='person');
 		/*
@@ -210,7 +210,7 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=n
 
 		}
 		$q = "INSERT INTO users(p_uuid,password,changed_timestamp,user_name,salt,status) values('{$pid}','{$stored_password}',{$time},'{$user_name}','{$salt}','{$status}')";
-		 
+			
 		$res=$db->Execute($q);
 		if($res==false){
 			add_error($db->ErrorMsg());
@@ -267,7 +267,7 @@ function shn_auth_user_list($fullname=false,$admin=true){
 		}else{
 			$name=$res->fields["full_name"]." - ".$name=$res->fields["user_name"];
 		}
-		 
+			
 		//$name=$res->fields["full_name"];
 		if(($res->fields["p_uuid"]!="1") or($admin==true)){
 			$users[$res->fields["p_uuid"]]=$name;
@@ -307,12 +307,12 @@ function shn_soap_ws_authenticate(){
 			/*
 			 * send the basic authentication challenge
 			 */
-				
+
 			header('WWW-Authenticate: Basic realm="Sahana"');
 			header("HTTP/1.0 401 Unauthorized");
 			return false;
 		}else{
-				
+
 			$arg1=explode(",", trim($_SERVER['PHP_AUTH_USER']));
 			$sign=$_SERVER['PHP_AUTH_PW'];
 			$digest=$arg1[2];
@@ -320,7 +320,7 @@ function shn_soap_ws_authenticate(){
 			 * authenticate the user using the API Key and Password, if succeeds returns the secret for that user
 			 */
 			$secret=shn_authenticate_ws_user($arg1[0],$arg1[1]);
-				
+
 			if($secret==null){
 				// return true;
 
@@ -389,10 +389,6 @@ function shn_authenticate_ws_user($user,$pwd,$extra_opts=null)
 
 function shn_authenticate_user()
 {
-	/*need to modify the function to work with the sahana database scheme
-	 and adodb code, till then return true.
-	 */
-
 	global $global;
 	$db=$global['db'];
 	$user_data=array("user_id"=>ANONYMOUS_USER,"user"=>"Anonymous");
@@ -402,7 +398,7 @@ function shn_authenticate_user()
 		$user_data["result"]=LOGGEDOUT;
 		return $user_data ;
 	}
-	
+
 	/* if user has not requested login no need to authenticate, simply
 	 return -1 , so the calling application can identify that
 	 authentication was not attempted
@@ -415,7 +411,7 @@ function shn_authenticate_user()
 		$user= addslashes(strip_tags(trim($_POST{"user_name"})));
 		$pwd= addslashes(strip_tags(trim($_POST{"password"})));
 		$q = "SELECT salt,p_uuid,status  FROM users
-                    WHERE user_name = '$user'";
+		WHERE user_name = '$user'";
 		$res=$db->Execute($q);
 		if(($res==null)||($res->EOF)){
 			add_error("Login Failed : Invalid user name or password.");
@@ -458,7 +454,7 @@ function shn_authenticate_user()
 				}
 
 			}
-			 
+
 		}
 
 		// banned user
@@ -471,15 +467,15 @@ function shn_authenticate_user()
 		}
 
 		$pwd=substr($pwd, 0, 4).$salt.substr($pwd, 4);
-		 
+			
 		$user_data["result"]=LOGGEDOUT;
 		// Create a digest of the password collected from the challenge
 		$password_digest = md5(trim($pwd));
 		// Formulate the SQL to find the user
 		$q = "  SELECT p_uuid  FROM users
-                    WHERE user_name = '$user'
-                    AND password = '$password_digest' and salt='{$salt}'";
-		 
+		WHERE user_name = '$user'
+		AND password = '$password_digest' and salt='{$salt}'";
+			
 		$res=$db->Execute($q);
 		if(($res==null)||($res->EOF)){
 			/* no result ,so return 1 ,which is  not a valid user_id , the calling
@@ -517,7 +513,7 @@ function shn_change_password($user,$old_pwd,$new_pwd)
 	global $global;
 	$db=$global['db'];
 	$q = "  SELECT p_uuid,salt  FROM users
-                    WHERE p_uuid = '$user'";
+	WHERE p_uuid = '$user'";
 	// AND password = '$password_digest'";
 	$res=$db->Execute($q);
 	if($res->EOF){
@@ -532,9 +528,9 @@ function shn_change_password($user,$old_pwd,$new_pwd)
 	$password_digest = md5(trim($pwd));
 	// Formulate the SQL to find the user
 	$q = "  SELECT p_uuid  FROM users
-                    WHERE p_uuid = '$user'
-                    AND password = '$password_digest' and salt='{$salt}'";
-	 
+	WHERE p_uuid = '$user'
+	AND password = '$password_digest' and salt='{$salt}'";
+
 	if(($res==null) ||($res->EOF)){
 		return true;
 	}else{
@@ -543,7 +539,7 @@ function shn_change_password($user,$old_pwd,$new_pwd)
 		$password_digest = md5(trim($new_pwd));
 		// Formulate the SQL to find the user
 		$q = "  update users set password = '{$password_digest}',changed_timestamp={$time}
-                    WHERE p_uuid = '$user'";
+		WHERE p_uuid = '$user'";
 		$res=$db->Execute($q);
 		return $res;
 	}
@@ -560,11 +556,11 @@ function shn_force_change_password($user=null,$new_pwd,$p_uuid=null)
 	$db=$global['db'];
 	if($p_uuid=null){
 		$q = "  SELECT p_uuid,salt  FROM users
-                    WHERE user_name = '$user'";
+		WHERE user_name = '$user'";
 		// AND password = '$password_digest'";
 	}else{
 		$q = "  SELECT p_uuid,salt  FROM users
-                    WHERE p_uuid = '$user'";
+		WHERE p_uuid = '$user'";
 	}
 	$res=$db->Execute($q);
 
@@ -579,10 +575,10 @@ function shn_force_change_password($user=null,$new_pwd,$p_uuid=null)
 	// Formulate the SQL to find the user
 	if($p_uuid=null){
 		$q = "  update users set password = '{$password_digest}',changed_timestamp={$time}
-                    WHERE user_name = '$user'";
+		WHERE user_name = '$user'";
 	}else{
 		$q = "  update users set password = '{$password_digest}',changed_timestamp={$time}
-                    WHERE p_uuid = '$user'";
+		WHERE p_uuid = '$user'";
 	}
 
 	$res=$db->Execute($q);
@@ -599,12 +595,12 @@ function shn_auth_add_user_cr(){
 	$error = false;
 	// check for the full name
 	if(isset($_POST['account_name']) && strlen(shn_clean($_POST['account_name']))>0){
-		list($error,$account_name)=(shn_validate_field($_POST['account_name'],_t("Full Name"),$VARCHAR,true))?array($error,$_POST["account_name"]):array(true,NULL);		
+		list($error,$account_name)=(shn_validate_field($_POST['account_name'],_t("Full Name"),$VARCHAR,true))?array($error,$_POST["account_name"]):array(true,NULL);
 	}else{
 		add_error(_t("Full name is a required field. Please enter a value."));
 		$error = true;
 	}
-	
+
 	list($error,$user_name)=(shn_validate_user_name($_POST{"user_name"}))?array($error,$_POST{"user_name"}):array(true,NULL);
 
 	//for the moment return true
@@ -694,7 +690,7 @@ function _shn_auth_del_user_cr(){
 				add_error($db->ErrorMsg());
 			}
 
- 		}
+		}
 	}
 	for($i=0;$i<count($user);$i++){
 		if($user[$i]!=ADMINUSER){
@@ -704,7 +700,7 @@ function _shn_auth_del_user_cr(){
 				add_error($db->ErrorMsg());
 			}
 		}
-		 
+			
 	}
 	if($res==false){
 		add_error(_t("User does not exist"));
@@ -736,27 +732,27 @@ function _shn_auth_lock_user($uid,$status)
 	if(_shn_acl_is_user_role_only($uid,$role)==true){
 		return true;
 	}
-	
+
 	// Do not lock the default administrator.
 	if($uid ==1 && (!_shn_acl_is_user_role($uid,1))){
-	$db=$global["db"];
-	$next_status='locked';
-	switch ($status){
-		case 'active':
-			$next_status='try1';
-			break;
-		case 'try1':
-			$next_status='try2';
-			break;
-		case 'try2':
-			$next_status='locked';
-			break;
+		$db=$global["db"];
+		$next_status='locked';
+		switch ($status){
+			case 'active':
+				$next_status='try1';
+				break;
+			case 'try1':
+				$next_status='try2';
+				break;
+			case 'try2':
+				$next_status='locked';
+				break;
 
-	}
-	$sql="update users set status='{$next_status}' where p_uuid='{$uid}'";
-	$res=$db->Execute($sql);
-	if($res==false){
-		add_error($db->ErrorMsg());
+		}
+		$sql="update users set status='{$next_status}' where p_uuid='{$uid}'";
+		$res=$db->Execute($sql);
+		if($res==false){
+			add_error($db->ErrorMsg());
 		}
 	}
 
@@ -776,33 +772,33 @@ function shn_auth_gen_captcha(){
 	 */
 	global $global;
 
-//	$img_path= $global['approot']."www/res/img/captcha.png";
-//	$captcha = imagecreatefrompng($img_path);
-//
-//	/*
-//	 Lets set the colours, the colour $line is used to generate lines.
-//	 Using a blue misty colours. The colour codes are in RGB
-//	 */
-//
-//	$black = imagecolorallocate($captcha, 0, 0, 0);
-//	$line = imagecolorallocate($captcha,233,239,239);
-//
-//	/*
-//	 Now to make it a little bit harder for any bots to break,
-//	 assuming they can break it so far. Lets add some lines
-//	 in (static lines) to attempt to make the bots life a little harder
-//	 */
-//	imageline($captcha,0,0,39,29,$line);
-//	imageline($captcha,40,0,64,29,$line);
-//	/*
-//	 Now for the all important writing of the randomly generated string to the image.
-//	 */
-//	imagestring($captcha, 5, 20, 10, $string, $black);
-//
+	//	$img_path= $global['approot']."www/res/img/captcha.png";
+	//	$captcha = imagecreatefrompng($img_path);
+	//
+	//	/*
+	//	 Lets set the colours, the colour $line is used to generate lines.
+	//	 Using a blue misty colours. The colour codes are in RGB
+	//	 */
+	//
+	//	$black = imagecolorallocate($captcha, 0, 0, 0);
+	//	$line = imagecolorallocate($captcha,233,239,239);
+	//
+	//	/*
+	//	 Now to make it a little bit harder for any bots to break,
+	//	 assuming they can break it so far. Lets add some lines
+	//	 in (static lines) to attempt to make the bots life a little harder
+	//	 */
+	//	imageline($captcha,0,0,39,29,$line);
+	//	imageline($captcha,40,0,64,29,$line);
+	//	/*
+	//	 Now for the all important writing of the randomly generated string to the image.
+	//	 */
+	//	imagestring($captcha, 5, 20, 10, $string, $black);
+	//
 	$width = 140;
 	$height = 70;
 	$captcha = imagecreate($width,$height);
-	
+
 	// draw random rectangles
 	$rectangles = 50;
 	for($i=0;$i<$rectangles;$i++){
@@ -817,7 +813,7 @@ function shn_auth_gen_captcha(){
 		$color = imagecolorallocatealpha($captcha,$red,$green,$blue,$alpha);
 		imagefilledrectangle($captcha,$x1,$y1,$x2,$y2,$color);
 	}
-	
+
 	for($i=0;$i<$rectangles;$i++){
 		$x1 = rand(0,$width*0.9);
 		$y1 = rand(0,$height*0.9);
@@ -830,7 +826,7 @@ function shn_auth_gen_captcha(){
 		$color = imagecolorallocatealpha($captcha,$red,$green,$blue,$alpha);
 		imagerectangle($captcha,$x1,$y1,$x2,$y2,$color);
 	}
-	
+
 	// draw the string.
 	for($i=0;$i<strlen($string);$i++){
 		$red = rand(0,127);
@@ -841,7 +837,7 @@ function shn_auth_gen_captcha(){
 		$font = imageloadfont($global['approot']."/www/res/gdf/f1.gdf");
 		imagestring($captcha,$font,$i*rand(22,25)+5,rand(2,32),$string[$i],$color);
 	}
-	
+
 	// draw random lines on the string
 	$lines = 25;
 	for($i=0;$i<$lines;$i++){
@@ -948,7 +944,7 @@ function shn_check_password_matches_policy($password,$username,$extra_opts=null)
 		if(isset($rule_array['pwd_has_username'])){
 			/*if(preg_match("/$username+/i",$password)===false){
 				return HAS_USERNAME;
-			}*/
+				}*/
 			if(stripos($password,$username) !== FALSE){
 				return HAS_USERNAME;
 			}
@@ -958,7 +954,7 @@ function shn_check_password_matches_policy($password,$username,$extra_opts=null)
 			$pat_chars = 2;
 			for($i=0;$i < (strlen($password)-$pat_chars);$i++){
 				$start_idx = $i;
-				
+
 				// the pattern
 				$pat = substr($password,$start_idx,$pat_chars);
 				if(($start_idx+1)<strlen($password)){
@@ -966,7 +962,7 @@ function shn_check_password_matches_policy($password,$username,$extra_opts=null)
 						return HAS_REPETITIONS;
 					}
 				}
-			}				
+			}
 		}
 
 		// nothing wrong if control comes here.
@@ -1027,7 +1023,7 @@ function shn_get_password_policy($extra_opts){
 	}else{
 		$rule_array = $conf;
 	}
-	
+
 	if(isset($rule_array['pwd_min_chars'])){
 		array_push($policy,sprintf(_t("The miniumn number of characters is %d."),$rule_array['pwd_min_chars']));
 	}
@@ -1056,5 +1052,37 @@ function shn_get_password_policy($extra_opts){
 		array_push($policy,_t("The password cannot have reppetitive character patterns"));
 	}
 	return $policy;
+}
+
+function shn_auth_add_role_cr(){
+	global $global;
+	$db = $global['db'];
+	
+	if($_POST['role_name']==null || strlen(trim($_POST['role_name']))==0){
+		add_error(_t("Please enter a valid Role name."));
+	}else{
+		$role_name = ucwords(trim($_POST['role_name']));
+		$select_query = "SELECT COUNT(group_name) FROM sys_user_groups WHERE group_name=?";
+		$res = $db->Execute($select_query,array($role_name));
+		
+		if($res!=false && (($res->fields[0]*1)==0)){
+			
+			$select_query = "SELECT MAX(group_id) FROM sys_user_groups";
+			$res = $db->Execute($select_query);
+			
+			if($res){
+				$max_id = ($res->fields[0])+1;
+				$query = "INSERT INTO sys_user_groups(group_id,group_name) VALUES(?,?)";
+				$global['db']->Execute($query,array($max_id,$role_name));
+				
+				add_confirmation(sprintf(_t("The role '%s' was successfully added."),$role_name));
+				// clear the value so that the text box becomes empty.
+				$_POST['role_name'] = "";
+			}
+		}else{
+            add_error(_t("A role with the name you entered already exists. Please enter a different role name."));
+		}
+	}
+	shn_admin_add_role();
 }
 ?>
