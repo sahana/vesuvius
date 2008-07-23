@@ -652,6 +652,11 @@ function _shn_ims_date_conversion($date)
 }
 function _shn_ims_count_days($start, $end)
 {
+	$string1=explode("-",$start);
+	$string2=explode("-",$end);
+	$numStart=mktime(0,0,0,$string1[1],$string1[2],$string1[0]);
+	$numEnd=mktime(0,0,0,$string2[1],$string2[2],$string2[0]);
+
     if( $start != '0000-00-00' and $end != '0000-00-00' )
     {
         /*$timestamp_start = strtotime($start);
@@ -661,10 +666,15 @@ function _shn_ims_count_days($start, $end)
         $end_year = date("Y", $timestamp_end);*/
         //$num_days_end = date("z",strtotime($start));
         //$num_days_end = date("z", strtotime($end));
-        if($end<$start){
+        if($numEnd<$numStart){
         	return -1;
         }
         else{
+		$s=mktime(0,0,0,date(m),date(d),date(Y));
+		if($numEnd<$s)
+			return -1;
+		if($numStart>$s)
+			return -1;
         	return 1;
         }
         /*$num_days = 0;
