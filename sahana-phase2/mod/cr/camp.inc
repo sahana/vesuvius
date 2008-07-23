@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: camp.inc,v 1.64 2008-06-03 20:01:27 franboon Exp $ */
+/* $Id: camp.inc,v 1.65 2008-07-23 07:07:57 ravithb Exp $ */
 
 /**Camp library for  CR
  *
@@ -462,7 +462,7 @@ function _shn_cr_validate_error()
 
 function positive_number($nr)
 {
-    if (ereg("^[0-9]+$", $nr) && $nr > 0) {
+    if (ereg("^[0-9]+$", $nr) && $nr >= 0) {
         return true;
     } else {
         return false;
@@ -721,7 +721,7 @@ function _shn_cr_cadd_confir($errors = false)
 
         }
         ?>
-</tr>
+<!-- </tr>-->
         <?php
         $ref->MoveNext();
 }
