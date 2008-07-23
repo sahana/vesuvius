@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.17 2008-05-01 07:57:44 franboon Exp $ */
+/* $Id: admin.inc,v 1.18 2008-07-23 06:59:27 ravithb Exp $ */
 
 /**Admin Module for CR
  *
@@ -62,6 +62,7 @@ function _shn_cr_adm_form_change()
     shn_form_text(_t("Service Abbrevation [3 letter unique abbr. to store in the database]"),"service_abbr",'size="3"');
     shn_form_fsclose();
     shn_form_submit(_t("Add Service"));
+    shn_form_submit(_t('Delete Services'), 'name=delete');
     shn_form_fclose();
 }
 
@@ -71,41 +72,57 @@ function shn_cr_adm_form_commit()
     global $global;
     $db = $global['db'];
     $db_flag = true;
-    if (!empty($_POST['service_name'])) {
-        if (!empty($_POST['service_abbr'])) {
-            if (strlen($_POST['service_abbr']) == 3) {
-                $q = "SELECT option_code FROM field_options";
-                $res = $db->Execute($q);
+    if(isset($_POST['delete'])){
+		$sql = "DELETE FROM field_options WHERE field_name = 'opt_camp_service' AND option_code = '".$_POST['opt_camp_service']."'";
+    	$res = $global['db']->Execute($sql);
+    	if($res === false){
+    		add_error(_t('Unable to delete the service'));
+    	}
+    	else{
+    		add_confirmation(_t('Service deleted successfuly'));
+    		$sql1 = "DELETE FROM camp_services WHERE opt_camp_service = '".$_POST['opt_camps_service']."'";
+    		$res1 = $global['db']->Execute($sql1);
+    		if($res1 === false){
+    			add_error(_t('Unable to delete for assigned camp services'));
+    		}    		
+    		add_confirmation(_t('Service assigned in camps deleted successfuly'));
+    	}
+	}
+	elseif(!empty($_POST['service_name'])){
+		if(!empty($_POST['service_abbr'])){
+			if(strlen($_POST['service_abbr'])==3){
+				$q = "SELECT option_code FROM field_options";
+				$res = $db->Execute($q);
 
-                while (!$res->EOF) {
-                    $value = $res->fields["option_code"];
-                    if ($value == $_POST['service_abbr']) {
-                        add_error(_t("Abbrevation exist, please insert unique abbrevation"));
-                        $db_flag = false;
-                        break;
-                    }
-                    $res->MoveNext();
-                }
+				while(!$res->EOF){
+    				$value = $res->fields["option_code"];
+    				if($value==$_POST['service_abbr']){
+    					add_error(_t("Abbrevation exist, please insert unique abbrevation"));
+    					$db_flag = false;
+    					break;
+    				}
+    				$res->MoveNext();
+   	 			}
+				if($db_flag){
+					$q = "insert into field_options(field_name,option_code,option_description) values('opt_camp_service','{$_POST['service_abbr']}','{$_POST['service_name']}')";
+					$res = $db->Execute($q);
+					add_confirmation(_t("Added values"));
+				}
 
-                if ($db_flag) {
-                    $q = "INSERT INTO field_options(field_name,option_code,option_description) values('opt_camp_service','{$_POST['service_abbr']}','{$_POST['service_name']}')";
-                    $res = $db->Execute($q);
-                    add_confirmation(_t("Added values"));
-                }
-
-            } else {
-            add_error(_t("Abbrevation should in 3 characters"));
-            }
-        } else {
-            //error: enter code
-            add_error(_t("Please fill in empty values"));
-        }
-    } else {
-        // do not store new services
-        add_warning(_t("Nothing to add"));
-    }
+			}
+			else
+			add_error(_t("Abbrevation should in 3 characters"));
+		}
+		else{
+			//error: enter code
+			add_error(_t("Please fill in empty values"));
+		}
+	}
+	else{
+		// do not store new services
+		add_warning(_("Nothing to add"));
+	}
     shn_cr_adm_default();
-
 }
 
 function shn_cr_adm_form_setdivision()
