@@ -180,6 +180,16 @@ function shn_cr_all_view(){
 	shn_form_label(_t("Total Count"),$_SESSION['camp_total']);
 
 	shn_form_fsclose();
+	$sql = "SELECT option_description FROM field_options WHERE option_code IN (SELECT opt_camp_service FROM camp_services WHERE c_uuid = '{$_SESSION['editid']}') AND field_name = 'opt_camp_service'";
+	$res = $global['db']->Execute($sql);
+	if($res->RecordCount() > 0){ 
+		shn_form_fsopen(_('Available services'));
+		for($i = 0; $i < $res->RecordCount(); $i++){
+			shn_form_label('', $res->fields['option_description']);
+			$res->MoveNext();
+		}
+		shn_form_fsclose();
+	}
 	shn_form_submit(_t("Close"));
 	?>
 <input type="button" onClick="location.replace('index.php?mod=cr&act=ecmp&seq=disp&cmp_id=<?php echo $_REQUEST['cmp_id']?>');" value=<?php echo _t("Edit")?> />
