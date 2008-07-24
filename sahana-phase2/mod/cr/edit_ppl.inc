@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: edit_ppl.inc,v 1.8 2008-03-05 11:01:16 prabath321 Exp $ */
-/* $Id: edit_ppl.inc,v 1.8 2008-03-05 11:01:16 prabath321 Exp $ */
+/* $Id: edit_ppl.inc,v 1.9 2008-07-24 05:21:51 ravithb Exp $ */
+/* $Id: edit_ppl.inc,v 1.9 2008-07-24 05:21:51 ravithb Exp $ */
 
 /**Update functions for  CR
  *
@@ -40,46 +40,14 @@ function _shn_cr_cedt_start($errors=false){
     shn_form_fopen(eppl);
     shn_form_fsopen(_t("General Details"));
     shn_form_hidden(array('seq'=>'chk'));
-    ?>
-<table>
-	<tr>
-		<td><?php	
-		shn_form_text(_t("Men"),"men",'size="5"',array('value'=>$_SESSION['camp_men']));
-		?></td>
-		<td><?php
-		shn_form_text(_t("Capacity"),"capacity",'size="5"',array('value'=>$_SESSION['camp_capacity']));
-		?></td>
-	</tr>
-
-	<tr>
-		<td><?php
-		shn_form_text(_t("Women"),"women",'size="5"',array('value'=>$_SESSION['camp_women']));
-		?></td>
-		<td><?php
-		shn_form_text(_t("Capacity"),"capacity1",'size="5"',array('value'=>$_SESSION['camp_capacity']));
-		?></td>
-	</tr>
-
-
-	<tr>
-		<td><?php
-		shn_form_text(_t("Children"),"children",'size="5"',array('value'=>$_SESSION['camp_children']));
-		?></td>
-		<td><?php
-		shn_form_text(_t("Capacity"),"capacity2",'size="5"',array('value'=>$_SESSION['camp_capacity']));
-		?></td>
-	</tr>
-
-</table>
-		<?php
-		shn_form_text(_t("Total Infected"),"infected_count",'size="5"',array('value'=>$_SESSION['camp_infected']));
-
-
-
-
-		shn_form_submit("Update");
-		shn_form_fsclose();
-		shn_form_fclose();
+    shn_form_text(_t("Men"),"men",'size="5"',array('value'=>$_SESSION['camp_men']));
+	shn_form_text(_t("Women"),"women",'size="5"',array('value'=>$_SESSION['camp_women']));
+	shn_form_text(_t("Children"),"children",'size="5"',array('value'=>$_SESSION['camp_children']));
+	shn_form_text(_t("Total Infected"),"infected_count",'size="5"',array('value'=>$_SESSION['camp_infected']));
+	shn_form_text(_t("Capacity"),"capacity",'size="5"',array('value'=>$_SESSION['camp_capacity']));
+	shn_form_submit("Update");
+	shn_form_fsclose();
+	shn_form_fclose();
 }
 
 
@@ -190,11 +158,6 @@ function _shn_cr_cedt_commit()
 <h2><?= add_confirmation(_t("You have succesfully edited the people count ").$_SESSION['camp_name']);?></h2>
 
 
-</tbody>
-</table>
-</div>
-
-</ul>
 <br>
 <br>
 <p><?php echo _t("Use the navigation menu to continue")?></p>

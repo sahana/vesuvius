@@ -104,11 +104,16 @@ function shn_cr_all_view(){
 	shn_form_fopen(crch);
 	shn_form_fsopen(_t("General Details"));
 	shn_form_hidden(array('seq'=>'show'));
-	//shn_form_hidden(array('cmp_id'=>$_REQUEST['cmp_id']));
+	$sql = "SELECT option_description FROM field_options WHERE field_name = 'opt_camp_type' AND option_code = '{$_SESSION['opt_camp_type']}'";
+	$res = $global['db']->Execute($sql);
+	$_SESSION['camp_type'] = '';
+	if($res->RecordCount() > 0){
+		$_SESSION['camp_type'] = $res->fields['option_description'];
+	}
 	shn_form_hidden(array('opt_camp_type'=>$_SESSION['opt_camp_type']));
 
 	shn_form_label(_t("Shelter Name"),$_SESSION['camp_name'],array('br'=>'true'));
-	shn_form_label(_t("Shelter Type"),$_SESSION['opt_camp_type'],array('br'=>'true'));
+	shn_form_label(_t("Shelter Type"),$_SESSION['camp_type'],array('br'=>'true'));
 	?>
 <!--
 <label>Division</label>
@@ -610,7 +615,7 @@ function _shn_cr_cedit_confir(){
 
 		}
 		?>
-		</tr>
+		
 		<?php
 		$ref->MoveNext();
 }
