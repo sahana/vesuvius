@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: edit_ppl.inc,v 1.9 2008-07-24 05:21:51 ravithb Exp $ */
-/* $Id: edit_ppl.inc,v 1.9 2008-07-24 05:21:51 ravithb Exp $ */
+/* $Id: edit_ppl.inc,v 1.10 2008-07-24 09:02:45 ravithb Exp $ */
+/* $Id: edit_ppl.inc,v 1.10 2008-07-24 09:02:45 ravithb Exp $ */
 
 /**Update functions for  CR
  *
@@ -40,6 +40,7 @@ function _shn_cr_cedt_start($errors=false){
     shn_form_fopen(eppl);
     shn_form_fsopen(_t("General Details"));
     shn_form_hidden(array('seq'=>'chk'));
+    shn_form_hidden(array('cmp_id'=>$_SESSION['editid']));
     shn_form_text(_t("Men"),"men",'size="5"',array('value'=>$_SESSION['camp_men']));
 	shn_form_text(_t("Women"),"women",'size="5"',array('value'=>$_SESSION['camp_women']));
 	shn_form_text(_t("Children"),"children",'size="5"',array('value'=>$_SESSION['camp_children']));
@@ -74,44 +75,47 @@ function _shn_cr_cedt_chk($errors=false){
 function _shn_cr_validate_error()
 {
     clean_errors();
-    $error_flag=false;
+    $error_flag = false;
 
 
-    if (!(null == ($_POST['family']))) {
-        if (!is_numeric(trim($_POST['infected_count']))) {
+    if (!(null == ($_POST['infected_count']))) {
+        if (!is_numeric(trim($_POST['infected_count'])) || ($_POST['infected_count'] < 0)) {
             add_error(_t("The infected count is not a valid number"));
             $error_flag = true;
         }
     }
     if (!(null == ($_POST['capacity']))) {
-        if (!is_numeric(trim($_POST['capacity']))) {
+        if (!is_numeric(trim($_POST['capacity'])) || ($_POST['capacity'] < 0)) {
             add_error(_t("The capacity is not a valid number"));
             $error_flag = true;
         }
     }
 
     if (!(null == ($_POST['men']))) {
-        if (!is_numeric(trim($_POST['men']))) {
+        if (!is_numeric(trim($_POST['men'])) || ($_POST['men'] < 0)) {
             add_error(_t("The men count is not a valid number"));
             $error_flag = true;
         }
     }
     if (!(null == ($_POST['women']))) {
-        if (!is_numeric(trim($_POST['women']))) {
+        if (!is_numeric(trim($_POST['women'])) || ($_POST['women'] < 0)) {
             add_error(_t("The women count is not a valid number"));
             $error_flag = true;
         }
     }
     if (!(null == ($_POST['children']))) {
-        if (!is_numeric(trim($_POST['children']))) {
+        if (!is_numeric(trim($_POST['children'])) || ($_POST['children'])) {
             add_error(_t("The children count is not a valid number"));
             $error_flag = true;
         }
     }
+	$total = $_POST['men'] + $_POST['women'] + $_POST['children'];
+	if($total != null && $total < $_POST['infected_count']){
+		add_error(_('Infected Count should be less or equal than total'));
+		$error_flag = true;
+	}
+	return $error_flag; 
 
-
-
-    return $error_flag;
 }
 
 
@@ -147,7 +151,6 @@ function _shn_cr_cedt_commit()
 
     $q = "UPDATE camp_general SET capacity={$_SESSION['camp_capacity']} WHERE c_uuid='{$_SESSION['editid']}'";
     $res = $db->Execute($q);
-
     $q = "UPDATE camp_reg SET men='{$_SESSION['camp_men']}',women='{$_SESSION['camp_women']}',family='{$_SESSION['camp_infected']}',children='{$_SESSION['camp_children']}',total='{$_SESSION['camp_total']}' WHERE c_uuid='{$_SESSION['editid']}'";
 
 
