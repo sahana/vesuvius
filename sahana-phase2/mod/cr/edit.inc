@@ -39,6 +39,7 @@ function _shn_cr_cedt_start($errors=false){
 	shn_form_fopen(ecmp);
 	shn_form_fsopen(_t("General Details"));
 	shn_form_hidden(array('seq'=>'chk'));
+	shn_form_hidden(array('cmp_id'=>$_SESSION['editid']));
 	shn_form_text(_t("Shelter Name"),"camp_name",'size="50"',array('req'=>true,'value'=>$_SESSION['camp_name']));
 	shn_form_opt_select("opt_camp_type",_t("Shelter Type"),null,array('value'=>$_SESSION['opt_camp_type']));
 	shn_form_textarea(_t("Address"),"camp_address",null,array('value'=>$_SESSION['camp_address']));
@@ -643,6 +644,7 @@ function _shn_cr_cedit_second(){
 	shn_form_fopen(ecmp);
 	shn_form_fsopen(_t("General Details"));
 	shn_form_hidden(array('seq'=>'chk'));
+	shn_form_hidden(array('cmp_id'=>$_SESSION['editid']));	
 	shn_form_text(_t("Shelter Name"),"camp_name",'size="50"',array('req'=>true,'value'=>$_SESSION['camp_name']));
 	shn_form_opt_select("opt_camp_type",_t("Shelter Type"),null,array('value'=>$_SESSION['opt_camp_type']));
 	shn_form_textarea(_t("Address"),"camp_address",null,array('value'=>$_SESSION['camp_address']));
