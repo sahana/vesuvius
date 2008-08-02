@@ -34,7 +34,14 @@ print $global['msg_jabber']->$connected;
 <br><a href="index.php?mod=msg&act=cap_new"><?= (_t("New Alert"))?></a><?= (_t(" option enables end-user to create a new CAP message. This will create an XML file containing the CAP message and store it in a temporary directory. You can view this file using 'View Messages' option."))?>
 <br><a href="index.php?mod=msg&act=cap_view"><?=(_t("View Alert"))?></a><?= (_t(" option enables end-user to view stored CAP messages. Two sample messages are already added to the list. You can view them by selecting one of them and pressing the 'View' button"))?></li>
     </ul>
-    
+<?php
+
+
+
+
+    require_once($global['approot']."/inc/lib_rss.inc");
+    shn_rss_add_feed('rss_alert',_t('CAP Alerts'));
+?>
 </div>
 
 

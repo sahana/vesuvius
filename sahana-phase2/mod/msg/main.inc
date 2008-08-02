@@ -20,7 +20,7 @@
 * @package		sahana
 * @subpackage   msg
 * @tutorial
-* @version		$Id: main.inc,v 1.31 2008-05-16 09:14:11 pradeeper Exp $
+* @version		$Id: main.inc,v 1.32 2008-08-02 15:29:45 priyanga Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -41,7 +41,7 @@ require_once $global['approot']."/inc/lib_misc.inc";
 //Additional form actions are here:
 include_once $global['approot']."/mod/msg/form_actions.inc";
 
-
+include_once 'lib_msg_rss.inc';
 
 
 
@@ -275,14 +275,25 @@ function shn_msg_cap_upload()
     include_once ('handler_cap_upload.inc');
 }
 
-function shn_msg_cap_download()
+function shn_text_msg_cap_download()
 {
-    $file = $_POST['file'];
+    $file = $_REQUEST['file'];
+    switch($_REQUEST['type']){
+        case 'messages':
+        $type = 'messages';
+        break;
+        case 'templates':
+        $type = 'templates';
+    }
+
     header("Content-type: text/xml");
     header("Content-Disposition: attachment; filename=$file");
+    $MSG_DIR = '../res/msg/cap/';
+    $file = $MSG_DIR.$type.'/'.$file;
     $file_str = file_get_contents($file);
     print $file_str;
 }
+
 
 /*
 @author		Pradeeper <pradeeper@respere.com>

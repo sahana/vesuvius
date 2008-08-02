@@ -19,7 +19,7 @@
 
 class Msg_CapArea
 {
-	private $areaDesc;
+    private $areaDesc;
     private $polygon;
     private $circle;
     private $geocode;
