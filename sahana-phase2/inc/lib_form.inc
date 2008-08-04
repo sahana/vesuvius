@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.81 2008-06-03 11:31:52 ravithb Exp $ */
+/* $Id: lib_form.inc,v 1.82 2008-08-04 05:47:10 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -20,7 +20,7 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
-
+// test patch
 $shn_help_id;
 $shn_form_id; //this variable is used by the tab functions
 $shn_tab_enabled=false; //this variable is used by the tab functions
@@ -146,6 +146,23 @@ function shn_form_submit($name, $submit_opts = null)
 	?>
 <input
 	type="submit" value="<?php echo $name?>" <?php echo $submit_opts?>
+	tabindex="<?php echo ++$shn_tabindex?>" />
+	<?php
+}
+
+/**
+ * This will produce a reset button
+ *
+ * @param mixed $name
+ * @access public
+ * @return void
+ */
+function shn_form_reset($name, $submit_opts = null)
+{
+	global $shn_tabindex;
+	?>
+<input
+	type="reset" value="<?php echo $name?>" <?php echo $submit_opts?>
 	tabindex="<?php echo ++$shn_tabindex?>" />
 	<?php
 }
