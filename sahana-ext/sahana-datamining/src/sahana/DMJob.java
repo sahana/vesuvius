@@ -55,7 +55,7 @@ public class DMJob implements Runnable
         }
         
         String res=Miner.mineData(algo,input);
-        String sql="UPDATE dm_jobs SET finished=1 , result='"+res+"' WHERE jobid='"+jobid+"'";
+        String sql="UPDATE datamine SET finished=1 , result='"+res+"' WHERE jobid='"+jobid+"'";
         System.out.println(sql);
         try
         {

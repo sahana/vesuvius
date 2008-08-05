@@ -7,7 +7,7 @@ public class DatabaseAccess
     
     public static Connection getConnection()
     {
-        String url="jdbc:mysql://localhost/sahana_dm";
+        String url="jdbc:mysql://localhost/sahana_gsoc";
         String user="root";
         String pass="root";
         try

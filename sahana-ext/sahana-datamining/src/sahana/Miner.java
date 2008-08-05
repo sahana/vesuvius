@@ -28,7 +28,7 @@ public class Miner
 		StringTokenizer token = new StringTokenizer(algo);
 		String type = token.nextToken();
 		String variant = token.nextToken();
-		String ret = null;
+		String ret = "No such mining algorithem\n "+ algo;
 
 		if (type.equalsIgnoreCase("classifiers"))// classification selection
 		{
@@ -57,13 +57,21 @@ public class Miner
 						.mine(input);
 			} else if (variant.equalsIgnoreCase("bayes.NaiveBayesUpdateable"))
 			{
-				ret = new sahana.algo.classifiers.bayes.NaiveBayesUpdateable().mine(input);
+				ret = new sahana.algo.classifiers.bayes.NaiveBayesUpdateable()
+						.mine(input);
 			}
 		} else if (type.equalsIgnoreCase("associations"))
 		{
 			if (variant.equalsIgnoreCase("Apriori"))
 			{
 				ret = new sahana.algo.associations.Apriori().mine(input);
+			} else if (variant.equalsIgnoreCase("PredictiveApriori"))
+			{
+				ret = new sahana.algo.associations.PredictiveApriori()
+						.mine(input);
+			} else if (variant.equalsIgnoreCase("Tertius"))
+			{
+				ret = new sahana.algo.associations.Tertius().mine(input);
 			}
 		}/*
 			 * else if (type.equalsIgnoreCase("clusterers")) { if

@@ -49,7 +49,7 @@ public class Main
             {
                 ex.printStackTrace();
             }
-            String sql="SELECT MIN(jobid) AS tjob,dataset ,algorithm, params FROM dm_jobs WHERE finished=0 GROUP BY jobid ";
+            String sql="SELECT MIN(jobid) AS tjob,dataset ,algorithm, params FROM datamine WHERE finished=0 GROUP BY jobid ";
             try
             {
                 ResultSet res=stmt.executeQuery(sql);

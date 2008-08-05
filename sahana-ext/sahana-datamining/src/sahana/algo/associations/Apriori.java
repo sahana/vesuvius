@@ -47,8 +47,10 @@ public class Apriori extends weka.associations.Apriori implements DMAlgorithm
         {
             e.printStackTrace();
             System.out.println("\n"+e.getMessage()+text);
+            return e.toString();
+            
         }
-        return null;
+        //return null;
 	}
 
 }
