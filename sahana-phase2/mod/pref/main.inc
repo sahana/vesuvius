@@ -33,7 +33,8 @@ function shn_pref_signup(){
 }
 
 function shn_pref_signup_cr(){
-	if(shn_auth_self_signup_cr()==true){		
+	if(shn_auth_self_signup_cr()==true){
+		shn_pref_signup();		
 		if($_SESSION['security_captcha_key'] !=md5($_POST["captcha"])){
 			add_error(_t("Please provide the text in the image correctly to prove you are not a bot"));
 
@@ -46,8 +47,13 @@ function shn_pref_signup_cr(){
 			shn_pref_signup();
 			return;
 		}
-		shn_pref_signup();
-		return;		
+		$ret = shn_auth_add_user($_POST['account_name'],$_POST['user_name'],$_POST['password'],$role=REGISTERED,null);
+		if($ret){
+			$msg=$_POST{"account_name"}._(" was successfully registered as a User ");
+			add_confirmation($msg);
+		}else {
+			shn_pref_signup();
+		}		
 	}
 }
 
