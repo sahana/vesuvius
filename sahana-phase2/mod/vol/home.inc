@@ -24,7 +24,7 @@ if(!$res->EOF){
 ?>
 <div id="home">
     <h2><?=_lc($conf['mod_vol_name'])?></h2>
-		<div><?=_t("The Volunteer Registry keeps track of all Volunteer working in the disaster region. It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.          
+		<div><?=_t("The Volunteer Registry keeps track of all Volunteers working in the disaster region. It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.          
 				Features Include:")?>
         </div>
 		<ul>
@@ -32,7 +32,7 @@ if(!$res->EOF){
             <li><?=_t("Registering ad-hoc volunteers willing to contribute")?></li>
             <li><?=_t("Capturing the essential services each Volunteer is providing and where")?></li>
             <li><?=_t("Reporting on the converge of services and support in the region and more")?></li>
-            <li><?=_t("importantly where there are no aid services being provided")?></li>
+            <li><?=_t("Importantly where there are no aid services being provided")?></li>
         </ul>
 </div>
 <br />

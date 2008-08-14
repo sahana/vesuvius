@@ -23,7 +23,7 @@ function shn_gps_default()
 <div id="home">
 <h2><?=$conf['mod_gps_name']?></h2>
 <p><?php echo _t("The {$conf['mod_gps_name']} module provides the ability to use Sahana with a GPS.");?><br><br>
-<?=_('The data is imported/exported via GPX files which can be transferred to/from a GPS device using, e.g. <a href="http://www.gpsbabel.org/" target=_blank>GPS Babel</a>.');?>
+<?=_('The data is imported/exported via GPX files which can be transfered to/from a GPS device using, e.g. <a href="http://www.gpsbabel.org/" target=_blank>GPS Babel</a>.');?>
 </p>
 
 <hr>

@@ -26,7 +26,7 @@ function _shn_ims_default()
 
 ?>
 <div id="home">
-    <p><?= (_t("The Sahana Inventory Management System is a database to keep track of all aid items and supplies kept in your organization's inventories. It not only keeps track of the location and quantities of items available, but it also tracks expiry dates, re-order levels and items in transit. The system is designed to be simple to a diverse groups of users to interact and manage stocks in inventories located around the region")) ?></p>
+    <p><?= (_t("The Sahana Inventory Management System is a database to keep track of all aid items and supplies kept in your Organization's inventories. It not only keeps track of the location and quantities of items available, but it also tracks expiry dates, re-order levels and items in transit. The system is designed to be simple to a diverse groups of users to interact and manage stocks in inventories located around the region.")) ?></p>
     <br/>
     <strong><?= (_t("Features Include:")) ?></strong>
       

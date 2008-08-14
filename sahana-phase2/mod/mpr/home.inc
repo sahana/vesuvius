@@ -31,7 +31,7 @@ if(file_exists($global['approot'].'/www/tmp/mprfound.png')){
 <p>
 <?= _t('The Missing person registry is an online bulletin board of missing and found people.
 It captures information about the people missing and found, as well as information of the person seeking them, increasing the chances
-of people finding each other. For example if two members of the a family unit is
+of people finding each other. For example if two members of a family unit is
 looking for the head of the family, we can use this data at least to connect those two
 family members.'); ?>
 
