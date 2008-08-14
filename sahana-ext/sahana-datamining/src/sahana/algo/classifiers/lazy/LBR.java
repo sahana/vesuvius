@@ -8,7 +8,7 @@ public class LBR extends weka.classifiers.lazy.LBR implements DMAlgorithm
 {
 
 	@Override
-	public String mine(String[] args)
+	public String mine(String[] args) throws Exception
 	{
 		Classifier scheme;
 
@@ -16,10 +16,11 @@ public class LBR extends weka.classifiers.lazy.LBR implements DMAlgorithm
 		{
 			scheme = new LBR();
 			return Evaluation.evaluateModel(scheme, args).toString();
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			System.err.println(e.getMessage());
-			return e.toString();
+			throw e;
 		}
 	}
 

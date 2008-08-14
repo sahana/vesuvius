@@ -6,7 +6,7 @@ public class AODE extends weka.classifiers.bayes.AODE implements
 		sahana.DMAlgorithm
 {
 
-	public String mine(String[] argv)
+	public String mine(String[] argv)throws Exception
 	{
 		try
 		{
@@ -15,8 +15,8 @@ public class AODE extends weka.classifiers.bayes.AODE implements
 		{
 			e.printStackTrace();
 			System.err.println(e.getMessage());
+			throw e;
 		}
-		return null;
 	}
 
 }

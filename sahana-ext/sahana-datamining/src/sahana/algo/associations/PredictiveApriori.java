@@ -14,7 +14,7 @@ public class PredictiveApriori extends weka.associations.PredictiveApriori
 {
 
 	@Override
-	public String mine(String[] options)
+	public String mine(String[] options)throws Exception
 	{
 		String trainFileString;
 		StringBuffer text = new StringBuffer();
@@ -44,8 +44,9 @@ public class PredictiveApriori extends weka.associations.PredictiveApriori
 		{
 			e.printStackTrace();
 			System.out.println("\n" + e.getMessage() + text);
+			throw e;
 		}
-		return null;
+		//return null;
 	}
 
 }

@@ -7,7 +7,7 @@ public class NaiveBayes extends weka.classifiers.bayes.NaiveBayes implements
 		DMAlgorithm
 {
 
-	public String mine(String[] args)
+	public String mine(String[] args)throws Exception
 	{
 		try
 		{
@@ -16,8 +16,8 @@ public class NaiveBayes extends weka.classifiers.bayes.NaiveBayes implements
 		{
 			e.printStackTrace();
 			System.err.println(e.getMessage());
+			throw e;
 		}
-		return null;
 	}
 
 }

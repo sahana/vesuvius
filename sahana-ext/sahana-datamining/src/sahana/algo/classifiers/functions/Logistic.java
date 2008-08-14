@@ -1,4 +1,4 @@
-package sahana.algo.functions;
+package sahana.algo.classifiers.functions;
 
 import sahana.DMAlgorithm;
 import weka.classifiers.Evaluation;
@@ -8,7 +8,7 @@ public class Logistic extends weka.classifiers.functions.Logistic implements
 {
 
 	@Override
-	public String mine(String[] args)
+	public String mine(String[] args)throws Exception
 	{
 		try
 		{
@@ -17,7 +17,7 @@ public class Logistic extends weka.classifiers.functions.Logistic implements
 		{
 			e.printStackTrace();
 			System.err.println(e.getMessage());
-			return e.toString();
+			throw e;
 		}
 	}
 

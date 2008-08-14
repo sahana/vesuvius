@@ -7,16 +7,17 @@ public class KStar extends weka.classifiers.lazy.KStar implements DMAlgorithm
 {
 
 	@Override
-	public String mine(String[] args)
+	public String mine(String[] args) throws Exception
 	{
 		try
 		{
 			return Evaluation.evaluateModel(new KStar(), args).toString();
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			// System.err.println(e.getMessage());
 			e.printStackTrace();
-			return e.toString();
+			throw e;
 		}
 	}
 

@@ -1,4 +1,4 @@
-package sahana.algo.functions;
+package sahana.algo.classifiers.functions;
 
 import sahana.DMAlgorithm;
 import weka.classifiers.Classifier;
@@ -8,7 +8,7 @@ public class SMO extends weka.classifiers.functions.SMO implements DMAlgorithm
 {
 
 	@Override
-	public String mine(String[] args)
+	public String mine(String[] args)throws Exception
 	{
 		Classifier scheme;
 
@@ -20,7 +20,7 @@ public class SMO extends weka.classifiers.functions.SMO implements DMAlgorithm
 		{
 			e.printStackTrace();
 			System.err.println(e.getMessage());
-			return e.toString();
+			throw e;
 		}
 	}
 

@@ -1,26 +1,27 @@
-package sahana.algo.classifiers.bayes;
+package sahana.algo.classifiers.functions;
 
 import sahana.DMAlgorithm;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 
-public class NaiveBayesSimple extends weka.classifiers.bayes.NaiveBayesSimple
+public class PaceRegression extends weka.classifiers.functions.PaceRegression
 		implements DMAlgorithm
 {
 
+	@Override
 	public String mine(String[] args)throws Exception
 	{
-	    Classifier scheme;
+		Classifier scheme;
 		try
 		{
-			scheme = new NaiveBayesSimple();
+			scheme = new PaceRegression();
 			return Evaluation.evaluateModel(scheme, args).toString();
 		} catch (Exception e)
 		{
-			System.err.println(e.getMessage());
+			e.printStackTrace();
+			// System.out.println(e.getMessage());
 			throw e;
 		}
-		//return  null;
 	}
 
 }

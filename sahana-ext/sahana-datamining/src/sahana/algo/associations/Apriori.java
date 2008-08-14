@@ -13,7 +13,7 @@ import weka.core.Utils;
 public class Apriori extends weka.associations.Apriori implements DMAlgorithm
 {
 
-	public String mine(String[] options)
+	public String mine(String[] options)throws Exception
 	{
 		for(int i=0;i<options.length;++i)
             System.out.println(options[i]);
@@ -47,7 +47,7 @@ public class Apriori extends weka.associations.Apriori implements DMAlgorithm
         {
             e.printStackTrace();
             System.out.println("\n"+e.getMessage()+text);
-            return e.toString();
+            throw e;
             
         }
         //return null;

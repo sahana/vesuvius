@@ -7,15 +7,16 @@ public class IB1 extends weka.classifiers.lazy.IB1 implements DMAlgorithm
 {
 
 	@Override
-	public String mine(String[] args)
+	public String mine(String[] args) throws Exception
 	{
 		try
 		{
 			return Evaluation.evaluateModel(new IB1(), args).toString();
-		} catch (Exception e)
+		}
+		catch (Exception e)
 		{
 			System.err.println(e.getMessage());
-			return e.toString();
+			throw e;
 		}
 	}
 

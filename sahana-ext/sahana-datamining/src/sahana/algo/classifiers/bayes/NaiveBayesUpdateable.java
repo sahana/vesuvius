@@ -7,7 +7,7 @@ public class NaiveBayesUpdateable extends
 		weka.classifiers.bayes.NaiveBayesUpdateable implements DMAlgorithm
 {
 
-	public String mine(String[] args)
+	public String mine(String[] args)throws Exception
 	{
 		try
 		{
@@ -17,8 +17,9 @@ public class NaiveBayesUpdateable extends
 		{
 			e.printStackTrace();
 			System.err.println(e.getMessage());
+			throw e;
 		}
-		return null;
+		//return null;
 	}
 
 }

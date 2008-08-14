@@ -1,4 +1,4 @@
-package sahana.algo.functions;
+package sahana.algo.classifiers.functions;
 
 import sahana.DMAlgorithm;
 import weka.classifiers.Evaluation;
@@ -8,7 +8,7 @@ public class MultilayerPerceptron extends
 {
 
 	@Override
-	public String mine(String[] args)
+	public String mine(String[] args)throws Exception
 	{
 		try
 		{
@@ -17,7 +17,7 @@ public class MultilayerPerceptron extends
 		{
 			System.err.println(e.getMessage());
 			e.printStackTrace();
-			return e.toString();
+			throw e;
 		}
 	}
 

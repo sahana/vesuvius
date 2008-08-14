@@ -7,7 +7,7 @@ public class BayesNet extends weka.classifiers.bayes.BayesNet implements
 		DMAlgorithm
 {
 
-	public String mine(String[] args)
+	public String mine(String[] args)throws Exception
 	{
 		try
 		{
@@ -15,8 +15,9 @@ public class BayesNet extends weka.classifiers.bayes.BayesNet implements
 		} catch (Exception e)
 		{
 			e.printStackTrace();
+			throw e;
 		}
-		return null;
+		//return null;
 
 	}
 

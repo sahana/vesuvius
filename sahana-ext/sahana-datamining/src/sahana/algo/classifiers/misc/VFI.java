@@ -1,9 +1,9 @@
-package sahana.algo.classifiers.lazy;
+package sahana.algo.classifiers.misc;
 
 import sahana.DMAlgorithm;
 import weka.classifiers.Evaluation;
 
-public class IBk extends weka.classifiers.lazy.IBk implements DMAlgorithm
+public class VFI extends weka.classifiers.misc.VFI implements DMAlgorithm
 {
 
 	@Override
@@ -11,12 +11,11 @@ public class IBk extends weka.classifiers.lazy.IBk implements DMAlgorithm
 	{
 		try
 		{
-			return Evaluation.evaluateModel(new IBk(), args).toString();
+			return Evaluation.evaluateModel(new VFI(), args).toString();
 		}
 		catch (Exception e)
 		{
 			e.printStackTrace();
-			System.err.println(e.getMessage());
 			throw e;
 		}
 	}

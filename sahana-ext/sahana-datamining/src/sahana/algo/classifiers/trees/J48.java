@@ -1,24 +1,23 @@
-package sahana.algo.classifiers.rules;
+package sahana.algo.classifiers.trees;
 
 import sahana.DMAlgorithm;
 import weka.classifiers.Evaluation;
 
-public class JRip extends weka.classifiers.rules.JRip implements DMAlgorithm
+public class J48 extends weka.classifiers.trees.J48 implements DMAlgorithm
 {
 
+	@Override
 	public String mine(String[] args) throws Exception
 	{
 		try
 		{
-			return Evaluation.evaluateModel(new JRip(), args).toString();
+			return Evaluation.evaluateModel(new J48(), args).toString();
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
 			System.err.println(e.getMessage());
 			throw e;
 		}
-		//return null;
 	}
 
 }

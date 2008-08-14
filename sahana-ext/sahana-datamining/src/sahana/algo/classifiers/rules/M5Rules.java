@@ -6,16 +6,19 @@ public class M5Rules extends weka.classifiers.rules.M5Rules implements
 		DMAlgorithm
 {
 
-	public String mine(String[] args)
+	public String mine(String[] args) throws Exception
 	{
 		try
 		{
-			return weka.classifiers.Evaluation.evaluateModel(new M5Rules(), args).toString();
-		} catch (Exception e)
+			return weka.classifiers.Evaluation.evaluateModel(new M5Rules(),
+					args).toString();
+		}
+		catch (Exception e)
 		{
 			System.err.println(e.getMessage());
 			e.printStackTrace();
+			throw e;
 		}
-		return null;
+		//return null;
 	}
 }

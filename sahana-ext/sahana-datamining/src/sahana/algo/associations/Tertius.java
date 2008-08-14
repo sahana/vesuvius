@@ -14,7 +14,7 @@ public class Tertius extends weka.associations.Tertius implements DMAlgorithm
 {
 
 	@Override
-	public String mine(String[] options)
+	public String mine(String[] options)throws Exception
 	{
 		String trainFileString;
 		Reader reader;
@@ -63,8 +63,9 @@ public class Tertius extends weka.associations.Tertius implements DMAlgorithm
 		} catch (Exception e)
 		{
 			System.err.println("\nWeka exception: " + e.getMessage() + text);
+			throw e;
 		}
-		return null;
+		//return null;
 	}
 
 }

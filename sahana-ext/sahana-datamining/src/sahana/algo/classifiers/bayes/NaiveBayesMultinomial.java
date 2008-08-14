@@ -6,7 +6,7 @@ public class NaiveBayesMultinomial extends
 		weka.classifiers.bayes.NaiveBayesMultinomial implements DMAlgorithm
 {
 
-	public String mine(String[] args)
+	public String mine(String[] args)throws Exception
 	{
 		try
 		{
@@ -16,8 +16,9 @@ public class NaiveBayesMultinomial extends
 		{
 			e.printStackTrace();
 			System.err.println(e.getMessage());
+			throw e;
 		}
-		return null;
+		//return null;
 	}
 
 }

@@ -6,7 +6,7 @@ public class ComplementNaiveBayes extends
 		weka.classifiers.bayes.ComplementNaiveBayes implements DMAlgorithm
 {
 
-	public String mine(String[] args)
+	public String mine(String[] args)throws Exception
 	{
 		try
 		{
@@ -16,8 +16,8 @@ public class ComplementNaiveBayes extends
 		{
 			e.printStackTrace();
 			System.err.println(e.getMessage());
+			throw e;
 		}
-		return null;
 	}
 
 }
