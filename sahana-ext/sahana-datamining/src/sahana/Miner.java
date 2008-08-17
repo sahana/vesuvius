@@ -38,22 +38,21 @@ public class Miner
 			}
 			else if (variant.equalsIgnoreCase("bayes.BayesNet"))
 			{
-				ret = new sahana.algo.classifiers.bayes.ComplementNaiveBayes()
-						.mine(input);
+				ret = new sahana.algo.classifiers.bayes.BayesNet().mine(input);
 			}
 			else if (variant.equalsIgnoreCase("bayes.ComplementNaiveBayes"))
 			{
-				ret = new sahana.algo.classifiers.bayes.NaiveBayes()
+				ret = new sahana.algo.classifiers.bayes.ComplementNaiveBayes()
 						.mine(input);
 			}
 			else if (variant.equalsIgnoreCase("bayes.NaiveBayes"))
 			{
-				ret = new sahana.algo.classifiers.bayes.NaiveBayesMultinomial()
+				ret = new sahana.algo.classifiers.bayes.NaiveBayes()
 						.mine(input);
 			}
 			else if (variant.equalsIgnoreCase("bayes.NaiveBayesMultinomial"))
 			{
-				ret = new sahana.algo.classifiers.bayes.NaiveBayesSimple()
+				ret = new sahana.algo.classifiers.bayes.NaiveBayesMultinomial()
 						.mine(input);
 			}
 			else if (variant.equalsIgnoreCase("bayes.NaiveBayesSimple"))
