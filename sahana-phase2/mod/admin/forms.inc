@@ -12,8 +12,13 @@
 * @author     Ravindra De Silva
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
-
-global $global;
+/**
+ * @todo TO BE REMOVED
+ * @deprecated by Ravith Botejue.
+ * Commenting out the following. Couldn't find a possible use of this file.
+ * Can be safely removed if nothing breaks.
+ */
+/*global $global;
 include_once $global['approot']."/inc/handler_form.inc";
 include_once $global['approot']."/inc/lib_location.inc";
 
@@ -70,4 +75,4 @@ function _shn_admin_location_form()
     $range= shn_get_range();
     shn_location($range,null,null);
     shn_form_fsclose();
-}
+}*/
