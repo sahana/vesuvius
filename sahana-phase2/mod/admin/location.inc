@@ -57,7 +57,6 @@ $extra_options['size']=60;
 shn_form_text(_t("location"),'loc',"size=50 readonly",$extra_options);
 shn_form_fsclose();
 ?>
-</center>
 <br />
 <center><?php
 shn_form_submit(_t("Next"));
@@ -100,12 +99,6 @@ $extra_opts['value']=$res->fields["iso_code"];
 shn_form_text(_t("ISO code : "),'iso','size="50"',$extra_opts);
 shn_form_fsclose();
 
-?>
-</center>
-
-<?php
-
-
 //create the submit button
 $extra_opts['br']=false;
 $extra_opts['req']=false;
@@ -116,11 +109,6 @@ shn_form_hidden(array('action'=>'0'));
 shn_form_hidden(array('loc_id'=>$loc));
 _shn_admin_action_change_javascript("action");
 //close the form
-
-?>
-</center>
-<br />
-<?php
 shn_form_fclose(false);
 ?></div>
 <?php
@@ -150,9 +138,6 @@ shn_form_hidden(array("added"=>','));
 shn_form_hidden(array("removed"=>','));
 shn_form_button(_t("Add"),"onClick='add_types()'");
 shn_form_fsclose();
-?>
-</center>
-<?php
 shn_form_fsopen(_t("Remove Levels"));
 $select_opts="multiple='true'";
 $extra_opts["sort"]=true;
@@ -161,7 +146,6 @@ shn_form_opt_multi_select('opt_location_type','',$select_opts,$extra_opts);
 shn_form_button(_t("Remove"),"onClick='remove_types()'");
 shn_form_fsclose();
 ?>
-</center>
 <br />
 <center><?php
 $extra_opts['br']=false;
@@ -199,7 +183,7 @@ function _shn_save_form_javascript($form,$save_what,$fill)
             
         	var y=document.getElementsByName("<?php echo $fill?>");
         	y[0].value=tmp_str;
-        	document.<?php echo $form?>.submit();
+        	document.<?php echo $form?>.submit();[ 1995763 ] Add locations for non existing levels
         	return;	
     	} 
 	</script>
@@ -437,6 +421,7 @@ function _shn_admin_location_form()
         <br />
         <?php
         $range= shn_get_range();
+        $range['end']-=1;
         shn_location($range,null,null,array("unknown"=>false));
         shn_form_fsclose();
     }
@@ -456,7 +441,6 @@ function _shn_admin_location_form()
      */
     
     ?>
-    </center>
     <input type='hidden' id='loc_sub_ans' name='loc_sub_ans'/>
     <br />
     <center><?php
