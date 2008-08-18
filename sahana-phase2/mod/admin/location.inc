@@ -74,12 +74,12 @@ function _shn_admin_location_edit_form($loc)
 {
 	global $global;
 	$db=$global['db'];
-	$q="select name,description,iso_code from location where loc_uuid='{$loc}'";
+	$q="SELECT name,description,iso_code FROM location WHERE loc_uuid='{$loc}'";
 	$res=$db->Execute($q);
 
 	?>
-<h1 align="center"><?=_t("Edit Location")?></h1>
-<div id="note"><?=_t("Fields marked with * are required (entry is compulsory)")?>
+<h1 align="center"><?php echo _t("Edit Location")?></h1>
+<div id="note"><?php echo _t("Fields marked with * are required (entry is compulsory)")?>
 </div>
 	<?php
 	if($error==true)
@@ -90,12 +90,12 @@ $form_opts['name']='view';
 shn_form_fopen("edit_loc_cr",null,$form_opts);
 shn_form_fsopen(_t("Location Details"));
 $extra_opts['req']=true;
-$extra_opts['value']=$res->fields["name"];
+$extra_opts['value']=($res->fields["name"]!='NULL')?$res->fields["name"]:"";
 shn_form_text(_t("Location Name : "),'loc_name','size="50"',$extra_opts);
 $extra_opts['req']=false;
-$extra_opts['value']=$res->fields["description"];
+$extra_opts['value']=($res->fields["description"]!='NULL')?$res->fields["description"]:"";
 shn_form_text(_t("Description : "),'desc','size="50"',$extra_opts);
-$extra_opts['value']=$res->fields["iso_code"];
+$extra_opts['value']=($res->fields["iso_code"]!='NULL')?$res->fields["iso_code"]:"";
 shn_form_text(_t("ISO code : "),'iso','size="50"',$extra_opts);
 shn_form_fsclose();
 
