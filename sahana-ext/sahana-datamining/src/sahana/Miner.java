@@ -110,24 +110,19 @@ public class Miner
 			{
 				ret = new sahana.algo.classifiers.functions.SMO().mine(input);
 			}
-			else if (variant.equalsIgnoreCase("functions.SMO"))
-			{
-				ret = new sahana.algo.classifiers.functions.LeastMedSq()
-						.mine(input);
-			}
 			else if (variant.equalsIgnoreCase("functions.SMOreg"))
 			{
-				ret = new sahana.algo.classifiers.functions.LeastMedSq()
+				ret = new sahana.algo.classifiers.functions.SMOreg()
 						.mine(input);
 			}
 			else if (variant.equalsIgnoreCase("functions.VotedPerceptron"))
 			{
-				ret = new sahana.algo.classifiers.functions.LeastMedSq()
+				ret = new sahana.algo.classifiers.functions.VotedPerceptron()
 						.mine(input);
 			}
 			else if (variant.equalsIgnoreCase("functions.Winnow"))
 			{
-				ret = new sahana.algo.classifiers.functions.LeastMedSq()
+				ret = new sahana.algo.classifiers.functions.Winnow()
 						.mine(input);
 			}
 			else if (variant.equalsIgnoreCase("lazy.IB1"))
