@@ -15,7 +15,7 @@
 * @copyright  Respere - http://respere.com/
 * @package	  Sahana - http://sahana.lk/
 * @subpackage
-* @version	  $Id: lib_msg.inc,v 1.4 2008-06-03 21:24:26 franboon Exp $
+* @version	  $Id: lib_msg.inc,v 1.5 2008-08-25 10:39:44 mifanc Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -224,6 +224,20 @@ function shn_msg_get_categories_from_contact($contact_array)
 		
 		if(preg_match($email_pattern,$contacts)){
 			array_push($email_array,$contacts);
+		}
+		//Improve this later on - for now, get something working
+		//Identify phone numbers
+		//Handle + sign as well at the beginning of a number
+		//@todo Handle other chars as well...
+		else if(substr_count($contacts,'+')>0){
+			// + Available - now check whether it is at the beginning
+			if(strpos($contacts,'+')==0){
+				//Yes! now to see whether the rest is a number
+				$number = substr($contacts,1,strlen($contacts));
+				if(is_numeric($number)){
+					array_push($sms_array,$contacts);
+				}
+			}
 		}
 		else if(is_numeric($contacts)){
 			array_push($sms_array,$contacts);
