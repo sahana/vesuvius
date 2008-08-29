@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: camp.inc,v 1.65 2008-07-23 07:07:57 ravithb Exp $ */
+/* $Id: camp.inc,v 1.66 2008-08-29 05:12:37 mifanc Exp $ */
 
 /**Camp library for  CR
  *
@@ -21,6 +21,7 @@
 include_once($global['approot'] . '/inc/lib_form.inc');
 include_once($global['approot'] . '/inc/lib_validate.inc');
 include_once($global['approot'] . '/inc/lib_errors.inc');
+include_once($global['approot'] . '/inc/lib_xajax.inc');
 
 function _shn_cr_cadd_start($errors = false)
 {
@@ -44,8 +45,9 @@ function _shn_cr_cadd_start($errors = false)
     } else {
         shn_form_hidden(array('seq'=>'chk'));
     }
-
-    shn_form_text(_t("Shelter Name"),"camp_name",'size="50"',array('req'=>true));
+	shn_xajax_registerFunction('cr_check_shelter_name');
+    shn_form_text(_t("Shelter Name"),"camp_name",' onchange="cr_check_shelter_name(this.value)"; ', array('req'=>true,'br'=>false));
+	 echo "<span id='check' ></span><br /><br />";
     shn_form_opt_select("opt_camp_type",_t("Shelter Type"));
     ?>
 
@@ -232,10 +234,30 @@ function _shn_cr_cadd_commit()
         //}
         //echo microtime(true);
         //var_dump($_SESSION);
-        _shn_cr_cadd_commit_db();
+		if(!shn_cr_shelter_name_exist($_SESSION['camp_name'])){
+			_shn_cr_cadd_commit_db();
+		}
+		else {
+			add_error($_SESSION['camp_name']._t(' is already registered. Please enter new shelter name '));
+			_shn_cr_cadd_start(true);
+		}
+        
     } elseif (isset($_POST['edit'])) {
         _shn_cr_cedt_add();
     }
+}
+
+function shn_cr_shelter_name_exist($shetler_name){
+	global $global;
+	$sql = "SELECT name FROM camp_general WHERE name = '$shetler_name'";
+	$res = $global['db']->GetOne($sql);
+	
+	if (strtolower($res) == strtolower($shetler_name)){
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 function _shn_cr_create_cid($val)
