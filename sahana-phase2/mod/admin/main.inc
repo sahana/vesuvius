@@ -129,7 +129,7 @@ function shn_admin_default()
         <p><?=_t("The System Administration section allows you to configure and customize Sahana based on your requirements. Each section on the Administration menu is grouped by the section. These sections are described below:")?></p>
 	<ul>
 	<li><b><?=_t("Locations Hierarchy")?></b> <br/><?=_t("Add, modify and customized the affected locations and hierachies in the disaster")?></li>
-	<li><b><?=_t("GIS Configuration")?></b> <br/><?=_t("Specify your mapping configuration and prefered mapping/GIS system to be used in Sahana")?></li>
+	<li><b><?=_t("GIS Configuration")?></b> <br/><?=_t("Specify your mapping configuration and preferred mapping/GIS system to be used in Sahana")?></li>
 	<li><b><?=_t("Module Configuration")?></b> <br/><?=_t("Contains specific configuration pages for each module that has been installed in the system allowing them to be customized individually and seperately.")?> </li>
 	<li><b><?=_t("System Security")?></b> <br/><?=_t("Allows the system administrator to configure who gets access to what modules and actions available in Sahana")?></li>
 	<li><b><?=_t("Language / Locale")?></b> <br/><?=_t("Translate the Sahana interface and terminology to a local language and that relevant for the disaster")?></li>
