@@ -15,12 +15,12 @@
 * @copyright  Respere - http://respere.com/
 * @package	  Sahana - http://sahana.lk/
 * @subpackage
-* @version	  $Id: lib_msg.inc,v 1.5 2008-08-25 10:39:44 mifanc Exp $
+* @version	  $Id: lib_msg.inc,v 1.6 2008-09-15 13:57:35 franboon Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
-
-include_once $global['approot']."/inc/lib_errors.inc";
-
+global $global;
+require_once $global['approot']."/inc/lib_errors.inc";
+require_once $global['approot']."/mod/msg/lib_sms_main.inc";
 /**
  * Send Text/Short message as SMS via messaging controller
  * Dependant on underlying gateway selected and stored as conf value
@@ -40,7 +40,6 @@ function shn_msg_send_short_message($recipients,$message)
 			include_once $global['approot']."/mod/msg/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 			add_confirmation(_t('Gateway plugin started...'));
 			shn_msg_plugin_send_sm($recipients,$message);
-			
 			shn_msg_store_sent_messages($recipients,$message);		
 			return 1;
 		}
@@ -74,14 +73,23 @@ function shn_msg_receive_short_message(){
     if(shn_msg_check_sms_gateway()){
         if(file_exists($global['approot']."/mod/msg/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc")){
             include_once $global['approot']."/mod/msg/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
-
+            
             $received_message=shn_msg_plugin_receive_sm();
             if(isset($received_message)){
                     $rec=$global['db']->AutoExecute('msg_received_messages',$received_message,'INSERT');
-                    if(!$rec)
-                        echo "Sahana server Error : Database Error";
-                    else
-                        echo "received";
+                    if(!$rec){
+                        echo "Sahana server Error : Database Error"; //echoes to sms daemon not to user
+                        $error_message = _shn_msg_sms_error_code(2);
+                        // this should also in future send off an email to admin
+                        //Inform the SMS Sender of the error. code 2 as per lib_sms_errors.inc
+                        if($error_message)
+                            _shn_msg_sms_error_msg_send($received_message['sender'], $error_message);
+                    }    
+                    else{
+                        //echo "SMS Received"; //echoes to sms daemon not to user
+                        //Push SMS to lib_sms_main and handle it
+                        shn_msg_push_to_sms_handler($received_message);
+                    }    
             }
             return 1;
         }
@@ -131,7 +139,13 @@ function shn_msg_store_sent_messages($recipients,$message)
 	include_once($global['approot'].'/inc/lib_uuid.inc');
 	
 	$msguid = shn_create_uuid('msg');
-	$sender = $_SESSION['user_id']; //Current user of the system
+    //Temporary Mechanism to identify if the SMS is sent through the Web App or as a result of the SMS Login Session 
+    if (isset($_SESSION['user_id'])){
+        $sender = $_SESSION['user_id']; //Current user of the system
+    }
+    else{
+        $sender = "1"; //Sahana Messaging Module sending the SMS
+    }
 		
 	$db = $global['db'];
 	
