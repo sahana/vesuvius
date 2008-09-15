@@ -1,30 +1,157 @@
 /**
-* Sahana Optical Character Recognition Form library, Genarates the required form layout
-*
-* Javascript version 1.2 and CSS1
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @author     Hayesha Somarathne - hayesha@opensource.lk, hayeshais@gmail.com
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @package	  framework
-* @subpackage printing
-* @tutorial	  
-* @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
-*/
+ * Sahana Optical Character Recognition Form library, Genarates the required form layout
+ *
+ * Javascript version 1.2 and CSS1
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author     Hayesha Somarathne - hayesha@opensource.lk, hayeshais@gmail.com
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    framework
+ * @subpackage printing
+ * @tutorial	  
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ *
+ */
+ 
+ 
+/** 
+ *
+ * README: Sahana OCR friendly Web Form Version 1.1
+ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ *
+ * This JavaScript(EMACScript) library provides the functionality to generate Optical Character Recognition friendly forms having compliance with W3C standard web forms.
+ *
+ *			 ___________________________________________________
+ *			|  _			  _           		 _  |
+ *			| |_|			 |_|          		|_| |
+ *			|  ______________________________________ ________  |
+ *			| |______________________________________|________| |	
+ *			| |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| |
+ *			|  ______________________________________ ________  |
+ *			| |______________________________________|________| |	
+ *			| |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| |
+ *			|  ______________ ______     ______________ ______  | 
+ *			| |______________|______|   |______________|______| |	
+ *			| |_|_|_|_|_|_|_|_|_|_|_|   |_|_|_|_|_|_|_|_|_|_|_| |
+ *			|  ______________________________________ ________  |
+ *			| |______________________________________|________| |	
+ *			| |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| |
+ *			| |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| |
+ *			|  _		     	     			 _  |
+ *			| |_|		    	    		        |_| |
+ *			|___________________________________________________|
+ *
+ *
+ * ~ HOW TO USE
+ * ~~~~~~~~~~~~
+ *
+ * 1. First of all copy the file called "libprint.js" to a suitable folder.
+ * 2. Links the "libprint.js" file to the HEAD section of the HTML source as shown below:
+ *  eg:
+ *	<script type="text/javascript" src="../javascript/libprint.js"></script>
+ *
+ * 3. Then calls the "shn_print_init()" function at your prefered location in the HTML source
+ *  eg: 
+ *	<a onclick="javascript:shn_print_init()" href="javascript:void(0)" title="XForm">XForm</a>
+ *
+ * 4. Clicks on the link "XForm" to get the generated output and then navigate through File >> Print in the web browser to print the page.
+ *
+ * 5. Once the user click on the XForm and needs to switched on to the normal view just click on F5 key or refresh the page
+ *
+ *
+ *
+ *
+ * ~ LIMITATIONS
+ * ~~~~~~~~~~~~~
+ *
+ * 1. Currently library doesn't give the facility to the user to change the generated field layout structure dynamically except for the date layout.
+ *
+ * 2. The library will only function in its maximum accuracy when the system is used with en_US locale, with other locales it only generats a form with a basic layout 
+ *
+ * 3. This version formats the generated form only to match a A4 page.
+ *
+ * 4. Currently the library renders the page accurately with FF2, Opera 8 and IE6   
+ *
+ * 5. Element extraction process get limits to following parameters:
+ *   ~ The form elements should resides within the given DIV element having the CLASS attribute "form-container", but you can change the class attribute name provided that you change the JavaScript library(libprint.js) appropriatly ( in the library search and finds the "shn_print_create_basic_elements_layout()" function and change the "form-container" value to the value used in your HTML source).
+ *   ~ The library supports the extaction of required elements only if the elements are structured as shown below.
+ *
+ *	<div class="form-container">
+ *		<fieldset><legend>Personal Details</legend>
+ *			<label>First Name</label>
+ *			<input type="text" name="fname" class="fname" />
+ *			<label>Surname</label>
+ *			<input type="text" name="sname" class="sname" />
+ *			.......
+ *		</fieldset>
+ *		<fieldset><legend>Features</legend>
+ *			<label for="height">Height</label>
+ *			<input type="text" name="height" />
+ *			<label>Hair Colour</label>
+ *			<select name="opt_hair_color">
+ *				<option value="bla" >Black</option>
+ *				<option value="bro" >Brown</option>
+ *			</select>
+ *			.......
+ *		</fieldset>
+ *		<fieldset><legend>Other Details</legend>
+ *			<label>Last Seen location</label>
+ *			<input type="text" name="fname" class="fname" />
+ *			<label for="physical_comments">Other Distinctive Features</label> 
+ *			<textarea name="physical_comments" cols="30" rows="4" ></textarea>
+ *			.......
+ *		</fieldset>
+ *	</div>
+ *
+ *
+ *   ~ Accuracy of the functionality fails if the elements are nested within several fieldset elements as shown below.
+ *
+ *	<div class="form-container">
+ *		<fieldset>
+ *			<fieldset><legend>Personal Details</legend>
+ *				<label>First Name</label>
+ *				<input type="text" name="fname" class="fname" />
+ *				<label>Surname</label>
+ *				<input type="text" name="sname" class="sname" />
+ *				.......
+ *			</fieldset>
+ *		</fieldset>
+ *		<fieldset>
+ *			<fieldset><legend>Features</legend>
+ *				<label for="height">Height</label>
+ *				<input type="text" name="height" />
+ *				<label>Hair Colour</label>
+ *				<select name="opt_hair_color">
+ *					<option value="bla" >Black</option>
+ *					<option value="bro" >Brown</option>
+ *				</select>
+ *				.......
+ *			</fieldset>
+ *			<fieldset><legend>Other Details</legend>
+ *				<label>Last Seen location</label>
+ *				<input type="text" name="fname" class="fname" />
+ *				<label for="physical_comments">Other Distinctive Features</label>
+ *				<textarea name="physical_comments" cols="30" rows="4" ></textarea>
+ *				.......
+ *			</fieldset>
+ *		</fieldset>
+ *	</div>
+ *	
+ */
+
 
 
 /**
- * This section contains the necessary CSS styles for the page
+ * This section contains the necessary CSS style rules for the page
  *
  */
 document.writeln(
         '<style type="text/css">'                                       +
 
 //A4 page height: 843.829pt; width:596.971pt; 
-
 		'#print { float: left; width: 510pt; padding: 0; margin: 0 auto; }'	+
 
 		'#print-wrapper { float: left; width: 510pt; border: #000 1pt solid; padding: 2pt; margin: 4pt auto; }'	+
@@ -49,30 +176,35 @@ document.writeln(
 		'.description { float: left; clear: both; margin: 1pt 0 0 15pt; padding: 0 2pt; font-size: 8pt; width: 465pt; }'	+
 
 		'.item-wrap, .label-left, .label-right, .character { float: left; border: #000 1px solid; }'	+
-		'.item-wrap { clear: both; margin: 5pt 0 5pt 15pt; width: 465pt; }'	+
+		'.item-wrap { clear: both; margin: 5pt 0 5pt 15pt; width: 466pt; }'	+
 		'.item-wrap .label-left { height: 10pt; font-size: 8pt; text-transform: uppercase; width: 330pt; padding: 2pt 5pt; }'	+
 		'.item-wrap .label-right { height: 10pt; width: 112pt; padding: 2pt 5pt; }'	+
 		'.character { height: 10pt; width: 10pt; padding: 2pt; }'	+
 
-		'.item-wrap-small, .small-left, .small-right, .dob-dd, .dob-mm, .dob-yy, .option-label { float: left; border: #000 1px solid; }'	+
+		'.item-wrap-small, .small-left, .small-right, .dob-dd, .dob-mm, .dob-yy, .dob-space, .option-label { float: left; border: #000 1px solid; }'	+
 		'.small-left, .small-right, .dob-dd, .dob-mm, .dob-yy, .option-label { font-size: 8pt; text-transform: uppercase; padding: 1pt 5pt; height: 10pt; }'	+
-		'.item-wrap-small { width: 223pt; margin: 5pt 0 5pt 15pt; }'	+
+		'.item-wrap-small { width: 224pt; margin: 5pt 0 5pt 15pt; }'	+
 		'.item-wrap-small .small-left { width: 144pt; color: #000; }'	+
 		'.item-wrap-small .small-right { width: 56pt; }'	+
-		'.dob-dd, .dob-mm, .dob-yy { width: 16pt; color: #ddd; font-size: 5pt; }'	+
+		'.small-right { text-align: right;  }'	+
+		'.small-right a, .small-right a:link { text-decoration: none;  }'	+
+		'.dob-dd, .dob-mm, .dob-yy { width: 15pt; color: #ddd; font-size: 5pt; }'	+
+		'.dob-space { height: 7pt; border: solid #000 3pt; }'	+
 		'.option-label { width: 205pt; height: 10pt; }'	+
-
 		'.space { float: left; clear: both; }'	+
+		'.popup { position: absolute; visibility: hidden; z-index: 5; overflow: hidden; width: 93px; padding: 0; background-color: #fff; border: 1px solid #000; }'	+
+		'a.close, a.close:link { float: right; padding: 2px 2px 0 0; font-size: 10px; margin: 0; }'	+
+		'.popup p { float: left; padding: 2px 12px; margin: 0 auto; font-size: 11px; font-weight: bold; text-transform: uppercase; }'	+
+		'.popup p:hover { color: #fff; background-color: #000; }'	+
 	'</style>' );
 
 
 /**
- * This section contains the IE specific CSS styles for the page
+ * This section contains the IE specific CSS style rules for the page
  *
  */
 document.writeln(
-	//This section handles the specific CSS styles that are required 
-	//by IE versions including six and below
+	//This section handles the specific CSS style rules that are required for IE versions six and below
 	'<!--[if lte IE 6]>'	+
 		'<style type="text/css">'	+
 			'#print, #print-wrapper { width: 490pt; }'	+
@@ -92,8 +224,7 @@ document.writeln(
 		'</style>'	+
 	'<![endif]-->'	+
 
-	//This section handles the specific CSS styles that are required 
-	//by IE versions seven
+	//This section handles the specific CSS style rules that are required for IE version seven
 	'<!--[if IE 7]>'	+
 		'<style type="text/css">'	+
 			''	+
@@ -747,7 +878,6 @@ function shn_print_add_input_c_layout(dom_label, dom_legend, _dom_wrapper, _clas
 
 
 
-
 /**
  * This function generates the necessary layout for the select field 
  *
@@ -823,15 +953,65 @@ function shn_print_add_textarea_layout(dom_label, dom_legend, _dom_wrapper, _cla
  *
  * @param string, string, string
  * @access protected
- * @return string
  */
+var choice;
 function shn_print_add_dob_layout(dom_label, dom_legend, _dom_wrapper, _class) {
+	//this section should implements ajax functionality to allow the user to select the  
+	//matching date format, such as MM-DD-YYYY or DD-MM-YYYY or YYYY-MM-DD	
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'small-left');
 
 	//append the right layout to the wrapper
-	_dom_wrapper.innerHTML +="<div class='small-right'></div>";
+	var closable = 'closable';
+	_dom_wrapper.innerHTML +="<div class='small-right'><a href='#' title='Change Layout' onclick=\"popout();popup('closable', event );\"> X</a></div>";
 
+	shn_print_create_popup_wrapper();
+	
+	if (choice == 'dd-mm-yyyy') {
+		_dom_wrapper = shn_print_generate_d_m_y(_dom_wrapper);
+	}
+	else if (choice == 'mm-dd-yyyy') {
+		_dom_wrapper = shn_print_generate_m_d_y(_dom_wrapper);	
+	}
+	else if (choice == 'yyyy-mm-dd') {
+		_dom_wrapper = shn_print_generate_y_m_d(_dom_wrapper);	
+	}	
+	else {
+		//append the dob year layout to the wrapper
+		//creates and appends required # of boxes where values going to be inputed
+		for (var counter = 0; counter <4; counter++) {
+			_dom_wrapper.innerHTML +="<div class='dob-yy'>Y</div>";
+		}
+	
+		_dom_wrapper.innerHTML +="<div class='dob-space'></div>";
+	
+		//append the dob month layout to the wrapper
+		//creates and appends required # of boxes where values going to be inputed
+		for (var counter = 0; counter <2; counter++) {
+			_dom_wrapper.innerHTML +="<div class='dob-mm'>M</div>";
+		}
+	
+		_dom_wrapper.innerHTML +="<div class='dob-space'></div>";
+
+		//append the dob day layout to the wrapper
+		//creates and appends required # of boxes where values going to be inputed
+		for (var counter = 0; counter <2; counter++) {
+			_dom_wrapper.innerHTML +="<div class='dob-dd'>D</div>";
+		}	
+	}
+
+	shn_print_appent_to_wrapper(_dom_wrapper, _class);
+}
+
+
+/**
+ * This function generates the necessary layout for the y_m_d 
+ *
+ * @param string
+ * @access protected
+ * @return string
+ */
+function shn_print_generate_y_m_d(_dom_wrapper) {
 
 	//append the dob year layout to the wrapper
 	//creates and appends required # of boxes where values going to be inputed
@@ -839,11 +1019,15 @@ function shn_print_add_dob_layout(dom_label, dom_legend, _dom_wrapper, _class) {
 		_dom_wrapper.innerHTML +="<div class='dob-yy'>Y</div>";
 	}
 	
+	_dom_wrapper.innerHTML +="<div class='dob-space'></div>";
+	
 	//append the dob month layout to the wrapper
 	//creates and appends required # of boxes where values going to be inputed
 	for (var counter = 0; counter <2; counter++) {
 		_dom_wrapper.innerHTML +="<div class='dob-mm'>M</div>";
 	}
+	
+	_dom_wrapper.innerHTML +="<div class='dob-space'></div>";
 
 	//append the dob day layout to the wrapper
 	//creates and appends required # of boxes where values going to be inputed
@@ -851,9 +1035,112 @@ function shn_print_add_dob_layout(dom_label, dom_legend, _dom_wrapper, _class) {
 		_dom_wrapper.innerHTML +="<div class='dob-dd'>D</div>";
 	}
 
-	shn_print_appent_to_wrapper(_dom_wrapper, _class);
+ return _dom_wrapper;
 }
 
+
+/**
+ * This function generates the necessary layout for the d_m_y 
+ *
+ * @param string
+ * @access protected
+ * @return string
+ */
+function shn_print_generate_d_m_y(_dom_wrapper) {
+
+	//append the dob day layout to the wrapper
+	//creates and appends required # of boxes where values going to be inputed
+	for (var counter = 0; counter <2; counter++) {
+		_dom_wrapper.innerHTML +="<div class='dob-dd'>D</div>";
+	}
+	
+	_dom_wrapper.innerHTML +="<div class='dob-space'></div>";
+	
+	//append the dob month layout to the wrapper
+	//creates and appends required # of boxes where values going to be inputed
+	for (var counter = 0; counter <2; counter++) {
+		_dom_wrapper.innerHTML +="<div class='dob-mm'>M</div>";
+	}
+	
+	_dom_wrapper.innerHTML +="<div class='dob-space'></div>";
+
+	//append the dob year layout to the wrapper
+	//creates and appends required # of boxes where values going to be inputed
+	for (var counter = 0; counter <4; counter++) {
+		_dom_wrapper.innerHTML +="<div class='dob-yy'>Y</div>";
+	}
+
+ return _dom_wrapper;
+}
+ 
+
+
+/**
+ * This function generates the necessary layout for the m_d_y  
+ *
+ * @param string
+ * @access protected
+ * @return string
+ */
+function shn_print_generate_m_d_y(_dom_wrapper) {
+
+	//append the month year layout to the wrapper
+	//creates and appends required # of boxes where values going to be inputed
+	for (var counter = 0; counter <2; counter++) {
+		_dom_wrapper.innerHTML +="<div class='dob-mm'>M</div>";
+	}
+	
+	_dom_wrapper.innerHTML +="<div class='dob-space'></div>";
+	
+	//append the dob day layout to the wrapper
+	//creates and appends required # of boxes where values going to be inputed
+	for (var counter = 0; counter <2; counter++) {
+		_dom_wrapper.innerHTML +="<div class='dob-dd'>D</div>";
+	}
+	
+	_dom_wrapper.innerHTML +="<div class='dob-space'></div>";
+
+	//append the dob year layout to the wrapper
+	//creates and appends required # of boxes where values going to be inputed
+	for (var counter = 0; counter <4; counter++) {
+		_dom_wrapper.innerHTML +="<div class='dob-yy'>Y</div>";
+	}
+
+ return _dom_wrapper;
+}
+
+
+function shn_print_event() {
+
+  /*choice = document.all('div'+event.srcElement.name).innerText;*/
+  window.alert(document.all('a'+event.srcElement.name)..innerText);
+  //alert(choice);
+}
+
+
+/**
+ * This function generates the popup div which holds the list of available date types  
+ *
+ */
+function shn_print_create_popup_wrapper() {
+
+	var typeList = new Array(3);
+	typeList[0] = 'dd-mm-yyyy';
+	typeList[1] = 'mm-dd-yyyy';
+	typeList[2] = 'yyyy-mm-dd';
+
+	var _dom_closable = document.createElement('div');
+	_dom_closable.setAttribute('id','closable');
+	_dom_closable.setAttribute('class','popup');
+	_dom_closable.setAttribute('className','popup');
+	
+	_dom_closable.innerHTML +="<a href='#' name='close' onclick='popout();shn_print_event();' class='close'>Close</a><br />";
+	for (var format = 0; format < typeList.length; format++ ) {
+		_dom_closable.innerHTML +="<p onclock='' name='dateformat' > " + typeList[format]+ " </p> <br />";
+	}
+	
+  	document.getElementById('print-wrapper').appendChild(_dom_closable);  	
+}
 
 
 /**
@@ -875,4 +1162,128 @@ function shn_print_add_input_geography_layout(dom_label, dom_legend, _dom_wrappe
 	_dom_wrapper.innerHTML +="<div class='character'></div>";
 	}
 	shn_print_appent_to_wrapper(_dom_wrapper, _class);
+}
+
+
+/**
+ *#################################################################################################################
+ * This section contains the necessary functions required to handle the popup window 
+ *
+ */
+ 
+    
+function shn_print_move_object(objectId, newXCoordinate, newYCoordinate) {
+	// get a reference to the cross-browser style object and make sure the object exists
+	var styleObject = shn_print_get_style_object(objectId);
+	if(styleObject) {
+		styleObject.left = newXCoordinate + 'px';
+		styleObject.top = newYCoordinate + 'px';
+	 return true;
+	} 
+	else {
+	 // we couldn't find the object, so we can't very well move it
+	 return false;
+	}
+}
+
+function shn_print_get_style_object(objectId) {
+    // cross-browser function to get an object's style object given its id
+    if(document.getElementById && document.getElementById(objectId)) {
+    // W3C DOM
+    return document.getElementById(objectId).style;
+    } else if (document.all && document.all(objectId)) {
+    // MSIE 4 DOM
+    return document.all(objectId).style;
+    } else if (document.layers && document.layers[objectId]) {
+    // NN 4 DOM.. note: this won't find nested layers
+    return document.layers[objectId];
+    } else {
+    return false;
+    }
+}
+
+
+/**
+ * Copyright (c) 2002 NuSphere Corporation
+ *
+ * This library is free software; you can redistribute it and/or modify it under the terms of 
+ * the GNU Lesser General Public License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ * 
+ * This library is distributed in the hope that it will be useful,but WITHOUT ANY WARRANTY; without even the 
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public 
+ *  License for more details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License along with this library; if not, 
+ * write to the Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ * 
+ * If you have any questions or comments, please email:
+ * 
+ * Dietrich Ayala
+ * dietrich@ganx4.com
+ * http://dietrich.ganx4.com/nusoap
+ * 
+ * NuSphere Corporation
+ * http://www.nusphere.com
+ * 
+ */
+ 
+ 
+//Shows the messages
+var oDesc;
+var xOffset = 10;
+var yOffset = -5;
+function popup(targetObjectId, eventObj){
+	if(oDesc = new make_obj(targetObjectId)){
+		oDesc.css.visibility = "visible"
+		// move popup div to current cursor position 
+		// (add scrollTop to account for scrolling for IE)
+		var newXCoordinate = (eventObj.pageX)?eventObj.pageX + xOffset : eventObj.x + xOffset + ((document.body.scrollLeft)?document.body.scrollLeft:document.documentElement.scrollLeft); 
+		var newYCoordinate = (eventObj.pageY)?eventObj.pageY + yOffset : eventObj.y + yOffset + ((document.body.scrollTop)?document.body.scrollTop:document.documentElement.scrollTop);
+		shn_print_move_object(targetObjectId, newXCoordinate, newYCoordinate);
+	}
+}
+    
+function popout(){ // Hides message
+	if(oDesc) oDesc.css.visibility = "hidden"
+}
+
+
+// POP-UP CAPTIONS...
+function lib_bwcheck(){ //Browsercheck (needed)
+	this.ver=navigator.appVersion
+	this.agent=navigator.userAgent
+	this.dom=document.getElementById?1:0
+	this.opera5=this.agent.indexOf("Opera 5")>-1
+	this.ie5=(this.ver.indexOf("MSIE 5")>-1 && this.dom && !this.opera5)?1:0;
+	this.ie6=(this.ver.indexOf("MSIE 6")>-1 && this.dom && !this.opera5)?1:0;
+	this.ie4=(document.all && !this.dom && !this.opera5)?1:0;
+	this.ie=this.ie4||this.ie5||this.ie6
+	this.mac=this.agent.indexOf("Mac")>-1
+	this.ns6=(this.dom && parseInt(this.ver) >= 5) ?1:0;
+	this.ns4=(document.layers && !this.dom)?1:0;
+	this.bw=(this.ie6 || this.ie5 || this.ie4 || this.ns4 || this.ns6 || this.opera5)
+
+ return this    
+}
+    
+var bw = new lib_bwcheck()
+//Makes crossbrowser object.
+function make_obj(obj){
+	this.evnt=bw.dom? document.getElementById(obj):bw.ie4?document.all[obj]:bw.ns4?document.layers[obj]:0;
+	if(!this.evnt) return false
+	this.css=bw.dom||bw.ie4?this.evnt.style:bw.ns4?this.evnt:0;
+	this.wref=bw.dom||bw.ie4?this.evnt:bw.ns4?this.css.document:0;
+	this.writeIt=b_writeIt;
+        
+ return this
+}
+    
+// A unit of measure that will be added when setting the position of a layer.
+//var px = bw.ns4||window.opera?"":"px";
+function b_writeIt(text){
+	if (bw.ns4){
+		this.wref.write(text);this.wref.close()
+	}
+	else this.wref.innerHTML = text
 }
