@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.82 2008-08-04 05:47:10 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.83 2008-09-15 18:52:28 franboon Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -16,15 +16,17 @@
  * @author     Chamindra de Silva (chamindra@opensource.lk>
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @author     Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
+ * @author     Richard Smith <s0459387@sms.ed.ac.uk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
-// test patch
+
 $shn_help_id;
 $shn_form_id; //this variable is used by the tab functions
 $shn_tab_enabled=false; //this variable is used by the tab functions
 $shn_tabindex=0; //used to prioritize form data entry fields when navigating with the [TAB] key
+
 /**
  * You can add extra attributes to the given HTML element
  *
@@ -669,7 +671,6 @@ function shn_form_table_row($elements, $text_opts=null) {
 	if ($depth == 0) echo "    </tr>\n";
 }
 
-
 /**
  * This is a pseudo element, contains a date
  *
@@ -712,7 +713,6 @@ function shn_form_date($label,$name,$extra_opts = null)
 	shn_form_extra_opts($extra_opts);
 }
 
-
 /**
  * This function can be used to set the tab place.
  * To use this function you have set the 'tab'=>'float' in the fopen function.
@@ -730,7 +730,6 @@ function shn_form_drawtab(){
 		$draw=false;
 	}
 }
-
 
 function shn_form_fopen_alt($act, $mod = null, $form_opts = array('req_message'=>true))
 {
@@ -773,6 +772,74 @@ function shn_form_still_camera($act = null,$mod = null){
 	$image_id = (($mod!=null)?$mod:"home")."_".(($act!=null)?$act:"default")."_".$rand1.$time.$rand2;
 	
 	shn_online_cam($image_id);
+}
+
+/**
+ * Prints button sets at bottom of a page in the order of 
+ * cancel(0..1), back(0..1), next(0..1) | finish(0..1) | confirm(0..1), custom_button(0..*)  
+ * 
+ * Example Input:
+ *  $button_set = array('cancel' => true, 'back' => true, 'next' => true, 
+ *                  'custom' => array(
+ *                    array('value' => 'button text1', 'submit_opts' => 'name = "post value1"'),
+ *                    array('value' => 'button text2', 'submit_opts' => 'name = "post value2"')))
+ * 
+ * @param <type> $button_set
+ */
+function shn_form_submit_set($button_set = array('cancel' => true, 'back' => true, 'next' => true))
+{
+    if(isset($button_set['cancel'])){
+        shn_form_submit(_t('Cancel'), 'name="cancel"');
+    }
+    if(isset($button_set['back'])){
+        shn_form_submit(_t('Back'), 'name="back"');        
+    }
+    if(isset($button_set['next'])){
+        shn_form_submit(_t('Next'), 'name="next"');   
+    } elseif(isset($button_set['finish'])){
+        shn_form_submit(_t('Finish'), 'name="finish"');            
+    } elseif(isset($button_set['confim'])){
+        shn_form_submit(_t('Confirm'), 'name="confirm"');       
+    }
+    if(isset($button_set['custom'])){
+        $custom_buttons = $button_set['custom'];
+        for($i = 0; $i < count($custom_buttons); $i++){
+            shn_form_submit($custom_buttons[$i]['value'], $custom_buttons[$i]['submit_opts']);
+        }
+    }
+}
+
+/**
+  * Progress Bar
+  * 
+  * Add this to a page to create a progress bar detailing the user's progress
+ * through a task. 
+ * 
+ * @param <type> $steps - Array(str): All steps.
+ * @param <type> $current_step - Int: The current step the user is on.
+ */
+function shn_form_progress_bar($steps, $current_step)
+{
+    $total_step = count($steps);
+    echo '<div id="progress_bar"><table><tr>';                
+    for($i = 1; $i <= $total_step; $i++){   
+        echo '<td ';
+        if($i == $current_step){
+            echo 'id="progress_bar_tab_current"'; 
+        } elseif($i < $current_step){
+            echo 'class="progress_bar_tab_before"'; 
+        } else{
+            echo 'class="progress_bar_tab_after"';
+        }
+        echo ' width="' . (100 / $total_step) . '%">';;
+        echo $i . '. ' . $steps[$i - 1];    
+        echo '</td>';
+        if($i != $total_step){
+            echo '<td class="progress_bar_tab_spacer"><img src="www/theme/default/img/bullet_go.png"></td>';
+        }
+        next($steps);
+    }  
+    echo '</tr></table></div><br />';    
 }
 
 ?>
