@@ -11,6 +11,7 @@
  * http://www.gnu.org/copyleft/lesser.html
  *
  * @author	   Ishan Liyanage <ishanul@gmail.com>
+ * @author     Richard Smith <s0459387@sms.ed.ac.uk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @package    module
  * @subpackage xst (Extensible Streaming)
@@ -22,6 +23,7 @@
  * Place all your dependant libraries below. Given are some typical ones
  * required for the module
  */
+include_once "handler_gis.inc";
 include_once "handler_location.inc";
 include_once "handler_catalog.inc";
 include_once "handler_ims.inc";
@@ -52,6 +54,7 @@ function shn_text_xst_help()
 		echo $_SESSION['form_help'][$_GET['help_id']];
 	}
 }
+
 function shn_text_xst_victims(){
 	_shn_get_victims();
 }
@@ -68,7 +71,8 @@ function shn_text_xst_user_feedback(){
 	$xajax->processRequests();
 	
 }
-//This is small hack
+
+//This is a small hack
 function shn_xst_help(){
 	global $global;
 	include_once ($global['approot']."mod/home/main.inc");
@@ -88,10 +92,45 @@ function shn_xst_online_cam_upload_img(){
 }
 
 /**
- * Dumy function for ajax calles
+ * Dummy function for ajax calls
  */
 function shn_ajax_xst_xajax(){
 
+}
+
+/**
+ * Call for GIS feature search form
+ */
+function shn_text_xst_gis_search_layer()
+{
+    _shn_gis_form_select_layer_callback();
+}
+/**
+ * Calls for GIS popups
+ */
+function shn_text_xst_gis_popup_refresh()
+{
+    _shn_gis_form_gis_popup_refresh_callback();
+}
+function shn_text_xst_gis_popup_new_ok()
+{
+    _shn_gis_form_gis_popup_new_callback();
+}
+function shn_text_xst_gis_popup_edit_position()
+{
+    _shn_gis_form_gis_popup_edit_position_callback();
+}
+function shn_text_xst_gis_popup_edit_details()
+{
+    _shn_gis_form_gis_popup_edit_callback();
+}
+function shn_text_xst_gis_popup_edit_details_ok()
+{
+    _shn_gis_form_gis_popup_edit_ok_callback();
+}
+function shn_text_xst_gis_popup_delete()
+{
+    _shn_gis_form_gis_popup_delete_callback();
 }
 
 ?>
