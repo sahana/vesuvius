@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.83 2008-09-15 18:52:28 franboon Exp $ */
+/* $Id: lib_form.inc,v 1.84 2008-09-15 20:00:05 franboon Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -835,7 +835,7 @@ function shn_form_progress_bar($steps, $current_step)
         echo $i . '. ' . $steps[$i - 1];    
         echo '</td>';
         if($i != $total_step){
-            echo '<td class="progress_bar_tab_spacer"><img src="www/theme/default/img/bullet_go.png"></td>';
+            echo '<td class="progress_bar_tab_spacer"><img src="theme/default/img/bullet_go.png"></td>';
         }
         next($steps);
     }  
