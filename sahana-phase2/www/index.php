@@ -267,7 +267,9 @@ function shn_main_front_controller()
 			// check if requested module is within users allowed modules
 			$res = array_search($module,$allowed_mods,false);
 
-			if(false !== $res){
+            //hack for messaging module receive function
+			$res= ($stream='text'&$action='receive_message')?true:$res;
+ 			if(false !== $res){
 
 				if( shn_acl_check_perms($module,$module_function) == ALLOWED){
 					$module_function();
