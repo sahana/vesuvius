@@ -40,6 +40,7 @@ function _shn_gis_list_markers()
     <?php
     print '<h2>'._t("Current Markers").'</h2>';
     print '<p>'._t("These are the Markers currently available on this server").':</p>';
+    print '<p>'._t("(Click folder icon to expand)").'</p>';
     global $global;
     global $conf;
     $dir=$conf['gis_marker_folder'];
