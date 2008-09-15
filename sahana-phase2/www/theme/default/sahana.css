@@ -182,7 +182,102 @@ div#container { }
 			div.info, div.form-container fieldset p { color:#666; padding: 5px 5px 5px 5px; }
 
 			/*GIS module - */
-			#map { width: 760px; height: 600px }
+            #outer_map  {
+                margin-left: 10px;
+            }
+            #map {
+                float: left;
+                width: 760px; 
+                height: 600px;
+            }
+            #gis_map_toolbar {
+                float: left;
+                margin: 10px 10px 10px 0px;
+            }
+            #gis_map_toolbar_default {
+                float: left;
+            }
+            #gis_map_toolbar_manipulate {
+                float: left;
+                margin-left: 50px;
+            }
+            #gis_map_icon_expand {
+                float: left;
+                width: 24px;
+                height: 22px;
+                background: transparent url(../../res/OpenLayers/theme/default/img/map_resize_out_c.png) no-repeat scroll 0% 0%;
+            }
+            #gis_map_icon_select {
+                float: left;
+                width: 24px;
+                height: 22px;
+                background: transparent url(../../res/OpenLayers/theme/default/img/move_feature_off.png) no-repeat scroll 0% 0%;  
+            }
+            #gis_map_icon_drag {
+                float: left;
+                width: 24px;
+                height: 22px;
+                margin-left: 5px;
+                background: transparent url(../../res/OpenLayers/theme/default/img/pan_off.png) no-repeat scroll 0% 0%;
+            }
+            #gis_map_icon_addpoint {
+                float: left;
+                width: 24px;
+                height: 22px; 
+                margin-left: 5px;
+                background: transparent url(../../res/OpenLayers/theme/default/img/draw_point_off.png) no-repeat scroll 0% 0%;
+            }
+            #gis_map_icon_addline {
+                float: left;
+                width: 24px;
+                height: 22px;
+                margin-left: 5px;
+                background: transparent url(../../res/OpenLayers/theme/default/img/draw_line_off.png) no-repeat scroll 0% 0%;
+            }
+            #gis_map_icon_addpolygon {
+                float: left;
+                width: 24px;
+                height: 22px; 
+                margin-left: 5px;
+                background: transparent url(../../res/OpenLayers/theme/default/img/draw_polygon_off.png) no-repeat scroll 0% 0%;
+            }
+            #gis_map_icon_freehand {
+                float: left;
+                width: 24px;
+                height: 22px; 
+                margin-left: 5px;
+                background: transparent url(../../res/OpenLayers/theme/default/img/freehand_off.png) no-repeat scroll 0% 0%;
+            }
+            #gis_map_icon_descripion {
+                float: left;
+                height: 22px; 
+                width: 140px;
+                margin-left: 10px;
+                margin-top: 3px;
+                color: orange;
+                font-weight: bold;
+            }
+            .olControlMousePosition { font-size: 10px; }
+            .gis_openlayers_popupbox { padding: 10px; }
+                .gis_openlayers_popupbox_header{}
+                .gis_openlayers_popupbox_header_l{font-size: 0.8em;}
+                .gis_openlayers_popupbox_header_l label{float: left; margin-right: 2px; position: relative; top: 0.4em; width: 3em;}
+                .gis_openlayers_popupbox_name span{font-size: 1.8em; font-weight: bold;}
+                .gis_openlayers_popupbox_link{float: left; margin-left: 5px; width: 17px; height: 17px; background: transparent url(img/link.png) no-repeat scroll 0% 0%;}
+                .gis_openlayers_popupbox_url{margin-top:5px;}
+                .gis_openlayers_popupbox_header_r{float: right; font-size: 0.8em}
+                .gis_openlayers_popupbox_date{float: right; margin-top:5px;}
+                .gis_openlayers_popupbox_address{clear: both; margin-top:20px;}
+                .gis_openlayers_popupbox_body{clear: both; margin-top:10px; min-height: 105px }
+                .gis_openlayers_popupbox_footer{clear: both; margin-top:10px;}
+                .gis_openlayers_popupbox_footer span{float: left; cursor: pointer}
+                .gis_openlayers_popupbox_delete{float: left; width: 17px; height: 17px; background: transparent url(img/page_white_delete.png) no-repeat scroll 0% 0%;}
+                .gis_openlayers_popupbox_edit{float: left; margin-left: 10px; width: 17px; height: 17px; background: transparent url(img/page_white_edit.png) no-repeat scroll 0% 0%;}
+                .gis_openlayers_popupbox_view{float: left; margin-left: 10px; width: 17px; height: 17px; background: transparent url(img/page_white_find.png) no-repeat scroll 0% 0%;}
+                .gis_openlayers_popupbox_refresh{float: left; margin-left: 10px; width: 17px; height: 17px; background: transparent url(img/page_white_refresh.png) no-repeat scroll 0% 0%;}
+                span.gis_openlayers_popupbox_refreshs{float: right;}
+                .gis_openlayers_popupbox_edit_ok{float: left; margin-left: 15px; width: 17px; height: 17px; background: transparent url(img/tick.png) no-repeat scroll 0% 0%;}
+                .gis_openlayers_popupbox_edit_cancel{float: left; width: 17px; height: 17px; background: transparent url(img/cross2.png) no-repeat scroll 0% 0%;}
 
 			/* paging styles */
 			ul.paging { list-style-type: none; }
@@ -486,7 +581,14 @@ div#formcontainer form#form_blank { padding: 5px; background-color: #fff; border
 button{
 	padding: 3px;
 }
- 
+
+/* Progress bar*/
+#progress_bar{margin: 0 auto;}
+#progress_bar td{color: #666666; border-left: 0px solid white; border-top: 0px solid white; border-right: 0px solid white; font-weight: bold;}
+.progress_bar_tab_before{border-bottom: 4px solid #7CFC00;}
+#progress_bar_tab_current{color: #000000; border-bottom: 4px solid #666666;}
+.progress_bar_tab_after{border-bottom: 4px solid #CCCCCC;}
+.progress_bar_tab_spacer{border: 0px solid white; margin-left: 10px; margin-right: 10px;}
 
 /* Styles related to Messaging module 
 --------------------------------------------------------------------------------------*/
