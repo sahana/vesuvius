@@ -1,8 +1,9 @@
 <?php
+
 /**
 * The Sahana Resquest Management System
 *
-* PHP version 4 and 5
+* PHP version 5
 *
 * LICENSE: This source file is subject to LGPL license
 * that is available through the world-wide-web at the following URI:
@@ -241,7 +242,8 @@ function _shn_rms_location_add()
 
     
     //print $bsd_village;
-    shn_gis_dbinsert($id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
+    // ToDo: Replace with new GIS call
+    //shn_gis_dbinsert($id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
 
     //$q="INSERT INTO location_details(poc_uuid,location_id) VALUES('{$id}','{$bsd_village}')";
     //$res=$db->Execute($q);

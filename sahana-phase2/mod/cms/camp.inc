@@ -270,13 +270,25 @@ function _shn_cms_camp_commit()
 	 }
 	}
 	
-	// insert gis location
-	//if gis enabled
-	if($conf['gis']){
-  		include $global['approot']."/inc/lib_gis/gis_fns.inc";
-		shn_gis_dbinsert($uid,$loc_id,$conf['mod_gis'],$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],NULL);
-	}
-	
+	// Insert GIS location
+    if($conf['gis']){
+        require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+        $class = 'cr_camp';
+        if($_SESSION['opt_camp_type'] == 'gov' || $_SESSION['opt_camp_type'] == 'tmp' || $_SESSION['opt_camp_type'] == 'ngo'){
+            $class = $class . '_' . $_SESSION['opt_camp_type'];
+        }
+        $coords = shn_gis_coord_encode(array(array($_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'], 0)), 'point');
+        $keys_ = array(  
+            'f_class'         => $class,
+            'f_type'          => 'point',
+            'f_coords'        => $coords,  
+            'f_module_item'   => $uid,
+            'f_name'          => $_SESSION['camp_name'],
+            'f_url'           => ('mod=cr&act=ecmp&seq=view&cmp_id=' . $uid),
+            'f_address'       => $_SESSION['camp_address']
+        );                
+        shn_gis_create_feature($keys_);
+    }
 }	
 
 //dummy function.replace with janakas

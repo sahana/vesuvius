@@ -254,20 +254,27 @@ function _shn_cr_cedt_chk($errors=false){
 
 }
 
-function _shn_cr_del_camp($id){
-	global $global;
-	$db=$global['db'];
-	$q="delete from camp_general where c_uuid='{$id}'";
-	$r="delete from camp_reg where c_uuid='{$id}'";
-	$s="delete from camp_services where c_uuid='{$id}'";
-	$db->Execute($q);
-	$db->Execute($r);
-	$db->Execute($s);
-	add_confirmation(_t("Deleted Shelter Succesfully"));
-	//shn_cr_crch
+function _shn_cr_del_camp($id)
+{
+    global $global;
+    $db=$global['db'];
+    $q="delete from camp_general where c_uuid='{$id}'";
+    $r="delete from camp_reg where c_uuid='{$id}'";
+    $s="delete from camp_services where c_uuid='{$id}'";
+    $db->Execute($q);
+    $db->Execute($r);
+    $db->Execute($s);
+    // Delete GIS Entry
+    if($conf['gis']){
+        require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+        shn_gis_remove_feature_module_item($id);
+    }
+    add_confirmation(_t("Deleted Shelter Succesfully"));
+    //shn_cr_crch
 }
 
-function _shn_cr_cadd_commit(){
+function _shn_cr_cadd_commit()
+{
 	global $global;
 	//write to database
 	$_SESSION['opt_camp_service']=$_POST['opt_camp_service'];
@@ -428,23 +435,26 @@ function _shn_cr_get_session($camp_id){
 	$_SESSION['camp_occupation']=$res->fields['occupation'];
 
 }
-function _shn_cr_get_locid(){
+function _shn_cr_get_locid()
+{
 	if($_SESSION['cr_5']!=null)
-	return $_SESSION['cr_5'];
+        return $_SESSION['cr_5'];
 	else if($_SESSION['cr_4']!=null)
-	return $_SESSION['cr_4'];
+        return $_SESSION['cr_4'];
 	else if($_SESSION['cr_3']!=null)
-	return $_SESSION['cr_3'];
+        return $_SESSION['cr_3'];
 	else if($_SESSION['cr_2']!=null)
-	return $_SESSION['cr_2'];
+        return $_SESSION['cr_2'];
 	else
-	return $_SESSION['cr_1'];
+        return $_SESSION['cr_1'];
 }
 
-function _shn_cr_cedt_commit(){
+function _shn_cr_cedt_commit()
+{
 	if(isset($_POST['finish'])){
 	//insert to database;
-	global $global;
+	global $conf;
+    global $global;
 	global $editid;
 	$db = $global['db'];
 
@@ -464,7 +474,6 @@ function _shn_cr_cedt_commit(){
 	$q="update camp_reg set admin_name='{$_SESSION['camp_contact_name']}',admin_no='{$_SESSION['camp_contact_number']}',men='{$_SESSION['camp_men']}',women='{$_SESSION['camp_women']}',family={$_SESSION['camp_family']},children='{$_SESSION['camp_children']}',total={$_SESSION['camp_total']} where c_uuid='{$_SESSION['editid']}'";
 	$res = $db->Execute($q);
 
-
 	$qb = "UPDATE person_details set occupation='{$_SESSION['camp_occupation']}' where p_uuid='$pid'";
 	$resb = $db->Execute($qb);
 
@@ -481,6 +490,21 @@ function _shn_cr_cedt_commit(){
 		}
 		*/
 
+    // Update GIS
+    if($conf['gis']){
+        include_once ($global['approot'].'/inc/lib_gis/gis_fns.inc');
+        $class = 'cr_camp';
+        if($_SESSION['opt_camp_type'] == 'gov' || $_SESSION['opt_camp_type'] == 'tmp' || $_SESSION['opt_camp_type'] == 'ngo'){
+            $class = $class . '_' . $_SESSION['opt_camp_type'];
+        }
+        $keys = array(  
+            'f_class'         => $class,
+            'f_name'          => $_SESSION['camp_name'],
+            'f_address'       => $_SESSION['camp_address']
+        );
+        shn_gis_modify_feature_module_item($_SESSION['editid'], $keys);
+    }
+        
 	$uid = $_SESSION['editid'];
 
 	if(isset($_SESSION['opt_camp_service'])){

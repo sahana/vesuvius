@@ -28,7 +28,7 @@
     {
         public $dom;
         
-        function __construct($filepath_ = "../www/tmp/dom.txt")
+        function __construct($filepath_ = "tmp/dom.txt")
         {
             $this->dom = new DOMDocument;
             $this->dom->load($filepath_);           

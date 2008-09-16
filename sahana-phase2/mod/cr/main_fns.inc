@@ -1,9 +1,10 @@
 <?php
+
 /**
  * Default functions of CR
  * Front controller functions for the CR execute from here
  *
- * PHP version 4 and 5
+ * PHP version 5
  *
  * LICENSE: This source file is subject to LGPL license
  * that is available through the world-wide-web at the following URI:
@@ -20,7 +21,8 @@
 /**
  * Main home display content for CR
  */
-function shn_cr_default(){
+function shn_cr_default()
+{
     global $conf;
     ?>
 <div id="home">
@@ -243,7 +245,6 @@ function shn_cr_acmp(){
             break;
 
         case 'hos'  :
-            	
             _shn_cr_hos_bed();
             //_shn_cr_cadd_start(true);
             break;
@@ -261,57 +262,71 @@ function shn_cr_acmp(){
             _shn_cr_cadd_start();
             break;
     }
-
 }
 
-
-function shn_cr_gis_show(){
-    global $global;
+function shn_cr_gis_show()
+{
     global $conf;
-
+    global $global;
+    
     print "<h1>"._t("Map of Shelters by Location")."</h1>";
 
     if($conf['gis']){
-        $db = $global['db'];
-        $q="select map_northing,map_easting,name,c_uuid from gis_location as a, camp_general as b where a.poc_uuid=b.c_uuid";
-        $res = $db->Execute($q);
         include_once ($global['approot'].'/inc/lib_gis/gis_fns.inc');
+        $db = $global['db'];
+        // camp query        
+        $q = "select name, c_uuid from camp_general";
+        $res = $db->Execute($q);
 
-        //create array
+        // GIS query
+        $keys = array(  
+          'f_coords'          => '1',            
+          'f_module_item'     => '1',
+        );
+        
+        // Create array
         $map_array=array();
 
-        //populate aray
+        // Populate array
         while(!$res->EOF){
+            $result_gis = shn_gis_get_features_item_ref($res->fields['c_uuid'], $keys);
+            $coords = shn_gis_coord_decode($result_gis[0]['f_coords']);
             $camp_url='mod=cr&act=ecmp&seq=view&cmp_id='.$res->fields['c_uuid'];
-            array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
-					"id"=>$res->fields['c_uuid'],"url"=>$camp_url));
+            array_push($map_array, array("lat" => $coords[0][0], "lon" => $coords[0][1], "name" => $res->fields['name'], 
+                                         "id" => $res->fields['c_uuid'], "url" => $camp_url));
             $res->MoveNext();
         }
-        //global $conf;
-        shn_gis_map_with_markers($map_array);
-
+        //shn_gis_map_with_markers($map_array);
+        shn_gis_density_map($map_array);
     }
-
 }
 
 /**
  * Spatial report by number of infections
  * infected / total
  */
-function shn_cr_gis_infect(){
+function shn_cr_gis_infect()
+{
     global $global;
     global $conf;
     if($conf['gis']){
-        $db = $global['db'];
-        $q="select map_northing,map_easting,name,b.c_uuid,total,family,capacity from gis_location as a," .
-				" camp_general as b, camp_reg as c where a.poc_uuid=b.c_uuid and b.c_uuid=c.c_uuid";
-        $res = $db->Execute($q);
         include_once ($global['approot'].'/inc/lib_gis/gis_fns.inc');
-
-        //create array
+        $db = $global['db'];
+        // camp query
+        $q= "select name, b.c_uuid, total, family, capacity from " .
+            "camp_general as b, camp_reg as c where b.c_uuid=c.c_uuid";
+        $res = $db->Execute($q);
+        
+        // GIS query
+        $keys = array(  
+          'f_coords'          => '1',            
+          'f_module_item'     => '1',
+        );
+        
+        // Create array
         $map_array=array();
 
-        //populate aray
+        // Populate array
         while(!$res->EOF){
             $infected=$res->fields['family']; //points to infected values
             $capacity=$res->fields['total'];
@@ -340,8 +355,10 @@ function shn_cr_gis_infect(){
                 $marker_n=$conf['mod_cr_perc_f_mk'];
             }
 
+            $result_gis = shn_gis_get_features_item_ref($res->fields['c_uuid'], $keys);
+            $coords = shn_gis_coord_decode($result_gis[0]['f_coords']);
             $camp_url='mod=cr&act=ecmp&seq=view&cmp_id='.$res->fields['c_uuid'];
-            array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
+            array_push($map_array,array("lat" => $coords[0][0], "lon" => $coords[0][1],"name"=>$res->fields['name'],
 					"id"=>$res->fields['c_uuid'],"url"=>$camp_url,"desc"=>$desc,"marker"=>$marker_n));
             $res->MoveNext();
         }
@@ -384,20 +401,27 @@ function shn_cr_gis_infect(){
  * Spatial report by population
  * total / capacity
  */
-function shn_cr_gis_population(){
+function shn_cr_gis_population()
+{
     global $global;
     global $conf;
     if($conf['gis']){
-        $db = $global['db'];
-        $q="select map_northing,map_easting,name,b.c_uuid,total,family,capacity from gis_location as a," .
-				" camp_general as b, camp_reg as c where a.poc_uuid=b.c_uuid and b.c_uuid=c.c_uuid";
-        $res = $db->Execute($q);
         include_once ($global['approot'].'/inc/lib_gis/gis_fns.inc');
+        $db = $global['db'];
+        $q = "select name, b.c_uuid, total, family, capacity from " .
+             "camp_general as b, camp_reg as c where b.c_uuid=c.c_uuid";
+        $res = $db->Execute($q);
 
-        //create array
+        // GIS query
+        $keys = array(  
+          'f_coords'          => '1',            
+          'f_module_item'     => '1',
+        );
+
+        // Create array
         $map_array=array();
 
-        //populate aray
+        // Populate array
         while(!$res->EOF){
             $infected=$res->fields['total'];
             $capacity=$res->fields['capacity'];
@@ -426,8 +450,10 @@ function shn_cr_gis_population(){
                 $marker_n=$conf['mod_cr_perc_f_mk'];
             }
 
+            $result_gis = shn_gis_get_features_item_ref($res->fields['c_uuid'], $keys);
+            $coords = shn_gis_coord_decode($result_gis[0]['f_coords']);
             $camp_url='mod=cr&act=ecmp&seq=view&cmp_id='.$res->fields['c_uuid'];
-            array_push($map_array,array("lat"=>$res->fields['map_northing'],"lon"=>$res->fields['map_easting'],"name"=>$res->fields['name'],
+            array_push($map_array,array("lat" => $coords[0][0], "lon" => $coords[0][1],"name"=>$res->fields['name'],
 					"id"=>$res->fields['c_uuid'],"url"=>$camp_url,"desc"=>$desc,"marker"=>$marker_n));
             $res->MoveNext();
         }
@@ -660,5 +686,5 @@ function shn_cr_acma(){
 
 function shn_cr_view(){
 }
-s
+
 ?>

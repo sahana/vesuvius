@@ -2,8 +2,8 @@
 
 /**
  * 
- * This file represents themajor data access functions of the DVR module
- * PHP version 4 AND 5
+ * This file represents the major data access functions of the DVR module
+ * PHP version 5
  *
  * LICENSE: This source file is subject to LGPL license
  * that is available through the world-wide-web at the following URI:
@@ -17,12 +17,14 @@
  *
  */
 
-
 global $global;
 include $global['approot'] . "/inc/lib_paging.inc";
-function _shn_dvr_add_group() {
+
+function _shn_dvr_add_group()
+{
+	global $conf;
 	global $global;
-	$db = $global['db'];
+    $db = $global['db'];
 	include $global['approot'] . "/inc/lib_gis/gis_fns.inc";
 	
 //if($_SESSION['dvr']['group']['image']!=null)	
@@ -60,7 +62,13 @@ function _shn_dvr_add_group() {
 
 	_dvr_add_contact($_SESSION['dvr_add_group']['entry']['p_uuid'], 'address', $_SESSION['dvr']['group']['address']);
 
-	shn_gis_dbinsert($_SESSION['dvr_add_group']['entry']['p_uuid'], 0, null, $_SESSION['dvr']['group']['gis_loc_x'], $_SESSION['dvr']['group']['gis_loc_y'], null);
+	echo '< LOCATION: X:' . $_SESSION['dvr']['group']['gis_loc_x'] . 'Y: ' . $_SESSION['dvr']['group']['gis_loc_y'];
+    /*
+    if($conf['gis']){
+        require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+        shn_gis_create_feature($keys_);
+    
+    */
 
 	$q5 = "INSERT INTO person_uuid (p_uuid,full_name,family_name,l10n_name,custom_name) VALUES ('{$_SESSION['dvr_add_group']['entry']['p_uuid']}'," .
 	"'{$_SESSION['dvr']['group']['full_name']}','{$_SESSION['dvr']['group']['family_name']}','{$_SESSION['dvr']['group']['local_name']}','')";
@@ -545,7 +553,9 @@ if ($_SESSION['dvr']['person']['person_image'] != null) {
 	$res=$db->Execute($q11);
 }
 
-function _shn_dvr_update_group() {
+function _shn_dvr_update_group()
+{
+	global $conf;
 	global $global;
 	$db = $global['db'];
 	//inserting the image
@@ -589,8 +599,14 @@ function _shn_dvr_update_group() {
 	$x = $_SESSION['dvr']['group']['gis_loc_x'];
 	$y = $_SESSION['dvr']['group']['gis_loc_y'];
 
-	$q = "UPDATE gis_location set map_northing='{$x}',map_easting='{$y}' WHERE poc_uuid='{$_SESSION['dvr']['group']['id']}'";
-	$db->Execute($q);
+    /*
+    if($conf['gis']){
+        require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+        shn_gis_modify_feature_module_item($f_module_item_, $keys_)
+    }
+    */
+
+    
 	$q5 = "update person_uuid set full_name='{$_SESSION['dvr']['group']['full_name']}',family_name='{$_SESSION['dvr']['group']['family_name']}',l10n_name='{$_SESSION['dvr']['group']['local_name']}' WHERE p_uuid='{$_SESSION['dvr']['group']['headid']}'";
 
 	$db->Execute($q5);

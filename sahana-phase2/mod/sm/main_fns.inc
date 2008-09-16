@@ -6,6 +6,7 @@
 * 
 * @author       Mifan Careem <mifan@respere.com>
 * @author       Fran Boon <flavour@partyvibe.com>
+* @author       Richard Smith <s0459387@sms.ed.ac.uk>
 * @package      module
 * @subpackage   sm
 * @version      $id$
@@ -13,117 +14,49 @@
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
-include_once $global['approot']."/mod/sm/wm_fns.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
+require_once $global['approot']."/mod/sm/wm_fns.inc";
 
 //Include home description
 include_once $global['approot']."/mod/sm/home.inc";
 
+
+/**
+* Feature Map
+*/
 function shn_sm_swik()
 {
-	shn_sm_show_wiki_map($_POST['opt_wikimap_type']);
+    shn_sm_show_features_map();
 }
 
 /**
- * Wikimap situation addition main controller function
- * @patch Fran Boon : Patch for coordinate validation
- */
+* Add Feature Sequence
+*/
 function shn_sm_awik()
 {
-	if(isset($_REQUEST['seq'])){
-		switch($_REQUEST['seq']){
-			case 'map':
-				if($_POST['wiki_name']==""){
-					shn_sm_show_wiki_add_detail(true);
-				}
-				else{
-					shn_sm_show_wiki_add_map();
-				}
-				break;
-			case 'img':
-               	if(!($_POST['loc_x']=="")){
-                       shn_sm_show_wiki_add_image();
-               	}
-               	elseif ((shn_valid_x_coordinate($_POST['gps_x']))&&(shn_valid_y_coordinate($_POST['gps_y']))){
-                       shn_sm_show_wiki_add_image();
-               	}
-               	else{
-                       shn_sm_show_wiki_add_map(true); 
-               	}
-               	break;
-				
-			case 'com':
-				shn_sm_wiki_map_commit();
-				break;
-				
-			default:
-				shn_sm_show_wiki_add_detail();
-				break;
-			
-		}
-	}
-	else
-		shn_sm_show_wiki_add_detail();
+    shn_sm_feature_add_seq();
 }
 
+/**
+* Analysis map: Radius
+*/
 function shn_sm_analysis_radius()
 {
-    shn_sm_analysis_radius_form();
+    shn_sm_analysis_radius_seq();
 }
 
+/**
+* Analysis map: Feature Class
+*/
+function shn_sm_analysis_feature_class()
+{
+    shn_sm_analysis_feature_class_seq();
+}
+
+// TO GO
 function shn_sm_radius_analyse()
 {
     shn_sm_radius_analyse_process();
 }
-
-// Currently unused
-function shn_sm_ewik()
-{
-    shn_sm_wiki_edit_com($_REQUEST['wiki_id']);
-}
-
-function shn_gis_mapc()
-{
-	//earlier done by Mifan's shn_gis_show()
-	//main.inc, wm_fns.php and main_fns.inc were changed
-	//needs coding for validation etc
-    map_client(true);
-}
-
-function shn_sm_wm_default()
-{
-    shn_sm_show_wiki_map();
-}
-
-function shn_sm_wm_edit()
-{
-	
-	if(isset($_REQUEST['seq'])){
-		switch($_REQUEST['seq']){
-			case 'ewmp':
-					shn_sm_wiki_edit($_REQUEST['wmid']);
-					break;
-			default:
-		}
-	}
-}
-
-//not being used any more
-//replaced by shn_gis_mapc()
-/*
-function shn_gis_show()
-{
-  //echo "showing";
-  global $global;
-  include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
-  
-  $options=array();
-  if((isset($_POST['mapa_x'])) && isset($_POST['mapa_y'])){
-  	//echo $_POST['mapa_x'];
-  }
-  //var_dump($_POST);
-  shn_gis_map();
-}
-*/
 
 ?>

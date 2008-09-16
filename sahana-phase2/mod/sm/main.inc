@@ -6,6 +6,7 @@
 *
 * @author       Mifan Careem <mifan@respere.com>
 * @author       Fran Boon <flavour@partyvibe.com>
+* @author       Richard Smith <s0459387@sms.ed.ac.uk>
 * @package  Sahana - http://sahana.sourceforge.net
 * @module       sm
 * @version      $id$
@@ -33,8 +34,8 @@ function shn_sm_mainmenu(){
     //shn_mod_menuitem("ewik",_t("Edit Situation"),$module);
     shn_sub_mod_menuopen(_t("Situation Analysis"));
     shn_mod_menuitem("analysis_radius",_t("Radius"),$module);
+    shn_mod_menuitem("analysis_class",_t("Feature Class"),$module);
     shn_sub_mod_menuclose();
-//shn_mod_menuitem("mapc",_t("Map Client"),$module); 
     shn_mod_menuclose();
     include $global['approot']."/inc/handler_mainmenu.inc";
 }

@@ -15,178 +15,337 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 */
 
-global $global;
-global $conf;
-include_once $global['approot']."/inc/lib_form.inc";
-include_once $global['approot']."/mod/gps/main.inc";
-include_once $global['approot']."/inc/lib_modules.inc";
-include_once $global['approot']."/inc/lib_menu.inc";
-include_once $global['approot']."/inc/lib_validate.inc";
-
-function shn_gps_find_waypoint()
-{
-?>
-<h2><?=_("Download Waypoints")?></h2>
-<?php
-	shn_form_fopen("waypoint",null,null,array('req'=>false));
-	shn_form_fsopen(_("Waypoint Details"));
-	shn_form_hidden(array('seq'=>'map'));
-	shn_form_opt_select("opt_wpt_type","Waypoint Types");
-	shn_form_text(_("Name of Author"),"author_name",'size="20"',array('req'=>false));
-	shn_form_date(_("Date of Event"),"wiki_evnt_date",array('req'=>false,'help'=>_($conf['mod_gps_marker_date_help'])));
-	shn_form_text(_("Name of Waypoint"),"marker_name",'size="20"',array('req'=>false));
-	shn_form_fsclose();
-	shn_form_submit(_("Search"));
-	shn_form_fclose();
-    shn_form_fopen(marker,null,array('req'=>false));
-    shn_form_submit(_t("Add Marker(s) to Download"));
-    shn_form_fclose();
-}
-
-function _shn_gps_select_waypoint($type,$author_name,$date,$marker_name)
+/**
+ * Generates a form to search for features
+ *
+ * @todo Add in new class box each time one is filled
+ * @param <type> $action
+ * @param <type> $seq
+ */
+function shn_gis_form_feature_search2($fresh_search = true, $action = 'download_seq', $seq = '2_choose_features')
 {
     global $global;
-    $db = $global['db'];
-    if($author_name==null & $date==null & $marker_name==null) {
-        $search= "Select * from gpx_file where opt_category='{$type}'";
-    } else if($author_name!=null & $date==null & $marker_name==null) {
-        $search= "Select * from gpx_file where opt_category='{$type}' AND author_name LIKE '%{$author_name}%'"; 
-    } else if($author_name==null & $date!=null & $marker_name==null) {
-        $search= "Select * from gpx_file where opt_category='{$type}' AND event_date='{$date}'";
-    } else if($author_name==null & $date==null & $marker_name!=null) {
-        $search= "Select * from gpx_file where opt_category='{$type}' AND point_name LIKE'%{$marker_name}%'";
-    } else if($author_name!=null & $date!=null & $marker_name==null) {
-        $search= "Select * from gpx_file where opt_category='{$type}' AND author_name LIKE '%{$author_name}%' AND event_date='{$date}'"; 
-    } else if($author_name!=null & $date==null & $marker_name!=null) {
-        $search= "Select * from gpx_file where opt_category='{$type}' AND author_name LIKE '%{$author_name}%' AND point_name LIKE'%{$marker_name}%'"; 
-    } else if($author_name==null & $date!=null & $marker_name!=null) {
-        $search= "Select * from gpx_file where opt_category='{$type}' AND point_name LIKE'%{$marker_name}%' AND event_date='{$date}'"; 
-    } else if($author_name!=null & $date==null & $marker_name!=null) {
-        $search= "Select * from gpx_file where opt_category='{$type}' AND author_name LIKE '%{$author_name}%' AND point_name LIKE'%{$marker_name}%' AND event_date='{$date}'"; 
+    global $conf;
+
+    if($conf['gis']){
+        // remove already exiting uuids to be saved
+        if($fresh_search){
+            if(isset($_SESSION['gis']['feature_uuids'])){
+                unset($_SESSION['gis']['feature_uuids']);
+            }
+        }
+        require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+?>
+        <h2><?=_("Feature Search")?></h2>
+        <script type="text/javascript">
+            <?php require_once $global['approot'] . '/mod/gps/ajax_form.js' ?>
+        </script>
+<?php
+        shn_form_fopen($action, null, null, array('req' => false));
+        shn_form_fsopen(_("Feature Details"));
+        // Find all layers in system
+        $layers = shn_gis_get_layers_all();
+        $options_l = array('all' => 'All');
+        foreach($layers as $layer){
+            $options_l[$layer['l_uuid']] = $layer['l_name'];
+        }
+        $select_opts = 'onchange="shn_gis_narrow_feature_classes(this.value)"';
+        shn_form_select($options_l, "Layer", "l_uuid", $select_opts, $extra_opts = null);
+        // Find all feature classes in system
+        $f_classes = shn_gis_get_feature_class_all();
+        $options_c = array('all' => 'All');
+        foreach($f_classes as $f_class){
+            $options_c[$f_class['c_uuid']] = $f_class['c_name'];
+        }
+        // div used by ajax to reload classes
+        echo '<div id="gis_feature_class_select_form">';
+        shn_form_select($options_c, "Feature Class", "c_uuid", $select_opts = "", $extra_opts = null);
+        echo '</div>';
+        shn_form_text(_("Name of Author"), "f_author", 'size="20"', array('req' => false));
+        shn_form_date(_("Date of Event (From)"), "f_event_date_from", array('req' => false));
+        shn_form_date(_("Date of Event (To)"), "f_event_date_to", array('req' => false));
+        shn_form_text(_("Name of Feature"), "f_name", 'size="20"', array('req' => false));
+        shn_form_hidden(array('seq' => $seq));
+        shn_form_fsclose();
+        shn_form_submit(_("Search"));
+        shn_form_fclose();
+    } else {
+        // add error message
     }
-    $results = $db->Execute($search);
-    return $results;
 }
 
-function shn_gps_display_points()
+/**
+ * Second Menu screen
+ *
+ * Displays features available in system from attributes chosen.
+ * Displays headers chosen in $keys_ (Make sure keys at least match those being passed !!!).
+ * Offers post-download options such as delete points or publish as a feed.
+ * 
+ * @global <type> $global
+ * @global <type> $conf
+ * @param <type> $results_
+ * @param <type> $keys_
+ */
+function shn_gps_form_feature_display_download($results_, $keys_)
 {
-	$type = $_POST['opt_wpt_type'];
-	$author_name = trim($_POST['author_name']);
-	$date = trim($_POST['wiki_evnt_date']);
-	$marker_name = trim($_POST['marker_name']);
-	$results=_shn_gps_select_waypoint($type,$author_name,$date,$marker_name);
-	if(file_exists("tmp/tmp.txt")) {
-        unlink("tmp/tmp.txt");
-	}	
+    global $global;
+    global $conf;
+    // Do we need to check for this? If here then we should safely assume GIS is enabled?
+    if($conf['gis']){
+        require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+        require_once $global['approot']."/inc/lib_gis/lib_gis_forms.inc";
 ?>
-<h2><?=_("Search Results")?></h2>
+        <h2><?=_("Search Results")?></h2>
 <?php
-	shn_form_fopen("waypoint",null,null,array('req'=>false));
-	shn_form_fsopen(_("Select Markers"));
-	shn_form_hidden(array('seq'=>'add'));
-	$count=0;
-?>
-	<br />
-    <div id ="result">
-	<table>
-    <thead>
-     <td><?=_("Marker Name")?></td>
-     <td><?=_("Marker Description")?></td>
-     <td><?=_("Marker Author")?></td>
-     <td><?=_("Event Date")?></td>
-     <td><?=_("Marker Type")?></td>
-     <td><?=_("Select")?></td>
-    </thead>
-<?php
-    while( !$results==NULL && !$results->EOF ) {
-        ++$count;
-        $id=$results->fields['point_uuid'];
-?>
-        <tr>
-         <td><?= $results->fields['point_name']?></td>
-         <td><?= $results->fields['description']?>
-         <td><?= $results->fields['author_name']?></td>
-         <td><?= $results->fields['event_date']?></td>
-         <td><?= $results->fields['opt_category']?></td>
-         <td><?=shn_form_checkbox($count,$count,null,array('value'=>$id))?></td>
-        </tr>
-<?php
-        $results->MoveNext();
+        shn_form_fopen('download_seq', null, null, array('req' => false));
+        shn_gis_form_feature_display($results_, $keys_);
+        shn_form_fsopen('Options');
+        shn_form_hidden(array('seq' => '3_save_and_options'));
+        shn_form_submit(_("Search For More Features"), 'name="step3"');
+        shn_form_submit(_("Fresh Search"), 'name="step3"');
+        shn_form_submit(_("Continue To Download"), 'name="step3"');
+        shn_form_fsclose();
+        shn_form_fclose();
     }
-?>
-    </table>
-    </div>
-	<br />
-    <center>
-<?php
-    shn_form_hidden(array('count'=>$count));
-    shn_form_submit(_("Download Markers"),"name=\"button1\"");
-    shn_form_submit(_("New Search"),"name=\"button1\"");
-?>
-    </center> 
-    <br />
-<?
+}
+
+/**
+ * Third Menu screen
+ */
+function shn_gps_download_and_extra()
+{
+    shn_form_fopen("create_file&stream=text", null, array('req_message' => false, 'name' => 'choose'));
+    shn_form_fsopen(_("Download"));
+    shn_form_opt_select("opt_geo_file_type", "File Type");
+    shn_form_submit(_("Download"));
+    shn_form_fsclose();
+    shn_form_fclose();
+    shn_form_fopen('download_seq', null, null, array('req' => false));
+    shn_form_fsopen(_("Extra Options:"));
+    shn_form_hidden(array('seq' => '4_confirm'));
+    echo '<p>' . _('After download has completed click finish to apply extra options and return to main page.') . '</p>';  
+    echo '<br />';
+    shn_form_label(_('Feed Options:'));
+    shn_form_checkbox('Check to publish', 'gis_publish', null, array('value'=>'gis_publish'));
+    shn_form_text(_('Feed name'),'gis_feed_name','size="20"');
+    echo '<br />';
+    shn_form_label(_('Database Options:'));
+    shn_form_checkbox('Remove Features From Database', 'gis_delete', null, array('value'=>'gis_delete'));
+    echo '<br />';
+    shn_form_submit(_("Finish"));
     shn_form_fsclose();
     shn_form_fclose();
 }
 
-function shn_text_gps_create_file()
-{
-	$temp="tmp/tmp.txt";
-	if(trim($_POST['author_name'])=="") {
-        $author="anonymous";
-    } else {
-        $author = trim($_POST['author_name']);
+/**
+ * Fourth Menu screen
+ */
+function shn_gps_download_confirm($feed_ = false, $delete_ = false, $uuids_)
+{         
+    shn_form_fopen("download_seq",null,null,array('req'=>false));
+    shn_form_fsopen(_("Finish"));
+    // Create feed
+    if(!$feed_ === FALSE){
+        $feed_location = shn_gps_create_feed($feed_, $uuids_);
+        if($feed_location === FALSE){
+            add_error(_("Failed to save feed"));
+        } else {
+            add_confirmation(_("A feed has been successfully created at:") . '<a href="' . $feed_location . '">' . $feed_location . '</a>');
+        }
     }
-	$handle1=fopen($temp,"r");
-	if(filesize($temp)!=0)
-	$contents = fread($handle1,filesize($temp));
-	fclose($handle1);
-    //$limit=$_REQUEST['count'];
-	$point_store="<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<gpx version=\"1.0\" creator=\"Sahana - $author\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n xmlns=\"http://www.topografix.com/GPX/1/0\" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/0 http://www.topografix.com/GPX/1/0/gpx.xsd\">\n";
-	$file_name="Sahana-Marker.gpx";
-  	header("Content-type: text/gpx");
-    header("Content-Disposition: attachment; filename=".$file_name);
-    header("Cache-Control: no-cache, must-revalidate");
-	print $point_store.$contents."</gpx>";
+    // Remove selected features       
+    if(!$delete_ === FALSE){
+        global $global;
+        global $conf;
+        if($conf['gis']){
+            require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+            add_confirmation(_("Features have been removed from the system"));
+            foreach($uuids_ as $uuid){
+                if(!shn_gis_remove_feature($uuid)){
+                    add_error(_("Feature uuid '"). $uuid . _("' could not be removed from system"));
+                }
+            } 
+        } else {
+            add_error(_("GIS not installed"));
+        }
+    }
+    echo '<br />';
+    shn_form_hidden(array('seq' => '5_home'));
+    shn_form_submit(_("Menu"), 'name="step4"');
+    shn_form_fsclose();
+    shn_form_fclose();
 }
 
-function shn_gps_add_creator()
+/**
+ * Creates a geo file using shn_gps_create_file($file_type, $uuids).
+ * Called when download button is pressed
+ */
+function shn_text_gps_create_file()
 {
-	$limit=$_REQUEST['count'];
     global $global;
+    require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+    // Save features    
+    if(isset($_SESSION['gis']['feature_uuids'])){
+        $uuids = $_SESSION['gis']['feature_uuids'];               
+        $file_type = $_POST['opt_geo_file_type'];
+        print shn_gis_create_file('Sahana-Featuressss', $file_type, $uuids, false);
+        //header("Content-type: text/" . $file_type);
+        //header("Content-Disposition: attachment; filename=" . "Sahana-Features." . $file_type);
+        //header("Cache-Control: no-cache, must-revalidate");
+        //print shn_gps_create_file($file_type, $uuids);          
+    } else {
+        // Error 
+    }          
+}
+
+/**
+ * Takes file format and IDs of features to be saved, creates the aproprate factory
+ * then creates the points and offers them to the user.
+ *
+ * @global <type> $global
+ * @global <type> $config
+ * @param <type> $file_type_
+ * @param <type> $feature_uuids
+ * @return <type>
+ */
+function shn_gps_create_file($file_type_, $feature_uuids_)
+{
+    global $global;
+    global $config;
     $db = $global['db'];
-	//echo $limit;
-	$create_point="";
-	for($counter=1;$counter<$limit+1;++$counter) (
-		if(isset($_POST[$counter])) {
-			$_SESSION[$counter]=$_POST[$counter];
-			$id=$_SESSION[$counter];
-			//echo $id;
-			$search="SELECT gpx_file.point_name, gpx_file.description,gis_location.map_northing, gis_location.map_easting
-			FROM gpx_file,gis_location
-			WHERE gpx_file.point_uuid=gis_location.poc_uuid AND gpx_file.point_uuid='{$id}'";
-			$results = $db->Execute($search);
-			$latitude=$results->fields['map_northing'];
-			$longitude=$results->fields['map_easting'];
-			$point_name=$results->fields['point_name'];
-			$description=$results->fields['description'];
-			$create_point=$create_point."<wpt lat=\"".$latitude."\" lon=\"".$longitude."\">\n<name>".$point_name."</name>\n<desc>".$description."</desc>\n</wpt>\n";
+    require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+    require_once $global['approot']."/mod/gps/geo_file_factory.inc";
+    
+    // Discover and create appropriate file factory
+    if ('gpx' == $file_type_){
+        $GeoFactory = new GPXFactory();
+    } elseif('gml' == $file_type_){
+        $GeoFactory = new GMLFactory();
+    } elseif('kml' === $file_type_){
+        $GeoFactory = new KMLFactory();
+    } elseif('georss' == $file_type_){
+        $GeoFactory = new GeoRSSFactory();
+    } else {
+        return false;
+    }
+    
+    foreach($feature_uuids_ as $feature_uuid){
+        $keys = array(
+            'f_uuid'          => '1',
+            'f_class'         => '1',
+            'f_type'          => '1',
+            'f_projection'    => '1',
+            'f_coords'        => '1',
+            'f_module_item'   => '1',
+            'f_name'          => '1',
+            'f_description'   => '1',
+            'f_author'        => '1',
+            'f_url'           => '1',
+            'f_address'       => '1',
+            'f_event_date'    => '1',
+            'f_extended_data' => '1'
+        );
+        $results = shn_gis_get_features_uuid($feature_uuid, $keys);
+        if($results){
+            $f_uuid           = $results[0]['f_uuid'];
+            $f_class          = $results[0]['f_class'];
+            $f_type           = $results[0]['f_type'];
+            $f_projection     = $results[0]['f_projection'];
+            $f_coords         = $results[0]['f_coords'];
+            $f_module_item    = $results[0]['f_module_item'];
+            $f_name           = $results[0]['f_name'];
+            $f_description    = $results[0]['f_description'];
+            $f_author         = $results[0]['f_author'];
+            $f_url            = $results[0]['f_url'];
+            $f_address        = $results[0]['f_address'];
+            $f_event_date     = $results[0]['f_event_date'];
+            $f_extended_data  = $results[0]['f_extended_data'];
+            // Decode coords string
+            $coords = shn_gis_coord_decode($f_coords);
+            // Get icon from class
+            $class = shn_gis_get_feature_class_uuid($f_class);
+            $icon = $class['c_icon'];
+            switch($f_type){
+                case 'point':
+                    $GeoFactory->shn_sm_Geo_Add_Point($f_uuid, $f_name, $f_author, $f_url, $f_description, $f_event_date, $icon, $extendedData, $coords);
+                    break;
+                case 'line':
+                    $GeoFactory->shn_sm_Geo_Add_Path($f_uuid, $f_name, $f_author, $f_url, $f_description, $f_event_date, $extendedData_, $longitude_, $coords);
+                    break;
+                case 'poly':
+                    $GeoFactory->shn_sm_Geo_Add_Polygon($f_uuid, $f_name, $f_author, $f_url, $f_description, $f_event_date, $extendedData_, $longitude_, $coords);
+                    break;
+                default:
+                    // miss out feature...
+                    break;
+            }
         }
-	}
-	$temp="tmp/tmp.txt";
-	$handle1=fopen($temp,"a");
-	fwrite($handle1,$create_point);
-	fclose($handle1);
-	global $conf;
-	$form_opts['name']='choose';
-    $form_opts['req_message']=false;
-	shn_form_fopen("create_file&stream=text",null,$form_opts);
-	shn_form_fsopen('File Author');
-	shn_form_text(_("Name of Author"),"author_name",'size="50"',array('help'=>_($conf['mod_gps_marker_author_help'])));
-	shn_form_submit(_("Download File"));
-	shn_form_fsclose();
-	shn_form_fclose();
+    }
+    return $GeoFactory->shn_sm_geo_print();
+}
+
+function shn_gps_create_feed($name_, $feature_uuids_)
+{
+    global $global;
+    global $config;
+    $db = $global['db'];
+    require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+    require_once $global['approot']."/mod/gps/geo_file_factory.inc";
+
+    $GeoFactory = new GeoRSSFactory();
+    foreach($feature_uuids_ as $feature_uuid){
+        $keys = array(
+            'f_uuid'          => '1',
+            'f_class'         => '1',
+            'f_type'          => '1',
+            'f_projection'    => '1',
+            'f_coords'        => '1',
+            'f_module_item'   => '1',
+            'f_name'          => '1',
+            'f_description'   => '1',
+            'f_author'        => '1',
+            'f_url'           => '1',
+            'f_address'       => '1',
+            'f_event_date'    => '1',
+            'f_extended_data' => '1'
+        );
+        $results = shn_gis_get_features_uuid($feature_uuid, $keys);
+        if($results){
+            $f_uuid           = $results[0]['f_uuid'];
+            $f_class          = $results[0]['f_class'];
+            $f_type           = $results[0]['f_type'];
+            $f_projection     = $results[0]['f_projection'];
+            $f_coords         = $results[0]['f_coords'];
+            $f_module_item    = $results[0]['f_module_item'];
+            $f_name           = $results[0]['f_name'];
+            $f_description    = $results[0]['f_description'];
+            $f_author         = $results[0]['f_author'];
+            $f_url            = $results[0]['f_url'];
+            $f_address        = $results[0]['f_address'];
+            $f_event_date     = $results[0]['f_event_date'];
+            $f_extended_data  = $results[0]['f_extended_data'];
+            // Decode coords string
+            $coords = shn_gis_coord_decode($f_coords);
+            // Get icon from class
+            $class = shn_gis_get_feature_class_uuid($f_class);
+            $icon = $class['c_icon'];
+            switch($f_type){
+                case 'point':
+                    $GeoFactory->shn_sm_Geo_Add_Point($f_uuid, $f_name, $f_author, $f_url, $f_description, $f_event_date, $icon, $extendedData, $coords);
+                    break;
+                case 'line':
+                    $GeoFactory->shn_sm_Geo_Add_Path($f_uuid, $f_name, $f_author, $f_url, $f_description, $f_event_date, $extendedData_, $longitude_, $coords);
+                    break;
+                case 'poly':
+                    $GeoFactory->shn_sm_Geo_Add_Polygon($f_uuid, $f_name, $f_author, $f_url, $f_description, $f_event_date, $extendedData_, $longitude_, $coords);
+                    break;
+                default:
+                    // miss out feature...
+                    break;
+            }
+        }
+    }
+    return $GeoFactory->shn_sm_geo_publish($name_);       
 }
 
 ?>

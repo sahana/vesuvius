@@ -8,10 +8,11 @@
 * 
 * @author       Mifan Careem <mifan@respere.com>
 * @author       Fran Boon <flavour@partyvibe.com>
+* @author       Richard Smith <s0459387@sms.ed.ac.uk>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library		GIS
-* @version		$Id: admin_acts.inc,v 1.23 2008-05-30 11:26:42 franboon Exp $
+* @version		$Id: admin_acts.inc,v 1.24 2008-09-16 20:36:02 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -27,6 +28,132 @@ function shn_admin_gis_main()
 }
 
 /**
+* GIS Feature Class functionality
+*/
+function shn_admin_gis_database_classes()
+{
+    global $global;
+    include_once $global['approot'].'/inc/lib_gis/admin_feature_class.inc';
+    shn_gis_internal_class_general_select();
+}
+
+function shn_admin_gis_database_classes_add()
+{
+    global $global;
+    include_once $global['approot'].'/inc/lib_gis/admin_feature_class.inc';
+    shn_gis_internal_class_add_seq();
+}
+
+function shn_admin_gis_database_classes_edit()
+{
+    global $global;
+    include_once $global['approot'].'/inc/lib_gis/admin_feature_class.inc';
+    shn_gis_internal_class_edit_seq();
+}
+
+function shn_admin_gis_database_classes_remove()
+{
+    global $global;
+    include_once $global['approot'].'/inc/lib_gis/admin_feature_class.inc';
+    shn_gis_internal_class_remove_seq();
+}
+
+/**
+* GIS Internal Database Layer Functionality
+*/
+function shn_admin_gis_database_layers()
+{
+    global $global;
+    include_once $global['approot'].'/inc/lib_gis/admin_internal_layer.inc';
+    shn_gis_internal_layer_general_select();
+}
+
+function shn_admin_gis_database_layer_add()
+{
+    global $global;
+    include_once $global['approot'] . '/inc/lib_gis/admin_internal_layer.inc';
+   shn_gis_internal_layer_add_seq(); 
+}
+
+function shn_admin_gis_database_layer_edit()
+{
+    global $global;
+    include_once $global['approot'] . '/inc/lib_gis/admin_internal_layer.inc';
+    shn_gis_internal_layer_edit_seq(); 
+}
+
+function shn_admin_gis_database_layer_remove()
+{
+    global $global;
+    include_once $global['approot'] . '/inc/lib_gis/admin_internal_layer.inc';
+    shn_gis_internal_layer_remove_seq(); 
+}
+
+/**
+  * GIS Files Management Functionality
+  */
+function shn_admin_gis_files()
+{
+    global $global;
+    include_once $global['approot'] . '/inc/lib_gis/admin_files.inc';
+    shn_gis_internal_class_general_select();
+}
+
+function shn_admin_gis_file_download()
+{
+    global $global;
+    include_once $global['approot'] . '/inc/lib_gis/admin_files.inc';
+    shn_gis_file_download_seq();
+}
+
+function shn_admin_gis_file_upload()
+{
+    global $global;
+    include_once $global['approot'] . '/inc/lib_gis/admin_files.inc';
+   shn_gis_file_upload_seq();
+
+}
+
+function shn_admin_gis_file_upload2()
+{
+    global $global;
+    include_once $global['approot'] . '/inc/lib_gis/admin_files.inc';
+    shn_gis_file_upload_seq();
+
+}
+
+function shn_text_admin_gis_create_file()
+{
+    global $global;
+    include_once $global['approot'] . '/inc/lib_gis/admin_files.inc';
+    shn_text_admin_gis_create_file2();   
+}
+
+/**
+ * GIS Feeds Management Functionality
+ */
+function shn_admin_gis_feeds()
+{
+    global $global;
+    include_once $global['approot'] . '/inc/lib_gis/admin_feeds.inc';
+    shn_gis_feed_general_select();
+}
+
+function shn_admin_gis_feed_general()
+{
+    global $global;
+    include_once $global['approot'] . '/inc/lib_gis/admin_feeds.inc';
+    shn_gis_feed_general_seq();
+}
+
+function shn_admin_gis_feed_feature_class()
+{
+    global $global;
+    include_once $global['approot'] . '/inc/lib_gis/admin_feeds.inc';
+    shn_gis_feed_feature_class_seq();
+}
+
+/**
  * Google Maps plugin admin functionality
  */
 function shn_admin_gis_google()
@@ -34,15 +161,6 @@ function shn_admin_gis_google()
     global $global;
     include_once $global['approot'].'/inc/lib_gis/admin_fns.inc';
     shn_admin_gis_google_settings();
-}
-
-/**
- * GIS Files Management Functionality
- */
-function shn_admin_gis_files()
-{
-    global $global;
-    include_once $global['approot'].'/inc/lib_gis/upload_files.inc';
 }
 
 /**

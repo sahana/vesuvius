@@ -1,10 +1,8 @@
 <?php
 
-/* $Id: camp.inc,v 1.66 2008-08-29 05:12:37 mifanc Exp $ */
-
 /**Camp library for  CR
  *
- * PHP version 4 and 5
+ * PHP version 5
  *
  * LICENSE: This source file is subject to LGPL license
  * that is available through the world-wide-web at the following URI:
@@ -15,8 +13,8 @@
  * @author   Mifan Careem <mifan@opensource.lk>
  * @edited by Isuru Samaraweera <isuru@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
- */
-
+ * $Id: camp.inc,v 1.67 2008-09-16 20:36:02 franboon Exp $
+*/
 
 include_once($global['approot'] . '/inc/lib_form.inc');
 include_once($global['approot'] . '/inc/lib_validate.inc');
@@ -595,10 +593,23 @@ function _shn_cr_cadd_commit_db()
 		  "VALUES ('{$puid}','cmob','{$_SESSION['contact_mob']}')";
     $resc = $db->Execute($qc);
 
-
     if ($conf['gis']) {
-        include $global['approot'] . "/inc/lib_gis/gis_fns.inc";
-        shn_gis_dbinsert($uid,$loc_id,$conf['mod_gis'],$_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'],NULL);
+        require_once $global['approot'] . "/inc/lib_gis/gis_fns.inc";
+        $class = 'cr_camp';
+        if($_SESSION['opt_camp_type'] == 'gov' || $_SESSION['opt_camp_type'] == 'tmp' || $_SESSION['opt_camp_type'] == 'ngo'){
+            $class = $class . '_' . $_SESSION['opt_camp_type'];
+        }
+        $coords = shn_gis_coord_encode(array(array($_SESSION['gis_loc_x'],$_SESSION['gis_loc_y'], 0)), 'point');
+        $keys = array(  
+            'f_class'         => $class,
+            'f_type'          => 'point',
+            'f_coords'        => $coords,
+            'f_module_item'   => $uid,
+            'f_name'          => $_SESSION['camp_name'],
+            'f_url'           => ('mod=cr&act=ecmp&seq=view&cmp_id=' . $uid),
+            'f_address'       => $_SESSION['camp_address']
+        );
+        shn_gis_create_feature($keys);
     }
 
     /*insert services into camp_services table

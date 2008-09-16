@@ -1,7 +1,8 @@
 <?php
+
 /** View ,Edit forms for Organizations of the Organization Registry
  *
- * PHP version 4 and 5
+ * PHP version 5
  *
  * LICENSE: This source file is subject to LGPL license
  * that is available through the world-wide-web at the following URI:
@@ -353,6 +354,7 @@ field_options.option_code=sector.opt_sector and field_options.field_name='opt_se
 function _shn_or_viewform_org($org_id, $error=false)
 {
 	include_once "lib_or.inc";
+	global $conf;
 	global $global;
 	$db = $global['db'];
 	$q = "SELECT o_uuid,parent_id,name,reg_no,man_power,resources FROM org_main WHERE o_uuid='{$org_id}'";
@@ -409,15 +411,21 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
 		$q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='loc_txt'";
 		$res=$db->Execute($q);
 		$loc_txt=$res->fields["contact_value"];
-		$q = "SELECT * FROM gis_location WHERE poc_uuid='{$org_id}'";
-		$res=$db->Execute($q);
-
-		$lat=$res->fields["map_northing"];
-		$lon=$res->fields["map_easting"];
-
+        // declare key to return.
+        if ($conf['gis']) {
+            require_once $global['approot'] . "/inc/lib_gis/gis_fns.inc";
+            $keys = array('f_coords' => 1);
+            // get keys of features that contain module ref $org_id.
+            $gis_result = shn_gis_get_features_item_ref($org_id, $keys);
+            // decode from wkt string into array of point(s).
+            $coords = shn_gis_coord_decode($gis_result[0]['f_coords']);
+            // use centroid point.
+            $lat = $coords[0][0];
+            $lon = $coords[0][1];
+        }
 	}
 	?>
-		<h2><?=_t("Organization Registration Information of <em>").$org_name?></em></h2>
+		<h2><?= _t("Organization Registration Information of ") ?><em><?= $org_name ?></em></h2>
 		<?php
 		if($error==true)
 		display_errors();
