@@ -451,58 +451,166 @@ CREATE TABLE gis_feature (
 * Modules: all
 * Last changed: 04-Oct-2006: mifan@opensource.lk
 */
-
-DROP TABLE IF EXISTS `gis_location`;
-CREATE TABLE `gis_location` (
-    `poc_uuid` varchar(60) NOT NULL,
-    `location_id` varchar(20) default NULL,
-    `opt_gis_mod` varchar(30) default NULL,
-    `map_northing` double(15,10) NOT NULL,
-    `map_easting` double(15,10) NOT NULL,
-    `map_projection` varchar(20) default NULL,
-    `opt_gis_marker` varchar(20) default NULL,
-    `gis_uid` varchar(60) NOT NULL,
-    PRIMARY KEY  (`gis_uid`)
+DROP TABLE IF EXISTS gis_location;
+CREATE TABLE gis_location (
+    poc_uuid varchar(60) NOT NULL,
+    location_id varchar(20) default NULL,
+    opt_gis_mod varchar(30) default NULL,
+    map_northing double(15,10) NOT NULL,
+    map_easting double(15,10) NOT NULL,
+    map_projection varchar(20) default NULL,
+    opt_gis_marker varchar(20) default NULL,
+    gis_uid varchar(60) NOT NULL,
+    PRIMARY KEY  (`gis_uid)
 );
 
 /*** Table for GIS-WikiMaps functionality
 * Modules: sm
 * Last edited: 04-Oct-2006: mifan@opensource.lk
 */
-
-DROP TABLE IF EXISTS `gis_wiki`;
-CREATE TABLE `gis_wiki` (
-    `wiki_uuid` VARCHAR(60) NOT NULL,
-    `gis_uuid` VARCHAR(60) NOT NULL,
-    `name` varchar(50) NOT NULL,
-    `description` VARCHAR(100) default NULL,
-    `opt_category` VARCHAR(10),
-    `url` varchar(50) NOT NULL,
-    `event_date` timestamp NULL,
-    `placement_date` timestamp NOT NULL default now(),
-    `editable` boolean NOT NULL default false,
-    `author` VARCHAR(30) default NULL,
-    `approved` boolean default false,
-    PRIMARY KEY  (`wiki_uuid`),
+DROP TABLE IF EXISTS gis_wiki;
+CREATE TABLE gis_wiki (
+    wiki_uuid VARCHAR(60) NOT NULL,
+    gis_uuid VARCHAR(60) NOT NULL,
+    name varchar(50) NOT NULL,
+    description VARCHAR(100) default NULL,
+    opt_category VARCHAR(10),
+    url varchar(50) NOT NULL,
+    event_date timestamp NULL,
+    placement_date timestamp NOT NULL default now(),
+    editable boolean NOT NULL default false,
+    author VARCHAR(30) default NULL,
+    approved boolean default false,
+    PRIMARY KEY  (wiki_uuid),
     FOREIGN KEY (gis_uuid) REFERENCES gis_location(gis_uid)
 );
 
 /*** Table for maintaining GPX file information
 * Modules: gps 
 */
+DROP TABLE IF EXISTS gpx_file;
+CREATE TABLE gpx_file (
+    point_uuid VARCHAR(60) NOT NULL,
+    author_name varchar(50) NOT NULL,
+    event_date timestamp NOT NULL,
+    route_name VARCHAR(50) NOT NULL,
+    route_no int(250) NOT NULL,
+    opt_category VARCHAR(10) NOT NULL,
+    sequence_no int(250) NOT NULL,
+    point_name varchar(50) NOT NULL,
+    description varchar(100) default NULL,
+    PRIMARY KEY  (point_uuid)
+);
 
-DROP TABLE IF EXISTS `gpx_file`;
-CREATE TABLE `gpx_file` (
-    `point_uuid` VARCHAR(60) NOT NULL,
-    `author_name` varchar(50) NOT NULL,
-    `event_date` timestamp NOT NULL,
-    `route_name` VARCHAR(50) NOT NULL,
-    `route_no` int(250) NOT NULL,
-    `opt_category` VARCHAR(10) NOT NULL,
-    `sequence_no` int(250) NOT NULL,
-    `point_name` varchar(50) NOT NULL,
-    `description` varchar(100) default NULL,
-    PRIMARY KEY  (`point_uuid`)
+/**================= Entity: NEW Spatial Location: GIS  ===================**/
+/**
+ * Table for storing geographic features
+ * Stores feature type, projection type and coordinates + refrances to metadata, feature_class
+ * Modules: gis
+ * Last changed: 14-June-2008: Richard - s0459387@sms.ed.ac.uk
+ */
+DROP TABLE IF EXISTS gis_features;
+CREATE TABLE gis_features (
+    feature_uuid varchar(60) NOT NULL,                  -- ID
+    metadata_uuid_ref varchar(60) NOT NULL,             -- Assosated metadata entry UID
+    feature_class_uuid_ref varchar(60) NOT NULL,        -- Assosated feature type UID   DEFAULT (default feature_class id)
+    feature_type varchar(60) NOT NULL,                  -- Placement type (point, line, poly)
+    map_projection varchar(20) NOT NULL,                -- Projection type assosated with feature
+    coords varchar(500) NOT NULL,                       -- Coordinates
+    coord_x DOUBLE(15,10) NOT NULL,                     -- Coordinates just x (used for location drilldown)
+    coord_y DOUBLE(15,10) NOT NULL,                     -- Coordinates just y (used for location drilldown)
+    coord_z DOUBLE(15,10) NOT NULL,                     -- Coordinates just z (used for location drilldown)
+    PRIMARY KEY (feature_uuid),
+    FOREIGN KEY (metadata_uuid_ref) REFERENCES gis_feature_metadata(metadata_uuid),         -- ON DELETE RESTRICT
+    FOREIGN KEY (feature_class_uuid_ref) REFERENCES gis_feature_type(feature_class_uuid)    -- ON DELETE DEFAULT
+);
+
+/**
+* Table for storing metadata belonging to geographic features
+* Stores metadata relating to a feature
+* Modules: gis
+* Last changed: 14-June-2008: Richard - s0459387@sms.ed.ac.uk
+*/
+-- This table is to be extended if in future any extra data needs storing
+DROP TABLE IF EXISTS gis_feature_metadata;
+CREATE TABLE gis_feature_metadata (
+    metadata_uuid VARCHAR(60) NOT NULL,                 -- ID
+    module_item_ref VARCHAR(60) NOT NULL,               -- Ref to item in other module db (eg. a missing person)
+    name varchar(60) NOT NULL,                          -- Feature name
+    description VARCHAR(500) NOT NULL,                  -- Feature description
+    author VARCHAR(60) NOT NULL,                        -- Author name
+    url varchar(100) NOT NULL,                          -- Link assosated with feature
+    address varchar(200) NOT NULL,                      -- Location address of feature
+    event_date timestamp NULL,                          -- Time feature occured (if relavent)
+    placement_date timestamp NOT NULL default now(),    -- Time of placement in db
+    extended_data VARCHAR(200) NOT NULL,                -- Optional extra data
+    url_view varchar(100) NOT NULL,                     -- Url to view module specific feature
+    url_edit varchar(100) NOT NULL,                     -- Url to edit module specific feature
+    url_del varchar(100) NOT NULL,                      -- Url to delete module specific feature
+    PRIMARY KEY (metadata_uuid)
+);
+
+/**
+* Table for storing infomation related to feature classes and style data for displaying
+* Stores feature classes (hospital, school, flood area etc)
+* Modules: gis
+* Last changed: 14-June-2008: Richard - s0459387@sms.ed.ac.uk
+*/
+DROP TABLE IF EXISTS gis_feature_class;
+CREATE TABLE gis_feature_class (
+    feature_class_uuid VARCHAR(60) NOT NULL,            -- ID
+    module_ref VARCHAR(100) NOT NULL,                   -- Ref to assosated module (eg. camp)
+    name VARCHAR(100) NOT NULL,                         -- Feature type name (eg. hospital)
+    description VARCHAR(300) NOT NULL,                  -- Description of feature type (eg. med size hospital capacity..)
+    icon VARCHAR(250) NOT NULL,                         -- Style info - Link to icon assoasated with feature_type
+    color VARCHAR(8) NOT NULL,                          -- Style info - color of icon/line/poly
+    PRIMARY KEY (feature_class_uuid)
+);
+
+/**
+* Table for storing layers of features to be displayed in Open Layers
+* Stores names and descriptions of layers as
+* Modules: gis
+* Last changed: 14-June-2008: Richard - s0459387@sms.ed.ac.uk
+*/
+-- may be extended as development in openlayers continues
+DROP TABLE IF EXISTS gis_layers;
+CREATE TABLE gis_layers (
+    layer_uuid VARCHAR(60) NOT NULL,                    -- ID
+    name VARCHAR(60) NOT NULL,                          -- Name of layer
+    description VARCHAR(200) NOT NULL,                  -- Description of layer(eg. Alpha team objectives)
+    PRIMARY KEY (layer_uuid)
+);
+
+/**
+* Table for storing links bettween layers and features to be displayed in Open Layers
+* Stores uuid ref links for features and layers
+* Modules: gis
+* Last changed: 14-June-2008: Richard - s0459387@sms.ed.ac.uk
+*/
+-- may be extended as development in openlayers continues
+DROP TABLE IF EXISTS gis_feature_to_layer;
+CREATE TABLE gis_feature_to_layer (
+    layer_uuid_ref VARCHAR(60) NOT NULL,                -- ID ref to assocated layer
+    feature_uuid_ref VARCHAR(60) NOT NULL,              -- ID ref to assocated feature
+    PRIMARY KEY (layer_uuid_ref,feature_uuid_ref),
+    FOREIGN KEY (layer_uuid_ref) REFERENCES gis_layers(layer_uuid),
+    FOREIGN KEY (feature_uuid_ref) REFERENCES gis_features(feature_uuid)
+);
+
+/**
+* Table for storing links bettween feature_classes and layers
+* Stores uuid ref links for feature classes and feature categorys
+* Modules: gis
+* Last changed: 28-June-2008: Richard - s0459387@sms.ed.ac.uk
+*/
+DROP TABLE IF EXISTS gis_feature_class_to_layer;
+CREATE TABLE gis_feature_class_to_layer (
+    layer_uuid_ref VARCHAR(60) NOT NULL,                -- ID ref to assocated layer    
+    feature_class_uuid_ref VARCHAR(60) NOT NULL,        -- ID ref to assocated feature_class
+    PRIMARY KEY (layer_uuid_ref,feature_class_uuid_ref),
+    FOREIGN KEY (layer_uuid_ref) REFERENCES gis_layers(layer_uuid),
+    FOREIGN KEY (feature_class_uuid_ref) REFERENCES gis_feature_class(feature_class_uuid)
 );
 
 /**
@@ -525,7 +633,7 @@ CREATE TABLE maps (
 
 /**
 * Under Development
-* The coordinate table for LIGHT GIS
+* The coordinate table for Image Tagger
 * Modules: cr,or,ics 
 * Last changed: 24-FEB-2008 - ravindra@opensource.lk  
 */

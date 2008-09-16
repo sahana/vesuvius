@@ -175,6 +175,15 @@ INSERT INTO field_options (field_name,option_code,option_description) VALUES ('o
 INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','dis','Disaster Status');
 INSERT INTO field_options (field_name,option_code,option_description) VALUES ('opt_wikimap_type','sos','Help Needed');
 
+-- GIS SAVE FILE
+INSERT INTO field_options VALUES('opt_geo_save_file','file_save','Publish File To Export Directory');
+
+-- GIS FILE TYPES
+INSERT INTO field_options VALUES('opt_geo_file_type','kml','KML');
+INSERT INTO field_options VALUES('opt_geo_file_type','gml','GML');
+INSERT INTO field_options VALUES('opt_geo_file_type','gpx','GPX');
+INSERT INTO field_options VALUES('opt_geo_file_type','georss','GeoRSS');
+
 -- GPS VALUES
 INSERT INTO field_options VALUES('opt_wpt_type','air','Airstrip');
 INSERT INTO field_options VALUES('opt_wpt_type','hos','Hospital');
@@ -343,6 +352,178 @@ INSERT INTO sys_tablefields_to_data_classification VALUES ( "field_options", 6);
 -- gis_feature
 
 -- gis_location
+
+--- gis_layers
+INSERT INTO gis_layers VALUES ('def_disaster_areas', 'Disaster Areas', '');
+INSERT INTO gis_layers VALUES ('def_infrastructure', 'Infrastructure', '');
+INSERT INTO gis_layers VALUES ('def_aid', 'Aid', '');
+INSERT INTO gis_layers VALUES ('def_supplies', 'Supplies', '');
+INSERT INTO gis_layers VALUES ('def_coordinators', 'Coordinators', '');
+INSERT INTO gis_layers VALUES ('def_people', 'People', '');
+
+-- gis_feature_class
+-- Example INSERT INTO gis_feature_class VALUES ('feature_class_uuid', 'module_ref', 'name ', 'description', 'icon', 'color'); 
+--   Default
+INSERT INTO gis_feature_class VALUES ('default',        '', 'Generic Feature',   '', '', ''); 
+
+-- Disaster Area | Categories [Disaster Area, various]
+INSERT INTO gis_feature_class VALUES ('da_gen_lev_0',   '', 'Disaster Level Unknown',   '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('da_gen_lev_1',   '', 'Disaster Level Light',     '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('da_gen_lev_2',   '', 'Disaster Level Moderate',  '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('da_gen_lev_3',   '', 'Disaster Level Heavy',     '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('da_gen_lev_4',   '', 'Disaster Level Extreme',   '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('da_hurricane',   '', 'Hurricane Area',           '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('da_earthquake',  '', 'Earthquake Area',          '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('da_mudslide',    '', 'Mudslide Area',            '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('da_tsunami',     '', 'Tsunami Area',             '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('da_disease',     '', 'Disease Area',             '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('da_war',         '', 'War Area',                 '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('da_famine',      '', 'Famine Area',              '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('da_drought',     '', 'Drought Area',             '', '', ''); 
+
+-- Camps | Categories [Infrastructure, Camp] !!! USED BY CAMP REGISTRY !!!
+INSERT INTO gis_feature_class VALUES ('cr_camp',        'cr', 'Camp',                   '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('cr_camp_ngo',    'cr', 'Camp [NGO]',             '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('cr_camp_gov',    'cr', 'Camp [Goverment]',       '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('cr_camp_tmp',    'cr', 'Camp [Temporary]',       '', '', ''); 
+
+-- Houseing | Categories [Infrastructure, Houseing] !!! USED BY HOUSING REGISTRY !!!
+INSERT INTO gis_feature_class VALUES ('hr_house_dmg_0', 'hr', 'House [Unknown Damage]',  '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('hr_house_dmg_1', 'hr', 'House [Light Damage]',   '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('hr_house_dmg_2', 'hr', 'House [Moderate Damage]','', '', ''); 
+INSERT INTO gis_feature_class VALUES ('hr_house_dmg_3', 'hr', 'House [Heavy Damage]',   '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('hr_house_dmg_4', 'hr', 'House [Extreme Damage]', '', '', ''); 
+
+-- Sites  | Categories [Infrastructure, Sites] !!! USED BY HOUSING REGISTRY !!!
+INSERT INTO gis_feature_class VALUES ('hr_site_dmg_0',  'hr', 'Site [Unknown Damage]',  '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('hr_site_dmg_1',  'hr', 'Site [Light Damage]',    '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('hr_site_dmg_2',  'hr', 'Site [Moderate Damage]', '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('hr_site_dmg_3',  'hr', 'Site [Heavy Damage]',    '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('hr_site_dmg_4',  'hr', 'Site [Extreme Damage]',  '', '', ''); 
+
+-- Inventories | Categories [Infrastructure, Supplies, Inventories] !!! USED BY INVENTORY MANAGEMENT !!!
+INSERT INTO gis_feature_class VALUES ('ims_inventory', 'ims', 'Inventory',              '', '', ''); 
+
+-- Supplies | Categories [Infrastructure, Supplies]
+INSERT INTO gis_feature_class VALUES ('sup_food',       '', 'Food Supplies',            '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('sup_water',      '', 'Water Supplies',           '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('sup_meds',       '', 'Medical Supplies',         '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('sup_shelter',    '', 'Shelter Supplies',         '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('sup_cook',       '', 'Cooking/Fire Supplies',    '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('sup_waste',      '', 'Waste Disposal Supplies',  '', '', ''); 
+
+-- Aid Points | Categories [Infrastructure, Aid]
+INSERT INTO gis_feature_class VALUES ('ap_fstaid',      '', 'First Aid',                '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ap_hosp',        '', 'Hospital',                 '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ap_firedep',     '', 'Fire Department',          '', '', ''); 
+
+--  Vehicles
+INSERT INTO gis_feature_class VALUES ('veh_convy',      '', 'Convoy',                   '', '', '');
+
+-- Organisations  | Categories [Coordinators, Organisations] !!! USED BY ORGANISATION REGISTRY !!!
+INSERT INTO gis_feature_class VALUES ('or_org',         'or', 'Organisation',           '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('or_org_gov',     'or', 'Goverment Org',          '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('or_org_priv',    'or', 'Private Org',            '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('or_org_ngo',     'or', 'Internal NGO',           '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('or_org_ingo',    'or', 'International NGO',      '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('or_org_mngo',    'or', 'Multinational NGO',      '', '', ''); 
+
+-- Persons  [People, Persons, various] !!! USED BY MISSING PERSON REGISTRY !!!
+INSERT INTO gis_feature_class VALUES ('ppl_indv_found', 'mpr', 'Person [Found]',        '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ppl_indv_spot',  'mpr', 'Person [Spotted]',      '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ppl_indv_known', 'mpr', 'Person [Last Known Location]', '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ppl_ind_inj',    'mpr', 'Person [Injured]',      '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ppl_ind_dead',   'mpr', 'Person [Dead]',         '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ppl_ind_grave',  'mpr', 'Person [Grave]',        '', '', ''); 
+
+-- Groups | Categories [People, Groups, various] !!! USED BY MISSING PERSON REGISTRY !!!
+INSERT INTO gis_feature_class VALUES ('ppl_grp_found',  'mpr', 'Group [Found]',         '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ppl_grp_spot',   'mpr', 'Group [Spotted]',       '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ppl_grp_known',  'mpr', 'Group [Last Known Location]', '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ppl_grp_inj',    'mpr', 'Group [Injured]',       '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ppl_grp_dead',   'mpr', 'Group [Dead]',          '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ppl_grp_grave',  'mpr', 'Group [Mass Grave]',    '', '', ''); 
+
+--   Rally Points | Categories [Rally_Points]
+INSERT INTO gis_feature_class VALUES ('ryp_evac',       '', 'Evacuation Point',         '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ryp_resc',       '', 'Rescue Point',             '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ryp_meet',       '', 'Meeting Point',            '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('ryp_supply',     '', 'Supply Point',             '', '', ''); 
+
+--   Routes | | Categories [Routes]
+INSERT INTO gis_feature_class VALUES ('rot_evac',       '', 'Evacuation Route',         '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('rot_supply',     '', 'Supply Route',             '', '', ''); 
+
+-- Specific | | Categories [Infrastructure, various]
+INSERT INTO gis_feature_class VALUES ('fire_wall',      '', 'Fire Wall',                '', '', ''); 
+INSERT INTO gis_feature_class VALUES ('flood_wall',     '', 'Flood Defences',           '', '', ''); 
+
+-- gis_feature_to_layer
+-- FIX without one feature in this table some sql statments will not work
+INSERT INTO gis_feature_to_layer VALUES ('def_infrastructure', 'ims_inventory');
+
+-- gis_feature_class_to_layer
+-- Disaster Areas
+INSERT INTO gis_feature_class_to_layer VALUES ('def_disaster_areas', 'da_hurricane');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_disaster_areas', 'da_earthquake');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_disaster_areas', 'da_mudslide');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_disaster_areas', 'da_tsunami');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_disaster_areas', 'da_disease');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_disaster_areas', 'da_war');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_disaster_areas', 'da_famine');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_disaster_areas', 'da_drought');
+
+-- Infrastructure
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'cr_camp');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'cr_camp_ngo');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'cr_camp_gov');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'cr_camp_tmp');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'hr_house_dmg_0');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'hr_house_dmg_1');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'hr_house_dmg_2');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'hr_house_dmg_3');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'hr_house_dmg_4');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'hr_site_dmg_0');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'hr_site_dmg_1');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'hr_site_dmg_2');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'hr_site_dmg_3');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'hr_site_dmg_4');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'ims_inventory');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'sup_food');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'sup_water');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'sup_meds');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'sup_shelter');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'sup_cook');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_infrastructure', 'sup_waste');
+
+-- Supplies
+INSERT INTO gis_feature_class_to_layer VALUES ('def_supplies', 'ims_inventory');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_supplies', 'sup_food');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_supplies', 'sup_water');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_supplies', 'sup_meds');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_supplies', 'sup_shelter');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_supplies', 'sup_cook');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_supplies', 'sup_waste');
+
+-- Coordinators
+INSERT INTO gis_feature_class_to_layer VALUES ('def_coordinators', 'or_org');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_coordinators', 'or_org_gov');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_coordinators', 'or_org_priv');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_coordinators', 'or_org_ngo');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_coordinators', 'or_org_ingo');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_coordinators', 'or_org_mngo');
+
+-- People
+INSERT INTO gis_feature_class_to_layer VALUES ('def_people', 'ppl_indv_spot');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_people', 'ppl_indv_known');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_people', 'ppl_ind_inj');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_people', 'ppl_ind_dead');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_people', 'ppl_ind_grave');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_people', 'ppl_grp_found');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_people', 'ppl_grp_spot');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_people', 'ppl_grp_inj');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_people', 'ppl_grp_dead');
+INSERT INTO gis_feature_class_to_layer VALUES ('def_people', 'ppl_grp_grave');
 
 -- gis_wiki
 
