@@ -1,7 +1,8 @@
 <?php
+
 /**Main Controller of the Sahana Advanced Web Setup
  *
- * PHP version 4 and 5
+ * PHP version 5
  *
  * LICENSE: This source file is subject to LGPL license
  * that is available through the world-wide-web at the following URI:
@@ -12,16 +13,16 @@
  * @package    sahana
  * @subpackage setup
  */
+ 
 session_start();
 global $global;
 
-if (!function_exists("gettext"))
-{
+if (!function_exists("gettext")) {
 	include_once ($global['approot'].'inc/lib_locale/lib_gettext.inc');
 }
 require_once ($global['approot'].'inc/lib_locale/gettext.inc');
-require_once ($global['approot'] . 'inc/lib_security/constants.inc');
-require_once ($global['approot'] . 'inc/lib_security/lib_auth.inc');
+require_once ($global['approot'].'inc/lib_security/constants.inc');
+require_once ($global['approot'].'inc/lib_security/lib_auth.inc');
 require_once ($global['approot'].'inc/handler_html_head.inc');
 require_once ($global['approot'].'inc/lib_modules.inc');
 require_once ($global['approot'].'inc/lib_form.inc');
@@ -36,14 +37,12 @@ include('setup_pages.inc');
 include('setup_validations.inc');
 include('setup_utils.inc');
 
-
-
-
 /**
  * Start the setup process.
  *
  */
-function shn_setup_start(){
+function shn_setup_start()
+{
 	global $global;
 
 	if(isset($_SESSION['setup_step_no'])==false){
@@ -51,7 +50,7 @@ function shn_setup_start(){
 		session_unset();
 		$_SESSION['setup_step_no'] = 1;
 		$_SESSION['shn_setup_function_list'] = array();
-		shn_setup_general_dependancies();
+		shn_setup_general_dependencies();
 	}else{
 		$act = $_REQUEST['act'];
 		if($act==null || $act==''){
@@ -64,11 +63,8 @@ function shn_setup_start(){
 		}
 	}
 }
-
 shn_setup_header();
-
 shn_setup_start();
-
 shn_setup_footer();
 
 ?>

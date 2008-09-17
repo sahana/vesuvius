@@ -1,7 +1,8 @@
 <?php
+
 /**Validation functions of the Sahana Advanced Web Setup
  *
- * PHP version 4 and 5
+ * PHP version 5
  *
  * LICENSE: This source file is subject to LGPL license
  * that is available through the world-wide-web at the following URI:
@@ -38,7 +39,7 @@ function shn_email_validate($email)
  *
  * @return Whether the general dependencies are satisfied.
  */
-function shn_setup_validate_general_dependancies()
+function shn_setup_validate_general_dependencies()
 {
 	global $global;
 
