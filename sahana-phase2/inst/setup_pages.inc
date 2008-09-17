@@ -72,7 +72,7 @@ function shn_setup_general_dependancies()
 		shn_form_label(_t('PHP-gettext Library'), $tick_img."installed");
 	} else {
 		shn_form_label(_t('PHP-gettext Library'), $cross_img."is not installed");
-		echo "<p><br/>$oops_img Sahana needs PHP-gettext for to support local languages. Please install PHP-GD and restart the webserver. To find out how to do this for your operating system see <a href=\"http://www.sahana.lk/wiki/doku.php?id=manual:install\">Sahana WIKI</a></p>";
+		echo "<p><br/>$oops_img Sahana needs PHP-gettext for to support local languages. Please install PHP-gettext and restart the webserver. To find out how to do this for your operating system see <a href=\"http://www.sahana.lk/wiki/doku.php?id=manual:install\">Sahana WIKI</a></p>";
 	}
 
 	$value = (extension_loaded('mysql'));
