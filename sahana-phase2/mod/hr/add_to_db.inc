@@ -1,6 +1,7 @@
 <?php
+
 /**
- * PHP version 4 and 5
+ * PHP version 5
  *
  * LICENSE: This source file is subject to LGPL license
  * that is available through the world-wide-web at the following URI:
@@ -16,8 +17,7 @@
 
 function shn_hr_add_to_db($function_string=null)
 {	
-	switch($function_string)
-	{
+	switch($function_string) {
 		case "reg_new_homeless_family":
 			shn_hr_add_updt_hf_to_dbs();
 			shn_hr_reg_new_homeless_family();
@@ -36,20 +36,32 @@ function shn_hr_add_to_db($function_string=null)
 			break;
 
 		case "edit_registered_hf":
-			if((shn_hr_add_updt_hf_to_dbs(true)==true)) shn_hr_reg_new_homeless_family(true);
-			else shn_hr_reg_new_homeless_family();
+			if((shn_hr_add_updt_hf_to_dbs(true)==true)) {
+                shn_hr_reg_new_homeless_family(true);
+            } else {
+                shn_hr_reg_new_homeless_family();
+            }
 			break;
 		case "edit_registered_damaged_house":
-			if((shn_hr_add_updt_damaged_house_to_dbs(true)==true)) shn_hr_reg_new_damaged_house(true);
-			else shn_hr_reg_new_damaged_house();
+			if((shn_hr_add_updt_damaged_house_to_dbs(true)==true)) {
+                shn_hr_reg_new_damaged_house(true);
+			} else {
+                shn_hr_reg_new_damaged_house();
+            }
 			break;
 		case "edit_registered_contractor":
-			if((shn_hr_add_updt_contractor_to_dbs(true)==true)) shn_hr_reg_new_contractor(true);
-			else shn_hr_reg_new_contractor();
+			if((shn_hr_add_updt_contractor_to_dbs(true)==true)) {
+                shn_hr_reg_new_contractor(true);
+            } else {
+                shn_hr_reg_new_contractor();
+            }
 			break;
 		case "edit_registered_st":
-			if((shn_hr_add_updt_site_to_dbs(true)==true)) shn_hr_reg_new_site(true);
-			else shn_hr_reg_new_site();
+			if((shn_hr_add_updt_site_to_dbs(true)==true)) {
+                shn_hr_reg_new_site(true);
+			} else {
+                shn_hr_reg_new_site();
+            }
 			break;
 			
 		case "assign_to_site_dbs":
@@ -63,7 +75,6 @@ function shn_hr_add_to_db($function_string=null)
 	}
 }
 
-
 function shn_hr_add_updt_hf_to_dbs($updt=false)
 {
 	global $global;
@@ -72,19 +83,18 @@ function shn_hr_add_updt_hf_to_dbs($updt=false)
 
     include_once $global['approot'].'/inc/lib_validate.inc';
     include_once $global['approot'].'/inc/lib_errors.inc';
-    include_once $global['approot'].'/inc/lib_gis/gis_fns.inc';
-
+    
 	$reg_new_homeless_family_err=false;
 
-	if(!shn_valid_date($_SESSION['hr']['reg_new_homeless_family']['family_head_details']['family_head_dob']))$reg_new_homeless_family_err=true;
+	if(!shn_valid_date($_SESSION['hr']['reg_new_homeless_family']['family_head_details']['family_head_dob'])) {
+        $reg_new_homeless_family_err=true;
+    }
 	if($_SESSION['hr']['reg_new_homeless_family']['family_head_details']['family_head_name']==""||$_SESSION['hr']['reg_new_homeless_family']['family_head_details']['family_head_create_uid']=="")
 	{
-		if($_SESSION['hr']['reg_new_homeless_family']['family_head_details']['family_head_name']=="")
-		{
+		if($_SESSION['hr']['reg_new_homeless_family']['family_head_details']['family_head_name']=="") {
 			add_error("Please enter the Full Name of the Head of Family");
 		}
-		if($_SESSION['hr']['reg_new_homeless_family']['family_head_details']['family_head_create_uid']=="")
-		{
+		if($_SESSION['hr']['reg_new_homeless_family']['family_head_details']['family_head_create_uid']=="")	{
 			add_error("Please enter a Unique ID");
 		}
 		add_error("Please fill all the Required fields marked *req.");
@@ -95,13 +105,11 @@ function shn_hr_add_updt_hf_to_dbs($updt=false)
 	$error_validate_reg_new_homeless_family_res=$db->Execute($error_validate_reg_new_homeless_family_q);
 	$error_validate_res_reg_new_homeless_family_rslt=$error_validate_reg_new_homeless_family_res->fields['c'];
 
-	if($error_validate_res_reg_new_homeless_family_rslt>0 && $updt==false)
-	{
+	if($error_validate_res_reg_new_homeless_family_rslt>0 && $updt==false) {
 		add_error("The selected Unique ID already exists. Please select a different ID");
 		$reg_new_homeless_family_err=true;
 	}
-	if(!$reg_new_homeless_family_err)
-	{
+	if(!$reg_new_homeless_family_err) {
 		$hf_and_damaged_house_uid=$_SESSION['hr']['reg_new_homeless_family']['family_head_details']['family_head_create_uid'];
 		$hf_and_damaged_house_gis_uid="hr_damaged_house_gis_uid_".$hf_and_damaged_house_uid;
 		$hf_and_damaged_house_contact_uid="hf_and_damaged_house_contact_".$hf_and_damaged_house_uid;
@@ -118,10 +126,21 @@ function shn_hr_add_updt_hf_to_dbs($updt=false)
 		$updt_q3="UPDATE contact SET contact_value='{$_SESSION['hr']['reg_new_homeless_family']['family_head_details']['family_head_postal_code']}' WHERE contact.pgoc_uuid='{$hf_and_damaged_house_contact_uid}' AND contact.opt_contact_type='fhd_pcd'";
 		$updt_q4="UPDATE contact SET contact_value='{$_SESSION['hr']['reg_new_homeless_family']['family_head_details']['family_head_home_phone']}' WHERE contact.pgoc_uuid='{$hf_and_damaged_house_contact_uid}' AND contact.opt_contact_type='fhd_hm_phn'";
 		$updt_q5="UPDATE contact SET contact_value='{$_SESSION['hr']['reg_new_homeless_family']['family_head_details']['family_head_mobile']}' WHERE contact.pgoc_uuid='{$hf_and_damaged_house_contact_uid}' AND contact.opt_contact_type='fhd_mbl'";
-
-
-		if($updt==false)
-		{
+        if ($conf['gis']) {
+            include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+            $x = $_SESSION['hr']['reg_new_damaged_house']['damaged_house_location_details_gis']['gis_loc_x'];
+            $y = $_SESSION['hr']['reg_new_damaged_house']['damaged_house_location_details_gis']['gis_loc_y'];
+            $coords = shn_gis_coord_encode(array(array($x, $y, 0),array($x, $y, 0)), 'point');
+            $keys_ = array(  
+                'f_class'         => 'hr_house_dmg_0', // damage level unknown
+                'f_type'          => 'point',
+                'f_coords'        => $coords,  
+                'f_module_item'   => $hf_and_damaged_house_gis_uid,
+                'f_name'          => 'Damaged House - Level Unknown',
+            );
+        }
+        
+		if($updt==false) {
    			$res=$db->Execute($q);
 			$res2=$db->Execute($q2);
 			$res3=$db->Execute($q3);
@@ -129,19 +148,18 @@ function shn_hr_add_updt_hf_to_dbs($updt=false)
    			$res5=$db->Execute($q5);
    			$res6=$db->Execute($q6);
    			$res7=$db->Execute($q7);
-			shn_gis_dbinsert($hf_and_damaged_house_gis_uid,0,null,$_SESSION['hr']['reg_new_damaged_house']['damaged_house_location_details_gis']['gis_loc_x'],$_SESSION['hr']['reg_new_damaged_house']['damaged_house_location_details_gis']['gis_loc_y'],null);
-			
+			if ($conf['gis']) {
+                shn_gis_create_feature($keys_);
+            }
 			add_confirmation("Successfully added to the Database");
 			session_unset(); 
-		}
-		else
-		{
+		} else {
    			$updt_res=$db->Execute($updt_q);
    			$updt_res=$db->Execute($updt_q2);
    			$updt_res=$db->Execute($updt_q3);
    			$updt_res=$db->Execute($updt_q4);
    			$updt_res=$db->Execute($updt_q5);
-			add_confirmation("Successfully updated to the Database");
+			add_confirmation("Successfully updated the Database");
 			session_unset(); 
 		}
 	}
@@ -162,12 +180,10 @@ function shn_hr_add_updt_damaged_house_to_dbs($updt=false)
 
 	if($_SESSION['hr']['reg_new_damaged_house']['damaged_house_owner_information']['enter_uid']==""||$_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['optn_dstrctn_lvl']=="nt_slctd")
 	{
-		if($_SESSION['hr']['reg_new_damaged_house']['damaged_house_owner_information']['enter_uid']=="")
-		{
+		if($_SESSION['hr']['reg_new_damaged_house']['damaged_house_owner_information']['enter_uid']=="") {
 			add_error("Please enter your Unique ID");
 		}
-		if($_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['optn_dstrctn_lvl']=="nt_slctd")
-		{
+		if($_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['optn_dstrctn_lvl']=="nt_slctd")	{
 			add_error("Please select a Distruction Level");
 		}
 		add_error("Please fill all the Required fields marked *req.");
@@ -178,54 +194,58 @@ function shn_hr_add_updt_damaged_house_to_dbs($updt=false)
 	$error_validate_reg_new_damaged_house_res=$db->Execute($error_validate_reg_new_damaged_house_q);
 	$error_validate_res_reg_new_damaged_house_rslt=$error_validate_reg_new_damaged_house_res->fields['c'];
 
-	if($error_validate_res_reg_new_damaged_house_rslt==0 && $updt==false)
-	{
+	if($error_validate_res_reg_new_damaged_house_rslt==0 && $updt==false) {
 		add_error("The selected Unique ID does not exist. Please selected an existing ID");
 		$reg_new_damaged_house_err=true;
 	}
-	if(!$reg_new_damaged_house_err)
-	{
+	if(!$reg_new_damaged_house_err)	{
 
 		$damaged_house_uid=$_SESSION['hr']['reg_new_damaged_house']['damaged_house_owner_information']['enter_uid'];
 		$hf_and_damaged_house_gis_uid="hr_damaged_house_gis_uid_".$damaged_house_uid;
 
 		$q="UPDATE hr_damaged_house_basic_details_table SET damaged_house_value='{$_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['damaged_house_value']}', damaged_house_total_sqft='{$_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['damaged_house_total_sqft']}', damaged_house_destruction_level='{$_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['optn_dstrctn_lvl']}', damaged_house_address='{$_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['damaged_house_address']}', damaged_house_additional_details ='{$_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['damaged_house_additional_details']}' WHERE hr_damaged_house_basic_details_table.damaged_house_basic_details_uid='{$damaged_house_uid}'";
 		$q2="UPDATE hr_damaged_house_location_details_table SET damaged_house_location='{$_SESSION['hr']['reg_new_damaged_house']['damaged_house_location_details']}' WHERE hr_damaged_house_location_details_table.damaged_house_location_uid='{$damaged_house_uid}'";
-		$q3="UPDATE gis_location SET map_northing='{$_SESSION['hr']['reg_new_damaged_house']['damaged_house_location_details_gis']['gis_loc_x']}',map_easting='{$_SESSION['hr']['reg_new_damaged_house']['damaged_house_location_details_gis']['gis_loc_y']}' WHERE gis_location.poc_uuid='{$hf_and_damaged_house_gis_uid}'";
-
+		if($conf['gis']){
+            require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+            $coords = array(array($x, $y, 0),array($x, $y, 0));
+            $coords = shn_gis_coord_encode($coords, 'point');
+            $keys_ = array(  
+                'f_coords'        => $coords,
+                'f_name'          => $_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['damaged_house_value'],
+                'f_address'       => $_SESSION['hr']['reg_new_damaged_house']['damaged_house_basic_details']['damaged_house_address'],
+            );
+        }
 		$hr_dd_img_x_uuid="hr_dd_img_".$_SESSION['hr']['reg_new_damaged_house']['damaged_house_owner_information']['enter_uid'];
 		$img_updt_cnt_q5="SELECT COUNT(x_uuid) AS c FROM image WHERE image.x_uuid='{$hr_dd_img_x_uuid}'";
 		$img_updt_dlt_q6="DELETE FROM image WHERE image.x_uuid='{$hr_dd_img_x_uuid}'";
 
 		$img_updt_cnt_res5=$db->Execute($img_updt_cnt_q5);//CHECK IF YOU ARE REPLACING A IMAGE OR ADDING A NEW ONE
 	
-		if($_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['img_fld_nt_blnk'])
-		{
-			if($img_updt_cnt_res5->fields['c']==0) shn_image_to_db_ex("hr_dd_img_".$_SESSION['hr']['reg_new_damaged_house']['damaged_house_owner_information']['enter_uid'],$_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['upload_deed_pic'],$_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['upload_deed_ext'],$_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['upload_deed_info1'],$_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['upload_deed_info0']);
-			else
-			{
+		if($_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['img_fld_nt_blnk']) {
+			if($img_updt_cnt_res5->fields['c']==0) {
+                shn_image_to_db_ex("hr_dd_img_".$_SESSION['hr']['reg_new_damaged_house']['damaged_house_owner_information']['enter_uid'],$_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['upload_deed_pic'],$_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['upload_deed_ext'],$_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['upload_deed_info1'],$_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['upload_deed_info0']);
+			} else {
 				$img_updt_dlt_res6=$db->Execute($img_updt_dlt_q6);
 				shn_image_to_db_ex("hr_dd_img_".$_SESSION['hr']['reg_new_damaged_house']['damaged_house_owner_information']['enter_uid'],$_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['upload_deed_pic'],$_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['upload_deed_ext'],$_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['upload_deed_info1'],$_SESSION['hr']['reg_new_damaged_house']['damaged_house_deed_upload']['upload_deed_info0']);
-				
 			}
 		}
 
-		if($updt==false)
-		{
+		if($updt==false) {
+        
    			$res=$db->Execute($q);
 			$res2=$db->Execute($q2);
 			$res3=$db->Execute($q3);
-
+            if($conf['gis']){
+                shn_gis_modify_feature_module_item($hf_and_damaged_house_gis_uid, $keys_);
+            }
 			add_confirmation("Successfully added to the Database");
 			session_unset(); 
-		}
-		else
-		{
+		} else {
    			$updt_res=$db->Execute($q);
 			$updt_res2=$db->Execute($q2);
 			//$updt_res3=$db->Execute($q3); Since the GIS MAPPING CANNOT BE CHANGED!!
 			
-			add_confirmation("Successfully updated to the Database");
+			add_confirmation("Successfully updated the Database");
 			session_unset(); 
 		}
 	}
@@ -243,19 +263,17 @@ function shn_hr_add_updt_contractor_to_dbs($updt=false)
 
 	$reg_new_contractor_err=false;
 
-	if(!shn_valid_date($_SESSION['hr']['reg_new_contractor']['contractor_information']['contractor_dob']))$reg_new_contractor_err=true;
-	if($_SESSION['hr']['reg_new_contractor']['contractor_information']['optn_contractor_level']=="nt_slctd"||$_SESSION['hr']['reg_new_contractor']['contractor_information']['contractor_uid']=="")
-	{
-		if($_SESSION['hr']['reg_new_contractor']['contractor_information']['optn_contractor_level']=="nt_slctd")
-		{
+	if(!shn_valid_date($_SESSION['hr']['reg_new_contractor']['contractor_information']['contractor_dob'])) {
+        $reg_new_contractor_err=true;
+    }
+	if($_SESSION['hr']['reg_new_contractor']['contractor_information']['optn_contractor_level']=="nt_slctd"||$_SESSION['hr']['reg_new_contractor']['contractor_information']['contractor_uid']=="") {
+		if($_SESSION['hr']['reg_new_contractor']['contractor_information']['optn_contractor_level']=="nt_slctd") {
 			add_error("Please select a Contractor Level");
 		}
-		if($_SESSION['hr']['reg_new_contractor']['contractor_information']['contractor_name']=="")
-		{
+		if($_SESSION['hr']['reg_new_contractor']['contractor_information']['contractor_name']=="") {
 			add_error("Please enter the Full Name of the Contractor");
 		}
-		if($_SESSION['hr']['reg_new_contractor']['contractor_information']['contractor_uid']=="")
-		{
+		if($_SESSION['hr']['reg_new_contractor']['contractor_information']['contractor_uid']=="") {
 			add_error("Please enter a Unique ID");
 		}
 		add_error("Please fill all the Required fields marked *req.");
@@ -266,19 +284,20 @@ function shn_hr_add_updt_contractor_to_dbs($updt=false)
 	$error_validate_reg_new_contractor_res=$db->Execute($error_validate_reg_new_contractor_q);
 	$error_validate_res_reg_new_contractor_rslt=$error_validate_reg_new_contractor_res->fields['c'];
 
-	if($error_validate_res_reg_new_contractor_rslt>0 && $updt==false)
-	{
+	if($error_validate_res_reg_new_contractor_rslt>0 && $updt==false) {
 		add_error("The selected Unique ID already exists. Please select a different ID");
 		$reg_new_contractor_err=true;
 	}
-	if(!$reg_new_contractor_err)
-	{	
+	if(!$reg_new_contractor_err) {	
 		$contractor_uid=$_SESSION['hr']['reg_new_contractor']['contractor_information']['contractor_uid'];
 		$contractor_name_and_uid_string=$_SESSION['hr']['reg_new_contractor']['contractor_information']['contractor_name']."-".$contractor_uid;
 		$contractor_contact_uid="contractor_contact_".$contractor_uid;
 
-		if($_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['optn_unq_site_name']!=NULL) $assign_site_to_contractor_string=implode(",", $_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['optn_unq_site_name']);
-		else $assign_site_to_contractor_string="";
+		if($_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['optn_unq_site_name']!=NULL) {
+            $assign_site_to_contractor_string=implode(",", $_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['optn_unq_site_name']);
+        } else {
+            $assign_site_to_contractor_string="";
+        }
  			
 		$q="INSERT INTO hr_contractor_table(contractor_level,contractor_name,contractor_uid,contractor_dob)values('{$_SESSION['hr']['reg_new_contractor']['contractor_information']['optn_contractor_level']}','{$_SESSION['hr']['reg_new_contractor']['contractor_information']['contractor_name']}','{$contractor_uid}','{$_SESSION['hr']['reg_new_contractor']['contractor_information']['contractor_dob']}')";
    		$q2="INSERT INTO hr_assign_site_to_contractor_table(assign_site_to_contractor_uid,assign_site_to_contractor)values('{$contractor_uid}','{$assign_site_to_contractor_string}')";
@@ -296,8 +315,7 @@ function shn_hr_add_updt_contractor_to_dbs($updt=false)
 		$updt_q7="UPDATE contact SET contact_value='{$_SESSION['hr']['reg_new_contractor']['contractor_information']['contractor_mbl']}' WHERE contact.pgoc_uuid='{$contractor_contact_uid}' AND contact.opt_contact_type='cnt_mbl'";
 
    		
-		if($updt==false)
-		{
+		if($updt==false) {
    			$res=$db->Execute($q);
 			$res2=$db->Execute($q2);
 			$res3=$db->Execute($q3);
@@ -310,9 +328,7 @@ function shn_hr_add_updt_contractor_to_dbs($updt=false)
 			
 			add_confirmation("Successfully added to the Database");
 			session_unset(); 
-		}
-		else
-		{
+		} else {
    			$updt_res=$db->Execute($updt_q);
 			$updt_res3=$db->Execute($updt_q3);
 			$updt_res4=$db->Execute($updt_q4);
@@ -323,7 +339,7 @@ function shn_hr_add_updt_contractor_to_dbs($updt=false)
 			shn_hr_assign_to_site_dbs(false,true,$assign_site_to_contractor_string,$contractor_uid);
 			$updt_res2=$db->Execute($updt_q2);
 			
-			add_confirmation("Successfully updated to the Database");
+			add_confirmation("Successfully updated the Database");
 			session_unset(); 
 		}
 	}
@@ -345,20 +361,16 @@ function shn_hr_add_updt_site_to_dbs($updt=false)
 	if(!shn_valid_date($_SESSION['hr']['reg_new_site']['site_main_coordinator_details']['site_main_coordinator_dob']))$reg_new_site_err=true;
 	if($_SESSION['hr']['reg_new_site']['site_name_and_uid']['site_name']==""||$_SESSION['hr']['reg_new_site']['site_name_and_uid']['site_uid']==""||$_SESSION['hr']['reg_new_site']['site_allocated_organization']['optn_site_allocated_organization']=="nt_slctd"||$_SESSION['hr']['reg_new_site']['site_main_coordinator_details']['site_main_coordinator_name']=="")
 	{
-		if($_SESSION['hr']['reg_new_site']['site_name_and_uid']['site_name']=="")
-		{
+		if($_SESSION['hr']['reg_new_site']['site_name_and_uid']['site_name']=="") {
 			add_error("Please enter the Site Name");
 		}
-		if($_SESSION['hr']['reg_new_site']['site_name_and_uid']['site_uid']=="")
-		{
+		if($_SESSION['hr']['reg_new_site']['site_name_and_uid']['site_uid']=="") {
 			add_error("Please enter a Unique ID");
 		}
-		if($_SESSION['hr']['reg_new_site']['site_allocated_organization']['optn_site_allocated_organization']=="nt_slctd")
-		{
+		if($_SESSION['hr']['reg_new_site']['site_allocated_organization']['optn_site_allocated_organization']=="nt_slctd") {
 			add_error("Please select the Allocated Organization");
 		}
-		if($_SESSION['hr']['reg_new_site']['site_main_coordinator_details']['site_main_coordinator_name']=="")
-		{
+		if($_SESSION['hr']['reg_new_site']['site_main_coordinator_details']['site_main_coordinator_name']=="") {
 			add_error("Please enter the Full Name of the Main Coordinator");
 		}
 		add_error("Please fill all the Required fields marked *req.");
@@ -369,22 +381,23 @@ function shn_hr_add_updt_site_to_dbs($updt=false)
 	$error_validate_reg_new_site_res=$db->Execute($error_validate_reg_new_site_q);
 	$error_validate_res_reg_new_site_rslt=$error_validate_reg_new_site_res->fields['c'];
 	
-	if($error_validate_res_reg_new_site_rslt>0 && $updt==false)
-	{
+	if($error_validate_res_reg_new_site_rslt>0 && $updt==false)	{
 		add_error("The selected Unique ID already exists. Please select a different ID");
 		$reg_new_site_err=true;
 	}
 
-	if(!$reg_new_site_err)
-	{
+	if(!$reg_new_site_err) {
 		
 		$site_uid=$_SESSION['hr']['reg_new_site']['site_name_and_uid']['site_uid'];
 		$site_name_and_uid_string=$_SESSION['hr']['reg_new_site']['site_name_and_uid']['site_name']."-".$site_uid;
 		$site_gis_uid="st_gis_uid_".$site_uid;
 		$site_mcd_contact_uid="st_mcd_contact_".$site_uid;
 
-		if($_SESSION['hr']['reg_new_site']['assign_contractor_to_site']['optn_unq_contractor_name']!=NULL) $assign_contractor_to_site_string=implode(",", $_SESSION['hr']['reg_new_site']['assign_contractor_to_site']['optn_unq_contractor_name']);
-		else $assign_contractor_to_site_string="";
+		if($_SESSION['hr']['reg_new_site']['assign_contractor_to_site']['optn_unq_contractor_name']!=NULL) {
+            $assign_contractor_to_site_string=implode(",", $_SESSION['hr']['reg_new_site']['assign_contractor_to_site']['optn_unq_contractor_name']);
+		} else {
+            $assign_contractor_to_site_string="";
+        }
 
 		$q="INSERT INTO hr_site_name_and_uid_table(site_name,site_uid)VALUES('{$_SESSION['hr']['reg_new_site']['site_name_and_uid']['site_name']}','{$site_uid}')";
    		$q2="INSERT INTO hr_assign_contractor_to_site_table(assign_contractor_to_site_uid,assign_contractor_to_site)VALUES('{$site_uid}','{$assign_contractor_to_site_string}')";
@@ -412,11 +425,23 @@ function shn_hr_add_updt_site_to_dbs($updt=false)
 		$updt_q11="UPDATE contact SET contact_value='{$_SESSION['hr']['reg_new_site']['site_main_coordinator_details']['main_coordinator_pstl_cd']}' WHERE contact.pgoc_uuid='{$site_mcd_contact_uid}' AND contact.opt_contact_type='smc_pcd'";
 		$updt_q12="UPDATE contact SET contact_value='{$_SESSION['hr']['reg_new_site']['site_main_coordinator_details']['main_coordinator_hm_phn']}' WHERE contact.pgoc_uuid='{$site_mcd_contact_uid}' AND contact.opt_contact_type='smc_hm_phn'";
 		$updt_q13="UPDATE contact SET contact_value='{$_SESSION['hr']['reg_new_site']['site_main_coordinator_details']['main_coordinator_mbl']}' WHERE contact.pgoc_uuid='{$site_mcd_contact_uid}' AND contact.opt_contact_type='smc_mbl'";
+        if ($conf['gis']) {
+            include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+            $x = $_SESSION['hr']['reg_new_site']['site_location_gis']['gis_loc_x'];
+            $y = $_SESSION['hr']['reg_new_site']['site_location_gis']['gis_loc_y'];
+            $coords = shn_gis_coord_encode(array(array($x, $y, 0),array($x, $y, 0)), 'point');
+            $keys_ = array(  
+                'f_class'         => 'hr_site_dmg_0', // damage level unknown
+                'f_type'          => 'point',
+                'f_coords'        => $coords,  
+                'f_module_item'   => $site_gis_uid,
+                'f_name'          => 'Damaged Site - Level Unknown',
+            );
+        }
 
 
-
-		if($updt==false)
-		{
+		if($updt==false) {
+        
    			$res=$db->Execute($q);
 			$res2=$db->Execute($q2);
 			$res3=$db->Execute($q3);
@@ -429,15 +454,15 @@ function shn_hr_add_updt_site_to_dbs($updt=false)
    			$res10=$db->Execute($q10);
    			$res11=$db->Execute($q11);
    			$res12=$db->Execute($q12);
-   			shn_gis_dbinsert($site_gis_uid,0,null,$_SESSION['hr']['reg_new_site']['site_location_gis']['gis_loc_x'],$_SESSION['hr']['reg_new_site']['site_location_gis']['gis_loc_y'],null);
+   			if ($conf['gis']) {
+                shn_gis_create_feature($keys_);
+            }
    			
    			shn_hr_assign_contractor_dbs(true,false,$assign_contractor_to_site_string,$site_uid);
 			
 			add_confirmation("Successfully added to the Database");
 			session_unset(); 
-		}
-		else
-		{
+		} else {
    			$updt_res=$db->Execute($updt_q);
 			$updt_res3=$db->Execute($updt_q3);
 			$updt_res4=$db->Execute($updt_q4);
@@ -454,7 +479,7 @@ function shn_hr_add_updt_site_to_dbs($updt=false)
 			shn_hr_assign_contractor_dbs(false,true,$assign_contractor_to_site_string,$site_uid);
 			$updt_res2=$db->Execute($updt_q2);//This has to run AFTER THE METHOD!!!
 			
-			add_confirmation("Successfully updated to the Database");
+			add_confirmation("Successfully updated the Database");
 			session_unset(); 
 		}
 	}
@@ -469,34 +494,33 @@ function shn_hr_assign_to_site_dbs($add=false,$updt=false,$assign_site_to_contra
 	
 	include_once $global['approot'].'/inc/lib_errors.inc';
 	
-	if($add||$updt)
-	{
+	if($add||$updt)	{
 		$_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['slctd_string']=$assign_site_to_contractor_string;
 		$_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['contractor_uid']=$contractor_uid;
 	}
 	
-	if($add==false)
-	{
+	if($add==false)	{
+    
 		$assign_to_site_updt_q="SELECT assign_site_to_contractor AS s FROM hr_assign_site_to_contractor_table WHERE hr_assign_site_to_contractor_table.assign_site_to_contractor_uid='{$_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['contractor_uid']}'";
 		$assign_to_site_updt_res=$db->Execute($assign_to_site_updt_q);
 		$assign_site_to_contractor_string=$assign_to_site_updt_res->fields['s'];
 		$assign_site_to_contractor_array=array();
 		$assign_site_to_contractor_array=explode(",",$assign_site_to_contractor_string);
 		
-		for($i=0;$i<count($assign_site_to_contractor_array);$i++)
-		{
+		for($i=0;$i<count($assign_site_to_contractor_array);$i++) {
 			$assign_contractor_uid=$assign_site_to_contractor_array[$i];
-	    		$assign_to_site_updt_q2="SELECT assign_contractor_to_site AS s FROM hr_assign_contractor_to_site_table WHERE hr_assign_contractor_to_site_table.assign_contractor_to_site_uid='{$assign_contractor_uid}'";
-	    		$assign_to_site_updt_res2=$db->Execute($assign_to_site_updt_q2);
-	    		$assign_contractor_string=$assign_to_site_updt_res2->fields['s'];
-	    		$assign_contractor_array=array();
+            $assign_to_site_updt_q2="SELECT assign_contractor_to_site AS s FROM hr_assign_contractor_to_site_table WHERE hr_assign_contractor_to_site_table.assign_contractor_to_site_uid='{$assign_contractor_uid}'";
+            $assign_to_site_updt_res2=$db->Execute($assign_to_site_updt_q2);
+            $assign_contractor_string=$assign_to_site_updt_res2->fields['s'];
+            $assign_contractor_array=array();
 			$assign_contractor_array=explode(",",$assign_contractor_string);
 			$assign_contractor="";
-			for($k=0;$k<count($assign_contractor_array);$k++)
-			{ 
+			for($k=0;$k<count($assign_contractor_array);$k++) { 
 				if($_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['contractor_uid']!=$assign_contractor_array[$k])	$assign_contractor.=$assign_contractor_array[$k].",";
 			}
-			if($assign_contractor!="") $assign_contractor=substr($assign_contractor, 0, -1);
+			if($assign_contractor!="") {
+                $assign_contractor=substr($assign_contractor, 0, -1);
+            }
 			$assign_contractor_q="UPDATE hr_assign_contractor_to_site_table SET assign_contractor_to_site='{$assign_contractor}' WHERE hr_assign_contractor_to_site_table.assign_contractor_to_site_uid='{$assign_contractor_uid}'";
 			$assign_contractor_res=$db->Execute($assign_contractor_q);
 		}
@@ -505,22 +529,23 @@ function shn_hr_assign_to_site_dbs($add=false,$updt=false,$assign_site_to_contra
 	$assign_contractor_slctd_string_array=array();
 	$assign_contractor_slctd_string_array=explode(",",$_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['slctd_string']);
 	
-	for($n=0;$n<count($assign_contractor_slctd_string_array);$n++)
-	{
+	for($n=0;$n<count($assign_contractor_slctd_string_array);$n++) {
 		$assign_contractor_slctd=$assign_contractor_slctd_string_array[$n];
 		$assign_to_site_updt_q3="SELECT assign_contractor_to_site AS s FROM hr_assign_contractor_to_site_table WHERE hr_assign_contractor_to_site_table.assign_contractor_to_site_uid='{$assign_contractor_slctd}'";
-	    	$assign_to_site_updt_res3=$db->Execute($assign_to_site_updt_q3);
-	    	$assign_contractor_slctd_string=$assign_to_site_updt_res3->fields['s'];
-	    
-	    	if($assign_contractor_slctd_string=="") $assign_contractor_slctd_string.=$_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['contractor_uid'];
-		else $assign_contractor_slctd_string.=",".$_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['contractor_uid'];
+        $assign_to_site_updt_res3=$db->Execute($assign_to_site_updt_q3);
+        $assign_contractor_slctd_string=$assign_to_site_updt_res3->fields['s'];
+    
+        if($assign_contractor_slctd_string=="") {
+            $assign_contractor_slctd_string.=$_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['contractor_uid'];
+		} else {
+            $assign_contractor_slctd_string.=",".$_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['contractor_uid'];
+        }
 		
 		$assign_to_site_updt_q4="UPDATE hr_assign_contractor_to_site_table SET assign_contractor_to_site='{$assign_contractor_slctd_string}' WHERE hr_assign_contractor_to_site_table.assign_contractor_to_site_uid='{$assign_contractor_slctd}'";
 		$assign_to_site_updt_res4=$db->Execute($assign_to_site_updt_q4);
 	}
 	
-	if($add==false && $updt==false)
-	{
+	if($add==false && $updt==false)	{
 		$assign_to_site_updt_q5="UPDATE hr_assign_site_to_contractor_table SET assign_site_to_contractor='{$_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['slctd_string']}' WHERE hr_assign_site_to_contractor_table.assign_site_to_contractor_uid='{$_SESSION['hr']['reg_new_contractor']['assign_site_to_contractor']['contractor_uid']}'";
 		$assign_to_site_updt_res5=$db->Execute($assign_to_site_updt_q5);
 		add_confirmation("Successfully updated to the Database");
@@ -536,22 +561,19 @@ function shn_hr_assign_contractor_dbs($add=false,$updt=false,$assign_contractor_
 	
 	include_once $global['approot'].'/inc/lib_errors.inc';
 	
-	if($add||$updt)
-	{
+	if($add||$updt)	{
 		$_SESSION['hr']['reg_new_site']['assign_contractor_to_site']['slctd_string']=$assign_contractor_to_site_string;
 		$_SESSION['hr']['reg_new_site']['assign_contractor_to_site']['site_uid']=$site_uid;
 	}
 	
-	if($add==false)
-	{
+	if($add==false)	{
 		$assign_contractor_updt_q="SELECT assign_contractor_to_site AS s FROM hr_assign_contractor_to_site_table WHERE hr_assign_contractor_to_site_table.assign_contractor_to_site_uid='{$_SESSION['hr']['reg_new_site']['assign_contractor_to_site']['site_uid']}'";
 		$assign_contractor_updt_res=$db->Execute($assign_contractor_updt_q);
 		$asign_contractor_string=$assign_contractor_updt_res->fields['s'];
 		$asign_contractor_array=array();
 		$asign_contractor_array=explode(",",$asign_contractor_string);
 	
-		for($i=0;$i<count($asign_contractor_array);$i++)
-		{
+		for($i=0;$i<count($asign_contractor_array);$i++) {
 			$asgn_site_to_contractor_uid=$asign_contractor_array[$i];
 	    		$assign_contractor_updt_q2="SELECT assign_site_to_contractor AS s FROM hr_assign_site_to_contractor_table WHERE hr_assign_site_to_contractor_table.assign_site_to_contractor_uid='{$asgn_site_to_contractor_uid}'";
 	    		$assign_contractor_updt_res2=$db->Execute($assign_contractor_updt_q2);
@@ -559,8 +581,7 @@ function shn_hr_assign_contractor_dbs($add=false,$updt=false,$assign_contractor_
 	    		$assign_to_site_array=array();
 			$assign_to_site_array=explode(",",$assign_to_site_string);//get e site string
 			$assign_to_site="";
-			for($k=0;$k<count($assign_to_site_array);$k++)
-			{ 
+			for($k=0;$k<count($assign_to_site_array);$k++) { 
 				if($_SESSION['hr']['reg_new_site']['assign_contractor_to_site']['site_uid']!=$assign_to_site_array[$k])	$assign_to_site.=$assign_to_site_array[$k].",";
 			}
 			if($assign_to_site!="") $assign_to_site=substr($assign_to_site, 0, -1);
@@ -572,8 +593,7 @@ function shn_hr_assign_contractor_dbs($add=false,$updt=false,$assign_contractor_
 	$assign_to_site_slctd_string_array=array();
 	$assign_to_site_slctd_string_array=explode(",",$_SESSION['hr']['reg_new_site']['assign_contractor_to_site']['slctd_string']);
 	
-	for($n=0;$n<count($assign_to_site_slctd_string_array);$n++)
-	{
+	for($n=0;$n<count($assign_to_site_slctd_string_array);$n++)	{
 		$assign_to_site_slctd=$assign_to_site_slctd_string_array[$n];
 		$assign_contractor_updt_q3="SELECT assign_site_to_contractor AS s FROM hr_assign_site_to_contractor_table WHERE hr_assign_site_to_contractor_table.assign_site_to_contractor_uid='{$assign_to_site_slctd}'";
 	    $assign_contractor_updt_res3=$db->Execute($assign_contractor_updt_q3);
@@ -586,8 +606,7 @@ function shn_hr_assign_contractor_dbs($add=false,$updt=false,$assign_contractor_
 		$assign_contractor_updt_res4=$db->Execute($assign_contractor_updt_q4);
 	}
 	
-	if($add==false && $updt==false)
-	{
+	if($add==false && $updt==false)	{
 		$assign_contractor_updt_q="UPDATE hr_assign_contractor_to_site_table SET assign_contractor_to_site='{$_SESSION['hr']['reg_new_site']['assign_contractor_to_site']['slctd_string']}' WHERE hr_assign_contractor_to_site_table.assign_contractor_to_site_uid='{$_SESSION['hr']['reg_new_site']['assign_contractor_to_site']['site_uid']}'";
 		$assign_contractor_updt_res=$db->Execute($assign_contractor_updt_q);
 		add_confirmation("Successfully updated to the Database");
