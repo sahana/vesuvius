@@ -167,7 +167,7 @@ function _shn_ms_create_map_form($map)
         $map_name = $map->name;
         $size_x = $map->width;
         $size_y = $map->height;
-        $projection = $map->getProjection;
+        $projection = $map->getProjection();
         $img_type = $map->outputformat->extension;
         //$img_trans = $map->outputformat->transparent;
         $mr = $map->imagecolor->red;
