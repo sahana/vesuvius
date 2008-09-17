@@ -29,7 +29,12 @@ function shn_cs_edit_cat_select_submit_result_js()
     function shn_cs_edit_cat_select_submit_result_js(action){
         var x=document.getElementsByName('action');
          x[0].value=action;
-         document.edit_form.submit();
+         var bool = true;
+         if(action == 'del'){
+         	bool = confirm("Are you sure you want to delete this");
+         }
+         if(bool)
+         	document.edit_form.submit();
          return;
     }
 </script>
