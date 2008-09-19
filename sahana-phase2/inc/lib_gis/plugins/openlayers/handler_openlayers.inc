@@ -49,7 +49,7 @@ function show_map_select($lat,$lon,$zoom)
     ol_viewport_save_button();
     ol_js_loaders();
     _shn_print_start_of_map();
-    ol_onload_start()
+    ol_onload_start();
     ol_layers_all();
     ol_onload_fin();
     ol_viewport_save($lat,$lon,$zoom);
