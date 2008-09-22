@@ -15,6 +15,8 @@ avail | miyuru | sahana-ext/sahana-datamining
 avail | nyilynnseck, imstanley, christophertun, kyawtun, yemyatthu, saturngod, thaungsunyein, eggersrj | sahana-phase2 | dep_0_6_2_myanmar
 # NYC-CSP deployment
 avail | ishanul, prabath321, dinusha048 | sahana-phase2 | rel_nyc_csp_p_2
+# Bio-surveillance research
+avail | miyuru, roshan76 | sahana-ext/sahana-bio
 # Peru deployment
 avail | ishanul, prabath321, dinusha048, eggersrj | sahana-phase2 | rel_peru_1
 
