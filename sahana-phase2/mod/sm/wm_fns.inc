@@ -604,7 +604,7 @@ function _shn_sm_form_input_feature_location($act, $seq, $button_set, $feature_c
     shn_form_fopen($act, null, array());
     shn_form_hidden(array('seq' => $seq));
     // call GIS API for a map
-    shn_gis_form_map_single_geomtory($button_set, $feature_class);
+    shn_gis_form_map_single_geometry($button_set, $feature_class);
     shn_form_submit_set($button_set);
     shn_form_fclose();
 }
