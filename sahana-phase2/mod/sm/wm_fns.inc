@@ -511,7 +511,7 @@ function _shn_sm_feature_add_seq_5()
                     add_error(_t('Feature could not be created.'));
                 }
             } else {
-                add_error(_t('Feature could not be created. Insufishent details'));  
+                add_error(_t('Feature could not be created. Insufficient details'));  
             }
         } else {
             add_error(_t('Feature could not be created. A Feature of this Class can only be created inside its own module'). ' <a href="index.php?mod=' . $full_class['c_module_ref'] .'&act=default">' . _t('HERE') . '</a>');

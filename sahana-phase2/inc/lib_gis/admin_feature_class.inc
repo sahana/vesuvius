@@ -459,7 +459,7 @@ function _shn_gis_internal_class_add_seq_4()
                 add_error(_t('Feature Class could not be created.'));
             }
         } else {
-            add_error(_t('Feature Class could not be created. Insufishent details'));  
+            add_error(_t('Feature Class could not be created. Insufficient details'));  
         }
 
         // Show return page.
@@ -704,7 +704,7 @@ function _shn_gis_internal_class_edit_seq_5()
             add_error(_t('Feature Class could not be edited.'));
         }
     } else{
-        add_error(_t('Feature Class could not be edited. Insufishent details'));
+        add_error(_t('Feature Class could not be edited. Insufficient details'));
     }
     // Display return options.
     _shn_gis_internal_class_add_return();
@@ -886,7 +886,7 @@ function _shn_gis_internal_class_remove_seq_4()
                 add_error(_t('Cannot remove the Default Feature Class or a Feature Class that is Associated with another module within Sahana. Please contact your Administrator for more details.'));
             }
         } else {
-            add_error(_t('Cannot remove Feature Class. Insufishent details'));
+            add_error(_t('Cannot remove Feature Class. Insufficient details'));
         }
     }
     _shn_gis_internal_class_add_return();
