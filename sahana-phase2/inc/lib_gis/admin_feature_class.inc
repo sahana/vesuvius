@@ -570,7 +570,7 @@ function _shn_gis_internal_class_edit_seq_3()
         if(isset($_REQUEST['gis_feature_class_marker']) && FALSE != getimagesize($_REQUEST['gis_feature_class_marker'])){
             $marker = trim($_REQUEST['gis_feature_class_marker']);
         } else {
-            add_error(_t('Enter a Vaild Marker Link'));
+            add_error(_t('Enter a Valid Marker Link'));
             $error = true;
         }
 
