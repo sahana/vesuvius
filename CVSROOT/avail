@@ -16,7 +16,7 @@ avail | nyilynnseck, imstanley, christophertun, kyawtun, yemyatthu, saturngod, t
 # NYC-CSP deployment
 avail | ishanul, prabath321, dinusha048 | sahana-phase2 | rel_nyc_csp_p_2
 # Bio-surveillance research
-avail | miyuru, roshan76 | sahana-ext/sahana-bio
+avail | miyuru, roshan76, mjknight | sahana-ext/sahana-bio
 # Peru deployment
 avail | ishanul, prabath321, dinusha048, eggersrj | sahana-phase2 | rel_peru_1
 
