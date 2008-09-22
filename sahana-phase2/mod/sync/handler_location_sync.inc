@@ -107,7 +107,7 @@ $con="<div id='formcontainer'>
         $global['db']->Execute($sql);
 
         $_SESSION['sync']['loc']['limit_index']=1;
-        //get 1 locaton
+        //get 1 location
         $sql="SELECT loc_uuid, name, description, iso_code FROM tmp_location WHERE opt_location_type='".++$val."' LIMIT   0 , 1";
         $rec=$global['db']->GetAll($sql);
 //################################################
