@@ -66,7 +66,7 @@ function _shn_ms_layer_form($val)
     print '<p>Here you can add a Shapefile as a Layer on the map.</p>';
     shn_form_fopen('add_layer',null,array('enctype'=>'enctype="multipart/form-data"'));
     shn_form_fsopen(_t("Layer Details")); 
-    print '<p><em><strong>'._t("Important").': </strong></em>'._t("System will only accept a .Zip file. This should contain the necessary .shp, .shx & .dbx files").'</p>';
+    print '<p><em><strong>'._t("Important").': </strong></em>'._t("System will only accept a .Zip file. This should contain .shp, .shx & .dbx files with the same filename as the .zip file.").'</p>';
     shn_form_hidden(array('form_status'=>1));
     $maps = _shn_ms_maps_array();
     shn_form_select($maps, _t("Select Map"), 'mapName', '', array("value"=>$map_name));
