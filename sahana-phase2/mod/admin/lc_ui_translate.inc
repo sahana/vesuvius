@@ -1,7 +1,7 @@
 <?php
 /**
 *
-* PHP version 4 and 5
+* PHP version 5
 *
 * LICENSE: This source file is subject to LGPL license
 * that is available through the world-wide-web at the following URI:
@@ -35,10 +35,10 @@ function _shn_admin_lc_set_ui_translate()
 	//echo 'LOCALE = '.$_SESSION["locale"];
 ?>
     <h2><?=_t("Interactive Translation")?></h2>
-        <p><?=_t("This interface allow user to transalte Sahana into their mother tongue through user interface, Please follow below instructions")?></p>
+        <p><?=_t("This interface allows a user to translate Sahana into their mother tongue through the user interface. Please follow the instructions below.")?></p>
 	<ul>
 	<li><b><?=_("Setp 1 : ")?></b> <br/><?=_("First of all please give file and directory permissions to sahana/res folder");?></li>
-	<li><b><?=_("Setp 2 : ")?></b> <br/><?=_("When you press localization button then you are entering to localization mode, afterwards when you right click on any word phrase in the user interface you'll get promt box and please type required translation on it and press ok")?></li>
+	<li><b><?=_("Setp 2 : ")?></b> <br/><?=_("When you press the 'Localization' button then you enter a localization mode, afterwards when you right click on any word phrase in the user interface you'll get a prompt box into which you can type the required translation and press ok")?></li>
 	<li><b><?=_("Step 3 : ")?></b> <br/><?=_("When you finish translation, please go to Administration->Language/Locale->Update Translation")?></li>
 	<li><b><?=_("Step 4 : ")?></b> <br/><?=_("Finally press update button")?></li>
 	<li><b><?=_("Step 5 : ")?></b> <br/><?=_("Afterwards go to Administration->Language/Locale->setLocale and set the particular locale")?></li>
