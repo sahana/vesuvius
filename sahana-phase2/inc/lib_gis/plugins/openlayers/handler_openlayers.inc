@@ -26,6 +26,7 @@ function show_map($opt=null)
     global $conf;
     require_once('openlayers_fns.php');
 
+    _shn_print_status();
     ol_js_loaders();
     _shn_print_start_of_map();
     ol_onload_start();
@@ -47,6 +48,7 @@ function show_map_select($lat,$lon,$zoom)
     include_once('openlayers_fns.php');
 
     ol_viewport_save_button();
+    _shn_print_status();
     ol_js_loaders();
     _shn_print_start_of_map();
     ol_onload_start();
@@ -86,6 +88,7 @@ function show_map_with_markers($array)
     //$db=$global['db'];
     include_once('openlayers_fns.php');
 
+    _shn_print_status();
     ol_js_loaders();
     _shn_print_start_of_map();
     ol_onload_start();
@@ -124,6 +127,7 @@ function show_map_with_wiki_markers_select($array,$lat,$lon)
     //global $conf;
     include_once('openlayers_fns.php');
 
+    _shn_print_status();
     ol_js_loaders();
     _shn_print_start_of_map();
     ol_onload_start();
@@ -144,6 +148,7 @@ function show_map_with_custom_markers($array)
     //global $conf;
     include_once('openlayers_fns.php');
 
+    _shn_print_status();
     ol_js_loaders();
     _shn_print_start_of_map();
     ol_onload_start();
@@ -165,6 +170,7 @@ function show_map_add_single_geometry($icon, $types)
         
     $tool_options = 1;
         
+    _shn_print_status();
     ol_js_loaders();
     _shn_print_start_of_map($tool_options);
     ol_onload_start();
@@ -195,6 +201,7 @@ function show_map_add_single_geometry($icon, $types)
 
     $tool_options = 2;
      
+    _shn_print_status();
     ol_js_loaders();     
     _shn_print_start_of_map($tool_options);
     ol_onload_start();
@@ -298,15 +305,32 @@ function _shn_print_map_toolbar2()
 }
 
 /**
- * Ends Openlayers and suporting functions script.
- * 
  * status_osm - Somewhere to report details of OSM File Features via on_feature_hover()
  * status_georss -  Somewhere to report whether GeoRSS feed is using cached copy or completely inaccessible
  * status_kml -  Somewhere to report whether KML feed is using cached copy or completely inaccessible
  * status_files - Somewhere to report if Files are not found
  * 
- * @global <type> $global
- * @global <type> $conf
+ */            
+function _shn_print_status()
+{
+?>
+    <table>
+        <tr>
+            <td valign='top' style="border: 0px;">
+                <div id='status_osm'></div>
+            </td>
+            <td valign='top' style="border: 0px;">
+                <div id='status_georss'></div>
+                <div id='status_kml'></div>
+                <div id='status_files'></div>
+            </td>
+        </tr>
+    </table>
+<?php
+}
+
+/**
+ * Ends Openlayers
  */            
 function _shn_print_end_of_map()
 {
