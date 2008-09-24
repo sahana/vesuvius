@@ -55,7 +55,7 @@ function shn_gis_form_map_with_features_and_uuids($uuids = array(), $extra_featu
     
     if($conf['gis']){ 
         
-        // need to add areas first the lines then polys... so that can click on markers!!!!
+        // need to add areas first, then lines, then polygons... so that can click on markers!!!!
         $points = array();
         $lines = array();
         $polygons = array();
@@ -78,7 +78,6 @@ function shn_gis_form_map_with_features_and_uuids($uuids = array(), $extra_featu
 
 function shn_gis_form_map_single_geometry($button_set = array('next' => true), $feature_class = null, $types = array('point' => true))
 {
-    
     global $global;
     global $conf;
     require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
@@ -123,7 +122,7 @@ function shn_gis_form_map_single_geometry($button_set = array('next' => true), $
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Creates the html for the standdard view in a mapping popup box
+ * Creates the HTML for the standard view in a mapping popup box
  * 
  * @global <type> $id
  * @param <type> $feature
@@ -136,7 +135,7 @@ function shn_gis_form_popupHTML_view($feature)
     global $shn_tabindex;
     require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
         
-    // Generate vars for html popup HTML content
+    // Generate vars for popup HTML content
         
     // Set Feature uuid
     if(isset($feature['f_uuid']) && $feature['f_uuid'] != ''){
@@ -180,24 +179,24 @@ function shn_gis_form_popupHTML_view($feature)
     } else{
         $event_date = 'Unknown';
     }
-    // Set View Url
+    // Set View URL
     if(isset($feature['f_url']) && $feature['f_url'] != ''){
         $url = $feature['f_url'];
     } else{
         $url = false;
     }
-    // Set View Url
+    // Set View URL
     if(isset($feature['f_url_view']) && $feature['f_url_view'] != ''){
         $url_view = $feature['f_url_view'];
     } else{
         $url_view = false;
     }
-    // Set Edit Url
+    // Set Edit URL
     if(isset($feature['f_url_edit']) && $feature['f_url_edit'] != ''){
         // if feature has an edit url
         $url_edit = $feature['f_url_edit'];
     } elseif(isset($feature['f_module_item']) && $feature['f_module_item'] != ''){
-        // if is registored to a module but has no edit url, should not be editable.
+        // if is registered to a module but has no edit url, should not be editable.
         $url_edit = false;
         
     } elseif(!isset($feature['f_uuid']) || $feature['f_uuid'] == ''){
@@ -207,12 +206,12 @@ function shn_gis_form_popupHTML_view($feature)
         // if feature is not module related and has a uuid to tie changes to. (can edit)
         $url_edit = true;
     }
-    // Set Delete Url
+    // Set Delete URL
     if(isset($feature['f_url_delete']) && $feature['f_url_delete'] != ''){
         // if feature has a delete url
         $url_del = $feature['f_url_delete'];
     } elseif(isset($feature['f_module_item']) && $feature['f_module_item'] != ''){
-        // if is registored to a module but has no del url, should not be deleteable.
+        // if is registered to a module but has no del url, should not be deletable.
         $url_del = false;
     } elseif(!isset($feature['f_uuid']) || $feature['f_uuid'] == ''){
         // if there is no uuid to tie feature being deleted too...
@@ -250,7 +249,7 @@ function shn_gis_form_popupHTML_view($feature)
     $html = $html . "  </div>";
     // Footer (edit, view)
     $html = $html . "  <div class='gis_openlayers_popupbox_footer'>";
-    //Options will want to display these based on ACL privlages (also make sure resulting actions are ACLed)
+    //Options will want to display these based on ACL privileges (also make sure resulting actions are ACLed)
     
     if($url_del === true){
         $html = $html . "      <span><a onclick='shn_gis_popup_delete(&#39$feature_uuid&#39)' alt='" . _t('delete') . "'><div class='gis_openlayers_popupbox_delete' style='width: 17px; height: 17px;'></div><span>" . _t('delete') . "</span></a></span>";   
@@ -281,8 +280,8 @@ function shn_gis_form_popupHTML_view($feature)
 }
     
 /**
- * Creates the html for editing a feature in a mapping popup box
- * (This should only be used if the feature was created in SA and not in
+ * Creates the HTML for editing a feature in a mapping popup box
+ * (This should only be used if the feature was created in SM and not in
  * another module. In cases when the feature was created in another module
  * the edit option should link to said module).
  * 
@@ -301,7 +300,7 @@ function shn_gis_form_popupHTML_edit($feature)
     // Fixes bug
     $shn_tabindex++;
     
-    // Generate vars for html popup HTML content
+    // Generate vars for popup HTML content
         
     // Set Feature uuid
     if(isset($feature['f_uuid'])){
@@ -346,7 +345,7 @@ function shn_gis_form_popupHTML_edit($feature)
     } else {
         $event_date = '';
     }
-    // Set View Url
+    // Set View URL
     if(isset($feature['f_url']) && $feature['f_url'] != ''){
         $url = $feature['f_url'];
     } else {
@@ -449,7 +448,7 @@ function shn_gis_form_popupHTML_new()
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Opens a fopen form and produces a search feature box
+ * Opens a form and produces a search feature box
  *
  * @global <type> $global
  * @global <type> $conf
@@ -483,7 +482,7 @@ function shn_gis_form_feature_search($act = '', $button_set, $form_opts = array(
 
 /**
  * Displays a layers and feature class selection boxes.
- * The feautre class dropdown changes depending on the layer selected.
+ * The feature class dropdown changes depending on the layer selected.
  * Uses ajax.
  * 
  * @global <type> $global
