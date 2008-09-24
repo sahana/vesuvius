@@ -38,7 +38,7 @@ function _shn_admin_lc_set_ui_translate()
         <p><?=_t("This interface allows a user to translate Sahana into their mother tongue through the user interface. Please follow the instructions below.")?></p>
 	<ul>
 	<li><b><?=_("Setp 1 : ")?></b> <br/><?=_("First of all please give file and directory permissions to sahana/res folder");?></li>
-	<li><b><?=_("Setp 2 : ")?></b> <br/><?=_("When you press the 'Localization' button then you enter a localization mode, afterwards when you right click on any word phrase in the user interface you'll get a prompt box into which you can type the required translation and press ok")?></li>
+	<li><b><?=_("Setp 2 : ")?></b> <br/><?=_("When you press the 'Enable Localization' button then you enter a localization mode, afterwards when you right click on any word phrase in the user interface you'll get a prompt box into which you can type the required translation and press ok")?></li>
 	<li><b><?=_("Step 3 : ")?></b> <br/><?=_("When you finish translation, please go to Administration->Language/Locale->Update Translation")?></li>
 	<li><b><?=_("Step 4 : ")?></b> <br/><?=_("Finally press update button")?></li>
 	<li><b><?=_("Step 5 : ")?></b> <br/><?=_("Afterwards go to Administration->Language/Locale->setLocale and set the particular locale")?></li>
