@@ -32,6 +32,7 @@ function shn_sm_show_features_map()
     $keys_ = array('all' => '1');
     // Find and show all features in system. If more than 250, OpenLayers will bail and DIE !!!
     $features = shn_gis_get_features_all($keys_);
+    _shn_sm_form_catalogue_shortcuts();
     shn_gis_form_map_with_features($features);
 }
   
@@ -745,32 +746,30 @@ function _shn_sm_form_add_image()
 function _shn_sm_form_catalogue_shortcuts()
 {
     // Shortcuts to GIS Catalogue
-    if ($conf['gis_dflt'] == "openlayers") {
-        include_once $global['approot']."/inc/lib_gis/admin_acts.inc";
-        print "<table><tr><td style=\"border: 0px;\">";
-        print _t("GIS Administration:");
-        print "</td><td style=\"border: 0px;\">";
-        shn_form_fopen(gis_main,admin,array('req'=>false));
-        shn_form_submit(_t("Defaults"));
-        shn_form_fclose();
-        print "</td><td style=\"border: 0px;\">";
-        shn_form_fopen(gis_files,admin,array('req'=>false));
-        shn_form_submit(_t("Files"));
-        shn_form_fclose();
-        print "</td><td style=\"border: 0px;\">";
-        shn_form_fopen(gis_layers,admin,array('req'=>false));
-        shn_form_submit(_t("Layers"));
-        shn_form_fclose();
-        print "</td><td style=\"border: 0px;\">";
-        shn_form_fopen(gis_markers,admin,array('req'=>false));
-        shn_form_submit(_t("Markers"));
-        shn_form_fclose();
-        print "</td><td style=\"border: 0px;\">";
-        shn_form_fopen(gis_projections,admin,array('req'=>false));
-        shn_form_submit(_t("Projections"));
-        shn_form_fclose();
-        print "</td></tr></table>";
-    }
+    include_once $global['approot']."/inc/lib_gis/admin_acts.inc";
+    print "<table><tr><td style=\"border: 0px;\">";
+    print _t("GIS Administration:");
+    print "</td><td style=\"border: 0px;\">";
+    shn_form_fopen(gis_main,admin,array('req'=>false));
+    shn_form_submit(_t("Defaults"));
+    shn_form_fclose();
+    print "</td><td style=\"border: 0px;\">";
+    shn_form_fopen(gis_files,admin,array('req'=>false));
+    shn_form_submit(_t("Files"));
+    shn_form_fclose();
+    print "</td><td style=\"border: 0px;\">";
+    shn_form_fopen(gis_layers,admin,array('req'=>false));
+    shn_form_submit(_t("Layers"));
+    shn_form_fclose();
+    print "</td><td style=\"border: 0px;\">";
+    shn_form_fopen(gis_markers,admin,array('req'=>false));
+    shn_form_submit(_t("Markers"));
+    shn_form_fclose();
+    print "</td><td style=\"border: 0px;\">";
+    shn_form_fopen(gis_projections,admin,array('req'=>false));
+    shn_form_submit(_t("Projections"));
+    shn_form_fclose();
+    print "</td></tr></table>";
 }
 
 /**
