@@ -1,5 +1,4 @@
 <?php
-
 /**
 * PHP version 5
 * 
@@ -8,7 +7,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: kml.inc,v 1.4 2008-05-27 10:55:55 franboon Exp $
+* @version     	$Id: kml.inc,v 1.5 2008-09-24 20:16:56 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -69,7 +68,7 @@ class kml implements layer{
             
             //Part of the plot - this should retain the layer value for commiting
             //Should theoretically only have a value on the 2nd post
-            //qed: No layers committed in frst pass where number of layers are set
+            //qed: No layers committed in first pass where number of layers are set
             //Layer values only committed in 2nd pass where the below post is set -- saavy?
             shn_form_hidden(array('kml_layers'=>$kml_layers));
             shn_form_fsclose();
@@ -231,7 +230,7 @@ class kml implements layer{
       		$gis_kml_enable=1;
         }
         if (!$gis_kml_enable == $conf['gis_ol_kml_enable']) {
-            $query = "SELECT * FROM config WHERE confkey='gis_ol_kml' AND module_id='admin'";
+            $query = "SELECT * FROM config WHERE confkey='gis_ol_kml_enable' AND module_id='admin'";
             $res = $db->Execute($query);
             if(!$res->EOF){
                 $q = "UPDATE config SET value = '$gis_kml_enable' WHERE module_id = 'admin' AND confkey = 'gis_ol_kml_enable'";
