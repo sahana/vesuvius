@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.58 2008-09-17 12:44:22 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.59 2008-09-24 19:40:17 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -495,8 +495,10 @@ function ol_layers_georss()
             }
         }
     }
-    echo "errors_georss='$errors_georss';\n";
-    echo "ReportErrors('status_georss',errors_georss);\n";
+    if (!""==$errors_georss){
+        echo "errors_georss='$errors_georss';\n";
+        echo "ReportErrors('status_georss',errors_georss);\n";
+    }
 }
 
 // KML URL feeds
@@ -771,8 +773,10 @@ function ol_layers_kml()
             }
         }
     }
-    echo "errors_kml='$errors_kml';\n";
-    echo "ReportErrors('status_kml',errors_kml);\n";
+    if (!""==$errors_kml){
+        echo "errors_kml='$errors_kml';\n";
+        echo "ReportErrors('status_kml',errors_kml);\n";
+    }
 }
  
 // Files: OSM, KML, GML
@@ -841,8 +845,10 @@ function ol_layers_files()
             }
         }
     }
-    echo "errors_files='$errors_files';\n";
-    echo "ReportErrors('status_files',errors_files);\n";
+    if (!""==$errors_files){
+        echo "errors_files='$errors_files';\n";
+        echo "ReportErrors('status_files',errors_files);\n";
+    }
 }
 
 /**
