@@ -74,14 +74,14 @@ function _shn_admin_lc_ui_trns_enable()
         '--output=../res/locale/' . $locale. '/LC_MESSAGES/sahana_temp.po';
         system($cmd, &$return);
 	}
-	add_confirmation("Localization mode enable succesfully, please refersh your browser and Please right click on word phrases. ");
+	add_confirmation("Localization mode enable succesfully, please refresh your browser and Please right click on word phrases. ");
 	//$_SESSION['admin']['locale']['enable_first'] = "set";
 	//echo $_SESSION['admin']['locale']['enable'];
 }
 
 function _shn_admin_lc_ui_trns_disable()
 {
-	add_confirmation("Localization mode disable Ssuccesfully, please refersh your browser ");
+	add_confirmation("Localization mode disable Ssuccesfully, please refresh your browser ");
 	$_SESSION['admin']['locale']['enable'] = "reset";
 	//$_SESSION['admin']['locale']['enable_first'] = "reset";
 	//echo $_SESSION['admin']['locale']['enable'];
