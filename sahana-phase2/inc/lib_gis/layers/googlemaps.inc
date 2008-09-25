@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: googlemaps.inc,v 1.21 2008-06-02 13:35:43 franboon Exp $
+* @version		$Id: googlemaps.inc,v 1.22 2008-09-25 13:13:45 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -61,6 +61,12 @@ class googlemaps implements layer{
             }
             $hybrid_help=_t("A layer with Maps & Satellite Photos shown together");
             shn_form_checkbox(_t('Hybrid view enabled?'),'ol_google_hybrid',$checked,array('value'=>1,"help"=>$hybrid_help));
+            $checked='';
+            if ($conf['gis_ol_google_terrain']==1){
+                $checked='checked';
+            }
+            $terrain_help=_t("A layer with Physical Terrain shown");
+            shn_form_checkbox(_t('Terrain view enabled?'),'ol_google_terrain',$checked,array('value'=>1,"help"=>$terrain_help));
             shn_form_fsclose();
             shn_form_fsopen(_t('API Key'));
             shn_form_fsopen(_t('INFO'));
@@ -135,6 +141,24 @@ class googlemaps implements layer{
                 }
                 else{
                     $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_google_hybrid','$ol_google_hybrid')";
+                    $db->Execute($insert);
+                }
+            }
+            if (null == $_POST['ol_google_terrain']){
+                $ol_google_terrain=0;
+            }
+            if (1 == $_POST['ol_google_terrain']){
+                $ol_google_terrain=1;
+            }
+            if (!$ol_google_terrain == $conf['gis_ol_google_terrain']) {
+                $query = "SELECT * FROM config WHERE confkey='gis_ol_google_terrain' AND module_id='admin'";
+                $res = $db->Execute($query);
+                if(!$res->EOF){
+                    $q = "UPDATE config SET value = '$ol_google_terrain' WHERE module_id = 'admin' AND confkey = 'gis_ol_google_terrain'";       
+                    $db->Execute($q);
+                }
+                else{
+                    $insert = "INSERT INTO config(module_id,confkey,value) VALUES ('admin','gis_ol_google_terrain','$ol_google_terrain')";
                     $db->Execute($insert);
                 }
             }

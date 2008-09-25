@@ -10,7 +10,7 @@
 * 
 * @author       Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @version      $Id: gis_conf.inc.php,v 1.1 2008-07-08 18:28:42 chamindra Exp $;
+* @version      $Id: gis_conf.inc.php,v 1.2 2008-09-25 13:13:45 franboon Exp $;
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.sourceforge.net    	
 * @subpackage   gis
@@ -103,6 +103,7 @@ $conf['gis_ol_google']='0';
 $conf['gis_ol_google_hybrid']='1';
 $conf['gis_ol_google_maps']='0';
 $conf['gis_ol_google_sat']='0';
+$conf['gis_ol_google_terrain']='0';
  
 /**
  * Switches for MS Virtual Earth

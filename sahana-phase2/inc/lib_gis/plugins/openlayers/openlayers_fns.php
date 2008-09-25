@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.59 2008-09-24 19:40:17 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.60 2008-09-25 13:13:45 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -309,6 +309,10 @@ function ol_layers_base()
         if (1 == $conf['gis_ol_google_maps']) {
             echo "var googlemaps = new OpenLayers.Layer.Google( \"Google Map\" , {type: G_NORMAL_MAP, 'sphericalMercator': true } );\n";
             echo "map.addLayer(googlemaps);\n";
+        }
+        if (1 == $conf['gis_ol_google_terrain']) {
+            echo "var googleterrain = new OpenLayers.Layer.Google( \"Google Terrain\" , {type: G_PHYSICAL_MAP, 'sphericalMercator': true } );\n";
+            echo "map.addLayer(googleterrain);\n";
         }
     }
     // MultiMap
