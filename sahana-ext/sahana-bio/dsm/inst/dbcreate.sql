@@ -214,3 +214,31 @@ ALTER TABLE `rtbs_disease_notify_to`
 
 ALTER TABLE `rtbs_h544`
   ADD CONSTRAINT `rtbs_h544_ibfk_1` FOREIGN KEY (`disease_id`) REFERENCES `rtbs_disease` (`disease_id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+/*add data*/
+INSERT INTO `rtbs_disease` (`disease_id`, `disease_name`, `disease_type`) VALUES
+(1, 'Cholera', 'A'),
+(2, 'Plague', 'A'),
+(3, 'Yellow Fever', 'A'),
+(4, 'Polio Myelitis / Acute Flaccid Paralysis', 'B'),
+(5, 'Diphtheria', 'B'),
+(6, 'Dysentery', 'B'),
+(7, 'Pertussis', 'B'),
+(8, 'Enteric Fever', 'B'),
+(9, 'Food Poisoning', 'B'),
+(10, 'Tetanus/neonatal tetanus', 'B'),
+(11, 'Measles', 'B'),
+(12, 'Malaria', 'B'),
+(13, 'Rubella/Congenital Rubella Syndrome', 'B'),
+(14, 'Viral Hepatitis', 'B'),
+(15, 'Leptospirosis', 'B'),
+(16, 'Dengue Fever/ Dengue Haemorragic Fever', 'B'),
+(17, 'Encephalitis (including Japanese Encephalitis)', 'B'),
+(18, 'Human Rabies', 'B'),
+(19, 'Mumps', 'B'),
+(20, 'Meningitis', 'B'),
+(21, 'Chicken Pox', 'B'),
+(22, 'Simple continued fever of over 7 days or more', 'B'),
+(23, 'Typhus Fever', 'B'),
+(24, 'Severe Acute Respiratory Syndrome (SARS)', 'B'),
+(25, 'Tuberculosis', 'B');

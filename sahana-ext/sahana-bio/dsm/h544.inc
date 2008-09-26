@@ -1,6 +1,9 @@
 <?php
 function _shn_dsm_h544_input_form()
 {
+    global $global;
+    $db = $global['db'];
+    
     display_submit_message();
     display_errors();
     echo '<center><h1>H544</h1></center>';
@@ -13,11 +16,27 @@ function _shn_dsm_h544_input_form()
     shn_form_text(_t('Name of Patient'),'name_patient','size="30"');
     shn_form_text(_t('Name of the Guardian'),'name_guardian','size="30"');
 
-    $opt = array('a'=>'A','b'=>'B');
-    shn_form_select($opt,_t('Disease Type'),'dis_type');
-    $opt=null;
+//    $opt = array('a'=>'A','b'=>'B');
+//    shn_form_select($opt,_t('Disease Type'),'dis_type');
+//    $opt=null;
 
-    $opt = array('11'=>'Dis1','12'=>'Dis2');
+    $sql = "SELECT * FROM rtbs_disease WHERE disease_type='A'";
+    $res = $db->Execute($sql);
+    $opt = array();
+    $opt[0]='';
+    $opt[-1]='----A----';
+    while(!$res->EOF){
+        $opt[$res->fields['disease_id']]=$res->fields['disease_name'];
+        $res->MoveNext();
+    }
+    $opt[-2]='----B----';
+    $sql = "SELECT * FROM rtbs_disease WHERE disease_type='B'";
+    $res = $db->Execute($sql);
+    while(!$res->EOF){
+        $opt[$res->fields['disease_id']]=$res->fields['disease_name'];
+        $res->MoveNext();
+    }
+    
     shn_form_select($opt,_t('Disease Name'),'dis_id');
     $opt = null;
 
