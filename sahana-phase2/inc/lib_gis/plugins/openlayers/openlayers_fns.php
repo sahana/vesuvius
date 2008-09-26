@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.60 2008-09-25 13:13:45 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.61 2008-09-26 14:21:38 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -297,7 +297,7 @@ function ol_layers_base()
         }
     }
     // Google
-    if (1 == $conf['gis_ol_google'])
+    if (1 == $conf['gis_ol_google']) {
         if(1 == $conf['gis_ol_google_hybrid']) {
             echo "var googlehybrid = new OpenLayers.Layer.Google( \"Google Hybrid\" , {type: G_HYBRID_MAP, 'sphericalMercator': true } );\n";
             echo "map.addLayer(googlehybrid);\n";
@@ -326,6 +326,7 @@ function ol_layers_base()
             echo "var vehybrid = new OpenLayers.Layer.VirtualEarth( \"Virtual Earth Hybrid\" , {type: VEMapStyle.Hybrid, 'sphericalMercator': true } );\n";
             //echo "{ minZoomLevel: 4, maxZoomLevel: 6 });\n";
             echo "map.addLayer(vehybrid);\n";
+        }
         if (1 == $conf['gis_ol_virtualearth_aerial']) {
             echo "var veaerial = new OpenLayers.Layer.VirtualEarth( \"Virtual Earth Aerial\" , {type: VEMapStyle.Aerial, 'sphericalMercator': true } );\n";
             //echo "{ minZoomLevel: 4, maxZoomLevel: 6 });\n";
@@ -952,6 +953,7 @@ function ol_add_feature($name, $icon = 'null')
     }
 <?php
 }
+
 /**
  * Show the Markers layer
  * called by show_map_with_markers in openlayers plugin handler
