@@ -180,15 +180,20 @@ function resize_wrapper(){
 }
 
 function resize_wrapper_ie7(){
-	var map=document.getElementById('map');
-	var wrapper=document.getElementById('wrapper');
-	var table = document.getElementById('result').getElementsByTagName('table')[0];
-	if(table){
+   var table = null;   
+   var map = document.getElementById('map');
+	var wrapper = document.getElementById('wrapper');
+	
+	 if ( document.getElementById('result') ) {
+			table = document.getElementById('result').getElementsByTagName('table')[0];
+	 } 
+
+	if(table != null){
 		if((document.documentElement.clientWidth) > (document.body.clientWidth -205)){
 			wrapper.style.width=(document.documentElement.clientWidth+210)+"px";
 		}
 	}
-       	if(map){
+       	if(map != null){
 		if((document.documentElement.clientWidth) > (document.body.clientWidth -205)){
 			wrapper.style.width=(document.documentElement.clientWidth+210)+"px";}
 	}
