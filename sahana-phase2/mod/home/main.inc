@@ -275,9 +275,9 @@ function shn_home_about(){
 		$about['mysql_version'] = $res->Fields(0);
 		
 		?>
-		<table border="0">
+		<table border="0" class="about-sahana">
 		  <tr>
-		      <th colspan="2" valign="center"><?php echo 'System Information' ?></td>
+		      <th colspan="2" valign="middle"><?php echo 'System Information' ?></th>
 		  </tr>
 		  <tr>
 		      <td width="40%"><?php echo _t("Sahana Version") ?></td>
@@ -296,7 +296,7 @@ function shn_home_about(){
               <td><?php echo $about['release_date'] ?></td>
           </tr>
           <tr>
-            <th colspan="2" valign="center"><?php echo 'Database Information' ?></th>
+            <th colspan="2" valign="middle"><?php echo 'Database Information' ?></th>
           </tr>
           <tr>
               <td><?php echo _t("Database Name")?></td>
@@ -311,7 +311,7 @@ function shn_home_about(){
               <td><?php echo $about['database_collation'] ?></td>
           </tr>
           <tr>
-              <th colspan="2" valign="center"><?php echo 'Environment Information' ?></td>
+              <th colspan="2" valign="middle"><?php echo 'Environment Information' ?></th>
           </tr>
           <tr>
               <td><?php echo _t("Apache HTTPD Version")?></td>
@@ -326,7 +326,7 @@ function shn_home_about(){
               <td><?php echo $about['mysql_version'] ?></td>
           </tr>
           <tr>
-              <th colspan="2" valign="center"><?php echo 'System Administrator Information' ?></td>
+              <th colspan="2" valign="middle"><?php echo 'System Administrator Information' ?></th>
           </tr>
           <tr>
               <td><?php echo _t("Administrator Name")?></td>

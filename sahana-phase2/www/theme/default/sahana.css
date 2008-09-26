@@ -165,6 +165,8 @@ div#container { }
 
 			#home_recent { }
 			#home_recent h1 { font-size:120%; margin: 0 0 0 0; padding: 25px 5px 5px 5px;  }
+			.about-sahana tr th { padding: 5px 0 2px 0; color: #fff; background-color: #369; border:1px #C6D1F5 solid;  }
+			.about-sahana tr td {  background:#F3F6FF; font-size: 11px;  }
 
 			/* layout table */
 			table.layout { border-collapse: collapse; width:100%; }
