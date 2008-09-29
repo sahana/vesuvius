@@ -13,7 +13,7 @@ function _shn_dsm_h544_input_form()
     shn_form_fsopen(_t('H544'));
 
     shn_form_text(_t('Institute'),'institute','size="30"');
-    shn_form_text(_t('Name of Patient'),'name_patient','size="30"');
+    shn_form_text(_t('Name of Patient'),'name_patient','size="30"',array('req'=>true));
     shn_form_text(_t('Name of the Guardian'),'name_guardian','size="30"');
 
 //    $opt = array('a'=>'A','b'=>'B');
@@ -101,10 +101,31 @@ NULL , '{$_POST['institute']}', '{$_POST['name_patient']}', '{$_POST['name_guard
 
 $db->Execute($sql);
 add_confirmation('Notification added');
-unset($_POST);
 
-_shn_dsm_h544_input_form();
+
+_shn_dsm_h544_notify_to($_POST['dis_id']);
+unset($_POST);
 }
 
-
+function _shn_dsm_h544_notify_to($id)
+{
+    global $global;
+    $db = $global['db'];
+    
+    $sql = "SELECT * FROM rtbs_disease_notify_to WHERE disease_id={$id}";
+    echo '<h2>Notify this disease to</h2>';
+    echo '<ul>';
+    $res = $db->Execute($sql);
+    while(!$res->EOF){
+        echo '<li>';
+        echo $res->fields['notify_to'];
+        $res->MoveNext();
+        echo '</li>';
+    }
+    echo "</ul>";
+    shn_form_fopen('h544',null,array('req_message'=>false));
+    shn_form_submit(_t('OK'));
+    shn_form_fclose();
+    
+}
 ?>

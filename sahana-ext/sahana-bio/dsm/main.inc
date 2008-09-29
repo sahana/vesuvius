@@ -18,6 +18,7 @@
 
 include_once $global['approot'] . '/inc/lib_menu.inc';
 include_once $global['approot'] . '/mod/dsm/lib_dsm.inc';
+include_once $global['approot'] . "/inc/lib_form.inc";
 
 function shn_dsm_mainmenu()
 {
@@ -327,9 +328,10 @@ function shn_dsm_h544()
 
 function shn_dsm_h544_list_view()
 {
+    include_once $global['approot'] . '/inc/lib_menu.inc';
     global $global;
     $db = $global['db'];
-    
+    echo '<h1>View submited diseases</h1>';
     $sql = "SELECT notify_id FROM rtbs_h544";
     $result = $db->Execute($sql);
     
@@ -342,13 +344,48 @@ function shn_dsm_h544_list_view()
 
 function shn_dsm_h544_view()
 {
+    include_once $global['approot'] . "/inc/lib_form.inc";
     global $global;
     $db = $global['db'];
     $id = $_REQUEST['id'];
    
     $sql = "SELECT * FROM rtbs_h544 WHERE notify_id={$id}";
     $result = $db->Execute($sql);
+    echo '<h1>Disease information</h1>';
     
-    var_dump($result->fields);
+    shn_form_fopen('h544_list_view',null,array('req_message'=>false));
+    shn_form_fsopen(_t('Disease information'));
+    shn_form_label(_t('Notification ID'),$result->fields['notify_id']);
+    shn_form_label(_t('Institute'),$result->fields['institute']);
+    shn_form_label(_t('Name of the Patient'),$result->fields['name_of_patient']);
+    shn_form_label(_t('Name of the Guardian'),$result->fields['name_of_the_guardian']);
+    
+    $sql1 = "SELECT disease_name FROM rtbs_disease WHERE disease_id={$result->fields['disease_id']}";
+    $r = $db->Execute($sql1);
+    shn_form_label(_t('Disease'),$r->fields['disease_name']);
+    
+    shn_form_label(_t('Date onset'),$result->fields['date_of_onset']);
+    shn_form_label(_t('Date of admission'),$result->fields['date_of_admission']);
+    shn_form_label(_t('BHT number'),$result->fields['bht_no']);
+    shn_form_label(_t('Ward'),$result->fields['ward']);
+    shn_form_label(_t('Age'),$result->fields['age']);
+    
+    if($result->fields['age']=='m'){
+        $sex = 'Male';
+    }
+    else{
+        $sex = 'Female';
+    }
+    shn_form_label(_t('Sex'),$sex);
+    shn_form_label(_t('Laboratory Results'),$result->fields['laboratory_results']);
+    shn_form_label(_t('Home address'),$result->fields['home_address']);
+    shn_form_label(_t('Telephone Number'),$result->fields['telephone_number']);
+    shn_form_label(_t('Name of the doctor'),$result->fields['name_of_doctor']);
+    shn_form_label(_t('Status of the doctor'),$result->fields['status_of_doctor']);
+    shn_form_label(_t('Date'),$result->fields['date']);
+    shn_form_submit(_t('OK'));
+    shn_form_fsclose();
+    shn_form_fclose();
 }
+
 ?>
