@@ -55,7 +55,20 @@ function _shn_dsm_h544_input_form()
     shn_form_text(_t('Telephone number'),'telephone','size="30"');
     shn_form_text(_t('Name of Doctor'),'doc_name','size="30"');
     
-    $opt = array('MBBS'=>'MBBS','FRCS'=>'FRCS');
+    $opt = array(
+    	'HO'=>'House Officer',
+		'SHO'=>'Senior House Officer',
+        'MO'=> 'Medical Officer',
+        'MOIC'=> 'Medical Officer In charge',
+        'SMO'=>'Senior Medical officer',
+        'Reg'=> 'Registrar',
+        'SR'=> 'Senior Registrar',
+        'Consultant'=> 'Consultant',
+        'MOH'=> 'Medical Officer of health',
+        'MO OPD'=>'OPD medical Officer',
+        'MO MCH'=> 'MO of Maternal and Child Health'
+    );
+    
     shn_form_select($opt,_t('Status of Doctor'),'doc_status');
     $opt = null;
     
