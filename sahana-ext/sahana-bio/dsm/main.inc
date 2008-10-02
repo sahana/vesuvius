@@ -315,6 +315,7 @@ function shn_dsm_h544()
 	        if(!_shn_dsm_h544_validate()){
 	            _shn_dsm_h544_input_form();
 	        }else{
+	            _shn_dsm_h544_to_session();
 	            _shn_dsm_h544_commit();
 	        }
 	        break;

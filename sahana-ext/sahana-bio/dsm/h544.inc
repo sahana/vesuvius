@@ -54,7 +54,11 @@ function _shn_dsm_h544_input_form()
     shn_form_textarea(_t('Home address'),'home_address');
     shn_form_text(_t('Telephone number'),'telephone','size="30"');
     shn_form_text(_t('Name of Doctor'),'doc_name','size="30"');
-    shn_form_text(_t('Status of Doctor'),'doc_status','size="30"');
+    
+    $opt = array('MBBS'=>'MBBS','FRCS'=>'FRCS');
+    shn_form_select($opt,_t('Status of Doctor'),'doc_status');
+    $opt = null;
+    
     shn_form_date(_t('Date'),'date',array('value'=>date('Y-m-d',time())));
     shn_form_submit(_t("Save"));
     shn_form_fsclose();
@@ -96,7 +100,7 @@ function _shn_dsm_h544_commit()
 `date`
 )
 VALUES (
-NULL , '{$_POST['institute']}', '{$_POST['name_patient']}', '{$_POST['name_guardian']}', '{$_POST['dis_id']}', '{$_POST['date_onset']}', '{$_POST['date_admission']}', '{$_POST['bht']}', '{$_POST['ward']}', '{$_POST['age']}', '{$_POST['sex']}', '{$_POST['laboratory_results']}', '{$_POST['home_address']}', '{$_POST['telephone']}', NULL, '{$_POST['doc_name']}', '{$_POST['doc_status']}', '{$_POST['date']}'
+NULL , '{$_SESSION['dsm']['h544']['institute']}', '{$_SESSION['dsm']['h544']['name_patient']}', '{$_SESSION['dsm']['h544']['name_guardian']}', '{$_SESSION['dsm']['h544']['dis_id']}', '{$_SESSION['dsm']['h544']['date_onset']}', '{$_SESSION['dsm']['h544']['date_admission']}', '{$_SESSION['dsm']['h544']['bht']}', '{$_SESSION['dsm']['h544']['ward']}', '{$_SESSION['dsm']['h544']['age']}', '{$_SESSION['dsm']['h544']['sex']}', '{$_SESSION['dsm']['h544']['laboratory_results']}', '{$_SESSION['dsm']['h544']['home_address']}', '{$_SESSION['dsm']['h544']['telephone']}', NULL, '{$_SESSION['dsm']['h544']['doc_name']}', '{$_SESSION['dsm']['h544']['doc_status']}', '{$_SESSION['dsm']['h544']['date']}'
 ) ";
 
 $db->Execute($sql);
@@ -126,6 +130,27 @@ function _shn_dsm_h544_notify_to($id)
     shn_form_fopen('h544',null,array('req_message'=>false));
     shn_form_submit(_t('OK'));
     shn_form_fclose();
+    
+}
+
+function _shn_dsm_h544_to_session()
+{
+    $_SESSION['dsm']['h544']['institute'] = $_POST['institute'];
+    $_SESSION['dsm']['h544']['name_patient'] = $_POST['name_patient'];
+    $_SESSION['dsm']['h544']['name_guardian'] = $_POST['name_guardian'];
+    $_SESSION['dsm']['h544']['dis_id'] = $_POST['dis_id'];
+    $_SESSION['dsm']['h544']['date_onset'] = $_POST['date_onset'];
+    $_SESSION['dsm']['h544']['date_admission'] = $_POST['date_admission'];
+    $_SESSION['dsm']['h544']['bht'] = $_POST['bht'];
+    $_SESSION['dsm']['h544']['ward'] = $_POST['ward'];
+    $_SESSION['dsm']['h544']['age'] = $_POST['age'];
+    $_SESSION['dsm']['h544']['sex'] = $_POST['sex'];
+    $_SESSION['dsm']['h544']['laboratory_results'] = $_POST['laboratory_results'];
+    $_SESSION['dsm']['h544']['home_address'] = $_POST['home_address'];
+    $_SESSION['dsm']['h544']['telephone'] = $_POST['telephone'];
+    $_SESSION['dsm']['h544']['doc_name'] = $_POST['doc_name'];
+    $_SESSION['dsm']['h544']['doc_status'] = $_POST['doc_status'];
+    $_SESSION['dsm']['h544']['date'] = $_POST['date'];
     
 }
 ?>
