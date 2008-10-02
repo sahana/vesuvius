@@ -242,3 +242,17 @@ INSERT INTO `rtbs_disease` (`disease_id`, `disease_name`, `disease_type`) VALUES
 (23, 'Typhus Fever', 'B'),
 (24, 'Severe Acute Respiratory Syndrome (SARS)', 'B'),
 (25, 'Tuberculosis', 'B');
+
+
+CREATE TABLE IF NOT EXISTS `rtbs_location` (
+  `notify_id` int(11) NOT NULL,
+  `country` varchar(50) default NULL,
+  `state` varchar(50) default NULL,
+  `city` varchar(50) default NULL,
+  `longitude` varchar(50) default NULL,
+  `latitude` varchar(50) default NULL,
+  `district_id` varchar(50) default NULL,
+  `moh_area` varchar(50) default NULL,
+  `phi_area` varchar(50) default NULL,
+  PRIMARY KEY  (`notify_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
