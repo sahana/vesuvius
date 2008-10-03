@@ -256,3 +256,13 @@ CREATE TABLE IF NOT EXISTS `rtbs_location` (
   `phi_area` varchar(50) default NULL,
   PRIMARY KEY  (`notify_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ CREATE TABLE `sahana_bio`.`rbts_district` (
+`district_id` VARCHAR( 50 ) NOT NULL ,
+`district` VARCHAR( 50 ) NOT NULL ,
+PRIMARY KEY ( `district_id` )
+) ENGINE = InnoDB ;
+
+ALTER TABLE `rtbs_location` ADD FOREIGN KEY ( `district_id` ) REFERENCES `sahana_bio`.`rbts_district` (
+`district_id`
+) ON DELETE NO ACTION ON UPDATE CASCADE ;
