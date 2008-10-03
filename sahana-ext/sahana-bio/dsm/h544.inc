@@ -90,7 +90,12 @@ function _shn_dsm_h544_location_form()
     shn_form_fopen('h544',null,array('req_message'=>true));
     shn_form_hidden(array('seq'=>'location'));
     shn_form_fsopen(_t('H544 Location'));
-
+    
+    shn_form_text(_t('Country'),'country','size="30');
+    shn_form_text(_t('State'),'state','size="30');
+    shn_form_text(_t('City'),'city','size="30');
+    shn_form_text(_t('District'),'district','size="30');
+    
     shn_form_submit(_t("Save"));
     shn_form_fsclose();
     shn_form_fclose();
