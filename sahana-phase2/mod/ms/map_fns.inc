@@ -79,7 +79,7 @@ function _shn_ms_create_map ($_var, $map_name)
         $map->setProjection($projection);
         
         if ($_var['layerSave'] == 1) {
-            //nlayers is 0 is map is being renamed, then we have to copy
+            //nlayers is 0 if map is being renamed, then we have to copy
             //layers of the original map
             $layers = _shn_ms_get_layers($map);
             $nlayers = $map->numlayers;

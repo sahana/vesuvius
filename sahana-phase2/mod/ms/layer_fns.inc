@@ -104,6 +104,12 @@ function _shn_ms_layer_form($val)
         }
     }
     shn_form_select($types, _t("Select Layer Type"), 'type', '', array("value"=>$type));
+    
+    if ($layer != NULL) {
+        $projection = $layer->getProjection();
+    }
+    shn_form_text(_t("Projection"), 'projection', '"size=10"', array('value'=>$projection));
+    
     $r = array();
     $g = array();
     $b = array();
@@ -186,6 +192,8 @@ function _shn_ms_add_layer($_var, $_file)
         //$bgG = $_var['BAG'];
         //$bgB = $_var['BAB'];
         
+        $projection = $_var['projection'];
+
         // Create/Open Layer
         $map = ms_newMapObj($file_name);
         if ($map == NULL) {
@@ -222,7 +230,10 @@ function _shn_ms_add_layer($_var, $_file)
         $style->color->setRGB($fgR,$fgG,$fgB);
         $style->outlinecolor->setRGB($olR,$olG,$olB);
         //$style->backgroundcolor->setRGB($bgR,$bgG,$bgB);
-      
+
+        // Set Projection
+        $layer->setProjection($projection);
+                
         if(($_var['edit'] == 1 && $_file['shapeZip']['name'] != NULL) || $new_layer == 1) {
             switch($_file['shapeZip']['error']) {
                 case 1:
@@ -406,6 +417,7 @@ function _shn_ms_edit_layer_form()
         shn_form_text(_('Layer Name'), 'layerName', '"size=20"', array("value"=>($layerX->name))); 
         _shn_ms_form_hidden(array('value'=>1, 'name'=>'save', 'id'=>'save'));
         shn_form_upload(_t('Upload Shape File (Zip Archive)'),"shapeZip");
+        
         if ($layerX != NULL) {
             switch($layerX->status) {
                 case MS_ON:
@@ -417,6 +429,7 @@ function _shn_ms_edit_layer_form()
             }
         }
         shn_form_select(array("1"=>_('ON'),"0"=>_('OFF')), 'Layer Status', 'status','', array("value"=>$status));
+        
         $types = array("POLYGON"=>_('POLYGON'),"POINT"=>_('POINT'), "LINE"=>_('LINE'));
         $type = '';
         if ($layerX != NULL) {
@@ -433,6 +446,12 @@ function _shn_ms_edit_layer_form()
             }
         }
         shn_form_select($types, _t("Select Layer Type"), 'type', '', array("value"=>$type));
+        
+        if ($layerX != NULL) {
+            $projection = $layerX->getProjection();
+        }
+        shn_form_text(_t("Projection"), 'projection', '"size=10"', array('value'=>$projection));
+        
         $r = array();
         $g = array();
         $b = array();
@@ -445,7 +464,7 @@ function _shn_ms_edit_layer_form()
         $fgc = NULL;
         $olc = NULL;
         //$bgc = NULL;
-        if ($layer != NULL) {
+        if ($layerX != NULL) {
             $class = $layerX->getClass(0);
             $style = $class->getStyle(0);
             $fgc = $style->color;
@@ -530,6 +549,8 @@ function _shn_ms_edit_layer($_var, $_file)
         //$bgG = $_var['BAG'];
         //$bgB = $_var['BAB'];
         
+        $projection = $_var['projection'];
+
         // Create/Open Layer
         $map = ms_newMapObj($file_name);
         if ($map == NULL) { 
@@ -552,6 +573,9 @@ function _shn_ms_edit_layer($_var, $_file)
         $style->outlinecolor->setRGB($olR,$olG,$olB);
         //$style->backgroundcolor->setRGB($bgR,$bgG,$bgB);
       
+        // Set Projection
+        $layer->setProjection($projection);
+
         if($_file['shapeZip']['name'] != NULL) {
             switch($_file['shapeZip']['error']) {
                 case 1:
