@@ -15,10 +15,13 @@
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
-
+global $global;
 include_once $global['approot'] . '/inc/lib_menu.inc';
 include_once $global['approot'] . '/mod/dsm/lib_dsm.inc';
+include_once $global['approot'] . '/mod/dsm/dsm_report.inc';
 include_once $global['approot'] . "/inc/lib_form.inc";
+
+global $disease_A_B;
 
 function shn_dsm_mainmenu()
 {
@@ -38,11 +41,15 @@ function shn_dsm_mainmenu()
 	shn_mod_menuitem('rep_dis', _t('Report a Patient'));
 	shn_mod_menuitem('search_case', _t('Search'));
 	shn_sub_mod_menuclose();
+	shn_sub_mod_menuopen(_t("Reports"));
 	shn_mod_menuitem('sur_rep', _t('Surviellance Report'));
 	shn_mod_menuitem('report', _t('Report'));
+	shn_mod_menuitem("report_weekly_communicable_diseases",_t("Weekly Communicable Diseases"),$module);
+        shn_sub_mod_menuclose();
 	shn_sub_mod_menuopen(_t('RTBS'));
 	shn_mod_menuitem('h544',_t('H544'));
 	shn_mod_menuitem('h544_list_view',_t('View'));
+	shn_mod_menuitem("report_weekly_communicable_diseases",_t("Weekly Communicable Diseases"),$module);
 	shn_sub_mod_menuclose();
 	shn_mod_menuclose();
 	
@@ -305,6 +312,234 @@ function shn_dsm_report()
     shn_dsm_report_default();
 }
 
+
+// author: hayeshais@gmail.com
+function shn_dsm_report_weekly_communicable_diseases()
+{
+    shn_dsm_weekly_communicable_diseases_form();
+ 
+}
+
+
+function shn_dsm_weekly_communicable_diseases_form() {
+
+	display_errors();
+?>
+	<h1 align="center"><?php print _t("Weekly Return of Communicable Diseases"); ?></h1> 
+<?php	
+	shn_form_fopen('weekly_report_of_communicable_diseases',null,array('req_message'=>true)); 
+	shn_form_hidden(array('seq'=>'validate'));
+	shn_form_fsopen(_t('Select the type to filter')); 
+		
+	echo '<table> <tbody> <tr> <td colspan="2">';
+	shn_form_select(_shn_dsm_get_province,_t('Province'),'province' ); 
+	echo '</td> <td>Health</td> <td>H 399</td> </tr> <tr> <td colspan="2">';
+	shn_form_select(_shn_dsm_get_district,_t('District'),'district'); 
+	echo '</td> <td colspan="2">'; 
+	shn_form_select( _shn_dsm_get_moh_area,_t('M.O.H. Area'),'moh_area'); 
+	echo '</td> </tr>  <tr>  <td colspan="2"> '; 
+	shn_form_select(_shn_dsm_get_rdhs_div,_t('R.D.H.S. Div'),'rdhs_div'); 
+	echo '</td> <td>Week Ending</td> <td>';
+
+	//include 'class_week_start_end_date.php';
+	//$vObj = new weekstartend();
+	echo /*$vObj->gen_cal().*/'</td> </tr> </tbody> </table><br />';
+	 
+	shn_form_submit(_t("Generate Report"));
+    	shn_form_fsclose();
+     	shn_form_fclose();
+
+    	echo '<br />';
+} 
+
+
+function shn_dsm_weekly_report_of_communicable_diseases() { 
+
+	if ($_POST['province'] == '' || $_POST['district'] == '' || $_POST['moh_area'] == '' || $_POST['rdhs_div'] == '') {
+
+		shn_dsm_weekly_communicable_diseases_form();
+		_shn_dsm_weekly_report_of_communicable_diseases();
+	}
+	else {
+		shn_dsm_weekly_communicable_diseases_form();
+	}
+
+
+}
+
+
+
+function _shn_dsm_weekly_report_of_communicable_diseases() { 
+
+	$province = $_POST['province'];
+	$district = $_POST['district'];
+	$moh_area = $_POST['moh_area'];
+	$rdhs_div = $_POST['rdhs_div'];
+
+?>
+ <h3 align="center"><?php print _t("Cases notified during the week"); ?></h3>
+<br />
+<div id="result">
+
+    <?php
+	
+    	global $global;
+    	$db = $global["db"];
+
+    	$sql_B = "SELECT disease_name FROM rtbs_disease WHERE disease_type='B';";
+    	$rtbs_disease_name_B = $db->Execute($sql_B);
+		
+		$disease_name_B = array();
+		$B_counter = 0;
+		while (!$rtbs_disease_name_B == NULL && !$rtbs_disease_name_B->EOF) {
+		    $disease_name_B[$B_counter] = $rtbs_disease_name_B->fields["disease_name"]; 
+			$B_counter++;
+			$rtbs_disease_name_B->MoveNext();
+		}
+
+    ?>
+    
+    <table>  
+    <thead>
+    <tr>
+    	<td rowspan="2"><?=_t("PHI Area") ?></td>
+		<td colspan="3"><?=_t("Internationally Notifyable Diseases") ?></td>
+		<?php
+			foreach ($disease_name_B as $i => $value) {
+				echo '<td rowspan="2">'; print ($disease_name_B[$i]);  echo '</td>';	
+			}
+		?>   
+            
+    </tr>
+	
+	<?php 
+	
+    	$sql_A = "SELECT disease_name FROM rtbs_disease WHERE disease_type='A';";
+    	$rtbs_disease_name_A = $db->Execute($sql_A);
+		
+		$disease_name_A = array();
+		$A_counter = 0;
+		while (!$rtbs_disease_name_A == NULL && !$rtbs_disease_name_A->EOF) {
+		    $disease_name_A[$A_counter] = $rtbs_disease_name_A->fields["disease_name"]; 
+			$A_counter++;
+			$rtbs_disease_name_A->MoveNext();
+		}
+	
+	$disease_A_B = array();
+	$disease_A_B += $disease_name_A;
+	$disease_A_B += $disease_name_B;
+
+	?>
+	
+    <tr>
+		<?php
+			foreach ($disease_name_A as $i => $value) {
+				echo '<td>'; print ($disease_name_A[$i]);  echo '</td>';	
+			}
+		?>	
+    </tr>
+    </thead>
+    <tbody>
+	<?php
+
+	$phi_area = array();
+	$phi_area = _shn_dsm_list_phi_area();
+		
+	  for ($a = 0; $a < count($phi_area); $a++) {
+		echo '<tr>';
+		echo '<td>'.$phi_area[$a].'</td>'; 
+		for ($b = 0; $b < count($disease_A_B); $b++) {  
+			echo '<td>'._shn_dsm_weekly_disease_count($disease_A_B[$b]).'</td>'; 
+		}
+	    	echo '</tr>';
+	  }	
+	
+	?>
+ 
+ 	<tr>
+ 	 <td colspan="26"><h3 align="center"><?php print _t("Weekly Summary"); ?></h3></td>
+ 	</tr>
+ 	
+	<?php
+	  $a = 0;
+	  $case_description = array("New cases notified during the week", "Cases notified earlier and awaiting investigation at beginning of the week", "Cases decided as untraceable during the week", "Cases decided as belonging to other MOH areas during the week", "Cases confirmed as a non-notifiable disease during the week", "Cases confirmed as a notifiable disease during the week", "Cases awaiting investigation at the end of weeks");
+	  
+	  while ( $a < 7 ) { 
+	    print("<tr>");
+	    print("<td>"); 
+	    print($case_description[$a]); 
+	    print("</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td><td>test</td>");	    
+	    print("</tr>");
+	    $a++;
+	  
+	  }	
+	?>  
+ 
+    </tbody>
+    </table>
+</div>
+
+
+<?php
+}
+
+
+function _shn_dsm_list_phi_area() {
+    	global $global;
+    	$db = $global["db"];
+
+	$phi_area = array();
+		
+	$sql_phi_area = "SELECT * FROM rtbs_location";
+	$res_phi = $db->Execute($sql_phi_area);
+
+        $count = 0;
+	while(!$res_phi == NULL && !$res_phi->EOF) {
+		$phi_area[$count] = $res_phi->fields['phi_area'];
+		$count++;
+		$res_phi->MoveNext();
+       	}
+
+ return $phi_area;	
+}
+
+
+function _shn_dsm_weekly_disease_count($disease) {
+    	global $global;
+    	$db = $global["db"];
+		
+		$date = _shn_dsm_get_date();
+		
+			$sql_disease_count = "SELECT COUNT(*) AS count FROM rtbs_h544 WHERE WEEKOFYEAR('{$date}') = WEEKOFYEAR(CURDATE()) AND disease_id = (SELECT disease_id FROM rtbs_disease WHERE disease_name='{$disease}')"; 
+			$res = $db->Execute($sql);
+			
+			$count = null;
+			while(!$res == NULL && !$res->EOF){
+				$count = $res->fields['count'];
+				$res->MoveNext();
+			}
+			
+ return $count;
+}
+
+function _shn_dsm_get_date() {
+    	global $global;
+    	$db = $global["db"];
+	$date = null;
+		
+	$sql= "SELECT date FROM rtbs_h544";
+	$sql_date = $db->Execute($sql);
+		
+	while(!$sql_date == NULL && !$sql_date->EOF) {
+		$date = $sql_date->fields['date'];
+		$sql_date->MoveNext();
+       	}
+
+ return $date;
+}
+
+
+
 function shn_dsm_h544()
 {
     global $global;
@@ -316,8 +551,12 @@ function shn_dsm_h544()
 	            _shn_dsm_h544_input_form();
 	        }else{
 	            _shn_dsm_h544_to_session();
-	            _shn_dsm_h544_commit();
+	            _shn_dsm_h544_location_form();
 	        }
+	        break;
+	    }
+	    case 'location':{
+	        _shn_dsm_h544_commit();
 	        break;
 	    }
 	    default : {

@@ -3,7 +3,7 @@ function _shn_dsm_h544_input_form()
 {
     global $global;
     $db = $global['db'];
-    
+
     display_submit_message();
     display_errors();
     echo '<center><h1>H544</h1></center>';
@@ -16,9 +16,9 @@ function _shn_dsm_h544_input_form()
     shn_form_text(_t('Name of Patient'),'name_patient','size="30"',array('req'=>true));
     shn_form_text(_t('Name of the Guardian'),'name_guardian','size="30"');
 
-//    $opt = array('a'=>'A','b'=>'B');
-//    shn_form_select($opt,_t('Disease Type'),'dis_type');
-//    $opt=null;
+    //    $opt = array('a'=>'A','b'=>'B');
+    //    shn_form_select($opt,_t('Disease Type'),'dis_type');
+    //    $opt=null;
 
     $sql = "SELECT * FROM rtbs_disease WHERE disease_type='A'";
     $res = $db->Execute($sql);
@@ -36,7 +36,7 @@ function _shn_dsm_h544_input_form()
         $opt[$res->fields['disease_id']]=$res->fields['disease_name'];
         $res->MoveNext();
     }
-    
+
     shn_form_select($opt,_t('Disease Name'),'dis_id');
     $opt = null;
 
@@ -54,7 +54,7 @@ function _shn_dsm_h544_input_form()
     shn_form_textarea(_t('Home address'),'home_address');
     shn_form_text(_t('Telephone number'),'telephone','size="30"');
     shn_form_text(_t('Name of Doctor'),'doc_name','size="30"');
-    
+
     $opt = array(
     	'HO'=>'House Officer',
 		'SHO'=>'Senior House Officer',
@@ -67,17 +67,34 @@ function _shn_dsm_h544_input_form()
         'MOH'=> 'Medical Officer of health',
         'MO OPD'=>'OPD medical Officer',
         'MO MCH'=> 'MO of Maternal and Child Health'
-    );
-    
-    shn_form_select($opt,_t('Status of Doctor'),'doc_status');
-    $opt = null;
-    
-    shn_form_date(_t('Date'),'date',array('value'=>date('Y-m-d',time())));
+        );
+
+        shn_form_select($opt,_t('Status of Doctor'),'doc_status');
+        $opt = null;
+
+        shn_form_date(_t('Date'),'date',array('value'=>date('Y-m-d',time())));
+        shn_form_submit(_t("Save"));
+        shn_form_fsclose();
+        shn_form_fclose();
+}
+
+function _shn_dsm_h544_location_form()
+{
+    global $global;
+    $db = $global['db'];
+
+    display_submit_message();
+    display_errors();
+    echo '<center><h1>H544</h1></center>';
+
+    shn_form_fopen('h544',null,array('req_message'=>true));
+    shn_form_hidden(array('seq'=>'location'));
+    shn_form_fsopen(_t('H544 Location'));
+
     shn_form_submit(_t("Save"));
     shn_form_fsclose();
     shn_form_fclose();
 }
-
 function _shn_dsm_h544_validate()
 {
     if($_POST['name_patient']==''){
@@ -93,42 +110,42 @@ function _shn_dsm_h544_commit()
     global $global;
     $db = $global['db'];
     $sql = " INSERT INTO `rtbs_h544` (
-`notify_id` ,
-`institute` ,
-`name_of_patient` ,
-`name_of_the_guardian` ,
-`disease_id` ,
-`date_of_onset` ,
-`date_of_admission` ,
-`bht_no` ,
-`ward` ,
-`age` ,
-`sex` ,
-`laboratory_results` ,
-`home_address` ,
-`telephone_number` ,
-`notified_by` ,
-`name_of_doctor` ,
-`status_of_doctor` ,
-`date`
-)
-VALUES (
-NULL , '{$_SESSION['dsm']['h544']['institute']}', '{$_SESSION['dsm']['h544']['name_patient']}', '{$_SESSION['dsm']['h544']['name_guardian']}', '{$_SESSION['dsm']['h544']['dis_id']}', '{$_SESSION['dsm']['h544']['date_onset']}', '{$_SESSION['dsm']['h544']['date_admission']}', '{$_SESSION['dsm']['h544']['bht']}', '{$_SESSION['dsm']['h544']['ward']}', '{$_SESSION['dsm']['h544']['age']}', '{$_SESSION['dsm']['h544']['sex']}', '{$_SESSION['dsm']['h544']['laboratory_results']}', '{$_SESSION['dsm']['h544']['home_address']}', '{$_SESSION['dsm']['h544']['telephone']}', NULL, '{$_SESSION['dsm']['h544']['doc_name']}', '{$_SESSION['dsm']['h544']['doc_status']}', '{$_SESSION['dsm']['h544']['date']}'
-) ";
+    `notify_id` ,
+    `institute` ,
+    `name_of_patient` ,
+    `name_of_the_guardian` ,
+    `disease_id` ,
+    `date_of_onset` ,
+    `date_of_admission` ,
+    `bht_no` ,
+    `ward` ,
+    `age` ,
+    `sex` ,
+    `laboratory_results` ,
+    `home_address` ,
+    `telephone_number` ,
+    `notified_by` ,
+    `name_of_doctor` ,
+    `status_of_doctor` ,
+    `date`
+    )
+    VALUES (
+    NULL , '{$_SESSION['dsm']['h544']['institute']}', '{$_SESSION['dsm']['h544']['name_patient']}', '{$_SESSION['dsm']['h544']['name_guardian']}', '{$_SESSION['dsm']['h544']['dis_id']}', '{$_SESSION['dsm']['h544']['date_onset']}', '{$_SESSION['dsm']['h544']['date_admission']}', '{$_SESSION['dsm']['h544']['bht']}', '{$_SESSION['dsm']['h544']['ward']}', '{$_SESSION['dsm']['h544']['age']}', '{$_SESSION['dsm']['h544']['sex']}', '{$_SESSION['dsm']['h544']['laboratory_results']}', '{$_SESSION['dsm']['h544']['home_address']}', '{$_SESSION['dsm']['h544']['telephone']}', NULL, '{$_SESSION['dsm']['h544']['doc_name']}', '{$_SESSION['dsm']['h544']['doc_status']}', '{$_SESSION['dsm']['h544']['date']}'
+    ) ";
 
-$db->Execute($sql);
-add_confirmation('Notification added');
+    $db->Execute($sql);
+    add_confirmation('Notification added');
 
 
-_shn_dsm_h544_notify_to($_POST['dis_id']);
-unset($_POST);
+    _shn_dsm_h544_notify_to($_SESSION['dsm']['h544']['dis_id']);
+    unset($_POST);
 }
 
 function _shn_dsm_h544_notify_to($id)
 {
     global $global;
     $db = $global['db'];
-    
+
     $sql = "SELECT * FROM rtbs_disease_notify_to WHERE disease_id={$id}";
     echo '<h2>Notify this disease to</h2>';
     echo '<ul>';
@@ -143,7 +160,7 @@ function _shn_dsm_h544_notify_to($id)
     shn_form_fopen('h544',null,array('req_message'=>false));
     shn_form_submit(_t('OK'));
     shn_form_fclose();
-    
+
 }
 
 function _shn_dsm_h544_to_session()
@@ -164,6 +181,6 @@ function _shn_dsm_h544_to_session()
     $_SESSION['dsm']['h544']['doc_name'] = $_POST['doc_name'];
     $_SESSION['dsm']['h544']['doc_status'] = $_POST['doc_status'];
     $_SESSION['dsm']['h544']['date'] = $_POST['date'];
-    
+
 }
 ?>
