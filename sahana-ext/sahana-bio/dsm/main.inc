@@ -556,6 +556,7 @@ function shn_dsm_h544()
 	        break;
 	    }
 	    case 'location':{
+	        _shn_dsm_h544_location_to_session();
 	        _shn_dsm_h544_commit();
 	        break;
 	    }
@@ -589,7 +590,7 @@ function shn_dsm_h544_view()
     $db = $global['db'];
     $id = $_REQUEST['id'];
    
-    $sql = "SELECT * FROM rtbs_h544 WHERE notify_id={$id}";
+    $sql = "SELECT * FROM rtbs_h544 WHERE notify_id='{$id}'";
     $result = $db->Execute($sql);
     echo '<h1>Disease information</h1>';
     

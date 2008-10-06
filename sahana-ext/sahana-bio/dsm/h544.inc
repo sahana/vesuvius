@@ -113,6 +113,8 @@ function _shn_dsm_h544_validate()
 function _shn_dsm_h544_commit()
 {
     global $global;
+    include_once($global['approot']."/inc/lib_uuid.inc");
+    $id=shn_create_uuid();
     $db = $global['db'];
     $sql = " INSERT INTO `rtbs_h544` (
     `notify_id` ,
@@ -135,10 +137,23 @@ function _shn_dsm_h544_commit()
     `date`
     )
     VALUES (
-    NULL , '{$_SESSION['dsm']['h544']['institute']}', '{$_SESSION['dsm']['h544']['name_patient']}', '{$_SESSION['dsm']['h544']['name_guardian']}', '{$_SESSION['dsm']['h544']['dis_id']}', '{$_SESSION['dsm']['h544']['date_onset']}', '{$_SESSION['dsm']['h544']['date_admission']}', '{$_SESSION['dsm']['h544']['bht']}', '{$_SESSION['dsm']['h544']['ward']}', '{$_SESSION['dsm']['h544']['age']}', '{$_SESSION['dsm']['h544']['sex']}', '{$_SESSION['dsm']['h544']['laboratory_results']}', '{$_SESSION['dsm']['h544']['home_address']}', '{$_SESSION['dsm']['h544']['telephone']}', NULL, '{$_SESSION['dsm']['h544']['doc_name']}', '{$_SESSION['dsm']['h544']['doc_status']}', '{$_SESSION['dsm']['h544']['date']}'
+    '{$id}', '{$_SESSION['dsm']['h544']['institute']}', '{$_SESSION['dsm']['h544']['name_patient']}', '{$_SESSION['dsm']['h544']['name_guardian']}', '{$_SESSION['dsm']['h544']['dis_id']}', '{$_SESSION['dsm']['h544']['date_onset']}', '{$_SESSION['dsm']['h544']['date_admission']}', '{$_SESSION['dsm']['h544']['bht']}', '{$_SESSION['dsm']['h544']['ward']}', '{$_SESSION['dsm']['h544']['age']}', '{$_SESSION['dsm']['h544']['sex']}', '{$_SESSION['dsm']['h544']['laboratory_results']}', '{$_SESSION['dsm']['h544']['home_address']}', '{$_SESSION['dsm']['h544']['telephone']}', NULL, '{$_SESSION['dsm']['h544']['doc_name']}', '{$_SESSION['dsm']['h544']['doc_status']}', '{$_SESSION['dsm']['h544']['date']}'
     ) ";
 
     $db->Execute($sql);
+    
+    $sql1 = "INSERT INTO `rtbs_location` (
+    `notify_id`,
+    `country`,
+    `state`,
+    `city`,
+    `district_id`
+    )
+    VALUES(
+    '{$id}','{$_SESSION['dsm']['h544']['country']}','{$_SESSION['dsm']['h544']['state']}','{$_SESSION['dsm']['h544']['city']}','{$_SESSION['dsm']['h544']['district'] }'
+    )";
+    $db->Execute($sql1);
+    
     add_confirmation('Notification added');
 
 
@@ -187,5 +202,13 @@ function _shn_dsm_h544_to_session()
     $_SESSION['dsm']['h544']['doc_status'] = $_POST['doc_status'];
     $_SESSION['dsm']['h544']['date'] = $_POST['date'];
 
+}
+
+function _shn_dsm_h544_location_to_session()
+{
+    $_SESSION['dsm']['h544']['country'] = $_POST['country'];
+    $_SESSION['dsm']['h544']['state'] = $_POST['state'];
+    $_SESSION['dsm']['h544']['city'] = $_POST['city'];
+    $_SESSION['dsm']['h544']['district'] = $_POST['district'];
 }
 ?>
