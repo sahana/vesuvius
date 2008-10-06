@@ -164,7 +164,6 @@ function _shn_dsm_weekly_disease_count($disease) {
 	$count = 0; $date = 0;
 		
 		$date = _shn_dsm_get_date();
-		echo $date;
 		$sql_disease_count = "SELECT COUNT(disease_id) AS count FROM rtbs_h544 WHERE WEEKOFYEAR(CURDATE()) = '".$date."' AND disease_id = (SELECT disease_id FROM rtbs_disease WHERE disease_name = '".$disease."')"; 
 		$res = $db->Execute($sql_disease_count);
 		while(!$res == NULL && !$res->EOF) {
@@ -227,7 +226,7 @@ function _shn_dsm_get_district() {
     	global $global;
     	$db = $global["db"];
 		
-		$sql_district = "SELECT district FROM sahana_bio_rbts_district";
+		$sql_district = "SELECT district FROM rtbs_district";
 		$res = $db->Execute($sql_district);
 		$district = array();
 		$depth = 1;

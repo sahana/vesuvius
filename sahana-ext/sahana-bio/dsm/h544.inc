@@ -112,6 +112,8 @@ function _shn_dsm_h544_validate()
 
 function _shn_dsm_h544_commit()
 {
+	$_SESSION['home_add']=$_POST['home_address'];
+	$_SESSION['intitute']=$_POST['institute'];
     global $global;
     include_once($global['approot']."/inc/lib_uuid.inc");
     $id=shn_create_uuid();
@@ -161,11 +163,12 @@ function _shn_dsm_h544_commit()
     unset($_POST);
 }
 
+
 function _shn_dsm_h544_notify_to($id)
 {
     global $global;
     $db = $global['db'];
-
+    
     $sql = "SELECT * FROM rtbs_disease_notify_to WHERE disease_id={$id}";
     echo '<h2>Notify this disease to</h2>';
     echo '<ul>';
@@ -177,10 +180,12 @@ function _shn_dsm_h544_notify_to($id)
         echo '</li>';
     }
     echo "</ul>";
-    shn_form_fopen('h544',null,array('req_message'=>false));
-    shn_form_submit(_t('OK'));
-    shn_form_fclose();
-
+    //shn_form_fopen('sending',null,array('req_message'=>false));
+	$_SESSION['desease']=$id;
+	echo "<a href=\"index.php?mod=msg&act=send_console\">SEND</a>";
+    //shn_form_submit(_t('OK'));
+    //shn_form_fclose();
+    
 }
 
 function _shn_dsm_h544_to_session()
