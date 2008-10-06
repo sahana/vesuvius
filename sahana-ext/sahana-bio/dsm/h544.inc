@@ -94,7 +94,15 @@ function _shn_dsm_h544_location_form()
     shn_form_text(_t('Country'),'country','size="30');
     shn_form_text(_t('State'),'state','size="30');
     shn_form_text(_t('City'),'city','size="30');
-    shn_form_text(_t('District'),'district','size="30');
+    
+    $sql = "SELECT * FROM rtbs_district ";
+    $res = $db->Execute($sql);
+    $opt = array();
+    while(!$res->EOF){
+        $opt[$res->fields['district_id']]=$res->fields['district'];
+        $res->MoveNext();
+    }
+    shn_form_select($opt,_t('District'),'district');
     
     shn_form_submit(_t("Save"));
     shn_form_fsclose();
