@@ -1,0 +1,144 @@
+#!/bin/bash
+# This is an example how to use an eventhandler with smsd.
+# $1 is the type of the event wich can be SENT, RECEIVED, FAILED or REPORT.
+# $2 is the filename of the sms.
+# $3 is the message id. Only used for SENT messages with status report.
+# Source http://nemik.net/smsevent 
+# Based on example files from SMSTools example folder.
+#The next line changes the file attributes so that everybody can read
+#received SM
+#if [ "$1" = "RECEIVED" ]; then
+#  chmod a+r $2
+#fi
+
+
+#This sends all received SM to an eMail receiver:
+#if [ "$1" = "RECEIVED" ]; then
+#  /usr/sbin/sendmail username@localhost <$2
+#fi
+
+#This sends all received SM to eMail receiver. The recipient address 
+#must be the first word of the SM.
+
+#if [ "$1" = "RECEIVED" ]; then
+#  receiver=`cat $2 | grep '^.*@.*' | sed -n 1p | cut -f1 -d' '`
+#  if [ $receiver ]; then
+#    /usr/sbin/sendmail $receiver < $2
+#  fi
+#fi
+
+#This forwards all received SM to another mobile phone:
+#if [ "$1" = "RECEIVED" ]; then
+#  FROM=`formail -zx From: <$2`
+#  formail -f -I "To: 491721234567" <$2 >$2.forward
+#  echo "from $FROM" >> $2.forward
+#  mv $2.forward /var/spool/sms/outgoing
+#fi
+alias ls='ls'
+
+function url_encode {
+    # usage exit for too many parameters
+    [ $# -gt 1 ] && { echo >&2 "usage: url_encode [string]"; return 1; }
+    
+    # self call when an argument is given, else handle stdin
+    [ $# -eq 1 ] && { echo -n "$1" | url_encode; return $?; }
+        
+    # first create alternating lines of hex code and ascii characters
+    # then remember the hex value,
+    # convert spaces to +,
+    # keep some selected characters unchanged
+    # and use the hexvalue prefixed with a % for the rest
+    ##od -t x1c -w1 -v -An |
+    ##LANG=C awk '
+    ##  NR % 2                  { hex=$1;               next    }
+    ##  /^ *$/                  { printf("%s", "+");    next    }
+    ##  /^ *[a-zA-Z0-9.*()-]$/  { printf("%s", $1);     next    }
+    ##  /^ *\//                 { printf("%s", $1);     next    }
+    ##                          { printf("%%%s", hex)           }
+    ##'
+    hexdump -v -e '1/1 "%02x\t"' -e '1/1 "%_c\n"' |
+    LANG=C awk '
+        $1 == "20"                      { printf("%s",      "+");   next    }
+        $2 ~  /^[a-zA-Z0-9.*()\/-]$/    { printf("%s",      $2);    next    }
+                                        { printf("%%%s",    $1)             }
+    '
+}
+
+#unalias ls
+#The following code concatenates multipart text messages
+if [ "$1" = "RECEIVED" ]; then
+  if grep "UDH-DATA: 05 00 03" $2 >/dev/null; then
+    if grep "Alphabet: ISO" $2 >/dev/null || grep "Alphabet: GSM" $2 >/dev/null; then
+      # This is a multipart text message
+      multi="yes"
+      FROM=`formail -zx From: <$2`
+      UDHDATA=`formail -zx UDH-DATA: <$2`
+      # Extract information from UDH using awk to convert hex to dec
+      MSGID=`echo "$UDHDATA" | awk '{printf "%d",strtonum("0x"$4)}'`
+      PARTS=`echo "$UDHDATA" | awk '{printf "%d",strtonum("0x"$5)}'`
+      PART=`echo "$UDHDATA" | awk '{printf "%d",strtonum("0x"$6)}'`
+      # Rename the file
+      #echo "msgid: $MSGID"
+      #echo "parts: $PARTS"
+      #echo "parts: $PART"
+      #echo "2: $2"
+      #mv $2 "$FROM.$MSGID.$PART"
+      cp $2 "/var/spool/sms/incoming/$FROM.$MSGID.$PART"
+      PARTMSG="/var/spool/sms/incoming/$FROM.$MSGID.$PART"
+      #echo "THIS!!!: $FROM.$MSGID.$PART"
+      chmod 775 "/var/spool/sms/incoming/$FROM.$MSGID.$PART"
+      chmod 775 /var/spool/sms/incoming/$FROM.$MSGID.*
+      #echo "finished chmodding"
+      # Check if all parts have been received
+      #received=`ls -1 "/var/spool/sms/incoming/$FROM.$MSGID.*" | wc -l`
+      #received=`ls "/var/spool/sms/incoming/$FROM.$MSGID.*" | wc -l`
+      alias ls='ls'
+      received=`ls /var/spool/sms/incoming/$FROM.$MSGID.* | wc -l`
+      #echo $received
+      #echo "finished print received"
+      #received=`ls -1 "$2.*" | wc -l`
+      if [ "$PARTS" -eq "$received" ]; then
+        # Concatenate all parts
+        # copy header from last part into a new file
+        formail -X "" <"/var/spool/sms/incoming/$FROM.$MSGID.$PART" >$2.concatenated
+        echo "" >>$2.concatenated
+        # add the text of each part
+        counter=1
+        while [ "$counter" -le "$PARTS" ]; do
+          #echo "gonna sed now"
+	  sed -e '1,/^$/ d' <"/var/spool/sms/incoming/$FROM.$MSGID.$counter" >>$2.concatenated
+          #echo "DELETING NOW!!!!!"
+	  multi="no"
+	  rm "/var/spool/sms/incoming/$FROM.$MSGID.$counter"
+          counter=`expr $counter + 1`
+        done
+	mv $2.concatenated $2
+      fi
+    fi
+  fi
+fi
+
+if [ "$multi" != "yes" ]; then 
+
+case "$1" in
+  SENT|RECEIVED|FAILED)
+    FILE=`mktemp /tmp/smsd_XXXXXX`
+    iconv -f ISO-8859-15 -t UTF-8  < $2 > $FILE
+    mv $FILE $2
+    chmod 644 $2
+    ;;
+esac
+
+FROM=`formail -zx From: <$2`
+SENT=`formail -zx Sent: <$2`
+RECEIVED=`date +%Y"-"%m"-"%d" "%H":"%M":"%S`
+TEXT=`formail -I ""  <$2 | sed -e"1d"`
+URLTEXT=`url_encode ["$TEXT"]`
+echo $RECEIVED;
+
+if [ "$1" == "RECEIVED" ];
+then curl "http://localhost/sahana-phase2/www/index.php?mod=msg&act=receive_message&stream=text&plugin=smstools&From=$FROM&Received=$RECEIVED&message=$URLTEXT";
+
+echo $'\n\nSMS posting successful from '$FROM' message: '$TEXT $'\n\n';
+fi
+fi
