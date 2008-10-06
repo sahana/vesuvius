@@ -266,3 +266,30 @@ PRIMARY KEY ( `district_id` )
 ALTER TABLE `rtbs_location` ADD FOREIGN KEY ( `district_id` ) REFERENCES `rtbs_district` (
 `district_id`
 ) ON DELETE NO ACTION ON UPDATE CASCADE ;
+
+INSERT INTO `rtbs_district` (`district_id`, `district`) VALUES
+('Ampara', 'Ampara'),
+('Anuradhapura', 'Anuradhapura'),
+('Badulla', 'Badulla'),
+('Batticaloa', 'Batticaloa'),
+('Colombo', 'Colombo'),
+('Galle', 'Galle'),
+('Gampaha', 'Gampaha'),
+('Hambantota', 'Hambantota'),
+('Jaffna', 'Jaffna'),
+('Kalutara', 'Kalutara'),
+('Kandy', 'Kandy'),
+('Kegalle', 'Kegalle'),
+('Kilinochchi', 'Kilinochchi'),
+('Kurunegala', 'Kurunegala'),
+('Mannar', 'Mannar'),
+('Matale', 'Matale'),
+('Matara', 'Matara'),
+('Moneragala', 'Moneragala'),
+('Mullaitivu', 'Mullaitivu'),
+('Nuwara Eliya', 'Nuwara Eliya'),
+('Polonnaruwa', 'Polonnaruwa'),
+('Puttalam', 'Puttalam'),
+('Ratnapura', 'Ratnapura'),
+('Trincomalee', 'Trincomalee'),
+('Vavuniya', 'Vavuniya');
