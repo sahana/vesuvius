@@ -173,7 +173,7 @@ CREATE TABLE diagnosis_cau_factors
 */
 
 CREATE TABLE IF NOT EXISTS `rtbs_h544` (
-  `notify_id` int(11) NOT NULL auto_increment,
+  `notify_id` varchar(50) NOT NULL ,
   `institute` varchar(50) default NULL,
   `name_of_patient` varchar(50) default NULL,
   `name_of_the_guardian` varchar(50) default NULL,
@@ -245,7 +245,7 @@ INSERT INTO `rtbs_disease` (`disease_id`, `disease_name`, `disease_type`) VALUES
 
 
 CREATE TABLE IF NOT EXISTS `rtbs_location` (
-  `notify_id` int(11) NOT NULL,
+  `notify_id` varchar(50) NOT NULL,
   `country` varchar(50) default NULL,
   `state` varchar(50) default NULL,
   `city` varchar(50) default NULL,
