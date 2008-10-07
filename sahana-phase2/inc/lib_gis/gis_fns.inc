@@ -11,7 +11,7 @@
 * @author   	Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
 * @author       Richard Smith <s0459387@sms.ed.ac.uk>
-* @version		$Id: gis_fns.inc,v 1.10 2008-10-07 10:44:45 franboon Exp $
+* @version		$Id: gis_fns.inc,v 1.11 2008-10-07 17:27:43 franboon Exp $
 * @library		GIS
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -49,7 +49,7 @@ function shn_gis_map($opt_array=null)
 	if($conf['gis'])
 	{
 		$plugin_name = $conf['gis_dflt'];
-		include_once $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		show_map($opt_array);
 	}
 	else
@@ -73,7 +73,7 @@ function shn_gis_map_select($lat,$lon,$zoom)
         if("openlayers"==$conf['gis_dflt']) {
             echo '<p>'._t("You can set the viewport to your desired settings & then click 'Update Viewport Settings' to update fields ready for saving").'.</p>';
             $plugin_name = $conf['gis_dflt'];
-            include_once $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+            include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
             show_map_select($lat,$lon,$zoom);
         } else {
             return;
@@ -95,7 +95,7 @@ function shn_gis_map_uuid($uuids_)
     $db = $global['db'];
     if($conf['gis']) {
         $plugin_name = $conf['gis_dflt'];
-        include_once $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+        include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
         // "lon", "lat", "name", "desc", "date", "author", "image", "url", "edit"
         show_map_with_wiki_marker($array);
     } else {
@@ -118,7 +118,7 @@ function shn_gis_add_marker_map($name_of_map="Area Map",$name=null)
     global $conf;
     if($conf['gis']) {
         $plugin_name = $conf['gis_dflt'];
-        include_once $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+        include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
         show_add_marker_map($name);
     } else{
         shn_gis_print_msg();
@@ -128,7 +128,7 @@ function shn_gis_add_marker_map($name_of_map="Area Map",$name=null)
 /**
  * Add marker map with form elements
  * Outputs Map within form elements which listen for click events
- * Includes additional GPS boxes
+ * include_onces additional GPS boxes
  * @param string $name_of_map	Value over map
  * @param string $nameOfPoint	Name of point to be stored
  * @access public
@@ -158,7 +158,7 @@ function shn_gis_map_with_markers($array)
 	if($conf['gis'])
 	{
 		$plugin_name = $conf['gis_dflt'];
-		include_once $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		show_map_with_markers($array);
 	}	
 	else{
@@ -180,7 +180,7 @@ function shn_gis_map_with_wiki_markers($array)
 	if($conf['gis'])
 	{
 		$plugin_name = $conf['gis_dflt'];
-		include_once $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		show_map_with_wiki_marker($array);
 	}
 	else{
@@ -206,7 +206,7 @@ function shn_gis_map_with_wiki_markers_select($array,$lat,$lon)
         if("openlayers"==$conf['gis_dflt']) {
             echo '<p>'._t("Click on a Marker to make that the selection").'</p>';
             $plugin_name = $conf['gis_dflt'];
-            include_once $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+            include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
             show_map_with_wiki_markers_select($array,$lat,$lon);
         } else {
             return;
@@ -232,7 +232,7 @@ function shn_gis_density_map($array)
 	if($conf['gis'])
 	{
 		$plugin_name = $conf['gis_dflt'];
-		include_once $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+		include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
 		show_map_with_custom_markers($array);
 	}
 	else{
@@ -880,7 +880,7 @@ function shn_gis_create_feature($keys_)
 {
     global $global;
     global $conf;
-    include_once $global['approot']."/inc/lib_uuid.inc";
+    include $global['approot']."/inc/lib_uuid.inc";
     $db = $global['db'];
 
     $feature_uuid   = shn_create_uuid('g');
@@ -1246,7 +1246,7 @@ function shn_gis_modify_feature_module_item($f_module_item_, $keys_)
 function shn_gis_create_feature_class($module_ref_, $name_, $description_, $icon_, $color_)
 {
     global $global;
-    include_once $global['approot']."/inc/lib_uuid.inc";
+    include $global['approot']."/inc/lib_uuid.inc";
     $db = $global['db'];
 
     $feature_class_uuid = shn_create_uuid('g');
@@ -1479,7 +1479,7 @@ function shn_gis_get_feature_class_uuid($feature_class_uuid_)
 function shn_gis_create_layer($name_, $description_)
 {
     global $global;
-    include_once $global['approot']."/inc/lib_uuid.inc";
+    include $global['approot']."/inc/lib_uuid.inc";
     $db = $global['db'];
 
     $layer_uuid = shn_create_uuid('g');
