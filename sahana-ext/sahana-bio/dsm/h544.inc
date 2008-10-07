@@ -1,4 +1,20 @@
 <?php
+/** 
+ * H544 data entry page
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author	   Miyuru Daminda <miyurudw@gmail.com>
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    module
+ * @subpackage dsm
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * 
+ */
 function _shn_dsm_h544_input_form()
 {
     global $global;

@@ -1,19 +1,19 @@
-/*Disease Surviellance TABLES*/
+-- Disease Surviellance TABLES
 
-/**
-* Dropping tables if exists
-* Modules: dsm 
-* Last Edited: 15-May-2008 
-*/
+
+-- Dropping tables if exists
+-- Modules: dsm 
+-- Last Edited: 15-May-2008 
+
 
 DROP TABLE IF EXISTS `diseases`;
 
 
-/**
-* Table to store details about disease
-* Modules: dsm
-* Last Edited: JUNE-2008 virajed@opensource.lk
-*/
+
+-- Table to store details about disease
+-- Modules: dsm
+-- Last Edited: JUNE-2008 virajed@opensource.lk
+
 
 CREATE TABLE diseases 
 	(dis_id varchar(60) NOT NULL PRIMARY KEY, 
@@ -29,11 +29,11 @@ CREATE TABLE diseases
 DROP TABLE IF EXISTS `diagnosis`;
 
 
-/**
-* Table to store details about diagnosis
-* Modules: dsm
-* Last Edited: JUNE-2008 virajed@opensource.lk
-*/
+
+-- Table to store details about diagnosis
+-- Modules: dsm
+-- Last Edited: JUNE-2008 virajed@opensource.lk
+
 
 CREATE TABLE diagnosis 
 	(dia_id varchar(60) NOT NULL PRIMARY KEY, 
@@ -55,11 +55,11 @@ CREATE TABLE diagnosis
 DROP TABLE IF EXISTS `symptoms`;
 
 
-/**
-* Table to store signs and symptom details
-* Modules: dsm
-* Last Edited: JUNE-2008 virajed@opensource.lk
-*/
+
+-- Table to store signs and symptom details
+-- Modules: dsm
+-- Last Edited: JUNE-2008 virajed@opensource.lk
+
 
 CREATE TABLE symptoms 
 	(sym_id varchar(60) NOT NULL PRIMARY KEY, 
@@ -73,11 +73,11 @@ CREATE TABLE symptoms
 DROP TABLE IF EXISTS `disease_symptoms`;
 
 
-/**
-* Table to store signs and symptoms related to a disease
-* Modules: dsm
-*Last Edited: JUNE-2008 virajed@opensource.lk
-*/
+
+-- Table to store signs and symptoms related to a disease
+-- Modules: dsm
+-- Last Edited: JUNE-2008 virajed@opensource.lk
+
 
 CREATE TABLE disease_symptoms 
 	(dis_id varchar(60) NOT NULL, 
@@ -95,11 +95,11 @@ CREATE TABLE disease_symptoms
 DROP TABLE IF EXISTS `diagnosis_symptoms`;
 
 
-/**
-* Table to store signs and symptoms related to a patient
-* Modules: dsm
-* Last Edited: JUNE-2008 virajed@opensource.lk
-*/
+
+-- Table to store signs and symptoms related to a patient
+-- Modules: dsm
+-- Last Edited: JUNE-2008 virajed@opensource.lk
+
 
 CREATE TABLE diagnosis_symptoms 
 	(dia_id varchar(60) NOT NULL, 
@@ -113,11 +113,11 @@ CREATE TABLE diagnosis_symptoms
 DROP TABLE IF EXISTS `causative_factors`;
 
 
-/**
-* Table to store signs and symptom details
-* Modules: dsm
-* Last Edited: JUNE-2008 virajed@opensource.lk
-*/
+
+-- Table to store signs and symptom details
+-- Modules: dsm
+-- Last Edited: JUNE-2008 virajed@opensource.lk
+
 
 CREATE TABLE causative_factors 
 	(fac_id varchar(60) NOT NULL PRIMARY KEY, 
@@ -131,11 +131,11 @@ CREATE TABLE causative_factors
 DROP TABLE IF EXISTS `disease_cau_factors`;
 
 
-/**
-* Table to store signs and symptoms related to a disease
-* Modules: dsm
-*Last Edited: JUNE-2008 virajed@opensource.lk
-*/
+
+-- Table to store signs and symptoms related to a disease
+-- Modules: dsm
+-- Edited: JUNE-2008 virajed@opensource.lk
+
 
 CREATE TABLE disease_cau_factors 
 	(dis_id varchar(60) NOT NULL, 
@@ -153,11 +153,11 @@ CREATE TABLE disease_cau_factors
 DROP TABLE IF EXISTS `diagnosis_cau_factors`;
 
 
-/**
-* Table to store signs and symptoms related to a patient
-* Modules: dsm
-* Last Edited: JUNE-2008 virajed@opensource.lk
-*/
+
+-- Table to store signs and symptoms related to a patient
+-- Modules: dsm
+-- Last Edited: JUNE-2008 virajed@opensource.lk
+
 
 CREATE TABLE diagnosis_cau_factors 
 	(dia_id varchar(60) NOT NULL, 
@@ -168,9 +168,9 @@ CREATE TABLE diagnosis_cau_factors
     FOREIGN KEY(fac_id) REFERENCES causative_factors(fac_id));
 
 
-/**
-* Tables for RTBS
-*/
+
+-- Tables for RTBS
+
 
 CREATE TABLE IF NOT EXISTS `rtbs_h544` (
   `notify_id` varchar(50) NOT NULL ,
@@ -191,6 +191,8 @@ CREATE TABLE IF NOT EXISTS `rtbs_h544` (
   `name_of_doctor` varchar(50) default NULL,
   `status_of_doctor` varchar(50) default NULL,
   `date` date default NULL,
+  `investigated` int(11) default NULL,
+  `notifalble` int(11) default NULL,
   PRIMARY KEY  (`notify_id`),
   KEY `disease_id` (`disease_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
@@ -215,24 +217,24 @@ ALTER TABLE `rtbs_disease_notify_to`
 ALTER TABLE `rtbs_h544`
   ADD CONSTRAINT `rtbs_h544_ibfk_1` FOREIGN KEY (`disease_id`) REFERENCES `rtbs_disease` (`disease_id`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
-/*add data*/
+-- add data
 INSERT INTO `rtbs_disease` (`disease_id`, `disease_name`, `disease_type`) VALUES
 (1, 'Cholera', 'A'),
 (2, 'Plague', 'A'),
 (3, 'Yellow Fever', 'A'),
-(4, 'Polio Myelitis / Acute Flaccid Paralysis', 'B'),
+(4, 'Polio Myelitis or Acute Flaccid Paralysis', 'B'),
 (5, 'Diphtheria', 'B'),
 (6, 'Dysentery', 'B'),
 (7, 'Pertussis', 'B'),
 (8, 'Enteric Fever', 'B'),
 (9, 'Food Poisoning', 'B'),
-(10, 'Tetanus/neonatal tetanus', 'B'),
+(10, 'Tetanus or neonatal tetanus', 'B'),
 (11, 'Measles', 'B'),
 (12, 'Malaria', 'B'),
-(13, 'Rubella/Congenital Rubella Syndrome', 'B'),
+(13, 'Rubella or Congenital Rubella Syndrome', 'B'),
 (14, 'Viral Hepatitis', 'B'),
 (15, 'Leptospirosis', 'B'),
-(16, 'Dengue Fever/ Dengue Haemorragic Fever', 'B'),
+(16, 'Dengue Fever or Dengue Haemorragic Fever', 'B'),
 (17, 'Encephalitis (including Japanese Encephalitis)', 'B'),
 (18, 'Human Rabies', 'B'),
 (19, 'Mumps', 'B'),
@@ -268,28 +270,28 @@ ALTER TABLE `rtbs_location` ADD FOREIGN KEY ( `district_id` ) REFERENCES `rtbs_d
 ) ON DELETE NO ACTION ON UPDATE CASCADE ;
 
 INSERT INTO `rtbs_district` (`district_id`, `district`) VALUES
-('Ampara', 'Ampara'),
-('Anuradhapura', 'Anuradhapura'),
-('Badulla', 'Badulla'),
-('Batticaloa', 'Batticaloa'),
-('Colombo', 'Colombo'),
-('Galle', 'Galle'),
-('Gampaha', 'Gampaha'),
-('Hambantota', 'Hambantota'),
-('Jaffna', 'Jaffna'),
-('Kalutara', 'Kalutara'),
-('Kandy', 'Kandy'),
-('Kegalle', 'Kegalle'),
-('Kilinochchi', 'Kilinochchi'),
-('Kurunegala', 'Kurunegala'),
-('Mannar', 'Mannar'),
-('Matale', 'Matale'),
-('Matara', 'Matara'),
-('Moneragala', 'Moneragala'),
-('Mullaitivu', 'Mullaitivu'),
-('Nuwara Eliya', 'Nuwara Eliya'),
-('Polonnaruwa', 'Polonnaruwa'),
-('Puttalam', 'Puttalam'),
-('Ratnapura', 'Ratnapura'),
-('Trincomalee', 'Trincomalee'),
-('Vavuniya', 'Vavuniya');
+('1', 'Ampara'),
+('2', 'Anuradhapura'),
+('3', 'Badulla'),
+('4', 'Batticaloa'),
+('5', 'Colombo'),
+('6', 'Galle'),
+('7', 'Gampaha'),
+('8', 'Hambantota'),
+('9', 'Jaffna'),
+('10', 'Kalutara'),
+('11', 'Kandy'),
+('12', 'Kegalle'),
+('13', 'Kilinochchi'),
+('14', 'Kurunegala'),
+('15', 'Mannar'),
+('16', 'Matale'),
+('17', 'Matara'),
+('18', 'Moneragala'),
+('19', 'Mullaitivu'),
+('20', 'Nuwara Eliya'),
+('21', 'Polonnaruwa'),
+('22', 'Puttalam'),
+('23', 'Ratnapura'),
+('24', 'Trincomalee'),
+('25', 'Vavuniya');
