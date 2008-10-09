@@ -56,7 +56,7 @@ function _shn_setup_write_config($config_key_vals,$undo=false){
  * General Call back implementation to setup the database tables and users.
  *
  * @param Array $conf_key_vals The configuration key value pairs.
- * @param Array $db_action The names of the actions which are used to construct the delegate method call. 
+ * @param Array $db_action The names of the actions which are used to construct the delegate method call.
  *                          Executed in the order specified.
  * @return boolean Whether the operation succeeded or not.
  */
@@ -142,6 +142,11 @@ function _shn_setup_db_setup_db_mysql($conf_key_vals){
 	$global['db'] = $_tdb3;
 	$conf['db_engine']=$conf_key_vals['db_type'];
 	$conf['mysql_engine']="myisam";
+
+	if($conf['db_engine'] == 'mysql')
+	{
+		$db->Execute("set storage_engine ='".$conf['mysql_engine']."'");
+	}
 	// setup the base.
 	_shn_setup_run_sqlscript($_tdb3,'inst/mysql-dbcreate.sql');
 	_shn_setup_run_sqlscript($_tdb3,'inst/mysql-config.sql');
@@ -192,7 +197,7 @@ function _shn_setup_db_setup_db_mysql($conf_key_vals){
 	//$res = $_tdb3->CompleteTrans();
 	//$_tdb3->Close();
 	//return $res;
-	
+
 	// add the version information to the database.
 	include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
 	$_tdb3->Execute("INSERT INTO version(version,release,release_date,release_info) VALUES ('".$about['version']."','".$about['release']."','".$about['release_date']."','".$about['release_info']."')");
