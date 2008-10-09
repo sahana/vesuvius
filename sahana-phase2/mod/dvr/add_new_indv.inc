@@ -93,6 +93,9 @@ else
 	if(isset( $_POST['group_id'])){
 	    _shn_dvr_set_ajax_group_id();
 	}
+	if(isset($_SESSION['dvr']['person']['group_id'])){
+	    _shn_dvr_set_ajax_group_id(true);
+	}
 
 //echo $_POST['family_id'];
 
@@ -898,12 +901,21 @@ function get_group_disloc()
 }
 
 
-function _shn_dvr_set_ajax_group_id(){
+function _shn_dvr_set_ajax_group_id($session = false){
+    
+    if(!$session){
 	?>
 	<script>
 		    document.getElementById('group_id').value='<?php echo $_POST['group_id'];?>';
 	</script>
     <?php
+    }else{
+        ?>
+    	<script>
+		    document.getElementById('group_id').value='<?php echo $_SESSION['dvr']['person']['group_id'];?>';
+		</script>
+    	<?php
+    }
 }
 ?>
 
