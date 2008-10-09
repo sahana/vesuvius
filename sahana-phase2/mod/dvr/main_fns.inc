@@ -172,6 +172,7 @@ function shn_dvr_add_new_grp() {
 		_shn_dvr_commit();
 		//shn_dvr_mbr_confirm();
 		shn_dvr_mbr_confirm();
+		shn_dvr_default();
 		unset($_SESSION['dvr']['group']);
 	} else
 		if ($_REQUEST['edit_details'] != null) {

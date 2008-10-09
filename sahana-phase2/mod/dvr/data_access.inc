@@ -62,7 +62,7 @@ function _shn_dvr_add_group()
 
 	_dvr_add_contact($_SESSION['dvr_add_group']['entry']['p_uuid'], 'address', $_SESSION['dvr']['group']['address']);
 
-	echo '< LOCATION: X:' . $_SESSION['dvr']['group']['gis_loc_x'] . 'Y: ' . $_SESSION['dvr']['group']['gis_loc_y'];
+	//echo '< LOCATION: X:' . $_SESSION['dvr']['group']['gis_loc_x'] . 'Y: ' . $_SESSION['dvr']['group']['gis_loc_y'];
     /*
     if($conf['gis']){
         require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
