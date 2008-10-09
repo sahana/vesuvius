@@ -274,8 +274,12 @@ switch ($_REQUEST['seq'])
             break;
 
     case 'add_donor':
-
-    	    if(!isset($_POST['user']) && ($_POST['name']!=null && $_POST['card_number']!=null)) {
+			if(isset($_POST['user'])){
+			    $_SESSION['rms_donor_id'] = $_SESSION['user_id'];
+				_shn_rms_donor_display($_SESSION['user_id']);
+                _shn_rms_items();
+			}
+    	    elseif(!isset($_POST['user']) && ($_POST['name']!=null && $_POST['card_number']!=null)) {
     	        $donor['name'] = $_POST['name'];
 	            $donor['mobile'] = $_POST['mobile'];
 	            $donor['telephone'] = $_POST['telephone'];
