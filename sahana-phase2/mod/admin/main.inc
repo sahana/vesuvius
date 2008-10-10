@@ -32,6 +32,7 @@ include_once $global['approot']."mod/admin/conf_admin.inc";
 
 // Module Management Console
 include_once $global['approot']."mod/admin/mmc_main.inc";
+include_once $global['approot'] . '/inc/lib_xajax.inc';
 
 
 
@@ -49,6 +50,11 @@ function shn_admin_view()
         <p><?=_t(" on module") ?> </p>
 <?php
 
+}
+
+function shn_admin_field_option_config(){
+	include_once 'lib_fo_config.inc';
+	_shn_admin_field_option_config();
 }
 
 function shn_admin_default()
