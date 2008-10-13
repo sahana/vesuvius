@@ -35,13 +35,12 @@ if (empty ($_SESSION['user_pref_ims_incident_id'])) {
 	if ($rs) {
 		$_SESSION['user_pref_ims_incident_id'] = $rs[0][0];
 	} else {
-?>
-<script>
-alert('There are no incidents added. Please use the admin console to add atleast one incident.');
-</script>
-<?php
-
+        add_warning('There are no incidents added. Please use the admin console to add atleast one incident.');
+	add_warning('You cannot use Missing Person Registry without adding an incident.');
 	}
+}
+if($_SESSION['user_pref_ims_incident_id']==null && $_REQUEST['act']!='default'){
+     header('Location: index.php?mod=mpr&act=default');   
 }
 /* }}} */
 
