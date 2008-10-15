@@ -19,8 +19,24 @@
 */
 
 // Display all the reports as a list
-function shn_sr_view_reports()
+function shn_sr_view_reports($type)
 {
-	print "list all";
+	// get the logged in user
+	$user=$_SESSION['user'];
+	
+	// check the requested type
+	if($type=='all'){
+		// display all the reports
+		
+	} else {
+		// display only for this incident
+		
+		// incident id
+		$incident_id=$_SESSION['user_pref_ims_incident_id'];
+			
+		
+	}
 }
+
+
 ?>

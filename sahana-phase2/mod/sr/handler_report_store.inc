@@ -35,14 +35,24 @@ function shn_sr_store_reg_new_report($rpt_name,$rpt_desc)
 		//generate uuid for the report
 		$report_id=shn_create_uuid('sitrep');
 		
+		// get the logged in user
+		$user=$_SESSION['user'];
+		
 		// get the incident id
 		$incident_id=$_SESSION['user_pref_ims_incident_id'];
 		
-		$q=" INSERT INTO sitrep_info (sitrep_info.report_id, sitrep_info.name, sitrep_info.description, sitrep_info.incident_id) VALUES ('$report_id','$rpt_name','$rpt_desc','$incident_id');";
+		$q="INSERT INTO sitrep_info (sitrep_info.report_id, sitrep_info.name, sitrep_info.description, sitrep_info.incident_id) VALUES ('$report_id','$rpt_name','$rpt_desc','$incident_id');";
 
 		$res=$db->Execute($q);
 		if($res){
-			add_confirmation("Situation Report <strong>$rpt_name</strong> was registered successfully!");
+			$q="INSERT INTO sitrep_detail (sitrep_detail.report_id, sitrep_detail.author, sitrep_detail.status) VALUES ('$report_id','$user','create');";
+			
+			$res=$db->Execute($q);
+			if($res){
+				add_confirmation("Situation Report <strong>$rpt_name</strong> was registered successfully!");
+			} else {
+				add_error("Can not add Situation Report <strong>$rpt_name</strong> to the system!");	
+			}
 		}
 	}
 }
