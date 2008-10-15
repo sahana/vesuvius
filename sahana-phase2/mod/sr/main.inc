@@ -50,7 +50,6 @@ function shn_sr_form_submit()
 	
 	switch ($key) {
 		case "reg":
-			print "<br>Report registry was captured";
 			$rpt_name=$_POST['name'];
 			$rpt_desc=$_POST['desc'];
 			shn_sr_store_reg_new_report($rpt_name,$rpt_desc);
@@ -68,7 +67,8 @@ function shn_sr_default()
 function shn_sr_create()
 {
 	print "<h1>Report an incident</h1>";
-	shn_sr_form_create();
+	// capture basic "report" information
+	shn_sr_report_register();
 }
 
 

@@ -31,10 +31,10 @@ function shn_sr_form_create()
 	shn_sr_report_register();
 	
 	// strore gathered "report" information
-	shn_sr_store_reg_new_report();
+	//shn_sr_store_reg_new_report();
 	
 	// capture other details of the "report"
-	shn_sr_report_detail_form();
+	//shn_sr_report_detail_form();
 }
 
 function shn_sr_form_tabs()
