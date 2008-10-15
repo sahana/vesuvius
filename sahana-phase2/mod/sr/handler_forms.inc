@@ -17,13 +17,10 @@
 * Public License (LGPL)
 *  
 */
-function shn_sr_adm_default()
-{
-?>
-    <p><b><?=_t("Welcome to Situation Report admin page")?> </b></p>
-<?php
-	 
+include_once $global['approot'].'/inc/lib_menu.inc';
+include_once $global['approot'].'/inc/lib_form.inc';
+include_once $global['approot'].'/inc/lib_validate.inc';
+include_once $global['approot'].'/inc/lib_errors.inc';
 
-}
 
 ?>

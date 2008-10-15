@@ -1,0 +1,45 @@
+<?php
+/**
+* The Situation Report (SITRep) Module
+*
+* PHP version 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* @author		Pradeeper <pradeeper@respere.com>
+* @copyright    Respere - http://respere.com/
+* @package		sahana
+* @subpackage   sr
+* @tutorial
+* @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
+* Public License (LGPL)
+*  
+*/
+include_once $global['approot'].'/inc/lib_menu.inc';
+include_once $global['approot'].'/inc/lib_form.inc';
+include_once $global['approot'].'/inc/lib_validate.inc';
+include_once $global['approot'].'/inc/lib_errors.inc';
+include_once "handler_forms.inc";
+
+
+function shn_sr_form_create()
+{
+	// capture basic "report" information
+	// strore gathered "report" information
+	// capture other details of the "report"
+}
+
+function shn_sr_form_tabs()
+{
+	?>
+        <div id="submenu_v">
+        <?php if(!($tab=="types")) {?><a href="index.php?mod=dir&act=adm_types"><?php }echo _("<b>Add Types</b>")?></a>
+        <?php if(!($tab=="delete")) {?> <a href="index.php?mod=dir&act=adm_delete"><?} echo _("<b>Delete Types</b>") ?></a>
+        <?php if(!($tab=="import")) {?><a href="index.php?mod=dir&act=adm_import"><?php }echo _("<b>Import Data</b>")?></a>
+        </div>
+        <br>
+        <?php
+}
+?>

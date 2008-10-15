@@ -22,7 +22,7 @@ include_once $global['approot'].'/inc/lib_menu.inc';
 include_once $global['approot'].'/inc/lib_form.inc';
 include_once $global['approot'].'/inc/lib_validate.inc';
 include_once $global['approot'].'/inc/lib_errors.inc';
-
+include_once "lib_form.inc";
 
 include_once($global['approot'].'inc/lib_log.inc');
 
@@ -34,6 +34,7 @@ function shn_sr_mainmenu()
     
     shn_mod_menuopen(_t('Situation Report'));
     	shn_mod_menuitem('default',_t('Home'));
+    	shn_mod_menuitem('create',_t('Report'));
     	shn_mod_menuitem('view',_t('View'));
     	shn_mod_menuitem('update',_t('Update'));
     shn_sub_mod_menuclose();
@@ -42,11 +43,24 @@ function shn_sr_mainmenu()
 
 }
 
+// Form submition capture
+function shn_sr_form_submit()
+{
+	print "got it";
+}
+
 function shn_sr_default()
 {
 	print "<h1><center>Welcome to Situation Report</center></h1>";
 	print "SITRep Dashboard!";
 }
+
+function shn_sr_create()
+{
+	print "<h1>Report an incident</h1>";
+	shn_sr_form_create();
+}
+
 
 function shn_sr_view()
 {
