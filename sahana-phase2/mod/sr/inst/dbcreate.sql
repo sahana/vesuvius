@@ -10,13 +10,13 @@
 DROP TABLE IF EXISTS `sitrep_info`;
 CREATE TABLE sitrep_info
 (
-	sitrep_uuid VARCHAR(20) NOT NULL,
+	report_id VARCHAR(20) NOT NULL,
 	name VARCHAR(100) NOT NULL,
 	description VARCHAR(200),
 	incident_id BIGINT,
 	create_date timestamp,
 	FOREIGN KEY (incident_id) REFERENCES incident (incident_id),  
-	PRIMARY KEY(sitrep_uuid)
+	PRIMARY KEY(report_id)
 );
 
 /**
@@ -29,7 +29,7 @@ CREATE TABLE sitrep_info
 DROP TABLE IF EXISTS `sitrep_detail`;
 CREATE TABLE sitrep_detail
 (
-	sitrep_uuid VARCHAR(20) NOT NULL,
+	report_id VARCHAR(20) NOT NULL,
 	update_date timestamp,
 	author VARCHAR(100),
 	summary LONGTEXT,
@@ -38,6 +38,6 @@ CREATE TABLE sitrep_detail
 	key_fig LONGTEXT,
 	status VARCHAR(10),
 	datetime timestamp,
-	FOREIGN KEY (sitrep_uuid) REFERENCES sitrep_info (sitrep_uuid),  
-	PRIMARY KEY(sitrep_uuid)
+	FOREIGN KEY (report_id) REFERENCES sitrep_info (report_id),  
+	PRIMARY KEY(report_id)
 );
