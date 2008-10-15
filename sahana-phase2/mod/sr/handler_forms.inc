@@ -22,5 +22,46 @@ include_once $global['approot'].'/inc/lib_form.inc';
 include_once $global['approot'].'/inc/lib_validate.inc';
 include_once $global['approot'].'/inc/lib_errors.inc';
 
+// Regsiter new report
+function shn_sr_report_register()
+{
+	print "<br>display new report forms";
+}
+
+// Capture report details
+function shn_sr_report_detail_form()
+{
+	print "<br>dsiplay report details";
+	_shn_sr_form_summary();
+	_shn_sr_form_event_dev();
+	_shn_sr_form_action();
+	_shn_sr_form_key_figures();
+}
+
+// Summary report form
+function _shn_sr_form_summary()
+{
+	print "<br>Summary goes here";
+}
+
+// Event development report form
+function _shn_sr_form_event_dev()
+{
+	print "<br>Event development goes here";
+}
+
+// Action report form
+function _shn_sr_form_action()
+{
+	print "<br>Action goes here";
+}
+
+// Key-Figures report form
+function _shn_sr_form_key_figures()
+{
+	print "<br>Key-Figures goes here";
+}
+
+
 
 ?>

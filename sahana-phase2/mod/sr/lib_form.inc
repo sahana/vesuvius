@@ -22,13 +22,19 @@ include_once $global['approot'].'/inc/lib_form.inc';
 include_once $global['approot'].'/inc/lib_validate.inc';
 include_once $global['approot'].'/inc/lib_errors.inc';
 include_once "handler_forms.inc";
+include_once "handler_report_store.inc";
 
 
 function shn_sr_form_create()
 {
 	// capture basic "report" information
+	shn_sr_report_register();
+	
 	// strore gathered "report" information
+	shn_sr_store_reg_new_report();
+	
 	// capture other details of the "report"
+	shn_sr_report_detail_form();
 }
 
 function shn_sr_form_tabs()
