@@ -24,6 +24,7 @@ include_once $global['approot'].'/inc/lib_validate.inc';
 include_once $global['approot'].'/inc/lib_errors.inc';
 include_once "lib_form.inc";
 include_once "handler_report_store.inc";
+include_once "lib_reports.inc";
 include_once($global['approot'].'inc/lib_log.inc');
 
 
@@ -74,7 +75,9 @@ function shn_sr_create()
 
 function shn_sr_view()
 {
-	print "view";
+	print "<h1>Situation Reports</h1>";
+	// List all the reports
+	shn_sr_view_reports();
 }
 
 function shn_sr_update()
