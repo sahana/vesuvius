@@ -44,7 +44,7 @@ function shn_sr_mainmenu()
 }
 
 // Form submition capture
-function shn_sr_form_submit()
+function shn_sr_form_submit($values)
 {
 	print "got it";
 }

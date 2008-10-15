@@ -25,7 +25,14 @@ include_once $global['approot'].'/inc/lib_errors.inc';
 // Regsiter new report
 function shn_sr_report_register()
 {
-	print "<br>display new report forms";
+	shn_form_fopen("form_submit", null,array('req_message' => true));
+		shn_form_fsopen(_t("Report Information"));
+			shn_form_text(_t('Report Name'), 'name',null,array('req'=>true));
+			shn_form_textarea(_t('Description','desc'));
+		shn_form_fsclose();	
+		shn_form_submit(_t("Register"),$submit_opts = null);
+	shn_form_fclose();
+	
 }
 
 // Capture report details
