@@ -23,7 +23,7 @@ include_once $global['approot'].'/inc/lib_form.inc';
 include_once $global['approot'].'/inc/lib_validate.inc';
 include_once $global['approot'].'/inc/lib_errors.inc';
 include_once "lib_form.inc";
-
+include_once "handler_report_store.inc";
 include_once($global['approot'].'inc/lib_log.inc');
 
 
@@ -44,9 +44,19 @@ function shn_sr_mainmenu()
 }
 
 // Form submition capture
-function shn_sr_form_submit($values)
+function shn_sr_form_submit()
 {
-	print "got it";
+	$key=$_POST['key'];
+	
+	switch ($key) {
+		case "reg":
+			print "<br>Report registry was captured";
+			$rpt_name=$_POST['name'];
+			$rpt_desc=$_POST['desc'];
+			shn_sr_store_reg_new_report($rpt_name,$rpt_desc);
+		break;
+		
+	}
 }
 
 function shn_sr_default()
