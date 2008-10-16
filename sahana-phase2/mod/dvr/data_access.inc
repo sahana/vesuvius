@@ -54,6 +54,12 @@ function _shn_dvr_add_group()
 	$q5 = "INSERT INTO identity_to_person (p_uuid,serial,opt_id_type) VALUES ('{$_SESSION['dvr_add_group']['entry']['p_uuid']}','{$_SESSION['dvr']['group']['nic']}','idcard')";
 	$res = $db->Execute($q5);
 
+	$pas = "INSERT INTO identity_to_person (p_uuid,serial,opt_id_type) VALUES ('{$_SESSION['dvr_add_group']['entry']['p_uuid']}','{$_SESSION['dvr']['group']['dln']}','pas')";
+	$res = $db->Execute($pas);
+
+	$dln = "INSERT INTO identity_to_person (p_uuid,serial,opt_id_type) VALUES ('{$_SESSION['dvr_add_group']['entry']['p_uuid']}','{$_SESSION['dvr']['group']['dln']}','dln')";
+	$res = $db->Execute($dln);
+
 	_dvr_add_contact($_SESSION['dvr_add_group']['entry']['p_uuid'], 'mobile', $_SESSION['dvr']['group']['mobile']);
 
 	_dvr_add_contact($_SESSION['dvr_add_group']['entry']['p_uuid'], 'telephone', $_SESSION['dvr']['group']['telephone']);
@@ -113,6 +119,12 @@ function _shn_dvr_add_group()
 
     $q11="INSERT INTO resource_to_shelter(x_uuid,c_uuid) VALUES('{$groupid}','{$_SESSION['dvr']['group']['camps']}') ";
     $db->Execute($q11);
+
+	$q12 = "INSERT INTO person_details(p_uuid) VALUES('{$_SESSION['dvr_add_group']['entry']['p_uuid']}')";
+    $res = $db->Execute($q12);
+
+	$q13 = "INSERT INTO person_physical (p_uuid) VALUES ('{$_SESSION['dvr_add_group']['entry']['p_uuid']}')";
+	$db->Execute($q13);
 
 }
 
