@@ -145,7 +145,7 @@ function _shn_setup_db_setup_db_mysql($conf_key_vals){
 
 	if($conf['db_engine'] == 'mysql')
 	{
-		$global['db']->Execute("set storage_engine ='".$conf['mysql_engine']."'");
+		$_tdb3->Execute("set storage_engine ='".$conf['mysql_engine']."'");
 	}
 	// setup the base.
 	_shn_setup_run_sqlscript($_tdb3,'inst/mysql-dbcreate.sql');
