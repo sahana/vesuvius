@@ -41,7 +41,7 @@ function shn_sr_report_detail_form()
 {
 	print "<h1>Report Information</h1>";
 	shn_form_fopen("form_submit",null,array ('req_message' => false,'tab'=>'float'));
-		shn_form_hidden(array("key"=>"reg"));
+		shn_form_hidden(array("key"=>"reports"));
 		shn_form_fsopen('Summary');
 			_shn_sr_form_summary();
 		shn_form_fsclose();

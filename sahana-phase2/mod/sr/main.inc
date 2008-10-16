@@ -56,6 +56,13 @@ function shn_sr_form_submit()
 			shn_sr_store_reg_new_report($rpt_name,$rpt_desc);
 		break;
 		
+		case "reports":
+			$rpt_summary=$_POST['summary'];
+			$rpt_event=$_POST['event'];
+			$rpt_action=$_POST['action'];
+			$rpt_figure=$_POST['figure'];
+			shn_sr_store_report_update($rpt_summary, $rpt_event, $rpt_action, $rpt_figure);
+		break;	
 	}
 }
 

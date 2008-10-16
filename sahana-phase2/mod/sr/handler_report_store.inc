@@ -19,6 +19,7 @@
 */
 include_once "handler_forms.inc";
 
+// store new basic report information to the db
 function shn_sr_store_reg_new_report($rpt_name,$rpt_desc)
 {
 	// connect to db
@@ -55,5 +56,11 @@ function shn_sr_store_reg_new_report($rpt_name,$rpt_desc)
 			}
 		}
 	}
+}
+
+// store detail information about reports as updates
+function shn_sr_store_report_update($rpt_summary, $rpt_event, $rpt_action, $rpt_figure)
+{
+	print "store";
 }
 ?>
