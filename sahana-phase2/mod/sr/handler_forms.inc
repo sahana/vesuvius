@@ -39,30 +39,34 @@ function shn_sr_report_register()
 // Capture report details
 function shn_sr_report_detail_form()
 {
-	print "<br>dsiplay report details";
-	_shn_sr_form_summary();
-	_shn_sr_form_event_dev();
-	_shn_sr_form_action();
-	_shn_sr_form_key_figures();
+	print "<h1>Report Information</h1>";
+	shn_form_fopen("form_submit",null,array ('req_message' => false,'tab'=>'float'));
+		shn_form_hidden(array("key"=>"reg"));
+		shn_form_fsopen('Summary');
+			_shn_sr_form_summary();
+		shn_form_fsclose();
+		shn_form_fsopen('Event');
+			_shn_sr_form_event_dev();
+		shn_form_fsclose();	
+		//_shn_sr_form_action();
+		//_shn_sr_form_key_figures();
+		shn_form_submit(_t("Update"),$submit_opts = null);
+	shn_form_fclose();
 }
 
 // Summary report form
 function _shn_sr_form_summary()
 {
-	print "<br>Summary goes here";
+	shn_form_fckeditor(_t('Summary Report'),'summary',null,array('value'=>$res['summary']));
 }
 
 // Event development report form
 function _shn_sr_form_event_dev()
 {
-	print "<br>Event development goes here";
+	shn_form_fckeditor(_t('Event Development Report'),'event',null,array('value'=>$res['event']));
 }
 
 // Action report form
-function _shn_sr_form_action()
-{
-	print "<br>Action goes here";
-}
 
 // Key-Figures report form
 function _shn_sr_form_key_figures()
