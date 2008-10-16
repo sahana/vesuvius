@@ -78,7 +78,14 @@ function shn_sr_store_report_update($rpt_id, $rpt_summary, $rpt_event, $rpt_acti
 		// get the incident id
 		$incident_id=$_SESSION['user_pref_ims_incident_id'];
 		
-		$q="";
+		$q="INSERT INTO sitrep_detail (report_id, author, summary, event_dev, act, key_fig) VALUES ('$rpt_id','$user','$rpt_summary','$rpt_event','$rpt_action','$rpt_figure');";
+		
+		$res=$db->Execute($q);
+		if($res){
+			add_confirmation("Situation Report <strong>$rpt_name</strong> was updated successfully!");
+		} else {
+			add_error("Can not update Situation Report <strong>$rpt_name</strong> to the system!");	
+		}
 	}
 	
 }
