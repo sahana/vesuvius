@@ -157,7 +157,7 @@ function _shn_setup_get_available_themes(){
  * @return Array Array containing the essencial modules' short codes.
  */
 function _shn_setup_get_essencial_modules(){
-	return array ('home','admin','gis','pref');
+	return array ('home','admin','pref');
 }
 
 function _shn_setup_set_step_function($funct){
