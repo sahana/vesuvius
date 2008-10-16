@@ -48,8 +48,12 @@ function shn_sr_report_detail_form()
 		shn_form_fsopen('Event');
 			_shn_sr_form_event_dev();
 		shn_form_fsclose();	
-		//_shn_sr_form_action();
-		//_shn_sr_form_key_figures();
+		shn_form_fsopen('Action');
+			_shn_sr_form_action();
+		shn_form_fsclose();
+		shn_form_fsopen('Figures');
+			_shn_sr_form_key_figures();
+		shn_form_fsclose();	
 		shn_form_submit(_t("Update"),$submit_opts = null);
 	shn_form_fclose();
 }
@@ -67,6 +71,10 @@ function _shn_sr_form_event_dev()
 }
 
 // Action report form
+function _shn_sr_form_action()
+{
+	print "<br>Action goes here";
+}
 
 // Key-Figures report form
 function _shn_sr_form_key_figures()

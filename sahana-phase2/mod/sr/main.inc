@@ -86,7 +86,8 @@ function shn_sr_report()
 	// capture the id from URL
 	$rpt_id=$_GET['id'];
 	
-	print "report is $rpt_id";
+	//print "report is $rpt_id";
+	shn_sr_report_detail_form();
 }
 
 function shn_sr_update()
