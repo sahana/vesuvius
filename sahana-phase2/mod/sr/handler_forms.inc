@@ -73,13 +73,13 @@ function _shn_sr_form_event_dev()
 // Action report form
 function _shn_sr_form_action()
 {
-	print "<br>Action goes here";
+	shn_form_fckeditor(_t('Action Report'),'action',null,array('value'=>$res['action']));
 }
 
 // Key-Figures report form
 function _shn_sr_form_key_figures()
 {
-	print "<br>Key-Figures goes here";
+	shn_form_fckeditor(_t('Key Figure Report'),'figure',null,array('value'=>$res['figure']));
 }
 
 
