@@ -50,18 +50,22 @@ function shn_sr_form_submit()
 	$key=$_POST['key'];
 	
 	switch ($key) {
+		
+		// Report registration
 		case "reg":
 			$rpt_name=$_POST['name'];
 			$rpt_desc=$_POST['desc'];
 			shn_sr_store_reg_new_report($rpt_name,$rpt_desc);
 		break;
 		
+		// Report detail update
 		case "reports":
+			$rpt_id=$_POST['id'];
 			$rpt_summary=$_POST['summary'];
 			$rpt_event=$_POST['event'];
 			$rpt_action=$_POST['action'];
 			$rpt_figure=$_POST['figure'];
-			shn_sr_store_report_update($rpt_summary, $rpt_event, $rpt_action, $rpt_figure);
+			shn_sr_store_report_update($rpt_id, $rpt_summary, $rpt_event, $rpt_action, $rpt_figure);
 		break;	
 	}
 }
@@ -94,7 +98,7 @@ function shn_sr_report()
 	$rpt_id=$_GET['id'];
 	
 	//print "report is $rpt_id";
-	shn_sr_report_detail_form();
+	shn_sr_report_detail_form($rpt_id);
 }
 
 function shn_sr_update()

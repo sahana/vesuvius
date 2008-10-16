@@ -59,8 +59,20 @@ function shn_sr_store_reg_new_report($rpt_name,$rpt_desc)
 }
 
 // store detail information about reports as updates
-function shn_sr_store_report_update($rpt_summary, $rpt_event, $rpt_action, $rpt_figure)
+function shn_sr_store_report_update($rpt_id, $rpt_summary, $rpt_event, $rpt_action, $rpt_figure)
 {
-	print "store";
+	// connect to db
+	global $global;
+	global $conf;
+	$db = $global['db'];
+	
+	// check whether reports are NOT empty
+	if($rpt_summary=="" && $rpt_event=="" && $rpt_action=="" && $rpt_figure==""){
+		add_warning('Reports are blank. Please fill the reports and click the <strong>Update</strong> button.');
+		shn_sr_report_detail_form($rpt_id);
+	} else {
+		print "clean";
+	}
+	
 }
 ?>
