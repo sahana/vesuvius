@@ -80,6 +80,15 @@ function shn_sr_view()
 	shn_sr_view_reports();
 }
 
+// view a report
+function shn_sr_report()
+{
+	// capture the id from URL
+	$rpt_id=$_GET['id'];
+	
+	print "report is $rpt_id";
+}
+
 function shn_sr_update()
 {
 	print "update";
