@@ -71,7 +71,14 @@ function shn_sr_store_report_update($rpt_id, $rpt_summary, $rpt_event, $rpt_acti
 		add_warning('Reports are blank. Please fill the reports and click the <strong>Update</strong> button.');
 		shn_sr_report_detail_form($rpt_id);
 	} else {
-		print "clean";
+		
+		// get the logged in user
+		$user=$_SESSION['user'];
+		
+		// get the incident id
+		$incident_id=$_SESSION['user_pref_ims_incident_id'];
+		
+		$q="";
 	}
 	
 }

@@ -40,7 +40,6 @@ function shn_sr_view_reports($method='all')
 		// display only for this incident
 		$q="SELECT sitrep_info.report_id, sitrep_info.name, sitrep_info.description, DATE_FORMAT(sitrep_info.create_date, '%b %D, %Y') AS create_date, DATE_FORMAT(sitrep_detail.update_date, '%b %D, %Y -  %r') AS update_date, sitrep_detail.author, sitrep_detail.status, sitrep_info.incident_id FROM sitrep_info, sitrep_detail WHERE  incident_id='$incident_id';";	
 	}
-	
 	$res=$db->Execute($q);
 	
 	?>
@@ -56,8 +55,9 @@ function shn_sr_view_reports($method='all')
 			</tr>
 	   </thead>
         <tbody>
-    <?php    
-	while(!$res->EOF)
+    <?php
+    
+    while(!$res->EOF)
 	{
 		$rpt_id = $res->fields['report_id'];
 		$name = $res->fields['name'];
@@ -82,6 +82,7 @@ function shn_sr_view_reports($method='all')
 			<td><?php print "<center>$update_date</center>"; ?></td>
 		</tr>
 		<?php
+
 		$res->MoveNext();
 	}
 	print "</table>";

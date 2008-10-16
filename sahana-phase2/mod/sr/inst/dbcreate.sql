@@ -38,6 +38,6 @@ CREATE TABLE sitrep_detail
 	key_fig LONGTEXT,
 	status VARCHAR(10),
 	datetime timestamp,
-	FOREIGN KEY (report_id) REFERENCES sitrep_info (report_id),  
-	PRIMARY KEY(report_id)
+	FOREIGN KEY (report_id) REFERENCES sitrep_info (report_id) 
+	--PRIMARY KEY(report_id)
 );
