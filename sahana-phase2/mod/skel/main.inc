@@ -181,7 +181,8 @@ function shn_XST_skel_report()
 function shn_skel_form()
 {
     echo '<h2>'._t('Example Form').'</h2>';
-
+    if(isset($_POST))
+        print_r($_POST);
     shn_form_fopen("form", null,array('req_message'=>true));
     shn_form_fsopen("Fieldset One");
     shn_form_text("Text Field 0","tf",null,array("req"=>true, "help"=>"testing help"));
@@ -203,6 +204,9 @@ function shn_skel_form()
     shn_form_label("Label", "cap", $extra_opts = null);
     shn_form_password("Password", "pass", null, $extra_opts = null);
     shn_form_date("Input Date","dob",$extra_opts = null);
+    shn_form_fsclose();
+    shn_form_fsopen(_t('WYSIWYG Editor Demo'));
+    shn_form_wysiwyg('Description','description');
     shn_form_fsclose();
     shn_form_submit("Add", $submit_opts = null);
     shn_form_submit("Delete", $submit_opts = null);
