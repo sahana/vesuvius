@@ -11,7 +11,7 @@
 * @author   	Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
 * @author       Richard Smith <s0459387@sms.ed.ac.uk>
-* @version		$Id: gis_fns.inc,v 1.11 2008-10-07 17:27:43 franboon Exp $
+* @version		$Id: gis_fns.inc,v 1.12 2008-10-17 10:45:10 mahesh_kks Exp $
 * @library		GIS
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -880,12 +880,11 @@ function shn_gis_create_feature($keys_)
 {
     global $global;
     global $conf;
-    include $global['approot']."/inc/lib_uuid.inc";
+    include_once $global['approot']."/inc/lib_uuid.inc";
     $db = $global['db'];
 
     $feature_uuid   = shn_create_uuid('g');
     $metadata_uuid  = shn_create_uuid('g');
-
     $fail = false;
 
     /* feature checks
