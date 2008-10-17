@@ -54,7 +54,8 @@ function shn_sr_report_detail_form($rpt_id)
 		shn_form_fsclose();
 		shn_form_fsopen('Figures');
 			_shn_sr_form_key_figures();
-		shn_form_fsclose();	
+		shn_form_fsclose();
+		shn_form_drawtab();
 		shn_form_submit(_t("Update"),$submit_opts = null);
 	shn_form_fclose();
 }
