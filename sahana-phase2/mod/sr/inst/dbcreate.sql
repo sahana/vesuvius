@@ -30,6 +30,7 @@ DROP TABLE IF EXISTS `sitrep_detail`;
 CREATE TABLE sitrep_detail
 (
 	report_id VARCHAR(20) NOT NULL,
+	rcd_id MEDIUMINT NOT NULL AUTO_INCREMENT,
 	update_date timestamp,
 	author VARCHAR(100),
 	summary LONGTEXT,
@@ -38,6 +39,7 @@ CREATE TABLE sitrep_detail
 	key_fig LONGTEXT,
 	status VARCHAR(10),
 	datetime timestamp,
-	FOREIGN KEY (report_id) REFERENCES sitrep_info (report_id) 
-	--PRIMARY KEY(report_id)
+	UNIQUE ( `rcd_id` ),
+	FOREIGN KEY (report_id) REFERENCES sitrep_info (report_id),
+	PRIMARY KEY(rcd_id, report_id)
 );

@@ -89,4 +89,15 @@ function shn_sr_store_report_update($rpt_id, $rpt_summary, $rpt_event, $rpt_acti
 	}
 	
 }
+
+function shn_sr_pull_report_content($rpt_id)
+{
+	// connect to db
+	global $global;
+	global $conf;
+	$db = $global['db'];
+	
+	
+	
+}
 ?>
