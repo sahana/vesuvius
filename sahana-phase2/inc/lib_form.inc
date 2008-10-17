@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.85 2008-10-17 08:52:18 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.86 2008-10-17 09:05:23 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -847,7 +847,7 @@ function shn_form_progress_bar($steps, $current_step)
  * This function will draw a wysiwyg editor on the form
  *
  */
-function shn_form_wysiwyg($label, $name, $text_opts = null, $extra_opts = array() )
+function shn_form_wysiwyg($label, $name, $extra_opts = array() )
 {
     global $shn_tabindex;
     global $global;
