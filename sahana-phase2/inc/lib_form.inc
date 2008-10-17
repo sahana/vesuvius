@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.84 2008-09-15 20:00:05 franboon Exp $ */
+/* $Id: lib_form.inc,v 1.85 2008-10-17 08:52:18 priyanga Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -842,4 +842,52 @@ function shn_form_progress_bar($steps, $current_step)
     echo '</tr></table></div><br />';    
 }
 
+
+/**
+ * This function will draw a wysiwyg editor on the form
+ *
+ */
+function shn_form_wysiwyg($label, $name, $text_opts = null, $extra_opts = array() )
+{
+    global $shn_tabindex;
+    global $global;
+    global $conf;
+    $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
+    if(get_magic_quotes_gpc())
+            $value = stripslashes($value);
 ?>
+   <h4><?php echo $label?></h4>
+<?php
+    switch($conf['wysiwyg']){
+        case 'tiny_mce':
+            static $mceinit = true;
+            if($mceinit){
+?>
+                <!-- TinyMCE -->
+                <script type="text/javascript" src="res/tiny_mce/tiny_mce.js"></script>
+                <script type="text/javascript">
+                    tinyMCE.init({
+                        mode : "specific_textareas",
+                        editor_selector : "mceEditor"
+                    });
+                </script>
+                <!-- /TinyMCE -->
+<?php
+                $mceinit = false;
+            }
+          	echo "<textarea id='$name' name='$name' rows='15' cols='80' style='width:100%' class='mceEditor'>".htmlspecialchars($value)."</textarea>";
+            break;
+        case 'fckeditor':
+            include_once $global['approot'].'www/res/fckeditor/fckeditor.php';
+            $sBasePath = 'res/fckeditor/' ;
+            $oFCKeditor = new FCKeditor($name) ;
+            $toolbar = (isset($extra_opts['tool_bar']))?$extra_opts['tool_bar']:'Basic';
+            $oFCKeditor->ToolbarSet = htmlspecialchars($toolbar);
+            $oFCKeditor->BasePath	= $sBasePath ;
+            $oFCKeditor->Value		= $value ;
+            $oFCKeditor->Create() ;
+        default:
+            //currently print a text area when EXTjs is included use it's wysiwyg 
+    }
+            shn_form_extra_opts($extra_opts);
+}
