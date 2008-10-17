@@ -162,5 +162,16 @@ $conf['use_local_help'] = false;
 // whether to auto update the browscaps.ini file
 $conf['bcaps_auto_update'] = false;
 
+
+
+#####################################
+#      Miscellaneous Options        #
+#####################################
+
+// which wysiwyg you want to use leave blank for default whcih is EXTjs editor
+// available options ( 'fckeditor' , 'tiny_mce' )
+$conf['wysiwyg']= '';
+
+
 # end of the config file.
 
