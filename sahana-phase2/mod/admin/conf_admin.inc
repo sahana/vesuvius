@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: conf_admin.inc,v 1.21 2008-07-08 11:09:41 ravithb Exp $ */
+/* $Id: conf_admin.inc,v 1.22 2008-10-23 08:18:41 ravithb Exp $ */
 
-/* $Id: conf_admin.inc,v 1.21 2008-07-08 11:09:41 ravithb Exp $ */
+/* $Id: conf_admin.inc,v 1.22 2008-10-23 08:18:41 ravithb Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -46,13 +46,9 @@ function shn_admin_conf_list()
 
 	include_once($global['approot'].'/inc/lib_config.inc');
 	include_once($global['approot'].'/inc/lib_form.inc');
+	include_once($global['approot'].'/inc/lib_xajax.inc');
+	shn_xajax_registerFunction('admin_conf_ajax_update');
 
-	require_once($global['approot']."/3rd/xajax/xajax.inc.php");
-	require_once($global['approot'].'/3rd/xajax/xajaxResponse.inc.php');
-
-	$xajax = new xajax($conf['base_url'].'index.php?mod=admin&act=conf_list&stream=text');//$conf['base_url'].'index.php?mod=admin&act=conf_list'
-	$xajax->registerFunction("_shn_admin_conf_ajax_update");
-	$xajax->printJavascript("res/js/");
 	?>
 <script type="text/javascript" language="javascript">
 		var current_edit_box = null;
@@ -98,7 +94,7 @@ function shn_admin_conf_list()
 			}else{
                 editTextBox = "";
             }
-			xajax__shn_admin_conf_ajax_update(id,(editTextBox!=null && editTextBox.value!=null)?editTextBox.value:"");
+			admin_conf_ajax_update(id,(editTextBox!=null && editTextBox.value!=null)?editTextBox.value:"");
 		}
 		
 		// called by xajax to hide.
@@ -145,7 +141,7 @@ function shn_admin_conf_list()
             }else{
                 editTextBox = "";
             }
-			xajax__shn_admin_conf_ajax_update(id,(editTextBox!=null && editTextBox.value!=null)?editTextBox.value:"");
+			admin_conf_ajax_update(id,(editTextBox!=null && editTextBox.value!=null)?editTextBox.value:"");
 		}
 		
 		// called by xajax to hide.
@@ -382,51 +378,13 @@ function shn_admin_conf_var()
 	shn_form_fclose();
 }
 
-function _shn_admin_conf_ajax_update($key,$value)
-{
-	$error = false;
-    $error = shn_config_validate_value($key,$value);
-    
-	if($error===false){
-		// no errors.
-		shn_config_database_update($key,$value);
-		// truncate the new value before display.
-		$new_value = htmlspecialchars_decode(shn_html_truncate($value,25));
-		$new_value = shn_html_bool2str($new_value);
-		$new_value = shn_html_truncate($new_value,25);
 
-		// create async response
-		$xajax_response = new xajaxResponse();
-		$xajax_response->addAssign("target_$key","innerHTML",$new_value);;
-		// hide error if visible
-		$xajax_response->addAssign("target_".$key."_error","className","feedback_content_error hide");;
-		// hide row.
-		$xajax_response->addScript("_hide('$key')");
-		return $xajax_response;
-	}else{
-		$xajax_response = new xajaxResponse();
-		$xajax_response->addAssign("target_".$key."_error","innerHTML",$error);;
-		$xajax_response->addAssign("target_".$key."_error","className","feedback_content_error show");;
-		//echo $xajax_response;
-		//file_put_contents("/tmp/errors.txt","helo");
-		return $xajax_response;
-	}
-}
 
 function shn_text_admin_conf_list()
 {
 	global $conf,$global;
-
-	require_once($global['approot']."/3rd/xajax/xajax.inc.php");
-	require_once($global['approot'].'/3rd/xajax/xajaxResponse.inc.php');
-
-
-	$xajax = new xajax($conf['base_url'].'index.php?mod=admin&act=conf_list&stream=text');//$conf['base_url'].'index.php?mod=admin&act=conf_list'
-	$xajax->exitAllowedOff();
-	$xajax->registerFunction("_shn_admin_conf_ajax_update");
-	$xajax->processRequests();
-
-
+	include_once $global['approot'].'/inc/lib_xajax.inc';
+	shn_xajax_registerFunction('admin_conf_ajax_update');
 
 }
 

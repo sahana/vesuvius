@@ -17,6 +17,7 @@
 
 // define the configuration priority order
 require_once ($APPROOT.'conf/conf-order.inc.php');
+include_once('lib_config_meta.inc.php');
 
 // load all the configurations based on the database or file order
 function shn_config_load_in_order() {
