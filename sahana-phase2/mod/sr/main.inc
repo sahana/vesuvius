@@ -38,7 +38,7 @@ function shn_sr_mainmenu()
     	shn_mod_menuitem('create',_t('Report'));
     	shn_mod_menuitem('view',_t('View'));
     	shn_mod_menuitem('update',_t('Update'));
-    shn_sub_mod_menuclose();
+    shn_mod_menuclose();
 
     include $global['approot'].'/inc/handler_mainmenu.inc';
 
