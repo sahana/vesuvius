@@ -1,4 +1,4 @@
-22nd November 2007
+31st October 2008
 
 Sahana PortableApp - ReadMe
 ===========================
@@ -44,7 +44,7 @@ MySQL                3306   W:\usr\local\mysql\bin\mysqld-opt.exe
 If you don't see the above click on 'Stop Sahana Server' followed by 'Re-Start Sahana Server'. If instead the above ports are taken by another program you need to stop that program before Sahana works. This could be another installation of Apache or MySQL that is creating the conflict. 
 
 
-PortableApp version - 0.6.1-beta2
+PortableApp version - 0.6.2.2
 ---------------------------------
 http://www.sahana.lk/
 
