@@ -1,6 +1,6 @@
 <?php
 /**
- * SN Description Page
+ * 
  *
  * PHP version 4 and 5
  *
