@@ -84,12 +84,14 @@ function shn_pre_default()
 ?>
 <div id="home">
 <h2><?= _('Disaster Preparedness Module'); ?></h2>
-<p><?= _('This is a description of the module that we typically
-give on the first page with it\' features listed below')?>
+<p><?= _('Most disasters and there effects can be identify before it occurs. Identifying and tracking those information will helps to do a efficient and effective planing for recover or minimize the damage and public education. From that effort for relief waorks and rehabilitation can be minimized. Sahana disaster preparedness system is addressing requirements of pre disaster deployments. Sahana disaster preparedness system is addressing four basic functionalities in disaster preparedness.')?>
+
 <?= _('Features include:');?></p>
 <ul>
-    <li><?=_('Give a description of the features')?></li>
-    <li><?=_('Feature 2')?></li>
+    <li><?=_('Assessing Vulnerabilities')?></li>
+    <li><?=_('Planning')?></li>
+    <li><?=_('Reporting')?></li>
+    <li><?=_('Warning')?></li>
 </ul>
 </div>
 
