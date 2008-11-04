@@ -2,9 +2,9 @@ unavail
 # Admins
 avail | pradeeper, chamindra
 # Sahana Core
-avail | pradeeper, chamindra, ravids, mifanc, jayasinghe, priyanga, isurunishan, mahesh_kks, franboon, prabath321, ishanul, ravithb
+avail | pradeeper, chamindra, ravids, mifanc, jayasinghe, priyanga, isurunishan, mahesh_kks, franboon, prabath321, ishanul, ravithb, trishan, alcorn, ajuonline, haniffa, virajed, nishantha, chamaracal, miyura, hayeshais
 # Trinitty
-avail | trishan, participate, alcorn | sahana-phase2/mod/vm
+avail | participate | sahana-phase2/mod/vm
 # Doc team
 avail | mifanc, rbcsoriano | sahana-phase2/docs
 # GSoC 2008
