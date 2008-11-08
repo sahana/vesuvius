@@ -69,7 +69,7 @@ a img { border:none; }
 
 table { border-collapse: collapse }
 thead td { text-align:center; padding:.25em .25em .25em .25em; background: #555; color:#fff; font-size:100%; }
-td { padding:5px 5px 0 5px; border:1px solid #ccc; }
+td, th { padding:5px 5px 0 5px; border:1px solid #ccc; }
 /* hack for calander table on ie */
 table#scw td{ border:none;}
 
@@ -184,81 +184,26 @@ div#container { }
 			div.info, div.form-container fieldset p { color:#666; padding: 5px 5px 5px 5px; }
 
 			/*GIS module - */
-            #outer_map  {
-                margin-left: 10px;
+            #outer_map  { margin-left: 10px; }
+            #map { float: left; width: 760px; height: 600px; }
+            #gis_map_toolbar { float: left; margin: 10px 10px 10px 0; }
+            #gis_map_toolbar_default { float: left; }
+            #gis_map_toolbar_manipulate { float: left; margin-left: 50px; }
+            #gis_map_icon_expand { float: left; width: 24px; height: 22px; background: transparent url(../../res/OpenLayers/theme/default/img/map_resize_out_c.png) no-repeat scroll 0% 0%;
             }
-            #map {
-                float: left;
-                width: 760px; 
-                height: 600px;
+            #gis_map_icon_select { float: left; width: 24px; height: 22px; background: transparent url(../../res/OpenLayers/theme/default/img/move_feature_off.png) no-repeat scroll 0% 0%;  
             }
-            #gis_map_toolbar {
-                float: left;
-                margin: 10px 10px 10px 0px;
+            #gis_map_icon_drag { float: left; width: 24px; height: 22px; margin-left: 5px;                background: transparent url(../../res/OpenLayers/theme/default/img/pan_off.png) no-repeat scroll 0% 0%;
             }
-            #gis_map_toolbar_default {
-                float: left;
+            #gis_map_icon_addpoint { float: left; width: 24px; height: 22px; margin-left: 5px; background: transparent url(../../res/OpenLayers/theme/default/img/draw_point_off.png) no-repeat scroll 0% 0%;
             }
-            #gis_map_toolbar_manipulate {
-                float: left;
-                margin-left: 50px;
+            #gis_map_icon_addline { float: left; width: 24px; height: 22px; margin-left: 5px;              background: transparent url(../../res/OpenLayers/theme/default/img/draw_line_off.png) no-repeat scroll 0% 0%;
             }
-            #gis_map_icon_expand {
-                float: left;
-                width: 24px;
-                height: 22px;
-                background: transparent url(../../res/OpenLayers/theme/default/img/map_resize_out_c.png) no-repeat scroll 0% 0%;
+            #gis_map_icon_addpolygon { float: left; width: 24px; height: 22px; margin-left: 5px;                 background: transparent url(../../res/OpenLayers/theme/default/img/draw_polygon_off.png) no-repeat scroll 0% 0%;
             }
-            #gis_map_icon_select {
-                float: left;
-                width: 24px;
-                height: 22px;
-                background: transparent url(../../res/OpenLayers/theme/default/img/move_feature_off.png) no-repeat scroll 0% 0%;  
+            #gis_map_icon_freehand { float: left; width: 24px; height: 22px; margin-left: 5px;                 background: transparent url(../../res/OpenLayers/theme/default/img/freehand_off.png) no-repeat scroll 0% 0%;
             }
-            #gis_map_icon_drag {
-                float: left;
-                width: 24px;
-                height: 22px;
-                margin-left: 5px;
-                background: transparent url(../../res/OpenLayers/theme/default/img/pan_off.png) no-repeat scroll 0% 0%;
-            }
-            #gis_map_icon_addpoint {
-                float: left;
-                width: 24px;
-                height: 22px; 
-                margin-left: 5px;
-                background: transparent url(../../res/OpenLayers/theme/default/img/draw_point_off.png) no-repeat scroll 0% 0%;
-            }
-            #gis_map_icon_addline {
-                float: left;
-                width: 24px;
-                height: 22px;
-                margin-left: 5px;
-                background: transparent url(../../res/OpenLayers/theme/default/img/draw_line_off.png) no-repeat scroll 0% 0%;
-            }
-            #gis_map_icon_addpolygon {
-                float: left;
-                width: 24px;
-                height: 22px; 
-                margin-left: 5px;
-                background: transparent url(../../res/OpenLayers/theme/default/img/draw_polygon_off.png) no-repeat scroll 0% 0%;
-            }
-            #gis_map_icon_freehand {
-                float: left;
-                width: 24px;
-                height: 22px; 
-                margin-left: 5px;
-                background: transparent url(../../res/OpenLayers/theme/default/img/freehand_off.png) no-repeat scroll 0% 0%;
-            }
-            #gis_map_icon_descripion {
-                float: left;
-                height: 22px; 
-                width: 140px;
-                margin-left: 10px;
-                margin-top: 3px;
-                color: orange;
-                font-weight: bold;
-            }
+            #gis_map_icon_descripion { float: left; height: 22px; width: 140px; margin-left: 10px;        margin-top: 3px; color: orange; font-weight: bold; }
             .olControlMousePosition { font-size: 10px; }
             .gis_openlayers_popupbox { padding: 10px; }
                 .gis_openlayers_popupbox_header{}
@@ -508,81 +453,19 @@ div#formcontainer form#form_blank { padding: 5px; background-color: #fff; border
 }
 
 
-#kontener5a li, #kontener5b li{
-	cursor: move; 
-	display: block;
-	height: 20px;
-	width: 60px;
-	padding: 5px 10px 0;
-	margin: 0 10px;
-	font-size: 10.2px;
+#kontener5a li, #kontener5b li { cursor: move; display: block; height: 20px; width: 60px; padding: 5px 10px 0; margin: 0 10px; font-size: 10.2px; color: #2a2a2a; background-color: #adadad; border-top: #c7c7c7 1px solid; border-left: #c7c7c7 1px solid; border-bottom: #909090 1px solid; border-right: #909090 1px solid; }
 
-	color: #2a2a2a;
-	background-color:	#adadad;
-	border-top:	#c7c7c7 1px solid;
-	border-left:	#c7c7c7 1px solid;
-	border-bottom: #909090 1px solid;
-	border-right: #909090 1px solid;
-}
-
-
-#kontener1a li, #kontener1b li{
-	cursor: move; 
-	display: block;
-	height: 20px;
-	width: 45px;
-	padding: 5px 10px 0;
-	margin: 0 10px;
-	font-size: 10.2px;
-
-	color: #2a2a2a;
-	background-color:	#adadad;
-	border-top:	#c7c7c7 1px solid;
-	border-left:	#c7c7c7 1px solid;
-	border-bottom: #909090 1px solid;
-	border-right: #909090 1px solid;
-}
+#kontener1a li, #kontener1b li { cursor: move; display: block; height: 20px; width: 45px; padding: 5px 10px 0; margin: 0 10px; font-size: 10.2px; color: #2a2a2a; background-color: #adadad; border-top: #c7c7c7 1px solid; border-left: #c7c7c7 1px solid; border-bottom: #909090 1px solid; border-right: #909090 1px solid; }
 
 
 /* definition of colors for multiple tables and their fields */
 
-#dnd .table0 {
-	background-color:	#9999ff;
-	border-top:	#ccccff 1px solid;
-	border-left: #ccccff 1px solid;
-	border-bottom: #6666cc 1px solid;
-	border-right: #6666cc 1px solid;
-}
+#dnd .table0 { background-color: #99f; border-top: #ccf 1px solid; border-left: #ccf 1px solid; border-bottom: #66c 1px solid; border-right: #66c 1px solid; }
+#dnd .table1 { background-color: #6c6; border-top: #9f9 1px solid; border-left: #9f9 1px solid; border-bottom: #393 1px solid; border-right: #393 1px solid; }
+#dnd .table2 { background-color: #ff9; border-top: #ffc 1px solid; border-left: #ffc 1px solid; border-bottom: #D9D919 1px solid; border-right: #D9D919 1px solid; }
+#dnd .table3 { background-color: #f99; border-top: #fcf 1px solid; border-left: #fcf 1px solid; border-bottom: #f66 1px solid; border-right: #f66 1px solid; }
 
-
-#dnd .table1 {
-	background-color:	#66cc66;
-	border-top:	#99ff99 1px solid;
-	border-left: #99ff99 1px solid;
-	border-bottom: #339933 1px solid;
-	border-right: #339933 1px solid;
-}
-
-#dnd .table2 {
-	background-color:	#ffff99;
-	border-top:	#ffffcc 1px solid;
-	border-left: #ffffcc 1px solid;
-	border-bottom: #D9D919 1px solid;
-	border-right: #D9D919 1px solid;
-}
-
-#dnd .table3 {
-	background-color:	#ff9999;
-	border-top:	#ffccff 1px solid;
-	border-left: #ffccff 1px solid;
-	border-bottom: #ff6666 1px solid;
-	border-right: #ff6666 1px solid;
-}
-
-
-button{
-	padding: 3px;
-}
+button { padding: 3px; }
 
 /* Progress bar*/
 #progress_bar{margin: 0 auto;}
