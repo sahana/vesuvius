@@ -50,6 +50,7 @@ function shn_dsm_mainmenu()
 	shn_mod_menuitem('h544',_t('H544'));
 	shn_mod_menuitem('h544_list_view',_t('View'));
 	shn_mod_menuitem("report_weekly_communicable_diseases",_t("Weekly Communicable Diseases"),$module);
+	shn_mod_menuitem("notifiable_diseases_reported_moh",_t("Notifiable diseases reported by MOH"),$module);
 	shn_sub_mod_menuclose();
 	shn_mod_menuclose();
 	
@@ -373,6 +374,12 @@ function shn_dsm_weekly_report_of_communicable_diseases() {
 		shn_dsm_weekly_communicable_diseases_form();
 	}
 
+
+}
+
+
+function shn_dsm_notifiable_diseases_reported_moh() { 
+	_shn_dsm_notifiable_diseases_reported_moh();
 
 }
 
