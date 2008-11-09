@@ -409,4 +409,81 @@ function awaiting_investigation_at_the_end_of_weeks($disease) {
  return $count;
 }
 
+function _shn_dsm_notifiable_diseases_reported_moh() {
+?>
+	<h2 align="center">Notifiable Diseases Reported by MOH</h2>
+	<br />
+	
+	<table border="1">
+		<thead>
+			<tr>
+				<td>DPDHS Division</td>
+				<td colspan="2">Dengu Fever/DHF*</td>
+				<td colspan="2">Dysentery</td>
+				<td colspan="2">Encephalitis</td>
+				<td colspan="2">Enteric Fever</td>
+				<td colspan="2">Food Poisoning</td>
+				<td colspan="2">Leptospirosis</td>
+				<td colspan="2">Typhus Fever</td>
+				<td colspan="2">Viral Hepatitis</td>
+				<td colspan="2">Human Rebies</td>
+				<td>Returns Receive</td>
+			</tr>
+			<tr>
+				<td>&nbsp;</td>
+<?php 
+				for ($ab = 0; $ab < 9; $ab++) {
+					echo '<td>A</td><td>B</td>';
+				}
+?>
+				<td>%</td>
+			</tr>
+		</thead>
+		<tbody>
+<?php			
+			echo '<tr>
+				<td>'; echo '</td>
+				
+			</tr>';
+?>
+		</tbody>
+		<tfoot>
+			<tr>
+				<th>SRI LANKA</th>
+<?php
+
+				for ($count = 0; $count < 18; $count++) {
+					echo '<th>'.$count;
+					echo '</th>';
+				}
+				echo '<th colspan="2"> ss</th>';
+?>
+			</tr>
+		</tfoot>
+	</table>
+	<br />
+	<p><strong>*Dengue Fever / DHF</strong> refers to Dengue Fever / Dengue Haemorrhagic Fever. </p>
+
+</p>
+
+<?php
+}
+
+
+function get_dpdhs_divisions() {
+
+	global $global;
+	$db = $global["db"];
+	$dpdhs_divisions;
+
+	$sql = "SELECT dpdhs_divisions FROM "; 
+		$res = $db->Execute($sql);
+		while(!$res == NULL && !$res->EOF) {
+			$count = $res->fields['dpdhs_divisions'];
+			$res->MoveNext();
+		}
+
+return $dpdhs_divisions;
+}
+
 ?>
