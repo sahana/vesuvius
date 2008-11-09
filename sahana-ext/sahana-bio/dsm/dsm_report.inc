@@ -413,8 +413,12 @@ function _shn_dsm_notifiable_diseases_reported_moh() {
 ?>
 	<h2 align="center">Notifiable Diseases Reported by MOH</h2>
 	<br />
-	
+	<div id="result">
 	<table border="1">
+		<caption>Notifiable Diseases Reported by MOH for the week ending 
+			<?php include 'class_week_start_end_date.php';
+			$vObj = new weekstartend();
+			echo $vObj->gen_cal(); ?> </caption>
 		<thead>
 			<tr>
 				<td>DPDHS Division</td>
@@ -461,10 +465,8 @@ function _shn_dsm_notifiable_diseases_reported_moh() {
 			</tr>
 		</tfoot>
 	</table>
-	<br />
+</div>
 	<p><strong>*Dengue Fever / DHF</strong> refers to Dengue Fever / Dengue Haemorrhagic Fever. </p>
-
-</p>
 
 <?php
 }
