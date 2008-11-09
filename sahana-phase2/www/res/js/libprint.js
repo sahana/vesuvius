@@ -71,7 +71,7 @@
  *
  * 2. The library will only function in its maximum accuracy when the system is used with en_US locale, with other locales it only generats a form with a basic layout 
  *
- * 3. This version formats the generated form only to match a A4 page.
+ * 3. This version s the generated form only to match a A4 page.
  *
  * 4. Currently the library renders the page accurately with FF2, Opera 8 and IE6   
  *
@@ -188,14 +188,14 @@ document.writeln(
 		'.item-wrap-small .small-right { width: 56pt; }'	+
 		'.small-right { text-align: right;  }'	+
 		'.small-right a, .small-right a:link { text-decoration: none;  }'	+
-		'.dob-dd, .dob-mm, .dob-yy { width: 15pt; color: #ddd; font-size: 5pt; }'	+
+		'.dob-dd, .dob-mm, .dob-yy { width: 14pt; color: #ddd; font-size: 5pt; }'	+
 		'.dob-space { height: 7pt; border: solid #000 3pt; }'	+
 		'.option-label { width: 205pt; height: 10pt; }'	+
 		'.space { float: left; clear: both; }'	+
 		'.popup { position: absolute; visibility: hidden; z-index: 5; overflow: hidden; width: 93px; padding: 0; background-color: #fff; border: 1px solid #000; }'	+
 		'a.close, a.close:link { float: right; padding: 2px 2px 0 0; font-size: 10px; margin: 0; }'	+
-		'.popup p { float: left; padding: 2px 12px; margin: 0 auto; font-size: 11px; font-weight: bold; text-transform: uppercase; }'	+
-		'.popup p:hover { color: #fff; background-color: #000; }'	+
+		'.popup a.dateselection { float: left; padding: 2px 12px; margin: 0 auto; font-size: 11px; font-weight: bold; text-transform: uppercase; color: #000; }'	+
+		'.popup a.dateselection:hover { color: #fff; background-color: #000; }'	+
 	'</style>' );
 
 
@@ -412,6 +412,8 @@ function shn_print_get_height(id) {
  * @access protected
  * @return void
  */
+
+var present_date_fields = [];
 function shn_print_get_fieldset_content() {
 	
 	// declares the necessary variables and arrays 
@@ -498,40 +500,43 @@ function shn_print_get_fieldset_content() {
 					//creates the outer wrapper 
 					var _dom_item_wrap = document.createElement('div');
 					var _dom_item_wrap_small = document.createElement('div');
-
+					
+					var date_indx = 0;
  					if ((_tmp_t[b] == 'text') && ((_tmp_l[b] == 'Date of Birth') || (_tmp_l[b] == 'Manufactured Date : ') || (_tmp_l[b] == 'Expire Date :') || (_tmp_l[b] == 'Date of Event') )) {
- 						shn_print_add_dob_layout(dom_label, dom_legend, _dom_item_wrap_small,'item-wrap-small');
+ 						shn_print_add_dob_layout(dom_label, dom_legend, _dom_item_wrap_small,'item-wrap-small', b);
+						present_date_fields[date_indx] = "id-"+date_indx
+						date_indx++ 
  					}
  					else if ((_tmp_t[b] == 'text') && ((_tmp_l[b] == 'Skin Colour') || (_tmp_l[b] == 'Eye Colour') || (_tmp_l[b] == 'Home Phone') || (_tmp_l[b] == 'Adult Males') || (_tmp_l[b] == 'Adult Females') || (_tmp_l[b] == 'Children') || (_tmp_l[b] == 'Displaced') || (_tmp_l[b] == 'Missing') || (_tmp_l[b] == 'Dead') || (_tmp_l[b] == 'Rehabilitated') || (_tmp_l[b] == 'Mobile') || (_tmp_l[b] == 'Phone : ') || (_tmp_l[b] == 'Mobile No : ') || (_tmp_l[b] == 'Telephone') || (_tmp_l[b] == 'Country:') || (_tmp_l[b] == 'Men') || (_tmp_l[b] == 'Women') || (_tmp_l[b] == 'Infected Count') || (_tmp_l[b] == 'Total Count') || (_tmp_l[b] == 'Capacity') )) {
- 						shn_print_add_input_geography_layout(dom_label, dom_legend, _dom_item_wrap_small,'item-wrap-small' );
+ 						shn_print_add_input_geography_layout(dom_label, dom_legend, _dom_item_wrap_small,'item-wrap-small', b);
  					}
 					else if ( (_tmp_t[b] == 'text') && ((_tmp_l[b] == 'Full Name') || (_tmp_l[b] == 'Address') || (_tmp_l[b] == 'Address : ') || (_tmp_l[b] == 'Other relevant resources : ') || (_tmp_l[b] == 'Equipment : ') || (_tmp_l[b] == 'Organization Name : '))) {
-						shn_print_add_textarea_layout(dom_label, dom_legend, _dom_item_wrap, 'item-wrap');
+						shn_print_add_textarea_layout(dom_label, dom_legend, _dom_item_wrap, 'item-wrap', b);
 					}
 					else if (_tmp_t[b] == 'text') {
-						shn_print_add_input_layout(dom_label, dom_legend, _dom_item_wrap, 'item-wrap');
+						shn_print_add_input_layout(dom_label, dom_legend, _dom_item_wrap, 'item-wrap', b);
 					}
 					if (_tmp_t[b] == 'file') {
-						shn_print_add_input_layout(dom_label, dom_legend, _dom_item_wrap, 'item-wrap');
+						shn_print_add_input_layout(dom_label, dom_legend, _dom_item_wrap, 'item-wrap', b);
 					}
 					if (_tmp_t[b] == 'radio') {
-						shn_print_add_input_r_layout(dom_label, dom_legend, _dom_item_wrap_small,'item-wrap-small' );b
+						shn_print_add_input_r_layout(dom_label, dom_legend, _dom_item_wrap_small,'item-wrap-small', b );b
 					}
 					if (_tmp_t[b] == 'checkbox') {
-						shn_print_add_input_c_layout(dom_label, dom_legend, _dom_item_wrap_small,'item-wrap-small' );
+						shn_print_add_input_c_layout(dom_label, dom_legend, _dom_item_wrap_small,'item-wrap-small', b );
 					}
 
 					if ( (_tmp_t[b] == 'select') && ( (_tmp_l[b] == 'Address') || (_tmp_l[b] == 'Holding Company') )) {
-						shn_print_add_textarea_layout(dom_label, dom_legend, _dom_item_wrap, 'item-wrap');
+						shn_print_add_textarea_layout(dom_label, dom_legend, _dom_item_wrap, 'item-wrap', b);
 					}
 					else if (_tmp_t[b] == 'select') { 
-						shn_print_add_input_geography_layout(dom_label, dom_legend, _dom_item_wrap_small,'item-wrap-small' );
+						shn_print_add_input_geography_layout(dom_label, dom_legend, _dom_item_wrap_small,'item-wrap-small', b );
 					}
 					if ( (_tmp_t[b] == 'textarea') && (_tmp_l[b] == 'Mobile') ) {
-						shn_print_add_input_geography_layout(dom_label, dom_legend, _dom_item_wrap_small,'item-wrap-small' );
+						shn_print_add_input_geography_layout(dom_label, dom_legend, _dom_item_wrap_small,'item-wrap-small', b );
 					}
 					else if (_tmp_t[b] == 'textarea') {
-						shn_print_add_textarea_layout(dom_label, dom_legend, _dom_item_wrap, 'item-wrap');
+						shn_print_add_textarea_layout(dom_label, dom_legend, _dom_item_wrap, 'item-wrap', b);
 					}
 					shn_print_add_ocr_layout();
 				}
@@ -759,8 +764,8 @@ function shn_print_add_space(id) {
  */
 function shn_print_add_ocr_layout() {
 
-	var page_height = shn_print_get_height('print-wrapper');
-		if ( ((1050 > page_height) && (page_height > 900))  ) {
+	var page_height = ('print-wrapper');
+		if ( ((1000 > page_height) && (page_height > 850))  ) {
  			shn_print_adds_page_layout();
 		}
 		if ( ((2000 > page_height) && (page_height > 1850))  ) {
@@ -778,9 +783,10 @@ function shn_print_add_ocr_layout() {
  * @access protected
  * @return void
  */
-function shn_print_appent_to_wrapper(_tdom_wrap, _class) {
+function shn_print_appent_to_wrapper(_tdom_wrap, _class, _id_tag) {
 	_tdom_wrap.setAttribute('class',_class);
 	_tdom_wrap.setAttribute('className',_class);
+	_tdom_wrap.setAttribute('id','id-'+_id_tag);
 	document.getElementById('print-wrapper').appendChild(_tdom_wrap);
 }
 
@@ -815,7 +821,7 @@ function shn_print_set_label(dom_label, dom_legend, _dom_wrapper, class_name) {
  * @access protected
  * @return string
  */
-function shn_print_add_input_layout(dom_label, dom_legend, _dom_wrapper, _class) {
+function shn_print_add_input_layout(dom_label, dom_legend, _dom_wrapper, _class, _id_tag) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'label-left');
 
@@ -824,9 +830,9 @@ function shn_print_add_input_layout(dom_label, dom_legend, _dom_wrapper, _class)
 	
 	//creates and appends required # of boxes where values going to be inputed
 	for (var counter = 0; counter < 30; counter++) {
-	_dom_wrapper.innerHTML +="<div class='character'></div>";
+		_dom_wrapper.innerHTML +="<div class='character'></div>";
 	}
-	shn_print_appent_to_wrapper(_dom_wrapper, _class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class, _id_tag);
 }
 
 
@@ -838,7 +844,7 @@ function shn_print_add_input_layout(dom_label, dom_legend, _dom_wrapper, _class)
  * @access protected
  * @return string
  */
-function shn_print_add_input_r_layout(dom_label, dom_legend, _dom_wrapper, _class) {
+function shn_print_add_input_r_layout(dom_label, dom_legend, _dom_wrapper, _class, _id_tag) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'small-left');
 
@@ -849,7 +855,7 @@ function shn_print_add_input_r_layout(dom_label, dom_legend, _dom_wrapper, _clas
 // 	for (var counter = 0; counter < 20; counter++) {
 // 	_dom_wrapper.innerHTML +="<div class='character'></div>";
 // 	}
-	shn_print_appent_to_wrapper(_dom_wrapper, _class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class, _id_tag);
 }
 
 
@@ -862,7 +868,7 @@ function shn_print_add_input_r_layout(dom_label, dom_legend, _dom_wrapper, _clas
  * @access protected
  * @return string
  */
-function shn_print_add_input_c_layout(dom_label, dom_legend, _dom_wrapper, _class) {
+function shn_print_add_input_c_layout(dom_label, dom_legend, _dom_wrapper, _class, _id_tag) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'small-left');
 
@@ -873,7 +879,7 @@ function shn_print_add_input_c_layout(dom_label, dom_legend, _dom_wrapper, _clas
 	//for (var counter = 0; counter < 20; counter++) {
 	//	_dom_wrapper.innerHTML +="<div class='character'></div>";
 	//}
-	shn_print_appent_to_wrapper(_dom_wrapper, _class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class, _id_tag);
 }
 
 
@@ -885,7 +891,7 @@ function shn_print_add_input_c_layout(dom_label, dom_legend, _dom_wrapper, _clas
  * @access protected
  * @return string
  */
-function shn_print_add_select_basic_layout(dom_label, dom_legend, _dom_wrapper, _class) {
+function shn_print_add_select_basic_layout(dom_label, dom_legend, _dom_wrapper, _class, _id_tag) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'label-left');
 
@@ -896,7 +902,7 @@ function shn_print_add_select_basic_layout(dom_label, dom_legend, _dom_wrapper, 
 	for (var counter = 0; counter < 45; counter++) {
 	_dom_wrapper.innerHTML +="<div class='character'></div>";
 	}
-	shn_print_appent_to_wrapper(_dom_wrapper, _class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class, _id_tag);
 }
 
 
@@ -908,7 +914,7 @@ function shn_print_add_select_basic_layout(dom_label, dom_legend, _dom_wrapper, 
  * @access protected
  * @return string
  */
-function shn_print_add_select_layout(dom_label, dom_legend, _dom_wrapper, _class, _tmp_o) {
+function shn_print_add_select_layout(dom_label, dom_legend, _dom_wrapper, _class, _tmp_o, _id_tag) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'label-left');
 
@@ -920,7 +926,7 @@ function shn_print_add_select_layout(dom_label, dom_legend, _dom_wrapper, _class
 	_dom_wrapper.innerHTML +="<div class='option-label'>"+_tmp_o[counter]+"</div>";
 	_dom_wrapper.innerHTML +="<div class='character'></div>";
 	}
-	shn_print_appent_to_wrapper(_dom_wrapper, _class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class, _id_tag);
 }
 
 
@@ -932,7 +938,7 @@ function shn_print_add_select_layout(dom_label, dom_legend, _dom_wrapper, _class
  * @access protected
  * @return string
  */
-function shn_print_add_textarea_layout(dom_label, dom_legend, _dom_wrapper, _class) {
+function shn_print_add_textarea_layout(dom_label, dom_legend, _dom_wrapper, _class, _id_tag) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'label-left');
 
@@ -943,7 +949,7 @@ function shn_print_add_textarea_layout(dom_label, dom_legend, _dom_wrapper, _cla
 	for (var counter = 0; counter < 90; counter++) {
 	_dom_wrapper.innerHTML +="<div class='character'></div>";
 	}
-	shn_print_appent_to_wrapper(_dom_wrapper, _class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class, _id_tag);
 }
 
 
@@ -955,7 +961,7 @@ function shn_print_add_textarea_layout(dom_label, dom_legend, _dom_wrapper, _cla
  * @access protected
  */
 var choice;
-function shn_print_add_dob_layout(dom_label, dom_legend, _dom_wrapper, _class) {
+function shn_print_add_dob_layout(dom_label, dom_legend, _dom_wrapper, _class, _id_tag) {
 	//this section should implements ajax functionality to allow the user to select the  
 	//matching date format, such as MM-DD-YYYY or DD-MM-YYYY or YYYY-MM-DD	
 	
@@ -1000,7 +1006,7 @@ function shn_print_add_dob_layout(dom_label, dom_legend, _dom_wrapper, _class) {
 		}	
 	}
 
-	shn_print_appent_to_wrapper(_dom_wrapper, _class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class, _id_tag);
 }
 
 
@@ -1110,10 +1116,45 @@ function shn_print_generate_m_d_y(_dom_wrapper) {
 }
 
 
-function shn_print_event() {
+function shn_print_event(format) {
 
-  /*choice = document.all('div'+event.srcElement.name).innerText;*/
-  window.alert(document.all('a'+event.srcElement.name)..innerText);
+  var cho = document.getElementById("date"+format).innerHTML;
+  choice = cho;
+  alert(choice + present_date_fields);
+
+/*	
+	if (choice == 'dd-mm-yyyy') {
+		_dom_wrapper = shn_print_generate_d_m_y(_dom_wrapper);
+	}
+	else if (choice == 'mm-dd-yyyy') {
+		_dom_wrapper = shn_print_generate_m_d_y(_dom_wrapper);	
+	}
+	else if (choice == 'yyyy-mm-dd') {
+		_dom_wrapper = shn_print_generate_y_m_d(_dom_wrapper);	
+	}	
+	else {
+		//append the dob year layout to the wrapper
+		//creates and appends required # of boxes where values going to be inputed
+		for (var counter = 0; counter <4; counter++) {
+			_dom_wrapper.innerHTML +="<div class='dob-yy'>Y</div>";
+		}
+	
+		_dom_wrapper.innerHTML +="<div class='dob-space'></div>";
+	
+		//append the dob month layout to the wrapper
+		//creates and appends required # of boxes where values going to be inputed
+		for (var counter = 0; counter <2; counter++) {
+			_dom_wrapper.innerHTML +="<div class='dob-mm'>M</div>";
+		}
+	
+		_dom_wrapper.innerHTML +="<div class='dob-space'></div>";
+
+		//append the dob day layout to the wrapper
+		//creates and appends required # of boxes where values going to be inputed
+		for (var counter = 0; counter <2; counter++) {
+			_dom_wrapper.innerHTML +="<div class='dob-dd'>D</div>";
+		}	
+	}*/
   //alert(choice);
 }
 
@@ -1134,9 +1175,9 @@ function shn_print_create_popup_wrapper() {
 	_dom_closable.setAttribute('class','popup');
 	_dom_closable.setAttribute('className','popup');
 	
-	_dom_closable.innerHTML +="<a href='#' name='close' onclick='popout();shn_print_event();' class='close'>Close</a><br />";
-	for (var format = 0; format < typeList.length; format++ ) {
-		_dom_closable.innerHTML +="<p onclock='' name='dateformat' > " + typeList[format]+ " </p> <br />";
+	_dom_closable.innerHTML +="<a href='#' name='close' onclick='popout();' class='close'>Close</a><br />";
+	for (var indx = 0; indx < typeList.length; indx++ ) {
+		_dom_closable.innerHTML +="<a href='#' id='date"+indx+"' class='dateselection' onclick='shn_print_event("+indx+");' title='"+ typeList[indx]+"' > " + typeList[indx]+ " </a> <br />";
 	}
 	
   	document.getElementById('print-wrapper').appendChild(_dom_closable);  	
@@ -1150,7 +1191,7 @@ function shn_print_create_popup_wrapper() {
  * @access protected
  * @return string
  */
-function shn_print_add_input_geography_layout(dom_label, dom_legend, _dom_wrapper, _class) {
+function shn_print_add_input_geography_layout(dom_label, dom_legend, _dom_wrapper, _class, _id_tag) {
 	
 	_dom_wrapper = shn_print_set_label(dom_label, dom_legend, _dom_wrapper, 'small-left');
 
@@ -1161,8 +1202,39 @@ function shn_print_add_input_geography_layout(dom_label, dom_legend, _dom_wrappe
 	for (var counter = 0; counter < 14; counter++) {
 	_dom_wrapper.innerHTML +="<div class='character'></div>";
 	}
-	shn_print_appent_to_wrapper(_dom_wrapper, _class);
+	shn_print_appent_to_wrapper(_dom_wrapper, _class, _id_tag);
 }
+
+/**
+var http_request = false;
+
+function makeRequest(url) {
+
+  if (window.XMLHttpRequest) { // Mozilla, Safari, IE7...
+      http_request = new XMLHttpRequest();
+  } else if (window.ActiveXObject) { // IE6 and older
+      http_request = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  http_request.onreadystatechange = alertContents;
+  http_request.open(‘GET’, url, true);
+  http_request.send(null);
+
+}
+
+function alertContents() {
+  if (http_request.readyState == 4) {
+      if (http_request.status == 200) {
+          alert(http_request.responseText);
+      } else {
+          alert(‘There was a problem with the request.’);
+      }
+  }
+}
+
+document.getElementById(‘mybutton’).onclick = function() {
+  makeRequest(‘test.html’);
+}
+*/
 
 
 /**
@@ -1231,7 +1303,7 @@ function shn_print_get_style_object(objectId) {
  
 //Shows the messages
 var oDesc;
-var xOffset = 10;
+var xOffset = 5;
 var yOffset = -5;
 function popup(targetObjectId, eventObj){
 	if(oDesc = new make_obj(targetObjectId)){
