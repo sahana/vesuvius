@@ -69,10 +69,6 @@ function _shn_dsm_weekly_report_of_communicable_diseases() {
 			$A_counter++;
 			$rtbs_disease_name_A->MoveNext();
 		}
-	
-	$disease_A_B = array();
-	$disease_A_B += $disease_name_A;
-	$disease_A_B += $disease_name_B;
 
 	?>
 	
@@ -86,6 +82,18 @@ function _shn_dsm_weekly_report_of_communicable_diseases() {
     </thead>
     <tbody>
 	<?php
+
+    	$sql = "SELECT disease_name FROM rtbs_disease;";
+    	$res = $db->Execute($sql);
+		
+			
+		$disease_A_B = array();
+		$AB_counter = 0;
+		while (!$res == NULL && !$res->EOF) {
+		    $disease_A_B[$AB_counter] = $res->fields["disease_name"]; 
+			$AB_counter++;
+			$res->MoveNext();
+		}
 
 	$phi_area = array();
 	$phi_area = _shn_dsm_list_phi_area();
