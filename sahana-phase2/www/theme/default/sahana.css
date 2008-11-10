@@ -357,101 +357,33 @@ div#formcontainer form#form_blank { padding: 5px; background-color: #fff; border
 
 #note { border:1px #999 solid; background-color: #ccc; text-align:center; padding: 5px 5px 5px 5px; margin-bottom: 10px; }
 
-.loading 
-{
-  float:left; display: inline;padding: 10px;width: 760px;background-color: #fffbb8;color: #FF9900;border: 1px solid #ffcc00;
-  font-weight: bold;position:fixed;z-index:6;
-  
- }
+.loading { float:left; display: inline; padding: 10px; width: 760px; background-color: #fffbb8; color: #F90; border: 1px solid #fc0; font-weight: bold; position: fixed; z-index: 6; }
 
  /* Dynamic reports styles
 ........................................................................................*/
 /* dr module */
 
 
-#dnd{
-	margin: 0 auto;
-}
+#dnd { margin: 0 auto; }
 
-#dnd li{
-	cursor: move; 
-	display: block;
-	height: 20px;
-	width: 305px;
-	padding: 5px 10px 0;
-	margin: 0 10px;
-	font-size: 10.2px;
+#dnd ul { margin-bottom: 15px; margin-top: 10px; width: 305px; }
 
-	color: #2a2a2a;
-	background-color:	#adadad;
-	border-top:	#c7c7c7 1px solid;
-	border-left:	#c7c7c7 1px solid;
-	border-bottom: #909090 1px solid;
-	border-right: #909090 1px solid;
-}
+#dnd li { cursor: move; display: block; height: 20px; width: 305px; padding: 5px 10px 0; margin: 0 10px; font-size: 10.2px; color: #2a2a2a; background-color: #adadad; border-top: #c7c7c7 1px solid; border-left: #c7c7c7 1px solid; border-bottom: #909090 1px solid; border-right: #909090 1px solid; }
 
+#kontener2, #kontener1, #kontener3, #kontener4, #kontener5, #kontener6 { width: 350px; background: #cdcdcd; border: #f9f9f9 1px solid; margin: 0; }
 
-#kontener2, #kontener1, #kontener3, #kontener4, #kontener5, #kontener6{	
-	width: 350px;
-	background: #cdcdcd;
-	border: #f9f9f9 1px solid;
-	margin: 0;
-}
+#kontener1a, #kontener1b, #kontener5a, #kontener5b, #kontener6a, #kontener6b { width: 55px; background: #cdcdcd; border: #f9f9f9 1px solid; margin: 0; }
 
-#kontener1a, #kontener1b, #kontener5a, #kontener5b, #kontener6a, #kontener6b{	
-	width: 55px;
-	background: #cdcdcd;
-	border: #f9f9f9 1px solid;
-	margin: 0;
-}
+#kontener2a, #kontener2b, #kontener4a, #kontener4b { width: 350px; background: #cdcdcd; border: #f9f9f9 1px solid; margin: 0; }
 
+#kontener0, #kontener7 { font-size: 12px; font-weight: bold; background: #cdcdcd; border: #f9f9f9 1px solid; margin: 0, auto; }
 
-#kontener2a, #kontener2b, #kontener4a, #kontener4b{	
-	width: 350px;
-	background: #cdcdcd;
-	border: #f9f9f9 1px solid;
-	margin: 0;
-}
+#kontener0 p { padding: 3px 5px; }
 
+#kontener7 p { font-size: 13px; font-style: oblique; }
 
-#kontener0, #kontener7{	
-	font-size: 12px;
-	font-weight: bold;
-	background: #cdcdcd;
-	border: #f9f9f9 1px solid;
-	margin: 0, auto;
-}
-
-
-#kontener0 p{
-	padding: 3px 5px;	
-}
-
-#kontener7 p{
-	font-size: 13px;
-	font-style: oblique;
-}
-
-
-#dnd ul{
-	margin-bottom: 15px;
-	margin-top: 10px;
-	width: 305px;
-}
-
-
-#kontener1a ul, #kontener1b ul{
-	margin-bottom: 15px;
-	margin-top: 10px;
-	width: 90px;
-}
-
-#kontener5a ul, #kontener5b ul{
-	margin-bottom: 15px;
-	margin-top: 10px;
-	width: 100px;
-}
-
+#kontener1a ul, #kontener1b ul{ margin-bottom: 15px; margin-top: 10px; width: 90px; }
+#kontener5a ul, #kontener5b ul { margin-bottom: 15px; margin-top: 10px; width: 100px; }
 
 #kontener5a li, #kontener5b li { cursor: move; display: block; height: 20px; width: 60px; padding: 5px 10px 0; margin: 0 10px; font-size: 10.2px; color: #2a2a2a; background-color: #adadad; border-top: #c7c7c7 1px solid; border-left: #c7c7c7 1px solid; border-bottom: #909090 1px solid; border-right: #909090 1px solid; }
 
@@ -478,11 +410,11 @@ button { padding: 3px; }
 /* Styles related to Messaging module 
 --------------------------------------------------------------------------------------*/
 
-#message_container { background:url(../../res/img/mobile.jpg) no-repeat; width:250px; height:521px; float:left; }
-#message_container textarea#message{ background-color:transparent; border:none; color:white; margin:110px 0px 0px 47px; font-size:15px; overflow:auto;}
-html>body #message_container textarea#message{ font-size:13px;} /*hacks for IE*/
-#message_container div#message{ background-color:transparent; border:none; color:white; margin:110px 0px 0px 47px; width:160px; font-size:15px;}
-html>body #message_container div#message{ font-size:13px;} /*hacks for IE*/
+#message_container { background:url(../../res/img/mobile.jpg) no-repeat; width: 250px; height: 521px; float: left; }
+#message_container textarea#message { background-color: transparent; border: none; color: white; margin: 110px 0 0 47px; font-size: 15px; overflow: auto; }
+html>body #message_container textarea#message { font-size: 13px;} /*hacks for IE*/
+#message_container div#message { background-color: transparent; border: none; color: white; margin: 110px 0 0 47px; width: 160px; font-size: 15px; }
+html>body #message_container div#message { font-size: 13px; } /*hacks for IE*/
 
 /* xajax loading message */
-#loadingMessage{position:absolute;left:0;bottom:0;background:#FFFF99;font-size:large;padding:5px;}
+#loadingMessage { position: absolute; left: 0; bottom: 0; background: #FF9; font-size: large; padding: 5px; }
