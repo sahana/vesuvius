@@ -126,7 +126,7 @@ function _shn_patient_contact()
 	shn_form_fsopen(_t('Contact Details'));
 	shn_form_textarea(_t('Address'),'pat_address');
     shn_form_text(_t('Phone'),'pat_phone','size="30"');
-    shn_form_text(_t('Modile'),'pat_mobile','size="30"');
+    shn_form_text(_t('Mobile'),'pat_mobile','size="30"');
     shn_form_text(_t('Email'),'pat_email','size="30"');
 	shn_form_fsclose();
     
