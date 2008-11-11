@@ -73,7 +73,7 @@ function shn_sr_form_submit()
 function shn_sr_default()
 {
 	print "<h1><center>Welcome to Situation Report</center></h1>";
-	print "SITRep Dashboard!";
+	print "SITRep Dashboard! SitRep Module is currently under development.";
 }
 
 function shn_sr_create()
