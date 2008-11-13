@@ -43,8 +43,6 @@ function shn_sr_report_detail_form($rpt_id)
 	
 	// pull latest existing reports
 	$values = shn_sr_pull_report_content($rpt_id);
-	//print_r($values);
-	//print $values[2];
 	
 	shn_form_fopen("form_submit",null,array ('req_message' => false,'tab'=>'float'));
 		shn_form_hidden(array("key"=>"reports"));

@@ -97,7 +97,23 @@ function shn_sr_pull_report_content($rpt_id)
 	global $conf;
 	$db = $global['db'];
 	
+	$q="select * from sitrep_detail where report_id='$rpt_id' order by update_date desc limit 1;";
 	
+	$res=$db->Execute($q);
 	
+	while (!$res->EOF)
+	{
+		$update_date = "{$res->fields['update_date']}";
+		$author = "{$res->fields['author']}";
+		$summary = "{$res->fields['summary']}";
+		$event = "{$res->fields['event_dev']}";
+		$action = "{$res->fields['act']}";
+		$figure = "{$res->fields['key_fig']}";
+		
+		$res->MoveNext();
+	}
+	
+	$result = array($update_date, $author, $summary, $event, $action, $figure);
+	return $result;
 }
 ?>
