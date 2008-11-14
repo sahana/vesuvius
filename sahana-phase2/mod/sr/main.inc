@@ -36,8 +36,8 @@ function shn_sr_mainmenu()
     shn_mod_menuopen(_t('Situation Report'));
     	shn_mod_menuitem('default',_t('Home'));
     	shn_mod_menuitem('create',_t('Report'));
-    	shn_mod_menuitem('Update',_t('View'));
-    	shn_mod_menuitem('View',_t('Update'));
+    	shn_mod_menuitem('update',_t('Update'));
+    	shn_mod_menuitem('view',_t('View'));
     shn_mod_menuclose();
 
     include $global['approot'].'/inc/handler_mainmenu.inc';
@@ -95,11 +95,11 @@ function shn_sr_create()
 }
 
 
-function shn_sr_view()
+function shn_sr_update()
 {
 	print "<h1>Situation Reports</h1>";
 	// List all the reports
-	shn_sr_view_reports();
+	shn_sr_update_reports();
 }
 
 // view a report
@@ -111,8 +111,8 @@ function shn_sr_report()
 	shn_sr_report_detail_form($rpt_id, $rpt_name);
 }
 
-function shn_sr_update()
+function shn_sr_view()
 {
-	print "update";
+	print "view";
 }
 ?>
