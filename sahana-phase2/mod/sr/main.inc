@@ -55,8 +55,17 @@ function shn_sr_form_submit()
 		case "reg":
 			$rpt_name=$_POST['name'];
 			$rpt_desc=$_POST['desc'];
-			shn_sr_chk_rpt_name($rpt_name);
-			//shn_sr_store_reg_new_report($rpt_name,$rpt_desc);
+			
+			// checking whether the report name is already in the db
+			$chk = shn_sr_chk_rpt_name($rpt_name);
+			if ($chk=="no"){
+				// if no then register
+				shn_sr_store_reg_new_report($rpt_name,$rpt_desc);
+			} else {
+				// if name is there then ask for another name
+				add_error('Report name <strong>'.$rpt_name.'</strong> is already in the database!');
+				shn_sr_report_register();
+			}
 		break;
 		
 		// Report detail update

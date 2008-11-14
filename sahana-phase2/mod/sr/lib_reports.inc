@@ -107,11 +107,21 @@ function shn_sr_chk_rpt_name($report_name)
 	while (!$res->EOF)
 	{
 		$list[$x] = $res->fields['name'];
+		$list[$x] = strtolower($list[$x]);// convert all of them to lower case
 		$x=$x+1;
 		$res->MoveNext();
 	}
-	print_r($list);
-	// now check this with the given name!!!
+	
+	// Check whether the given report name is available in the db
+	
+	// convert all the report names to lowercase
+	$report_name = strtolower($report_name);
+	
+	if (in_array($report_name,$list)){
+		return $chk="yes";
+	} else {
+		return $chk="no";
+	}
 }
 
 ?>
