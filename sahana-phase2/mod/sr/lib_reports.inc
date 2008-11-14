@@ -91,5 +91,27 @@ function shn_sr_view_reports($method='all')
 	print "</table>";
 }
 
+// Check whether the report is already in the db
+function shn_sr_chk_rpt_name($report_name)
+{
+	// connect to db
+	global $global;
+	global $conf;
+	$db = $global['db'];
+	
+	$q="SELECT name FROM sitrep_info;";
+	
+	$res=$db->Execute($q);
+	
+	$x=0;
+	while (!$res->EOF)
+	{
+		$list[$x] = $res->fields['name'];
+		$x=$x+1;
+		$res->MoveNext();
+	}
+	print_r($list);
+	// now check this with the given name!!!
+}
 
 ?>

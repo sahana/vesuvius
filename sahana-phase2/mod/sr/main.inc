@@ -55,7 +55,8 @@ function shn_sr_form_submit()
 		case "reg":
 			$rpt_name=$_POST['name'];
 			$rpt_desc=$_POST['desc'];
-			shn_sr_store_reg_new_report($rpt_name,$rpt_desc);
+			shn_sr_chk_rpt_name($rpt_name);
+			//shn_sr_store_reg_new_report($rpt_name,$rpt_desc);
 		break;
 		
 		// Report detail update
