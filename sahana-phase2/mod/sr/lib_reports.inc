@@ -19,7 +19,7 @@
 */
 
 // Display all the reports as a list
-function shn_sr_view_reports($method='all')
+function shn_sr_update_reports($method='all')
 {
 	// connect to db
 	global $global;

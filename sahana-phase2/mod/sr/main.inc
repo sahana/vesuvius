@@ -36,8 +36,8 @@ function shn_sr_mainmenu()
     shn_mod_menuopen(_t('Situation Report'));
     	shn_mod_menuitem('default',_t('Home'));
     	shn_mod_menuitem('create',_t('Report'));
-    	shn_mod_menuitem('view',_t('View'));
-    	shn_mod_menuitem('update',_t('Update'));
+    	shn_mod_menuitem('Update',_t('View'));
+    	shn_mod_menuitem('View',_t('Update'));
     shn_mod_menuclose();
 
     include $global['approot'].'/inc/handler_mainmenu.inc';
