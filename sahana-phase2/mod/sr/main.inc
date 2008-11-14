@@ -35,7 +35,7 @@ function shn_sr_mainmenu()
     
     shn_mod_menuopen(_t('Situation Report'));
     	shn_mod_menuitem('default',_t('Home'));
-    	shn_mod_menuitem('create',_t('Report'));
+    	shn_mod_menuitem('create',_t('Create'));
     	shn_mod_menuitem('update',_t('Update'));
     	shn_mod_menuitem('view',_t('View'));
     shn_mod_menuclose();
