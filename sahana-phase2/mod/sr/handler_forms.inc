@@ -43,6 +43,7 @@ function shn_sr_report_detail_form($rpt_id)
 	
 	// pull latest existing reports
 	$values = shn_sr_pull_report_content($rpt_id);
+	//print_r($values);
 	
 	shn_form_fopen("form_submit",null,array ('req_message' => false,'tab'=>'float'));
 		shn_form_hidden(array("key"=>"reports"));
@@ -60,8 +61,17 @@ function shn_sr_report_detail_form($rpt_id)
 			_shn_sr_form_key_figures($values[5]);
 		shn_form_fsclose();
 		shn_form_drawtab();
+		//$date = date("D dS  M, Y  -  h:i a",$values[0]);
+		$date = date_create($values[0]);
+		$date = date_format($date, 'jS, F Y - g:i a');
+		
+		//print "<font color=silver>Last updated : $values[0] by $values[1]</font><br><br>";
+		print "<font color=silver>Last updated : $date by $values[1]</font><br><br>";
+		
 		shn_form_submit(_t("Update"),$submit_opts = null);
+		
 	shn_form_fclose();
+	
 }
 
 // Summary report form

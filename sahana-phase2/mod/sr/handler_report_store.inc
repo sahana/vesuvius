@@ -98,6 +98,7 @@ function shn_sr_pull_report_content($rpt_id)
 	$db = $global['db'];
 	
 	$q="select * from sitrep_detail where report_id='$rpt_id' order by update_date desc limit 1;";
+	//$q="select report_id,DATE_FORMAT(update_date,'%W %M %Y') as updated_date,author,summary,event_dev,act,key_fig,status from sitrep_detail where report_id='$rpt_id' order by update_date desc limit 1;";
 	
 	$res=$db->Execute($q);
 	
