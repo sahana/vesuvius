@@ -37,7 +37,7 @@ function shn_sr_report_register()
 }
 
 // Capture report details
-function shn_sr_report_detail_form($rpt_id)
+function shn_sr_report_detail_form($rpt_id, $rpt_name)
 {
 	print "<h1>Report Information</h1>";
 	
@@ -48,6 +48,7 @@ function shn_sr_report_detail_form($rpt_id)
 	shn_form_fopen("form_submit",null,array ('req_message' => false,'tab'=>'float'));
 		shn_form_hidden(array("key"=>"reports"));
 		shn_form_hidden(array("id"=>"$rpt_id"));
+		shn_form_hidden(array("name"=>"$rpt_name"));
 		shn_form_fsopen('Summary');
 			_shn_sr_form_summary($values[2]);
 		shn_form_fsclose();

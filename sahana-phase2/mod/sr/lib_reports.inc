@@ -77,7 +77,7 @@ function shn_sr_view_reports($method='all')
 		
 		?>
 		<tr>
-			<td><a href="index.php?mod=sr&act=report&id=<?php echo $rpt_id; ?>"><strong><?php print $name; ?></strong></a></td>
+			<td><a href="index.php?mod=sr&act=report&id=<?php echo $rpt_id; ?>&rpt=<?php echo $name ?>"><strong><?php print $name; ?></strong></a></td>
 			<td><?php print $desc; ?></td>
 			<td><?php print "<center>$status</center>"; ?></td>
 			<td><?php print "<center>$author</center>"; ?></td>

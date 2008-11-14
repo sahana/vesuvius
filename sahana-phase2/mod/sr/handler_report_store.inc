@@ -59,7 +59,7 @@ function shn_sr_store_reg_new_report($rpt_name,$rpt_desc)
 }
 
 // store detail information about reports as updates
-function shn_sr_store_report_update($rpt_id, $rpt_summary, $rpt_event, $rpt_action, $rpt_figure)
+function shn_sr_store_report_update($rpt_id, $rpt_name, $rpt_summary, $rpt_event, $rpt_action, $rpt_figure)
 {
 	// connect to db
 	global $global;
@@ -83,6 +83,7 @@ function shn_sr_store_report_update($rpt_id, $rpt_summary, $rpt_event, $rpt_acti
 		$res=$db->Execute($q);
 		if($res){
 			add_confirmation("Situation Report <strong>$rpt_name</strong> was updated successfully!");
+			shn_sr_report_detail_form($rpt_id, $rpt_name); // recalling the report again (modified)
 		} else {
 			add_error("Can not update Situation Report <strong>$rpt_name</strong> to the system!");	
 		}
