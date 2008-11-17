@@ -62,7 +62,7 @@ function shn_sr_form_submit()
 				// if no then register
 				shn_sr_store_reg_new_report($rpt_name,$rpt_desc);
 			} else {
-				// if name is there then ask for another name
+				// if name is already there then ask for another name
 				add_error('Report name <strong>'.$rpt_name.'</strong> is already in the database!');
 				shn_sr_report_register();
 			}
