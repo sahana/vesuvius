@@ -107,7 +107,6 @@ function shn_sr_view_report($rpt_id, $rpt_name, $author, $summary, $event, $acti
 {
 	print "<h1>$rpt_name Report Information</h1>";
 	
-	//shn_form_fopen("form_submit",null,array ('req_message' => false,'tab'=>'float'));
 	shn_form_fopen("",null,array ('req_message' => false));
 		shn_form_fsopen('Summary');
 			print $summary;
@@ -121,7 +120,7 @@ function shn_sr_view_report($rpt_id, $rpt_name, $author, $summary, $event, $acti
 		shn_form_fsopen('Figures');
 			print $figure;
 		shn_form_fsclose();
-		
+	print "Select:&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=view'>Back</a>&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=report_update&id=$rpt_id&rpt=$rpt_name'>Update</a>&nbsp;&nbsp;";	
 }
 
 ?>

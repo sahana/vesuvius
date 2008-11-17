@@ -51,6 +51,8 @@ function shn_sr_report_list($type, $method='all')
 	
 	$res=$db->Execute($q);
 	
+	shn_form_fopen("",null,array ('req_message' => false));
+	shn_form_fsopen('Report List');
 	?>
 	<table width="100%">
             <thead>
@@ -101,7 +103,33 @@ function shn_sr_report_list($type, $method='all')
 
 		$res->MoveNext();
 	}
+	
+	shn_form_fsclose();
 	print "</table>";
+	print "<p><br>Select:&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=view'>Back</a>&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=report_update&id=$rpt_id&rpt=$rpt_name'>Update</a>&nbsp;&nbsp;</p>";
+	shn_form_fclose();
+	
+	
+	
+}
+
+// Switch board
+function _shn_switch_board($switches)
+{
+	print "<p><br>Select:&nbsp;&nbsp;&nbsp;";
+	
+	switch ($switches) {
+		
+		case "back":
+			
+		break;
+		
+		case "refresh":
+			
+		break;	
+	}
+	
+	print "<br></p>";
 }
 
 // Check whether the report is already in the db
