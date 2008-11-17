@@ -97,13 +97,12 @@ function shn_sr_create()
 
 function shn_sr_update()
 {
-	print "<h1>Situation Reports</h1>";
 	// List all the reports
-	shn_sr_update_reports();
+	shn_sr_report_list("update");
 }
 
-// view a report
-function shn_sr_report()
+// update a selected report
+function shn_sr_report_update()
 {
 	// capture the id and report name from URL
 	$rpt_id=$_GET['id'];
@@ -111,8 +110,17 @@ function shn_sr_report()
 	shn_sr_report_detail_form($rpt_id, $rpt_name);
 }
 
+// view a selected report
+function shn_sr_report_view()
+{
+	// capture the id and report name from the URL
+	$rpt_id=$_GET['id'];
+	$rpt_name=$_GET['rpt'];
+	print "report id is $rpt_id and report name is $rpt_name";
+}
+
 function shn_sr_view()
 {
-	print "view";
+	shn_sr_report_list("view");
 }
 ?>

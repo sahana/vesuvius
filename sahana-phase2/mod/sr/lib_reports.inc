@@ -19,8 +19,11 @@
 */
 
 // Display all the reports as a list
-function shn_sr_update_reports($method='all')
+function shn_sr_report_list($type, $method='all')
 {
+	if ($type=="view") echo "<h1>View Situation Reports</h1>";
+	elseif ($type=="update") echo "<h1>Update Situation Reports</h1>";
+	
 	// connect to db
 	global $global;
 	global $conf;
@@ -81,7 +84,13 @@ function shn_sr_update_reports($method='all')
 		}
 		?>
 		<tr>
-			<td><a href="index.php?mod=sr&act=report&id=<?php echo $rpt_id; ?>&rpt=<?php echo $name ?>"><strong><?php print $name; ?></strong></a></td>
+			<td><a href="index.php?mod=sr&act=<?php // this code snipt is used for both report update and report view
+													if($type=="update") {
+														echo "report_update";
+													} elseif ($type=="view") {
+														echo "report_view";
+													}		
+											   ?>&id=<?php echo $rpt_id; ?>&rpt=<?php echo $name ?>"><strong><?php print $name; ?></strong></a></td>
 			<td><?php print $desc; ?></td>
 			<td><?php print "<center>$status</center>"; ?></td>
 			<td><?php print "<center>$author</center>"; ?></td>
@@ -103,18 +112,23 @@ function shn_sr_chk_rpt_name($report_name)
 	global $conf;
 	$db = $global['db'];
 	
-	$q="SELECT name FROM sitrep_info;";
+	$q="SELECT name,report_id FROM sitrep_info;";
 	
 	$res=$db->Execute($q);
 	
 	$x=0;
 	while (!$res->EOF)
 	{
-		$list[$x] = $res->fields['name'];
+		//$list[$x] = $res->fields['name'];
+		$list[($res->fields['report_id'])] = ($res->fields['name']);
+		
+		//$list[$x][1] = $res->fields['report_id'];
 		$list[$x] = strtolower($list[$x]);// convert all of them to lower case
+		
 		$x=$x+1;
 		$res->MoveNext();
 	}
+	//print_r($list);
 	
 	// Check whether the given report name is available in the db
 	
@@ -122,7 +136,7 @@ function shn_sr_chk_rpt_name($report_name)
 	$report_name = strtolower($report_name);
 	
 	if (in_array($report_name,$list)){
-		return $chk="yes";
+		$chk=array("yes");
 	} else {
 		return $chk="no";
 	}
