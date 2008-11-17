@@ -142,4 +142,32 @@ function shn_sr_chk_rpt_name($report_name)
 	}
 }
 
+// Display a given (id) report
+function shn_sr_pull_report($rpt_id)
+{
+	// connect to db
+	global $global;
+	global $conf;
+	$db = $global['db'];
+	
+	$q="SELECT r1.report_id, r1.name, r2.author, r2.summary, r2.event_dev, r2.act, r2.key_fig, r2.status, DATE_FORMAT(r2.update_date,'%b %D, %Y - %r') AS update_date FROM sitrep_detail AS r2 INNER JOIN sitrep_info r1 ON r1.report_id=r2.report_id WHERE r1.report_id='$rpt_id' ORDER BY update_date DESC LIMIT 1;";
+	
+	$res=$db->Execute($q);
+
+	 while(!$res->EOF)
+	{
+		$rpt_id = $res->fields['report_id'];
+		$name = $res->fields['name'];
+		$author = $res->fields['author'];
+		$summary = $res->fields['summary'];
+		$event = $res->fields['event_dev'];
+		$action = $res->fields['act'];
+		$figure = $res->fields['key_fig'];
+		$status = $res->fields['status'];
+		$update_date = $res->fields['update_date'];
+		$res->MoveNext();
+	}
+	
+	shn_sr_view_report($rpt_id, $name, $author, $summary, $event, $action, $figure, $status, $update_date);
+}
 ?>

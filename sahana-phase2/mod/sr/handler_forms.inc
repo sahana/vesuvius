@@ -102,6 +102,26 @@ function _shn_sr_form_key_figures($val)
 	//shn_form_fckeditor(_t('Key Figure Report'),'figure',null,array('value'=>$res['figure']));
 }
 
-
+// Display requested sitrep
+function shn_sr_view_report($rpt_id, $rpt_name, $author, $summary, $event, $action, $figure, $status, $update)
+{
+	print "<h1>$rpt_name Report Information</h1>";
+	
+	//shn_form_fopen("form_submit",null,array ('req_message' => false,'tab'=>'float'));
+	shn_form_fopen("",null,array ('req_message' => false));
+		shn_form_fsopen('Summary');
+			print $summary;
+		shn_form_fsclose();
+		shn_form_fsopen('Event');
+			print $event;
+		shn_form_fsclose();	
+		shn_form_fsopen('Action');
+			print $action;
+		shn_form_fsclose();
+		shn_form_fsopen('Figures');
+			print $figure;
+		shn_form_fsclose();
+		
+}
 
 ?>

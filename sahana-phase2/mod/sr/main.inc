@@ -116,7 +116,8 @@ function shn_sr_report_view()
 	// capture the id and report name from the URL
 	$rpt_id=$_GET['id'];
 	$rpt_name=$_GET['rpt'];
-	print "report id is $rpt_id and report name is $rpt_name";
+	//print "report id is $rpt_id and report name is $rpt_name";
+	shn_sr_pull_report($rpt_id);
 }
 
 function shn_sr_view()
