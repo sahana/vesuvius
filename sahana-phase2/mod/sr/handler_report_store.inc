@@ -78,7 +78,7 @@ function shn_sr_store_report_update($rpt_id, $rpt_name, $rpt_summary, $rpt_event
 		// get the incident id
 		$incident_id=$_SESSION['user_pref_ims_incident_id'];
 		
-		$q="INSERT INTO sitrep_detail (report_id, author, summary, event_dev, act, key_fig) VALUES ('$rpt_id','$user','$rpt_summary','$rpt_event','$rpt_action','$rpt_figure');";
+		$q="INSERT INTO sitrep_detail (report_id, author, summary, event_dev, act, key_fig, status) VALUES ('$rpt_id','$user','$rpt_summary','$rpt_event','$rpt_action','$rpt_figure','updated');";
 		
 		$res=$db->Execute($q);
 		if($res){
