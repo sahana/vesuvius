@@ -38,7 +38,7 @@ function shn_sr_update_reports($method='all')
 		//$q="SELECT sitrep_info.report_id, sitrep_info.name, sitrep_info.description, DATE_FORMAT(sitrep_info.create_date, '%b %D, %Y') AS create_date, MAX(DATE_FORMAT(sitrep_detail.update_date, '%b %D, %Y -  %r')) AS update_date, sitrep_detail.author, sitrep_detail.status, sitrep_info.incident_id FROM sitrep_info inner join sitrep_detail GROUP BY report_id;";
 		//$q="SELECT sitrep_info.report_id, sitrep_info.name, sitrep_info.description, DATE_FORMAT(sitrep_info.create_date, '%b %D, %Y') AS create_date, MAX(DATE_FORMAT(sitrep_detail.update_date, '%b %D, %Y - %r')) AS update_date, MAX(sitrep_detail.author) AS author, MAX(sitrep_detail.status) AS status, sitrep_info.incident_id FROM sitrep_info inner join sitrep_detail GROUP BY report_id;";
 		$q=" select t1.report_id, t1.name, t1.description, MAX(t2.author) as author, MAX(t2.status) as status, DATE_FORMAT(t1.create_date,'%b %D %Y') as create_date, MAX(DATE_FORMAT(t2.update_date,'%b %D, %Y - %r')) as update_date, t1.incident_id from sitrep_info as t1 inner join sitrep_detail t2 on t1.report_id=t2.report_id group by report_id;";
-		print $q;
+		//print $q;
 	} else {
 		// display only for this incident
 		//$q="SELECT sitrep_info.report_id, sitrep_info.name, sitrep_info.description, DATE_FORMAT(sitrep_info.create_date, '%b %D, %Y') AS create_date, DATE_FORMAT(sitrep_detail.update_date, '%b %D, %Y -  %r') AS update_date, sitrep_detail.author, sitrep_detail.status, sitrep_info.incident_id FROM sitrep_info inner join sitrep_detail WHERE  incident_id='$incident_id';";	
