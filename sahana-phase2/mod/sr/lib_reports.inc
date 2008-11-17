@@ -74,7 +74,6 @@ function shn_sr_update_reports($method='all')
 		$status = $res->fields['status'];
 		$incident_id = $res->fields['incident_id'];
 		
-		print "<br>Status is $status";
 		if($status=="create") {
 			$status="<font color='red'>New</font>";
 		} elseif ($status=="updated"){
