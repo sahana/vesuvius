@@ -103,7 +103,7 @@ function _shn_sr_form_key_figures($val)
 }
 
 // Display requested sitrep
-function shn_sr_view_report($rpt_id, $rpt_name, $author, $summary, $event, $action, $figure, $status, $update)
+function shn_sr_view_report($rpt_id, $rpt_name, $author, $summary, $event, $action, $figure, $status, $update_date)
 {
 	print "<h1>$rpt_name Report Information</h1>";
 	
@@ -120,7 +120,15 @@ function shn_sr_view_report($rpt_id, $rpt_name, $author, $summary, $event, $acti
 		shn_form_fsopen('Figures');
 			print $figure;
 		shn_form_fsclose();
-	print "Select:&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=view'>Back</a>&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=report_update&id=$rpt_id&rpt=$rpt_name'>Update</a>&nbsp;&nbsp;";	
+		
+		// display last update date/time
+		$date = date_create($update_date);
+		$date = date_format($date, 'jS, F Y - g:i a');
+		print "<font color=silver>Last updated : $date by $values[1]</font><br><br>";
+		
+		print "Select:&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=view'>Back</a>&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=report_update&id=$rpt_id&rpt=$rpt_name'>Update</a>&nbsp;&nbsp;";
+	shn_form_fclose();	
+		
 }
 
 ?>
