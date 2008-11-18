@@ -69,8 +69,8 @@ function shn_sr_report_detail_form($rpt_id, $rpt_name)
 		//print "<font color=silver>Last updated : $values[0] by $values[1]</font><br><br>";
 		print "<font color=silver>Last updated : $date by $values[1]</font><br><br>";
 		
-		shn_form_submit(_t("Update"),$submit_opts = null);
-		
+		shn_form_submit(_t("Save"),"name='chk'");
+		shn_form_submit(_t("Cancel"),"name='chk'");
 	shn_form_fclose();
 	
 }

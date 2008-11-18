@@ -70,13 +70,20 @@ function shn_sr_form_submit()
 		
 		// Report detail update
 		case "reports":
-			$rpt_id=$_POST['id'];
-			$rpt_name=$_POST['name'];
-			$rpt_summary=$_POST['summary'];
-			$rpt_event=$_POST['event'];
-			$rpt_action=$_POST['action'];
-			$rpt_figure=$_POST['figure'];
-			shn_sr_store_report_update($rpt_id, $rpt_name, $rpt_summary, $rpt_event, $rpt_action, $rpt_figure);
+			if($_POST['chk']=="Save"){ // check whether user has pressed 'save' or 'cancel'
+				$rpt_id=$_POST['id'];
+				$rpt_name=$_POST['name'];
+				$rpt_summary=$_POST['summary'];
+				$rpt_event=$_POST['event'];
+				$rpt_action=$_POST['action'];
+				$rpt_figure=$_POST['figure'];
+				shn_sr_store_report_update($rpt_id, $rpt_name, $rpt_summary, $rpt_event, $rpt_action, $rpt_figure);
+			} else {
+				// back to main report list
+				add_warning(_t('Editing of the <strong>'.$_POST['name'].'</strong> report has been canceled!'));
+				shn_sr_report_list("update");
+					
+			}
 		break;	
 	}
 }
