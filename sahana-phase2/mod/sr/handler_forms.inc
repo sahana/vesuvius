@@ -40,25 +40,27 @@ function shn_sr_report_register()
 function shn_sr_report_detail_form($rpt_id, $rpt_name)
 {
 	print "<h1>Report Information</h1>";
-	
 	// pull latest existing reports
 	$values = shn_sr_pull_report_content($rpt_id);
 	//print_r($values);
 	
 	shn_form_fopen("form_submit",null,array ('req_message' => false,'tab'=>'float'));
+		
+		print "Report Name : <b>$rpt_name</b><br><br>";
+		
 		shn_form_hidden(array("key"=>"reports"));
 		shn_form_hidden(array("id"=>"$rpt_id"));
 		shn_form_hidden(array("name"=>"$rpt_name"));
-		shn_form_fsopen('Summary');
+		shn_form_fsopen(_t('Summary'));
 			_shn_sr_form_summary($values[2]);
 		shn_form_fsclose();
-		shn_form_fsopen('Event');
+		shn_form_fsopen(_t('Event'));
 			_shn_sr_form_event_dev($values[3]);
 		shn_form_fsclose();	
-		shn_form_fsopen('Action');
+		shn_form_fsopen(_t('Action'));
 			_shn_sr_form_action($values[4]);
 		shn_form_fsclose();
-		shn_form_fsopen('Figures');
+		shn_form_fsopen(_t('Figures'));
 			_shn_sr_form_key_figures($values[5]);
 		shn_form_fsclose();
 		shn_form_drawtab();
@@ -105,9 +107,10 @@ function _shn_sr_form_key_figures($val)
 // Display requested sitrep
 function shn_sr_view_report($rpt_id, $rpt_name, $author, $summary, $event, $action, $figure, $status, $update_date)
 {
-	print "<h1>$rpt_name Report Information</h1>";
+	print "<h1>Report Information</h1>";
 	
 	shn_form_fopen("",null,array ('req_message' => false));
+		print "Report Name : <b>$rpt_name</b><br><br>";
 		shn_form_fsopen('Summary');
 			print $summary;
 		shn_form_fsclose();
