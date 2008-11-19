@@ -90,8 +90,8 @@ function shn_sr_form_submit()
 
 function shn_sr_default()
 {
-	print "<h1><center>Welcome to Situation Report</center></h1>";
-	print "SITRep Dashboard! SitRep Module is currently under development.";
+	print "<h1><center>Situation Report</center></h1>";
+	print "Situation Report (SITRep) module provides mechanism to store and retrieve reports easily. Reports can be updated collaboratively.";
 }
 
 function shn_sr_create()
