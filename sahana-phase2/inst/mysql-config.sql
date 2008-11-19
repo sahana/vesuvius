@@ -353,7 +353,7 @@ INSERT INTO sys_tablefields_to_data_classification VALUES ( "field_options", 6);
 
 -- gis_location
 
---- gis_layers
+-- gis_layers
 INSERT INTO gis_layers VALUES ('def_disaster_areas', 'Disaster Areas', '');
 INSERT INTO gis_layers VALUES ('def_infrastructure', 'Infrastructure', '');
 INSERT INTO gis_layers VALUES ('def_aid', 'Aid', '');
