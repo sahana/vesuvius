@@ -90,8 +90,19 @@ function shn_sr_form_submit()
 
 function shn_sr_default()
 {
-	print "<h1><center>Situation Report</center></h1>";
-	print "Situation Report (SITRep) module provides mechanism to store and retrieve reports easily. Reports can be updated collaboratively.";
+	print _t("<h1><center>Situation Report</center></h1>");
+	print _t("<p>Situation Report (SITRep) module provides mechanism to store and retrieve reports easily. Reports can be updated collaboratively.</p>");
+	?><br></br>
+    <div><h3><b><em><?= (_t("Features Include:")) ?></em></b></h3></div>
+      
+    <ul>
+        <li><a href="index.php?mod=sr&act=create"><b><?= (_t("Register :"))?></b></a><br><?= (_t("This will create and register a new situation reports with the system."))?></li>
+        <li><a href="index.php?mod=sr&act=update"><b><?= (_t("Update :"))?></b></a><br><?= (_t("Reports can be updated collaboratively and can be host as a single version."))?></li>
+        <li><a href="index.php?mod=sr&act=view"><b><?= (_t("View :"))?></b></a><br><?= (_t("This will provides, reports navigation and easy browsing. Exporting reports in to other formats (such as PDF, Text, etc.) will be available soon."))?></li>
+        
+            </ul>
+    <?php
+    
 }
 
 function shn_sr_create()
