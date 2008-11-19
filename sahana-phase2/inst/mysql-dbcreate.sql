@@ -23,7 +23,7 @@ DROP TABLE IF EXISTS resource_to_shelter;
 DROP TABLE IF EXISTS camp_general;
 DROP TABLE IF EXISTS resource_to_incident;
 DROP TABLE IF EXISTS incident;
-DROP TABLE IF EXISTS version;
+DROP TABLE IF EXISTS sahana_version;
 
 -- drop tables from lib_uuid
 
@@ -109,13 +109,13 @@ CREATE TABLE sync_instance (
  * ** IMPORTANT - Removing the ` in the query below will make it invalid.
  * Even though this violates the style, it is absolutely required.
  */
-CREATE TABLE `version` (
-    `version` VARCHAR( 20 ) NOT NULL , -- Version String
-    `release` VARCHAR( 40 ) NOT NULL , -- Release String
+CREATE TABLE `sahana_version` (
+    `sahana_version` VARCHAR( 20 ) NOT NULL , -- Version String
+    `sahana_release` VARCHAR( 40 ) NOT NULL , -- Release String
     `release_date` VARCHAR( 40 ) NOT NULL , -- Release Date
     `release_info` LONGTEXT NOT NULL , -- Release Info
-    PRIMARY KEY ( `version` , `release` , `release_date` )
-)
+    PRIMARY KEY ( `sahana_version` , `release` , `release_date` )
+);
 /**================= Security Tables ================================**/
 
 /**
@@ -154,7 +154,6 @@ CREATE TABLE users (
 );
 
 alter table users add unique (user_name);
-
 
 /**
 * Contains the Sahana system user alternative login details

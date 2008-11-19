@@ -133,11 +133,14 @@ function _shn_setup_db_create_db_mysql($conf_key_vals){
  */
 function _shn_setup_db_setup_db_mysql($conf_key_vals){
 	global $global;
-
+    if(file_exists($global['approot']."about.inc")){
+        include_once $global['approot']."about.inc";
+        global $about;
+    }
 	// another connection with transactions to create thetables and data.
 	$_tdb3 = &NewADOConnection('mysql');
 	$_tdb3->Connect($_host_port,$conf_key_vals['db_user'],$conf_key_vals['db_pass'],$conf_key_vals['db_name']);
-	//$_tdb3->debug=true;
+	$_tdb3->debug=true;
 	//$_tdb3->StartTrans();
 	$global['db'] = $_tdb3;
 	$conf['db_engine']=$conf_key_vals['db_type'];
@@ -179,6 +182,7 @@ function _shn_setup_db_setup_db_mysql($conf_key_vals){
 					global $global;
 					$global['db'] = $_tdb3;
 					$datacreate_funct();
+					$_tdb3->Execute("INSERT INTO modules(module,status) VALUES(?,?)",array($mod,'installed'));
 				}
 			}
 		}
@@ -200,7 +204,7 @@ function _shn_setup_db_setup_db_mysql($conf_key_vals){
 
 	// add the version information to the database.
 	include_once $global['approot']. 'inc/lib_security/lib_acl.inc';
-	$_tdb3->Execute("INSERT INTO version(version,release,release_date,release_info) VALUES ('".$about['version']."','".$about['release']."','".$about['release_date']."','".$about['release_info']."')");
+	$_tdb3->Execute("INSERT INTO sahana_version(sahana_version,sahana_release,release_date,release_info) VALUES ('".$about['version']."','".$about['release']."','".$about['release_date']."','".$about['release_info']."')");
 	return true;
 }
 
