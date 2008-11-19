@@ -67,6 +67,19 @@ CREATE TABLE config(
 	FOREIGN KEY (module_id) REFERENCES modules (module_id)
 );
 
+/** 
+ * Tables for Module Manager
+ */
+DROP TABLE IF EXISTS modules;
+
+CREATE TABLE modules (
+`module` VARCHAR( 20 ) NOT NULL ,
+`status` VARCHAR( 50 ) NOT NULL ,
+`extra` TEXT NOT NULL ,
+PRIMARY KEY ( `module` )
+);
+
+
 /**
 * Field options meta table
 * Give a custom list of options for each filed in this schema 

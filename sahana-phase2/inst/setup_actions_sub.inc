@@ -140,7 +140,7 @@ function _shn_setup_db_setup_db_mysql($conf_key_vals){
 	// another connection with transactions to create thetables and data.
 	$_tdb3 = &NewADOConnection('mysql');
 	$_tdb3->Connect($_host_port,$conf_key_vals['db_user'],$conf_key_vals['db_pass'],$conf_key_vals['db_name']);
-	$_tdb3->debug=true;
+	//$_tdb3->debug=true;
 	//$_tdb3->StartTrans();
 	$global['db'] = $_tdb3;
 	$conf['db_engine']=$conf_key_vals['db_type'];
@@ -170,7 +170,7 @@ function _shn_setup_db_setup_db_mysql($conf_key_vals){
 		// setup the selected modules.
 		$selected_mods = _shn_setup_get_selected_modules();
 	}
-
+	
 	if($selected_mods!=null){
 		foreach($selected_mods as $mod){
 			_shn_setup_run_sqlscript($_tdb3,'mod/'.$mod.'/inst/dbcreate.sql');
@@ -182,9 +182,9 @@ function _shn_setup_db_setup_db_mysql($conf_key_vals){
 					global $global;
 					$global['db'] = $_tdb3;
 					$datacreate_funct();
-					$_tdb3->Execute("INSERT INTO modules(module,status) VALUES(?,?)",array($mod,'installed'));
-				}
+				}				
 			}
+			$_tdb3->Execute("INSERT INTO modules(module,status) VALUES(?,?)",array($mod,'installed'));
 		}
 	}
 	// insert the sample data separately if it should be..

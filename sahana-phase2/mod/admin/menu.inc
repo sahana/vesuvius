@@ -21,7 +21,7 @@ function _shn_admin_mainmenu()
     $module_list = shn_get_modules_with_admin();
     shn_mod_menuopen(shn_get_module_name());
     shn_sub_mod_menuitem("default", _t("Admin Home"), 'admin');
-
+    shn_sub_mod_menuitem("module_mgr",_t("Module Manager"),'admin');
     shn_sub_mod_menuopen(_t("Location Hierarchy"));
     shn_sub_mod_menuitem("loc_lvl", _t("Location Terminology"), 'admin');
     shn_sub_mod_menuitem("add_loc", _t("Add New Location"), 'admin');
