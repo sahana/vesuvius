@@ -57,7 +57,7 @@ function shn_sr_report_detail_form($rpt_id, $rpt_name)
 		shn_form_fsopen(_t('Event'));
 			_shn_sr_form_event_dev($values[3]);
 		shn_form_fsclose();	
-		shn_form_fsopen(_t('Action'));
+		shn_form_fsopen(_t('Actions'));
 			_shn_sr_form_action($values[4]);
 		shn_form_fsclose();
 		shn_form_fsopen(_t('Figures'));
@@ -93,7 +93,7 @@ function _shn_sr_form_event_dev($val)
 // Action report form
 function _shn_sr_form_action($val)
 {
-	shn_form_wysiwyg(_t('Action Report'),'action',array('value'=>$val));
+	shn_form_wysiwyg(_t('Actions Report'),'action',array('value'=>$val));
 	//shn_form_fckeditor(_t('Action Report'),'action',null,array('value'=>$res['action']));
 }
 
