@@ -80,27 +80,27 @@ function shn_sr_report_detail_form($rpt_id, $rpt_name)
 // Summary report form
 function _shn_sr_form_summary($val)
 {
-	shn_form_wysiwyg(_t('Summary Report'),'summary',array('value'=>$val));
+	shn_form_wysiwyg(_t('Summary of Events Report'),'summary',array('value'=>$val));
 }
 
 // Event development report form
 function _shn_sr_form_event_dev($val)
 {
-	shn_form_wysiwyg(_t('Event Development Report'),'event',array('value'=>$val));
+	shn_form_wysiwyg(_t('Predicted Event Development Report'),'event',array('value'=>$val));
 	//shn_form_fckeditor(_t('Event Development Report'),'event',null,array('value'=>$res['event']));
 }
 
 // Action report form
 function _shn_sr_form_action($val)
 {
-	shn_form_wysiwyg(_t('Actions Report'),'action',array('value'=>$val));
+	shn_form_wysiwyg(_t('Actions Taken Report'),'action',array('value'=>$val));
 	//shn_form_fckeditor(_t('Action Report'),'action',null,array('value'=>$res['action']));
 }
 
 // Key-Figures report form
 function _shn_sr_form_key_figures($val)
 {
-	shn_form_wysiwyg(_t('Key Figure Report'),'figure',array('value'=>$val));
+	shn_form_wysiwyg(_t('Key Figures Report'),'figure',array('value'=>$val));
 	//shn_form_fckeditor(_t('Key Figure Report'),'figure',null,array('value'=>$res['figure']));
 }
 
@@ -111,16 +111,16 @@ function shn_sr_view_report($rpt_id, $rpt_name, $author, $summary, $event, $acti
 	
 	shn_form_fopen("",null,array ('req_message' => false));
 		print "Report Name : <b>$rpt_name</b><br><br>";
-		shn_form_fsopen('Summary');
+		shn_form_fsopen('Summary of Events');
 			print $summary;
 		shn_form_fsclose();
-		shn_form_fsopen('Event');
+		shn_form_fsopen('Predicted Event Development');
 			print $event;
 		shn_form_fsclose();	
-		shn_form_fsopen('Action');
+		shn_form_fsopen('Actions Taken');
 			print $action;
 		shn_form_fsclose();
-		shn_form_fsopen('Figures');
+		shn_form_fsopen('Key Figures');
 			print $figure;
 		shn_form_fsclose();
 		
