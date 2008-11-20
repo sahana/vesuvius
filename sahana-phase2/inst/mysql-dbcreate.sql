@@ -473,7 +473,7 @@ CREATE TABLE gis_location (
     map_projection varchar(20) default NULL,
     opt_gis_marker varchar(20) default NULL,
     gis_uid varchar(60) NOT NULL,
-    PRIMARY KEY  (`gis_uid)
+    PRIMARY KEY  (gis_uid)
 );
 
 /*** Table for GIS-WikiMaps functionality
