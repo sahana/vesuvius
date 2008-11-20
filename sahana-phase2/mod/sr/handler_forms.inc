@@ -127,6 +127,7 @@ function shn_sr_view_report($rpt_id, $rpt_name, $author, $summary, $event, $acti
 		// display last update date/time
 		$date = date_create($update_date);
 		$date = date_format($date, 'jS, F Y - g:i a');
+		
 		print "<font color=silver>Last updated : $date by $values[1]</font><br><br>";
 		
 		print "Select:&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=view'>Back</a>&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=report_update&id=$rpt_id&rpt=$rpt_name'>Update</a>&nbsp;&nbsp;";
