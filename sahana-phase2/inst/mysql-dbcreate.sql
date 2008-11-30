@@ -82,7 +82,7 @@ PRIMARY KEY ( `module` )
 
 /**
 * Field options meta table
-* Give a custom list of options for each filed in this schema 
+* Give a custom list of options for each field in this schema 
 * prefixed with opt_. This is customizable then at deployment
 * See the mysql-config.sql for default customizations
 * Modules: dvr, mpr, or, cr, rms, sm ,cs
