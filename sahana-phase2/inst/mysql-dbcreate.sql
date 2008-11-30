@@ -551,7 +551,7 @@ CREATE TABLE gis_feature_metadata (
     name varchar(60) NOT NULL,                          -- Feature name
     description VARCHAR(500) NOT NULL,                  -- Feature description
     author VARCHAR(60) NOT NULL,                        -- Author name
-    url varchar(100) NOT NULL,                          -- Link assosated with feature
+    url varchar(100) NOT NULL,                          -- Link associated with feature
     address varchar(200) NOT NULL,                      -- Location address of feature
     event_date timestamp NULL,                          -- Time feature occured (if relavent)
     placement_date timestamp NOT NULL default now(),    -- Time of placement in db
