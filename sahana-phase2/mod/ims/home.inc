@@ -2,7 +2,7 @@
 /**
 * Sahana Inventory Management System main page
 *
-* PHP version 4 and 5
+* PHP version 5
 *
 * LICENSE: This source file is subject to LGPL license
 * that is available through the world-wide-web at the following URI:
@@ -32,9 +32,9 @@ function _shn_ims_default()
       
     <ul>
         <li><b><a href="index.php?mod=ims&act=search_item"><?= (_t("Find Items:"))?> </a></b><br><?= (_t(" Enables end user to search items available in ware houses. End-User is also allowed to search available items, expired items and already destroyed items. "))?></li>
-        <li><b><a href="index.php?mod=ims&act=view_inv"><?= (_t("List Inventories:"))?></a></b><br><?= (_t(" Facilitates to manage multiple Inventories and enables end-user to add,edit or delete Inventories."))?></li>
+        <li><b><a href="index.php?mod=ims&act=view_inv"><?= (_t("List Inventories:"))?></a></b><br><?= (_t(" Facilitates to manage multiple Inventories and enables end-user to add, edit or delete Inventories."))?></li>
         <li><b><a href="index.php?mod=ims&act=view_edit_item"><?= (_t("List Items:"))?></a></b><br><?= (_t(" Enables end-user to add,edit or delete item for inventories and also enables to transfer items between two inventories"))?></li>
-        <li><b><a href="index.php?mod=ims&act=view_edit_reorder_page"><?= (_t("Re-Order Level:"))?></a></b><br><?= (_t(" Enables end-user to add or modify Re-Order Level for an inventory for  particular items "))?></li>
+        <li><b><a href="index.php?mod=ims&act=view_edit_reorder_page"><?= (_t("Re-Order Level:"))?></a></b><br><?= (_t(" Enables end-user to add or modify Re-Order Level for an inventory for particular items "))?></li>
         <li><b><a href="index.php?mod=ims&act=report_expired"><?= (_t("Reports:"))?></a></b><br><?= (_t(" Generate reports about expired items, destroyed items and also generates report about the items in which the total amount is lower than the Re-Order Level ")) ?></li>
         <li><b><a href="index.php?mod=ims&act=optim_inventory"><?= (_t("Optimization:"))?></a></b><br><?= (_t(" Forecasts the amount of items which have been sent to another inventory, received from another inventory and also forecasts already available item amounts in a particular inventory. On the other hand under this section, the end user is allowed to set relationships among items and track items which can be used as alternatives for particular items")) ?></li>
         
@@ -127,8 +127,8 @@ function _shn_ims_default()
     //shn_form_fclose();
     require_once($global['approot']."/inc/lib_rss.inc");
     shn_rss_add_feed('rss_expired_list',_t('Expired item List'));
-    shn_rss_add_feed('rss_reorder_list',_t('Items bellow Re-order Level'),_t('This RSS feed gives a list of items that are bellow re-order level.'));
-    shn_rss_add_feed('rss_transit',_t('Transit Item List'),_t('This RSS feed gives a list of items which have been transfered to other locations or inventories.'));
+    shn_rss_add_feed('rss_reorder_list',_t('Items below Re-order Level'),_t('This RSS feed gives a list of items that are below re-order level.'));
+    shn_rss_add_feed('rss_transit',_t('Transit Item List'),_t('This RSS feed gives a list of items which have been transferred to other locations or inventories.'));
 }
 ?>
 
