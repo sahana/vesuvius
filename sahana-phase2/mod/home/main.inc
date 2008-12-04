@@ -21,12 +21,12 @@ function shn_home_default()
     _shn_home_module_info('mpr',_t("Helps to report and search missing person."));
     _shn_home_module_info('dvr',_t("Traces internally displaced people (IDPs) and their needs."));
     _shn_home_module_info('or',_t("Lists 'who is doing what & where'. Allows relief agencies to self organize the activities rendering fine coordination among them."));
-    _shn_home_module_info('rms',_t("Tracks requests for aid and matches them against donars who have pledged aid."));
+    _shn_home_module_info('rms',_t("Tracks requests for aid and matches them against donors who have pledged aid."));
     _shn_home_module_info('cr',_t("Tracks the location, distibution, capacity and breakdown of victims in shelter."));
-    _shn_home_module_info('ims',_t("Effectively and efficiently manage relief aid, enables  transfer of inventory items to different inventories and notify when items are required to refill."));
+    _shn_home_module_info('ims',_t("Effectively and efficiently manage relief aid, enables transfer of inventory items to different inventories and notify when items are required to refill."));
     _shn_home_module_info('msg',_t("Allows communication by email and SMS text messaging to groups."));
     _shn_home_module_info('vol',_t("Allows managing volunteers by capturing their skills, availability and allocation."));
-    _shn_home_module_info('cs',_t("Captures information on different catalogues and measurement units. These information are being used in systems such as Inventory Management System and Request Management System."));
+    _shn_home_module_info('cs',_t("Captures information on different catalogues and measurement units. This information is being used in systems such as Inventory Management System and Request Management System."));
     _shn_home_module_info('sync',_t("Allows data exchange between instances of Sahana by synchronization."));
 ?>
 
