@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.62 2008-12-05 22:00:04 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.63 2008-12-05 22:11:06 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -1179,7 +1179,7 @@ function ol_show_features_markers($features)
     // Add Features Layer
     echo 'featuresLayer = new OpenLayers.Layer.Vector("Internal Features");';
     echo "var proj_current = map.getProjectionObject();\n";
-    // Set id incase any features do not have uuids...
+    // Set id in case any features do not have uuids...
     $id = 0;
     // Place each feature
     foreach($features as $feature){
@@ -1331,7 +1331,7 @@ function _ol_generate_popup_fns()
     ?>
     // On Creating a new feature Display a popup box to enter details.
     function shn_gis_map_create_feature(feature){
-        // If adding a new popup before an old one is completed kill old popup (current feature is set to null at end of process)
+        // If adding a new popup before an old one is completed, kill old popup (current feature is set to null at end of process)
         if(currentFeature != null){
             currentFeature.popup.hide();
             featuresLayer.removeFeatures([currentFeature]);
@@ -1601,9 +1601,9 @@ function _ol_generate_popup_ajax()
 }
 
 /**
- * Generates a function to add new features to the map with a icon and popup
+ * Generates a function to add new features to the map with an icon and popup
  * 
- * It is IMPORTANT to remember that the geom type must be translated to the maps
+ * It is IMPORTANT to remember that the geom type must be translated to the map's
  * projection before it is passed to this function.
  * 
  * @global <type> $conf
@@ -1736,7 +1736,7 @@ function _ol_generate_control_fns()
     global $global;
     global $conf;
 ?>
-   // Activate Control for naviagateing around the maps.
+   // Activate Control for navigating around the maps.
    function shn_gis_map_control_navigate(){
         shn_gis_map_control_deactivate_all();
         document.getElementById('gis_map_icon_select').style.backgroundImage = "url(res/OpenLayers/theme/default/img/move_feature_on.png)";
