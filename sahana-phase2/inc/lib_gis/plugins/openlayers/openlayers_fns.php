@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.61 2008-09-26 14:21:38 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.62 2008-12-05 22:00:04 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -201,7 +201,7 @@ function ol_controls_add_edit()
     map.addControl(dragControl);
 
     // Add control to modify the shape of internal features on the map.
-    // WARNING this seems to cause select feature to behaviour strangly 
+    // WARNING this seems to cause select feature to behaviour strangely 
     //(eg being able to drag a selected feature even if modify is disabled)
     //modifyControl = new OpenLayers.Control.ModifyFeature(featuresLayer);
     //map.addControl(modifyControl);
@@ -275,11 +275,11 @@ function ol_layers_features()
  
 /**
   * Load External Base layers such as:
-  * - Open Street Map
+  * - OpenStreetMap
   * - Google Maps
   * - Multimap
   * - Virtual Earth
-  * - Yahoo Maos
+  * - Yahoo Maps
   */
 function ol_layers_base()
 {
