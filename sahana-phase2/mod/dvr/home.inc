@@ -23,7 +23,7 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
 <p>
 <?php
 
-	 print _t("The Disaster Victim Registry is a central online repository where information on all the disaster victims and families, especially identified casualties, evacuees and displaced people can be stored. Information like name, age, contact number, identity card number, displaced location, and other details are captured. Picture and finger print details of the people can be uploaded to the system. People can also be captured rather by group for effeciency and convenience"  );
+	 print _t("The Disaster Victim Registry is a central online repository where information on all the disaster victims and families, especially identified casualties, evacuees and displaced people can be stored. Information like name, age, contact number, identity card number, displaced location, and other details are captured. Picture and finger print details of the people can be uploaded to the system. People can also be captured by group for efficiency and convenience."  );
 ?>
 
 </p>
