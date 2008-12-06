@@ -30,9 +30,9 @@ if(file_exists($global['approot'].'/www/tmp/mprfound.png')){
 ?>
 <p>
 <?= _t('The Missing person registry is an online bulletin board of missing and found people.
-It captures information about the people missing and found, as well as information of the person seeking them, increasing the chances
-of people finding each other. For example if two members of a family unit is
-looking for the head of the family, we can use this data at least to connect those two
+It captures information about the people missing and found, as well as information on the person seeking them, increasing the chances
+of people finding each other. For example if two members of a family unit are
+looking for the head of the family, we can use this data to at least connect those two
 family members.'); ?>
 
 </p>
@@ -51,12 +51,12 @@ family members.'); ?>
 
 <strong><?php echo _t("Description of Actions:"); ?></strong><br/>
     <ul>
-        <li><a href="index.php?mod=mpr&act=search&type=all"><b><?= _t('Search for a person'); ?> </b></a><br/><?= _t('Search to see whether a person is lost contact with people known to him or her'); ?></li>
+        <li><a href="index.php?mod=mpr&act=search&type=all"><b><?= _t('Search for a person'); ?> </b></a><br/><?= _t('Search to see whether a lost person is registered in the system'); ?></li>
         <li><a href="index.php?mod=mpr&act=addmp&type=missing"><b><?= _t('Report a missing person'); ?> </b> </a><br/><?= _t('Report details about a missing person'); ?></li>
         <li><a href="index.php?mod=mpr&act=search&type=missing"><b><?= _t('Edit missing person'); ?></b></a><br/><?= _t('Update the details of missing person entered to the database previously'); ?></li>
         <li><a href="index.php?mod=mpr&act=addmp&type=found"><b><?= _t('Report a found person'); ?></b></a><br/><?= _t('Report information if the displaced person is found'); ?>
-        <li><a href="index.php?mod=mpr&act=list_missing"><b><?= _t('List missing people'); ?></b></a><br/><?= _t('List all information of missing persons available in the database'); ?></li>
-        <li><a href="index.php?mod=mpr&act=list_found"><b><?= _t('List found people'); ?></b></a><br/><?= _t('List all the information of found displaced people'); ?></li>
+        <li><a href="index.php?mod=mpr&act=list_missing"><b><?= _t('List missing people'); ?></b></a><br/><?= _t('List all information on missing persons available in the database'); ?></li>
+        <li><a href="index.php?mod=mpr&act=list_found"><b><?= _t('List found people'); ?></b></a><br/><?= _t('List all the information on people found'); ?></li>
         
 </ul>
 <br/>
