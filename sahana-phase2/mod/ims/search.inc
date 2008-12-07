@@ -105,7 +105,7 @@ function _shn_ims_search_item_page()
     $item_state_array["available"] = _t("Item available");
     $item_state_array["expired"] = _t("Item to be destroyed");
     $item_state_array["destroyed"] = _t("Item already destroyed");
-    shn_form_select($item_state_array,_t("  State  : "),'item_state','size="1"',$extra_opts);
+    shn_form_select($item_state_array,_t("  Status  : "),'item_state','size="1"',$extra_opts);
 
 
     global $global;
@@ -175,8 +175,8 @@ function _shn_ims_search_item_db()
         <td><?=_t("Amount") ?></td>
         <td><?=_t("Unit") ?></td>
         <td><?=_t("Inventory") ?></td>
-        <td><?=_t("State") ?></td>
-        <td><?=_t("Suplier") ?></td> 
+        <td><?=_t("Status") ?></td>
+        <td><?=_t("Supplier") ?></td> 
         
             
             
@@ -258,8 +258,8 @@ function _shn_ims_search_item_db()
         <td><?=_t("Amount") ?></td>
         <td><?=_t("Unit") ?></td>
         <td><?=_t("Inventory") ?></td>
-        <td><?=_t("State") ?></td>
-        <td><?=_t("Suplier") ?></td> 
+        <td><?=_t("Status") ?></td>
+        <td><?=_t("Supplier") ?></td> 
 	</thead>
 	<tbody>
 <?php

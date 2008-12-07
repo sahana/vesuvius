@@ -250,7 +250,7 @@ print '<br>';
         <td><?=_t("Item")?></td>
         <td><?=_t("Amount")?></td>
         <td><?=_t("Inventory")?></td>
-        <td><?=_t('State')?></td>
+        <td><?=_t('Status')?></td>
         <td><?=_t("Action")?></td>
             
             
