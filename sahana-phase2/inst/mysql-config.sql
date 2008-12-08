@@ -200,6 +200,8 @@ INSERT INTO config (module_id,confkey,value) VALUES ( 'cr', 'division_type', '2'
 INSERT INTO config (module_id,confkey,value) VALUES ( 'pref', 'shn_xform_enabled', 'false');
 
 -- INSERT DEFAULT LC_FIELDS
+-- Used for Translations:
+-- http://wiki.sahana.lk/doku.php?id=dev:l10n#database_localization
 INSERT INTO lc_fields (tablename,fieldname) VALUES ("field_options","option_description");
 INSERT INTO lc_fields (tablename,fieldname) VALUES ("ct_unit","name");
 INSERT INTO lc_fields (tablename,fieldname) VALUES ("ct_unit_type","name");
