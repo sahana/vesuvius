@@ -117,10 +117,10 @@ function shn_admin_default()
                 aid items for the disaster').'</li><br/>';
 	}
 	if(!$isGoogleSetup) {
-		echo '<li><b>'._t('Setup Google Maps').'</b>'._t(' - To get Google Maps to
-                work on sites other than localhost you should enter a key in the ')
-		.'<a href="?mod=admin&act=gis_google">'.
-                '&#34;'._t('GIS Configuration').'&#34; '.'</a>'._t('section to do this.').'</li><br/>';
+		echo '<li><b>'._t('Configure Geographical Information System (GIS) | Mapping').'</b>'._t(' - To configure GIS/Mapping in Sahana ').
+		_t('visit the ')
+		.'<a href="?mod=admin&act=gis_main">'.
+                '&#34;'._t('GIS Configuration').'&#34; '.'</a>'._t('section.').'</li><br/>';
 	}
 
 	if(!$isSecurityEnabled) {
