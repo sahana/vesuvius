@@ -75,8 +75,8 @@ function shn_admin_default()
 	$result = $db->Execute("SELECT * FROM ct_catalogue");
 	$isCatalogCreated = ((isset($result) && $result)?($result->RecordCount() > 0):false);
 
-	$result = $db->Execute("SELECT value FROM config WHERE module_id='admin' AND confkey='gis_google_key'");
-	$isGoogleSetup = ((isset($result) && $result)?($result->fields['value'] != ""):false);
+	$result = $db->Execute("SELECT value FROM config WHERE module_id='admin' AND confkey='gis_dflt'");
+	$isGISSetup = ((isset($result) && $result)?($result->fields['value'] != ""):false);
 
 	echo '<div id="home">';
 
@@ -116,7 +116,7 @@ function shn_admin_default()
                 '&#34;'._t('Catalog System').'&#34;'.'</a> '._t('in the navigation bar and start adding
                 aid items for the disaster').'</li><br/>';
 	}
-	if(!$isGoogleSetup) {
+	if(!$isGISSetup) {
 		echo '<li><b>'._t('Configure Geographical Information System (GIS) | Mapping').'</b>'._t(' - To configure GIS/Mapping in Sahana ').
 		_t('visit the ')
 		.'<a href="?mod=admin&act=gis_main">'.
