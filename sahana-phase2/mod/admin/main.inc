@@ -80,7 +80,7 @@ function shn_admin_default()
 
 	echo '<div id="home">';
 
-	if(!$isLocationsEntered || !$isGoogleSetup || !$isCatalogCreated
+	if(!$isLocationsEntered || !$isGISSetup || !$isCatalogCreated
 	|| !$isDisasterNamed) {
 		echo '<h2>'._t('Finalize Your Sahana Installation')."</h2>\n";
 		echo "<p>"._t("There are still a few steps to be performed before you
