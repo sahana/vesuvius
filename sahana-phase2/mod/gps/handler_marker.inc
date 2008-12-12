@@ -111,7 +111,7 @@ function shn_marker_add_file()
 }
 function shn_marker_add_download()
 {
-	add_confirmation(_("").$_SESSION['marker_name']._(" was successfully added to a dwonloadable marker file"));
+	add_confirmation($_SESSION['marker_name']._(" was successfully added to a downloadable marker file"));
 
 //////////////	
 ?>
