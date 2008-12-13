@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: googlemaps.inc,v 1.22 2008-09-25 13:13:45 franboon Exp $
+* @version		$Id: googlemaps.inc,v 1.23 2008-12-13 21:23:36 franboon Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -40,7 +40,7 @@ class googlemaps implements layer{
         shn_form_fsclose();
         if ($conf['gis_ol_google']==1){
             shn_form_fsopen('Viewport Settings');
-            echo '<p>'._t("Google supports 3 types of layer which can each be enabled separately").'</p>';
+            echo '<p>'._t("Google supports 4 types of layer which can each be enabled separately").'</p>';
             echo '<p>('._t("If none are selected then no Google layer will appear").')</p>';
             echo '<br />';
             $checked='';
