@@ -279,7 +279,7 @@ function _shn_admin_location_range_form()
 	$db=$global["db"];
 	?>
 <h2><?php echo _t("Set the Location Range")?></h2>
-<div id="note"><?php echo _t("In a Disaster,all the location levels might not be important ,set the range here")?>
+<div class="information message"><?php echo _t("In a Disaster,all the location levels might not be important ,set the range here")?>
 </div>
 	<?php
 	if($error==true)
@@ -342,7 +342,7 @@ function _shn_admin_location_start_form()
 	$db=$global["db"];
 	?>
 <h2><?php echo _t("Set the Starting Location")?></h2>
-<div id="note"><?php echo _t("When a Disaster happens,typically only organizations,people located in a certain region get involved. Therefore when you select a location its a waste of time to select from all the locations. Hence ,for example If you know the country ,specify it here in this form,and you will only see sub-divisions of that country. Furthermore ,if the Disaster is confined to a much smaller geographical area, select the appropriate location to start with.")?>
+<div class="information message"><?php echo _t("When a Disaster happens,typically only organizations,people located in a certain region get involved. Therefore when you select a location its a waste of time to select from all the locations. Hence ,for example If you know the country ,specify it here in this form,and you will only see sub-divisions of that country. Furthermore ,if the Disaster is confined to a much smaller geographical area, select the appropriate location to start with.")?>
 </div>
 	<?php
 	if($error==true)
