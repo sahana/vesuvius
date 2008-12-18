@@ -16,7 +16,7 @@
 
 include_once('setup_actions_sub.inc');
 global $execution_order_on_complete;
-$execution_order_on_complete = array('shn_setup_simple_dbsetup_complete','shn_setup_simple_config_complete','shn_setup_adv_select_modules_complete','shn_setup_adv_advanced_config_complete','shn_setup_adv_pwd_policy_complete');
+$execution_order_on_complete = array('shn_setup_simple_dbsetup_complete','shn_setup_empty_dbsetup_complete','shn_setup_existing_dbsetup_complete','shn_setup_simple_config_complete','shn_setup_adv_select_modules_complete','shn_setup_adv_advanced_config_complete','shn_setup_adv_pwd_policy_complete');
 /*
  * ===================================================================
  * 				Actual System Setup Function
@@ -48,9 +48,9 @@ function shn_setup_do_setup()
 	// during the setup.
 	$_SESSION['shn_setup_function_list'] = array_unique($_SESSION['shn_setup_function_list']);
 
-	//var_dump($_SESSION['shn_setup_function_list']);
 	//echo "<pre>";var_dump($_SESSION['shn_setup_function_list']);echo "</pre>";
 	foreach ($execution_order_on_complete as $pilot_funct){
+		//var_dump(array_search($pilot_funct,$_SESSION['shn_setup_function_list']));
 		if(array_search($pilot_funct,$_SESSION['shn_setup_function_list'])){
 			if(function_exists($pilot_funct)){
 				if($debug_setup===true){
@@ -159,7 +159,7 @@ function shn_setup_select_dbsetup_submit()
 				} else if($_SESSION['setup_type']=='ADV'){
 					shn_setup_adv_select_modules();
 				} else if($_SESSION['setup_type']=='SCEN'){
-                }
+				}
 			} else if($_POST['dbsetup_method']=='use_empty_db'){
 				$_SESSION['dbsetup_method'] = "USE_EMPTY_DB";
 				if($_SESSION['setup_type']=='SIMPLE'){
@@ -245,6 +245,18 @@ function shn_setup_empty_dbsetup_submit()
 		// validation
 		if(shn_setup_validate_empty_dbsetup()){
 			_shn_setup_determine_step_no('shn_setup_empty_dbsetup_submit',false);
+			//separate the db host and port.
+			$host_port = "";
+			if(isset($_SESSION[SETUP_DATA_PREFIX."db_host"])){
+				$host_port = _shn_setup_get_post_param($_SESSION,"db_host");
+			} else {
+				$host_port = $_POST['db_host'];
+			}
+			if(isset($host_port) && strpos($host_port,":")!==false){
+				$_vals = explode(":",$host_port);
+				_shn_setup_put_value_in_session("db_host",$_vals[0]);
+				_shn_setup_put_value_in_session("db_port",$_vals[1]);
+			}
 			shn_setup_simple_config();
 		} else {
 			_shn_setup_determine_step_no('shn_setup_empty_dbsetup_submit',true);
@@ -264,7 +276,7 @@ function shn_setup_empty_dbsetup_submit()
 	}
 }
 
-function shn_setup_empty_dbsetup_complete()
+function shn_setup_empty_dbsetup_complete($extra_opts)
 {
 	return _shn_setup_db_setup_db_mysql($extra_opts['config_key_vals'],array('setup_db'));
 }
@@ -280,6 +292,18 @@ function shn_setup_existing_dbsetup_submit()
 		// validation
 		if(shn_setup_validate_existing_dbsetup()){
 			_shn_setup_determine_step_no('shn_setup_existing_dbsetup_submit',false);
+			//separate the db host and port.
+			$host_port = "";
+			if(isset($_SESSION[SETUP_DATA_PREFIX."db_host"])){
+				$host_port = _shn_setup_get_post_param($_SESSION,"db_host");
+			} else {
+				$host_port = $_POST['db_host'];
+			}
+			if(isset($host_port) && strpos($host_port,":")!==false){
+				$_vals = explode(":",$host_port);
+				_shn_setup_put_value_in_session("db_host",$_vals[0]);
+				_shn_setup_put_value_in_session("db_port",$_vals[1]);
+			}
 			shn_setup_complete();
 		} else {
 			_shn_setup_determine_step_no('shn_setup_existing_dbsetup_submit',true);
