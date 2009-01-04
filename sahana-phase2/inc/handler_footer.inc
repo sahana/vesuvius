@@ -1,7 +1,7 @@
 <?php
 global $conf;
 
-/* $Id: handler_footer.inc,v 1.16 2008-05-23 09:13:48 ishanul Exp $ */
+/* $Id: handler_footer.inc,v 1.17 2009-01-04 16:57:20 franboon Exp $ */
 /**
  *
  * Sahana HTML footer
@@ -25,8 +25,7 @@ global $conf;
 	href="<? echo $conf['sahana_url']; ?>" title="<?php echo _t("Sahana Home") ?>"><?php echo _t("Sahana") ?></a> | <a
 	class="help" target="_blank"
 	href="<? echo $conf['wiki_url']; ?>" title="<?php echo _t("Sahana Wiki") ?>"><?php echo _t("Wiki") ?></a>
-| <a class="help" target="_blank" href="<? echo $conf['forum_url']; ?>"
-	title="<?php echo _t("Forums") ?>"><?php echo _t("Forums") ?></a> | <a class="help" target="_blank"
+|  <a class="help" target="_blank"
 	href="<? echo $conf['chat_url']; ?>" title="<?php echo _t("Chats") ?>"><?php echo _t("Chats") ?></a>  
 	| <a class="help" target="_blank"
 	href="?mod=home&act=bug_report" title="<?php echo _t("Report a Bug") ?>"><?php echo _t("Report a Bug") ?></a> 
