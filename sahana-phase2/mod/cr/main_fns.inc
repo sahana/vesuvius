@@ -74,7 +74,7 @@ function shn_cr_default()
 	
 	<li><a href="index.php?mod=cr&act=gis_infect"><b><?= _t('Map by infection'); ?></b></a><br />
 	<?= _t('Graphical representation of shelter by infections'); ?></li>
-	<li><a href="index.php?mod=cr&act=gis_population"><b><?= _t('Map by poppulation'); ?></b></a><br />
+	<li><a href="index.php?mod=cr&act=gis_population"><b><?= _t('Map by population'); ?></b></a><br />
 	<?= _t('Graphical representation of shelters by their population density'); ?></li>
 
 </ul>
