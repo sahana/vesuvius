@@ -48,7 +48,7 @@
 <ul>
 	<li><?php echo _t("Capturing organizational information of a relief organization and all the activities they have in the region")?></li>
 	<li><?php echo _t('Capturing the essential services each group is providing and where')?></li>
-	<li><?php echo _t('Reporting on the converge of services and support in the region and more')?></li>
+	<li><?php echo _t('Reporting on the services and support in the region')?></li>
 	<li><?php echo _t('Importantly where there are no aid services being provided')?></li>
 </ul>
 
@@ -65,7 +65,7 @@
 	<li><a href="index.php?mod=or&act=search"><b><?php echo  _t('Search organizations'); ?></b></a><br />
 	<?php echo  _t('Find the organisation(s) by specifying its details.'); ?></li>
 	<li><a href="index.php?mod=or&act=view_org"><b><?php echo  _t('View And Edit'); ?></b></a><br />
-	<?php echo  _t('View a list of registered organizations. Their detils can be viewed / edited by clicking on the appropriate links.'); ?>
+	<?php echo  _t('View a list of registered organizations. Their details can be viewed / edited by clicking on the appropriate links.'); ?>
 
 </ul>
 <br />
