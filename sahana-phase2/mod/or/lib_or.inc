@@ -774,7 +774,7 @@ function _shn_or_display_org_facilities($error=false,$confirm=false,$org_id=fals
     }
     $extra_opts['value']=$man_power;
     $extra_opts['help']=_t("Specify the workforce(Men/Women) in your organization. This amount would be useful in identifying the potential number of volunteers in the event of a disaster");
-    echo "<div class='message information'>"._("You can specify the man power as a number or give details upto 100 characters.")."</div> ";
+    echo "<div class='message information'>"._("You can specify the man power as a number or give details up to 100 characters.")."</div> ";
     shn_form_text(_t("Man Power : "),'man_power','size="40"',$extra_opts);
     $extra_opts['value']=$equipment;
     $extra_opts['help']=_t("Specify the kind of equipment you have,that will be useful in Disaster Relief Operations");
