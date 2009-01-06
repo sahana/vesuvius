@@ -34,7 +34,7 @@ _shn_rms_print_hedder();
 <p>
 <?php 
 
-print _t("Sahana Request Management System is a central online repository where all relief organizations, relief workers, government agents and camp sites for displaced personnels can coordinate the supply of the aids with their demand. It allows users to allocate the available resources to fulfill the demands effectively and efficiently.");
+print _t("Sahana Request Management System is a central online repository where all relief organizations, relief workers, government agents and camp sites for displaced personnel can coordinate the supply of aid with their demand. It allows users to allocate the available resources to fulfill the demands effectively and efficiently.");
 ?>
 
 </p>
@@ -67,7 +67,7 @@ print _t("Sahana Request Management System is a central online repository where 
         <li><a href="index.php?mod=rms&act=plg_new"><b><?= _t('New Pledge'); ?></b></a><br/><?= _t('Donate items through the  system'); ?>
         <li><a href="index.php?mod=rms&act=plg_ls"><b><?= _t('List Pledges'); ?></b></a><br/><?= _t('List all the donations done through the system'); ?></li>
         <li><a href="index.php?mod=rms&act=plg_sch"><b><?= _t('Search Pledges'); ?></b></a><br/><?= _t('Search for pledges'); ?></li>
-        <li><a href="index.php?mod=rms&act=mng_ff"><b><?= _t('Fullfill Requests'); ?></b></a><br/><?= _t('Match requests and pledges in a disaster'); ?></li>
+        <li><a href="index.php?mod=rms&act=mng_ff"><b><?= _t('Fulfill Requests'); ?></b></a><br/><?= _t('Match requests and pledges in a disaster'); ?></li>
         
 </ul>
 <br/>
