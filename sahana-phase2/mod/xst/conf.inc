@@ -33,4 +33,5 @@ $conf['mod_xst_name'] = _t("Streaming Module");
 //$conf['mod_xst_menuorder'] = 22; 
 
 $conf['mod_xst_dependencies'] = "";
+$conf['mod_xst_hide_in_menu'] = true;
 ?>
