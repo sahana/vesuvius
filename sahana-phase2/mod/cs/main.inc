@@ -312,7 +312,7 @@ function shn_cs_viewedit()
 {
     ?>
         <h1><?= (_t("View And Edit")) ?></h1>
-        <p><?= _t("Here you are able to view, edit and Delete all the catalogs, Items, Units and Unit Types which are handled by the catalog system. ") . "<b>" . _t("Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types.") . "</b>"; ?></p>
+        <p><?= _t("Here you are able to view, edit and Delete all the catalogues, Items, Units and Unit Types which are handled by the catalogue system. ") . "<b>" . _t("Using Delete, you will lose all the records of the particular catalogues, Items, Unit or Unit Types.") . "</b>"; ?></p>
     <?php
 
     require_once('edit.inc');
