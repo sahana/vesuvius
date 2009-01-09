@@ -798,6 +798,7 @@ function shn_auth_gen_captcha(){
 	$width = 140;
 	$height = 70;
 	$captcha = imagecreate($width,$height);
+	imagefilledrectangle($captcha,0,0,$width,$height,imagecolorallocate($captcha,255,255,255));
 
 	// draw random rectangles
 	$rectangles = 50;
