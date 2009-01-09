@@ -250,7 +250,7 @@ INSERT INTO sys_group_to_data_classification VALUES ( 2, 6,"-r--");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 7,"crud");
 INSERT INTO sys_group_to_data_classification VALUES ( 2, 8,"crud");
 
-INSERT INTO sys_group_to_data_classification VALUES ( 3, 1,"-r--");
+INSERT INTO sys_group_to_data_classification VALUES ( 3, 1,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 2,"----");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 3,"-r--");
 INSERT INTO sys_group_to_data_classification VALUES ( 3, 4,"----");
@@ -417,7 +417,7 @@ INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_reorder_level",
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "ims_transfer_item", 6);
 
 -- incident
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "incident", 7);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "incident", 6);
 
 -- landmark_location
 
@@ -428,7 +428,7 @@ INSERT INTO sys_tablefields_to_data_classification VALUES ( "lc_fields", 6);
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "lc_tmp_po", 6);
 
 -- location
-INSERT INTO sys_tablefields_to_data_classification VALUES ( "location", 7);
+INSERT INTO sys_tablefields_to_data_classification VALUES ( "location", 6);
 
 -- location_details
 INSERT INTO sys_tablefields_to_data_classification VALUES ( "location_details", 5);
