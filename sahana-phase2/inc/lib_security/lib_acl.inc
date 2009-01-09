@@ -22,29 +22,29 @@
 require_once "constants.inc";
 
 function shn_acl_check_valid_policy(){
-    global $global;
-    global $conf;
-    $approot = $global['approot'];
-    $xdoc = new DomDocument;
-    $xmlschema = $global['approot']."/inc/lib_security/sec_policy.xsd";
-    $d = dir($approot."/mod");
-    while (false !== ($f = $d->read())) {
-    	$xmlfile=$approot."mod/".$f."/sec_policy.xml";
-     //   if (file_exists($xmlfile)&& ($f=='or')) {
-        if (file_exists($xmlfile)) {
-          $nice_name=$conf['mod_'.$f.'_name'];
-          print _t("Validating the security policy file in ")."<span style='color: blue;font-weight:bolder'>".$nice_name."</span>"._t(" module ... ")."<br />";
-          $xdoc->Load($xmlfile);
-          //Validate the XML file against the schema
+	global $global;
+	global $conf;
+	$approot = $global['approot'];
+	$xdoc = new DomDocument;
+	$xmlschema = $global['approot']."/inc/lib_security/sec_policy.xsd";
+	$d = dir($approot."/mod");
+	while (false !== ($f = $d->read())) {
+		$xmlfile=$approot."mod/".$f."/sec_policy.xml";
+		//   if (file_exists($xmlfile)&& ($f=='or')) {
+		if (file_exists($xmlfile)) {
+			$nice_name=$conf['mod_'.$f.'_name'];
+			print _t("Validating the security policy file in ")."<span style='color: blue;font-weight:bolder'>".$nice_name."</span>"._t(" module ... ")."<br />";
+			$xdoc->Load($xmlfile);
+			//Validate the XML file against the schema
 			if ($xdoc->schemaValidate($xmlschema)) {
 				print "&nbsp;&nbsp;&nbsp;&nbsp;".$xmlfile."<span style='color: green;font-weight:bolder'>"._t(" is valid")."</span> <br /><br />";
 			} else {
 				print "&nbsp;&nbsp;&nbsp;&nbsp;".$xmlfile."<span style='color: red;font-weight:bolder'>"._t(" is In valid")."</span> <br /><br />";;
 			}
-          
-        }
-    }
-	
+
+		}
+	}
+
 }
 function shn_acl_log_msg($comment,$p_uuid=null,$user_name=null,$event_type=1){
 	global $global;
@@ -97,34 +97,34 @@ function shn_get_allowed_mods_current_user(){
 }
 
 function shn_get_enabled_mods_current_user(){
-	
-		$user=shn_current_user();
-		if($user==null){
-			$roles[ANONYMOUS]="Anonymous User";
-		}else{
-			$roles=_shn_acl_get_roles($user);
-		}
 
-		$mods=array();
-		/*
-		 array_push($mods,'home');
-		 if ($_SESSION['logged_in'] == true ){
-		 array_push($mods,'pref');
-		 }
-		 */
-		foreach($roles as $role=>$name){
-			$mods_role= _shn_acl_modules_for_role($role);
+	$user=shn_current_user();
+	if($user==null){
+		$roles[ANONYMOUS]="Anonymous User";
+	}else{
+		$roles=_shn_acl_get_roles($user);
+	}
 
-			if($mods_role!=null){
-				foreach($mods_role as $mod){
-					array_push($mods,$mod);
-				}
+	$mods=array();
+	/*
+	 array_push($mods,'home');
+	 if ($_SESSION['logged_in'] == true ){
+	 array_push($mods,'pref');
+	 }
+	 */
+	foreach($roles as $role=>$name){
+		$mods_role= _shn_acl_modules_for_role($role);
+
+		if($mods_role!=null){
+			foreach($mods_role as $mod){
+				array_push($mods,$mod);
 			}
-
-
-
 		}
-	
+
+
+
+	}
+
 	$mods=array_unique($mods);
 	return $mods;
 
@@ -143,7 +143,7 @@ function shn_acl_check_perms($mod,$module_function){
 		foreach ($xml->usercase as $case) {
 			//$name= trim($case->name);//name of the service
 			foreach ($case->functions->function as $function) {
-			//if(findAttribute($case->funct, "id")==$module_function){
+				//if(findAttribute($case->funct, "id")==$module_function){
 				if($function==$module_function){
 					$tables=array();
 					foreach ($case->tables->table as $table){
@@ -152,6 +152,7 @@ function shn_acl_check_perms($mod,$module_function){
 				}
 			}
 		}
+
 		if($tables!=null){
 			return shn_acl_check_table_only_perms($tables);
 		}else{
@@ -181,6 +182,7 @@ function shn_acl_check_table_only_perms($tables){
 
 	foreach ($tables as $table=>$crud){
 		if(_shn_acl_check_table_only_perms($table,$crud)==DENIED){
+			//echo $table." - > ".$crud." DENIED <br/>";
 			return DENIED;
 		}
 	}
@@ -563,7 +565,7 @@ function shn_acl_install($root_username,$root_passwd,$sahana_username,$sahana_pa
 	include_once $global['approot'].'inc/lib_security/lib_auth.inc';
 	include_once($global['approot']."/inc/lib_uuid.inc");
 	$db=$global["db"];
-	
+
 	$root=shn_auth_add_user("Admin User",$root_username,$root_passwd,ADMIN,ADMINUSER);
 	//add a "root" user to ACL users and add to 'admin' role
 	//add a "registered" user to ACL users and add to 'registered' role
@@ -601,7 +603,7 @@ function shn_acl_install($root_username,$root_passwd,$sahana_username,$sahana_pa
 	$role=ANONYMOUS;
 	$sql="insert into sys_group_to_module values({$role},'home','enabled')";
 	$res=$db->Execute($sql);
-    $sql="insert into sys_group_to_module values({$role},'pref','enabled')";
+	$sql="insert into sys_group_to_module values({$role},'pref','enabled')";
 	$res=$db->Execute($sql);
 
 	$q="insert into config(module_id,confkey,value) values('admin','acl_base','installed')";
@@ -753,7 +755,7 @@ function shn_acl_enable($flag=true){
 	$db=$global["db"];
 	$q="UPDATE config SET value='{$flag}' WHERE module_id='admin' AND confkey='acl_enabled'";
 	$res=$db->Execute($q);
-	
+
 	// force logout if acl has been disabled.
 	if($flag==false){
 		shn_session_end();
@@ -779,12 +781,12 @@ function shn_acl_enable_signup($flag=true){
  * @return String group name
  */
 function shn_acl_get_group_name($role_id){
-    global $global;
-    $db = $global['db'];
-    $query = "SELECT group_name FROM `sys_user_groups` where `group_id`=?";
-    $res = $db->Execute($query,$role_id);
+	global $global;
+	$db = $global['db'];
+	$query = "SELECT group_name FROM `sys_user_groups` where `group_id`=?";
+	$res = $db->Execute($query,$role_id);
 
-    return $res->fields[0];
-    
+	return $res->fields[0];
+
 }
 ?>
