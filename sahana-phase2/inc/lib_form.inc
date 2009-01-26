@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.86 2008-10-17 09:05:23 priyanga Exp $ */
+/* $Id: lib_form.inc,v 1.87 2009-01-26 06:43:57 ravithb Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -253,11 +253,21 @@ function shn_form_text($label, $name, $text_opts = null, $extra_opts = null )
 function shn_form_hidden($hidden_vars)
 {
 	foreach ($hidden_vars as $name => $value) {
-		?>
+		// added support for multivalued hidden fields
+		if(is_array($value)==true){
+			foreach($value as $v){
+				?>
+<input
+	type="hidden" name="<?php echo $name?>[]" value="<?php echo $v;?>" />
+				<?php
+			}
+		}else{
+			?>
 <input
 	type="hidden" name="<?php echo $name?>" value="<?php echo $value?>" />
-		<?php
-}
+			<?php
+		}
+	}
 }
 
 /**
@@ -275,10 +285,14 @@ function shn_form_checkbox($label, $name, $text_opts = null, $extra_opts = null)
 	global $shn_tabindex;
 	$value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
 	$disabled = $extra_opts['disabled']==NULL? false :$extra_opts['disabled'];
-	?>
+	if(strlen(trim($label))>0){
+		?>
 <label for="<?php echo $name?>"><?php echo $label?></label>
-<input
-	type="checkbox" name="<?php echo $name?>" id="<?php echo $name?>"
+		<?php
+	}
+	?>
+<input type="checkbox"
+	name="<?php echo $name?>" id="<?php echo $name?>"
 	value="<?php echo $value?>"
 	<?if ($disabled){ echo "disabled='true'";}?> <?php echo $text_opts?>
 	tabindex="<?php echo ++$shn_tabindex?>" />
