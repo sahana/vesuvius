@@ -42,7 +42,10 @@ function shn_paging_get_report($query,$rpp=20,$headers=NULL,$extra_opt)
     $global["paging_rpp"]=$rpp;
     $res=_shn_page_get_rs($query,$rpp);
     if(!$res)return false;
-
+	$url = null;
+	if(isset($extra_opt['paging_url'])){
+		$url = $extra_opt['paging_url'];
+	}else{
     $url=_shn_paging_url();
     if(isset($extra_opt['post'])&&$extra_opt['post']==true){
         _shn_page_draw_navi_post($res,$url);
