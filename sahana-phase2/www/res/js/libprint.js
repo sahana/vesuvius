@@ -764,11 +764,11 @@ function shn_print_add_space(id) {
  */
 function shn_print_add_ocr_layout() {
 
-	var page_height = ('print-wrapper');
-		if ( ((1000 > page_height) && (page_height > 850))  ) {
+	var page_height = shn_print_get_height('print-wrapper');
+		if ( ((850 > page_height) && (page_height > 790))  ) {
  			shn_print_adds_page_layout();
 		}
-		if ( ((2000 > page_height) && (page_height > 1850))  ) {
+		if ( ((1800 > page_height) && (page_height > 1675))  ) {
  			shn_print_adds_page_layout();
 		}
 	shn_print_add_line_brake('print-wrapper');
@@ -1204,38 +1204,6 @@ function shn_print_add_input_geography_layout(dom_label, dom_legend, _dom_wrappe
 	}
 	shn_print_appent_to_wrapper(_dom_wrapper, _class, _id_tag);
 }
-
-/**
-var http_request = false;
-
-function makeRequest(url) {
-
-  if (window.XMLHttpRequest) { // Mozilla, Safari, IE7...
-      http_request = new XMLHttpRequest();
-  } else if (window.ActiveXObject) { // IE6 and older
-      http_request = new ActiveXObject("Microsoft.XMLHTTP");
-  }
-  http_request.onreadystatechange = alertContents;
-  http_request.open(‘GET’, url, true);
-  http_request.send(null);
-
-}
-
-function alertContents() {
-  if (http_request.readyState == 4) {
-      if (http_request.status == 200) {
-          alert(http_request.responseText);
-      } else {
-          alert(‘There was a problem with the request.’);
-      }
-  }
-}
-
-document.getElementById(‘mybutton’).onclick = function() {
-  makeRequest(‘test.html’);
-}
-*/
-
 
 /**
  *#################################################################################################################
