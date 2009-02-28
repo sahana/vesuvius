@@ -171,7 +171,15 @@ function _shn_rms_req_showlist($page = 1, $rows = 10, $filter = null, $odr_by = 
         $view_url = '<a href=index.php?mod=rms&amp;act=req_ls' .
                     '&amp;seq=view_req&amp;req_id=' . $req_id .'>' .
                     _t("Details") . '</a>';
-        
+
+        // added by dominic
+        // show 'Delete' URL in case this request has no fulfillments yet
+        if (!_shn_rms_has_ff($req_id)) {
+          $view_url .= ' | <a href=index.php?mod=rms&amp;act=req_ls' .
+                       '&amp;seq=del_req&amp;req_id=' . $req_id .'>' .
+                        _("Delete") . '</a>';
+        }
+                    
         //$tb_res[] = array ($req_id, $reqstr_d, $loc_d, $req_date, $req_stat, $view_url);
         $tb_res[] = array ($reqstr_d, $loc_d, $req_date, $req_stat, $view_url);
     }
@@ -331,6 +339,14 @@ switch ($_REQUEST['seq'])
             print '<br />' .
                   '[ <a href="index.php?mod=rms">' . _t("RMS Home") . '</a> ] :: ' .
                   '[ <a href="index.php?mod=rms&amp;act=req_ls">' . _t("Back to Request List") . '</a> ]';
+            break;
+    case 'del_req':
+            $req_id = $_REQUEST['req_id'];
+            _shn_rms_view_request($req_id);
+            _shn_rms_del_request($req_id);
+//            print '<br />' .
+//                  '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
+//                  '[ <a href="index.php?mod=rms&amp;act=req_ls">' . _("Back to Request List") . '</a> ]';
             break;
     case 'chg_stat':           
             $req_id = $_POST['req_id'];

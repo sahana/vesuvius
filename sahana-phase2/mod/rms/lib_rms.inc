@@ -682,6 +682,81 @@ function _shn_rms_get_reqitems($req_uuid)
 		return $rs;
 	}
 }
+
+// added by dominic, workaround to delete requests:
+// _shn_rms_has_ff : checks if there are any fulfillments for a request
+// _shn_rms_del_request : user confirmation request before deletion
+// shn_rms_delete_request : deletes all items of a request and the request itself from the database
+
+function _shn_rms_has_ff($req_id) {
+
+  global $global;
+
+  $sql = "SELECT req_uuid FROM rms_fulfil WHERE req_uuid='$req_id'";
+
+  $rs = $global['db']->Execute($sql);
+
+  if ($rs === false) {
+    $msg = $global['db']->ErrorMsg();
+    add_error($msg . '<br />' . $sql);
+    // return true, even if it could be not true:
+    // do not delete a request unless you can be sure that there
+    // are no fulfillments yet - for integrity's sake
+    return true;
+  }
+  elseif ($rs->RecordCount() > 0) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+function _shn_rms_del_request($req_id) {
+  add_warning(_("Do you really want to delete this request?"));
+  shn_form_fopen('delete_request',null,array('req_message' => false));
+  shn_form_hidden(array('req_id'=>$req_id));
+  shn_form_hidden(array('seq'=>''));
+  shn_form_submit(_("Delete"), 'name=delete');
+  shn_form_submit(_("Cancel"), 'name=cancel');
+  shn_form_fclose();
+}
+
+function shn_rms_delete_request() {
+
+  global $global;
+
+  if (isset($_POST['delete'])) {
+    $req_id = $_REQUEST['req_id'];
+
+    // delete all items of this request
+    $sql = "DELETE FROM rms_req_item WHERE req_uuid='$req_id'";
+    $rs = $global['db']->Execute($sql);
+
+    if ($rs === false) {
+      $msg = $global['db']->ErrorMsg();
+      add_error($msg . '<br />' . $sql);
+    } else {
+
+      // delete the request
+      $sql = "DELETE FROM rms_request WHERE req_uuid='$req_id'";
+      $rs = $global['db']->Execute($sql);
+
+      if ($rs === false) {
+        $msg = $global['db']->ErrorMsg();
+        add_error($msg . '<br />' . $sql);
+      } else {
+        add_confirmation(_("Request deleted."));
+      }
+    }
+  } else {
+    add_warning(_("Action cancelled."));
+  }
+  print '<br />' .
+        '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
+        '[ <a href="index.php?mod=rms&amp;act=req_ls">' . _("Back to Request List") . '</a> ]';
+}
+
 function _shn_rms_get_plgitems($plg_uuid)
 {
 	global $global;
