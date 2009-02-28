@@ -372,7 +372,7 @@ function shn_home_about(){
 		      </div>  
 		      
 		      <br/>
-		      <a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt" target="_blank"><?php echo _t("View License") ?></a>
+		      <a href="http://www.gnu.org/licenses/lgpl.html" target="_blank"><?php echo _t("View License") ?></a>
 		<?php
 		
 		return;
