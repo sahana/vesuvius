@@ -1,21 +1,21 @@
--- Disease Surviellance TABLES
+/*Disease Surviellance TABLES*/
+
+/**
+* Dropping tables if exists
+* Modules: dsm 
+* Last Edited: 15-May-2008 
+*/
+
+DROP TABLE IF EXISTS `dsm_diseases`;
 
 
--- Dropping tables if exists
--- Modules: dsm 
--- Last Edited: 15-May-2008 
+/**
+* Table to store details about disease
+* Modules: dsm
+* Last Edited: JUNE-2008 virajed@opensource.lk
+*/
 
-
-DROP TABLE IF EXISTS `diseases`;
-
-
-
--- Table to store details about disease
--- Modules: dsm
--- Last Edited: JUNE-2008 virajed@opensource.lk
-
-
-CREATE TABLE diseases 
+CREATE TABLE dsm_diseases 
 	(dis_id varchar(60) NOT NULL PRIMARY KEY, 
 	dis_name varchar(100), 
 	description varchar(200),
@@ -26,16 +26,16 @@ CREATE TABLE diseases
 	serial varchar(100) DEFAULT '1',
 	keyword varchar(100)); 
 
-DROP TABLE IF EXISTS `diagnosis`;
+DROP TABLE IF EXISTS `dsm_diagnosis`;
 
 
+/**
+* Table to store details about diagnosis
+* Modules: dsm
+* Last Edited: JUNE-2008 virajed@opensource.lk
+*/
 
--- Table to store details about diagnosis
--- Modules: dsm
--- Last Edited: JUNE-2008 virajed@opensource.lk
-
-
-CREATE TABLE diagnosis 
+CREATE TABLE dsm_diagnosis 
 	(dia_id varchar(60) NOT NULL PRIMARY KEY, 
 	pat_id varchar(60) NOT NULL, 
 	doc_id varchar(60) NOT NULL,
@@ -52,16 +52,16 @@ CREATE TABLE diagnosis
 
 
 
-DROP TABLE IF EXISTS `symptoms`;
+DROP TABLE IF EXISTS `dsm_symptoms`;
 
 
+/**
+* Table to store signs and symptom details
+* Modules: dsm
+* Last Edited: JUNE-2008 virajed@opensource.lk
+*/
 
--- Table to store signs and symptom details
--- Modules: dsm
--- Last Edited: JUNE-2008 virajed@opensource.lk
-
-
-CREATE TABLE symptoms 
+CREATE TABLE dsm_symptoms 
 	(sym_id varchar(60) NOT NULL PRIMARY KEY, 
 	upperlevel_id varchar(60), 
 	description varchar(200)); 
@@ -70,16 +70,16 @@ CREATE TABLE symptoms
 
 
 
-DROP TABLE IF EXISTS `disease_symptoms`;
+DROP TABLE IF EXISTS `dsm_disease_symptoms`;
 
 
+/**
+* Table to store signs and symptoms related to a disease
+* Modules: dsm
+*Last Edited: JUNE-2008 virajed@opensource.lk
+*/
 
--- Table to store signs and symptoms related to a disease
--- Modules: dsm
--- Last Edited: JUNE-2008 virajed@opensource.lk
-
-
-CREATE TABLE disease_symptoms 
+CREATE TABLE dsm_disease_symptoms 
 	(dis_id varchar(60) NOT NULL, 
 	sym_id varchar(60) NOT NULL, 
 	code varchar(20), 
@@ -92,16 +92,16 @@ CREATE TABLE disease_symptoms
 
 
 
-DROP TABLE IF EXISTS `diagnosis_symptoms`;
+DROP TABLE IF EXISTS `dsm_diagnosis_symptoms`;
 
 
+/**
+* Table to store signs and symptoms related to a patient
+* Modules: dsm
+* Last Edited: JUNE-2008 virajed@opensource.lk
+*/
 
--- Table to store signs and symptoms related to a patient
--- Modules: dsm
--- Last Edited: JUNE-2008 virajed@opensource.lk
-
-
-CREATE TABLE diagnosis_symptoms 
+CREATE TABLE dsm_diagnosis_symptoms 
 	(dia_id varchar(60) NOT NULL, 
 	sym_id varchar(60) NOT NULL, 
 	code varchar(20),
@@ -110,16 +110,16 @@ CREATE TABLE diagnosis_symptoms
     FOREIGN KEY(sym_id) REFERENCES symptoms(sym_id));
 
 
-DROP TABLE IF EXISTS `causative_factors`;
+DROP TABLE IF EXISTS `dsm_causative_factors`;
 
 
+/**
+* Table to store signs and symptom details
+* Modules: dsm
+* Last Edited: JUNE-2008 virajed@opensource.lk
+*/
 
--- Table to store signs and symptom details
--- Modules: dsm
--- Last Edited: JUNE-2008 virajed@opensource.lk
-
-
-CREATE TABLE causative_factors 
+CREATE TABLE dsm_causative_factors 
 	(fac_id varchar(60) NOT NULL PRIMARY KEY, 
 	upperlevel_id varchar(60), 
 	description varchar(200)); 
@@ -128,16 +128,16 @@ CREATE TABLE causative_factors
 
 
 
-DROP TABLE IF EXISTS `disease_cau_factors`;
+DROP TABLE IF EXISTS `dsm_disease_cau_factors`;
 
 
+/**
+* Table to store signs and symptoms related to a disease
+* Modules: dsm
+*Last Edited: JUNE-2008 virajed@opensource.lk
+*/
 
--- Table to store signs and symptoms related to a disease
--- Modules: dsm
--- Edited: JUNE-2008 virajed@opensource.lk
-
-
-CREATE TABLE disease_cau_factors 
+CREATE TABLE dsm_disease_cau_factors 
 	(dis_id varchar(60) NOT NULL, 
 	fac_id varchar(60) NOT NULL, 
 	code varchar(20), 
@@ -150,16 +150,16 @@ CREATE TABLE disease_cau_factors
 
 
 
-DROP TABLE IF EXISTS `diagnosis_cau_factors`;
+DROP TABLE IF EXISTS `dsm_diagnosis_cau_factors`;
 
 
+/**
+* Table to store signs and symptoms related to a patient
+* Modules: dsm
+* Last Edited: JUNE-2008 virajed@opensource.lk
+*/
 
--- Table to store signs and symptoms related to a patient
--- Modules: dsm
--- Last Edited: JUNE-2008 virajed@opensource.lk
-
-
-CREATE TABLE diagnosis_cau_factors 
+CREATE TABLE dsm_diagnosis_cau_factors 
 	(dia_id varchar(60) NOT NULL, 
 	fac_id varchar(60) NOT NULL, 
 	code varchar(20),
@@ -168,130 +168,103 @@ CREATE TABLE diagnosis_cau_factors
     FOREIGN KEY(fac_id) REFERENCES causative_factors(fac_id));
 
 
+/**
+* New tables for ICTA-BioSurvillence
+*/
 
--- Tables for RTBS
+DROP TABLE IF EXISTS `dsm_fields`;
 
-
-CREATE TABLE IF NOT EXISTS `rtbs_h544` (
-  `notify_id` varchar(50) NOT NULL ,
-  `institute` varchar(50) default NULL,
-  `name_of_patient` varchar(50) default NULL,
-  `name_of_the_guardian` varchar(50) default NULL,
-  `disease_id` int(11) NOT NULL,
-  `date_of_onset` date default NULL,
-  `date_of_admission` date default NULL,
-  `bht_no` varchar(20) default NULL,
-  `ward` varchar(10) default NULL,
-  `age` int(11) default NULL,
-  `sex` enum('m','f') default NULL,
-  `laboratory_results` varchar(200) default NULL,
-  `home_address` varchar(200) default NULL,
-  `telephone_number` varchar(15) default NULL,
-  `notified_by` varchar(50) default NULL,
-  `name_of_doctor` varchar(50) default NULL,
-  `status_of_doctor` varchar(50) default NULL,
-  `date` date default NULL,
-  `investigated` int(11) default NULL,
-  `notifalble` int(11) default NULL,
-  PRIMARY KEY  (`notify_id`),
-  KEY `disease_id` (`disease_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+CREATE TABLE `dsm_fields` (
+`field_id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`text` TEXT NOT NULL ,
+`name` TEXT NOT NULL ,
+`type` VARCHAR( 100 ) NOT NULL,
+`data_type` VARCHAR( 100 ) NOT NULL,
+`indx` INT
+);
 
 
-CREATE TABLE IF NOT EXISTS `rtbs_disease` (
-  `disease_id` int(11) NOT NULL auto_increment,
-  `disease_name` varchar(50) NOT NULL,
-  `disease_type` varchar(2) NOT NULL,
-  PRIMARY KEY  (`disease_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+DROP TABLE IF EXISTS `dsm_field_params`;
 
-CREATE TABLE IF NOT EXISTS `rtbs_disease_notify_to` (
-  `disease_id` int(11) NOT NULL,
-  `notify_to` varchar(50) NOT NULL,
-  PRIMARY KEY  (`disease_id`,`notify_to`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `dsm_field_params` (
+`field_id` BIGINT NOT NULL,
+`field_param_id` BIGINT NOT NULL AUTO_INCREMENT,
+`param_key` VARCHAR( 200 ) NOT NULL ,
+`param` TEXT,
+PRIMARY KEY ( `field_param_id` )
+) ;
 
-ALTER TABLE `rtbs_disease_notify_to`
-  ADD CONSTRAINT `rtbs_disease_notify_to_ibfk_1` FOREIGN KEY (`disease_id`) REFERENCES `rtbs_disease` (`disease_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+DROP TABLE IF EXISTS `dsm_field_values`;
 
-ALTER TABLE `rtbs_h544`
-  ADD CONSTRAINT `rtbs_h544_ibfk_1` FOREIGN KEY (`disease_id`) REFERENCES `rtbs_disease` (`disease_id`) ON DELETE NO ACTION ON UPDATE CASCADE;
+CREATE TABLE `dsm_field_values` (
+`field_id` BIGINT NOT NULL ,
+`field_value_id` BIGINT NOT NULL AUTO_INCREMENT,
+`vals_text` TEXT  ,
+`value` TEXT  ,
+`indx` INT ,
+PRIMARY KEY ( `field_value_id` )
+);
 
--- add data
-INSERT INTO `rtbs_disease` (`disease_id`, `disease_name`, `disease_type`) VALUES
-(1, 'Cholera', 'A'),
-(2, 'Plague', 'A'),
-(3, 'Yellow Fever', 'A'),
-(4, 'Polio Myelitis or Acute Flaccid Paralysis', 'B'),
-(5, 'Diphtheria', 'B'),
-(6, 'Dysentery', 'B'),
-(7, 'Pertussis', 'B'),
-(8, 'Enteric Fever', 'B'),
-(9, 'Food Poisoning', 'B'),
-(10, 'Tetanus or neonatal tetanus', 'B'),
-(11, 'Measles', 'B'),
-(12, 'Malaria', 'B'),
-(13, 'Rubella or Congenital Rubella Syndrome', 'B'),
-(14, 'Viral Hepatitis', 'B'),
-(15, 'Leptospirosis', 'B'),
-(16, 'Dengue Fever or Dengue Haemorragic Fever', 'B'),
-(17, 'Encephalitis (including Japanese Encephalitis)', 'B'),
-(18, 'Human Rabies', 'B'),
-(19, 'Mumps', 'B'),
-(20, 'Meningitis', 'B'),
-(21, 'Chicken Pox', 'B'),
-(22, 'Simple continued fever of over 7 days or more', 'B'),
-(23, 'Typhus Fever', 'B'),
-(24, 'Severe Acute Respiratory Syndrome (SARS)', 'B'),
-(25, 'Tuberculosis', 'B');
+DROP TABLE  IF EXISTS `dsm_field_validation`;
+CREATE TABLE `dsm_field_validation` (
+`validation_id` BIGINT NOT NULL AUTO_INCREMENT ,
+`field_id` BIGINT NOT NULL ,
+`rule` TEXT NOT NULL ,
+`rule_order` INT NOT NULL DEFAULT '1',
+PRIMARY KEY ( `validation_id` )
+);
 
+DROP TABLE IF EXISTS `dsm_cases`;
+CREATE TABLE `dsm_cases` (
+`case_id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`reported_date` DATE NOT NULL ,
+`last_update` DATE NOT NULL ,
+`status` VARCHAR( 30 ) NOT NULL DEFAULT 'ACTIVE'
+) ;
 
-CREATE TABLE IF NOT EXISTS `rtbs_location` (
-  `notify_id` varchar(50) NOT NULL,
-  `country` varchar(50) default NULL,
-  `state` varchar(50) default NULL,
-  `city` varchar(50) default NULL,
-  `longitude` varchar(50) default NULL,
-  `latitude` varchar(50) default NULL,
-  `district_id` varchar(50) default NULL,
-  `moh_area` varchar(50) default NULL,
-  `phi_area` varchar(50) default NULL,
-  PRIMARY KEY  (`notify_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+DROP TABLE  IF EXISTS `dsm_definitions`;
+CREATE TABLE `dsm_definitions` (
+`dis_id` VARCHAR(60) NOT NULL ,
+`field_id` BIGINT NOT NULL ,
+PRIMARY KEY ( `dis_id` , `field_id` )
+);
 
- CREATE TABLE `rtbs_district` (
-`district_id` VARCHAR( 50 ) NOT NULL ,
-`district` VARCHAR( 50 ) NOT NULL ,
-PRIMARY KEY ( `district_id` )
-) ENGINE = InnoDB ;
+DROP TABLE IF EXISTS `dsm_case_data`;
+CREATE TABLE `dsm_case_data` (
+`case_id` BIGINT NOT NULL ,
+`data_id` BIGINT NOT NULL ,
+`field_id` BIGINT NOT NULL ,
+`dis_id` VARCHAR(60) NOT NULL ,
+`patient_identifier` TEXT NOT NULL ,
+`submission_id` BIGINT NOT NULL DEFAULT 1,
+`date` date,
+`value` TEXT,
+PRIMARY KEY (`data_id`,`case_id`,field_id)
+);
 
-ALTER TABLE `rtbs_location` ADD FOREIGN KEY ( `district_id` ) REFERENCES `rtbs_district` (
-`district_id`
-) ON DELETE NO ACTION ON UPDATE CASCADE ;
+DROP TABLE IF EXISTS `dsm_case_count`;
+CREATE TABLE `dsm_case_count` (
+`case_id` BIGINT NOT NULL,
+`dis_id` VARCHAR(60) NOT NULL ,
+`date` date,
+PRIMARY KEY (`case_id`)
+);
 
-INSERT INTO `rtbs_district` (`district_id`, `district`) VALUES
-('1', 'Ampara'),
-('2', 'Anuradhapura'),
-('3', 'Badulla'),
-('4', 'Batticaloa'),
-('5', 'Colombo'),
-('6', 'Galle'),
-('7', 'Gampaha'),
-('8', 'Hambantota'),
-('9', 'Jaffna'),
-('10', 'Kalutara'),
-('11', 'Kandy'),
-('12', 'Kegalle'),
-('13', 'Kilinochchi'),
-('14', 'Kurunegala'),
-('15', 'Mannar'),
-('16', 'Matale'),
-('17', 'Matara'),
-('18', 'Moneragala'),
-('19', 'Mullaitivu'),
-('20', 'Nuwara Eliya'),
-('21', 'Polonnaruwa'),
-('22', 'Puttalam'),
-('23', 'Ratnapura'),
-('24', 'Trincomalee'),
-('25', 'Vavuniya');
+DROP TABLE IF EXISTS `dsm_case_note`;
+CREATE TABLE `dsm_case_note` (
+`case_id` TEXT,
+`dis_id` VARCHAR(60) NOT NULL ,
+`note_id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`date` date,
+`note` LONGTEXT
+);
+
+DROP TABLE IF EXISTS `dsm_diseases_risks`;
+CREATE TABLE dsm_diseases_risks( 
+    `dis_id` varchar(60) NOT NULL PRIMARY KEY, 
+    `eff_gender` TEXT, 
+    `dri_water` TEXT,
+    `nutrition_level` TEXT, 
+    `sanitary` TEXT,
+    `seasons` TEXT
+);  

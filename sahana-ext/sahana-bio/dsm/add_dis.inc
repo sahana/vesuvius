@@ -1,4 +1,23 @@
 <?php
+/**
+ * DSM add_dis.inc
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author     Ravith Botejue
+ * @author     G.W.R. Sandaruwan <sandaruwan[at]opensource[dot]lk> <rekasandaruwan[at]gmail[dot]com
+ * @author     Viraj Edirisinghe
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    sahana
+ * @subpackage dsm
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ *
+ */
+
 include_once $global['approot'] . '/inc/handler_form.inc';
 include_once $global['approot'] . '/inc/lib_uuid.inc';
 //include_once $global['approot'] . '/inc/lib_form.inc';
@@ -28,29 +47,24 @@ function _shn_dsm_get_data($errors=false)
     shn_form_text(_t('General Name'),'name','',array('req'=>true));
     shn_form_text(_t('Medical Name'),'med_name');
     shn_form_text(_t('Cause'),'cause');
-    shn_form_text(_t('Carrier'),'carrier');
-    
-    shn_form_fsclose();
+    shn_form_text(_t('Carrier'),'carrier');   
+    $extra_opts['select'] = true; 
+    shn_form_opt_select('age_groups',_t('Vulnerable age groups'),'eff_age',$extra_opts);
+    	
+	shn_form_fsclose();
 
     shn_form_fsopen(_('Special Risks'));
     
-    //shn_form_text(_t('Effected Area'),'area');
-    $extra_opts['select'] = true;
-    shn_form_opt_select('age_groups',_t('Vulnerable age groups'),'eff_age',$extra_opts);
-    $extra_opts['help'] = _t("You can specify the gender");
-	shn_form_select(array('Not Relevant','mal'=>'Male','fmal'=>'Female'), _t('Gender'),"eff_gender", '',$extra_opts);
-
-    //shn_form_fsclose();
-
-   // shn_form_fsopen(_('Cause'));
     
     unset($extra_opts['help']);
+    //$extra_opts['select'] = true;
+    shn_form_select(array('Not Relevant','male'=>'Male','female'=>'Female'), _t('Gender'),"eff_gender", '',$extra_opts);
     shn_form_opt_select('dri_water',_t('Drinking Water Supply'),'drink_water',$extra_opts);
     shn_form_opt_select('nutrition_level',_t('Nutrition Level'),'nutrition',$extra_opts);
-    shn_form_opt_select('sanitary',_t('Sanitary Facilitity'),'',$extra_opts);
-    shn_form_opt_select('seasons',_t('Seasonal Factors'),'',$extra_opts);
+    shn_form_opt_select('sanitary',_t('Sanitary Facilitity'),'sanitary',$extra_opts);
+    shn_form_opt_select('seasons',_t('Seasonal Factors'),'seasons',$extra_opts);
     //shn_form_text(_t(''),'');
-   // shn_form_text(_t('Family_jaa..na'),'');
+    //shn_form_text(_t('Family_jaa..na'),'');
     //shn_form_text(_t(''),'');
 
     shn_form_fsclose();
@@ -78,13 +92,12 @@ function _shn_dsm_set_datails()
 	$_SESSION['med_name'] = $_POST['med_name'];
 	$_SESSION['carrier'] = $_POST['carrier'];
 	$_SESSION['cause'] = $_POST['cause'];
-	
-	$_SESSION['eff_gender'] = $_POST['eff_gender'];
 	$_SESSION['eff_age'] = $_POST['age_groups'];
 	
+	$_SESSION['eff_gender'] = $_POST['eff_gender'];
+	$_SESSION['drink_water'] = $_POST['dri_water'];
 	$_SESSION['nutrition'] = $_POST['nutrition_level'];
 	$_SESSION['sanitary'] = $_POST['sanitary'];
-	$_SESSION['drink_water'] = $_POST['dri_water'];
 	$_SESSION['seasons'] = $_POST['seasons'];
 }
 
@@ -117,21 +130,30 @@ function _shn_dsm_add_symptoms($sym_priority=null)
     }
     if (count($_SESSION[$sym_priority]['symptoms']) > 0) {
     shn_form_fsopen(_($sym_priority . ' Symptoms'));
-    echo '<p>' . $sym_priority . ' Symptoms that you have added for ' . $_SESSION['dis_name'] . ' are listed below.</p>';
+    echo '<p>' . $sym_priority . ' Symptoms that you have added for <strong>' . $_SESSION['dis_name'] . '</strong> are listed below.</p>';
         foreach ($_SESSION[$sym_priority]['symptoms'] as $symptom) {
            //shn_form_text('', '', 'READONLY size=100%',array('value'=>$symptom));
            shn_form_label('',$symptom);
            
         }
-        shn_form_fsclose();
+       /* if($_SESSION['priority'] == 'Primary'){
+        	
+            unset($_SESSION['Primary']);	
+        }	
+        else if($_SESSION['priority'] == 'Minor'){
+        	
+        	unset($_SESSION['Minor']);
+        }	
+        shn_form_submit(_t('Remove'), "name='remove'");*/
+        //shn_form_fsclose();
     }
-    //shn_form_fsclose();
+    shn_form_fsclose();
     
     shn_form_fsopen(_('Select Symptoms'));
     echo '<p> Select ' . $sym_priority . ' Symptom from the list below.</p>';
     $stored_symptoms = _shn_dsm_get_stored_sym();
     shn_form_multi_select('symptomdb', $stored_symptoms,'','length=100%');
-    shn_form_submit(_t('Add'), "name='button'");
+    shn_form_submit(_t('Add to Disease'), "name='button'");
     
     shn_form_fsclose();
     
@@ -140,7 +162,7 @@ function _shn_dsm_add_symptoms($sym_priority=null)
     $extra_opt['value'] = '';//shn_form_text(_t('General Name'),'symptom');
     shn_form_text('', 'symptom','size=100% maxlength=200');
     ?> <center> <?php
-    shn_form_submit(_t('Add'), "name='button'");
+    shn_form_submit(_t('Add New '), "name='button'");
     ?> </center> <?php
     //shn_form_button('sffsfs');
     
@@ -158,7 +180,7 @@ function _shn_symtoms_todb($opt = 'one')
 		$sym = $_POST['symptom'];
 		$id = shn_create_uuid('symptom');
 		$ul_id = '0';
-        $sql = "INSERT INTO symptoms(sym_id,description,upperlevel_id) VALUES ('$id','$sym','$ul_id')";
+        $sql = "INSERT INTO dsm_symptoms(sym_id,description,upperlevel_id) VALUES ('$id','$sym','$ul_id')";
         $ok = _shn_dsm_execute($sql);
         if ($ok) {
         	array_push($_SESSION[$sym_priority]['symptoms_id'], $id);
@@ -167,7 +189,7 @@ function _shn_symtoms_todb($opt = 'one')
 	    foreach ($_SESSION[$sym_priority]['symptoms'] as $sym) {
 		    $id = shn_create_uuid('symptom');
 		    $ul_id = '0';
-            $sql = "INSERT INTO symptoms(sym_id,description,upperlevel_id) VALUES ('$id','$sym','$ul_id')";
+            $sql = "INSERT INTO dsm_symptoms(sym_id,description,upperlevel_id) VALUES ('$id','$sym','$ul_id')";
             $ok = _shn_dsm_execute($sql);
 	    }  
     }
@@ -219,14 +241,13 @@ function _shn_dsm_confirm()
         shn_form_label('',$ses);
     }
     
-    shn_form_label('Nutrition Level',$_SESSION['nutrition']);
-    shn_form_label('Drinking water',$_SESSION['drink_water']);
-    shn_form_label('Sanitary Facilities',$_SESSION['sanitary']);
-    shn_form_label('Vulnarable Gender',$_SESSION['eff_gender']);
     shn_form_label('Vulnarable Age group',$_SESSION['eff_age']);
-    shn_form_label('',$_SESSION['']);
-    shn_form_label('',$_SESSION['']);
-    
+    shn_form_label('Vulnarable Gender',$_SESSION['eff_gender']);
+    shn_form_label('Drinking water',$_SESSION['drink_water']);
+    shn_form_label('Nutrition Level',$_SESSION['nutrition']);
+    shn_form_label('Sanitary Facilities',$_SESSION['sanitary']);
+    shn_form_label('Seasonal Factors',$_SESSION['seasons']); 
+       
     shn_form_fsclose();
    ?> <center> <?php
     shn_form_submit('Save');
@@ -240,7 +261,7 @@ function _shn_dsm_write_to_db()
 	$disease = shn_create_uuid('disease'); //print $disease;
 	global $global;
 	$db = $global['db'];
-	$sql = "INSERT INTO diseases(dis_id,dis_name,age_group) VALUES ('$disease','{$_SESSION['dis_name']}','{$_SESSION['eff_age']}')";
+	$sql = "INSERT INTO dsm_diseases(dis_id,dis_name,age_group,med_name,cause,carrier) VALUES ('$disease','{$_SESSION['dis_name']}','{$_SESSION['eff_age']}','{$_SESSION['med_name']}','{$_SESSION['cause']}','{$_SESSION['carrier']}')";
 	$sql_ok = _shn_dsm_execute($sql);
 	if ($sql_ok) {
 	    add_confirmation(_t($_SESSION['dis_name'] . ' is successfully added.'));
@@ -248,6 +269,13 @@ function _shn_dsm_write_to_db()
 	add_symptoms('Primary', $disease);
 	add_symptoms('Minor', $disease);
 	
+	global $global;
+    $db = $global['db'];
+    $module = $global['module'];
+       
+    $sql = "INSERT INTO dsm_diseases_risks(dis_id,eff_gender,dri_water,nutrition_level,sanitary,seasons) VALUES (?,?,?,?,?,?)";
+    $res = $db->Execute($sql,array($disease,$_SESSION['eff_gender'],$_SESSION['drink_water'],$_SESSION['nutrition'],$_SESSION['sanitary'],$_SESSION['seasons']));
+    
    // $sql = "INSERT INTO disease_cau_factors(dis_id,fac_id,priority) VALUES ('$disease','{$_SESSION[]}','{$_SESSION['']}')";
 	//$sql_ok = _shn_dsm_execute($sql);
 	if ($sql_ok) {
@@ -255,15 +283,16 @@ function _shn_dsm_write_to_db()
 	}
 	
 }
-//shn_form_close();
+
 function add_symptoms($priority, $disease)
 {
     foreach ($_SESSION[$priority]['symptoms_id'] as $sym) {
-    $sql = "INSERT INTO disease_symptoms(dis_id,sym_id,code,priority) VALUES ('$disease','$sym','sym','$priority')";
+    $sql = "INSERT INTO dsm_disease_symptoms(dis_id,sym_id,code,priority) VALUES ('$disease','$sym','sym','$priority')";
 	$sql_ok = _shn_dsm_execute($sql);
 	    if ($sql_ok) {
 	        //add_confirmation(_t('sym' . ' is successfully added.'));
 	    }
 	}
 }
+
 ?>

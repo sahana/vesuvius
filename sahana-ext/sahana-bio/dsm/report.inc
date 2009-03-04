@@ -1,7 +1,7 @@
 <?php
 
 /**
- * DSM
+ * DSM report.inc
  *
  * PHP version 4 and 5
  *
@@ -9,10 +9,12 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @author	   Viraj Edirisinghe
+ * @author     Ravith Botejue
+ * @author     G.W.R. Sandaruwan <sandaruwan[at]opensource[dot]lk> <rekasandaruwan[at]gmail[dot]com
+ * @author     Viraj Edirisinghe
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @package    dsm
- * @subpackage  dsm
+ * @package    sahana
+ * @subpackage dsm
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
@@ -22,6 +24,7 @@ include_once $global['approot'].'/inc/reporting/lib_reporting.inc';
 include_once $global['approot'].'/inc/lib_paging.inc';
 include_once $global['approot'] . '/mod/dsm/lib_dsm.inc';
 include_once $global['approot'].'/inc/lib_location.inc';
+include_once $global['approot'] . '/inc/lib_menu.inc';
 
 function shn_dsm_report_default(){
     shn_dsm_patients_diseases_chart();
@@ -41,7 +44,7 @@ function shn_dsm_report_default(){
 function shn_dsm_patients_diseases_chart()
 {
 	global $global;
-    $sql = "SELECT disease,COUNT(pat_id) AS count FROM diagnosis GROUP BY disease";
+    $sql = "SELECT disease,COUNT(pat_id) AS count FROM dsm_diagnosis GROUP BY disease";
     $res = _shn_dsm_execute($sql);
     if($res === false){
        $msg = $global['db']->ErrorMsg();
@@ -51,7 +54,7 @@ function shn_dsm_patients_diseases_chart()
     }
     else{
     	if ($res->RecordCount() <= 0){
-    		add_alert(_t("No Requests are available"));
+    		add_error(_t("No Requests are available"));
     		
     	}
     	else{
@@ -68,7 +71,7 @@ function shn_dsm_patients_diseases_chart()
 function shn_dsm_disease_vs_location_chart()
 {
 	global $global;
-    $sql = "SELECT location,COUNT(pat_id) AS count FROM diagnosis WHERE disease='{$_SESSION['disease_id']}' GROUP BY location";
+    $sql = "SELECT location,COUNT(pat_id) AS count FROM dsm_diagnosis WHERE disease='{$_SESSION['disease_id']}' GROUP BY location";
     $res = _shn_dsm_execute($sql);print $sql;
      if($res === false){
        $msg = $global['db']->ErrorMsg();
@@ -78,7 +81,7 @@ function shn_dsm_disease_vs_location_chart()
     }
     else{
     	if ($res->RecordCount() <= 0){
-    		add_alert(_t("No Requests are available"));
+    		add_error(_t("No Requests are available"));
     		
     	}
     	else{

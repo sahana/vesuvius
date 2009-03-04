@@ -1,7 +1,7 @@
 <?php
-/** 
- * DSM Configuration File
- *
+
+/**
+ * Social Network Administrative Section
  * PHP version 4 and 5
  *
  * LICENSE: This source file is subject to LGPL license
@@ -9,15 +9,22 @@
  * http://www.gnu.org/copyleft/lesser.html
  *
  * @author     Ravith Botejue
- * @author     G.W.R. Sandaruwan <sandaruwan@opensource.lk> <rekasandaruwan@gmail.com
- * @author     Viraj Edirisinghe
+ * @author     G.W.R. Sandaruwan <sandaruwan[at]opensource[dot]lk> <rekasandaruwan[at]gmail[dot]com
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @package    shana
- * @subpackage dsm
+ * @subpackage sn
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
 
-$conf['mod_dsm_name'] = _t('Disease Surviellance Module');
-$conf['shn_dsm_enabled'] = false;
+/**
+ * sn
+ * @access public
+ * @return void
+ * 
+ */
+
+/*function shn_sn_adm_default(){
+	
+}*/
 ?>

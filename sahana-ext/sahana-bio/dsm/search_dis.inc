@@ -1,6 +1,25 @@
 <?php
+
+/**
+ * DSM search_dis.inc
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author     Ravith Botejue
+ * @author     G.W.R. Sandaruwan <sandaruwan[at]opensource[dot]lk> <rekasandaruwan[at]gmail[dot]com
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    sahana
+ * @subpackage dsm
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ *
+ */
+
 global $global;
-include $global['approot'] . "/inc/lib_paging.inc";
+include_once($global['approot'] . "/inc/lib_paging.inc");
 
 function _shn_search_dis_default()
 {
@@ -22,13 +41,13 @@ function _shn_search_dis_default()
 function _shn_dsm_searching($gname, $mname)
 {
 	if($gname == null && $mname == null) {
-	    $sql = "SELECT * FROM diseases";
+	    $sql = "SELECT * FROM dsm_diseases";
 	} else if ($gname != null && $mname != null) {
-	    $sql = "SELECT * FROM diseases as d WHERE d.dis_name LIKE '%{$gname}%' AND d.med_name LIKE '%{$mname}%'";
+	    $sql = "SELECT * FROM dsm_diseases as d WHERE d.dis_name LIKE '%{$gname}%' AND d.med_name LIKE '%{$mname}%'";
 	} else if ($gname == null && $mname != null){
-	    $sql = "SELECT * FROM diseases as d WHERE d.med_name LIKE '%{$mname}%'";
+	    $sql = "SELECT * FROM dsm_diseases as d WHERE d.med_name LIKE '%{$mname}%'";
 	} else if ($gname != null && $mname == null) {
-		$sql = "SELECT * FROM diseases as d WHERE d.dis_name LIKE '%{$gname}%'";
+		$sql = "SELECT * FROM dsm_diseases as d WHERE d.dis_name LIKE '%{$gname}%'";
 	}
 	$results=shn_paging_get_report($sql,10,$headers,array('post'=>true,'return'=>true));
 	_shn_dsm_search_results($results);
@@ -63,8 +82,9 @@ function _shn_dsm_search_results($results)
         <td><?=$results->fields['med_name']?></td>
         <!-- <td><?=$results->fields['dia_date']?></td>-->
         <!-- <td><?=$results->fields['address']?></td>-->
-        <td><a href='index.php?mod=dsm&act=edit_case&dis_uuid=<?=$results->fields['dis_id']?>'><?=_t('Edit') ?></a></td>
-      	<td><a href='index.php?mod=dsm&act=sur_rep&dis_uuid=<?=$results->fields['dis_id']?>'><?=_t('View') ?></a></td>
+        
+        <td><?php shn_acl_secure_hyperlink('dsm','edit_case','Edit',$stream=null,$params=array('dis_uuid'=>$results->fields['dis_id']),$text_opts='');?></td>
+      	<td><?php shn_acl_secure_hyperlink('dsm','sur_rep','View',$stream=null,$params=array('dis_uuid'=>$results->fields['dis_id']),$text_opts='');?></td>
         <!-- <td><a href='index.php?mod=dsm&act=delete_individual&p_uuid=<?=$results->fields['pid']?>' onClick="javascript: return confirmdelete('<?=$results->fields['full_name']?>')">Delete</a></td>-->
       
         </tr>

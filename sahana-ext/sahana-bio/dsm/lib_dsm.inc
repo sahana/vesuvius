@@ -1,6 +1,6 @@
 <?php
 /**
- * DSM
+ * DSM lib_dsm.inc
  *
  * PHP version 4 and 5
  *
@@ -8,10 +8,12 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @author	   Viraj Edirisinghe
+ * @author     Ravith Botejue
+ * @author     G.W.R. Sandaruwan <sandaruwan[at]opensource[dot]lk> <rekasandaruwan[at]gmail[dot]com
+ * @author     Viraj Edirisinghe
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @package    dsm
- * @subpackage  dsm
+ * @package    sahana
+ * @subpackage dsm
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
@@ -24,7 +26,7 @@ function _shn_dsm_execute($sql)
 	
 	$res = $db->Execute($sql);
 	if ($res) {
-	    return $res;var_dump($res);
+	    return $res;
 	} else {
 		return false;
 	}
@@ -46,7 +48,7 @@ function _shn_dsm_limit_execute($sql,$items=6)
 function _shn_dsm_get_stored_sym($uuid = null, $option = true, $dis_id = null)
 {
 	if ($uuid==null && $dis_id == null) {
-	    $sql = "SELECT sym_id,description FROM symptoms";
+	    $sql = "SELECT sym_id,description FROM dsm_symptoms";
 	    $res = _shn_dsm_execute($sql);
 	    $result = array();
 	    foreach ($res as $r) {
@@ -57,7 +59,7 @@ function _shn_dsm_get_stored_sym($uuid = null, $option = true, $dis_id = null)
 	    }
 	
 	} else {
-		$sql = "SELECT description FROM symptoms WHERE sym_id='$uuid'";
+		$sql = "SELECT description FROM dsm_symptoms WHERE sym_id='$uuid'";
 		$result = _shn_dsm_execute($sql)->fields['description'];
 	}
 	return $result;
@@ -65,7 +67,7 @@ function _shn_dsm_get_stored_sym($uuid = null, $option = true, $dis_id = null)
 
 function _shn_dsm_get_disease_sym($dis_id)
 {
-	$sql = "SELECT symptoms.sym_id,description,priority FROM symptoms,disease_symptoms WHERE symptoms.sym_id=disease_symptoms.sym_id AND dis_id='$dis_id'";
+	$sql = "SELECT symptoms.sym_id,description,priority FROM dsm_symptoms,dsm_disease_symptoms WHERE dsm_symptoms.sym_id=dsm_disease_symptoms.sym_id AND dis_id='$dis_id'";
 	$result = array();
 	$res = _shn_dsm_execute($sql);
     foreach ($res as $r) {
@@ -78,7 +80,7 @@ function _shn_dsm_get_disease_sym($dis_id)
 
 function _shn_dsm_get_disease_factors($dis_id)
 {
-	$sql = "SELECT causative_factors.fac_id,description FROM causative_factors,disease_cau_factors WHERE causative_factors.fac_id=disease_cau_factors.fac_id AND dis_id='$dis_id'";
+	$sql = "SELECT causative_factors.fac_id,description FROM dsm_causative_factors,dsm_disease_cau_factors WHERE dsm_causative_factors.fac_id=dsm_disease_cau_factors.fac_id AND dis_id='$dis_id'";
 	$result = _shn_dsm_execute($sql)->fields['description'];
 	return $result;
 }
@@ -90,7 +92,7 @@ function _shn_dsm_get_disease_factors($dis_id)
  */
 function _shn_dsm_diseases()
 {
-    $sql = "SELECT dis_name,dis_id FROM diseases";
+    $sql = "SELECT dis_name,dis_id FROM dsm_diseases";
     $result = array();
     $res = array();
     $res = _shn_dsm_execute($sql);
@@ -107,7 +109,7 @@ function _shn_dsm_diseases()
  */
 function _shn_dsm_get_disease_name($dis_id)
 {
-	$sql = "SELECT dis_name FROM diseases WHERE dis_id='{$dis_id}'";
+	$sql = "SELECT dis_name FROM dsm_diseases WHERE dis_id='{$dis_id}'";
 	$res = _shn_dsm_execute($sql);
 	if ($res) {
 		return $res->fields['dis_name'];
@@ -123,7 +125,7 @@ function _shn_dsm_get_disease_name($dis_id)
  */
 function _shn_dsm_get_resent()
 {
-	$sql = "SELECT dis_id,dis_name FROM diseases";
+	$sql = "SELECT dis_id,dis_name FROM dsm_diseases";
 	$res = _shn_dsm_limit_execute($sql);//print $res;
 	return $res;
 }
@@ -143,10 +145,26 @@ function _shn_dsm_print_header($header)
  */
 function _shn_general_data_from_table($disease_id)
 {
-	$sql = "SELECT * FROM diseases WHERE dis_id='$disease_id'";
+	$sql = "SELECT * FROM dsm_diseases WHERE dis_id='$disease_id'";
 	$result = _shn_dsm_execute($sql);
-	$details['name'] = $result->fields['dis_name'];
+	$details['dis_name'] = $result->fields['dis_name'];
+	$details['med_name'] = $result->fields['med_name'];
+	$details['age_group'] = $result->fields['age_group'];
+	$details['carrier'] = $result->fields['carrier'];
+	$details['cause'] = $result->fields['cause'];
 	return $details;  
+}
+
+function _shn_risks_data_from_table($disease_id){
+	
+    $sql = "SELECT * FROM dsm_diseases_risks WHERE dis_id='$disease_id'";
+    $result = _shn_dsm_execute($sql);
+    $details_risks['eff_gender'] = $result->fields['eff_gender'];
+    $details_risks['drink_water'] = $result->fields['dri_water'];
+    $details_risks['nutrition'] = $result->fields['nutrition_level'];
+    $details_risks['sanitary'] = $result->fields['sanitary'];
+    $details_risks['seasons'] = $result->fields['seasons'];
+    return $details_risks;  
 }
 
 function _dsm_add_contact($id,$type,$value)
@@ -176,7 +194,7 @@ function _shn_dsm_populate_case($pat_id)
 	$_SESSION['edit_case']['pat_name'] = $result->fields['full_name'];
 	_dsm_get_contacts($pat_id);
 	
-	$sql = "SELECT * FROM diagnosis WHERE pat_id='$pat_id'";
+	$sql = "SELECT * FROM dsm_diagnosis WHERE pat_id='$pat_id'";
 	_shn_dsm_execute($sql);
 }
 

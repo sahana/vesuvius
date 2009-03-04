@@ -1,4 +1,23 @@
 <?php
+/**
+ * DSM rep_dis.inc
+ *
+ * PHP version 4 and 5
+ *
+ * LICENSE: This source file is subject to LGPL license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.gnu.org/copyleft/lesser.html
+ *
+ * @author     Ravith Botejue
+ * @author     G.W.R. Sandaruwan <sandaruwan[at]opensource[dot]lk> <rekasandaruwan[at]gmail[dot]com
+ * @author     Viraj Edirisinghe
+ * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @package    sahana
+ * @subpackage dsm
+ * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ *
+ */
+
 include_once $global['approot'] . '/inc/lib_uuid.inc';
 include_once $global['approot'] . '/inc/lib_image.inc';
 include_once ($global['approot'] . '/inc/lib_form.inc');
@@ -21,7 +40,9 @@ function _shn_print_form_one()
     shn_form_text(_t('Name'),'pat_name','',array('req'=>true));
     shn_form_text(_t('Last Name'),'pat_lastname');
     shn_form_text(_t('Age'),'pat_age');
-    shn_form_text(_t('Sex'),'pat_sex');
+    
+    $options = array('male'=>_t('Male'),'female'=>_t('Female'));
+    shn_form_select($options,_t("Sex"),'dsm_field_type',array('req'=>true,'value'=>'text'));
     
     shn_form_text(_t('Occupation'),'pat_occ');
     shn_form_fsclose();
@@ -75,7 +96,7 @@ function _shn_dsm_set_patient()
 { 
 	$_SESSION['rep']['dis'] = $_POST['dis_is']; //print $_POST['dis_is'];
 	//if existing user then do coding for get id
-	$_SESSION['dsm']['pat_uuid'] = shn_create_uuid();
+	$_SESSION['dsm']['pat_uuid'] = shn_create_uuid('patient');
 	$_SESSION['dsm']['dia_id'] = shn_create_uuid('diagnosis');
 	$_SESSION['dsm']['doc_id'] = '285ip-10'; 
 	$_SESSION['dsm']['pat_name'] = $_POST['pat_name'];
@@ -126,7 +147,7 @@ function _shn_patient_contact()
 	shn_form_fsopen(_t('Contact Details'));
 	shn_form_textarea(_t('Address'),'pat_address');
     shn_form_text(_t('Phone'),'pat_phone','size="30"');
-    shn_form_text(_t('Mobile'),'pat_mobile','size="30"');
+    shn_form_text(_t('Modile'),'pat_mobile','size="30"');
     shn_form_text(_t('Email'),'pat_email','size="30"');
 	shn_form_fsclose();
     
@@ -146,7 +167,7 @@ function _shn_dsm_commit_patient()
 	$sql = "INSERT INTO person_uuid (p_uuid,full_name,family_name,l10n_name,custom_name) VALUES ('{$_SESSION['dsm']['pat_uuid']}','{$_SESSION['dsm']['pat_name']}.{$_SESSION['dsm']['pat_lastname']}','{$_SESSION['dsm']['pat_lastname']}','{$_SESSION['dvr']['person']['local_name']}','')";
 	_shn_dsm_execute($sql);
 	
-	$sql = "INSERT INTO diagnosis (pat_id,doc_id,dia_id,gender,age_group,disease,location) VALUES ('{$_SESSION['dsm']['pat_uuid']}','not assigned','{$_SESSION['dsm']['dia_id']}','{$_SESSION['dsm']['pat_sex']}','{$_SESSION['dsm']['pat_agegroup']}','{$_SESSION['rep']['dis']}','{$_SESSION['dsm']['loc_id']}')";
+	$sql = "INSERT INTO dsm_diagnosis (pat_id,doc_id,dia_id,gender,age_group,disease,location) VALUES ('{$_SESSION['dsm']['pat_uuid']}','not assigned','{$_SESSION['dsm']['dia_id']}','{$_SESSION['dsm']['pat_sex']}','{$_SESSION['dsm']['pat_agegroup']}','{$_SESSION['rep']['dis']}','{$_SESSION['dsm']['loc_id']}')";
 	_shn_dsm_execute($sql);
 	
 	if($_SESSION['dsm']['pat_email'])
