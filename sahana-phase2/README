@@ -1,13 +1,11 @@
-11th March 2008
+6th March 2009
 
-Sahana - ReadMe
+Sahana - README
 ===============
 
-Sahana is a free and open source Disaster Management System.It mainly facilitates management of Missing people,
-disaster victims, Managing and administrating various organisations, managing camps and managing requests and 
-assistance in the proper distribution of resources.
+Sahana is a Free and Open Source Disaster Management System.It mainly facilitates management of Missing people, disaster victims, Managing and administrating various organisations, managing camps and managing requests and assistance in the proper distribution of resources.
 
-version - 0.6.2
+version - trunk
 ----------------
 http://www.sahana.lk/
 
@@ -36,16 +34,16 @@ Requirements:
 
 Demo:
 
-        http://www.sahana.lk/sahana2/
+        http://demo.sahana.lk/
 
 Download:
     
-    o Download latest Sahana release,
+    o Download the latest Sahana release,
         
-        http://sourceforge.net/project/showfiles.php?group_id=127855
+        http://download.sahana.lk
 
-    o In order to get Sahana on Debian GNU/Linux or based distro 
-      (like Ubuntu, Knoppix, Mepis, etc.) can add following to their 
+    o In order to get Sahana on Debian GNU/Linux or a Debian based distro 
+      (like Ubuntu, Knoppix, Mepis, etc.), you can add following to your 
       /etc/apt/sources.list,
 
         deb http://sahana.lk/apt stable main
