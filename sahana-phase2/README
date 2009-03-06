@@ -31,6 +31,7 @@ Requirements:
     o MySQL 4.1 or later
     o Apache web server 1.3 or later
     o latest php5-gd libs
+    o latest php5-gettext libs for localization
 
 Demo:
 
@@ -38,7 +39,7 @@ Demo:
 
 Download:
     
-    o Download the latest Sahana release,
+    o Download the latest Sahana release in your preferred format from,
         
         http://download.sahana.lk
 
@@ -52,7 +53,7 @@ Download:
 
         apt-get update && apt-get install sahana
       
-      to upgrade from sahana old version to new version,
+      to upgrade from an older Sahana version to a newer version,
 
         apt-get upgrade
         
@@ -63,9 +64,9 @@ Install:
 
 Support:
 
-    Sahana is developed through distributed development environment. Therefore e-mail is
-    a preferred way to discuss various items. Most of the conversation regarding development of Sahana
-    is managed through "sahana-maindev" mailinglist.
+    Sahana is developed through a distributed development environment. Therefore, e-mail is
+    the preferred way to discuss various items. Most of the conversations regarding the 	development of Sahana
+    is managed through the "sahana-maindev" mailinglist.
     
         https://lists.sourceforge.net/lists/listinfo/sahana-maindev
 
@@ -73,7 +74,7 @@ Support:
 
         http://groups.yahoo.com/group/humanitarian-ict/
 
-    Sahana Core team also maintain an IRC channel,
+    The Sahana community also hangs out on an IRC channel,
 
         #sahana on freenode
 
@@ -90,5 +91,5 @@ Other:
 
 Enjoy!!!
 
-    Sahana Core Team
+    Sahana Community
 
