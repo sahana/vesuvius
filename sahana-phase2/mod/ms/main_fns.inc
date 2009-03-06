@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/    	
 * @module      MapServer
-* @version     $Id
+* @version     $Id: main_fns.inc,v 1.3 2009-03-06 09:29:29 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -21,6 +21,7 @@ function shn_ms_default()
 <h2><?=$conf['mod_ms_name']?></h2>
 <p>
 <?php echo _t("The {$conf['mod_ms_name']} module provides the ability to configure maps to be displayed by the integrated ");?><a href="http://mapserver.gis.umn.edu" target=_blank>UMN MapServer</a>
+<?php echo _t('. Please note that you have to install the UMN/Mapserver GIS Server on your system to use this module')?>
 <br><br>
 </p>
 <hr>
