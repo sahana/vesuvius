@@ -8,8 +8,8 @@
 * @author       Fran Boon <flavour@partyvibe.com>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/    	
-* @module      MapServer
-* @version     $Id
+* @module       MapServer
+* @version      $Id: main.inc,v 1.3 2009-03-06 09:30:07 mifanc Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
