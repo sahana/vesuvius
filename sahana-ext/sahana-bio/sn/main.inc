@@ -224,31 +224,39 @@ function shn_sn_change_contact_information_cr(){
 
 	$pgoc_uuid = $_POST["pgoc_uuid"];
     //var_dump($_REQUEST);
-
-	if(isset($_REQUEST['edit_contact_information'])){
-		//$db->debug=true;
-
-		$query4 = "SELECT * FROM field_options WHERE field_name='opt_contact_type'";
-		$res4 = $db->Execute($query4);
-        //var_dump($_POST);
-		while($row = $res4->FetchRow()){
-			//echo "old_".$row['option_code'].'_value'."<br/>";
-			$old_value = $_POST["old_".$row['option_code'].'_value'];
-			$option_code = $row['option_code'];
-			
-			$query = "DELETE FROM contact WHERE pgoc_uuid=? AND opt_contact_type=? AND contact_value=?";
-			$db->Execute($query,array($pgoc_uuid,$option_code,$old_value));
-			
-			$query5 = "INSERT INTO contact (pgoc_uuid,opt_contact_type,contact_value) VALUES (?,?,?)";
-			$db->Execute($query5,array($pgoc_uuid,$row['option_code'],$_POST['contact_'.$row['option_code']]));
-            //var_dump($_POST['contact_'.$row['option_code']]);
+    //if($_POST['contact_emai']=null){
+    	
+    //}
+    if($_POST['contact_emai']!=null && preg_match('/^\w+@\w+\.\w+/',$_POST['contact_emai'])==0){
+        add_error(_t('Please enter valid email'));
+        $errors = true;
+        shn_sn_edit_my_prof();
+    }else{
+	
+		if(isset($_REQUEST['edit_contact_information'])){
+			//$db->debug=true;
+	
+			$query4 = "SELECT * FROM field_options WHERE field_name='opt_contact_type'";
+			$res4 = $db->Execute($query4);
+	        //var_dump($_POST);
+			while($row = $res4->FetchRow()){
+				//echo "old_".$row['option_code'].'_value'."<br/>";
+				$old_value = $_POST["old_".$row['option_code'].'_value'];
+				$option_code = $row['option_code'];
+				
+				$query = "DELETE FROM contact WHERE pgoc_uuid=? AND opt_contact_type=? AND contact_value=?";
+				$db->Execute($query,array($pgoc_uuid,$option_code,$old_value));
+				
+				$query5 = "INSERT INTO contact (pgoc_uuid,opt_contact_type,contact_value) VALUES (?,?,?)";
+				$db->Execute($query5,array($pgoc_uuid,$row['option_code'],$_POST['contact_'.$row['option_code']]));
+	            //var_dump($_POST['contact_'.$row['option_code']]);
+			}
+			shn_sn_edit_my_prof();
+	
+		}else{
+			shn_sn_edit_my_prof();
 		}
-		shn_sn_edit_my_prof();
-
-	}else{
-		shn_sn_edit_my_prof();
-	}
-
+    }
 }
  
 function shn_sn_change_profile_visibility_cr(){
