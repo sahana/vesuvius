@@ -30,7 +30,7 @@ function shn_config_load_in_order() {
 		// database overrides conf files
 		shn_config_base_conf_fetch();
 		shn_config_module_conf_fetch('all');
-		shn_config_database_fetch($conf,'all');
+		shn_config_database_fetch(&$conf,'all');
 	} else {
 		// conf files overrides database
 		shn_config_database_fetch($conf,'all');
@@ -128,7 +128,7 @@ function shn_config_module_conf_fetch($module = 'all')
 function shn_config_database_fetch(&$conf, $type='base')
 {
 	global $global;
-
+    
 	if($type == 'all')
 	$sql = "SELECT module_id, confkey, value FROM config";
 	else
@@ -140,7 +140,6 @@ function shn_config_database_fetch(&$conf, $type='base')
 			// translate the boolean strings to actual boolean values
 			if ($result['value'] === 'true') $result['value'] = true;
 			if ($result['value'] === 'false') $result['value'] = false;
-
 			$conf[$result['confkey']] = $result['value'];
 		}
 	}

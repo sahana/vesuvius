@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.27 2008-01-30 04:38:38 prabath321 Exp $ */
+/* $Id: handler_db.inc,v 1.28 2009-03-09 05:16:30 ravithb Exp $ */
 
 /**
  *
@@ -32,9 +32,6 @@ require_once($global['approot'].'3rd/adodb/adodb.inc.php');
 $global['db'] = NewADOConnection($conf['db_engine']);
 $_host_port = $conf['db_host'].(isset($conf['db_port'])?':'.$conf['db_port']:'');
 $global['db']->Connect($_host_port,$conf['db_user'],$conf['db_pass'],$conf['db_name']);
-
-if($conf['enable_monitor_sql'])
-    $global['db']->LogSQL();
 
 /**
  * Cleans the given value to avoid SQL Injections 

@@ -76,6 +76,11 @@ $conf['debug'] = false;
 # Database Configuration #
 ########################## 
 
+# Configuration Setting Priority
+# Select between configuration file or database to load configuration. 
+# Unavailable configuration in the selected method will be loaded from other means.
+# Values are,   ( file , database )
+$conf['sahana_conf_priority'] = 'database';
 # Session writer 
 # enter your database name here.
 #
@@ -102,7 +107,7 @@ $conf['storage_engine'] = '';
 # enable monitor time that takes to process sql queries
 # this is an advance feature and recommended only for developers
 #
-$conf['enable_monitor_sql'] = 'true';
+$conf['enable_monitor_sql'] = true;
 
 # @todo Look into the database caching directories etc
 # This is a testing feature.

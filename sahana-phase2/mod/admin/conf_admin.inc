@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: conf_admin.inc,v 1.22 2008-10-23 08:18:41 ravithb Exp $ */
+/* $Id: conf_admin.inc,v 1.23 2009-03-09 05:16:30 ravithb Exp $ */
 
-/* $Id: conf_admin.inc,v 1.22 2008-10-23 08:18:41 ravithb Exp $ */
+/* $Id: conf_admin.inc,v 1.23 2009-03-09 05:16:30 ravithb Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -164,13 +164,14 @@ function shn_admin_conf_list()
 </script>
 		<?php
 		ksort($conf);
+		$dconf = array();
 		shn_config_database_fetch($dconf,'all');
 		?>
 <div id="result">
 <table>
 	<thead>
 	<?php
-	shn_form_table_row(array(_t('Config Variable'),_t('Current Value'),_t('Modified Value'),_t('Action')));
+	shn_form_table_row(array(_t('Config Variable'),_t('Current Value'),_t('Action')));
 	?>
 	</thead>
 	<?php
@@ -179,12 +180,9 @@ function shn_admin_conf_list()
 
 		//$edit ='<a href="?mod=admin&act=conf_var&key='.$key.'">(edit)</a>';
 		$edit ='<a href="#_'.$key.'" onclick="show_edit_box(\''.$key.'\')">(edit)</a>';
-
+        
 		// truncate the strings if they are too long
 		$str_value = shn_html_bool2str(shn_html_truncate($value,25));
-		//$str_dconf = shn_html_bool2str(shn_html_truncate($dconf[$key],25));
-		$str_dconf = shn_html_bool2str(shn_html_truncate($dconf[$key],25));
-		//shn_form_table_row(array($key,$str_value,'<span id="target_'.$key.'">'.$str_dconf.'</span>',$edit));
 
 		$field_metadata = shn_config_get_metadata($key);
 		?>
@@ -197,11 +195,11 @@ function shn_admin_conf_list()
 			// =========== Password ===============
 			$sp_type = $field_metadata['type'];
 			if(strtolower($sp_type)=='password'){
-				echo "**********";
+				echo '<div id="target_'.$key.'">**********</div>';
 			}// any other special types should be handled here
 			// ============= Boolean ================
 			else if(strtolower($sp_type)=='boolean'){
-				echo ($str_value == true)?'True':'False';
+				echo '<div id="target_'.$key.'">'.(($value == true)?'True':'False').'</div>';
 			}
 			// ============= Integer ================
 			// ============= Double =================
@@ -209,34 +207,10 @@ function shn_admin_conf_list()
 			// ============= EMAIL ==================
 			// ============= String =================
 			else{
-				echo $str_value;
+				echo '<div id="target_'.$key.'">'.$str_value.'</div>';
 			}
 		} else{
-			echo $str_value;
-		}
-		?></td>
-		<td><?php
-		// Column 2
-		if(isset($field_metadata) && is_array($field_metadata)){
-			$sp_type = $field_metadata['type'];
-			// =========== Password ===============
-			if(strtolower($sp_type)=='password'){
-				echo '<div id="target_'.$key.'">**********</div>';
-			}// any other special types should be handled here
-			// ============= Boolean ================
-			else if(strtolower($sp_type)=='boolean'){
-				echo '<div id="target_'.$key.'">'.(($str_value == true)?'True':'False').'</div>';
-			}// any other special types should be handled here
-			// ============= Integer ================
-    		// ============= Double =================
-			// ============= URL ====================
-			// ============= EMAIL ==================
-            // ============= String =================			
-			else{
-				echo '<div id="target_'.$key.'">'.$str_dconf.'</div>';
-			}
-		}  else{
-			echo '<div id="target_'.$key.'">('.$str_dconf.') raw </div>';
+		    echo '<div id="target_'.$key.'">'.$str_value.'</div>';
 		}
 		?></td>
 		<td><?php echo $edit; ?></td>

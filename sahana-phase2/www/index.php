@@ -78,6 +78,15 @@ if (!file_exists($APPROOT.'conf/sysconf.inc.php')){
 	// files and database, base and mods
 	shn_config_load_in_order();
 	/*
+	 * Moved the logsql configuration setting here, from handler_db because 
+	 * database configuration is not loaded when handler_db is included, hence database configuration
+	 * settings in the config table is ignored
+	 */	
+	if($conf['enable_monitor_sql']==true){
+		$global['db']->LogSQL();
+		//echo "TEST";
+	}
+	/*
 	 $mods=shn_get_allowed_mods_current_user();
 	 foreach ($mods as $mod){
 	 $conf['mod_'.$mod.'_enabled']=true;
@@ -267,9 +276,9 @@ function shn_main_front_controller()
 			// check if requested module is within users allowed modules
 			$res = array_search($module,$allowed_mods,false);
 
-            //hack for messaging module receive function
+			//hack for messaging module receive function
 			$res= ($stream='text'&$action='receive_message')?true:$res;
- 			if(false !== $res){
+			if(false !== $res){
 
 				if( shn_acl_check_perms($module,$module_function) == ALLOWED){
 					$module_function();
