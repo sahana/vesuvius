@@ -39,6 +39,7 @@ function shn_sr_report_register()
 // Capture report details
 function shn_sr_report_detail_form($rpt_id, $rpt_name)
 {
+	//_shn_sr_check_editor(); // working on right now
 	print "<h1>Report Information</h1>";
 	// pull latest existing reports
 	$values = shn_sr_pull_report_content($rpt_id);
@@ -74,6 +75,31 @@ function shn_sr_report_detail_form($rpt_id, $rpt_name)
 		shn_form_submit(_t("Save"),"name='chk'");
 		shn_form_submit(_t("Cancel"),"name='chk'");
 	shn_form_fclose();
+	
+}
+
+// Check for editor (ie. Fckeditor or )
+function _shn_sr_check_editor()
+{
+	// Accessing conf editor value
+	global $conf;
+	
+	$dir_name = "res/fckeditor";
+	
+	// if it's fckeditor
+	if ($conf['wysiwyg']=='fckeditor'){
+		print "fckeditor";
+		if(is_dir($dir_name)){
+			print " is the directory";
+		} else {
+			print " but can not find the directory.";
+		}
+	
+	// if it's tiny_mce	
+	} elseif ($conf['wysiwyg']=='tiny_mce'){
+		print "tiny_mce";
+	}
+	
 	
 }
 
