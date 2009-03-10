@@ -53,57 +53,61 @@ function shn_sr_report_list($type, $method='all')
 	
 	shn_form_fopen("",null,array ('req_message' => false));
 	shn_form_fsopen('Report List');
+	if ($res->fields['report_id']=="") {
+		add_warning("No Reports to view! Please <a href='index.php?mod=sr&act=create'>create</a> a new report.");
+    } else {
 	?>
-	<table width="100%">
-            <thead>
-			<tr>
-				<td>Report</td>
-				<td>Description</td>
-	 			<td>Status</td>
-	 			<td>Author</td>
-	 			<td>Created Date</td>
-	 			<td>Last Update</td>
-			</tr>
-	   </thead>
-        <tbody>
-    <?php
-    
-    while(!$res->EOF)
-	{
-		$rpt_id = $res->fields['report_id'];
-		$name = $res->fields['name'];
-		$desc = $res->fields['description'];
-		$create_date = $res->fields['create_date'];
-		$update_date = $res->fields['update_date'];
-		$author = $res->fields['author'];
-		$status = $res->fields['status'];
-		$incident_id = $res->fields['incident_id'];
-		
-		if($status=="create") {
-			$status="<font color='red'>New</font>";
-		} elseif ($status=="updated"){
-			$status="<font color='green'>Updated</font>";	
-		}
-		?>
-		<tr>
-			<td><a href="index.php?mod=sr&act=<?php // this code snipt is used for both report update and report view
-													if($type=="update") {
-														echo "report_update";
-													} elseif ($type=="view") {
-														echo "report_view";
-													}		
-											   ?>&id=<?php echo $rpt_id; ?>&rpt=<?php echo $name ?>"><strong><?php print $name; ?></strong></a></td>
-			<td><?php print $desc; ?></td>
-			<td><?php print "<center>$status</center>"; ?></td>
-			<td><?php print "<center>$author</center>"; ?></td>
-			<td><?php print "<center>$create_date</center>"; ?></td>
-			<td><?php print "<center>$update_date</center>"; ?></td>
-		</tr>
-		<?php
-
-		$res->MoveNext();
-	}
 	
+		<table width="100%">
+	            <thead>
+				<tr>
+					<td>Report</td>
+					<td>Description</td>
+		 			<td>Status</td>
+		 			<td>Author</td>
+		 			<td>Created Date</td>
+		 			<td>Last Update</td>
+				</tr>
+		   </thead>
+	        <tbody>
+	    <?php
+	    	
+	    while(!$res->EOF)
+		{
+			$rpt_id = $res->fields['report_id'];
+			$name = $res->fields['name'];
+			$desc = $res->fields['description'];
+			$create_date = $res->fields['create_date'];
+			$update_date = $res->fields['update_date'];
+			$author = $res->fields['author'];
+			$status = $res->fields['status'];
+			$incident_id = $res->fields['incident_id'];
+			
+			if($status=="create") {
+				$status="<font color='red'>New</font>";
+			} elseif ($status=="updated"){
+				$status="<font color='green'>Updated</font>";	
+			}
+			?>
+			<tr>
+				<td><a href="index.php?mod=sr&act=<?php // this code snipt is used for both report update and report view
+														if($type=="update") {
+															echo "report_update";
+														} elseif ($type=="view") {
+															echo "report_view";
+														}		
+												   ?>&id=<?php echo $rpt_id; ?>&rpt=<?php echo $name ?>"><strong><?php print $name; ?></strong></a></td>
+				<td><?php print $desc; ?></td>
+				<td><?php print "<center>$status</center>"; ?></td>
+				<td><?php print "<center>$author</center>"; ?></td>
+				<td><?php print "<center>$create_date</center>"; ?></td>
+				<td><?php print "<center>$update_date</center>"; ?></td>
+			</tr>
+			<?php
+	
+			$res->MoveNext();
+		}
+    }
 	shn_form_fsclose();
 	print "</table>";
 	 
