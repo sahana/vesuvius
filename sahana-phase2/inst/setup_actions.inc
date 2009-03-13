@@ -228,7 +228,7 @@ function shn_setup_simple_dbsetup_submit()
 	}
 }
 
-function shn_setup_simple_dbsetup_complete($extra_opts)
+function shn_setup_simple_dbsetup_complete($extra_opts=null)
 {
 	return _shn_setup_setupdb($extra_opts['config_key_vals'],array('create_user','create_db','setup_db'));
 }
@@ -276,7 +276,7 @@ function shn_setup_empty_dbsetup_submit()
 	}
 }
 
-function shn_setup_empty_dbsetup_complete($extra_opts)
+function shn_setup_empty_dbsetup_complete($extra_opts=null)
 {
 	return _shn_setup_db_setup_db_mysql($extra_opts['config_key_vals'],array('setup_db'));
 }
@@ -316,7 +316,7 @@ function shn_setup_existing_dbsetup_submit()
 	}
 }
 
-function shn_setup_existing_dbsetup_complete()
+function shn_setup_existing_dbsetup_complete($extra_opts=null)
 {
 	return _shn_setup_write_config($extra_opts['config_key_vals']);
 }
@@ -348,7 +348,7 @@ function shn_setup_simple_config_submit(){
 	}
 }
 
-function shn_setup_simple_config_complete($extra_opts)
+function shn_setup_simple_config_complete($extra_opts=null)
 {
 	return _shn_setup_write_config($extra_opts['config_key_vals']);
 }
@@ -393,7 +393,7 @@ function shn_setup_adv_select_modules_submit()
 	}
 }
 
-function shn_setup_adv_select_modules_complete()
+function shn_setup_adv_select_modules_complete($extra_opts=null)
 {
 	return _shn_setup_adv_write_selected_modules();
 }
@@ -418,7 +418,7 @@ function shn_setup_adv_advanced_config_submit()
 	}
 }
 
-function shn_setup_adv_advanced_config_complete($extra_opts)
+function shn_setup_adv_advanced_config_complete($extra_opts=null)
 {
 	return _shn_setup_adv_write_advanced_config($extra_opts['config_key_vals']);
 }
@@ -450,7 +450,7 @@ function shn_setup_adv_pwd_policy_submit()
 	}
 }
 
-function shn_setup_adv_pwd_policy_complete($extra_opts)
+function shn_setup_adv_pwd_policy_complete($extra_opts=null)
 {
 	return _shn_setup_adv_write_pwd_policy($extra_opts['config_key_vals']);
 }
