@@ -663,7 +663,7 @@ function _shn_dvr_regconfirm_individual() {
 
 function shn_dvr_person_confirm() {
 
-	$msg = $_SESSION['dvr']['person']['full_name'] . " was succesfully registered ";
+	$msg = $_SESSION['dvr']['person']['full_name'] . " was succesfully updated ";
 	add_confirmation($msg);
 }
 
@@ -930,6 +930,7 @@ function _shn_dvr_update_individual_todb() {
 
 	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
 	_shn_dvr_update_individual();
+	shn_dvr_person_confirm();
 }
 ?>
 <script language="javascript">
