@@ -42,9 +42,13 @@ switch ($user_data["result"]){
         break;
     case LOGGEDOUT:
 		shn_session_end($user_data);
-        $global["module"]=$_SESSION["last_module"];
-        $global["action"]=$_SESSION["last_action"];
-        $global['previous']=true;
+        //$global["module"]=$_SESSION["last_module"];
+        //$global["action"]=$_SESSION["last_action"];
+        //$global['previous']=true;
+        // Go to Home on Logout 
+        $global["module"] = 'home';
+        $global["action"] = 'default';
+        $global['previous'] = false;
         break;
     default:
         break;
