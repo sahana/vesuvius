@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.88 2009-03-17 06:08:22 ravithb Exp $ */
+/* $Id: lib_form.inc,v 1.89 2009-03-17 12:11:49 hayeshais Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -238,7 +238,7 @@ function shn_form_text($label, $name, $text_opts = null, $extra_opts = null )
 <input
 	type="text" name="<?php echo $name?>" id="<?php echo $name?>"
 	value="<?php echo $value?>" <?php echo $text_opts?>
-	tabindex="<?php echo ++$shn_tabindex?>" />
+	tabindex="<?php echo ++$shn_tabindex?>" <?php if ($extra_opts['is_req_empty'] == true) echo 'class="err"' ?> />
 	<?php
 	shn_form_extra_opts($extra_opts);
 }
@@ -592,7 +592,7 @@ function shn_form_textarea($label, $name, $text_opts=null, $extra_opts = null)
     ?>
 <textarea name="<?php echo $name?>" id="<?php echo $name?>"
 	cols="<?php echo $cols?>" rows="<?php echo $rows?>"
-	<?php echo $text_opts?> tabindex="<?php echo ++$shn_tabindex?>"><?php echo $value?></textarea>
+	<?php echo $text_opts?> tabindex="<?php echo ++$shn_tabindex?>"><?php echo $value?> <?php if ($extra_opts['is_req_empty'] == true) echo 'class="err"' ?> </textarea>
 	<?php
 	shn_form_extra_opts($extra_opts);
 }
