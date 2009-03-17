@@ -24,7 +24,7 @@
  * @return void
  */
 ?>
-<h1><?= _t('Audit'); ?></h1>
+<h1><?php echo  _t('Audit'); ?></h1>
 <?php
 function shn_audit_show($x_uuid)
 {
@@ -52,13 +52,13 @@ function shn_audit_show($x_uuid)
 <TABLE>
 <THEAD>
    <TR>
-    <TD><?= _t('Date/Time'); ?></TD>
-    <TD><?= _t('User Making Changes'); ?></TD>
-    <TD><?= _t('Table Affected'); ?></TD>
-    <TD><?= _t('Field Affected'); ?></TD>
-    <TD><?= _t('Type of change'); ?></TD>
-    <TD><?= _t('Previous Value'); ?></TD>
-    <TD><?= _t('New Value'); ?></TD>
+    <TD><?php echo  _t('Date/Time'); ?></TD>
+    <TD><?php echo  _t('User Making Changes'); ?></TD>
+    <TD><?php echo  _t('Table Affected'); ?></TD>
+    <TD><?php echo  _t('Field Affected'); ?></TD>
+    <TD><?php echo  _t('Type of change'); ?></TD>
+    <TD><?php echo  _t('Previous Value'); ?></TD>
+    <TD><?php echo  _t('New Value'); ?></TD>
     </TR>
 </THEAD>
 <?php
@@ -67,19 +67,19 @@ function shn_audit_show($x_uuid)
             $arr['change_type'] = _t('Inserted'); 
 ?>
     <TR>
-    <TD><?= $arr['updated']; ?></TD>
-    <TD><?= $arr['full_name']; ?></TD>
-    <TD><?= $arr['change_table']; ?></TD>
-    <TD><?= $arr['change_field']; ?></TD>
-    <TD><?= $arr['change_type']; ?></TD>
-    <TD><?= $arr['prev_val']; ?></TD>
-    <TD><?= $arr['new_val']; ?></TD>
+    <TD><?php echo  $arr['updated']; ?></TD>
+    <TD><?php echo  $arr['full_name']; ?></TD>
+    <TD><?php echo  $arr['change_table']; ?></TD>
+    <TD><?php echo  $arr['change_field']; ?></TD>
+    <TD><?php echo  $arr['change_type']; ?></TD>
+    <TD><?php echo  $arr['prev_val']; ?></TD>
+    <TD><?php echo  $arr['new_val']; ?></TD>
     </TR>
 <?php
     }
 ?>    
 </TABLE>
 </DIV>
-<?
+<?php
 }
 ?>

@@ -120,8 +120,8 @@ function _shn_admin_levels_form()
 	global $global;
 	include_once($global['approot'].'/inc/lib_misc.inc');
 	?>
-<h2><?=_t("Location Levels")?></h2>
-<div id="info"><?=_t("The Location you add will be added after the remaining ones")?>
+<h2><?php echo _t("Location Levels")?></h2>
+<div id="info"><?php echo _t("The Location you add will be added after the remaining ones")?>
 </div>
 	<?php
 	if($error==true)
@@ -401,7 +401,7 @@ function _shn_admin_location_form()
 	global $global;
 	$db=$global["db"];
 	?>
-	<h1 align="center"><?=_t("Add Locations")?></h1>
+	<h1 align="center"><?php echo _t("Add Locations")?></h1>
 
 	<?php
 	if($error==true)
@@ -417,7 +417,7 @@ function _shn_admin_location_form()
     {
         shn_form_fsopen(_t("Now Select the parent Location"));
         ?>
-        <div class="info"><?= _t("Select the parent or super region (e.g. country, state, etc) of the location you have typed above. If no parent region is given, the location being added will become a top most region (usually country)");?></div>
+        <div class="info"><?php echo  _t("Select the parent or super region (e.g. country, state, etc) of the location you have typed above. If no parent region is given, the location being added will become a top most region (usually country)");?></div>
         <br />
         <?php
         $range= shn_get_range();

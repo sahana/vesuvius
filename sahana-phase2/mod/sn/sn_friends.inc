@@ -96,9 +96,9 @@ function _shn_sn_show_fr_list(){
         <tr>
         <td><?php shn_show_thumb_url($friends->fields['sn_mem_uuid'],'database','sn','mem_img',false)?></td>
         <td><?php  echo '<b> Name :</b>'.$username; ?></a><br>
-           Interests :<?=$friends->fields['sn_mem_interests'];?><br>
-        <a href="index.php?mod=sn&act=sn_friend&seq=page5&id=<?=$friends->fields['sn_mem_uuid']?>"><font color="red"> Add as a friend</font></a><br>
-        <a href="index.php?mod=sn&act=sn_friend&seq=page6&id=<?=$friends->fields['sn_mem_uuid']?>">Approve as a friend</a>
+           Interests :<?php echo $friends->fields['sn_mem_interests'];?><br>
+        <a href="index.php?mod=sn&act=sn_friend&seq=page5&id=<?php echo $friends->fields['sn_mem_uuid']?>"><font color="red"> Add as a friend</font></a><br>
+        <a href="index.php?mod=sn&act=sn_friend&seq=page6&id=<?php echo $friends->fields['sn_mem_uuid']?>">Approve as a friend</a>
         </td>
         </tr><?php
  	    }
@@ -135,7 +135,7 @@ function _shn_sn_show_my_fr_list(){
             $username =  _shn_sn_get_username($friends->fields['friend_id']);?>
             <tr>
             <td><?php shn_show_thumb_url($friends->fields['friend_id'],'database','sn','mem_img',false)?></td>
-            <td><a href="index.php?mod=sn&act=sn_friend&seq=page2&id=<?=$friends->fields['friend_id']?>&gr_id="><?php  echo '<b> Name :</b>'.$username; ?></a><br>
+            <td><a href="index.php?mod=sn&act=sn_friend&seq=page2&id=<?php echo $friends->fields['friend_id']?>&gr_id="><?php  echo '<b> Name :</b>'.$username; ?></a><br>
             </td>
             </tr><?php
  	     }
@@ -269,7 +269,7 @@ function _shn_sn_show_fr_details($mem_id = null){
     }
 
     if($memb_id ==  $_SESSION[sn][p_uuid] ){
-    	 ?> <a href="index.php?mod=sn&act=my_prof&seq=page2"><?= ('Edit My Profile'); ?> </a><br/><br> <?php
+    	 ?> <a href="index.php?mod=sn&act=my_prof&seq=page2"><?php echo  ('Edit My Profile'); ?> </a><br/><br> <?php
     	 shn_form_submit('<< Back',"name='button'");
     }else{
     	 ?><h2><center><?php echo 'Write something to '.$username ?></center></h2><br><br><?php
@@ -306,7 +306,7 @@ function _shn_sn_write_to_mem(){
     shn_form_hidden(array('seq'=>'page4'));
     ?><div align="center">
     <h2><br>
-    <?=shn_form_submit('Back',"name='button'"); ?>
+    <?php echo shn_form_submit('Back',"name='button'"); ?>
     </h2></div> <?php
 }
 

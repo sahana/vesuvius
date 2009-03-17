@@ -11,7 +11,7 @@
 * @copyright  Respere - http://respere.com/
 * @package	  Sahana - http://sahana.lk/
 * @subpackage msg
-* @version 	  $Id: admin_fns.inc,v 1.3 2008-05-30 00:06:05 franboon Exp $
+* @version 	  $Id: admin_fns.inc,v 1.4 2009-03-17 06:08:24 ravithb Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -166,7 +166,7 @@ function shn_msg_adm_show_mod_menu()
 	$dir = opendir($msg_plugins_dir);
 ?>
 	<div id="submenu_v">
-		<a href="index.php?mod=admin&act=msg_sms_plugin"><?=_t("General Description")?></a>
+		<a href="index.php?mod=admin&act=msg_sms_plugin"><?php echo _t("General Description")?></a>
 <?php
 	while($file = readdir($dir)){
 		if(!is_dir($file)){
@@ -174,8 +174,8 @@ function shn_msg_adm_show_mod_menu()
 			include($global['approot'].'/mod/msg/plugins/'."$file".'/conf.inc');
 			$name = $conf['plugin_name'];
 ?>
-<!--<a href="index.php?mod=msg&act=admin&submod=<?=$file?>"><?=_t($name)?></a>-->
-<a href="index.php?mod=admin&act=msg_sms_plugin&submod=<?=$file?>"><?=_t($name)?></a>
+<!--<a href="index.php?mod=msg&act=admin&submod=<?php echo $file?>"><?php echo _t($name)?></a>-->
+<a href="index.php?mod=admin&act=msg_sms_plugin&submod=<?php echo $file?>"><?php echo _t($name)?></a>
 <?php
 			$count++;
 		}

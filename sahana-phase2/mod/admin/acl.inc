@@ -33,13 +33,13 @@ function _shn_admin_acl_user()
 
 	?>
 <div id="home">
-<h2><?= _t('Welcome to Users= section'); ?></h2>
+<h2><?php echo  _t('Welcome to Users= section'); ?></h2>
 
 <ul>
-	<li><?=_t('Add Users')?></li>
-	<li><?=_t('Remove Users')?></li>
-	<li><?=_t('Change your password if you are logged in')?></li>
-	<li><?=_t('Edit Roles of User ')?></li>
+	<li><?php echo _t('Add Users')?></li>
+	<li><?php echo _t('Remove Users')?></li>
+	<li><?php echo _t('Change your password if you are logged in')?></li>
+	<li><?php echo _t('Edit Roles of User ')?></li>
 </ul>
 </div>
 

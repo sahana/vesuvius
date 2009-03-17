@@ -57,13 +57,13 @@ function _shn_dsm_search_results($results)
 	<table>
         <thead>
 
-            <td><?=_t("Patient Name")?></td>
-            <td><?=_t("Doctor Name")?></td>
-          	<td><?=_t("Date")?></td>
-            <td><?=_t("Address")?></td>
-         	<td><?=_t('Edit') ?></td>
-         	<td><?=_t('View')?></td>
-          	<td><?=_t('Delete')?></td>
+            <td><?php echo _t("Patient Name")?></td>
+            <td><?php echo _t("Doctor Name")?></td>
+          	<td><?php echo _t("Date")?></td>
+            <td><?php echo _t("Address")?></td>
+         	<td><?php echo _t('Edit') ?></td>
+         	<td><?php echo _t('View')?></td>
+          	<td><?php echo _t('Delete')?></td>
           	
         </thead>
         <?php
@@ -72,13 +72,13 @@ function _shn_dsm_search_results($results)
         ?>
         <tr>
         
-        <td><?=_shn_dsm_get_person_full_name($results->fields['pat_id'])?></td>
-        <td><?=_shn_dsm_get_person_full_name($results->fields['doc_id'])?></td>
-        <td><?=$results->fields['dia_date']?></td>
-        <td><?=$results->fields['address']?></td>
-        <td><a href='index.php?mod=dsm&act=edit_case&p_uuid=<?=$results->fields['pat_id']?>'><?=_t('Edit') ?></a></td>
-      	<td><a href='index.php?mod=dsm&act=view_case&p_uuid=<?=$results->fields['pat_id']?>'><?=_t('View') ?></a></td>
-        <td><a href='index.php?mod=dsm&act=delete_individual&p_uuid=<?=$results->fields['pid']?>' onClick="javascript: return confirmdelete('<?=$results->fields['full_name']?>')">Delete</a></td>
+        <td><?php echo _shn_dsm_get_person_full_name($results->fields['pat_id'])?></td>
+        <td><?php echo _shn_dsm_get_person_full_name($results->fields['doc_id'])?></td>
+        <td><?php echo $results->fields['dia_date']?></td>
+        <td><?php echo $results->fields['address']?></td>
+        <td><a href='index.php?mod=dsm&act=edit_case&p_uuid=<?php echo $results->fields['pat_id']?>'><?php echo _t('Edit') ?></a></td>
+      	<td><a href='index.php?mod=dsm&act=view_case&p_uuid=<?php echo $results->fields['pat_id']?>'><?php echo _t('View') ?></a></td>
+        <td><a href='index.php?mod=dsm&act=delete_individual&p_uuid=<?php echo $results->fields['pid']?>' onClick="javascript: return confirmdelete('<?php echo $results->fields['full_name']?>')">Delete</a></td>
       
         </tr>
         <?php

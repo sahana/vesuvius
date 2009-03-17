@@ -33,8 +33,8 @@ function _shn_dsm_edit_disease()
 <div id="result">
 <table width=100%>
 <thead>
-<td> <?= _t('Disease Name'); ?></td>
-<td> <?= _t('Edit'); ?></td>
+<td> <?php echo  _t('Disease Name'); ?></td>
+<td> <?php echo  _t('Edit'); ?></td>
 <!--  <td> <?php print _t('Delete'); ?></td> -->
 </thead>
 

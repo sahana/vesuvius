@@ -99,11 +99,11 @@ function _shn_ims_relation_item_table()
     <thead>
     <tr>
         
-    <td><?=_t("Item") ?></td>
-    <td><?=_t("Inventory") ?></td>
-    <td><?=_t("Unit") ?></td>
-    <td><?=_t("Available amount") ?></td>
-    <td><?=_t("Action ") ?></td>
+    <td><?php echo _t("Item") ?></td>
+    <td><?php echo _t("Inventory") ?></td>
+    <td><?php echo _t("Unit") ?></td>
+    <td><?php echo _t("Available amount") ?></td>
+    <td><?php echo _t("Action ") ?></td>
         
         
             
@@ -304,11 +304,11 @@ function _shn_ims_alternate_item_table()
     <thead>
     <tr>
         
-    <td><?=_t("Item") ?></td>
-    <td><?=_t("Inventory") ?></td>
-    <td><?=_t("Unit") ?></td>
-    <td><?=_t("Available amount") ?></td>
-    <td><?=_t("Action ") ?></td>
+    <td><?php echo _t("Item") ?></td>
+    <td><?php echo _t("Inventory") ?></td>
+    <td><?php echo _t("Unit") ?></td>
+    <td><?php echo _t("Available amount") ?></td>
+    <td><?php echo _t("Action ") ?></td>
         
         
             

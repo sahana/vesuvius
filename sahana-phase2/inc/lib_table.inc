@@ -93,7 +93,7 @@ function shn_html_addtd($data, $colspan = null, $rowspan = null, $scope = null)
         $str_attr .= 'scope="' . $scope . '" ';
 
 ?>
-            <td <?=$str_attr?>><?=$data?></td>
+            <td <?php echo $str_attr?>><?php echo $data?></td>
 <?php
 }
 
@@ -111,7 +111,7 @@ function shn_html_addth($data, $colspan = null, $rowspan = null, $scope = null)
         $str_attr .= 'scope="' . $scope . '" ';
 
 ?>
-            <th <?=$str_attr?>><?=$data?></th>
+            <th <?php echo $str_attr?>><?php echo $data?></th>
 <?php
 }
 
@@ -131,12 +131,12 @@ function shn_html_table_open($attributes = null,$caption = null)
         $str_attr .= ' summary="' . $attributes['summary'] . '"';
 
 ?>
-    <table<?=$str_attr?>>
+    <table<?php echo $str_attr?>>
 <?php
     if (isset($caption))
     {
 ?>
-        <caption><?=$caption?></caption>
+        <caption><?php echo $caption?></caption>
 <?php
     }
 }
@@ -210,7 +210,7 @@ function shn_html_tr_close($attributes = null)
             $str_attr .= "$k='$v'" . ' ';
 
 ?>
-        </tr <?=$str_attr?>>
+        </tr <?php echo $str_attr?>>
 <?php
 }
 
@@ -233,7 +233,7 @@ function shn_html_td_open($attributes = null, $colspan = null, $rowspan = null, 
         $str_attr .= 'scope="' . $scope . '" ';
 
 ?>
-            <td <?=$str_attr?>>
+            <td <?php echo $str_attr?>>
 <?php
 }
 

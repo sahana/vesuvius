@@ -627,7 +627,7 @@ function _shn_or_display_org_type($error=false,$multi=false,$value=NULL,$info=tr
         //$select_opts="multiple='false'";;
     } 
     if ($info){ 
-     ?><div class="info"><?=_t("Please specify the type of your organization. That is whether you are a government organization,multinational NGO, private organization etc.");?></div><br />
+     ?><div class="info"><?php echo _t("Please specify the type of your organization. That is whether you are a government organization,multinational NGO, private organization etc.");?></div><br />
      <?php }
    // $extra_opts['help']=_t("please select whether you are a government organization,multinational ect");
     if($multi){
@@ -668,7 +668,7 @@ function _shn_or_display_sector($error=false,$value=NULL,$info=true)
        // $extra_opts['req']=true;
     }
     if ($info){
-    ?><div class="info"><?=_t("Select the services that your organization provides, that is what you do as an organization, or the services your organization can provide in a disaster situation. e.g. If you offer medical services select it.");?></div><br />
+    ?><div class="info"><?php echo _t("Select the services that your organization provides, that is what you do as an organization, or the services your organization can provide in a disaster situation. e.g. If you offer medical services select it.");?></div><br />
     <?php }
     $extra_opts['req']=true;
   //  $extra_opts['help']=_t("select the services your provide ,i.e what you do as an organization. e.g.if you are a supplier select it");
@@ -687,7 +687,7 @@ function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=nul
     		shn_form_label(_t("Website"),$_SESSION['org']['contact_web']);
     		return;
     }
-    ?><div class="info"><?= _t("Please provide contact details that can be used to contact your organization in a disaster");?> </div><br /><?
+    ?><div class="info"><?php echo  _t("Please provide contact details that can be used to contact your organization in a disaster");?> </div><br /><?php
    if($error==true){
    		$contact_address=$_SESSION['org']['contact_address'];
         $contact_phone=$_SESSION['org']['contact_phone'];
@@ -748,7 +748,7 @@ function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=nul
 
 function _shn_or_display_org_facilities($error=false,$confirm=false,$org_id=false)
 {
-    ?><div class="info"><?= _t("Please document the facilities available in your organization. This information  should provide a rough idea of the resources available in your organization and is useful to plan relief operations");?> </div><br />
+    ?><div class="info"><?php echo  _t("Please document the facilities available in your organization. This information  should provide a rough idea of the resources available in your organization and is useful to plan relief operations");?> </div><br />
     <?php
     if($confirm==true){
         shn_form_label(_t("Man Power"),$_SESSION['org']['man_power']);
@@ -822,9 +822,9 @@ function _shn_or_display_incident_form($error=false,$act)
     global $conf;
     $db=$global['db'];
 ?>
-<h2><?=_t("Select the Disaster/event/incident")?> </h2>
+<h2><?php echo _t("Select the Disaster/event/incident")?> </h2>
 <div id="note">
-<?=_t("Since there are multiple incidents you required to select relevant incidents ");?>
+<?php echo _t("Since there are multiple incidents you required to select relevant incidents ");?>
 </div>
 <?php
     if($error) {

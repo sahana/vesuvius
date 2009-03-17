@@ -70,15 +70,15 @@ function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL,$Limit=NULL)
 <div id ="result">
 	<table>
         <thead>
-            <td><?=_t("Inventory Name")?></td>
-            <td><?=_t("Country of Origin/GIS")?></td> 
-            <td><?=_t("Address")?></td>
-            <td><?=_t("Contact Numbers")?></td>
-            <td><?=_t("Man Power")?></td>
-            <td><?=_t("Equipment")?></td>
-            <td><?=_t("Other <br /> Facilities")?></td>
-	    <td><?=_t("Inventory Space")?></td>
-	    <td><?=_t("Actions")?></td>
+            <td><?php echo _t("Inventory Name")?></td>
+            <td><?php echo _t("Country of Origin/GIS")?></td> 
+            <td><?php echo _t("Address")?></td>
+            <td><?php echo _t("Contact Numbers")?></td>
+            <td><?php echo _t("Man Power")?></td>
+            <td><?php echo _t("Equipment")?></td>
+            <td><?php echo _t("Other <br /> Facilities")?></td>
+	    <td><?php echo _t("Inventory Space")?></td>
+	    <td><?php echo _t("Actions")?></td>
         </thead>
         <tbody>
 <?php

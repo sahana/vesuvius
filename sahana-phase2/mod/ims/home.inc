@@ -21,22 +21,22 @@ function _shn_ims_default()
 {
 
 ?>
-<h1 align="center"><?= _t("Inventory Management System Home")?> </h1>
+<h1 align="center"><?php echo  _t("Inventory Management System Home")?> </h1>
 <?php
 
 ?>
 <div id="home">
-    <p><?= (_t("The Sahana Inventory Management System is a database to keep track of all aid items and supplies kept in your Organization's inventories. It not only keeps track of the location and quantities of items available, but it also tracks expiry dates, re-order levels and items in transit. The system is designed to be simple to a diverse groups of users to interact and manage stocks in inventories located around the region.")) ?></p>
+    <p><?php echo  (_t("The Sahana Inventory Management System is a database to keep track of all aid items and supplies kept in your Organization's inventories. It not only keeps track of the location and quantities of items available, but it also tracks expiry dates, re-order levels and items in transit. The system is designed to be simple to a diverse groups of users to interact and manage stocks in inventories located around the region.")) ?></p>
     <br/>
-    <strong><?= (_t("Features Include:")) ?></strong>
+    <strong><?php echo  (_t("Features Include:")) ?></strong>
       
     <ul>
-        <li><b><a href="index.php?mod=ims&act=search_item"><?= (_t("Find Items:"))?> </a></b><br><?= (_t(" Enables end user to search items available in ware houses. End-User is also allowed to search available items, expired items and already destroyed items. "))?></li>
-        <li><b><a href="index.php?mod=ims&act=view_inv"><?= (_t("List Inventories:"))?></a></b><br><?= (_t(" Facilitates to manage multiple Inventories and enables end-user to add, edit or delete Inventories."))?></li>
-        <li><b><a href="index.php?mod=ims&act=view_edit_item"><?= (_t("List Items:"))?></a></b><br><?= (_t(" Enables end-user to add,edit or delete item for inventories and also enables to transfer items between two inventories"))?></li>
-        <li><b><a href="index.php?mod=ims&act=view_edit_reorder_page"><?= (_t("Re-Order Level:"))?></a></b><br><?= (_t(" Enables end-user to add or modify Re-Order Level for an inventory for particular items "))?></li>
-        <li><b><a href="index.php?mod=ims&act=report_expired"><?= (_t("Reports:"))?></a></b><br><?= (_t(" Generate reports about expired items, destroyed items and also generates report about the items in which the total amount is lower than the Re-Order Level ")) ?></li>
-        <li><b><a href="index.php?mod=ims&act=optim_inventory"><?= (_t("Optimization:"))?></a></b><br><?= (_t(" Forecasts the amount of items which have been sent to another inventory, received from another inventory and also forecasts already available item amounts in a particular inventory. On the other hand under this section, the end user is allowed to set relationships among items and track items which can be used as alternatives for particular items")) ?></li>
+        <li><b><a href="index.php?mod=ims&act=search_item"><?php echo  (_t("Find Items:"))?> </a></b><br><?php echo  (_t(" Enables end user to search items available in ware houses. End-User is also allowed to search available items, expired items and already destroyed items. "))?></li>
+        <li><b><a href="index.php?mod=ims&act=view_inv"><?php echo  (_t("List Inventories:"))?></a></b><br><?php echo  (_t(" Facilitates to manage multiple Inventories and enables end-user to add, edit or delete Inventories."))?></li>
+        <li><b><a href="index.php?mod=ims&act=view_edit_item"><?php echo  (_t("List Items:"))?></a></b><br><?php echo  (_t(" Enables end-user to add,edit or delete item for inventories and also enables to transfer items between two inventories"))?></li>
+        <li><b><a href="index.php?mod=ims&act=view_edit_reorder_page"><?php echo  (_t("Re-Order Level:"))?></a></b><br><?php echo  (_t(" Enables end-user to add or modify Re-Order Level for an inventory for particular items "))?></li>
+        <li><b><a href="index.php?mod=ims&act=report_expired"><?php echo  (_t("Reports:"))?></a></b><br><?php echo  (_t(" Generate reports about expired items, destroyed items and also generates report about the items in which the total amount is lower than the Re-Order Level ")) ?></li>
+        <li><b><a href="index.php?mod=ims&act=optim_inventory"><?php echo  (_t("Optimization:"))?></a></b><br><?php echo  (_t(" Forecasts the amount of items which have been sent to another inventory, received from another inventory and also forecasts already available item amounts in a particular inventory. On the other hand under this section, the end user is allowed to set relationships among items and track items which can be used as alternatives for particular items")) ?></li>
         
     </ul>
     
@@ -51,13 +51,13 @@ function _shn_ims_default()
 ?>    
     <table>
     <thead>
-        <td><?=_t("Item")?></td>
-        <td><?=_t("Amount")?></td>
-        <td><?=_t("Unit")?></td>
-        <td><?=_t("Manufactured Date")?></td>
-        <td><?=_t("Expire Date")?></td>
-        <td><?=_t("Inventory")?></td>
-            <td><?=_t("Supplier")?></td>
+        <td><?php echo _t("Item")?></td>
+        <td><?php echo _t("Amount")?></td>
+        <td><?php echo _t("Unit")?></td>
+        <td><?php echo _t("Manufactured Date")?></td>
+        <td><?php echo _t("Expire Date")?></td>
+        <td><?php echo _t("Inventory")?></td>
+            <td><?php echo _t("Supplier")?></td>
             
             
     </thead>

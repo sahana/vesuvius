@@ -38,9 +38,9 @@ function _shn_vol_level($parent)
     $res_label=$db->Execute($q);
     $grand_child_type=$res_label->fields[0];
 ?>
-<h2><?=_t("Volunteer Report By ". $child_type." ".$parent_type) ?></h2>
+<h2><?php echo _t("Volunteer Report By ". $child_type." ".$parent_type) ?></h2>
     <div id="note">
-<?=_t("Each Row is a ".$child_type." ,Column is a  Service.")?><br />
+<?php echo _t("Each Row is a ".$child_type." ,Column is a  Service.")?><br />
 <?php 
     $last=shn_get_last_level();
     if ($last[0]!=$child-1){
@@ -170,17 +170,17 @@ function _shn_vol_report_sector()
   <?php  
   return
 ?>
-<h2><?=_t("Organization Report by Sector")?></h2>
+<h2><?php echo _t("Organization Report by Sector")?></h2>
 <div id ="result">
     <table>
         <thead>
-            <td><?=_t("Name")?></td>
-            <td><?=_t("Services Offered")?></td>
-            <td><?=_t("Country of Origin")?></td>
-            <td><?=_t("Contact Address")?></td>
-            <td><?=_t("Contact Number")?></td>
-            <td><?=_t("Mobile Number")?></td>
-            <td><?=_t("Contact Email")?></td>
+            <td><?php echo _t("Name")?></td>
+            <td><?php echo _t("Services Offered")?></td>
+            <td><?php echo _t("Country of Origin")?></td>
+            <td><?php echo _t("Contact Address")?></td>
+            <td><?php echo _t("Contact Number")?></td>
+            <td><?php echo _t("Mobile Number")?></td>
+            <td><?php echo _t("Contact Email")?></td>
            
         </thead>
         <tbody>
@@ -195,7 +195,7 @@ function _shn_vol_report_sector()
 	    ?>
 	    <tr>
 		    <td>
-	            <b><?=_t($res_sector->fields[1])?></b>
+	            <b><?php echo _t($res_sector->fields[1])?></b>
 		    </td>
 	    </tr>
 	    <?php

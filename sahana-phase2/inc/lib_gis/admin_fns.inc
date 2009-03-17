@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/    	
 * @library      GIS
-* @version      $Id: admin_fns.inc,v 1.15 2008-06-02 21:20:57 franboon Exp $;
+* @version      $Id: admin_fns.inc,v 1.16 2009-03-17 06:08:24 ravithb Exp $;
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -263,7 +263,7 @@ function shn_admin_gis_show_mod_menu()
 	$dir = opendir($gis_plugins_dir);
 ?>
 	<div id="submenu_v">
-		<a href="index.php?mod=admin&act=gis_plugin"><?=_t("Plugin Management")?></a>
+		<a href="index.php?mod=admin&act=gis_plugin"><?php echo _t("Plugin Management")?></a>
 <?php
 	while($file = readdir($dir)){
 		if(!is_dir($file)){
@@ -271,7 +271,7 @@ function shn_admin_gis_show_mod_menu()
 			include_once ($global['approot'].'/inc/lib_gis/plugins/'."$file".'/conf.inc');
 			$name = $conf['plugin_name'];
 ?>
-		<a href="index.php?mod=admin&act=gis_plugin&seq=view&plugin=<?=$file?>"><?=_t($name)?></a>
+		<a href="index.php?mod=admin&act=gis_plugin&seq=view&plugin=<?php echo $file?>"><?php echo _t($name)?></a>
 <?php
 		}
 	}

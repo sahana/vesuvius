@@ -40,7 +40,7 @@ print _t("Sahana Request Management System is a central online repository where 
 </p>
 
 <br></br>
-    <div><h3><b><em><?= (_t("Features Include:")) ?></em></b></h3></div>
+    <div><h3><b><em><?php echo  (_t("Features Include:")) ?></em></b></h3></div>
 <br></br>
 
 <ul>
@@ -61,21 +61,20 @@ print _t("Sahana Request Management System is a central online repository where 
 
  <strong><?php print _t("Description of Actions:"); ?></strong><br/>
     <ul>
-        <li><a href="index.php?mod=rms&act=req_new"><b><?= _t('Make Request'); ?> </b></a><br/><?= _t('Make a request to obtain items for relief operations'); ?></li>
-        <li><a href="index.php?mod=rms&act=req_ls"><b><?= _t('List Requests'); ?> </b> </a><br/><?= _t('List all the requests done through the system'); ?></li>
-        <li><a href="index.php?mod=rms&act=req_sch"><b><?= _t('Search Request'); ?></b></a><br/><?= _t('Search for requests'); ?></li>
-        <li><a href="index.php?mod=rms&act=plg_new"><b><?= _t('New Pledge'); ?></b></a><br/><?= _t('Donate items through the  system'); ?>
-        <li><a href="index.php?mod=rms&act=plg_ls"><b><?= _t('List Pledges'); ?></b></a><br/><?= _t('List all the donations done through the system'); ?></li>
-        <li><a href="index.php?mod=rms&act=plg_sch"><b><?= _t('Search Pledges'); ?></b></a><br/><?= _t('Search for pledges'); ?></li>
-        <li><a href="index.php?mod=rms&act=mng_ff"><b><?= _t('Fulfill Requests'); ?></b></a><br/><?= _t('Match requests and pledges in a disaster'); ?></li>
+        <li><a href="index.php?mod=rms&act=req_new"><b><?php echo  _t('Make Request'); ?> </b></a><br/><?php echo  _t('Make a request to obtain items for relief operations'); ?></li>
+        <li><a href="index.php?mod=rms&act=req_ls"><b><?php echo  _t('List Requests'); ?> </b> </a><br/><?php echo  _t('List all the requests done through the system'); ?></li>
+        <li><a href="index.php?mod=rms&act=req_sch"><b><?php echo  _t('Search Request'); ?></b></a><br/><?php echo  _t('Search for requests'); ?></li>
+        <li><a href="index.php?mod=rms&act=plg_new"><b><?php echo  _t('New Pledge'); ?></b></a><br/><?php echo  _t('Donate items through the  system'); ?>
+        <li><a href="index.php?mod=rms&act=plg_ls"><b><?php echo  _t('List Pledges'); ?></b></a><br/><?php echo  _t('List all the donations done through the system'); ?></li>
+        <li><a href="index.php?mod=rms&act=plg_sch"><b><?php echo  _t('Search Pledges'); ?></b></a><br/><?php echo  _t('Search for pledges'); ?></li>
+        <li><a href="index.php?mod=rms&act=mng_ff"><b><?php echo  _t('Fulfill Requests'); ?></b></a><br/><?php echo  _t('Match requests and pledges in a disaster'); ?></li>
         
 </ul>
 <br/>
 <div align=center><strong><?php echo _t('Status of requests') ?></strong> </div>
 <div align=center>
-<?  echo "<div class='message information' align='left' style='width: 765px; margin-left: 20px;'>";?>
-<strong><?echo _t("Important:")."<br/>";?></strong><?
-    echo _t("If new request has been added, It may take few minutes to update the pie chart.");
+<?php echo "<div class='message information' align='left' style='width: 765px; margin-left: 20px;'>";?>
+<strong><?echo _t("Important:")."<br/>";?></strong><?php    echo _t("If new request has been added, It may take few minutes to update the pie chart.");
     echo "</div>";  ?>
 </div>
 <?php

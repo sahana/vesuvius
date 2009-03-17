@@ -50,32 +50,32 @@ function shn_cr_default()
 
 <strong><?php echo _t("Description of Actions:"); ?></strong><br />
 <ul>
-	<li><a href="index.php?mod=cr&act=srch"><b><?= _t('Search by Name'); ?>
+	<li><a href="index.php?mod=cr&act=srch"><b><?php echo  _t('Search by Name'); ?>
 	</b></a><br />
-	<?= _t('Search for shelter by name or type of the shelter'); ?></li>
-	<li><a href="index.php?mod=cr&act=srch_address"><b><?= _t('Search by address'); ?>
+	<?php echo  _t('Search for shelter by name or type of the shelter'); ?></li>
+	<li><a href="index.php?mod=cr&act=srch_address"><b><?php echo  _t('Search by address'); ?>
 	</b> </a><br />
-	<?= _t('Search the shelter by its location'); ?></li>
-	<li><a href="index.php?mod=cr&act=acmp"><b><?= _t('Add shelter'); ?></b></a><br />
-	<?= _t('Add a shelter to the database'); ?></li>
-	<li><a href="index.php?mod=cr&act=ecmp"><b><?= _t('Edit shelter'); ?></b></a><br />
-	<?= _t('Update information regarding shelters'); ?>
+	<?php echo  _t('Search the shelter by its location'); ?></li>
+	<li><a href="index.php?mod=cr&act=acmp"><b><?php echo  _t('Add shelter'); ?></b></a><br />
+	<?php echo  _t('Add a shelter to the database'); ?></li>
+	<li><a href="index.php?mod=cr&act=ecmp"><b><?php echo  _t('Edit shelter'); ?></b></a><br />
+	<?php echo  _t('Update information regarding shelters'); ?>
 	
 	
-	<li><a href="index.php?mod=cr&act=arpt"><b><?= _t('View all shelters'); ?></b></a><br />
-	<?= _t('List information of all shelters'); ?></li>
-	<li><a href="index.php?mod=cr&act=lrpt"><b><?= _t('View by location'); ?></b></a><br />
-	<?= _t('List shelters according to location'); ?></li>
-	<li><a href="index.php?mod=cr&act=contact"><b><?= _t('View admin details'); ?></b></a><br />
-	<?= _t('List shelters by shelter administrator\'s name'); ?></li>
-	<li><a href="index.php?mod=cr&act=gis_show"><b><?= _t('Map by location'); ?></b></a><br />
-	<?= _t('Graphical representation of shelter locations on a map'); ?>
+	<li><a href="index.php?mod=cr&act=arpt"><b><?php echo  _t('View all shelters'); ?></b></a><br />
+	<?php echo  _t('List information of all shelters'); ?></li>
+	<li><a href="index.php?mod=cr&act=lrpt"><b><?php echo  _t('View by location'); ?></b></a><br />
+	<?php echo  _t('List shelters according to location'); ?></li>
+	<li><a href="index.php?mod=cr&act=contact"><b><?php echo  _t('View admin details'); ?></b></a><br />
+	<?php echo  _t('List shelters by shelter administrator\'s name'); ?></li>
+	<li><a href="index.php?mod=cr&act=gis_show"><b><?php echo  _t('Map by location'); ?></b></a><br />
+	<?php echo  _t('Graphical representation of shelter locations on a map'); ?>
 	
 	
-	<li><a href="index.php?mod=cr&act=gis_infect"><b><?= _t('Map by infection'); ?></b></a><br />
-	<?= _t('Graphical representation of shelter by infections'); ?></li>
-	<li><a href="index.php?mod=cr&act=gis_population"><b><?= _t('Map by population'); ?></b></a><br />
-	<?= _t('Graphical representation of shelters by their population density'); ?></li>
+	<li><a href="index.php?mod=cr&act=gis_infect"><b><?php echo  _t('Map by infection'); ?></b></a><br />
+	<?php echo  _t('Graphical representation of shelter by infections'); ?></li>
+	<li><a href="index.php?mod=cr&act=gis_population"><b><?php echo  _t('Map by population'); ?></b></a><br />
+	<?php echo  _t('Graphical representation of shelters by their population density'); ?></li>
 
 </ul>
 <br />
@@ -110,8 +110,8 @@ function shn_cr_home_pop(){
 <div id="result">
 <table>
 	<thead>
-		<td><?=_t("{$conf['mod_cr_alt']} Name")?></td>
-		<td><?=_t("{$conf['mod_cr_alt']} Population")?></td>
+		<td><?php echo _t("{$conf['mod_cr_alt']} Name")?></td>
+		<td><?php echo _t("{$conf['mod_cr_alt']} Population")?></td>
 	</thead>
 
 	<?php
@@ -146,8 +146,8 @@ function shn_cr_home_newcmp(){
 <div id="result">
 <table>
 	<thead>
-		<td><?=_t("{$conf['mod_cr_alt']} Name")?></td>
-		<td><?=_t("{$conf['mod_cr_alt']} Location")?></td>
+		<td><?php echo _t("{$conf['mod_cr_alt']} Name")?></td>
+		<td><?php echo _t("{$conf['mod_cr_alt']} Location")?></td>
 	</thead>
 
 	<?php
@@ -368,27 +368,27 @@ function shn_cr_gis_infect()
         shn_gis_density_map($map_array);
         ?>
 <br>
-<h3><?=_t("Legend")?></h3>
+<h3><?php echo _t("Legend")?></h3>
 
 <div id="result">
 <table>
 
 	<tbody>
 		<td><img
-			src="<?=$conf['gis_marker_folder'].$conf['mod_cr_perc_0_mk'].'.png'?>" /></td>
-		<td><?="Less than ".($conf['mod_cr_perc_0']*100)."%"?></td>
+			src="<?php echo $conf['gis_marker_folder'].$conf['mod_cr_perc_0_mk'].'.png'?>" /></td>
+		<td><?php echo "Less than ".($conf['mod_cr_perc_0']*100)."%"?></td>
 		<td><img
-			src="<?=$conf['gis_marker_folder'].$conf['mod_cr_perc_1_mk'].'.png'?>" /></td>
-		<td><?="Between ".($conf['mod_cr_perc_0']*100)."%"." and ".($conf['mod_cr_perc_1']*100)."%"?></td>
+			src="<?php echo $conf['gis_marker_folder'].$conf['mod_cr_perc_1_mk'].'.png'?>" /></td>
+		<td><?php echo "Between ".($conf['mod_cr_perc_0']*100)."%"." and ".($conf['mod_cr_perc_1']*100)."%"?></td>
 		<td><img
-			src="<?=$conf['gis_marker_folder'].$conf['mod_cr_perc_2_mk'].'.png'?>" /></td>
-		<td><?="Between ".($conf['mod_cr_perc_1']*100)."%"." and ".($conf['mod_cr_perc_2']*100)."%"?></td>
+			src="<?php echo $conf['gis_marker_folder'].$conf['mod_cr_perc_2_mk'].'.png'?>" /></td>
+		<td><?php echo "Between ".($conf['mod_cr_perc_1']*100)."%"." and ".($conf['mod_cr_perc_2']*100)."%"?></td>
 		<td><img
-			src="<?=$conf['gis_marker_folder'].$conf['mod_cr_perc_3_mk'].'.png'?>" /></td>
-		<td><?="Between ".($conf['mod_cr_perc_2']*100)."%"." and ".($conf['mod_cr_perc_3']*100)."%"?></td>
+			src="<?php echo $conf['gis_marker_folder'].$conf['mod_cr_perc_3_mk'].'.png'?>" /></td>
+		<td><?php echo "Between ".($conf['mod_cr_perc_2']*100)."%"." and ".($conf['mod_cr_perc_3']*100)."%"?></td>
 		<td><img
-			src="<?=$conf['gis_marker_folder'].$conf['mod_cr_perc_f_mk'].'.png'?>" /></td>
-		<td><?="More than ".($conf['mod_cr_perc_3']*100)."%"?></td>
+			src="<?php echo $conf['gis_marker_folder'].$conf['mod_cr_perc_f_mk'].'.png'?>" /></td>
+		<td><?php echo "More than ".($conf['mod_cr_perc_3']*100)."%"?></td>
 	</tbody>
 </table>
 </div>
@@ -459,32 +459,32 @@ function shn_cr_gis_population()
         }
         //show_map_with_custom_markers($map_array);
         ?>
-<h1><?=("Map of Shelters by Population / Capacity percentage")?></h1>
+<h1><?php echo ("Map of Shelters by Population / Capacity percentage")?></h1>
         <?php
         shn_gis_density_map($map_array);
         ?>
 <br>
-<h3><?=_t("Legend")?></h3>
+<h3><?php echo _t("Legend")?></h3>
 
 <div id="result">
 <table>
 
 	<tbody>
 		<td><img
-			src="<?=$conf['gis_marker_folder'].$conf['mod_cr_perc_0_mk'].'.png'?>" /></td>
-		<td><?="Less than ".($conf['mod_cr_perc_0']*100)."%"?></td>
+			src="<?php echo $conf['gis_marker_folder'].$conf['mod_cr_perc_0_mk'].'.png'?>" /></td>
+		<td><?php echo "Less than ".($conf['mod_cr_perc_0']*100)."%"?></td>
 		<td><img
-			src="<?=$conf['gis_marker_folder'].$conf['mod_cr_perc_1_mk'].'.png'?>" /></td>
-		<td><?="Between ".($conf['mod_cr_perc_0']*100)."%"." and ".($conf['mod_cr_perc_1']*100)."%"?></td>
+			src="<?php echo $conf['gis_marker_folder'].$conf['mod_cr_perc_1_mk'].'.png'?>" /></td>
+		<td><?php echo "Between ".($conf['mod_cr_perc_0']*100)."%"." and ".($conf['mod_cr_perc_1']*100)."%"?></td>
 		<td><img
-			src="<?=$conf['gis_marker_folder'].$conf['mod_cr_perc_2_mk'].'.png'?>" /></td>
-		<td><?="Between ".($conf['mod_cr_perc_1']*100)."%"." and ".($conf['mod_cr_perc_2']*100)."%"?></td>
+			src="<?php echo $conf['gis_marker_folder'].$conf['mod_cr_perc_2_mk'].'.png'?>" /></td>
+		<td><?php echo "Between ".($conf['mod_cr_perc_1']*100)."%"." and ".($conf['mod_cr_perc_2']*100)."%"?></td>
 		<td><img
-			src="<?=$conf['gis_marker_folder'].$conf['mod_cr_perc_3_mk'].'.png'?>" /></td>
-		<td><?="Between ".($conf['mod_cr_perc_2']*100)."%"." and ".($conf['mod_cr_perc_3']*100)."%"?></td>
+			src="<?php echo $conf['gis_marker_folder'].$conf['mod_cr_perc_3_mk'].'.png'?>" /></td>
+		<td><?php echo "Between ".($conf['mod_cr_perc_2']*100)."%"." and ".($conf['mod_cr_perc_3']*100)."%"?></td>
 		<td><img
-			src="<?=$conf['gis_marker_folder'].$conf['mod_cr_perc_f_mk'].'.png'?>" /></td>
-		<td><?="More than ".($conf['mod_cr_perc_3']*100)."%"?></td>
+			src="<?php echo $conf['gis_marker_folder'].$conf['mod_cr_perc_f_mk'].'.png'?>" /></td>
+		<td><?php echo "More than ".($conf['mod_cr_perc_3']*100)."%"?></td>
 	</tbody>
 </table>
 </div>

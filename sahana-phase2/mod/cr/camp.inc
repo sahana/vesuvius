@@ -13,7 +13,7 @@
  * @author   Mifan Careem <mifan@opensource.lk>
  * @edited by Isuru Samaraweera <isuru@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * $Id: camp.inc,v 1.67 2008-09-16 20:36:02 franboon Exp $
+ * $Id: camp.inc,v 1.68 2009-03-17 06:08:24 ravithb Exp $
 */
 
 include_once($global['approot'] . '/inc/lib_form.inc');
@@ -105,7 +105,7 @@ function _shn_cr_hos_bed($errors = false)
 
     shn_form_fopen(acmp);
     ?>
-<h1><?=_t("Hospital Capabilities")?></h1>
+<h1><?php echo _t("Hospital Capabilities")?></h1>
     <?php
     shn_form_fsopen(_t("Number of Beds"));
     shn_form_hidden(array('seq'=>'commit'));
@@ -694,7 +694,7 @@ function _shn_cr_cadd_confir($errors = false)
     global $conf;
     $db = $global['db'];
     ?>
-<h2><?= _t('Confirm Registration Details of ').$_SESSION['camp_name'] ?></h2>
+<h2><?php echo  _t('Confirm Registration Details of ').$_SESSION['camp_name'] ?></h2>
     <?php
     shn_form_fopen("acmp",null,array('req_message'=>false,'name'=>""));
     shn_form_fsopen(_t('General Details'));

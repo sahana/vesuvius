@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_db.inc,v 1.28 2009-03-09 05:16:30 ravithb Exp $ */
+/* $Id: handler_db.inc,v 1.29 2009-03-17 06:08:22 ravithb Exp $ */
 
 /**
  *
@@ -227,19 +227,19 @@ $sql_level1 = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";
 $result_leve1 = $global['db']->Execute($sql_level1);
 while($myresult_level1 = $result_leve1->FetchRow()){
 ?>
-	<option value="<?=$myresult_level1['incident_id'];?>" <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level1['incident_id']?'selected="selected"':'');?> ><?=$myresult_level1['name'];?></option>
+	<option value="<?php echo $myresult_level1['incident_id'];?>" <?php echo ($_SESSION['user_pref_ims_incident_id']==$myresult_level1['incident_id']?'selected="selected"':'');?> ><?php echo $myresult_level1['name'];?></option>
 <?php
 	$sql_level2 = "SELECT incident_id, name FROM incident WHERE parent_id = '{$myresult_level1['incident_id']}'";
 	$result_leve2 = $global['db']->Execute($sql_level2);
 	while($myresult_level2 = $result_leve2->FetchRow() ){
 ?>
-		<option value="<?=$myresult_level2['incident_id'];?>"  <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level2['incident_id']?'selected="selected"':'');?>  >&nbsp;&nbsp;&#8211;&nbsp;<?=$myresult_level2['name'];?></option>
+		<option value="<?php echo $myresult_level2['incident_id'];?>"  <?php echo ($_SESSION['user_pref_ims_incident_id']==$myresult_level2['incident_id']?'selected="selected"':'');?>  >&nbsp;&nbsp;&#8211;&nbsp;<?php echo $myresult_level2['name'];?></option>
 <?php
 		$sql_level3 = "SELECT incident_id, name FROM incident WHERE parent_id = '{$myresult_level2['incident_id']}'";
 		$result_level3 = $global['db']->Execute($sql_level3);
 		while($myresult_level3 = $result_level3->FetchRow() ){
 ?>
-			<option value="<?=$myresult_level3['incident_id'];?>"  <?=($_SESSION['user_pref_ims_incident_id']==$myresult_level3['incident_id']?'selected="selected"':'');?>  >&nbsp;&nbsp;&nbsp;&nbsp;&#8211;&nbsp;<?=$myresult_level3['name'];?></option>
+			<option value="<?php echo $myresult_level3['incident_id'];?>"  <?php echo ($_SESSION['user_pref_ims_incident_id']==$myresult_level3['incident_id']?'selected="selected"':'');?>  >&nbsp;&nbsp;&nbsp;&nbsp;&#8211;&nbsp;<?php echo $myresult_level3['name'];?></option>
 <?php
 		}
 	}
@@ -273,7 +273,7 @@ function shn_db_get_incident_list()
 */
 ?>
 <div id="incident_name">
-   <strong><?=$result[0]['name'];?> </strong>
+   <strong><?php echo $result[0]['name'];?> </strong>
 </div>
 <?php
 }

@@ -65,9 +65,9 @@ function _shn_sn_show_all_mem(){
          ?>
         <tr>
              <td><?php shn_show_thumb_url($members->fields['sn_mem_uuid'],'database','sn','mem_img',false)?></td>
-             <td><a href="index.php?mod=sn&act=sn_groups&seq=page5&id=<?=$members->fields['sn_mem_uuid']?>"><?=$fullname ?></a><?php
+             <td><a href="index.php?mod=sn&act=sn_groups&seq=page5&id=<?php echo $members->fields['sn_mem_uuid']?>"><?php echo $fullname ?></a><?php
              echo '<br>'.'Interests :'.$members->fields['sn_mem_interests'];?>
-             <br><a href="index.php?mod=sn&act=ad_view_mem&seq=page2&id=<?=$members->fields['sn_mem_uuid']?>">Remove</a>
+             <br><a href="index.php?mod=sn&act=ad_view_mem&seq=page2&id=<?php echo $members->fields['sn_mem_uuid']?>">Remove</a>
              </td>
         </tr>
         <?php

@@ -316,13 +316,13 @@ function _shn_cms_cedt(){
 	global $global;
 ?>
 <h2>Edit Existing Camp</h2>
-<?
+<?php
 }
 
 function _shn_cms_exit(){
 	global $global;
 ?>
 <h2>Camp Exit Procedure</h2>
-<?
+<?php
 }
 ?>

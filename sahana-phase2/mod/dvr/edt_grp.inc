@@ -616,7 +616,7 @@ function _shn_dvr_regconfirm_group() {
 	global $conf;
 	$db = $global['db'];
 ?>
-<h2><?= _t('Confirm Group Details  Headed by ').$_SESSION['dvr']['group']['full_name'] ?></h2>
+<h2><?php echo  _t('Confirm Group Details  Headed by ').$_SESSION['dvr']['group']['full_name'] ?></h2>
 
 <div id="formcontainer">
 

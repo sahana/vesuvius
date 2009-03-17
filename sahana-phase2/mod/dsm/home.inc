@@ -27,9 +27,9 @@
     
     <strong><?php echo _t("Description of Actions:")?></strong><br/>
     <ul>
-        <li><a href="index.php?mod=dsm&act=add_dis"><b><?= _t('Add Disease'); ?> </b></a><br/><?= _t('Adding details of a disease into the system'); ?></li>
-        <li><a href="index.php?mod=dsm&act=rep_dis"><b><?= _t('Reports patient/disease'); ?> </b></a><br/><?= _t('Reporting a patient or adisease'); ?></li>
-        <li><a href="index.php?mod=dsm&act=sur_rep"><b><?= _t('Surviellance Reports'); ?> </b></a><br/><?= _t('Statistic details, Graphical representation'); ?></li>
+        <li><a href="index.php?mod=dsm&act=add_dis"><b><?php echo  _t('Add Disease'); ?> </b></a><br/><?php echo  _t('Adding details of a disease into the system'); ?></li>
+        <li><a href="index.php?mod=dsm&act=rep_dis"><b><?php echo  _t('Reports patient/disease'); ?> </b></a><br/><?php echo  _t('Reporting a patient or adisease'); ?></li>
+        <li><a href="index.php?mod=dsm&act=sur_rep"><b><?php echo  _t('Surviellance Reports'); ?> </b></a><br/><?php echo  _t('Statistic details, Graphical representation'); ?></li>
         </ul>
         <br/>
 </div>
@@ -38,7 +38,7 @@
 
 
 
-<h1><?= _t('Latest Epidemic Diseases'); ?></h1>
+<h1><?php echo  _t('Latest Epidemic Diseases'); ?></h1>
 <div id="result">
 <table>
 

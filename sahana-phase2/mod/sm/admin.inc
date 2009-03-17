@@ -51,8 +51,8 @@ function shn_sm_adm_default()
 {
     shn_sm_adminmenu();
     ?> <br></br> 
-    <p><b><?=_("Welcome to the Situation Awareness admin page");?> </b></p>
-    <p><?=_("Please use the navigation menu above to configure each field.");?> </p>
+    <p><b><?php echo _("Welcome to the Situation Awareness admin page");?> </b></p>
+    <p><?php echo _("Please use the navigation menu above to configure each field.");?> </p>
 <?php
 
 }

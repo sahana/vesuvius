@@ -141,7 +141,7 @@ function _shn_dvr_regconfirm_individuals()
 	global $conf;
 	$db = $global['db'];
 ?>
-<h2><center><?= _t('Details of ') . $_SESSION['dvr']['person']['full_name'] ?></center></h2>
+<h2><center><?php echo  _t('Details of ') . $_SESSION['dvr']['person']['full_name'] ?></center></h2>
 <div id="formcontainer">
 <?php
 
@@ -439,7 +439,7 @@ function _shn_libdvr_search_show_verticle($details)
 ?>
 <DIV ID="result">
 <TABLE>
-<?
+<?php
     for($i=0; $i<count($details); $i+=2){
         if($details[$i]){
 ?>

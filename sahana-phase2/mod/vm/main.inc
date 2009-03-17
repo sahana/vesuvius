@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
 * Main include file for Sahana

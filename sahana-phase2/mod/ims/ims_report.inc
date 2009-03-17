@@ -55,10 +55,10 @@ function _shn_ims_report_minimum()
     <thead>
     <tr>
         
-        <td><?=_t("Item")?></td>
-        <td><?=_t("Amount")?></td>
-        <td><?=_t("Unit")?></td>
-        <td><?=_t("Inventory")?></td>
+        <td><?php echo _t("Item")?></td>
+        <td><?php echo _t("Amount")?></td>
+        <td><?php echo _t("Unit")?></td>
+        <td><?php echo _t("Inventory")?></td>
         
             
     </tr>
@@ -189,14 +189,14 @@ function _shn_ims_report_expired()
     <table>
     <thead>
     <tr>
-        <td><?=_t("Item") ?></td>
-        <td><?=_t("Amount") ?></td>
-        <td><?=_t("Unit") ?></td>
-        <td><?=_t("Manufactured Date") ?></td>
-        <td><?=_t("Expire Date") ?></td>
-        <td><?=_t("Inventory") ?></td>
-        <td><?=_t("Suplier") ?></td>
-        <td><?=_t("Action") ?></td>
+        <td><?php echo _t("Item") ?></td>
+        <td><?php echo _t("Amount") ?></td>
+        <td><?php echo _t("Unit") ?></td>
+        <td><?php echo _t("Manufactured Date") ?></td>
+        <td><?php echo _t("Expire Date") ?></td>
+        <td><?php echo _t("Inventory") ?></td>
+        <td><?php echo _t("Suplier") ?></td>
+        <td><?php echo _t("Action") ?></td>
             
     </tr>
     </thead>
@@ -283,13 +283,13 @@ function _shn_ims_report_destroyed()
     <table>
         <thead>
         <tr>
-        <td><?=_t("Item Name") ?></td>
-        <td><?=_t("Amount") ?></td>
-        <td><?=_t("Unit") ?></td>
-        <td><?=_t("Inventory") ?></td>
-        <td><?=_t("Manufactured Date") ?></td>
-        <td><?=_t("Expire_Date") ?></td>
-        <td><?=_t("Suplier") ?></td>
+        <td><?php echo _t("Item Name") ?></td>
+        <td><?php echo _t("Amount") ?></td>
+        <td><?php echo _t("Unit") ?></td>
+        <td><?php echo _t("Inventory") ?></td>
+        <td><?php echo _t("Manufactured Date") ?></td>
+        <td><?php echo _t("Expire_Date") ?></td>
+        <td><?php echo _t("Suplier") ?></td>
         </tr>
         </thead>
         <tbody>
@@ -358,9 +358,9 @@ function _shn_ims_level($parent)
     $res_label = $db->Execute($q);
     $grand_child_type = $res_label->fields[0];
 ?>
-<h2><?=_t("Organization Report By " . $child_type . " " . $parent_type) ?></h2>
+<h2><?php echo _t("Organization Report By " . $child_type . " " . $parent_type) ?></h2>
     <div id="note">
-<?=_t("Each Row is a " . $child_type . " ,Column is a  Service.")?><br />
+<?php echo _t("Each Row is a " . $child_type . " ,Column is a  Service.")?><br />
 <?php 
     $last = shn_get_last_level();
     if ($last[0] != $child - 1) {
@@ -491,19 +491,19 @@ function _shn_ims_report_org_sector()
     $db = $global['db'];
     
 ?>
-<h2><?=_t("Organization Report by Sector") ?></h2>
+<h2><?php echo _t("Organization Report by Sector") ?></h2>
 <div id ="result">
     <table>
         <thead>
-            <td><?=_t("Organization Name") ?></td>
-            <td><?=_t("Services Offered") ?></td>
-            <td><?=_t("Organization Type") ?></td>
-            <td><?=_t("Country of Origin") ?></td>
-            <td><?=_t("Address") ?></td>
-            <td><?=_t("Contact Number") ?></td>
-            <td><?=_t("Man Power") ?></td>
-            <td><?=_t("Equipment") ?></td>
-            <td><?=_t("Facilities") ?></td>
+            <td><?php echo _t("Organization Name") ?></td>
+            <td><?php echo _t("Services Offered") ?></td>
+            <td><?php echo _t("Organization Type") ?></td>
+            <td><?php echo _t("Country of Origin") ?></td>
+            <td><?php echo _t("Address") ?></td>
+            <td><?php echo _t("Contact Number") ?></td>
+            <td><?php echo _t("Man Power") ?></td>
+            <td><?php echo _t("Equipment") ?></td>
+            <td><?php echo _t("Facilities") ?></td>
         </thead>
         <tbody>
 <?php    
@@ -517,7 +517,7 @@ function _shn_ims_report_org_sector()
         ?>
         <tr>
             <td>
-                <b><?=_t($res_sector->fields[1]) ?></b>
+                <b><?php echo _t($res_sector->fields[1]) ?></b>
             </td>
         </tr>
         <?php
@@ -574,12 +574,12 @@ print $time_period1;
     <thead>
     <tr>
         
-        <td><?=_t("Item") ?></td>
-	<td><?=_t("Inventory") ?></td>
-	<td><?=_t("Unit") ?></td>
-        <td><?=_t("Prediction-1") ?></td>
-        <td><?=_t("Prediction-2") ?></td>
-        <td><?=_t("Prediction-3") ?></td>
+        <td><?php echo _t("Item") ?></td>
+	<td><?php echo _t("Inventory") ?></td>
+	<td><?php echo _t("Unit") ?></td>
+        <td><?php echo _t("Prediction-1") ?></td>
+        <td><?php echo _t("Prediction-2") ?></td>
+        <td><?php echo _t("Prediction-3") ?></td>
         
             
     </tr>
@@ -665,13 +665,13 @@ function _shn_ims_prediction_inv()
     <thead>
     <tr>
         
-        <td><?=_t("Item") ?></td>
-        <td><?=_t("Inventory") ?></td>
-        <td><?=_t("Unit") ?></td>
-        <td><?=_t("Available amount") ?></td>
-        <td><?=_t("Prediction-1") ?></td>
-        <td><?=_t("Prediction-2") ?></td>
-        <td><?=_t("Prediction-3") ?></td>
+        <td><?php echo _t("Item") ?></td>
+        <td><?php echo _t("Inventory") ?></td>
+        <td><?php echo _t("Unit") ?></td>
+        <td><?php echo _t("Available amount") ?></td>
+        <td><?php echo _t("Prediction-1") ?></td>
+        <td><?php echo _t("Prediction-2") ?></td>
+        <td><?php echo _t("Prediction-3") ?></td>
         
             
     </tr>
@@ -760,14 +760,14 @@ function _shn_ims_transfer_item_report()
     <div id='result'>
     <table>
         <thead>
-        <td><?=_t("Item"); ?></td>
-        <td><?=_t("Amount Sent"); ?></td>
-        <td><?=_t("Unit"); ?></td>
-        <td><?=_t("Inventory From"); ?></td>
-        <td><?=_t("To"); ?></td>
-            <td><?=_t("Date Sent"); ?></td>
-            <td><?=_t("Authorized Person"); ?></td>
-       <!-- <td><?=_t("Transit Item"); ?></td>-->
+        <td><?php echo _t("Item"); ?></td>
+        <td><?php echo _t("Amount Sent"); ?></td>
+        <td><?php echo _t("Unit"); ?></td>
+        <td><?php echo _t("Inventory From"); ?></td>
+        <td><?php echo _t("To"); ?></td>
+            <td><?php echo _t("Date Sent"); ?></td>
+            <td><?php echo _t("Authorized Person"); ?></td>
+       <!-- <td><?php echo _t("Transit Item"); ?></td>-->
             
         </thead>
     <tbody>

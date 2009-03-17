@@ -62,7 +62,7 @@ function shn_dsm_adm_dri_water()
     global $global;
     shn_dsm_adminmenu();
     
-    ?><br /><h2><?=_t("Drinking Water"); ?></h2>
+    ?><br /><h2><?php echo _t("Drinking Water"); ?></h2>
 <?php
 
     _shn_dsm_adm_field_options_controller('dri_water');
@@ -73,7 +73,7 @@ function shn_dsm_adm_age_groups()
     global $global;
     shn_dsm_adminmenu();
     
-    ?><br /><h2><?=_t("Age Groups"); ?></h2>
+    ?><br /><h2><?php echo _t("Age Groups"); ?></h2>
     <?php
 
     _shn_dsm_adm_field_options_controller('age_groups');
@@ -84,7 +84,7 @@ function shn_dsm_adm_nutrition_level()
     global $global;
     shn_dsm_adminmenu();
     
-    ?><br /><h2><?=_t("Nutrition Levels"); ?></h2>
+    ?><br /><h2><?php echo _t("Nutrition Levels"); ?></h2>
     <?php
 
     _shn_dsm_adm_field_options_controller('nutrition_level');
@@ -95,7 +95,7 @@ function shn_dsm_adm_sanitary()
     global $global;
     shn_dsm_adminmenu();
     
-    ?><br /><h2><?=_t("Sanitary"); ?></h2>
+    ?><br /><h2><?php echo _t("Sanitary"); ?></h2>
     <?php
 
     _shn_dsm_adm_field_options_controller('sanitary');
@@ -106,7 +106,7 @@ function shn_dsm_adm_seasons()
     global $global;
     shn_dsm_adminmenu();
     
-    ?><br /><h2><?=_t("Seasons"); ?></h2>
+    ?><br /><h2><?php echo _t("Seasons"); ?></h2>
 <?php
 
     _shn_dsm_adm_field_options_controller('seasons');
@@ -119,9 +119,9 @@ function _shn_dsm_adm_field_options_controller($type)
     shn_form_fsopen(_t("Update"));
     ?>     <table> 
         <thead>
-    <td><strong><?=_t('Code');?></strong></td>
-    <td width="100%"><strong><?=_t('Description');?></strong></td>
-    <td width="100%"><strong><?=_t('Delete');?></strong></td>
+    <td><strong><?php echo _t('Code');?></strong></td>
+    <td width="100%"><strong><?php echo _t('Description');?></strong></td>
+    <td width="100%"><strong><?php echo _t('Delete');?></strong></td>
     </thead>
     <?php
  $button = $_POST['selection'];
@@ -157,13 +157,13 @@ function _shn_dsm_adm_field_options_controller($type)
         $_SESSION['option_description'.$count] = $row['option_description'];
         ?>
 <tr>
-    <td><input type="text" READONLY name="<?=$_SESSION['option_code'.$count];?>" 
-            value="<?=$_SESSION['option_code'.$count];?>"  />
+    <td><input type="text" READONLY name="<?php echo $_SESSION['option_code'.$count];?>" 
+            value="<?php echo $_SESSION['option_code'.$count];?>"  />
     </td>
-    <td><input type="text" name="<?=$_SESSION['option_description'.$count];?>" 
-            value="<?=$_SESSION['option_description'.$count];?>" />
+    <td><input type="text" name="<?php echo $_SESSION['option_description'.$count];?>" 
+            value="<?php echo $_SESSION['option_description'.$count];?>" />
     </td>
-    <td><input type="checkbox" name="<?=$count;?>" />
+    <td><input type="checkbox" name="<?php echo $count;?>" />
     </td>
     <?php 
     $count++;

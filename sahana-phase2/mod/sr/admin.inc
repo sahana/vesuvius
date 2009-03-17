@@ -20,7 +20,7 @@
 function shn_sr_adm_default()
 {
 ?>
-    <p><b><?=_t("Welcome to Situation Report admin page")?> </b></p>
+    <p><b><?php echo _t("Welcome to Situation Report admin page")?> </b></p>
 <?php
 	 
 

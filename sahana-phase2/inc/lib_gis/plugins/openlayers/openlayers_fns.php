@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.66 2008-12-14 02:22:57 franboon Exp $
+* @version      $Id: openlayers_fns.php,v 1.67 2009-03-17 06:08:23 ravithb Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -89,36 +89,36 @@ function ol_onload_start()
     OpenLayers.Util.onImageLoadErrorColor = "transparent";
 
     // Set Proxy Host
-    OpenLayers.ProxyHost = '<?=$conf['proxy_path']?>';
+    OpenLayers.ProxyHost = '<?php echo $conf['proxy_path']?>';
 
-    var lon = <?=$conf['gis_center_x']?>;
-    var lat = <?=$conf['gis_center_y']?>;
-    var zoom = <?=$conf['gis_zoom']?>;
+    var lon = <?php echo $conf['gis_center_x']?>;
+    var lat = <?php echo $conf['gis_center_y']?>;
+    var zoom = <?php echo $conf['gis_zoom']?>;
 
     // See - http://crschmidt.net/~crschmidt/spherical_mercator.html#reprojecting-points
     var proj4326 = new OpenLayers.Projection("EPSG:4326");
-    var projection_current = new OpenLayers.Projection('<?=$conf['gis_ol_projection']?>');
+    var projection_current = new OpenLayers.Projection('<?php echo $conf['gis_ol_projection']?>');
     var point = new OpenLayers.LonLat(lon, lat);
 
     // Map Options
     var options = {
         displayProjection: proj4326,
         projection: projection_current,
-        units: "<?=$conf['gis_ol_units']?>",
+        units: "<?php echo $conf['gis_ol_units']?>",
         <?php
         if($conf['gis_ol_maxResolution'] != ''){
             ?>
-            maxResolution: <?= $conf['gis_ol_maxResolution'] ?>,
+            maxResolution: <?php echo  $conf['gis_ol_maxResolution'] ?>,
             <?php
         }
         if($conf['gis_ol_maxExtent'] != ''){
             ?>
-            maxExtent: new OpenLayers.Bounds(<?= $conf['gis_ol_maxExtent'] ?>),
+            maxExtent: new OpenLayers.Bounds(<?php echo  $conf['gis_ol_maxExtent'] ?>),
             <?php
         }
         //if($conf['gis_ol_restrictExtent'] != ''){
             ?>
-            //restrictedExtent: new OpenLayers.Bounds(<?= $conf['gis_ol_restrictExtent'] ?>)
+            //restrictedExtent: new OpenLayers.Bounds(<?php echo  $conf['gis_ol_restrictExtent'] ?>)
             <?php
         //}
         ?>
@@ -875,9 +875,9 @@ function ol_layers_files()
 
     var markers = new OpenLayers.Layer.Markers("Markers");
     map.addLayer(markers);
-    var size = new OpenLayers.Size(<?=$markersize?>); // icon size
+    var size = new OpenLayers.Size(<?php echo $markersize?>); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('<?=$marker?>',size,offset);
+	var icon = new OpenLayers.Icon('<?php echo $marker?>',size,offset);
 	
     map.events.register("click", map, function(e) { 
         var lonlat = map.getLonLatFromPixel(e.xy);
@@ -949,7 +949,7 @@ function ol_add_feature($name, $icon = 'null')
         featuresLayer.destroyFeatures(featuresLayer.features);
         
         // Add icon.  
-        add_Feature(featuresLayer, 'newFeature', fcopygeom, '<?= $icon ?>');
+        add_Feature(featuresLayer, 'newFeature', fcopygeom, '<?php echo  $icon ?>');
     }
 <?php
 }
@@ -970,9 +970,9 @@ function ol_add_feature($name, $icon = 'null')
 ?>
 	var markers = new OpenLayers.Layer.Markers("Markers");
 	map.addLayer(markers);
-	var size = new OpenLayers.Size(<?=$markersize?>); // icon size
+	var size = new OpenLayers.Size(<?php echo $markersize?>); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('<?=$folder?><?=$marker?>',size,offset);
+	var icon = new OpenLayers.Icon('<?php echo $folder?><?php echo $marker?>',size,offset);
     var currentPopup;
 <?php
 	for($i=0;$i< sizeof($array);$i++){
@@ -1008,9 +1008,9 @@ function ol_add_feature($name, $icon = 'null')
 ?>
     var markers = new OpenLayers.Layer.Markers("Markers");
     map.addLayer(markers);
-    var size = new OpenLayers.Size(<?=$markersize?>); // icon size
+    var size = new OpenLayers.Size(<?php echo $markersize?>); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('<?=$folder?><?=$marker?>',size,offset);
+	var icon = new OpenLayers.Icon('<?php echo $folder?><?php echo $marker?>',size,offset);
     var currentPopup;
 <?php
     for($i=0;$i< sizeof($array);$i++){
@@ -1063,9 +1063,9 @@ function ol_show_wiki_markers_select($array,$lat_field,$lon_field)
 ?>
     var markers = new OpenLayers.Layer.Markers( "Markers" );
     map.addLayer(markers);
-    var size = new OpenLayers.Size(<?=$markersize?>); // icon size
+    var size = new OpenLayers.Size(<?php echo $markersize?>); // icon size
 	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
-	var icon = new OpenLayers.Icon('<?=$folder?><?=$marker?>',size,offset);
+	var icon = new OpenLayers.Icon('<?php echo $folder?><?php echo $marker?>',size,offset);
     var currentPopup;
 <?php
     for($i=0;$i< sizeof($array);$i++){
@@ -1120,8 +1120,8 @@ function ol_show_wiki_markers_select($array,$lat_field,$lon_field)
             var lonlat2 = new OpenLayers.LonLat(lonlat.lon,lonlat.lat);
             lonlat2.transform(proj_current, proj4326);
             // Update form fields
-            document.getElementById('<?=$lon_field?>').value = lonlat2.lon;
-            document.getElementById('<?=$lat_field?>').value = lonlat2.lat;
+            document.getElementById('<?php echo $lon_field?>').value = lonlat2.lon;
+            document.getElementById('<?php echo $lat_field?>').value = lonlat2.lat;
             OpenLayers.Event.stop(evt);
         };
         marker.events.register("mousedown", feature, markerClick);
@@ -1158,7 +1158,7 @@ function ol_show_wiki_markers_select($array,$lat_field,$lon_field)
         //$markersize = (isset($array[$i]["markersize"]))?$array[$i]["markersize"]:"20,34";
         //var size = new OpenLayers.Size($markersize); // icon size
 ?>
-        var icon = new OpenLayers.Icon('<?=$folder?><?=$marker_name?>.png',size,offset);
+        var icon = new OpenLayers.Icon('<?php echo $folder?><?php echo $marker_name?>.png',size,offset);
 <?php
 	    echo "popupContentHTML = \"<b>$name</b><br /><a href='$url'>View</a><br /></p>\"\n";
         echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
@@ -1342,7 +1342,7 @@ function _ol_generate_popup_fns()
         var fc_id = null;
         var fc_lonlat = feature.geometry.getBounds().getCenterLonLat();
         var fc_size = null;
-        var fc_contentHTML = "<?= shn_gis_form_popupHTML_new(); ?>";
+        var fc_contentHTML = "<?php echo  shn_gis_form_popupHTML_new(); ?>";
         var fc_anchor = null;
         var fc_closeBox = true; // Bad can close without create...
         var fc_closeBoxCallback = shn_gis_popup_new_cancel;
@@ -1740,60 +1740,60 @@ function _ol_generate_control_fns()
    function shn_gis_map_control_navigate(){
         shn_gis_map_control_deactivate_all();
         document.getElementById('gis_map_icon_select').style.backgroundImage = "url(res/OpenLayers/theme/default/img/move_feature_on.png)";
-        document.getElementById('gis_map_icon_descripion').innerHTML = '<?= _t('Mode: Navigate') ?>';
+        document.getElementById('gis_map_icon_descripion').innerHTML = '<?php echo  _t('Mode: Navigate') ?>';
     }
     // Activate Control for selecting features.
     function shn_gis_map_control_select(){
         shn_gis_map_control_deactivate_all();
         document.getElementById('gis_map_icon_select').style.backgroundImage = "url(res/OpenLayers/theme/default/img/move_feature_on.png)";
-        document.getElementById('gis_map_icon_descripion').innerHTML = '<?= _t('Mode: Select') ?>';
+        document.getElementById('gis_map_icon_descripion').innerHTML = '<?php echo  _t('Mode: Select') ?>';
         selectControl.activate();
     }
     // Activate Control for dragging features.
     function shn_gis_map_control_drag(){
         shn_gis_map_control_deactivate_all();
         document.getElementById('gis_map_icon_drag').style.backgroundImage = "url(res/OpenLayers/theme/default/img/pan_on.png)";
-        document.getElementById('gis_map_icon_descripion').innerHTML = '<?= _t('Mode: Drag') ?>';
+        document.getElementById('gis_map_icon_descripion').innerHTML = '<?php echo  _t('Mode: Drag') ?>';
         dragControl.activate();
     }
     // Activate Control for modifying features.
     function shn_gis_map_control_modify(){
         shn_gis_map_control_deactivate_all();
         //document.getElementById('gis_map_icon_modify').style.backgroundImage = "url()";
-        //document.getElementById('gis_map_icon_descripion').innerHTML = '<?= _t('Mode: Modify') ?>';
+        //document.getElementById('gis_map_icon_descripion').innerHTML = '<?php echo  _t('Mode: Modify') ?>';
         //modifyControl.activate();
     }
     // Activate Control for adding point features.
     function shn_gis_map_control_add_point(){
         shn_gis_map_control_deactivate_all();
         document.getElementById('gis_map_icon_addpoint').style.backgroundImage = "url(res/OpenLayers/theme/default/img/draw_point_on.png)";
-        document.getElementById('gis_map_icon_descripion').innerHTML = '<?= _t('Mode: Add Point') ?>';
+        document.getElementById('gis_map_icon_descripion').innerHTML = '<?php echo  _t('Mode: Add Point') ?>';
         pointControl.activate();
     }
     // Activate Control for adding line features.
     function shn_gis_map_control_add_line(){
         shn_gis_map_control_deactivate_all();
         document.getElementById('gis_map_icon_addline').style.backgroundImage = "url(res/OpenLayers/theme/default/img/draw_line_on.png)";
-        document.getElementById('gis_map_icon_descripion').innerHTML = '<?= _t('Mode: Add line') ?>';
+        document.getElementById('gis_map_icon_descripion').innerHTML = '<?php echo  _t('Mode: Add line') ?>';
         lineControl.activate();
     }
     // Activate Control for adding polygon features.
     function shn_gis_map_control_add_polygon(){
         shn_gis_map_control_deactivate_all();
         document.getElementById('gis_map_icon_addpolygon').style.backgroundImage = "url(res/OpenLayers/theme/default/img/draw_polygon_on.png)";
-        document.getElementById('gis_map_icon_descripion').innerHTML = '<?= _t('Mode: Add Area') ?>';
+        document.getElementById('gis_map_icon_descripion').innerHTML = '<?php echo  _t('Mode: Add Area') ?>';
         polygonControl.activate();
     }
     // Activate Control for drawing features freehand.
     function shn_gis_map_control_freehand(){
         if(lineControl.handler.freehand){
             document.getElementById('gis_map_icon_freehand').style.backgroundImage = "url(res/OpenLayers/theme/default/img/freehand_off.png)";
-            document.getElementById('gis_map_icon_descripion').innerHTML = '<?= _t('Mode: Freehand OFF') ?>';
+            document.getElementById('gis_map_icon_descripion').innerHTML = '<?php echo  _t('Mode: Freehand OFF') ?>';
             lineControl.handler.freehand = false;
             polygonControl.handler.freehand = false;
         } else{
             document.getElementById('gis_map_icon_freehand').style.backgroundImage = "url(res/OpenLayers/theme/default/img/freehand_on.png)";
-            document.getElementById('gis_map_icon_descripion').innerHTML = '<?= _t('Mode: Freehand ON') ?>';
+            document.getElementById('gis_map_icon_descripion').innerHTML = '<?php echo  _t('Mode: Freehand ON') ?>';
             lineControl.handler.freehand = true;
             polygonControl.handler.freehand = true;
         }
@@ -1877,8 +1877,8 @@ function _ol_generate_control_fns()
         // If currently big, make small
         else {
             expd.style.backgroundImage = "url(res/OpenLayers/theme/default/img/map_resize_out_c.png)";
-            amap.style.width = '<?= $conf['gis_width'] ?>px';
-            amap.style.height = '<?= $conf['gis_height'] ?>px';
+            amap.style.width = '<?php echo  $conf['gis_width'] ?>px';
+            amap.style.height = '<?php echo  $conf['gis_height'] ?>px';
             omap.style.position = 'relative';
             omap.style.top = 'auto';
             omap.style.left = 'auto';
@@ -1923,9 +1923,9 @@ function ol_viewport_save($lat_field,$lon_field,$zoom_field)
         var proj_current = map.getProjectionObject();
         lonlat.transform(proj_current, proj4326);
         // Update form fields
-        document.getElementById('<?=$lon_field?>').value = lonlat.lon;
-        document.getElementById('<?=$lat_field?>').value = lonlat.lat;
-        document.getElementById('<?=$zoom_field?>').value = zoom;
+        document.getElementById('<?php echo $lon_field?>').value = lonlat.lon;
+        document.getElementById('<?php echo $lat_field?>').value = lonlat.lat;
+        document.getElementById('<?php echo $zoom_field?>').value = zoom;
     }
 <?php
 }

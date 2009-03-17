@@ -36,7 +36,7 @@ function shn_gis_form_feature_search2($fresh_search = true, $action = 'download_
         }
         require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
 ?>
-        <h2><?=_("Feature Search")?></h2>
+        <h2><?php echo _("Feature Search")?></h2>
         <script type="text/javascript">
             <?php require_once $global['approot'] . '/mod/gps/ajax_form.js' ?>
         </script>
@@ -95,7 +95,7 @@ function shn_gps_form_feature_display_download($results_, $keys_)
         require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
         require_once $global['approot']."/inc/lib_gis/lib_gis_forms.inc";
 ?>
-        <h2><?=_("Search Results")?></h2>
+        <h2><?php echo _("Search Results")?></h2>
 <?php
         shn_form_fopen('download_seq', null, null, array('req' => false));
         shn_gis_form_feature_display($results_, $keys_);

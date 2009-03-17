@@ -139,8 +139,7 @@ function _shn_rms_items($category = null)
     shn_form_hidden(array('cat_sel'=>'false'));
 
     $info=_t("Select an item first");
-    ?><div class="info"><?php echo $info;?></div><br /><?
-
+    ?><div class="info"><?php echo $info;?></div><br /><?php
 	shn_form_fsopen(_t("New Item"));
     include_once('lib_ajax.inc');
     _shn_rms_ajax_init('sub_cat', 'item_div');
@@ -159,8 +158,7 @@ function _shn_rms_items($category = null)
     shn_form_fsclose();
 
     $info=_t("Select an Inventory");
-    ?><div class="info"><?php echo $info;?></div><br /><?
-
+    ?><div class="info"><?php echo $info;?></div><br /><?php
     shn_form_fsopen(_t('Inventory Selection'));
     $inventory_array=array();
     global $global;

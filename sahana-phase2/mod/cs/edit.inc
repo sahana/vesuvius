@@ -201,9 +201,9 @@ function show_item_cat_table()
 <div id="result">
 <table>
     <thead>
-        <td><strong><?=_t("Name")?></strong></td>
-        <td><strong><?=_t("Item/catalog")?></strong></td>
-	<td><strong><?=_t("Keyword")?></strong></td>
+        <td><strong><?php echo _t("Name")?></strong></td>
+        <td><strong><?php echo _t("Item/catalog")?></strong></td>
+	<td><strong><?php echo _t("Keyword")?></strong></td>
     </thead>
     <TBODY>
     <?php
@@ -275,7 +275,7 @@ function _shn_cs_add_spaces_to_table($cat_id)
 function _shn_cs_edit_cat_select_submit_result()
 {
     ?>
-    <p><?= "<b>" . _t("Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types. </b>By deleting a catalog You will lose all the entries under the particular catalog."); ?></p>
+    <p><?php echo  "<b>" . _t("Using Delete, you will lose all the records of the particular catalogs, Items, Unit or Unit Types. </b>By deleting a catalog You will lose all the entries under the particular catalog."); ?></p>
     <?php
     global $global;
     $db = $global["db"];
@@ -414,8 +414,8 @@ function show_unit_table()
 	<div id="result">
 	<table>
 	<thead>
-        <td><strong><?=_t("Name")?></strong></td>
-        <td><strong><?=_t("Multiplier")?></strong></td>
+        <td><strong><?php echo _t("Name")?></strong></td>
+        <td><strong><?php echo _t("Multiplier")?></strong></td>
     </thead>
     <TBODY>
     <?php
@@ -560,8 +560,8 @@ function show_unit_type_table()
 <div id="result">
 <table>
     <thead>
-        <td><strong><?=_t("Name")?></strong></td>
-        <td><strong><?=_t("Description")?></strong></td>
+        <td><strong><?php echo _t("Name")?></strong></td>
+        <td><strong><?php echo _t("Description")?></strong></td>
     </thead>
     <TBODY>
     <?php

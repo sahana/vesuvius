@@ -1,7 +1,7 @@
 <?php
 global $conf;
 
-/* $Id: handler_footer.inc,v 1.17 2009-01-04 16:57:20 franboon Exp $ */
+/* $Id: handler_footer.inc,v 1.18 2009-03-17 06:08:22 ravithb Exp $ */
 /**
  *
  * Sahana HTML footer
@@ -22,11 +22,11 @@ global $conf;
  */
 ?>
 <div align="center" id="footer"><a class="help" target="_blank"
-	href="<? echo $conf['sahana_url']; ?>" title="<?php echo _t("Sahana Home") ?>"><?php echo _t("Sahana") ?></a> | <a
+	href="<?php echo $conf['sahana_url']; ?>" title="<?php echo _t("Sahana Home") ?>"><?php echo _t("Sahana") ?></a> | <a
 	class="help" target="_blank"
-	href="<? echo $conf['wiki_url']; ?>" title="<?php echo _t("Sahana Wiki") ?>"><?php echo _t("Wiki") ?></a>
+	href="<?php echo $conf['wiki_url']; ?>" title="<?php echo _t("Sahana Wiki") ?>"><?php echo _t("Wiki") ?></a>
 |  <a class="help" target="_blank"
-	href="<? echo $conf['chat_url']; ?>" title="<?php echo _t("Chats") ?>"><?php echo _t("Chats") ?></a>  
+	href="<?php echo $conf['chat_url']; ?>" title="<?php echo _t("Chats") ?>"><?php echo _t("Chats") ?></a>  
 	| <a class="help" target="_blank"
 	href="?mod=home&act=bug_report" title="<?php echo _t("Report a Bug") ?>"><?php echo _t("Report a Bug") ?></a> 
 	<?php

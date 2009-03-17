@@ -33,7 +33,7 @@ function shn_marker_add_detail($errors=false)
 		add_error(_("Name of Marker Cannot be empty"));
 	}
 ?>
-	<h2><?=_("Add Marker Detail")?></h2>
+	<h2><?php echo _("Add Marker Detail")?></h2>
 <?php
 	
 	shn_form_fopen(marker);
@@ -81,8 +81,8 @@ function shn_marker_add_file()
 	$form_opts['name']="add_waypoints";
 	shn_form_fopen("add",null,$form_opts);
 	shn_form_hidden(array('seq'=>'com'));
-	?><h2><?=_("Confirm Details of Marker ").$_SESSION['marker_name']?></h2><div id="formcontainer">
-<?
+	?><h2><?php echo _("Confirm Details of Marker ").$_SESSION['marker_name']?></h2><div id="formcontainer">
+<?php
 		
 	shn_form_fsopen(_("Marker Details"));
 	shn_form_label(_("Marker Name"),$_SESSION['marker_name']);
@@ -125,13 +125,13 @@ function shn_marker_add_download()
 	shn_form_fsopen('Add Markers');
 	shn_form_hidden(array('seq'=>'trip'));
 	$msg=_("Now you can add more Markers to this file By clicking the Add More Markers Button");
-    ?><div class="info"><?php echo $msg?></div><br /><?
+    ?><div class="info"><?php echo $msg?></div><br /><?php
     shn_form_submit(_("Add More Markers"),"name=\"button1\"");
 	shn_form_fsclose();
 	
 	shn_form_fsopen('Download File');
 	$msg=_("Instead if you have added necessary markers to marker file, click the button below to download it.")."<br />";
-     ?><div class="info"><?php echo $msg?></div><br /><?
+     ?><div class="info"><?php echo $msg?></div><br /><?php
 	shn_form_submit(_("Download File"),"name=\"button1\"");
 	shn_form_fsclose();
 ?>

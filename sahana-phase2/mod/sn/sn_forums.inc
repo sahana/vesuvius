@@ -95,7 +95,7 @@ function _shn_sn_add_topic_link(){
 
 
     ?>
-       <a href="index.php?mod=sn&act=sn_forums&seq=page2"><b><?= ('Add a topic'); ?> </b></a>
+       <a href="index.php?mod=sn&act=sn_forums&seq=page2"><b><?php echo  ('Add a topic'); ?> </b></a>
 
     <?php
     $chk_topics = _shn_sn_count_topic();
@@ -329,7 +329,7 @@ function _shn_sn_show_posts(){
 
 
     <br>
-    <h3 align="center"> <b> <font color="green" size="2"> feel free to add posts to the following discussion, they are based on <?=$topic_title ?> </font></b><br></h3><br><br>
+    <h3 align="center"> <b> <font color="green" size="2"> feel free to add posts to the following discussion, they are based on <?php echo $topic_title ?> </font></b><br></h3><br><br>
     <div align="center">
     <table width="800">
     <tr>
@@ -384,7 +384,7 @@ function _shn_sn_show_posts(){
 
 function _shn_sn_add_post_form(){
 	?>
-	<div align="right"><a href="index.php?mod=sn&act=log_out"><b><?= ('Logout'); ?> </b></a></div>
+	<div align="right"><a href="index.php?mod=sn&act=log_out"><b><?php echo  ('Logout'); ?> </b></a></div>
     <h2><center><?php print (('Adding a posts')); ?></center></h2><br><br>
     <?php
     $topic = $_GET['topic_id'];

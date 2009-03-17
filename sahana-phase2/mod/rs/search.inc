@@ -24,7 +24,7 @@ function shn_rs_search_type_select()
 {
     print "<h1>"._t("Search")."</h1>";
     ?>
-    <p><?= _t('Here you can search for reports and charts. Select the category that you need to search for.'); ?></p> 
+    <p><?php echo  _t('Here you can search for reports and charts. Select the category that you need to search for.'); ?></p> 
     <?php
 
     $form_opts['id']="rep_search";
@@ -167,12 +167,12 @@ function _printTable($res)
     <div id="result">
     <table>
     <thead>
-    <td><strong><?=_t("Report ID")?></strong></td>
-    <td><strong><?=_t("File Name")?></strong></td>
-    <td><strong><?=_t("Title")?></strong></td>
-    <td><strong><?=_t("Date/Time")?></strong></td>
-    <td><strong><?=_t("File Type")?></strong></td>
-    <td><strong><?=_t("File Size (kb) ")?></strong></td>
+    <td><strong><?php echo _t("Report ID")?></strong></td>
+    <td><strong><?php echo _t("File Name")?></strong></td>
+    <td><strong><?php echo _t("Title")?></strong></td>
+    <td><strong><?php echo _t("Date/Time")?></strong></td>
+    <td><strong><?php echo _t("File Type")?></strong></td>
+    <td><strong><?php echo _t("File Size (kb) ")?></strong></td>
     </thead>
     <tbody>
     <?php

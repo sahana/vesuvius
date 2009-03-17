@@ -200,7 +200,7 @@ function _shn_cr_srch_rst($camp_name,$type){
 function _shn_cr_srch($edit=false){
 	global $conf;
 	?>
-<h1><?=_t("Search for {$conf['mod_cr_alt']} by Name")?></h1>
+<h1><?php echo _t("Search for {$conf['mod_cr_alt']} by Name")?></h1>
 	<?php
 	shn_form_fopen("srch",null,array('req_message'=>false));
 	shn_form_fsopen(_t("Search"));
@@ -224,7 +224,7 @@ function _shn_cr_srch($edit=false){
 function _shn_cr_srch_address($edit=false){
 	global $conf;
 	?>
-<h1><?=_t("Search Shelter by Address")?></h1>
+<h1><?php echo _t("Search Shelter by Address")?></h1>
 	<?php
 	shn_form_fopen("srch_address",null,array('req_message'=>false));
 	shn_form_fsopen(_t("Search"));

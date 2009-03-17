@@ -20,16 +20,16 @@ function _shn_ims_assign_form($errors=false,$type=false)
 ?>
 		<table>
 		<thead>
-    	<td width="100%"><strong><?=_t('Incident Name');?></strong></td>
-    	<td width="100%"><strong><?=_t('Delete');?></strong></td>
+    	<td width="100%"><strong><?php echo _t('Incident Name');?></strong></td>
+    	<td width="100%"><strong><?php echo _t('Delete');?></strong></td>
 		</thead>
 <?php
 		foreach($arr as $row) {
 ?>
 			<tr>
-    		<td><?=$row['name'];?>
+    		<td><?php echo $row['name'];?>
     		</td>
-    		<td><input type="checkbox" name="ims_delete[<?=$row['incident_id'];?>]" value="<?=$row['incident_id'];?>" />
+    		<td><input type="checkbox" name="ims_delete[<?php echo $row['incident_id'];?>]" value="<?php echo $row['incident_id'];?>" />
     		</td>
 			</tr>
 <?php
@@ -72,7 +72,7 @@ function _shn_ims_assign_form($errors=false,$type=false)
     
     if($updated) {
         shn_form_fsopen(_t(""));
-?>		<p align="center"><?=_t('Added.');?></p>
+?>		<p align="center"><?php echo _t('Added.');?></p>
 <?php
         shn_form_fsclose();
     }

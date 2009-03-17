@@ -329,12 +329,12 @@ function shn_mpr_search_show_result($details,$search)
 ?>
 <TABLE>
 <THEAD>
-    <TD><?= _t('Person');?></TD>
-    <TD><?= _t('Details');?></TD>
-    <TD><?= _t('Associated People');?></TD>
-    <TD><?= _t('Missing Details');?></TD>
-    <TD><?= _t('Actions');?></TD>
-    <?=($select?'<TD>'._t('Select').'</TD>':''); ?>
+    <TD><?php echo  _t('Person');?></TD>
+    <TD><?php echo  _t('Details');?></TD>
+    <TD><?php echo  _t('Associated People');?></TD>
+    <TD><?php echo  _t('Missing Details');?></TD>
+    <TD><?php echo  _t('Actions');?></TD>
+    <?php echo ($select?'<TD>'._t('Select').'</TD>':''); ?>
 </THEAD>
 <?php
 	if($details!=null)
@@ -407,7 +407,7 @@ href="index.php?mod='.$global['module'].'&act=status&id='.$detail['p_uuid'].'"><
             'href="index.php?mod='.$global['module'].'&act=auditmp&id='.
             $detail['p_uuid'].'">'._t('Audit').'</a>';
 ?>      </TD>
-        <?=($select?'<TD><a title="'._t('Select').'" href="index.php?'.
+        <?php echo ($select?'<TD><a title="'._t('Select').'" href="index.php?'.
             $_SERVER['QUERY_STRING'].'&tracker_id='.$detail['p_uuid'].
             '&tracker_relation='.$_POST['opt_relationship_type'].'&seq=tracker_select" > '._t('Select').' </a>'.
             '</TD>':''); ?>
@@ -457,10 +457,10 @@ function shn_mpr_search_select($details)
 <DIV ID="result">
 <TABLE>
 <THEAD>
-    <TD><?= _t('Picture'); ?></TD>
-    <TD><?= _t('Name'); ?></TD>
-    <TD><?= _t('Status'); ?></TD>
-    <TD><?= _t('Select'); ?></TD>
+    <TD><?php echo  _t('Picture'); ?></TD>
+    <TD><?php echo  _t('Name'); ?></TD>
+    <TD><?php echo  _t('Status'); ?></TD>
+    <TD><?php echo  _t('Select'); ?></TD>
 </THEAD>
 <?php
     foreach($details as $detail){
@@ -488,16 +488,16 @@ function shn_mpr_search_select($details)
             '"><br />('._t('Click to change to found').')</a>';
 ?>
         </TD>
-        <TD><a title="<?= _t('Select'); ?>" href="index.php?<?=$_SERVER['QUERY_STRING'].
+        <TD><a title="<?php echo  _t('Select'); ?>" href="index.php?<?php echo $_SERVER['QUERY_STRING'].
                 '&tracker_id='.$detail['p_uuid'].
-                '&seq=tracker_select';?>" ><?= _t('Select'); ?></a>
+                '&seq=tracker_select';?>" ><?php echo  _t('Select'); ?></a>
         </TD>
     </TR>
 <?php
     }
 ?>
 </TABLE>
-<a title="<?= _t('Back'); ?>" href="index.php?<?=$_SERVER['QUERY_STRING']?>&seq=tracker_back"><?= _t('Back'); ?></a>
+<a title="<?php echo  _t('Back'); ?>" href="index.php?<?php echo $_SERVER['QUERY_STRING']?>&seq=tracker_back"><?php echo  _t('Back'); ?></a>
 </DIV>
 <?php
     shn_mpr_search_nav();

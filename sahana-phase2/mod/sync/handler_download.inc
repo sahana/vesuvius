@@ -35,7 +35,7 @@ echo "</center>";
 shn_form_fsopen(_t("Select Data"));
 ?>
 <p><?php echo _t("The following list shows the data which are available to export. Use the check boxes to select or deselect data you want to export. If the data you select has dependent data, they would be automatically added to export file.")."</p>";?>
-<?
+<?php
 foreach($modules as $module){
     if (file_exists($syncfile=$global['approot']."mod/".$module."/sync.xml"))
     handel_syncfile($syncfile);

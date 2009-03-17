@@ -24,7 +24,7 @@ function _shn_ims_level1_form($errors=false,$type=null)
 	    
 	    if($type=='Updated' || $type=='Deleted') {
 	        shn_form_fsopen(_t(""));
-?>			<p align="center"><?=$type;?></p>
+?>			<p align="center"><?php echo $type;?></p>
 <?php
 	        shn_form_fsclose();
 	    }
@@ -34,8 +34,8 @@ function _shn_ims_level1_form($errors=false,$type=null)
 ?>
 		<table>
 		<thead>
-    	<td width="100%"><strong><?=_t('Name');?></strong></td>
-    	<td width="100%"><strong><?=_t('Delete');?></strong></td>
+    	<td width="100%"><strong><?php echo _t('Name');?></strong></td>
+    	<td width="100%"><strong><?php echo _t('Delete');?></strong></td>
 		</thead>
 <?php
 		foreach($arr as $row) {
@@ -46,7 +46,7 @@ function _shn_ims_level1_form($errors=false,$type=null)
             shn_form_text('','level1_name['.$row['incident_id'].']',null,array('req'=>true,'no_label'=>true,'value'=>$row['name']))
     		?>
     		</td>
-    		<td><input type="checkbox" name="level1_delete[<?=$row['incident_id'];?>]" />
+    		<td><input type="checkbox" name="level1_delete[<?php echo $row['incident_id'];?>]" />
     		</td>
 			</tr>
 <?php
@@ -62,7 +62,7 @@ function _shn_ims_level1_form($errors=false,$type=null)
     shn_form_fopen("ims_level1",null,array('req_message'=>false));
     if($type=='added') {
         shn_form_fsopen(_t(""));
-?>		<p align="center"><?=$type;?></p>
+?>		<p align="center"><?php echo $type;?></p>
 <?php
         shn_form_fsclose();
     }
@@ -181,7 +181,7 @@ function _shn_ims_level2_form($errors=false,$type=null)
 	    
 	    if($type=='Updated' || $type=='Deleted') {
 	        shn_form_fsopen(_t(""));
-?>			<p align="center"><?=$type;?></p>
+?>			<p align="center"><?php echo $type;?></p>
 <?php
 	        shn_form_fsclose();
 	    }
@@ -200,24 +200,23 @@ function _shn_ims_level2_form($errors=false,$type=null)
 ?>
 			<tr>
     		<td>
-    		<?
-            shn_form_text('','level2_name['.$row['incident_id'].']',null,array('value'=>$row['name'],'no_label'=>true,'req'=>true));
+    		<?php            shn_form_text('','level2_name['.$row['incident_id'].']',null,array('value'=>$row['name'],'no_label'=>true,'req'=>true));
     		?>    		
     		</td>
     		<td>
-    		<select name="level2_parent_id[<?=$row['incident_id'];?>]">
+    		<select name="level2_parent_id[<?php echo $row['incident_id'];?>]">
 <?php
     		foreach($parent_ids as $parent_id => $name) {
 ?>
-        		<option value="<?=$parent_id;?>" <?=($parent_id==$row['parent_id']?'selected':'');?> >
-            	<?=$name;?>
+        		<option value="<?php echo $parent_id;?>" <?php echo ($parent_id==$row['parent_id']?'selected':'');?> >
+            	<?php echo $name;?>
         		</option>
 <?php
    			}
 ?>
     	</select>
     	</td>
-    	<td><input type="checkbox" name="level2_delete[<?=$row['incident_id'];?>]" />
+    	<td><input type="checkbox" name="level2_delete[<?php echo $row['incident_id'];?>]" />
     	</td>
 		</tr>
 <?php
@@ -233,7 +232,7 @@ function _shn_ims_level2_form($errors=false,$type=null)
     shn_form_fopen("ims_level2",null,array('req_message'=>false));
     if($type=='added') {
         shn_form_fsopen(_t(""));
-?>		<p align="center"><?=$type;?></p>
+?>		<p align="center"><?php echo $type;?></p>
 <?php
         shn_form_fsclose();
     }
@@ -375,7 +374,7 @@ function _shn_ims_level3_form($errors=false,$type=null)
 	    
 	    if($type=='Updated' || $type=='Deleted') {
 	        shn_form_fsopen(_t(""));
-?>			<p align="center"><?=$type;?></p>
+?>			<p align="center"><?php echo $type;?></p>
 <?php
 	        shn_form_fsclose();
 	    }
@@ -385,9 +384,9 @@ function _shn_ims_level3_form($errors=false,$type=null)
 ?>
 		<table width="100%">
 		<thead>
-    	<td><strong><?=_t('Name');?></strong></td>
-    	<td><strong><?=_t($conf['mod_admin_ims_level2']);?></strong></td>
-    	<td><strong><?=_t('Delete');?></strong></td>
+    	<td><strong><?php echo _t('Name');?></strong></td>
+    	<td><strong><?php echo _t($conf['mod_admin_ims_level2']);?></strong></td>
+    	<td><strong><?php echo _t('Delete');?></strong></td>
 		</thead>
 <?php
 		foreach($arr as $row) {
@@ -399,19 +398,19 @@ function _shn_ims_level3_form($errors=false,$type=null)
     		?>
     		</td>
     		<td>
-    		<select name="level3_parent_id[<?=$row['incident_id'];?>]">
+    		<select name="level3_parent_id[<?php echo $row['incident_id'];?>]">
 <?php
     		foreach($parent_ids as $parent_id => $name) {
 ?>
-        		<option value="<?=$parent_id;?>" <?=($parent_id==$row['parent_id']?'selected':'');?> >
-            	<?=$name;?>
+        		<option value="<?php echo $parent_id;?>" <?php echo ($parent_id==$row['parent_id']?'selected':'');?> >
+            	<?php echo $name;?>
         		</option>
 <?php
     		}
 ?>
     		</select>
     		</td>
-   			<td><input type="checkbox" name="level3_delete[<?=$row['incident_id'];?>]" />
+   			<td><input type="checkbox" name="level3_delete[<?php echo $row['incident_id'];?>]" />
    			</td>
 			</tr>
 <?php
@@ -427,7 +426,7 @@ function _shn_ims_level3_form($errors=false,$type=null)
     shn_form_fopen("ims_level3",null,array('req_message'=>false));
     if($type=='added') {
         shn_form_fsopen(_t(""));
-?>		<p align="center"><?=$type;?></p>
+?>		<p align="center"><?php echo $type;?></p>
 <?php
         shn_form_fsclose();
     }

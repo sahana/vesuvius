@@ -93,7 +93,7 @@ function shn_cr_all_view(){
 	global $global;
 	$db = $global['db'];
 	?>
-<h2><?=_t("Shelter Details")?></h2>
+<h2><?php echo _t("Shelter Details")?></h2>
 	<?php
 	/*$query="select c_uuid from camp_general where name='{$_REQUEST['cmp_id']}'";
 	$res=$db->Execute($query);
@@ -132,7 +132,7 @@ function shn_cr_all_view(){
 	$val=$ref->fields[0];
 	$name=$ref->fields[1];
 	?>
-	<option value='<?=$val?>'><?=$name?></option>
+	<option value='<?php echo $val?>'><?php echo $name?></option>
 	<?php
 	$ref->MoveNext();
 	}
@@ -230,7 +230,7 @@ function _shn_cr_cedt_chk($errors=false){
 
 	//var_dump($_SESSION);
 	?>
-<h2><?=("Shelter Checklist")?></h2>
+<h2><?php echo ("Shelter Checklist")?></h2>
 	<?php
 	shn_form_fopen("ecmp",'',array('req_message'=>false));
 	shn_form_fsopen(_t("Services / Facilities Available"));
@@ -520,9 +520,9 @@ function _shn_cr_cedt_commit()
 	}
 	?>
 
-<? add_confirmation(_t("You have succesfully edited shelter ").$_SESSION['camp_name']);?>
+<?php add_confirmation(_t("You have succesfully edited shelter ").$_SESSION['camp_name']);?>
 <br />
-<h3><?=_t("The availability of Services & Facilities of the shelter are as follows")?></h3>
+<h3><?php echo _t("The availability of Services & Facilities of the shelter are as follows")?></h3>
 
 	<!--To have the results shown in table format-->
 <div id="result">
@@ -588,7 +588,7 @@ function _shn_cr_cedit_confir(){
 	global $conf;
 	$db=$global['db'];
     ?>
-    <h2><?= _t('Confirm Registration Details of ').$_SESSION['camp_name'] ?></h2>
+    <h2><?php echo  _t('Confirm Registration Details of ').$_SESSION['camp_name'] ?></h2>
     <?php
     shn_form_fopen("ecmp",null,array('req_message'=>false,'name'=>""));
     shn_form_fsopen(_t('General Details'));

@@ -36,14 +36,14 @@ function replaceContent()
             //alert(http_request.responseText);
             result = http_request.responseText;
             if(block == 'cat'){
-            document.getElementById('<?=$replace_block1?>').innerHTML = result;
-            document.getElementById('<?=$replace_block2?>').innerHTML = ""; 
+            document.getElementById('<?php echo $replace_block1?>').innerHTML = result;
+            document.getElementById('<?php echo $replace_block2?>').innerHTML = ""; 
             document.getElementById('itm_unit').innerHTML = ""; 
             document.getElementById('qty').value = "";
             }
             else{
             	if(block == 'subcat'){
-            		document.getElementById('<?=$replace_block2?>').innerHTML = result;
+            		document.getElementById('<?php echo $replace_block2?>').innerHTML = result;
             		document.getElementById('itm_unit').innerHTML = "";
             		document.getElementById('qty').value = ""; 
             	}

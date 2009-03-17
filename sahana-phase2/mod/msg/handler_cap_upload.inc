@@ -37,7 +37,7 @@ function _shn_cap_upload_getfile()
     $act = 'cap_upload';
 ?>
     <div class="form-container">
-    <form  id='formset' enctype="multipart/form-data" action="index.php?mod=<?=$mod?>&act=<?=$act?>" method="POST">
+    <form  id='formset' enctype="multipart/form-data" action="index.php?mod=<?php echo $mod?>&act=<?php echo $act?>" method="POST">
     <fieldset>
     <legend>Message Upload</legend>
     <input type="hidden" name="MAX_FILE_SIZE" value="1000000" />

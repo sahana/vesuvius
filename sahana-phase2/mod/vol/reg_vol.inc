@@ -25,7 +25,7 @@ function _shn_vol_regform($error=false)
     global $conf;
     $db=$global['db'];
 ?>
-<h2><?=_t("Volunteer Registration")?> </h2>
+<h2><?php echo _t("Volunteer Registration")?> </h2>
 <?php
     if($error)
         display_errors();
@@ -34,7 +34,7 @@ function _shn_vol_regform($error=false)
 <?php
     shn_form_fopen("reg_vol_confirm");
    	shn_form_fsopen('Primary Details');
-   	?><div class="info"><?= _t("These are the basic details of a Volunteer. Name is required ,but others optional")."</div><br />";
+   	?><div class="info"><?php echo  _t("These are the basic details of a Volunteer. Name is required ,but others optional")."</div><br />";
     $extra_opts['req']=true;
     if($error==true){
     		$extra_opts['value']=$_SESSION['vol']['name'];
@@ -54,7 +54,7 @@ function _shn_vol_regform($error=false)
    
     shn_form_fsclose();
     shn_form_fsopen('Identity Information');
-    ?><div class="info"><?= _t("Please enter all the identity information you have. e.g Passport No ")."</div><br />";
+    ?><div class="info"><?php echo  _t("Please enter all the identity information you have. e.g Passport No ")."</div><br />";
     if($error==true){
     		$extra_opts['value']=$_SESSION['vol']['nic'];
     }
@@ -118,7 +118,7 @@ function _shn_vol_regconfirm()
     global $conf;
     $db=$global['db'];
 ?>
-<h2><?= _t('Confirm Registration Details of ').$_SESSION['vol']['name'] ?></h2>
+<h2><?php echo  _t('Confirm Registration Details of ').$_SESSION['vol']['name'] ?></h2>
 <div id="formcontainer">
 <?php
     shn_form_fopen("reg_cr",null,array('req_message'=>false,'name'=>"confirm_reg"));

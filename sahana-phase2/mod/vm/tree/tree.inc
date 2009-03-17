@@ -1,5 +1,4 @@
-<?
-
+<?php
 /**
  * Defines a Tree class for use and display with the Tree and Node
  * classes (and related subclasses) in javascript

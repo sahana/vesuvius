@@ -152,7 +152,7 @@ function _shn_rms_ax_location_other($id=null)
 	    $bsd_village = _shn_rms_get_requester_locs($id);
 	    $info=_t("Select a location where the request is related.")."<br />";
         $info.=_t("If you want to make the request for a new location, add the location first.")."<br />";
-	    ?><div class="info"><?php echo $info;?></div><br /><?
+	    ?><div class="info"><?php echo $info;?></div><br /><?php
 	    
 	    shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
         shn_form_hidden(array('seq'=>'get_loc'));

@@ -22,7 +22,7 @@
  
 function _shn_dvr_drill_downby_group() {
 ?>	
- 	 <h2><?=_t("Disaster Victim Report by group") ?></h2>
+ 	 <h2><?php echo _t("Disaster Victim Report by group") ?></h2>
  	 
  	 <?php
  	 
@@ -47,13 +47,13 @@ function _shn_dvr_drill_downby_group() {
    	 <div id ="result">
 	<table>
         <thead>
-        	<!--  <td><?=_t("Group Id")?></td>-->
-            <td><?=_t("Group Type")?></td>
-            <td><?=_t("Group Head Name")?></td>
-            <td><?=_t("Family Name")?></td>
-           <!-- <td><?=_t("Local Name")?></td>-->
-          	<td><?=_t("NIC")?></td>
-            <td><?=_t("Address")?></td>
+        	<!--  <td><?php echo _t("Group Id")?></td>-->
+            <td><?php echo _t("Group Type")?></td>
+            <td><?php echo _t("Group Head Name")?></td>
+            <td><?php echo _t("Family Name")?></td>
+           <!-- <td><?php echo _t("Local Name")?></td>-->
+          	<td><?php echo _t("NIC")?></td>
+            <td><?php echo _t("Address")?></td>
             
         </thead>
         <?php
@@ -62,14 +62,14 @@ function _shn_dvr_drill_downby_group() {
         ?>
         
         <tr>
-           <!-- <td><a href='index.php?mod=dvr&act=view_members&groupid=<?=$results->fields['group_id']?>'><?=$results->fields['group_id']?></a></td>-->
-        <td><?=_shn_dvr_getoptiondescription($results->fields['group_type'])?></td>
+           <!-- <td><a href='index.php?mod=dvr&act=view_members&groupid=<?php echo $results->fields['group_id']?>'><?php echo $results->fields['group_id']?></a></td>-->
+        <td><?php echo _shn_dvr_getoptiondescription($results->fields['group_type'])?></td>
             
-            <td><a href='index.php?mod=dvr&act=view_members&groupid=<?=$results->fields['group_id']?>'><?=$results->fields['full_name']?></a></td>
-            <td><?=$results->fields['family_name']?></td>
-           <!-- <td><?=$results->fields['local_name']?></td>-->
-          	<td><?=$results->fields['serial']?></td>
-            <td><?=$results->fields['address']?></td>
+            <td><a href='index.php?mod=dvr&act=view_members&groupid=<?php echo $results->fields['group_id']?>'><?php echo $results->fields['full_name']?></a></td>
+            <td><?php echo $results->fields['family_name']?></td>
+           <!-- <td><?php echo $results->fields['local_name']?></td>-->
+          	<td><?php echo $results->fields['serial']?></td>
+            <td><?php echo $results->fields['address']?></td>
             
             
 
@@ -91,15 +91,15 @@ function _shn_dvr_drill_downby_shelter()
     $camps=_shn_dvr_get_camps();
 
 ?>
- 	  <h2><?=_t("Disaster Victim Report by Shelter") ?></h2>
+ 	  <h2><?php echo _t("Disaster Victim Report by Shelter") ?></h2>
    	 <div id ="result">
 	<table>
         <thead>
         		
-            <!--<td><?=_t("Camp Id")?></td>-->
-            <td><?=_t("Camp Name")?></td>
-            <td><?=_t("Address")?></td>
-            <td><?=_t("Capacity")?></td>
+            <!--<td><?php echo _t("Camp Id")?></td>-->
+            <td><?php echo _t("Camp Name")?></td>
+            <td><?php echo _t("Address")?></td>
+            <td><?php echo _t("Capacity")?></td>
          
         </thead>
         
@@ -109,10 +109,10 @@ function _shn_dvr_drill_downby_shelter()
 	
 ?>
 <tr>
-	<!-- <td><a href='index.php?mod=dvr&act=drill_downby_group&camp_id=<?= $camps->fields['c_uuid']?>'><?= $camps->fields['c_uuid']?></a></td>-->
-	<td><a href='index.php?mod=dvr&act=drill_downby_group&camp_id=<?= $camps->fields['c_uuid']?>'><?=$camps->fields['name']?></td>
-	<td><?=$camps->fields['address']?></td>
-	<td><?=$camps->fields['capacity']?></td>
+	<!-- <td><a href='index.php?mod=dvr&act=drill_downby_group&camp_id=<?php echo  $camps->fields['c_uuid']?>'><?php echo  $camps->fields['c_uuid']?></a></td>-->
+	<td><a href='index.php?mod=dvr&act=drill_downby_group&camp_id=<?php echo  $camps->fields['c_uuid']?>'><?php echo $camps->fields['name']?></td>
+	<td><?php echo $camps->fields['address']?></td>
+	<td><?php echo $camps->fields['capacity']?></td>
 </tr>
 <?php
     $camps->MoveNext();
@@ -133,13 +133,13 @@ function _shn_dvr_drill_downby_incident() {
     $incidents=_shn_dvr_get_incidents();
 
 ?>
- 	  <h2><?=_t("Disaster Victim Report by Incident") ?></h2>
+ 	  <h2><?php echo _t("Disaster Victim Report by Incident") ?></h2>
    	 <div id ="result">
 	<table>
         <thead>
         		
-            <!-- <td><?=_t("Incident Id")?></td>-->
-            <td><?=_t("Incident Name")?></td>
+            <!-- <td><?php echo _t("Incident Id")?></td>-->
+            <td><?php echo _t("Incident Name")?></td>
             
          
          
@@ -151,8 +151,8 @@ function _shn_dvr_drill_downby_incident() {
 	
 ?>
 <tr>
-	<!-- <td><a href='index.php?mod=dvr&act=drill_downby_group&incident_id=<?= $incidents->fields['incident_id']?>'><?= $incidents->fields['incident_id']?></a></td>-->
-	<td><a href='index.php?mod=dvr&act=drill_downby_group&incident_id=<?= $incidents->fields['incident_id']?>'><?=$incidents->fields['name']?></td>
+	<!-- <td><a href='index.php?mod=dvr&act=drill_downby_group&incident_id=<?php echo  $incidents->fields['incident_id']?>'><?php echo  $incidents->fields['incident_id']?></a></td>-->
+	<td><a href='index.php?mod=dvr&act=drill_downby_group&incident_id=<?php echo  $incidents->fields['incident_id']?>'><?php echo $incidents->fields['name']?></td>
 </tr>
 <?php
     $incidents->MoveNext();

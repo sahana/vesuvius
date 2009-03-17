@@ -19,7 +19,7 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
  */
  ?>
 <div id="home">
-<h2><?= _t('Disaster Victim Registry'); ?></h2>
+<h2><?php echo  _t('Disaster Victim Registry'); ?></h2>
 <p>
 <?php
 
@@ -58,14 +58,14 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
 </ul>
 <strong><?php echo _t("Description of Actions:")?></strong><br/>
     <ul>
-        <li><a href="index.php?mod=dvr&act=add_new_grp"><b><?= _t('Add New Group'); ?> </b></a><br/><?= _t('Adding a new disaster victim group'); ?></li>
-        <li><a href="index.php?mod=dvr&act=add_new_indv"><b><?= _t('Add New Individuals'); ?> </b> </a><br/><?= _t('Adding a disaster victim under each and every victim group'); ?></li>
-        <li><a href="index.php?mod=dvr&act=search_group"><b><?= _t('Search & Edit Group'); ?></b></a><br/><?= _t('Searching and editing a victim group'); ?></li>
-        <li><a href="index.php?mod=dvr&act=search_individual"><b><?= _t('Search & Edit Individuals'); ?></b></a><br/><?= _t('Searching and editing a victim'); ?>
-        <li><a href="index.php?mod=dvr&act=list_groups"><b><?= _t('List groups/ View members'); ?></b></a><br/><?= _t('List all the groups and view members'); ?></li>
-        <li><a href="index.php?mod=dvr&act=drill_downby_group"><b><?= _t('Drill Down By Group'); ?> </b></a><br/><?= _t('Drill down by disaster victim group report'); ?></li>
-        <li><a href="index.php?mod=dvr&act=drill_downby_shelter"><b><?= _t('Drill Down By Shelter'); ?> </b></a><br/><?= _t('Drill down by shelter report'); ?></li>
-        <li><a href="index.php?mod=dvr&act=drill_downby_incident"><b><?= _t('Drill Down By Incident'); ?> </b></a><br/><?= _t('Drill down by incident report'); ?></li>
+        <li><a href="index.php?mod=dvr&act=add_new_grp"><b><?php echo  _t('Add New Group'); ?> </b></a><br/><?php echo  _t('Adding a new disaster victim group'); ?></li>
+        <li><a href="index.php?mod=dvr&act=add_new_indv"><b><?php echo  _t('Add New Individuals'); ?> </b> </a><br/><?php echo  _t('Adding a disaster victim under each and every victim group'); ?></li>
+        <li><a href="index.php?mod=dvr&act=search_group"><b><?php echo  _t('Search & Edit Group'); ?></b></a><br/><?php echo  _t('Searching and editing a victim group'); ?></li>
+        <li><a href="index.php?mod=dvr&act=search_individual"><b><?php echo  _t('Search & Edit Individuals'); ?></b></a><br/><?php echo  _t('Searching and editing a victim'); ?>
+        <li><a href="index.php?mod=dvr&act=list_groups"><b><?php echo  _t('List groups/ View members'); ?></b></a><br/><?php echo  _t('List all the groups and view members'); ?></li>
+        <li><a href="index.php?mod=dvr&act=drill_downby_group"><b><?php echo  _t('Drill Down By Group'); ?> </b></a><br/><?php echo  _t('Drill down by disaster victim group report'); ?></li>
+        <li><a href="index.php?mod=dvr&act=drill_downby_shelter"><b><?php echo  _t('Drill Down By Shelter'); ?> </b></a><br/><?php echo  _t('Drill down by shelter report'); ?></li>
+        <li><a href="index.php?mod=dvr&act=drill_downby_incident"><b><?php echo  _t('Drill Down By Incident'); ?> </b></a><br/><?php echo  _t('Drill down by incident report'); ?></li>
 </ul>
 
 
@@ -78,7 +78,7 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
 
 
 
-<h1><?= _t('Latest updates on Reported  Victims'); ?></h1>
+<h1><?php echo  _t('Latest updates on Reported  Victims'); ?></h1>
 <?php
 
     _shn_dvr_home_show_dvr();
@@ -122,7 +122,7 @@ function _shn_dvr_search_show_verticle($details)
 ?>
 <DIV ID="result">
 <TABLE>
-<?
+<?php
     for($i=0; $i<count($details); $i+=2){
         if($details[$i]){
 ?>

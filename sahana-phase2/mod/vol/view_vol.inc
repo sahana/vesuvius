@@ -27,14 +27,14 @@ function _shn_vol_viewform_all()
 <div id ="result">
     <table>
         <thead>
-            <td><?=_t("Name")?></td>
-	        <td><?=_t("Services Offered")?></td>
-            <td><?=_t("Skills")?></td>
-           <!-- <td><?=_t("Country of Origin")?></td>-->
-            <td><?=_t("Contact Address")?></td>
-            <td><?=_t("Contact Number")?></td>
-            <td><?=_t("Contact Mobile")?></td>
-            <td><?=_t("Contact Email")?></td>
+            <td><?php echo _t("Name")?></td>
+	        <td><?php echo _t("Services Offered")?></td>
+            <td><?php echo _t("Skills")?></td>
+           <!-- <td><?php echo _t("Country of Origin")?></td>-->
+            <td><?php echo _t("Contact Address")?></td>
+            <td><?php echo _t("Contact Number")?></td>
+            <td><?php echo _t("Contact Mobile")?></td>
+            <td><?php echo _t("Contact Email")?></td>
         </thead>
 <?php    
     $q = "select person_uuid.p_uuid,full_name,opt_country,occupation from person_details,person_status,person_uuid where person_status.isReliefWorker=1 and  person_status.p_uuid=person_uuid.p_uuid and person_details.p_uuid=person_uuid.p_uuid order by full_name";
@@ -145,7 +145,7 @@ function _shn_vol_viewform($pid,$error=false)
  
     }
 ?>
-<h2><?=_t("Volunteer Registration information of ")?><em> <?php echo $name ?></em> </h2>
+<h2><?php echo _t("Volunteer Registration information of ")?><em> <?php echo $name ?></em> </h2>
 <?php
  if($error==true)
         display_errors();
@@ -159,7 +159,7 @@ function _shn_vol_viewform($pid,$error=false)
    // shn_show_thumb($pid);
    // shn_form_fsclose();
    	shn_form_fsopen(_t('Primary Details'));
-   	?><div class="info"><?= _t("These are the basic details of a Volunteer. Name is required ,but others optional")."</div><br />";
+   	?><div class="info"><?php echo  _t("These are the basic details of a Volunteer. Name is required ,but others optional")."</div><br />";
     $extra_opts['value']=$name;
     $extra_opts['req']=true;
     shn_form_text(_t("Name in Full : "),'name','size="50"',$extra_opts); 
@@ -172,7 +172,7 @@ function _shn_vol_viewform($pid,$error=false)
     _shn_vol_display_gender($error,$sex);
     shn_form_fsclose();
     shn_form_fsopen(_t('Identity Information'));
-    ?><div class="info"><?= _t("Please enter all the identity information you have. e.g Passport No ")."</div><br />";
+    ?><div class="info"><?php echo  _t("Please enter all the identity information you have. e.g Passport No ")."</div><br />";
     $extra_opts['value']=$nic;
     shn_form_text(_t("National ID No : "),'nic','size="50"',$extra_opts); 
     $extra_opts['value']=$pas;

@@ -94,7 +94,7 @@ function _shn_sn_create_group($errors = false){
     }
 
 	?>
-	<div align="right"><a href="index.php?mod=sn&act=log_out"><b><?= ('Logout'); ?> </b></a></div>
+	<div align="right"><a href="index.php?mod=sn&act=log_out"><b><?php echo  ('Logout'); ?> </b></a></div>
     <h2><center><?php print (('Create your own groups as you wish')); ?></center></h2>
     <?php
    // shn_form_fopen('sn_groups','sn', array ('req_message' => true,'enctype' => 'enctype="multipart/form-data"'));
@@ -315,7 +315,7 @@ function _shn_sn_validate(){
  */
 /*function _shn_sn_invite_friends(){
 	?>
-	<div align="right"><a href="index.php?mod=sn&act=log_out"><b><?= _t('Logout'); ?> </b></a></div>
+	<div align="right"><a href="index.php?mod=sn&act=log_out"><b><?php echo  _t('Logout'); ?> </b></a></div>
 	<h3><font color="red"> Group Created Successfully....... </font></h3>
     <h2><center><?php print (_t('Invite your friends to be involved in this group')); ?></center></h2>
     <?php

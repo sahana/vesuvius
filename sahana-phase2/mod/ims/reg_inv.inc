@@ -31,7 +31,7 @@ function _shn_ims_regform_inv($error=false)
 
    
 ?>
-<h2><?= _t('Add an Inventory')?></h2>
+<h2><?php echo  _t('Add an Inventory')?></h2>
 <?php
     if($error==true)
         display_errors();
@@ -87,7 +87,7 @@ function _shn_ims_regform_operation($error=false)
     $db=$global['db'];
     
 ?>
-<h2><?=_t("Add an Operation/Branch under the Inventory ").$_SESSION["parent_name"]?> </h2>
+<h2><?php echo _t("Add an Operation/Branch under the Inventory ").$_SESSION["parent_name"]?> </h2>
 <?php
     if($error)
     display_errors();

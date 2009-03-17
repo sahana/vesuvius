@@ -85,13 +85,13 @@ function shn_skel_default()
 
 ?>
 <div id="home">
-<h2><?= _t('Skeleton Module'); ?></h2>
-<p><?= _t('This is a description of the module that we typically
+<h2><?php echo  _t('Skeleton Module'); ?></h2>
+<p><?php echo  _t('This is a description of the module that we typically
 give on the first page with it\' features listed below')?>
-<?= _t('Features include:');?></p>
+<?php echo  _t('Features include:');?></p>
 <ul>
-    <li><?=_t('Give a description of the features')?></li>
-    <li><?=_t('Feature 2')?></li>
+    <li><?php echo _t('Give a description of the features')?></li>
+    <li><?php echo _t('Feature 2')?></li>
 </ul>
 </div>
 

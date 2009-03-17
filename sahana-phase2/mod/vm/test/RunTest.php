@@ -48,7 +48,7 @@ $title = empty($test)? 'RunTest' : $test;
 ?>
 <html>
 	<head>
-		<title><?=$title?></title>
+		<title><?php echo $title?></title>
 		<style type="text/css">
 			.ok {
 				color: #0c0;
@@ -62,7 +62,7 @@ $title = empty($test)? 'RunTest' : $test;
 		</style>
 	</head>
 	<body>
-<h2><?=$title?></h2>
+<h2><?php echo $title?></h2>
 <p>
 The following unit tests are available:
 <ul>

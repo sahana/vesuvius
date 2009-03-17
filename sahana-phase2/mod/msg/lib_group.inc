@@ -13,7 +13,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: lib_group.inc,v 1.11 2008-05-30 09:58:16 priyanga Exp $
+* @version		$Id: lib_group.inc,v 1.12 2009-03-17 06:08:24 ravithb Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 *  
 */
@@ -79,8 +79,8 @@ function shn_msg_view_group($id)
   			</tr>
 		</table>
 
-		<?
-		shn_form_fsclose();
+		<?php
+				shn_form_fsclose();
 		/*shn_form_fsopen("Member Information");
 		
 		shn_form_fsclose();*/
@@ -95,8 +95,8 @@ function _shn_msg_member_list($group_id)
 	$members=shn_msg_show_members($group_id, $name=true);
 	foreach($members as $person_id => $person){
 		//print $id." ".$person."<br>";
-		?> <a href="index.php?mod=msg&act=select_person&id=<?print $person_id; ?>&grpid=<?print $group_id; ?>"><?php print $person; ?></a><?
-		print "<br>";
+		?> <a href="index.php?mod=msg&act=select_person&id=<?print $person_id; ?>&grpid=<?print $group_id; ?>"><?php print $person; ?></a><?php
+				print "<br>";
 	}
 }
 

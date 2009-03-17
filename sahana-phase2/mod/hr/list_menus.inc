@@ -64,11 +64,11 @@ function shn_hr_list_menu1_and_menu2($search=false,$menu2=false,$no_dta=false)
 <div id ="result">
        <table>
        <thead>
-           <td><?=_t("Head Of Family Unique ID")?></td>
-           <td><?=_t("Head Of Family Name")?></td>
-           <td><?=_t("Contact Information")?></td>
-           <td><?=_t("Damaged House Destruction Level")?></td>
-           <td><?=_t("Damaged House Location")?></td>
+           <td><?php echo _t("Head Of Family Unique ID")?></td>
+           <td><?php echo _t("Head Of Family Name")?></td>
+           <td><?php echo _t("Contact Information")?></td>
+           <td><?php echo _t("Damaged House Destruction Level")?></td>
+           <td><?php echo _t("Damaged House Location")?></td>
        </thead>
        <tbody> 
 <?php
@@ -78,8 +78,8 @@ function shn_hr_list_menu1_and_menu2($search=false,$menu2=false,$no_dta=false)
        ?>
 
        <tr>
-	        <td><?= $res->fields[0]?></td> 
-           	<td><?= $res->fields[1]?>
+	        <td><?php echo  $res->fields[0]?></td> 
+           	<td><?php echo  $res->fields[1]?>
 			<br>
 			<a href="index.php?mod=hr&act=add_to_session&edit_seq=edit_registered_hf&hf_uid=<?php echo $res->fields[0] ?>"><?php print ("Edit");?></a>
 		</td>
@@ -105,18 +105,18 @@ function shn_hr_list_menu1_and_menu2($search=false,$menu2=false,$no_dta=false)
 		{
 			if(($res1->fields[0]=="")&&($res2->fields[0]=="")&&($res3->fields[0]=="")&&($res4->fields[0]==""))
 			{?>
-				<td><?="--Not Applicable--"?></td><?
+				<td><?php echo "--Not Applicable--"?></td><?phpp
  			}
  			else
  			{?>
 				<td>
-       		 	<?= $res1->fields[0]." ".$res2->fields[0]." ".$res3->fields[0]." ".$res4->fields[0]?>
-				</td><?
+       		 	<?php echo  $res1->fields[0]." ".$res2->fields[0]." ".$res3->fields[0]." ".$res4->fields[0]?>
+				</td><?phpp
 			}
 		}
 		if((!$res5==NULL)&&(!$res5->EOF))
 		{?>
-			<td><?= $res5->fields[0];	
+			<td><?php echo  $res5->fields[0];	
 		}?>
 		
 				<br>
@@ -124,11 +124,11 @@ function shn_hr_list_menu1_and_menu2($search=false,$menu2=false,$no_dta=false)
 			</td>
 			<?php if($res->fields[3]=="unknown"||$res->fields[3]=="-1")
 			{?>
-				<td><?="--Location Unknown--"?></td><?
+				<td><?php echo "--Location Unknown--"?></td><?phpp
 			}
 			else
 			{?>
-			<td><?= _shn_org_location_string($res->fields[3])?></td><?
+			<td><?php echo  _shn_org_location_string($res->fields[3])?></td><?php
 			}?>
 	
       </tr>
@@ -142,14 +142,14 @@ function shn_hr_list_menu1_and_menu2($search=false,$menu2=false,$no_dta=false)
   else if($no_dta && $menu2) 
   { 
      ?><div id="note">
-    <strong><?=_t("Please Add One Or More Damaged House(s) Before Starting To Search")?></strong>
+    <strong><?php echo _t("Please Add One Or More Damaged House(s) Before Starting To Search")?></strong>
     </div>
     <?php 
   }
   else if($no_dta) 
   { 
      ?><div id="note">
-    <strong><?=_t("Please Add One Or More Homeless Family(ies) Before Starting To Search")?></strong>
+    <strong><?php echo _t("Please Add One Or More Homeless Family(ies) Before Starting To Search")?></strong>
     </div>
     <?php 
   }
@@ -157,7 +157,7 @@ function shn_hr_list_menu1_and_menu2($search=false,$menu2=false,$no_dta=false)
   { 
   	add_error("The search did not return any results");	
     ?><div id="note">
-    <strong><?=_t("No Homeless Family(ies) Found")?></strong>
+    <strong><?php echo _t("No Homeless Family(ies) Found")?></strong>
     </div>
     <?php
   }
@@ -165,7 +165,7 @@ function shn_hr_list_menu1_and_menu2($search=false,$menu2=false,$no_dta=false)
   { 
   	add_error("The search did not return any results");	
     ?><div id="note">
-    <strong><?=_t("No Damaged House(s) Found")?></strong>
+    <strong><?php echo _t("No Damaged House(s) Found")?></strong>
     </div>
     <?php
   }
@@ -225,11 +225,11 @@ contractor_level,contractor_name,contractor_uid,assign_site_to_contractor FROM h
 <div id ="result">
        <table>
        <thead>
-           <td><?=_t("Unique ID")?></td>
-           <td><?=_t("Level")?></td>
-           <td><?=_t("Name")?></td>
-           <td><?=_t("Contact Information")?></td>
-           <td><?=_t("Assigned Sites")?></td>
+           <td><?php echo _t("Unique ID")?></td>
+           <td><?php echo _t("Level")?></td>
+           <td><?php echo _t("Name")?></td>
+           <td><?php echo _t("Contact Information")?></td>
+           <td><?php echo _t("Assigned Sites")?></td>
        </thead>
        <tbody>
 <?php 
@@ -243,7 +243,7 @@ contractor_level,contractor_name,contractor_uid,assign_site_to_contractor FROM h
        ?>
 
        <tr>
-	       <td><?= $res->fields[2]?></td> 
+	       <td><?php echo  $res->fields[2]?></td> 
  <?php 
 $cntrctr_lvl = $res->fields[0];
 $contractor_contact_uid="contractor_contact_".$res->fields[2];
@@ -262,9 +262,9 @@ $contractor_contact_uid="contractor_contact_".$res->fields[2];
 
 	if((!$res5==NULL)&&(!$res5->EOF))
 	{?>
-	       <td><?= $res5->fields[0]?></td> 
+	       <td><?php echo  $res5->fields[0]?></td> 
   <?}?>
-               <td><?= $res->fields[1]?>
+               <td><?php echo  $res->fields[1]?>
 		<br>
 	<?php if(!$assign_to_site)
 		{?>
@@ -276,12 +276,12 @@ $contractor_contact_uid="contractor_contact_".$res->fields[2];
 		{
 			if(($res1->fields[0]=="")&&($res2->fields[0]=="")&&($res3->fields[0]=="")&&($res4->fields[0]==""))
 			{?>
-				<td><?="--Not Applicable--"?></td><?
+				<td><?php echo "--Not Applicable--"?></td><?php
  			}
  			else
  			{?>
 				<td>
-       		 	<?= $res1->fields[0]." ".$res2->fields[0]." ".$res3->fields[0]." ".$res4->fields[0]?>
+       		 	<?php echo  $res1->fields[0]." ".$res2->fields[0]." ".$res3->fields[0]." ".$res4->fields[0]?>
 				</td><?php
 			}
 		}
@@ -302,9 +302,9 @@ $contractor_contact_uid="contractor_contact_".$res->fields[2];
     		shn_form_opt_multi_select('optn_unq_site_name','&nbsp','multiple="true" id="x"',$extra_opts);
 	        ?>
 	        </form>
-	<a href="index.php?mod=hr&act=add_to_session&edit_seq=assign_to_site&contractor_uid=<?php echo $res->fields[2] ?>" onClick=" javascript: return sbmt_assign_site_to_contractor(<?=$count?>,'<?=$res->fields[2]?>')" ><?php print ("Edit");?></a>
+	<a href="index.php?mod=hr&act=add_to_session&edit_seq=assign_to_site&contractor_uid=<?php echo $res->fields[2] ?>" onClick=" javascript: return sbmt_assign_site_to_contractor(<?php echo $count?>,'<?php echo $res->fields[2]?>')" ><?php print ("Edit");?></a>
 		</td> 
-		<?
+		<?php
 		}
 		else
  		{
@@ -321,7 +321,7 @@ $contractor_contact_uid="contractor_contact_".$res->fields[2];
 			if ($assign_site_to_contractor_string_rslt=="") $assign_site_to_contractor_string_rslt="--None Assigned--";
  			?>
 			<td>
-       		 <?= $assign_site_to_contractor_string_rslt?>
+       		 <?php echo  $assign_site_to_contractor_string_rslt?>
 			</td><?php
 		}?>
       </tr>
@@ -336,7 +336,7 @@ $contractor_contact_uid="contractor_contact_".$res->fields[2];
   else if($no_dta) 
   { 
      ?><div id="note">
-    <strong><?=_t("Please Add One Or More Contractor(s) Before Starting To Search")?></strong>
+    <strong><?php echo _t("Please Add One Or More Contractor(s) Before Starting To Search")?></strong>
     </div>
     <?php 
   }
@@ -344,7 +344,7 @@ $contractor_contact_uid="contractor_contact_".$res->fields[2];
   {
   	 add_error("The search did not return any results");
     ?><div id="note">
-    <strong><?=_t("No Contractor(s) Found")?></strong>
+    <strong><?php echo _t("No Contractor(s) Found")?></strong>
     </div>
     <?php
   }
@@ -429,14 +429,14 @@ site_name,site_uid,site_allocated_organization,assign_contractor_to_site,site_ma
 <div id ="result">
        <table>
        <thead>
-           <td><?=_t("Unique ID")?></td>
-           <td><?=_t("Site Name")?></td>
-           <td><?=_t("Allocated Organization")?></td>
-           <td><?=_t("Assigned Contractors")?></td>
-           <td><?=_t("Main Coordinator")?></td>
-           <td><?=_t("Planned / Constructed / Vacant Houses")?></td>
-           <td><?=_t("Infrastructure")?></td>
-           <td><?=_t("Location")?></td>
+           <td><?php echo _t("Unique ID")?></td>
+           <td><?php echo _t("Site Name")?></td>
+           <td><?php echo _t("Allocated Organization")?></td>
+           <td><?php echo _t("Assigned Contractors")?></td>
+           <td><?php echo _t("Main Coordinator")?></td>
+           <td><?php echo _t("Planned / Constructed / Vacant Houses")?></td>
+           <td><?php echo _t("Infrastructure")?></td>
+           <td><?php echo _t("Location")?></td>
        </thead>
        <tbody>
 <?php
@@ -449,10 +449,10 @@ site_name,site_uid,site_allocated_organization,assign_contractor_to_site,site_ma
        ?>
 
        <tr>
-	       <td><?= $res->fields[1]?>
-	       <td><?= $res->fields[0]?>
+	       <td><?php echo  $res->fields[1]?>
+	       <td><?php echo  $res->fields[0]?>
 		<br>
-		<? if(!$assign_contractor) 
+		<?php if(!$assign_contractor) 
 		{ ?> 
 			<a href="index.php?mod=hr&act=add_to_session&edit_seq=edit_registered_st&site_uid=<?php echo $res->fields[1] ?>"><?php print ("Edit");?></a>
 		<?}?>
@@ -462,7 +462,7 @@ $site_allocated_organization = $res->fields[2];
 $q2 = "SELECT option_description FROM field_options WHERE option_code='$site_allocated_organization'";
 	       $res2=$db->Execute($q2);
 ?>   
-               <td><?= $res2->fields[0]?>
+               <td><?php echo  $res2->fields[0]?>
 <?php
 		if($assign_contractor) 
 		{
@@ -478,7 +478,7 @@ $q2 = "SELECT option_description FROM field_options WHERE option_code='$site_all
     shn_form_opt_multi_select('optn_unq_contractor_name','&nbsp','multiple="true" id="x"',$extra_opts);
 		?> 
 		</form>
-	<a href="index.php?mod=hr&act=add_to_session&edit_seq=assign_contractor&site_uid=<?php echo $res->fields[1] ?>" onClick=" javascript: return sbmt_assign_contractor_to_site(<?=$count?>,'<?=$res->fields[1]?>')" ><?php print ("Edit");?></a>
+	<a href="index.php?mod=hr&act=add_to_session&edit_seq=assign_contractor&site_uid=<?php echo $res->fields[1] ?>" onClick=" javascript: return sbmt_assign_contractor_to_site(<?php echo $count?>,'<?php echo $res->fields[1]?>')" ><?php print ("Edit");?></a>
 		</td> 
 		<?}
 		else
@@ -497,16 +497,16 @@ $q2 = "SELECT option_description FROM field_options WHERE option_code='$site_all
  			?>
  			
 			<td>
-        		<?= $assign_contractor_to_site_string_rslt?>
+        		<?php echo  $assign_contractor_to_site_string_rslt?>
 			</td> <?php
 		}?>
 
 
-	       <td><?= $res->fields[4]?></td> 
+	       <td><?php echo  $res->fields[4]?></td> 
 		<?php 
 		if(($res->fields[5]=="")&&($res->fields[6]=="")&&($res->fields[7]==""))
 		{?>
-			<td><?="--Not Applicable--"?></td><?
+			<td><?php echo "--Not Applicable--"?></td><?php
 		}
 		else
 		{
@@ -514,7 +514,7 @@ $q2 = "SELECT option_description FROM field_options WHERE option_code='$site_all
 			if($res->fields[6]=="") $res->fields[6]="--Not Applicable--";
 			if($res->fields[7]=="") $res->fields[7]="--Not Applicable--"; 
 		?> 
-        	<td><?= $res->fields[5]." / ".$res->fields[6]." / ".$res->fields[7]?></td><?
+        	<td><?php echo  $res->fields[5]." / ".$res->fields[6]." / ".$res->fields[7]?></td><?php
         }?>
  <?php 
 $infrastructure_str1="";
@@ -531,14 +531,14 @@ else
 	$infrastructure_str2=substr($infrastructure_str1,0,-2);
 }
 ?>
-	       <td><?= $infrastructure_str2?></td> 
+	       <td><?php echo  $infrastructure_str2?></td> 
 	       	<?php if($res->fields[13]=="unknown"||$res->fields[13]=="-1")
 			{?>
-				<td><?="--Location Unknown--"?></td><?
+				<td><?php echo "--Location Unknown--"?></td><?php
 			}
 			else
 			{?>
-				<td><?= _shn_org_location_string($res->fields[13])?></td><?
+				<td><?php echo  _shn_org_location_string($res->fields[13])?></td><?php
 			}?>
       </tr>
 
@@ -552,7 +552,7 @@ else
   else if($no_dta) 
   { 
      ?><div id="note">
-    <strong><?=_t("Please Add One Or More Site(s) Before Starting To Search")?></strong>
+    <strong><?php echo _t("Please Add One Or More Site(s) Before Starting To Search")?></strong>
     </div>
     <?php 
   }
@@ -560,7 +560,7 @@ else
   {
      add_error("The search did not return any results");
      ?><div id="note">
-    <strong><?=_t("No Site(s) Found")?></strong>
+    <strong><?php echo _t("No Site(s) Found")?></strong>
     </div>
     <?php 	
   }	

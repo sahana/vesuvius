@@ -35,9 +35,9 @@ function _shn_server_ajax_connect($url){
 //access the web service
     if($connect){
 ?>
-        <ul><li>Instance ID:<?=$xml[0]?></li>
-                <li>Owner:<?=$xml[1]?></li>
-                <li>Contact:<?=$xml[2]?></li>
+        <ul><li>Instance ID:<?php echo $xml[0]?></li>
+                <li>Owner:<?php echo $xml[1]?></li>
+                <li>Contact:<?php echo $xml[2]?></li>
                 </ul>
         <form action="" method="post">
                 <input type="submit" value="Add Server">

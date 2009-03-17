@@ -30,6 +30,6 @@
 function shn_skel_adm_default()
 {
 ?>
-    <p><b><?=_t("Welcome to skeleton admin page")?> </b></p>
+    <p><b><?php echo _t("Welcome to skeleton admin page")?> </b></p>
 <?php
 }

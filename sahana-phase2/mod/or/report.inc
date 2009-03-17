@@ -184,7 +184,7 @@ function _shn_or_drill_org($parent=null)
     $res=$db->Execute($q);
     $level=$res->fields["option_description"];
     ?>
-	<h2><?=_t("Organization Report By "). $level ?></h2>
+	<h2><?php echo _t("Organization Report By "). $level ?></h2>
     <p>
     
     <?php 
@@ -204,7 +204,7 @@ function _shn_or_drill_org($parent=null)
 <div id ="result">
     <table>
         <thead>
-        <td><?= $level ?></td>
+        <td><?php echo  $level ?></td>
         
 <?php
     $q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' ORDER BY option_description";
@@ -297,17 +297,17 @@ function _shn_or_drill_loc($parent=null)
  	$tmp=shn_get_last_level();
  	if($tmp[0]==$lvl_child-1){
  	?>
- 	<h2><?=_t("Organization Report for ").$parent_type; ?></h2>
+ 	<h2><?php echo _t("Organization Report for ").$parent_type; ?></h2>
     <div class="note">
-    <?
- 	$tmp=shn_get_last_level();
+    <?php 
+    	$tmp=shn_get_last_level();
  	$child_type=$tmp[1];
  	//echo	_t("Each Row is a ".$child_type." ,Column is a  Service.");
  	?>
- 	</div><?
- }else{
+ 	</div><?php
+ 	 }else{
  	?>
- 	<h2><?=_t("Organization Report By ").$child_type._t(" for ").$parent_type; ?></h2>
+ 	<h2><?php echo _t("Organization Report By ").$child_type._t(" for ").$parent_type; ?></h2>
     <p>
  
 <?php
@@ -325,7 +325,7 @@ function _shn_or_drill_loc($parent=null)
  				"providing that particular service in its sub locations");
  		*/
  		echo _t("This table covers the services provided by organizations in a geographical drill down. Thus you may view a sub-location by clicking on a parent-location. Percentage is based on sub-location coverage of that particular service. Please give attention to all locations not covered.");
- ?></p><br /><?
+ ?></p><br /><?php 
  }     
     
 ?>
@@ -334,7 +334,7 @@ function _shn_or_drill_loc($parent=null)
     <table>
         <thead>
         <td>
-        <?= $parent_type ?>
+        <?php echo  $parent_type ?>
         </td>
 <?php
     $q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' ORDER BY option_description";
@@ -477,7 +477,7 @@ function _shn_or_report_org_sector($sector)
     $db=$global['db'];
     
 ?>
-<h2><?=_t("Organization Report by Sector")?></h2>
+<h2><?php echo _t("Organization Report by Sector")?></h2>
 <?php 
 	shn_report_download("shn_or_service_coverage_pdf","Download as PDF");
     $q = "SELECT option_code,option_description FROM field_options WHERE field_name='opt_sector_type' ORDER BY option_description";
@@ -509,13 +509,13 @@ function _shn_or_report_org_sector($sector)
     <table>
         <thead>
         	<td></td>
-            <td><?=_t("Organization Name")?></td>
-            <td><?=_t("Incidents")?></td>
-            <td><?=_t("Services Offered")?></td>
-            <td><?=_t("Organization Type")?></td>
-            <td><?=_t("Location")?></td>
-            <td><?=_t("Address")?></td>
-            <td><?=_t("Contact Number")?></td>
+            <td><?php echo _t("Organization Name")?></td>
+            <td><?php echo _t("Incidents")?></td>
+            <td><?php echo _t("Services Offered")?></td>
+            <td><?php echo _t("Organization Type")?></td>
+            <td><?php echo _t("Location")?></td>
+            <td><?php echo _t("Address")?></td>
+            <td><?php echo _t("Contact Number")?></td>
         </thead>
         <tbody>
 <?php    
@@ -526,7 +526,7 @@ function _shn_or_report_org_sector($sector)
 	    ?>
 	    <!--<tr>
 		    <td>
-	            <b><?=_t($res_sector->fields[1])?></b>
+	            <b><?php echo _t($res_sector->fields[1])?></b>
 		    </td>
 	    </tr>-->
 	    <?php

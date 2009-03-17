@@ -43,7 +43,7 @@ include_once ($global['approot'] . '/inc/lib_image.inc');
 
 
 
-<h1><?= _t('Group Members'); ?></h1>
+<h1><?php echo  _t('Group Members'); ?></h1>
 <?php
 
 //shn_show_thumb_url($_SESSION['dvr']['person']['p_uuid'],'', 'dvr', 'adddvr_img',true);
@@ -112,8 +112,7 @@ function _shn_dvr_show_mem_verticle($details) {
 ?>
 <DIV ID="result">
 <TABLE>
-<?
-
+<?php
 	for ($i = 0; $i < count($details); $i += 2) {
 		if ($details[$i]) {
 ?>

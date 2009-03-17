@@ -42,13 +42,13 @@ function show_map($opt=null)
 	       //map.addControl(new GSmallMapControl());
 				 map.addControl(new GMapTypeControl());//satellite image switch
 				 
-				map.setCenter(new GLatLng(<?=$conf['gis_center_y']!=''?$conf['gis_center_y']:8.5?>,<?=$conf['gis_center_x']!=''?$conf['gis_center_x']:79.5?>), <?=$conf['gis_zoom']?>,G_SATELLITE_MAP);
+				map.setCenter(new GLatLng(<?php echo $conf['gis_center_y']!=''?$conf['gis_center_y']:8.5?>,<?php echo $conf['gis_center_x']!=''?$conf['gis_center_x']:79.5?>), <?php echo $conf['gis_zoom']?>,G_SATELLITE_MAP);
 		onloadfunc();
 	}		
 //]]>	
 </script>
-	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
-<?
+	<div id="map" style="width: <?php echo $conf['gis_width']?>px; height: <?php echo $conf['gis_height']?>px"></div>
+<?php
 }
 
 
@@ -79,7 +79,7 @@ function show_add_marker_map($name,$extra_opts=null)
 	       //map.addControl(new GSmallMapControl());
 			map.addControl(new GMapTypeControl());//satellite image switch
 				 
-			map.setCenter(new GLatLng(<?=$conf['gis_center_y']?>,<?=$conf['gis_center_x']?>), <?=$conf['gis_zoom']?>,G_SATELLITE_MAP);			
+			map.setCenter(new GLatLng(<?php echo $conf['gis_center_y']?>,<?php echo $conf['gis_center_x']?>), <?php echo $conf['gis_zoom']?>,G_SATELLITE_MAP);			
 			GEvent.addListener(map, 'click', function(overlay, point) {
 	  		if (overlay) {
 				var html = "<?php echo $name?>";
@@ -105,7 +105,7 @@ function show_add_marker_map($name,$extra_opts=null)
 	//]]>	
 	
 	</script>
-	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
+	<div id="map" style="width: <?php echo $conf['gis_width']?>px; height: <?php echo $conf['gis_height']?>px"></div>
 	
 <?php
 }
@@ -145,7 +145,7 @@ function show_map_with_markers($array)
 	       		//map.addControl(new GSmallMapControl());
 				map.addControl(new GMapTypeControl());//satellite image switch
 				
-				map.setCenter(new GLatLng(<?=$conf['gis_center_y']?>,<?=$conf['gis_center_x']?>), <?=$conf['gis_zoom']?>,G_SATELLITE_MAP);
+				map.setCenter(new GLatLng(<?php echo $conf['gis_center_y']?>,<?php echo $conf['gis_center_x']?>), <?php echo $conf['gis_zoom']?>,G_SATELLITE_MAP);
 <?php
 				for($i=0;$i< sizeof($array);$i++){
 					$lat=$array[$i]["lat"];
@@ -155,8 +155,8 @@ function show_map_with_markers($array)
 					$pre_url="index.php?";
 					$url=$pre_url.$url;
 ?>	
-					var point = new GLatLng(<?=$lat?>,<?=$lon?>);
-      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_lc($name)?></strong><br><a href="<?=$url?>">View</a></div>');
+					var point = new GLatLng(<?php echo $lat?>,<?php echo $lon?>);
+      				var marker = createMarker(point,'<div id="wiki_info"><strong><?php echo _lc($name)?></strong><br><a href="<?php echo $url?>">View</a></div>');
       				map.addOverlay(marker);
 <?php
 				}
@@ -170,7 +170,7 @@ function show_map_with_markers($array)
 	//]]>	
 	
 	</script>
-<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
+<div id="map" style="width: <?php echo $conf['gis_width']?>px; height: <?php echo $conf['gis_height']?>px"></div>
 <?php
 }
 
@@ -207,7 +207,7 @@ function show_map_with_wiki_marker($array)
 	       		//map.addControl(new GSmallMapControl());
 				map.addControl(new GMapTypeControl());//satellite image switch
 				
-				map.setCenter(new GLatLng(<?=$conf['gis_center_y']?>,<?=$conf['gis_center_x']?>), <?=$conf['gis_zoom']?>,G_SATELLITE_MAP);
+				map.setCenter(new GLatLng(<?php echo $conf['gis_center_y']?>,<?php echo $conf['gis_center_x']?>), <?php echo $conf['gis_zoom']?>,G_SATELLITE_MAP);
 <?php
 				for($i=0;$i< sizeof($array);$i++){
 					$lat=$array[$i]["lat"];
@@ -233,8 +233,8 @@ function show_map_with_wiki_marker($array)
 					
 					//$edit="help";
 ?>	
-					var point = new GLatLng(<?=$lat?>,<?=$lon?>);
-      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_lc($name)?></strong><br><?=_lc($desc)?><br><?=$image?><a href="<?=$url?>">Link</a><br><?=$date?><br><strong>Author:</strong><?=$author?><br><a href="<?=$edit?>"> Edit</a></div>');
+					var point = new GLatLng(<?php echo $lat?>,<?php echo $lon?>);
+      				var marker = createMarker(point,'<div id="wiki_info"><strong><?php echo _lc($name)?></strong><br><?php echo _lc($desc)?><br><?php echo $image?><a href="<?php echo $url?>">Link</a><br><?php echo $date?><br><strong>Author:</strong><?php echo $author?><br><a href="<?php echo $edit?>"> Edit</a></div>');
       				map.addOverlay(marker);
 <?php
 				}
@@ -249,7 +249,7 @@ function show_map_with_wiki_marker($array)
 	//]]>	
 	
 	</script>
-<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
+<div id="map" style="width: <?php echo $conf['gis_width']?>px; height: <?php echo $conf['gis_height']?>px"></div>
 <?php
 }
 
@@ -274,7 +274,7 @@ function show_map_with_custom_markers($array)
 			if(GBrowserIsCompatible())
 			{
 				var icon = new GIcon();
-				//icon.image = <?=$global['approot'].$conf['gis_marker_folder']."marker_r1.png"?>;
+				//icon.image = <?php echo $global['approot'].$conf['gis_marker_folder']."marker_r1.png"?>;
 				//icon.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png";
 				icon.iconSize = new GSize(20, 34);
 				//icon.shadowSize = new GSize(22, 20);
@@ -285,7 +285,7 @@ function show_map_with_custom_markers($array)
 				
 				function createMarker(point,html,markerName) {
         			var myicon=new GIcon(icon);
-        			myicon.image = "<?=$conf['gis_marker_folder']?>"+markerName+".png";
+        			myicon.image = "<?php echo $conf['gis_marker_folder']?>"+markerName+".png";
         			//myicon.image="http://localhost/~nazgul/sahana-main/sahana-phase2-pan/www/theme/default/img/"+markerName+".png";
         			//myicon.image="http://www.google.com/mapfiles/marker.png";
         			var marker = new GMarker(point,myicon);
@@ -300,7 +300,7 @@ function show_map_with_custom_markers($array)
 	       		//map.addControl(new GSmallMapControl());
 				map.addControl(new GMapTypeControl());//satellite image switch
 				
-				map.setCenter(new GLatLng(<?=$conf['gis_center_y']?>,<?=$conf['gis_center_x']?>), <?=$conf['gis_zoom']?>,G_SATELLITE_MAP);
+				map.setCenter(new GLatLng(<?php echo $conf['gis_center_y']?>,<?php echo $conf['gis_center_x']?>), <?php echo $conf['gis_zoom']?>,G_SATELLITE_MAP);
 <?php
 				for($i=0;$i< sizeof($array);$i++){
 					$lat=$array[$i]["lat"];
@@ -312,8 +312,8 @@ function show_map_with_custom_markers($array)
 					$desc=(isset($array[$i]["desc"]))?$array[$i]["desc"]:"";
 					$marker_name=(isset($array[$i]["marker"]))?$array[$i]["marker"]:"marker";
 ?>	
-					var point = new GLatLng(<?=$lat?>,<?=$lon?>);
-      				var marker = createMarker(point,'<div id="wiki_info"><strong><?=_lc($name)?></strong><br><?=$desc?><br><a href="<?=$url?>">View</a></div>',"<?=$marker_name?>");
+					var point = new GLatLng(<?php echo $lat?>,<?php echo $lon?>);
+      				var marker = createMarker(point,'<div id="wiki_info"><strong><?php echo _lc($name)?></strong><br><?php echo $desc?><br><a href="<?php echo $url?>">View</a></div>',"<?php echo $marker_name?>");
       				map.addOverlay(marker);
 <?php
 				}
@@ -327,7 +327,7 @@ function show_map_with_custom_markers($array)
 	//]]>	
 	
 	</script>
-	<div id="map" style="width: <?=$conf['gis_width']?>px; height: <?=$conf['gis_height']?>px"></div>
+	<div id="map" style="width: <?php echo $conf['gis_width']?>px; height: <?php echo $conf['gis_height']?>px"></div>
 <?php
 }
 ?>

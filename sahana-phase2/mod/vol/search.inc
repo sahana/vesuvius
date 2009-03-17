@@ -23,7 +23,7 @@ function _shn_vol_form_search()
     global $conf;
     $db=$global["db"];
 ?>
-<h2><?= _t("Search for Volunteers by Service and Location")?></h2>
+<h2><?php echo  _t("Search for Volunteers by Service and Location")?></h2>
     <div id="formcontainer">
 <?php
     shn_form_fopen("search_cr");
@@ -48,9 +48,9 @@ function _shn_vol_form_search()
         $location_inf = shn_location_parent($parent,$range); 
     }
     shn_form_fsclose();
-    ?><fieldset><?
+    ?><fieldset><?php
     shn_form_opt_select('opt_location_type','Location Level',$select_opts,null,null);
-    ?></fieldset><?
+    ?></fieldset><?php
 ?>
 </br>
     <center>

@@ -67,13 +67,13 @@ function shn_gps_form_feature_display_upload()
     <center>
     <table>
     <thead>
-    <td><?=_("Feature Name");?></td>
-    <td><?=_("Feature Description");?></td>
-    <td><?=_("Feature Author");?></td>
-    <td><?=_("Event Date");?></td>
-    <td><?=_("Point Coordinates");?></td>
-    <td><?=_("Feature Class");?></td>
-    <td><?=_("Select To Upload");?></td>
+    <td><?php echo _("Feature Name");?></td>
+    <td><?php echo _("Feature Description");?></td>
+    <td><?php echo _("Feature Author");?></td>
+    <td><?php echo _("Event Date");?></td>
+    <td><?php echo _("Point Coordinates");?></td>
+    <td><?php echo _("Feature Class");?></td>
+    <td><?php echo _("Select To Upload");?></td>
     </thead>
     <tbody>
 <?php
@@ -89,13 +89,13 @@ function shn_gps_form_feature_display_upload()
         // @ToDo: Make class editable
 ?>
         <tr>
-        <td><?= $feature['f_name']?></td>
-        <td><?= $feature['f_description']?></td>
-        <td><?= $feature['f_author']?></td>
-        <td><?= $feature['f_event_date']?></td>
-        <td><?= $coords?></td>
-        <td><?= $cls['c_name']?></td>
-        <td><?= shn_form_checkbox($count, $count, null, array('value' => $count))?></td>
+        <td><?php echo  $feature['f_name']?></td>
+        <td><?php echo  $feature['f_description']?></td>
+        <td><?php echo  $feature['f_author']?></td>
+        <td><?php echo  $feature['f_event_date']?></td>
+        <td><?php echo  $coords?></td>
+        <td><?php echo  $cls['c_name']?></td>
+        <td><?php echo  shn_form_checkbox($count, $count, null, array('value' => $count))?></td>
         </tr>
 <?php
     }

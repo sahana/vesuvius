@@ -7,7 +7,7 @@ function _shn_ims_config_form($errors=false,$updated=false)
     shn_form_fopen("ims_config",null);
     if($updated) {
         shn_form_fsopen(_t(""));
-?>		<p align="center">Updated. <a href="<?= $_SERVER['PHPSELF'];?>">Click to see the menu change</a></p>
+?>		<p align="center">Updated. <a href="<?php echo  $_SERVER['PHPSELF'];?>">Click to see the menu change</a></p>
 <?php
         shn_form_fsclose();
     }

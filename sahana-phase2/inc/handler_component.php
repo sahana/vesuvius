@@ -1,5 +1,5 @@
 <?php
-/* $Id: handler_component.php,v 1.5 2006-11-13 17:46:26 chamindra Exp $ */
+/* $Id: handler_component.php,v 1.6 2009-03-17 06:08:22 ravithb Exp $ */
 
 /**
  *
@@ -40,7 +40,7 @@ function show_component($body, $title='Component', $options=array('title'=>true)
     <table cellpadding=0 cellspacing=0>
     <tr>
     <td class="com_title">
-    <?= ($options['title']?''.$title.
+    <?php echo  ($options['title']?''.$title.
     '</td><td class="com_title" align="right"><img src="theme/'.$conf['theme'].'/img/x.gif"></td>'
     :''); ?>
     </tr>
@@ -48,7 +48,7 @@ function show_component($body, $title='Component', $options=array('title'=>true)
     <tr height="5px"><td colspan="2"></td></tr>
     <!-- Body Content Begin -->
     <tr><td colspan="2">
-    <?= $body; ?>
+    <?php echo  $body; ?>
     </td>
     </tr>
     <!-- Body Content End -->

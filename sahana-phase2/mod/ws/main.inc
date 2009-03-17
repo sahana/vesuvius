@@ -67,22 +67,22 @@ function shn_ws_default(){
 	global $conf;
 ?>
 <div id="home">
-    <h2><?=_lc($conf['mod_ws_name'])?></h2>
-    <div><b><i><?=_t("\"SAHANA functionality exposed as web services\"")?></i></b></div>
+    <h2><?php echo _lc($conf['mod_ws_name'])?></h2>
+    <div><b><i><?php echo _t("\"SAHANA functionality exposed as web services\"")?></i></b></div>
         <br />
-        <div><?=_t("Web service module provides a set of web services which can be used by other Sahana Instances and third-party systems to share information with Sahana.")?>
+        <div><?php echo _t("Web service module provides a set of web services which can be used by other Sahana Instances and third-party systems to share information with Sahana.")?>
     </div>
     <br />
-    <div><h3><b><em><?= (_t("Features Include:")) ?></em></b></h3></div>
+    <div><h3><b><em><?php echo  (_t("Features Include:")) ?></em></b></h3></div>
     <ul>
-        <li><?=_t("Displays the methods that are exposed as web services with additional information")?></li>
-        <li><?=_t("Generates and display the WSDL for those services")?></li>
+        <li><?php echo _t("Displays the methods that are exposed as web services with additional information")?></li>
+        <li><?php echo _t("Generates and display the WSDL for those services")?></li>
     </ul>
     <strong>Description of Actions:</strong><br/>
     <ul>
-        <li><a href="index.php?mod=ws&amp;act=api_key"><b><?= _t('Sign up for API Key'); ?> </b></a><br/><?= _t('Create an api key to access Sahana Web services using a third-party client.'); ?></li>
-        <li><b><?= _t('SOAP'); ?> </b><br/><?= _t('View available web services and there WSDL.' ); ?></li>
-        <li><a href="index.php?mod=ws&amp;act=sahana"><b><?= _t('WS Client'); ?></b></a><br/><?= _t('A sample web service client.'); ?></li>
+        <li><a href="index.php?mod=ws&amp;act=api_key"><b><?php echo  _t('Sign up for API Key'); ?> </b></a><br/><?php echo  _t('Create an api key to access Sahana Web services using a third-party client.'); ?></li>
+        <li><b><?php echo  _t('SOAP'); ?> </b><br/><?php echo  _t('View available web services and there WSDL.' ); ?></li>
+        <li><a href="index.php?mod=ws&amp;act=sahana"><b><?php echo  _t('WS Client'); ?></b></a><br/><?php echo  _t('A sample web service client.'); ?></li>
     </ul>
 </div>
 <br />
@@ -222,7 +222,7 @@ function shn_soap_ws_service_reg($xml,$ns){
 
 function shn_ws_sahana(){
 	?>
-<h2><?= _t('Access another SAHANA system through web services')?></h2>
+<h2><?php echo  _t('Access another SAHANA system through web services')?></h2>
 	<?php
 
 	?>
@@ -415,7 +415,7 @@ function shn_ws_sahana_load_method(){
 
 <div
 	id="no_sec_div">
-<div class="info"><?= _t("If the web service provider requires authentication ,then switch to secure mode")?></div>
+<div class="info"><?php echo  _t("If the web service provider requires authentication ,then switch to secure mode")?></div>
 	<?php
 	$button_opts="onclick=\"switchMode('no_sec_div','api_div','mode','sec');\"";
 	shn_form_button("Switch to Secure Authentication Mode",$button_opts , null);
@@ -429,7 +429,7 @@ function shn_ws_sahana_load_method(){
 	shn_form_button("Switch off Secure Authentication Mode",$button_opts , null);
 	?> <!-- <a href="#" onclick="switchMode('api_div','no_sec_div','mode','no_sec');">Switch off Secure Authentication Mode</a>-->
 <br />
-<div class="info"><?= _t("The API Key allows you to access the web services of another SAHANA instance which requires authentication. To access SAHANA web services, a developer must have a login(an account).
+<div class="info"><?php echo  _t("The API Key allows you to access the web services of another SAHANA instance which requires authentication. To access SAHANA web services, a developer must have a login(an account).
     That is you should have an API Key,a password and a Secret Access Code. The API Key and password, which is associated with your login, is used in requests to identify the party responsible for the request." .
         " However, because both the API Key and password is sent as a request parameter, it is not secret and could be used by anyone sending a request to SAHANA web service. Therefore to improve the security(reduce impersonation attacks), a request signature is calculated using the Secret Access Code. The Secret Access Code is a automatically generated 32-character alphanumeric sequence.");?>
 </div>

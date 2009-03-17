@@ -999,7 +999,7 @@ function _shn_html_inform_show()
 foreach ( $infor_msgs as $info )
 {
 	?>
-	<li><?=$info?></li>
+	<li><?php echo $info?></li>
 	<?php
 }
 ?>
@@ -1125,7 +1125,7 @@ function _shn_rms_view_requester($reqstr_id, $summary=false)
 
 <strong>Requester Name</strong>
 :
-		<?=$requester['name']?>
+		<?php echo $requester['name']?>
 		<?php
 //}
 print '</div>';
@@ -1155,11 +1155,11 @@ function _shn_rms_view_donor($donor_id, $summary=false)
 		?>
 <strong>Donor ID</strong>
 :
-		<?=$donor_id?>
+		<?php echo $donor_id?>
 <br />
 <strong><?php echo _t("Donor Name")?></strong>
 :
-		<?=$donor['name']?>
+		<?php echo $donor['name']?>
 		<?php
 }
 print '</div>';
@@ -1199,7 +1199,7 @@ function _shn_rms_view_location($loc_id, $summary=false)
 
 <strong><?php echo _t("Location")?></strong>
 :
-		<?=$location?>
+		<?php echo $location?>
 		<?php
 //}
 print '</div>';
@@ -1595,8 +1595,8 @@ function _shn_rms_ct_cat($max,$form,$item_flag=false)
 		$parent_array["1"]=_t("None");
 		shn_form_fsopen(_t('Information'));
 		?>
-<p><?= _t('There is no any root catalogue found. '); ?><a
-	href="index.php?mod=cs&act=addmain">Add root Catalogue</a><?= _t(' First'); ?></p>
+<p><?php echo  _t('There is no any root catalogue found. '); ?><a
+	href="index.php?mod=cs&act=addmain">Add root Catalogue</a><?php echo  _t(' First'); ?></p>
 
 		<?php
 		shn_form_fsclose();
@@ -1818,8 +1818,7 @@ function _shn_rms_display_location_array($loc)
 	?>
 <div class="info"><?php echo $info;?></div>
 <br />
-	<?
-
+	<?php
 	shn_form_hidden(array('seq'=>'get_loc'));
 	shn_form_fsopen(_t("Existing Location"));
     //============================New==================================

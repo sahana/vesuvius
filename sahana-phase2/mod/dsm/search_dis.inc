@@ -44,13 +44,13 @@ function _shn_dsm_search_results($results)
 	<table>
         <thead>
 
-            <td><?=_t("Disease Name")?></td>
-            <td><?=_t("Medical Name")?></td>
-          	<!--<td><?=_t("Date")?></td>-->
-            <!--<td><?=_t("Address")?></td>-->
-         	<td><?=_t('Edit') ?></td>
-         	<td><?=_t('View')?></td>
-          	<!--<td><?=_t('Delete')?></td>-->
+            <td><?php echo _t("Disease Name")?></td>
+            <td><?php echo _t("Medical Name")?></td>
+          	<!--<td><?php echo _t("Date")?></td>-->
+            <!--<td><?php echo _t("Address")?></td>-->
+         	<td><?php echo _t('Edit') ?></td>
+         	<td><?php echo _t('View')?></td>
+          	<!--<td><?php echo _t('Delete')?></td>-->
           	
         </thead>
         <?php
@@ -59,13 +59,13 @@ function _shn_dsm_search_results($results)
         ?>
         <tr>
         
-        <td><?=$results->fields['dis_name']?></td>
-        <td><?=$results->fields['med_name']?></td>
-        <!-- <td><?=$results->fields['dia_date']?></td>-->
-        <!-- <td><?=$results->fields['address']?></td>-->
-        <td><a href='index.php?mod=dsm&act=edit_case&dis_uuid=<?=$results->fields['dis_id']?>'><?=_t('Edit') ?></a></td>
-      	<td><a href='index.php?mod=dsm&act=sur_rep&dis_uuid=<?=$results->fields['dis_id']?>'><?=_t('View') ?></a></td>
-        <!-- <td><a href='index.php?mod=dsm&act=delete_individual&p_uuid=<?=$results->fields['pid']?>' onClick="javascript: return confirmdelete('<?=$results->fields['full_name']?>')">Delete</a></td>-->
+        <td><?php echo $results->fields['dis_name']?></td>
+        <td><?php echo $results->fields['med_name']?></td>
+        <!-- <td><?php echo $results->fields['dia_date']?></td>-->
+        <!-- <td><?php echo $results->fields['address']?></td>-->
+        <td><a href='index.php?mod=dsm&act=edit_case&dis_uuid=<?php echo $results->fields['dis_id']?>'><?php echo _t('Edit') ?></a></td>
+      	<td><a href='index.php?mod=dsm&act=sur_rep&dis_uuid=<?php echo $results->fields['dis_id']?>'><?php echo _t('View') ?></a></td>
+        <!-- <td><a href='index.php?mod=dsm&act=delete_individual&p_uuid=<?php echo $results->fields['pid']?>' onClick="javascript: return confirmdelete('<?php echo $results->fields['full_name']?>')">Delete</a></td>-->
       
         </tr>
         <?php

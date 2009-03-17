@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.87 2009-01-26 06:43:57 ravithb Exp $ */
+/* $Id: lib_form.inc,v 1.88 2009-03-17 06:08:22 ravithb Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -375,7 +375,7 @@ function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = 
 <input
 	type="radio" name="<?php echo $name?>" value="<?php echo $opt_value?>"
 	tabindex="<?php echo ++$shn_tabindex?>" <?php echo $select_opts?>
-	<?=$checked?> />
+	<?php echo $checked?> />
 	<?php echo $desc?>
 	<?php
 }
@@ -548,10 +548,10 @@ function shn_form_opt_checkbox($opt_field,$extra_opts=null){
 		}
 		// $sel = ( $resu->fields[1] == $value ) ? "checked" : null ;
 		?>
-<label><?=_lc($resu->fields[2])?></label>
+<label><?php echo _lc($resu->fields[2])?></label>
 <input
-	type="checkbox" name="<?=$opt_field?>[]" value="<?=$resu->fields[1]?>"
-	tabindex="<?php echo ++$shn_tabindex?>" <?=$sel?>></input>
+	type="checkbox" name="<?php echo $opt_field?>[]" value="<?php echo $resu->fields[1]?>"
+	tabindex="<?php echo ++$shn_tabindex?>" <?php echo $sel?>></input>
 
 <br>
 		<?php

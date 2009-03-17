@@ -1,5 +1,5 @@
 <?php
-/* $Id: view.inc,v 1.6 2008-03-04 07:44:46 ishanul Exp $ */
+/* $Id: view.inc,v 1.7 2009-03-17 06:08:23 ravithb Exp $ */
 
 /**Main home page of the Missing Person Registry 
  *
@@ -165,8 +165,8 @@ function shn_mpr_view($p_uuid)
 	{
 	?>
 		<p align="center"><a
-		href="index.php?mod=mpr&act=editmp&id=<?=$p_uuid; ?>"><?= _t('Click to edit'); ?></a></p>
-		<p><a href="#" onCLick="history.back()"><?= _t('Back'); ?></a></p>
+		href="index.php?mod=mpr&act=editmp&id=<?php echo $p_uuid; ?>"><?php echo  _t('Click to edit'); ?></a></p>
+		<p><a href="#" onCLick="history.back()"><?php echo  _t('Back'); ?></a></p>
 
 	<?php
 	}

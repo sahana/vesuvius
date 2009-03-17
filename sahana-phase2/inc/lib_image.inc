@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_image.inc,v 1.17 2008-05-07 21:15:15 franboon Exp $ */
+/* $Id: lib_image.inc,v 1.18 2009-03-17 06:08:22 ravithb Exp $ */
 
 /**
  *
@@ -298,9 +298,9 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 	}
 	//echo $src_tmp.'<br>';echo $src_ori;
 	?>
-<a title="<?= _t('Click to see the original size'); ?>" href="#"
-	onclick="window.open('<?=$src_ori;?>','hello','width=<?=$width?>,height=<?=$height?>,scrollbars=no,status=no');return false;">
-<img border="0" src="<?=$src_tmp;?>" /> </a>
+<a title="<?php echo  _t('Click to see the original size'); ?>" href="#"
+	onclick="window.open('<?php echo $src_ori;?>','hello','width=<?php echo $width?>,height=<?php echo $height?>,scrollbars=no,status=no');return false;">
+<img border="0" src="<?php echo $src_tmp;?>" /> </a>
 	<?php
 	return true;
 }

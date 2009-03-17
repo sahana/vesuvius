@@ -35,7 +35,7 @@ function shn_generate_tabs($selected='')
 <?php
 foreach($tabs as $tab){
 	?>
-	<li><a href="#"><?= $tab; ?></a></li>
+	<li><a href="#"><?php echo  $tab; ?></a></li>
 	<?php
 }
 ?>
@@ -171,7 +171,7 @@ function shn_mpr_editmp_entry($errors=false)
 
 	shn_form_fsopen(_t("Basic Details"));
 	?>
-<p><?= _t('Please enter any of the following details on the person'); ?>:</p>
+<p><?php echo  _t('Please enter any of the following details on the person'); ?>:</p>
 	<?php
 
 	shn_form_text(_t('Full Name'),'full_name','size="40"',array('value'=>$_SESSION['mpr_edit']['entry']['full_name'],'req'=>true));
@@ -192,7 +192,7 @@ function shn_mpr_editmp_entry($errors=false)
 	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],'database', 'mpr', 'addmp_img');
 	?>
 <br />
-	<?
+	<?php
 	shn_form_upload(_t("Upload Picture"),"picture");
 	shn_form_fsclose();
 
@@ -364,7 +364,7 @@ function shn_mpr_editmp_upload($errors=false)
 	shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],$conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img');
 	?>
 <br />
-	<?
+	<?php
 	shn_form_upload(_t("Upload Picture"),"picture");
 	shn_form_submit(_t('Next'));
 	shn_form_fsclose();
@@ -590,17 +590,17 @@ function shn_mpr_editmp_confirm()
 <DIV ID="result">
 <TABLE>
 	<THEAD>
-		<TD><?= _t('Picture'); ?></TD>
-		<TD><?= _t('Name'); ?></TD>
-		<TD><?= _t('Relationship'); ?></TD>
+		<TD><?php echo  _t('Picture'); ?></TD>
+		<TD><?php echo  _t('Name'); ?></TD>
+		<TD><?php echo  _t('Relationship'); ?></TD>
 	</THEAD>
 	<?php
 	foreach($arr as $tracker){
 		?>
 	<TR>
 		<TD><?php shn_show_thumb_url($tracker['p_uuid'], $conf['mod_mpr_upload_picture_savehandler'], 'mpr', 'addmp_img'); ?></TD>
-		<TD><?= $tracker['full_name']; ?></TD>
-		<TD><?= $tracker['relation']; ?></TD>
+		<TD><?php echo  $tracker['full_name']; ?></TD>
+		<TD><?php echo  $tracker['relation']; ?></TD>
 	</TR>
 	<?php
 }
@@ -613,7 +613,7 @@ function shn_mpr_editmp_confirm()
 
 	shn_form_fsopen(_t("Confirm"));
 ?>
-<p><?= _t('Is the information that you\'ve entered correct?'); ?></p>
+<p><?php echo  _t('Is the information that you\'ve entered correct?'); ?></p>
 <?php
     shn_form_submit(_('Yes'),'name="yes"');
     shn_form_submit(_('No'),'name="no"');
@@ -859,9 +859,9 @@ function shn_edit_show_trackers($p_uuid)
 <TABLE>
 	<THEAD>
 
-		<TD><?= _t('Name'); ?></TD>
-		<TD><?= _t('Relationship'); ?></TD>
-		<TD><?= _t('Remove'); ?></TD>
+		<TD><?php echo  _t('Name'); ?></TD>
+		<TD><?php echo  _t('Relationship'); ?></TD>
+		<TD><?php echo  _t('Remove'); ?></TD>
 	</THEAD>
 	<?php
 	foreach($arr as $tracker){
@@ -874,12 +874,12 @@ function shn_edit_show_trackers($p_uuid)
 		$tracker['p_uuid'].'">'.
 		$tracker['full_name'].'</a><br />';
 		?></TD>
-		<TD><?= ($tracker['relation']=='NULL')?'unknown':$tracker['relation']; ?>
+		<TD><?php echo  ($tracker['relation']=='NULL')?'unknown':$tracker['relation']; ?>
 		</TD>
-		<TD><a title="<?= _t('Remove'); ?>"
-			href="<?='index.php?mod='.$global['module'].
+		<TD><a title="<?php echo  _t('Remove'); ?>"
+			href="<?php echo 'index.php?mod='.$global['module'].
     		'&act=editmp&tracker_id='.$tracker['p_uuid'].'&tracker_name='.$tracker['full_name'].'&seq=con_del_tracker';
-			?>"><?= _t('Click to remove the tracker'); ?></a></TD>
+			?>"><?php echo  _t('Click to remove the tracker'); ?></a></TD>
 	</TR>
 	<?php
 }

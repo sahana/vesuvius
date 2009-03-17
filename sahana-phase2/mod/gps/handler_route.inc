@@ -23,7 +23,7 @@ function shn_gps_find_route()
 {
 
 ?>
-<h2><?=_("Download Route")?></h2>
+<h2><?php echo _("Download Route")?></h2>
 <?php
 
 	
@@ -60,7 +60,7 @@ function shn_gps_display_routes()
 	
 $results=shn_gps_view_all();
 ?>
-<h2><?=_("Search Results")?></h2>
+<h2><?php echo _("Search Results")?></h2>
 <?php
 	shn_form_fopen("route_creator",null,null,array('req'=>false));
 	shn_form_fsopen(_("Create Route"));
@@ -77,12 +77,12 @@ $results=shn_gps_view_all();
     <div id ="result">
 	<table>
         <thead>
-            <td><?=_("Author Name")?></td>
-            <td><?=_("Event Date")?></td>
-            <td><?=_("Route Name")?></td>
-            <td><?=_("Point Name")?></td>
-            <td><?=_("Point Description")?></td>
-            <td><?=_("Select")?></td>
+            <td><?php echo _("Author Name")?></td>
+            <td><?php echo _("Event Date")?></td>
+            <td><?php echo _("Route Name")?></td>
+            <td><?php echo _("Point Name")?></td>
+            <td><?php echo _("Point Description")?></td>
+            <td><?php echo _("Select")?></td>
 
           </thead>
         <?php
@@ -94,12 +94,12 @@ $results=shn_gps_view_all();
         ?>
         <tr>
  
-        <td><?= $results->fields['author_name']?></td>
-        <td><?= $results->fields['event_date']?></td>
-        <td><?= $results->fields['route_name']?></td>
-        <td><?= $results->fields['point_name']?></td>
-        <td><?= $results->fields['description']?></td>
-        <td><?=shn_form_checkbox($count,$count,null,array('value'=>$id))?></td>
+        <td><?php echo  $results->fields['author_name']?></td>
+        <td><?php echo  $results->fields['event_date']?></td>
+        <td><?php echo  $results->fields['route_name']?></td>
+        <td><?php echo  $results->fields['point_name']?></td>
+        <td><?php echo  $results->fields['description']?></td>
+        <td><?php echo shn_form_checkbox($count,$count,null,array('value'=>$id))?></td>
         </tr>
         <?php
         $results->MoveNext();
@@ -118,9 +118,9 @@ $results=shn_gps_view_all();
 ?>
 	</center>
 <br />
-<?
+<?php
 	shn_form_fsclose();
-		shn_form_fclose();
+	shn_form_fclose();
 }
 
 function shn_gps_sort_input($org_type,$org_author,$org_date,$org_name,$dest_name,$next_org_name,$befor_dest_name,$mid_point_name)

@@ -117,7 +117,7 @@ function _shn_sn_show_gr_home(){
     <h2><center><?php print (('Social Network Groups')); ?></center></h2>
     <?php
 
-     ?><a href="index.php?mod=sn&act=cr_groups"><?= ('Create a New Group'); ?> </a><br><br> <?php
+     ?><a href="index.php?mod=sn&act=cr_groups"><?php echo  ('Create a New Group'); ?> </a><br><br> <?php
      //shn_show_thumb_url( ' bt2sp-80 ','database','sn','sn_groups',false);
 
      ?>
@@ -147,12 +147,12 @@ function _shn_sn_show_gr_home(){
     <div id ="result">
     <table width="800" border="0">
           <thead>
-            <td><?=("Group Image")?></td>
-            <td><?=("Group Name")?></td>
-            <td><?=("Group Category")?></td>
-            <td><?=("Theme")?></td>
-          	<td><?=("Access Level")?></td>
-          	<td><?=("Join Group")?></td>
+            <td><?php echo ("Group Image")?></td>
+            <td><?php echo ("Group Name")?></td>
+            <td><?php echo ("Group Category")?></td>
+            <td><?php echo ("Theme")?></td>
+          	<td><?php echo ("Access Level")?></td>
+          	<td><?php echo ("Join Group")?></td>
             <td></td>
 
           </thead>
@@ -172,8 +172,8 @@ function _shn_sn_show_gr_home(){
           <td align="right"><?php echo $recent1->fields['group_access_level']; ?>  </td>
 
            <td>
-           <a href="index.php?mod=sn&act=sn_groups&seq=page3&id=<?=$recent1->fields['group_id'] ?>">Join Group </a><br><br>
-           <a href="index.php?mod=sn&act=sn_groups&seq=page4&id=<?=$recent1->fields['group_id'] ?>">View Group </a>
+           <a href="index.php?mod=sn&act=sn_groups&seq=page3&id=<?php echo $recent1->fields['group_id'] ?>">Join Group </a><br><br>
+           <a href="index.php?mod=sn&act=sn_groups&seq=page4&id=<?php echo $recent1->fields['group_id'] ?>">View Group </a>
            </td>
 
            </tr>
@@ -230,7 +230,7 @@ function _shn_sn_view_group($gr_id = null ){
 
     ?>
     <div align="center">
-    <h2> This group is owned by <?= $gr_owner ?> <h2>
+    <h2> This group is owned by <?php echo  $gr_owner ?> <h2>
 
 
     <?php echo '<br> Description : '.$gr_des ; ?><br><br>
@@ -251,7 +251,7 @@ function _shn_sn_view_group($gr_id = null ){
 
 
    if($gr_owner ==  $_SESSION[sn][mem_username] ){
-    	 ?><br><br> <a href="index.php?mod=sn&act=sn_groups&seq=page6&id=<?=$group_id ?>&name=<?=$gr_name?>&category=<?=$gr_category?>&desc=<?=$gr_des?>&tags=<?=$se_tags?>&level=<?=$ac_level?>"><?= ('Edit My Group'); ?> </a><br/> <?php
+    	 ?><br><br> <a href="index.php?mod=sn&act=sn_groups&seq=page6&id=<?php echo $group_id ?>&name=<?php echo $gr_name?>&category=<?php echo $gr_category?>&desc=<?php echo $gr_des?>&tags=<?php echo $se_tags?>&level=<?php echo $ac_level?>"><?php echo  ('Edit My Group'); ?> </a><br/> <?php
          ?><br> <br> </div>
     <?php
 
@@ -268,16 +268,16 @@ function _shn_sn_view_group($gr_id = null ){
 
     <table width="300" border="0">
           <thead>
-            <td><?=("Image")?></td>
-            <td><?=("Name")?></td>
+            <td><?php echo ("Image")?></td>
+            <td><?php echo ("Name")?></td>
           </thead>
     <?php
     while (!$members ->EOF) {
           $username =  _shn_sn_get_username($members->fields['sn_mem_uuid']);?>
           <tr>
           <td align="right"><?php shn_show_thumb_url($members->fields['sn_mem_uuid'],'database','sn','mem_img',false); ?>  </td>
-          <td align="left"><a href="index.php?mod=sn&act=sn_groups&seq=page5&id=<?=$members->fields['sn_mem_uuid']?>&gr_id="><?php  echo '<b> Name :</b>'.$username; ?></a> <br> <?php echo '<b> Interests :</b>'. $members->fields['sn_mem_interests']; ?>
-          <br><a href="index.php?mod=sn&act=ad_view_mem&seq=page2&id=<?=$members->fields['sn_mem_uuid']?>">Remove</a>
+          <td align="left"><a href="index.php?mod=sn&act=sn_groups&seq=page5&id=<?php echo $members->fields['sn_mem_uuid']?>&gr_id="><?php  echo '<b> Name :</b>'.$username; ?></a> <br> <?php echo '<b> Interests :</b>'. $members->fields['sn_mem_interests']; ?>
+          <br><a href="index.php?mod=sn&act=ad_view_mem&seq=page2&id=<?php echo $members->fields['sn_mem_uuid']?>">Remove</a>
           </td>
           <?php
 
@@ -307,15 +307,15 @@ function _shn_sn_view_group($gr_id = null ){
     <div align="center">
     <table width="300" border="0">
           <thead>
-            <td><?=("Image")?></td>
-            <td><?=("Name")?></td>
+            <td><?php echo ("Image")?></td>
+            <td><?php echo ("Name")?></td>
           </thead>
     <?php
     while (!$members ->EOF) {
            $username =  _shn_sn_get_username($members->fields['sn_mem_uuid']);?>
           <tr>
           <td align="right"><?php shn_show_thumb_url($members->fields['sn_mem_uuid'],'database','sn','mem_img',false); ?>  </td>
-          <td align="left"><a href="index.php?mod=sn&act=sn_groups&seq=page5&id=<?=$members->fields['sn_mem_uuid']?>&gr_id="><?php  echo '<b> Name :</b>'.$username; ?></a> <br> <?php echo '<b> Interests :</b>'. $members->fields['sn_mem_interests']; ?> </td>
+          <td align="left"><a href="index.php?mod=sn&act=sn_groups&seq=page5&id=<?php echo $members->fields['sn_mem_uuid']?>&gr_id="><?php  echo '<b> Name :</b>'.$username; ?></a> <br> <?php echo '<b> Interests :</b>'. $members->fields['sn_mem_interests']; ?> </td>
           <?php
 
        $members->MoveNext();
@@ -429,7 +429,7 @@ function _shn_sn_show_group_mem($mem_id = null){
     }
 
     if($memb_id ==  $_SESSION[sn][p_uuid] ){
-    	 ?> <a href="index.php?mod=sn&act=my_prof&seq=page2"><?= ('Edit My Profile'); ?> </a><br/><br> <?php
+    	 ?> <a href="index.php?mod=sn&act=my_prof&seq=page2"><?php echo  ('Edit My Profile'); ?> </a><br/><br> <?php
     	 shn_form_submit('<< Back',"name='button'");
     }else{
     	 ?><h2><center><?php echo 'Write something to '.$username ?></center></h2><br><br><?php
@@ -593,7 +593,7 @@ function _shn_sn_write_to_mem(){
     shn_form_hidden(array('seq'=>'page5','member_id'=> $written_to));
     ?><div align="center">
     <h2><br>
-    <?=shn_form_submit('Back',"name='button'"); ?>
+    <?php echo shn_form_submit('Back',"name='button'"); ?>
     </h2></div> <?php
 }
 
@@ -660,7 +660,7 @@ function _shn_sn_show_uploaded_links(){
 
 	 while (!$res ->EOF) { ?>
 
-	 	<a href="index.php?mod=sn&act=sn_groups&seq=page11&id=<?=$res->fields['id']?>"><?=$res->fields['name']?></a> <br>
+	 	<a href="index.php?mod=sn&act=sn_groups&seq=page11&id=<?php echo $res->fields['id']?>"><?php echo $res->fields['name']?></a> <br>
 
 	 	<?php
      $res->MoveNext();
@@ -760,7 +760,7 @@ function _shn_sn_write_to_gr(){
     shn_form_hidden(array('seq'=>'page4','id'=> $group_id));
     ?><div align="center">
     <h2><br>
-    <?=shn_form_submit('Back',"name='button'"); ?>
+    <?php echo shn_form_submit('Back',"name='button'"); ?>
     </h2></div> <?php
 
 }

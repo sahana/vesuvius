@@ -19,7 +19,7 @@
  */
 ?>
 <div id="home_recent">
-<h1><?= _t('Missing People'); ?></h1>
+<h1><?php echo  _t('Missing People'); ?></h1>
 <?php
 
 
@@ -47,7 +47,7 @@ $type = "missing";
 
 	for ($i = 0; $i < $no_of_pages_required; $i++) {
 ?>
-<a href="index.php?mod=mpr&act=list_missing&offset=<?=$limit*$i?>" class="hideprint"><?=$i+1?></a>
+<a href="index.php?mod=mpr&act=list_missing&offset=<?php echo $limit*$i?>" class="hideprint"><?php echo $i+1?></a>
 
 <?php
 
@@ -60,7 +60,7 @@ $type = "missing";
 		$next = 0;
 ?>
 
-<a href="index.php?mod=mpr&act=list_missing&offset=<?=$next?>" class="hideprint">Next</a>
+<a href="index.php?mod=mpr&act=list_missing&offset=<?php echo $next?>" class="hideprint">Next</a>
 
 <?php
 
@@ -69,14 +69,14 @@ $type = "missing";
 
 	for ($i = 0; $i < $no_of_pages_required; $i++) {
 ?>
-<a href="index.php?mod=mpr&act=list_missing&offset=<?=$limit*$i?>" class="hideprint"><?=$i+1?></a>
+<a href="index.php?mod=mpr&act=list_missing&offset=<?php echo $limit*$i?>" class="hideprint"><?php echo $i+1?></a>
 
 <?php
 
 
 	}
 ?>
-<a href="index.php?mod=mpr&act=list_missing&offset=<?=$next?>" class="hideprint">Next</a>
+<a href="index.php?mod=mpr&act=list_missing&offset=<?php echo $next?>" class="hideprint">Next</a>
 <?php
 
 

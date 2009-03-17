@@ -64,10 +64,10 @@
     if($usr){
     ?>
       <ul>
-          <li><a href="index.php?mod=sn&act=my_prof"><b><?= ('My Profile'); ?> </b></a><br/><?= ('Editing My own profile'); ?></li>
-          <li><a href="index.php?mod=sn&act=sn_forums"><b><?= ('Friends'); ?> </b> </a><br/><?= ('Sharing information over the friends in social network while seeying there profiles'); ?></li>
-          <li><a href="index.php?mod=sn&act=sn_forums"><b><?= ('Forums'); ?> </b> </a><br/><?= ('Sharing information over the public or user groups if authenticated by admin'); ?></li>
-          <li><a href="index.php?mod=sn&act=sn_groups"><b><?= ('Groups'); ?></b></a><br/><?= ('Searching and editing interest groups'); ?></li>
+          <li><a href="index.php?mod=sn&act=my_prof"><b><?php echo  ('My Profile'); ?> </b></a><br/><?php echo  ('Editing My own profile'); ?></li>
+          <li><a href="index.php?mod=sn&act=sn_forums"><b><?php echo  ('Friends'); ?> </b> </a><br/><?php echo  ('Sharing information over the friends in social network while seeying there profiles'); ?></li>
+          <li><a href="index.php?mod=sn&act=sn_forums"><b><?php echo  ('Forums'); ?> </b> </a><br/><?php echo  ('Sharing information over the public or user groups if authenticated by admin'); ?></li>
+          <li><a href="index.php?mod=sn&act=sn_groups"><b><?php echo  ('Groups'); ?></b></a><br/><?php echo  ('Searching and editing interest groups'); ?></li>
 
      </ul>
 
@@ -75,7 +75,7 @@
 	 }else{
 	 ?>
      <ul>
-          <li><a href="index.php?mod=sn&act=my_prof"><b><?= ('My Profile'); ?> </b></a><br/><?= ('Editing My own profile'); ?></li>
+          <li><a href="index.php?mod=sn&act=my_prof"><b><?php echo  ('My Profile'); ?> </b></a><br/><?php echo  ('Editing My own profile'); ?></li>
      </ul>
 
      <?php

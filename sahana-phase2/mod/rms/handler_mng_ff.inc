@@ -247,11 +247,11 @@ print '<br>';
     <table>
     <caption>Items from inventories</caption>
     <thead>
-        <td><?=_t("Item")?></td>
-        <td><?=_t("Amount")?></td>
-        <td><?=_t("Inventory")?></td>
-        <td><?=_t('Status')?></td>
-        <td><?=_t("Action")?></td>
+        <td><?php echo _t("Item")?></td>
+        <td><?php echo _t("Amount")?></td>
+        <td><?php echo _t("Inventory")?></td>
+        <td><?php echo _t('Status')?></td>
+        <td><?php echo _t("Action")?></td>
             
             
     </thead>

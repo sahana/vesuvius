@@ -83,9 +83,8 @@
 <br />
 
 <div align=center>
-<?  echo "<div class='message information' align='left' style='width: 765px; margin-left: 20px;'>";?>
-<strong><?echo _t("Important:")."<br/>";?></strong><?
-    echo _t("If you add a new Organization/Department or a Branch, It may take few minutes to update the pie chart.");
+<?php echo "<div class='message information' align='left' style='width: 765px; margin-left: 20px;'>";?>
+<strong><?echo _t("Important:")."<br/>";?></strong><?php    echo _t("If you add a new Organization/Department or a Branch, It may take few minutes to update the pie chart.");
     echo "</div>";  ?>
 </div>
     <?php

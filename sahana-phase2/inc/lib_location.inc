@@ -655,7 +655,7 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 	}
 	if(($extra_opts["camps"]==true)or ($extra_opts["inv"]==true) or ($extra_opts["org"]==true)){
 		//$info.=_t("a Location ");
-		?><div class="info"><?php echo $info;?></div><br /><?
+		?><div class="info"><?php echo $info;?></div><br /><?php
 	}
 	if($extra_opts["camps"]==true){
 		 if($count>=1){
@@ -681,10 +681,10 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 			}
            	$extra_opts["value"]=$extra_opts["camp_id"];
          }
-         ?><div id='loc_camp'><?
+         ?><div id='loc_camp'><?php
          $select_opts='onChange=update_location(this.options[this.selectedIndex].value,"camp")';
         	 shn_form_select($options,_t('Shelter/Camp'),'camps',$select_opts,$extra_opts);
-        ?>	</div><?
+        ?>	</div><?php
           		
 	}
 	if($extra_opts["org"]==true){
@@ -708,10 +708,10 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 	        }
 		 }
 
-         ?><div id='loc_org'><?
+         ?><div id='loc_org'><?php
          $select_opts='onChange=update_location(this.options[this.selectedIndex].value,"poc")';
     		 shn_form_select($options,_t('Organizations'),'orgs',$select_opts,$extra_opts);
- 		?>	</div><?
+ 		?>	</div><?php
 	}
 
 	shn_form_hidden(array('levels'=>$range['end']));
@@ -918,7 +918,7 @@ please note that the levels can be customized, therefore it does not need to be 
             <?php
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
             shn_form_select($options,_lc($res->fields[1]).":","loc_select_".$res->fields[0],$select_opts,array('req'=>true));
-            ?></div><?
+            ?></div><?php
             $res->MoveNext();
         }
         $cur=$cur+1;
@@ -996,7 +996,7 @@ function _shn_location_form_value($range,$value)
            ?><div id='loc_div_<?php echo $res->fields[0];?>'>
            <?php
             shn_form_select($options,_lc($res->fields[1]).":","loc_select_".$res->fields[0],$select_opts,$extra_opts);
-            ?></div><?
+            ?></div><?php
             $res->MoveNext();
         }
         $cur=$cur+1;
@@ -1051,7 +1051,7 @@ please note that the levels can be customized, therefore it does not need to be 
             ?><div id='loc_div_<?php echo $res->fields[0];?>'><?php
             $select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
             shn_form_select($options,_lc($res->fields[1]).":","loc_select_".$res->fields[0],$select_opts,$extra_opts);
-            ?></div><?
+            ?></div><?php
             $res->MoveNext();
         }
         $cur=$cur+1;

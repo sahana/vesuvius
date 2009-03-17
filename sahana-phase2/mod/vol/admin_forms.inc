@@ -22,7 +22,7 @@ function shn_vol_adm_skill_form()
 	include_once($global['approot'].'/inc/lib_misc.inc');
 	include_once("api.inc");
 	?>
-<h2><?=_t("Volunteer Skills")?></h2>
+<h2><?php echo _t("Volunteer Skills")?></h2>
 	<?php
 	if($error==true)
 	display_errors();
@@ -74,7 +74,7 @@ shn_form_fclose();
 function shn_or_adm_or_sector_form()
 {
 	?>
-<h2><?=_t("Organization Sectors")?>
+<h2><?php echo _t("Organization Sectors")?>
 </h1>
 	<?php
 	if($error==true)

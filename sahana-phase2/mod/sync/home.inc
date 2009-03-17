@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: home.inc,v 1.9 2008-01-30 04:35:17 prabath321 Exp $ */
+/* $Id: home.inc,v 1.10 2009-03-17 06:08:24 ravithb Exp $ */
 
 /** 
  * Home Page of the Missing Person Registry 
@@ -20,26 +20,26 @@
  */
 ?>
 <div id="home">
-<h2><?= _t('Synchronization Module'); ?></h2>
+<h2><?php echo  _t('Synchronization Module'); ?></h2>
 <!-- <img src="theme/default/img/mpr.png"/> -->
-<p><?= _t('This module helps you to synchronize two separate Sahana installations and share information among the independent Sahana instances.'); ?><br /><br />
+<p><?php echo  _t('This module helps you to synchronize two separate Sahana installations and share information among the independent Sahana instances.'); ?><br /><br />
 
 
-    <div><h3><b><em><?= (_t("Features Include:")) ?></em></b></h3></div>
+    <div><h3><b><em><?php echo  (_t("Features Include:")) ?></em></b></h3></div>
 <br></br>
 
 </p>
 <ul>
-    <li><?= _t('Import and export information among Sahana instances'); ?></li>
-    <li><?= _t('Allows details of the data sharing history among selected Sahana installations'); ?></li>
+    <li><?php echo  _t('Import and export information among Sahana instances'); ?></li>
+    <li><?php echo  _t('Allows details of the data sharing history among selected Sahana installations'); ?></li>
 </ul>
 
 
 <strong><?php echo _t('Description of Actions:')?></strong><br/>
     <ul>
-        <li><a href="index.php?mod=sync&act=download"><b><?= _t('Export data'); ?> </b></a><br/><?= _t('Save the information of selected modules to XML, CSV, SQL or SQLite in compressed or uncompressed file formats'); ?></li>
-        <li><a href="index.php?mod=sync&act=upload"><b><?= _t('Import data'); ?> </b> </a><br/><?= _t('Update Sahana database with information \'exported\' from another Sahana installation.' ); ?></li>
-        <li><a href="index.php?mod=sync&act=history"><b><?= _t('History'); ?></b></a><br/><?= _t('Lists all synchronizations done in the past.'); ?></li>
+        <li><a href="index.php?mod=sync&act=download"><b><?php echo  _t('Export data'); ?> </b></a><br/><?php echo  _t('Save the information of selected modules to XML, CSV, SQL or SQLite in compressed or uncompressed file formats'); ?></li>
+        <li><a href="index.php?mod=sync&act=upload"><b><?php echo  _t('Import data'); ?> </b> </a><br/><?php echo  _t('Update Sahana database with information \'exported\' from another Sahana installation.' ); ?></li>
+        <li><a href="index.php?mod=sync&act=history"><b><?php echo  _t('History'); ?></b></a><br/><?php echo  _t('Lists all synchronizations done in the past.'); ?></li>
         
 	</ul>
 <br/>   

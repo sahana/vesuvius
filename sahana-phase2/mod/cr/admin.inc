@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.18 2008-07-23 06:59:27 ravithb Exp $ */
+/* $Id: admin.inc,v 1.19 2009-03-17 06:08:24 ravithb Exp $ */
 
 /**Admin Module for CR
  *
@@ -31,7 +31,7 @@ function shn_cr_adm_default()
     // _shn_cr_adm_sub_menu();
     global $conf;
     ?>
-<h2><?= $conf['mod_cr_name'] . _t(" Administration")?></h2>
+<h2><?php echo  $conf['mod_cr_name'] . _t(" Administration")?></h2>
     <?php
     shn_cr_adm_forms();
      

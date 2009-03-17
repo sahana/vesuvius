@@ -46,8 +46,8 @@ function shn_admin_view()
 	global $global;
 	?>
 
-<p><b><?=_t("You called the admin view")?> </b></p>
-<p><?=_t(" on module") ?></p>
+<p><b><?php echo _t("You called the admin view")?> </b></p>
+<p><?php echo _t(" on module") ?></p>
 	<?php
 
 }
@@ -125,7 +125,7 @@ function shn_admin_default()
 
 	if(!$isSecurityEnabled) {
 		?>
-<font color="red"><?=_t("Current Security state: Disabled")?></font>
+<font color="red"><?php echo _t("Current Security state: Disabled")?></font>
 		<?php
 
 		echo '<li><b>'. _t('Configure Default Security').'</b>'._t(' - By default Sahana is installed with open access. To prevent unauthorized access to the system enable logins and security by clicking ').'&#34;'.'<a href="?mod=admin&act=acl_enable_acl">'._t('Enable Security.').'</a>&#34;</li>';
@@ -133,24 +133,24 @@ function shn_admin_default()
 
 	echo "</ol>\n";
 	?>
-<h2><?=_t("Sahana System Administration")?></h2>
-<p><?=_t("The System Administration section allows you to configure and customize Sahana based on your requirements. Each section on the Administration menu is grouped by the section. These sections are described below:")?></p>
+<h2><?php echo _t("Sahana System Administration")?></h2>
+<p><?php echo _t("The System Administration section allows you to configure and customize Sahana based on your requirements. Each section on the Administration menu is grouped by the section. These sections are described below:")?></p>
 <ul>
-	<li><b><?=_t("Locations Hierarchy")?></b> <br />
-	<?=_t("Add, modify and customized the affected locations and hierachies in the disaster")?></li>
-	<li><b><?=_t("GIS Configuration")?></b> <br />
-	<?=_t("Specify your mapping configuration and preferred mapping/GIS system to be used in Sahana")?></li>
-	<li><b><?=_t("Module Configuration")?></b> <br />
-	<?=_t("Contains specific configuration pages for each module that has been installed in the system allowing them to be customized individually and seperately.")?>
+	<li><b><?php echo _t("Locations Hierarchy")?></b> <br />
+	<?php echo _t("Add, modify and customized the affected locations and hierachies in the disaster")?></li>
+	<li><b><?php echo _t("GIS Configuration")?></b> <br />
+	<?php echo _t("Specify your mapping configuration and preferred mapping/GIS system to be used in Sahana")?></li>
+	<li><b><?php echo _t("Module Configuration")?></b> <br />
+	<?php echo _t("Contains specific configuration pages for each module that has been installed in the system allowing them to be customized individually and seperately.")?>
 	</li>
-	<li><b><?=_t("System Security")?></b> <br />
-	<?=_t("Allows the system administrator to configure who gets access to what modules and actions available in Sahana")?></li>
-	<li><b><?=_t("Language / Locale")?></b> <br />
-	<?=_t("Translate the Sahana interface and terminology to a local language and that relevant for the disaster")?></li>
-	<li><b><?=_t("Disaster Levels")?></b> <br />
-	<?=_t("Define multiple disasters, sub incidents and events that this instance of Sahana will handle")?></li>
-	<li><b><?=_t("Config Utils")?></b> <br />
-	<?=_t("This section give you access to all technical configuration details and tools that can be changed in the system")?></li>
+	<li><b><?php echo _t("System Security")?></b> <br />
+	<?php echo _t("Allows the system administrator to configure who gets access to what modules and actions available in Sahana")?></li>
+	<li><b><?php echo _t("Language / Locale")?></b> <br />
+	<?php echo _t("Translate the Sahana interface and terminology to a local language and that relevant for the disaster")?></li>
+	<li><b><?php echo _t("Disaster Levels")?></b> <br />
+	<?php echo _t("Define multiple disasters, sub incidents and events that this instance of Sahana will handle")?></li>
+	<li><b><?php echo _t("Config Utils")?></b> <br />
+	<?php echo _t("This section give you access to all technical configuration details and tools that can be changed in the system")?></li>
 </ul>
 </div>
 	<?php

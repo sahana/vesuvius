@@ -24,7 +24,7 @@ function shn_rs_config_main_form()
 {
     print "<h1>"._t("Configuration")."</h1>";
     ?>
-    <p><?= _t('Here you can configure the frequency of updating module reports and charts.'); ?></p> 
+    <p><?php echo  _t('Here you can configure the frequency of updating module reports and charts.'); ?></p> 
     <?php
 
     global $global;

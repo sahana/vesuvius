@@ -1,4 +1,4 @@
-<?
+<?php
 /**
 * The Sahana Disaster Preparedness System
 *

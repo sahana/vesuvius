@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_old.inc,v 1.3 2008-01-30 04:35:21 prabath321 Exp $ */
+/* $Id: main_old.inc,v 1.4 2009-03-17 06:08:24 ravithb Exp $ */
 
 /**Main home page of the CMS
 *
@@ -31,9 +31,9 @@ function shn_cms_mainmenu()
 	$db = $global['db'];
 ?>
 <div id="modmenuwrap">
-	<h2><?=_t("Camp Management System")?></h2>
+	<h2><?php echo _t("Camp Management System")?></h2>
 	<ul id="modmenu">
-		<li><a href="index.php?mod=<?=$module?>&act=default"><?=_t("Home")?></a></li>
+		<li><a href="index.php?mod=<?php echo $module?>&act=default"><?php echo _t("Home")?></a></li>
 <?php
 	/*
 	 * Check whether there are existing camps.
@@ -45,33 +45,33 @@ function shn_cms_mainmenu()
 	if($result->EOF || $result==null)
 	{	
 ?>
-		<li><a href="index.php?mod=<?=$module?>&act=cadd"><?=_t("Add New Camp")?></a></li>
+		<li><a href="index.php?mod=<?php echo $module?>&act=cadd"><?php echo _t("Add New Camp")?></a></li>
 <?php
 	}//end if
 	else
 	{
 ?>
-		<li><a href="#"><?=_t("Victims")?></a></li>
+		<li><a href="#"><?php echo _t("Victims")?></a></li>
 		<ul id="modsubmenu">
-			<li><a href="index.php?mod=<?=$module?>&act=vadd"><?=_t("Register Victim")?></a></li>
-			<li><a href="index.php?mod=<?=$module?>&act=vedt"><?=_t("Edit Victim")?></a></li>
-			<li><a href="index.php?mod=<?=$module?>&act=vupd"><?=_t("Update Victim")?></a></li>
+			<li><a href="index.php?mod=<?php echo $module?>&act=vadd"><?php echo _t("Register Victim")?></a></li>
+			<li><a href="index.php?mod=<?php echo $module?>&act=vedt"><?php echo _t("Edit Victim")?></a></li>
+			<li><a href="index.php?mod=<?php echo $module?>&act=vupd"><?php echo _t("Update Victim")?></a></li>
 		</ul>
-		<li><a href="#"><?=_t("Relief Workers")?></a></li>
+		<li><a href="#"><?php echo _t("Relief Workers")?></a></li>
 		<ul id="modsubmenu">
-			<li><a href="index.php?mod=<?=$module?>&act=wadd"><?=_t("Register Relief Worker")?></a></li>
-			<li><a href="index.php?mod=<?=$module?>&act=wedt"><?=_t("Edit Relief Worker")?></a></li>
-			<li><a href="index.php?mod=<?=$module?>&act=wupd"><?=_t("Update Relief Worker")?></a></li>
+			<li><a href="index.php?mod=<?php echo $module?>&act=wadd"><?php echo _t("Register Relief Worker")?></a></li>
+			<li><a href="index.php?mod=<?php echo $module?>&act=wedt"><?php echo _t("Edit Relief Worker")?></a></li>
+			<li><a href="index.php?mod=<?php echo $module?>&act=wupd"><?php echo _t("Update Relief Worker")?></a></li>
 		</ul>
-		<li><a href="index.php?mod=<?=$module?>&act=srch"><?=_t("Search")?></a></li>
-		<li><a href="index.php?mod=<?=$module?>&act=stat"><?=_t("Statistics")?></a></li>
-		<li><a href="index.php?mod=<?=$module?>&act=rept"><?=_t("Reports")?></a></li>
-		<li><a href="index.php?mod=<?=$module?>&act=invt"><?=_t("Inventory")?></a></li>
-		<li><a href="#"><?=_t("Camp Details")?></a></li>
+		<li><a href="index.php?mod=<?php echo $module?>&act=srch"><?php echo _t("Search")?></a></li>
+		<li><a href="index.php?mod=<?php echo $module?>&act=stat"><?php echo _t("Statistics")?></a></li>
+		<li><a href="index.php?mod=<?php echo $module?>&act=rept"><?php echo _t("Reports")?></a></li>
+		<li><a href="index.php?mod=<?php echo $module?>&act=invt"><?php echo _t("Inventory")?></a></li>
+		<li><a href="#"><?php echo _t("Camp Details")?></a></li>
 		<ul id="modsubmenu">	
-			<li><a href="index.php?mod=<?=$module?>&act=cedt"><?=_t("Edit Camp")?></a></li>
-			<li><a href="index.php?mod=<?=$module?>&act=cext"><?=_t("Camp Closure")?></a></li>
-			<li><a href="index.php?mod=<?=$module?>&act=sync"><?=_t("Synchronize")?></a></li>
+			<li><a href="index.php?mod=<?php echo $module?>&act=cedt"><?php echo _t("Edit Camp")?></a></li>
+			<li><a href="index.php?mod=<?php echo $module?>&act=cext"><?php echo _t("Camp Closure")?></a></li>
+			<li><a href="index.php?mod=<?php echo $module?>&act=sync"><?php echo _t("Synchronize")?></a></li>
 		</ul>
 <?php
 	}//end else

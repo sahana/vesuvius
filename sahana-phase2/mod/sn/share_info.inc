@@ -74,7 +74,7 @@ function _shn_sn_add_topic_link(){
 
 function _shn_sn_show_topics() {
     ?>
-    <div align="right"><a href="index.php?mod=sn&act=log_out"><b><?= _t('Logout'); ?> </b></a></div>
+    <div align="right"><a href="index.php?mod=sn&act=log_out"><b><?php echo  _t('Logout'); ?> </b></a></div>
 
     <?php
     global $global;
@@ -88,7 +88,7 @@ function _shn_sn_show_topics() {
 
 
     if($records){
-    ?><a href="index.php?mod=sn&act=sn_forums&seq=page2"><b><?= _t('Add a topic'); ?> </b></a><br><br><br>
+    ?><a href="index.php?mod=sn&act=sn_forums&seq=page2"><b><?php echo  _t('Add a topic'); ?> </b></a><br><br><br>
      <div align="center">
      <table width="600">
          <tr>
@@ -121,7 +121,7 @@ function _shn_sn_show_topics() {
 
 
     }else {
-    	?><p>No topics added yet ....<a href="index.php?mod=sn&act=sn_forums&seq=page2"><b><?= _t('Add a topic'); ?> </b></a></p><br><br><br> <?php
+    	?><p>No topics added yet ....<a href="index.php?mod=sn&act=sn_forums&seq=page2"><b><?php echo  _t('Add a topic'); ?> </b></a></p><br><br><br> <?php
 
     }
 

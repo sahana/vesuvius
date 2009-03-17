@@ -23,7 +23,7 @@ function _shn_or_form_search()
     global $conf;
     $db=$global["db"];
 ?>
-<h2><?= _t('Search for Organizations by Name,Type,Service and Location')?></h2>
+<h2><?php echo  _t('Search for Organizations by Name,Type,Service and Location')?></h2>
 
 	
     <div id="formcontainer">

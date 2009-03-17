@@ -339,7 +339,7 @@ function _shn_vol_display_skills($error=false,$value=NULL,$label=NULL)
     if($error==true){
     		$extra_opts['value']=$_SESSION['vol']['skill'];
     }
-   ?><div class="info"><?=_t("Select the skills you have");?></div><br /><?
+   ?><div class="info"><?php echo _t("Select the skills you have");?></div><br /><?php
     shn_form_opt_multi_select('opt_skill_type','','multiple="true"',$extra_opts);
 
 }
@@ -368,14 +368,14 @@ function _shn_vol_display_sector($error=false,$value=NULL)
     }else{
        // $extra_opts['req']=true;
     }
-    ?><div class="info"><?=_t("Select the sector you are in ,e.g. if you are a medical practitioner then you are in the medical sector");?></div><br /><?
+    ?><div class="info"><?php echo _t("Select the sector you are in ,e.g. if you are a medical practitioner then you are in the medical sector");?></div><br /><?php
     $extra_opts['req']=true;
     shn_form_opt_multi_select('opt_sector_type','','multiple="true"',$extra_opts);
 }
 /*
 function _shn_vol_display_contact_person($error=false,$org=true,$po_uuid=null)
 {
-    ?><div class="info"><?= _t("Please provide contact details that can be used to contact your in a disaster");?> </div><br /><?
+    ?><div class="info"><?php echo  _t("Please provide contact details that can be used to contact your in a disaster");?> </div><br /><?php
     if(!shn_is_null($po_uuid)){
         global $global;
         $db=$global['db'];
@@ -429,7 +429,7 @@ function _shn_vol_display_contact_person($error=false,$confirm=false,$po_uuid=nu
     		shn_form_label(_t("Website"),$_SESSION['vol']['contact_web']);
     		return;
     }
-    ?><div class="info"><?= _t("Please provide contact details that can be used to contact your organization in a disaster");?> </div><br /><?
+    ?><div class="info"><?php echo  _t("Please provide contact details that can be used to contact your organization in a disaster");?> </div><br /><?php
    if($error==true){
    		$contact_address=$_SESSION['vol']['contact_address'];
         $contact_phone=$_SESSION['vol']['contact_phone'];
@@ -702,8 +702,8 @@ function shn_show_thumb($p_uuid,$session=false)
         $src_tmp = "tmp/thumb_$p_uuid"."$ext";
     }
 ?>
-    <a title="<?= _t('Click to see the original size'); ?>" href="#" onclick="window.open('<?=$src_ori;?>','hello','width=<?=$width?>,height=<?=$height?>,scrollbars=no,status=no');return false;" >
-    <img border="0" src="<?=$src_tmp;?>" />
+    <a title="<?php echo  _t('Click to see the original size'); ?>" href="#" onclick="window.open('<?php echo $src_ori;?>','hello','width=<?php echo $width?>,height=<?php echo $height?>,scrollbars=no,status=no');return false;" >
+    <img border="0" src="<?php echo $src_tmp;?>" />
     </a>
 <?php
     return true;
@@ -715,9 +715,9 @@ function _shn_vol_display_incident_form($error=false,$act)
     global $conf;
     $db=$global['db'];
 ?>
-<h2><?=_t("Select the Disaster/event/incident")?> </h2>
+<h2><?php echo _t("Select the Disaster/event/incident")?> </h2>
 <div id="note">
-<?=_t("Since there are multiple incidents you required to select relevant incidents ");?>
+<?php echo _t("Since there are multiple incidents you required to select relevant incidents ");?>
 </div>
 <?php
     if($error)

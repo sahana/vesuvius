@@ -60,9 +60,9 @@ function shn_dvr_adm_checklist()
     shn_form_fsopen(_t("Currently Available Services/Facilities"));
     ?>	   <table> 
 	    <thead>
-    <td><strong><?=_t('Code');?></strong></td>
-    <td width="100%"><strong><?=_t('Description');?></strong></td>
-    <td width="100%"><strong><?=_t('Delete');?></strong></td>
+    <td><strong><?php echo _t('Code');?></strong></td>
+    <td width="100%"><strong><?php echo _t('Description');?></strong></td>
+    <td width="100%"><strong><?php echo _t('Delete');?></strong></td>
     </thead>
     <?php
  $button = $_POST['selection'];
@@ -98,13 +98,13 @@ function shn_dvr_adm_checklist()
         $_SESSION['option_description'.$count] = $row['option_description'];
         ?>
 <tr>
-    <td><input type="text" READONLY name="<?=$_SESSION['option_code'.$count];?>" 
-            value="<?=$_SESSION['option_code'.$count];?>"  />
+    <td><input type="text" READONLY name="<?php echo $_SESSION['option_code'.$count];?>" 
+            value="<?php echo $_SESSION['option_code'.$count];?>"  />
     </td>
-    <td><input type="text" name="<?=$_SESSION['option_description'.$count];?>" 
-            value="<?=$_SESSION['option_description'.$count];?>" />
+    <td><input type="text" name="<?php echo $_SESSION['option_description'.$count];?>" 
+            value="<?php echo $_SESSION['option_description'.$count];?>" />
     </td>
-    <td><input type="checkbox" name="<?=$count;?>" />
+    <td><input type="checkbox" name="<?php echo $count;?>" />
     </td>
     <?php 
     $count++;

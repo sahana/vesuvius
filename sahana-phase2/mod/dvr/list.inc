@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: list.inc,v 1.8 2008-02-08 10:16:33 prabath321 Exp $ */
+/* $Id: list.inc,v 1.9 2009-03-17 06:08:22 ravithb Exp $ */
 
-/* $Id: list.inc,v 1.8 2008-02-08 10:16:33 prabath321 Exp $ */
+/* $Id: list.inc,v 1.9 2009-03-17 06:08:22 ravithb Exp $ */
 
 /**
  * 
@@ -37,12 +37,12 @@ function  _shn_dvr_list_all_groups()
 	<table>
         <thead>
         		
-            <td><?=_t("Group Type")?></td>
-            <td><?=_t("Group Head Name")?></td>
-            <td><?=_t("Family Name")?></td>
-           <!-- <td><?=_t("Local Name")?></td>-->
-          	<td><?=_t("NIC")?></td>
-            <td><?=_t("Address")?></td>
+            <td><?php echo _t("Group Type")?></td>
+            <td><?php echo _t("Group Head Name")?></td>
+            <td><?php echo _t("Family Name")?></td>
+           <!-- <td><?php echo _t("Local Name")?></td>-->
+          	<td><?php echo _t("NIC")?></td>
+            <td><?php echo _t("Address")?></td>
             <td></td>
             
         </thead>
@@ -53,15 +53,15 @@ function  _shn_dvr_list_all_groups()
         
         <tr>
         
-        <td><?=_shn_dvr_getoptiondescription($results->fields['group_type'])?></td>
+        <td><?php echo _shn_dvr_getoptiondescription($results->fields['group_type'])?></td>
             
-            <td><?=$results->fields['full_name']?></td>
-            <td><?=$results->fields['family_name']?></td>
-           <!-- <td><?=$results->fields['local_name']?></td>-->
-          	<td><?=$results->fields['serial']?></td>
-            <td><?=$results->fields['address']?></td>
+            <td><?php echo $results->fields['full_name']?></td>
+            <td><?php echo $results->fields['family_name']?></td>
+           <!-- <td><?php echo $results->fields['local_name']?></td>-->
+          	<td><?php echo $results->fields['serial']?></td>
+            <td><?php echo $results->fields['address']?></td>
             
-            <td><a href='index.php?mod=dvr&act=view_members&groupid=<?=$results->fields['group_id']?>'>View Members</a></td>
+            <td><a href='index.php?mod=dvr&act=view_members&groupid=<?php echo $results->fields['group_id']?>'>View Members</a></td>
 
         
         </tr>
@@ -83,12 +83,12 @@ function  _shn_dvr_list_all_groups()
 	<table>
         <thead>
         		<td></td>
-            <td><?=_t("Group Type")?></td>
-            <td><?=_t("Group Head Name")?></td>
-            <td><?=_t("Family Name")?></td>
-            <td><?=_t("Local Name")?></td>
-          	<td><?=_t("NIC")?></td>
-            <td><?=_t("Address")?></td>
+            <td><?php echo _t("Group Type")?></td>
+            <td><?php echo _t("Group Head Name")?></td>
+            <td><?php echo _t("Family Name")?></td>
+            <td><?php echo _t("Local Name")?></td>
+          	<td><?php echo _t("NIC")?></td>
+            <td><?php echo _t("Address")?></td>
          <td><a href='index.php?mod=dvr&act=add_new_indv'>Edit</a></td>
         </thead>
         </table>

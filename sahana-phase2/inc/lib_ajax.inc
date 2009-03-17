@@ -369,7 +369,7 @@ function shn_ajax_text_look_up($label,$name,$hint=null,$url,$value=null,$flag,$e
                 $extra_opts['help']=null;
 		        echo "<div id='".$hint[0]."' style='left: 442px'></div>";
 		        ?>
-                <input type="hidden" id="<?=$name[0]?>" name="<?=$name[0]?>"  value= />
+                <input type="hidden" id="<?php echo $name[0]?>" name="<?php echo $name[0]?>"  value= />
 	
 	            <?php
 		        }
@@ -383,7 +383,7 @@ function shn_ajax_text_look_up($label,$name,$hint=null,$url,$value=null,$flag,$e
      				//echo $name[$index-1];
                     echo "<div id='".$hint[$index]."' style='left: 442px'></div>";
                     ?>
-                    <input type="hidden" id="<?=$name[$index]?>" name="<?=$name[$index]?>"  value= />
+                    <input type="hidden" id="<?php echo $name[$index]?>" name="<?php echo $name[$index]?>"  value= />
 	
 	                <?php
 		        }
@@ -396,7 +396,7 @@ function shn_ajax_text_look_up($label,$name,$hint=null,$url,$value=null,$flag,$e
 
             echo "<div id='".$hint[$index]."' style='left: 442px'></div>";
             ?>
-            <input type="hidden" id="<?=$name[$index]?>" name="<?=$name[$index]?>"  value= />
+            <input type="hidden" id="<?php echo $name[$index]?>" name="<?php echo $name[$index]?>"  value= />
 	
 	<?php
 		}

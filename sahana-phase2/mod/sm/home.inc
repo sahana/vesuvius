@@ -25,7 +25,7 @@ function shn_sm_default()
 		"online mapping (GIS). You can add markers and pictures to pin point " .
 		"incidents on the map.");?> 
 </p>
-    <div><h3><b><em><?= (_t("Features Include:")) ?></em></b></h3></div>
+    <div><h3><b><em><?php echo  (_t("Features Include:")) ?></em></b></h3></div>
 <br></br>
 <ul>
         <li><?php echo _t('Provides a map based view of the disaster situtation'); ?></li>
@@ -33,11 +33,11 @@ function shn_sm_default()
 </ul>
 <strong><?php echo _t('Description of Actions:')?></strong><br/>
     <ul>
-        <li><a href="index.php?mod=sm&act=swik"><b><?= _t('View Situation Map'); ?></b></a><br/><?= _t('Map of the developing situation with markers of incidents, locations and objects displayed on the map'); ?></li>
-        <li><a href="index.php?mod=sm&act=awik"><b><?= _t('Add New Situation'); ?> </b> </a><br/><?= _t('Add markers on the map of incidents and objects with pictures'); ?></li>
-        <!--<li><a href="index.php?mod=sm&act=ewik"><b><?= _t('Edit Situation'); ?> </b> </a><br/><?= _t('Edit Situations'); ?></li>-->
-        <li><a href="index.php?mod=sm&act=analysis_radius"><b><?= _t('Situation Analysis: Radius'); ?> </b> </a><br/><?= _t('Report on which situations are located within a specified radius of a selected location'); ?></li>
-        <!--<li><a href="index.php?mod=sm&act=mapc"><b><?= _t('General Map'); ?> </b></a><br/><?= _t('Free form map of the location without markers'); ?></li>-->
+        <li><a href="index.php?mod=sm&act=swik"><b><?php echo  _t('View Situation Map'); ?></b></a><br/><?php echo  _t('Map of the developing situation with markers of incidents, locations and objects displayed on the map'); ?></li>
+        <li><a href="index.php?mod=sm&act=awik"><b><?php echo  _t('Add New Situation'); ?> </b> </a><br/><?php echo  _t('Add markers on the map of incidents and objects with pictures'); ?></li>
+        <!--<li><a href="index.php?mod=sm&act=ewik"><b><?php echo  _t('Edit Situation'); ?> </b> </a><br/><?php echo  _t('Edit Situations'); ?></li>-->
+        <li><a href="index.php?mod=sm&act=analysis_radius"><b><?php echo  _t('Situation Analysis: Radius'); ?> </b> </a><br/><?php echo  _t('Report on which situations are located within a specified radius of a selected location'); ?></li>
+        <!--<li><a href="index.php?mod=sm&act=mapc"><b><?php echo  _t('General Map'); ?> </b></a><br/><?php echo  _t('Free form map of the location without markers'); ?></li>-->
     </ul>
 <br/>
 </div>

@@ -1,4 +1,4 @@
-<?
+<?php
 /**Contains methods to create froms to compose mail,ect
 *
 * PHP version 4 and 5
@@ -19,13 +19,13 @@ global $global;
 include_once $global['approot']."/inc/lib_form.inc";
 include_once $global['approot']."/inc/lib_errors.inc"
 ?>
-<h2><?= _t('Compose Mail')?></h2>
+<h2><?php echo _t('Compose Mail')?></h2>
 <?php
     if($error)
     display_errors();
 ?>
     <div id="formcontainer">
-<?
+<?php
     shn_form_fopen("send_mail&stream=text");
     shn_form_fsopen("individual mails");
     shn_form_textarea(_t("Message : "),'message','size="30"',array('req'=>true,'value'=>$val,'help'=>_t('Enter Your<br/> message here<br/>')));
@@ -39,7 +39,7 @@ shn_form_textarea(_t("Phone Number : "),'phone','size="30"',array('req'=>true, '
     shn_form_fclose();
 ?>
 </div>
-<?
+<?php
 }			     
 ?>
 

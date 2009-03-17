@@ -263,15 +263,15 @@ function _shn_print_map_toolbar1()
         <fieldset id='gis_map_toolbar_fieldset' style="border: 1px solid ; padding: 5px; padding-bottom:2px;">
 
             <div id="gis_map_toolbar_default">
-                <span title="<?= _t('Expand Map') ?>"><a onclick="shn_gis_map_expand()" alt="<?= _t('Full screen map')?>"><div id="gis_map_icon_expand" style="width: 24px; height: 22px;"></div></a></span>
+                <span title="<?php echo  _t('Expand Map') ?>"><a onclick="shn_gis_map_expand()" alt="<?php echo  _t('Full screen map')?>"><div id="gis_map_icon_expand" style="width: 24px; height: 22px;"></div></a></span>
             </div>
             <div id="gis_map_toolbar_manipulate">
-                <span title="<?= _t('Navigate') ?>"><a onclick="shn_gis_map_control_navigate()" alt="<?= _t('Navigate')?>"><div id="gis_map_icon_select" style="width: 24px; height: 22px;"></div></a></span>
-                <span title="<?= _t('Add Point')?>"><a onclick="shn_gis_map_control_add_point()" alt="<?= _t('Add Point')?>"><div id="gis_map_icon_addpoint" style="width: 24px; height: 22px;"></div></a></span>
-                <span title="<?= _t('Add Line')?>"><a onclick="shn_gis_map_control_add_line()" alt="<?= _t('Add Line')?>"><div id="gis_map_icon_addline" style="width: 24px; height: 22px;"></div></a></span>
-                <span title="<?= _t('Add Area')?>"><a onclick="shn_gis_map_control_add_polygon()" alt="<?= _t('Add Area')?>"><div id="gis_map_icon_addpolygon" style="width: 24px; height: 22px;"></div></a></span>
-                <span title="<?= _t('Toggle Freehand Draw')?>"><a onclick="shn_gis_map_control_freehand()" alt="<?= _t('Toggle Freehand Draw')?>"><div id="gis_map_icon_freehand" style="width: 24px; height: 22px;"></div></a></span>
-                <span title="<?= _t('Mode Description')?>" id="gis_map_icon_descripion"></span>
+                <span title="<?php echo  _t('Navigate') ?>"><a onclick="shn_gis_map_control_navigate()" alt="<?php echo  _t('Navigate')?>"><div id="gis_map_icon_select" style="width: 24px; height: 22px;"></div></a></span>
+                <span title="<?php echo  _t('Add Point')?>"><a onclick="shn_gis_map_control_add_point()" alt="<?php echo  _t('Add Point')?>"><div id="gis_map_icon_addpoint" style="width: 24px; height: 22px;"></div></a></span>
+                <span title="<?php echo  _t('Add Line')?>"><a onclick="shn_gis_map_control_add_line()" alt="<?php echo  _t('Add Line')?>"><div id="gis_map_icon_addline" style="width: 24px; height: 22px;"></div></a></span>
+                <span title="<?php echo  _t('Add Area')?>"><a onclick="shn_gis_map_control_add_polygon()" alt="<?php echo  _t('Add Area')?>"><div id="gis_map_icon_addpolygon" style="width: 24px; height: 22px;"></div></a></span>
+                <span title="<?php echo  _t('Toggle Freehand Draw')?>"><a onclick="shn_gis_map_control_freehand()" alt="<?php echo  _t('Toggle Freehand Draw')?>"><div id="gis_map_icon_freehand" style="width: 24px; height: 22px;"></div></a></span>
+                <span title="<?php echo  _t('Mode Description')?>" id="gis_map_icon_descripion"></span>
             </div>
         </fieldset>
     </div>
@@ -288,16 +288,16 @@ function _shn_print_map_toolbar2()
         <fieldset id='gis_map_toolbar_fieldset' style="border: 1px solid ; padding: 5px; padding-bottom:2px;">
         
         <div id="gis_map_toolbar_default">
-            <span title="<?= _t('Expand Map') ?>"><a onclick="shn_gis_map_expand()" alt="<?= _t('Full screen map')?>"><div id="gis_map_icon_expand" style="width: 24px; height: 22px;"></div></a></span>
+            <span title="<?php echo  _t('Expand Map') ?>"><a onclick="shn_gis_map_expand()" alt="<?php echo  _t('Full screen map')?>"><div id="gis_map_icon_expand" style="width: 24px; height: 22px;"></div></a></span>
         </div>
         <div id="gis_map_toolbar_manipulate">
-            <span title="<?= _t('Select Features') ?>"><a onclick="shn_gis_map_control_select()" alt="<?= _t('Select Features')?>"><div id="gis_map_icon_select" style="width: 24px; height: 22px;"></div></a></span>
-            <span title="<?= _t('Move Features')?>"><a onclick="shn_gis_map_control_drag()" alt="<?= _t('Move Features')?>"><div id="gis_map_icon_drag" style="width: 24px; height: 22px;"></div></a></span>
-            <span title="<?= _t('Add Point')?>"><a onclick="shn_gis_map_control_add_point()" alt="<?= _t('Add Point')?>"><div id="gis_map_icon_addpoint" style="width: 24px; height: 22px;"></div></a></span>
-            <span title="<?= _t('Add Line')?>"><a onclick="shn_gis_map_control_add_line()" alt="<?= _t('Add Line')?>"><div id="gis_map_icon_addline" style="width: 24px; height: 22px;"></div></a></span>
-            <span title="<?= _t('Add Area')?>"><a onclick="shn_gis_map_control_add_polygon()" alt="<?= _t('Add Area')?>"><div id="gis_map_icon_addpolygon" style="width: 24px; height: 22px;"></div></a></span>
-            <span title="<?= _t('Toggle Freehand Draw')?>"><a onclick="shn_gis_map_control_freehand()" alt="<?= _t('Toggle Freehand Draw')?>"><div id="gis_map_icon_freehand" style="width: 24px; height: 22px;"></div></a></span>
-            <span title="<?= _t('Mode Description')?>" id="gis_map_icon_descripion"></span>
+            <span title="<?php echo  _t('Select Features') ?>"><a onclick="shn_gis_map_control_select()" alt="<?php echo  _t('Select Features')?>"><div id="gis_map_icon_select" style="width: 24px; height: 22px;"></div></a></span>
+            <span title="<?php echo  _t('Move Features')?>"><a onclick="shn_gis_map_control_drag()" alt="<?php echo  _t('Move Features')?>"><div id="gis_map_icon_drag" style="width: 24px; height: 22px;"></div></a></span>
+            <span title="<?php echo  _t('Add Point')?>"><a onclick="shn_gis_map_control_add_point()" alt="<?php echo  _t('Add Point')?>"><div id="gis_map_icon_addpoint" style="width: 24px; height: 22px;"></div></a></span>
+            <span title="<?php echo  _t('Add Line')?>"><a onclick="shn_gis_map_control_add_line()" alt="<?php echo  _t('Add Line')?>"><div id="gis_map_icon_addline" style="width: 24px; height: 22px;"></div></a></span>
+            <span title="<?php echo  _t('Add Area')?>"><a onclick="shn_gis_map_control_add_polygon()" alt="<?php echo  _t('Add Area')?>"><div id="gis_map_icon_addpolygon" style="width: 24px; height: 22px;"></div></a></span>
+            <span title="<?php echo  _t('Toggle Freehand Draw')?>"><a onclick="shn_gis_map_control_freehand()" alt="<?php echo  _t('Toggle Freehand Draw')?>"><div id="gis_map_icon_freehand" style="width: 24px; height: 22px;"></div></a></span>
+            <span title="<?php echo  _t('Mode Description')?>" id="gis_map_icon_descripion"></span>
         </div>
         </fieldset>
     </div>

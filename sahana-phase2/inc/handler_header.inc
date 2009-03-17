@@ -1,5 +1,5 @@
 <?php 
-/* $Id: handler_header.inc,v 1.19 2008-07-07 13:13:20 chamindra Exp $ */
+/* $Id: handler_header.inc,v 1.20 2009-03-17 06:08:22 ravithb Exp $ */
 /**
  *
  * Sahana HTML footer
@@ -21,7 +21,7 @@
 ?>
     <div id="header" class="clearfix">
         <?php  ?>
-        <h1><?=_t("Sahana FOSS Disaster Management System")?></h1>
+        <h1><?php echo _t("Sahana FOSS Disaster Management System")?></h1>
         <?php 
             global $conf;
             if(file_exists($global['approot'].'conf/sysconf.inc.php'))

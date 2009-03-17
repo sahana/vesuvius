@@ -34,7 +34,7 @@ function shn_mpr_search_show_verticle($details)
 ?>
 <DIV ID="result">
 <TABLE>
-<?
+<?php
     for($i=0; $i<count($details); $i+=2){
         if($details[$i]){
 ?>

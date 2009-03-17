@@ -58,8 +58,8 @@ include_once $global['approot'] . '/mod/sn/lib_sn.inc';
           <?php  shn_form_fopen('sn_home','sn'); ?>
   <strong><?php echo ("Description of Actions:")?></strong><br/>
       <ul>
-         <li><a href="index.php?mod=sn&act=ad_admin_home"><b><?= ('Admin Home'); ?> </b></a><br/><?= ('Admin Home'); ?></li>
-         <li><a href="index.php?mod=sn&act=ad_view_mem"><b><?= ('View Members'); ?> </b> </a><br/><?= ('View all the details of SN members'); ?></li>
+         <li><a href="index.php?mod=sn&act=ad_admin_home"><b><?php echo  ('Admin Home'); ?> </b></a><br/><?php echo  ('Admin Home'); ?></li>
+         <li><a href="index.php?mod=sn&act=ad_view_mem"><b><?php echo  ('View Members'); ?> </b> </a><br/><?php echo  ('View all the details of SN members'); ?></li>
 
       </ul>
 

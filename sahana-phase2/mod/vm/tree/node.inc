@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * Defines a Node class, which make up a Tree. This class is intended

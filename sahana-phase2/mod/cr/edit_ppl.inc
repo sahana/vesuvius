@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: edit_ppl.inc,v 1.10 2008-07-24 09:02:45 ravithb Exp $ */
-/* $Id: edit_ppl.inc,v 1.10 2008-07-24 09:02:45 ravithb Exp $ */
+/* $Id: edit_ppl.inc,v 1.11 2009-03-17 06:08:24 ravithb Exp $ */
+/* $Id: edit_ppl.inc,v 1.11 2009-03-17 06:08:24 ravithb Exp $ */
 
 /**Update functions for  CR
  *
@@ -158,7 +158,7 @@ function _shn_cr_cedt_commit()
     $res = $db->Execute($q);
     ?>
 
-<h2><?= add_confirmation(_t("You have succesfully edited the people count ").$_SESSION['camp_name']);?></h2>
+<h2><?php echo  add_confirmation(_t("You have succesfully edited the people count ").$_SESSION['camp_name']);?></h2>
 
 
 <br>

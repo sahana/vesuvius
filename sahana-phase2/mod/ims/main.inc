@@ -528,18 +528,18 @@ function shn_ims_search_cr()
         $i = $i + 1;
     }
 ?>
-<h2><?=_t("Search Result")?></h2>
+<h2><?php echo _t("Search Result")?></h2>
     <div id ="result">
         <table>
             <thead>
-                <td><?=_t("Inventory Name")?></td>
-                <td><?=_t("Country of Origin")?></td>
-                <td><?=_t("Contact Address")?></td>
-                <td><?=_t("Contact Number")?></td>
-                <td><?=_t("Contact Email")?></td>
-                <td><?=_t("Man Power")?></td>
-                <td><?=_t("Facilities")?></td>
-        <td><?=_t("Space")?></td>
+                <td><?php echo _t("Inventory Name")?></td>
+                <td><?php echo _t("Country of Origin")?></td>
+                <td><?php echo _t("Contact Address")?></td>
+                <td><?php echo _t("Contact Number")?></td>
+                <td><?php echo _t("Contact Email")?></td>
+                <td><?php echo _t("Man Power")?></td>
+                <td><?php echo _t("Facilities")?></td>
+        <td><?php echo _t("Space")?></td>
             </thead>
             <tbody>
 <?php

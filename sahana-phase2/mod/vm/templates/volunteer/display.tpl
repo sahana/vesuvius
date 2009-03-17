@@ -144,7 +144,7 @@
 </table>
 <br />
 <h2>_("Skills and Work Restrictions")</h2>
-<?
+<?php
 $vol_skills->display();
 ?>
 {if !empty($special_needs)}

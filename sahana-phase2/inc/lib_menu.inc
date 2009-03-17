@@ -96,7 +96,7 @@ function shn_mod_menuopen($desc )
 {   
 ?>
     <div id="modmenuwrap"> 
-    <h2><?=$desc?></h2>
+    <h2><?php echo $desc?></h2>
     <ul id="modmenu">
 <?php
 }
@@ -190,7 +190,7 @@ function shn_adm_menuitem($action, $desc, $module = null )
     if ( null == $module ) $module = $global['module'];
     shn_breadcrumb_set_nicename($module, $action, $desc);
 ?>
-    <a <?=($global['action']==$action?'class="selected" ':'');?> href="index.php?mod=<?=$module?>&amp;act=<?=$action?>"><?=$desc?></a>
+    <a <?php echo ($global['action']==$action?'class="selected" ':'');?> href="index.php?mod=<?php echo $module?>&amp;act=<?php echo $action?>"><?php echo $desc?></a>
 <?php
 }
 
@@ -303,7 +303,7 @@ function shn_breadcrumb_display()
 function shn_tabmenu_open(){
 ?>
     <ul id="tabmenu">
-<?
+<?php
 }
 
 
@@ -316,7 +316,7 @@ function shn_tabmenu_open(){
 function shn_tabmenu_close(){
 ?>
     </ul>
-<?
+<?php
 }
 
 

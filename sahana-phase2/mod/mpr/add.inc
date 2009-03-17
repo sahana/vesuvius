@@ -82,7 +82,7 @@ function shn_mpr_addmp_entry($errors=false)
 
     shn_form_fsopen(_t('Identity'));
 ?>
-    <p><?= _t('If you have any information about missing person\'s identity numbers, please include them since it will be helpful for finding the person. Otherwise please ignore.'); ?></p>
+    <p><?php echo  _t('If you have any information about missing person\'s identity numbers, please include them since it will be helpful for finding the person. Otherwise please ignore.'); ?></p>
 <?php
     shn_form_text(_t('Identity Card Number'),'idcard','size="30"',array('help'=>_t('Specify the Identity card Number, Although this is not required this will be useful in searching for the person')));
     shn_form_text(_t('Passport Number'),'passport','size="30"', array('help'=>_t('Please Specify the passport number, Although this is not required this will be useful in searching for the person')));
@@ -91,7 +91,7 @@ function shn_mpr_addmp_entry($errors=false)
 
     shn_form_fsopen(_t('Basic Details'));
 ?>
-<p><?= _t('Please enter any of the following details of the person:'); ?></p> 
+<p><?php echo  _t('Please enter any of the following details of the person:'); ?></p> 
 <?php
 
     shn_form_text(_t('Full Name'),'full_name','size="30"',array('req'=>true, 'help'=>'You are required to specify the full name in order to identify the entry'));
@@ -109,7 +109,7 @@ function shn_mpr_addmp_entry($errors=false)
     shn_form_fsclose();
     shn_form_fsopen(_t('Upload Picture'));
 ?>
-    <p><?= _t('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />If you don\'t have a picture no need to upload.'); ?></p>
+    <p><?php echo  _t('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />If you don\'t have a picture no need to upload.'); ?></p>
 <?php
     shn_form_upload(_t('Upload Picture'),"picture");
     shn_form_fsclose();
@@ -277,7 +277,7 @@ function shn_mpr_addmp_reporter($errors=false)
     // todo: Clean the $_GET['act'] baby ;-)
     shn_form_fopen($_GET['act'],null);
 ?>
-    <p><?= _t('We are collecting the information on the person who is reporting the missing person due to the following reasons.'). 
+    <p><?php echo  _t('We are collecting the information on the person who is reporting the missing person due to the following reasons.'). 
 	'<ul><li>'.
 	_t('To inform back on finding the missing person').'</li><li>'.
 	_t('In a situation where the person who is reporting also a victim of the disaster. The details given here would help to associate he/she with his/her relatives.')
@@ -333,7 +333,7 @@ function shn_mpr_addmp_reporter($errors=false)
 
     shn_form_fsopen(_t('Details of the reporting person'));
 ?>
-<p><?= _t('NOTE : If you have reported before, we will use the following information to perform a search to see you are in our database or not.'); ?></p>
+<p><?php echo  _t('NOTE : If you have reported before, we will use the following information to perform a search to see you are in our database or not.'); ?></p>
 <?php
   shn_form_text(_t('Name'),'rep_full_name','size="30"',array('req'=>true));
   shn_form_text('Relationship to Person','opt_relationship_type');
@@ -352,7 +352,7 @@ function shn_mpr_addmp_reporter($errors=false)
 	}
 ?>	
 >
-<p><?= _t('IMPORTANT : At least one of the following contact method is required'); ?></p>
+<p><?php echo  _t('IMPORTANT : At least one of the following contact method is required'); ?></p>
 <?php
     shn_form_textarea(_t('Address'),'rep_address');
     shn_form_text(_t('Phone'),'rep_phone','size="30"');
@@ -443,7 +443,7 @@ function shn_mpr_addmp_upload($errors=false)
 
     shn_form_fopen("addmp",null,array('enctype'=>'enctype="multipart/form-data"'));
 ?>
-    <p><?= _t('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />If you don\'t have a picture to upload just click the "Next" button.'); ?></p>
+    <p><?php echo  _t('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />If you don\'t have a picture to upload just click the "Next" button.'); ?></p>
 <?php
     shn_form_hidden(array('seq'=>'upload_pic'));
     shn_form_fsopen(_t('Upload Picture'));
@@ -677,13 +677,13 @@ function shn_mpr_addmp_confirm()
 	/*
     shn_form_fsopen(_t('Confirm'));
 ?>
-    <p><?= _t('Is the information that you\'ve entered correct?'); ?></p>
+    <p><?php echo  _t('Is the information that you\'ve entered correct?'); ?></p>
 <?php
     shn_form_submit(_t('Next'));
     shn_form_fsclose();
 	*/
 ?>
-    <p><?= _t('Click on the "Next" Button to go back to the main screen.'); ?></p>
+    <p><?php echo  _t('Click on the "Next" Button to go back to the main screen.'); ?></p>
 <?php
 
     shn_form_submit(_t('Next'));
@@ -1112,6 +1112,6 @@ function toggleLayer(whichLayer,whichLayer1)
 	}
 }
 </script>
-<?
+<?php
 }
 ?>

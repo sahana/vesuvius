@@ -26,7 +26,7 @@ function shn_hr_default()
 {
 ?>
 <div id="home">
-<h2><?= _t('Housing Registry And Reconstruction'); ?></h2>
+<h2><?php echo  _t('Housing Registry And Reconstruction'); ?></h2>
 <p>
 <?php
 
@@ -58,23 +58,23 @@ print '<br />';
 print '<br />';
 ?>
 </p>
-    <div><h3><b><?= (_t("Features Include:")) ?></b></h3></div>
+    <div><h3><b><?php echo  (_t("Features Include:")) ?></b></h3></div>
 
     <ul>
         <br>
-        <li><b><?= (_t("Tracking&nbsp;:"))?></b><?= (_t(" Effective tracking of Homeless Families, Damaged Houses, Contractors and Reconstruction Sites."))?></li>
+        <li><b><?php echo  (_t("Tracking&nbsp;:"))?></b><?php echo  (_t(" Effective tracking of Homeless Families, Damaged Houses, Contractors and Reconstruction Sites."))?></li>
 	  <br>
-        <li><b><?= (_t("Unique ID&nbsp;:"))?></b><?= (_t(" Head Of Family Information may also be entered by using the Disaster Victim Registry Unique ID."))?></li>
+        <li><b><?php echo  (_t("Unique ID&nbsp;:"))?></b><?php echo  (_t(" Head Of Family Information may also be entered by using the Disaster Victim Registry Unique ID."))?></li>
 	  <br>
-        <li><b><?= (_t("Upload Deed&nbsp;:"))?></b><?= (_t(" Uploading of a deed copy if available."))?></li>
+        <li><b><?php echo  (_t("Upload Deed&nbsp;:"))?></b><?php echo  (_t(" Uploading of a deed copy if available."))?></li>
 	  <br>
-        <li><b><?= (_t("Multiple Assignations&nbsp;:"))?></b><?= (_t(" Ability to assign multiple contractors to a site or vice versa."))?></li>
+        <li><b><?php echo  (_t("Multiple Assignations&nbsp;:"))?></b><?php echo  (_t(" Ability to assign multiple contractors to a site or vice versa."))?></li>
 	  <br>
-        <li><b><?= (_t("Latest progression &nbsp;:"))?></b><?= (_t(" The latest progression of Reconstruction Sites can be updated and viewed effectively.")) ?></li>
+        <li><b><?php echo  (_t("Latest progression &nbsp;:"))?></b><?php echo  (_t(" The latest progression of Reconstruction Sites can be updated and viewed effectively.")) ?></li>
 	  <br>
-        <li><b><?= (_t("GIS Mapping&nbsp;:"))?></b><?= (_t(" GIS mapping of Destroyed Houses and Reconstruction Sites."))?></li>
+        <li><b><?php echo  (_t("GIS Mapping&nbsp;:"))?></b><?php echo  (_t(" GIS mapping of Destroyed Houses and Reconstruction Sites."))?></li>
 	  <br>
-        <li><b><?= (_t("Generate Reports&nbsp;:"))?></b><?= (_t(" Ability to generate reports and drill downs based on the criteria."))?></li>
+        <li><b><?php echo  (_t("Generate Reports&nbsp;:"))?></b><?php echo  (_t(" Ability to generate reports and drill downs based on the criteria."))?></li>
 	  <br>
         
     </ul>

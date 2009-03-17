@@ -91,7 +91,7 @@ function _shn_sn_show_profile($errors = ''){
          <tr><td><?php echo 'Friends : '.$friend_count ?></td></tr>
       </table>
       <br> <br>
-      <a href="index.php?mod=sn&act=my_prof&seq=page2"><?= ('Edit My Profile'); ?> </a><br/>
+      <a href="index.php?mod=sn&act=my_prof&seq=page2"><?php echo  ('Edit My Profile'); ?> </a><br/>
 
     <?php
         _shn_sn_show_mem_posts();
@@ -99,7 +99,7 @@ function _shn_sn_show_profile($errors = ''){
     }else{
      	?><div align="center">
      	<h3> You have not registered in Social Network yet</h3><br>
-     	<a href="index.php?mod=sn&act=me_reg"><?= ('Register Now'); ?> </a></div><?php
+     	<a href="index.php?mod=sn&act=me_reg"><?php echo  ('Register Now'); ?> </a></div><?php
 	}
 
 }
@@ -119,8 +119,8 @@ function _shn_sn_show_mem_posts(){?>
            $time = $posts->fields['written_time'];
            ?>
           <tr>
-          <td align="right"><?=$text ?>  </td>
-          <td align="right"><a href="index.php?mod=sn&act=my_prof&seq=page5&name=<?=$person ?>"><?php echo $person.'</a><br>'.$time; ?>
+          <td align="right"><?php echo $text ?>  </td>
+          <td align="right"><a href="index.php?mod=sn&act=my_prof&seq=page5&name=<?php echo $person ?>"><?php echo $person.'</a><br>'.$time; ?>
           </td></tr>
 
           <?php
@@ -344,7 +344,7 @@ function _shn_sn_show_mem_profile($id = null){
        	 $details->MoveNext();
     }
     if($memb_id ==  $_SESSION[sn][p_uuid] ){
-    	 ?> <a href="index.php?mod=sn&act=my_prof&seq=page2"><?= _t('Edit My Profile'); ?> </a><br/><br> <?php
+    	 ?> <a href="index.php?mod=sn&act=my_prof&seq=page2"><?php echo  _t('Edit My Profile'); ?> </a><br/><br> <?php
     	 shn_form_submit('<< Back',"name='button'");
     }else{
     	 ?><h2><center><?php echo 'Write something to '.$mem_name ?></center></h2><br><br><?php
@@ -384,7 +384,7 @@ function _shn_sn_write_to_mem(){
     shn_form_hidden(array('seq'=>'page5','id'=>$written_to));
     ?><div align="center">
     <h2><br>
-    <?=shn_form_submit('Back',"name='button'"); ?>
+    <?php echo shn_form_submit('Back',"name='button'"); ?>
     </h2></div> <?php
 }
 

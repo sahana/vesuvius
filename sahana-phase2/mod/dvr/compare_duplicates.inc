@@ -154,41 +154,41 @@ function _shn_dvr_comparison_pageall($p_uuid)
 	<table width="100%">
 				<thead>
 					<tr>
-						<td><?=_t("Entry Name")?></td>
-						<td><?=_t("Mobile")?></td>
-						<td><?=_t("Telephone")?></td>
-						<td><?=_t("NIC")?></td>
-						<td><?=_t("Passport")?></td>
-						<td><?=_t("Licence")?></td>
+						<td><?php echo _t("Entry Name")?></td>
+						<td><?php echo _t("Mobile")?></td>
+						<td><?php echo _t("Telephone")?></td>
+						<td><?php echo _t("NIC")?></td>
+						<td><?php echo _t("Passport")?></td>
+						<td><?php echo _t("Licence")?></td>
 					</tr>
 				</thead>
 				<tr>
-					<td><b><?=$_SESSION['dvr']['entry']['p_full_name']?></b></td>
-					<!-- <td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?=$_SESSION['dvr']['entry']['id']?>'><b><?=$_SESSION['dvr']['entry']['p_full_name']?></b></a></td> -->
-					<td><?=$_SESSION['dvr']['entry']['mobile']?></td>
-					<td><?=$_SESSION['dvr']['entry']['telephone']?></td>
-					<td><?=$_SESSION['dvr']['entry']['idcard']?></td>
-					<td><?=$_SESSION['dvr']['entry']['passport']?></td>
-					<td><?=$_SESSION['dvr']['entry']['drv_licence']?></td>
+					<td><b><?php echo $_SESSION['dvr']['entry']['p_full_name']?></b></td>
+					<!-- <td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?php echo $_SESSION['dvr']['entry']['id']?>'><b><?php echo $_SESSION['dvr']['entry']['p_full_name']?></b></a></td> -->
+					<td><?php echo $_SESSION['dvr']['entry']['mobile']?></td>
+					<td><?php echo $_SESSION['dvr']['entry']['telephone']?></td>
+					<td><?php echo $_SESSION['dvr']['entry']['idcard']?></td>
+					<td><?php echo $_SESSION['dvr']['entry']['passport']?></td>
+					<td><?php echo $_SESSION['dvr']['entry']['drv_licence']?></td>
 					<!-- <td></td> -->
-					<!-- <td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?=$_SESSION['dvr']['entry']['id']?>' onClick="javascript: return confirmdelete('<?=$_SESSION['dvr']['entry']['p_full_name']?>')">Delete</a></td> -->
+					<!-- <td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?php echo $_SESSION['dvr']['entry']['id']?>' onClick="javascript: return confirmdelete('<?php echo $_SESSION['dvr']['entry']['p_full_name']?>')">Delete</a></td> -->
                 </tr>
              </table>
 	</div>
 	<br>
-	<p><b><?= $dup_count." duplicates found." ?></b></p>
+	<p><b><?php echo  $dup_count." duplicates found." ?></b></p>
 	<div id ="result">
 			<table width="100%">
 				<thead>
 					<tr>
-						<td><?=_t("Duplicates")?></td>
-						<td><?=_t("Mobile")?></td>
-						<td><?=_t("Telephone")?></td>
-						<td><?=_t("NIC")?></td>
-						<td><?=_t("Passport")?></td>
-						<td><?=_t("Licence")?></td>
-						<td><?=_t("Compare")?></td>
-						<td><?=_t("Delete duplicate")?></td>
+						<td><?php echo _t("Duplicates")?></td>
+						<td><?php echo _t("Mobile")?></td>
+						<td><?php echo _t("Telephone")?></td>
+						<td><?php echo _t("NIC")?></td>
+						<td><?php echo _t("Passport")?></td>
+						<td><?php echo _t("Licence")?></td>
+						<td><?php echo _t("Compare")?></td>
+						<td><?php echo _t("Delete duplicate")?></td>
 					</tr>	
 				</thead>
            
@@ -198,15 +198,15 @@ function _shn_dvr_comparison_pageall($p_uuid)
 	    _shn_dvr_get_compare_details($p, "person");
 	?>
 	<tr>
-			<!-- <td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?=$_SESSION['dvr']['person']['id']?>'><b><?=$_SESSION['dvr']['person']['p_full_name']?></b></a></td> -->
-			<td><b><?=$_SESSION['dvr']['person']['p_full_name']?></b></td>
-			<td><?=$_SESSION['dvr']['person']['mobile']?></td>
-			<td><?=$_SESSION['dvr']['person']['telephone']?></td>
-			<td><?=$_SESSION['dvr']['person']['idcard']?></td>
-			<td><?=$_SESSION['dvr']['person']['passport']?></td>
-			<td><?=$_SESSION['dvr']['person']['drv_licence']?></td>
-			<td><a href='index.php?mod=dvr&act=compare_duplicates&p_uuid1=<?=$_SESSION['dvr']['entry']['id']?>&p_uuid2=<?=$_SESSION['dvr']['person']['id']?>'>Compare</a></td>
-			<td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?=$_SESSION['dvr']['person']['id']?>' onClick="javascript: return confirmdelete('<?=$_SESSION['dvr']['person']['p_full_name']?>')">Delete</a></td>
+			<!-- <td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?php echo $_SESSION['dvr']['person']['id']?>'><b><?php echo $_SESSION['dvr']['person']['p_full_name']?></b></a></td> -->
+			<td><b><?php echo $_SESSION['dvr']['person']['p_full_name']?></b></td>
+			<td><?php echo $_SESSION['dvr']['person']['mobile']?></td>
+			<td><?php echo $_SESSION['dvr']['person']['telephone']?></td>
+			<td><?php echo $_SESSION['dvr']['person']['idcard']?></td>
+			<td><?php echo $_SESSION['dvr']['person']['passport']?></td>
+			<td><?php echo $_SESSION['dvr']['person']['drv_licence']?></td>
+			<td><a href='index.php?mod=dvr&act=compare_duplicates&p_uuid1=<?php echo $_SESSION['dvr']['entry']['id']?>&p_uuid2=<?php echo $_SESSION['dvr']['person']['id']?>'>Compare</a></td>
+			<td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?php echo $_SESSION['dvr']['person']['id']?>' onClick="javascript: return confirmdelete('<?php echo $_SESSION['dvr']['person']['p_full_name']?>')">Delete</a></td>
 		</tr>
 		<?php
 		shn_form_fsclose();
@@ -242,9 +242,9 @@ function _shn_dvr_comparison_page($p_uuid1,$p_uuid2)
 <table width="100%">
   <thead>
   	<tr>
-  	   	<td><?=_t('Description') ?></td>
-    	<td><?=_t('Detail of the Entry') ?></td>
-    	<td><?=_t('Detail of the Duplicate') ?></td>
+  	   	<td><?php echo _t('Description') ?></td>
+    	<td><?php echo _t('Detail of the Entry') ?></td>
+    	<td><?php echo _t('Detail of the Duplicate') ?></td>
     </tr>
   </thead>
   <tr>
@@ -253,166 +253,166 @@ function _shn_dvr_comparison_page($p_uuid1,$p_uuid2)
     	<td style="text-align: center;"><?shn_show_thumb_url($p_uuid2, 'database', 'dvr', 'addvictim_img', false);?></td>
     </tr>
   <tr>
-  <td><b><?=_t('Personel details') ?></b></td>
+  <td><b><?php echo _t('Personel details') ?></b></td>
   <td></td>
   <td></td>
   </tr>
   
   <tr>
-  	<td><?=_t('Full Name') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['p_full_name'] ?></td>
-    <td><?=$_SESSION['dvr']['person2']['p_full_name']?></td>
+  	<td><?php echo _t('Full Name') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['p_full_name'] ?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['p_full_name']?></td>
   </tr>
   <tr>
-  	<td><?=_t('Family Name') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['p_family_name']?></td>
-    <td><?=$_SESSION['dvr']['person2']['p_family_name'] ?></td>
+  	<td><?php echo _t('Family Name') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['p_family_name']?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['p_family_name'] ?></td>
   </tr>
   <tr>
-  	<td><?=_t('Local Name') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['p_local_name'] ?></td>
-    <td><?=$_SESSION['dvr']['person2']['p_local_name'] ?></td>
+  	<td><?php echo _t('Local Name') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['p_local_name'] ?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['p_local_name'] ?></td>
   </tr>
   <tr>
-  	<td><?=_t('Group Type') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['group_type'] ?></td>
-    <td><?=$_SESSION['dvr']['person2']['group_type']  ?></td>
+  	<td><?php echo _t('Group Type') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['group_type'] ?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['group_type']  ?></td>
   </tr>
   <tr>
-  	<td><?=_t('Date of Birth') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['dob'] ?></td>
-    <td><?=$_SESSION['dvr']['person2']['dob'] ?></td>
+  	<td><?php echo _t('Date of Birth') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['dob'] ?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['dob'] ?></td>
   </tr>
   <tr>
-  	<td><?=_t('Age Group') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['age_group'] ?></td>
-    <td><?=$_SESSION['dvr']['person2']['age_group'] ?></td>
+  	<td><?php echo _t('Age Group') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['age_group'] ?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['age_group'] ?></td>
   </tr>
   <tr>
-  	<td><?=_t('Gender') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['gender'] ?></td>
-    <td><?=$_SESSION['dvr']['person2']['gender'] ?></td>
+  	<td><?php echo _t('Gender') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['gender'] ?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['gender'] ?></td>
   </tr>
   <tr>
-  	<td><?=_t('Marital Status') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['marital'] ?></td>
-    <td><?=$_SESSION['dvr']['person2']['marital'] ?></td>
+  	<td><?php echo _t('Marital Status') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['marital'] ?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['marital'] ?></td>
   </tr>
   <tr>
-  	<td><?=_t('Religion') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['religion'] ?></td>
-    <td><?=$_SESSION['dvr']['person2']['religion'] ?></td>
+  	<td><?php echo _t('Religion') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['religion'] ?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['religion'] ?></td>
   </tr>
   <tr>
-  	<td><?=_t('Race') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['race'] ?></td>
-    <td><?=$_SESSION['dvr']['person2']['race'] ?></td>
+  	<td><?php echo _t('Race') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['race'] ?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['race'] ?></td>
   </tr>
   <tr>
-  <td><b><?=_t('Contact Details') ?></b></td>
+  <td><b><?php echo _t('Contact Details') ?></b></td>
   <td></td>
   <td></td>
   </tr>
   <tr>
-  	<td><?=_t('Mobile Number') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['mobile']?></td>
-    <td><?=$_SESSION['dvr']['person2']['mobile']?></td>
+  	<td><?php echo _t('Mobile Number') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['mobile']?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['mobile']?></td>
   </tr>
   <tr>
-  	<td><?=_t('Telephone Number') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['telephone']?></td>
-    <td><?=$_SESSION['dvr']['person2']['telephone']?></td>
+  	<td><?php echo _t('Telephone Number') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['telephone']?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['telephone']?></td>
   </tr>
   <tr>
-  	<td><?=_t('Address') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['address']?></td>
-    <td><?=$_SESSION['dvr']['person2']['address']?></td>
+  	<td><?php echo _t('Address') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['address']?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['address']?></td>
   </tr>
   <tr>
-  <td><b><?=_t('Location Details') ?></b></td>
+  <td><b><?php echo _t('Location Details') ?></b></td>
   <td></td>
   <td></td>
   </tr>
   <tr>
-  	<td><?=_t('Current Location') ?></td>
-    <td><?=shn_location_string($_SESSION['dvr']['person1']['curr_loc']) ?></td>
-    <td><?=shn_location_string($_SESSION['dvr']['person2']['curr_loc'])?></td>
+  	<td><?php echo _t('Current Location') ?></td>
+    <td><?php echo shn_location_string($_SESSION['dvr']['person1']['curr_loc']) ?></td>
+    <td><?php echo shn_location_string($_SESSION['dvr']['person2']['curr_loc'])?></td>
   </tr>
   <tr>
-  	<td><?=_t('Displaced Location') ?></td>
-    <td><?=shn_location_string($_SESSION['dvr']['person1']['dis_loc']) ?></td>
-    <td><?=shn_location_string($_SESSION['dvr']['person2']['dis_loc']) ?></td>
+  	<td><?php echo _t('Displaced Location') ?></td>
+    <td><?php echo shn_location_string($_SESSION['dvr']['person1']['dis_loc']) ?></td>
+    <td><?php echo shn_location_string($_SESSION['dvr']['person2']['dis_loc']) ?></td>
   </tr>
    <tr>
-  <td><b><?=_t('Identity') ?></b></td>
+  <td><b><?php echo _t('Identity') ?></b></td>
   <td></td>
   <td></td>
   </tr>
   <tr>
-  	<td><?=_t('NIC') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['idcard']?></td>
-    <td><?=$_SESSION['dvr']['person2']['idcard'] ?></td>
+  	<td><?php echo _t('NIC') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['idcard']?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['idcard'] ?></td>
   </tr>
   <tr>
-  	<td><?=_t('Passport') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['passport']?></td>
-    <td><?=$_SESSION['dvr']['person2']['passport'] ?></td>
+  	<td><?php echo _t('Passport') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['passport']?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['passport'] ?></td>
   </tr>
   <tr>
-  	<td><?=_t('Driving Licence') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['drv_licence'] ?></td>
-    <td><?=$_SESSION['dvr']['person2']['drv_licence'] ?></td>
+  	<td><?php echo _t('Driving Licence') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['drv_licence'] ?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['drv_licence'] ?></td>
   </tr>
   <tr>
-  <td><b><?=_t('Physical Details') ?></b></td>
+  <td><b><?php echo _t('Physical Details') ?></b></td>
   <td></td>
   <td></td>
   </tr>
   
   <tr>
-  	   	<td><?=_t('Finger Photograph') ?></td>
+  	   	<td><?php echo _t('Finger Photograph') ?></td>
     	<td><?shn_show_thumb_url($p_uuid1, 'database', 'dvr', 'addfingerprint_img', false, "finger");?></td>
     	<td><?shn_show_thumb_url($p_uuid2, 'database', 'dvr', 'addfingerprint_img', false, "finger");?></td>
     </tr>
   <tr>
-  	<td><?=_t('Eye Colour') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['opt_eye_color']?></td>
-    <td><?=$_SESSION['dvr']['person2']['opt_eye_color']?></td>
+  	<td><?php echo _t('Eye Colour') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['opt_eye_color']?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['opt_eye_color']?></td>
   </tr>
   <tr>
-  	<td><?=_t('Skin Colour') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['opt_skin_color']?></td>
-    <td><?=$_SESSION['dvr']['person2']['opt_skin_color']?></td>
+  	<td><?php echo _t('Skin Colour') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['opt_skin_color']?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['opt_skin_color']?></td>
   </tr>
   <tr>
-  	<td><?=_t('Hair Colour') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['opt_hair_color']?></td>
-    <td><?=$_SESSION['dvr']['person2']['opt_hair_color']?></td>
+  	<td><?php echo _t('Hair Colour') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['opt_hair_color']?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['opt_hair_color']?></td>
   </tr>
   <tr>
-  	<td><?=_t('Height') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['height']?></td>
-    <td><?=$_SESSION['dvr']['person2']['height']?></td>
+  	<td><?php echo _t('Height') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['height']?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['height']?></td>
   </tr>
   <tr>
-  	<td><?=_t('Weight') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['weight']?></td>
-    <td><?=$_SESSION['dvr']['person2']['weight']?></td>
+  	<td><?php echo _t('Weight') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['weight']?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['weight']?></td>
   </tr>
    <tr>
-  	<td><?=_t('Blood Type') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['opt_blood_type']?></td>
-    <td><?=$_SESSION['dvr']['person2']['opt_blood_type']?></td>
+  	<td><?php echo _t('Blood Type') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['opt_blood_type']?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['opt_blood_type']?></td>
   </tr>
   <tr>
-  <td><b><?=_t('Other') ?></b></td>
+  <td><b><?php echo _t('Other') ?></b></td>
   <td></td>
   <td></td>
   </tr>
    <tr>
-  	<td><?=_t('Last Clothing') ?></td>
-    <td><?=$_SESSION['dvr']['person1']['last_clothing']?></td>
-    <td><?=$_SESSION['dvr']['person2']['last_clothing']?></td>
+  	<td><?php echo _t('Last Clothing') ?></td>
+    <td><?php echo $_SESSION['dvr']['person1']['last_clothing']?></td>
+    <td><?php echo $_SESSION['dvr']['person2']['last_clothing']?></td>
   </tr>
   
 </table>

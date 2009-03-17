@@ -30,6 +30,6 @@ function shn_cms_default(){
 		<br>
 	</ul>
 						 
-<?
+<?php 
 }
 ?>

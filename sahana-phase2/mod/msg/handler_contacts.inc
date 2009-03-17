@@ -13,7 +13,7 @@
 * @package		sahana
 * @subpackage   msg
 * @tutorial
-* @version		$Id: handler_contacts.inc,v 1.11 2008-06-01 07:08:52 priyanga Exp $;
+* @version		$Id: handler_contacts.inc,v 1.12 2009-03-17 06:08:24 ravithb Exp $;
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)
 *  
@@ -411,7 +411,7 @@ function _shn_msg_list_grp_with_link($grp_type)
 		$grp_name="<strong>{$res->fields['grp_name']}</strong><br>";
 		$grp_id="{$res->fields['m_uuid']}";
 		
-		?> <a href="index.php?mod=msg&act=select_group&id=<?print $grp_id; ?>"><?php print $grp_name; ?></a><? 
+		?> <a href="index.php?mod=msg&act=select_group&id=<?print $grp_id; ?>"><?php print $grp_name; ?></a><?php
 		$res->MoveNext();
 	}
 }

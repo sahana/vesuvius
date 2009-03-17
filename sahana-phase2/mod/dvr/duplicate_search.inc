@@ -110,13 +110,13 @@ function listing($duplicates)
 <table>
 	<thead>
 		<tr>
-			<td><?=_t("Entry Name")?></td>
-			<td><?=_t("Mobile")?></td>
-			<td><?=_t("Telephone")?></td>
-			<td><?=_t("NIC")?></td>
-			<td><?=_t("Passport")?></td>
-			<td><?=_t("Licence")?></td>
-			<td><?=_t("Compare")?></td>
+			<td><?php echo _t("Entry Name")?></td>
+			<td><?php echo _t("Mobile")?></td>
+			<td><?php echo _t("Telephone")?></td>
+			<td><?php echo _t("NIC")?></td>
+			<td><?php echo _t("Passport")?></td>
+			<td><?php echo _t("Licence")?></td>
+			<td><?php echo _t("Compare")?></td>
 			<!-- jhdhjsskkak -->
 		</tr>
 	</thead>
@@ -131,15 +131,15 @@ function listing($duplicates)
 	        ?>
 	<tr>
 		<td><a
-			href='index.php?mod=dvr&act=edit_individual&p_uuid=<?=$dup['entry_id']?>'><b><?=$dup['entry_name']?></b></a></td>
-		<td><?=$dup['entry_mobile']?></td>
-		<td><?=$dup['entry_telephone']?></td>
-		<td><?=$dup['entry_nic']?></td>
-		<td><?=$dup['entry_pass']?></td>
-		<td><?=$dup['entry_lic']?></td>
+			href='index.php?mod=dvr&act=edit_individual&p_uuid=<?php echo $dup['entry_id']?>'><b><?php echo $dup['entry_name']?></b></a></td>
+		<td><?php echo $dup['entry_mobile']?></td>
+		<td><?php echo $dup['entry_telephone']?></td>
+		<td><?php echo $dup['entry_nic']?></td>
+		<td><?php echo $dup['entry_pass']?></td>
+		<td><?php echo $dup['entry_lic']?></td>
 
 		<td><a
-			href='index.php?mod=dvr&act=compare_duplicates&p_uuid1=<?=$dup['entry_id']?>'>Show</a></td>
+			href='index.php?mod=dvr&act=compare_duplicates&p_uuid1=<?php echo $dup['entry_id']?>'>Show</a></td>
 
 	</tr>
 	<?php
@@ -160,26 +160,26 @@ shn_form_fsopen(_t("Duplicates"));
 <table>
 <thead>
 <tr>
-<td><?=_t("Entry Name")?></td>
-<td><?=_t("Mobile")?></td>
-<td><?=_t("Telephone")?></td>
-<td><?=_t("Duplicate Entry")?></td>
-<td><?=_t("Mobile (Duplicate)")?></td>
-<td><?=_t("Telephone")?></td>
-<td><?=_t("Compare")?></td>
-<td><?=_t("Delete duplicate")?></td>
+<td><?php echo _t("Entry Name")?></td>
+<td><?php echo _t("Mobile")?></td>
+<td><?php echo _t("Telephone")?></td>
+<td><?php echo _t("Duplicate Entry")?></td>
+<td><?php echo _t("Mobile (Duplicate)")?></td>
+<td><?php echo _t("Telephone")?></td>
+<td><?php echo _t("Compare")?></td>
+<td><?php echo _t("Delete duplicate")?></td>
 </tr>
 </thead>
 <?foreach($duplicates as $dup){ ?>
 <tr>
-<td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?=$dup['entry_id']?>'><b><?=$dup['entry_name']?></b></a></td>
-<td><?=$dup['entry_mobile']?></td>
-<td><?=$dup['entry_telephone']?></td>
-<td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?=$dup['dup_id']?>'><b><?=$dup['dup_name']?></b></a></td>
-<td><?=$dup['dup_mobile']?></td>
-<td><?=$dup['dup_telephone']?></td>
-<td><a href='index.php?mod=dvr&act=compare_duplicates&p_uuid1=<?=$dup['entry_id']?>&p_uuid2=<?=$dup['dup_id']?>'>Compare</a></td>
-<td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?=$dup['dup_id']?>' onClick="javascript: return confirmdelete('<?=$dup['dup_id']?>')">Delete</a></td>
+<td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?php echo $dup['entry_id']?>'><b><?php echo $dup['entry_name']?></b></a></td>
+<td><?php echo $dup['entry_mobile']?></td>
+<td><?php echo $dup['entry_telephone']?></td>
+<td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?php echo $dup['dup_id']?>'><b><?php echo $dup['dup_name']?></b></a></td>
+<td><?php echo $dup['dup_mobile']?></td>
+<td><?php echo $dup['dup_telephone']?></td>
+<td><a href='index.php?mod=dvr&act=compare_duplicates&p_uuid1=<?php echo $dup['entry_id']?>&p_uuid2=<?php echo $dup['dup_id']?>'>Compare</a></td>
+<td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?php echo $dup['dup_id']?>' onClick="javascript: return confirmdelete('<?php echo $dup['dup_id']?>')">Delete</a></td>
 </tr>
 
 <?php

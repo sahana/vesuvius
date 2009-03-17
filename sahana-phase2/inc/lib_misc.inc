@@ -106,7 +106,7 @@ function shn_reset_form_javascript($form,$reset_what){
     		}
     } 
 </script>
-<?	
+<?php
 }
 
 function shn_add_remove_javascript($name,$db_arr,$sort=true)

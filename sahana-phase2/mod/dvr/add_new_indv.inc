@@ -495,7 +495,7 @@ function _shn_dvr_regconfirm_individual() {
 	global $conf;
 	$db = $global['db'];
 ?>
-<h2><?= _t('Confirm  Details of ').$_SESSION['dvr']['person']['full_name'] ?></h2>
+<h2><?php echo  _t('Confirm  Details of ').$_SESSION['dvr']['person']['full_name'] ?></h2>
 <div id="formcontainer">
 <?php
 
@@ -939,4 +939,4 @@ var othe = document.getElementById(divition);
 }
 
 </script>
-<?
+<?php

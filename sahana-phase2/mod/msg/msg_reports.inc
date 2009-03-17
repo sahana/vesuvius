@@ -14,7 +14,7 @@
 * @copyright  Respere - http://respere.com/
 * @package	  Sahana - http://sahana.lk/
 * @subpackage msg
-* @version 	  $Id: msg_reports.inc,v 1.2 2008-04-30 06:30:33 mifanc Exp $
+* @version 	  $Id: msg_reports.inc,v 1.3 2009-03-17 06:08:24 ravithb Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -27,7 +27,7 @@ function shn_msg_basic_sent_report()
 	global $global;
     $db=$global['db'];
 ?>
-    <h1><?=_t("Sent Messages")?></h1>
+    <h1><?php echo _t("Sent Messages")?></h1>
 <?php
 	$query = "select * from msg_sent_messages as msm,msg_message as mm " .
 			" where msm.msg_uuid=mm.msg_uuid order by message_sent_time desc";
@@ -38,10 +38,10 @@ function shn_msg_basic_sent_report()
 <div id ="result">
    <table>
         <thead>
-            <td><?=_t("Recipient")?></td>
-            <td><?=_t("Sent Time")?></td>
-            <td><?=_t("Sender")?></td>
-            <td><?=_t("Message")?></td>
+            <td><?php echo _t("Recipient")?></td>
+            <td><?php echo _t("Sent Time")?></td>
+            <td><?php echo _t("Sender")?></td>
+            <td><?php echo _t("Message")?></td>
         </thead>
         <tbody>
 <?php    
@@ -67,7 +67,7 @@ function shn_msg_basic_sent_report()
 function shn_msg_basic_rcvd_report()
 {
 ?>
-    <h1><?=_t("Received Messages")?></h1>
+    <h1><?php echo _t("Received Messages")?></h1>
 <?php
     global $global;
 

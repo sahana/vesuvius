@@ -312,12 +312,12 @@ function _shn_ims_view_edit_reorder_page($page_number,$Limit = null)
     <div id="result">
     <table>
         <thead>
-        <td><?=_t("Item"); ?></td>
-        <td><?=_t("Amount"); ?></td>
-        <td><?=_t("Unit"); ?></td>
-        <td><?=_t("Inventory"); ?></td>
-        <td><?=_t("Edit"); ?></td>
-        <td><?=_t("Delete"); ?></td>
+        <td><?php echo _t("Item"); ?></td>
+        <td><?php echo _t("Amount"); ?></td>
+        <td><?php echo _t("Unit"); ?></td>
+        <td><?php echo _t("Inventory"); ?></td>
+        <td><?php echo _t("Edit"); ?></td>
+        <td><?php echo _t("Delete"); ?></td>
             
             
         </thead>

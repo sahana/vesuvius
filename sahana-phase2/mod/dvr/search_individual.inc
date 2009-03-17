@@ -22,9 +22,9 @@ return confirm(name+' will be permanently deleted');
 
 <?php
 
-/* $Id: search_individual.inc,v 1.9 2008-03-11 04:06:57 ravithb Exp $ */
+/* $Id: search_individual.inc,v 1.10 2009-03-17 06:08:22 ravithb Exp $ */
 
-/* $Id: search_individual.inc,v 1.9 2008-03-11 04:06:57 ravithb Exp $ */
+/* $Id: search_individual.inc,v 1.10 2009-03-17 06:08:22 ravithb Exp $ */
 
 /**
  * 
@@ -100,15 +100,15 @@ function shn_dvr_individual_search_results()
 	<table>
         <thead>
         		<td></td>
-            <td><?=_t("Group Type")?></td>
-            <td><?=_t("Group Head Name")?></td>
-            <td><?=_t("Full Name")?></td>
-            <td><?=_t("Family Name")?></td>
-          	<td><?=_t("NIC")?></td>
-            <td><?=_t("Address")?></td>
-         	<td><?=_t('Edit') ?></td>
-         	<td><?=_t('Transfer')?></td>
-          	<td><?=_t('Delete')?></td>
+            <td><?php echo _t("Group Type")?></td>
+            <td><?php echo _t("Group Head Name")?></td>
+            <td><?php echo _t("Full Name")?></td>
+            <td><?php echo _t("Family Name")?></td>
+          	<td><?php echo _t("NIC")?></td>
+            <td><?php echo _t("Address")?></td>
+         	<td><?php echo _t('Edit') ?></td>
+         	<td><?php echo _t('Transfer')?></td>
+          	<td><?php echo _t('Delete')?></td>
           	
         </thead>
         <?php
@@ -118,15 +118,15 @@ function shn_dvr_individual_search_results()
         <tr>
         <td>
         </td>
-        <td><?=_shn_dvr_getoptiondescription($results->fields['group_type'])?></td>
-        <td><?=_shn_dvr_get_person_full_name($results->fields['head_uuid'])?>
-        <td><?=$results->fields['full_name']?></td>
-        <td><?=$results->fields['family_name']?></td>
-        <td><?=$results->fields['serial']?></td>
-        <td><?=$results->fields['address']?></td>
-        <td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?=$results->fields['pid']?>'><?=_t('Edit') ?></a></td>
-      	<td><a href='index.php?mod=dvr&act=transfer_indv&p_uuid=<?=$results->fields['pid']?>'><?=_t('Transfer') ?></a></td>
-        <td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?=$results->fields['pid']?>' onClick="javascript: return confirmdelete('<?=$results->fields['full_name']?>')">Delete</a></td>
+        <td><?php echo _shn_dvr_getoptiondescription($results->fields['group_type'])?></td>
+        <td><?php echo _shn_dvr_get_person_full_name($results->fields['head_uuid'])?>
+        <td><?php echo $results->fields['full_name']?></td>
+        <td><?php echo $results->fields['family_name']?></td>
+        <td><?php echo $results->fields['serial']?></td>
+        <td><?php echo $results->fields['address']?></td>
+        <td><a href='index.php?mod=dvr&act=edit_individual&p_uuid=<?php echo $results->fields['pid']?>'><?php echo _t('Edit') ?></a></td>
+      	<td><a href='index.php?mod=dvr&act=transfer_indv&p_uuid=<?php echo $results->fields['pid']?>'><?php echo _t('Transfer') ?></a></td>
+        <td><a href='index.php?mod=dvr&act=delete_individual&p_uuid=<?php echo $results->fields['pid']?>' onClick="javascript: return confirmdelete('<?php echo $results->fields['full_name']?>')">Delete</a></td>
       
         </tr>
         <?php

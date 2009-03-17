@@ -20,8 +20,8 @@
 	$db=$global['db'];
 	$breadcrumb_str = "<a href='index.php?mod=cs&amp;act=drill_down'>"."root"."</a>";
    	?>
-  	<h1><?= (_t("Drill down report")) ?></h1>
-  	<p><?= _t('Here you are able to view the catalog hierarchy as a drill down report. All the catalogs and sub catalogs which are having child catalogs or items will be displayed as active links.'); ?></p>
+  	<h1><?php echo  (_t("Drill down report")) ?></h1>
+  	<p><?php echo  _t('Here you are able to view the catalog hierarchy as a drill down report. All the catalogs and sub catalogs which are having child catalogs or items will be displayed as active links.'); ?></p>
   	<?php
  
 	if(isset($_REQUEST['id'])) {
@@ -52,14 +52,14 @@
 	}
 	
 	?>
-	<p><?=_t("Go to : ")?><?php print $breadcrumb_str; ?></p>
+	<p><?php echo _t("Go to : ")?><?php print $breadcrumb_str; ?></p>
  	<br />
  	<div id="result">
  	<table>
     	<thead>
-        	<td><strong><?=_t("Name")?></strong></td>
-        	<td><strong><?=_t("Item/catalog")?></strong></td>
-			<td><strong><?=_t("Keyword")?></strong></td>
+        	<td><strong><?php echo _t("Name")?></strong></td>
+        	<td><strong><?php echo _t("Item/catalog")?></strong></td>
+			<td><strong><?php echo _t("Keyword")?></strong></td>
     	</thead>
     	<TBODY>
     	<?php

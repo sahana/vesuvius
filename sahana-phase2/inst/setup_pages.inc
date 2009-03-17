@@ -30,16 +30,16 @@ function shn_setup_general_dependencies()
 	$_SESSION['setup_step_no'] = 1;
 
 	?>
-<h1><?=_t('Sahana Web Setup - Step ').$step_no?></h1>
+<h1><?php echo _t('Sahana Web Setup - Step ').$step_no?></h1>
 
-<p><?=_t('Welcome to Sahana. Please follow the following steps to setup the Sahana system')?></p>
+<p><?php echo _t('Welcome to Sahana. Please follow the following steps to setup the Sahana system')?></p>
 
-<p><?=_t('First we need to check if all the relevant dependencies for the Sahana system to be install are available on your system')?></p>
+<p><?php echo _t('First we need to check if all the relevant dependencies for the Sahana system to be install are available on your system')?></p>
 	<?php
 	shn_form_fopen('general_dependencies_submit',null,array('req_message'=>false));
 	shn_form_fsopen(_t('PHP libraries'));
 	?>
-<p><?=_t('The following checks if all the relevant Sahana libraries are installed')?></p>
+<p><?php echo _t('The following checks if all the relevant Sahana libraries are installed')?></p>
 	<?php
 
 	$value = (version_compare(phpversion(), '5', '>'));
@@ -88,7 +88,7 @@ function shn_setup_general_dependencies()
 	shn_form_fsclose();
 	shn_form_fsopen(_t('File and Directory Permissions'));
 	?>
-<p><?=_t('The following checks if certain files and sub-directories have write permissions for Sahana to function,')?></p>
+<p><?php echo _t('The following checks if certain files and sub-directories have write permissions for Sahana to function,')?></p>
 	<?php
 	$tmpWritable = is_writable($global['approot'].'www/tmp');
 	$isOK &= $tmpWritable;
@@ -606,13 +606,13 @@ function shn_setup_adv_advanced_config($step_no=null)
     		?>
     <link rel="stylesheet"
     	media="screen, projection" type="text/css"
-    	href="theme/<?=$tname?>/sahana.css" />
+    	href="theme/<?php echo $tname?>/sahana.css" />
     <link
     	rel="stylesheet" media="print" type="text/css"
-    	href="theme/<?=$tname?>/print.css" />
+    	href="theme/<?php echo $tname?>/print.css" />
     <link
     	rel="stylesheet" media="handheld" type="text/css"
-    	href="theme/<?=$tname?>/mobile.css" />
+    	href="theme/<?php echo $tname?>/mobile.css" />
     		<?php
     	}
     	$themelist[$tname] = ucwords($tname)._t(' Theme');

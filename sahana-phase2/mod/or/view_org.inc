@@ -44,19 +44,19 @@ function _shn_or_display_page($page)
 <div><?php 
 shn_report_download("shn_or_all_orgs_pdf","Download as PDF");
 ?></div>
-<?
+<?php
 if (($_SESSION["org"]["total_pages"])<1) {
 	?>
-<div id="note"><?=_t("No Organizations ");?></div>
-	<?
+<div id="note"><?php echo _t("No Organizations ");?></div>
+	<?php
 	return;
 }else{
 	_shn_or_display_page_links();
 }
 
 ?>
-<div id="note"><?=_t("Your are viewing page no ").$page;?></div>
-<?
+<div id="note"><?php echo _t("Your are viewing page no ").$page;?></div>
+<?php 
 _shn_or_display_header();
 /*
  global $global;
@@ -82,7 +82,7 @@ _shn_display_orgs($orgs,true);
 </tbody>
 </table>
 </div>
-<?
+<?php
 }
 
 function _shn_or_display_header()
@@ -94,13 +94,13 @@ function _shn_or_display_header()
 <table>
 	<thead>
 		<td></td>
-		<td><?=_t("Organization Name")?></td>
-		<td><?=_t("Incidents")?></td>
-		<td><?=_t("Services Provided")?></td>
-		<td><?=_t("Organization Type")?></td>
-		<td><?=_t("Location")?></td>
-		<td><?=_t("Address")?></td>
-		<td><?=_t("Contact Numbers")?></td>
+		<td><?php echo _t("Organization Name")?></td>
+		<td><?php echo _t("Incidents")?></td>
+		<td><?php echo _t("Services Provided")?></td>
+		<td><?php echo _t("Organization Type")?></td>
+		<td><?php echo _t("Location")?></td>
+		<td><?php echo _t("Address")?></td>
+		<td><?php echo _t("Contact Numbers")?></td>
 	</thead>
 	<tbody>
 	<?php
@@ -425,7 +425,7 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
         }
 	}
 	?>
-		<h2><?= _t("Organization Registration Information of ") ?><em><?= $org_name ?></em></h2>
+		<h2><?php echo  _t("Organization Registration Information of ") ?><em><?php echo  $org_name ?></em></h2>
 		<?php
 		if($error==true)
 		display_errors();
@@ -438,9 +438,9 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
 		shn_form_fopen("view_org_submit",null,$form_opts);
 		shn_form_fsopen(_t('Primary Details'));
 		?>
-		<div class="info"><?= _t("These are the basic details of an organization. Organization name is required ,but registration  no is optional");?></div>
+		<div class="info"><?php echo  _t("These are the basic details of an organization. Organization name is required ,but registration  no is optional");?></div>
 		<br />
-		<?
+		<?php
 		$extra_opts['req']=true;
 		$extra_opts['value']=isset($org_name)?$org_name:$_SESSION['org']['name'];
 		$parent = isset($parent)?$parent:_shn_or_is_root($_SESSION['org']['org_id']);
@@ -546,13 +546,13 @@ function _shn_or_viewform_latest_orgs($no=NULL)
 		<div id="result">
 		<table>
 			<thead>
-				<td><?=_t("Organization Name")?></td>
-				<td><?=_t("Incidents")?></td>
-				<td><?=_t("Services Provided")?></td>
-				<td><?=_t("Organization Type")?></td>
-				<td><?=_t("Location")?></td>
-				<td><?=_t("Address")?></td>
-				<td><?=_t("Contact Numbers")?></td>
+				<td><?php echo _t("Organization Name")?></td>
+				<td><?php echo _t("Incidents")?></td>
+				<td><?php echo _t("Services Provided")?></td>
+				<td><?php echo _t("Organization Type")?></td>
+				<td><?php echo _t("Location")?></td>
+				<td><?php echo _t("Address")?></td>
+				<td><?php echo _t("Contact Numbers")?></td>
 			</thead>
 			<tbody>
 			<?php
@@ -610,7 +610,7 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
 			if($indent==true){
 				?> <a
 				href="index.php?mod=or&act=edit_org&org_id=<?php echo $res_org->fields["o_uuid"] ?>"><?php echo "--->".$res_org->fields["name"]?></a>
-				<?
+				<?php
 }else{
 	?> <a
 				href="index.php?mod=or&act=edit_org&org_id=<?php echo $res_org->fields["o_uuid"] ?>"><?php echo $res_org->fields["name"]?></a>

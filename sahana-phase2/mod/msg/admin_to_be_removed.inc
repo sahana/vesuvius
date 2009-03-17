@@ -164,7 +164,7 @@ function shn_msg_adm_show_mod_menu()
 	$dir = opendir($msg_plugins_dir);
 ?>
 	<div id="submenu_v">
-		<a href="index.php?mod=msg&act=admin"><?=_("General Messaging")?></a>
+		<a href="index.php?mod=msg&act=admin"><?php echo _("General Messaging")?></a>
 <?php
 	while($file = readdir($dir)){
 		if(!is_dir($file)){
@@ -172,7 +172,7 @@ function shn_msg_adm_show_mod_menu()
 			include($global['approot'].'/mod/msg/plugins/'."$file".'/conf.inc');
 			$name = $conf['plugin_name'];
 ?>
-<a href="index.php?mod=msg&act=admin&submod=<?=$file?>"><?=_($name)?></a>
+<a href="index.php?mod=msg&act=admin&submod=<?php echo $file?>"><?php echo _($name)?></a>
 <?php
 			$count++;
 		}

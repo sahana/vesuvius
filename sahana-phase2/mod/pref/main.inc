@@ -116,7 +116,7 @@ function shn_pref_default()
 {
 	?>
 <div id="home">
-<h2><?=_t("Welcome to User Preferences");?></h2>
+<h2><?php echo _t("Welcome to User Preferences");?></h2>
 <p><?php echo ("User Preferences Module will allow you to set any preferred configuration.")."<br />".
 _t("Which will help you to customize Sahana to your preference.")."<br />"._t("Following Preferences can be set")."</p><ul>"; 
 

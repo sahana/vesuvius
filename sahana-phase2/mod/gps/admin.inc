@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.5 2008-04-25 22:42:52 franboon Exp $ */
+/* $Id: admin.inc,v 1.6 2009-03-17 06:08:23 ravithb Exp $ */
 
 /**Admin Module for GPS module
 *
@@ -30,7 +30,7 @@ function shn_gps_adm_default()
 {
    global $conf;
   ?>
-   <h2><?=$conf['mod_gps_adm_name']._(" Administration")?></h2>
+   <h2><?php echo $conf['mod_gps_adm_name']._(" Administration")?></h2>
    <?php
    shn_gps_adm_form();
 }

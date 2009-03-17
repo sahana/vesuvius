@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: edit_bed.inc,v 1.8 2008-03-05 11:01:16 prabath321 Exp $ */
-/* $Id: edit_bed.inc,v 1.8 2008-03-05 11:01:16 prabath321 Exp $ */
+/* $Id: edit_bed.inc,v 1.9 2009-03-17 06:08:24 ravithb Exp $ */
+/* $Id: edit_bed.inc,v 1.9 2009-03-17 06:08:24 ravithb Exp $ */
 
 /**Update functions for  CR
 *
@@ -309,7 +309,7 @@ function _shn_cr_cedt_commit()
 //$res = $db->Execute($q);
 ?>
 
-<h2><?  add_confirmation(_t("You have succesfully edited the bed count ").$_SESSION['camp_name']); ?></h2>
+<h2><?php  add_confirmation(_t("You have succesfully edited the bed count ").$_SESSION['camp_name']); ?></h2>
 
 
 </tbody>
