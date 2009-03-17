@@ -20,8 +20,7 @@ import java.io.IOException;
 
 import com.mysql.jdbc.CommunicationsException;
 
-/**
- * 
+/** 
  * @author miyuru
  */
 public class Main
