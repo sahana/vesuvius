@@ -297,6 +297,7 @@ div.form-container form fieldset input.errorfield { border-color: #C00; backgrou
 div.form-container form fieldset input:focus,
 div.form-container form fieldset input.errorfield:focus, 
 div.form-container form fieldset textarea:focus { background-color: #FFC; border-color: #FC6;  }
+div.form-container form fieldset input.err, div.form-container form fieldset textarea.err { border-color: #C00; background-color: #fef; }
 div.form-container div.controlset label, 
 div.form-container div.controlset input { display: inline; float: none; }
 div.form-container div.controlset div { margin-left: 15em; }
