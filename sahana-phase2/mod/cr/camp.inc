@@ -13,7 +13,7 @@
  * @author   Mifan Careem <mifan@opensource.lk>
  * @edited by Isuru Samaraweera <isuru@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * $Id: camp.inc,v 1.68 2009-03-17 06:08:24 ravithb Exp $
+ * $Id: camp.inc,v 1.69 2009-03-17 07:38:26 ravithb Exp $
 */
 
 include_once($global['approot'] . '/inc/lib_form.inc');
@@ -381,9 +381,12 @@ function _shn_cr_validate_error()
 {
     clean_errors();
     $error_flag = false;
-
-
-    if (null == ($_POST['camp_name'])) {
+      
+    if($_POST['camp_name'] != null && shn_cr_shelter_name_exist($_POST['camp_name'])){
+        add_error($_POST['camp_name']._t(' is already registered. Please enter new shelter name '));
+        $error_flag = true;
+        $_POST = null;
+    }else if (null == ($_POST['camp_name'])) {
         add_error(_t("Please enter the shelter name"));
         $error_flag = true;
     }
