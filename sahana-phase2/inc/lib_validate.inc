@@ -191,6 +191,40 @@ function shn_valid_email($field,$required=false)
 }
 
 /**
+ * Check the validity of a date of birth
+ * 
+ * @param mixed $date
+ * @param bool $check_null. whether to check for null
+ * @param string $pattern 
+ * @access public
+ * @return bool
+ */
+
+function shn_valid_dob($date,$check_null=false,$pattern='/^\d{4}-\d{2}-\d{2}$/',$des='Date')
+{
+	$string=explode("-",$date);	
+	$num=mktime(0,0,0,$string[1],$string[2],$string[0]);
+
+	if (!shn_valid_date($date,$check_null,$pattern,$des)){
+		return false;
+	}
+    elseif( $date != '0000-00-00')
+    {    
+		$s=mktime(0,0,0,date(m),date(d),date(Y));
+		if($num > $s){
+			add_error(_t('Date of birth should be less than or equal to current date'));		
+			return false;
+		}
+		else{
+			return true;
+		}
+    }	
+	else{
+		return true;
+	}
+}
+
+/**
  * Check the validity of a date 
  * 
  * @param mixed $date

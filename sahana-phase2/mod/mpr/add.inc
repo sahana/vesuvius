@@ -187,7 +187,7 @@ function shn_mpr_addmp_validate()
     }
 $dob=$_POST['dob'];
 	
-if(!shn_valid_date($dob,false,'/^\d{4}-\d{2}-\d{2}$/','Date of birth'))
+if(!shn_valid_dob($dob,false,'/^\d{4}-\d{2}-\d{2}$/','Date of birth'))
 {
 	//add_error(_t("Please Check the Date format"));	
 $error_flag = true;
