@@ -21,10 +21,10 @@ function cr_check_shelter_name($shetler_name){
    global $global;
 
     if(shn_cr_shelter_name_exist($shetler_name)){
-        $global['xajax_res']->addAssign('check','innerHTML','<span style=\'color:red\'>' . $shetler_name . ' is already registered</span>');
+        $global['xajax_res']->addAssign('check','innerHTML','<span style=\'color:red\'>'.$shetler_name. ' ' . _t('is already registered').'</span>');
     }
     else{
-        $global['xajax_res']->addAssign('check','innerHTML','<span style=\'color:green\'>' . $shetler_name .' is available to register</span>');
+        $global['xajax_res']->addAssign('check','innerHTML','<span style=\'color:green\'>' . $shetler_name .' '._t('is available to register').'</span>');
     }
     return $global['xajax_res']->getXML();
 }
