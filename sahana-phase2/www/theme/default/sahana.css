@@ -1,4 +1,4 @@
-/* 
+h/* 
 Sahana - Default Theme - Stylesheet 
 -----------------------------------------------------------------------------------
 designer : Prabhath Sirisena - prabhath@vesess.com - http://nidahas.com
@@ -98,8 +98,8 @@ div#container { }
 				div#menuwrap ul { margin: 0px; padding: 0px; list-style-type: none; width: 100%; }
 				div#menuwrap li { margin: 0px; padding: 0px; line-height: 20px; }
 				div#menuwrap ul li a { display: block; width: 190px; padding-left: 10px; background-color: #555; font-size: 0.9em; border-top: #666 1px solid; border-bottom: #444 1px solid; }
-				div#menuwrap ul li a:link, 
-				div#menuwrap ul li a:visited { color: #EEE; text-decoration: none; }
+				div#menuwrap ul li a:link { color: #fff; text-decoration: none; } 
+				div#menuwrap ul li a:visited { color: #bbb; text-decoration: none; }
 				div#menuwrap ul li a:hover { color: #FFF; background-color: #333; border-top: #222 1px solid; border-bottom: #444 1px solid; }
 
     			div#modmenuwrap { width: 200px; float: left; clear: left; }
