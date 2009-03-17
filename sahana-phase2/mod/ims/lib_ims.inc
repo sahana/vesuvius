@@ -656,16 +656,20 @@ function _shn_ims_count_days($start, $end)
         $end_year = date("Y", $timestamp_end);*/
         //$num_days_end = date("z",strtotime($start));
         //$num_days_end = date("z", strtotime($end));
-        if($numEnd<$numStart){
-        	return -1;
+         if($numEnd<$numStart){
+			add_error(SHN_ERR_IMS_MANU_DATE_GRT_EX_DATE_INVALID);
+        	return;
         }
         else{
-		$s=mktime(0,0,0,date(m),date(d),date(Y));
-		if($numEnd<$s)
-			return -1;
-		if($numStart>$s)
-			return -1;
-        	return 1;
+			$s=mktime(0,0,0,date(m),date(d),date(Y));
+			if($numEnd<$s){
+				add_error(SHN_ERR_IMS_CUR_DATE_GRT_EX_DATE_INVALID);		
+				return;
+			}
+			if($numStart>$s){	
+				add_error(SHN_ERR_IMS_MANU_DATE_GRT_CUR_DATE_INVALID);
+				return;
+			}        	
         }
         /*$num_days = 0;
         $i = 0;

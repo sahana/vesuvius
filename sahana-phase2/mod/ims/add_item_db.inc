@@ -138,11 +138,7 @@ function _shn_ims_validate_additemform()
         if (_shn_ims_date_validate($expire_date)) {
             $error_flag = true;
         }
-        $date_diff = _shn_ims_count_days($manufactured_date,$expire_date);
-        if ($date_diff < 0) {
-            add_error(SHN_ERR_IMS_MANUFACTURED_DATE_INVALID);
-            $error_flag = true;
-        }
+       _shn_ims_count_days($manufactured_date,$expire_date);       
     }
     
 

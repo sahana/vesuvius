@@ -50,7 +50,10 @@ define(SHN_ERR_IMS_REQUESTED_PERSON_INCOMPLETE,_t("Requested person is essential
 define(SHN_ERR_IMS_DESTRIBUTION_METHOD_INCOMPLETE,_t("Destribution method is essential. Please complete and submit again"));
 define(SHN_ERR_IMS_ENTER_NUMERIC_VALUE,_t("Please enter a numeric value for the amount"));
 define(SHN_ERR_IMS_ENTER_NUMERIC_VALUE_COST,_t("Please enter a numeric Value for the cost per unit"));
-define(SHN_ERR_IMS_MANUFACTURED_DATE_INVALID,_t("Expire date should be greater than Manufactured date"));
+
+define(SHN_ERR_IMS_MANU_DATE_GRT_EX_DATE_INVALID,_t("Expire date should be greater than Manufactured date"));
+define(SHN_ERR_IMS_CUR_DATE_GRT_EX_DATE_INVALID,_t("Expire date should be greater than Current date"));
+define(SHN_ERR_IMS_MANU_DATE_GRT_CUR_DATE_INVALID,_t("Manufactured date should be less than Current date"));
 
 define(SHN_ERR_IMS_REORDER_VALUE_NUMERIC,_t("Please enter a numeric value for item Re-Order value"));
 define(SHN_ERR_IMS_INVALID_RECEIVED_AMOUNT,_t("You have entered a larger amount than the amount that has been sent"));
