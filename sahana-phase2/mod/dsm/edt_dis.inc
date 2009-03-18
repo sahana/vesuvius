@@ -38,13 +38,13 @@ function _shn_dsm_edit_disease()
 <!--  <td> <?php print _t('Delete'); ?></td> -->
 </thead>
 
-<?php 
+<?php   
 if($res) { 
     while (!$res -> EOF) {
 ?> 
 <tr>    
 <td><?php print $res->fields['dis_name'];?></td>
-<td><?php shn_acl_secure_hyperlink($global['module'],'edit_disease','Edit',$stream=null,$params=array('dis_uuid'=>$res->fields['dis_id']),$text_opts=''); ?></td>
+<td><?php echo '<br><a href="index.php?mod='.$global['module'].'&act=edit_disease&dis_uuid='.$res->fields['dis_id'].'">'.'Edit'.'</a><br>'; ?></td>
 </tr>
 <?php
         $res->MoveNext();
@@ -192,27 +192,27 @@ function _shn_dsm_edit_disease_symptoms(){
         echo "<td>".$row['description']."</td>";
         echo "<td>".$row['priority']."</td>";
         echo "<td>";
-        shn_acl_secure_hyperlink('dsm','delete_disease_symptom_confirm','Delete Symptom',$stream=null,$params=array('sym_id'=>$row['sym_id']),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=delete_disease_symptom_confirm&sym_id='.$row['sym_id'].'">'._t('Delete Symptom').'</a>'; 
         echo "</td>";
         echo "</tr>";
     }
     echo "</table>";
     $page_count = (($count%$rpp)==0)?($count/$rpp):(($count/$rpp)+1);
     if($page>0){
-        shn_acl_secure_hyperlink('dsm','edit_disease&seq=symptoms','First',$stream=null,$params=array('dis_id'=>$dis_id,'page'=>0),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=edit_disease&seq=symptoms&dis_id='.$dis_id.'&page=0">'._t('First').'</a>'; 
         echo "&nbsp";
-        shn_acl_secure_hyperlink('dsm','edit_disease&seq=symptoms','&lt',$stream=null,$params=array('dis_id'=>$dis_id,'page'=>($page-1)),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=edit_disease&seq=symptoms&dis_id='.$dis_id.'&page='.($page-1).'"> &lt </a>'; 
     }
     for($i=0;$i<$page_count;$i++){
         echo "&nbsp";
-        shn_acl_secure_hyperlink('dsm','edit_disease&seq=symptoms',($i+1),$stream=null,$params=array('dis_id'=>$dis_id,'page'=>$i),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=edit_disease&seq=symptoms&dis_id='.$dis_id.'&page='.($i).'">'.($i+1).'</a>'; 
         echo "&nbsp";
     }
     if($page<($page_count-1)){
         echo "&nbsp";
-        shn_acl_secure_hyperlink('dsm','edit_disease&seq=symptoms','&gt',$stream=null,$params=array('dis_id'=>$dis_id,'page'=>($page+1)),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=edit_disease&seq=symptoms&dis_id='.$dis_id.'&page='.($page+1).'"> &gt </a>'; 
         echo "&nbsp";
-        shn_acl_secure_hyperlink('dsm','edit_disease&seq=symptoms','Last',$stream=null,$params=array('dis_id'=>$dis_id,'page'=>($page_count-1)),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=edit_disease&seq=symptoms&dis_id='.$dis_id.'&page='.($page_count-1).'">'._t('Last').'</a>'; 
     }
     shn_form_fsclose();
     

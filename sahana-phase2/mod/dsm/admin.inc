@@ -48,7 +48,7 @@ function shn_dsm_adminmenu() {
     shn_adm_menuitem("adm_sanitary", _t("Sanitary"));
     shn_adm_menuitem("adm_seasons", _t("Seasons"));
     shn_adm_menuitem('adm_delete_symptom',_t("Symptoms"));
-    shn_adm_menuitem("adm_disease_definitions", _t("Disease Definitions"));
+    shn_adm_menuitem("adm_delete_disease", _t("Delete Disease"));
     //shn_adm_menuitem("adm_", _t(""));
     //shn_adm_menuitem("adm_age_groups", _t("Age Groups"));
 
@@ -285,8 +285,8 @@ function shn_dsm_adm_delete_symptom(){
             if($count>0){
                 echo "This symptom is used one or more disease";
             }else{
-                
-                shn_acl_secure_hyperlink('dsm','adm_delete_symptom_confirm','Delete Symptom',$stream=null,$params=array('sym_id'=>$row['sym_id']),$text_opts='');
+                echo '<a href="index.php?mod='.$global['module'].'&act=adm_delete_symptom_confirm&sym_id='.$row['sym_id'].'">'.'Delete Symptom'.'</a>';
+            
             }
             
         echo "</td>";
@@ -296,25 +296,25 @@ function shn_dsm_adm_delete_symptom(){
     
     $page_count = (($count%$rpp)==0)?($count/$rpp):(($count/$rpp)+1);
     if($page>0){
-        shn_acl_secure_hyperlink('dsm','adm_delete_symptom','First',$stream=null,$params=array('page'=>0),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=adm_delete_symptom&page=0">'._t('First').'</a>'; 
         echo "&nbsp";
-        shn_acl_secure_hyperlink('dsm','adm_delete_symptom','&lt',$stream=null,$params=array('page'=>($page-1)),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=edit_disease&seq=symptoms&dis_id='.$dis_id.'&page='.($page-1).'"> &lt </a>'; 
     }
     for($i=0;$i<$page_count;$i++){
         echo "&nbsp";
-        shn_acl_secure_hyperlink('dsm','adm_delete_symptom',($i+1),$stream=null,$params=array('page'=>$i),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=adm_delete_symptom&page='.($i).'">'.($i+1).'</a>'; 
         echo "&nbsp";
     }
     if($page<($page_count-1)){
         echo "&nbsp";
-        shn_acl_secure_hyperlink('dsm','adm_delete_symptom','&gt',$stream=null,$params=array('page'=>($page+1)),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=adm_delete_symptom&page='.($page+1).'"> &gt </a>'; 
         echo "&nbsp";
-        shn_acl_secure_hyperlink('dsm','adm_delete_symptom','Last',$stream=null,$params=array('page'=>($page_count-1)),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=adm_delete_symptom&page='.($page_count-1).'">'._t('Last').'</a>'; 
     }
-    
+        
     echo "<br><br>";
-    shn_acl_secure_hyperlink('dsm','adm_default','Go to Admin Page',$stream=null,$params=null,$text_opts='');
-   
+    echo '<a href="index.php?mod='.$global['module'].'&act=adm_default">'._t('Go to Admin Page').'</a>';
+       
 }
 
 //confirm to delete symptoms
@@ -369,7 +369,7 @@ function shn_dsm_adm_delete_symptom_cr(){
         shn_dsm_adm_delete_symptom();
     }
 }
-
+    
 //delete disease
 function shn_dsm_adm_delete_disease(){
     
@@ -407,7 +407,7 @@ function shn_dsm_adm_delete_disease(){
         echo "<td>".$cause."</td>";
         echo "<td>".$carrier."</td>";
         echo "<td>";
-        shn_acl_secure_hyperlink('dsm','adm_delete_disease_confirm','Delete',$stream=null,$params=array('dis_id'=>$dis_id,'dis_name'=>$dis_name),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=adm_delete_disease_confirm&dis_id='.$row['dis_id'].'&dis_name='.$dis_name.'">'._t('Delete').'</a>';
         echo "</td>";
         echo "<tr>";
     }
@@ -415,25 +415,25 @@ function shn_dsm_adm_delete_disease(){
     echo "<br";
 
     $page_count = (($count%$rpp)==0)?($count/$rpp):(($count/$rpp)+1);
- if($page>0){
-        shn_acl_secure_hyperlink('dsm','adm_delete_disease','First',$stream=null,$params=array('dis_id'=>$dis_id,'page'=>0),$text_opts='');
+    if($page>0){
+        echo '<a href="index.php?mod='.$global['module'].'&act=adm_delete_disease&page=0">'._t('First').'</a>'; 
         echo "&nbsp";
-        shn_acl_secure_hyperlink('dsm','adm_delete_disease','&lt',$stream=null,$params=array('dis_id'=>$dis_id,'page'=>($page-1)),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=adm_delete_disease&page='.($page-1).'"> &lt </a>'; 
     }
     for($i=0;$i<$page_count;$i++){
         echo "&nbsp";
-        shn_acl_secure_hyperlink('dsm','adm_delete_disease',($i+1),$stream=null,$params=array('dis_id'=>$dis_id,'page'=>$i),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=adm_delete_disease&page='.($i).'">'.($i+1).'</a>'; 
         echo "&nbsp";
     }
     if($page<($page_count-1)){
         echo "&nbsp";
-        shn_acl_secure_hyperlink('dsm','adm_delete_disease','&gt',$stream=null,$params=array('dis_id'=>$dis_id,'page'=>($page+1)),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=adm_delete_disease&page='.($page+1).'"> &gt </a>'; 
         echo "&nbsp";
-        shn_acl_secure_hyperlink('dsm','adm_delete_disease','Last',$stream=null,$params=array('dis_id'=>$dis_id,'page'=>($page_count-1)),$text_opts='');
+        echo '<a href="index.php?mod='.$global['module'].'&act=adm_delete_disease&page='.($page_count-1).'">'._t('Last').'</a>'; 
     }
     
      echo "<br><br>";
-     shn_acl_secure_hyperlink('dsm','adm_disease_definitions','Admin Home',$stream=null,$params=null,$text_opts='');
+    echo '<a href="index.php?mod='.$global['module'].'&act=adm_default">'._t('Go to Admin Page').'</a>';
     
 }    
 

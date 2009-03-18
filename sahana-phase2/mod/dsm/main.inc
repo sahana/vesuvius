@@ -35,23 +35,13 @@ function shn_dsm_mainmenu()
     shn_mod_menuitem('search_dis',_t('Search'));
     shn_sub_mod_menuclose();
 
-    shn_sub_mod_menuopen(_t('Manage Disease Form Definitions'));
-    shn_mod_menuitem('view_field_data_type',_t('Field Data Types'));
-    shn_mod_menuitem('add_definition',_t('Add / Edit / Delete Form Definitions'));
-    shn_mod_menuitem('disease_form',_t('Show Data Entry Form'));
-    shn_sub_mod_menuclose();
-
     shn_sub_mod_menuopen(_t('Patients/Cases'));
     shn_mod_menuitem('rep_dis', _t('Report a Patient'));
-    shn_mod_menuitem('disease_form',_t('New Case'));
     shn_mod_menuitem('search_case', _t('Search'));
     shn_sub_mod_menuclose();
+    
     shn_mod_menuitem('sur_rep', _t('Surviellance Report'));
-    //shn_mod_menuitem('report', _t('Report'));
-    shn_mod_menuitem('view_disease_list',_t('View by Disease'));
-    shn_mod_menuitem('case_count_by_disease',_t('Case Count by Disease'));
-    shn_mod_menuitem('case_count_per_disease',_t('Case Count per Disease'));
-
+       
     shn_sub_mod_menuclose();
     shn_mod_menuclose();
 
