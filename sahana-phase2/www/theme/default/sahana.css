@@ -124,6 +124,8 @@ div#container { }
 				div#loginform form label { }
 				div#loginform form input#userName, 
 				div#loginform input#pswd { margin-right: 10px; width:140px; }
+			
+			#session, #session a { float: left !important; }
 
 			#openid_login { background: url(img/login-openid.gif) no-repeat; background-color: #fff; background-position: center left; color: #000; width: 122px; padding-left: 18px; }
 
