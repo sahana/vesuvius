@@ -59,13 +59,18 @@ if ($_SESSION['logged_in'] != true ) {
 <?php
 } else {
 ?>
-    <div id="loginform">
-        <fieldset><legend><?php echo _t('Logged In')?></legend>
-        <label><?php echo _t('User: ')?><?php echo $_SESSION['user'];?> </label>
+   <!-- <div id="loginform">
+        <fieldset><legend><?php /*echo _t('Logged In')*/?></legend>
+        <label><?php /*echo _t('User: ')*/?><?php /*echo $_SESSION['user'];*/?> </label>
         <br />
-        <center><a href="index.php?act=logout"><?php echo _t('Logout')?></a></center>
-    </div>
+        <center><a href="index.php?act=logout"><?php /*echo _t('Logout')*/?></a></center>
+    </div> -->
 
+     <div id="loginform">
+        <span><?php echo $_SESSION['user'];?></span> |
+        <a href="index.php?mod=pref"><?=_('Settings')?></a> |
+        <a href="index.php?act=logout"><?=_('Logout')?></a>
+     </div>
 <?php
 }
 
