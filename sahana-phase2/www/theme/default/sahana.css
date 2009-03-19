@@ -3,6 +3,7 @@ Sahana - Default Theme - Stylesheet
 -----------------------------------------------------------------------------------
 designer : Prabhath Sirisena - prabhath@vesess.com - http://nidahas.com
 maintainer : Priyanga Fonseka  - jo@opensource.lk
+maintainer : Hayesha Somarathne  - hayeshais@gmail.com - http://thoughtsandideas.wordpress.com
 
 Selectors are listed in their order of appearance in the html, where applicable.
 ---------------------------------------------------------------------------------- 
@@ -124,8 +125,6 @@ div#container { }
 				div#loginform form label { }
 				div#loginform form input#userName, 
 				div#loginform input#pswd { margin-right: 10px; width:140px; }
-			
-			#session, #session a { float: left !important; }
 
 			#openid_login { background: url(img/login-openid.gif) no-repeat; background-color: #fff; background-position: center left; color: #000; width: 122px; padding-left: 18px; }
 
