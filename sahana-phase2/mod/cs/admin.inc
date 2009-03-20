@@ -96,11 +96,10 @@ function shn_cs_adm_cs_page_records()
     
     shn_form_fopen("adm_page_record_submit");
     shn_form_fsopen(_t("Default number of records per page in view and edit"));
+        
+    shn_form_label(_t('current value :'),$current_depth);
     
-    $extra_opts['value'] = $current_depth;
-    shn_form_text('','current_recs','size="5" readonly=true',$extra_opts);
-    
-    shn_form_text(_t("Value   : "),'default_page_recs','size="50"',$extra_opts);
+    shn_form_text(_t("Value   : "),'default_page_recs','size="10"',array('req'=>true));
     shn_form_fsclose();
     shn_form_submit(_t("Save"));
     shn_form_fclose();
@@ -110,11 +109,23 @@ function shn_cs_adm_page_record_submit()
 {
     global $global;
     $db = $global['db'];
-    $default_page_recs = trim($_POST['default_page_recs']);
-
-    $query = "UPDATE field_options SET option_code = '$default_page_recs' WHERE field_name = 'opt_cs_page_record' ";
-    $res = $db->Execute($query); 
+    $default_page_recs = $_POST['default_page_recs'];
     
+    if ($_POST['default_page_recs']==null OR strlen(trim($_POST['default_page_recs']))==0){
+    	
+    	add_error('value field should not empty, please fill the value field');
+    }else{
+        
+    	if(preg_match('/^\d+$/',$_POST['default_page_recs'])==0){
+    		
+    		add_error('please enter positive intiger');
+    	}else{
+    		
+    		$query = "UPDATE field_options SET option_code =? WHERE field_name = 'opt_cs_page_record' ";
+            $res = $db->Execute($query,array($default_page_recs)); 
+    	}
+	    
+    }
     ?>
     <div id="result_msg">
     <?php print _t("Default number of records ") . $default_page_recs . _t("  was successfully saved"); ?>
