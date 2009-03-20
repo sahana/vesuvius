@@ -357,11 +357,11 @@ function shn_cs_additem_form1_result($is_keyword_search = false)
 
     $select_opts = 'onChange=change_units(this.options[this.selectedIndex].value)';
     shn_form_fsopen(_t('Measurement Type'));
-    shn_form_select($option_array,_t('Measurement Type :'),'measurement_type',$select_opts,null);
+    shn_form_select($option_array,_t('Measurement Type :'),'measurement_type',$select_opts,array('req'=>true));
     shn_form_fsclose();
     $myoptions = array();
     shn_form_fsopen(_t('Measurement Unit'));
-    shn_form_multi_select('unit_select',$myoptions, _t("Unit :"),'size=5 multiple="multiple"');
+    shn_form_multi_select('unit_select',$myoptions, _t("Unit :"),'size=5 multiple="multiple"',array('req'=>true));
     shn_form_fsclose();
 
 /*
