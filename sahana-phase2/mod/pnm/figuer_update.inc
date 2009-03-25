@@ -1,31 +1,50 @@
 <?php
 
-function shn_pnm_figure_update(){
+
+//include_once '/inc/lib_table.inc';
 
     switch($_POST['seq']){
-    case = '':
-        _shn_pnm_figure_update_date();
-        break;
-    default :
-        break;
-        
+	    case '':
+	        _shn_pnm_figure_update_data();
+	        break;
+	    default :
+	        _shn_pnm_figure_update_date();
+	        break;        
     }
-}
 
-function _shn_pnm_figure_data(){
+
+function _shn_pnm_figure_update_data(){
+    
+    echo '<H3>Figure Updates</H3>';
+    
+    $th_items[] = array('Figure', 'Count');
+
+
     global $global;
     $sql1 = "SELECT COUNT(c_uuid) AS shelter FROM camp_general";
-    $res2 = $global['db']->Execute($sql1);
+    $res1 = $global['db']->Execute($sql1);
     
-    $sql2 = "SELECT COUNT(p_uuid) AS person FROM missing  WHERE p_uuid IN(SELECT p_uuid FROM person_missing)";
+    $sql2 = "SELECT COUNT(p_uuid) AS missing FROM person_uuid  WHERE p_uuid IN(SELECT p_uuid FROM person_missing)";
     $res2 = $global['db']->Execute($sql2);
     
-    //$sql3 = "SELECT FROM WHERE"
+    $sql3 = 'SELECT SUM(no_displaced) AS dis_placed, SUM(no_dead) AS dead FROM group_details';
+    $res3 = $global['db']->Execute($sql3);
     
-    $tb_items[] = array('Number of missing Persons' , $res1->fields['missing']);
-    $tb_items[] = array('Number of Shelters', $res2->fields['shelters']);
     
-    shn_html_table(null, $th_items, null, array('class'=>'wide'));
+    echo $global['db']->ErrorMsg();   // $res1->MoveNext();
+   //echo $res1->fields['shelter'];
+   $displaced = ($res3->RecordCount() > 0)?$res3->fields['dis_placed'] : 'No Displaced Person Reported';
+    $missing = ($res2->RecordCount() > 0)?$res2->fields['missing'] : 'No Missing Person Reported';
+    $dead = ($res3->RecordCount() > 0)?$res3->fields['dead'] : 'No death Reported';
+    $shelter = ($res1->RecordCount() > 0)?$res1->fields['shelter'] : 'No Shelter is established yet';
+  
+  $tb_items[] = array('Number of Displaced',  $displaced);
+  $tb_items[] = array('Number of missing Persons', '<a href = "index.php?mod=mpr&act=list_missing">'.$missing.'</a>');
+  $tb_items[] = array('Number of deaths', $dead);
+  $tb_items[] = array('Number of Shelters',  '<a href = "index.php?mod=cr&act=arpt">'.$shelter.'</a>');
+
+    //shn_html_table(
+    shn_html_table($tb_items, $th_items, null, array('class'=>'wide'));
 }
 
 ?>
