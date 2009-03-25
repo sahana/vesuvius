@@ -4,3 +4,9 @@ CREATE TABLE `pnm_media_org` (
 `conact` VARCHAR( 100 ) NOT NULL ,
 PRIMARY KEY ( `m_uuid` )
 );
+
+CREATE TABLE `pnm_headlines` (
+`headline` VARCHAR( 60 ) NOT NULL ,
+`description` VARCHAR( 100 ) NOT NULL ,
+PRIMARY KEY ( `headline` )
+);
