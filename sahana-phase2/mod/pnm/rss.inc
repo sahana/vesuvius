@@ -1,5 +1,5 @@
 <?php
-shn_pnm_generaterss() {
+function shn_pnm_generaterss() {
 	$query = "select link, headline, description from `pnm_headlines` limit 15";
 	global $global;
 	global $conf;
