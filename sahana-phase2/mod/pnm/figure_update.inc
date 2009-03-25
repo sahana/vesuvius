@@ -8,7 +8,7 @@
 	        _shn_pnm_figure_update_data();
 	        break;
 	    default :
-	        _shn_pnm_figure_update_date();
+	        _shn_pnm_figure_update_data();
 	        break;        
     }
 
