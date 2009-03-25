@@ -26,3 +26,13 @@ CREATE TABLE `pnm_media` (
 `date` DATETIME NULL ,
 PRIMARY KEY ( `media_id` )
 )
+/**
+ * News table
+ */
+CREATE TABLE `pnm_news` (
+  `uuid` varchar(50) NOT NULL,
+  `title` varchar(250) NOT NULL,
+  `news` longtext NOT NULL,
+  `time` int(11) NOT NULL,
+  PRIMARY KEY  (`uuid`)
+) ;
