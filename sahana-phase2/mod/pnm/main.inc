@@ -17,19 +17,14 @@ function shn_pnm_default(){
 	echo "<li><a href='index.php?mod=pnm&act=lnews'>"._t("News")."</a>";
 	echo "<li><a href='index.php?mod=pnm&act=lvideos'>"._t("Videos")."</a>";
 	echo "<li><a href='index.php?mod=pnm&act=limages'>"._t("Images")."</a>";
-	echo "<li><a href='index.php?mod=pnm&act=lfeeds'>"._t("RSS Feeds")."</a>";
 	echo "</ul>";
 	
 	echo '<br>';
 	echo '<br>';
+	shn_rss_add_feed('rss_expired_list',_t('RSS feed for press and media '));
 	echo '<br>';
 
 	include_once 'figure_update.inc';
-	
-
-    shn_rss_add_feed('rss_expired_list',_t('RSS feed for press and media '));
-
-
 }
 
 function shn_pnm_mainmenu(){
@@ -45,7 +40,6 @@ function shn_pnm_mainmenu(){
 	shn_sub_mod_menuclose();
 	shn_mod_menuitem("lvideos",_t("Videos"),$module);
 	shn_mod_menuitem("limages",_t("Images"),$module);
-	shn_mod_menuitem("lfeeds",_t("RSS Feeds"),$module);
 	shn_mod_menuitem("mediareg", _t("Media"), $module);	
 	shn_sub_mod_menuclose();
 	shn_mod_menuclose();
