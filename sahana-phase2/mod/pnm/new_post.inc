@@ -5,8 +5,9 @@ function shn_pnm_news_post_form(){
 	echo '<h2 align="center">(' . _t('Post new News item') . ')</h2>';
 	shn_form_fopen("new_post",null,array('enctype'=>'enctype="multipart/form-data"','req_message' => true));
 	shn_form_fsopen(_t("Post new News"));
+	shn_form_text(_t("Title"),'title', 'size="30"',array('value'=>$_SESSION['pnm']['news']['title']));
 	shn_form_wysiwyg(_t("News Item"),"news",array('value'=>$_SESSION['pnm']['news']['text']));
-	shn_form_hidden(array('seq'=>'conf'));
+	shn_form_hidden(array('seq'=>'post_news'));
 	shn_form_submit(_t("Post"));
 	
 	shn_form_fsclose();
@@ -17,13 +18,27 @@ function shn_pnm_confirm_post(){
 	
 	shn_form_fopen("new_post",null,array('enctype'=>'enctype="multipart/form-data"','req_message' => false));
 	shn_form_fsopen(_t("Confirm News post"));
-	
+	shn_form_label(_t("Title"),$_SESSION['pnm']['news']['title']);
 	echo $_SESSION['pnm']['news']['text'];
-	
-	shn_form_submit(_t("Post"),'post');
-	shn_form_submit(_t("Edit"),'edit');
+	shn_form_hidden(array('seq'=>'conf'));
+
 	shn_form_fsclose();
+	shn_form_submit(_t("Post"),'name="post"');
+	shn_form_submit(_t("Edit"),'name="edit"');
+	shn_form_fclose();
 
 }
-
+ function shn_pnm_news_commit(){
+ 	global $global;
+ 	$db = $global['db'];
+ 	
+ 	$uuid=shn_create_uuid('news');
+ 	$title=$_SESSION['pnm']['news']['title'];
+ 	$news = $_SESSION['pnm']['news']['text'];
+ 	$time = time();
+ 	$sql = "INSERT INTO pnm_news(uuid,title,news,time) values('$uuid','$title','$news','$time')";
+ 	$db->Execute($sql);
+ 	add_confirmation("News posting successful");
+ 	
+ }
 ?>

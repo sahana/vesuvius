@@ -24,7 +24,7 @@ function shn_pnm_default(){
 
 	include_once 'figure_update.inc';
 	
-    shn_rss_add_feed('rss_expired_list',_t('press and meadia'))
+    shn_rss_add_feed('rss_expired_list',_t('press and meadia'));
 
 }
 
@@ -37,6 +37,7 @@ function shn_pnm_mainmenu(){
 	shn_mod_menuitem("default",_t("Home"),$module);
 	shn_sub_mod_menuopen(_t("News"));
 		shn_mod_menuitem("new_post",_t("Post new News"),$module);
+		shn_mod_menuitem("list_news",_t("List News"),$module);
 	shn_sub_mod_menuclose();
 	shn_mod_menuitem("lvideos",_t("Videos"),$module);
 	shn_mod_menuitem("limages",_t("Images"),$module);
@@ -59,19 +60,43 @@ function shn_pnm_new_post(){
 	require ($global['approot'] . 'mod/pnm/new_post.inc');
 	require ($global['approot'] . 'inc/lib_uuid.inc');
 	
+
 	switch($_POST['seq']){
-		case 'conf':
+		case 'post_news':
 			$_SESSION['pnm']['news']['text']=$_POST['news'];
+			$_SESSION['pnm']['news']['title']=$_POST['title'];
 			shn_pnm_confirm_post();
+			break;
+		case 'conf':
+			if($_POST['post']){
+				shn_pnm_news_commit();
+				shn_pnm_default();
+			}
+			else if($_POST['edit']){
+				shn_pnm_news_post_form();	
+			}
 			break;
 		default:
 			$_SESSION['pnm']=null;
-			shn_pnm_news_post_form();
-			
+			shn_pnm_news_post_form();			
 			break;
 	}
 }
 
+function shn_pnm_list_news(){
+	
+	global $global;
+	include_once ($global['approot'] . 'mod/pnm/view_news.inc');
+	
+	_shn_pnm_list_news();
+	
+}
+
+function shn_pnm_view_news_item(){
+	global $global;
+	include_once ($global['approot'] . 'mod/pnm/view_news.inc');
+	_shn_pnm_view_news_item($_GET['uuid']);
+}
 function getrss() {
 	shn_pnm_generaterss();
 }
