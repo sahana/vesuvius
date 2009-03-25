@@ -1,6 +1,8 @@
 <?php
 include $global['approot'].'inc/lib_menu.inc';
 
+include_once 'figure_update.inc';
+
 function shn_pnm_default(){
 	echo "<h2>"._t("Sahana Press and Media Module")."</h2>";
 
@@ -25,6 +27,7 @@ function shn_pnm_mainmenu(){
 	shn_mod_menuitem("lvideos",_t("Videos"),$module);
 	shn_mod_menuitem("limages",_t("Images"),$module);
 	shn_mod_menuitem("lfeeds",_t("RSS Feeds"),$module);
+	shn_mod_menuitem("figure_update", _t("Figure Updates"), $module);
 	shn_sub_mod_menuclose();
 	shn_mod_menuclose();
 
