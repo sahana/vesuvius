@@ -51,7 +51,7 @@ function shn_pnm_adm_upload_video(){
 			$date = date('Y-m-d H:i:s');
 			$ext = explode('.',$_FILES['video_file']['name']);
 			$ext = $ext[(count($ext)-1)];
-			$path = $global['approot'].'www/res/media_'.$media_id.'.'.$ext;
+			$path = 'res/media_'.$media_id.'.'.$ext;
 			$query = "INSERT INTO pnm_media(media_id,media_title,media_description,media_type,mime_type,media_path,date) VALUES (?,?,?,?,?,?,?)";
 			$db->StartTrans();
 			$db->Execute($query,array($media_id,$media_title,$media_descr,$media_type,$mime_type,$path,$date));
