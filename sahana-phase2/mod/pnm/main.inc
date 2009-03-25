@@ -1,8 +1,11 @@
 <?php
 include $global['approot'].'inc/lib_menu.inc';
 include_once $global['approot'].'/inc/lib_table.inc';
-include_once $global['approot'].'/inc/lib_form.inc';
 
+include_once 'lib_ims_rss.inc';
+require_once($global['approot']."/inc/lib_rss.inc");
+
+include_once $global['approot'].'/inc/lib_form.inc';
 
 
 function shn_pnm_default(){
@@ -18,7 +21,11 @@ function shn_pnm_default(){
 	echo "</ul>";
 	
 	echo '<br>';
+
 	include_once 'figure_update.inc';
+	
+    shn_rss_add_feed('rss_expired_list',_t('press and meadia'))
+
 }
 
 function shn_pnm_mainmenu(){
