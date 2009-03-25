@@ -30,7 +30,7 @@ function shn_pnm_generaterss() {
 		            <webMaster>nishantha@opensource.lk</webMaster>
 		    ";
 		    
-	//foreach ($return as $line)
+	foreach ($return as $line)
 	{
 	    $output .= "<item><title>".htmlentities($line['headline'])."</title>
 		            <link>".htmlentities($line['link'])."</link>
