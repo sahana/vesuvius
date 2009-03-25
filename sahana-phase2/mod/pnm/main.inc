@@ -1,7 +1,8 @@
 <?php
 include $global['approot'].'inc/lib_menu.inc';
+include_once $global['approot'].'/inc/lib_table.inc';
 
-include_once 'figure_update.inc';
+
 
 function shn_pnm_default(){
 	echo "<h2>"._t("Sahana Press and Media Module")."</h2>";
@@ -14,6 +15,9 @@ function shn_pnm_default(){
 	echo "<li><a href='index.php?mod=pnm&act=limages'>"._t("Images")."</a>";
 	echo "<li><a href='index.php?mod=pnm&act=lfeeds'>"._t("RSS Feeds")."</a>";
 	echo "</ul>";
+	
+	echo '<br>';
+	include_once 'figuer_update.inc';
 }
 
 function shn_pnm_mainmenu(){
@@ -29,12 +33,17 @@ function shn_pnm_mainmenu(){
 	shn_mod_menuitem("lvideos",_t("Videos"),$module);
 	shn_mod_menuitem("limages",_t("Images"),$module);
 	shn_mod_menuitem("lfeeds",_t("RSS Feeds"),$module);
-	shn_mod_menuitem("figure_update", _t("Figure Updates"), $module);
 	shn_sub_mod_menuclose();
 	shn_mod_menuclose();
 
 	include $global['approot']."/inc/handler_mainmenu.inc";
 }
+
+
+//function shn_pnm_figure_update(){
+    
+//}
+
 
 function shn_pnm_new_post(){
 	global $global;
@@ -58,3 +67,4 @@ function getrss() {
 	shn_pnm_generaterss();
 }
 ?>
+
