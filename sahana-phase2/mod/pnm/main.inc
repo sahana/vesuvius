@@ -1,4 +1,19 @@
 <?php
+/**Main controller of the Press and Media Module
+*
+* PHP version 5
+*
+* LICENSE: This source file is subject to LGPL license
+* that is available through the world-wide-web at the following URI:
+* http://www.gnu.org/copyleft/lesser.html
+*
+* @author     Ravith Botejue, Miyuru Daminda, Reka Sandaruwan, Chamara Caldera, Nishantha Pradeep
+* @copyright  Lanka Software Foundation - http://www.opensource.lk
+* @package    sahana
+* @subpackage pnm
+* 
+* Developed during Sahana 2009 as a tribute.
+*/
 include_once $global['approot'].'inc/lib_menu.inc';
 include_once $global['approot'].'inc/lib_table.inc';
 include_once 'lib_pnm_rss.inc';
