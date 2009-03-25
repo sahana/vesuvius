@@ -23,7 +23,9 @@ function shn_pnm_mainmenu(){
 	//  $loc=_shn_or_get_start_loc();
 	shn_mod_menuopen($conf['mod_pnm_name']);
 	shn_mod_menuitem("default",_t("Home"),$module);
-	shn_mod_menuitem("lnews",_t("News"),$module);
+	shn_sub_mod_menuopen(_t("News"));
+		shn_mod_menuitem("new_post",_t("Post new News"),$module);
+	shn_sub_mod_menuclose();
 	shn_mod_menuitem("lvideos",_t("Videos"),$module);
 	shn_mod_menuitem("limages",_t("Images"),$module);
 	shn_mod_menuitem("lfeeds",_t("RSS Feeds"),$module);
@@ -32,5 +34,23 @@ function shn_pnm_mainmenu(){
 	shn_mod_menuclose();
 
 	include $global['approot']."/inc/handler_mainmenu.inc";
+}
+
+function shn_pnm_new_post(){
+	global $global;
+	require ($global['approot'] . 'mod/pnm/new_post.inc');
+	require ($global['approot'] . 'inc/lib_uuid.inc');
+	
+	switch($_POST['seq']){
+		case 'conf':
+			$_SESSION['pnm']['news']['text']=$_POST['news'];
+			shn_pnm_confirm_post();
+			break;
+		default:
+			$_SESSION['pnm']=null;
+			shn_pnm_news_post_form();
+			
+			break;
+	}
 }
 ?>
