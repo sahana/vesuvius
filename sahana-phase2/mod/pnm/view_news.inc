@@ -35,10 +35,10 @@ function _shn_pnm_view_news_item($uuid){
 	$res = _shn_pnm_get_news_item($uuid);
 	
 	shn_form_fopen("view_news",null,false);
-	shn_form_fsopen(_t('View News item'),false);
+	//shn_form_fsopen(_t('View News item'),false);
 	echo '<h2 align="center">' . $res->Fields(1) . '</h2>';
 	echo $res->Fields(2);
-	shn_form_fsclose();
+	//shn_form_fsclose();
 	shn_form_fclose();
 }
 ?>
