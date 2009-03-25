@@ -27,7 +27,7 @@ function shn_pnm_default(){
 	include_once 'figure_update.inc';
 	
 
-    shn_rss_add_feed('rss_expired_list',_t('RSS feed for press and media '))
+    shn_rss_add_feed('rss_expired_list',_t('RSS feed for press and media '));
 
 
 }

@@ -7,10 +7,10 @@ function _shn_pnm_list_news(){
 	$res = _shn_pnm_get_news();
 	?>
 	<div id="result">
-	<table>
+	<table width="10">
 	<tr>
-		<th>Title</th>
-		<th>Date/Time</th>
+		<th >Title</th>
+		<th >Date/Time</th>
 	</tr>
 	<?php
 	foreach ($res as $row){
@@ -28,8 +28,17 @@ function _shn_pnm_list_news(){
 }
 
 
-function _shn_pnm_view_news_item(){
+function _shn_pnm_view_news_item($uuid){
 	global $global;
 	require ($global['approot'] . 'mod/pnm/lib_news.inc');
+	
+	$res = _shn_pnm_get_news_item($uuid);
+	
+	shn_form_fopen("view_news",null,false);
+	shn_form_fsopen(_t('View News item'),false);
+	echo '<h2 align="center">' . $res->Fields(1) . '</h2>';
+	echo $res->Fields(2);
+	shn_form_fsclose();
+	shn_form_fclose();
 }
 ?>
