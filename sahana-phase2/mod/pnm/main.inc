@@ -21,10 +21,14 @@ function shn_pnm_default(){
 	echo "</ul>";
 	
 	echo '<br>';
+	echo '<br>';
+	echo '<br>';
 
 	include_once 'figure_update.inc';
 	
-    shn_rss_add_feed('rss_expired_list',_t('press and meadia'));
+
+    shn_rss_add_feed('rss_expired_list',_t('RSS feed for press and media '))
+
 
 }
 
