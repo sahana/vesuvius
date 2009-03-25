@@ -52,10 +52,17 @@ function shn_pnm_adm_upload_video(){
 			$ext = explode('.',$_FILES['video_file']['name']);
 			$ext = $ext[(count($ext)-1)];
 			$path = 'res/media_'.$media_id.'.'.$ext;
+			$move_to = $global['approot'].'www/'.$path;
+			
 			$query = "INSERT INTO pnm_media(media_id,media_title,media_description,media_type,mime_type,media_path,date) VALUES (?,?,?,?,?,?,?)";
 			$db->StartTrans();
+			$ret = move_uploaded_file($_FILES['video_file']['tmp_name'],$move_to);
+			if($ret==false){
+				$db->FailTrans();
+			}
 			$db->Execute($query,array($media_id,$media_title,$media_descr,$media_type,$mime_type,$path,$date));
 			$failed = $db->HasFailedTrans();
+			
 			$db->CompleteTrans();
 			if($failed){
 				add_error(_t('Video upload failed'));

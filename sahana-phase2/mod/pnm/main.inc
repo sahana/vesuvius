@@ -36,8 +36,8 @@ function shn_pnm_mainmenu(){
 	shn_mod_menuitem("new_post",_t("Post new News"),$module);
 	shn_mod_menuitem("list_news",_t("List News"),$module);
 	shn_sub_mod_menuclose();
-	shn_mod_menuitem("lvideos",_t("Videos"),$module);
-	shn_mod_menuitem("limages",_t("Images"),$module);
+	shn_mod_menuitem("list_videos",_t("Videos"),$module);
+	shn_mod_menuitem("list_images",_t("Images"),$module);
 	shn_mod_menuitem("mediareg", _t("Media"), $module);
 	shn_sub_mod_menuclose();
 	shn_mod_menuclose();
@@ -109,7 +109,8 @@ function shn_pnm_list_videos(){
 	echo "<br/>";
 	while($row = $res->FetchRow()){
 		echo "<div>";
-		echo "<h5>".$row['media_title']."</h5>";
+		echo "<h4>".$row['media_title']."</h4>";
+		echo "<em>".$row['date']."</em><br/>";
 		echo "<p>".$row['media_description']."</p>";
 		echo "<a href='".$row['media_path']."'>"._t("Download Video")."</a>";
 		echo "</div>";
@@ -155,7 +156,8 @@ function shn_pnm_video_archives(){
 				$res = $db->SelectLimit($record_query,$rpp,($page-1)*$rpp,array($_POST['video_date_start'],$_POST['video_date_end']));
 				while($row = $res->FetchRow()){
 					echo "<div>";
-					echo "<h5>".$row['media_title']."</h5>";
+					echo "<h4>".$row['media_title']."</h4>";
+					echo "<em>".$row['date']."</em><br/>";
 					echo "<p>".$row['media_description']."</p>";
 					echo "<a href='".$row['media_path']."'>"._t("Download Video")."</a>";
 					echo "</div>";
