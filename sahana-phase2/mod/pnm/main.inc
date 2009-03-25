@@ -53,4 +53,8 @@ function shn_pnm_new_post(){
 			break;
 	}
 }
+
+function getrss() {
+	shn_pnm_generaterss();
+}
 ?>
