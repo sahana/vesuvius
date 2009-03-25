@@ -1,6 +1,7 @@
 <?php
 include $global['approot'].'inc/lib_menu.inc';
 include_once $global['approot'].'/inc/lib_table.inc';
+include_once $global['approot'].'/inc/lib_form.inc';
 
 
 
@@ -17,7 +18,7 @@ function shn_pnm_default(){
 	echo "</ul>";
 	
 	echo '<br>';
-	include_once 'figuer_update.inc';
+	include_once 'figure_update.inc';
 }
 
 function shn_pnm_mainmenu(){
@@ -33,6 +34,7 @@ function shn_pnm_mainmenu(){
 	shn_mod_menuitem("lvideos",_t("Videos"),$module);
 	shn_mod_menuitem("limages",_t("Images"),$module);
 	shn_mod_menuitem("lfeeds",_t("RSS Feeds"),$module);
+	shn_mod_menuitem("mediareg", _t("Media"), $module);	
 	shn_sub_mod_menuclose();
 	shn_mod_menuclose();
 
