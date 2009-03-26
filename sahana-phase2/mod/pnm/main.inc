@@ -65,6 +65,9 @@ function shn_pnm_mainmenu(){
 
 //}
 
+function shn_pnm_mediareg(){
+    include_once 'media.inc';
+}
 
 function shn_pnm_new_post(){
 	global $global;
