@@ -19,6 +19,7 @@ include_once $global['approot'].'inc/lib_table.inc';
 include_once 'lib_pnm_rss.inc';
 include_once $global['approot'].'inc/lib_form.inc';
 include_once $global['approot'].'inc/lib_rss.inc';
+include_once $global['approot'].'inc/lib_uuid.inc';
 
 
 function shn_pnm_default(){
