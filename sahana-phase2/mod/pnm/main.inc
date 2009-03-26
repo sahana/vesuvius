@@ -34,7 +34,7 @@ function shn_pnm_default(){
 
 	echo '<br>';
 	echo '<br>';
-	shn_rss_add_feed('rss_news_list',_t('RSS feed for press and media '));
+	shn_rss_add_feed('rss_news_list',_t('News RSS '));
 	echo '<br>';
 
 	include_once 'figure_update.inc';
@@ -107,10 +107,6 @@ function shn_pnm_view_news_item(){
 	global $global;
 	include_once ($global['approot'] . 'mod/pnm/view_news.inc');
 	_shn_pnm_view_news_item($_GET['uuid']);
-}
-
-function getrss() {
-	shn_pnm_generaterss();
 }
 
 function shn_pnm_list_videos(){
