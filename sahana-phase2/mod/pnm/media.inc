@@ -32,7 +32,7 @@ switch($_POST['seq']){
     
 function _shn_pnm_media_reg_form(){
     echo '<h3>Add New Media Organization</h3>';
-    shn_form_fopen('media_reg',null, array('req_message'=>false));
+    shn_form_fopen('mediareg',null, array('req_message'=>false));
     shn_form_fsopen(_t('Add Media Organization'));
     shn_form_hidden(array('seq'=>'add'));
     shn_form_text(_t('Name : '),'name','', array('req'=>true));
@@ -60,7 +60,7 @@ function _shn_pnm_add_person($name){
     $uuid = shn_create_uuid('p');
     $sql = "INSERT INTO person_uuid(p_uuid, full_name) VALUES('$uuid', '$name')";
     $res = $global['db']->Execute($sql);
-    echo $global['db']->ErrorMsg();
+    
     return $uuid;
 }
 
@@ -73,7 +73,7 @@ function _shn_pre_add_contact($puuid, $type, $contact){
 
 function _shn_pnm_media_add(){
     global $global;
-    $person = _shn_pnm_add_person('contact_person');
+    $person = _shn_pnm_add_person($_POST['contact_person']);
     
     if($_POST['address'] != null){
         _shn_pre_add_contact($person, 'address', $_POST['address']);
@@ -84,18 +84,18 @@ function _shn_pnm_media_add(){
     if($_POST[''] != null){
         _shn_pre_add_contact($person, 'email', $_POST['email']);
     }
-    
     $name = $_POST['name'];
     $uuid = shn_create_uuid('o');
-    $sql = "INSERT INTO pnm_media_org VALUES($uuid, $name, $person)";
+    $sql = "INSERT INTO pnm_media_org VALUES('$uuid', '$name', '$person')";
     $res = $global['db']->Execute($sql);
+    echo $global['db']->ErrorMsg();
     if($res != false){
-        add_confirm("Media Organization added");
+        add_confirmation("Media Organization added");
     }
     
 }
 
-function _shn_pre_get_person_name($person_uuid){
+function _shn_pnm_get_person_name($person_uuid){
     global $global;
     $sql = "SELECT full_name FROM person_uuid WHERE p_uuid = '$person_uuid'";
     $res = $global['db']->Execute($sql);
