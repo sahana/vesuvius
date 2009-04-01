@@ -130,10 +130,3 @@ function _shn_ims_default()
     shn_rss_add_feed('rss_reorder_list',_t('Items below Re-order Level'),_t('This RSS feed gives a list of items that are below re-order level.'));
     shn_rss_add_feed('rss_transit',_t('Transit Item List'),_t('This RSS feed gives a list of items which have been transferred to other locations or inventories.'));
 }
-?>
-
-
-
-
-
-
