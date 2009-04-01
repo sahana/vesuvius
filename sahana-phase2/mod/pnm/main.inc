@@ -36,6 +36,7 @@ function shn_pnm_default(){
 	echo '<br>';
 	echo '<br>';
 	shn_rss_add_feed('rss_news_list',_t('News RSS '));
+	shn_rss_add_feed('rss_video_list',_t('Video RSS'));
 	echo '<br>';
 
 	include_once 'figure_update.inc';
