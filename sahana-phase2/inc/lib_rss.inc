@@ -67,4 +67,3 @@ function shn_rss_add_feed($act,$title,$desc=null){
     }
     echo "</div>";
 }
-?>
