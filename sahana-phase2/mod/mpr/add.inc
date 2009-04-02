@@ -147,7 +147,7 @@ function shn_mpr_addmp_entry($errors=false)
     shn_form_opt_select("opt_skin_color",_t('Skin Colour'));
     shn_form_opt_select("opt_hair_color",_t('Hair Colour'));
     shn_form_text(_t('Height'),'height','size="10"',array('help'=>_t('Enter the value in centimeters(cm)')));
-    shn_form_text(_t('Weight'),'weight','size="10"');
+    shn_form_text(_t('Weight'),'weight','size="10"',array('help'=>_t('Enter the value in kilograms(Kg)')));
     shn_form_textarea(_t('Other Distinctive Features'),'physical_comments');
     shn_form_fsclose();
     
