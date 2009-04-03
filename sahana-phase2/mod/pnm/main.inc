@@ -74,7 +74,6 @@ function shn_pnm_mediareg(){
 function shn_pnm_new_post(){
 	global $global;
 	require ($global['approot'] . 'mod/pnm/new_post.inc');
-	require ($global['approot'] . 'inc/lib_uuid.inc');
 
 
 	switch($_POST['seq']){
