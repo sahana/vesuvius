@@ -333,7 +333,7 @@ function shn_tabmenu_item($action, $desc, $module = null){
     global $global;
     if ( null == $module ) $module = $global['module'];
     static $count=0;
-    $active=($count == $_GET['tabid'])?"id='active'":'';
+    $active=($count == $_REQUEST['tabid'])?"id='active'":'';
     $tabid='&tabid='.$count++;
     shn_breadcrumb_set_nicename($module, $action, $desc);
 ?>
@@ -341,4 +341,3 @@ function shn_tabmenu_item($action, $desc, $module = null){
         <a href="index.php?mod=<?php echo $module?>&amp;act=<?php echo $action.$tabid?>"><span><?php echo $desc?></span></a></li>
 <?php
 }
-?>
