@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.90 2009-03-19 03:23:38 hayeshais Exp $ */
+/* $Id: lib_form.inc,v 1.91 2009-04-03 11:45:31 ravithb Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -146,8 +146,8 @@ function shn_form_submit($name, $submit_opts = null)
 {
 	global $shn_tabindex;
 	?>
-<input
-	type="submit" value="<?php echo $name?>" <?php echo $submit_opts?>
+<input type="submit"
+	value="<?php echo $name?>" <?php echo $submit_opts?>
 	tabindex="<?php echo ++$shn_tabindex?>" />
 	<?php
 }
@@ -163,8 +163,8 @@ function shn_form_reset($name, $submit_opts = null)
 {
 	global $shn_tabindex;
 	?>
-<input
-	type="reset" value="<?php echo $name?>" <?php echo $submit_opts?>
+<input type="reset"
+	value="<?php echo $name?>" <?php echo $submit_opts?>
 	tabindex="<?php echo ++$shn_tabindex?>" />
 	<?php
 }
@@ -206,8 +206,8 @@ function shn_form_button($name, $button_opts = null, $extra_opts = null)
 {
 	global $shn_tabindex;
 	?>
-<input
-	type="button" value="<?php echo $name?>" <?php echo $button_opts?>
+<input type="button"
+	value="<?php echo $name?>" <?php echo $button_opts?>
 	tabindex="<?php echo ++$shn_tabindex?>" />
 	<?php
 	shn_form_extra_opts($extra_opts);
@@ -230,15 +230,16 @@ function shn_form_text($label, $name, $text_opts = null, $extra_opts = null )
 	if(get_magic_quotes_gpc())
 	$value = stripslashes($value);
 	if($extra_opts['no_label']!==true){
-	?>
+		?>
 <label for="<?php echo $name?>"><?php echo $label?></label>
-    <?php
-    }
-    ?>
+		<?php
+	}
+	?>
 <input
 	type="text" name="<?php echo $name?>" id="<?php echo $name?>"
 	value="<?php echo $value?>" <?php echo $text_opts?>
-	tabindex="<?php echo ++$shn_tabindex?>" <?php if ($extra_opts['has_error'] == true) echo 'class="err"' ?> />
+	tabindex="<?php echo ++$shn_tabindex?>"
+	<?php if ($extra_opts['has_error'] == true) echo 'class="err"' ?> />
 	<?php
 	shn_form_extra_opts($extra_opts);
 }
@@ -331,11 +332,11 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
 		?>
 	<option value="<?php echo $opt_value?>" <?php echo $sel?>><?php echo $desc?></option>
 	<?php
-}
-?>
+	}
+	?>
 </select>
-<?php
-shn_form_extra_opts($extra_opts);
+	<?php
+	shn_form_extra_opts($extra_opts);
 }
 
 /**
@@ -358,9 +359,9 @@ function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = 
 
 	//$req=(true == $extra_opts['req'])?'<em> * </em>':'';
 	if($extra_opts['no_label']!==true){
-	?>
+		?>
 <label><?php echo $label;?></label>
-	<?php
+		<?php
 	}
 
 	$checked='';
@@ -372,16 +373,15 @@ function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = 
 		else
 		$checked='';
 		?>
-<input
-	type="radio" name="<?php echo $name?>" value="<?php echo $opt_value?>"
-	tabindex="<?php echo ++$shn_tabindex?>" <?php echo $select_opts?>
-	<?php echo $checked?> />
+<input type="radio" name="<?php echo $name?>"
+	value="<?php echo $opt_value?>" tabindex="<?php echo ++$shn_tabindex?>"
+	<?php echo $select_opts?> <?php echo $checked?> />
 	<?php echo $desc?>
 	<?php
-}
-?>
-<?php
-shn_form_extra_opts($extra_opts);
+	}
+	?>
+	<?php
+	shn_form_extra_opts($extra_opts);
 }
 
 
@@ -423,15 +423,15 @@ function shn_form_opt_select($opt_field, $label, $select_opts = "", $extra_opts 
 	<?php
 
 	$res->MoveNext();
-}
-if (isset($extra_opts['all']) || $extra_opts['all'] == true){
-	$sel = (strtolower($value) == 'all')?"selected=\"selected\"":"";
-	echo "<option value='all' $sel>[ALL]</option>";
-}
-?>
+	}
+	if (isset($extra_opts['all']) || $extra_opts['all'] == true){
+		$sel = (strtolower($value) == 'all')?"selected=\"selected\"":"";
+		echo "<option value='all' $sel>[ALL]</option>";
+	}
+	?>
 </select>
-<?php
-shn_form_extra_opts($extra_opts);
+	<?php
+	shn_form_extra_opts($extra_opts);
 }
 
 /**
@@ -473,12 +473,12 @@ function shn_form_opt_multi_select($opt_field, $label, $select_opts = "", $extra
 	<?php
 
 	$res->MoveNext();
-}
-if (isset($extra_opts['all']) || $extra_opts['all'] == true) echo "<option value='all'>All</option>";
-?>
+	}
+	if (isset($extra_opts['all']) || $extra_opts['all'] == true) echo "<option value='all'>All</option>";
+	?>
 </select>
-<?php
-shn_form_extra_opts($extra_opts);
+	<?php
+	shn_form_extra_opts($extra_opts);
 }
 
 /**
@@ -500,8 +500,8 @@ function shn_form_multi_select($name,$options, $label, $select_opts = "", $extra
 
 	?>
 <label><?php echo $label?></label>
-<select multiple size="5" name="<?php echo $name?>[]" <?php echo $select_opts?>
-	tabindex="<?php echo ++$shn_tabindex?>">
+<select multiple size="5" name="<?php echo $name?>[]"
+<?php echo $select_opts?> tabindex="<?php echo ++$shn_tabindex?>">
 	<?php
 
 	foreach ($options as $opt_value => $desc ) {
@@ -513,12 +513,12 @@ function shn_form_multi_select($name,$options, $label, $select_opts = "", $extra
 	<?php
 
 
-}
-if (isset($extra_opts['all']) || $extra_opts['all'] == true) echo "<option value='all'>All</option>";
-?>
+	}
+	if (isset($extra_opts['all']) || $extra_opts['all'] == true) echo "<option value='all'>All</option>";
+	?>
 </select>
-<?php
-shn_form_extra_opts($extra_opts);
+	<?php
+	shn_form_extra_opts($extra_opts);
 }
 
 
@@ -550,15 +550,16 @@ function shn_form_opt_checkbox($opt_field,$extra_opts=null){
 		?>
 <label><?php echo _lc($resu->fields[2])?></label>
 <input
-	type="checkbox" name="<?php echo $opt_field?>[]" value="<?php echo $resu->fields[1]?>"
+	type="checkbox" name="<?php echo $opt_field?>[]"
+	value="<?php echo $resu->fields[1]?>"
 	tabindex="<?php echo ++$shn_tabindex?>" <?php echo $sel?>></input>
 
 <br>
 		<?php
 		$resu->MoveNext();
-}
+	}
 
-shn_form_extra_opts($extra_opts);
+	shn_form_extra_opts($extra_opts);
 }
 
 /**
@@ -580,16 +581,16 @@ function shn_form_textarea($label, $name, $text_opts=null, $extra_opts = null)
 	$value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
 	/*
 	 * This was commented because it stripsoff unnecessary places too. 14/12/2007
-	 * 
+	 *
 	 * if(get_magic_quotes_gpc())
 	 * $value = stripslashes($value);
 	 */
 	if($extra_opts['no_label']!==true){
-	?>
+		?>
 <label for="<?php echo $name?>"><?php echo $label?></label>
-    <?php 
+		<?php
 	}
-    ?>
+	?>
 <textarea name="<?php echo $name?>" id="<?php echo $name?>"
 	cols="<?php echo $cols?>" rows="<?php echo $rows?>"
 	<?php echo $text_opts?> tabindex="<?php echo ++$shn_tabindex?>"><?php echo $value?> <?php if ($extra_opts['has_error'] == true) echo 'class="err"' ?> </textarea>
@@ -611,9 +612,8 @@ function shn_form_upload($label, $name, $extra_opts = null)
 	global $shn_tabindex;
 	?>
 <label><?php echo $label?></label>
-<input
-	type="file" name="<?php echo $name?>"
-	tabindex="<?php echo ++$shn_tabindex?>" />
+<input type="file"
+	name="<?php echo $name?>" tabindex="<?php echo ++$shn_tabindex?>" />
 	<?php
 	shn_form_extra_opts($extra_opts);
 }
@@ -654,8 +654,8 @@ function shn_form_password($label, $name, $text_opts = null, $extra_opts = null)
 	$value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
 	?>
 <label for="<?php echo $name?>"><?php echo $label?></label>
-<input
-	type="password" name="<?php echo $name?>" id="<?php echo $name?>"
+<input type="password"
+	name="<?php echo $name?>" id="<?php echo $name?>"
 	value="<?php echo $value?>" <?php echo $text_opts?>
 	tabindex="<?php echo ++$shn_tabindex?>" />
 	<?php
@@ -716,8 +716,8 @@ function shn_form_date($label,$name,$extra_opts = null)
 	$seq=$f.$m.$l;
 	?>
 <label><?php echo $label?></label>
-<input
-	type="text" name="<?php echo $name?>" value="<?php echo $value?>"
+<input type="text"
+	name="<?php echo $name?>" value="<?php echo $value?>"
 	id="<?php echo $name?>" size="12" maxlength="12"
 	tabindex="<?php echo ++$shn_tabindex?>" />
 <span> <img src="res/img/x-office-calendar.png"
@@ -756,8 +756,8 @@ function shn_form_fopen_alt($act, $mod = null, $form_opts = array('req_message'=
 <p><b>Key:</b> Fields marked with <b>*</b> are required (entry is
 compulsory)</p>
 		<?php
-}
-?>
+	}
+	?>
 <div id="<?php echo $form_id?>">
 <form method="POST"
 	action="index.php?mod=<?php echo $mod?>&amp;act=<?php echo $act?>"
@@ -769,9 +769,9 @@ compulsory)</p>
  * This will render a flash still image capture interface.
  * It will also generate a unique image_id and put it under the key
  * $_SESSION['online_cam']['image_id'].
- * The security key will be stored under 
+ * The security key will be stored under
  * $_SESSION['online_cam']['seckey']
- * 
+ *
  * @param String $act The action of the current page
  * @param String $mod The module of the current page.
  */
@@ -782,78 +782,78 @@ function shn_form_still_camera($act = null,$mod = null){
 	$time = time();
 	$rand1 = rand(0,9999);
 	$rand2 = rand(0,9999);
-	 
+
 	$image_id = (($mod!=null)?$mod:"home")."_".(($act!=null)?$act:"default")."_".$rand1.$time.$rand2;
-	
+
 	shn_online_cam($image_id);
 }
 
 /**
- * Prints button sets at bottom of a page in the order of 
- * cancel(0..1), back(0..1), next(0..1) | finish(0..1) | confirm(0..1), custom_button(0..*)  
- * 
+ * Prints button sets at bottom of a page in the order of
+ * cancel(0..1), back(0..1), next(0..1) | finish(0..1) | confirm(0..1), custom_button(0..*)
+ *
  * Example Input:
- *  $button_set = array('cancel' => true, 'back' => true, 'next' => true, 
+ *  $button_set = array('cancel' => true, 'back' => true, 'next' => true,
  *                  'custom' => array(
  *                    array('value' => 'button text1', 'submit_opts' => 'name = "post value1"'),
  *                    array('value' => 'button text2', 'submit_opts' => 'name = "post value2"')))
- * 
+ *
  * @param <type> $button_set
  */
 function shn_form_submit_set($button_set = array('cancel' => true, 'back' => true, 'next' => true))
 {
-    if(isset($button_set['cancel'])){
-        shn_form_submit(_t('Cancel'), 'name="cancel"');
-    }
-    if(isset($button_set['back'])){
-        shn_form_submit(_t('Back'), 'name="back"');        
-    }
-    if(isset($button_set['next'])){
-        shn_form_submit(_t('Next'), 'name="next"');   
-    } elseif(isset($button_set['finish'])){
-        shn_form_submit(_t('Finish'), 'name="finish"');            
-    } elseif(isset($button_set['confim'])){
-        shn_form_submit(_t('Confirm'), 'name="confirm"');       
-    }
-    if(isset($button_set['custom'])){
-        $custom_buttons = $button_set['custom'];
-        for($i = 0; $i < count($custom_buttons); $i++){
-            shn_form_submit($custom_buttons[$i]['value'], $custom_buttons[$i]['submit_opts']);
-        }
-    }
+	if(isset($button_set['cancel'])){
+		shn_form_submit(_t('Cancel'), 'name="cancel"');
+	}
+	if(isset($button_set['back'])){
+		shn_form_submit(_t('Back'), 'name="back"');
+	}
+	if(isset($button_set['next'])){
+		shn_form_submit(_t('Next'), 'name="next"');
+	} elseif(isset($button_set['finish'])){
+		shn_form_submit(_t('Finish'), 'name="finish"');
+	} elseif(isset($button_set['confim'])){
+		shn_form_submit(_t('Confirm'), 'name="confirm"');
+	}
+	if(isset($button_set['custom'])){
+		$custom_buttons = $button_set['custom'];
+		for($i = 0; $i < count($custom_buttons); $i++){
+			shn_form_submit($custom_buttons[$i]['value'], $custom_buttons[$i]['submit_opts']);
+		}
+	}
 }
 
 /**
-  * Progress Bar
-  * 
-  * Add this to a page to create a progress bar detailing the user's progress
- * through a task. 
- * 
+ * Progress Bar
+ *
+ * Add this to a page to create a progress bar detailing the user's progress
+ * through a task.
+ *
  * @param <type> $steps - Array(str): All steps.
  * @param <type> $current_step - Int: The current step the user is on.
  */
 function shn_form_progress_bar($steps, $current_step)
 {
-    $total_step = count($steps);
-    echo '<div id="progress_bar"><table><tr>';                
-    for($i = 1; $i <= $total_step; $i++){   
-        echo '<td ';
-        if($i == $current_step){
-            echo 'id="progress_bar_tab_current"'; 
-        } elseif($i < $current_step){
-            echo 'class="progress_bar_tab_before"'; 
-        } else{
-            echo 'class="progress_bar_tab_after"';
-        }
-        echo ' width="' . (100 / $total_step) . '%">';;
-        echo $i . '. ' . $steps[$i - 1];    
-        echo '</td>';
-        if($i != $total_step){
-            echo '<td class="progress_bar_tab_spacer"><img src="theme/default/img/bullet_go.png"></td>';
-        }
-        next($steps);
-    }  
-    echo '</tr></table></div><br />';    
+	$total_step = count($steps);
+	echo '<div id="progress_bar"><table><tr>';
+	for($i = 1; $i <= $total_step; $i++){
+		echo '<td ';
+		if($i == $current_step){
+			echo 'id="progress_bar_tab_current"';
+		} elseif($i < $current_step){
+			echo 'class="progress_bar_tab_before"';
+		} else{
+			echo 'class="progress_bar_tab_after"';
+		}
+		echo ' width="' . (100 / $total_step) . '%">';;
+		echo $i . '. ' . $steps[$i - 1];
+		echo '</td>';
+		if($i != $total_step){
+			echo '<td class="progress_bar_tab_spacer"><img src="theme/default/img/bullet_go.png"></td>';
+		}
+		next($steps);
+	}
+	echo '</tr></table></div><br />';
 }
 
 
@@ -863,45 +863,52 @@ function shn_form_progress_bar($steps, $current_step)
  */
 function shn_form_wysiwyg($label, $name, $extra_opts = array() )
 {
-    global $shn_tabindex;
-    global $global;
-    global $conf;
-    $value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
-    if(get_magic_quotes_gpc())
-            $value = stripslashes($value);
-?>
-   <h4><?php echo $label?></h4>
-<?php
-    switch($conf['wysiwyg']){
-        case 'tiny_mce':
-            static $mceinit = true;
-            if($mceinit){
-?>
-                <!-- TinyMCE -->
-                <script type="text/javascript" src="res/tiny_mce/tiny_mce.js"></script>
-                <script type="text/javascript">
+	global $shn_tabindex;
+	global $global;
+	global $conf;
+	$value = ($_POST[$name])? $_POST[$name] : $extra_opts['value'];
+	if(get_magic_quotes_gpc())
+	$value = stripslashes($value);
+	?>
+<h4><?php echo $label?></h4>
+	<?php
+	if(isset($conf['wysiwyg'])==false || strlen(trim($conf['wysiwyg']))==0){
+		echo "<div class='error message'>"._t("Wysiwyg editor not configured correctly. Using Textarea instead.")."<br/><br/></div>";
+		shn_form_textarea($label,$name,null,$extra_opts);
+	}
+	switch($conf['wysiwyg']){
+		case 'tiny_mce':
+			static $mceinit = true;
+			if($mceinit){
+				?> <!-- TinyMCE --> <script type="text/javascript"
+	src="res/tiny_mce/tiny_mce.js"></script> <script type="text/javascript">
                     tinyMCE.init({
                         mode : "specific_textareas",
                         editor_selector : "mceEditor"
                     });
-                </script>
-                <!-- /TinyMCE -->
-<?php
+                </script> <!-- /TinyMCE --> <?php
                 $mceinit = false;
-            }
-          	echo "<textarea id='$name' name='$name' rows='15' cols='80' style='width:100%' class='mceEditor'>".htmlspecialchars($value)."</textarea>";
-            break;
-        case 'fckeditor':
-            include_once $global['approot'].'www/res/fckeditor/fckeditor.php';
-            $sBasePath = 'res/fckeditor/' ;
-            $oFCKeditor = new FCKeditor($name) ;
-            $toolbar = (isset($extra_opts['tool_bar']))?$extra_opts['tool_bar']:'Basic';
-            $oFCKeditor->ToolbarSet = htmlspecialchars($toolbar);
-            $oFCKeditor->BasePath	= $sBasePath ;
-            $oFCKeditor->Value		= $value ;
-            $oFCKeditor->Create() ;
-        default:
-            //currently print a text area when EXTjs is included use it's wysiwyg 
-    }
-            shn_form_extra_opts($extra_opts);
+			}
+			echo "<textarea id='$name' name='$name' rows='15' cols='80' style='width:100%' class='mceEditor'>".htmlspecialchars($value)."</textarea>";
+			break;
+case 'fckeditor':
+	if(file_exists($global['approot'].'www/res/fckeditor/fckeditor.php')){
+		include_once $global['approot'].'www/res/fckeditor/fckeditor.php';
+		$sBasePath = 'res/fckeditor/' ;
+		$oFCKeditor = new FCKeditor($name) ;
+		$toolbar = (isset($extra_opts['tool_bar']))?$extra_opts['tool_bar']:'Basic';
+		$oFCKeditor->ToolbarSet = htmlspecialchars($toolbar);
+		$oFCKeditor->BasePath	= $sBasePath ;
+		$oFCKeditor->Value		= $value ;
+		$oFCKeditor->Create() ;
+	}else{
+		// show normal text area
+		echo "<div class='error message'>"._t("A required file was not found. Failed to initialize Wysiwig Editor. Using Textarea instead.")."<br/><br/></div>";
+		shn_form_textarea($label,$name,null,$extra_opts);
+	}
+	break;
+default:
+	//currently print a text area when EXTjs is included use it's wysiwyg
+	}
+	shn_form_extra_opts($extra_opts);
 }
