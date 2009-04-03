@@ -199,7 +199,3 @@ function _shn_pnm_video_archive_search_form($date_start = '', $date_end=''){
 	shn_form_submit(_t('Search Archive'),'name="submit"');
 	shn_form_fclose();
 }
-
-
-?>
-
