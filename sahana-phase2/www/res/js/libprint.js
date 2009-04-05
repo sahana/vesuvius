@@ -416,6 +416,7 @@ function shn_print_get_fieldset_content() {
 	
 	// declares the necessary variables and arrays 
 	var dom_fieldset = [], dom_legend = [], dom_div_info = [], dom_label = [], val1 = [], val3 = [], val2_div = [], val2_span = [], _val2_p = [];
+	var dom_desc;
 
 		// extracts the content within the fieldset element  
 		var val = document.getElementsByTagName('fieldset');
@@ -452,6 +453,16 @@ function shn_print_get_fieldset_content() {
 				//prints the user information under each category
 				display_user_info(val2_div, val2_span, _val2_p);
 				
+				if (_val2_p != null) {
+					dom_desc = document.createElement('p');
+					dom_desc.setAttribute('class','description');
+					dom_desc.setAttribute('className', 'description');
+					if (_val2_p[a] != null) {
+						dom_desc.innerHTML = _val2_p[a].innerHTML;
+					}
+					document.getElementById('print-wrapper').appendChild(dom_desc);
+				}
+
 				//extract the values from lable elements and store them into a variable
 				val3 = document.getElementsByTagName('fieldset')[i].getElementsByTagName('label');
 				var _val_input = document.getElementsByTagName('fieldset')[i].getElementsByTagName('input');
@@ -492,6 +503,7 @@ function shn_print_get_fieldset_content() {
 
 				//traverse along the length of the val3 array
 				for (b = 0; b < val3.length; b++) {
+
 					//assigns the values in _tmp_l array to dom_label variable
    					var dom_label = val3[b].innerHTML;
 
