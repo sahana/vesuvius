@@ -450,9 +450,6 @@ function shn_print_get_fieldset_content() {
 				//prints the value extracted from legend element
   				var dom_legend = shn_print_display_legend(val1[a].innerHTML);
 				
-				//prints the user information under each category
-				display_user_info(val2_div, val2_span, _val2_p);
-				
 				if (_val2_p != null) {
 					dom_desc = document.createElement('p');
 					dom_desc.setAttribute('class','description');
@@ -700,39 +697,6 @@ function getElementsByClass(elem, classname) {
     return classes;
 }
 
-
-//var getvalue=document.getElementById("myimage").getAttribute("src")
-
-/**
- * This function adds a line brake
- *
- * @param string, string, string
- * @access protected
- * @return void
- */
-function display_user_info(dom_div, dom_span, dom_p) {
-
-	var element_p = document.createElement('p');
-	if ( dom_div != null || dom_div != '' ) {
-		for ( var div_l = 0; div_l < dom_div.length; div_l++ ) {
-			//element_p.innerHTML += dom_div[div_l];	
-		}
-	}
-	else if ( dom_span != null || dom_span != '') {
-		for ( var span_l = 0; span_l < dom_span.length; span_l++ ) {
-			//element_p.innerHTML += dom_span[span_l];	
-		}
-	}
-	else if ( dom_p != null || dom_p != '') {
-		for ( var p_l = 0; p_l < dom_p.length; p_l++ ) {
-			element_p.innerHTML += dom_p[p_l];	
-		}	
-	}
-	
-	element_p.setAttribute('class','description');
-	element_p.setAttribute('className','description');
-	document.getElementById('print-wrapper').appendChild(element_p);
-}
 
 
 
