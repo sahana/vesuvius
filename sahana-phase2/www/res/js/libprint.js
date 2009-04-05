@@ -171,8 +171,8 @@ document.writeln(
 		'.bottom-layout .bottom-left { float: left; border: #000 5pt solid; margin: 0 0 4pt 15pt; padding: 0; }'	+
 		'.bottom-layout .bottom-right { float: right; border: #000 5pt solid; margin: 0 15pt 4pt 0; padding: 0; }'	+
 
-		'ul#instructions { float: left; width: 450pt; list-style-type: circle; margin: 5pt 0 0 24pt; }'	+
-		'ul#instructions li { margin: 0; padding: 2pt 0; font-size: 8pt; }'	+
+		'ul.instructions { float: left; width: 450pt; list-style-type: circle; margin: 5pt 0 0 24pt; }'	+
+		'ul.instructions li { margin: 0; padding: 2pt 0; font-size: 8pt; }'	+
 
 		'.heading { float: left; width: 480pt; margin: 0; padding: 5pt; text-align: center; font-size: 14pt; font-weight: bold; }'	+
 
@@ -216,7 +216,7 @@ document.writeln(
 			'.top-layout .top-left { margin-left: 0;  }'	+
 			'.top-layout .top-middle { margin-left: 117pt; }'	+
 			'.bottom-layout .bottom-left { margin-left: 0; }'	+
-			'#instructions { margin-left: 1pt; }'	+
+			'.instructions { margin-left: 1pt; }'	+
 			'.fieldset-heading { font-weight: bold; margin: 0; }'	+
 			'.item-wrap { margin-left: 0; width: 473pt; }'	+
 			'.item-wrap .label-left { width: 323pt; }'	+
@@ -306,7 +306,7 @@ function shn_print_create_basic_elements_layout() {
 			shn_print_layout_top('print-wrapper');
 		
 			//appends the user instructions to the page
-			shn_print_user_instructions();
+			//shn_print_user_instructions();
 		
 			//extracts and appends the heading of the page
 			shn_print_set_page_header(shn_print_read_page_heading());
@@ -338,6 +338,8 @@ function shn_print_layout_top(parent_id) {
 		dom_div.innerHTML += '<div class="top-middle"> </div>';
 		dom_div.innerHTML += '<div class="top-right"> </div>';
 		document.getElementById(parent_id).appendChild(dom_div);
+		
+		shn_print_user_instructions(parent_id);
 }
 
 
@@ -370,24 +372,16 @@ function shn_print_layout_bottom(parent_id) {
  * @access protected
  * @return void
  */
-function shn_print_user_instructions() {
+function shn_print_user_instructions(parent_id) { //parent_id
 
 	var dom_ul, dom_li;
-		user_instructions = [];
-
-		user_instructions[0] = "Fill the necessary fields with CAPITAL LETTERS.";
-		user_instructions[1] = "Always use one box per letter and leave one box space to seperate words.";
-		user_instructions[2] = "Using a pencil is the best over pens.";
 
 		dom_ul = document.createElement('ul');
-		dom_ul.setAttribute('id','instructions');
-		document.getElementById('print-wrapper').appendChild(dom_ul);
-		for ( var i = 0; i <user_instructions.length; i++ ) {
-			dom_li = document.createElement('li');
-			document.getElementById('instructions').appendChild(dom_li);
-			//alert(user_instructions[i]);
-			document.getElementById('instructions').getElementsByTagName("li")[i].innerHTML = user_instructions[i];
-		}
+		dom_ul.setAttribute('class','instructions');
+		dom_ul.setAttribute('className','instructions');
+		dom_ul.innerHTML += '<li> Fill the necessary fields with CAPITAL LETTERS. </li>';
+		dom_ul.innerHTML += '<li> Always use one box per letter and leave one box space to seperate words. </li>';
+		document.getElementById(parent_id).appendChild(dom_ul); //'print-wrapper'
 }
 
 
@@ -627,11 +621,12 @@ function shn_print_display_legend(dom_legend) {
  
 	shn_print_add_space('print-wrapper');
 	shn_print_add_space('print-wrapper');
+	shn_print_add_space('print-wrapper');
 
 	//append the top layout to the page at the end
 	shn_print_layout_top('print-wrapper');
 
-	//alert ("page height : " + shn_print_get_height('print-wrapper'));
+	alert ("page height : " + shn_print_get_height('print-wrapper'));
 }
 
 /**
