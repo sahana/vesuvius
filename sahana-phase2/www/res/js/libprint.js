@@ -39,6 +39,10 @@
  *			|  ______________________________________ ________  |
  *			| |______________________________________|________| |	
  *			| |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| |
+ *			|  ______________________________________ ________  |
+ *			| |______________________________________|________| |	
+ *			| |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| |
+ *			| |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| |
  *			| |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_| |
  *			|  _		     	     			 _  |
  *			| |_|		    	    		        |_| |
@@ -158,12 +162,12 @@ document.writeln(
 		'#print-wrapper h2, #print-wrapper h3 { font-family: Arial, Helvetica, sans-serif; }'	+
 		'#print-wrapper h2 { text-align: center; font-family: Georgia, Times, serif; }'	+
 
-		'.top-layout { float: left; width: 510pt; margin: 10pt 0 5pt 0; }'	+
+		'.top-layout { float: left; width: 510pt; margin: 14pt 0 5pt 0; }'	+
 		'.top-layout .top-left { float: left; border: #000 5pt solid; margin: 4pt 0 0 15pt; padding: 0; }'	+
 		'.top-layout .top-middle { float: left; border: #000 5pt solid; margin: 4pt 0 0 235pt; padding: 0; }'	+
 		'.top-layout .top-right { float: right; border: #000 5pt solid; margin: 4pt 15pt 0 0; padding: 0; }'	+
 
-		'.bottom-layout { float: left; width: 510pt; margin: 5pt 0 10pt 0; }'	+
+		'.bottom-layout { float: left; width: 510pt; margin: 5pt 0 12pt 0; }'	+
 		'.bottom-layout .bottom-left { float: left; border: #000 5pt solid; margin: 0 0 4pt 15pt; padding: 0; }'	+
 		'.bottom-layout .bottom-right { float: right; border: #000 5pt solid; margin: 0 15pt 4pt 0; padding: 0; }'	+
 
@@ -622,7 +626,7 @@ function shn_print_display_legend(dom_legend) {
 	shn_print_layout_bottom('print-wrapper');
  
 	shn_print_add_space('print-wrapper');
-	//shn_print_add_space('print-wrapper');
+	shn_print_add_space('print-wrapper');
 
 	//append the top layout to the page at the end
 	shn_print_layout_top('print-wrapper');
@@ -765,10 +769,10 @@ function shn_print_add_space(id) {
 function shn_print_add_ocr_layout() {
 
 	var page_height = shn_print_get_height('print-wrapper');
-		if ( ((850 > page_height) && (page_height > 790))  ) {
+		if ( ((980 > page_height) && (page_height > 860))  ) {
  			shn_print_adds_page_layout();
 		}
-		if ( ((1800 > page_height) && (page_height > 1675))  ) {
+		if ( ((1890 > page_height) && (page_height > 1825))  ) {
  			shn_print_adds_page_layout();
 		}
 	shn_print_add_line_brake('print-wrapper');
@@ -829,7 +833,7 @@ function shn_print_add_input_layout(dom_label, dom_legend, _dom_wrapper, _class,
 	_dom_wrapper.innerHTML +="<div class='label-right'></div>";
 	
 	//creates and appends required # of boxes where values going to be inputed
-	for (var counter = 0; counter < 30; counter++) {
+	for (var counter = 0; counter < 29; counter++) {
 		_dom_wrapper.innerHTML +="<div class='character'></div>";
 	}
 	shn_print_appent_to_wrapper(_dom_wrapper, _class, _id_tag);
@@ -946,7 +950,7 @@ function shn_print_add_textarea_layout(dom_label, dom_legend, _dom_wrapper, _cla
 	_dom_wrapper.innerHTML +="<div class='label-right'></div>";
 	
 	//creates and appends required # of boxes where values going to be inputed
-	for (var counter = 0; counter < 90; counter++) {
+	for (var counter = 0; counter < 87; counter++) {
 	_dom_wrapper.innerHTML +="<div class='character'></div>";
 	}
 	shn_print_appent_to_wrapper(_dom_wrapper, _class, _id_tag);
