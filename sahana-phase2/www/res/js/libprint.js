@@ -635,7 +635,7 @@ function shn_print_display_legend(dom_legend) {
 	//append the top layout to the page at the end
 	shn_print_layout_top('print-wrapper');
 
-	alert ("page height : " + shn_print_get_height('print-wrapper'));
+	//alert ("page height : " + shn_print_get_height('print-wrapper'));
 }
 
 /**
