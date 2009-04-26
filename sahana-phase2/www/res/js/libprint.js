@@ -158,18 +158,18 @@ document.writeln(
 //A4 page height: 843.829pt; width:596.971pt; 
 		'#print { float: left; width: 510pt; padding: 0; margin: 0 auto; }'	+
 
-		'#print-wrapper { float: left; width: 510pt; border: #000 1pt solid; padding: 2pt; margin: 4pt auto; }'	+
+		'#print-wrapper { float: left; width: 510pt; /*border: #000 1pt solid;*/ padding: 2pt; margin: 4pt auto; }'	+
 		'#print-wrapper h2, #print-wrapper h3 { font-family: Arial, Helvetica, sans-serif; }'	+
 		'#print-wrapper h2 { text-align: center; font-family: Georgia, Times, serif; }'	+
 
-		'.top-layout { float: left; width: 510pt; margin: 14pt 0 5pt 0; }'	+
-		'.top-layout .top-left { float: left; border: #000 5pt solid; margin: 4pt 0 0 15pt; padding: 0; }'	+
-		'.top-layout .top-middle { float: left; border: #000 5pt solid; margin: 4pt 0 0 235pt; padding: 0; }'	+
-		'.top-layout .top-right { float: right; border: #000 5pt solid; margin: 4pt 15pt 0 0; padding: 0; }'	+
+		'.top-layout { display: block; width: 510pt; margin: 14pt 0 5pt 0; }'	+
+		'.top-layout .top-left { float: left; border: #000 7pt solid; margin: 4pt 0 0 15pt; padding: 0; }'	+
+		'.top-layout .top-middle { float: left; border: #000 7pt solid; margin: 4pt 0 0 235pt; padding: 0; }'	+
+		'.top-layout .top-right { float: right; border: #000 7pt solid; margin: 4pt 15pt 0 0; padding: 0; }'	+
 
-		'.bottom-layout { float: left; width: 510pt; margin: 5pt 0 12pt 0; }'	+
-		'.bottom-layout .bottom-left { float: left; border: #000 5pt solid; margin: 0 0 4pt 15pt; padding: 0; }'	+
-		'.bottom-layout .bottom-right { float: right; border: #000 5pt solid; margin: 0 15pt 4pt 0; padding: 0; }'	+
+		'.bottom-layout { display: block; width: 510pt; margin: 5pt 0 12pt 0; }'	+
+		'.bottom-layout .bottom-left { float: left; border: #000 7pt solid; margin: 0 0 4pt 15pt; padding: 0; }'	+
+		'.bottom-layout .bottom-right { float: right; border: #000 7pt solid; margin: 0 15pt 4pt 0; padding: 0; }'	+
 
 		'ul.instructions { float: left; width: 450pt; list-style-type: circle; margin: 5pt 0 0 24pt; }'	+
 		'ul.instructions li { margin: 0; padding: 2pt 0; font-size: 8pt; }'	+
@@ -555,45 +555,6 @@ function shn_print_get_fieldset_content() {
 
 
 /**
- * This function appends the extracted description under each fieldset category 
- *
- * @param string, string, string
- * @access protected
- * @return void
- */
-function shn_print_display_description(dom_div, dom_span, dom_p) {
-
-	var _dom_span = document.createElement('span');
-	
-	// checks whether the dom_span variable is not empty and appends that value
-	if ((dom_span != '' || dom_span != null) ) {
-		//remove if any of the text is available
-		if (dom_span == '[Help]' || dom_span == '*' ) {
-			_dom_span.innerHTML += '';
-		} 
-		else {
-			_dom_span.innerHTML += dom_span;
-		}
-	}
-	// checks whether the dom_div variable is not empty and appends that value
-	if ((dom_div != '' || dom_div != null) ) {
-		_dom_span.innerHTML += dom_div;
-	}
-	// checks whether the dom_p variable is not empty and appends that value
-	if ( (dom_p != '' || dom_p != null)) {
-		for (var dp = 0; dp < dom_p.length; dp++) {
-			_dom_span.innerHTML += dom_p[dp];
-		}
-	}
-	_dom_span.setAttribute('class','description');
-	_dom_span.setAttribute('className','description');
-	document.getElementById('print-wrapper').appendChild(_dom_span);
-
-  return _dom_span;
-}
-
-
-/**
  * This function creates a new legend element and appends the extracted value
  * form the page 
  *
@@ -626,8 +587,10 @@ function shn_print_display_legend(dom_legend) {
  */
  function shn_print_adds_page_layout() {
 	//append the bottom layout to the page at the end
+	shn_print_add_space('print-wrapper');
 	shn_print_layout_bottom('print-wrapper');
  
+	shn_print_add_space('print-wrapper');
 	shn_print_add_space('print-wrapper');
 	shn_print_add_space('print-wrapper');
 	shn_print_add_space('print-wrapper');
@@ -740,10 +703,10 @@ function shn_print_add_space(id) {
 function shn_print_add_ocr_layout() {
 
 	var page_height = shn_print_get_height('print-wrapper');
-		if ( ((980 > page_height) && (page_height > 860))  ) {
+		if ( ((920 > page_height) && (page_height > 810))  ) {
  			shn_print_adds_page_layout();
 		}
-		if ( ((1890 > page_height) && (page_height > 1825))  ) {
+		if ( ((1810 > page_height) && (page_height > 1750))  ) {
  			shn_print_adds_page_layout();
 		}
 	shn_print_add_line_brake('print-wrapper');
