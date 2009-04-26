@@ -163,13 +163,13 @@ document.writeln(
 		'#print-wrapper h2 { text-align: center; font-family: Georgia, Times, serif; }'	+
 
 		'.top-layout { display: block; width: 510pt; margin: 14pt 0 5pt 0; }'	+
-		'.top-layout .top-left { float: left; border: #000 7pt solid; margin: 4pt 0 0 15pt; padding: 0; }'	+
-		'.top-layout .top-middle { float: left; border: #000 7pt solid; margin: 4pt 0 0 235pt; padding: 0; }'	+
-		'.top-layout .top-right { float: right; border: #000 7pt solid; margin: 4pt 15pt 0 0; padding: 0; }'	+
+		'.top-layout .top-left { float: left; border: #000 8pt solid; margin: 4pt 0 0 15pt; padding: 0; }'	+
+		'.top-layout .top-middle { float: left; border: #000 8pt solid; margin: 4pt 0 0 235pt; padding: 0; }'	+
+		'.top-layout .top-right { float: right; border: #000 8pt solid; margin: 4pt 15pt 0 0; padding: 0; }'	+
 
 		'.bottom-layout { display: block; width: 510pt; margin: 5pt 0 12pt 0; }'	+
-		'.bottom-layout .bottom-left { float: left; border: #000 7pt solid; margin: 0 0 4pt 15pt; padding: 0; }'	+
-		'.bottom-layout .bottom-right { float: right; border: #000 7pt solid; margin: 0 15pt 4pt 0; padding: 0; }'	+
+		'.bottom-layout .bottom-left { float: left; border: #000 8pt solid; margin: 0 0 4pt 15pt; padding: 0; }'	+
+		'.bottom-layout .bottom-right { float: right; border: #000 8pt solid; margin: 0 15pt 4pt 0; padding: 0; }'	+
 
 		'ul.instructions { float: left; width: 450pt; list-style-type: circle; margin: 5pt 0 0 24pt; }'	+
 		'ul.instructions li { margin: 0; padding: 2pt 0; font-size: 8pt; }'	+
@@ -587,6 +587,7 @@ function shn_print_display_legend(dom_legend) {
  */
  function shn_print_adds_page_layout() {
 	//append the bottom layout to the page at the end
+	shn_print_add_space('print-wrapper');	
 	shn_print_add_space('print-wrapper');
 	shn_print_layout_bottom('print-wrapper');
  
