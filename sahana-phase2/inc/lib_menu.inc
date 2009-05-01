@@ -24,13 +24,20 @@
  * @access public
  * @return void
  */
-function shn_mainmenuitem($action, $desc, $module = null ) 
-{ 
-    global $global;
-    if ( null == $module ) $module = $global['module'];
-?>
-    <li><a href="index.php?mod=<?php echo $module;?>&amp;act=<?php echo $action;?>"><?php echo $desc;?></a></li>
-<?php
+function shn_mainmenuitem($action, $desc, $module = null ) {
+	global $global;
+	if (null==$module) {
+		$module = $global['module'];
+	}
+
+	// if this menu item is the current module displayed, add a css class to allow proper styling
+	if ($_REQUEST['mod'] == $module) {
+		?><li class="currentMainMenuItem"><a href="index.php?mod=<?php echo $module;?>&amp;act=<?php echo $action;?>"><?php echo $desc;?></a></li><?php
+
+	// else display menu item normally
+	} else {
+		?><li><a href="index.php?mod=<?php echo $module;?>&amp;act=<?php echo $action;?>"><?php echo $desc;?></a></li><?php
+	}
 }
 
 
