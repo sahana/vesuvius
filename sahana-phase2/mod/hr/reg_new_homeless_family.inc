@@ -36,7 +36,7 @@ function shn_hr_family_head_details($set_edit_seq=false)
     }
     shn_form_fsopen(_t('Head Of Family Information'));
 
-    print '<div class="info">';
+    print '<div class="information message">';
     print _t("Please use this form to enter information about the head of the homeless family.");
     print '<br />';
     print '</div>';
@@ -58,7 +58,7 @@ function shn_hr_family_head_details($set_edit_seq=false)
     $extra_opts['req']=false;
     $extra_opts['help']=_t("Please specify the Date Of Birth using the given format and/or ". 				"Calander");
     $extra_opts[$initdate]=null;
-    shn_form_date(_t('Date Of Birth   (YYYY-MM-DD)'),'family_head_dob',$extra_opts);
+    shn_form_date(_t('Date of Birth'),'family_head_dob',$extra_opts);
 
     $extra_opts['value']=$_SESSION['hr']['reg_new_homeless_family']['family_head_details']['family_head_address'];
     $extra_opts['req']=false;
