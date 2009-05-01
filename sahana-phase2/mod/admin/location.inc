@@ -31,7 +31,7 @@ function _shn_admin_location_view_form()
 shn_form_fopen("view_loc_cr");
 _shn_or_update_loc();
 ?>
-<div id="info"><?php
+<div class="information message"><?php
 // removed multiline due to a get text issue.
 echo _t("Select location and then select the level(province,district,ect),").
 _t(" the selected location field at the end of the form will be updated")?>
@@ -121,7 +121,7 @@ function _shn_admin_levels_form()
 	include_once($global['approot'].'/inc/lib_misc.inc');
 	?>
 <h2><?php echo _t("Location Levels")?></h2>
-<div id="info"><?php echo _t("The Location you add will be added after the remaining ones")?>
+<div class="information message"><?=_t("The Location you add will be added after the remaining ones")?>
 </div>
 	<?php
 	if($error==true)
