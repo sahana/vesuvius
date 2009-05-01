@@ -65,7 +65,7 @@ function shn_hr_contractor_information($set_edit_seq=false)
     $extra_opts['req']=false;
     $extra_opts['help']=_t("Please specify the Date Of Birth using the given format and/or ". 				"Calander");
     $extra_opts[$initdate]=null;
-    shn_form_date(_t('Date Of Birth   (YYYY-MM-DD)'),'contractor_dob',$extra_opts);
+    shn_form_date(_t('Date of Birth'),'contractor_dob',$extra_opts);
 
     $extra_opts['value']=$_SESSION['hr']['reg_new_contractor']['contractor_information']['contractor_adrs']; 
     $extra_opts['req']=false;
