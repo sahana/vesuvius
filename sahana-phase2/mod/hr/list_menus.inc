@@ -105,13 +105,13 @@ function shn_hr_list_menu1_and_menu2($search=false,$menu2=false,$no_dta=false)
 		{
 			if(($res1->fields[0]=="")&&($res2->fields[0]=="")&&($res3->fields[0]=="")&&($res4->fields[0]==""))
 			{?>
-				<td><?php echo "--Not Applicable--"?></td><?phpp
+				<td><?php echo "--Not Applicable--"?></td><?php
  			}
  			else
  			{?>
 				<td>
        		 	<?php echo  $res1->fields[0]." ".$res2->fields[0]." ".$res3->fields[0]." ".$res4->fields[0]?>
-				</td><?phpp
+				</td><?php
 			}
 		}
 		if((!$res5==NULL)&&(!$res5->EOF))
@@ -124,7 +124,7 @@ function shn_hr_list_menu1_and_menu2($search=false,$menu2=false,$no_dta=false)
 			</td>
 			<?php if($res->fields[3]=="unknown"||$res->fields[3]=="-1")
 			{?>
-				<td><?php echo "--Location Unknown--"?></td><?phpp
+				<td><?php echo "--Location Unknown--"?></td><?php
 			}
 			else
 			{?>
