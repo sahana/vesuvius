@@ -19,8 +19,8 @@ function _shn_admin_gis_projection_form() {
     include_once $global['approot']."/inc/lib_form.inc";
     
     print '<h2>'._t("Map Projection").'</h2>';
-    print '<p>'._t("A").' <a href="http://en.wikipedia.org/wiki/Map_projection" target=_blank>'._t("Projection").'</a> '._t("is a representation of the earth's 3D surface on a 2D plane. Sahana uses the definitions created by the") . ' <a href="http://www.epsg.org" target=_blank>European Petroleum Survey Group</a>.</p>';
-    print '<p> Sahana ' . _t("is capable of supporting multiple simultaneous projections for feature overlays (GeoRSS & File layers) but only a single Projection for the Base layers at a time") . '.</p>';
+    print '<div class="information message"><p>'._t("A").' <a href="http://en.wikipedia.org/wiki/Map_projection" target=_blank>'._t("Projection").'</a> '._t("is a representation of the earth's 3D surface on a 2D plane. Sahana uses the definitions created by the") . ' <a href="http://www.epsg.org" target=_blank>European Petroleum Survey Group</a>.</p>';
+    print '<p> Sahana ' . _t("is capable of supporting multiple simultaneous projections for feature overlays (GeoRSS & File layers) but only a single Projection for the Base layers at a time") . '.</p></div>';
     shn_form_fopen("gis_projection_commit",null,array('req_message'=>false));
     shn_form_fsopen(_t('Base Projection'));
     print '<p><a href="http://trac.openlayers.org/wiki/SphericalMercator" target=_blank>SphericalMercator</a> (EPSG:900913) ' . _t("is the default Base Projection as this provides full compatibility with non-WMS base layers.").'</p>';
