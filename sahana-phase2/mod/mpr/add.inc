@@ -783,6 +783,10 @@ function shn_mpr_addmp_commit()
         the lib_location
     */
     //Starts
+    //reset $insert_array
+     $insert_array = null;
+     
+     $insert_array['poc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
         $i = $conf['mod_mpr_location_lower_limit'];
         while((! isset($_SESSION['mpr_add']['entry'][$i])) && 
                 $i > $conf['mod_mpr_location_upper_limit'] ) 
