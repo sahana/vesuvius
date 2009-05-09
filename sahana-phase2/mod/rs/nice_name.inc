@@ -88,13 +88,12 @@ while (!feof ($file)) {
 			$no_need_request=true;
 		else
 			$no_need_request=false;
-		//$string=explode(" ",$buffer);
+		
 		if($string[1]=="name"){
 			for($counter=3; $counter < count($string); $counter++) {
-				//echo $string[$counter];
-				//echo " ";
+				
 			}
-			//echo "</br>";
+			
 		}else {
 			if(!_shn_rs_test_cases($string[0])){
 
@@ -123,14 +122,14 @@ while (!feof ($file)) {
 								$for_counter++;
 								$sql="UPDATE dr_fields SET tab_for_key='".$foreign_table[0]."', field_for_key='".$foreign_table_field[0]."' WHERE field_name='".$this_table."' AND table_name='".$table_name."'";
 					            $db->Execute($sql);
-					            //echo $sql;
+					            
 							}
 							else
 								break;
-					//echo "</br>";
+					
 
 					}
-					//echo "</br>";
+					
 					break;
 				case "INSERT" :
 					break;
@@ -164,8 +163,7 @@ while (!feof ($file)) {
 					$nice_name="";
 					if(substr($string[2],-1)=="(")
 						$temp=substr($string[2],0,-1);
-					//else
-						//echo $string[2];
+					
 					else 
 						$temp=$string[2];
 					if(substr($temp,-1)=="`")
@@ -198,9 +196,7 @@ while (!feof ($file)) {
 							$db->Execute($sql);
 						}
 					$nice_name="";
-					//$table_name="";
-					//echo $sql;
-					//echo "</br>";
+					
 					break;
 				default :
 					$field_name="";
@@ -242,7 +238,7 @@ while (!feof ($file)) {
 							$sql="UPDATE dr_fields SET usrfr_field_name='".$nice_field_name."' WHERE table_name='".$table_name."',tab_for_key='none',field_for_key='none' AND field_name='".$field_name."'";
 							$db->Execute($sql);	
 						}
-					//echo "</br>";
+					
 			}	
 			}	
 		
