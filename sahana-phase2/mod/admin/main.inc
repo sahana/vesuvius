@@ -376,6 +376,12 @@ function shn_admin_add_loc_cr()
 	_shn_admin_location_form();
 }
 
+function shn_admin_add_loc_crb()
+{
+	shn_location_addb();
+	_shn_admin_location_form();
+}
+
 function shn_admin_view_loc()
 {
 	_shn_admin_location_view_form();

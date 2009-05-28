@@ -183,7 +183,7 @@ function _shn_save_form_javascript($form,$save_what,$fill)
             
         	var y=document.getElementsByName("<?php echo $fill?>");
         	y[0].value=tmp_str;
-        	document.<?php echo $form?>.submit();[ 1995763 ] Add locations for non existing levels
+        	document.<?php echo $form?>.submit(); //[ 1995763 ] Add locations for non existing levels
         	return;	
     	} 
 	</script>
@@ -455,8 +455,47 @@ function _shn_admin_location_form()
     ?></div>
     <?php
     // end of form
-    
 
+//////////////////////////////////////////////// BATCH ADD FORM
+
+	?><br><h1 align="center"><?php echo _t("Batch Add Locations")?></h1><div id="formcontainer"><?php
+	$form_opts=array('enctype'=>'enctype="multipart/form-data"', 'id'=>'add_loc_crb_submit');
+	shn_form_fopen("add_loc_crb",null,$form_opts);
+	$sql='SELECT COUNT(*) FROM location';
+	$res=$db->Execute($sql);
+	$loc_count=$res->fields[0];
+	if($loc_count>0) {
+		shn_form_fsopen(_t("Batch Import"));
+		?><div class="info">
+		<select tabindex="12" id="loc_select_1b" name="loc_select_1b">
+		<option selected="selected" value="0"/><?php
+
+		$sql2 = "SELECT * FROM location where opt_location_type = '1';";
+		$res2 = $db->Execute($sql2);
+		while($row = $res2->FetchRow() ){
+			echo "<option value=\"".$row['loc_uuid']."\">".$row['name']."</option>\n";
+		}
+		/*
+		<select tabindex="8" onchange="update_next_level(this.options[this.selectedIndex].value,1)" id="loc_select_1" name="loc_select_1">
+			<option selected="selected" value="0"/>
+			<option value="8y2flc-12">Alexandria (city), VA</option>
+			<option value="8y2flc-5">Prince George's County, MD</option>
+		</select>
+		loc_uuid 	parent_id 	opt_location_type 	name 			iso_code 	description
+		8y2flc-2 	NULL 		1 			Montgomery County, MD 	1712500 	n/a
+		*/
+		?></select>&nbsp;&nbsp;&nbsp;<?php echo  _t("Select the parent location. If no parent region is selected, imported locations will become parent regions");?></div><br /><?php
+		shn_form_radio(array("rename"=>"Rename imported duplicate Location","overwrite"=>"Overwrite with imported Location","drop"=>"Drop duplicate, keep original Location"),"Select the method for which collisions will be resolved:","dupe", null, array("value"=>"drop"));
+		?><br><?php
+		shn_form_upload(_t('Locations List (.csv file with one entry per line and each line to contain: <b>Location Name, Description, ISO Code</b>)'),"batchfile");
+
+	}
+	?><input type='hidden' id='loc_sub_ansb' name='loc_sub_ansb'/><br /><br><br><center><?php
+	shn_form_submit(_t("Submit"));
+	?></center><br /><?php
+	shn_form_fclose(false);
+	?></div><?php
+	// end of batch form
 }
 
 

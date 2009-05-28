@@ -811,6 +811,91 @@ function shn_location_add()
 }
 
 /**
+ * Batch adds locations to the database. Retrives the values to insert from the POST variables / uploaded .csv file. 
+ * 
+ * @access public
+ * @return void
+ */
+function shn_location_addb() {
+	global $global;
+	$db = $global['db'];
+	include_once($global['approot']."/inc/lib_uuid.inc");
+
+	$count = 0; // imported record count
+
+	// No file was uploaded ignore
+	if($_FILES['batchfile']['error']==UPLOAD_ERR_NO_FILE) {
+		add_error("No file was uploaded!");
+	} else {
+		$row = 1;
+		$handle = fopen($_FILES['batchfile']['tmp_name'],"r");
+		$parent = $_POST['loc_select_1b'];
+		$dupe = $_POST['dupe'];
+
+		$lines = 0;
+		while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+			$num = count($data);
+			if ( $num == 3 ) {
+				$name = $data[0];
+				$description = $data[1];
+				$iso = $data[2];
+				if ( $name == "" || $iso == "" ) {
+					add_error("Line #".$lines." has an empty name or iso code, thus was not imported."); 
+				} else {
+					// determine if there are any duplicates of the current item we are inserting
+					// "rename" 	=> Rename imported duplicate Location
+					// "overwrite" 	=> Overwrite with imported Location
+					// "drop" 	=> Drop duplicate, keep original Location
+					$doInsert = true;
+					$q = "select * from location where name='".$name."';";
+					$res = $global['db']->Execute($q);
+
+					// if duplicate found
+					if ($row = $res->FetchRow()){
+						// rename = rename new value then insert it
+						if ($dupe == "rename") {
+							$nameOld = $name;
+							$name .= "[".rand(0,99)."]";
+							add_warning("Duplicate value: <b>".$nameOld."</b> renamed to <b>".$name."</b> before being imported.");
+
+						// overwrite = delete old then insert new
+						} elseif ($dupe == "overwrite") {
+							$q2 = "DELETE FROM location WHERE loc_uuid = '".$row['loc_uuid']."';";
+							$res2 = $global['db']->Execute($q2);
+							add_warning("Duplicate value: <b>".$name."</b> deleted and replaced with new location by the same name.");
+							
+						// drop = do nothing, forget the insert
+						} elseif ($dupe == "drop") {
+							// nothing, value is dropped!
+							add_warning("Duplicate value: <b>".$name."</b> not added.");
+							$doInsert = false;
+						}
+					}
+					if ($doInsert) {
+						$uuid = shn_create_uuid('location');
+						$q = "INSERT INTO location (name, description, iso_code, opt_location_type, loc_uuid, parent_id) VALUES ( '".$name."', '".$description."', '".$iso."', ";
+						if ($parent != '0') {
+							$q .= "'2', '".$uuid."', '".$parent."');";
+						} else {
+							$q .= "'1', '".$uuid."', NULL);";
+						}
+						$res = $global['db']->Execute($q);
+						$count++;
+					}
+				}
+			} else {
+				add_error("Line #".$lines." had the incorrect number of fields, thus was not imported."); 
+			}
+			$lines++;
+		}
+		fclose($handle);
+	}
+	if ($count > 0) {
+		add_confirmation("<b>".$count."</b> values imported.");
+	}
+}
+
+/**
  * Deletes a location from the database.
  * 
  * @access public
