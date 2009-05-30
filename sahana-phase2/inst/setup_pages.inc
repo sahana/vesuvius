@@ -271,11 +271,15 @@ function shn_setup_simple_dbsetup($step_no=null)
     );
     shn_form_text(_t('Database Name'),'db_name','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_name"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_name"],'req'=>true):array('value'=>'sahana','req'=>true)
     );
-    shn_form_text(_t('Database User'),'root_db_user','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."root_db_user"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_db_user"],'req'=>true):array('value'=>'','req'=>true)
+    $db_user_help = _t('This is the root/super user name who has access rights to create new databases and users on your database server.');
+    shn_form_text(_t('Database User'),'root_db_user','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."root_db_user"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_db_user"],'req'=>true,'help'=>$db_user_help):array('value'=>'','req'=>true,'help'=>$db_user_help)
     );
-    shn_form_password(_t('Database Password'),'root_db_pass','size="30"', (isset($_SESSION[SETUP_DATA_PREFIX."root_db_pass"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_db_pass"],'req'=>true):array('value'=>'','req'=>true));
-    shn_form_text(_t('System Database User'),'db_user','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_user"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_user"],'req'=>true):array('value'=>'sahana_sys','req'=>true));
-    shn_form_password(_t('System Database Password'),'db_pass','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_pass"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_pass"],'req'=>true):array('value'=>'password','req'=>true));
+    $db_pass_help = _t('This is the password for the root/super user. Note: this password will only be used to create a database and a new user having access rights to the same.');
+    shn_form_password(_t('Database Password'),'root_db_pass','size="30"', (isset($_SESSION[SETUP_DATA_PREFIX."root_db_pass"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."root_db_pass"],'req'=>true,'help'=>$db_pass_help):array('value'=>'','req'=>true,'help'=>$db_pass_help));
+    $sys_user_help = _t('This is the username of the user which will be created for this sahana instance on your database server. All system database access will happen through this user\'s credentials');
+    shn_form_text(_t('System Database User'),'db_user','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_user"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_user"],'req'=>true,'help'=>$sys_user_help):array('value'=>'sahana_sys','req'=>true,'help'=>$sys_user_help));
+    $sys_pass_help = _t('This is the password for the above system database user. You do not need to remember this password as it will be used only by the system to access the database. The default value of this field is "password"');
+    shn_form_password(_t('System Database Password'),'db_pass','size="30"',(isset($_SESSION[SETUP_DATA_PREFIX."db_pass"]))?array('value'=>$_SESSION[SETUP_DATA_PREFIX."db_pass"],'req'=>true,'help'=>$sys_pass_help):array('value'=>'password','req'=>true,'help'=>$sys_pass_help));
 
     //show only in simple setup
     if(_shn_setup_get_setup_type() == SIMPLE_SETUP){
