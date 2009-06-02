@@ -295,7 +295,7 @@ function shn_print_create_basic_elements_layout() {
 			alert("This functionality does not available for the content on this page.");
 			location.reload();
 		}
-		//on succes necessary operations are being carried out
+		//on success necessary operations are being carried out
 		else {  
 			//creates a wrapper to hold the generate content
 			var dom_wrapper = document.createElement('div');
