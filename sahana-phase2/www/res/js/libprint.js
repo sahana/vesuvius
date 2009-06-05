@@ -163,13 +163,13 @@ document.writeln(
 		'#print-wrapper h2 { text-align: center; font-family: Georgia, Times, serif; }'	+
 
 		'.top-layout { display: block; width: 510pt; margin: 14pt 0 5pt 0; }'	+
-		'.top-layout .top-left { float: left; border: #000 8pt solid; margin: 4pt 0 0 15pt; padding: 0; }'	+
-		'.top-layout .top-middle { float: left; border: #000 8pt solid; margin: 4pt 0 0 235pt; padding: 0; }'	+
-		'.top-layout .top-right { float: right; border: #000 8pt solid; margin: 4pt 15pt 0 0; padding: 0; }'	+
+		'.top-layout .top-left { float: left; border: #000 10pt solid; margin: 4pt 0 0 15pt; padding: 0; }'	+
+		'.top-layout .top-middle { float: left; border: #000 10pt solid; margin: 4pt 0 0 235pt; padding: 0; }'	+
+		'.top-layout .top-right { float: right; border: #000 10pt solid; margin: 4pt 15pt 0 0; padding: 0; }'	+
 
 		'.bottom-layout { display: block; width: 510pt; margin: 5pt 0 12pt 0; }'	+
-		'.bottom-layout .bottom-left { float: left; border: #000 8pt solid; margin: 0 0 4pt 15pt; padding: 0; }'	+
-		'.bottom-layout .bottom-right { float: right; border: #000 8pt solid; margin: 0 15pt 4pt 0; padding: 0; }'	+
+		'.bottom-layout .bottom-left { float: left; border: #000 10pt solid; margin: 0 0 4pt 15pt; padding: 0; }'	+
+		'.bottom-layout .bottom-right { float: right; border: #000 10pt solid; margin: 0 15pt 4pt 0; padding: 0; }'	+
 
 		'ul.instructions { float: left; width: 450pt; list-style-type: circle; margin: 5pt 0 0 24pt; }'	+
 		'ul.instructions li { margin: 0; padding: 2pt 0; font-size: 8pt; }'	+
@@ -704,10 +704,10 @@ function shn_print_add_space(id) {
 function shn_print_add_ocr_layout() {
 
 	var page_height = shn_print_get_height('print-wrapper');
-		if ( ((920 > page_height) && (page_height > 810))  ) {
+		if ( ((920 > page_height) && (page_height > 830))  ) {
  			shn_print_adds_page_layout();
 		}
-		if ( ((1810 > page_height) && (page_height > 1750))  ) {
+		if ( ((1810 > page_height) && (page_height > 1770))  ) {
  			shn_print_adds_page_layout();
 		}
 	shn_print_add_line_brake('print-wrapper');
