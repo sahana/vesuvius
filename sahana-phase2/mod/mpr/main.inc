@@ -659,5 +659,3 @@ function shn_mpr_end_flow(){
     unset($_SESSION['mpr']['entry']);
 	shn_mpr_default();
 }
-
-?>
