@@ -746,10 +746,10 @@ function shn_admin_module_mgr(){
 	$mod_query = "SELECT module,status FROM modules";
 	$res = $db->Execute($mod_query);
 	$result_array = $res->GetAssoc();
-	
+
 	include_once $global['approot'].'inst/setup_utils.inc';
 	$essencial_modules = _shn_setup_get_essencial_modules();
-	
+
 	if($dh = opendir($mod_dir)) {
 
 		while (($file = readdir($dh)) !== false) {
@@ -762,7 +762,7 @@ function shn_admin_module_mgr(){
 					echo "<td>".((trim($result_array[$file])=='installed')?((array_search($file,$essencial_modules)==false)?_t('Uninstall Now'):''):_t('Install Now'))."</td>";
 				}
 			}
-				
+
 			//echo "filename: $file : filetype: " . filetype($dir . $file) . "\n";
 			echo "</tr>";
 		}
