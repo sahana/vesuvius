@@ -78,10 +78,10 @@ if (!file_exists($APPROOT.'conf/sysconf.inc.php')){
 	// files and database, base and mods
 	shn_config_load_in_order();
 	/*
-	 * Moved the logsql configuration setting here, from handler_db because 
+	 * Moved the logsql configuration setting here, from handler_db because
 	 * database configuration is not loaded when handler_db is included, hence database configuration
 	 * settings in the config table is ignored
-	 */	
+	 */
 	if($conf['enable_monitor_sql']==true){
 		$global['db']->LogSQL();
 		//echo "TEST";
