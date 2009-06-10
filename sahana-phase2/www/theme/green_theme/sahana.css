@@ -1,12 +1,12 @@
-/* 
-Sahana Stylesheet 
+/*
+Sahana Stylesheet
 -----------------------------------------------------------------------------------
 Prabhath Sirisena - prabhath@vesess.com - http://nidahas.com
 
 Selectors are listed in their order of appearance in the html, where applicable.
 ---------------------------------------------------------------------------------- */
 
-/* Neutralize styling: 
+/* Neutralize styling:
    Elements we want to clean out entirely: */
 html, body, form, fieldset {
         margin: 0;
@@ -14,7 +14,7 @@ html, body, form, fieldset {
         font: 90%/125% Arial, Helvetica, sans-serif;
 }
 
-/* Neutralize styling: 
+/* Neutralize styling:
    Elements with a vertical margin: */
 h1, h2, h3, h4, h5, h6, p, pre,
 blockquote, ul, ol, dl, address {
@@ -30,10 +30,10 @@ li, dd, blockquote {
 
 /* Clear floats without structural markup */
 .clearfix:after {
-    content: "."; 
-    display: block; 
-    height: 0; 
-    clear: both; 
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
     visibility: hidden;
 }
 
@@ -139,10 +139,10 @@ p#skip {
 	width: 180px;
 }
 
-#menuwrap { 
-	width: 200px; 
-	float: left; 
-	clear: left; 
+#menuwrap {
+	width: 200px;
+	float: left;
+	clear: left;
 }
 
 #menuwrap ul
@@ -217,10 +217,10 @@ p#skip {
 	background-color: #0059B3;
 }
 
-#modmenuwrap { 
-	width: 200px; 
-	float: left; 
-	clear: left; 
+#modmenuwrap {
+	width: 200px;
+	float: left;
+	clear: left;
 }
 
 #modmenuwrap ul
@@ -329,7 +329,7 @@ p#skip {
 	color: #036;
 }
 
-#loginform a:hover {	
+#loginform a:hover {
 	color: #F00;
 }
 
@@ -342,3 +342,14 @@ p#skip {
 	border-top: #036 5px solid;
 }
 
+/* additional xajax styles for use in modSnapshot and other modules --------------------------------------------------------------------------------------- */
+
+.mainTable	{width: 100%; font-size: 12px;}
+.mainTable td	{border: none; padding: 3px; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;}
+.mainRowEven	{background-color: #ffffff;}
+.mainRowOdd	{background-color: #e5ffe5;}
+.mainArea	{padding: 10px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;background-color: #f3f6ff;margin-top: 20px;border: 1px solid #e3e6ef;}
+.logArea	{padding: 10px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;background-color: #f3f6ff;margin-top: 20px;border: 1px solid #e3e6ef;overflow-x: hidden;overflow-y: scroll;height: 40px;}
+.controlArea	{padding: 10px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;background-color: #f3f6ff;margin-top: 20px;border: 1px solid #e3e6ef;text-align: center;}
+.controlButton	{background-color: #ccc; border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #000; border-bottom: 2px solid #000; margin-right: 30px;}
+.loadingMessage	{border: 1px solid green; background-color: #E5FFE5; padding: 15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; color: green; font-weight: bold; font-size: 20px;}

@@ -1,5 +1,5 @@
-/* 
-Sahana - Default Theme - Stylesheet 
+/*
+Sahana - Default Theme - Stylesheet
 -----------------------------------------------------------------------------------
 Prabhath Sirisena - prabhath@vesess.com - http://nidahas.com
 
@@ -12,14 +12,14 @@ thead td{
 	text-align:center;
 	padding:.25em .25em .25em .25em;
 	border-right:2px solid #DEE3E7;
-	background: #0E72A4; 
-	background: green; 
+	background: #0E72A4;
+	background: green;
 	color:#fff;
-	border: #26a solid 1px; 
+	border: #26a solid 1px;
 	font-size:100%;
 }
 
-/* Neutralize styling: 
+/* Neutralize styling:
    Elements we want to clean out entirely: */
 html, body, form, fieldset {
         margin: 0;
@@ -27,7 +27,7 @@ html, body, form, fieldset {
         font: 100%/125% Arial, Helvetica, sans-serif;
 }
 
-/* Neutralize styling: 
+/* Neutralize styling:
    Elements with a vertical margin: */
 h1, h2, h3, h4, h5, h6, p, pre,
 blockquote, ul, ol, dl, address {
@@ -64,8 +64,8 @@ a:hover {
 	background-color: #FFC;
 }
 
-/* SECTION:LAYOUT 
-   Over structure of the page 
+/* SECTION:LAYOUT
+   Over structure of the page
 */
 
 #container {
@@ -83,21 +83,21 @@ a:hover {
 	
 }
 
-#language form{	
+#language form{
 	position: absolute;
 	top: 60px;
 	right:0%;
-	height: 30px;	
+	height: 30px;
 	border:none;
  	background-color:#369;
 	padding:0em;
 }
 
-#language select{			
+#language select{
 	color:#fff;
 	border: 1px solid #369;
 	border-style:none;
-	background:#369;	
+	background:#369;
 }
 
 #language label{
@@ -128,7 +128,7 @@ a:hover {
 	clear: both;
 	color: #FFF;
 	background-color: #369;
-	border-top: #036 5px solid;	
+	border-top: #036 5px solid;
 }
 
 /* SECTION:HEADER-FOOTER*/
@@ -141,7 +141,7 @@ a:hover {
 	width: 400px;
 	text-indent: -9999px;
 	background: url(img/sahana_logo.jpg) #369 no-repeat left top;
-	/* This stuff is useless since we're using image replacement 
+	/* This stuff is useless since we're using image replacement
 	------------------------------------------------------------
 	margin-top: 0;
 	padding-top: 1em;
@@ -166,7 +166,7 @@ a:hover {
 	float: left;
 }
 
-/* SECTION:NAVIGATION 
+/* SECTION:NAVIGATION
    Contains all the menu stylizing
 */
 
@@ -195,10 +195,10 @@ a:hover {
 	width: 180px;
 }
 
-#menuwrap { 
-	width: 200px; 
-	float: left; 
-	clear: left; 
+#menuwrap {
+	width: 200px;
+	float: left;
+	clear: left;
 }
 
 #menuwrap ul
@@ -273,10 +273,10 @@ a:hover {
 	background-color: #0059B3;
 }
 
-#modmenuwrap { 
-	width: 200px; 
-	float: left; 
-	clear: left; 
+#modmenuwrap {
+	width: 200px;
+	float: left;
+	clear: left;
 }
 
 #modmenuwrap ul
@@ -387,7 +387,7 @@ a:hover {
 	color: #036;
 }
 
-#loginform a:hover {	
+#loginform a:hover {
 	color: #F00;
 }
 
@@ -415,36 +415,36 @@ form ul.list {
 }
 
 #formcontainer{
-	background-color: #fff; 
+	background-color: #fff;
 }
 
-#formset	{ 
-	background-color: #DEE3E7; 
-	padding: 5px 5px 5px 5px; 
+#formset	{
+	background-color: #DEE3E7;
+	padding: 5px 5px 5px 5px;
 	border: 1px #98AAB1 solid;
 }
 
-#formset fieldset{ 
-	padding: 15px 15px 15px 15px; 
-	border: 1px #006699 solid; 
+#formset fieldset{
+	padding: 15px 15px 15px 15px;
+	border: 1px #006699 solid;
 	background:#EFEFEF;
 	font-size:100%;
 }
 
-#formset legend{ 
-	background: #0E72A4; 
+#formset legend{
+	background: #0E72A4;
 	color:#fff;
-	border: #26a solid 1px; 
+	border: #26a solid 1px;
 	padding: 2px 10px;
 	font-size:120%;
 }
 
-#formset label { 
-	width: 250px; 
+#formset label {
+	width: 250px;
 	/*height:0px;*/
-	float: left; 
-	text-align: left; 
-	margin: 0px 10px 10px 10px; 
+	float: left;
+	text-align: left;
+	margin: 0px 10px 10px 10px;
 	clear: both;
 }
 
@@ -455,21 +455,21 @@ form ul.list {
 	float: none;
 }
 
-#formset label#txtarea, value#txtarea{ 
+#formset label#txtarea, value#txtarea{
 	height: 50px;
 }
 
-#formset value{ 
-	width: 200px; 
-	float: left; 
-	background: #feb; 
+#formset value{
+	width: 200px;
+	float: left;
+	background: #feb;
 	/*background: #fff; */
-	border: #26a solid 1px; 
+	border: #26a solid 1px;
 	padding: 1px 5px 1px;
 }
 
-#formset input,#formset select{ 
-	margin: 0px 10px 10px 10px; 
+#formset input,#formset select{
+	margin: 0px 10px 10px 10px;
 	font-size:10px;
 }
 
@@ -483,42 +483,42 @@ form ul.list {
 	margin: 0 10px;
 }
 
-#formset a:hover { 
+#formset a:hover {
 	color: #F00;
 }
 
-#formset table{ 
-	border: #aaa solid 1px; 
+#formset table{
+	border: #aaa solid 1px;
 	font-size: 10px;
 }
 
-#formset tr#head{ 
-	text-align: center; 
+#formset tr#head{
+	text-align: center;
 	background: #aaf
 }
 
-#formset value#small{ 
-	width: 80px; 
-	border: #aaa solid 1px; 
+#formset value#small{
+	width: 80px;
+	border: #aaa solid 1px;
 	padding: 1px 1px 1px 1px;
 }
 
-#formset value#med{ 
-	width: 100px; 
-	border: #aaa solid 1px; 
+#formset value#med{
+	width: 100px;
+	border: #aaa solid 1px;
 	padding: 1px 1px 1px 1px;
 }
 
-#formset value#big{ 
-	width: 165px; 
-	border: #aaa solid 1px; 
+#formset value#big{
+	width: 165px;
+	border: #aaa solid 1px;
 	padding: 1px 1px 1px 1px;
 }
 
-#formset a#table{ 
-	border: #ccc dotted 1px; 
-	font-size: 70%; 
-	color: #d33; 
+#formset a#table{
+	border: #ccc dotted 1px;
+	font-size: 70%;
+	color: #d33;
 	padding: 1px 1px 1px 1px;
 }
 
@@ -548,17 +548,17 @@ form ul.list {
     font-weight: bold;
 }
 
-/* SECTION:HOME 
+/* SECTION:HOME
    Module Home page specific styling */
 
 #home ul{
 	/*margin-left: 200px;*/
 	padding-bottom:112px;
-	padding: 5px 5px 5px 5px; 
+	padding: 5px 5px 5px 5px;
 }
 
 #home{
-	background-color: #DEE3E7; 
+	background-color: #DEE3E7;
 	border: 1px #98AAB1 solid;
 }
 	
@@ -587,11 +587,11 @@ form ul.list {
 #home_recent h1{
 	font-size:120%;
 	margin: 0 0 0 0;
-	padding: 25px 5px 5px 5px; 
+	padding: 25px 5px 5px 5px;
 }
 
-/* SECTION:RESULT 
-   To list the results of a query 
+/* SECTION:RESULT
+   To list the results of a query
 */
 
 #parent{
@@ -608,14 +608,14 @@ form ul.list {
 
 
 #result{
-background-color: #DEE3E7; 
+background-color: #DEE3E7;
 border: 1px #98AAB1 solid;
 }
 
 #result_msg{
-	background-color: #DEE3E7; 
+	background-color: #DEE3E7;
 	text-align:center;
-	padding: 5px 5px 15px 5px; 
+	padding: 5px 5px 15px 5px;
 	border: 3px #98AAB1 solid;
 }
 
@@ -652,9 +652,9 @@ border: 1px #98AAB1 solid;
 	text-align:center;
 	padding:.25em .25em .25em .25em;
 	border-right:2px solid #DEE3E7;
-	background: #0E72A4; 
+	background: #0E72A4;
 	color:#fff;
-	border: #26a solid 1px; 
+	border: #26a solid 1px;
 	font-size:100%;
 }
 
@@ -669,10 +669,10 @@ border: 1px #98AAB1 solid;
 
 /* Clear floats without structural markup */
 .clearfix:after {
-    content: "."; 
-    display: block; 
-    height: 0; 
-    clear: both; 
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
     visibility: hidden;
 }
 
@@ -690,9 +690,9 @@ border: 1px #98AAB1 solid;
 
 /* SECTION: MISC */
 #note{
-	background-color: #DEE3E7; 
+	background-color: #DEE3E7;
 	text-align:center;
-	padding: 5px 5px 15px 5px; 
+	padding: 5px 5px 15px 5px;
 	border: 3px #98AAB1 solid;
 }
 
@@ -702,9 +702,9 @@ display: none;
 }
 
 #note{
-	background-color: #DEE3E7; 
+	background-color: #DEE3E7;
 	text-align:center;
-	padding: 5px 5px 15px 5px; 
+	padding: 5px 5px 15px 5px;
 	border: 3px #98AAB1 solid;
 }
 
@@ -713,7 +713,7 @@ display: none;
 #display{
 	position:relative;
 	margin-top:150px;
-	padding: 5px 5px 5px 5px; 
+	padding: 5px 5px 5px 5px;
 }
 
 #save{
@@ -738,4 +738,14 @@ display: none;
 	font-size:120%;
 }
 
+/* additional xajax styles for use in modSnapshot and other modules --------------------------------------------------------------------------------------- */
 
+.mainTable	{width: 100%; font-size: 12px;}
+.mainTable td	{border: none; padding: 3px; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;}
+.mainRowEven	{background-color: #ffffff;}
+.mainRowOdd	{background-color: #e5ffe5;}
+.mainArea	{padding: 10px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;background-color: #f3f6ff;margin-top: 20px;border: 1px solid #e3e6ef;}
+.logArea	{padding: 10px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;background-color: #f3f6ff;margin-top: 20px;border: 1px solid #e3e6ef;overflow-x: hidden;overflow-y: scroll;height: 40px;}
+.controlArea	{padding: 10px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;background-color: #f3f6ff;margin-top: 20px;border: 1px solid #e3e6ef;text-align: center;}
+.controlButton	{background-color: #ccc; border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #000; border-bottom: 2px solid #000; margin-right: 30px;}
+.loadingMessage	{border: 1px solid green; background-color: #E5FFE5; padding: 15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; color: green; font-weight: bold; font-size: 20px;}
