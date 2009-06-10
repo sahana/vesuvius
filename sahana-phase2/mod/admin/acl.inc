@@ -552,4 +552,3 @@ function _shn_admin_acl_enable_locking_on_lock_user(){
 		"<br/><a href='index.php?mod=admin&act=acl_enable_locking'>"._t("Click here if you need to disable locking")."</a>");
 	}
 }
-?>

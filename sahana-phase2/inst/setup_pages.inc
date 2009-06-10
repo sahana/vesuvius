@@ -894,5 +894,3 @@ shn_include_page_section('footer',$module);
  * Generate an error message page.
  *
  */
-
-?>

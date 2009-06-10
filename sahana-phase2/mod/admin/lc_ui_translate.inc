@@ -94,7 +94,3 @@ function _shn_admin_lc_ui_trns_update()
 	//echo $return_value;
 	echo "<h2>"._t("Sahana translation succesfully updated")."</h2>";
 }
-
-
-
-?>
