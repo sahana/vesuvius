@@ -23,8 +23,8 @@
     include_once $global['approot']. 'inc/lib_security/lib_auth.inc';
     include_once $global['approot']."/inc/lib_errors.inc";
     include_once $global['approot']."/inc/lib_validate.inc";
-    
-   
+
+
 /**
  * Generates a form to delete a user
  * @return void
@@ -32,7 +32,7 @@
  */
 function shn_auth_form_user_del($title="Delete Usert",$mod="admin",$act="del_user_cr",$error=false)
 {
-   
+
 ?>
 <?php
     if($error)
@@ -84,7 +84,7 @@ function shn_auth_form_signup($title="Create Your Account",$mod="pref",$act="sig
 <div id="formcontainer">
 <?php
     shn_form_fopen($act,$mod);
-    
+
 	shn_form_fsopen(_t("Account Details"));
 	$extra_opts['req']=true;
 	//$extra_opts['value']=$_SESSION['user'];
@@ -99,15 +99,15 @@ function shn_auth_form_signup($title="Create Your Account",$mod="pref",$act="sig
 	shn_form_password("Confirm Password", "re_password", null, $extra_opts);
 	shn_form_fsclose();
 
-    
+
     $extra_opts['req']=true;
 	shn_form_fsopen(_t("OpenId Login Details"));
 	?><div class="info"><?php echo  _t("You can use an OpenID instead of a username/password for login if you like.");?> </div><br /><?php
 	shn_form_text(_t("OpenID "),'openid','size="30"',null);
 	shn_form_fsclose();
-	
+
 	shn_form_fsopen(_t("Just a couple of more Details to verify that you are not a bot"));
-	
+
 ?>
 </br>
 <img src="index.php?stream=image&mod=pref&act=captcha" />
@@ -149,7 +149,7 @@ function shn_auth_form_user_add($title="Create Your Account",$mod="admin",$act="
 <div id="formcontainer">
 <?php
     shn_form_fopen($act,$mod);
-    
+
 	shn_form_fsopen(_t("Account Details"));
 	$extra_opts['req']=true;
 	//$extra_opts['value']=$_SESSION['user'];
@@ -162,13 +162,13 @@ function shn_auth_form_user_add($title="Create Your Account",$mod="admin",$act="
     shn_form_fsopen(_t("Select Role"));
 	shn_form_select($roles,"Roles",'roles',null,$extra_opts);
     shn_form_fsclose();
-    
+
     $extra_opts['req']=true;
 	shn_form_fsopen(_t("OpenId Login Details"));
 	?><div class="info"><?php echo  _t("Option to use an OpenID instead of a username/password if you'd like.");?> </div><br /><?php
 	shn_form_text(_t("OpenID "),'openid','size="30"',null);
 	shn_form_fsclose();
-	
+
 ?>
 </br>
 
@@ -195,7 +195,7 @@ function shn_auth_form_user_add($title="Create Your Account",$mod="admin",$act="
  * @return void
  * @access public
  */
- 
+
 function shn_auth_form_ch_pwd($error=false)
 {
 
@@ -205,8 +205,8 @@ function shn_auth_form_ch_pwd($error=false)
 <?php
     if($error)
     display_errors();
-?>             
-<h3><?php echo _t("Change Passwords") ?></h3>  
+?>
+<h3><?php echo _t("Change Passwords") ?></h3>
 <div id="formcontainer">
 <?php
 	$act="ch_passwd_cr";
@@ -217,10 +217,10 @@ function shn_auth_form_ch_pwd($error=false)
 		<h4><?php echo _t("Password must adhere to following rules:") ?></h4>
     <?php
 		for($i=0;$i<count($policy);$i++){
-			echo ($i+1).". ".$policy[$i]."<br/>";	
+			echo ($i+1).". ".$policy[$i]."<br/>";
 		}
 	}
-    ?>	
+    ?>
 	<br />
 	<?php
     shn_form_fopen($act,$mod);
@@ -245,38 +245,38 @@ function shn_auth_form_ch_pwd($error=false)
 <?php
         //close the form
    shn_form_fclose();
-?>				     
+?>
 </div>
-<?php      
+<?php
 
   // end of form
 
-    
-} 
+
+}
 
 function _shn_admin_ch_pwd_cr(){
     global $global;
     $db=$global["db"];
     $VARCHAR=100;
-    
+
     //for the moment return true
   //  list($error,$password)=(shn_validate_password($_POST{"password"}))?array($error,$_POST{"password"}):array(true,NULL);
 	if ((null==$_POST["old_password"])or(is_null($_POST["old_password"]))){
         $error=true;
         add_error(_t("Old password cannot be empty"));
-    }else {    
+    }else {
           $old_password=trim($_POST{"old_password"});
     }
 	if ((null==$_POST["password"])or(is_null($_POST["password"]))){
         $error=true;
         add_error(_t("New password cannot be empty"));
-    }else {    
+    }else {
         $password=trim($_POST{"password"});
     }
 	if ((null==$_POST["re_password"])or(is_null($_POST["re_password"]))){
         $error=true;
         add_error(_t("Confirm password cannot be empty"));
-    }else {    
+    }else {
         $re_password=trim($_POST{"re_password"});
     }
     if (!($password==$re_password)){
@@ -286,7 +286,7 @@ function _shn_admin_ch_pwd_cr(){
 	if($error==true){
     		return $error;
     }
-  
+
     $user_id=trim($_POST{"user"});
     $error=shn_change_password($user_id,$old_password,$password);
    	if($error==true){
@@ -300,7 +300,7 @@ function _shn_admin_ch_pwd_cr(){
  * @return void
  * @access public
  */
- 
+
 function shn_auth_form_reset_pwd($error=false)
 {
 
@@ -308,8 +308,8 @@ function shn_auth_form_reset_pwd($error=false)
 
     if($error)
     display_errors();
-?>  
-<h3><?php echo _t("Reset Passwords") ?></h3>         
+?>
+<h3><?php echo _t("Reset Passwords") ?></h3>
 <div id="formcontainer">
 <?php
 	$act="reset_pwd_cr";
@@ -320,10 +320,10 @@ function shn_auth_form_reset_pwd($error=false)
 		<h4><?php echo _t("Password must adhere to following rules:") ?></h4>
     <?php
 		for($i=0;$i<count($policy);$i++){
-			echo ($i+1).". ".$policy[$i]."<br/>";	
+			echo ($i+1).". ".$policy[$i]."<br/>";
 		}
 	}
-    ?>	
+    ?>
 	<br />
 	<?php
     shn_form_fopen($act,$mod);
@@ -351,14 +351,14 @@ function shn_auth_form_reset_pwd($error=false)
 <?php
         //close the form
    shn_form_fclose();
-?>				     
+?>
 </div>
-<?php      
+<?php
 
   // end of form
 
-    
-} 
+
+}
 
 function _shn_admin_reset_pwd_cr(){
     global $global;
@@ -368,13 +368,13 @@ function _shn_admin_reset_pwd_cr(){
 	if ((null==$_POST["password"])or(is_null($_POST["password"]))){
         $error=true;
         add_error(_t("New password cannot be empty"));
-    }else {    
+    }else {
         $password=trim($_POST{"password"});
     }
 	if ((null==$_POST["re_password"])or(is_null($_POST["re_password"]))){
         $error=true;
         add_error(_t("Confirm password cannot be empty"));
-    }else {    
+    }else {
         $re_password=trim($_POST{"re_password"});
     }
     if (!($password==$re_password)){
