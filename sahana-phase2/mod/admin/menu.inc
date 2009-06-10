@@ -40,6 +40,9 @@ function _shn_admin_mainmenu()
     //@edit: Mifan Careem <mifan@respere.com>
     _shn_admin_msg_menu();
 
+    // added by gmiernicki ~ menu item for snapshot module
+    _shn_admin_snap_menu();
+
     shn_sub_mod_menuopen(_t("Module Configuration"));
     foreach($module_list as $i) {
         shn_sub_mod_menuitem("adm_default", $conf['mod_'.$i.'_name'], $i);
@@ -175,10 +178,24 @@ function _shn_admin_acl_role_menu($module=null)
         global $global;
         include_once $global['approot']."/inc/lib_modules.inc";
 
-        if(shn_module_exists('msg')){
-                include_once $global['approot']."/mod/msg/adm_menu.inc";
-                shn_msg_admin_menu();
-        }
+	if(shn_module_exists('msg')){
+		include_once $global['approot']."/mod/msg/adm_menu.inc";
+		shn_msg_admin_menu();
+	}
+}
 
- }
-?>
+
+/**
+ * Snapshot admin section
+ * code stolen from function above, same deal here :)
+ * @author	Greg Miernicki <miernickig@mail.nih.gov>
+ */
+function _shn_admin_snap_menu() {
+	global $global;
+	include_once $global['approot']."/inc/lib_modules.inc";
+
+	if(shn_module_exists('snap')){
+		include_once $global['approot']."/mod/snap/admin_menu.inc";
+		shn_snap_admin_menu();
+	}
+}

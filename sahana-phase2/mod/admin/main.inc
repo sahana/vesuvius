@@ -783,4 +783,10 @@ include_once $global['approot'].'/inc/lib_gis/admin_acts.inc';
  * @todo check availability of messaing module
  */
 include_once $global['approot']."/mod/msg/adm_menu_actions.inc";
-?>
+
+/**
+ * Inclusion of Snapshot admin module
+ * notes: code to include the snapshot menu item actions
+ * @edit: Greg Miernicki <miernickig@mail.nih.gov>
+ */
+include_once $global['approot']."/mod/snap/admin_menu_actions.inc";
