@@ -1,4 +1,4 @@
-<?PHP
+<?php
 include_once($global['approot']."inc/user_feedback.inc");
 include_once ($global['approot']."/inc/lib_menu.inc");
 
@@ -389,5 +389,3 @@ function shn_home_mainmenu(){
 	shn_mod_menuclose();
 	include $global['approot']."/inc/handler_mainmenu.inc";
 }
-
-?>
