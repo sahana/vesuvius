@@ -1,5 +1,5 @@
 <?php
-/* $Id: main_old.inc,v 1.4 2009-03-17 06:08:24 ravithb Exp $ */
+/* $Id: main_old.inc,v 1.5 2009-06-10 20:48:22 gmiernicki Exp $ */
 
 /**Main home page of the CMS
 *
@@ -82,4 +82,3 @@ function shn_cms_mainmenu()
 <?php
 include $global['approot']."/inc/handler_mainmenu.inc";
 }//end shn_cms_mainmenu
-?>

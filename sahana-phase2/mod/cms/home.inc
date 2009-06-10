@@ -32,4 +32,3 @@ function shn_cms_default(){
 						 
 <?php 
 }
-?>

@@ -325,4 +325,3 @@ function _shn_cms_exit(){
 <h2>Camp Exit Procedure</h2>
 <?php
 }
-?>
