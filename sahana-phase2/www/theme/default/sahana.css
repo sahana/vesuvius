@@ -15,7 +15,7 @@ Selectors are listed in their order of appearance in the html, where applicable.
      +---- Wrapper
         |---- Menu Wrapper ( Module Menu, Main Menu, Login Form, OpenId Login, Breadcrumbs )
         |---- Content ( Home, Result, Module specific styles )
-        |---- Footer
+     |---- Footer
   |---- Form Layout Styles
   |---- Feedback Form Styles
   |---- Popup Menu Styles
@@ -51,7 +51,7 @@ li, dd, blockquote { margin-left: 1em; }
 /* Miscellaneous conveniences: */
 body { font-size: 0.8em; color: #000; background: #369; }
 
-form label { cursor: pointer; }                                 
+form label { cursor: pointer; }
 
 fieldset { border: none; }
 
