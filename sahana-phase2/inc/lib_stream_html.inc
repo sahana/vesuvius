@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.17 2009-03-17 06:08:22 ravithb Exp $ */
+/* $Id: lib_stream_html.inc,v 1.18 2009-06-10 20:34:51 gmiernicki Exp $ */
 
 /**
  *
@@ -38,7 +38,7 @@ function shn_stream_init()
 <body>
 	<?php }?>
 <div id="container"><?php
-	
+
 // include the page header provided there is not a module override
 shn_include_page_section('header',$module);
 
@@ -135,18 +135,20 @@ function shn_stream_close()
 	}
 
 	?></div>
-<!-- /content --> 
+<!-- /content -->
 <?php
     // if xajax object exists print the javascript
     if(isset($global['xajax']))
         shn_xajax_printJavascript();
+?></div>
+<!-- /wrapper -->
+<?
     // include the footer provided there is not a module override
     shn_include_page_section('footer',$global['module']);
-?></div>
-<!-- /wrapper --></div>
+?>
+</div>
 <!-- /container -->
 </body>
 </html>
 <?php
 }
-?>
