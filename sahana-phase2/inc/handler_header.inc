@@ -1,5 +1,5 @@
-<?php 
-/* $Id: handler_header.inc,v 1.20 2009-03-17 06:08:22 ravithb Exp $ */
+<?php
+/* $Id: handler_header.inc,v 1.21 2009-06-10 19:55:08 gmiernicki Exp $ */
 /**
  *
  * Sahana HTML footer
@@ -11,7 +11,7 @@
  * http://www.gnu.org/copyleft/lesser.html
  *
  * @package    moduleAPI
- * @subpackage form 
+ * @subpackage form
  * @author     Chamindra de Silva (chamindra@opensource.lk>
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
