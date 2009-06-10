@@ -52,7 +52,7 @@ function shn_mainmenuopen($desc )
 {   
 ?>
     <div id="menuwrap">
-        <h2><?php echo _t('Sahana Main')?></h2>
+        <h2><?php echo _t('Sections')?></h2>
         <ul id="menu">
 <?php
 }
