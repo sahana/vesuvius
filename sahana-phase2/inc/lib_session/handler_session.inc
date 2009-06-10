@@ -3,7 +3,7 @@
  *
  * This is the session management library. A vital component of the framework.
  * Developers are recommended to use this library for session management.
- * 
+ *
  *
  * PHP version 4 and 5
  *
@@ -16,11 +16,11 @@
  * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * 
+ *
  */
 
 /* following code decides the session management approach
-e.g write sessions to the database or files 
+e.g write sessions to the database or files
 */
 global $global;
 require_once ($global['approot'].'inc/lib_security/constants.inc');
@@ -45,7 +45,7 @@ switch ($user_data["result"]){
         //$global["module"]=$_SESSION["last_module"];
         //$global["action"]=$_SESSION["last_action"];
         //$global['previous']=true;
-        // Go to Home on Logout 
+        // Go to Home on Logout
         $global["module"] = 'home';
         $global["action"] = 'default';
         $global['previous'] = false;
@@ -62,7 +62,7 @@ session_update_activity();
  * therefore this function will also start or
  * retreive a session like session_start() ,but
  * with better security
- * 
+ *
  * @access public
  * @return void
  */
@@ -77,8 +77,8 @@ function shn_session_start(){
   if (ANONYMOUS_USER==$_SESSION['user_id']){
    		return true;
    }
- 
-   /*If user is guest then he has privileges ,so we have to protect the    
+
+   /*If user is guest then he has privileges ,so we have to protect the
       session ,lets  try to make it hard for session hijacking
     the use of IPADDRESS to prevent session hijacking has
    been rejected by many many PHP experts, what they say
@@ -86,7 +86,7 @@ function shn_session_start(){
    many networks change the IP for every request
    e.g AOL with millions of users
 	*/
-   
+
    if (isset($_SESSION['initiated'])){
    	/* user agent maybe not present in every request, so check only if its set ,
 	so users with user agent are more secure against their session being hijacked
@@ -96,16 +96,16 @@ function shn_session_start(){
             	change_session_to_anonymous();
             }
         }
-        
+
         	if(session_is_valid()==true){
         		//echo "hurray";
         	}else{
         		change_session_to_anonymous();
         	}
-        		
-        	
-		
-		
+
+
+
+
     }else {
 	 	//$ip=$_SERVER['REMOTE_ADDR'];
 		//create an entry in the user log and obtain the automatically generated id
@@ -147,8 +147,8 @@ function session_is_valid(){
         	return false;
         }
     }
-	
-	
+
+
 }
 
 function session_update_activity(){
@@ -159,7 +159,7 @@ function session_update_activity(){
 	$sql="update sessions set inactive_expiry={$time} where session_id='{$sess_id}'";
 	$res=$db->Execute($sql);
 	return $res;
-	
+
 }
 function change_session_to_anonymous(){
 		session_regenerate_id();
@@ -175,15 +175,15 @@ function change_session_to_anonymous(){
  * this function does that and in addition registers
  * ,changes several session variables to reflect
  * change of privileges
- * 
- * @param mixed $user_data 
+ *
+ * @param mixed $user_data
  * @access public
  * @return void
  */
 function shn_session_change($user_data){
 	/*regenerate the session id and send to the client, this  is essential
 	as user obtained different privileges
-	*/ 
+	*/
 	session_regenerate_id();
     $_SESSION['logged_in'] = true;
     $sess_id=session_id();
@@ -210,7 +210,7 @@ function shn_session_change($user_data){
 }
 
 function decrypt_sess($data){
-	
+
 }
 function write_session($sess_id,$key,$secret){
 	global $global;
@@ -231,15 +231,15 @@ function delete_session($sess_id){
 /**
  * this function is a wrapper around session_regenerate_id()
  * it will empty the session variables.
- * 
- * @param mixed $user_data 
+ *
+ * @param mixed $user_data
  * @access public
  * @return void
  */
 function shn_session_end($user_data){
 	/*regenerate the session id and send to the client, this  is essential
 	as user obtained different privileges
-	*/ 
+	*/
 	$sess_id=session_id();
 	//setcookie ("secret", "", time() - 3600);
 	delete_session($sess_id);
@@ -257,8 +257,8 @@ function shn_session_end($user_data){
  * overiding a session varibale of another.
  * proper naming convention should reduce that, in addition its recommended
  * to call this function to see if the variable is already registered
- * 
- * @param mixed $sess_var 
+ *
+ * @param mixed $sess_var
  * @access public
  * @return void
  */
@@ -269,4 +269,3 @@ function shn_session_is_registered($sess_var){
         return false;
     }
 }
-?>
