@@ -161,7 +161,7 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=n
 	}
 
 	if($pid==null){
-			
+
 		// $pid = $db->GenID('person_seq',10);
 		$pid=shn_create_uuid($type='person');
 		/*
@@ -210,7 +210,7 @@ function shn_auth_add_user($account_name,$user_name, $user_password,$role,$pid=n
 
 		}
 		$q = "INSERT INTO users(p_uuid,password,changed_timestamp,user_name,salt,status) values('{$pid}','{$stored_password}',{$time},'{$user_name}','{$salt}','{$status}')";
-			
+
 		$res=$db->Execute($q);
 		if($res==false){
 			add_error($db->ErrorMsg());
@@ -267,7 +267,7 @@ function shn_auth_user_list($fullname=false,$admin=true){
 		}else{
 			$name=$res->fields["full_name"]." - ".$name=$res->fields["user_name"];
 		}
-			
+
 		//$name=$res->fields["full_name"];
 		if(($res->fields["p_uuid"]!="1") or($admin==true)){
 			$users[$res->fields["p_uuid"]]=$name;
@@ -282,7 +282,7 @@ function shn_soap_ws_authenticate(){
 
 	if(shn_acl_is_web_service_auth_enabled()==true){
 
-			
+
 		/* HTTP basic authentication
 		 * Since i wanted to authenticate based on the following policy, had to use the basic authentication
 		 * credentials in an alternative way.
@@ -467,7 +467,7 @@ function shn_authenticate_user()
 		}
 
 		$pwd=substr($pwd, 0, 4).$salt.substr($pwd, 4);
-			
+
 		$user_data["result"]=LOGGEDOUT;
 		// Create a digest of the password collected from the challenge
 		$password_digest = md5(trim($pwd));
@@ -475,7 +475,7 @@ function shn_authenticate_user()
 		$q = "  SELECT p_uuid  FROM users
 		WHERE user_name = '$user'
 		AND password = '$password_digest' and salt='{$salt}'";
-			
+
 		$res=$db->Execute($q);
 		if(($res==null)||($res->EOF)){
 			/* no result ,so return 1 ,which is  not a valid user_id , the calling
@@ -700,7 +700,7 @@ function _shn_auth_del_user_cr(){
 				add_error($db->ErrorMsg());
 			}
 		}
-			
+
 	}
 	if($res==false){
 		add_error(_t("User does not exist"));
@@ -1058,24 +1058,24 @@ function shn_get_password_policy($extra_opts){
 function shn_auth_add_role_cr(){
 	global $global;
 	$db = $global['db'];
-	
+
 	if($_POST['role_name']==null || strlen(trim($_POST['role_name']))==0){
 		add_error(_t("Please enter a valid Role name."));
 	}else{
 		$role_name = ucwords(trim($_POST['role_name']));
 		$select_query = "SELECT COUNT(group_name) FROM sys_user_groups WHERE group_name=?";
 		$res = $db->Execute($select_query,array($role_name));
-		
+
 		if($res!=false && (($res->fields[0]*1)==0)){
-			
+
 			$select_query = "SELECT MAX(group_id) FROM sys_user_groups";
 			$res = $db->Execute($select_query);
-			
+
 			if($res){
 				$max_id = ($res->fields[0])+1;
 				$query = "INSERT INTO sys_user_groups(group_id,group_name) VALUES(?,?)";
 				$global['db']->Execute($query,array($max_id,$role_name));
-				
+
 				add_confirmation(sprintf(_t("The role '%s' was successfully added."),$role_name));
 				// clear the value so that the text box becomes empty.
 				$_POST['role_name'] = "";
@@ -1086,4 +1086,3 @@ function shn_auth_add_role_cr(){
 	}
 	shn_admin_add_role();
 }
-?>
