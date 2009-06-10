@@ -1232,6 +1232,3 @@ function shn_location_form_org($from,$to,$value=NULL){
 	}
 	shn_form_fsclose();
 }
-
-
-?>
