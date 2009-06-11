@@ -319,7 +319,7 @@ function rez_perform_edit($page_id) {
 
 	$editControlHtml = '
 		<input class="controlButton" type="button" onclick="javascript:  if (nicEditors.editors.length>0){nicEditors.findEditor(\'pageContent\').saveContent();} rez_perform_save('.$page_id.', xajax.getFormValues(\'editPageForm\'));" value="Save/Publish">
-		<input class="controlButton" type="button" onclick="javascript: rez_dim_mainArea(); rez_dim_controlArea(); rez_append_log(\'Closing editor...<br>\');  area2.removeInstance(\'pageContent\'); setTimeout(\'rez_show_pages();\', 500);" value="Cancel/Close">
+		<input class="controlButton" type="button" onclick="javascript: rez_dim_mainArea(); rez_dim_controlArea(); rez_append_log(\'Closing editor...<br>\');  area2.removeInstance(\'pageContent\'); setTimeout(\'rez_show_pages();\', 500);" value="Close">
 		<span class="toggle">View as:
 		<input id="wysiwyg" class="controlButton" type="button" onclick="javascript: document.getElementById(\'wysiwyg\').disabled = true; document.getElementById(\'htmlcode\').disabled = false; area2 = new nicEditor({fullPanel : true}).panelInstance(\'pageContent\');" value="WYSIWYG">
 		<input id="htmlcode" class="controlButton" type="button" onclick="javascript: area2.removeInstance(\'pageContent\'); document.getElementById(\'wysiwyg\').disabled = false; document.getElementById(\'htmlcode\').disabled = true; nicEditors.editors = []; " value="HTML"></span>';
