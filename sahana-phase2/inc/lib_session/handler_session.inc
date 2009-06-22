@@ -35,19 +35,18 @@ $user_data = shn_authenticate_user();
 
 switch ($user_data["result"]){
     case LOGGEDIN:
-	    shn_session_change($user_data);
-        $global["module"]=$_SESSION["last_module"];
-        $global["action"]=$_SESSION["last_action"];
-        $global['previous']=true;
+	shn_session_change($user_data);
+	// Go to DEFAULT module on login (going to previous module does not always work! 
+	// see ~> https://sourceforge.net/tracker/?func=detail&aid=2750574&group_id=127855&atid=709778 )
+        $global["module"]= isset($conf['default_module']) ? $conf['default_module'] : "home"; //$_SESSION["last_module"];
+        $global["action"]= isset($conf['default_action']) ? $conf['default_action'] : "default"; //$_SESSION["last_action"];
+        $global['previous']= false; //true;
         break;
     case LOGGEDOUT:
-		shn_session_end($user_data);
-        //$global["module"]=$_SESSION["last_module"];
-        //$global["action"]=$_SESSION["last_action"];
-        //$global['previous']=true;
-        // Go to Home on Logout
-        $global["module"] = 'home';
-        $global["action"] = 'default';
+	shn_session_end($user_data);
+        // Go to DEFAULT module on Logout
+        $global["module"] = isset($conf['default_module']) ? $conf['default_module'] : "home";
+        $global["action"] = isset($conf['default_action']) ? $conf['default_action'] : "default";
         $global['previous'] = false;
         break;
     default:

@@ -177,6 +177,13 @@ $conf['bcaps_auto_update'] = false;
 // available options ( 'fckeditor' , 'tiny_mce' )
 $conf['wysiwyg']= '';
 
+// this sets the default module of Sahana. when a user first visits the site or logs in/out
+// the user will then land on this module (allows home module to be turned off if not needed
+// or the emphasis placed on another module)
+$conf['default_module']= 'home';
+
+// this sets the default action we will perform on the default module above
+$conf['default_action']= 'default';
 
 # end of the config file.
 
