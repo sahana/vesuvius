@@ -127,9 +127,12 @@ function shn_main_filter_getpost()
 {
 	global $global, $conf;
 
+	$m = isset($conf['default_module']) ? $conf['default_module'] : "home";
+	$a = isset($conf['default_action']) ? $conf['default_action'] : "default";
+
 	if(!$global['previous']){
-		$global['action'] = (NULL == $_REQUEST['act']) ? $conf['default_action'] : $_REQUEST['act'];
-		$global['module'] = (NULL == $_REQUEST['mod']) ? $conf['default_module'] : $_REQUEST['mod'];
+		$global['action'] = (NULL == $_REQUEST['act']) ? $a : $_REQUEST['act'];
+		$global['module'] = (NULL == $_REQUEST['mod']) ? $m : $_REQUEST['mod'];
 
 		if(( $global['action']=='signup')&&($_REQUEST['mod']==null)){
 			$global['module']="pref";
