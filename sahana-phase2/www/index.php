@@ -125,13 +125,11 @@ function shn_main_clean_getpost()
 // === process the GET and POST ===
 function shn_main_filter_getpost()
 {
-	global $global;
+	global $global, $conf;
 
 	if(!$global['previous']){
-		$global['action'] = (NULL == $_REQUEST['act']) ?
-                                "default" : $_REQUEST['act'];
-		$global['module'] = (NULL == $_REQUEST['mod']) ?
-                                "home" : $_REQUEST['mod'];
+		$global['action'] = (NULL == $_REQUEST['act']) ? $conf['default_action'] : $_REQUEST['act'];
+		$global['module'] = (NULL == $_REQUEST['mod']) ? $conf['default_module'] : $_REQUEST['mod'];
 
 		if(( $global['action']=='signup')&&($_REQUEST['mod']==null)){
 			$global['module']="pref";
