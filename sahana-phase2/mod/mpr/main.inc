@@ -42,9 +42,9 @@ if (empty ($_SESSION['user_pref_ims_incident_id'])) {
 if($_SESSION['user_pref_ims_incident_id']==null && $_REQUEST['act']!='default'){
      header('Location: index.php?mod=mpr&act=default');   
 }
-/* }}} */
 
-/* {{{ Main Menu */
+
+
 /**
  * This function defines the menu list.
  * @access public
@@ -54,6 +54,8 @@ function shn_mpr_mainmenu() {
 	#debug($_SESSION,1);
 	global $global;
 	$module = $global['module'];
+
+	include $global['approot']."/inc/handler_mainmenu.inc";
 
 	// Create the module menu
 	shn_mod_menuopen(_t("Missing Person Registry"));
@@ -80,11 +82,11 @@ function shn_mpr_mainmenu() {
 	//shn_mod_menuclose();
 
 	// include the main menu
-	include $global['approot'] . "/inc/handler_mainmenu.inc";
+	//include $global['approot'] . "/inc/handler_mainmenu.inc";
 }
-/* }}} */
 
-/* {{{ Action: Test */
+
+
 /**
  *
  * This is a testing function.
@@ -93,28 +95,28 @@ function shn_mpr_mainmenu() {
  * @access public
  * @return void
  */
-
 function shn_mpr_test() {
 	global $global;
 	require ($global['approot'] . 'mod/mpr/test.inc');
 }
 
+
+
 function shn_mpr_list_missing() {
 	//	print 'missing';
-
 	global $global;
 	require ($global['approot'] . 'mod/mpr/list_missing.inc');
-
 }
+
+
 
 function shn_mpr_list_found() {
 	global $global;
 	require ($global['approot'] . 'mod/mpr/list_found.inc');
 }
 
-/* }}} */
 
-/* {{{ Action: Tmp Manage Image*/
+
 /**
  *
  * This is a testing function.
@@ -128,9 +130,9 @@ function shn_mpr_manimg() {
 	require ($global['approot'] . 'mod/mpr/images.inc');
 	shn_mpr_manage_images_form('p-77', 'xx');
 }
-/* }}} */
 
-/* {{{ Action: Default (Home Page) */
+
+
 /**
  * 
  * This function displays the home page of the missing person registry
@@ -143,9 +145,9 @@ function shn_mpr_default() {
 	require ($global['approot'] . 'mod/mpr/home.inc');
 
 }
-/* }}} */
 
-/* {{{ Action: Find */
+
+
 /**
  * This function displays the basic search form
  * @deprecated 
@@ -162,14 +164,12 @@ function shn_mpr_fndmp() {
 		'id' => 'formset'
 	);
 	shn_form_open($header, false);
-?>  <input type="text" value="hello"/>          <?php
-
-
+	?>  <input type="text" value="hello"/>          <?php
 	shn_form_close();
 }
-/* }}} */
 
-/* {{{ Action: Edit */
+
+
 /**
  * This is the MPR Edit Controller
  * @access public
@@ -283,13 +283,11 @@ function shn_mpr_editmp() {
 			}
 			shn_mpr_editmp_entry();
 			break;
-
 	}
-
 }
-/* }}} */
 
-/* {{{ Action: View */
+
+
 /**
  * This is the MPR View Controller
  * @access public
@@ -301,9 +299,9 @@ function shn_mpr_viewmp() {
 	echo '<h1 align="center">' . _t('View Person') . '</h1>';
 	shn_mpr_view($_GET['id']);
 }
-/* }}} */
 
-/* {{{ Action: Add Tracker */
+
+
 /**
  * This is the MPR Add Tracker Controller
  * @access public
@@ -354,9 +352,9 @@ function shn_mpr_add_tracker() {
 			break;
 	}
 }
-/* }}} */
 
-/* {{{ Action: Delete Tracker */
+
+
 /**
  * This is the MPR Delete Tracker Controller
  * @access public
@@ -375,9 +373,9 @@ function shn_mpr_del_tracker() {
 		shn_mpr_addmp_reporter(true);
 	}
 }
-/* }}} */
 
-/* {{{ Action: Add */
+
+
 /**
  * This is the MPR Add Controller
  * @access public
@@ -469,9 +467,9 @@ function shn_mpr_addmp() {
 			break;
 	}
 }
-/* }}} */
 
-/* {{{ Action: Search */
+
+
 /**
  * This is the Search Controller
  * @access public
@@ -536,13 +534,12 @@ function shn_mpr_search() {
 			default :
 				shn_mpr_search_advance();
 				break;
-
 		}
 	}
 }
-/* }}} */
 
-/* {{{ Action: Advance Search */
+
+
 /**
  * This is the Advance Search Controller
  * @todo Add Advance Filters
@@ -554,9 +551,9 @@ function shn_mpr_search_adv() {
 	echo '<h1 align="center">Search</h1>';
 	require ($global['approot'] . 'mod/mpr/search.inc');
 }
-/* }}} */
 
-/* {{{ Action: Audit */
+
+
 /**
  * This is the Auditing Controller
  * @todo Need to discuss this further
@@ -568,9 +565,9 @@ function shn_mpr_auditmp() {
 	require ($global['approot'] . 'mod/mpr/audit.inc');
 	shn_audit_show($_GET['id']);
 }
-/* }}} */
 
-/* {{{ Status */
+
+
 /**
  * This is function change the status from missing to alive and well
  * @access public
@@ -595,7 +592,8 @@ function shn_mpr_status() {
 		shn_mpr_default();
 	}
 }
-/* }}} */
+
+
 
 /**
  * shn_soap_mpr_addmp 
@@ -604,8 +602,9 @@ function shn_mpr_status() {
  * @return string
  */
 function shn_soap_mpr_addmp() {
-
 }
+
+
 
 /**
  * shn_soap_mpr_findmp 
@@ -617,8 +616,9 @@ function shn_soap_mpr_addmp() {
  * @return string
  */
 function shn_soap_mpr_findmp() {
-
 }
+
+
 
 /**
  * shn_soap_mpr_default 
@@ -629,33 +629,43 @@ function shn_soap_mpr_findmp() {
 function shn_soap_mpr_default() {
 	return "hello";
 }
-//images
-function shn_image_mpr_addmp_img()
-{
-    global $global;
-    //clean clean
-    $x_uuid = $_GET['x_uuid'];
-    switch ($_GET['stream']){
-        case 'image' :
-            if($_GET['session']){
-                shn_show_image_stream($x_uuid, true, $_SESSION['mpr']['entry'],true);
-            }else{
-                if($_GET['thumbnail'])
-                    shn_show_image_stream($x_uuid,true); 
-                else
-                    shn_show_image_stream($x_uuid,false); 
-            }
-        break;
-    }
+
+
+
+/**
+ * pull images 
+ * update: 2009:0707 ~ Added the capability to reference this function call by other outside sources
+ * which require MPR image data in specific resolutions (if height and width are not specified in the GET, 
+ * the old behavior is maintained in the patch to /inc/lib_image.inc - Greg
+ */
+function shn_image_mpr_addmp_img() {
+	global $global;
+	$x_uuid = $_GET['x_uuid'];
+	$height = isset($_GET['height']) ? $_GET['height'] : null;
+	$width  = isset($_GET['width']) ? $_GET['width'] : null;
+	switch ($_GET['stream']){
+		case 'image' :
+		if($_GET['session']){
+			shn_show_image_stream($x_uuid, true, $_SESSION['mpr']['entry'], true, null, $width, $height);
+		}else{
+			if($_GET['thumbnail'])
+			shn_show_image_stream($x_uuid, true, null, false, null, $width, $height); 
+			else
+			shn_show_image_stream($x_uuid, false, null, false, null, $width, $height); 
+		}
+		break;
+	}
 }
+
+
 
 /**
  * End the add or edit mpr record flow by clearing the session
  * and redirecting to the default view.
  *
  */
-function shn_mpr_end_flow(){
+function shn_mpr_end_flow() {
 	unset($_SESSION['mpr_add']);
-    unset($_SESSION['mpr']['entry']);
+	unset($_SESSION['mpr']['entry']);
 	shn_mpr_default();
 }
