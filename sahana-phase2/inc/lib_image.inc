@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_image.inc,v 1.18 2009-03-17 06:08:22 ravithb Exp $ */
+/* $Id: lib_image.inc,v 1.19 2009-07-08 21:38:48 gmiernicki Exp $ */
 
 /**
  *
@@ -19,12 +19,13 @@
  * @subpackage image
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @author     Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
+ * @author     Greg Miernicki
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
 
-/* {{{ Image Resize */
+
 /**
  *
  * This function can resize a given image and save it to the given
@@ -37,8 +38,7 @@
  * @access public
  * @return void
  */
-function shn_image_resize($src_path,$desc_path,$width,$height)
-{
+function shn_image_resize($src_path,$desc_path,$width,$height) {
 	$info = getimagesize($src_path);
 	if(! $info)
 	return false;
@@ -93,9 +93,8 @@ function shn_image_resize($src_path,$desc_path,$width,$height)
 	//$func2 = 'image'.$mime;
 	$func2($image_p,$desc_path,100);
 }
-/* }}} */
 
-/* {{{ Image Resize From String */
+
 /**
  *
  * This function can resize a given image and save it to the given
@@ -108,16 +107,60 @@ function shn_image_resize($src_path,$desc_path,$width,$height)
  * @access public
  * @return void
  */
-function shn_image_resize_from_string($img,$width,$height)
-{
+function shn_image_resize_from_string($img, $width, $height) {
+
+	// 2009:0707 updated this function to allow the generation
+	// of images of any size, not just the 100x100 thumbnails
 
 	$width_orig = $img['image_width'];
 	$height_orig = $img['image_height'];
 
-	if ($width && ($width_orig < $height_orig)) {
-		$width = ($height / $height_orig) * $width_orig;
-	} else {
-		$height = ($width / $width_orig) * $height_orig;
+	// first we do a check and see if they are asking for a 100x100 thumbnail 
+	// this is for backwards compatibility allowing older modules to still use 
+	// the old functionality
+	// in this case, we use the old algorithm:
+	// -- Greg
+
+	if (($height == 100) && ($width == 100)) {
+		if ($width && ($width_orig < $height_orig)) {
+			$width = ($height / $height_orig) * $width_orig;
+		} else {
+			$height = ($width / $width_orig) * $height_orig;
+		}
+	}
+
+	// Next, if width and height are both not specified, we will set them both to 100 and
+	// then use the old algorithm again
+
+	elseif (($height == null) && ($width == null)) {
+		$height = 100;
+		$width = 100;
+		if ($width && ($width_orig < $height_orig)) {
+			$width = ($height / $height_orig) * $width_orig;
+		} else {
+			$height = ($width / $width_orig) * $height_orig;
+		}
+	}
+
+	// NEW FEATURE 1 :: if either of the height or width are not specified, we will 
+	// resize by finding the ratio of the parameter specified and apply this ratio to the
+	// other missing parameter (aspect ratio maintained during resize)
+
+	elseif (($height == null) || ($width == null)) {
+		if ($height == null) {
+			$height = $height_orig * ($width/$width_orig);
+		} else {
+			$width = $width_orig * ($height/$height_orig);
+		}
+	}
+
+	// NEW FEATURE 2 :: if both width and height are specified (and they are not both 100)
+	// then we will allow for a specific width and height resize
+	// (not in this case, aspect ratio may not be maintained and the function calling this 
+	// one has to take this into account)
+
+	else {
+		// nothing :)
 	}
 
 	$image_p = imagecreatetruecolor($width, $height);
@@ -129,28 +172,31 @@ function shn_image_resize_from_string($img,$width,$height)
 	$func2 = 'image'.$mime;
 	$func2($image_p);
 }
-/* }}} */
 
 
-function shn_show_image_stream($x_uuid, $thumbnail=true, $image=null,$session=false,$category=null)
-{
+
+function shn_show_image_stream($x_uuid, $thumbnail=true, $image=null, $session=false, $category=null, $width=null, $height=null) {
+
+	// 2009:0707 updated this function to allow resizing as with the above function changes
+	// the two additional parameters: height, width if not specificed will be created upon the above function call
+	// so backwards compatibility with older modules using these functions is maintained
+	// -- Greg
+
 	global $global;
 
-	if($session){
-		shn_image_resize_from_string($image, 100, 100);
-	}else{
-
-		if(isset($category)){
-		$sql = "SELECT image, image_type, image_height, image_width FROM image WHERE x_uuid = '$x_uuid' AND category = '$category'";
-		}else{
+	if ($session) {
+		shn_image_resize_from_string($image, $width, $height);
+	} else {
+		if (isset($category)) {
+			$sql = "SELECT image, image_type, image_height, image_width FROM image WHERE x_uuid = '$x_uuid' AND category = '$category'";
+		} else {
 			$sql = "SELECT image, image_type, image_height, image_width FROM image WHERE x_uuid = '$x_uuid' ";
 		}
-
-				$arr = $global['db']->GetAll($sql);
+		$arr = $global['db']->GetAll($sql);
 
 		if(!$arr or !$arr[0]['image']){
 			//Create the NOT available image
-			$img = imagecreatetruecolor(100,100);
+			$img = imagecreatetruecolor($width, $height);
 			$bg_color = imagecolorallocate($img,229,229,229);
 			imagefill($img,0,0,$bg_color);
 			$txt_color = imagecolorallocate($img, 255, 0, 0);
@@ -164,16 +210,17 @@ function shn_show_image_stream($x_uuid, $thumbnail=true, $image=null,$session=fa
 			$img['image_width'] = $arr[0]['image_width'];
 			$img['image_height'] = $arr[0]['image_height'];
 			$img['image_type'] = $arr[0]['image_type'];
-			if($thumbnail)
-			shn_image_resize_from_string($img,100,100);
-			else
-			echo $img['image'];
+			if ($thumbnail) {
+				shn_image_resize_from_string($img, $width, $height);
+			} else {
+				echo $img['image'];
+			}
 		}
 	}
-
 }
 
-/* {{{ Show Thumbnail URL */
+
+
 /**
  *
  * This function shows the thumbnail if available and says "Image not
@@ -187,8 +234,7 @@ function shn_show_image_stream($x_uuid, $thumbnail=true, $image=null,$session=fa
  * @access public
  * @return void
  */
-function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=false,$type=null)
-{
+function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=false,$type=null) {
 	global $global;
 	global $conf;
 
@@ -256,13 +302,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 			$src_ori = 'http://'.$url."/tmp/ori_fin$x_uuid"."$ext";
 			$src_tmp = "tmp/thumb_fin$x_uuid"."$ext";
 
-		}
-
-
-		else
-		{
-
-
+		} else {
 
 			//Need a better way
 			$d = dir($dir);
@@ -305,88 +345,91 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 	return true;
 }
 
-function shn_image_save_to_file($media,$rel_path="res/img/itag",$category="jpeg_maps",$x_uuid,$media_type=null){
- 	global $global;
- 	
- 	$info = getimagesize($_FILES[$media]['tmp_name']);
-    //check the image type 
-    if(! $info){
-        add_error(_("Invalid Image Type Please try again"));
-        return false;    
-    }else{
-    	 $width_orig = $info[0];
-   		$height_orig = $info[1];
-   		list($ignore,$mime) = split("\/",$info['mime']);
-    	 //$mime = $_FILES[$media]["name"]['image_type'];
-    }
-   // list($ignore,$ext) = split("\/",$info['mime']);
 
-    //putting a dot ;-) 
- //   $ext = '.'.$ext;
-    $upload_dir = $global['approot'].$rel_path;
-    $mediaId=shn_create_uuid("media");
-    
-	
-	$uploadfile=$upload_dir ."/". $mediaId.".".$mime;
-		
-	if (file_exists($uploadfile))
-    {
-      		add_error($_FILES[$media]["name"] . " already exists. ");
-      		return;
-    }
 
-    move_uploaded_file($_FILES[$media]['tmp_name'], $uploadfile);
-    $db=$global['db'];
-    $q="delete from media where x_uuid='$x_uuid' and category='$category'";
- 	$res=$db->Execute($q);
- 	$q="insert into media(media_id,x_uuid,url,media_type,media_height,media_width,category) values('$mediaId','$x_uuid','{$uploadfile}','$mime',$height_orig,$width_orig,'$category')";
- 	$res=$db->Execute($q);
- 	if($res==false){
-    	return null;
-    }else{
-    	 add_confirmation($_FILES[$media]["name"]." was properly saved, in the file system");
-    	 return true;
-    }
- }
- function shn_media_get_url($media_id){
+function shn_image_save_to_file($media,$rel_path="res/img/itag",$category="jpeg_maps",$x_uuid,$media_type=null) {
 	global $global;
-    $db=$global['db'];
-    $query="SELECT url FROM media WHERE media_id ='{$media_id}'";
-    file_put_contents("/tmp/a.txt",$query);
-    $res=$db->Execute($query);
+	
+	$info = getimagesize($_FILES[$media]['tmp_name']);
+	//check the image type 
+	if (! $info) {
+		add_error(_("Invalid Image Type Please try again"));
+		return false;    
+	} else {
+		$width_orig = $info[0];
+			$height_orig = $info[1];
+			list($ignore,$mime) = split("\/",$info['mime']);
+		//$mime = $_FILES[$media]["name"]['image_type'];
+	}
+	// list($ignore,$ext) = split("\/",$info['mime']);
+
+	//putting a dot ;-) 
+	//   $ext = '.'.$ext;
+	$upload_dir = $global['approot'].$rel_path;
+	$mediaId=shn_create_uuid("media");
+	
+		
+	$uploadfile=$upload_dir ."/". $mediaId.".".$mime;
+	if (file_exists($uploadfile)) {
+		add_error($_FILES[$media]["name"] . " already exists. ");
+		return;
+	}
+
+	move_uploaded_file($_FILES[$media]['tmp_name'], $uploadfile);
+	$db=$global['db'];
+	$q="delete from media where x_uuid='$x_uuid' and category='$category'";
+	$res=$db->Execute($q);
+	$q="insert into media(media_id,x_uuid,url,media_type,media_height,media_width,category) values('$mediaId','$x_uuid','{$uploadfile}','$mime',$height_orig,$width_orig,'$category')";
+	$res=$db->Execute($q);
+	if ($res==false) {
+		return null;
+	} else {
+		add_confirmation($_FILES[$media]["name"]." was properly saved, in the file system");
+		return true;
+	}
+}
+
+
+
+function shn_media_get_url($media_id) {
+	global $global;
+	$db=$global['db'];
+	$query="SELECT url FROM media WHERE media_id ='{$media_id}'";
+	file_put_contents("/tmp/a.txt",$query);
+	$res=$db->Execute($query);
 	return $res->fields["url"];
 }
- function _shn_image_media_get($media_id){
+
+
+
+function _shn_image_media_get($media_id) {
 	global $global;
 	$url=shn_media_get_url($_GET["media_id"]);
 	$info = getimagesize($url);
-    //check the image type 
-    if(! $info){
-        add_error(_("Invalid Image Type Please try again"));
-        return false;    
-    }else{
-    	 $width_orig = $info[0];
-   		$height_orig = $info[1];
-   		list($ignore,$mime) = split("\/",$info['mime']);
-    	 //$mime = $_FILES[$media]["name"]['image_type'];
-    }
-    
-  
-    switch($mime=="png"){
-    	case "png":
-    			$image = imagecreatefrompng($url);
-				imagepng($image);
-				break;
+	//check the image type 
+	if(! $info){
+		add_error(_("Invalid Image Type Please try again"));
+		return false;    
+	} else {
+		$width_orig = $info[0];
+		$height_orig = $info[1];
+		list($ignore,$mime) = split("\/",$info['mime']);
+		//$mime = $_FILES[$media]["name"]['image_type'];
+	}
+	switch($mime=="png"){
+		case "png":
+			$image = imagecreatefrompng($url);
+			imagepng($image);
+			break;
 		default:
-				$image = imagecreatefromjpeg($url);
-				imagejpeg($image);
-				break;
-    }
+			$image = imagecreatefromjpeg($url);
+			imagejpeg($image);
+			break;
+	}
 }
 
-/* }}} */
 
-/* {{{ Image to DB */
+
 /**
  * shn_image_to_db
  *
@@ -396,8 +439,7 @@ function shn_image_save_to_file($media,$rel_path="res/img/itag",$category="jpeg_
  * @access public
  * @return void
  */
-function shn_image_to_db($image_upload,$x_uuid,$replace_id=null)
-{
+function shn_image_to_db($image_upload,$x_uuid,$replace_id=null) {
 	global $global;
 
 	$info = getimagesize($image_upload['tmp_name']);
@@ -425,9 +467,9 @@ function shn_image_to_db($image_upload,$x_uuid,$replace_id=null)
 
 	$global['db']->Execute($sql);
 }
-/* }}} */
 
-/* {{{ Image to DB Extended */
+
+
 /**
  * shn_image_to_db_ex
  *
@@ -440,34 +482,30 @@ function shn_image_to_db($image_upload,$x_uuid,$replace_id=null)
  * @access public
  * @return void
  */
-
-function shn_image_to_db_ex($x_uuid,$image,$image_type, $image_height, $image_width,$replace_id=null,$category=null)
-{
+function shn_image_to_db_ex($x_uuid,$image,$image_type, $image_height, $image_width,$replace_id=null,$category=null) {
 	global $global;
 
 	$image = addslashes($image);
 
 	if($replace_id){
-		$sql = "UPDATE image SET
-                    image = '$image',
-                    image_type = '$image_type',
-                    image_height = '$image_height',
-                    image_width = '$image_width'
-                WHERE image_id = '$replace_id'";
-	}else{
+		$sql = "UPDATE image SET image = '$image', image_type = '$image_type', image_height = '$image_height', image_width = '$image_width' 
+			WHERE image_id = '$replace_id'";
+	} else {
 		$sql = "INSERT INTO image (x_uuid, image, image_type, image_height, image_width,category)
-                VALUES ('$x_uuid','$image','$image_type','$image_height','$image_width','$category')";
+			VALUES ('$x_uuid','$image','$image_type','$image_height','$image_width','$category')";
 	}
 	$global['db']->Execute($sql);
 	// exit();
 }
+
+
 
 /**
  * Get the error description message for an image upload error.
  *
  * @param Integer $error_code The error code
  */
-function shn_file_upload_error_msg($error_code){
+function shn_file_upload_error_msg($error_code) {
 	switch($error_code){
 		case UPLOAD_ERR_INI_SIZE:
 			return _t("The uploaded file exceeds the upload_max_filesize directive in php.ini. (<".ini_get('upload_max_filesize')."B)");
@@ -486,28 +524,24 @@ function shn_file_upload_error_msg($error_code){
 	}
 }
 
+
+
 /**
  * Check if the given mime type of (image) is
  * valid within sahana.
  *
  * @param unknown_type $type The mime type string
  */
-function shn_check_valid_image_type($type){
+function shn_check_valid_image_type($type) {
 	$mime = $type;
 	if(strpos($type,"/")){
 		list(,$mime) = split("\/",$info['mime']);
 	}
 
 	// check types.
-	if(stripos($mime,"png") ||
-	stripos($mime,"gif") ||
-	stripos($mime,"jpeg") ||
-	stripos($mime,"bmp")){
+	if(stripos($mime,"png") || stripos($mime,"gif") || stripos($mime,"jpeg") || stripos($mime,"bmp")) {
 		return true;
-	}else{
+	} else {
 		return false;
 	}
 }
-
-/* }}} */
-?>
