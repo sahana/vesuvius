@@ -55,8 +55,6 @@ function shn_mpr_mainmenu() {
 	global $global;
 	$module = $global['module'];
 
-	include $global['approot']."/inc/handler_mainmenu.inc";
-
 	// Create the module menu
 	shn_mod_menuopen(_t("Missing Person Registry"));
 
@@ -82,7 +80,7 @@ function shn_mpr_mainmenu() {
 	//shn_mod_menuclose();
 
 	// include the main menu
-	//include $global['approot'] . "/inc/handler_mainmenu.inc";
+	include $global['approot'] . "/inc/handler_mainmenu.inc";
 }
 
 
