@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.91 2009-04-03 11:45:31 ravithb Exp $ */
+/* $Id: lib_form.inc,v 1.92 2009-07-27 15:40:52 gmiernicki Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -350,7 +350,7 @@ function shn_form_select($options,$label, $name,$select_opts = "", $extra_opts =
  * @access public
  * @return void
  */
-function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = null)
+function shn_form_radio($options, $label, $name, $select_opts = "", $extra_opts = null)
 {
 	global $global;
 	global $shn_tabindex;
@@ -383,6 +383,34 @@ function shn_form_radio($options,$label, $name,$select_opts = "", $extra_opts = 
 	<?php
 	shn_form_extra_opts($extra_opts);
 }
+
+
+
+/**
+ * HTML radio button element v2
+ * Notes: This function is an effort to provide the same functionality of the above function in a more simplified and elegant manner. -gmiernicki
+ *
+ * @param mixed $options
+ * @param mixed $label
+ * @param mixed $name
+ * @param string $select_opts
+ * @param mixed $extra_opts
+ * @access public
+ * @return void
+ */
+function shn_form_radio2($options, $label, $name, $checked, $extra_opts = null) {
+	global $global;
+	global $shn_tabindex;
+	if ($extra_opts['no_label'] !== true) {
+		echo "<label>".$label."</label>";
+	}
+	foreach ($options as $option => $description ) {
+		$checkedText = ($checked == $option) ? "checked" : "";
+		echo "<input type=\"radio\" name=\"".$name."\" value=\"".$option."\" tabindex=\"".++$shn_tabindex."\" ".$checkedText."/> ".$description;
+	}
+	shn_form_extra_opts($extra_opts);
+}
+
 
 
 /**
