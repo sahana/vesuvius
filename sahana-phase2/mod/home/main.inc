@@ -1,71 +1,232 @@
 <?php
+
 include_once($global['approot']."inc/user_feedback.inc");
 include_once ($global['approot']."/inc/lib_menu.inc");
 
 function shn_home_default()
 {
-
-    global $conf;
-    
-    ?>
-
-    <div id="home">
-
-    <?php echo "<h2>"._t("Welcome to the Sahana FOSS Disaster Management System")."</h2>"?>
-<!--        <img src="theme/default/img/home_pic1.png" align="left" /> -->
-    <p><?php echo _t("Sahana is a collection of web based disaster management applications that provides solutions to large-scale humanitarian coordination and collaboration in disaster situation and its aftermath. Sahana consists of several modules for following functionalities:"); ?></p>
-        <ul>
-    
-<?php
-    _shn_home_module_info('gis',_t("Allows you to locate activities on a map providing current situation awareness."));
-    _shn_home_module_info('mpr',_t("Helps to report and search missing person."));
-    _shn_home_module_info('dvr',_t("Traces internally displaced people (IDPs) and their needs."));
-    _shn_home_module_info('or',_t("Lists 'who is doing what & where'. Allows relief agencies to self organize the activities rendering fine coordination among them."));
-    _shn_home_module_info('rms',_t("Tracks requests for aid and matches them against donors who have pledged aid."));
-    _shn_home_module_info('cr',_t("Tracks the location, distibution, capacity and breakdown of victims in shelter."));
-    _shn_home_module_info('ims',_t("Effectively and efficiently manage relief aid, enables transfer of inventory items to different inventories and notify when items are required to refill."));
-    _shn_home_module_info('msg',_t("Allows communication by email and SMS text messaging to groups."));
-    _shn_home_module_info('vol',_t("Allows managing volunteers by capturing their skills, availability and allocation."));
-    _shn_home_module_info('cs',_t("Captures information on different catalogues and measurement units. This information is being used in systems such as Inventory Management System and Request Management System."));
-    _shn_home_module_info('sync',_t("Allows data exchange between instances of Sahana by synchronization."));
+  global $conf;    
 ?>
+  <h2>
+    <center>
+     <?php echo _t("Welcome to the Sahana FOSS Disaster Management System")."\n" ?>
+     </center>
+  </h2>
 
-        </ul>
+  <div id="home";>
     <p>
-    <?php
-        echo _t("For more detail on Sahana system, see ") .
-                          '<a href="http://www.sahana.lk">' .
-                          _t("Sahana Website").'</a><br/>';
-        echo _t("For live help from the Sahana community on using this application, go to ").
-              '<a href="http://www.sahana.lk/chat">'._t("Sahana Community Chat")."</a><br/>";
+		<?php echo _t('Sahana is a collection of web based disaster management
+    	modules that enhance the preparation for, response to and recovery from
+    	large-scale humanitarian coordination and collaboration problems in 
+    	disaster situations.');?>
+  </p>
+</div>
+
+<h2>
+  <?php echo _t('Activated Modules') ?>
+</h2>
+<div id="result" style="float:left";>
+  <table>
+    <tr style="height: 3em;">
+      <th>
+        <?php echo _t("Module Name") ?>
+      </th>
+      <th>
+        <?php echo _t("Module Description")."\n" ?>
+      </th>
+    </tr>
+  <?php
+    _shn_home_module_info('sr',_t(
+       "The situation reporting module provides a mechanism to store and
+        retrieve reports easily. Reports can be updated collaboratively
+        between users of Sahana.")."\n");
+  
+  _shn_home_module_info('pre',_t(
+       "Most disasters and there effects can be identify before it occurs.
+        Identifying and tracking those information will helps to do a 
+        efficient and effective planing for recover or minimize the damage
+        and public education. From that effort for relief waorks and 
+        rehabilitation can be minimized. Sahana disaster preparedness 
+        system is addressing requirements of pre disaster deployments. 
+        Sahana disaster preparedness system is addressing four basic 
+        functionalities in disaster preparedness: Assessing
+        Vulnerabilities, Planning, Reporting and Warning."));  
+  
+  _shn_home_module_info('msg',_t(
+       "Messaging module is the main communicative root of the Sahana 
+        system. It is used to send SMS, e-mail alerts and/or messages to
+        various groups and individuals before, after and during a disaster.
+        It also provides a convenient way of grouping mobile phone numbers
+        and e-mail addresses."));
         
-        echo _t("To access Sahana documentation, go to ").
-              '<a href="http://wiki.sahana.lk/doku.php?id=doc:nwhome">'._t("Sahana Wiki")."</a><br/>";
+  _shn_home_module_info('sm',_t(
+        "The Situation Awareness module provides a mechanism to 
+         collaboratively provide an overview of the developing disaster,
+         using online mapping (GIS). You can add markers and pictures to
+         pin point incidents on the map.")."\n");
 
-        if ($conf['root_name'] != '') {
-            echo '<br/>'._t("Administrator: ").$conf['root_name'];
-        }
-        if ($conf['root_email'] != '') {
-            echo '.<br/>'._t("Email")." : ".$conf['root_email'];
-        }
-        if ($conf['root_tel'] != '') {
-            echo '<br/>'._t("Telephone")." : ".$conf['root_tel'];
-        }
-    ?>
-        </p>
+    _shn_home_module_info('gps',_t(         
+         "The GPS Interface module provides the ability to use Sahana 
+          with a GPS. The data is imported/exported via GPX files which
+          can be transferred to/from a GPS device via software such as 
+          GPS Babel.")."\n");
+
+    _shn_home_module_info('hr',_t(
+       "The Housing Registry And Reconstruction Module is a
+        centralized database in which users can track homeless 
+        families, damaged houses, contractors and reconstruction sites
+        effectively."));
+        
+    _shn_home_module_info('itag',_t(
+       "Provides image management capabilities."));
+        
+    _shn_home_module_info('pnm',_t(
+       "This module is the public interface for the press and media. It 
+       provides access to the most up-to-date information about the 
+       situation."));     
+                
+    _shn_home_module_info('gis',_t(
+       "Allows you to locate activities on a map providing current 
+        situation awareness."));
+
+    _shn_home_module_info('cr',_t("This module tracks all shelters and 
+       stores basic details regarding them. It collaborates with other 
+       modules to track people associated with a shelter, the services 
+       available etc."));
+
+    _shn_home_module_info('dvr',_t(
+       "The Disaster Victim Registry is a central online repository where
+        information on all the disaster victims and families, especially 
+        identified casualties, evacuees and displaced people can be stored.
+        Information like name, age, contact number, identity card number, 
+        displaced location, and other details are captured. Picture and 
+        finger print details of the people can be uploaded to the system."));
+
+    _shn_home_module_info('rms',_t("Tracks requests for aid and matches 
+       them against donors who have pledged aid."));
+
+    _shn_home_module_info('cr',_t("Tracks the location, distibution, 
+       capacity and breakdown of victims in shelter."));
+       
+    _shn_home_module_info('ws',_t(
+       "Web service module provides a set of web services which can be 
+        used by other Sahana Instances and third-party systems to share 
+        information with Sahana."));
+       
+    _shn_home_module_info('ms',_t(
+       "The MapServer Configuration module provides the ability to 
+        configure maps to be displayed by the integrated UMN MapServer. 
+        Please note that you have to install the UMN/Mapserver GIS Server
+        on your system to use this module."));
+        
+    _shn_home_module_info('ims',_t(
+       "The Sahana Inventory Management System is a database to keep 
+        track of all aid items and supplies kept in your Organization's
+        inventories. It not only keeps track of the location and 
+        quantities of items available, but it also tracks expiry dates, 
+        re-order levels and items in transit. The system is designed to 
+        be simple to a diverse groups of users to interact and manage 
+        stocks in inventories located around the region.")); 
+        
+    _shn_home_module_info('dms',_t(
+       "The Disease Surviellance Module contains data mining and 
+        surviellance informations on spreading of diseases. Graphs, maps
+        and charts are being used to represent those information. The 
+        simple disease diagnosis system can be used in rulal areas and 
+        also as a primary disease diagnosis. This module also consists 
+        of data collecting and storing system for data analyzing and 
+        mining purposes."));
+       
+    _shn_home_module_info('sn',_t(
+       "This is the administrative portal of the Sahana social network, 
+        from here you would be able to do the administrative functions 
+        such as view all the details of SN members,making interest groups
+        based on various conditions and let members know about those 
+        groups. Not only that through this portal the admin would give 
+        authentication for particualar members to share info over the 
+        network."));       
+        
+    _shn_home_module_info('vol',_t("
+      The volunteer registry keeps track of all Volunteers working in the 
+      disaster region. It captures not only the places where they are 
+      active, but also captures information on the range of services they 
+      are providing in each area."));
+      
+    _shn_home_module_info('vm',_t("
+    The volunteer management module keeps track of projects and volunteers."));      
+        
+    _shn_home_module_info('cs',_t("
+      The Aid Catalog is used by the Inventory and the Request Management
+      System as a reference classification of all aid item types. Item 
+      types are classified and grouped by type (e.g. food, medical) and 
+      units are associated to aid types for quantifying purposes by the 
+      other modules. The quantities of Aid is not kept in this module 
+      but for example in the Inventory and Request / Pledge Management 
+      Modules."));
+        
+    _shn_home_module_info('rs',_t("
+      The Reporting System helps to generate reports based on Sahana's
+      database. It aggregates all the module reports in one place for 
+      making easier the user to view, search reports and charts. On the 
+      other hand it performs as the administrator's interface for 
+      module reports."));      
+      
+    _shn_home_module_info('pref',_t("
+      User Preferences Module allow you to configure Sahana."));
+       
+    _shn_home_module_info('admin',_t("The System Administration module 
+    allows you to configure and customize Sahana based on your requirements."));
+  ?>
+    </table>
+  </div> <?php /*<div id="result">*/?>
+  <p>
+    <div id="home-sys-info" style="float:left";>
+    <?php
+      echo _t("For more detail on the Sahana system, see the ").
+        '<a href="http://www.sahana.lk">' ._t("Sahana Website").'</a><br/>';
+        
+      echo _t("For live help from the Sahana community on using this 
+        application, go to ").'<a href="http://www.sahana.lk/chat">'.
+        _t("Sahana Community Chat").".\n</a>\n<br/>";
+        
+     echo _t("To access Sahana documentation, go to ").
+        '<a href="http://wiki.sahana.lk/doku.php?id=doc:home">'.
+        _t("Sahana Wiki")."\n</a>\n<br/>";
+
+     if ($conf['root_name'] != '') {
+         echo '<br/>'._t("Administrator")." : ".$conf['root_name'];
+         }
+         if ($conf['root_email'] != '') {
+           echo '.<br/>'._t("Email")." : ".$conf['root_email'];
+         }
+         if ($conf['root_tel'] != '') {
+             echo '<br/>'._t("Telephone")." : ".$conf['root_tel'];
+         }
+     ?>
     </div>
-
+  </p>
 <?php
-}
+} // closes function shn_home_default()
+
 function _shn_home_module_info($module, $description) 
 {
-    global $conf;
+    global $conf;  ?>
 
-    if ($conf['mod_'.$module.'_enabled']) {
-        echo "<li><a href=\"index.php?mod=$module\" ><strong>".$conf['mod_'.$module.'_name'].'</strong></a> - ';
-        echo _t($description)."</li>\n";
-    }
-
+    <?php
+    if ($conf['mod_'.$module.'_enabled']) { ?>
+        <tr>
+            <td style ="padding:1em;" >
+              <strong>
+                <?php echo "<a href=\"index.php?mod=$module\" >\n"; ?>
+                  <?php echo $conf['mod_'.$module.'_name']."\n" ?>
+                </a>
+              </strong> 
+            </td>
+            <td style ="padding:1em;" >
+              <?php echo $description."\n" ?>
+            </td>
+        </tr>
+<?php }
 }
 
 /**
@@ -73,27 +234,108 @@ function _shn_home_module_info($module, $description)
  *
  */
 function shn_home_welcome(){
-	global $global;
-	echo _t("<h2>Welcome to the Sahana FOSS Disaster Management System</h2>")
-	?>
-<h4><?php echo _t("Congratulations !. You have successfully installed Sahana.")?></h4>
-<p><?php echo _t("You may need to customize sahana according to your requirements.") ?></p>
-	<?php
+    global $global; 
+?>
+<div id="install-success-wrapper" style="float:left";>
+  <h2>
+    <?php echo _t(" Welcome to the Sahana FOSS Disaster Management System")?> 
+  </h2>
+
+  <div id="install-success" style="float:left";>
+    <h4>
+      <?php echo _t("Congratulations! You have successfully installed Sahana.")?>
+    </h4>
+    <p>
+     <?php echo _t("Sahana works through a series of modules.")." ".
+    _t("Each module has its own functionality, for example the \"Situation
+        Awareness\" module provides a map of the current event.")." ".
+    _t("Modules are semi-autonomous.")." ".
+    _t("By this, we mean that each works independently and should be considered an
+        application in its own right.")." ".
+    _t("This has several advantages, enabling developers to quickly build new components.")." ".
+    _t("The disadvantage of this approach is that the learning curve for new users is a little steeper.")." ".
+    _t("Don't worry, Sahana has been successfully deployed in disasters all around the world.")
+    ?>
+    </p>
+  </div><?php /* id="install-success" */ ?>
+  
+  <div id="first-steps" style="float:left";>
+    <h4>
+      <?php echo _t("First Steps") ?>
+    </h4>
+    <div>
+      <h5>
+        <?php echo _t("Name You Disaster") ?>
+      </h5>
+      <p>
+      <?php echo 
+        _t("Before you begin experimenting with all of the modules,
+           you need to give your event a label.")." ".
+       _t("This will be used by Sahana to collate all of the data.")
+      ?>
+      </p>
+
+      <h5>
+        <?php echo _t("Setup your location") ?>
+      </h5>
+      <p>
+      <?php echo 
+        _t("Sahana also needs to know the relevant locations of your event.")." ".
+        _t("You can set your locations within three levels.")." ".
+        _t("Locations and level are set arbitraily by you.")." ".
+        _t("They are completely flexible, and may be set according to your needs.")
+      ?>
+      </p>
+    
+      <h5>
+        <?php echo _t("Customization") ?>
+      </h5>
+      <p>
+      <?php echo 
+        _t("You may need to customize Sahana according to your requirements.")." ".
+        _t("You can do this via the \"Administration\" tab in menu.")." ".
+        _t("By default this appears on the left.")
+       ?>
+      </p>
+
+      <tt>
+       <?php echo _t("Note: This information is repeated in the \"Administration\" menu.") ?>
+      </tt>
+    </div>
+  </div><?php /* id="first-steps" */?>
+  <div id="nav-tips">
+    <h4>
+      <?php echo _t("Navigation Tips") ?>
+    </h4>
+    <p>
+    <?php echo 
+      _t("Sahana's main navigation is split into two menus.").' '.
+      _t("One selects the module you wish to operate, known as the 
+        \"Main Menu\" the other, known as the \"Module Menu\" 
+        navigates within that module.").' '.
+       _t("By default, the Main Menu appears under the Module Menu.")
+      ?>
+     </p>
+  </div><?php /*id="nav-tips"*/ ?>
+</div><?php /*id="install-success-wrapper"*/
 	if(shn_acl_is_enabled()){
-		
 		if($_SESSION['logged_in']===true && $_SESSION['user']=="admin" && $_SESSION['user_id']=="1"){
 			shn_admin_default();
 			// unset it the first time flag so that this never appears again
 			$_SESSION['first_time_run']=false;
 		}else{
-		
 			$_SESSION['last_module']="admin";
 			$_SESSION['last_action']="default";
 		?>
-<div class="message information"><strong> <?php
-echo _t("Please login by entering the administrator username and password in the respective text boxes on the left side
-		panel to proceed customizing sahana.")
-?> </strong></div>
+		
+  <div class="message information">
+    <strong> 
+    <?php
+    echo _t(
+      "Please login as an Administrator to customize Sahana.")
+    ?> 
+    </strong>
+  </div>
 <?php
 		}
 	}else{
@@ -104,7 +346,8 @@ echo _t("Please login by entering the administrator username and password in the
 }
 
 function shn_home_bug_report(){
-	echo "<h2>"._t("Sahana bug reporting")."</h2>";
+  echo "<div class=\"bug-report\">";
+	echo "<h2 class=\"bug-report\">"._t("Sahana bug reporting")."</h2>";
 	
 	shn_form_fopen("bug_report_cr");
 	shn_form_fsopen(_t("Report a bug"));	
@@ -118,9 +361,11 @@ function shn_home_bug_report(){
 	shn_form_submit(_t("Cancel"),"name='cancel'");
 	shn_form_submit(_t("Create Bug Report"),"name='download_rep'");
 	shn_form_fclose();
+  echo "</div>";
 }
 
 function shn_home_bug_report_cr(){
+	//shn_home_bug_create??
 	global $global,$conf;
 	if(isset($_POST['cancel'])){
 		shn_home_default();
@@ -165,7 +410,7 @@ function shn_home_bug_report_cr(){
 			fwrite($fp,"</bug-report>");
 			fclose($fp);
 		
-			echo "<h2>"._t("Thank you for your effort towards making sahana better.")."</h2>";
+			echo "<h2>"._t("Thank you for your effort towards making Sahana better.")."</h2>";
 			echo "<div class='message information'>";
 			echo "<p>"._t("Please download the bug report from the link below and email it to ")."<a href=\"mailto:bugs@sahana.lk\">bugs@sahana.lk</a></p>";
 			echo "<br/>";
@@ -173,7 +418,9 @@ function shn_home_bug_report_cr(){
 			echo "</div>";
 		}else{
 			add_error(sprintf(_t("The path \"%s\" is not writable"),$global['approot']."www/tmp/"));
-			add_error(_t("Failed to create bug report due to the lack of file write permissions to the above folder."));							
+			add_error(_t(
+			  "Unfortunately, reporting this bug failed. 
+			  Sahana lacks file write permissions to the folder."));							
 		}
 		}else{
 			shn_home_bug_report();
@@ -190,6 +437,7 @@ function shn_home_faq(){
 /*
  * Enable disable user feedback user interface.
  */
+
 function shn_home_userfb(){
     echo "<h2>"._t("Help / User feedback preferences")."</h2>";
 	shn_form_fopen("userfb_cr","home",array("req"=>false));
@@ -209,16 +457,16 @@ function shn_home_userfb_cr(){
 		if($valstr=='enabled'){
 			$ret = shn_user_pref_update('home','shn_user_pref_feedback_enabled',true);
 			if($ret == true){
-				add_confirmation(_t("Your preference was successfully saved."));
+				add_confirmation(_t("Your preferences were successfully updated."));
 			}else{
-				add_error(_t("An error occured while saving your preference."));
+				add_error(_t("An error occured while updating your preferences."));
 			}
 		}else{
 			$ret = shn_user_pref_update('home','shn_user_pref_feedback_enabled',false);
 			if($ret == false){
-				add_confirmation(_t("Your preference was successfully saved."));
+				add_confirmation(_t("Your preferences were successfully updated."));
 			}else{
-				add_error(_t("An error occured while saving your preference."));
+				add_error(_t("An error occured while updating your preferences."));
 			}
 		}
 		shn_home_userfb();
@@ -239,11 +487,8 @@ function shn_text_home_download_bug_report(){
 
 // Default stream welcome function 
 function shn_XST_home_default() {
-
     // Currently the stream only redirect to home if there is an error
     echo _t('Welcome to Sahana on the '.$_REQUEST['stream'].' stream.');
-    
-
 }
 
 function shn_home_about(){
@@ -273,8 +518,8 @@ function shn_home_about(){
 		$sql = "SELECT VERSION()";
 		$res = $global['db']->Execute($sql);
 		$about['mysql_version'] = $res->Fields(0);
-		
 		?>
+		
 		<table border="0" class="about-sahana">
 		  <tr>
 		      <th colspan="2" valign="middle"><?php echo 'System Information' ?></th>
