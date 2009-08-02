@@ -25,7 +25,7 @@ function shn_home_default()
 <h2>
   <?php echo _t('Activated Modules') ?>
 </h2>
-<div id="result" style="float:left";>
+<div id="result";>
   <table>
     <tr style="height: 3em;">
       <th>
