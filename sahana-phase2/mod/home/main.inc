@@ -15,25 +15,27 @@ function shn_home_default()
 
   <div id="home";>
     <p>
-		<?php echo _t('Sahana is a collection of web-based disaster management modules.').' '.
-		_t('Its aim is to enhance the preparation for, response to and recovery from emergencies.').' '.
-    	_t('It does this by focusing on alleviating coordination and collaboration problems during large-scale humanitarian operations.');?>
-  </p>
-</div>
+		<?php echo _t('Sahana is a collection of web based disaster management
+    	modules that enhance the preparation for, response to and recovery from
+    	large-scale humanitarian coordination and collaboration problems in 
+    	disaster situations.');?>
+    </p>
+  </div>
 
-<h2>
-  <?php echo _t('Activated Modules') ?>
-</h2>
-<div id="result";>
+  <h2>
+    <?php echo _t('Activated Modules') ?>
+  </h2>
+
+<div id="result" style="float:left";>
   <table>
-    <tr style="height: 3em;">
-      <th>
+    <thead style="height: 3em;">
+      <td>
         <?php echo _t("Module Name") ?>
-      </th>
-      <th>
+      </td>
+      <td>
         <?php echo _t("Module Description")."\n" ?>
-      </th>
-    </tr>
+      </td>
+    </thead>
   <?php
     _shn_home_module_info('sr',_t(
        "The situation reporting module provides a mechanism to store and
@@ -237,12 +239,12 @@ function shn_home_welcome(){
 ?>
 <div id="install-success-wrapper" style="float:left";>
   <h2>
-    <?php echo _t(" Welcome to the Sahana FOSS Disaster Management System")?> 
+    <?php echo _t("Welcome to the Sahana FOSS Disaster Management System")?> 
   </h2>
 
   <div id="install-success" style="float:left";>
     <h4>
-      <?php echo _t("Congratulations! You have successfully installed Sahana.")?>
+      <?php echo _t("Congratulations!").' '._t('You have successfully installed Sahana.')?>
     </h4>
     <p>
      <?php echo _t("Sahana works through a series of modules.")." ".
@@ -264,7 +266,7 @@ function shn_home_welcome(){
     </h4>
     <div>
       <h5>
-        <?php echo _t("Name You Disaster") ?>
+        <?php echo _t("Name Your Disaster") ?>
       </h5>
       <p>
       <?php echo 
