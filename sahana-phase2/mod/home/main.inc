@@ -15,10 +15,9 @@ function shn_home_default()
 
   <div id="home";>
     <p>
-		<?php echo _t('Sahana is a collection of web based disaster management
-    	modules that enhance the preparation for, response to and recovery from
-    	large-scale humanitarian coordination and collaboration problems in 
-    	disaster situations.');?>
+		<?php echo _t('Sahana is a collection of web-based disaster management modules.').' '.
+		_t('Its aim is to enhance the preparation for, response to and recovery from emergencies.').' '.
+    	_t('It does this by focusing on alleviating coordination and collaboration problems during large-scale humanitarian operations.');?>
   </p>
 </div>
 
