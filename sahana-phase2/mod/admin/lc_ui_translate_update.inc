@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /**
 *
 * PHP version 4 and 5
@@ -38,12 +38,7 @@ function _shn_admin_lc_translate_compile(){
     	add_error('Translation not updated, please give directory and file permission to sahana/res folder.');
     	display_errors();
     	exit;
-    }else
-   		add_confirmation(_t('Translation updated succesfully'));
-
+    } else {
+   		add_confirmation(_t('Translation updated succesfully.'));
 }
-
-
-
-
 ?>
