@@ -17,7 +17,7 @@
 * Public License (LGPL)
 *  
 */
-$conf['mod_sr_name'] = _t("Situation Report");
+$conf['mod_sr_name'] = _t("Situation Reporting");
 $conf['mod_sr_menuorder'] = 1; 
 $conf['mod_sr_dependencies'] = "";
 ?>
