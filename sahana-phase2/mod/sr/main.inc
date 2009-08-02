@@ -33,7 +33,7 @@ function shn_sr_mainmenu()
     global $global;
     $module = $global['module'];
     
-    shn_mod_menuopen(_t('Situation Report'));
+    shn_mod_menuopen(_t('Situation Reporting'));
     	shn_mod_menuitem('default',_t('Home'));
     	shn_mod_menuitem('create',_t('Create'));
     	shn_mod_menuitem('update',_t('Update'));
@@ -63,7 +63,11 @@ function shn_sr_form_submit()
 				shn_sr_store_reg_new_report($rpt_name,$rpt_desc);
 			} else {
 				// if name is already there then ask for another name
-				add_error('Report name <strong>'.$rpt_name.'</strong> is already in the database!');
+				add_error(
+				  _t('A report has already been registered with this name.').' '.
+				  _t('Please change a unique name for your report.').' '.
+				  _t('We suggest using the format YYMMDD-name.')
+				  );
 				shn_sr_report_register();
 			}
 		break;
@@ -80,7 +84,7 @@ function shn_sr_form_submit()
 				shn_sr_store_report_update($rpt_id, $rpt_name, $rpt_summary, $rpt_event, $rpt_action, $rpt_figure);
 			} else {
 				// back to main report list
-				add_warning(_t('Editing of the <strong>'.$_POST['name'].'</strong> report has been canceled!'));
+				add_warning(_t('Editing of the report has been canceled.'));
 				shn_sr_report_list("update");
 					
 			}
@@ -90,24 +94,49 @@ function shn_sr_form_submit()
 
 function shn_sr_default()
 {
-	print _t("<h1><center>Situation Report</center></h1>");
-	print _t("<p>Situation Report (SITRep) module provides mechanism to store and retrieve reports easily. Reports can be updated collaboratively.</p>");
-	?><br></br>
-    <div><h3><b><em><?php echo  (_t("Features Include:")) ?></em></b></h3></div>
+	?>
+	<h1>
+	  <center><?php echo (_t("Situation Reporting")); ?></center>
+	</h1>
+	<p>
+	  <?php echo (_t("The Situation Reporting module allows responding agencies to generate reports about the current situation in each incident.").' '.
+	  _t('Reports can be worked on collaboratively.'));
+	  ?>
+	</p>
+	
+	<div>
+      <?php
+       //TODO: create conditional that checks whether a report has been generated
+       shn_sr_view();
+      ?>
+    </div>
+    
+    <h2>
+      <?php echo (_t("Functionality")); ?>
+    </h2>
       
     <ul>
-        <li><a href="index.php?mod=sr&act=create"><b><?php echo  (_t("Register :"))?></b></a><br><?php echo  (_t("This will create and register a new situation reports with the system."))?></li>
-        <li><a href="index.php?mod=sr&act=update"><b><?php echo  (_t("Update :"))?></b></a><br><?php echo  (_t("Reports can be updated collaboratively and can be host as a single version."))?></li>
-        <li><a href="index.php?mod=sr&act=view"><b><?php echo  (_t("View :"))?></b></a><br><?php echo  (_t("This will provides, reports navigation and easy browsing. Exporting reports in to other formats (such as PDF, Text, etc.) will be available soon."))?></li>
-        
-            </ul>
+      <li>
+        <a href="index.php?mod=sr&act=create"><b><?php echo  (_t("Create").' :')?></b></a><br />
+        <?php echo  (_t("This function creates new situation reports."))?>
+      </li>
+      <li>
+        <a href="index.php?mod=sr&act=update"><b><?php echo  (_t("Update").' :')?></b></a><br />
+        <?php echo  (_t("Reports can be updated collaboratively and can be host as a single version."))?>
+      </li>
+      <li>
+        <a href="index.php?mod=sr&act=view"><b><?php echo  (_t("View").' :')?></b></a><br/>
+        <?php echo  (_t("This will provides, reports navigation and easy browsing. Exporting reports in to other formats (such as PDF, Text, etc.) will be available soon."))?>
+      </li>
+    </ul>
     <?php
+    
     
 }
 
 function shn_sr_create()
 {
-	print "<h1>Report an incident</h1>";
+	print '<h1>'."Report an incident".'</h1>';
 	// capture basic "report" information
 	shn_sr_report_register();
 }
@@ -142,4 +171,5 @@ function shn_sr_view()
 {
 	shn_sr_report_list("view");
 }
+
 ?>
