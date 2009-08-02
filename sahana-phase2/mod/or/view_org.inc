@@ -564,7 +564,7 @@ function _shn_or_viewform_latest_orgs($no=NULL)
 					$res_operation=$db->Execute($q);
 					while(!$res_operation==NULL && !$res_operation->EOF){
 						$operation_id=$res_operation->fields["o_uuid"];
-						_shn_display_latest_orgs($operation_id,true);
+						_shn_display_latest_orgs($operation_id, true, false, $org_id);
 						$res_operation->MoveNext();
 					}
 				}
@@ -578,7 +578,7 @@ function _shn_or_viewform_latest_orgs($no=NULL)
 }
 }
 
-function _shn_display_latest_orgs($org_id,$indent=false,$edit=false)
+function _shn_display_latest_orgs($org_id, $indent=false, $edit=false, $parent = null)
 {
 	global $global;
 	$db=$global["db"];
@@ -606,12 +606,15 @@ field_options.option_code=sector.opt_sector AND field_options.field_name='opt_se
 	?>
 		<tr>
 			<td><?php
-			$parent=$res_org->fields["name"];
 			if($indent==true){
+					$q = "SELECT name FROM org_main WHERE o_uuid='{$parent}'";
+					$res_parent =  $db->Execute($q);
+					$parent_name = $res_parent->fields["name"];
+					$name = $res_org->fields["name"]." Of ". $parent_name;
 				?> <a
-				href="index.php?mod=or&act=edit_org&org_id=<?php echo $res_org->fields["o_uuid"] ?>"><?php echo "--->".$res_org->fields["name"]?></a>
+				href="index.php?mod=or&act=edit_org&org_id=<?php echo $res_org->fields["o_uuid"] ?>"><?php echo $name;?></a>
 				<?php
-}else{
+			}else{
 	?> <a
 				href="index.php?mod=or&act=edit_org&org_id=<?php echo $res_org->fields["o_uuid"] ?>"><?php echo $res_org->fields["name"]?></a>
 				<?php
