@@ -41,7 +41,7 @@ function shn_email_validate($email)
  */
 function shn_setup_validate_general_dependencies()
 {
-	global $global;
+	global $global, $writableDirectories;
 
 	$continue = true;
 
@@ -49,8 +49,13 @@ function shn_setup_validate_general_dependencies()
 	if (!extension_loaded('gd')) $continue = false;
 	if (!extension_loaded('mysql')) $continue = false;
 	if (!extension_loaded('gettext')) $continue = false;
-	if (!is_writable($global['approot'].'www/tmp')) $continue = false;
-	if (!is_writable($global['approot'].'conf')) $continue = false;
+
+	foreach ($writableDirectories as $dir) {
+		if (!is_writable($global['approot'].$dir)) {
+			$continue = false;
+		}
+	}
+
 	return $continue;
 }
 

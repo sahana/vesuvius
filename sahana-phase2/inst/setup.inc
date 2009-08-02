@@ -32,6 +32,9 @@ require_once ($global['approot'].'inc/lib_uuid.inc');
 require_once ($global['approot'].'inc/lib_validate.inc');
 require_once ($global['approot'].'inc/lib_config.inc');
 
+global $writableDirectories;
+$writableDirectories = array('www/tmp', 'conf', 'backups');
+
 include('setup_actions.inc');
 include('setup_pages.inc');
 include('setup_validations.inc');

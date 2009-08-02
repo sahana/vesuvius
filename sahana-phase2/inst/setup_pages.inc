@@ -20,7 +20,7 @@
  */
 function shn_setup_general_dependencies()
 {
-	global $global;
+	global $global, $writableDirectories;
 	$isOK = true;
 	$tick_img = '<img align="top" src="theme/default/img/tic.png" alt="tick"/>';
 	$cross_img = '<img align="top" src="theme/default/img/cross.png" alt="cross"/>';
@@ -90,41 +90,29 @@ function shn_setup_general_dependencies()
 	?>
 <p><?php echo _t('The following checks if certain files and sub-directories have write permissions for Sahana to function,')?></p>
 	<?php
-	$tmpWritable = is_writable($global['approot'].'www/tmp');
-	$isOK &= $tmpWritable;
 
-	if ($tmpWritable) {
-		//shn_form_label(_t('Sahana www/tmp/ is writable?'),"The Sahana sub-directory writable");
-		shn_form_label(_t('<i>sahana/www/tmp/</i>'),"is <strong><font color=green>writable</font></strong>!<br>");
-	} else {
-		//shn_form_label(_t('Sahana www/tmp/ is writable?'),"The Sahana sub-directory not writable");
-		shn_form_label(_t('<i>sahana/www/tmp/</i>'),"is <strong><font color=red>not writable</font></strong>!<br>");
-		//echo "<p><br/>$oops_img The directory ".$global['approot']."www/tmp needs to be writable by the web server at least. Please change the permissions of this directory and try again.</p>";
+	$notWritable = array();
+	foreach ($writableDirectories as $dir) {
+		$dirWritable = is_writable($global['approot'].$dir);
+		$isOK &= $dirWritable;
+		
+		if ($dirWritable) {
+			shn_form_label(_t("<i>sahana/$dir/</i>"),"is <strong><font color=green>writable</font></strong>!<br>");
+		} else {
+			shn_form_label(_t("<i>sahana/$dir/</i>"),"is <strong><font color=red>not writable</font></strong>!<br>");
+			$notWritable[] = $dir;
+		}
 	}
-
-	/* if ($value) {
-	 shn_form_label(_t('Sahana www/tmp/ is writable?'), $tick_img."The Sahana sub-directory writable");
-	 } else {
-	 shn_form_label(_t('Sahana www/tmp/ is writable?'), $cross_img."The Sahana sub-directory not writable");
-	 echo "<p><br/>$oops_img The directory ".$global['approot']."www/tmp needs to be writable by the web server at least. Please change the permissions of this directory and try again.</p>";
-	 }
-
-	 /*   $value = (is_writable($global['approot'].'res/locale'))? 'checked':'';
-
-	 shn_form_checkbox('Sahana res/locale is writable?','write_locale',$value.'
-	 disabled="true"',array('value'=>'y','help'=>'hello'));
-	 */
-	$confWritable = is_writable($global['approot'].'conf');
-	if ($confWritable) {
-		//shn_form_label(_t('Sahana www/conf/ is writable?'), $tick_img."The Sahana sub-directory writable");
-		shn_form_label(_t('<i>sahana/conf/</i>'),"is <strong><font color=green>writable</font></strong>!<br>");
-	} else {
-		//shn_form_label(_t('Sahana www/conf/ is writable?'), "The Sahana sub-directory not writable");
-		shn_form_label(_t('<i>sahana/conf/</i>'),"is <strong><font color=red>not writable</font></strong>!<br>");
-	}
-	if (!$tmpWritable || !$confWritable) {
-		$both = (!$tmpWritable && !$confWritable);
-		echo "<p>Note: <font color=gray>" . (($both ? "both " : "")) . ((!$confWritable) ? "<strong>sahana/conf/</strong>" : "") . (($both) ? " and " : " ") . ((!$tmpWritable) ? "<strong>sahana/www/tmp/</strong>" : "") . " need" . ((!$both) ? "s" : "") . " to be writable by the web server at least. Please change the permissions of " . ((!$both) ? "this directory" : "these directories") . " and try again.</font></p>";
+	if (!empty($notWritable)) {
+		$missingDirectories = implode('</strong>, <strong>', $notWritable);
+		echo "<p>Note: <font color=gray>";
+		if (count($notWritable) > 1) {
+			echo "A few directories (<strong>$missingDirectories</strong>) need to be writable by the web server at least. Please change the permissions of these directories and try again.";
+		}
+		else {
+			echo "The <strong>$missingDirectories</strong> directory needs to be writable by the web server at least. Please change the permissions of this directory and try again.";
+		}
+		echo '</font></p>';
 	}
 	shn_form_fsclose();
 
