@@ -23,7 +23,7 @@ function shn_home_default()
   </div>
 
   <h2>
-    <?php echo _t('Activated Modules') ?>
+    <?php 	echo _t('Activated Modules') ?>
   </h2>
 
 <div id="result";>
@@ -37,6 +37,11 @@ function shn_home_default()
       </td>
     </thead>
   <?php
+
+#	_shn_home_module_info searches to see whether the module is activated,
+#	it then returns the full name of the module and it's description in a table.
+# See line 216 onwards for full details
+
     _shn_home_module_info('sr',_t(
        "The situation reporting module provides a mechanism to store and
         retrieve reports easily. Reports can be updated collaboratively
@@ -214,12 +219,17 @@ function _shn_home_module_info($module, $description)
     global $conf;  ?>
 
     <?php
-    if ($conf['mod_'.$module.'_enabled']) { ?>
+    if ($conf['mod_'.$module.'_enabled']) { 
+	
+	# Have used inline styles because I didn't want to disrupt the sahana.css
+	# Will fix. -timClicks
+	?>
         <tr>
             <td style ="padding:1em;" >
               <strong>
-                <?php echo "<a href=\"index.php?mod=$module\" >\n"; ?>
-                  <?php echo $conf['mod_'.$module.'_name']."\n" ?>
+                 <?php
+				  echo "<a href=\"index.php?mod=$module\" >\n";
+                  echo $conf['mod_'.$module.'_name']."\n" ?>
                 </a>
               </strong> 
             </td>
