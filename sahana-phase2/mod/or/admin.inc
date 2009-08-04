@@ -26,7 +26,7 @@ function _shn_or_adm_sub_menu()
 <a href="index.php?mod=or&act=adm_location">Set starting Location</a> -->
 </div>
 
-<br>
+<br />
 <?php
 }
 function shn_or_adm_default()
@@ -36,8 +36,8 @@ function shn_or_adm_default()
     <h2> <?php echo _t("Organisation Registry Configuration.")?> </h2><br/>
     <p><?php echo _t("Use the following links or the above tabs to chage organization types and sectors.") ?></p>
 <ul>
-    <li><b><a href="index.php?mod=or&act=adm_or_type"><?php echo _t("Organization Types") ?></a></b><br/> - <?php echo _t("Change the types of organizations, (add new, edit or delete)") ?></li><br/>
-    <li><b><a href="index.php?mod=or&act=adm_sector"><?php echo _t("Organization Sectors") ?></a></b><br/> - <?php echo _t("Change the organization sectors, (add new, edit or delete)")?></li><br/>
+    <li><b><a href="index.php?mod=or&act=adm_or_type"><?php echo _t("Organization Types") ?></a></b><br /> - <?php echo _t("Change the types of organizations, (add new, edit or delete)") ?></li><br />
+    <li><b><a href="index.php?mod=or&act=adm_sector"><?php echo _t("Organization Sectors") ?></a></b><br /> - <?php echo _t("Change the organization sectors, (add new, edit or delete)")?></li><br />
 </ul>
 
 <?php
@@ -78,7 +78,8 @@ function shn_or_adm_sector()
     shn_or_adm_or_sector_form();
 }
 
-function shn_or_adm_sector_cr(){
+function shn_or_adm_sector_cr()
+{
 	
     global $global;
     include_once $global['approot'].'inc/lib_misc.inc';
