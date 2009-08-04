@@ -18,10 +18,13 @@ include_once "admin_forms.inc";
 
 function _shn_or_adm_sub_menu()
 {
+// This submenu appears in Administration > Module Configuration > Organization Registry
 ?>
 <div id="submenu_v">
-<a href="index.php?mod=or&act=adm_or_type"><?php echo _t("Organization Types")?></a> 
-<a href="index.php?mod=or&act=adm_sector"><?php echo _t("Organization Sectors")?></a>
+    <a href="index.php?mod=or&act=adm_or_type">
+	<?php echo _t("Organization Types")?>
+    </a> 
+    <a href="index.php?mod=or&act=adm_sector"><?php echo _t("Organization Sectors")?></a>
 <!--<a href="index.php?mod=or&act=adm_location_range">Set Location Range</a>
 <a href="index.php?mod=or&act=adm_location">Set starting Location</a> -->
 </div>
@@ -33,12 +36,36 @@ function shn_or_adm_default()
 {
     _shn_or_adm_sub_menu();
 ?>
-    <h2> <?php echo _t("Organisation Registry Configuration.")?> </h2><br/>
-    <p><?php echo _t("Use the following links or the above tabs to chage organization types and sectors.") ?></p>
-<ul>
-    <li><b><a href="index.php?mod=or&act=adm_or_type"><?php echo _t("Organization Types") ?></a></b><br /> - <?php echo _t("Change the types of organizations, (add new, edit or delete)") ?></li><br />
-    <li><b><a href="index.php?mod=or&act=adm_sector"><?php echo _t("Organization Sectors") ?></a></b><br /> - <?php echo _t("Change the organization sectors, (add new, edit or delete)")?></li><br />
-</ul>
+    <h2>
+	<?php echo _t("Organisation Registry Configuration.")?>
+    </h2>
+    <br />
+    
+    <p>
+	<?php echo _t("Use the following links or the above tabs to chage organization types and sectors.") ?>
+    </p>
+
+    <ul>
+        <li>
+	    <b>
+		<a href="index.php?mod=or&act=adm_or_type">
+		    <?php echo _t("Organization Types") ?>
+		</a>
+	    </b>
+	    <br /> - <?php echo _t("Change the types of organizations, (add new, edit or delete)") ?>
+	</li>
+	<br />
+        
+	<li>
+	    <b>
+		<a href="index.php?mod=or&act=adm_sector">
+		    <?php echo _t("Organization Sectors") ?>
+		</a>
+	    </b>
+	    <br /> - <?php echo _t("Change the organization sectors, (add new, edit or delete)")?>
+	</li>
+	<br />
+    </ul>
 
 <?php
 }
