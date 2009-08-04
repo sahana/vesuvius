@@ -217,7 +217,7 @@
 				add_warning(_('Alternatively, you can try the') . '<a href="index.php?mod=vm&act=volunteer&vm_action=display_search&advanced=true">Advanced Search</a>,' . _('specifying \'Loose Name Matching\''));
 		{/php}
 	{else}
-		<center>_("(none)")</center>
+		<center>{php}echo _('There are no volunteers found'){/php}</center>
 	{/if}
 {/if}
 <br /><br />
