@@ -28,7 +28,7 @@ function _shn_or_regform_org($error=false)
    
 
 ?>
-<h2><?php echo  _t('Organization Registration')?></h2>
+<h2><?php echo  _t('Register an Organization')?></h2>
 <?php
 /*    if($error)
     display_errors();*/
@@ -36,18 +36,20 @@ function _shn_or_regform_org($error=false)
 <div class="form-container">
 <?php
     shn_form_fopen("reg_org_gis_map");
-    shn_form_fsopen(_t("Primary Details"));
+    shn_form_fsopen(_t("Main Details"));
     $extra_opts['req']=true;
-    ?><div class="info"><?php echo  _t("These are the basic details of an organization. The organization name is required, but the registration number is optional");?> </div><br /><?php
+    ?><div class="info"><?php echo  _t("These are the basic details of the organization. A name is required, but a registration number is optional.");?> </div><br /><?php
     if($error==true){
     		$extra_opts['value']=$_SESSION['org']['name'];
     }
-    shn_form_text(_t("Organization Name : "),'org_name','size="40"',$extra_opts); 
+    shn_form_text(_t("Name ").': ','org_name','size="40"',$extra_opts); 
     $extra_opts['req']=false;
     if($error==true){
     		$extra_opts['value']=$_SESSION['org']['reg_no'];
     }
-    $extra_opts['help']=_t("If your organization is registered under the government, please enter your company registration number");
+    $extra_opts['help']=_t("Please enter the most revelant registration number. If you have multiple registration numbers, select the one that is most important for disaster relief operations.")."<br /><br />".
+    _t("This field is optional.")." ".
+    _t("If you are an unregistered organization, then please leave the field blank.");;
     shn_form_text(_t("Registration Number(if any) : "),'reg_no','size="40"',$extra_opts); 
     shn_form_fsclose();
     shn_form_fsopen(_t("Organization Type"));
@@ -73,7 +75,7 @@ function _shn_or_regform_org($error=false)
   // 	$range=array('start'=>2,'end'=>3);
   // 	$extra_opts["camps"]=true;
   // 	$extra_opts["org"]=true;
-    $extra_opts['help']=(_t("Select the location based at.  This is hierarchical. For example if you are based  in the country 'Sri lanka' ,district 'Colombo' ,and village 'Dehiwala',  start by selecting the country. Once you select the country all the divisions of that country will be shown in the next select box.  In this case all districts in 'Sri lanka' will appear . From those select a district, which inturn will show the village list in the next select box. Select 'dehiwala' and it is done! Please note that the levels can be customized, hence it does not need to always be 'country'->'district'->'village'. It is configurable from the 'administration' section."));//display help icon only once
+    $extra_opts['help']=(_t("Select your location, moving from country to city.")."<br /><br />"._t("Available locations are set by administrators. Please contact them if your district or city is missing."));//display help icon only once
  	shn_form_fsopen(_t("Base Location"));
  	if($error==true){
  		shn_location(null,$_SESSION['org']['loc'],null,$extra_opts);
@@ -85,7 +87,7 @@ function _shn_or_regform_org($error=false)
     shn_form_fsclose();
 
     // Contact infomation
-    shn_form_fsopen(_t("Contact Information"));
+    shn_form_fsopen(_t("Contact Infomation"));
     _shn_or_display_contact_person($error,false,null);
     shn_form_fsclose();
     shn_form_fsopen(_t("Facilities Available"));
@@ -157,7 +159,9 @@ function _shn_or_regconfirm_org()
 	}else{
 		// do not show the warning when confirm edit.
 		if($_POST['action']!='confirm_edit'){
-			$msg=_t("An Organization by the name ").$_SESSION['org']['name']._t(" exists already. May be you should change the name?");
+			$msg= $_SESSION['org']['name']._t(" already exists in the database.").' '.
+			_t("Please consider changing the name to something unique.").' '.
+			_t("If the organisation you are registering is a part of").' '.$_SESSION['org']['name']._t(", consider registering it as a branch or department.");
 			add_warning($msg);
 		}
 	}
@@ -230,22 +234,23 @@ function _shn_or_regform_operation($error=false,$parent_org=null)
     $q="SELECT name FROM org_main WHERE o_uuid='{$parent_org}'";
     $res=$db->Execute($q);
 ?>
-<h2><?php echo _t("Add an Operation/Branch under the Organization ").$res->Fields("name")?> </h2>
+<h2><?php echo _t("Add a Branch or Department under").' '.$res->Fields("name")?> </h2>
 <div class="information message">
-<?php echo _t("Your Organization might be having branches or carrying out relief operations in this disaster. Then information of those operations is usefull ");?>
+<?php echo _t("If you wish to create a branch, department, field team or 
+another sub-entity of this organization, do so here.")." "._t("Creating sub-entities is useful, because you will be able to track progress of the team, seperate from the rest of the organization.");?>
 </div>
                
 <div class="form-container">
 <?php
     shn_form_fopen("reg_org_gis_map");
-    shn_form_fsopen(_t('Holding Company'));
+    shn_form_fsopen(_t('Parent Organization'));
     _shn_or_display_orgs(false,false,$parent_org);
     shn_form_fsclose();
     shn_form_fsopen(_t('Primary Details'));
     $extra_opts['req']=true;
-    shn_form_text(_t("Operation/Branch Name : "),'org_name','size="50"',$extra_opts); 
+    shn_form_text(_t("Branch, Department or Field Team's Name : "),'org_name','size="50"',$extra_opts); 
 	shn_form_fsclose();
-	shn_form_fsopen(_t("Relationship to the Holding Company"));
+	shn_form_fsopen(_t("Relationship to the Parent Organisation"));
     _shn_or_display_org_sub_type($error);
     shn_form_fsclose();
     shn_form_fsopen(_t("Organization Sector"));
