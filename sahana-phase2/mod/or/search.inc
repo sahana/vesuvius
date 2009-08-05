@@ -30,21 +30,21 @@ function _shn_or_form_search()
 <?php
     shn_form_fopen("search_cr","or",array("req_message"=>false));
 
-    shn_form_fsopen(_t('Primary Details'));
+    shn_form_fsopen(_t('Search for'));
 		$extra_opts['req']=false;
-		shn_form_text(_t('Name').' : ','org_name','size="40"',$extra_opts);
+		shn_form_text(_t('Name').':','org_name','size="40"',$extra_opts);
 		
 		$extra_opts['help']=_t('Please select the legal entity type of the organization that you are searching for.');
 		$extra_opts['all']=true;
 		$extra_opts['value']='all';
-		shn_form_opt_select('opt_org_type',_t('Organization Type'),null,$extra_opts);
+		shn_form_opt_select('opt_org_type',_t('Entity Type').':',null,$extra_opts);
 		
 		$extra_opts['help']=_t('Select the services you wish to find providers for.');
 		$extra_opts['value']='all';
-		shn_form_opt_select('opt_sector_type',_t('Services Provided by the Organization').' ',null,$extra_opts);
+		shn_form_opt_select('opt_sector_type',_t('Services Provided').':',null,$extra_opts);
     shn_form_fsclose();
 	
-    shn_form_fsopen(_t("Base Location"));
+    shn_form_fsopen(_t("Narrow the location to"));
 		shn_location(null,null,null,$extra_opts);
 		shn_form_text(_t("Address").' : ','loc_txt','size="40"', NULL);
  	shn_form_fsclose();
