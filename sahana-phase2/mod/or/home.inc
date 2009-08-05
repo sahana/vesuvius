@@ -48,15 +48,24 @@
     <?php echo _t('The Organization Registry keeps track of every registered organization.').' '._t('It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.')."\n"?>
 	</p>
 
-
-<h3><?php echo _t("Current features include:")?></h3>
-<p></p>
-<ul>
-	<li><?php echo _t("Capturing organizational information of a relief organization and all the activities they have in the region")?></li>
-	<li><?php echo _t('Capturing the essential services each group is providing and where')?></li>
-	<li><?php echo _t('Reporting on the services and support in the region')?></li>
-	<li><?php echo _t('Importantly where there are no aid services being provided')?></li>
-</ul>
+	<h2>
+		<?php echo _t("Current features include:")?>
+	</h2>
+	
+	<ul>
+		<li>
+			<?php echo _t("Capturing organizational information of a relief organization and all the activities they have in the region")."\n"?>
+		</li>	
+		<li>
+			<?php echo _t('Capturing the essential services each group is providing and where')."\n"?>
+		</li>
+		<li>
+			<?php echo _t('Reporting on the services and support in the region')."\n"?>
+		</li>
+		<li>
+			<?php echo _t('Importantly where there are no aid services being provided')."\n"?>
+		</li>
+	</ul>
 
 <br />
 <strong><?php echo _t("Description of Actions:");?></strong>
