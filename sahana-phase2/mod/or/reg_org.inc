@@ -28,7 +28,9 @@ function _shn_or_regform_org($error=false)
    
 
 ?>
-<h2><?php echo  _t('Register an Organization')?></h2>
+<h2>
+	<?php echo  _t('Register an Organization')?>
+</h2>
 <?php
 /*    if($error)
     display_errors();*/
@@ -38,7 +40,11 @@ function _shn_or_regform_org($error=false)
     shn_form_fopen("reg_org_gis_map");
     shn_form_fsopen(_t("Main Details"));
     $extra_opts['req']=true;
-    ?><div class="info"><?php echo  _t("These are the basic details of the organization. A name is required, but a registration number is optional.");?> </div><br /><?php
+    ?>
+	<div class="info">
+		<?php echo  _t("These are the basic details of the organization. A name is required, but a registration number is optional.");?>
+	</div>
+	<br /><?php
     if($error==true){
     		$extra_opts['value']=$_SESSION['org']['name'];
     }
@@ -94,24 +100,22 @@ function _shn_or_regform_org($error=false)
     _shn_or_display_org_facilities($error);
     shn_form_fsclose();
 ?>
-<br />
-<center>
+	<br />
+	<center>
+		<?php   shn_form_submit(_t("Next")); ?>
+	</center>
+	<br />
 <?php
-//create the submit button
-    shn_form_submit(_t("Next"));
-?>
-</center>
-<br />
-<?php
-    //close the form
     shn_form_hidden(array('org_type'=>'1'));
     shn_form_fclose();
 ?>				     
 </div>
 <?php
-    // end of form
-} 
+} // closes _shn_or_regform_org()
 
+
+// This function brings up the map, so that orgs
+// can select their location by clicking.
 function _shn_or_reg_gis_map()
 {
 	global $global;
@@ -121,19 +125,15 @@ function _shn_or_reg_gis_map()
     shn_gis_add_marker_map_form("Area Map","",null,array('marker'=>'single'));
     ?>
     <br />
-<center>
+	<center>
+		<?php shn_form_submit(_t("Next")); ?>
+	</center>
+	<br />
 <?php
-//create the submit button
-    shn_form_submit(_t("Next"));
-?>
-</center>
-<br />
-<?php
-    //close the form
     shn_form_fclose();
-	
-    
-}
+}  // closes _shn_or_reg_gis_map()
+
+
 
 function _shn_or_regconfirm_org()
 {
@@ -141,7 +141,10 @@ function _shn_or_regconfirm_org()
     global $conf;
     $db=$global['db'];
 ?>
-<h2><?php echo  _t('Confirm Registration Details of ').$_SESSION['org']['name'] ?></h2>
+<h2>
+	<?php echo  _t('Confirm Registration Details of ').$_SESSION['org']['name'] ?>
+</h2>
+
 <div class="form-container">
 <?php
 	if( $_POST['action']=='confirm_edit'){
@@ -234,12 +237,16 @@ function _shn_or_regform_operation($error=false,$parent_org=null)
     $q="SELECT name FROM org_main WHERE o_uuid='{$parent_org}'";
     $res=$db->Execute($q);
 ?>
-<h2><?php echo _t("Add a Branch or Department under").' '.$res->Fields("name")?> </h2>
+<h2>
+	<?php echo _t("Add a Branch or Department under").' '.$res->Fields("name")?>
+</h2>
 <div class="information message">
-<?php echo _t("If you wish to create a branch, department, field team or 
-another sub-entity of this organization, do so here.")." "._t("Creating sub-entities is useful, because you will be able to track progress of the team, seperate from the rest of the organization.");?>
+	<?php echo _t("If you wish to create a branch, department, field team or another 
+	sub-entity of this organization, do so here.")." "._t("Creating sub-entities is useful, 
+	because you will be able to track progress of the team, seperate from the rest of 
+	the organization."); ?>
 </div>
-               
+
 <div class="form-container">
 <?php
     shn_form_fopen("reg_org_gis_map");
