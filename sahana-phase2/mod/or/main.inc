@@ -31,20 +31,23 @@ function shn_or_mainmenu()
     global $global;
     global $conf;
     $module = $global['module'];
-  //  $loc=_shn_or_get_start_loc();
+    //  $loc=_shn_or_get_start_loc();
     shn_mod_menuopen(_lc($conf['mod_or_name']));
     shn_mod_menuitem("default",_t("Home"),$module);
-	shn_mod_menuitem("search",_t("Search"),$module);
+    shn_mod_menuitem("search",_t("Search"),$module);
+    
     shn_sub_mod_menuopen(_t("Register"));
-    shn_mod_menuitem("reg_org",_t("Register an Organization"),$module);
-    shn_mod_menuitem("reg_operation",_t("Register a Department/Branch"),$module);
+      shn_mod_menuitem("reg_org",_t("Register an Organization"),$module);
+      shn_mod_menuitem("reg_operation",_t("Register a Department/Branch"),$module);
     shn_sub_mod_menuclose();
+    
     shn_mod_menuitem("view_org",_t("View and Edit"),$module);
+    
     shn_sub_mod_menuopen(_t("Reports"));
-    shn_mod_menuitem("drill_report_loc",_t("Drill down Location Coverage"),$module);
-    shn_mod_menuitem("drill_report_org",_t("Drill down Organization Coverage"),$module);
-  //  shn_mod_menuitem("org_incident","Organizations by Incident",$module);
-    shn_mod_menuitem("org_sector",_t("Organizations by Sector"),$module);
+      shn_mod_menuitem("org_sector",_t("List of Organizations"),$module);
+      shn_mod_menuitem("drill_report_loc",_t("Spread of Service Provision"),$module);
+      shn_mod_menuitem("drill_report_org",_t("Depth of Service Provision"),$module);
+      //shn_mod_menuitem("org_incident","Organizations by Incident",$module);
     shn_sub_mod_menuclose();
     shn_mod_menuclose();
     
