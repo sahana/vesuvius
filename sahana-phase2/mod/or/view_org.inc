@@ -40,14 +40,14 @@ function _shn_or_display_page_links()
 function _shn_or_display_page($page)
 {
 	?>
-<h2>Organization Registry</h2>
+<h2><?php echo _t('Organization Registry'); ?></h2>
 <div><?php 
-shn_report_download("shn_or_all_orgs_pdf","Download as PDF");
+shn_report_download("shn_or_all_orgs_pdf",_t("Download report as a PDF"));
 ?></div>
 <?php
 if (($_SESSION["org"]["total_pages"])<1) {
 	?>
-<div id="note"><?php echo _t("No Organizations ");?></div>
+<div id="note"><?php echo _t("No organizations have yet been registered.");?></div>
 	<?php
 	return;
 }else{
@@ -55,7 +55,7 @@ if (($_SESSION["org"]["total_pages"])<1) {
 }
 
 ?>
-<div id="note"><?php echo _t("Your are viewing page no ").$page;?></div>
+<div id="note"><?php echo _t("Your are viewing page number").' '.$page;?></div>
 <?php 
 _shn_or_display_header();
 /*
