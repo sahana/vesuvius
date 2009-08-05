@@ -36,11 +36,17 @@
 
 ?>
 <div id="home">
-<h2><?php echo _lc($conf['mod_or_name'])?></h2>
-<div><b><i><?php echo _t("\"who is doing what and where\"")?></i></b></div>
-<p><?php echo _t('The Organization Registry keeps track of all the relief organizations working in the disaster region. It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.')?>
-</p>
-<p>
+  <h1>
+    <?php echo _lc($conf['mod_or_name'])?>
+  </h1>
+	<div>
+		<b><em>
+			<?php echo _t("\"who is doing what and where\"")?> 
+		</b></em>
+	</div>
+	<p>
+    <?php echo _t('The Organization Registry keeps track of every registered organization.').' '._t('It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.')."\n"?>
+	</p>
 
 
 <h3><?php echo _t("Current features include:")?></h3>
