@@ -627,7 +627,17 @@ function _shn_or_display_org_type($error=false,$multi=false,$value=NULL,$info=tr
         //$select_opts="multiple='false'";;
     } 
     if ($info){ 
-     ?><div class="info"><?php echo _t("Please specify the type of your organization. That is whether you are a government organization,multinational NGO, private organization etc.");?></div><br />
+     ?>
+	<div class="info">
+		<p> <?php 
+			echo _t("Please specify the legal entity type of your organization.").' '.
+			_t('That is, please  whether you are a government agency, multinational NGO, private organization or another type of organization.'); ?>
+		</p>
+		<p> <?php
+			echo _t('To change the types of legal entities that are available to select from, please contact an administrator.');?>
+		</p>
+	</div>
+	<br />
      <?php }
    // $extra_opts['help']=_t("please select whether you are a government organization,multinational ect");
     if($multi){
@@ -660,15 +670,27 @@ function _shn_or_display_org_sub_type($error=false,$multi=false,$value=NULL)
 
 
 function _shn_or_display_sector($error=false,$value=NULL,$info=true)
-{
+{ 
+/* Commented out this whole conditional, 
+because it wasn't really doing anything -timClicks
+
     if($value!=NULL){
         $extra_opts['value']=$value;
        // $extra_opts['req']=false;
     }else{
        // $extra_opts['req']=true;
-    }
-    if ($info){
-    ?><div class="info"><?php echo _t("Select the services that your organization provides, that is what you do as an organization, or the services your organization can provide in a disaster situation. e.g. If you offer medical services select it.");?></div><br />
+    } */
+    if ($info){ ?>
+	<div class="info">
+		<p><?php echo 
+			_t("Please select the services that your organization provides.").' '.
+			_t('Please select as many of the fields as you feel comfortable with assisting with during this event.'); ?>
+		</p>
+		<p> <?php echo 
+			_t("If you would like assistance to understand how each of the terms are being used, please contact your administrator.").' '._t("Administrators are able to add, remove and edit the services that are able to be selected."); ?>
+		</p>
+	</div>
+	<br />
     <?php }
     $extra_opts['req']=true;
   //  $extra_opts['help']=_t("select the services your provide ,i.e what you do as an organization. e.g.if you are a supplier select it");
@@ -679,23 +701,23 @@ function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=nul
 {
         
     if($confirm==true){
-    		shn_form_label(_t("Name"),$_SESSION['org']['contact_name']);
-    		shn_form_label(_t("Address"),$_SESSION['org']['contact_address']);
-    		shn_form_label(_t("Phone"),$_SESSION['org']['contact_phone']);
-    		shn_form_label(_t("Mobile"),$_SESSION['org']['contact_mobile']);
-    		shn_form_label(_t("Fax"),$_SESSION['org']['contact_fax']);
-    		shn_form_label(_t("Website"),$_SESSION['org']['contact_web']);
+    		shn_form_label(_t("Name"),    $_SESSION['org']['contact_name']);
+    		shn_form_label(_t("Address"), $_SESSION['org']['contact_address']);
+    		shn_form_label(_t("Phone"),   $_SESSION['org']['contact_phone']);
+    		shn_form_label(_t("Mobile"),  $_SESSION['org']['contact_mobile']);
+    		shn_form_label(_t("Fax"),     $_SESSION['org']['contact_fax']);
+    		shn_form_label(_t("Website"), $_SESSION['org']['contact_web']);
     		return;
     }
-    ?><div class="info"><?php echo  _t("Please provide contact details that can be used to contact your organization in a disaster");?> </div><br /><?php
+    ?><div class="info"><?php echo  _t("Please provide an individual's contact details that can be used to contact this organization if required.");?> </div><br /><?php
    if($error==true){
-   		$contact_address=$_SESSION['org']['contact_address'];
-        $contact_phone=$_SESSION['org']['contact_phone'];
-        $contact_mobile=$_SESSION['org']['contact_mobile'];
-        $contact_name=$_SESSION['org']['contact_name'];
-        $contact_fax=$_SESSION['org']['contact_fax'];
-        $contact_email=$_SESSION['org']['contact_mail'];
-        $contact_web=$_SESSION['org']['contact_web'];
+   		$contact_address = $_SESSION['org']['contact_address'];
+        $contact_phone   = $_SESSION['org']['contact_phone'];
+        $contact_mobile  = $_SESSION['org']['contact_mobile'];
+        $contact_name    = $_SESSION['org']['contact_name'];
+        $contact_fax     = $_SESSION['org']['contact_fax'];
+        $contact_email   = $_SESSION['org']['contact_mail'];
+        $contact_web     = $_SESSION['org']['contact_web'];
     }
     if(!shn_is_null($po_uuid)){
         global $global;
@@ -747,8 +769,11 @@ function _shn_or_display_contact_person($error=false,$confirm=false,$po_uuid=nul
 }
 
 function _shn_or_display_org_facilities($error=false,$confirm=false,$org_id=false)
-{
-    ?><div class="info"><?php echo  _t("Please document the facilities available in your organization. This information  should provide a rough idea of the resources available in your organization and is useful to plan relief operations");?> </div><br />
+{	?>
+	<div class="info"> <?php echo
+		_t("Please indicate the capacity available in your organization to assist in the relief effort.").' '._t('For the avoidance of doubt, please include resources that are currently in use, but may be able to assist in during the course of the event.').' '._t("This provides planners with an idea of the total capacity that is available in each responding organization.");?>
+	</div>
+	<br />
     <?php
     if($confirm==true){
         shn_form_label(_t("Man Power"),$_SESSION['org']['man_power']);
@@ -773,14 +798,19 @@ function _shn_or_display_org_facilities($error=false,$confirm=false,$org_id=fals
         }
     }
     $extra_opts['value']=$man_power;
-    $extra_opts['help']=_t("Specify the workforce(Men/Women) in your organization. This amount would be useful in identifying the potential number of volunteers in the event of a disaster");
-    echo "<div class='message information'>"._("You can specify the man power as a number or give details up to 100 characters.")."</div> ";
-    shn_form_text(_t("Man Power : "),'man_power','size="40"',$extra_opts);
+    $extra_opts['help']=_t("Please specify the workforce in your organization.").' '._t("This amount is useful to identify the potential number of volunteers over each organization and location.");
+    echo "<div class='message information'>"._t("You can specify the workforce available as an integer or provide a brief freetext response.")."</div>";
+    shn_form_text(_t("Labor").' : ','man_power','size="40"',$extra_opts);
+	
     $extra_opts['value']=$equipment;
-    $extra_opts['help']=_t("Specify the kind of equipment you have,that will be useful in Disaster Relief Operations");
-    shn_form_text(_t("Equipment : "),'equipment','size="40"',$extra_opts);
+    $extra_opts['help']=_t("Please describe any specialist equipment that you have.").' '.
+	_t("Equipent is defined as mobile resources available to provide relief operations.").' '.
+	_t("You should indicate your organization's level self-sufficiency here, in numbers of days per person.");
+    shn_form_text(_t("Equipment").' : ','equipment','size="40"',$extra_opts);
+	
     $extra_opts['value']=$resources;
-    $extra_opts['help']=_t("Specify any other resource that you think might be useful in Disaster Relief Operations");
+    $extra_opts['help']=_t("Please specify any other resources that are noteworthy.").' '.
+	_t('These might include vehicles, buildings and communications infrastructure.');
     shn_form_text(_t("Other relevant resources : "),'resources','size="40"',$extra_opts);
 }
 
@@ -812,7 +842,7 @@ function _shn_or_display_orgs($error=false,$multi=false,$value=NULL)
         //$select_opts="multiple='false'";;
     }
     $options=shn_or_org_list();
-    $extra_opts['help']="<a href='http://en.wikipedia.org/wiki/Holding_company'>Wikipedia definition</a>";
+    //$extra_opts['help']="<a href='http://en.wikipedia.org/wiki/Holding_company'>Wikipedia definition</a>"; -I don't think references to holding companies are especially relevant. -timClicks
     shn_form_select($options,'','parent',$select_opts,$extra_opts);
 }
 
