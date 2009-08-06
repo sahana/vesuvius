@@ -36,9 +36,9 @@
 
 ?>
 <div id="home">
-  <h1>
-    <?php echo _lc($conf['mod_or_name'])?>
-  </h1>
+	<h2>
+		<?php echo _lc($conf['mod_or_name'])?>
+	</h2>
 	<div>
 		<b><em>
 			<?php echo _t("\"who is doing what and where\"")?> 
@@ -47,75 +47,147 @@
 	<p>
     <?php echo _t('The Organization Registry keeps track of every registered organization.').' '._t('It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.')."\n"?>
 	</p>
-
-	<h2>
-		<?php echo _t("Current features include:")?>
-	</h2>
 	
-	<ul>
-		<li>
-			<?php echo _t("Capturing organizational information of a relief organization and all the activities they have in the region")."\n"?>
-		</li>	
-		<li>
-			<?php echo _t('Capturing the essential services each group is providing and where')."\n"?>
-		</li>
-		<li>
-			<?php echo _t('Reporting on the services and support in the region')."\n"?>
-		</li>
-		<li>
-			<?php echo _t('Importantly where there are no aid services being provided')."\n"?>
-		</li>
-	</ul>
+	<h3>
+		<?php echo _t('Functionality')."\n" ?>
+	</h3>
 
-<br />
-<strong><?php echo _t("Description of Actions:");?></strong>
-<br />
 <ul>
-	<li><a href="index.php?mod=or&act=reg_org"><b><?php echo  _t('Register an organization'); ?>
-	</b></a><br />
-	<?php echo  _t('Adds an organization\'s details to sahana.'); ?></li>
-	<li><a href="index.php?mod=or&act=reg_operation"><b><?php echo  _t('Register a branch'); ?>
-	</b> </a><br />
-	<?php echo  _t('Adds the details of a branch of an organization to sahana.'); ?></li>
-	<li><a href="index.php?mod=or&act=search"><b><?php echo  _t('Search organizations'); ?></b></a><br />
-	<?php echo  _t('Find the organisation(s) by specifying its details.'); ?></li>
-	<li><a href="index.php?mod=or&act=view_org"><b><?php echo  _t('View And Edit'); ?></b></a><br />
-	<?php echo  _t('View a list of registered organizations. Their details can be viewed / edited by clicking on the appropriate links.'); ?>
-
-</ul>
-<br />
-
-
-</div>
-
+	<li>
+		<strong><a href="index.php?mod=or&act=search">
+			<?php echo _t('Search')."\n"; ?>
+		</a></strong>
+		<div class="info">
+			<?php echo  _t('Search for an organization or organizations by specifying its details.'); ?>
+		</div>
+	</li>
+  
+    <li>
+		<strong>
+			<?php echo  _t('Register'); ?>
+		</strong>
+		
+		<ul>
+			<li>
+				<a href="index.php?mod=or&act=reg_org">
+					<?php echo  _t('Register an Organization'); ?>
+				</a>
+				<div class="info">
+					<?php echo  _t('Add an organization\'s details to the database.'); ?>
+				</div>
+			</li>
+			<li>
+				<a href="index.php?mod=or&act=reg_operation">
+					<?php echo  _t('Register a Department or Branch Under a Registered Organization')."\n"; ?>
+				</a>
+				<div class="info">
+				<?php echo  _t('If you have already added an organization, you can register a branch or department of that organization with this function.').' '._t('The branch will be able to be allocated tasks indepedently from the parent organization.')."\n"; ?>
+				</div>
+			</li>
+		</ul>
+    </li>
     
-<div align=center><?php 
-   
+	<li>
+		<strong>
+			<a href="index.php?mod=or&act=view_org">
+				<?php echo  _t('View And Edit'); ?>
+			</a>
+		</strong>
+		<div class="info">
+		<?php echo  _t('This function returns a list of registered organizations.').' '._t('Their details can then be viewed and updated.'."\n"); ?>
+		</div>
+	</li>
 
-    if ($org_no > 0) {    
-    ?>
-    <div align=center><?php echo _t('Service Coverage') ?> </div>
-<br />
+	<li>
+		<strong>
+			<?php echo  _t('Reports'); ?>
+		</strong>
+		
+		<ul>
+			<li>
+				<a href="index.php?mod=or&act=drill_report_loc">
+					<?php echo  _t('Drill Down by Geographic Coverage'); ?>
+				</a>
+				<div class="info">
+					<?php echo  _t('This report allows users to identify which sectors are operating within a location.').' '._t("It's useful for identifying whether any gaps in exist."); ?>
+				</div>
+			</li>
+			<li>
+				<a href="index.php?mod=or&act=drill_report_org">
+					<?php echo  _t('Drill Down by Organizational Coverage'); ?>
+				</a>
+				<div class="info">
+					<?php echo  _t('This report indicates the number of organizations within a single sector that are offering services at each location.'); ?>
+				</div>
+			</li>
+			<li>
+				<a href="index.php?mod=or&act=org_sector">
+					<?php echo  _t('Organizations by Sector'); ?>
+				</a>
 
-<div align=center>
-<?php echo "<div class='message information' align='left' style='width: 765px; margin-left: 20px;'>";?>
-<strong><?echo _t("Important:")."<br/>";?></strong><?php    echo _t("If you add a new Organization/Department or a Branch, It may take few minutes to update the pie chart.");
-    echo "</div>";  ?>
-</div>
+				<div class="info">
+					<?php echo  _t('This report provides a list of all organizations, services they offer, their locations and contact information.'); ?>
+				</div>
+			</li>
+		</ul>
+  </li>
+</ul>
+</div> <!-- end of <div id="home> -->
+<div>
+
+<?php if($org_no > 0) {
+  // if there are registered organisations, 
+  // then display a pie chart of demonstrating their distribution
+?>
+  <h2><?php echo _t('Service Coverage') ?></h2>
+
+  <div style="margin: 1em auto;">
+    <?php shn_chart_display("shn_or_service_coverage_chart"); ?>
+  </div>
+
+  <div class="message information">
+    <strong>
+      <?php echo _t("Important:"); ?><br/>
+    </strong>
+    <?php echo _t("If you add a new organization, department or branch, it may take few minutes to appear in the pie chart."); ?>
+  </div>
+    
+<?php
+} else {
+// if organisations haven't been registered yet, then say so
+?>
+<div class="org_no">
+  <a href="index.php?mod=or&act=view_org">
     <?php
-        print("<table align=center><tr><td>");
-	    shn_chart_display("shn_or_service_coverage_chart"); 
-        print("</td></tr></table><p></p>");
-	?></div>
-<?php 
-    } 
+      echo _t("No organizations, departments or branches have been registered.");
     ?>
+  </a>
+</div><?php 
+} //endif
+?>
+</div>
+<?php
+if ( $org_no == 1 ){
+?>
+<div class="org_no">
+  <a href="index.php?mod=or&act=view_org">
+      <?php
+        echo _t("One organization, department or branch has been registered.");
+      ?>
+  </a>
+</div>
+<?php
+	} elseif ( $org_no > 1 ){ 
+?>
+<div class="org_no">
+  <a href="index.php?mod=or&act=view_org">
+    <?php echo $org_no.' '._t(" organizations, departments and branches have been registered"); ?>
+  </a>
+</div>
+<?php
+}
+?>
 
-
-<div><a href="index.php?mod=or&act=view_org">
-<center><strong> <?php echo $org_no ?></strong><?php echo _t(" Organizations/Departments/Branches have been registered")?>
-</center>
-</a></div>
 <?php
 	ob_start();
 	_shn_or_viewform_latest_orgs(5);
@@ -124,16 +196,14 @@
 
 if($content != ""){
 	?>
-
 <br />
-<div id="note"><strong><?php echo _t("Recently registered organizations")?></strong>
+<div id="note">
+    <?php echo _t("Recently registered organizations")?>
 </div>
 	<?php
 	echo $content;
-}
 
 	require_once($global['approot']."/inc/lib_rss.inc");
-	shn_rss_add_feed('new_org_list',_t('Recently Registered organizations'));
-
+	shn_rss_add_feed('new_org_list',_t('Recently registered organizations'));
+}
 ?>
-
