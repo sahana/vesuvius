@@ -37,7 +37,7 @@ function shn_rez_mainmenu() {
 	shn_mod_menuitem("default",_t("Main"));
 
 	// get pages info
-	$q = "select * from rez_pages order by rez_menu_order asc;";
+	$q = "select * from rez_pages where rez_visibility = 'Public' order by rez_menu_order asc;";
 	$res = $global['db']->Execute($q);
 
 	$pages = array();
@@ -83,7 +83,7 @@ function shn_rez_default() {
 		echo "<ul>";
 
 		// get page titles/descriptions
-		$q = "select * from rez_pages order by rez_menu_order asc;";
+		$q = "select * from rez_pages where rez_visibility = 'Public' order by rez_menu_order asc;";
 		$res = $global['db']->Execute($q);
 
 		// build page descriptions

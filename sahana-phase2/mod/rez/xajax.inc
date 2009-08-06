@@ -17,8 +17,6 @@ $global['xajax_functions'] = array();
 // publicly register accessible xajax funtions
 array_push($global['xajax_functions'],'rez_append_log');
 array_push($global['xajax_functions'],'rez_prepend_log');
-array_push($global['xajax_functions'],'rez_dim_mainArea');
-array_push($global['xajax_functions'],'rez_dim_controlArea');
 array_push($global['xajax_functions'],'rez_show_message');
 array_push($global['xajax_functions'],'rez_show_pages');
 array_push($global['xajax_functions'],'rez_show_help');
@@ -28,6 +26,7 @@ array_push($global['xajax_functions'],'rez_perform_insert');
 array_push($global['xajax_functions'],'rez_perform_save');
 array_push($global['xajax_functions'],'rez_perform_move_up');
 array_push($global['xajax_functions'],'rez_perform_move_down');
+array_push($global['xajax_functions'],'rez_perform_change_visibility');
 
 // adds a message to the log div @ tail
 function rez_append_log($message = "no message specified?") {
@@ -47,22 +46,6 @@ function rez_prepend_log($message = "no message specified?") {
 }
 
 
-// dims the mainArea div while an action is being performed
-function rez_dim_mainArea() {
-	global $global;
-	$global['xajax_res']->addAssign('rezMain','style.opacity','0.2');
-	return $global['xajax_res']->getXML();
-}
-
-
-// dims the controlArea div while an action is being performed
-function rez_dim_controlArea() {
-	global $global;
-	$global['xajax_res']->addAssign('rezControl','style.opacity','0.2');
-	return $global['xajax_res']->getXML();
-}
-
-
 // shows a status message before another ajax function is executed
 function rez_show_message($message = "no message specified?") {
 	global $global;
@@ -78,10 +61,10 @@ function rez_show_pages($internal = FALSE) {
 	$htmlLog = "";
 	$htmlMain = "";
 
-	$htmlMain .= "<table class=\"mainTable\"><tr><td style=\"padding-left: 8px;\" ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Menu Title</b></td><td style=\"text-align: center;\" ><b>Edit</b></td><td style=\"text-align: center;\" ><b>Clone</b></td><td style=\"text-align: center;\" ><b>Delete</b></td><td style=\"text-align: center;\"><b>Move</b></td></tr>";
+	$htmlMain .= "<table class=\"mainTable\"><tr><td style=\"padding-left: 8px; width: 40px; text-align: center;\" ><b>Page #</b></td><td style=\"padding-left: 8px;\" ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Menu Title</b></td><td style=\"text-align: center;\" ><b>Visibility</b></td><td style=\"text-align: center;\" ><b>Edit</b></td><td style=\"text-align: center;\" ><b>Clone</b></td><td style=\"text-align: center;\" ><b>Delete</b></td><td style=\"text-align: center;\"><b>Move</b></td><td style=\"padding-left: 8px; width: 40px; text-align: center; width: 15em;\" ><b>Last Modified</b></td></tr>";
 
 	// get pages info
-	$q = "select rez_page_id, rez_menu_title, rez_menu_order from rez_pages order by rez_menu_order asc;";
+	$q = "select rez_page_id, rez_menu_title, rez_menu_order, rez_visibility, rez_timestamp from rez_pages order by rez_menu_order asc;";
 	$res = $global['db']->Execute($q);
 
 	$pages = array();
@@ -99,22 +82,24 @@ function rez_show_pages($internal = FALSE) {
 	$eo = 0;
 	while($i <= $count) {
 		$row = $pages[$i-1];
-		$page_id	= $row['rez_page_id'];
-		$menu_title	= $row['rez_menu_title'];
-		$menu_order	= $row['rez_menu_order'];
+		$page_id    = $row['rez_page_id'];
+		$menu_title = $row['rez_menu_title'];
+		$menu_order = $row['rez_menu_order'];
+		$visibility = $row['rez_visibility'];
+		$timestamp  = $row['rez_timestamp'];
 		if ( $eo == 0 ) {
 			$evenOddClass = "mainRowEven";
 		} else {
 			$evenOddClass = "mainRowOdd";
 		}
-		$htmlMain .= "<tr><td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$menu_title."</td>";
+		$htmlMain .= "<tr><td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$page_id."</td><td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$menu_title."</td><td style=\"text-align: center; width: 100px;\" class=\"".$evenOddClass."\"><b><select name=\"visibility\" onchange=\"javascript: rez_perform_change_visibility(".$page_id.", this.value);\"><option value=\"Public\" ".(($visibility == 'Public')?'SELECTED':'').">Public<option value=\"Hidden\" ".(($visibility == 'Hidden')?'SELECTED':'').">Hidden<option value=\"External Page\" ".(($visibility == 'External Page')?'SELECTED':'').">External Page</select></b></td>";
 
 		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: rez_perform_edit(".$page_id.");\">".$burl."edit24.png\" alt=\"Edit\">"."</a></td>";
 
 		$negPageID = $page_id * -1;
 		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: rez_append_log('Cloning Page ".$page_id." ...<br>'); rez_perform_edit(".$negPageID.");\">".$burl."clone24.png\" alt=\"Clone\">"."</a></td>";
 
-		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: rez_append_log('Deleting Page ".$page_id." ...<br>'); rez_dim_controlArea(); rez_dim_mainArea(); setTimeout('rez_perform_delete(".$page_id.",confirm(\'Are you sure you want to delete this page?\'));', 100);\">".$burl."delete24.png\" alt=\"Delete\">"."</a></td>";
+		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: rez_append_log('Deleting Page ".$page_id." ...<br>'); setTimeout('rez_perform_delete(".$page_id.",confirm(\'Are you sure you want to delete this page?\'));', 100);\">".$burl."delete24.png\" alt=\"Delete\">"."</a></td>";
 
 		// if its the first and only item, no move up/down controls
 		if (($i == 1) && ($count == 1)) {
@@ -132,12 +117,13 @@ function rez_show_pages($internal = FALSE) {
 		} else {
 			$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: rez_perform_move_up(".$page_id.");\">".$burl."up24.png\" alt=\"Up\">"."</a> <a onclick=\"javascript: rez_perform_move_down(".$page_id.");\">".$burl."down24.png\" alt=\"Down\">"."</a></td>";
 		}
+		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\">".$timestamp."</td></tr>";
 		$i++;
 		$eo++;
 		$eo %= 2;
 	}
 	if ($count == 0) {
-		$htmlMain .= "<tr><td colspan=5 class=\"mainRowEven\" style=\"text-align: center;\">No Pages have been created.</td></tr>";
+		$htmlMain .= "<tr><td colspan=7 class=\"mainRowEven\" style=\"text-align: center;\">No Pages have been created.</td></tr>";
 	}
 	$htmlMain .= "</table>";
 
@@ -159,6 +145,22 @@ function rez_show_pages($internal = FALSE) {
 		return $global['xajax_res']->getXML();
 	}
 }
+
+
+
+// save a change in visibility for a certain page
+function rez_perform_change_visibility($page_id, $value) {
+	global $global;
+
+	// update page's visibility
+	$q = "UPDATE rez_pages set rez_visibility = '".$value."' where `rez_page_id` = ".$page_id." ;";
+	$res = $global['db']->Execute($q);
+	$global['xajax_res']->addAppend('rezLog','innerHTML','Changed visibility of page <b>#'.$page_id.'</b> to <b>'.$value.'</b>.<br>');
+	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
+	return $global['xajax_res']->getXML();
+}
+
+
 
 
 // move page_id down on page in the menu order
@@ -242,7 +244,7 @@ function rez_perform_clone($page_id) {
 	$row2 = $res2->FetchRow();
 
 	// insert a new page
-	$q3 = "INSERT INTO rez_pages (rez_menu_title,rez_page_title,rez_menu_order,rez_content,rez_description,rez_timestamp) VALUES ('".$row2['rez_menu_title']."', '".$row2['rez_page_title']."', '".$mID."','".$row2['rez_content']."', '".$row2['rez_description']."', '".date('Y-m-d H:i:s')."');";
+	$q3 = "INSERT INTO rez_pages (rez_menu_title,rez_page_title,rez_menu_order,rez_content,rez_description,rez_timestamp,rez_visibility) VALUES ('".$row2['rez_menu_title']."', '".$row2['rez_page_title']."', '".$mID."','".$row2['rez_content']."', '".$row2['rez_description']."', '".date('Y-m-d H:i:s')."', 'Hidden');";
 	$res3 = $global['db']->Execute($q3);
 
 	// find id of newest page we just created
@@ -265,7 +267,7 @@ function rez_perform_new() {
 	$mID++;
 
 	// insert a new page
-	$q2 = "INSERT INTO rez_pages (rez_menu_title,rez_page_title,rez_menu_order,rez_content,rez_description,rez_timestamp) VALUES ('new page', 'new page', '".$mID."','new page content', 'new page description', '".date('Y-m-d H:i:s')."');";
+	$q2 = "INSERT INTO rez_pages (rez_menu_title,rez_page_title,rez_menu_order,rez_content,rez_description,rez_timestamp,rez_visibility) VALUES ('new page', 'new page', '".$mID."','new page content', 'new page description', '".date('Y-m-d H:i:s')."', 'Hidden');";
 	$res2 = $global['db']->Execute($q2);
 
 	// find id of newest page we just created
@@ -319,7 +321,7 @@ function rez_perform_edit($page_id) {
 
 	$editControlHtml = '
 		<input class="controlButton" type="button" onclick="javascript:  if (nicEditors.editors.length>0){nicEditors.findEditor(\'pageContent\').saveContent();} rez_perform_save('.$page_id.', xajax.getFormValues(\'editPageForm\'));" value="Save/Publish">
-		<input class="controlButton" type="button" onclick="javascript: rez_dim_mainArea(); rez_dim_controlArea(); rez_append_log(\'Closing editor...<br>\');  area2.removeInstance(\'pageContent\'); setTimeout(\'rez_show_pages();\', 500);" value="Close">
+		<input class="controlButton" type="button" onclick="javascript: rez_append_log(\'Closing editor...<br>\');  area2.removeInstance(\'pageContent\'); setTimeout(\'rez_show_pages();\', 500);" value="Close">
 		<span class="toggle">View as:
 		<input id="wysiwyg" class="controlButton" type="button" onclick="javascript: document.getElementById(\'wysiwyg\').disabled = true; document.getElementById(\'htmlcode\').disabled = false; area2 = new nicEditor({fullPanel : true}).panelInstance(\'pageContent\');" value="WYSIWYG">
 		<input id="htmlcode" class="controlButton" type="button" onclick="javascript: area2.removeInstance(\'pageContent\'); document.getElementById(\'wysiwyg\').disabled = false; document.getElementById(\'htmlcode\').disabled = true; nicEditors.editors = []; " value="HTML"></span>';

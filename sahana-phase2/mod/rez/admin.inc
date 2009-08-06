@@ -12,8 +12,6 @@
 include_once ($global['approot'].'/mod/rez/xajax.inc');
 shn_xajax_registerFunction('rez_append_log');
 shn_xajax_registerFunction('rez_prepend_log');
-shn_xajax_registerFunction('rez_dim_mainArea');
-shn_xajax_registerFunction('rez_dim_controlArea');
 shn_xajax_registerFunction('rez_show_message');
 shn_xajax_registerFunction('rez_show_pages');
 shn_xajax_registerFunction('rez_show_help');
@@ -23,6 +21,7 @@ shn_xajax_registerFunction('rez_perform_insert');
 shn_xajax_registerFunction('rez_perform_save');
 shn_xajax_registerFunction('rez_perform_move_up');
 shn_xajax_registerFunction('rez_perform_move_down');
+shn_xajax_registerFunction('rez_perform_change_visibility');
 
 /**
  * setup admin GUI for modRez and then let xajax do all the work
