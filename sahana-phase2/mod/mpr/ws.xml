@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web_services>
+	<services>
+		<service>
+			<name>Missing Persons List</name>
+			<http_type>GET</http_type>
+			<api_function>shn_mpr_list_missing_person_uuids</api_function>
+			<output type="BasicArray" />
+			<documentation>Returns a list of uuid's of all missing persons.</documentation>
+		</service>
+		<service>
+			<name>Missing Persons Data</name>
+			<http_type>GET</http_type>
+			<api_function>shn_mpr_get_person_data</api_function>
+			<params>
+				<param type="xsd:string" name="uuid"></param>
+			</params>
+			<output type="BasicArray" />
+			<documentation>Returns a list of uuid's of all missing persons.</documentation>
+		</service>
+	</services>
+</web_services>
