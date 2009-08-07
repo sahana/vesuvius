@@ -1,6 +1,4 @@
 <?php
-/* $Id: images.inc,v 1.2 2008-01-30 04:35:17 prabath321 Exp $ */
-
 /**
  *
  * <Description goes here>
@@ -18,32 +16,18 @@
  * 
  */
 
-function shn_mpr_manage_images_form($id,$url)
-{
-    if($errors)
-        display_errors();
 
-    shn_form_fopen("addmp",null,array('enctype'=>'enctype="multipart/form-data"'));
 
-    shn_form_hidden(array('seq'=>'upload_pic'));
-    shn_form_fsopen(_t('Add Another Picture'));
-    shn_form_upload(_t('Upload Picture'),"picture");
-    shn_form_fsclose();
-    shn_form_submit(_t('Next'));
-    shn_form_fclose();
-
-?>
-<table>
-<tr>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-</tr>
-</table>
-<?php
-
+function shn_mpr_manage_images_form($id,$url) {
+	if($errors) {
+		display_errors();
+	}
+	shn_form_fopen("addmp",null,array('enctype'=>'enctype="multipart/form-data"'));
+	shn_form_hidden(array('seq'=>'upload_pic'));
+	shn_form_fsopen(_t('Add Another Picture'));
+	shn_form_upload(_t('Upload Picture'),"picture");
+	shn_form_fsclose();
+	shn_form_submit(_t('Next'));
+	shn_form_fclose();
+	?><table><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></table><?php
 }
-?>

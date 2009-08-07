@@ -1,6 +1,4 @@
 <?php
-
-/* {{{ get field option description */
 /**
  *
  * Shows the Description of the field_option, when given the vaule
@@ -11,12 +9,9 @@
  * @access public
  * @return void
  */
-function shn_get_field_opt($value,$field_name)
-{
 
-    global $global;
-    return $global['db']->GetOne("SELECT option_description FROM field_options WHERE option_code = '$value' AND field_name='$field_name'");
+
+function shn_get_field_opt($value,$field_name) {
+	global $global;
+	return $global['db']->GetOne("SELECT option_description FROM field_options WHERE option_code = '$value' AND field_name='$field_name'");
 }
-/* }}} */
-
-?>

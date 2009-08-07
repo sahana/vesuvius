@@ -16,11 +16,9 @@
  * @subpackage mpr
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  */
-?>
 
-<div id="home_recent">
-<h1><?php echo  _t('Found People'); ?></h1>
-<?php
+
+?><div id="home_recent"><h1><?php echo  _t('Found People'); ?></h1><?php
 
 global $global;
 global $conf;
@@ -28,6 +26,11 @@ require ($global['approot'] . 'mod/mpr/mpr_lib.inc');
 
 $limit = $conf['mod_mpr_pictures_per_page'];
 $type = "found";
+
+
+
+
+
 /*$offset = $_GET['offset'];
 if ($offset == null)
 	$offset = 0;
@@ -78,19 +81,13 @@ if ($count > $limit) {
 	shn_mpr_search_show_verticle($_SESSION['result']);
 }
 print '<BR/><BR/>';*/
+
+
+
+
 $offset = 0;
 $found = shn_mpr_home_show_mpr($type, $limit, $offset);
-
 _shn_mpr_listing($found);
 print '<BR/><BR/>';
 
-?>
-
-<input type="button"  value="Print Current Page" onClick="self.print()" class="hideprint"/>
-  
- </div>
-  
-
-
-
-
+?><input type="button"  value="Print Current Page" onClick="self.print()" class="hideprint"/></div>
