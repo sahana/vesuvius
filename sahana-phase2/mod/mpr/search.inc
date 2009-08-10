@@ -285,48 +285,49 @@ function shn_mpr_search_show_result($details,$search) {
 	global $global;
 	if($_GET['act']!='search') {
 		$select = false;
-	?><TABLE>
-		<THEAD>
-			<TD><?php echo  _t('Person');?></TD>
-			<TD><?php echo  _t('Details');?></TD>
-			<TD><?php echo  _t('Associated People');?></TD>
-			<TD><?php echo  _t('Missing Details');?></TD>
-			<TD><?php echo  _t('Actions');?></TD>
-			<?php echo ($select?'<TD>'._t('Select').'</TD>':''); ?>
-		</THEAD>
-	<?php
-	if($details!=null) {
-		foreach($details as $detail) {
-			?><TR><TD><?php
-			shn_show_thumb_url($detail['p_uuid'],null,'mpr','addmp_img'); 
-			if($search) {
-				echo '<br><a title="'._t('Edit').'" href="index.php?mod='.$global['module'].'&act=viewmp&id='.$detail['p_uuid'].'">'.$detail['full_name'].'</a>'.'<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
-			} else {
-				echo '<br><a title="'._t('Edit').'" href="index.php?mod='.$global['module'].'&act=editmp&id='.$detail['p_uuid'].'">'.$detail['full_name'].'</a>'.'<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
-			}
-			?></TD><TD><?php
-			echo ($detail['height']?_t('Height').' : '.$detail['height'].'<br>':'').($detail['weight']?_t('Weight').' : '.$detail['weight'].'<br>':'').($detail['opt_eye_color']?_t('Eye Colour').' : '.shn_get_field_opt($detail['opt_eye_color'],'opt_eye_color').'<br>':'').($detail['opt_skin_color']?_t('Skin Colour').' : '.shn_get_field_opt($detail['opt_skin_color'],'opt_skin_color').'<br>':'').($detail['opt_hair_color']?_t('Hair Colour').' : '.shn_get_field_opt($detail['opt_hair_color'],'opt_hair_color').'<br>':'');
-			?></TD><TD><?php
-			$arr = shn_mpr_search_get_trackers($detail['p_uuid']);
-			foreach($arr as $fullname) {
-				echo "&nbsp;".'<a title="'._t('View').'"'.'href="index.php?mod='.$global['module'].'&act=viewmp&id='.$fullname['p_uuid'].'">'.$fullname['full_name'].'</a><br />';
-			}
-			echo '<hr><a title="'._t('Add Tracker').'"'.'href="index.php?mod='.$global['module'].'&act=add_tracker&id=' .$detail['p_uuid'].'&name='.$detail['full_name'].'">'._t("Associate another person").'</a>';
-			?></TD><TD><?php
-			echo ($detail['last_seen']?_t('Last Seen').' : '.$detail['last_seen'].'<br>':'').($detail['last_clothing']?_t('Last Clothing').' : '.$detail['last_clothing'].'<br>':'').($detail['comments']?_t('Comments').': '.$detail['comments']:'');
-			?></TD><TD><?php
-			echo shn_get_field_opt($detail['opt_status'],'opt_status');
-			if($detail['opt_status'] == 'mis') {
-				echo '</br /><a title="'._t('Change the status to Alive & Well').'" href="index.php?mod='.$global['module'].'&act=status&id='.$detail['p_uuid'].'"><br/>('._t('Click to change to found').')</a>';
-				echo '<br /><a title="'._t('Assign to more incidents').'" '.'href="index.php?mod=admin&act=ims_assign&id='.$detail['p_uuid'].'">'._t('Assign to more incidents').'</a>';
-				echo '<br />';
-				echo '<a title="'._t('Audit').'" '.'href="index.php?mod='.$global['module'].'&act=auditmp&id='.$detail['p_uuid'].'">'._t('Audit').'</a>';
-				?></TD><?php echo ($select?'<TD><a title="'._t('Select').'" href="index.php?'.$_SERVER['QUERY_STRING'].'&tracker_id='.$detail['p_uuid'].'&tracker_relation='.$_POST['opt_relationship_type'].'&seq=tracker_select" > '._t('Select').' </a>'.'</TD>':''); 
-				?></TR><?php
+		?><TABLE>
+			<THEAD>
+				<TD><?php echo  _t('Person');?></TD>
+				<TD><?php echo  _t('Details');?></TD>
+				<TD><?php echo  _t('Associated People');?></TD>
+				<TD><?php echo  _t('Missing Details');?></TD>
+				<TD><?php echo  _t('Actions');?></TD>
+				<?php echo ($select?'<TD>'._t('Select').'</TD>':''); ?>
+			</THEAD>
+		<?php
+		if($details!=null) {
+			foreach($details as $detail) {
+				?><TR><TD><?php
+				shn_show_thumb_url($detail['p_uuid'],null,'mpr','addmp_img'); 
+				if($search) {
+					echo '<br><a title="'._t('Edit').'" href="index.php?mod='.$global['module'].'&act=viewmp&id='.$detail['p_uuid'].'">'.$detail['full_name'].'</a>'.'<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
+				} else {
+					echo '<br><a title="'._t('Edit').'" href="index.php?mod='.$global['module'].'&act=editmp&id='.$detail['p_uuid'].'">'.$detail['full_name'].'</a>'.'<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
+				}
+				?></TD><TD><?php
+				echo ($detail['height']?_t('Height').' : '.$detail['height'].'<br>':'').($detail['weight']?_t('Weight').' : '.$detail['weight'].'<br>':'').($detail['opt_eye_color']?_t('Eye Colour').' : '.shn_get_field_opt($detail['opt_eye_color'],'opt_eye_color').'<br>':'').($detail['opt_skin_color']?_t('Skin Colour').' : '.shn_get_field_opt($detail['opt_skin_color'],'opt_skin_color').'<br>':'').($detail['opt_hair_color']?_t('Hair Colour').' : '.shn_get_field_opt($detail['opt_hair_color'],'opt_hair_color').'<br>':'');
+				?></TD><TD><?php
+				$arr = shn_mpr_search_get_trackers($detail['p_uuid']);
+				foreach($arr as $fullname) {
+					echo "&nbsp;".'<a title="'._t('View').'"'.'href="index.php?mod='.$global['module'].'&act=viewmp&id='.$fullname['p_uuid'].'">'.$fullname['full_name'].'</a><br />';
+				}
+				echo '<hr><a title="'._t('Add Tracker').'"'.'href="index.php?mod='.$global['module'].'&act=add_tracker&id=' .$detail['p_uuid'].'&name='.$detail['full_name'].'">'._t("Associate another person").'</a>';
+				?></TD><TD><?php
+				echo ($detail['last_seen']?_t('Last Seen').' : '.$detail['last_seen'].'<br>':'').($detail['last_clothing']?_t('Last Clothing').' : '.$detail['last_clothing'].'<br>':'').($detail['comments']?_t('Comments').': '.$detail['comments']:'');
+				?></TD><TD><?php
+				echo shn_get_field_opt($detail['opt_status'],'opt_status');
+				if($detail['opt_status'] == 'mis') {
+					echo '</br /><a title="'._t('Change the status to Alive & Well').'" href="index.php?mod='.$global['module'].'&act=status&id='.$detail['p_uuid'].'"><br/>('._t('Click to change to found').')</a>';
+					echo '<br /><a title="'._t('Assign to more incidents').'" '.'href="index.php?mod=admin&act=ims_assign&id='.$detail['p_uuid'].'">'._t('Assign to more incidents').'</a>';
+					echo '<br />';
+					echo '<a title="'._t('Audit').'" '.'href="index.php?mod='.$global['module'].'&act=auditmp&id='.$detail['p_uuid'].'">'._t('Audit').'</a>';
+					?></TD><?php echo ($select?'<TD><a title="'._t('Select').'" href="index.php?'.$_SERVER['QUERY_STRING'].'&tracker_id='.$detail['p_uuid'].'&tracker_relation='.$_POST['opt_relationship_type'].'&seq=tracker_select" > '._t('Select').' </a>'.'</TD>':''); 
+					?></TR><?php
+				}
 			}
 		}
+		?></TABLE><?php
 	}
-	?></TABLE><?php
 }
 
 
@@ -479,7 +480,7 @@ class SearchQuery {
 	* @access public
 	* @return void
 	*/
-	function set_phone($phone) 	{
+	function set_phone($phone) {
 		$this->__phone = $phone;
 		$this->__joins[] = " LEFT OUTER JOIN contact ON person_status.p_uuid = contact.pgoc_uuid AND contact.opt_contact_type = 'curr'";
 		$this->__where[] = " contact.contact_value LIKE '%{$this->__phone}%' "; 
@@ -513,7 +514,7 @@ class SearchQuery {
 			
 			if (!empty($this->incident_id)) {
 				$sql .= " AND resource_to_incident.incident_id = '{$this->incident_id}' ";
-			} else if(!  empty ($this->incident_list)) {
+			} else if(!empty ($this->incident_list)) {
 				$sql .= " AND resource_to_incident.incident_id IN ({$this->incident_list}) ";
 			}
 			if ($this->isvictim) {
