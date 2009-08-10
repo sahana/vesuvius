@@ -373,16 +373,13 @@ function shn_mpr_addmp() {
 	global $global;
 	require ($global['approot'] . 'mod/mpr/add.inc');
 
-	if ($_GET['type'] == 'found') {
+	if ($_GET['type'] == 'found')
 		$_SESSION['mpr_add']['entry_type'] = 'found';
-	} else if ($_GET['type'] == 'missing') {
-		$_SESSION['mpr_add']['entry_type'] = 'missing';
-	}
-	if ($_SESSION['mpr_add']['entry_type'] == 'found') {
+	elseif ($_GET['type'] == 'missing') $_SESSION['mpr_add']['entry_type'] = 'missing';
+
+	if ($_SESSION['mpr_add']['entry_type'] == 'found')
 		$heading = '<h1 align="center">' . _t('Found Person Entry') . '</h1>';
-	} else if ($_SESSION['mpr_add']['entry_type'] == 'missing') 
-		$heading = '<h1 align="center">' . _t('Missing Person Entry') . '</h1>';
-	}
+	elseif ($_SESSION['mpr_add']['entry_type'] == 'missing') $heading = '<h1 align="center">' . _t('Missing Person Entry') . '</h1>';
 
 	//Controller
 	switch ($_REQUEST['seq']) {
@@ -448,7 +445,7 @@ function shn_mpr_addmp() {
 
 		case 'commit' :
 			shn_mpr_addmp_commit();
-		break;
+			break;
 
 		default :
 			echo $heading;
@@ -458,6 +455,7 @@ function shn_mpr_addmp() {
 		break;
 	}
 }
+
 
 
 
