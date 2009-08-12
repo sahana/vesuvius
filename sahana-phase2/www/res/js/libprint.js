@@ -196,7 +196,6 @@ document.writeln(
 		'.dob-space { height: 7pt; border: solid #000 3pt; }'	+
 		'.option-label { width: 205pt; height: 10pt; }'	+
 		'.space { float: left; clear: both; }'	+
-		'.popup { position: absolute; visibility: hidden; z-index: 5; overflow: hidden; width: 93px; padding: 0; background-color: #fff; border: 1px solid #000; }'	+
 		'a.close, a.close:link { float: right; padding: 2px 2px 0 0; font-size: 10px; margin: 0; }'	+
 		'.popup a.dateselection { float: left; padding: 2px 12px; margin: 0 auto; font-size: 11px; font-weight: bold; text-transform: uppercase; color: #000; }'	+
 		'.popup a.dateselection:hover { color: #fff; background-color: #000; }'	+
