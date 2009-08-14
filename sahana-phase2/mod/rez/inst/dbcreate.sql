@@ -7,8 +7,8 @@ DROP TABLE IF EXISTS `rez_pages`;
 
 CREATE table rez_pages (
 	rez_page_id		int 		AUTO_INCREMENT	NOT NULL,
-	rez_menu_title		varchar(32) 			NOT NULL,
-	rez_page_title		varchar(32)			NOT NULL,
+	rez_menu_title		varchar(64) 			NOT NULL,
+	rez_page_title		varchar(64)			NOT NULL,
 	rez_menu_order 		int 				NOT NULL,
 	rez_content		mediumtext 			NOT NULL,
 	rez_description		varchar(128)			NOT NULL,
