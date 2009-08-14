@@ -72,7 +72,7 @@ function shn_rez_default() {
 		$res = $global['db']->Execute($q);
 
 		if ($row = $res->FetchRow() ){
-			echo "<h2>Resources : ".$row['rez_page_title']."</h2>";
+			echo "<h2>".$row['rez_page_title']."</h2>";
 			echo $row['rez_content'];
 		}
 
