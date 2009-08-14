@@ -19,20 +19,64 @@
 
 ?>
 <div id="home">
-	<h2><?php echo  _t('Missing Person Registry'); ?></h2>
+	<h2><?php echo  _t('Missing and Found Person Registry'); ?></h2>
 	<?php
 	global $global;
 	if(file_exists($global['approot'].'/www/tmp/mprfound.png')) {
 		?><img src="tmp/mprfound.png"/><img src="tmp/mprfound.png"/><?php
 	}
 	$alternate_homepage = shn_db_get_config("mpr", "alternate_homepage");
-	if (($alternate_homepage !== FALSE) && ($alternate_homepage != "0")) {
-		$q = "select * from rez_pages where rez_page_id = '".$alternate_homepage."';";
-		$res = $global['db']->Execute($q);
-		if ($row = $res->FetchRow() ){
-			echo $row['rez_content'];
-		}
-	} else {
+	
+	// new default MPR homepage
+	if (($alternate_homepage == FALSE) || ($alternate_homepage == "0")) {
+		$html = "<br>
+This is an organized online bulletin board to aid in locating someone after a disaster affecting the Bethesda area.<br><br>
+Anyone may use the search feature, without logging in. Get basic information about someone missing or found, including photos, as reported by family members, friends, or participating local hospitals. (Coming soon: search optimized for cell phones).<br>
+<br>
+To do more, create a login account with your contact information. Then you can:<br>
+<br>
+<ul>
+	<li>Report someone as missing, and include photographs of them</li>
+	<li>Update that report, e.g., if the person is found or their status changes</li>
+	<li>Share the ability to update a report with family members and friends</li>
+</ul>
+<br>
+<br>
+<table style=\"width: 100%;\"><tr><td>
+	<div id=\"reportPerson\" style=\"float: left;\" onclick=\"location.href='index.php?mod=rez&act=default&page_id=9';\">
+		<img src=\"theme/lpf/img/icon-girl-missing.png\" alt=\"Report a Person\" style=\"margin: 0px 20px 0px 0px;\" align=\"middle\">Report a Person
+	</div>
+	<div id=\"searchPerson\" style=\"float: right;\" onclick=\"location.href='index.php?mod=mpr&act=search&type=all';\">
+		<img src=\"theme/lpf/img/icon-search.png\" alt=\"Search for a Person\" style=\"margin: 0px;\" align=\"middle\">Search for a Person
+	</div>
+</td></tr></table>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+Participating local hospitals can report basic information about arriving disaster victims.&nbsp; (Suburban Hospital’s implementation is furthest along.)<br><br>
+The site does no automatic notification at this time, so check back periodically.&nbsp; But hospital personnel may contact you.<br><br>
+";
+	echo $html;
+
+	// <a href=\"index.php?mod=mpr&amp;act=addmp&amp;type=missing\">Report a Missing Person</a>
+	// <a href=\"index.php?mod=mpr&amp;act=list_missing\">List all Missing People</a>
+	// <a href=\"index.php?mod=mpr&amp;act=addmp&amp;type=found\">Report a Found Person</a>
+	// <a href=\"index.php?mod=mpr&amp;act=list_found\">List all Found Persons</a>
+	// <a href=\"index.php?mod=mpr&amp;act=search&amp;type=all\">Search for a Person</a>
+	// <a href=\"index.php?mod=mpr&act=search&type=missing\">Edit Missing Person?</a>
+	
+	/*
+	<tr><td colspan=\"2\" style=\"text-align: center;\">
+				<img src=\"theme/lpf/img/icon-search.png\" alt=\"Search\" align=\"center\"><a href=\"index.php?mod=mpr&amp;act=search&amp;type=all\">Search for a Person</a>
+			</td></tr>
+			*/
+	
+	
+	// old MPR homepage
+	} else if ($alternate_homepage == "-1") {
 		?>
 		<p>
 		<?php 
@@ -60,7 +104,15 @@
 			<li><a href="index.php?mod=mpr&act=list_found"><b><?php echo  _t('List found people'); ?></b></a><br/><?php echo  _t('List all the information on people found'); ?></li>
 		</ul>
 		<br/>
-	<?php
+		<?php
+		
+	// use selected modResource page selected in MPR general configuration
+	} else {
+		$q = "select * from rez_pages where rez_page_id = '".$alternate_homepage."';";
+		$res = $global['db']->Execute($q);
+		if ($row = $res->FetchRow() ){
+			echo $row['rez_content'];
+		}
 	}
 	?>
 </div>

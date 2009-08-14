@@ -84,6 +84,8 @@ function shn_mpr_adm_gen() {
 	$pictures_per_page    = (shn_db_get_config("mpr", "pictures_per_page")   !== FALSE) ? shn_db_get_config("mpr", "pictures_per_page")    : 6;  // default to 6 pictures
 	$show_updates_found   = (shn_db_get_config("mpr", "show_updates_found")  !== FALSE) ? shn_db_get_config("mpr", "show_updates_found")   : 0;  // default to hide
 	$show_updates_missing = (shn_db_get_config("mpr", "show_updates_missing")!== FALSE) ? shn_db_get_config("mpr", "show_updates_missing") : 0;  // default to hide
+	$show_warning         = (shn_db_get_config("mpr", "show_warning")        !== FALSE) ? shn_db_get_config("mpr", "show_warning")         : 0;  // default to hide
+	$use_english_metrics  = (shn_db_get_config("mpr", "use_english_metrics") !== FALSE) ? shn_db_get_config("mpr", "use_english_metrics")  : 0;  // default to SI units
 	$alternate_homepage   = (shn_db_get_config("mpr", "alternate_homepage")  !== FALSE) ? shn_db_get_config("mpr", "alternate_homepage")   : ""; // 0 uses content from home.inc, any other value 
 	                                                                                                                                             // uses the page content from the mod Rez page
 
@@ -93,6 +95,8 @@ function shn_mpr_adm_gen() {
 		$pictures_per_page    = $_POST['pictures_per_page'];
 		$show_updates_found   = $_POST['show_updates_found'];
 		$show_updates_missing = $_POST['show_updates_missing'];
+		$show_warning         = $_POST['show_warning'];
+		$use_english_metrics  = $_POST['use_english_metrics'];
 		$alternate_homepage   = $_POST['alternate_homepage'];
 
 		// validate
@@ -104,9 +108,6 @@ function shn_mpr_adm_gen() {
 		} else if ($alternate_homepage == "") {
 			add_error(_t("Please enter a number for the alternate homepage!"));
 			$error_flag = true;
-		} else if ($alternate_homepage < 0) {
-			add_error(_t("Please enter a positive integer for the alternate homepage!"));
-			$error_flag = true;
 		} else if (!shn_valid_number($pictures_per_page)) {
 			$error_flag = true;
 			add_error(_t("Search limit should be a number!"));
@@ -116,6 +117,8 @@ function shn_mpr_adm_gen() {
 			shn_db_config_update("mpr", "pictures_per_page",    $pictures_per_page);
 			shn_db_config_update("mpr", "show_updates_found",   $show_updates_found);
 			shn_db_config_update("mpr", "show_updates_missing", $show_updates_missing);
+			shn_db_config_update("mpr", "show_warning",         $show_warning);
+			shn_db_config_update("mpr", "use_english_metrics",  $use_english_metrics);
 			shn_db_config_update("mpr", "alternate_homepage",   $alternate_homepage);
 			add_confirmation(_t("Configuration saved."));
 		} else {
@@ -130,16 +133,26 @@ function shn_mpr_adm_gen() {
 	shn_form_fsopen(_t('Search'));
 		shn_form_text(_t('Number of images per page'), 'pictures_per_page', 'size="10"', $pictures_per_page);
 	shn_form_fsclose();
-	shn_form_fsopen(_t('Show updates on main MPR page'));
+
+	shn_form_fsopen(_t('Show missing/found updates on the MPR main page'));
 		shn_form_radio2(array("1"=>"Show","0"=>"Hide"),"Show Found Person Updates",   "show_updates_found",   $show_updates_found,   null); 
 		shn_form_radio2(array("1"=>"Show","0"=>"Hide"),"Show Missing Person Updates", "show_updates_missing", $show_updates_missing, null); 
 	shn_form_fsclose();
-	shn_form_fsopen(_t('MPR Home Page'));
+
+	shn_form_fsopen(_t('Show warning message before "Reporting a Person"'));
+		shn_form_radio2(array("1"=>"Show","0"=>"Hide"),"Show Warning", "show_warning", $show_warning, null); 
+	shn_form_fsclose();
+	
+	shn_form_fsopen(_t('Use English Metrics'));
+		shn_form_radio2(array("1"=>"English","0"=>"SI"),"Use English measurements (pounds/feet) instead of the SI standards (kilograms/meters).", "use_english_metrics", $use_english_metrics, null); 
+	shn_form_fsclose();	
+
+	shn_form_fsopen(_t('MPR Main Page'));
 		if (file_exists($global['approot'].'/mod/rez')) {
 			$q = "select * from rez_pages where rez_visibility = 'External Page' order by rez_menu_order asc;";
 			$res = $global['db']->Execute($q);
 			// build <select> list of external page choices
-			$html_out = "Select the content that will appear on the MPR home page. You may select an <b>External Page</b> from the <b>Resources Module</b>, or just leave it as default and the standard content will be displayed.<br><br><select name=\"alternate_homepage\"><option value=\"0\">Default Page Content</option>";
+			$html_out = "Select the content that will appear on the MPR home page. You may select an <b>External Page</b> from the <b>Resources Module</b>, or just leave it as default and the standard content will be displayed.<br><br><select name=\"alternate_homepage\"><option value=\"0\">New Default Page Content</option><option value=\"-1\">Old Default Page Content</option>";
 			while($row = $res->FetchRow() ){
 				if ($row['rez_page_id'] == $alternate_homepage) {
 					$select_text = "SELECTED";

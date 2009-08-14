@@ -373,13 +373,11 @@ function shn_mpr_addmp() {
 	global $global;
 	require ($global['approot'] . 'mod/mpr/add.inc');
 
-	if ($_GET['type'] == 'found')
+	if ($_GET['type'] == 'found') {
 		$_SESSION['mpr_add']['entry_type'] = 'found';
-	elseif ($_GET['type'] == 'missing') $_SESSION['mpr_add']['entry_type'] = 'missing';
-
-	if ($_SESSION['mpr_add']['entry_type'] == 'found')
-		$heading = '<h1 align="center">' . _t('Found Person Entry') . '</h1>';
-	elseif ($_SESSION['mpr_add']['entry_type'] == 'missing') $heading = '<h1 align="center">' . _t('Missing Person Entry') . '</h1>';
+	} else if ($_GET['type'] == 'missing') {
+		$_SESSION['mpr_add']['entry_type'] = 'missing';
+	}
 
 	//Controller
 	switch ($_REQUEST['seq']) {
@@ -388,18 +386,18 @@ function shn_mpr_addmp() {
 				//clean the $_POST to remove the conflicts
 				$_POST = null;
 				echo $heading;
-				echo '<h2 align="center">(' . _t('Reporting Person') . ')</h2>';
+				echo '<h1 align="center">' . _t('Person Registry : Reporting a '.ucwords($_SESSION['mpr_add']['entry_type']).' Person'). '</h1>';
 				shn_mpr_addmp_reporter();
 			} else {
 				echo $heading;
-				echo '<h2 align="center">(' . _t('Person Details') . ')</h2>';
+				echo '<h1 align="center">' . _t('Person Registry : Person Details') . '</h1>';
 				shn_mpr_addmp_entry(true);
 			}
 		break;
 
 		case 'tracker_back' :
 			echo $heading;
-			echo '<h2 align="center">(' . _t('Reporting Person') . ')</h2>';
+			echo '<h1 align="center">' . _t('Person Registry : Reporting a '.ucwords($_SESSION['mpr_add']['entry_type']).' Person') . '</h2>';
 			shn_mpr_addmp_reporter();
 		break;
 
@@ -407,7 +405,7 @@ function shn_mpr_addmp() {
 			$_SESSION['mpr_add']['entry']['tracker_id'] = $_GET['tracker_id'];
 			shn_mpr_addmp_commit();
 			echo $heading;
-			echo '<h2 align="center">(' . _t('The missing person have been added') . ')</h2>';
+			echo '<h2 align="center">' . _t('The missing person have been added') . '</h2>';
 			shn_mpr_addmp_confirm();
 			//shn_mpr_addmp_commit();
 		break;
@@ -438,7 +436,7 @@ function shn_mpr_addmp() {
 				}
 			} else {
 				echo $heading;
-				echo '<h2 align="center">(' . _t('Reporting Person') . ')</h2>';
+				echo '<h1 align="center">' . _t('Person Registry : Reporting a '.ucwords($_SESSION['mpr_add']['entry_type']).' Person') . '</h1>';
 				shn_mpr_addmp_reporter(true);
 			}
 		break;
@@ -449,7 +447,7 @@ function shn_mpr_addmp() {
 
 		default :
 			echo $heading;
-			echo '<h2 align="center">(' . _t('Reporting Person') . ')</h2>';
+			echo '<h1 align="center">' . _t('Person Registry : Reporting a '.ucwords($_SESSION['mpr_add']['entry_type']).' Person') . '</h1>';
 			shn_mpr_addmp_entry();
 			$_SESSION['mpr_add'] = null;
 		break;

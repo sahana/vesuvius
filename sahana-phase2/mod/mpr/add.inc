@@ -16,6 +16,7 @@
  */
 
 include_once($global['approot']."/inc/lib_uuid.inc");
+include_once($global['approot']."/inc/lib_location.inc");
 
 
 /**
@@ -44,11 +45,14 @@ function shn_tools_clean_post(&$local_post) {
  */
 function shn_mpr_addmp_entry($errors=false) {
 	global $global;
+	global $conf;
 	//if($errors)
 	//display_errors();
 
 	shn_form_fopen("addmp",null,array('enctype'=>'enctype="multipart/form-data"','req_message' => true));
-	add_warning(_t('Please do a search and check whether the person has already been added.'));
+	if (shn_db_get_config("mpr", "show_warning")) {
+		add_warning(_t('Please do a search and check whether the person has already been added.'));
+	}
 	
 	if($_GET['type']=='found'){
 		shn_form_fsopen(_t('Status'));
@@ -66,73 +70,70 @@ function shn_mpr_addmp_entry($errors=false) {
 		shn_form_hidden(array('opt_status'=>'mis'));
 	}
 	shn_form_hidden(array('seq'=>'entry'));
+	
+	shn_form_fsopen(_t('Information Privacy'));
+		?><p><?php echo _t("<span class=\"publicText\">Public</span> information that, if you provide, you agree can be exposed to the general public. <span class=\"privateText\">Private</span> information in this report will not be generally released.  It may be shared with other family members and friends you designate, emergency responders, medical providers, clergy/councilors, law enforcement, and authorized displaced-person agencies."); ?></p><?php
+	shn_form_fsclose();
 
 	shn_form_fsopen(_t('Identity'));
-		?><p><?php echo  _t('If you have any information about missing person\'s identity numbers, please include them since it will be helpful for finding the person. Otherwise please ignore.'); ?></p><?php
-		shn_form_text(_t('Identity Card Number'),'idcard','size="30"',array('help'=>_t('Specify the Identity card Number, Although this is not required this will be useful in searching for the person')));
-		shn_form_text(_t('Passport Number'),'passport','size="30"', array('help'=>_t('Please Specify the passport number, Although this is not required this will be useful in searching for the person')));
-		shn_form_text(_t('Driving License'),'drv_license','size="30"',  array('help'=>_t('Please Specify the driving License number, Although this is not required this will be useful in searching for the person')));
+		?><p><?php //echo  _t('If you have any information about missing person\'s identity numbers, please include them since it will be helpful for finding the person. Otherwise please ignore.'); ?></p><?php
+		shn_form_text(_t('Social Security Number'),'idcard','size="30"', array('private'=>true, 'help'=>'Enter the 9 digit number, as a single number of the form 123-45-6789'));
+		shn_form_text(_t('Passport Number'),'passport','size="30"', array('private'=>true));
+		shn_form_text(_t('Driver\'s License Number'),'drv_license','size="30"', array('private'=>true));
 	shn_form_fsclose();
 
 	shn_form_fsopen(_t('Basic Details'));
 		?><p><?php echo  _t('Please enter any of the following details of the person:'); ?></p>	<?php
-		shn_form_text(_t('Full Name'),'full_name','size="30"',array('req'=>true, 'help'=>'You are required to specify the full name in order to identify the entry'));
-		shn_form_text(_t('Family Name'),'family_name','size="30"', array('help'=>_t('Family name, or the surname could be specified for matching of people with similar Family names')));
-		shn_form_text(_t('Local Name'),'local_name','size="30"', array('help'=>_t('You may also specify the local name, even in different script than English')));
-		shn_form_date(_t("Date of Birth"),'dob',$extra_opts=NULL);
-		//shn_form_text(_t('Date of Birth   (YYYY-MM-DD)'),'dob','size=8');
-		shn_form_opt_select("opt_age_group",_t('Age Group'),null,array('sort'=>'display_order, option_description ASC','select'=>'true'));
-		shn_form_opt_select("opt_gender",_t('Gender'),null,array('sort'=>'display_order, option_description ASC','select'=>'true'));
-		shn_form_opt_select("opt_marital_status",_t('Marital Status'),null,array('sort'=>'display_order, option_description ASC','select'=>'true'));
-		shn_form_opt_select("opt_religion",_t('Religion'),null,array('sort'=>'display_order, option_description ASC','select'=>'true')); //,'priority'=>'item1,item2'));
-		shn_form_opt_select("opt_race",_t('Race'),null,array('sort'=>'display_order, option_description ASC','select'=>'true'));
+		shn_form_text(_t('Full Name '),'full_name','size="30"',array('req'=>true, 'help'=>'Examples: First Middle Last, First M. Last, First M. I. Last, First Mid1 Mid2 Last, First Mid Last1 Last 2, First “Nickname” Last. This field is required because it is the main field that will be used during searches to locate a person.', 'public'=>true));
+		shn_form_text(_t('Family Name'),'family_name','size="30"', array('help'=>_t('Also known as the surname.  Typically the last name or the first.'), 'private'=>true));
+		shn_form_text(_t('Local Name'),'local_name','size="30"', array('help'=>_t('Nickname, alias, or (if the computer allows) full name in a non-Roman alphabet.'), 'private'=>true));
+		shn_form_date(_t("Date of Birth"),'dob', array('public'=>true, 'help'=>'Please enter a date in the form YYYY-MM-DD'));
+		shn_form_opt_select("opt_age_group",_t('Age'),null,array('sort'=>'display_order, option_description ASC','select'=>'true', 'public'=>true, 'help'=>'If date of birth is unknown, enter an estimated age.'));
+		shn_form_opt_select("opt_gender",_t('Gender'),null,array('sort'=>'display_order, option_description ASC','select'=>'true', 'public'=>true));
+		shn_form_opt_select("opt_marital_status",_t('Marital Status'),null,array('sort'=>'display_order, option_description ASC', 'select'=>'true', 'public'=>true));
+		shn_form_opt_select("opt_religion",_t('Religion'),null,array('sort'=>'display_order, option_description ASC','select'=>'true', 'private'=>true));
+		shn_form_opt_select("opt_race",_t('Race'),null,array('sort'=>'display_order, option_description ASC','select'=>'true', 'private'=>true, 'help'=>'The Race choices are those defined by the US Government, e.g., the FBI when reporting missing people.'));
 	shn_form_fsclose();
 
 	shn_form_fsopen(_t('Upload Picture'));
-		?><p><?php echo  _t('If you have a picture of the missing person, please upload the picture. So, that it will be easy for us to identify the person. <br />If you don\'t have a picture no need to upload.'); ?></p><?php
-		shn_form_upload(_t('Upload Picture'),"picture");
+		?><p><?php echo  _t('Select a photo that clearly shows the person’s face, and possibly suggests their build.  Ideally, show only one person in the photo; otherwise, tell us which person is the one missing in the “Other information that would help us to find this person” field below.'); ?></p><?php
+		shn_form_upload(_t('Upload Picture'), "picture", array('public'=>true, 'help'=> _t('If the photo you intend to use comes from another web site (e.g., photo sharing, web email), you will often need to first make a temporary local copy of it to your local machine, which can then be uploaded to Sahana. Similarly, getting it directly from a USB flash drive, USB transfer cable from your camera, or memory stick (e.g., SD card from your camera or cell phone).')));
 	shn_form_fsclose();
 
 	shn_form_fsopen(_t('Missing Person\'s Contact Information'));
-		shn_form_textarea(_t('Address'),"address", null,array('help' => _t('Your address can be specified to contact you')));
-		shn_form_text(_t('Postal Code'),'zip','size="15"',array('help'=>_t('Specify a postal code, if it is available')));
-		shn_form_text(_t('Home Phone'),'phone','size="15"');
-		shn_form_text(_t('Mobile'),'mobile','size="15"');
+		shn_form_textarea(_t('Address'),"address", null, array('cols'=>48, 'help' => _t('Your address can be specified to contact you'), 'private'=>true));
+		shn_form_text(_t('Zip/Postal Code'),'zip', 'size="15"', array('private'=>true));
+		shn_form_text(_t('Home Phone Number'),'phone', 'size="15"', array('private'=>true));
+		shn_form_text(_t('Cell/Mobile Phone Number'),'mobile', 'size="15"', array('private'=>true));
 	shn_form_fsclose();
 
-	global $global; 
-	global $conf;
-    
-	include_once($global['approot']."/inc/lib_location.inc");
-	/* This hack should be integrated with 	the lib_location */
-	//Starts
-	$i = $conf['mod_mpr_location_lower_limit'];
-	while((! isset($_POST[$i])) && 	$i > $conf['mod_mpr_location_upper_limit'] ) {
-		$i--;
-	}
-	//Ends
-	$range['start']=$conf['mod_mpr_location_upper_limit'];
-	$range['end']=$conf['mod_mpr_location_lower_limit'];
-	
-	shn_form_fsopen(_t('Select Missing Person\'s Origin'));
-		shn_location($range ,$_POST[$i],null,array('sort'=>'display_order, field_name ASC','select'=>'true'));
+	shn_form_fsopen(_t('Location where the person most likely encountered the disaster <span class="publicText">Public</span>'));
+		?><p><?php echo _t("Choose 'County or Equivalent' first, this will auto-populate the second field 'Town or Neighborhood'. Next, choose a 'Town or Neighborhood' from the list.  A 'county equivalent' varies by state, but is typically a city."); ?></p><?php
+		shn_location_mpr();
 	shn_form_fsclose();
 
 	shn_form_fsopen(_t('Physical Details'));
-		shn_form_opt_select("opt_eye_color",_t('Eye Colour'),null,array('sort'=>'display_order, option_description ASC','select'=>'true'));
-		shn_form_opt_select("opt_skin_color",_t('Skin Colour'),null,array('sort'=>'display_order, option_description ASC','select'=>'true'));
-		shn_form_opt_select("opt_hair_color",_t('Hair Colour'),null,array('sort'=>'display_order, option_description ASC','select'=>'true'));
-		shn_form_text(_t('Height'),'height','size="10"',array('help'=>_t('Enter the value in centimeters(cm)')));
-		shn_form_text(_t('Weight'),'weight','size="10"',array('help'=>_t('Enter the value in kilograms(Kg)')));
-		shn_form_textarea(_t('Other Distinctive Features'),'physical_comments');
+		shn_form_opt_select("opt_eye_color",_t('Eye Color'),null,array('sort'=>'display_order, option_description ASC','select'=>'true', 'public'=>true, 'help'=>'The choices for Skin Color are those used by governmental agencies and law enforcement when reporting missing people.  These are frequently-used descriptive words, rather than precise colors.  Adjectives like “light” and “dark” may be considered in conjunction with the choices for “Race” and “Ethnicity” fields above.'));
+		shn_form_opt_select("opt_skin_color",_t('Skin Color'),null,array('sort'=>'display_order, option_description ASC','select'=>'true', 'public'=>true));
+		shn_form_opt_select("opt_hair_color",_t('Hair Color'),null,array('sort'=>'display_order, option_description ASC','select'=>'true', 'public'=>true));
+		
+		// added the usage of different units here and in the general configuration of the module ~ gmiernicki
+		if (shn_db_get_config("mpr", "use_english_metrics")) {
+			shn_form_text(_t("Height (<i>in feet/inches</i>)"),'height','size="10"',array('public'=>true, 'help'=>'Enter value to the nearest ½ inch.  Examples: 5\' 3 1/2", 60.5", 59"'));
+			shn_form_text(_t('Weight (<i>in pounds</i>)'),'weight','size="10"',array('public'=>true, 'help'=>'Enter value to the nearest pound.'));
+		} else {
+			shn_form_text(_t('Height (<i>in centimeters</i>)'),'height','size="10"',array('public'=>true, 'help'=>'Enter the value to the nearest centimeter.'));
+			shn_form_text(_t('Weight (<i>in kilograms</i>)'),'weight','size="10"',array('public'=>true, 'help'=>'Enter the value to the nearest kilogram.'));
+		}
+				
+		shn_form_textarea(_t('Other Obvious Distinctive Features'),'physical_comments', null, array('cols'=>48, 'public'=>true));
 	shn_form_fsclose();
 	
-	
 	shn_form_fsopen(_t('Other Details'));
-		shn_form_opt_select("opt_blood_type",_t('Blood Type'),null,array('sort'=>'display_order, option_description ASC','select'=>'true'));
-		shn_form_textarea(_t('Last Seen location'),'last_seen');
-		shn_form_textarea(_t('Description of clothing and appearance when last seen'),'last_clothing');
-		shn_form_textarea(_t('Other information that would help us to find this person'),'comments');
+		shn_form_opt_select("opt_blood_type",_t('Blood Type'),null,array('private'=>true, 'sort'=>'display_order, option_description ASC','select'=>'true'));
+		shn_form_textarea(_t('Last Seen Location'),'last_seen', null, array('cols'=>48, 'public'=>true));
+		shn_form_textarea(_t('Clothing and Appearance when Last Seen'),'last_clothing', null, array('cols'=>48, 'public'=>true));
+		shn_form_textarea(_t('Other Information to Help Locate this Person'),'comments', null, array('cols'=>48, 'public'=>true));
 	shn_form_fsclose();
 
 	shn_form_submit(_t('Next'));
