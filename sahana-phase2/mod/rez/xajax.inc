@@ -313,8 +313,8 @@ function rez_perform_edit($page_id) {
 
 	$editMainHtml =
 "<form id=\"editPageForm\" name=\"editPageForm\">
-<table class=\"mainTable\"><tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">Menu Title</td><td class=\"mainRowOdd\"><input name=\"menuTitle\" type=\"text\" id=\"menuTitle\" value=\"".$row['rez_menu_title']."\" size=\"32\" /></td></tr>
-<tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">Page Title</td><td class=\"mainRowEven\"><input name=\"pageTitle\" type=\"text\" id=\"pageTitle\" value=\"".$row['rez_page_title']."\" size=\"32\" /></td></tr>
+<table class=\"mainTable\"><tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">Menu Title</td><td class=\"mainRowOdd\"><input name=\"menuTitle\" type=\"text\" id=\"menuTitle\" value=\"".$row['rez_menu_title']."\" size=\"64\" /></td></tr>
+<tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">Page Title</td><td class=\"mainRowEven\"><input name=\"pageTitle\" type=\"text\" id=\"pageTitle\" value=\"".$row['rez_page_title']."\" size=\"64\" /></td></tr>
 <tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">Page Description</td><td class=\"mainRowOdd\"><input name=\"pageDescription\" type=\"text\" id=\"pageDescription\" value=\"".$row['rez_description']."\" size=\"64\" /></td></tr></table>
 <div style=\"background-color: #fff;\"><textarea name=\"pageContent\" id=\"pageContent\" style=\"height: 300px; width: 100%;\">".$row['rez_content']."</textarea></div>
 </form>";
