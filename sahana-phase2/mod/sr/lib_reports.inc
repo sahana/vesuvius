@@ -111,7 +111,7 @@ function shn_sr_report_list($type, $method='all')
 	shn_form_fsclose();
 	print "</table></div>";
 	 
-	print "<p><br>"._t("Select").":&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=default'>".
+	print "<p><br />"._t("Select").":&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=default'>".
 	_t("Back")."</a>&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=";
 	if ($type=="update") {
 		print "update'";
@@ -127,7 +127,7 @@ function shn_sr_report_list($type, $method='all')
 // Switch board
 function _shn_switch_board($switches)
 {
-	print "<p><br>"._t("Select").":&nbsp;&nbsp;&nbsp;";
+	print "<p><br />"._t("Select").":&nbsp;&nbsp;&nbsp;";
 	
 	switch ($switches) {
 		
@@ -140,7 +140,7 @@ function _shn_switch_board($switches)
 		break;	
 	}
 	
-	print "<br></p>";
+	print "<br /></p>";
 }
 
 // Check whether the report is already in the db
