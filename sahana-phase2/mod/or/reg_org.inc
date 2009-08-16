@@ -42,23 +42,27 @@ function _shn_or_regform_org($error=false)
     $extra_opts['req']=true;
     ?>
 	<div class="info">
-		<?php echo  _t("These are the basic details of the organization. A name is required, but a registration number is optional.");?>
+	  <?php echo  _t('These are the basic details of the organization.').' '.
+          _t('A name is required, but a registration number is optional.');?>
 	</div>
 	<br /><?php
     if($error==true){
     		$extra_opts['value']=$_SESSION['org']['name'];
     }
-    shn_form_text(_t("Name ").': ','org_name','size="40"',$extra_opts); 
+    shn_form_text(_t("Organisation Name").': ','org_name','size="40"',$extra_opts); 
     $extra_opts['req']=false;
     if($error==true){
     		$extra_opts['value']=$_SESSION['org']['reg_no'];
     }
-    $extra_opts['help']=_t("Please enter the most revelant registration number. If you have multiple registration numbers, select the one that is most important for disaster relief operations.")."<br /><br />".
-    _t("This field is optional.")." ".
-    _t("If you are an unregistered organization, then please leave the field blank.");;
-    shn_form_text(_t("Registration Number(if any) : "),'reg_no','size="40"',$extra_opts); 
+    $extra_opts['help']=_t("Please enter a registration number if appropriate.").' '.
+                        _t("If this organization has multiple registration numbers,
+                            please select the one which is most relevant to the
+                            situation.").'<br /><br />'.
+                        _t("If the organization is unregistered, 
+                            then please leave the field blank.");
+    shn_form_text(_t("Registration Number").': ','reg_no','size="40"',$extra_opts); 
     shn_form_fsclose();
-    shn_form_fsopen(_t("Organization Type"));
+    shn_form_fsopen(_t("Organization Type").': ');
    
     if($error==true){
     		_shn_or_display_org_type($error,false,$_SESSION['org']['type']);
@@ -81,15 +85,26 @@ function _shn_or_regform_org($error=false)
   // 	$range=array('start'=>2,'end'=>3);
   // 	$extra_opts["camps"]=true;
   // 	$extra_opts["org"]=true;
-    $extra_opts['help']=(_t("Select your location, moving from country to city.")."<br /><br />"._t("Available locations are set by administrators. Please contact them if your district or city is missing."));//display help icon only once
- 	shn_form_fsopen(_t("Base Location"));
+    $extra_opts['help']=(_t("Please select your location, moving from country to
+                          city.")."<br /><br />"._t("Available locations are 
+                          set by administrators.").' '.("Please contact them if 
+                          your district or city is missing."));//display help icon only once
+ 	shn_form_fsopen(_t("Base Location")); ?>
+         <div class="info">
+	  <?php echo  _t("Please first select the country, area and city of this
+                          organization. Once these are entered, a street address
+                          may be entered in the field below.");
+          ?>
+	</div>
+<?php
  	if($error==true){
  		shn_location(null,$_SESSION['org']['loc'],null,$extra_opts);
  	}else{
  		shn_location(null,null,null,$extra_opts);
  	} 
- 	$extra_opts['help']=(_t("In addition to the hierarchical location , you may specify the address of the organization here. "));
- 	shn_form_text(_t("Address"),'loc_txt','size="40"', $extra_opts);
+ 	$extra_opts['help']=(_t("
+                                ."));
+ 	shn_form_text(_t("Street Address"),'loc_txt','size="40"', $extra_opts);
     shn_form_fsclose();
 
     // Contact infomation
@@ -151,9 +166,9 @@ function _shn_or_regconfirm_org()
 			shn_form_fopen("view_org_submit",null,array('req_message'=>false,'name'=>"confirm_reg"));
 	}else if( $_SESSION['org']['parent_id']==null){
     		shn_form_fopen("reg_org_cr",null,array('req_message'=>false,'name'=>"confirm_reg"));
-    }else{
+        }else{
     		shn_form_fopen("reg_operation_cr",null,array('req_message'=>false,'name'=>"confirm_reg"));	
-    }
+        }
     shn_form_fsopen(_t('Primary Details'));
     $q="SELECT o_uuid FROM org_main WHERE name='{$_SESSION['org']['name']}'";
     $res=$db->Execute($q);
