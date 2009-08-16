@@ -47,7 +47,7 @@ function shn_sr_report_detail_form($rpt_id, $rpt_name)
 	
 	shn_form_fopen("form_submit",null,array ('req_message' => false,'tab'=>'float'));
 		
-		print _t("Report Name")." : <b>$rpt_name</b><br><br>";
+		print _t("Report Name")." : <b>$rpt_name</b><br /><br />";
 		
 		shn_form_hidden(array("key"=>"reports"));
 		shn_form_hidden(array("id"=>"$rpt_id"));
@@ -70,7 +70,7 @@ function shn_sr_report_detail_form($rpt_id, $rpt_name)
 		$date = date_format($date, 'jS, F Y - g:i a');
 		
 		//print "<font color=silver>Last updated : $values[0] by $values[1]</font><br><br>";
-		print "<font color=\"silver\">"._t('Last updated')." : $date by $values[1]</font><br><br>";
+		print "<font color=\"silver\">"._t('Last updated')." : $date by $values[1]</font><br /><br />";
 		
 		shn_form_submit(_t("Save"),"name='chk'");
 		shn_form_submit(_t("Cancel"),"name='chk'");
@@ -136,7 +136,7 @@ function shn_sr_view_report($rpt_id, $rpt_name, $author, $summary, $event, $acti
 	print '<h1>'._t('Report Information').'</h1>';
 	
 	shn_form_fopen("",null,array ('req_message' => false));
-		print _t('Report Name')." : <b>$rpt_name</b><br><br>";
+		print _t('Report Name')." : <b>$rpt_name</b><br /><br />";
 		shn_form_fsopen(_t('Summary of Events'));
 			print $summary;
 		shn_form_fsclose();
@@ -154,7 +154,7 @@ function shn_sr_view_report($rpt_id, $rpt_name, $author, $summary, $event, $acti
 		$date = date_create($update_date);
 		$date = date_format($date, 'jS, F Y - g:i a');
 		
-		print "<font color=\"silver\">"._t('Last updated')." : $date by $values[1]</font><br><br>";
+		print "<font color=\"silver\">"._t('Last updated')." : $date by $values[1]</font><br /><br />";
 		
 		print _t("Select").":&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=view'>".
 		_t('Back')."</a>&nbsp;&nbsp;&nbsp; 
