@@ -40,14 +40,14 @@ function shn_sr_report_register()
 function shn_sr_report_detail_form($rpt_id, $rpt_name)
 {
 	//_shn_sr_check_editor(); // working on right now
-	print "<h1>Report Information</h1>";
+	print '<h1>'._t("Report Information").'</h1>';
 	// pull latest existing reports
 	$values = shn_sr_pull_report_content($rpt_id);
 	//print_r($values);
 	
 	shn_form_fopen("form_submit",null,array ('req_message' => false,'tab'=>'float'));
 		
-		print "Report Name : <b>$rpt_name</b><br><br>";
+		print _t("Report Name")." : <b>$rpt_name</b><br><br>";
 		
 		shn_form_hidden(array("key"=>"reports"));
 		shn_form_hidden(array("id"=>"$rpt_id"));
@@ -70,7 +70,7 @@ function shn_sr_report_detail_form($rpt_id, $rpt_name)
 		$date = date_format($date, 'jS, F Y - g:i a');
 		
 		//print "<font color=silver>Last updated : $values[0] by $values[1]</font><br><br>";
-		print "<font color=silver>Last updated : $date by $values[1]</font><br><br>";
+		print "<font color=\"silver\">"._t('Last updated')." : $date by $values[1]</font><br><br>";
 		
 		shn_form_submit(_t("Save"),"name='chk'");
 		shn_form_submit(_t("Cancel"),"name='chk'");
@@ -90,9 +90,9 @@ function _shn_sr_check_editor()
 	if ($conf['wysiwyg']=='fckeditor'){
 		print "fckeditor";
 		if(is_dir($dir_name)){
-			print " is the directory";
+			print ' '._t("is the directory.");
 		} else {
-			print " but can not find the directory.";
+			print ' '._t("but can not find the directory.");
 		}
 	
 	// if it's tiny_mce	
@@ -133,20 +133,20 @@ function _shn_sr_form_key_figures($val)
 // Display requested sitrep
 function shn_sr_view_report($rpt_id, $rpt_name, $author, $summary, $event, $action, $figure, $status, $update_date)
 {
-	print "<h1>Report Information</h1>";
+	print '<h1>'._t('Report Information').'</h1>';
 	
 	shn_form_fopen("",null,array ('req_message' => false));
-		print "Report Name : <b>$rpt_name</b><br><br>";
-		shn_form_fsopen('Summary of Events');
+		print _t('Report Name')." : <b>$rpt_name</b><br><br>";
+		shn_form_fsopen(_t('Summary of Events'));
 			print $summary;
 		shn_form_fsclose();
-		shn_form_fsopen('Predicted Event Development');
+		shn_form_fsopen(_t('Predicted Event Development'));
 			print $event;
 		shn_form_fsclose();	
-		shn_form_fsopen('Actions Taken');
+		shn_form_fsopen(_t('Actions Taken'));
 			print $action;
 		shn_form_fsclose();
-		shn_form_fsopen('Key Figures');
+		shn_form_fsopen(_t('Key Figures'));
 			print $figure;
 		shn_form_fsclose();
 		
@@ -154,9 +154,12 @@ function shn_sr_view_report($rpt_id, $rpt_name, $author, $summary, $event, $acti
 		$date = date_create($update_date);
 		$date = date_format($date, 'jS, F Y - g:i a');
 		
-		print "<font color=silver>Last updated : $date by $values[1]</font><br><br>";
+		print "<font color=\"silver\">"._t('Last updated')." : $date by $values[1]</font><br><br>";
 		
-		print "Select:&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=view'>Back</a>&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=report_update&id=$rpt_id&rpt=$rpt_name'>Update</a>&nbsp;&nbsp;";
+		print _t("Select").":&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=view'>".
+		_t('Back')."</a>&nbsp;&nbsp;&nbsp; 
+		<a href='index.php?mod=sr&act=report_update&id=$rpt_id&rpt=$rpt_name'>".
+		_t('Update')."</a>&nbsp;&nbsp;";
 	shn_form_fclose();	
 		
 }
