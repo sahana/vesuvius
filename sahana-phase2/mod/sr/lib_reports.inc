@@ -111,12 +111,13 @@ function shn_sr_report_list($type, $method='all')
 	shn_form_fsclose();
 	print "</table></div>";
 	 
-	print "<p><br>Select:&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=default'>Back</a>&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=";
+	print "<p><br>"._t("Select").":&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=default'>".
+	_t("Back")."</a>&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=";
 	if ($type=="update") {
 		print "update'";
 	} else {	
 		print "view";
-	} print ">Refresh</a>&nbsp;&nbsp;</p>";
+	} print ">"._t("Refresh")."</a>&nbsp;&nbsp;</p>";
 	shn_form_fclose();
 	
 	
