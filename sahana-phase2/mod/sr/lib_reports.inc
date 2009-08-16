@@ -21,8 +21,8 @@
 // Display all the reports as a list
 function shn_sr_report_list($type, $method='all')
 {
-	if ($type=="view") echo "<h1>View Situation Reports</h1>";
-	elseif ($type=="update") echo "<h1>Update Situation Reports</h1>";
+	if ($type=="view") echo '<h1>'._t("View Situation Reports").'</h1>';
+	elseif ($type=="update") echo "<h1>"._t("Update Situation Reports")."</h1>";
 	
 	// connect to db
 	global $global;
@@ -54,19 +54,19 @@ function shn_sr_report_list($type, $method='all')
 	shn_form_fopen("",null,array ('req_message' => false));
 	shn_form_fsopen('Report List');
 	if ($res->fields['report_id']=="") {
-		add_warning("No Reports to view! Please <a href='index.php?mod=sr&act=create'>create</a> a new report.");
-    } else {
+		add_warning(_t("No reports to have been created yet."));
+        } else {
 	?>
-	
-		<table width="100%">
+	<div id="result">
+		<table>
 	            <thead>
 				<tr>
-					<td>Report</td>
-					<td>Description</td>
-		 			<td>Status</td>
-		 			<td>Author</td>
-		 			<td>Created Date</td>
-		 			<td>Last Update</td>
+					<td><?php echo _t('Report'); ?></td>
+					<td><?php echo _t('Description'); ?></td>
+		 			<td><?php echo _t('Status'); ?></td>
+		 			<td><?php echo _t('Author'); ?></td>
+		 			<td><?php echo _t('Created Date'); ?></td>
+		 			<td><?php echo _t('Last Update'); ?></td>
 				</tr>
 		   </thead>
 	        <tbody>
@@ -84,9 +84,9 @@ function shn_sr_report_list($type, $method='all')
 			$incident_id = $res->fields['incident_id'];
 			
 			if($status=="create") {
-				$status="<font color='red'>New</font>";
+				$status="<font color='red'>"._t("New")."</font>";
 			} elseif ($status=="updated"){
-				$status="<font color='green'>Updated</font>";	
+				$status="<font color='green'>"._t("Updated")."</font>";	
 			}
 			?>
 			<tr>
@@ -109,7 +109,7 @@ function shn_sr_report_list($type, $method='all')
 		}
     }
 	shn_form_fsclose();
-	print "</table>";
+	print "</table></div>";
 	 
 	print "<p><br>Select:&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=default'>Back</a>&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=";
 	if ($type=="update") {
@@ -126,15 +126,15 @@ function shn_sr_report_list($type, $method='all')
 // Switch board
 function _shn_switch_board($switches)
 {
-	print "<p><br>Select:&nbsp;&nbsp;&nbsp;";
+	print "<p><br>"._t("Select").":&nbsp;&nbsp;&nbsp;";
 	
 	switch ($switches) {
 		
-		case "back":
+		case _t("Back"):
 			
 		break;
 		
-		case "refresh":
+		case _t("Refresh"):
 			
 		break;	
 	}
@@ -174,9 +174,9 @@ function shn_sr_chk_rpt_name($report_name)
 	$report_name = strtolower($report_name);
 	
 	if (in_array($report_name,$list)){
-		$chk=array("yes");
+		$chk=array(_t("Yes"));
 	} else {
-		return $chk="no";
+		return $chk=_t("No");
 	}
 }
 
