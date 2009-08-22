@@ -186,4 +186,3 @@ switch($_POST['seq']){
 		break;
 }
 
-?>

@@ -12,7 +12,7 @@
 * @copyright  Respere - http://respere.com/
 * @package	  Sahana - http://sahana.lk/
 * @subpackage msg
-* @version 	  $Id: adm_menu.inc,v 1.3 2008-04-30 05:56:29 mifanc Exp $
+* @version 	  $Id: adm_menu.inc,v 1.4 2009-08-22 17:17:22 ravithb Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -31,4 +31,4 @@ function shn_msg_admin_menu()
     shn_sub_mod_menuitem("msg_email", _t("Email Configuration"), 'admin');
     shn_sub_mod_menuclose();
 }
-?>
+

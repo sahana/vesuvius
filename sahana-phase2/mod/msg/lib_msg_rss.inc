@@ -60,4 +60,3 @@ function shn_xml_msg_rss_alert(){
     shn_rss_close();
 }
 
-?>

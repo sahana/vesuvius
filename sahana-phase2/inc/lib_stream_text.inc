@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_stream_text.inc,v 1.6 2008-07-07 13:13:20 chamindra Exp $ */
+/* $Id: lib_stream_text.inc,v 1.7 2009-08-22 17:17:25 ravithb Exp $ */
 
 /**
  *
@@ -49,4 +49,4 @@ function _shn_text_display_errors() {
 function shn_stream_close() {
 	display_errors();
 }
-?>
+

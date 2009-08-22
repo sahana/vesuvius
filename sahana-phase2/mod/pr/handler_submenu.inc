@@ -40,4 +40,3 @@
 		include $global['approot']."/inc/handler_mainmenu.inc";
 	}
 
-?>

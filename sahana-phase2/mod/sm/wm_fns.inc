@@ -814,4 +814,4 @@ function shn_sm_image_handler()
         }
     }
 }
-?>
+

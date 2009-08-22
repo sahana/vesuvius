@@ -348,4 +348,4 @@ function _shn_ms_adm_saveconfig()
     add_confirmation('<b>'._t("MapServer module now configured").'</b>');
 }
 
-?>
+

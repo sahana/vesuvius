@@ -39,4 +39,4 @@ function shn_gps_default()
 <?php
 }
 
-?>
+

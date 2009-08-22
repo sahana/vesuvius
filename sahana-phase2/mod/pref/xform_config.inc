@@ -40,4 +40,3 @@ global $global;
 }
 
 
-?>

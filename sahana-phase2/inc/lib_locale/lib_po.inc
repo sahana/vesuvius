@@ -99,4 +99,4 @@ function shn_lc_create_pot()
         return false;
     }
 }
-?>
+

@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_xml.inc,v 1.1 2007-08-27 02:55:40 ravids Exp $ */
+/* $Id: lib_xml.inc,v 1.2 2009-08-22 17:17:25 ravithb Exp $ */
 
 /**
  *
@@ -32,4 +32,3 @@ function findAttribute($object, $attribute) {
 }
 
  
-?>

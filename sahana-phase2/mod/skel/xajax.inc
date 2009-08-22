@@ -50,4 +50,3 @@ function skel_add_user($form){
     $global['xajax_res']->addAssign('users','innerHTML',$users);
     return $global['xajax_res']->getXML();
 }
-?>

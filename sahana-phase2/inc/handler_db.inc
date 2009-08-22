@@ -1,5 +1,5 @@
 <?php
-/* $Id: handler_db.inc,v 1.30 2009-06-10 19:53:23 gmiernicki Exp $ */
+/* $Id: handler_db.inc,v 1.31 2009-08-22 17:17:25 ravithb Exp $ */
 
 /**
  *
@@ -317,4 +317,4 @@ function debug($str,$exit=false)
         exit();
 }
 
-?>
+

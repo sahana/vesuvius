@@ -41,4 +41,4 @@ function _shn_admin_lc_translate_compile(){
     } else {
    		add_confirmation(_t('Translation updated succesfully.'));
 }
-?>
+

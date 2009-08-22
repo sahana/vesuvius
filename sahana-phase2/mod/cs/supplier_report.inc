@@ -67,4 +67,3 @@ function shn_cs_show_supplier_report()
     </div>
     <?php
 }
-?>

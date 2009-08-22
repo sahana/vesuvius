@@ -137,4 +137,3 @@ function dump_xml_image_table($write,$fp){
         $write($fp,"\t</image>\n");
     }
 }
-?>

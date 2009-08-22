@@ -133,4 +133,3 @@ function shn_text_xst_gis_popup_delete()
     _shn_gis_form_gis_popup_delete_callback();
 }
 
-?>

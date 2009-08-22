@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_soap.inc,v 1.16 2008-02-18 11:17:07 ravids Exp $ */
+/* $Id: lib_stream_soap.inc,v 1.17 2009-08-22 17:17:25 ravithb Exp $ */
 
 /**
  *
@@ -30,4 +30,3 @@ function _shn_soap_display_errors(){
     // do nothing
     return;
 }
-?>

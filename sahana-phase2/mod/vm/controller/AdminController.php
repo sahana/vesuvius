@@ -225,4 +225,3 @@ class AdminController extends AdminView implements Controller
 	}
 }
 
-?>

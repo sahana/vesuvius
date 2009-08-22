@@ -24,4 +24,3 @@
 
 $package['mod_vm_version'] = '1.1';
 
-?>

@@ -30,4 +30,3 @@ foreach($recordSet as $row){
     $data = str_replace("\r","",$data);
     echo $data;
 }
-?>

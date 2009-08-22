@@ -103,4 +103,3 @@ function shn_cs_get_catalog_names()
     
     return $catalog_list;
 }
-?>

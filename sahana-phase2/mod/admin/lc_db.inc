@@ -169,4 +169,4 @@ switch($_REQUEST['seq']) {
 		__show_entries();
 		break;
 }
-?>
+

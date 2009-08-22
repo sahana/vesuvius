@@ -20,7 +20,7 @@
 * @package		sahana
 * @subpackage   msg
 * @tutorial
-* @version		$Id: main.inc,v 1.32 2008-08-02 15:29:45 priyanga Exp $
+* @version		$Id: main.inc,v 1.33 2009-08-22 17:17:22 ravithb Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -634,4 +634,3 @@ function shn_text_msg_receive_message(){
     include_once "lib_msg.inc";
     shn_msg_receive_short_message();
 }
-?>

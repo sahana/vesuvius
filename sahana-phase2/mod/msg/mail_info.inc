@@ -27,4 +27,4 @@ $sit['smtp_host'] = "";
 $sit['smtp_port'] = 25;
 $sit['smtp_username'] ="";
 $sit['smtp_password'] ="";
-?>
+

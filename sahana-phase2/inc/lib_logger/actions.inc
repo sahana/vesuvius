@@ -10,4 +10,4 @@
 	define("GDEL",_t("Delete Group"));
 	define("GADD",_t("Create Group"));
 	define("GADD",_t("Create Group"));
-?>
+

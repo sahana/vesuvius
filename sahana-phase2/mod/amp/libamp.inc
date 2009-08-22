@@ -100,4 +100,3 @@ function shn_amp_sahana_cr(){
 	}
 }
 
-?>

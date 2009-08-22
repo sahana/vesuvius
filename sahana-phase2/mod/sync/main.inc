@@ -1,7 +1,7 @@
 <?php
 
-/* $Id: main.inc,v 1.33 2008-05-27 08:32:29 ishanul Exp $ */
-/* $Id: main.inc,v 1.33 2008-05-27 08:32:29 ishanul Exp $ */
+/* $Id: main.inc,v 1.34 2009-08-22 17:17:23 ravithb Exp $ */
+/* $Id: main.inc,v 1.34 2009-08-22 17:17:23 ravithb Exp $ */
 /**
  * Main Controller of the Synchronization Module
  *
@@ -237,4 +237,4 @@ function shn_sync_ads(){
 function shn_sync_sws(){
 
 }
-?>
+

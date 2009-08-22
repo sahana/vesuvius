@@ -511,4 +511,4 @@ function shn_valid_y_coordinate($field){
    return false;
 }
 
-?>
+

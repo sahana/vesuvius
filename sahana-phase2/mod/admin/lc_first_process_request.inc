@@ -227,4 +227,4 @@ function _replace_str($position,$msgid,$locale)
 
 	
  
-?>
+

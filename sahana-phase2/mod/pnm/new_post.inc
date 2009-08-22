@@ -55,4 +55,3 @@ function shn_pnm_confirm_post(){
  	add_confirmation("News posting successful");
  	
  }
-?>

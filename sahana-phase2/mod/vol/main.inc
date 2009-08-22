@@ -206,4 +206,4 @@ function shn_vol_add_image(){
 	 include_once("process_vol.inc");
 	_shn_vol_upload_pic();
 }
-?>
+

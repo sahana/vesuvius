@@ -732,4 +732,3 @@ function _shn_cr_location_string($loc)
    	}
    	return $location;
 }
-?>

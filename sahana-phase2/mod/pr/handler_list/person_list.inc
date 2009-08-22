@@ -54,4 +54,3 @@
 	    shn_table_result($results,$headers,$actions ,array('action'=>$del_url,'del'=>true));
 	}
 
-?>

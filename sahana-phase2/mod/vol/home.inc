@@ -69,4 +69,4 @@ if(!$res->EOF){
 <?php
 		_shn_vol_viewform_all();
         //_shn_or_viewform_allorg(10);
-?>
+

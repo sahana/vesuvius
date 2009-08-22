@@ -389,4 +389,3 @@ function set_rpp(rpp_val){
 </script>
 	<?php
 }
-?>

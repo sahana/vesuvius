@@ -195,4 +195,4 @@ function _shn_setup_determine_step_no($function_call,$back_button){
 	}
 }
 
-?>
+

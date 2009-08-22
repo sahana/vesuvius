@@ -48,4 +48,3 @@ function shn_sr_form_tabs()
         <br>
         <?php
 }
-?>

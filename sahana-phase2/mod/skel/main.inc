@@ -268,4 +268,4 @@ function shn_skel_ajax_demo(){
     $users=print_r($_SESSION['demo_users'], true);
     echo "<span id='users'>".$users."</span><br />";
 }
-?>
+

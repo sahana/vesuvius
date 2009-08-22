@@ -1137,4 +1137,4 @@ function shn_cs_datacreate()
 		$res=$db->Execute($q);
 
 }
-?>
+

@@ -167,4 +167,3 @@ function shn_or_organization_search($incidents=null,$sectors=null,$types=null,$e
 
 
 
-?>

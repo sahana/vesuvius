@@ -388,4 +388,4 @@ class Msg_CapInfo
 
 }
 
-?>
+

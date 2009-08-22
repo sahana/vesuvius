@@ -118,4 +118,4 @@ function _shn_gis_create_markers_folder()
     }
 }
 
-?>
+

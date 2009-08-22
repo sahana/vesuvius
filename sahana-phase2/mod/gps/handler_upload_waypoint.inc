@@ -190,4 +190,4 @@ function shn_gps_save_points($ids_)
     return $uuids;
 }
 
-?>
+

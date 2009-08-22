@@ -152,4 +152,4 @@ function shn_pref_ch_passwd_cr()
 	}
 	
 }
-?>
+

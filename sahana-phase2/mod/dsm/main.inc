@@ -461,4 +461,3 @@ function shn_dsm_edit_factors_cr(){
         shn_dsm_edit_disease();
     }
 }
-?>

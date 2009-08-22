@@ -245,4 +245,4 @@ function dispatch() {
 // dispatch the event based on url args.
 dispatch();
 
-?>
+

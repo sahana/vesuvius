@@ -183,4 +183,3 @@ function _shn_cs_get_max_rec_page()
     return $max_rec;
 }
  
-?>

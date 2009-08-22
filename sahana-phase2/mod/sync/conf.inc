@@ -1,5 +1,5 @@
 <?php
-/* $Id: conf.inc,v 1.4 2008-02-13 04:05:33 ishanul Exp $ */
+/* $Id: conf.inc,v 1.5 2009-08-22 17:17:23 ravithb Exp $ */
 
 /**
  * Main Configuration of the Missing Person Registry 
@@ -26,4 +26,4 @@ $conf['mod_sync_name'] = _t("Synchronization");
 $conf['mod_sync_menuorder'] = 19; 
 
 $conf['mod_sync_dependencies'] = "";
-?>
+

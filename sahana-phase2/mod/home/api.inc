@@ -33,4 +33,3 @@ function shn_search_answer_db($FAQinput){
 		$faq_list=_shn_search_get_answer_db($question,$module,$action);
 		return $faq_list;
 }
-?>

@@ -35,4 +35,4 @@ function chk_base($usr_base)
 	if($usr_base==null) echo "Hey! --base is null\n";	
 }// end of chk_var
 
-?>
+

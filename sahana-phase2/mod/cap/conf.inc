@@ -18,4 +18,4 @@ $conf['mod_cap_name'] = _t("CAP Aggregator");
 $conf['mod_cap_menuorder'] = 20; 
 // configuration variable for days 
 $conf['shn_cap_days']= 7;
-?>
+

@@ -20,4 +20,3 @@ $conf['mod_rs_name'] = array('type'=>'string','size'=>-1,'allow_null'=>false,'de
 $conf['mod_rs_menuorder'] = array('type'=>'integer','allow_null'=>false,'default_value'=>19);
 $conf['mod_rs_dependencies'] = "";
 $conf['mod_rs_chart_update_interval'] = array('type'=>'integer','allow_null'=>false,'min_value'=>0,'default_value'=>19);
-?>

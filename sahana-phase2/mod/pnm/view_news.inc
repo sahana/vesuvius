@@ -56,4 +56,3 @@ function _shn_pnm_view_news_item($uuid){
 	//shn_form_fsclose();
 	shn_form_fclose();
 }
-?>

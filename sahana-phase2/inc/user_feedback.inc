@@ -356,4 +356,3 @@ function _shn_answer_db_ex($question,$module,$action){
 
 }
 
-?>

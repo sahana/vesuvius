@@ -605,4 +605,4 @@ function shn_cs_generate_subcat_item_serial($parent_id_in)
 
     return $next_serial;
 }
-?>
+

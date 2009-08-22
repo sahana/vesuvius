@@ -384,4 +384,3 @@ function _shn_pre_add_disaster_form(){
 		default:
 			break;
 	}
-?>

@@ -23,4 +23,3 @@ global $global;
     return $module_list; 
 }
 
-?>

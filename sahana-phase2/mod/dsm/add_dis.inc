@@ -295,4 +295,3 @@ function add_symptoms($priority, $disease)
 	}
 }
 
-?>

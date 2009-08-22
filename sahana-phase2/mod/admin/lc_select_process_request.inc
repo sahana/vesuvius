@@ -23,4 +23,3 @@ function shn_admin_lc_select_tag()
 }
 
 
-?>

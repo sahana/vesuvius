@@ -15,4 +15,3 @@ if (!$recordSet){
 }
 else
     print rs2csv($recordSet);
-?>

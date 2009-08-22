@@ -197,4 +197,3 @@ class ProjectView extends View
 	}
 }
 
-?>

@@ -32,4 +32,3 @@ $conf['mod_pre_name'] = _("Disaster Preparedness");
 $conf['mod_pre_menuorder'] = 2; 
 $conf['mod_pre_dependencies'] = "";
 
-?>

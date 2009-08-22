@@ -687,4 +687,3 @@ function _is_units_under_this_type($unit_type_id_in)
 
 	return $inuse_flag;
 }
-?>

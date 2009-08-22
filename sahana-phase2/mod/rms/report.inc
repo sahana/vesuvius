@@ -647,4 +647,3 @@ function shn_rms_item_by_location(){
 			break;
 	}
 }
-?>

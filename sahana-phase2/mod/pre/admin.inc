@@ -96,4 +96,3 @@ function shn_pre_adm_effects(){
 }
 
 
-?>

@@ -92,4 +92,3 @@ function shn_dvr_mainmenu() {
 	include $global['approot'] . '/inc/handler_mainmenu.inc';
 
 }
-?>

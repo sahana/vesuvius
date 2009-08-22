@@ -864,4 +864,3 @@ class Msg_CapAlert
     
 }
 
-?>

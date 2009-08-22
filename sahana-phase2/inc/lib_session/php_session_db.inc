@@ -58,4 +58,4 @@ function _shn_session_sess_gc($lifetime) {
 
 }
 
-?>
+

@@ -59,4 +59,3 @@ $conf['output_file']="/tmp/kannel.conf";
 
  // SMS receive console refresh rates in miliseconds
  $conf['msg_rc_refresh_rate']= 10000;
-?>

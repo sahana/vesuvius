@@ -26,4 +26,4 @@ define(SHN_ERR_OR_ADD_TYPE,_t("Select the type of the entry"));
 define(SHN_ERR_OR_PREFER,_t("Select the preference of form display"));
 define(SHN_ERR_OR_EMAIL,_t("Email address is of the wrong format"));
 define(SHN_ERR_DOB_INCORRECT,_t("You have to enter a Date (yyyy-mm-dd) for Date of Birth"));
-?>
+

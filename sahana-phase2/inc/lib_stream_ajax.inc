@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_ajax.inc,v 1.5 2008-07-20 16:27:47 priyanga Exp $ */
+/* $Id: lib_stream_ajax.inc,v 1.6 2009-08-22 17:17:25 ravithb Exp $ */
 
 /**
  *
@@ -61,4 +61,4 @@ function shn_stream_close(){
 function shn_ajax_check_perms(){
 	return ALLOWED;//skip authentication for the moment
 }
-?>
+

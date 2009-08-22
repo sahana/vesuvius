@@ -11,7 +11,7 @@
 * 
 * @author   	J P Fonseka <jo@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: handler_send_console.inc,v 1.2 2008-04-30 05:57:41 mifanc Exp $
+* @version 		$Id: handler_send_console.inc,v 1.3 2009-08-22 17:17:22 ravithb Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @license   	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -57,4 +57,3 @@ $global['xajax']->printJavascript("res/js");
 shn_form_fsclose();
 shn_form_submit('Send Message');
 shn_form_fclose();
-?>

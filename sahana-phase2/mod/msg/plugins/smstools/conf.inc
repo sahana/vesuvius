@@ -10,7 +10,7 @@
 * 
 * @author   	Mifan Careem <mifan@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: conf.inc,v 1.2 2008-05-08 11:44:10 mifanc Exp $
+* @version 		$Id: conf.inc,v 1.3 2009-08-22 17:17:27 ravithb Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @plugin		SMSTools - http://smstools.meinemullemaus.de/
@@ -40,4 +40,4 @@ $conf['msg_mypath'] = '/usr/bin';
 
 # Name of the log file. Delete this line, if you want to use the syslog for logging. You can use "1" to write to the console (stdout).
 $conf['msg_logfile'] = '/var/log/smsd.log';
-?>
+

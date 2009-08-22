@@ -79,4 +79,3 @@ function _shn_get_dbfiles(){
     return $files;
 }
 
-?>

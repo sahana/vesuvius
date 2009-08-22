@@ -357,4 +357,3 @@ switch ($_REQUEST['seq'])
 	   
 }
 
-?>

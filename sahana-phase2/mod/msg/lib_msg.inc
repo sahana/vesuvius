@@ -15,7 +15,7 @@
 * @copyright  Respere - http://respere.com/
 * @package	  Sahana - http://sahana.lk/
 * @subpackage
-* @version	  $Id: lib_msg.inc,v 1.6 2008-09-15 13:57:35 franboon Exp $
+* @version	  $Id: lib_msg.inc,v 1.7 2009-08-22 17:17:22 ravithb Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 global $global;
@@ -350,4 +350,4 @@ function _shn_msg_get_guid_from_group($group_entry)
 	
 }
 
-?>
+

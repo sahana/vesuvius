@@ -26,4 +26,4 @@ function shn_hr_adm_default()
     <p><b><?php echo _t("The Housing Registry Admin page is still under construction :- )")?> </b></p>
 <?php
 }
-?>
+

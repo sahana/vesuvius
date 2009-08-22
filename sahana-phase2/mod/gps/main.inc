@@ -386,4 +386,4 @@ function shn_gps_marker()
 //    }
 //}
 
-?>
+

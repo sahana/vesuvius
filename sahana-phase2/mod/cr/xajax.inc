@@ -29,4 +29,3 @@ function cr_check_shelter_name($shetler_name){
     return $global['xajax_res']->getXML();
 }
 
-?>

@@ -516,4 +516,3 @@ function shn_dsm_adm_delete_disease_cr(){
         shn_dsm_adm_delete_disease();
     }
 }
-?>

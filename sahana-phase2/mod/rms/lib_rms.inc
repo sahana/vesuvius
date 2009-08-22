@@ -2262,4 +2262,3 @@ function _shn_rms_get_locid($range_end)
 	}
 }
 
-?>

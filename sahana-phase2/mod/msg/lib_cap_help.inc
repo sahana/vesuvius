@@ -33,4 +33,4 @@ $help_scope = _t("Code Values:<br />'Public' - For general dissemination to unre
  */
 $help_event = _t("The text denoting the type of the subject event of the alert message");
 $help_urgency = _t("(1) The 'urgency', 'severity', and 'certainty' elements collectively distinguish less emphatic from more emphatic messages.<br />(2) Code Values:<br />'Immediate' - Responsive action SHOULD be taken immediately <br />'Expected' - Responsive action SHOULD be taken soon (within next hour) <br />'Future' - Responsive action SHOULD be taken in the near future <br />'Past' - Responsive action is no longer required <br />'Unknown' - Urgency not known ");
-?>
+

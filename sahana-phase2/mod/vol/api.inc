@@ -31,4 +31,3 @@ function shn_vol_skill_list(){
     return $type_arr;
 }
 
-?>

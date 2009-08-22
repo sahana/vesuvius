@@ -45,4 +45,4 @@ function shn_plugin_commit()
 	$db = $global['db'];
 		
 }
-?>
+

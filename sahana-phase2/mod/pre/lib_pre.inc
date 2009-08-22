@@ -773,4 +773,3 @@ function _shn_pre_get_area_disaster_evacuation($area_uuid, $disaster_uuid){
 		shn_html_table($tb_items, $th_items, null, array('class'=>'wide'));
 	}
 }
-?>

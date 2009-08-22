@@ -13,7 +13,7 @@
 * @package		sahana
 * @subpackage   msg
 * @tutorial
-* @version		$Id: handler_contacts.inc,v 1.12 2009-03-17 06:08:24 ravithb Exp $;
+* @version		$Id: handler_contacts.inc,v 1.13 2009-08-22 17:17:22 ravithb Exp $;
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General
 * Public License (LGPL)
 *  
@@ -441,4 +441,3 @@ function shn_msg_basic_group_list()
 	//print "<br>";
 	return $list;
 }
-?>

@@ -25,4 +25,4 @@ $conf['mod_hr_name'] = _t("Housing Registry");
 $conf['mod_hr_menuorder'] = 4; 
 
 $conf['mod_hr_dependencies'] = "";
-?>
+

@@ -82,4 +82,3 @@ function _shn_dsm_view_contacts()
 	shn_form_fsclose();
 	shn_form_fclose();
 }
-?>

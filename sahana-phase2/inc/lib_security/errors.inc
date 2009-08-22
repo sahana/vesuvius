@@ -25,4 +25,4 @@ define(SHN_AUTH_ERR_UNAME_INCOMPLETE,"User Name is essential for registration. P
 define(SHN_AUTH_ERR_PWD_INCOMPLETE,"Password is essential for registration. Please Complete and Submit again");
 define(SHN_AUTH_ERR_REPWD_INCOMPLETE,"Password confirmation is essential for registration. Please Complete and Submit again");
 define(SHN_AUTH_ERR_REPWD_WRONG,"Password confirmation does not match with password. Please Complete and Submit again");
-?>
+

@@ -31,4 +31,3 @@ $conf['mod_sm_menuorder'] = 2;
  */
 $conf['mod_sm_image_folder'] = 'www/tmp/';
 
-?>

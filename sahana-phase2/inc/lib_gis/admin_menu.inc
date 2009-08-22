@@ -11,7 +11,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: admin_menu.inc,v 1.13 2008-09-16 20:36:02 franboon Exp $
+* @version      $Id: admin_menu.inc,v 1.14 2009-08-22 17:17:25 ravithb Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -28,4 +28,4 @@
     shn_sub_mod_menuitem("gis_projections", _t("GIS Projections Management"), 'admin');
     shn_sub_mod_menuclose();
 
-?>
+

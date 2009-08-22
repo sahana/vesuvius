@@ -31,4 +31,4 @@ curl_close($ch);
 header("Content-Type: text/xml");
 
 echo $xml;
-?>
+

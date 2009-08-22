@@ -9,7 +9,7 @@
 * 
 * @author   	Mifan Careem <mifan@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: admin.inc,v 1.2 2008-05-08 11:40:59 mifanc Exp $
+* @version 		$Id: admin.inc,v 1.3 2009-08-22 17:17:22 ravithb Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @plugin		Kannel - http://kannel.org/
@@ -45,4 +45,4 @@ function shn_msg_adm_set()
        _shn_kannel_config_savefile();
    }
 }
-?>
+

@@ -6,9 +6,9 @@ return confirm('This group with the group head '+headname+' and all individuals 
 </script>
 <?php
 
-/* $Id: search_group.inc,v 1.12 2009-03-17 06:08:22 ravithb Exp $ */
+/* $Id: search_group.inc,v 1.13 2009-08-22 17:17:22 ravithb Exp $ */
 
-/* $Id: search_group.inc,v 1.12 2009-03-17 06:08:22 ravithb Exp $ */
+/* $Id: search_group.inc,v 1.13 2009-08-22 17:17:22 ravithb Exp $ */
 
 /**
  * 
@@ -210,4 +210,3 @@ function shn_dvr_advanced_search_group()
 
 }
 
-?>

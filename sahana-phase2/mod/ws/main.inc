@@ -500,4 +500,4 @@ function collapseEntities($val) {
 }
 	
 
-?>
+

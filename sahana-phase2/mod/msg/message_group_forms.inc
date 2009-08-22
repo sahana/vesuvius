@@ -173,4 +173,3 @@ $status_mail=array();
    }
 return $status_mail;
 }
-?>

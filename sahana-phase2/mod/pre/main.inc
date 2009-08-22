@@ -498,4 +498,3 @@ function shn_text_pre_get_contact_person(){
 	shn_ajax_send_contact_person();
 }
 
-?>

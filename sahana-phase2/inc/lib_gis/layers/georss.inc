@@ -8,7 +8,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: georss.inc,v 1.20 2008-05-21 19:19:00 franboon Exp $
+* @version     	$Id: georss.inc,v 1.21 2009-08-22 17:17:23 ravithb Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -479,4 +479,4 @@ class georss implements layer{
     
 }
  
-?>
+

@@ -26,4 +26,4 @@
 $conf['mod_pref_name'] = _t("User Preferences");
 $conf['mod_pref_menuorder'] = 19;
 $conf['mod_pref_dependencies'] = "";
-?>
+

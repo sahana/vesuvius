@@ -48,4 +48,3 @@ function shn_amp_default(){
 shn_amp_view_mashup();	
 }
 
-?>

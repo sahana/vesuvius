@@ -75,4 +75,3 @@ class ProjectTest extends PHPUnit_Framework_TestCase {
 
     // all other functions are one-line wrappers around DAO
 }
-?>

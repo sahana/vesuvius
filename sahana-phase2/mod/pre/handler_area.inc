@@ -546,4 +546,3 @@ function _shn_pre_delete_threat_area($area_uuid){
 	}
 }
 
-?>

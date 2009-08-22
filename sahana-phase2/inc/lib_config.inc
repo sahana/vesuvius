@@ -242,4 +242,4 @@ function shn_config_validate_value($key,$value){
 	return false;
 
 }
-?>
+

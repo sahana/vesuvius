@@ -11,7 +11,7 @@
 * @author   	Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
 * @author       Richard Smith <s0459387@sms.ed.ac.uk>
-* @version		$Id: gis_fns.inc,v 1.13 2009-08-22 15:16:00 ravithb Exp $
+* @version		$Id: gis_fns.inc,v 1.14 2009-08-22 17:17:25 ravithb Exp $
 * @library		GIS
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -2338,4 +2338,4 @@ function shn_gis_draw_polylines($cords,$title=null){
 	
 }
 
-?>
+

@@ -11,7 +11,7 @@
 * 
 * @author   	J P Fonseka <jo@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: lib_receive_console.inc,v 1.4 2008-06-01 07:08:52 priyanga Exp $
+* @version 		$Id: lib_receive_console.inc,v 1.5 2009-08-22 17:17:22 ravithb Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @license   	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -213,4 +213,3 @@ function _shn_msg_tpl_message($msgid){
     $global['xajax_res']->addAssign("message_container","innerHTML", $html);
     return $global['xajax_res']->getXML();
 }
-?>

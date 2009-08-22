@@ -15,7 +15,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library		GIS
-* @version		$Id: georss.inc,v 1.1 2008-06-03 20:27:34 mifanc Exp $
+* @version		$Id: georss.inc,v 1.2 2009-08-22 17:17:27 ravithb Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -72,4 +72,4 @@ function shn_rss_add_feed($act,$title,$desc=null){
     }
     echo "</div>";
 }
-?>
+

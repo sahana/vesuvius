@@ -43,4 +43,3 @@ switch($_POST['compression']){
 }
 
 shn_sync_dump_xml($tables,$tmp_file,$file_open,$file_close,$write)
-?>

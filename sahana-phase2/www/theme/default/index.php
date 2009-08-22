@@ -2,4 +2,4 @@
 
 header("Location:../index.php");
 
-?>
+

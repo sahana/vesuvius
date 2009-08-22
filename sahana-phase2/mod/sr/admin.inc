@@ -26,4 +26,3 @@ function shn_sr_adm_default()
 
 }
 
-?>

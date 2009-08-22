@@ -18,4 +18,4 @@
 $conf['mod_itag_name'] = _t("Image Tagger");
 $conf['mod_itag_menuorder'] = 4; 
 
-?>
+

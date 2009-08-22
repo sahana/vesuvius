@@ -88,4 +88,3 @@ function _shn_admin_lc_remove_language()
 	add_confirmation($language._t(" language removed successfully"));
 }
 
-?>

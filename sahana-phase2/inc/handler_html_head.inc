@@ -17,4 +17,4 @@ require_once($global['approot'].'inc/lib_xhtml.inc');
 
 #$array[0] = 'test';
 shn_display_xhtml_head();
-?>
+

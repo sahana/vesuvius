@@ -33,4 +33,4 @@ $conf['mod_skel_name'] = _t("Skeleton Module");
 $conf['mod_skel_menuorder'] = 21; 
 $conf['mod_skel_dependencies'] = "";
 
-?>
+

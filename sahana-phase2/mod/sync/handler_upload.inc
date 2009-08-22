@@ -122,4 +122,3 @@ function _shn_sync_file_details(){
     echo "</div>";
     shn_form_fclose();
 }
-?>

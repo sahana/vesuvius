@@ -306,4 +306,3 @@
 	{
 		_shn_pr_person_api();
 	}
-?>

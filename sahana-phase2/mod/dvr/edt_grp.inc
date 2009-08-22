@@ -741,4 +741,4 @@ function _shn_dvr_commit() {
 	include_once ($global['approot'] . '/mod/dvr/data_access.inc');
 	_shn_dvr_update_group();
 }
-?>
+

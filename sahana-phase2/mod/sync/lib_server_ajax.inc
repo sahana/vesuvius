@@ -69,4 +69,3 @@ function _print_xajax_close(){
     exit(0);
 }
 
-?>

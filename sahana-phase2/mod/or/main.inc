@@ -368,4 +368,4 @@ function shn_or_search_cr(){
 	</div>
     <?php
 }
-?>
+

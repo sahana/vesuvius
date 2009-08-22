@@ -94,4 +94,4 @@ function __check_empty_tables($tables)
 
     return $error;
 }
-?>
+

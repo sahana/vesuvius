@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_image.inc,v 1.4 2008-02-18 11:17:07 ravids Exp $ */
+/* $Id: lib_stream_image.inc,v 1.5 2009-08-22 17:17:25 ravithb Exp $ */
 
 /**
  *
@@ -42,4 +42,4 @@ function _shn_image_display_errors(){
 	// do nothing.
 	return;
 }
-?>
+

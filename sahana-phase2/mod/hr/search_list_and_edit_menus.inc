@@ -46,4 +46,4 @@ function shn_hr_search_list_and_edit_menu4()
 	shn_hr_list_menu4(false,true);
 }
 
-?>
+

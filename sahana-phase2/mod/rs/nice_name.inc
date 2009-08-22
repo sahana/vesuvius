@@ -262,4 +262,4 @@ function _shn_rs_test_cases($first_string) {
 		return false;
 	return true;
 }
-?>
+

@@ -107,4 +107,3 @@ function _shn_pnm_get_person_name($person_uuid){
     }
 }
 
-?>

@@ -15,7 +15,7 @@
 * @package	  Sahana - http://sahana.lk/
 * @subpackage msg
 * @plugin	  kannel - http://kannel.org/
-* @version 	  $Id: handler_kannel.inc,v 1.2 2008-05-08 11:42:15 mifanc Exp $
+* @version 	  $Id: handler_kannel.inc,v 1.3 2009-08-22 17:17:22 ravithb Exp $
 * @contrib	  Re-written by Respere for the Messaging/Alerting module - http://respere.com
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
@@ -148,4 +148,4 @@ function shn_msg_plugin_store_received_msg()
 
 
 
-?>
+

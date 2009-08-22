@@ -127,4 +127,4 @@ class Msg_CapResource
     
 }
 
-?>
+

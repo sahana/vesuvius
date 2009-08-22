@@ -304,4 +304,3 @@ dojo.addOnLoad(initDnd);
 </script>
 <?php
 }
-?>

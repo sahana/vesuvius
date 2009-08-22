@@ -67,4 +67,3 @@ function shn_xml_rms_new_requests(){
     shn_rss_close();
 }
 
-?>

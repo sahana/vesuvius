@@ -271,4 +271,4 @@ function _shn_ims_validate_reg_inv()
     return $error_flag;
 
 }
-?>
+

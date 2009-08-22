@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.68 2009-08-22 15:16:00 ravithb Exp $
+* @version      $Id: openlayers_fns.php,v 1.69 2009-08-22 17:17:26 ravithb Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -2035,4 +2035,3 @@ function strstrbi($haystack, $needle, $before_needle=FALSE, $include_needle=TRUE
     return substr($haystack,$pos);
 }
 
-?>

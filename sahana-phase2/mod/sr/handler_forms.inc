@@ -164,4 +164,4 @@ function shn_sr_view_report($rpt_id, $rpt_name, $author, $summary, $event, $acti
 		
 }
 
-?>
+

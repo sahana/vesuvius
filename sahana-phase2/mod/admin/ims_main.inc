@@ -143,4 +143,3 @@ function shn_tools_clean_post(&$local_post)
             $local_post[$k] = $v;
     }
 }
-?>

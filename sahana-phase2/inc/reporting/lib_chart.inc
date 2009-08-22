@@ -762,4 +762,3 @@ function _shn_is_print_ok()
 }
 
 
-?>

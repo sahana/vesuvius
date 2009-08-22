@@ -179,4 +179,4 @@ function shn_vm_mainmenu()
 	include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
-?>
+

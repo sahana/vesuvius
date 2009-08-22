@@ -83,4 +83,4 @@ function _shn_or_update_loc(){
 </script>
 <?php
 }
-?>
+

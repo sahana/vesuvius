@@ -98,4 +98,3 @@ while ($data = $read($fp, 4096)) {
 xml_parser_free($xml_parser);
 $file_close($fp);
 
-?>

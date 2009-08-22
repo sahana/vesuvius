@@ -16,4 +16,3 @@
 	$conf['mod_pr_menuorder'] = 2;
 	
 	$conf['mod_pr_home_header'] = _t('Person Registry');
-?>

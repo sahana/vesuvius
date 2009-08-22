@@ -87,4 +87,4 @@ function _shn_pref_config_validate()
 	}
 }
 
-?>
+

@@ -9,7 +9,7 @@
 * 
 * @author   	Mifan Careem <mifan@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: conf.inc,v 1.2 2008-05-08 11:41:28 mifanc Exp $
+* @version 		$Id: conf.inc,v 1.3 2009-08-22 17:17:22 ravithb Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @plugin		Kannel - http://kannel.org/
@@ -18,4 +18,4 @@
 
 // provide the nice display name for the GIS Plugin module
 $conf['plugin_name'] = _t('Kannel');
-?>
+

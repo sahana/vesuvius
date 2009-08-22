@@ -97,4 +97,3 @@ function shn_ims_get_item_details($item=NULL){
 
 
 
-?>

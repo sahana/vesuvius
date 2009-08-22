@@ -40,4 +40,4 @@ function shn_home_test($var1, $var2)
 {
 
 }
-?>
+

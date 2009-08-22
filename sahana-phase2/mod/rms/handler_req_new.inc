@@ -676,4 +676,3 @@ switch ($_REQUEST['seq'])
             break;
 
 }
-?>

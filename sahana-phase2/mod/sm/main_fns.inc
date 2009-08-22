@@ -59,4 +59,4 @@ function shn_sm_radius_analyse()
     shn_sm_radius_analyse_process();
 }
 
-?>
+

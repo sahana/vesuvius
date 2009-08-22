@@ -144,4 +144,4 @@ function _shn_ims_validate_additemform()
 
     return $error_flag;
 }
-?>
+

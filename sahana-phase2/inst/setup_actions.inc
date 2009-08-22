@@ -479,4 +479,4 @@ function shn_setup_scen_select_scen_submit()
 	}
 }
 
-?>
+

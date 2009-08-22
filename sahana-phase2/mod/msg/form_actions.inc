@@ -11,7 +11,7 @@
 * @copyright  Respere - http://respere.com/
 * @package	  Sahana - http://sahana.lk/
 * @subpackage Messaging
-* @version 	  $Id: form_actions.inc,v 1.2 2008-04-30 05:56:58 mifanc Exp $
+* @version 	  $Id: form_actions.inc,v 1.3 2009-08-22 17:17:22 ravithb Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -146,4 +146,4 @@ function _shn_msg_message_filter($contacts)
 	$contacts_array = split(',',$contacts);
 	return $contacts_array;		
 }
-?>
+

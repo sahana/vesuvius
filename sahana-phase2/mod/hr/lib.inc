@@ -93,4 +93,4 @@ function _shn_hr_location_string($loc)
    	return $location;
 }
 
-?>
+

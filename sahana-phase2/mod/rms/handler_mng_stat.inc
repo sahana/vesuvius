@@ -19,4 +19,4 @@
 
 _shn_rms_print_hedder(_t("Request / Pledge Statistics"));
 
-?>
+

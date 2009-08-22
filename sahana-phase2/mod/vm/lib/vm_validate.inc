@@ -257,4 +257,3 @@ function shn_vm_username_not_taken($user_name, $error_message=null)
 			return _("Start and end times must not be blank.");
 		return VM_OK;
 	}
-?>

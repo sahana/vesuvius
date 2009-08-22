@@ -99,4 +99,4 @@ function shn_text_cap_alert()
 	
 }
 
- ?>
+ 

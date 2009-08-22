@@ -17,4 +17,4 @@ if ($_SESSION['logged_in'] == true ){
 	
 }
 shn_mod_menuitem("ims_config",_t("Default Incident"));
-?>
+

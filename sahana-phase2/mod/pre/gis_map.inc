@@ -62,4 +62,3 @@ function _shn_pre_gis_disaster_report($duuid){
 
 
 
-?>

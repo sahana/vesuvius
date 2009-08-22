@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library	    GIS
-* @version		$Id: googlemaps.inc,v 1.23 2008-12-13 21:23:36 franboon Exp $
+* @version		$Id: googlemaps.inc,v 1.24 2009-08-22 17:17:23 ravithb Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -196,4 +196,4 @@ class googlemaps implements layer{
     }
 }
 
-?>
+

@@ -401,4 +401,3 @@ function _shn_dr_show_table($table_name, $chosen_fields, $keys_sub,$rep_name=nul
 	else
 		_shn_dr_create_form($table_name, $chosen_fields, $keys);
 }
-?>

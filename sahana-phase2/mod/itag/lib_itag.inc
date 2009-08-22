@@ -105,4 +105,3 @@ function _shn_itag_display_marked_map($map_id){
 				break;
     }
 }
-?>

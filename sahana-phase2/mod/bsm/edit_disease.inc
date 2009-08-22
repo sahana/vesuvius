@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit_disease.inc,v 1.1 2009-08-14 11:16:59 mifanc Exp $ */
+/* $Id: edit_disease.inc,v 1.2 2009-08-22 17:17:26 ravithb Exp $ */
 
 /**
  * Edit a disease
@@ -341,4 +341,3 @@ function shn_bsm_edit_commit_lukup($pk_uuid=null,$fk_uuid=null,$fk_name=null, $d
         }
     }
 }
-?>

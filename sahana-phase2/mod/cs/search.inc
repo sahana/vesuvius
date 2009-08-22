@@ -252,4 +252,4 @@ function _shn_cs_search_unit_type_submit_result()
     </div>
 	<?php
 }
-?>
+

@@ -37,4 +37,3 @@
     }
     $global['bcaps'] = $bcaps;
     
-?>

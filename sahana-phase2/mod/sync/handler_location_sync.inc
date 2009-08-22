@@ -157,4 +157,3 @@ location ".get_select_html("loc_pare",$arr)."</strong></center>
         $global['xajax']->addScript("xajax_get_report();");
         $_SESSION['step']='6';
         send_responce();
-?>

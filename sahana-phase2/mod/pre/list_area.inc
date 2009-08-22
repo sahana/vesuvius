@@ -290,4 +290,3 @@ function _shn_pre_search_shelter_area_form(){
     shn_form_fsclose();
     shn_form_fclose();
 }
-?>

@@ -1604,4 +1604,3 @@ class daoTest extends PHPUnit_Framework_TestCase {
 		}
 
 }
-?>

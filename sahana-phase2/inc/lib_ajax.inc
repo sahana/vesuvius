@@ -405,4 +405,3 @@ function shn_ajax_text_look_up($label,$name,$hint=null,$url,$value=null,$flag,$e
 }
 
 
-?>

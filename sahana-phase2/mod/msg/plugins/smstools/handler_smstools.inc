@@ -9,7 +9,7 @@
 * 
 * @author   	Mifan Careem <mifan@respere.com>
 * @copyright  	Respere - http://respere.com/
-* @version 		$Id: handler_smstools.inc,v 1.2 2008-05-08 11:44:57 mifanc Exp $
+* @version 		$Id: handler_smstools.inc,v 1.3 2009-08-22 17:17:27 ravithb Exp $
 * @package 		Sahana - http://sahana.lk/
 * @subpackage 	messaging   
 * @plugin		SMSTools - http://smstools.meinemullemaus.de/
@@ -102,4 +102,4 @@ function shn_msg_plugin_store_received_msg()
 	$sql = "INSERT INTO msg_received_messages (sender,status,message) " .
 			" VALUES('{$sender}','1','{$message}')";
 }
-?>
+

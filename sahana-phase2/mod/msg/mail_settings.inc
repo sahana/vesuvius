@@ -43,4 +43,3 @@ function shn_update_mail_configuration()
 }
 
  //shn_update_mail_configuration();
-?>

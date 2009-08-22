@@ -348,4 +348,4 @@ function shn_gps_create_feed($name_, $feature_uuids_)
     return $GeoFactory->shn_sm_geo_publish($name_);       
 }
 
-?>
+

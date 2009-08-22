@@ -57,4 +57,3 @@ function _shn_pref_ajax_update($module,$key,$value){
 	shn_user_pref_update($module,$key,$value);
 }
 
-?>

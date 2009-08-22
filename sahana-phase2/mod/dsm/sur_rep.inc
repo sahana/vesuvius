@@ -180,4 +180,4 @@ function _shn_dsm_show_cost()
 	
 	shn_form_fclose();
 }
-?>
+

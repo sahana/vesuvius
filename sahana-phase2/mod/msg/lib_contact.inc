@@ -13,7 +13,7 @@
 * @package       Sahana - http://sahana.lk/
 * @subpackage    msg
 * @tutorial
-* @version       $Id: lib_contact.inc,v 1.3 2008-05-14 09:00:45 priyanga Exp $
+* @version       $Id: lib_contact.inc,v 1.4 2009-08-22 17:17:22 ravithb Exp $
 * @license       http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 *  
 */
@@ -339,4 +339,4 @@ function _shn_msg_message_ui($message=null){
 </script>
 <?php
 }
-?>
+

@@ -56,4 +56,3 @@ t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);*/
 
 
 }
-?>

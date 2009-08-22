@@ -1105,4 +1105,3 @@ function _shn_gis_internal_class_form_select_options()
     shn_form_fclose();
 }
 
-?>

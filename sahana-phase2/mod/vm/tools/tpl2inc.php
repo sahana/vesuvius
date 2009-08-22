@@ -42,4 +42,3 @@ foreach($tpls as $t) {
 	echo "Generated $t<br />\n";
 }
 
-?>

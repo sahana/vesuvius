@@ -69,4 +69,4 @@ define(SHN_ERR_IMS_UNIT_MISMATCH,_t("Units mismatching of selected items"));
 define(SHN_ERR_IMS_RELATION_ITEM_EXISTS,_t("Relation item has already been set"));
 
 
-?>
+

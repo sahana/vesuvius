@@ -68,4 +68,4 @@ function shn_plugin_commit()
 	}
 }
 
-?>
+

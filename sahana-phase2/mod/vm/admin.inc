@@ -37,4 +37,4 @@
 		$adc->controlHandler($_REQUEST);
 	}
 
-?>
+

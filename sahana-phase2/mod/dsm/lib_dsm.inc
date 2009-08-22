@@ -232,4 +232,4 @@ function _dsm_populate_contact($pat_id)
 	}
 	return $result;
 }
-?>
+

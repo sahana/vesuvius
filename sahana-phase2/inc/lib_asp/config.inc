@@ -8,4 +8,4 @@ $conf['base_location']="/usr/share/sahana-asp/";
 // this is the location of Apache document root
 $conf['doc_root']="/var/www/";
 
-?>
+

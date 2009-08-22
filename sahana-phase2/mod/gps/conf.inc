@@ -48,4 +48,4 @@ $conf['output']= "../www/tmp/output.txt";
  */
 $conf['schema_location']="./gpx_schema.xsd";
 
-?>
+

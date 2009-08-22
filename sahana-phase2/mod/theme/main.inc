@@ -588,4 +588,3 @@ function shn_theme_save_permissions () {
 	
 }
 
-?>

@@ -39,4 +39,3 @@ require_once('../tree/node.inc');
 require_once('../whiz/Whiz.php');
 require_once('../lib/vm_validate.inc');
 
-?>

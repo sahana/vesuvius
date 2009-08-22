@@ -12,4 +12,3 @@
 	 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 	 */
 
-?>

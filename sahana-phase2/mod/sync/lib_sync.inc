@@ -114,4 +114,3 @@ function _shn_sync_update_instance(){
     }
 }
 
-?>

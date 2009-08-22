@@ -1549,4 +1549,4 @@ function _shn_print_report_info($title,$the_report_ID,$file_name,$timestamp,$fil
     print "<b>File Type : </b>".$file_type."<br />";
     print "<b>File Size : </b>".$file_size." kb <br />";
 }
-?>
+

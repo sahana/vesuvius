@@ -19,4 +19,3 @@
 // provide the nice display name for the OR  module
 $conf['mod_pnm_name'] = _t("Press and Media Module");
 $conf['mod_pnm_menuorder'] = 4; 
-?>

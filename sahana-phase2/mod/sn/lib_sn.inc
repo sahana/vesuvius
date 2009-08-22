@@ -375,4 +375,3 @@ function _shn_sn_get_level($uname=''){
 }
 
 
-?>

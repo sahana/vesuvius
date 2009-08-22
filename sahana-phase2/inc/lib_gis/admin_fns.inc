@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/    	
 * @library      GIS
-* @version      $Id: admin_fns.inc,v 1.16 2009-03-17 06:08:24 ravithb Exp $;
+* @version      $Id: admin_fns.inc,v 1.17 2009-08-22 17:17:25 ravithb Exp $;
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -324,4 +324,4 @@ function _shn_admin_gis_show_mods_select()
 	shn_form_fclose();	
 }
 
-?>
+

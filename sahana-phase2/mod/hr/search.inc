@@ -162,4 +162,4 @@ function shn_hr_search_site($quick_search=false,$assign_contractor=false)
     shn_form_fclose();
     print '<br />'; 
 }
-?>
+

@@ -11,7 +11,7 @@
 * @author     Ravindra De Silva <ravindra@opensource.lk><ravi@computer.org>
 * @edit		  Mifan Careem <mifan@opensource.lk> [Converting to use global $conf variables]
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
-* $license	  $Id: lib_mail.inc,v 1.8 2008-04-30 06:01:36 mifanc Exp $
+* $license	  $Id: lib_mail.inc,v 1.9 2009-08-22 17:17:22 ravithb Exp $
 * @subpackage msg
 */
 
@@ -140,4 +140,4 @@ else
 }
 $mailer->ClearAddresses();
 $mailer->ClearAttachments();
-}?> 
+} 

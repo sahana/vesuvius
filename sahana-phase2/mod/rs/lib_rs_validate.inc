@@ -67,4 +67,3 @@ function shn_rs_validate_search_reports()
     }
     return $error_flag;
 }
-?>

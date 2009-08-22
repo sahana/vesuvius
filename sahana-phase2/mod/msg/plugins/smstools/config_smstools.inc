@@ -9,7 +9,7 @@
 * 
 * @author       Mifan Careem <mifan@respere.com>
 * @copyright    Respere - http://respere.com/
-* @version      $Id: config_smstools.inc,v 1.3 2008-06-04 22:24:29 franboon Exp $
+* @version      $Id: config_smstools.inc,v 1.4 2009-08-22 17:17:27 ravithb Exp $
 * @package      Sahana - http://sahana.lk/
 * @subpackage   messaging   
 * @plugin       SMSTools - http://smstools.meinemullemaus.de/
@@ -47,4 +47,4 @@ function _shn_msg_st_conf_start($errors=false){
     shn_form_fclose();
 }
 
-?>
+

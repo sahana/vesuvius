@@ -61,4 +61,3 @@ function _shn_pnm_figure_update_data(){
     shn_html_table($tb_items, $th_items, null, array('class'=>'wide'));
 }
 
-?>

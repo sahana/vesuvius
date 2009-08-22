@@ -77,4 +77,3 @@ switch ($_POST['file_type']){
 }
 
 
-?>

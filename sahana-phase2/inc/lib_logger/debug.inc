@@ -38,4 +38,4 @@ function shn_file_insert_log($date,$time,$message){
 		flock($fp,3); //release lock
 		fclose($fp);					
 }
-?>
+

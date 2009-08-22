@@ -132,4 +132,4 @@ function shn_front_controller()
         //@todo : throw the error correctly
 //    }
 }
-?>
+

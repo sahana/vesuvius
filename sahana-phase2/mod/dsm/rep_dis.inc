@@ -174,4 +174,3 @@ function _shn_confirm_patient_todb()
     shn_form_fclose();
 }
 
-?>

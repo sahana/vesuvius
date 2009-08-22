@@ -73,4 +73,3 @@ function _shn_dvr_populate_details()
 				break;
 			}
 	}
-?>

@@ -126,4 +126,3 @@ function shn_cs_search_cat_js()
 <?php
 }
 
-?>

@@ -68,4 +68,3 @@
             add_error(_t("Extention is not a valied Sahana dump file extention."));
             throw new Exception($error);
     }
-?>

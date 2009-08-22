@@ -225,4 +225,3 @@ switch($_REQUEST['seq']){
 	default:
 		break;
 }
-?>

@@ -172,4 +172,3 @@ function shn_sr_view()
 	shn_sr_report_list("view");
 }
 
-?>

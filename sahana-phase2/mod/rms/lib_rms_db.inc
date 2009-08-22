@@ -61,4 +61,4 @@ function _snf_rms_db_is_contactex($uuid, $type)
     return false;
 }
 
-?>
+

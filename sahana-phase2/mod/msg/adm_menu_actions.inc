@@ -12,7 +12,7 @@
 * @copyright  Respere - http://respere.com/
 * @package	  Sahana - http://sahana.lk/
 * @subpackage msg
-* @version 	  $Id: adm_menu_actions.inc,v 1.2 2008-04-26 19:26:05 mifanc Exp $
+* @version 	  $Id: adm_menu_actions.inc,v 1.3 2009-08-22 17:17:22 ravithb Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -64,4 +64,3 @@ function shn_admin_msg_general()
 	global $global;
 	include_once $global['approot']."/mod/msg/admin_fns.inc";
 }
-?>

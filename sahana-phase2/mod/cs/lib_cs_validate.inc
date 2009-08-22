@@ -182,4 +182,3 @@ function _shn_cs_validate_search_unit_type_form()
 
     return $error_flag;
 }
-?>

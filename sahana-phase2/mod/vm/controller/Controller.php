@@ -38,4 +38,3 @@ interface Controller
 	public function controlHandler($getvars);
 }
 
-?>

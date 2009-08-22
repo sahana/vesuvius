@@ -120,4 +120,3 @@ function shn_rms_request_list(){
     }
     return $request_list;
 }
-?>

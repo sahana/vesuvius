@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit_facility.inc,v 1.1 2009-08-14 11:17:41 mifanc Exp $ */
+/* $Id: edit_facility.inc,v 1.2 2009-08-22 17:17:26 ravithb Exp $ */
 
 /**
  * Edit the facility
@@ -410,4 +410,3 @@ function shn_bsm_edit_commit()
 	shn_db_update($update_array,'bsm_person',' WHERE p_uuid = '.$_SESSION['bsm']['edit']['person_uuid']);
 }
 
-?>

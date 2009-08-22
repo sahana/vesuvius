@@ -40,4 +40,4 @@ $conf['ms_FONT_SET'] = "fontset.txt";
 // Do not change this variable
 $conf['ms_BASE_MAP'] = "TEMPLATE0.map";
 
-?>
+

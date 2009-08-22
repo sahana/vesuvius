@@ -64,4 +64,3 @@ function admin_conf_ajax_update($key,$value)
 		return $xajax_response->getXML();
 	}
 }
-?>

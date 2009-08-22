@@ -537,4 +537,4 @@ function _shn_dvr_get_start_loc() {
 		return $res->fields["value"];
 	}
 }
-?>
+

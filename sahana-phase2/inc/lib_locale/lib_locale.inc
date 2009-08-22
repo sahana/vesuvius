@@ -348,4 +348,4 @@ function _shn_replace_charset($po_file,$charset = "UTF-8"){
     $replace = 'charset='.$charset;
     return str_replace($string,$replace,$po_file);
 }
-?>
+

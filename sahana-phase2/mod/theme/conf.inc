@@ -33,4 +33,4 @@ $conf['mod_theme_name'] = _t("Customize Theme");
 $conf['mod_theme_menuorder'] = 21; 
 $conf['mod_theme_dependencies'] = "";
 
-?>
+

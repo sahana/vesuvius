@@ -101,4 +101,4 @@ _shn_mpr_listing($missed);
 
 
 print '<BR/><BR/>';
-?><input type="button"  value="Print Current Page" class="hideprint" onClick="self.print()"/></div>
+<input type="button"  value="Print Current Page" class="hideprint" onClick="self.print()"/></div>

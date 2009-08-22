@@ -67,4 +67,4 @@ function shn_hr_ad_dd_img()
         break;
     }
 }
-?>
+

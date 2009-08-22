@@ -427,4 +427,4 @@ function shn_ms_search_map()
     shn_form_fclose();
 }
 
-?>
+

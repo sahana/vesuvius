@@ -498,4 +498,3 @@ function convert_time($updated){
 	return $converted_time;
 }
 function shn_xajax_printJavaScript(){}
-?>

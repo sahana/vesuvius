@@ -21,4 +21,3 @@ function shn_config_get_metadata($key){
 		return array('type'=>'unknown');
 	}
 }
-?>

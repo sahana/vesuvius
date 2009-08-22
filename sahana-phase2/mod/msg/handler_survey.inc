@@ -11,7 +11,7 @@
 * @package		Sahana - http://sahana.lk/
 * @subpackage   msg
 * @tutorial
-* @version		$Id: handler_survey.inc,v 1.2 2008-04-30 05:58:01 mifanc Exp $
+* @version		$Id: handler_survey.inc,v 1.3 2009-08-22 17:17:22 ravithb Exp $
 * @license		http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -168,4 +168,3 @@ $global['xajax']->printJavascript("res/js");
 shn_form_fsclose();
 shn_form_submit('Send Message');
 shn_form_fclose();
-?>

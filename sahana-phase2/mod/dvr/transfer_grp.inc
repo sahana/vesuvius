@@ -71,4 +71,4 @@ function _shn_dvr_populate_grp_details()
 				
 				break;
 			}
-	}?>
+	}

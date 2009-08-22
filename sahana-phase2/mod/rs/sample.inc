@@ -456,4 +456,3 @@ function _shn_rs_report_creator()
 	shn_xhtml_report_close();
     }
 }
-?>

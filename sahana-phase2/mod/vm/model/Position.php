@@ -53,4 +53,4 @@ class Position extends PositionType {
 	}
 }
 
-?>
+

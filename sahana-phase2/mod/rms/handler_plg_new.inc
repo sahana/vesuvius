@@ -374,4 +374,3 @@ switch ($_REQUEST['seq'])
                   '[ <a href="index.php?mod=rms&amp;act=plg_new">New Pledge</a> ]';
             break;
 }
-?>

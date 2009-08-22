@@ -46,4 +46,3 @@ function insert_record($rec,$table){
     $global['db']->AutoExecute("tmp_".$table,$rec,'INSERT');
 }
 
-?>

@@ -14,7 +14,7 @@
 * @copyright  Respere - http://respere.com/
 * @package	  Sahana - http://sahana.lk/
 * @subpackage msg
-* @version 	  $Id: msg_reports.inc,v 1.3 2009-03-17 06:08:24 ravithb Exp $
+* @version 	  $Id: msg_reports.inc,v 1.4 2009-08-22 17:17:22 ravithb Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -140,4 +140,3 @@ function shn_msg_basic_rcvd_report()
     </div>
 <?php
 }
-?>

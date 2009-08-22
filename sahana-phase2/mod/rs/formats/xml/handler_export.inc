@@ -37,4 +37,3 @@ echo "<table>\n";
   </table>
 <?php
 }
-?>

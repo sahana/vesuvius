@@ -107,4 +107,3 @@ echo "<Table ss:ExpandedColumnCount=\"$ECC\" ss:ExpandedRowCount=\"$ERC\"
 </Workbook>
 <?php
 }
-?>

@@ -86,4 +86,3 @@ function _shn_pre_add_it_allocate(){
 	shn_form_submit(_('Add It'));
 	shn_form_fclose();
 }
-?>

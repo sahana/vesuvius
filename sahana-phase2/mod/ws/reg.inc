@@ -152,4 +152,4 @@ function shn_ws_api_key_step3(){
     add_confirmation($msg);
 }
 
-?>
+

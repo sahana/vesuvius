@@ -17,7 +17,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version		$Id: layer_class.inc,v 1.4 2008-04-24 06:00:37 mifanc Exp $;
+* @version		$Id: layer_class.inc,v 1.5 2009-08-22 17:17:25 ravithb Exp $;
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -39,4 +39,4 @@ interface layer {
 
 }
 
-?>
+

@@ -131,4 +131,3 @@ class AdminView extends View
 
 }
 
-?>

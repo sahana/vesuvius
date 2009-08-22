@@ -479,4 +479,3 @@ function _shn_sn_show_welcome_page(){
 
 }
 //shn_form_close();
-?>

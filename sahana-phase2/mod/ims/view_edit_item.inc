@@ -285,4 +285,3 @@ function _shn_ims_view_edit_item_actions()
 </script>
 <?php
 
-?>

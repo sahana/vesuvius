@@ -584,4 +584,4 @@ function _shn_cs_search_keyword_result()
 </div>
 <?php
 }
-?>
+

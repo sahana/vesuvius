@@ -206,4 +206,3 @@ if($content != ""){
 	require_once($global['approot']."/inc/lib_rss.inc");
 	shn_rss_add_feed('new_org_list',_t('Recently registered organizations'));
 }
-?>

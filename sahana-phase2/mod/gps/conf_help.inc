@@ -47,4 +47,4 @@ $conf['mod_gps_author_name_help']= "Enter the creator of the marker";
   */
 
 $conf['mod_gps_marker_date_help']="Enter the date the marker was created";
-?>
+

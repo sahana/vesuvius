@@ -1,8 +1,8 @@
 <?php
 
-/* $Id: conf_admin.inc,v 1.23 2009-03-09 05:16:30 ravithb Exp $ */
+/* $Id: conf_admin.inc,v 1.24 2009-08-22 17:17:24 ravithb Exp $ */
 
-/* $Id: conf_admin.inc,v 1.23 2009-03-09 05:16:30 ravithb Exp $ */
+/* $Id: conf_admin.inc,v 1.24 2009-08-22 17:17:24 ravithb Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -377,4 +377,4 @@ function _shn_text_admin_conf_list__display_errors(){
 		$msg.="</ul>";
 		*/
 }
-?>
+

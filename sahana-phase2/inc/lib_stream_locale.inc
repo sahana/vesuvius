@@ -59,4 +59,4 @@ function _shn_locale_display_errors(){
 	return;	
 }
 
-?>
+

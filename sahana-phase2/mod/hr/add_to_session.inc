@@ -396,4 +396,4 @@ function shn_hr_add_to_session()
     			break;
 	}
 }
-?>
+

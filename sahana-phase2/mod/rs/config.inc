@@ -115,4 +115,3 @@ function shn_rs_config_main_form_submit_result()
     }
 
 }
-?>

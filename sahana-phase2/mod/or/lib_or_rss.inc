@@ -49,4 +49,3 @@ function shn_xml_or_new_org_list(){
 }
 
 
-?>

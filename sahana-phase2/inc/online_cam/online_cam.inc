@@ -48,4 +48,3 @@ function shn_online_cam_get_image_file_name($image_id){
     return $name;
 }
 
-?>

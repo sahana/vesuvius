@@ -73,4 +73,3 @@ function get_report(){
     $global['xajax']->addAssign('console','innerHTML', $report);
     return $global['xajax']->getXML();
 }
-?>

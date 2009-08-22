@@ -455,4 +455,3 @@ function _shn_ims_minimum_quantity_action()
 </script>
 <?php
 
-?>

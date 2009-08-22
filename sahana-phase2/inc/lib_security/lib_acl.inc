@@ -789,4 +789,4 @@ function shn_acl_get_group_name($role_id){
 	return $res->fields[0];
 
 }
-?>
+

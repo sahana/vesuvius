@@ -4,4 +4,4 @@
 $conf['plugin_name'] = 'OpenLayers';
 
 
-?>
+

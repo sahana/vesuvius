@@ -58,4 +58,4 @@ function shn_sm_adm_default()
 }
 /* }}} */
 
-?>
+

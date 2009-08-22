@@ -392,4 +392,4 @@ function shn_tools_rmdir_rf($path)
         return false;
     }
 }
-?>
+

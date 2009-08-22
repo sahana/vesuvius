@@ -11,7 +11,7 @@
 * @copyright  Respere - http://respere.com/
 * @package	  Sahana - http://sahana.lk/
 * @subpackage msg
-* @version 	  $Id: admin_fns.inc,v 1.4 2009-03-17 06:08:24 ravithb Exp $
+* @version 	  $Id: admin_fns.inc,v 1.5 2009-08-22 17:17:22 ravithb Exp $
 * @license	  http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -240,4 +240,4 @@ function _shn_msg_adm_store_plugin($plugin)
 	add_confirmation(_t('Configuration Saved'));
 }
 
-?>
+

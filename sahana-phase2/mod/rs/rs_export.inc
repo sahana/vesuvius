@@ -43,4 +43,3 @@ function _shn_rs_export_init($sql,$dis_name,$title){
     echo "<b><a href='index.php?mod=rs&amp;act=export&amp;title=".$title."'> Export to other formats</a></b>";
          
  }
-?>

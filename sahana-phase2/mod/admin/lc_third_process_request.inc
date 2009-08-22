@@ -185,4 +185,4 @@ function _replace_str_confirm($position,$msgid,$msgstr,$locale)
 
 	
  
-?>
+

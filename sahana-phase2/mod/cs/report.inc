@@ -142,4 +142,3 @@ function shn_cs_cat_itm_ods_report()
     shn_report_add_table($table_header,$table_data);
     shn_report_close();
 }
-?>

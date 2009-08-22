@@ -48,4 +48,3 @@ function _shn_admin_lc_add_new_module_update()
    		add_confirmation(_t('New module translation merge succesfully'));
 }
 
-?>

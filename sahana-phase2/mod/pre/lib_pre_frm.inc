@@ -126,4 +126,3 @@ function _shn_pre_delete_area_form($area_uuid, $action){
 	shn_form_fsclose();
 	shn_form_fclose();
 }
-?>

@@ -450,4 +450,3 @@ function shn_cs_drill_down()
 {
 	require_once('drill_down.inc');
 }
-?>

@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/    	
 * @module      MapServer
-* @version     $Id: main_fns.inc,v 1.4 2009-03-17 06:08:24 ravithb Exp $
+* @version     $Id: main_fns.inc,v 1.5 2009-08-22 17:17:25 ravithb Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -39,4 +39,4 @@ function shn_ms_default()
 <?php
 }
 
-?>
+

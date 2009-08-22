@@ -687,4 +687,4 @@ function shn_cr_acma(){
 function shn_cr_view(){
 }
 
-?>
+

@@ -26,4 +26,3 @@ $conf['mod_ims_menuorder'] = 6;
 $conf['mod_ims_dependencies'] = "";
 
 
-?>

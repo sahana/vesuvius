@@ -209,4 +209,4 @@ function shn_sr_pull_report($rpt_id)
 	
 	shn_sr_view_report($rpt_id, $name, $author, $summary, $event, $action, $figure, $status, $update_date);
 }
-?>
+

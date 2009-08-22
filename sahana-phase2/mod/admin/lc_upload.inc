@@ -31,4 +31,3 @@ function _shn_admin_lc_upload_files()
 	shn_form_fclose();	
 }
 
-?>

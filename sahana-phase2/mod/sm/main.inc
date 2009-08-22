@@ -40,4 +40,4 @@ function shn_sm_mainmenu(){
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
-?>
+

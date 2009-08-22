@@ -28,4 +28,4 @@
 
     $conf['mod_vm_name'] = _("Volunteer Management");
     $conf['mod_vm_menuorder'] = 0;
-?>
+

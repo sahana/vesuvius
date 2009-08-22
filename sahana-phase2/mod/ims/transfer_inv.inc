@@ -1218,4 +1218,4 @@ function handleHttpResponse(){
 		
 <?php
 }
-?>
+

@@ -327,4 +327,4 @@ function _shn_update_disease_details()
 		//print 'success';
 	}
 }
-?>
+

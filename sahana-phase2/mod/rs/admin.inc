@@ -30,4 +30,3 @@ function shn_rs_adm_generate_matadata(){
     add_confirmation('Metadata tables updated successfully.');
     shn_rs_adm_default();
 }
-?>

@@ -850,4 +850,4 @@ function _shn_vol_check_vol_reg_info_complete()
     return $error;
 }
 
-?>
+

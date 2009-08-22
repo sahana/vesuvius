@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.35 2009-08-22 15:16:00 ravithb Exp $ */
+/* $Id: lib_uuid.inc,v 1.36 2009-08-22 17:17:25 ravithb Exp $ */
 
 /**
  *
@@ -251,4 +251,4 @@ function _shn_gen_id($type='person')
 	 
 	return $global['db']->GenID($type);
 }
-?>
+

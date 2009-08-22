@@ -92,4 +92,3 @@ function shn_dsm_disease_vs_location_chart()
 	generate_piechart("Piechart","No of patients by location","","",$keyword_arr);
     
 }
-?>

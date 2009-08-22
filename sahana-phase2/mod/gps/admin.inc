@@ -1,5 +1,5 @@
 <?php
-/* $Id: admin.inc,v 1.6 2009-03-17 06:08:23 ravithb Exp $ */
+/* $Id: admin.inc,v 1.7 2009-08-22 17:17:23 ravithb Exp $ */
 
 /**Admin Module for GPS module
 *
@@ -77,4 +77,4 @@ function shn_gps_adm_form_commit()
 	shn_gps_adm_default();
 }
 
-?>
+

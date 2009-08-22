@@ -99,4 +99,3 @@ function handleHttpResponse(){
 </script>
 <?php
 }
-?>

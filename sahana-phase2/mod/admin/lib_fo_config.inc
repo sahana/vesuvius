@@ -160,4 +160,3 @@ function shn_admin_field_options($field_name){
 	
 	return $options;
 }
-?>

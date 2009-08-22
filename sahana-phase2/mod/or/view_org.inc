@@ -675,4 +675,4 @@ function _shn_or_view_map_form_org()
 		shn_form_fclose();
 }
 
-?>
+

@@ -783,4 +783,4 @@ function shn_text_vm_printer_friendly_report() {
 	}
 }
 
-?>
+

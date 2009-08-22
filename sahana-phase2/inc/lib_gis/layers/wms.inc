@@ -8,7 +8,7 @@
 * @copyright  Lanka Software Foundation - http://www.opensource.lk
 * @package    Sahana - http://sahana.lk/
 * @library      GIS
-* @version     $Id: wms.inc,v 1.25 2008-05-20 14:39:32 franboon Exp $
+* @version     $Id: wms.inc,v 1.26 2009-08-22 17:17:23 ravithb Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -250,4 +250,4 @@ class wms implements layer{
     }
 }
 
-?>
+

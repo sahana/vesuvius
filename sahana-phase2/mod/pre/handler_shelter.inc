@@ -450,4 +450,3 @@ function _shn_pre_edit_sheleter_area_form($area_uuid){
 		}
 	}
   }
-?>

@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/    	
 * @module       MapServer
-* @version      $Id: main.inc,v 1.3 2009-03-06 09:30:07 mifanc Exp $
+* @version      $Id: main.inc,v 1.4 2009-08-22 17:17:25 ravithb Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -42,4 +42,4 @@ function shn_ms_mainmenu()
     include $global['approot']."/inc/handler_mainmenu.inc";
 }
 
-?>
+

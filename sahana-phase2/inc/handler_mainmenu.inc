@@ -52,4 +52,4 @@ for ($i = 0; $i < count($module_menuorder); $i++) {
 
 shn_mainmenuclose();
 
-?>
+

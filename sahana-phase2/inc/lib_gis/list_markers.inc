@@ -136,4 +136,4 @@ function _shn_gis_list_folders($file,$path,$source_dir,$level = 2)
     fclose($handle_write);
 }
 
-?>
+

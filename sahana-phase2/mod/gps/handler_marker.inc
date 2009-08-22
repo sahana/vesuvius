@@ -242,4 +242,4 @@ function shn_text_gps_add_download()
 	
     	print $gpx.$data."\n</gpx>";
 }
-?>
+

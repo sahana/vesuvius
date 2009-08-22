@@ -72,4 +72,3 @@ function _shn_get_mod_reports()
     }
     return $module_list; 
 }
-?>

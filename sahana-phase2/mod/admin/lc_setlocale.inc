@@ -68,4 +68,4 @@ switch($_REQUEST['seq']) {
 			__select_locale();
 			break;
 }
-?>
+

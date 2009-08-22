@@ -118,4 +118,3 @@ function shn_sr_pull_report_content($rpt_id)
 	$result = array($update_date, $author, $summary, $event, $action, $figure);
 	return $result;
 }
-?>

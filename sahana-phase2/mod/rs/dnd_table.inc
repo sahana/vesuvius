@@ -217,4 +217,3 @@ function _shn_dr_show_table($table_name, $chosen_fields){
 }
 
 
-?>

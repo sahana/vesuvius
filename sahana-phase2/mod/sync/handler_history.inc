@@ -37,4 +37,3 @@ foreach($rs as $row){
     echo "</tr>";
 }
 echo "</table></div>";
-?>

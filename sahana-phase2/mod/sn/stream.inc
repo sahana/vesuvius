@@ -35,4 +35,3 @@ function shn_sn_gr_img()
 
 
 
-?>

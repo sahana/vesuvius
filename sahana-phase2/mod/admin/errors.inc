@@ -21,4 +21,4 @@ define(SHN_ERR_ADMIN_REPWD_INCOMPLETE,"Password confirmation is essential for re
 define(SHN_ERR_ADMIN_REPWD_WRONG,"Password and confirmation password do not match. Please complete and submit again");
 #define(SHN_ERR_ADMIN_NAME_INCOMPLETE,"Organization name is essential for registration. Please Complete and Submit again");
 
-?>
+

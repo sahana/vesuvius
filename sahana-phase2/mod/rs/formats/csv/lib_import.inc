@@ -23,4 +23,3 @@ function _shn_die_csv_import($file){
     fclose($file);
     return;
 }
-?>

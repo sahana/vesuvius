@@ -117,4 +117,4 @@ function shn_hr_assign_site_to_contractor()
     print '<br />';
 }
 
-?>
+

@@ -13,7 +13,7 @@
  * @author   Mifan Careem <mifan@opensource.lk>
  * @edited by Isuru Samaraweera <isuru@opensource.lk>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * $Id: camp.inc,v 1.69 2009-03-17 07:38:26 ravithb Exp $
+ * $Id: camp.inc,v 1.70 2009-08-22 17:17:24 ravithb Exp $
 */
 
 include_once($global['approot'] . '/inc/lib_form.inc');
@@ -855,4 +855,4 @@ function _shn_cr_location_string($loc)
    	}
     return $location;
 }
-?>
+

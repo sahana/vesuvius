@@ -70,4 +70,3 @@ shn_setup_header();
 shn_setup_start();
 shn_setup_footer();
 
-?>

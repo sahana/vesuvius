@@ -7,7 +7,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.lk/
 * @library      GIS
-* @version     	$Id: kml.inc,v 1.5 2008-09-24 20:16:56 franboon Exp $
+* @version     	$Id: kml.inc,v 1.6 2009-08-22 17:17:23 ravithb Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 * 
 * @todo: handle delete and enable coming from table chkbxs
@@ -409,4 +409,4 @@ class kml implements layer{
     
 }
  
-?>
+

@@ -69,4 +69,4 @@ function _shn_ims_config_validate()
         return true;
     }
 }
-?>
+

@@ -613,4 +613,4 @@ function shn_hr_assign_contractor_dbs($add=false,$updt=false,$assign_contractor_
 		session_unset(); 
 	}
 }
-?>
+

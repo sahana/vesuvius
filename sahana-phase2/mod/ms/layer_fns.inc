@@ -624,4 +624,4 @@ function _shn_ms_edit_layer($_var, $_file)
     return NULL;
 }
 
-?>
+

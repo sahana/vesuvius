@@ -72,4 +72,3 @@ function shn_text_catalog_sub_cat(){
 		echo "null,";
 	}
 }
-?>

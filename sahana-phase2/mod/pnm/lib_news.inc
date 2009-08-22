@@ -33,4 +33,3 @@ function _shn_pnm_get_news_item($uuid){
 	$res= $db->Execute($sql);
 	return $res;
 }
-?>

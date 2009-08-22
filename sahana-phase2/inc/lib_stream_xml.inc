@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_xml.inc,v 1.8 2008-02-18 11:17:07 ravids Exp $ */
+/* $Id: lib_stream_xml.inc,v 1.9 2009-08-22 17:17:25 ravithb Exp $ */
 
 /**
  *
@@ -63,4 +63,4 @@ function _shn_soap_display_errors(){
     shn_stream_display_error();
     return;
 }
-?>
+

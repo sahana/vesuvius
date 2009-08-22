@@ -130,4 +130,3 @@ function _shn_sn_show_topics() {
     shn_form_fclose();
 }
 
-?>

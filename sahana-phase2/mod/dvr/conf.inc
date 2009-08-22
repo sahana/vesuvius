@@ -31,4 +31,4 @@ $conf['mod_dvr_results_per_page']=10;
 $conf['mod_dvr_images'] = 6;
 
 $conf['mod_dvr_dependencies'] = "";
-?>
+

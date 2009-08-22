@@ -276,4 +276,3 @@ function shn_text_gps_create_route()
 
 }
 
-?>

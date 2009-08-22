@@ -1,5 +1,5 @@
 <?php
-/* $Id: handler_component.php,v 1.6 2009-03-17 06:08:22 ravithb Exp $ */
+/* $Id: handler_component.php,v 1.7 2009-08-22 17:17:25 ravithb Exp $ */
 
 /**
  *
@@ -57,4 +57,4 @@ function show_component($body, $title='Component', $options=array('title'=>true)
 <!-- Component End -->
 <?php
 }
-?>
+

@@ -204,4 +204,3 @@ function _shn_dr_show_table_form($table_name, $chosen_fields){
 }
 
 
-?>

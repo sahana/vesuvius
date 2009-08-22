@@ -51,4 +51,3 @@ function _shn_die_get_applicable_formats($extention){
     //retuen format list
 }
 
-?>

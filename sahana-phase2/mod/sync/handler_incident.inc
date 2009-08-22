@@ -92,4 +92,3 @@ header("Content-type: text/xml");
 echo ($global['xajax']->getXML());
 $_SESSION['report']=serialize($_SESSION['report']);
 exit(0);*/
-?>

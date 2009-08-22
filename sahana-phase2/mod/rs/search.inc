@@ -205,4 +205,3 @@ function _printTable($res)
     <?php
     print "<b>".$record_counter._t(" reports found")."</b>";
 }
-?>

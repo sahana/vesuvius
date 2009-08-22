@@ -101,4 +101,3 @@ function handel_syncfile($syncfile)
     	echo $html1;
     //print data
 }
-?>

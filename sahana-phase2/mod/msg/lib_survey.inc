@@ -308,4 +308,4 @@ function _shn_msg_survey_print_report($suid){
         </div>
     <?php
 }
-?>
+

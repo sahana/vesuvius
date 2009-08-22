@@ -58,4 +58,3 @@ $replace = array(
 
 $empty_blocks = "/\?\>\s+\<\?php/";
 
-?>

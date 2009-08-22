@@ -28,4 +28,4 @@ $conf['mod_cs_name'] = _t("Aid Catalog");
 $conf['mod_cs_menuorder'] = 16;
 
 $conf['mod_cs_dependencies'] = "";
-?>
+

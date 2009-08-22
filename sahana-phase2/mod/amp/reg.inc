@@ -140,4 +140,4 @@ function shn_amp_api_key_step3(){
     add_confirmation($msg);
 }
 
-?>
+

@@ -13,7 +13,7 @@
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @package    	Sahana - http://sahana.sourceforge.net
 * @subpackage 	msg
-* @version 		$Id: handler_admin.inc,v 1.2 2008-04-30 05:56:58 mifanc Exp $
+* @version 		$Id: handler_admin.inc,v 1.3 2009-08-22 17:17:22 ravithb Exp $
 * @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -50,4 +50,4 @@ function shn_msg_adm_email_configuration()
     shn_form_submit(_t('Save'));
     shn_form_fclose();
 }
-?>
+

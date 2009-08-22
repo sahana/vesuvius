@@ -722,4 +722,3 @@ function _shn_gis_form_feature_search_ajax()
 <?php
 }
 
-?>

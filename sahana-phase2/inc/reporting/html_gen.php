@@ -149,4 +149,4 @@ class genhtml
 		return $this->output_code;
 		}//end of out put function
 	}//end of html_gen class
-?>
+

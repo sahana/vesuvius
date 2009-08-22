@@ -106,4 +106,4 @@ define('SHN_ERR_VM_NO_POSITION_TYPE',			_('Please specify a position_type'));
 define('SHN_ERR_VM_NO_TARGET',					_('Please specify a non-zero target number of volunteers'));
 define('SHN_ERR_VM_NO_DESCRIPTION',				_('Please specify a description'));
 define('SHN_ERR_VM_NO_PAYRATE',					_('Please specify a non-zero pay rate'));
-?>
+

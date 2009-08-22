@@ -68,4 +68,3 @@ switch($_REQUEST['seq']){
 }
 
 
-?>

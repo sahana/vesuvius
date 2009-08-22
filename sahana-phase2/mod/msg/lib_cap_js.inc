@@ -283,4 +283,3 @@ function _shn_msg_add_capjs()
   
 <?php
 }
-?>

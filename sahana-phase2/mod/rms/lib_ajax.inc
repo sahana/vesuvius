@@ -144,4 +144,3 @@ function makeRequest(url, parameters, cat, callback)
 
 <?php
 }
-?>

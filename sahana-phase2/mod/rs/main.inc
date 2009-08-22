@@ -299,4 +299,3 @@ function shn_text_rs_export(){
         echo _("Error : The format you selected is unavailable")." $filename";
     }
 }
-?>
