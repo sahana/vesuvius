@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web_services>
+	<services>
+		<service>
+			<name>
+				Get Modules with Web Services
+	 		</name>
+			<http_type>GET</http_type>
+			<api_function>
+				shn_amp_get_mods
+	 		</api_function>
+			<output type="BasicArray" />
+			<documentation>
+				Get Modules with Web Services
+	 		</documentation>
+		</service>
+
+	</services>
+</web_services>

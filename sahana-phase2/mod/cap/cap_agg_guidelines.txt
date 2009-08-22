@@ -1,0 +1,21 @@
+﻿
+Installation  & Uses guide for Sahana CAP Aggregator:
+
+Sahana CAP Aggregator Module reads CAP Alerts based on atom, rss as well as various popular format for georss feeds. To install this module you need to follow following guidelines:
+
+1.Extract and put the cap.zip in mod folder of the sahana installation.
+2.Run the dbcreate.sql to import the tables to your sahana database, needed for the module. The file is placed in cap/inst folder.
+3.Replace the inc/lib_gis/gis_fns.inc,  inc/lib_gis/plugins/openlayers/handler_openlayers.inc  and inc/lib_gis/plugins/openlayers/openlayers_fns.inc with the files included in cap.zip, alternatively you can make a diff and apply the patch of the file if you have changed anything in these files on your installation of Sahana.
+4.Make a diff of the sahana.css available in your theme folder with the sahana.css available in cap.zip and apply the patch to the sahana.css of your theme to include the css styling necessary for the module. If you you are using the default theme of sahana you can simply replace the sahana.css file of your installation withe the one included in the cap.zip
+5.Copy and paste the images available in the cap.zip to the www/res/img folder of your sahana installation.
+6.Refresh the sahana home page to see the CAP aggregator module in the left menu.
+
+
+To use the module follow these guidelines:
+
+1.Click on  the settings menu item of the CAP aggregator module and put the url of the CAP server or url of the feed document of the the CAP server.
+2.Now click on the home menu item of the CAP aggregator module, click on the refresh button. Alerts will show up in the main module area.
+3.You can use various filter options available to filter the alerts.
+4.Map shows the marker with popup containing short information about the alert.
+5.Alerts are refreshed automatically every 10 minutes.
+
