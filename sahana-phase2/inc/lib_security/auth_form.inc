@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /**
  *
  * Sahana authentication form generator library.
