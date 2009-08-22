@@ -11,7 +11,7 @@
 * @author   	Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
 * @author       Richard Smith <s0459387@sms.ed.ac.uk>
-* @version		$Id: gis_fns.inc,v 1.12 2008-10-17 10:45:10 mahesh_kks Exp $
+* @version		$Id: gis_fns.inc,v 1.13 2009-08-22 15:16:00 ravithb Exp $
 * @library		GIS
 * @copyright  	Lanka Software Foundation - http://www.opensource.lk
 * @license    	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
@@ -2313,6 +2313,29 @@ function shn_sm_xml_validator()
         add_error(_("Your File is not valid. Please upload a valid file"));
         return $error_flag=true;
     }
+}
+
+function shn_gis_draw_polylines($cords,$title=null){
+	
+	global $global;
+	global $conf;
+	$db = $global['db'];
+	if($conf['gis'])
+	{
+		
+        if("openlayers"==$conf['gis_dflt']) {
+            
+            $plugin_name = $conf['gis_dflt'];
+            include $global['approot']."/inc/lib_gis/plugins/"."$plugin_name"."/handler_"."$plugin_name".".inc";
+            show_map_polylines($cords,$title);
+        } else {
+            return;
+        }
+	}
+	else
+		shn_gis_print_msg();
+	
+	
 }
 
 ?>

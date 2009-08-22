@@ -24,6 +24,7 @@ require_once($global['approot'].'inc/lib_locale/gettext.inc');
 $global['submit_errors'] = array();
 $global['submit_warnings'] = array();
 $global['submit_confirmations'] = array();
+$global['submit_informations'] = array();
 
 function add_warning($warning)
 {
@@ -37,11 +38,16 @@ function add_confirmation($confirmation)
 	array_push($global['submit_confirmations'],$confirmation);
 }
 
+function add_information($information)
+{
+	global $global;
+	array_push($global['submit_informations'],$information);
+}
+
 // this function will display the submit message of a
 // certain type as contained in the container specified by the type
 // @TODO: add generic check for container existance
-function display_submit_message($type = 'warning',
-$msg = 'please note the following:')
+function display_submit_message($type = 'warning', $msg = 'please note the following:')
 {
 	global $global;
 	$container = 'submit_'.$type.'s';
@@ -49,7 +55,7 @@ $msg = 'please note the following:')
 	// return if there are no errors
 	if (count($global[$container]) == 0 ) return;
 	?>
-<div class="<?php echo$type?> message">
+<div class="<?php echo $type?> message">
 <p><em><?php echo$msg?></em></p>
 <ul>
 <?php

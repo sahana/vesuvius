@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_image.inc,v 1.19 2009-07-08 21:38:48 gmiernicki Exp $ */
+/* $Id: lib_image.inc,v 1.20 2009-08-22 15:16:00 ravithb Exp $ */
 
 /**
  *
@@ -90,7 +90,7 @@ function shn_image_resize($src_path,$desc_path,$width,$height) {
 	}
 
 	imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-	//$func2 = 'image'.$mime;
+
 	$func2($image_p,$desc_path,100);
 }
 
@@ -181,6 +181,7 @@ function shn_show_image_stream($x_uuid, $thumbnail=true, $image=null, $session=f
 	// the two additional parameters: height, width if not specificed will be created upon the above function call
 	// so backwards compatibility with older modules using these functions is maintained
 	// -- Greg
+
 
 	global $global;
 

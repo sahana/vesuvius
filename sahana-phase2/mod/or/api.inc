@@ -13,6 +13,32 @@
 * @subpackage or
 */
 
+
+/**
+ * Edited by	H. Iroshan on 2009/07/01
+ * 
+ * if functions  returns array  types, in order to automate the
+ * Aggregator Mashup portal it is important to have  common 
+ * Standard to return types of web services functions. 
+ *
+ * If the return type of a web service function is a array this array should   
+ * be in this format. 
+ *
+ * First element of the array should be the the field names
+ ** Ex :-
+ ***** $catalog_list[] = array("ct_uuid","parentid","name");
+ * 
+ *Return array should be return its values according to the following mechanism
+ ** Ex :- 
+ ***** array($res->fields["ct_uuid"], $res->fields["parentid"],$res->fields["name"]);
+ *
+ *Therefore I have modified these functions 
+ *** shn_or_service_list,
+ *** shn_or_type_list, 
+ */
+
+
+
 /**
  * This returns the list of organizations
  * @param int $limit To limit the number of organizations returned
@@ -27,6 +53,7 @@ function shn_or_organization_list($limit=null,$name_filter='',$type_filter='all'
 	   	$db=$global['db'];
 		$id_list=shn_or_org_search($limit,$name_filter,$type_filter,$service_filter,$location_filter,$address_filter);
         $org_name_list=shn_or_organization_name($id_list);
+        
         foreach($org_name_list as $org_id=>$org_name){
        			$org_list[] = array('name' => $org_name, 'id' =>$org_id);
         }
@@ -45,9 +72,9 @@ function shn_or_service_list()
 	global $global;
 	$q="SELECT * FROM field_options WHERE field_name='opt_sector_type'";
 	$res = $global['db']->Execute($q);
-    $service_list=array();
+    $service_list[] = array("option_description","option_code");
     while((!$res==NULL) && (!$res->EOF)) {
-    	    $service_list[] = array('name' => $res->fields["option_description"], 'id' => $res->fields["option_code"]);
+    	    $service_list[] = array($res->fields["option_description"],$res->fields["option_code"]);
     		$res->MoveNext();
     }
     return $service_list;
@@ -68,9 +95,9 @@ function shn_or_type_list($limit=null,$filter=null){
 	}else{
 		$res=$db->SelectLimit($q,$limit);
 	}
-    $type_list=array();
+    $type_list[] = array("option_description","option_code");
     while((!$res==NULL) && (!$res->EOF)) {
-    	    $type_list[] = array('name' => $res->fields["option_description"], 'id' => $res->fields["option_code"]);
+    	    $type_list[] = array($res->fields["option_description"],$res->fields["option_code"]);
     		$res->MoveNext();
     }
     return $type_list;

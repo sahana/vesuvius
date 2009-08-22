@@ -45,11 +45,9 @@ function shn_admin_view()
 {
 	global $global;
 	?>
-
 <p><b><?php echo _t("You called the admin view")?> </b></p>
 <p><?php echo _t(" on module") ?></p>
 	<?php
-
 }
 
 function shn_admin_field_option_config(){

@@ -104,7 +104,8 @@ function shn_hr_list_menu1_and_menu2($search=false,$menu2=false,$no_dta=false)
 		if((!$res1==NULL)&&(!$res1->EOF)&&(!$res2==NULL)&&(!$res2->EOF)&&(!$res3==NULL)&&(!$res3->EOF)&&(!$res4==NULL)&&(!$res4->EOF))
 		{
 			if(($res1->fields[0]=="")&&($res2->fields[0]=="")&&($res3->fields[0]=="")&&($res4->fields[0]==""))
-			{?>
+			{
+			?>
 				<td><?php echo "--Not Applicable--"?></td><?php
  			}
  			else

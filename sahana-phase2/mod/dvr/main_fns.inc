@@ -801,6 +801,11 @@ function shn_image_dvr_addvictim_img()
         }
     }
 }
+
+function shn_image_dvr_person_img()
+{
+    shn_show_image_stream($_GET['x_uuid'], false, null, false, 'pr');
+}
     
 function shn_image_dvr_addfingerprint_img()
 {

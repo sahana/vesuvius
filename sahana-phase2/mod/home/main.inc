@@ -5,7 +5,9 @@ include_once ($global['approot']."/inc/lib_menu.inc");
 
 function shn_home_default()
 {
+
   global $conf;    
+
 ?>
   <h2>
     <center>

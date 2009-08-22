@@ -289,7 +289,7 @@ function show_map_with_custom_markers($array)
         			//myicon.image="http://localhost/~nazgul/sahana-main/sahana-phase2-pan/www/theme/default/img/"+markerName+".png";
         			//myicon.image="http://www.google.com/mapfiles/marker.png";
         			var marker = new GMarker(point,myicon);
-        			GEvent.addListener(marker, "click", function() {
+        			GEvent.addListener(marker, "click", function() {$location=preg_split('/,/',$_REQUEST['longlat'],4);
           				marker.openInfoWindowHtml(html);
         			});
         		return marker;
@@ -330,4 +330,61 @@ function show_map_with_custom_markers($array)
 	<div id="map" style="width: <?php echo $conf['gis_width']?>px; height: <?php echo $conf['gis_height']?>px"></div>
 <?php
 }
+
+// this funtion is to draw polyline
+function show_map_polylines($cords,$title=null)
+{
+
+	global $global;
+	global $conf;
+	$key = $conf['gis_google_key'];
+	$step=0;
+	
+?>
+	<script src="http://maps.google.com/maps?file=api&v=2&key=<?php echo $key?>" type="text/javascript"></script>
+	<script type="text/javascript">
+	  
+	//<![CDATA[
+        var onloadfunc = window.onload;
+	window.onload=function show_map_gms()
+	{
+		var map = new GMap2(document.getElementById("map"));
+		map.addControl(new GLargeMapControl());
+	       	map.addControl(new GMapTypeControl());//satellite image switch
+	//<![CDATA[
+		map.setCenter(new GLatLng(<?php echo $cords[0]['right'][0];?>,<?php echo $cords[0]['right'][1];?>), 4);
+		// Create GPolylineOptions argument as an object literal.
+		// Note that we don't use a constructor.
+	  
+	  
+	var polyOptions = {geodesic:true};
+	<?php while($cords[$step]){
+	if($cords[$step]){?>
+	var polyline = new GPolyline([
+	new GLatLng(<?php echo $cords[$step]['right'][0];?>, <?php echo $cords[$step]['right'][1]?>),
+	new GLatLng(<?php echo $cords[$step]['left'][0]?>,<?php echo $cords[$step]['left'][1]; ?>)
+	], "#ff0000", 10, 1, polyOptions);
+	map.addOverlay(polyline);
+	var marker = new GMarker(new GLatLng(<?php echo $cords[$step]['right'][0];?>,<?php echo $cords[$step]['right'][1];?>));
+	map.addOverlay(marker);
+	map.addOverlay(polyline);
+	GEvent.addListener(marker,"click", function() {
+    var myHtml = "<?php echo substr($title[$step]['title'],0,30);?><br/>Alert arrived <?php echo $title[$step]['days'];?> day(s) <?php echo $title[$step]['hours'];?> Hours ago<br/><a href='<?php echo $title[$step]['link']?>'>Visit Website</a>";
+    
+    map.openInfoWindowHtml(new GLatLng(<?php echo $cords[$step]['right'][0]?>,<?php echo $cords[$step]['right'][1]?>), myHtml);
+      });
+	 
+<?php }$step++;}?>
+		onloadfunc();
+	}		
+//]]>	
+</script>
+	<div id="map" style="width: <?php echo $conf['gis_width']?>px; height: <?php echo $conf['gis_height']?>px"></div>
+<?php
+} 
+
+
+
+
+
 ?>

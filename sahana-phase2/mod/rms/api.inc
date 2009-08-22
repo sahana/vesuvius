@@ -14,6 +14,31 @@
 */
 
 /**
+ * Edited by	H. Iroshan on 2009/07/01
+ * 
+ * if functions  returns array  types, in order to automate the
+ * Aggregator Mashup portal it is important to have  common 
+ * Standard to return types of web services functions. 
+ *
+ * If the return type of a web service function is a array this array should   
+ * be in this format. 
+ *
+ * First element of the array should be the the field names
+ ** Ex :-
+ ***** $catalog_list[] = array("ct_uuid","parentid","name");
+ * 
+ *Return array should be return its values according to the following mechanism
+ ** Ex :- 
+ ***** array($res->fields["ct_uuid"], $res->fields["parentid"],$res->fields["name"]);
+ *
+ *Therefore I have modified these functions 
+ *** shn_rms_request_list,
+ */
+
+
+
+
+/**
  * This function can be used to make requests
  * @param 
  * @access public
@@ -88,9 +113,9 @@ function shn_rms_request_list(){
 	$res = $db->Execute($sql1);
 	$sql2="SELECT name from ct_catalogue WHERE ct_uuid='".$res->fields["item_uuid"]."'";
     $res2=$db->Execute($sql2);
-    $request_list=array();
+    $request_list[] = array("name","quantity","pri_uuid","req_uuid","unit");
     while((!$res==NULL) && (!$res->EOF)) {
-    	    $request_list[] = array('item' => $res2->fields["name"], 'quantity' => $res->fields["quantity"], 'priority' => $res->fields["pri_uuid"], 'req_id' => $res->fields["req_uuid"], 'unit' => $res->fields["unit"]);
+    	    $request_list[] = array($res2->fields["name"],$res->fields["quantity"],$res->fields["pri_uuid"], $res->fields["req_uuid"], $res->fields["unit"]);
     		$res->MoveNext();
     }
     return $request_list;

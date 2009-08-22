@@ -3,7 +3,7 @@
  *
  * This is the location library. A vital component of the framework.
  * locations are used by several modules like organization regsitry,Camp registry 
- * This library has nearly everything you need to do with locations 
+ * This library has nearly everything you need to do with locations.
  * 
  * 
  *

@@ -9,7 +9,7 @@
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.lk/
 * @library      GIS
-* @version      $Id: openlayers_fns.php,v 1.67 2009-03-17 06:08:23 ravithb Exp $
+* @version      $Id: openlayers_fns.php,v 1.68 2009-08-22 15:16:00 ravithb Exp $
 * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
 */
 
@@ -990,6 +990,88 @@ function ol_add_feature($name, $icon = 'null')
     }
     _ol_generate_add_marker();
 }
+
+/**
+ * Show the Markers layer
+ * called by show_map_polylines in openlayers plugin handler
+ * @access public
+ */
+ function ol_show_cap_markers($cords,$title)
+ {?>    
+ 	document.getElementById("outer_map").style.width="100%";
+    var amap = document.getElementById("map");
+    amap.style.width = "90%";
+  	amap.style.height = "400px";
+  	
+        
+        
+  	<?php
+  	global $conf;
+    global $global;
+    $db = $global['db'];
+    $folder = $conf['gis_marker_folder'];
+    $marker = $conf['gis_marker'];
+    $markersize = $conf['gis_marker_size'];
+    
+    echo "var proj_current = map.getProjectionObject();\n";
+        
+?>
+	var markers = new OpenLayers.Layer.Markers("CAP Alerts");
+	map.addLayer(markers);
+	var size = new OpenLayers.Size(<?php echo $markersize?>); // icon size
+	var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+	var icon = new OpenLayers.Icon('<?php echo $folder?><?php echo $marker?>',size,offset);
+    var currentPopup;
+    var result_style = OpenLayers.Util.applyDefaults({
+             strokeWidth: 7,
+             strokeColor: "#ff0000",
+             fillOpacity: 0
+         }, OpenLayers.Feature.Vector.style['default']);
+	var highlight = new OpenLayers.Layer.Vector("Lines", {style:result_style});
+    //map.addLayer(highlight);
+    var parser = new OpenLayers.Format.WKT();
+   
+    
+<?php
+	
+	
+    
+  	for($i=0;$i< sizeof($cords);$i++){
+        $lon=$cords[$i]["right"][1];
+        $lat=$cords[$i]["right"][0];
+        $lon1=$cords[$i]["right"][1];
+        $lat1=$cords[$i]["right"][0];
+        $name=$title[$i]["title"];
+	$name=substr($name,0,20);
+        $url=$title[$i]["link"];
+        $days=$title[$i]["days"];
+        $hours=$title[$i]["hours"];
+        $pre_url="index.php?mod=cap&act=alert&stream=text&url=";
+        if(preg_match("/.cap|.xml/", $url))
+		$url=$pre_url.$url;
+        echo "popupContentHTML = \"<b>$name</b><br />Alert arrived $days days $hours hours ago. <br /><a href='$url'>View</a><br /></p>\"\n";
+        echo "var lonlat = new OpenLayers.LonLat($lon,$lat);\n";
+        echo "var proj_current = map.getProjectionObject();\n";
+        echo "lonlat.transform(proj4326, proj_current);\n";
+        echo "addMarker(lonlat,popupContentHTML);\n";
+        echo "var wkt = 'LINESTRING($lon $lat, $lon1 $lat1)';\n";
+        echo "var feature = parser.read(wkt);\n";
+        echo "highlight.addFeatures([feature]);\n";
+        echo "map.zoomToExtent(new OpenLayers.Bounds($lon,$lat,$lon1,$lat1));\n";
+        
+           
+       
+	}
+        _ol_generate_add_marker();
+             
+    
+  ?>
+   
+                        
+        
+    <?php
+
+}
 		
 /**
  * !!! DEPRECATED !!!
@@ -1220,7 +1302,10 @@ function ol_show_features_markers($features)
              $coords = $coords . "var coords = new Array(";
              $ctot = count($coordinates) - 1;
              for($i = 1; $i < $ctot; $i++){
-                 $coords = $coords . "new OpenLayers.Geometry.Point((new OpenLayers.LonLat({$coordinates[$i][0]}, {$coordinates[$i][1]}).transform(proj4326, proj_current)).lon, (new OpenLayers.LonLat({$coordinates[$i][0]}, {$coordinates[$i][1]}).transform(proj4326, proj_current)).lat), ";
+                 $coords = $coords . "new OpenLayers.Geometry.Point((new OpenLayers.LonLat({$coordinates[$i][0]}, " .
+                 		"{$coordinates[$i][1]}).transform(proj4326, proj_current)).lon, " .
+                 		"(new OpenLayers.LonLat({$coordinates[$i][0]}, " .
+                 		"{$coordinates[$i][1]}).transform(proj4326, proj_current)).lat), ";
              }
              if($ctot > 0){
              $coords = $coords . "new OpenLayers.Geometry.Point((new OpenLayers.LonLat({$coordinates[$i][0]}, {$coordinates[$i][1]}).transform(proj4326, proj_current)).lon, (new OpenLayers.LonLat({$coordinates[$i][0]}, {$coordinates[$i][1]}).transform(proj4326, proj_current)).lat)";   

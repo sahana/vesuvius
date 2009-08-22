@@ -1,5 +1,6 @@
 <?php
-/* $Id: lib_stream_html.inc,v 1.18 2009-06-10 20:34:51 gmiernicki Exp $ */
+/* $Id: lib_stream_html.inc,v 1.19 2009-08-22 15:16:00 ravithb Exp $ */
+
 
 /**
  *
@@ -130,6 +131,7 @@ function shn_stream_close()
 	display_errors();
 	display_submit_message('confirmation','Submission Successful');
 	display_submit_message('warning','Warning');
+	display_submit_message('information','Information');
 	if($is_abort == false){
 		echo $output;
 	}

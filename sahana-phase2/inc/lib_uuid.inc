@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.34 2009-04-01 02:32:25 miyuru Exp $ */
+/* $Id: lib_uuid.inc,v 1.35 2009-08-22 15:16:00 ravithb Exp $ */
 
 /**
  *
@@ -47,6 +47,11 @@ function shn_generate_uuid($width)
  * @param string $type
  * @access public
  * @return void
+ */
+ /**
+ *@ Edited by H. Iroshan on 2009/06/29 <iroshanmail@gmail.com>
+ *@ Add uuid to amp module
+ *
  */
 function shn_create_uuid($type='person')
 {
@@ -199,7 +204,12 @@ function shn_create_uuid($type='person')
         case 'news':
         	$gen_id = 'news-'._shn_gen_id($type);
         	break;
+        case 'amp':
+            $gen_id = 'amp-'._shn_gen_id($type);
+            break;
+        
 		default :
+			$gen_id = $type.'-'._shn_gen_id($type);
 			break;
 	}
 

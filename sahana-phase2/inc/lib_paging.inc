@@ -123,7 +123,8 @@ function _shn_page_draw_navi(&$res,$url,$rpp){
 
 	//if no records are found print No results
 	if($res->RecordCount()==0){
-		echo "<strong>"._t("No Records found ")."</strong>";
+		add_information(_t("No Records found "));
+		//echo "<strong>"._t("No Records found ")."</strong>";
 		return;
 	}
 	//if there is only one page don't print the navigation links
@@ -230,7 +231,8 @@ function _shn_page_draw_navi_post(&$res,$url){
 
 	//if no records are found print No results
 	if($res->RecordCount()==0){
-		echo "<strong>"._t("No Records found ")."</strong>";
+		add_information(_t("No Records found "));
+		//echo "<strong>"._t("No Records found ")."</strong>";
 		return;
 	}
 	//if there is only one page don't print the navigation links

@@ -351,4 +351,34 @@ function _shn_print_end_of_map()
 <?php
 }
 
+
+
+// this funtion is to draw polyline
+function show_map_polylines($cords,$title=null)
+{
+    //global $global;
+    global $conf;
+    require_once('openlayers_fns.php');
+
+    _shn_print_status();
+    ol_js_loaders();
+    _shn_print_start_of_map();
+    ol_onload_start();
+    ol_layers_all();
+    ol_show_cap_markers($cords, $title);
+    ol_onload_controls(0);
+    ol_onload_fin();
+    ol_functions();
+     _shn_print_end_of_map();
+	
+} 
+
+
+
+
+
+
+
+
+
 ?>

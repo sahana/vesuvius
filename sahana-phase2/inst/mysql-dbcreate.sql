@@ -1078,6 +1078,62 @@ CREATE TABLE devel_logsql (
     timer decimal(16,6) NOT NULL
 ); 
 
+/**================= Aggregator mashup Portal Tables ===========================**/
+
+
+/** 
+ * Mahup storage table 
+ * Modules : amp
+ * Created : 13th-june-2009 - iroshanmail@gmail.com
+ * @author : H. Iroshan
+ * 
+ *  *  */
+DROP TABLE IF EXISTS amp_mashup;
+CREATE TABLE amp_mashup (
+  mashup_uuid varchar(20) NOT NULL,
+  name varchar(45) NOT NULL,
+  user_uuid varchar(45) default NULL,
+  service varchar(45) default NULL,
+  wbsmod varchar(45) NOT NULL,
+  PRIMARY KEY  (mashup_uuid)
+);
+
+
+/** 
+ * Mahup storage table 
+ * Modules : amp
+ * Created : 13th-june-2009 - iroshanmail@gmail.com
+ * @author : H. Iroshan
+ * 
+ *  *  */
+DROP TABLE IF EXISTS amp_mashup_url;
+CREATE TABLE amp_mashup_url (
+  mashup_uuid varchar(20) NOT NULL,
+  url varchar(150) NOT NULL,
+  PRIMARY KEY  (mashup_uuid,url),
+  CONSTRAINT FK_amp_mashup_url_1 FOREIGN KEY (mashup_uuid) REFERENCES amp_mashup (mashup_uuid)
+);
+
+
+/** 
+ * Mahup filterring table 
+ * Modules : amp
+ * Created : 14th-june-2009 - iroshanmail@gmail.com
+ * @author : H. Iroshan
+ * 
+ *  *  */
+DROP TABLE IF EXISTS amp_filter;
+CREATE TABLE amp_filter(
+  amp_filter_id int(11) NOT NULL,
+  create_time INTEGER NOT NULL,
+  uuid varchar(20) default NULL,
+  masup_url varchar(150) default NULL,
+  column_name varchar(100) default NULL,
+  value varchar(150) default NULL,
+  method varchar(100) default NULL,
+  PRIMARY KEY  (amp_filter_id)
+); 
+
 
 /**================= TO BE REMOVED =======================**/
 
