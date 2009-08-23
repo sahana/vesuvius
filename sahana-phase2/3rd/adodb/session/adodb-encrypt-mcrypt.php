@@ -106,4 +106,4 @@ class ADODB_Encrypt_MCrypt {
 
 return 1;
 
-?>
+

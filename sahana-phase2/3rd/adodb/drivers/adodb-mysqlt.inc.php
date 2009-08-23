@@ -133,4 +133,3 @@ class ADORecordSet_ext_mysqlt extends ADORecordSet_mysqlt {
 	}
 }
 
-?>

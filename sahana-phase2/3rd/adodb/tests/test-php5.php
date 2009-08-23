@@ -75,4 +75,3 @@ $rs = $db->Execute("select bad from badder");
 
 $rs = $db->Execute("select distinct id, firstname,lastname from adoxyz order by id");
 echo "Result=\n",$rs;
-?>

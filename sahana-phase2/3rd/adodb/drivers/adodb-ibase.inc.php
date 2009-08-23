@@ -858,4 +858,3 @@ class ADORecordset_ibase extends ADORecordSet
 	}
 
 }
-?>

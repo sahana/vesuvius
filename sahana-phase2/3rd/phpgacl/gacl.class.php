@@ -1,5 +1,5 @@
 <?php
-// $Id: gacl.class.php,v 1.1 2005-10-11 07:19:23 ravids Exp $
+// $Id: gacl.class.php,v 1.2 2009-08-23 04:14:28 ravithb Exp $
 
 /**
  * phpGACL - Generic Access Control List
@@ -626,4 +626,4 @@ class gacl {
 		return false;
 	}
 }
-?>
+

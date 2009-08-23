@@ -1,5 +1,5 @@
 <?php
-/* $Id: phplot_data.php,v 1.2 2007-12-10 09:04:46 isurunishan Exp $
+/* $Id: phplot_data.php,v 1.3 2009-08-23 04:14:28 ravithb Exp $
  * 
  * Copyright (C) 2000 Afan Ottenheimer.  Released under
  * the GPL and PHP licenses as stated in the the README file which
@@ -202,7 +202,7 @@ class PHPlot_Data extends PHPlot
     
     /*!
      * Removes the Dat<?php
-/* $Id: phplot_data.php,v 1.2 2007-12-10 09:04:46 isurunishan Exp $
+/* $Id: phplot_data.php,v 1.3 2009-08-23 04:14:28 ravithb Exp $
  * 
  * Copyright (C) 2000 Afan Ottenheimer.  Released under
  * the GPL and PHP licenses as stated in the the README file which
@@ -513,4 +513,4 @@ class PHPlot_Data extends PHPlot
     } // function DoDivision
 
 } // class PHPlot_Data extends PHPlot
-?>
+

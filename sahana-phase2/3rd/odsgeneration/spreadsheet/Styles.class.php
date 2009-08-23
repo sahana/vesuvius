@@ -40,4 +40,4 @@ class Styles extends XMLDocument {
 	
 }
 
-?>
+

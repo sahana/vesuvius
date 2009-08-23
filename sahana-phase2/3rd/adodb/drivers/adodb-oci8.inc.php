@@ -1474,4 +1474,3 @@ class ADORecordSet_ext_oci8 extends ADORecordSet_oci8 {
 		return adodb_movenext($this);
 	}
 }
-?>

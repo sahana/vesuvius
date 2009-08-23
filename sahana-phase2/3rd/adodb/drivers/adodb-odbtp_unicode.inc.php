@@ -36,4 +36,4 @@ class ADODB_odbtp_unicode extends ADODB_odbtp {
 		$this->ADODB_odbtp();
 	}
 }
-?>
+

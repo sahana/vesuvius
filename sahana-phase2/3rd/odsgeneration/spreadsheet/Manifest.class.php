@@ -43,4 +43,4 @@ class Manifest extends XMLDocument {
 	
 }
 
-?>
+

@@ -1504,4 +1504,4 @@ class PHPMailer
     }
 }
 
-?>
+

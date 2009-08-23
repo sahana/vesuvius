@@ -735,4 +735,3 @@ class ADORecordSet_odbc extends ADORecordSet {
 	}
 
 }
-?>

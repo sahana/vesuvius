@@ -78,4 +78,3 @@ if (0) {
 			session_destroy();
 		}
 	}
-?>

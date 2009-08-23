@@ -1,9 +1,9 @@
 <?php
 
 
-/* $Id: phplot.php,v 1.7 2008-01-03 10:35:33 isurunishan Exp $ */
+/* $Id: phplot.php,v 1.8 2009-08-23 04:14:28 ravithb Exp $ */
 
-/* $Id: phplot.php,v 1.7 2008-01-03 10:35:33 isurunishan Exp $ */
+/* $Id: phplot.php,v 1.8 2009-08-23 04:14:28 ravithb Exp $ */
 
 
 /*
@@ -4449,4 +4449,3 @@ function array_merge_php4($array1,$array2)
  
 
 
-?>

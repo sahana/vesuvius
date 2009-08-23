@@ -30,4 +30,3 @@ if (! defined("_ADODB_PROXY_LAYER")) {
 	};
 } // define
 	
-?>

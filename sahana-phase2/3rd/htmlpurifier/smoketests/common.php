@@ -10,4 +10,4 @@ function escapeHTML($string) {
     //$string = htmlspecialchars($string, ENT_COMPAT, 'UTF-8');
     return $string;
 }
-?>
+

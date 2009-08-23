@@ -108,4 +108,3 @@ include('../tohtml.inc.php');
 	rs2html($rs);
 		
 		
-?>

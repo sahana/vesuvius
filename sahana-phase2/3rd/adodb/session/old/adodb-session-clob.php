@@ -445,4 +445,4 @@ if (0) {
 -- \$_SESSION['AVAR']={$_SESSION['AVAR']}</p>",false);
 }
 
-?>
+

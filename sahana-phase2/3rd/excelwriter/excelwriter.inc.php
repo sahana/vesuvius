@@ -311,4 +311,3 @@ EOH;
 			#fwrite($this->fp,"<td class=xl24 width=64 >$value</td>");
 		}
 	}
-?>

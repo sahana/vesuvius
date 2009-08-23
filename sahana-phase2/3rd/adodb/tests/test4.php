@@ -131,4 +131,3 @@ rs2html($rs);
 
 
 testsql();
-?>

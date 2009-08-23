@@ -47,4 +47,4 @@ function testdb($db)
 	if ($perf) $perf->UI(3);
 }
  
-?>
+

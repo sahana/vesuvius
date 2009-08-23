@@ -141,4 +141,3 @@ function xajaxCompressJavascript($sJS)
 	
 	return $sJS;
 }
-?>

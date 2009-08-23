@@ -95,4 +95,3 @@ if ($rs){
 } else
 	err($conn->ErrorNo(). $sep .$conn->ErrorMsg());
 
-?>

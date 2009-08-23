@@ -526,4 +526,4 @@ class Content extends XMLDocument {
 
 }
 
-?>
+

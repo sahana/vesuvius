@@ -30,4 +30,4 @@ class Settings extends XMLDocument {
 	
 }
 
-?>
+

@@ -410,4 +410,4 @@ class ADORecordSet_array_sybase extends ADORecordSet_array {
 		return  mktime($rr[4],$rr[5],0,$themth,$rr[2],$rr[3]);
 	}
 }
-?>
+

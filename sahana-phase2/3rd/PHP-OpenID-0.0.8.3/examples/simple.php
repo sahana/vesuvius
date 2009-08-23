@@ -238,4 +238,4 @@ END;
 
 echo sprintf( $buf, drawAlert($_message), $_SERVER['SCRIPT_URI'] );
 
-?>
+

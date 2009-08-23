@@ -125,4 +125,4 @@ abstract class XMLElement {
 	}	
 }
 
-?>
+

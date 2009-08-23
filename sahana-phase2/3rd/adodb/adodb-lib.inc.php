@@ -1001,4 +1001,3 @@ function _adodb_backtrace($printOrArr=true,$levels=9999,$skippy=0)
 	return $s;
 }
 
-?>

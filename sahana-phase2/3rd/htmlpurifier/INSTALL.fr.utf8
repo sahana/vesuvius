@@ -68,4 +68,3 @@ Sinon, utilisez:
     $purificateur = new HTMLPurifier($config);
     
     $html_propre = $purificateur->purify($html_salle);
-?>

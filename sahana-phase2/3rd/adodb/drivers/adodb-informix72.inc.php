@@ -472,4 +472,3 @@ function ifx_props($coltype,$collength){
 }
 
 
-?>

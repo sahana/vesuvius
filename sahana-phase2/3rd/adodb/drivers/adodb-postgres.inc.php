@@ -11,4 +11,3 @@
   job, so hopefully this will ensure greater consistency and fewer bugs.
 */
 
-?>

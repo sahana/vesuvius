@@ -161,4 +161,3 @@ class perf_mssql extends adodb_perf{
 	
 }
 
-?>

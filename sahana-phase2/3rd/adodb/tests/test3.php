@@ -41,4 +41,3 @@ $rs = $db->Execute("select bad from badder");
 	$e = adodb_backtrace($e->trace);
 }
 
-?>

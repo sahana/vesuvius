@@ -62,4 +62,3 @@ if (!empty($_GET['do'])) {
 	$do = $_GET['do'];
 	$do();
 }
-?>

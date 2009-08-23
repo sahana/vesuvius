@@ -1014,4 +1014,3 @@ class ADORecordSet_postgres64 extends ADORecordSet{
 	}
 
 }
-?>

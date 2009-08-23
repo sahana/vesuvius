@@ -2,9 +2,9 @@
 
 /*
 
-$Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+$Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 =======
-$Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+$Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
 
 NuSOAP - Web Services Toolkit for PHP
@@ -63,7 +63,7 @@ $GLOBALS['_transient']['static']['nusoap_base']->globalDebugLevel = 9;
 * nusoap_base
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 * @access   public
 */
 class nusoap_base {
@@ -88,9 +88,9 @@ class nusoap_base {
 	 * @access private
 	 */
 
-	var $revision = '$Revision: 1.17 $';
+	var $revision = '$Revision: 1.18 $';
 
-	//var $revision = '$Revision: 1.17 $';
+	//var $revision = '$Revision: 1.18 $';
     /**
      * Current error string (manipulated by getError/setError)
 	 *
@@ -918,9 +918,9 @@ function usleepWindows($usec)
 * in a server instance.
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
 * @access public
 */
@@ -1008,9 +1008,9 @@ class soap_fault extends nusoap_base {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
 * @access   public
 */
@@ -1915,8 +1915,8 @@ class XMLSchema extends nusoap_base  {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
 * @access   public
 */
@@ -2019,9 +2019,9 @@ class soapval extends nusoap_base {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
 * @access public
 */
@@ -3061,9 +3061,9 @@ class soap_transport_http extends nusoap_base {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
 * @access   public
 */
@@ -4113,9 +4113,9 @@ class soap_server extends nusoap_base {
 * 
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
 * @access public 
 */
@@ -5823,9 +5823,9 @@ class wsdl extends nusoap_base {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
 * @access   public
 */
@@ -6434,9 +6434,9 @@ class soap_parser extends nusoap_base {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
-* @version  $Id: nusoap.php,v 1.17 2009-08-22 15:16:00 ravithb Exp $
+* @version  $Id: nusoap.php,v 1.18 2009-08-23 04:14:28 ravithb Exp $
 
 * @access   public
 */
@@ -7274,4 +7274,4 @@ class soapclient2 extends nusoap_base  {
 		return true;
 	}
 }
-?>
+

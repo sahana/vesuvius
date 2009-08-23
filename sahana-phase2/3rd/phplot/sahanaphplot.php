@@ -125,4 +125,3 @@ Class SahanaPHPlot extends PHPlot{
 
 }
 
-?>

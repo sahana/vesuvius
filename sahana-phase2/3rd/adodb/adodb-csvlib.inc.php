@@ -309,4 +309,3 @@ $ADODB_INCLUDED_CSV = 1;
 	
 		return $ok;
 	}
-?>

@@ -367,4 +367,4 @@ class Table extends XMLElement {
 	
 }
 
-?>
+

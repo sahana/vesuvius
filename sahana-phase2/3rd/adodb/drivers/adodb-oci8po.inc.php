@@ -214,4 +214,3 @@ class ADORecordset_oci8po extends ADORecordset_oci8 {
 }
 
 
-?>

@@ -77,4 +77,3 @@ global $ADODB_EXCEPTION;
 }
 
 
-?>

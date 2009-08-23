@@ -286,4 +286,3 @@ class ADODB_Pager {
 }
 
 
-?>

@@ -902,4 +902,3 @@ class ADORecordSet_mysqli extends ADORecordSet{
  
 }
 
-?>

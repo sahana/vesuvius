@@ -725,4 +725,4 @@ class ADORecordSet_odbtp_sybase extends ADORecordSet_odbtp {
 		return $this->ADORecordSet_odbtp($id,$mode);
 	}
 }
-?>
+

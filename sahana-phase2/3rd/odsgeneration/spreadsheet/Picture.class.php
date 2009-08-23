@@ -433,4 +433,4 @@ class Picture extends XMLElement {
 	
 }
 
-?>
+

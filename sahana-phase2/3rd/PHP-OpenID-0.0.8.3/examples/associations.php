@@ -168,4 +168,4 @@ if( strstr( $_SERVER['REQUEST_URI'], 'associations.php' ) ) {
     var_dump( $assoc_mngr );
 }
 
-?>
+
