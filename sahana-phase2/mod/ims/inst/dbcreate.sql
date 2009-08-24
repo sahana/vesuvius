@@ -137,3 +137,53 @@ CREATE TABLE ims_relation
 	PRIMARY KEY(relation_id)
 );
 
+/**
+To be removed
+**/
+
+/*
+*ims_item_amount_history
+*/
+DROP TABLE IF EXISTS `ims_item_amount_history`;
+CREATE TABLE ims_item_amount_history
+(
+
+	item_id BIGINT NOT NULL,
+	first_amount VARCHAR(60),
+	unit VARCHAR(60),
+	PRIMARY KEY(item_id)
+);
+
+/*
+*ims_item_inventory_relation table
+*/
+
+DROP TABLE IF EXISTS `ims_inventory_relation`;
+CREATE TABLE ims_inventory_relation
+(
+	inv_uuid VARCHAR(60),
+	shel_org_id VARCHAR(60),
+	shel_org_flag VARCHAR(10),
+	PRIMARY KEY(inv_uuid, shel_org_id)
+);
+
+/**
+* remove End
+*/
+
+/*
+*ims_consolidated_kits table
+*/
+
+DROP TABLE IF EXISTS `ims_consolidated_kits`;
+CREATE TABLE ims_consolidated_kits
+(
+	kit_item_id BIGINT NOT NULL,
+	item_id BIGINT NOT NULL,
+	amount VARCHAR(60),
+	unit VARCHAR(60),
+	PRIMARY KEY(kit_item_id, item_id)
+);
+
+
+

@@ -119,3 +119,30 @@ CREATE TABLE rms_fulfil (          -- rms_fulfil table
 CREATE TABLE rms_tmp_sch ( -- tmp table for searching
     sch_id VARCHAR(60)
 );
+
+/**
+To be removed
+**/
+DROP TABLE IF EXISTS `rms_org`;
+
+CREATE TABLE rms_org (           -- rms_organization table
+    plg_uuid VARCHAR(60) NOT NULL,   -- unique id
+    org_id VARCHAR(60),            -- Organization
+    PRIMARY KEY (plg_uuid)
+);
+
+DROP TABLE IF EXISTS `rms_request_date`;
+
+CREATE TABLE rms_request_date (           -- rms_request_date table
+    req_uuid VARCHAR(60) NOT NULL,   -- unique id
+    date DATE,            -- Date
+    PRIMARY KEY (req_uuid)
+);
+
+DROP TABLE IF EXISTS `rms_request_status_date`;
+
+CREATE TABLE rms_request_status_date (           -- rms_request_date table
+    req_uuid VARCHAR(60) NOT NULL,   -- unique id
+    status_date DATE,            -- Date
+    PRIMARY KEY (req_uuid)
+);
