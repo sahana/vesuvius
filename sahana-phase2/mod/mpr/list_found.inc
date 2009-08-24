@@ -90,4 +90,4 @@ $found = shn_mpr_home_show_mpr($type, $limit, $offset);
 _shn_mpr_listing($found);
 print '<BR/><BR/>';
 
-<input type="button"  value="Print Current Page" onClick="self.print()" class="hideprint"/></div>
+?><input type="button"  value="Print Current Page" onClick="self.print()" class="hideprint"/></div>
