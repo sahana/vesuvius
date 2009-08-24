@@ -49,6 +49,61 @@ function shn_mpr_list_missing_person_uuids() {
 
 
 /**
+ * This returns a list of uuid's of current people who are not missing.
+ * @param 
+ * @access public
+ * @return array
+ */
+function shn_mpr_list_found_person_uuids() {
+	global $global;
+	$db = $global['db'];
+	$list = array();
+	$q = "SELECT a.p_uuid
+		FROM person_uuid a
+		LEFT OUTER JOIN person_physical b USING (p_uuid)
+		INNER JOIN person_status d USING (p_uuid)
+		INNER JOIN resource_to_incident e ON a.p_uuid = e.x_uuid
+		WHERE d.opt_status != 'mis'
+		ORDER BY d.updated DESC ;";
+
+	$result = $db->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$list[] = $result->fields["p_uuid"];
+		$result->MoveNext();
+	}
+	return $list;
+}
+
+
+
+/**
+ * This returns a list of uuid's of all people.
+ * @param 
+ * @access public
+ * @return array
+ */
+function shn_mpr_list_all_person_uuids() {
+	global $global;
+	$db = $global['db'];
+	$list = array();
+	$q = "SELECT p.p_uuid
+		FROM person_uuid p
+		LEFT OUTER JOIN person_physical b USING (p_uuid)
+		INNER JOIN person_status s USING (p_uuid)
+		INNER JOIN resource_to_incident e ON p.p_uuid = e.x_uuid
+		ORDER BY d.updated DESC ;";
+
+	$result = $db->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$list[] = $result->fields["p_uuid"];
+		$result->MoveNext();
+	}
+	return $list;
+}
+
+
+
+/**
  * This returns an array of information about a person.
  * @param 
  * @access public
@@ -64,7 +119,7 @@ function shn_mpr_get_person_data($uuid) {
 		INNER JOIN person_missing c USING (p_uuid)
 		INNER JOIN person_status d USING (p_uuid)
 		INNER JOIN resource_to_incident e ON a.p_uuid = e.x_uuid
-		WHERE d.opt_status = 'mis'
+		WHERE a.p_uuid = '".$uuid."'
 		ORDER BY d.updated DESC ;";
 
 	$result = $db->Execute($q);

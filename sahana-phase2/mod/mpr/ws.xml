@@ -9,14 +9,28 @@
 			<documentation>Returns a list of uuid's of all missing persons.</documentation>
 		</service>
 		<service>
-			<name>Missing Persons Data</name>
+			<name>Found Persons List</name>
+			<http_type>GET</http_type>
+			<api_function>shn_mpr_list_found_person_uuids</api_function>
+			<output type="BasicArray" />
+			<documentation>Returns a list of uuid's of all non-missing persons.</documentation>
+		</service>
+		<service>
+			<name>All Persons List</name>
+			<http_type>GET</http_type>
+			<api_function>shn_mpr_list_all_person_uuids</api_function>
+			<output type="BasicArray" />
+			<documentation>Returns a list of uuid's of all persons.</documentation>
+		</service>		
+		<service>
+			<name>Person Data</name>
 			<http_type>GET</http_type>
 			<api_function>shn_mpr_get_person_data</api_function>
 			<params>
 				<param type="xsd:string" name="uuid"></param>
 			</params>
 			<output type="BasicArray" />
-			<documentation>Returns a list of uuid's of all missing persons.</documentation>
+			<documentation>Returns an array of information about a person.</documentation>
 		</service>
 	</services>
 </web_services>
