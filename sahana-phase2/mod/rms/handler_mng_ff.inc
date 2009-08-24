@@ -23,7 +23,22 @@ function _shn_mng_set_close($req_id){
 	global $global;
 	$sql = "UPDATE rms_request SET status = 'closed' WHERE req_uuid = '$req_id'";
 	$res = $global['db']->Execute($sql);
-	if ($res === false){
+	$insert_array['req_uuid'] = $req_id;
+	$insert_array['status_date'] = date('Y-m-d');
+	//print 'testaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+	$q = "SELECT req_uuid FROM rms_request_status_date WHERE req_uuid='$req_id'";
+	$rset = $global['db']->Execute($q);
+	if($rset->RecordCount()==0)
+	{
+		$reset = $global['db']->AutoExecute('rms_request_status_date', $insert_array, 'INSERT');
+		//print $res;
+	}
+	else
+	{
+		$reset = $global['db']->AutoExecute('rms_request_status_date', $insert_array, 'UPDATE', "req_uuid = '".$req_id."'");
+		//print $res;
+	}
+	if ($res === false || $reset=== false){
 		$msg = $global['db']->ErrorMsg();
           add_error($msg.' <br> '.$sql);
           display_errors();
@@ -247,11 +262,11 @@ print '<br>';
     <table>
     <caption>Items from inventories</caption>
     <thead>
-        <td><?php echo _t("Item")?></td>
-        <td><?php echo _t("Amount")?></td>
-        <td><?php echo _t("Inventory")?></td>
-        <td><?php echo _t('Status')?></td>
-        <td><?php echo _t("Action")?></td>
+        <td><?=_t("Item")?></td>
+        <td><?=_t("Amount")?></td>
+        <td><?=_t("Inventory")?></td>
+        <td><?=_t('State')?></td>
+        <td><?=_t("Action")?></td>
             
             
     </thead>
@@ -358,22 +373,37 @@ function _shn_rms_allocate_item($ct_uuid, $inv_id)
     $item_id=$_SESSION['rms']['item_id'];
     $sql1="SELECT amount FROM ims_item_records WHERE inv_id='$inv_id' AND item_id='$item_id';";
     $res1=$db->Execute($sql1);
-//print $sql1;
+
     $sql2 = "SELECT inventory_name FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
     $res2=$db->Execute($sql2);
     
+    $sql_inv = "SELECT inv_uuid, inventory_name FROM ims_inventory_records WHERE inv_uuid !='$inv_id';";
+    
+    $db->SetFetchMode(ADODB_FETCH_ASSOC);
+    $inv_lists = $db->Execute($sql_inv);
+    $inventory_list = array();
+    foreach($inv_lists as $inv_list){    	   	
+    	foreach($inv_list as $key=>$inv){    		
+    		$inventory_list[$inv_list['inv_uuid']] = $inv_list['inventory_name'];    		 	
+    	}	
+    }
+    
+    
     $req_id = $_SESSION['rms_req_id'];
     _shn_rms_view_req_item($req_id,$ct_uuid);
-     _shn_html_print_message(_t("Allocate items from the selected inventory to the request"));
+    _shn_html_print_message(_t("Allocate items from the selected inventory to the request"));
     
     shn_form_fopen('fullfill_from_inventory');
     shn_form_fsopen(_t('Allocate'));
     shn_form_text(_t('Item : '),'item','size="25" readonly=true',array('value'=>$res->fields['name']));
     shn_form_text(_t('Allocatable quantity (Max) : '),'max_quantity','size="25" readonly=true',array('value'=>$res1->fields['amount']));
-    shn_form_text(_t('Inventory : '),'inventory','size="25" readonly=true',array('value'=>$res2->fields['inventory_name']));
+    shn_form_text(_t('Inventory(From) : '),'inventory','size="25" readonly=true',array('value'=>$res2->fields['inventory_name']));
+    shn_form_select($inventory_list,_t('Inventory To'),'inventory_to',null,null);
     shn_form_text(_t('Quantity : '),'quantity','size="25"',null);
     shn_form_fsclose();
     shn_form_hidden(array('seq'=>'inventory_item_allocate_db'));
+    shn_form_hidden(array('item_id'=>$item_id));//$inv_id
+    shn_form_hidden(array('inv_id'=>$inv_id));    
     shn_form_submit(_t('Submit'));
     shn_form_fclose();
 }
@@ -386,7 +416,7 @@ function _shn_rms_item_allocation_db()
     $req_uuid = $_SESSION['rms_req_id'];
     $catalog_id = $_SESSION['rms_req_item'];
     $quantity = $_SESSION['rms']['quantity'];
-    if ($quantity <= 0){
+    if ($quantity <= 0 || max_quantity < $quantity){
     	add_error("Quantity should be larger than 0");
         display_errors();
         _shn_rms_allocate_item($catalog_id, $item_id);
@@ -399,21 +429,77 @@ function _shn_rms_item_allocation_db()
     //print $sql;
     
     $dt2 = date("Y-m-d H:i:s");
+    	
+    	//$db->StartTrans();
     
-	  $sql1 = "INSERT INTO rms_fulfil(req_uuid, item_uuid, quantity, ff_date) VALUES ('$req_uuid', '$catalog_id', '$quantity', '$dt2');";
-      $res1 = $db->Execute($sql1);
-      if ($res1 === false){
-          $msg = $global['db']->ErrorMsg();
-          add_error($msg.' <br> '.$sql);
-          display_errors();
-      }
-      else{
-      	add_confirmation("Submition successfull");
-      	 $stat = _shn_rms_mng_fulfill_check($_SESSION['rms_req_id']);
-         if ($stat){
-           	_shn_rms_mng_change_status($_SESSION['rms_req_id']);
-         }
-      }
+		$sql1 = "INSERT INTO rms_fulfil(req_uuid, item_uuid, quantity, ff_date) VALUES ('$req_uuid', '$catalog_id', '$quantity', '$dt2');";
+      	$res1 = $db->Execute($sql1);
+      	
+      	$sql = "SELECT catalog_id, inv_id, transit_id, suplier_id,	item_name, amount, unit, manufactured_date,  
+      	expire_date, cost_per_unit, state, inserted_date FROM ims_item_records WHERE item_id = '{$_REQUEST['item_id']}'";
+      	
+      	$res = $db->GetAll($sql);
+      		
+      	$insert_item_to_transfer = array();
+      	$insert_item_to_transfer['item_id'] = $_REQUEST['item_id'];
+      	$insert_item_to_transfer['catalog_id'] = $res[0]['catalog_id'];
+      	$insert_item_to_transfer['amount_send'] = $_REQUEST['quantity'];
+      	$insert_item_to_transfer['unit'] = $res[0]['unit'];
+      	$insert_item_to_transfer['inv_id_from'] = $_REQUEST['inv_id'];
+      	$insert_item_to_transfer['inv_id_to'] = $_REQUEST['inventory_to'];
+      	$insert_item_to_transfer['destination_type'] = 'Inventory';
+      	$insert_item_to_transfer['date_send'] = $dt2;
+      	$insert_item_to_transfer['requested_person'] = $req_uuid;      	
+      	$insert_item_to_transfer['amount_received'] = $_REQUEST['quantity'];
+      	$insert_item_to_transfer['date_received'] = $dt2;	
+      	
+      	$transfer_res = $db->AutoExecute('ims_transfer_item',$insert_item_to_transfer,'INSERT');
+      	$transit_id = $db->Insert_ID();
+      	
+      	$insert_item_to_inventory = array();
+      	$insert_item_to_inventory['catalog_id'] = $res[0]['catalog_id'];
+      	$insert_item_to_inventory['inv_id'] = $_REQUEST['inventory_to'];
+      	$insert_item_to_inventory['transit_id'] = $transit_id;
+      	$insert_item_to_inventory['suplier_id'] = $res[0]['suplier_id'];
+      	$insert_item_to_inventory['item_name'] = $res[0]['item_name'];
+      	$insert_item_to_inventory['amount'] = $_REQUEST['quantity'];
+      	$insert_item_to_inventory['unit'] = $res[0]['unit'];
+      	$insert_item_to_inventory['manufactured_date'] = $res[0]['manufactured_date'];
+      	$insert_item_to_inventory['expire_date'] = $res[0]['expire_date'];
+      	$insert_item_to_inventory['cost_per_unit'] = $res[0]['cost_per_unit'];
+      	$insert_item_to_inventory['state'] = $res[0]['state'];
+      	$insert_item_to_inventory['inserted_date'] = $dt2;
+      	
+      	$inventory_res = $db->AutoExecute('ims_item_records',$insert_item_to_inventory,'INSERT');      
+      	$received_item_id = $db->Insert_ID();
+      	
+      	
+      	$insert_item_to_transfer_update = array();
+      	$insert_item_to_transfer_update['received_item_id'] = $received_item_id;
+      	
+      	$transfer_res_update = $db->AutoExecute('ims_transfer_item',$insert_item_to_transfer_update,'UPDATE',"transit_id='$transit_id'");
+      	
+      	$insert_ims_item_amount_history = array();
+      	$insert_ims_item_amount_history['item_id'] = $received_item_id;
+      	$insert_ims_item_amount_history['first_amount'] = $_REQUEST['quantity'];
+      	$insert_ims_item_amount_history['unit'] = $res[0]['unit'];
+      	
+      	$amount_history_res = $db->AutoExecute('ims_item_amount_history',$insert_ims_item_amount_history,'INSERT');
+      	//$db->CompleteTrans();
+      	
+      	if($sql1 && $transfer_res && $inventory_res && $transfer_res_update && $amount_history_res){
+	      	add_confirmation("Submition successfull");
+	      	$stat = _shn_rms_mng_fulfill_check($_SESSION['rms_req_id']);
+	        if ($stat){
+	        	_shn_rms_mng_change_status($_SESSION['rms_req_id']);
+	        }	
+      	}
+      	else{
+      		$msg = $global['db']->ErrorMsg();
+	        add_error($msg.' <br> '.$sql);
+	        display_errors();
+      	}      	
+	   
   	  _shn_rms_view_reqff($_SESSION['rms_req_id']);
   	  print '<br />' .
                   '[ <a href="index.php?mod=rms">RMS Home</a> ] :: ' .
@@ -436,6 +522,7 @@ switch ($_REQUEST['seq'])
             $_SESSION['rms_req_id'] = null;
             $_SESSION['rms_mng_ff_added'] = false;
             _shn_rms_mng_request();
+            echo "do something";
             break;
             
     case 'get_req':
@@ -525,4 +612,4 @@ switch ($_REQUEST['seq'])
             break;
             break;
 }
-
+?>

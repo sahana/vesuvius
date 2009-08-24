@@ -611,6 +611,11 @@ function _shn_rms_add_request($reqstr_uuid, $loc_uuid)
 	$req_uuid = shn_create_uuid('r');
 	$status = 'open';
 	$user_id = 'u-1';
+	$date = $_SESSION['rms']['req']['date'];
+	//print $date;
+	$sql1 = "INSERT INTO rms_request_date (req_uuid, date) VALUES ('{$req_uuid}', '{$date}')";
+//print $sql1;
+	$res = $global['db']->Execute($sql1);
 
 	$sql = "INSERT INTO rms_request (req_uuid, reqstr_uuid, loc_uuid, status, user_id) " .
             "VALUES ('$req_uuid', '$reqstr_uuid', '$loc_uuid', '$status', '$user_id')";
@@ -682,81 +687,6 @@ function _shn_rms_get_reqitems($req_uuid)
 		return $rs;
 	}
 }
-
-// added by dominic, workaround to delete requests:
-// _shn_rms_has_ff : checks if there are any fulfillments for a request
-// _shn_rms_del_request : user confirmation request before deletion
-// shn_rms_delete_request : deletes all items of a request and the request itself from the database
-
-function _shn_rms_has_ff($req_id) {
-
-  global $global;
-
-  $sql = "SELECT req_uuid FROM rms_fulfil WHERE req_uuid='$req_id'";
-
-  $rs = $global['db']->Execute($sql);
-
-  if ($rs === false) {
-    $msg = $global['db']->ErrorMsg();
-    add_error($msg . '<br />' . $sql);
-    // return true, even if it could be not true:
-    // do not delete a request unless you can be sure that there
-    // are no fulfillments yet - for integrity's sake
-    return true;
-  }
-  elseif ($rs->RecordCount() > 0) {
-    return true;
-  }
-  else {
-    return false;
-  }
-}
-
-function _shn_rms_del_request($req_id) {
-  add_warning(_("Do you really want to delete this request?"));
-  shn_form_fopen('delete_request',null,array('req_message' => false));
-  shn_form_hidden(array('req_id'=>$req_id));
-  shn_form_hidden(array('seq'=>''));
-  shn_form_submit(_("Delete"), 'name=delete');
-  shn_form_submit(_("Cancel"), 'name=cancel');
-  shn_form_fclose();
-}
-
-function shn_rms_delete_request() {
-
-  global $global;
-
-  if (isset($_POST['delete'])) {
-    $req_id = $_REQUEST['req_id'];
-
-    // delete all items of this request
-    $sql = "DELETE FROM rms_req_item WHERE req_uuid='$req_id'";
-    $rs = $global['db']->Execute($sql);
-
-    if ($rs === false) {
-      $msg = $global['db']->ErrorMsg();
-      add_error($msg . '<br />' . $sql);
-    } else {
-
-      // delete the request
-      $sql = "DELETE FROM rms_request WHERE req_uuid='$req_id'";
-      $rs = $global['db']->Execute($sql);
-
-      if ($rs === false) {
-        $msg = $global['db']->ErrorMsg();
-        add_error($msg . '<br />' . $sql);
-      } else {
-        add_confirmation(_("Request deleted."));
-      }
-    }
-  } else {
-    add_warning(_("Action cancelled."));
-  }
-  print '<br />' .
-        '[ <a href="index.php?mod=rms">' . _("RMS Home") . '</a> ] :: ' .
-        '[ <a href="index.php?mod=rms&amp;act=req_ls">' . _("Back to Request List") . '</a> ]';
-}
-
 function _shn_rms_get_plgitems($plg_uuid)
 {
 	global $global;
@@ -809,7 +739,7 @@ function _shn_rms_get_itm_category($itm_id)
 function _shn_rms_add_donor($donor)
 {
 	global $global;
-
+//var_dump($donor);
 	$p_uuid = shn_create_uuid('p');
 	$name   = $donor['name'];
 	$mobile = $donor['mobile'];
@@ -818,6 +748,8 @@ function _shn_rms_add_donor($donor)
 	$addr   = $donor['address'];
 	$card_number=  $donor['card_number'];
 	$card_type=  $donor['card_type'];
+	$_SESSION['rms']['add_donor']['org_id'] = $donor['org_id'];
+	//print $org_id;
 	//print $p_uuid;
 	$card_number=$p_uuid;
 	//print $card_number;
@@ -915,10 +847,14 @@ function _shn_rms_add_pledge($donor_uuid)
 	$plg_uuid = shn_create_uuid('pl');
 	$status = 'Not Confirmed';
 	$user_id = 'u-1';
+	
+	$org_id = $_SESSION['rms']['add_donor']['org_id'];
 
 	$sql = "INSERT INTO rms_pledge (plg_uuid, donor_uuid, status, user_id) " .
             "VALUES ('$plg_uuid', '$donor_uuid', '$status', '$user_id')";
-
+	
+	$sql1 = "INSERT INTO rms_org (plg_uuid, org_id) VALUES ('{$plg_uuid}', '$org_id')";
+	$res = $global['db']->Execute($sql1);
 	if ($global['db']->Execute($sql) === false)
 	{
 		$msg = $global['db']->ErrorMsg();
@@ -931,6 +867,8 @@ function _shn_rms_add_pledge($donor_uuid)
 		_shn_rms_add_plgitems($plg_uuid);
 		return $plg_uuid;
 	}
+	
+	
 }
 function _shn_rms_add_plgitems($plg_uuid)
 {
@@ -999,7 +937,7 @@ function _shn_html_inform_show()
 foreach ( $infor_msgs as $info )
 {
 	?>
-	<li><?php echo $info?></li>
+	<li><?=$info?></li>
 	<?php
 }
 ?>
@@ -1125,7 +1063,7 @@ function _shn_rms_view_requester($reqstr_id, $summary=false)
 
 <strong>Requester Name</strong>
 :
-		<?php echo $requester['name']?>
+		<?=$requester['name']?>
 		<?php
 //}
 print '</div>';
@@ -1155,11 +1093,11 @@ function _shn_rms_view_donor($donor_id, $summary=false)
 		?>
 <strong>Donor ID</strong>
 :
-		<?php echo $donor_id?>
+		<?=$donor_id?>
 <br />
 <strong><?php echo _t("Donor Name")?></strong>
 :
-		<?php echo $donor['name']?>
+		<?=$donor['name']?>
 		<?php
 }
 print '</div>';
@@ -1199,7 +1137,7 @@ function _shn_rms_view_location($loc_id, $summary=false)
 
 <strong><?php echo _t("Location")?></strong>
 :
-		<?php echo $location?>
+		<?=$location?>
 		<?php
 //}
 print '</div>';
@@ -1388,8 +1326,24 @@ function _shn_rms_request_setstat($req_id, $stat)
 	global $global;
 
 	$sql = "UPDATE rms_request SET status='$stat' WHERE req_uuid='$req_id'";
+	$insert_array['req_uuid'] = $req_id;
+	$insert_array['status_date'] = date('Y-m-d');
+	//print 'testaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+	$q = "SELECT req_uuid FROM rms_request_status_date WHERE req_uuid='$req_id'";
+	$rset = $global['db']->Execute($q);
+	if($rset->RecordCount()==0)
+	{
+		$res = $global['db']->AutoExecute('rms_request_status_date', $insert_array, 'INSERT');
+		//print $res;
+	}
+	else
+	{
+		$res = $global['db']->AutoExecute('rms_request_status_date', $insert_array, 'UPDATE', "req_uuid = '".$req_id."'");
+		//print $res;
+	}
+	
 
-	if ($global['db']->Execute($sql) === false)
+	if ($global['db']->Execute($sql) === false || $res===false)
 	{
 		$msg = $global['db']->ErrorMsg();
 		add_error($msg . '<br />' . $sql);
@@ -1595,8 +1549,8 @@ function _shn_rms_ct_cat($max,$form,$item_flag=false)
 		$parent_array["1"]=_t("None");
 		shn_form_fsopen(_t('Information'));
 		?>
-<p><?php echo  _t('There is no any root catalogue found. '); ?><a
-	href="index.php?mod=cs&act=addmain">Add root Catalogue</a><?php echo  _t(' First'); ?></p>
+<p><?= _t('There is no any root catalogue found. '); ?><a
+	href="index.php?mod=cs&act=addmain">Add root Catalogue</a><?= _t(' First'); ?></p>
 
 		<?php
 		shn_form_fsclose();
@@ -1681,13 +1635,14 @@ function _shn_rms_check_catalog_item($itm)
 		return false;
 	}
 }
+
 function _shn_rms_requester_add_new_loc_t()
 {
     global $global;
-    
+    $location_id = shn_location_get_form_submit_loc(); 
     $p_uuid = $_SESSION['rms_reqstr_id'];
-    if($_POST['camps'] != 0 || $_POST['orgs'] != 0){
-    	$location_id = ($_POST['camps'] != 0)?$_POST['camps'] : $_POST['orgs'];
+    /*if($_POST['camps'] != 0 || $_POST['orgs'] != 0){
+    	$location_id = ($_POST['camps'] != 0)?$_POST['camps'] : $_POST['orgs'];*/
     	if(_shn_rms_requester_search_loc_t($location_id,$p_uuid)) { //if location already exists
     		add_error(_t("Location already exists"));
     	}else {
@@ -1707,6 +1662,7 @@ function _shn_rms_requester_add_new_loc_t()
         		return true;
     		}
     	}
+/*
     }
     else{
     
@@ -1790,8 +1746,11 @@ function _shn_rms_requester_add_new_loc_t()
     	}else{ //if any location or camp or organization is not selected..
     		add_warning(_t("Select the location first"));
     	}
-   	}
+   	}*/
 }
+
+
+
 function _shn_rms_requester_search_loc_t($loc_id,$p_uuid)
 {
 	global $global;
@@ -1818,18 +1777,23 @@ function _shn_rms_display_location_array($loc)
 	?>
 <div class="info"><?php echo $info;?></div>
 <br />
-	<?php
+	<?
+
 	shn_form_hidden(array('seq'=>'get_loc'));
 	shn_form_fsopen(_t("Existing Location"));
     //============================New==================================
     foreach($loc as $loc_id) {
+    $loc_obj = new Location();
+/*
         if(_shn_rms_is_location($loc_id)) {
             $bsda_village = _shn_org_location_string($loc_id);
         }elseif(_shn_rms_is_camp($loc_id)) {;
             $bsda_village = _shn_rms_get_camp_name($loc_id);
         }elseif(_shn_rms_is_org($loc_id)) {
         	$bsda_village = _shn_rms_get_org_name($loc_id);
-        }
+        }*/
+        $bsda_village = $loc_obj->get_record($loc_id);
+        $bsda_village = $bsda_village['name'];
         $locations_array[$loc_id]= $bsda_village;
     }
     //====================old=======================================
@@ -2262,3 +2226,4 @@ function _shn_rms_get_locid($range_end)
 	}
 }
 
+?>

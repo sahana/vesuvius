@@ -50,6 +50,17 @@ function _shn_rms_donor()
 
     $extra_opt['req']=true;
     shn_form_text(_t("Full Name"),'name',null,$extra_opt);
+    //---------------------
+    include_once $global['approot'] . '/mod/or/lib_or.inc';
+    $suplier_name_array = array();
+    $suplier_name_array = _shn_or_get_suplier_name($suplier_id);
+   
+    shn_form_select($suplier_name_array,_t("Organization : "),'org_id','size="1"',array('help'=>_t('If this box does not contain the organization name please go to the Organization Registry module and get your organization Registered ')));
+    ?><!-- Add a Link to Add Organization -->
+    <a href="index.php?mod=or&act=reg_org">Click to Register a new Organization</a>
+    <br>
+    <?php
+    //---------------------
     shn_form_text(_t("Mobile"),'mobile');
     shn_form_text(_t("Email"),'email');
     shn_form_opt_select("opt_id_type",_t("Available Card type"));
@@ -139,7 +150,8 @@ function _shn_rms_items($category = null)
     shn_form_hidden(array('cat_sel'=>'false'));
 
     $info=_t("Select an item first");
-    ?><div class="info"><?php echo $info;?></div><br /><?php
+    ?><div class="info"><?php echo $info;?></div><br /><?
+
 	shn_form_fsopen(_t("New Item"));
     include_once('lib_ajax.inc');
     _shn_rms_ajax_init('sub_cat', 'item_div');
@@ -158,7 +170,8 @@ function _shn_rms_items($category = null)
     shn_form_fsclose();
 
     $info=_t("Select an Inventory");
-    ?><div class="info"><?php echo $info;?></div><br /><?php
+    ?><div class="info"><?php echo $info;?></div><br /><?
+
     shn_form_fsopen(_t('Inventory Selection'));
     $inventory_array=array();
     global $global;
@@ -272,12 +285,8 @@ switch ($_REQUEST['seq'])
             break;
 
     case 'add_donor':
-			if(isset($_POST['user'])){
-			    $_SESSION['rms_donor_id'] = $_SESSION['user_id'];
-				_shn_rms_donor_display($_SESSION['user_id']);
-                _shn_rms_items();
-			}
-    	    elseif(!isset($_POST['user']) && ($_POST['name']!=null && $_POST['card_number']!=null)) {
+
+    	    if(!isset($_POST['user']) && ($_POST['name']!=null && $_POST['card_number']!=null)) {
     	        $donor['name'] = $_POST['name'];
 	            $donor['mobile'] = $_POST['mobile'];
 	            $donor['telephone'] = $_POST['telephone'];
@@ -285,6 +294,8 @@ switch ($_REQUEST['seq'])
 	            $donor['address'] = $_POST['address'];
 	            $donor['opt_id_type'] = $_POST['opt_id_type'];
     	        $donor['card_number'] = $_POST['card_number'];
+    	        $donor['org_id'] = $_POST['org_id'];
+    	        //var_dump($donor);
 
                 $_SESSION['rms_donor_id']=_shn_rms_add_donor($donor);
                 if(!shn_acl_is_enabled()){
@@ -374,3 +385,4 @@ switch ($_REQUEST['seq'])
                   '[ <a href="index.php?mod=rms&amp;act=plg_new">New Pledge</a> ]';
             break;
 }
+?>

@@ -1,9 +1,8 @@
 <?php
-
 /**
 * The Sahana Resquest Management System
 *
-* PHP version 5
+* PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
 * that is available through the world-wide-web at the following URI:
@@ -45,6 +44,8 @@ function _shn_rms_requester($requester_id=null)
     shn_form_opt_select("opt_id_type",_t("Available Card type"));
     shn_form_text(_t("Card Number"),"card_number",null,$extra_opt);
     shn_form_text(_t("Telephone"),'telephone',null);
+    $date = Date("Y-m-d");
+    shn_form_date(_t("Date"), 'date', array('value'=>$date));
     shn_form_textarea(_t("Address"),'address',null);
    // shn_form_textarea(_t("Address"),'address',null);
     
@@ -119,7 +120,9 @@ function _shn_rms_location($id = null)
     shn_location(null,null,null,$extra_opts);
    	shn_form_fsclose();
     print '<br />';
-    
+    $_SESSION['rms']['req']['date'] = $_POST['date'];
+    $date = $_SESSION['rms']['req']['date'];
+    shn_form_hidden(array('date'=>$date));
     shn_form_submit(_t("Add Location"));
     shn_form_fclose();
 }
@@ -128,6 +131,7 @@ function _shn_rms_location($id = null)
 
 function _shn_rms_ax_location_other($id=null)
 {
+	
 	if ($id == null)
         $id = $_SESSION['rms_reqstr_id'];
        
@@ -152,7 +156,7 @@ function _shn_rms_ax_location_other($id=null)
 	    $bsd_village = _shn_rms_get_requester_locs($id);
 	    $info=_t("Select a location where the request is related.")."<br />";
         $info.=_t("If you want to make the request for a new location, add the location first.")."<br />";
-	    ?><div class="info"><?php echo $info;?></div><br /><?php
+	    ?><div class="info"><?php echo $info;?></div><br /><?
 	    
 	    shn_form_fopen("req_new",null,array('req_message'=>false,'anchor'=>'items'));
         shn_form_hidden(array('seq'=>'get_loc'));
@@ -242,8 +246,7 @@ function _shn_rms_location_add()
 
     
     //print $bsd_village;
-    // ToDo: Replace with new GIS call
-    //shn_gis_dbinsert($id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
+    shn_gis_dbinsert($id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
 
     //$q="INSERT INTO location_details(poc_uuid,location_id) VALUES('{$id}','{$bsd_village}')";
     //$res=$db->Execute($q);
@@ -311,6 +314,8 @@ function _shn_rms_location_add()
 
 function _shn_rms_items($category = null)
 {
+	$date = $_SESSION['rms']['req']['date'];
+	//print $date;
     $categories = array();
     $items = array();
     $priorities = array();
@@ -505,6 +510,7 @@ switch ($_REQUEST['seq'])
 	            $requester['address'] = $_POST['address'];
 	            $requester['opt_id_type'] = $_POST['opt_id_type'];
     	        $requester['card_number'] = $_POST['card_number'];
+    	        $_SESSION['rms']['req']['date'] = $_POST['date'];
                 
                 $_SESSION['rms_reqstr_id']=_shn_rms_add_requester($requester);
                 if(!shn_acl_is_enabled()){
@@ -676,3 +682,4 @@ switch ($_REQUEST['seq'])
             break;
 
 }
+?>

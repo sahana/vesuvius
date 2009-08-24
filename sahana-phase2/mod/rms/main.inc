@@ -125,4 +125,4 @@ function shn_rms_fullfill_from_inventory()
 function shn_rms_plg_history(){
 	include_once('handler_plg_history.inc');
 }
-
+?>
