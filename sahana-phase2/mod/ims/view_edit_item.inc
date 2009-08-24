@@ -60,15 +60,15 @@ function _shn_ims_view_edit($i,$Limit=null)
     <div id ="result">
     <table>
         <thead>
-        <td><?php echo _t("Item");?></td>
-        <td><?php echo _t("Amount");?></td>
-        <td><?php echo _t("Unit");?></td>
-        <td><?php echo _t("Manufactured Date")?></td>
-            <td><?php echo _t("Expire Date")?></td>
-        <td><?php echo _t("Available Inventory")?></td>
-            <td><?php echo _t("Supplier Name")?></td>
-        <td><?php echo _t("Edit")?></td>
-        <td><?php echo _t("Delete")?></td>
+        <td><?=_t("Item");?></td>
+        <td><?=_t("Amount");?></td>
+        <td><?=_t("Unit");?></td>
+        <td><?=_t("Manufactured Date")?></td>
+            <td><?=_t("Expire Date")?></td>
+        <td><?=_t("Available Inventory")?></td>
+            <td><?=_t("Supplier Name")?></td>
+        <td><?=_t("Edit")?></td>
+        <td><?=_t("Delete")?></td>
             
         </thead>
     <tbody>
@@ -180,7 +180,7 @@ shn_form_fsopen(_t("Inventory Transfer"));
 <?php
     shn_form_button(_t("Close"),"onClick='change_action(\"close\")'",$extra_opts);
     shn_form_button(_t("Send Item"),"onClick='change_action(\"send\")'",$extra_opts);
-    shn_form_button(_t("Transit Item"),"onClick='change_action(\"transit\")'",$extra_opts);
+    shn_form_button(_t("Clear sent Items"),"onClick='change_action(\"transit\")'",$extra_opts);
     //shn_form_button(_t("Add Item"),"onClick='change_action(\"additem\")'",$extra_opts);
 ?>
 </center>
@@ -285,3 +285,4 @@ function _shn_ims_view_edit_item_actions()
 </script>
 <?php
 
+?>

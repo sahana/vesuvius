@@ -57,6 +57,13 @@ function _shn_ims_add_item_db()
     } else {
         $sql = " INSERT INTO ims_item_records (catalog_id,inv_id,suplier_id,item_name,amount,cost_per_unit,unit,manufactured_date,expire_date,state,inserted_date,total_amount,predict_amount) VALUES ('$parent_id','$inv_id','$suplier_id','$item','$amou','$cost_per_unit','$unit','$manufactured_date','$expire_date','$state','$date','$total_amount','$predeict_amount');";
         $ims = $db->Execute($sql);
+        
+        $sql = "SELECT item_id FROM ims_item_records ORDER BY item_id DESC";
+        $ims2 = $db->Execute($sql);
+        $item_id = $ims2->fields['item_id'];
+        
+        $sql = "INSERT INTO ims_item_amount_history (item_id, first_amount, unit) VALUES ('{$item_id}', '{$amou}', '{$unit}');";
+        $ims3 = $db->Execute($sql);
       
     _shn_ims_expire_date_check();
     add_confirmation($item . _t(' Item was successfully added'));
@@ -138,10 +145,14 @@ function _shn_ims_validate_additemform()
         if (_shn_ims_date_validate($expire_date)) {
             $error_flag = true;
         }
-       _shn_ims_count_days($manufactured_date,$expire_date);       
+        $date_diff = _shn_ims_count_days($manufactured_date,$expire_date);
+        if ($date_diff < 0) {
+            add_error(SHN_ERR_IMS_MANUFACTURED_DATE_INVALID);
+            $error_flag = true;
+        }
     }
     
 
     return $error_flag;
 }
-
+?>

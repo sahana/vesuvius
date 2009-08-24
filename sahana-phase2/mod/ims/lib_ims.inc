@@ -1,8 +1,7 @@
 <?php
-
 /**Internal Library of the Inventory Management system 
 *
-* PHP version 5
+* PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
 * that is available through the world-wide-web at the following URI:
@@ -21,8 +20,8 @@ include_once $global['approot']."/inc/lib_location.inc";
 include_once $global['approot'].'/mod/or/lib_or.inc';
 include_once $global['approot'].'/3rd/phplot/phplot_ims.php';
 
-function shn_ims_org_list()
-{
+
+function shn_ims_org_list(){
         global $global;
         $db=$global['db'];
         $q = "SELECT inv_uuid,inventory_name,parent_id FROM  ims_inventory_records ORDER BY inventory_name";
@@ -69,6 +68,10 @@ function shn_ims_get_loc_range()
         $loc["end"]=$res->fields[0];
     }
     return $loc;
+
+    
+
+    
 }
 
 function _shn_ims_action_change_javascript($change)
@@ -553,39 +556,46 @@ function _shn_ims_find_unitid($unit_id)
     
 }
 
-/**
- * Returns an array ready of names and locations ready to be
- * 
- * @global <type> $global
- * @global <type> $conf
- * @param <type> $inv_id
- * @return <type>
- */
 function _shn_ims_gis_inv($inv_id)
 {
-    global $conf;
     global $global;
     $db=$global['db'];
-    require_once $global['approot'] . "/inc/lib_gis/gis_fns.inc";
-    if($inv_id == NULL){
-        $sql1 = "SELECT * FROM ims_inventory_records;";
-    } else {
-        $sql1 = "SELECT * FROM ims_inventory_records WHERE inv_uuid = '$inv_id';";
+    
+    $map_array=array();
+    $url="mod=ims&act=view_inv&id=$inv_id";
+
+    if($inv_id==NULL)
+    {
+		
+		//$db = $global['db'];
+		
+		$sql1="SELECT * FROM ims_inventory_records;";
+		$ims1=$db->Execute($sql1);
+		
+
+		while(!$ims1==NULL && !$ims1->EOF)
+		{
+			$inv_id=$ims1->fields['inv_uuid'];
+			$url="mod=ims&act=view_inv&id=$inv_id";
+			$sql2="SELECT * FROM gis_location WHERE poc_uuid='$inv_id';";
+			$ims2=$db->Execute($sql2);
+
+			array_push($map_array,array("lat"=>$ims2->fields['map_northing'],"lon"=>$ims2->fields['map_easting'],"name"=>$ims1->fields['inventory_name'],"id"=>$ims2->fields['poc_uuid'],"url"=>$url));
+			$ims1->MoveNext();	
+		}
     }
-	$ims1 = $db->Execute($sql1);
-    $ims1=$db->Execute($sql1);
-	$map_array=array();
-    while(!$ims1==NULL && !$ims1->EOF){
-        // get coords
-        $gis_result = shn_gis_get_features_item_ref($ims1->fields['inv_uuid'], array('f_coords' => '1', 'f_url' => '1'));
-        if($gis_result){
-            // decode coords from str -> array of x y z
-            $coords = shn_gis_coord_decode($gis_result[0]['f_coords']);
-            array_push($map_array,array("lat"=>$coords[0][0],"lon"=>$coords[0][1],"name"=>$ims1->fields['inventory_name'],"id"=>$ims2->fields['poc_uuid'],"url"=>"mod=ims&act=view_inv&id={$ims1->fields['inv_uuid']}"));
-        }
-        $ims1->MoveNext();
+    else
+    {
+	$sql1="SELECT * FROM ims_inventory_records WHERE inv_uuid='$inv_id';";
+	$ims1=$db->Execute($sql1);
+	
+	$sql2="SELECT * FROM gis_location WHERE poc_uuid='$inv_id';";
+			$ims2=$db->Execute($sql2);
+
+			array_push($map_array,array("lat"=>$ims2->fields['map_northing'],"lon"=>$ims2->fields['map_easting'],"name"=>$ims1->fields['inventory_name'],"id"=>$ims2->fields['poc_uuid'],"url"=>$url));
     }
-    return $map_array;
+
+	return $map_array;
 }
 
 function _shn_ims_get_location($inv_id)
@@ -642,11 +652,6 @@ function _shn_ims_date_conversion($date)
 }
 function _shn_ims_count_days($start, $end)
 {
-	$string1=explode("-",$start);
-	$string2=explode("-",$end);
-	$numStart=mktime(0,0,0,$string1[1],$string1[2],$string1[0]);
-	$numEnd=mktime(0,0,0,$string2[1],$string2[2],$string2[0]);
-
     if( $start != '0000-00-00' and $end != '0000-00-00' )
     {
         /*$timestamp_start = strtotime($start);
@@ -656,20 +661,11 @@ function _shn_ims_count_days($start, $end)
         $end_year = date("Y", $timestamp_end);*/
         //$num_days_end = date("z",strtotime($start));
         //$num_days_end = date("z", strtotime($end));
-         if($numEnd<$numStart){
-			add_error(SHN_ERR_IMS_MANU_DATE_GRT_EX_DATE_INVALID);
-        	return;
+        if($end<$start){
+        	return -1;
         }
         else{
-			$s=mktime(0,0,0,date(m),date(d),date(Y));
-			if($numEnd<$s){
-				add_error(SHN_ERR_IMS_CUR_DATE_GRT_EX_DATE_INVALID);		
-				return;
-			}
-			if($numStart>$s){	
-				add_error(SHN_ERR_IMS_MANU_DATE_GRT_CUR_DATE_INVALID);
-				return;
-			}        	
+        	return 1;
         }
         /*$num_days = 0;
         $i = 0;
@@ -2007,4 +2003,4 @@ function _shn_ims_get_victim()
     return $victim_array;
 }
 
-
+?>

@@ -2,13 +2,13 @@
 /**
 * Sahana Inventory Management System main page
 *
-* PHP version 5
+* PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
 * that is available through the world-wide-web at the following URI:
 * http://www.gnu.org/copyleft/lesser.html
 *
-* @author        Mahesh Kaluarachchi <mahesh@opensource.lk>
+* @author        Mahesh Kaluarachchi. <mahesh@opensource.lk>
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package        Sahana
 * @subpackage    
@@ -21,66 +21,27 @@ function _shn_ims_default()
 {
 
 ?>
-<h1><center><?php echo  _t("Inventory Management System Home")?></center></h1>
+<h1 align="center"><?= _t("Inventory Management System Home")?> </h1>
+<?php
 
+?>
 <div id="home">
-    <p>
-      <?php echo  (_t("The Sahana Inventory Management System is a database to keep track of all aid items and supplies kept in your Organization's inventories. It not only keeps track of the location and quantities of items available, but it also tracks expiry dates, re-order levels and items in transit. The system is designed to be simple to a diverse groups of users to interact and manage stocks in inventories located around the region.")) ?>
-    </p>
-    
-    <h2><?php echo  (_t("Features Include:")) ?></h2>    
+    <p><?= (_t("The Sahana Inventory Management System is a database to keep track of all aid items and supplies kept in your organization's inventories. It not only keeps track of the location and quantities of items available, but it also tracks expiry dates, re-order levels and items in transit. The system is designed to be simple to a diverse groups of users to interact and manage stocks in inventories located around the region")) ?></p>
+    <br/>
+    <strong><?= (_t("Features Include:")) ?></strong>
       
     <ul>
-        <li>
-          <b><a href="index.php?mod=ims&act=search_item">
-            <?php echo  (_t("Find Items").':')?>
-          </a></b><br />
-		<?php echo  (_t('Search for items available in warehouses.').' '.
-		_t('Users may also search for items listed as available, expired and items that have been recorded as destroyed.'))?>
-		</li>
-		
-        <li>
-          <b><a href="index.php?mod=ims&act=view_inv">
-            <?php echo  (_t("Manage Inventories").':')?>
-          </a></b><br />
-          <?php echo  (_t("List storage facilities through this function.").' '.
-           _t('You are able to add, edit or delete storage facilities.'))?>
-        </li>
+        <li><b><a href="index.php?mod=ims&act=search_item"><?= (_t("Find Items:"))?> </a></b><br><?= (_t(" Enables end user to search items available in ware houses. End-User is also allowed to search available items, expired items and already destroyed items. "))?></li>
+        <li><b><a href="index.php?mod=ims&act=view_inv"><?= (_t("List Inventories:"))?></a></b><br><?= (_t(" Facilitates to manage multiple Inventories and enables end-user to add,edit or delete Inventories."))?></li>
+        <li><b><a href="index.php?mod=ims&act=view_edit_item"><?= (_t("List Items:"))?></a></b><br><?= (_t(" Enables end-user to add,edit or delete item for inventories and also enables to transfer items between two inventories"))?></li>
+        <li><b><a href="index.php?mod=ims&act=view_edit_reorder_page"><?= (_t("Re-Order Level:"))?></a></b><br><?= (_t(" Enables end-user to add or modify Re-Order Level for an inventory for  particular items "))?></li>
+        <li><b><a href="index.php?mod=ims&act=report_expired"><?= (_t("Reports:"))?></a></b><br><?= (_t(" Generate reports about expired items, destroyed items and also generates report about the items in which the total amount is lower than the Re-Order Level ")) ?></li>
+        <li><b><a href="index.php?mod=ims&act=optim_inventory"><?= (_t("Optimization:"))?></a></b><br><?= (_t(" Forecasts the amount of items which have been sent to another inventory, received from another inventory and also forecasts already available item amounts in a particular inventory. On the other hand under this section, the end user is allowed to set relationships among items and track items which can be used as alternatives for particular items")) ?></li>
         
-        <li>
-          <b><a href="index.php?mod=ims&act=view_edit_item">
-            <?php echo  (_t("Manage Items").':')?>
-          </a></b><br />
-           <?php echo  (_t("Users can add, edit or delete items that can be stored in inventories.").' '.
-           _t("You are also able to ransfer items between two inventories and locations."))?>
-        </li>
-        
-        <li>
-          <b><a href="index.php?mod=ims&act=view_edit_reorder_page">
-          <?php echo  (_t("Re-Order Level").':')?></a></b><br />
-          <?php echo  (_t("Enables users to set and modify re-order levels.").' '.
-          _t('Items that are below this level are viewable through the reporting function.'))?>
-        </li>
-        
-        <li>
-          <b><a href="index.php?mod=ims&act=report_expired">
-            <?php echo  (_t("Reports").':')?>
-          </a></b><br />
-          <?php echo  (_t("The reporting function generates reports about items that are expired or destroyed.").' '.
-           _t("It also generates reports about which items require repurchase.")) ?>
-        </li>
-        
-        <li>
-          <b><a href="index.php?mod=ims&act=optim_inventory">
-            <?php echo  (_t("Optimization").':')?>
-          </a></b><br />
-          <?php echo  (_t("Forecasts the amount of items which have been sent to another inventory, received from another inventory and also forecasts already available item amounts in a particular inventory. On the other hand under this section, the end user is allowed to set relationships among items and track items which can be used as alternatives for particular items")) ?>
-        </li>
     </ul>
+    
 </div>
-
-<h2><?php print _t("Recently added items ")?></h2>
-
+<h2 align="center"><?php print _t("Recently added items ")?></h2>
 <div id="result"> 
 
 <?php
@@ -90,15 +51,16 @@ function _shn_ims_default()
 ?>    
     <table>
     <thead>
-        <td><?php echo _t("Item")?></td>
-        <td><?php echo _t("Amount")?></td>
-        <td><?php echo _t("Unit")?></td>
-        <td><?php echo _t("Manufactured Date")?></td>
-        <td><?php echo _t("Expire Date")?></td>
-        <td><?php echo _t("Inventory")?></td>
-        <td><?php echo _t("Supplier")?></td>    
+        <td><?=_t("Item")?></td>
+        <td><?=_t("Amount")?></td>
+        <td><?=_t("Unit")?></td>
+        <td><?=_t("Manufactured Date")?></td>
+        <td><?=_t("Expire Date")?></td>
+        <td><?=_t("Inventory")?></td>
+            <td><?=_t("Supplier")?></td>
+            
+            
     </thead>
-    
     <tbody>
     <?php
         
@@ -137,15 +99,16 @@ function _shn_ims_default()
         $unit_name = get_unit_name($unit);
 
 ?>
-      <tr>
-        <td><?php echo ($item_name); ?></td>
-        <td><?php echo ($amount); ?></td>
-        <td><?php echo ($unit_name); ?></td>
-        <td><?php echo ($manufactured_date); ?></td>
-        <td><?php echo ($expire_date); ?></td>
-        <td><?php echo ($inventory_name); ?></td>
-        <td><?php echo ($suplier_name); ?></td>
-      </tr>
+        <tr>
+        <td><?php print ($item_name); ?></td>
+        <td><?php print ($amount); ?></td>
+        <td><?php print ($unit_name); ?></td>
+        <td><?php print ($manufactured_date); ?></td>
+        <td><?php print ($expire_date); ?></td>
+        <td><?php print ($inventory_name); ?></td>
+        <td><?php print ($suplier_name); ?></td>
+        
+        </tr>
 
 <?php
 
@@ -164,6 +127,13 @@ function _shn_ims_default()
     //shn_form_fclose();
     require_once($global['approot']."/inc/lib_rss.inc");
     shn_rss_add_feed('rss_expired_list',_t('Expired item List'));
-    shn_rss_add_feed('rss_reorder_list',_t('Items below Re-order Level'),_t('This RSS feed gives a list of items that are below re-order level.'));
-    shn_rss_add_feed('rss_transit',_t('Transit Item List'),_t('This RSS feed gives a list of items which have been transferred to other locations or inventories.'));
+    shn_rss_add_feed('rss_reorder_list',_t('Items bellow Re-order Level'),_t('This RSS feed gives a list of items that are bellow re-order level.'));
+    shn_rss_add_feed('rss_transit',_t('Transit Item List'),_t('This RSS feed gives a list of items which have been transfered to other locations or inventories.'));
 }
+?>
+
+
+
+
+
+

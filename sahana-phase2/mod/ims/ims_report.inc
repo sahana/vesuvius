@@ -17,6 +17,9 @@
 global $global;
 include_once $global['approot'] . "/inc/lib_location.inc";
 include_once("lib_ims.inc");
+include_once $global['approot'] . "/inc/lib_form.inc";
+include_once $global['approot'] . "/mod/or/lib_or.inc";
+include_once $global['approot'] . "/mod/cs/lib_cs.inc";
 //include_once("optimize.inc");
 
 /**
@@ -55,10 +58,10 @@ function _shn_ims_report_minimum()
     <thead>
     <tr>
         
-        <td><?php echo _t("Item")?></td>
-        <td><?php echo _t("Amount")?></td>
-        <td><?php echo _t("Unit")?></td>
-        <td><?php echo _t("Inventory")?></td>
+        <td><?=_t("Item")?></td>
+        <td><?=_t("Amount")?></td>
+        <td><?=_t("Unit")?></td>
+        <td><?=_t("Inventory")?></td>
         
             
     </tr>
@@ -184,19 +187,21 @@ function _shn_ims_report_expired()
     shn_form_button(_t("XHTML"),"onClick='change_action_expired(\"xhtml_expired\")'",$extra_opts);
     shn_form_hidden(array('action'=>'0'));
     shn_form_fsclose();
+
+//shn_form_fopen(null, null, null);
 ?>
 <div id="result">
     <table>
     <thead>
     <tr>
-        <td><?php echo _t("Item") ?></td>
-        <td><?php echo _t("Amount") ?></td>
-        <td><?php echo _t("Unit") ?></td>
-        <td><?php echo _t("Manufactured Date") ?></td>
-        <td><?php echo _t("Expire Date") ?></td>
-        <td><?php echo _t("Inventory") ?></td>
-        <td><?php echo _t("Suplier") ?></td>
-        <td><?php echo _t("Action") ?></td>
+        <td><?=_t("Item") ?></td>
+        <td><?=_t("Amount") ?></td>
+        <td><?=_t("Unit") ?></td>
+        <td><?=_t("Manufactured Date") ?></td>
+        <td><?=_t("Expire Date") ?></td>
+        <td><?=_t("Inventory") ?></td>
+        <td><?=_t("Suplier") ?></td>
+        <td><?=_t("Action") ?></td>
             
     </tr>
     </thead>
@@ -283,13 +288,13 @@ function _shn_ims_report_destroyed()
     <table>
         <thead>
         <tr>
-        <td><?php echo _t("Item Name") ?></td>
-        <td><?php echo _t("Amount") ?></td>
-        <td><?php echo _t("Unit") ?></td>
-        <td><?php echo _t("Inventory") ?></td>
-        <td><?php echo _t("Manufactured Date") ?></td>
-        <td><?php echo _t("Expire_Date") ?></td>
-        <td><?php echo _t("Suplier") ?></td>
+        <td><?=_t("Item Name") ?></td>
+        <td><?=_t("Amount") ?></td>
+        <td><?=_t("Unit") ?></td>
+        <td><?=_t("Inventory") ?></td>
+        <td><?=_t("Manufactured Date") ?></td>
+        <td><?=_t("Expire_Date") ?></td>
+        <td><?=_t("Suplier") ?></td>
         </tr>
         </thead>
         <tbody>
@@ -358,9 +363,9 @@ function _shn_ims_level($parent)
     $res_label = $db->Execute($q);
     $grand_child_type = $res_label->fields[0];
 ?>
-<h2><?php echo _t("Organization Report By " . $child_type . " " . $parent_type) ?></h2>
+<h2><?=_t("Organization Report By " . $child_type . " " . $parent_type) ?></h2>
     <div id="note">
-<?php echo _t("Each Row is a " . $child_type . " ,Column is a  Service.")?><br />
+<?=_t("Each Row is a " . $child_type . " ,Column is a  Service.")?><br />
 <?php 
     $last = shn_get_last_level();
     if ($last[0] != $child - 1) {
@@ -491,19 +496,19 @@ function _shn_ims_report_org_sector()
     $db = $global['db'];
     
 ?>
-<h2><?php echo _t("Organization Report by Sector") ?></h2>
+<h2><?=_t("Organization Report by Sector") ?></h2>
 <div id ="result">
     <table>
         <thead>
-            <td><?php echo _t("Organization Name") ?></td>
-            <td><?php echo _t("Services Offered") ?></td>
-            <td><?php echo _t("Organization Type") ?></td>
-            <td><?php echo _t("Country of Origin") ?></td>
-            <td><?php echo _t("Address") ?></td>
-            <td><?php echo _t("Contact Number") ?></td>
-            <td><?php echo _t("Man Power") ?></td>
-            <td><?php echo _t("Equipment") ?></td>
-            <td><?php echo _t("Facilities") ?></td>
+            <td><?=_t("Organization Name") ?></td>
+            <td><?=_t("Services Offered") ?></td>
+            <td><?=_t("Organization Type") ?></td>
+            <td><?=_t("Country of Origin") ?></td>
+            <td><?=_t("Address") ?></td>
+            <td><?=_t("Contact Number") ?></td>
+            <td><?=_t("Man Power") ?></td>
+            <td><?=_t("Equipment") ?></td>
+            <td><?=_t("Facilities") ?></td>
         </thead>
         <tbody>
 <?php    
@@ -517,7 +522,7 @@ function _shn_ims_report_org_sector()
         ?>
         <tr>
             <td>
-                <b><?php echo _t($res_sector->fields[1]) ?></b>
+                <b><?=_t($res_sector->fields[1]) ?></b>
             </td>
         </tr>
         <?php
@@ -574,12 +579,12 @@ print $time_period1;
     <thead>
     <tr>
         
-        <td><?php echo _t("Item") ?></td>
-	<td><?php echo _t("Inventory") ?></td>
-	<td><?php echo _t("Unit") ?></td>
-        <td><?php echo _t("Prediction-1") ?></td>
-        <td><?php echo _t("Prediction-2") ?></td>
-        <td><?php echo _t("Prediction-3") ?></td>
+        <td><?=_t("Item") ?></td>
+	<td><?=_t("Inventory") ?></td>
+	<td><?=_t("Unit") ?></td>
+        <td><?=_t("Prediction-1") ?></td>
+        <td><?=_t("Prediction-2") ?></td>
+        <td><?=_t("Prediction-3") ?></td>
         
             
     </tr>
@@ -665,13 +670,13 @@ function _shn_ims_prediction_inv()
     <thead>
     <tr>
         
-        <td><?php echo _t("Item") ?></td>
-        <td><?php echo _t("Inventory") ?></td>
-        <td><?php echo _t("Unit") ?></td>
-        <td><?php echo _t("Available amount") ?></td>
-        <td><?php echo _t("Prediction-1") ?></td>
-        <td><?php echo _t("Prediction-2") ?></td>
-        <td><?php echo _t("Prediction-3") ?></td>
+        <td><?=_t("Item") ?></td>
+        <td><?=_t("Inventory") ?></td>
+        <td><?=_t("Unit") ?></td>
+        <td><?=_t("Available amount") ?></td>
+        <td><?=_t("Prediction-1") ?></td>
+        <td><?=_t("Prediction-2") ?></td>
+        <td><?=_t("Prediction-3") ?></td>
         
             
     </tr>
@@ -760,14 +765,14 @@ function _shn_ims_transfer_item_report()
     <div id='result'>
     <table>
         <thead>
-        <td><?php echo _t("Item"); ?></td>
-        <td><?php echo _t("Amount Sent"); ?></td>
-        <td><?php echo _t("Unit"); ?></td>
-        <td><?php echo _t("Inventory From"); ?></td>
-        <td><?php echo _t("To"); ?></td>
-            <td><?php echo _t("Date Sent"); ?></td>
-            <td><?php echo _t("Authorized Person"); ?></td>
-       <!-- <td><?php echo _t("Transit Item"); ?></td>-->
+        <td><?=_t("Item"); ?></td>
+        <td><?=_t("Amount Sent"); ?></td>
+        <td><?=_t("Unit"); ?></td>
+        <td><?=_t("Inventory From"); ?></td>
+        <td><?=_t("To"); ?></td>
+            <td><?=_t("Date Sent"); ?></td>
+            <td><?=_t("Authorized Person"); ?></td>
+       <!-- <td><?=_t("Transit Item"); ?></td>-->
             
         </thead>
     <tbody>
@@ -835,6 +840,355 @@ function _shn_ims_transfer_item_report()
 
 <?php
 }
+
+/****************************************
+ * 
+ * Report form Inventory Items
+ **/
+
+function  _shn_ims_inv_items()
+{
+	global $global;
+	$db = $global['db'];
+	$module = $global['module'];
+    $form_opts['name'] = "inv_items";
+    //shn_form_fopen("view_edit_item_actions",null,$form_opts);
+
+    $extra_opts['br'] = false;
+    $extra_opts['req'] = false;
+    shn_form_fopen("report_inv_items",null,$form_opts);
+	shn_form_fsopen(_('Select Inventory'));
+	$sql = "SELECT * FROM ims_inventory_records";
+	$res = $db->Execute($sql);
+	$inventory_array = array();
+	//var_dump($res);
+	while($res!=NULL && !$res->EOF)
+	{
+		$inventory_array[$res->fields['inv_uuid']] = $res->fields['inventory_name'];
+		$res->MoveNext();
+	}
+	//var_dump($inventory_array); 
+	shn_form_select($inventory_array, _('Select Inventory'), 'inv_select', "onChange='change_action_invitem(\"pdf_expired\")'"/*'onChange="change_action_invitem(this.value)"'*/, null);
+	shn_form_fsclose();
+	shn_form_hidden(array('submit'=>'submit'));
+	shn_form_submit(_('Submit'));
+	shn_form_fclose();
+	if($_POST['submit']!=null || $_POST['submit']!='')
+	{
+		$inv_id = trim($_POST['inv_select']);
+		$sql = "SELECT i.item_name AS item_name, i.catalog_id AS catalog_id, i.amount AS amount, i.unit as unit_id, i.manufactured_date AS manufactured_date, i.expire_date AS expire_date, inv.inventory_name as inventory, org.name AS org_name FROM ims_inventory_records inv INNER JOIN ims_item_records i ON i.inv_id = inv.inv_uuid LEFT JOIN org_main org ON i.suplier_id=org.o_uuid WHERE i.inv_id = '$inv_id' ORDER BY i.item_name";
+		$res = $db->Execute($sql);
+		//print $sql;
+		
+		$sum_amount=0;
+		//print $sql;
+		 print "<h2>" . _t("Detailed Report") . "</h2>";
+		 echo '<br>';
+		?>
+		<div id="result">
+    <table>
+    <thead>
+    <tr>
+        <td><?=_t("Item") ?></td>
+        <td><?=_t("Amount") ?></td>
+        <td><?=_t("Unit") ?></td>
+        <td><?=_t("Manufactured Date") ?></td>
+        <td><?=_t("Expiry Date") ?></td>
+        <td><?=_t("Inventory") ?></td>
+        <td><?=_t("Supplier") ?></td>
+                    
+    </tr>
+    </thead>
+    <tbody>
+	<?php 
+	while($res!=null && !$res->EOF)
+	{
+		$unit_id = $res->fields['unit_id'];
+		$sql1 = "SELECT * FROM ct_unit WHERE unit_uuid='$unit_id'";
+		$res1=$db->Execute($sql1);
+		if($res->fields['amount'] !=0)
+		{
+	?>
+    <tr>
+    	<td><?php echo $res->fields['item_name'];?></td>
+    	<td><?php echo $res->fields['amount'];?></td>
+    	<td><?php echo $res1->fields['name'];?></td>
+    	<td><?php echo $res->fields['manufactured_date'];?></td>
+    	<td><?php echo $res->fields['expire_date'];?></td>
+    	<td><?php echo $res->fields['inventory'];?></td>
+    	<td><?php echo $res->fields['org_name'];?></td>  
+    </tr>
+    <?php
+		}
+    	$res->MoveNext(); 
+	}
+    ?>
+    </tbody>
+    </table>
+    </div>
+    
+<?php
+	$res = $db->Execute($sql);
+	$catalog_id_pre = $res->fields['catalog_id'];
+	$table_array = array();
+	while($res!=null && !$res->EOF)
+	{
+		//var_dump($res);
+		//echo $res->fields['catalog_id'] . '=' . $catalog_id_pre;
+		//echo '<br>';
+		$unit = $res->fields['unit_id'];
+		if($res->fields['catalog_id'] == $catalog_id_pre)
+		{
+			$amount = $res->fields['amount'];
+			$base_unit = convert_to_base_unit($unit);
+            
+        	$converted_amount = $amount * unit_converter($base_unit,$unit);
+            
+        	$sum_amount = $sum_amount + $converted_amount;
+            
+        	$unit_name = get_unit_name($unit);
+        	
+        	$base_unit_name = get_unit_name($base_unit);
+        	//print $base_unit_name;
+        	//$sum_amount_temp = $sum_amount;
+		}
+		else
+		{
+			$sum_amount=0;
+			$catalog_id_pre = $res->fields['catalog_id'];
+			$sum_amount = $res->fields['amount'];
+			
+			
+			$unit_name = get_unit_name($unit);
+        	$base_unit_name = get_unit_name($base_unit);
+        	
+        	}
+		$item_array[$res->fields['catalog_id']] = array('item_name'=>$res->fields['item_name'], 'sum'=>$sum_amount, 'unit'=>$base_unit_name, 'inventory'=>$res->fields['inventory'], 'suplier'=>$res->fields['org_name']);
+	 	
+		$res->MoveNext();
+	}	
+	
+	 print "<h2>" . _t('Summary') . "</h2>";
+	 echo '<br>';
+	?>
+	<h3><?php (_t("Total Item Amount Available ")) ?></h3>
+	<div id="result">
+	
+	    <table>
+    <thead>
+    <tr>
+        <td><?=_t("Item") ?></td>
+        <td><?=_t("Total Amount") ?></td>
+        <td><?=_t("Unit") ?></td>
+        <td><?=_t("Inventory") ?></td>
+        <td><?=_t("Supplier") ?></td>
+                    
+    </tr>
+    </thead>
+    <tbody>
+    <?php 
+	foreach($item_array as $item)
+	{
+		//echo $item[0];
+		?>
+		<tr>
+		<td><?php echo $item['item_name'];?></td>
+		<td><?php echo $item['sum'];?></td>
+		<td><?php echo $item['unit'];?></td>
+		<td><?php echo $item['inventory'];?></td>
+		<td><?php echo $item['suplier'];?></td>
+		</tr>
+		
+		<?php 
+				//var_dump($item);	
+	}
+	?>
+	</tbody>
+		</table>
+		</div>
+		<?php 
+		
+	}
+}
+
+function _shn_ims_org_items()
+{
+global $global;
+	$db = $global['db'];
+	$module = $global['module'];
+    $form_opts['name'] = "org_items";
+    //shn_form_fopen("view_edit_item_actions",null,$form_opts);
+
+    $extra_opts['br'] = false;
+    $extra_opts['req'] = false;
+    shn_form_fopen("report_org_items",null,$form_opts);
+	shn_form_fsopen(_('Inventory and Organization Selection'));
+	$suplier_name_array = array();
+    $suplier_name_array = _shn_or_get_suplier_name($suplier_id);   
+    shn_form_select($suplier_name_array,_t("Supplier Organization : "),'suplier_id','size="1"',array('help'=>_t('If this box does not contain the organization name please go to the Organization Registry module and get your organization Registered ')));
+	//var_dump($inventory_array); 
+	$sql = "SELECT * FROM ims_inventory_records";
+	$res = $db->Execute($sql);
+	$inventory_array = array();
+	$inventory_array['all'] = _('All Inventories');
+	//var_dump($res);
+	while($res!=NULL && !$res->EOF)
+	{
+		$inventory_array[$res->fields['inv_uuid']] = $res->fields['inventory_name'];
+		$res->MoveNext();
+	}
+	shn_form_select($inventory_array, _('Select Inventory'), 'inv_select', "onChange='change_action_invitem(\"pdf_expired\")'"/*'onChange="change_action_invitem(this.value)"'*/, null);
+	shn_form_fsclose();
+	shn_form_hidden(array('submit'=>'submit'));
+	shn_form_submit(_('Submit'));
+	shn_form_fclose();
+	if($_POST['submit']!=null || $_POST['submit']!='')
+	{
+		$inv_id = trim($_POST['inv_select']);
+		$suplier_id = trim($_POST['suplier_id']);
+		$sql = "SELECT i.item_name AS item_name, i.catalog_id AS catalog_id, i.amount AS amount, i.unit as unit_id, i.manufactured_date AS manufactured_date, i.expire_date AS expire_date, inv.inventory_name as inventory, org.name AS org_name FROM ims_inventory_records inv INNER JOIN ims_item_records i ON i.inv_id = inv.inv_uuid INNER JOIN org_main org ON i.suplier_id=org.o_uuid WHERE i.suplier_id='$suplier_id'";
+		if($inv_id=='all')
+		{
+			;
+		}
+		else
+		{
+			$sql = $sql."AND i.inv_id='$inv_id'";
+		}
+		//print $sql;
+		$res = $db->Execute($sql);
+		$sum_amount=0;
+		//print $sql;
+		print "<h2>" . _t("Detailed Report") . "</h2>";
+		?>
+<div id="result">
+    <table>
+    <thead>
+    <tr>
+        <td><?=_t("Item") ?></td>
+        <td><?=_t("Amount") ?></td>
+        <td><?=_t("Unit") ?></td>
+        <td><?=_t("Manufactured Date") ?></td>
+        <td><?=_t("Expire Date") ?></td>
+        <td><?=_t("Inventory") ?></td>
+        <td><?=_t("Supplier") ?></td>
+                    
+    </tr>
+    </thead>
+    <tbody>
+	<?php 
+	while($res!=null && !$res->EOF)
+	{
+		$unit_id = $res->fields['unit_id'];
+		$sql1 = "SELECT * FROM ct_unit WHERE unit_uuid='$unit_id'";
+		$res1=$db->Execute($sql1);
+		if($res->fields['amount'] !=0)
+		{
+	?>
+    <tr>
+    	<td><?php echo $res->fields['item_name'];?></td>
+    	<td><?php echo $res->fields['amount'];?></td>
+    	<td><?php echo $res1->fields['name'];?></td>
+    	<td><?php echo $res->fields['manufactured_date'];?></td>
+    	<td><?php echo $res->fields['expire_date'];?></td>
+    	<td><?php echo $res->fields['inventory'];?></td>
+    	<td><?php echo $res->fields['org_name'];?></td>  
+    </tr>
+    <?php
+		}
+    	$res->MoveNext(); 
+	}
+    ?>
+    </tbody>
+    </table>
+    </div>
+    
+    
+    
+    <?php
+	$res = $db->Execute($sql);
+	$catalog_id_pre = $res->fields['catalog_id'];
+	$table_array = array();
+	while($res!=null && !$res->EOF)
+	{
+		//var_dump($res);
+		//echo $res->fields['catalog_id'] . '=' . $catalog_id_pre;
+		//echo '<br>';
+		$unit = $res->fields['unit_id'];
+		if($res->fields['catalog_id'] == $catalog_id_pre)
+		{
+			//echo $res->fields['catalog_id']. '='. $catalog_id_pre;
+			$amount = $res->fields['amount'];
+			$base_unit = convert_to_base_unit($unit);
+            
+        	$converted_amount = $amount * unit_converter($base_unit,$unit);
+            
+        	$sum_amount = $sum_amount + $converted_amount;
+            
+        	$unit_name = get_unit_name($unit);
+        	
+        	$base_unit_name = get_unit_name($base_unit);
+        	//print $base_unit_name;
+        	//$sum_amount_temp = $sum_amount;
+		}
+		else
+		{
+			$sum_amount=0;
+			$catalog_id_pre = $res->fields['catalog_id'];
+			$sum_amount = $res->fields['amount'];
+			
+			
+			$unit_name = get_unit_name($unit);
+        	$base_unit_name = get_unit_name($base_unit);
+        	
+        	}
+		$item_array[$res->fields['catalog_id']] = array('item_name'=>$res->fields['item_name'], 'sum'=>$sum_amount, 'unit'=>$base_unit_name, 'inventory'=>$res->fields['inventory'], 'suplier'=>$res->fields['org_name']);
+	 	
+		$res->MoveNext();
+	}	
+	
+	print "<h2>" . _t("Summary") . "</h2>";
+	?>
+	
+	<div id="result">
+	
+	    <table>
+    <thead>
+    <tr>
+        <td><?=_t("Item") ?></td>
+        <td><?=_t("Total Amount") ?></td>
+        <td><?=_t("Unit") ?></td>
+        <td><?=_t("Inventory") ?></td>
+        <td><?=_t("Supplier") ?></td>
+                    
+    </tr>
+    </thead>
+    <tbody>
+    <?php 
+	foreach($item_array as $item)
+	{
+		//echo $item[0];
+		?>
+		<tr>
+		<td><?php echo $item['item_name'];?></td>
+		<td><?php echo $item['sum'];?></td>
+		<td><?php echo $item['unit'];?></td>
+		<td><?php echo $item['inventory'];?></td>
+		<td><?php echo $item['suplier'];?></td>
+		</tr>
+		
+		<?php 
+				//var_dump($item);	
+	}
+	?>
+	</tbody>
+		</table>
+		</div>
+    
+<?php
+		
+	}
+}
 ?>
 
 <script type="text/javascript">
@@ -842,6 +1196,14 @@ function _shn_ims_transfer_item_report()
         var x=document.getElementsByName('action');
          x[0].value=action;
          document.report_expired.submit();
+         return;
+    }
+
+    function change_action_invitem(action){
+        var x=document.getElementsByName('action');
+        //alert(x);
+         x[0].value=action;
+         document.inv_items.submit();
          return;
     }
 </script>
@@ -865,4 +1227,4 @@ function _shn_ims_transfer_item_report()
 </script>
 <?php
 
-
+?>

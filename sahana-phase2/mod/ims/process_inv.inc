@@ -1,8 +1,7 @@
 <?php
-
-/**Processing functions(add ,edit,delete,etc) for Inventory Management System 
+/**Processing functions(add ,edit,delete,ect) for Inventory Management System 
 *
-* PHP version 5
+* PHP version 4 and 5
 *
 * LICENSE: This source file is subject to LGPL license
 * that is available through the world-wide-web at the following URI:
@@ -14,15 +13,14 @@
 * @package    sahana
 * @subpackage or
 */
-
 function _shn_ims_reg_inv_cr()
 {
-    global $conf;
     global $global;
-    $db=$global['db'];
     include_once "reg_inv.inc";
     include_once "errors.inc";
     include_once $global['approot']."/inc/lib_validate.inc"; 
+    include_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+
     
     $error=false;
     $VARCHAR=100;
@@ -32,7 +30,7 @@ function _shn_ims_reg_inv_cr()
     if (trim(strlen($_SESSION['ims']['contact_name'])) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
         $contact_name=$_SESSION['ims']['contact_name'];
     }
 
@@ -40,25 +38,25 @@ function _shn_ims_reg_inv_cr()
     if (trim(strlen($_POST{"contact_phone"})) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
         $contact_phone=$_SESSION['ims']['contact_add'];
     }
      if (trim(strlen($_SESSION['ims']['contact_mobile'])) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
         $contact_mobile=$_SESSION['ims']['contact_mobile'];
     }
     if (trim(strlen($_SESSION['ims']['contact_fax'])) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
          $contact_fax=$_SESSION['ims']['contact_fax'];
     }
     if (trim(strlen($_SESSION['ims']['contact_mail'])) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
         $contact_mail=$_SESSION['ims']['contact_mail'];
         if(!shn_valid_email($contact_mail)){
             add_error(SHN_ERR_or_ims_EMAIL);
@@ -68,19 +66,19 @@ function _shn_ims_reg_inv_cr()
      if (trim(strlen($_SESSION['ims']['contact_web'])) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
         $contact_web=$_SESSION['ims']['contact_web'];
     }
     if (trim(strlen($_SESSION['ims']['man_power'])) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
         $man_power=$_SESSION['ims']['man_power'];
     }
     if (trim(strlen($_SESSION['ims']['equipment'])) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
         $equipment=$_SESSION['ims']['equipment'];
     }
     $resources=$_SESSION['ims']['resources'];
@@ -88,30 +86,22 @@ function _shn_ims_reg_inv_cr()
 	{
 		add_error(SHN_ERR_ims_SPACE);
 		$error=true;
-	} else {
+	}
+    else
+	{
 		$space=$_SESSION['ims']['space'];
 	}
    
+    $db=$global['db'];
     if($error!=true){
         $org_id = shn_create_uuid('inventory');
         if (empty($org_id)){
             $error=true;
             //("add_org(): ORG_ID generation failed!");
             return false;
+
         }
-        if ($conf['gis']) {
-            require_once $global['approot'] . "/inc/lib_gis/gis_fns.inc";
-            $coords = array(array($_POST['loc_x'], $_POST['loc_y'], 0));
-            $keys_ = array(  
-                'f_class'         => 'ims_inventory',
-                'f_type'          => 'point',
-                'f_coords'        => shn_gis_coord_encode(array(array($_POST['loc_x'], $_POST['loc_y'], 0)), 'point'),  
-                'f_module_item'   => $org_id,
-               'f_name'          => $_SESSION['ims']['inv_name'],
-                'f_url'           => 'mod=ims&act=view_inv&id=' . $org_id,
-            );
-            shn_gis_create_feature($keys_);
-        }
+        shn_gis_dbinsert($org_id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
 
         $q="SELECT inv_uuid FROM ims_inventory_records WHERE inv_uuid='{$org_id}'";
         $res=$db->Execute($q);
@@ -122,24 +112,40 @@ function _shn_ims_reg_inv_cr()
         }
         
         if($error!=true){
-            $added_date=date("Y-m-d");
+	    $added_date=date("Y-m-d");
             //no validation done on other fields as they are not unique
             $q="INSERT INTO  ims_inventory_records(inv_uuid,parent_id,inventory_name,man_power,equipment,resources,space,added_date) VALUES('{$org_id}',0,'{$org_name}','{$man_power}','{$equipment}','{$resources}','{$space}','{$added_date}')";
             $res=$db->Execute($q);
 
-            $q="INSERT INTO location_details(poc_uuid,location_id,address) VALUES('{$org_id}','{$bsd_village}','{$contact_address}')";
+	$q="INSERT INTO location_details(poc_uuid,location_id,address) VALUES('{$org_id}','{$bsd_village}','{$contact_address}')";
             $res=$db->Execute($q);
 	    
-            $arr = array(
-             	array($org_id,'pmob',$contact_mobile),
-             	array($org_id,'name',$contact_name),
-             	array($org_id,'fax',$contact_fax),
-             	array($org_id,'curr',$contact_phone),
-             	array($org_id,'email',$contact_mail),
-             	array($org_id,'web',$contact_web),
-         	);
-            $res=$db->Execute('INSERT INTO contact (pgoc_uuid,opt_contact_type,contact_value) VALUES (?,?,?)',$arr);
+ $arr = array(
+ 	array($org_id,'pmob',$contact_mobile),
+ 	array($org_id,'name',$contact_name),
+ 	array($org_id,'fax',$contact_fax),
+ 	array($org_id,'curr',$contact_phone),
+ 	array($org_id,'email',$contact_mail),
+ 	array($org_id,'web',$contact_web),
+ 	);
+	 $res=$db->Execute('INSERT INTO contact (pgoc_uuid,opt_contact_type,contact_value) VALUES (?,?,?)',$arr);
 
+	 
+	 $insert_array = array();
+	 $insert_array['inv_uuid'] = $org_id;
+	 if($_SESSION['ims']['destination']=='shelter')
+	 {
+	 	$insert_array['shel_org_id'] = $_SESSION['ims']['shelter_to'];
+	 	$insert_array['shel_org_flag'] = 'shelter';
+	 }
+	 if($_SESSION['ims']['destination']=='organization')
+	 {
+	 	$insert_array['shel_org_id'] = $_SESSION['ims']['organization_to'];
+	 	$insert_array['shel_org_flag'] = 'org';
+	 }
+	 //var_dump($insert_array);
+	 $res_ims = $db->AutoExecute('ims_inventory_relation', $insert_array, 'INSERT');
+	 
 /*
             $q="INSERT INTO contact(pgoc_uuid,opt_contact_type,contact_value) VALUES('{$org_id}','curr','{$contact_phone}')";
             $res=$db->Execute($q);
@@ -161,29 +167,35 @@ function _shn_ims_reg_inv_cr()
             //$q="INSERT INTO org_location(org_id,location_id) VALUES('{$org_id}','{$bsd_village}')";
            // $res=$db->Execute($q);
 
-        }
     }
+}
     if((!$chk_branch) or $error){
         if($error!=true){
-            add_confirmation($org_name._t(' Inventory was successfully added'));
+
+	    add_confirmation($org_name._t(' Inventory was successfully added'));
+
+
         }
-    	unset($_SESSION['ims']['inv_name']);
-        unset($_SESSION['ims']['contact_name']);
-        unset($_SESSION['ims']['contact_add']);
-        unset($_SESSION['ims']['contact_phone']);
-        unset($_SESSION['ims']['contact_mobile']);
-        unset($_SESSION['ims']['contact_fax']);
-        unset($_SESSION['ims']['contact_mail']);
-        unset($_SESSION['ims']['contact_web']);
-        unset($_SESSION['ims']['man_power']);
-        unset($_SESSION['ims']['equipment']);
-        unset($_SESSION['ims']['resources']);
-        unset($_SESSION['ims']['space']);
-        unset($_SESSION['ims']['bsd_village']);
-        shn_ims_view_inv();
+	unset($_SESSION['ims']['inv_name']);
+	unset($_SESSION['ims']['destination']);
+	unset($_SESSION['ims']['shelter_to']);
+	unset($_SESSION['ims']['organization_to']);
+    unset($_SESSION['ims']['contact_name']);
+    unset($_SESSION['ims']['contact_add']);
+    unset($_SESSION['ims']['contact_phone']);
+    unset($_SESSION['ims']['contact_mobile']);
+    unset($_SESSION['ims']['contact_fax']);
+    unset($_SESSION['ims']['contact_mail']);
+    unset($_SESSION['ims']['contact_web']);
+    unset($_SESSION['ims']['man_power']);
+    unset($_SESSION['ims']['equipment']);
+    unset($_SESSION['ims']['resources']);
+    unset($_SESSION['ims']['space']);
+    unset($_SESSION['ims']['bsd_village']);
+	shn_ims_view_inv();
         //_shn_ims_regform_org($error);
         //return false;
-    } else {
+    }else {
          $_SESSION["parent_name"]=$org_name;
          $_SESSION["parent_id"]=$org_id;
          //$_SESSION["opt_org_type"]=$opt_org_type;
@@ -199,12 +211,15 @@ function _shn_ims_reg_inv_cr()
          $_SESSION["resources"]=$resources;
 	 $_SESSION["space"]=$space;
          _shn_ims_regform_operation($error=false);
+	
     }
 }
 
+
+
+
 function _shn_ims_del_org()
 {
-    global $conf;
     global $global;
     $db=$global['db'];
     $org_id=$_POST{"org_id"};
@@ -255,14 +270,10 @@ function _shn_ims_del_org()
         	return false;
 	    }
 */
-        // Delete GIS entry
-        if ($conf['gis']) {
-            require_once $global['approot'] . "/inc/lib_gis/gis_fns.inc";
-            shn_gis_remove_feature_module_item($org_id);  
-        }
         add_confirmation($org_name._t(' Inventory was successfully deleted'));
     }
   ?>
+    
 <h2><?php echo _t("Inventory Registry"); ?></h2>
 <?php
         _shn_ims_viewform_allorg(null,null,$Limit=20);    
@@ -270,14 +281,47 @@ function _shn_ims_del_org()
 
 function _shn_ims_edit_org()
 {
-    global $conf;
     global $global;
     include_once "errors.inc";
     include_once $global['approot']."/inc/lib_validate.inc";
     $error=false;
     $VARCHAR=100;
     $org_id=$_POST{"org_id"};
+    
+    $ownership = trim($_POST['destination']);
+    if($ownership == 'shelter')
+    {
+    	 $shelter_to = trim($_POST['shelter_to']);
+    	 if($shelter_to == '')
+    	 {
+    	 	//add_error(_t('Shelter Ownership is essential'));
+    	 	//$error=true;
+    	 }
+    	 else
+    	 {
+    	 	$owner = $shelter_to;
+    	 }
+    	 
+    }
+    if($ownership == 'org')
+    {
+    	$organization_to = trim($_POST['organization_to']);
+    if($organization_to == '')
+    	 {
+    	 	//add_error(_t('Organization Ownership is essential'));
+    	 	//$error=true;
+    	 }
+    	 else
+    	 {
+    	 	$owner = $organization_to;
+    	 }
+    }
+    
+    
+    
+    
     list($error,$org_name)=(shn_validate_field($_POST{"org_name"},"Organization Name",$VARCHAR,true))?array($error,$_POST{"org_name"}):array(true,NULL);
+   
         
     $_SESSION['ims_1']=$_POST['1'];
     $_SESSION['ims_2']=$_POST['2'];
@@ -285,20 +329,23 @@ function _shn_ims_edit_org()
     $_SESSION['ims_4']=$_POST['4'];
     $_SESSION['ims_5']=$_POST['5'];
 
+
     $location=_shn_ims_get_locid();
     $location_previous=$_POST['bsd_village'];
    
     if($location=='0')
     {
 	$bsd_village=$location_previous;
-    } else {
+    }
+    else
+    {
 	$bsd_village=$location;
     }
     $bsd_village=shn_location_get_form_submit_loc();
     if (trim(strlen($_POST{"contact_name"})) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
         $contact_name=$_POST{"contact_name"};
     }
 /*
@@ -312,25 +359,25 @@ function _shn_ims_edit_org()
     if (trim(strlen($_POST{"contact_phone"})) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
         $contact_phone=$_POST{"contact_phone"};
     }
     if (trim(strlen($_POST{"contact_mobile"})) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
         $contact_mobile=$_POST{"contact_mobile"};
     }
     if (trim(strlen($_POST{"contact_fax"})) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
          $contact_fax=$_POST{"contact_fax"};
     }
     if (trim(strlen($_POST{"contact_mail"})) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
         $contact_mail=$_POST{"contact_mail"};
         if(!shn_valid_email($contact_mail)){
             add_error(SHN_ERR_or_ims_EMAIL);
@@ -340,25 +387,30 @@ function _shn_ims_edit_org()
     if (trim(strlen($_POST{"contact_web"})) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
         $contact_web=$_POST{"contact_web"};
     }
     if (trim(strlen($_POST{"man_power"})) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
         $man_power=$_POST{"man_power"};
     }
     if (trim(strlen($_POST{"equipment"})) > $VARCHAR){
         add_error(SHN_ERR_or_ims_REG_MAX);
         $error=true;
-    } else {
+    }else {
         $equipment=$_POST{"equipment"};
     }
     $resources=$_POST{"resources"};
     $space=$_POST{"space"};
     if(!$error){
     $db=$global['db'];
+    
+    		$sql = "UPDATE ims_inventory_relation SET shel_org_id='{$owner}' shel_org_id='{$ownership}' WHERE inv_uuid='{$org_id}'";
+    		$r=$db->Execute($sql);
+    		//print $sql;
+    		
            //no validation done on other fields as they are not unique
             $q="UPDATE ims_inventory_records SET inventory_name='{$org_name}',man_power='{$man_power}',equipment='{$equipment}',resources='{$resources}',space='{$space}' WHERE inv_uuid='{$org_id}'";
             $res=$db->Execute($q);
@@ -388,16 +440,7 @@ function _shn_ims_edit_org()
             $q="UPDATE contact SET contact_value='{$contact_web}' WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='web'";
             $res=$db->Execute($q);*/  //finish editing this section
            
-	// Update GIS  
-    if ($conf['gis']) {
-  /*
-   * TODO may want to add in ability to edit location and possibly 
-   * a check to see if feature exists in gis and create if doesnt...
-   */
-        require_once $global['approot'] . "/inc/lib_gis/gis_fns.inc";
-        shn_gis_modify_feature_module_item($org_id, array('f_name' => $org_name));  
-    }
-    add_confirmation($org_name._t(' Inventory was successfully updated'));
+	add_confirmation($org_name._t(' Inventory was successfully updated'));
   ?>
     
 <h2>Inventory Registry</h2>
@@ -405,8 +448,8 @@ function _shn_ims_edit_org()
     }
      if($error==true){
 		_shn_ims_viewform_org($org_id,$error);
-        return false;
+        	return false;
 	 }
-     _shn_ims_viewform_allorg(null,null,$Limit=20);    
+        _shn_ims_viewform_allorg(null,null,$Limit=20);    
 }
-
+?>

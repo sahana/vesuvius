@@ -113,14 +113,14 @@ function _shn_ims_send_item_table_view_t($catalog_id,$Limit,$page_number)
     <div id="result">
     <table>
     <thead>
-            <td><?php echo _t("Item")?></td>
-            <td><?php echo _t("Amount");?></td>
-            <td><?php echo _t("Unit");?></td>
-            <td><?php echo _t("Manufactured Date")?></td>
-                <td><?php echo _t("Expire Date")?></td>
-            <td><?php echo _t("Available Inventory")?></td>
-                <td><?php echo _t("state")?></td>
-        <td><?php echo _t("Action")?></td>
+            <td><?=_t("Item")?></td>
+            <td><?=_t("Amount");?></td>
+            <td><?=_t("Unit");?></td>
+            <td><?=_t("Manufactured Date")?></td>
+                <td><?=_t("Expire Date")?></td>
+            <td><?=_t("Available Inventory")?></td>
+                <td><?=_t("state")?></td>
+        <td><?=_t("Action")?></td>
         </thead>
     <tbody>
 <?php
@@ -178,14 +178,14 @@ function _shn_ims_send_item_table_view_t($catalog_id,$Limit,$page_number)
     <div id="result">
     <table>
     <thead>
-            <td><?php echo _t("Item")?></td>
-	    <td><?php echo _t("Amount");?></td>
-            <td><?php echo _t("Unit");?></td>
-            <td><?php echo _t("Manufactured Date")?></td>
-                <td><?php echo _t("Expire Date")?></td>
-            <td><?php echo _t("Available Inventory")?></td>
-                <td><?php echo _t("state")?></td>
-        <td><?php echo _t("Action")?></td>
+            <td><?=_t("Item")?></td>
+	    <td><?=_t("Amount");?></td>
+            <td><?=_t("Unit");?></td>
+            <td><?=_t("Manufactured Date")?></td>
+                <td><?=_t("Expire Date")?></td>
+            <td><?=_t("Available Inventory")?></td>
+                <td><?=_t("state")?></td>
+        <td><?=_t("Action")?></td>
         </thead>
     <tbody>
 <?php
@@ -316,6 +316,7 @@ function _shn_ims_send($item_id,$parent_id,$unit_id_send)
     
     
     $extra_opts['value']=$inv_from;
+    $extra_opts = false;
     shn_form_text(_t("Inventory From : "),'inv_from','size="50" readonly=true',$extra_opts);
 
 //******************
@@ -559,7 +560,7 @@ $state=-1;
     }
     print '</b>';
 ?>
-<h1 align="center"><?php print _t("Item Transit")?> </h1>
+<h1 align="center"><?php print _t("Items in Transsition state")?> </h1>
 
 <div id="result">
 
@@ -598,14 +599,14 @@ $sql="SELECT transit_id,item_id,amount_send,unit,inv_id_to,person_send,date_send
 ?>
     <table>
         <thead>
-        <td><?php echo _t("Item")?></td>
-        <td><?php echo _t("Amount Sent");?></td>
-        <td><?php echo _t("Unit");?></td>
-        <td><?php echo _t("Inventory From")?></td>
-        <td><?php echo _t("To")?></td>
-            <td><?php echo _t("Date Sent")?></td>
-            <td><?php echo _t("Authorized Person")?></td>
-        <td><?php echo _t("Transit Item")?></td>
+        <td><?=_t("Item")?></td>
+        <td><?=_t("Amount Sent");?></td>
+        <td><?=_t("Unit");?></td>
+        <td><?=_t("Inventory From")?></td>
+        <td><?=_t("To")?></td>
+            <td><?=_t("Date Sent")?></td>
+            <td><?=_t("Authorized Person")?></td>
+        <td><?=_t("Transit Item")?></td>
             
         </thead>
     <tbody>
@@ -687,8 +688,10 @@ $sql="SELECT transit_id,item_id,amount_send,unit,inv_id_to,person_send,date_send
 function _shn_ims_receive_item_page($transit_id,$suplier_id)
 {
 ?>
-<h1 align="center"><?php print _t("Item Transit ")?> </h1>
-<div id="result1">
+<h1 align="center"><?php print _t("Items in Transsition state ")?> </h1>
+<div id="result">
+</div>
+
 <?php
     
     global $global;
@@ -851,8 +854,9 @@ function _shn_ims_receive_item_db()
     $expire_date=$ims2->fields['expire_date'];
     $state=$ims2->fields['state'];
     
-    $sql3="INSERT INTO ims_item_records(catalog_id,inv_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date,cost_per_unit,state) VALUES('$catlog_id','$inv_id_to','$suplier_id','$item_name','$received_amount','$unit','$manufactured_date','$expire_date','$cost_per_unit','$state');";
-    
+    $date = date('Y-m-d');
+    $sql3="INSERT INTO ims_item_records(catalog_id,inv_id,transit_id,suplier_id,item_name,amount,unit,manufactured_date,expire_date,cost_per_unit,state,inserted_date) VALUES('$catlog_id','$inv_id_to','$transit_id','$suplier_id','$item_name','$received_amount','$unit','$manufactured_date','$expire_date','$cost_per_unit','$state','$date');";
+    //print $sql3;
     $ims3=$db->Execute($sql3);
 
     $sql4="SELECT item_id FROM ims_item_records WHERE transit_id='$transit_id';";
@@ -861,6 +865,9 @@ function _shn_ims_receive_item_db()
 
     $sql1="UPDATE ims_transfer_item SET received_item_id='$item_id_new',amount_received='$received_amount',person_received='$authorized_person',date_received='$received_date' WHERE transit_id='$transit_id';";
     $ims1=$db->Execute($sql1);
+    
+    $q="INSERT INTO ims_item_amount_history(item_id, first_amount, unit) VALUES ('{$item_id_new}', '{$received_amount}', '{$unit}')";
+    $r = $db->Execute($q);
 
     add_confirmation(_t('Item Received successfully'));
 
@@ -1218,4 +1225,4 @@ function handleHttpResponse(){
 		
 <?php
 }
-
+?>

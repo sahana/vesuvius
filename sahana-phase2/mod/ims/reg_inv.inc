@@ -31,7 +31,7 @@ function _shn_ims_regform_inv($error=false)
 
    
 ?>
-<h2><?php echo  _t('Add an Inventory')?></h2>
+<h2><?= _t('Add an Inventory')?></h2>
 <?php
     if($error==true)
         display_errors();
@@ -44,11 +44,57 @@ function _shn_ims_regform_inv($error=false)
     $extra_opts['req']=true;
     shn_form_text(_t("Inventory Name : "),'org_name','size="40"',$extra_opts); 
    // shn_form_text(_t("Registration Number : "),'reg_no','size="50"'); 
+    
+    
+    
+    //******************
+    echo "<br />";
+    $destination_array=array('shelter'=>'Shelter','organization'=>'Organization');
+    shn_form_radio($destination_array,_t('Inventory Ownership : '),'destination','onClick="change_action_des(this.value)"',$extra_opts);
+  
+    $opt = _shn_admin_set_option_javascript();
+    
+    echo "<br />";
+	
+
+
+//********************* Destination Shelter Display Begin ***********
+
+	echo "<div class='hide' id='des_shelter'>";    	
+    	$extra_opts['req']  = true;
+    	$extra_opts['br']  = true;
+    	$select_opts = '';
+    	
+    shn_form_select(_shn_ims_get_shelter_name(),_t("Owner Shelter : "),'shelter_to','size="1"',array('req'=>true,'help'=>_t('Select the Owner Shelter ')));
+    $destination_type='shelter';
+    	//$option_type=array('availability'=>'Availability','confirmation'=>'Confirmation');
+    	//shn_form_radio($option_type,_t('Status : '),'file_type',$select_opts,$extra_opts);
+    	echo "<br />";
+	echo "</div>";
+//********************* Destination Shelter display End *************
+//********************* Destination Organization Display Begin ******
+
+	echo "<div class='hide' id='des_organization'>";    	
+    	$extra_opts['req']  = true;
+    	$extra_opts['br']  = true;
+    	$select_opts = '';
+    	
+    shn_form_select(_shn_ims_get_organization_name(),_t("Owner Organization : "),'organization_to','size="1"',array('req'=>true,'help'=>_t('Select the owner Organization Inventory')));
+    
+    	echo "<br />";
+	echo "</div>";
+
+//********************* Destination Organization Display End ********
+
+    
+    
     shn_form_fsclose();
+    
+    
    
     $parent=_shn_ims_get_start_loc();
 
-      $range=array("start"=>1,"end"=>5);
+      //$range=array("start"=>1,"end"=>5);
 	shn_form_fsopen(_t("Location"));
 	//shn_location_form_org(1,5);
 	shn_location($range,$value=null,$parent=null,$extra_opts=null);
@@ -87,7 +133,7 @@ function _shn_ims_regform_operation($error=false)
     $db=$global['db'];
     
 ?>
-<h2><?php echo _t("Add an Operation/Branch under the Inventory ").$_SESSION["parent_name"]?> </h2>
+<h2><?=_t("Add an Operation/Branch under the Inventory ").$_SESSION["parent_name"]?> </h2>
 <?php
     if($error)
     display_errors();
@@ -147,6 +193,9 @@ function _shn_ims_reg_inv_gis()
 	//$bsd_village=trim($_POST[$range["end"]]);
     //$end=trim($_POST[$range["end"]]);
     $_SESSION['ims']['inv_name']=trim($_POST{"org_name"});
+    $_SESSION['ims']['destination']=trim($_POST{"destination"});
+    $_SESSION['ims']['shelter_to']=trim($_POST{"shelter_to"});
+    $_SESSION['ims']['organization_to']=trim($_POST{"organization_to"});
     $_SESSION['ims']['contact_name']=trim($_POST{"contact_name"});
     $_SESSION['ims']['contact_add']=trim($_POST{"contact_add"});
     $_SESSION['ims']['contact_phone']=trim($_POST['contact_phone']);
@@ -190,6 +239,9 @@ function _shn_ims_validate_reg_inv()
 	//$bsd_village=trim($_POST[$range["end"]]);
     //$end=trim($_POST[$range["end"]]);
     $inv_name=trim($_POST{"org_name"});
+    $destination = trim($_POST['destination']);
+    $shelter_to = trim($_POST['shelter_to']);
+    $organization_to = trim($_POST['organization_to']);
     $contact_name=trim($_POST{"contact_name"});
     $contact_add=trim($_POST{"contact_add"});
     $contact_phone=trim($_POST['contact_phone']);
@@ -206,6 +258,16 @@ function _shn_ims_validate_reg_inv()
     {
 	add_error(_t("Inventory Name cannot be empty."));
 	$error_flag=true;
+    }
+    if($destination==null || $destination=='')
+    {
+    	///add_error(_t('Inventory Ownership is essential for inventory registration'));
+    	//$error_flag =true;
+    }
+    if($shelter_to==null && $organization_to==null)
+    {
+    	//add_error(_t('Shelter or Organization selection is essential'));
+    	//$error_flag=true;
     }
     global $global;
     $db=$global['db'];
@@ -272,3 +334,109 @@ function _shn_ims_validate_reg_inv()
 
 }
 
+
+function _shn_admin_set_option_javascript()
+{
+?>
+<script type="text/javascript">
+    
+	
+	var url = "index.php?"; 
+    var start = 1;
+ var http;
+    function getHTTPObject() 
+    {
+        var xmlhttp;
+        
+        
+
+        if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+            try {
+                xmlhttp = new XMLHttpRequest();
+
+            } catch (e) {
+            xmlhttp = false;
+            }
+        }
+
+    return xmlhttp;
+    }
+
+
+
+function handleHttpResponse(){
+        if (http.readyState == 4) 
+    { // Split the comma delimited response into an array  
+                results = http.responseText.split(",");
+		
+                if (results[0]!="null")
+            	{ 
+                var x=document.getElementsByName('victim_to');
+		
+                    for (i=0; i<=x[0].options.length+1; i++)
+                    {
+                            x[0].options[0]=null;
+				
+                            }
+ 		
+
+                j=0;
+                for (i=1; i<results.length-1; i=i+2, j++)
+                    {
+                    
+                         opt = document.createElement("option") ;
+                          opt.value = results[i] ;
+                          opt.text = results[i+1].replace(/[^A-Za-z]$/,"");
+                          x[0].options[j] = opt;
+                            }
+                    }
+        } 
+    }
+
+
+    function change_action_des(value){
+        alert
+	
+         if(value=='shelter'){         	
+         	document.getElementById("des_shelter").style.display='block';  
+		//document.getElementById("des_inventory").style.display='none';
+		//document.getElementById("des_shelter").style.display='none';
+		document.getElementById("des_organization").style.display='none';
+		//document.getElementById("des_victim").style.display='none';   	
+         }
+	 else if(value=='organization'){         	
+         	document.getElementById("des_organization").style.display='block'; 
+		//document.getElementById("des_inventory").style.display='none';
+		document.getElementById("des_shelter").style.display='none';
+		//document.getElementById("des_organization").style.display='none';
+		//document.getElementById("des_victim").style.display='none';    	
+         }
+	  
+         else
+	{
+             //document.getElementById("des_inventory").style.display='none';
+		document.getElementById("des_shelter").style.display='none';
+		document.getElementById("des_organization").style.display='none';
+		//document.getElementById("des_victim").style.display='none';
+	}	
+         }
+
+	function add_evacuees(){
+		
+        	var y=document.getElementsByName("head_name");
+		
+       		http = getHTTPObject();
+        	var url2=url + "act=victims&mod=xst&stream=text&head_name="+y[0].value;
+        	//var url2=url + "act=sub_cat&cat=" + selection+"&flag="+item_flag;
+        	http.open("GET", url2, true); 
+//        	http.onreadystatechange = null; 
+        	http.onreadystatechange = function(){}; 
+        	http.onreadystatechange = handleHttpResponse; 
+        	http.send(null);
+        }
+</script>
+
+		
+<?php
+}
+?>

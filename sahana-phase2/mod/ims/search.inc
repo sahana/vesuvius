@@ -105,7 +105,7 @@ function _shn_ims_search_item_page()
     $item_state_array["available"] = _t("Item available");
     $item_state_array["expired"] = _t("Item to be destroyed");
     $item_state_array["destroyed"] = _t("Item already destroyed");
-    shn_form_select($item_state_array,_t("  Status  : "),'item_state','size="1"',$extra_opts);
+    shn_form_select($item_state_array,_t("  State  : "),'item_state','size="1"',$extra_opts);
 
 
     global $global;
@@ -171,12 +171,12 @@ function _shn_ims_search_item_db()
         <div id ="result">
     <table>
         <thead>
-        <td><?php echo _t("Item Name") ?></td>
-        <td><?php echo _t("Amount") ?></td>
-        <td><?php echo _t("Unit") ?></td>
-        <td><?php echo _t("Inventory") ?></td>
-        <td><?php echo _t("Status") ?></td>
-        <td><?php echo _t("Supplier") ?></td> 
+        <td><?=_t("Item Name") ?></td>
+        <td><?=_t("Amount") ?></td>
+        <td><?=_t("Unit") ?></td>
+        <td><?=_t("Inventory") ?></td>
+        <td><?=_t("State") ?></td>
+        <td><?=_t("Suplier") ?></td> 
         
             
             
@@ -250,16 +250,16 @@ function _shn_ims_search_item_db()
             //if($inv_id!=0)
             //{
 ?>
-	<div><h3><b><em><?php echo  (_t("Alternate Items:")) ?></em></b></h3></div>
+	<div><h3><b><em><?= (_t("Alternate Items:")) ?></em></b></h3></div>
 	<div id="result">
 	<table>
 	<thead>
-	<td><?php echo _t("Item Name") ?></td>
-        <td><?php echo _t("Amount") ?></td>
-        <td><?php echo _t("Unit") ?></td>
-        <td><?php echo _t("Inventory") ?></td>
-        <td><?php echo _t("Status") ?></td>
-        <td><?php echo _t("Supplier") ?></td> 
+	<td><?=_t("Item Name") ?></td>
+        <td><?=_t("Amount") ?></td>
+        <td><?=_t("Unit") ?></td>
+        <td><?=_t("Inventory") ?></td>
+        <td><?=_t("State") ?></td>
+        <td><?=_t("Suplier") ?></td> 
 	</thead>
 	<tbody>
 <?php
@@ -380,7 +380,7 @@ function _shn_ims_form_search()
     //global $global;
     $module = $global['module'];
 ?>
-<h2 align="center"><?php echo  _t("Search for Inventories by name and by Location")?></h2>
+<h2 align="center"><?= _t("Search for Inventories by name and by Location")?></h2>
 <?php
     $form_opts['name'] = "search_inventory";
     shn_form_fopen('search_inventory_db',null,$form_opts);
@@ -453,14 +453,14 @@ function _shn_ims_search_inventory_db()
 <div id='result'>
     <table>
     <thead>
-    <td><?php echo _t("Inventory Name") ?></td>
-    <td><?php echo _t("Country of Origin/GIS") ?></td> 
-    <td><?php echo _t("Address") ?></td>
-    <td><?php echo _t("Contact Numbers") ?></td>
-    <td><?php echo _t("Man Power") ?></td>
-    <td><?php echo _t("Equipment") ?></td>
-    <td><?php echo _t("Other ")."<br />"._t(" Facilities") ?></td>
-    <td><?php echo _t("Inventory Space") ?></td>
+    <td><?=_t("Inventory Name") ?></td>
+    <td><?=_t("Country of Origin/GIS") ?></td> 
+    <td><?=_t("Address") ?></td>
+    <td><?=_t("Contact Numbers") ?></td>
+    <td><?=_t("Man Power") ?></td>
+    <td><?=_t("Equipment") ?></td>
+    <td><?=_t("Other ")."<br />"._t(" Facilities") ?></td>
+    <td><?=_t("Inventory Space") ?></td>
     </thead>
     <tbody>
 
@@ -605,14 +605,14 @@ function _shn_ims_search_address()
 <div id='result'>
     <table>
     <thead>
-    <td><?php echo _t("Inventory Name") ?></td>
-    <td><?php echo _t("Country of Origin/GIS") ?></td> 
-    <td><?php echo _t("Address") ?></td>
-    <td><?php echo _t("Contact Numbers") ?></td>
-    <td><?php echo _t("Man Power") ?></td>
-    <td><?php echo _t("Equipment") ?></td>
-    <td><?php echo _t("Other ")."<br />"._t(" Facilities")  ?></td>
-    <td><?php echo _t("Inventory Space") ?></td>
+    <td><?=_t("Inventory Name") ?></td>
+    <td><?=_t("Country of Origin/GIS") ?></td> 
+    <td><?=_t("Address") ?></td>
+    <td><?=_t("Contact Numbers") ?></td>
+    <td><?=_t("Man Power") ?></td>
+    <td><?=_t("Equipment") ?></td>
+    <td><?=_t("Other ")."<br />"._t(" Facilities")  ?></td>
+    <td><?=_t("Inventory Space") ?></td>
     </thead>
     <tbody>
 
@@ -657,7 +657,7 @@ function _shn_ims_form_search_old()
     global $conf;
     $db = $global["db"];
 ?>
-<h2><?php echo  _t("Search for Inventories by Location") ?></h2>
+<h2><?= _t("Search for Inventories by Location") ?></h2>
     <div id="formcontainer">
 <?php
     shn_form_fopen("search_cr");

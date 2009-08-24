@@ -56,12 +56,16 @@ function shn_ims_mainmenu()
     
     shn_mod_menuitem("view_edit_item",_t("Add/List Items"),$module);
     shn_mod_menuitem("view_edit_reorder_page",_t("Re-Order Level"),$module);
+     shn_mod_menuitem("consolidated_items",_t("Consolidated Items"),$module);
+     shn_mod_menuitem("buy_items",_t("Buy Items"),$module);
     
     shn_sub_mod_menuopen(_t("Reports"));
+    shn_sub_mod_menuitem("report_inv_items",_t("Items by Inventory"),$module);
+    shn_sub_mod_menuitem("report_org_items",_t("Items by Organization"),$module);
     shn_sub_mod_menuitem("report_expired",_t("Expired Items"),$module);
     shn_sub_mod_menuitem("report_destroyed",_t("Destroyed Items"),$module);
     shn_sub_mod_menuitem("report_minimum",_t("Re-order Level"),$module);
-    shn_sub_mod_menuitem("report_transit_item",_t("Transit Item"),$module);
+    shn_sub_mod_menuitem("report_transit_item",_t("Transfered Items"),$module);
     //shn_sub_mod_menuitem("report_prediction",_t("prediction reports"),$module);
     shn_sub_mod_menuitem("gis_inv",_t("Map by Inventory"),$module);
     shn_sub_mod_menuclose();
@@ -190,7 +194,7 @@ function shn_ims_report_destroyed()
 
 function shn_ims_report_transit_item()
 {
-	print ("<h1><center>Transit Items</center></h1>");
+	print ("<h1><center>Transfered Items Report</center></h1>");
     include_once ('ims_report.inc');
     _shn_ims_transfer_item_report();
 }
@@ -528,18 +532,18 @@ function shn_ims_search_cr()
         $i = $i + 1;
     }
 ?>
-<h2><?php echo _t("Search Result")?></h2>
+<h2><?=_t("Search Result")?></h2>
     <div id ="result">
         <table>
             <thead>
-                <td><?php echo _t("Inventory Name")?></td>
-                <td><?php echo _t("Country of Origin")?></td>
-                <td><?php echo _t("Contact Address")?></td>
-                <td><?php echo _t("Contact Number")?></td>
-                <td><?php echo _t("Contact Email")?></td>
-                <td><?php echo _t("Man Power")?></td>
-                <td><?php echo _t("Facilities")?></td>
-        <td><?php echo _t("Space")?></td>
+                <td><?=_t("Inventory Name")?></td>
+                <td><?=_t("Country of Origin")?></td>
+                <td><?=_t("Contact Address")?></td>
+                <td><?=_t("Contact Number")?></td>
+                <td><?=_t("Contact Email")?></td>
+                <td><?=_t("Man Power")?></td>
+                <td><?=_t("Facilities")?></td>
+        <td><?=_t("Space")?></td>
             </thead>
             <tbody>
 <?php
@@ -1116,5 +1120,36 @@ function shn_ims_send_item_paging()
     }
 }
 
+function shn_ims_report_inv_items()
+{
+	print ("<h1><center>Items by Inventory Report</center></h1>");
+	global $global;
+	$db = $global['db'];
+	//echo 'test';	
+	include_once 'ims_report.inc';
+	_shn_ims_inv_items();
+}
+
+function shn_ims_report_org_items()
+{
+	print ("<h1><center>Items by Organization Report</center></h1>");
+	global $global;
+	$db = $global['db'];
+	include_once 'ims_report.inc';
+	_shn_ims_org_items();
+}
+
+function shn_ims_consolidated_items()
+{
+	//echo 'test';
+	include_once 'handler_create_kit.inc';
+}
+
+function shn_ims_buy_items()
+{
+	include_once 'handler_handle_money.inc';
+}
 
 
+
+?>

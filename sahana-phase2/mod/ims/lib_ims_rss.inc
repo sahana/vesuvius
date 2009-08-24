@@ -82,3 +82,4 @@ function shn_xml_ims_rss_transit(){
     shn_rss_channel_close();
     shn_rss_close();
 }
+?>

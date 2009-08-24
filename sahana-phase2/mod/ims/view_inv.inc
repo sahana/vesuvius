@@ -70,15 +70,15 @@ function _shn_ims_viewform_allorg($no=NULL,$page_number=NULL,$Limit=NULL)
 <div id ="result">
 	<table>
         <thead>
-            <td><?php echo _t("Inventory Name")?></td>
-            <td><?php echo _t("Country of Origin/GIS")?></td> 
-            <td><?php echo _t("Address")?></td>
-            <td><?php echo _t("Contact Numbers")?></td>
-            <td><?php echo _t("Man Power")?></td>
-            <td><?php echo _t("Equipment")?></td>
-            <td><?php echo _t("Other <br /> Facilities")?></td>
-	    <td><?php echo _t("Inventory Space")?></td>
-	    <td><?php echo _t("Actions")?></td>
+            <td><?=_t("Inventory Name")?></td>
+            <td><?=_t("Country of Origin/GIS")?></td> 
+            <td><?=_t("Address")?></td>
+            <td><?=_t("Contact Numbers")?></td>
+            <td><?=_t("Man Power")?></td>
+            <td><?=_t("Equipment")?></td>
+            <td><?=_t("Other <br /> Facilities")?></td>
+	    <td><?=_t("Inventory Space")?></td>
+	    <td><?=_t("Actions")?></td>
         </thead>
         <tbody>
 <?php
@@ -138,19 +138,19 @@ function _shn_display_org($flag,$org_id,$indent=true,$edit=false)
     $q = "SELECT contact_value FROM contact WHERE pgoc_uuid='{$org_id}' AND opt_contact_type='email'";
     $res_email=$db->Execute($q);
     $q="SELECT search_id FROM location_details,location WHERE poc_uuid='{$org_id}' AND location_details.location_id=location.location_id";
-    $res_temp=$db->Execute($q);
-	
+    //$res_temp=$db->Execute($q);
+	//print $q;
     $loc=$res_temp->fields[0][0];
     $q="SELECT name FROM location WHERE location_id='{$loc}'";
-    $res_bsd_country=$db->Execute($q);
+    //$res_bsd_country=$db->Execute($q);
 	
     $q = "SELECT option_description FROM field_options,ims_inventory_records WHERE o_uuid='{$org_id}' AND
 field_options.option_code=ims_inventory_records.inventory_type AND field_options.field_name='inventory_type'";
-    $res_type=$db->Execute($q); 
-    $org_type=$res_type->fields[0];
+    //$res_type=$db->Execute($q); 
+    //$org_type=$res_type->fields[0];
     $q = "SELECT option_description FROM field_options,sector WHERE pgoc_uuid='{$org_id}' AND
 field_options.option_code=sector.opt_sector AND field_options.field_name='opt_sector_type'";
-    $res_sector=$db->Execute($q);    
+    //$res_sector=$db->Execute($q);    
 ?>
 <tr>
     <td>
@@ -217,6 +217,11 @@ function _shn_ims_viewform_org($org_id,$error=false)
     $bsd_village=$res_loc->fields[0];
    
     }
+    
+    $sql = "SELECT * FROM ims_inventory_relation WHERE inv_uuid='{$org_id}'";
+    $res=$db->Execute($sql);
+    $shel_org = $res->fields['shel_org_flag'];
+    $shel_org_id = $res->fields['shel_org_id'];
 ?>
 <h2><?php printf(_t("Inventory Registration Information of <em>%s</em>"),$org_name)?></h2>
 <?php
@@ -232,8 +237,55 @@ function _shn_ims_viewform_org($org_id,$error=false)
     $extra_opts['req']=true;
     $extra_opts['value']=$org_name;
     shn_form_text(_t("Inventory Name : "),'org_name','size="50"', $extra_opts); 
+    
+    /*************************************************************
+    *********************Set Inventory Ownership ******************
+    **************************************************************/
+    
+    //******************
+    echo "<br />";
+    $destination_array=array('shelter'=>'Shelter','org'=>'Organization');
+    shn_form_radio($destination_array,_t('Inventory Ownership : '),'destination','onClick="change_action_des(this.value)"',null);
+  
+    $opt = _shn_admin_set_option1_javascript();
+    
+    echo "<br />";
+	
 
-    $range=array("start"=>1,"end"=>5);
+
+//********************* Destination Shelter Display Begin ***********
+
+	echo "<div class='hide' id='des_shelter'>";    	
+    	$extra_opts['req']  = true;
+    	$extra_opts['br']  = true;
+    	$select_opts = '';
+    	
+    shn_form_select(_shn_ims_get_shelter_name(),_t("Owner Shelter : "),'shelter_to','size="1"',array('req'=>true,'help'=>_t('Select the Owner Shelter '), 'value'=>$shel_org_id));
+    $destination_type='shelter';
+    	//$option_type=array('availability'=>'Availability','confirmation'=>'Confirmation');
+    	//shn_form_radio($option_type,_t('Status : '),'file_type',$select_opts,$extra_opts);
+    	echo "<br />";
+	echo "</div>";
+//********************* Destination Shelter display End *************
+//********************* Destination Organization Display Begin ******
+
+	echo "<div class='hide' id='des_organization'>";    	
+    	$extra_opts['req']  = true;
+    	$extra_opts['br']  = true;
+    	$select_opts = '';
+    	
+    shn_form_select(_shn_ims_get_organization_name(),_t("Owner Organization : "),'organization_to','size="1"',array('req'=>true,'help'=>_t('Select the owner Organization Inventory'),'value'=>$shel_org_id));
+    
+    	echo "<br />";
+	echo "</div>";
+
+//********************* Destination Organization Display End ********
+    
+    /*************************************************************
+     *********************Set Inventory Ownership end ************
+     *************************************************************/
+
+    //$range=array("start"=>1,"end"=>5);
     
     //shn_location($range,$bsd_village,null);
     shn_form_fsopen(_t("Base Location"));
@@ -298,6 +350,112 @@ function _shn_ims_reg_inv_actions($action)
 	    shn_ims_inventory_paging($Limit);
 	}	
     }
+}
+
+
+function _shn_admin_set_option1_javascript()
+{
+?>
+<script type="text/javascript">
+    
+	
+	var url = "index.php?"; 
+    var start = 1;
+ var http;
+    function getHTTPObject() 
+    {
+        var xmlhttp;
+        
+        
+
+        if (!xmlhttp && typeof XMLHttpRequest != 'undefined') {
+            try {
+                xmlhttp = new XMLHttpRequest();
+
+            } catch (e) {
+            xmlhttp = false;
+            }
+        }
+
+    return xmlhttp;
+    }
+
+
+
+function handleHttpResponse(){
+        if (http.readyState == 4) 
+    { // Split the comma delimited response into an array  
+                results = http.responseText.split(",");
+		
+                if (results[0]!="null")
+            	{ 
+                var x=document.getElementsByName('victim_to');
+		
+                    for (i=0; i<=x[0].options.length+1; i++)
+                    {
+                            x[0].options[0]=null;
+				
+                            }
+ 		
+
+                j=0;
+                for (i=1; i<results.length-1; i=i+2, j++)
+                    {
+                    
+                         opt = document.createElement("option") ;
+                          opt.value = results[i] ;
+                          opt.text = results[i+1].replace(/[^A-Za-z]$/,"");
+                          x[0].options[j] = opt;
+                            }
+                    }
+        } 
+    }
+
+
+    function change_action_des(value){
+        alert
+	
+         if(value=='shelter'){         	
+         	document.getElementById("des_shelter").style.display='block';  
+		//document.getElementById("des_inventory").style.display='none';
+		//document.getElementById("des_shelter").style.display='none';
+		document.getElementById("des_organization").style.display='none';
+		//document.getElementById("des_victim").style.display='none';   	
+         }
+	 else if(value=='org'){         	
+         	document.getElementById("des_organization").style.display='block'; 
+		//document.getElementById("des_inventory").style.display='none';
+		document.getElementById("des_shelter").style.display='none';
+		//document.getElementById("des_organization").style.display='none';
+		//document.getElementById("des_victim").style.display='none';    	
+         }
+	  
+         else
+	{
+             //document.getElementById("des_inventory").style.display='none';
+		document.getElementById("des_shelter").style.display='none';
+		document.getElementById("des_organization").style.display='none';
+		//document.getElementById("des_victim").style.display='none';
+	}	
+         }
+
+	function add_evacuees(){
+		
+        	var y=document.getElementsByName("head_name");
+		
+       		http = getHTTPObject();
+        	var url2=url + "act=victims&mod=xst&stream=text&head_name="+y[0].value;
+        	//var url2=url + "act=sub_cat&cat=" + selection+"&flag="+item_flag;
+        	http.open("GET", url2, true); 
+//        	http.onreadystatechange = null; 
+        	http.onreadystatechange = function(){}; 
+        	http.onreadystatechange = handleHttpResponse; 
+        	http.send(null);
+        }
+</script>
+
+		
+<?php
 }
 ?>
 
