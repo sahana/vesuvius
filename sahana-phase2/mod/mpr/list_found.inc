@@ -91,3 +91,4 @@ _shn_mpr_listing($found);
 print '<BR/><BR/>';
 
 ?><input type="button"  value="Print Current Page" onClick="self.print()" class="hideprint"/></div>
+<?php
