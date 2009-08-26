@@ -27,6 +27,7 @@ include_once $global['approot']."/inc/lib_location.inc";
 include_once $global['approot']."/inc/lib_uuid.inc";
 include_once $global['approot']."/inc/lib_paging.inc";
 include_once($global['approot']."/inc/lib_dependency.inc");
+include_once $global['approot']."/mod/cs/lib_cs.inc";
 require_once 'lib_rms.inc';
 require_once 'lib_rms_db.inc';
 require_once 'lib_rms_js.inc';

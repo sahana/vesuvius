@@ -855,6 +855,9 @@ function _shn_rms_add_pledge($donor_uuid)
 	
 	$sql1 = "INSERT INTO rms_org (plg_uuid, org_id) VALUES ('{$plg_uuid}', '$org_id')";
 	$res = $global['db']->Execute($sql1);
+	
+	$_SESSION['rms']['add_donor']['donor_uuid'] = $donor_uuid;
+	
 	if ($global['db']->Execute($sql) === false)
 	{
 		$msg = $global['db']->ErrorMsg();
@@ -870,9 +873,61 @@ function _shn_rms_add_pledge($donor_uuid)
 	
 	
 }
+
+function _shn_rms_get_item_name($catalog_id)
+{
+	global $global;
+	$db = $global['db'];
+	$parent_id_arr = shn_cs_get_parentid_arr($catalog_id);
+	//var_dump($parent_id_arr);
+	$item_name_array = array();
+	
+	for($i=0; $i<count($parent_id_arr); $i++)
+	{
+		if($i==0)
+		{
+			$sql = "SELECT name FROM ct_catalogue WHERE ct_uuid ='$catalog_id'";
+		}
+		else
+		{
+			$j = $i-1;
+			$cat = $parent_id_arr[$j];
+			$sql = "SELECT name FROM ct_catalogue WHERE ct_uuid='$parent_id_arr[$j]'";
+		}
+		$res = $db->Execute($sql);
+		$item_name_array[$i] = $res->fields['name'];
+		//print $sql;			
+		
+	}
+	$item_name_array = array_reverse($item_name_array);
+	//var_dump($item_name_array);
+	$i=0;
+	
+	
+	
+	foreach($item_name_array as $key=>$value)
+	{
+		if($key==0)
+		{
+			$item_name = $value;
+		}
+		else
+		{
+			$item_name = $item_name.'->'.$value;
+		}
+	}
+	return $item_name;
+}
+
 function _shn_rms_add_plgitems($plg_uuid)
 {
 	global $global;
+	$db = $global['db'];
+	
+	$donor_uuid = $_SESSION['rms']['add_donor']['donor_uuid'];
+	$org_id = $_SESSION['rms']['add_donor']['org_id'];
+	$item_array = array();
+	$item_history = array();
 
 	foreach ($_SESSION['rms_items'] as $item)
 	{
@@ -880,6 +935,31 @@ function _shn_rms_add_plgitems($plg_uuid)
 		$quantity = $item[1];
 		$unit = $item[3];
 		$inv = $item[4];
+		
+		$item_array['catalog_id'] = $item_uuid;
+		$item_array['inv_id'] = $inv;
+		$item_array['suplier_id'] = $donor_uuid;
+		$item_array['item_name'] = _shn_rms_get_item_name($item_uuid);
+		$item_array['amount'] = $quantity;
+		$item_array['unit'] = $unit;
+		$item_array['state'] = 'available';
+		$item_array['inserted_date'] = date('Y-m-d');
+		//var_dump($item_array);
+		$insert_item = $db->AutoExecute('ims_item_records', $item_array, 'INSERT');
+		if($insert_item === true)
+		{
+			$q = "SELECT MAX(item_id) FROM ims_item_records";
+			$recset = $db->Execute($q);
+			$item_id = $recset->fields['MAX(item_id)'];
+			$item_history['item_id'] = $item_id;
+			$item_history['first_amount'] = $quantity;
+			$item_history['unit'] = $unit;
+			
+			$item_his = $db->AutoExecute('ims_item_amount_history', $item_history, 'INSERT');
+			
+		}
+		
+		
 
 		$sql = "INSERT INTO rms_plg_item (item_uuid, quantity, plg_uuid, unit, inventory) " .
                 "VALUES ('$item_uuid', $quantity, '$plg_uuid', '$unit', '$inv')";
