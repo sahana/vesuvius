@@ -1,5 +1,5 @@
 <?php
-/* $Id: edit_location.inc,v 1.2 2009-08-22 17:17:26 ravithb Exp $ */
+/* $Id: edit_location.inc,v 1.3 2009-08-27 22:26:48 pradeeper Exp $ */
 
 /**
  * Edit the location
@@ -261,4 +261,4 @@ function shn_bsm_edit_commit_lukup($location_uuid=null,$location_parent_uuid=nul
 
     }
 }
-
+?>

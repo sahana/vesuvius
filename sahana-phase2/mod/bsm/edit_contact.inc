@@ -65,3 +65,4 @@ function _shn_edit_contact()
 				}
 
 }
+?>

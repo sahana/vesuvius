@@ -86,3 +86,4 @@ function _shn_edit_address()
 				}
 
 }
+?>
