@@ -101,8 +101,21 @@ function _shn_ims_reg_inv_cr()
             return false;
 
         }
-        shn_gis_dbinsert($org_id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
+        /**GIS*/
+        //shn_gis_dbinsert($org_id,0,null,$_POST['loc_x'],$_POST['loc_y'],null);
+		$coords = shn_gis_coord_encode(array(array($_POST['loc_x'], $_POST['loc_y'], 0)), 'point');
+            $keys_ = array(
+                'f_class'         => null,
+                'f_type'          => 'point',
+                'f_coords'        => $coords,
+                'f_module_item'   => $org_id,
+                'f_name'          => $org_name,
+                'f_url'           => $_SESSION['ims']['contact_web'],
+            );
+            shn_gis_create_feature($keys_);
 
+		/**GISEND
+		*/
         $q="SELECT inv_uuid FROM ims_inventory_records WHERE inv_uuid='{$org_id}'";
         $res=$db->Execute($q);
         if(!$res->EOF){
