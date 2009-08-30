@@ -41,106 +41,102 @@
     </h2>
     <div>
         <b>
-            <em>
-	        <?php echo _t("\"who is doing what and where\"")?> 
+	    <em>
+                <?php echo _t("\"who is doing what and where\"")?> 
 	    </em>
-        </b>
+	</b>
     </div>
+	
     <p>
         <?php echo _t('The Organization Registry keeps track of every registered organization.').' '._t('It captures not only the places where they are active, but also captures information on the range of services they are providing in each area.')."\n"?>
     </p>
-
+    
     <h3>
         <?php echo _t('Functionality')."\n" ?>
     </h3>
-
-<ul>
-    <li>
-        <strong>
-	    <a href="index.php?mod=or&act=search">
-	        <?php echo _t('Search')."\n"; ?>
-	    </a>
-	</strong>
-        <div class="info">
-            <?php echo  _t('Search for an organization or organizations by specifying its details.'); ?>
-        </div>
-    </li>
     
-    <li>
-    <strong>
-        <?php echo  _t('Register'); ?>
-    </strong>
-
     <ul>
         <li>
-	    <a href="index.php?mod=or&act=reg_org">
-	        <?php echo  _t('Register an Organization'); ?>
-	    </a>
+	    <strong>
+	        <a href="index.php?mod=or&act=search">
+	            <?php echo _t('Search')."\n"; ?>
+		</a>
+	    </strong>
 	    <div class="info">
-	        <?php echo  _t('Add an organization\'s details to the database.'); ?>
-	    </div>
+	        <?php echo  _t('Search for an organization or organizations by specifying its details.'); ?>
+            </div>
+	</li> 
+	<li>
+	    <strong>
+	        <?php echo  _t('Register'); ?>
+	    </strong>
+	    <ul>
+	        <li>
+		    <a href="index.php?mod=or&act=reg_org">
+		        <?php echo  _t('Register an Organization'); ?>
+		    </a>
+		    <div class="info">
+		        <?php echo  _t('Add an organization\'s details to the database.'); ?>
+		    </div>
+		</li>
+		<li>
+		    <a href="index.php?mod=or&act=reg_operation">
+		        <?php echo  _t('Register a Department or Branch Under a Registered Organization')."\n"; ?>
+		    </a>
+		    <div class="info">
+		        <?php echo  _t('If you have already added an organization, you can register a branch or department of that organization with this function.').' '.
+			            _t('The branch will be able to be allocated tasks indepedently from the parent organization.')."\n"; ?>
+		    </div>
+		</li>
+	    </ul>
 	</li>
-        <li>
-	    <a href="index.php?mod=or&act=reg_operation">
-	        <?php echo  _t('Register a Department or Branch Under a Registered Organization')."\n"; ?>
-	    </a>
-	    <div class="info">
-	        <?php echo  _t('If you have already added an organization, you can register a branch or department of that organization with this function.').' '.
-		            _t('The branch will be able to be allocated tasks indepedently from the parent organization.')."\n"; ?>
-	    </div>
-	</li>
-    </ul>
-    </li>
-
-    <li>
-        <strong>
-	    <a href="index.php?mod=or&act=view_org">
-	        <?php echo  _t('View And Edit'); ?>
-	    </a>
-	</strong>
 	
-	<div class="info">
-	    <?php echo  _t('This function returns a list of registered organizations.').' '.
-	                _t('Their details can then be viewed and updated.'."\n"); ?>
-	</div>
-    </li>
-
-    <li>
-        <strong>
-            <?php echo  _t('Reports'); ?>
-        </strong>
-
-    <ul>
-        <li>
-          <a href="index.php?mod=or&act=drill_report_loc">
-	      <?php echo  _t('Drill Down by Geographic Coverage'); ?>
-	  </a>
-	  
-	  <div class="info">
-	      <?php echo  _t('This report allows users to identify which sectors are operating within a location.'."\n").' '.
-	                  _t('It\'s useful for identifying whether any gaps in exist.'."\n"); ?>
-	  </div>
-	</li>
-        <li>
-	    <a href="index.php?mod=or&act=drill_report_org">
-	        <?php echo  _t('Drill Down by Organizational Coverage'); ?>
-	    </a>
-	    <div class="info">
-	        <?php echo  _t('This report indicates the number of organizations within a single sector that are offering services at each location.')."\n"; ?>
-	    </div>
-        </li>
-        <li>
-	    <a href="index.php?mod=or&act=org_sector">
-	        <?php echo  _t('Organizations by Sector'); ?>
-	    </a>
+	<li>
+	    <strong>
+	        <a href="index.php?mod=or&act=view_org">
+		    <?php echo  _t('View And Edit'); ?>
+	        </a>
+	    </strong>
 	    
 	    <div class="info">
-	        <?php echo  _t('This report provides a list of all organizations, services they offer, their locations and contact information.'); ?>
+		<?php echo  _t('This function returns a list of registered organizations.').' '._t('Their details can then be viewed and updated.'."\n"); ?>
 	    </div>
 	</li>
+
+	<li>
+	    <strong>
+	        <?php echo  _t('Reports'); ?>
+	    </strong>
+	    
+	    <ul>
+	        <li>
+		    <a href="index.php?mod=or&act=drill_report_loc">
+		        <?php echo  _t('Drill Down by Geographic Coverage'); ?>
+		    </a>
+		    <div class="info">
+		        <?php echo  _t('This report allows users to identify which sectors are operating within a location.').' '._t("It's useful for identifying whether any gaps in exist."); ?>
+		    </div>
+		</li>
+	        <li>
+		    <a href="index.php?mod=or&act=drill_report_org">
+		        <?php echo  _t('Drill Down by Organizational Coverage'); ?>
+		    </a>
+		    <div class="info">
+		        <?php echo  _t('This report indicates the number of organizations within a single sector that are offering services at each location.'); ?>
+		    </div>
+		</li>
+		
+		<li>
+	            <a href="index.php?mod=or&act=org_sector">
+		        <?php echo  _t('Organizations by Sector'); ?>
+		    </a>
+                    <div class="info">
+		        <?php echo  _t('This report provides a list of all organizations, services they offer, their locations and contact information.'); ?>
+		    </div>
+		</li>
+            </ul>
+	</li>
     </ul>
-  </li>
-</ul>
 </div> <!-- end of <div id="home> -->
 <div>
 
