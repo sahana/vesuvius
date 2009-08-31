@@ -22,6 +22,19 @@
 * Shows map of all catalogues and internal features.
 * @global <type> $global
 */
+function shn_sm_show_map_home()
+{
+    global $global;
+    require_once $global['approot']."/inc/lib_gis/lib_gis_forms.inc";
+    require_once $global['approot']."/inc/lib_gis/gis_fns.inc";
+
+    // set values for db to return.
+    $keys_ = array('all' => '1');
+    // Find and show all features in system. If more than 250, OpenLayers will bail and DIE !!!
+    $features = shn_gis_get_features_all($keys_);
+    shn_gis_form_map_with_features($features);
+}
+
 function shn_sm_show_features_map()
 {
     global $global;
