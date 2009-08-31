@@ -20,10 +20,8 @@ function shn_sm_default()
 ?>
 <div id="home">
 <h2><?php echo $conf['mod_sm_name'];?></h2>
-<p><?php echo  _t("The {$conf['mod_sm_name']} module provides a mechanism to " .
-		"collaboratively provide an overview of the developing disaster, using " .
-		"online mapping (GIS). You can add markers and pictures to pin point " .
-		"incidents on the map.");?> 
+<p><?php echo  _t('The Situation Awareness module allows the current situation to be visualized on a map.').' '.
+               _t('It allows all users to collaboratively update the map as new information comes to light.');?> 
 </p>
     <div><h3><b><em><?php echo  (_t("Features Include:")) ?></em></b></h3></div>
 <br></br>
