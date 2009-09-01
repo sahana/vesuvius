@@ -96,7 +96,7 @@ function shn_sr_report_list($type, $method='all')
 														} elseif ($type=="view") {
 															echo "report_view";
 														}		
-												   ?>&id=<?php echo $rpt_id; ?>&rpt=<?php echo $name ?>"><strong><?php print $name; ?></strong></a></td>
+												   ?>&id=<?php echo $rpt_id; ?>&rpt=<?php echo $name; ?>"><strong><?php print $name; ?></strong></a></td>
 				<td><?php print $desc; ?></td>
 				<td><?php print "<center>$status</center>"; ?></td>
 				<td><?php print "<center>$author</center>"; ?></td>
