@@ -30,7 +30,8 @@ function shn_sr_report_register()
 			shn_form_hidden(array("key"=>"reg"));
 			shn_form_text(_t('Report Name'), 'name',null,array('req'=>true));
 			shn_form_textarea(_t('Description'),'desc',$text_opt, $extra_opts = null);
-			shn_sr_alert();
+			// this function has not been implemented yet
+			// shn_sr_alert(); 
 		shn_form_fsclose();	
 		shn_form_submit(_t("Register"),$submit_opts = null);
 	shn_form_fclose();

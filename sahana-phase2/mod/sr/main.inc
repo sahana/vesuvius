@@ -106,7 +106,7 @@ function shn_sr_default()
 	  _t('Reports can be worked on collaboratively.'));
 	  ?>
 	</p>
-    
+    <!-- Hidden as a test
     <h2>
       <?php echo (_t("Functionality")); ?>
     </h2>
@@ -125,7 +125,7 @@ function shn_sr_default()
         <?php echo  (_t("This will provides, reports navigation and easy browsing. Exporting reports in to other formats (such as PDF, Text, etc.) will be available soon."))?>
       </li>
     </ul>
-    
+    -->
 <h2>
 	<?php 
 	  //To do, check if reports have been generated before posting this
@@ -133,10 +133,12 @@ function shn_sr_default()
 	</h2>
 	  <?php
 	  //displays a list of reports in <div id="result">
-	  shn_sr_report_list_core();
-	  ?>
-    <?php
-    
+	  shn_sr_report_list_core(); 
+	  //To do, check if reports have been generated before posting this ?>
+	  <h2>
+	  <?php echo _t("Create a New Report"); ?>
+	  </h2>
+	  <?php shn_sr_report_register();
     
 }
 
