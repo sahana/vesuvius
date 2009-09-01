@@ -18,12 +18,9 @@
 *  
 */
 
-// Display all the reports as a list
-function shn_sr_report_list($type, $method='all')
+//Displays only a tabluated list of the current reports, without headings or context.
+function shn_sr_report_list_core($method='all')
 {
-	if ($type=="view") echo '<h1>'._t("View Situation Reports").'</h1>';
-	elseif ($type=="update") echo "<h1>"._t("Update Situation Reports")."</h1>";
-	
 	// connect to db
 	global $global;
 	global $conf;
@@ -51,8 +48,6 @@ function shn_sr_report_list($type, $method='all')
 	
 	$res=$db->Execute($q);
 	
-	shn_form_fopen("",null,array ('req_message' => false));
-	shn_form_fsopen('Report List');
 	if ($res->fields['report_id']=="") {
 		add_warning(_t("No reports to have been created yet."));
         } else {
@@ -71,7 +66,7 @@ function shn_sr_report_list($type, $method='all')
 		   </thead>
 	        <tbody>
 	    <?php
-	    	
+	    
 	    while(!$res->EOF)
 		{
 			$rpt_id = $res->fields['report_id'];
@@ -84,13 +79,15 @@ function shn_sr_report_list($type, $method='all')
 			$incident_id = $res->fields['incident_id'];
 			
 			if($status=="create") {
-				$status="<font color='red'>"._t("New")."</font>";
+				$status="<span style='color:red'>"._t("New")."</span>";
+			} elseif ($status=="alert"){
+			    $status="<span style='color:blue'>"._t("Alert")."</span>";
 			} elseif ($status=="updated"){
-				$status="<font color='green'>"._t("Updated")."</font>";	
+				$status="<span style='color:blue'>"._t("Updated")."</span>";	
 			}
 			?>
 			<tr>
-				<td><a href="index.php?mod=sr&act=<?php // this code snipt is used for both report update and report view
+				<td><?php print "<a href=\"index.php?mod=sr&act="; // this code snipt is used for both report update and report view
 														if($type=="update") {
 															echo "report_update";
 														} elseif ($type=="view") {
@@ -106,18 +103,33 @@ function shn_sr_report_list($type, $method='all')
 			<?php
 	
 			$res->MoveNext();
-		}
-    }
+		} 
+    } ?>
+    </table></div> <?php
 	shn_form_fsclose();
-	print "</table></div>";
+
+}
+
+// Display all the reports as a list
+function shn_sr_report_list($type, $method='all')
+{
+	if ($type=="view") echo '<h1>'._t("View Situation Reports").'</h1>';
+	elseif ($type=="update") echo "<h1>"._t("Update Situation Reports")."</h1>";
+	elseif ($type=="short") echo "<h1>"._t("Latest Situation Reports")."</h1>";
+	
+	shn_form_fopen("",null,array ('req_message' => false));
+	shn_form_fsopen('Report List');
+	
+	shn_sr_report_list_core();
 	 
 	print "<p><br />"._t("Select").":&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=default'>".
 	_t("Back")."</a>&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=";
 	if ($type=="update") {
 		print "update'";
 	} else {	
-		print "view";
+		print "view'";
 	} print ">"._t("Refresh")."</a>&nbsp;&nbsp;</p>";
+	
 	shn_form_fclose();
 	
 	

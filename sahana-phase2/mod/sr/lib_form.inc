@@ -30,6 +30,11 @@ function shn_sr_form_create()
 	// capture basic "report" information
 	shn_sr_report_register();
 	
+	# When form is submitted, check for Alert? is ticked.
+	# If it is, then generate a global alert.
+	
+	
+	
 	// strore gathered "report" information
 	//shn_sr_store_reg_new_report();
 	

@@ -30,10 +30,26 @@ function shn_sr_report_register()
 			shn_form_hidden(array("key"=>"reg"));
 			shn_form_text(_t('Report Name'), 'name',null,array('req'=>true));
 			shn_form_textarea(_t('Description'),'desc',$text_opt, $extra_opts = null);
+			shn_sr_alert();
 		shn_form_fsclose();	
 		shn_form_submit(_t("Register"),$submit_opts = null);
 	shn_form_fclose();
 	
+}
+
+function shn_sr_alert()
+{
+    # create the ability to make a message an alert.
+    # This alert will be able to be picked up by JQuery and turned into
+    # <div id="alert_head">
+    
+    # checkbox, to select alert status
+    shn_form_opt_checkbox('alert_status');
+    $label = 'Alert?';
+    $name = 'alert_head';
+    #$extra_opts[help] = 'Click to create a global alert.' 
+    
+    shn_form_checkbox($label, $name, $text_opts = null, $extra_opts = null); 
 }
 
 // Capture report details
@@ -98,6 +114,8 @@ function _shn_sr_check_editor()
 	// if it's tiny_mce	
 	} elseif ($conf['wysiwyg']=='tiny_mce'){
 		print "tiny_mce";
+	} else {
+	print  $conf['wysiwyg'];
 	}
 	
 	

@@ -56,6 +56,8 @@ function shn_sr_form_submit()
 			$rpt_name=$_POST['name'];
 			$rpt_desc=$_POST['desc'];
 			
+			echo $_POST['alert_head'];
+			
 			// checking whether the report name is already in the db
 			$chk = shn_sr_chk_rpt_name($rpt_name);
 			if ($chk=="No"){
@@ -98,18 +100,12 @@ function shn_sr_default()
 	<h1>
 	  <center><?php echo (_t("Situation Reporting")); ?></center>
 	</h1>
+	
 	<p>
 	  <?php echo (_t("The Situation Reporting module allows responding agencies to generate reports about the current situation in each incident.").' '.
 	  _t('Reports can be worked on collaboratively.'));
 	  ?>
 	</p>
-	
-	<div>
-      <?php
-       //TODO: create conditional that checks whether a report has been generated
-       shn_sr_view();
-      ?>
-    </div>
     
     <h2>
       <?php echo (_t("Functionality")); ?>
@@ -129,6 +125,16 @@ function shn_sr_default()
         <?php echo  (_t("This will provides, reports navigation and easy browsing. Exporting reports in to other formats (such as PDF, Text, etc.) will be available soon."))?>
       </li>
     </ul>
+    
+<h2>
+	<?php 
+	  //To do, check if reports have been generated before posting this
+	  echo (_t("Latest Reports")); ?>
+	</h2>
+	  <?php
+	  //displays a list of reports in <div id="result">
+	  shn_sr_report_list_core();
+	  ?>
     <?php
     
     
