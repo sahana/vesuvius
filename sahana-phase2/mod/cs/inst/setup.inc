@@ -150,6 +150,14 @@ function shn_cs_datacreate()
 		$suspension=shn_create_uuid("unit");
 		$query="insert into ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) values('$medical','$suspension','Suspension','0',1)";
 		$res=$db->Execute($query);
+		
+	$currency = shn_create_uuid("unit_type");
+	$q="insert into ct_unit_type (unit_type_uuid,name,description) values('$currency','Currency','Currency')";
+	$res=$db->Execute($q);
+
+		$rs=shn_create_uuid("unit");
+		$query="insert into ct_unit(unit_type_uuid,unit_uuid,name,base_flag,multiplier) values('$currency','$rs','RS','0',1)";
+		$res=$db->Execute($query);
 
 	// INSERT MAIN CATALOGUES & SUB CATALOGUE TO THE DATABASE
 	//data 1
@@ -1135,6 +1143,21 @@ function shn_cs_datacreate()
 		$VITAMINSANDMINERALS_serial = shn_cs_generate_subcat_item_serial($medicaldrug);
 		$q="insert into ct_catalogue (parentid,ct_uuid,name,description,keyword,serial) values('$medicaldrug','$VITAMINSANDMINERALS','VITAMINS AND MINERALS','VITAMINS AND MINERALS','medical drugs','$VITAMINSANDMINERALS_serial')";
 		$res=$db->Execute($q);
+		
+		
+		$currency = "ct_default-167";
+	$currency_serial = shn_cs_generate_maincat_serial();
+	$q="insert into ct_catalogue (parentid,ct_uuid,name,description,keyword,serial) values('0','$currency','Financial','Financial','Financial','$currency_serial')";
+	$res=$db->Execute($q);
+			// -sub catalogue-1.1
+		
+		$money = "ct_default-168";
+		$money_serial = shn_cs_generate_subcat_item_serial($currency);
+		$q="insert into ct_catalogue (parentid,ct_uuid,name,description,final_flag,keyword,serial) values('$currency','$money','Money','Money','1','money','$money_serial')";
+		$res=$db->Execute($q);
+		
+		$q="insert into ct_cat_unit (ct_uuid,unit_uuid) values('$money','$rs')";
+					$res=$db->Execute($q);
 
 }
 
