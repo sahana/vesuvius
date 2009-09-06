@@ -171,7 +171,7 @@ function shn_sr_create()
 function shn_sr_update()
 {
 	// List all the reports
-	shn_sr_report_list("update");
+	shn_sr_report_list("update",'all');
 }
 
 // update a selected report

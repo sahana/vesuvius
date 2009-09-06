@@ -19,7 +19,7 @@
 */
 
 //Displays only a tabluated list of the current reports, without headings or context.
-function shn_sr_report_list_core($method='all')
+function shn_sr_report_list_core($type='view', $method='all')
 {
 	// connect to db
 	global $global;
@@ -94,7 +94,7 @@ function shn_sr_report_list_core($method='all')
 															echo "report_view";
 														}		
 												   ?>&id=<?php echo $rpt_id; ?>&rpt=<?php echo $name; ?>"><strong><?php print $name; ?></strong></a></td>
-				<td><?php print $desc; ?></td>
+				<td><?php print "<center>$desc</center>"; ?></td>
 				<td><?php print "<center>$status</center>"; ?></td>
 				<td><?php print "<center>$author</center>"; ?></td>
 				<td><?php print "<center>$create_date</center>"; ?></td>
@@ -120,7 +120,7 @@ function shn_sr_report_list($type, $method='all')
 	shn_form_fopen("",null,array ('req_message' => false));
 	shn_form_fsopen('Report List');
 	
-	shn_sr_report_list_core();
+	shn_sr_report_list_core($type, $method='all');
 	 
 	print "<p><br />"._t("Select").":&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=default'>".
 	_t("Back")."</a>&nbsp;&nbsp;&nbsp;<a href='index.php?mod=sr&act=";
