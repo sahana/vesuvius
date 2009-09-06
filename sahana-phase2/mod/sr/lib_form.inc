@@ -46,9 +46,9 @@ function shn_sr_form_tabs()
 {
 	?>
         <div id="submenu_v">
-        <?php if(!($tab=="types")) {?><a href="index.php?mod=dir&act=adm_types"><?php }echo _("<b>Add Types</b>")?></a>
-        <?php if(!($tab=="delete")) {?> <a href="index.php?mod=dir&act=adm_delete"><?} echo _("<b>Delete Types</b>") ?></a>
-        <?php if(!($tab=="import")) {?><a href="index.php?mod=dir&act=adm_import"><?php }echo _("<b>Import Data</b>")?></a>
+        <?php if(!($tab=="types")) {?><a href="index.php?mod=dir&act=adm_types"><?php }echo '<b>'._t('Add Types').'</b>'?></a>
+        <?php if(!($tab=="delete")) {?> <a href="index.php?mod=dir&act=adm_delete"><?} echo '<b>'._t('Delete Types').'</b>' ?></a>
+        <?php if(!($tab=="import")) {?><a href="index.php?mod=dir&act=adm_import"><?php }echo '<b>'._t('Import Data').'</b>' ?></a>
         </div>
         <br>
         <?php
