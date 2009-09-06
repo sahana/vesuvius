@@ -25,10 +25,15 @@ include_once $global['approot'].'/inc/lib_errors.inc';
 // Regsiter new report
 function shn_sr_report_register()
 {
+	// creates a date in the YYYYMMDD format,
+	// ready to be inserted into the form as a default name
+	$date = getdate();
+	$date = $date['year'].sprintf("%02d",$date['mon']).sprintf("%02d",$date['mday']);
+	
 	shn_form_fopen("form_submit", null,array('req_message' => true));
 		shn_form_fsopen(_t("Report Information"));
 			shn_form_hidden(array("key"=>"reg"));
-			shn_form_text(_t('Report Name'), 'name',null,array('req'=>true));
+			shn_form_text(_t('Report Name'), 'name',null,array('req'=>true,'value'=>$date));
 			shn_form_textarea(_t('Description'),'desc',$text_opt, $extra_opts = null);
 			// this function has not been implemented yet
 			// shn_sr_alert(); 
@@ -36,6 +41,7 @@ function shn_sr_report_register()
 		shn_form_submit(_t("Register"),$submit_opts = null);
 	shn_form_fclose();
 	
+	unset($date);
 }
 
 function shn_sr_alert()
