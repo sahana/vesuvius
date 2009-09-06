@@ -84,7 +84,7 @@ function shn_sr_form_submit()
 				add_error(
 				  _t('A report has already been registered with this name.').' '.
 				  _t('Please create a unique name for your report.').' '.
-				  _t('We suggest using the format YYMMDD-name.')
+				  _t('We suggest using the format YYYYMMDD-name.')
 				  );
 				
 				shn_sr_report_register();
