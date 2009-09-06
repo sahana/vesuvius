@@ -58,11 +58,27 @@ function shn_sr_form_submit()
 			
 			echo $_POST['alert_head'];
 			
+			// check whether there was a report name provided
+			if(strlen($_POST['name']) == 0) {
+				$chk = 'empty';
+				add_error(
+					_t('Please create a name for the report.')
+				);
+			}
+			
+			// determine if $chk has already been intialized,
+			// which occurs when strlen($_POST['name']) == 0.
+			// if not, intialize it from the report's name
+			if (!$chk){
+				$chk = shn_sr_chk_rpt_name($rpt_name);
+			}
 			// checking whether the report name is already in the db
-			$chk = shn_sr_chk_rpt_name($rpt_name);
 			if ($chk=="No"){
 				// if no then register
 				shn_sr_store_reg_new_report($rpt_name,$rpt_desc);
+			} elseif ($chk=='empty') {
+				// don't do anything, the error message is generated above
+				shn_sr_report_register();
 			} else {
 				// if name is already there then ask for another name
 				add_error(
@@ -70,8 +86,10 @@ function shn_sr_form_submit()
 				  _t('Please create a unique name for your report.').' '.
 				  _t('We suggest using the format YYMMDD-name.')
 				  );
+				
 				shn_sr_report_register();
 			}
+
 		break;
 		
 		// Report detail update
