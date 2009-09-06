@@ -46,11 +46,19 @@ function shn_sr_alert()
     
     # checkbox, to select alert status
     shn_form_opt_checkbox('alert_status');
-    $label = 'Alert?';
+    $label = _t('Alert?');
     $name = 'alert_head';
     #$extra_opts[help] = 'Click to create a global alert.' 
     
     shn_form_checkbox($label, $name, $text_opts = null, $extra_opts = null); 
+}
+
+function shn_sr_template_generator($template, $array_of_fields){
+
+}
+
+function shn_sr_report_skeleton($rpt_template = 'default') {
+//for each row in sections
 }
 
 // Capture report details
