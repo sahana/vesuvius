@@ -180,6 +180,9 @@ function shn_main_front_controller()
 		$global['effective_action'] = $action = 'modreports';
 	}
 
+	// fixes the security vulnerability associated with null characters in the $module string
+	$module = str_replace("\0", "", $module);
+
 	// identify the correct module file based on action and module
 	$module_file = $APPROOT.'mod/'.$module.'/main.inc';
 
