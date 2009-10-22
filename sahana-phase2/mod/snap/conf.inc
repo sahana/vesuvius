@@ -12,7 +12,7 @@
 global $global;
 
 // Gives the nice name of the module
-$conf['mod_snap_name'] = _t("Snapshot");
+$conf['mod_snap_name'] = "Snapshot";
 
 // Gives the priority order in the main menu when listed
 $conf['mod_snap_dependencies'] = "admin";

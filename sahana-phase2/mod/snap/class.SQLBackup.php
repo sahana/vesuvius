@@ -50,8 +50,8 @@
  *	11-Jun-2006 : Add a semi colon to the end of the create table for consistency (and being able to run the output of this puppy interactively.
  *	12-Jun-2006 : Large queries won't be restored properly.
  *
- * Greg Miernicki (miernickig@mail.nih.gov)
- *	2009:0203 : NULL values were lost during the backup process. Small snippet of code inserted from line 128-135 to solve this problem. (v1.0.3.1)
+ * Greg Miernicki (g@miernicki.com)
+ *	2009:0203 : NULL values were lost during the backup process, patched to solve this problem. (v1.0.3.1)
  *	2009:0326 : Code Cleanup ~ proper indentation, bracketing (v1.0.3.2)
  */
 
