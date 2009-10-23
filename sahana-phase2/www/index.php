@@ -150,14 +150,10 @@ function shn_main_front_controller()
 	$stream = $_REQUEST['stream'];
 	// check if the appropriate stream library exists
 
-	if( array_key_exists('stream', $_REQUEST) &&
-	file_exists($APPROOT.'/inc/lib_stream_'.$stream.'.inc')) {
-
+	if( array_key_exists('stream', $_REQUEST) && file_exists($APPROOT.'/inc/lib_stream_'.$stream.'.inc')) {
 		require_once ($APPROOT.'/inc/lib_stream_'.$stream.'.inc');
 		$stream_ = $stream.'_'; // for convenience
-
 	} else { // else revert to the html stream
-
 		if (array_key_exists('stream', $_REQUEST)) {
 			add_error(_t('The stream requested is not a valid stream'));
 		}
