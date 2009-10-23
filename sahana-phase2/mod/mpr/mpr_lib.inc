@@ -82,9 +82,14 @@ function _shn_mpr_listing($details) {
 	?><div id="result"><table><tr><?php
 	$index = 0;
 	while (!$details->EOF) {
-		?><td><?php
+		if ($index%2 == 0) {
+			echo "<td class=\"resultRightBorder\">";
+		} else {
+			echo "<td>";
+		}
 		if(shn_show_thumb_url($details->fields['p_uuid'],'database','mpr','addmp_img')) {
-			echo '<br /><a href="index.php?mod='.$global['module'].'&act=viewmp&id='.$details->fields['p_uuid'].'">'.$details->fields['full_name'].'</a><br />';
+			echo '<br>Name: <b><a href="index.php?mod='.$global['module'].'&act=viewmp&id='.$details->fields['p_uuid'].'">'.$details->fields['full_name'].'</a></b><br />';
+			echo "ID# ".$details->fields['p_uuid']."<br/>";
 		} else {
 			echo '<br /><a href="index.php?mod='.$global['module'].'&act=viewmp&id='.$details->fields['p_uuid'].'">'.$details->fields['full_name'].'</a><br />';
 			echo ($details->fields['height']?_t('Height : ').$details->fields['height'].'<br>':'');
@@ -96,7 +101,7 @@ function _shn_mpr_listing($details) {
 			echo ($details->fields['last_clothing']?_t('Last Clothing : ').$details['last_clothing'].'<br>':'');
 			echo ($details->fields['comments']?_t('Comments : ').$details->fields['comments']:'');
 		}
-		echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details->fields['p_uuid'] .'" class="hideprint">'._t('Assign to more incidents').'</a>';
+		//echo '<br /><a href="index.php?mod=admin&act=ims_assign&id='.$details->fields['p_uuid'] .'" class="hideprint">'._t('Assign to more incidents').'</a>';
 		?></td><?php
 		$index++;
 		if ($index%2 == 0) {

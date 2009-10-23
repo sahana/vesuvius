@@ -33,13 +33,14 @@ function shn_mpr_addmp_img() {
 	$x_uuid = $_GET['x_uuid'];
 	switch ($_GET['stream_type']) {
 		case 'image' :
-			if($_GET['session']){
+			if($_GET['session']) {
 				shn_show_image_stream($x_uuid, true, $_SESSION['mpr']['entry'],true);
-			}else{
-				if($_GET['thumbnail'])
-				shn_show_image_stream($x_uuid,true); 
-				else
-				shn_show_image_stream($x_uuid,false); 
+			} else {
+				if ($_GET['thumbnail']) {
+					shn_show_image_stream($x_uuid,true); 
+				} else {
+					shn_show_image_stream($x_uuid,false); 
+				}
 			}
 		break;
 	}

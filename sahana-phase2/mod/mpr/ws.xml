@@ -16,11 +16,11 @@
 			<documentation>Returns a list of uuid's of all non-missing persons.</documentation>
 		</service>
 		<service>
-			<name>All Persons List</name>
+			<name>All Person All Status All Triage</name>
 			<http_type>GET</http_type>
-			<api_function>shn_mpr_list_all_person_uuids</api_function>
+			<api_function>shn_mpr_list_all</api_function>
 			<output type="BasicArray" />
-			<documentation>Returns a list of uuid's of all persons.</documentation>
+			<documentation>Returns an array of (uuid, person status, triage status) of all persons.</documentation>
 		</service>		
 		<service>
 			<name>Person Data</name>

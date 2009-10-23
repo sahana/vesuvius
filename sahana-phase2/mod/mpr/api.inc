@@ -77,28 +77,26 @@ function shn_mpr_list_found_person_uuids() {
 
 
 /**
- * This returns a list of uuid's of all people.
+ * This returns an array of (uuid, peron status, triage status) of all persons
  * @param 
  * @access public
  * @return array
  */
-function shn_mpr_list_all_person_uuids() {
+function shn_mpr_list_all() {
 	global $global;
 	$db = $global['db'];
 	$list = array();
-	$q = "SELECT p.p_uuid
-		FROM person_uuid p
-		LEFT OUTER JOIN person_physical b USING (p_uuid)
-		INNER JOIN person_status s USING (p_uuid)
-		INNER JOIN resource_to_incident e ON p.p_uuid = e.x_uuid
-		ORDER BY d.updated DESC ;";
+	$q = "SELECT a.p_uuid, b.opt_status, c.triageCategory
+		FROM person_uuid a
+		LEFT OUTER JOIN person_status b USING (p_uuid)
+		LEFT OUTER JOIN mpres_patient c USING (p_uuid);";
 
 	$result = $db->Execute($q);
 	while (!$result == NULL && !$result->EOF) {
-		$list[] = $result->fields["p_uuid"];
+		$list[] = array('p_uuid'=>$result->fields["p_uuid"], 'opt_status'=>$result->fields["opt_status"], 'triageCategory'=>$result->fields["triageCategory"]);
 		$result->MoveNext();
 	}
-	return $list;
+	return $list;      
 }
 
 
@@ -113,18 +111,18 @@ function shn_mpr_get_person_data($uuid) {
 	global $global;
 	$db = $global['db'];
 	$list = array();
-	$q = "	SELECT *
+	$q = "
+		SELECT a.p_uuid, a.full_name, b.opt_gender, b.birth_date, b.opt_age_group, c.opt_status, c.updated, d.triageCategory, d.personId, d.peds, d.orgName, i.image_height, i.image_width
 		FROM person_uuid a
-		LEFT OUTER JOIN person_physical b USING (p_uuid)
-		INNER JOIN person_missing c USING (p_uuid)
-		INNER JOIN person_status d USING (p_uuid)
-		INNER JOIN resource_to_incident e ON a.p_uuid = e.x_uuid
-		WHERE a.p_uuid = '".$uuid."'
-		ORDER BY d.updated DESC ;";
-
+		LEFT OUTER JOIN person_details b USING (p_uuid)
+		LEFT OUTER JOIN person_status c USING (p_uuid)
+		LEFT OUTER JOIN mpres_patient d USING (p_uuid)
+		LEFT OUTER JOIN image i ON a.p_uuid = i.x_uuid
+		WHERE a.p_uuid = '".$uuid."';";
+		
 	$result = $db->Execute($q);
 	while (!$result == NULL && !$result->EOF) {
-		$list[] = $result->fields["p_uuid"];
+		$list[] = array('uuid'=>$result->fields["p_uuid"], 'name'=>$result->fields["full_name"], 'gender'=>$result->fields["opt_gender"], 'birthdate'=>$result->fields["birth_date"], 'age'=>$result->fields["opt_age_group"], 'statusSahana'=>$result->fields["opt_status"], 'statusSahanaUpdated'=>$result->fields["updated"], 'statusTriage'=>$result->fields["triageCategory"], 'id'=>$result->fields["personId"], 'peds'=>$result->fields["peds"], 'orgName'=>$result->fields["orgName"], 'imageWidth'=>$result->fields["image_width"], 'imageHeight'=>$result->fields["image_height"]);
 		$result->MoveNext();
 	}
 	return $list;
@@ -132,6 +130,9 @@ function shn_mpr_get_person_data($uuid) {
 
 
 
+
+// Below function commented out as no ws.xml was provided, this not fully implemented
+/*
 function shn_mpr_api_addmp($arrmpr) {
 	global $global;
 
@@ -181,9 +182,7 @@ function shn_mpr_api_addmp($arrmpr) {
 		$insert_array['address'] = $arrmpr['address'];
 	}
 
-	/* This hack should be integrated with 
-		the lib_location
-	*/
+	// This hack should be integrated with the lib_location
 	//Starts
 	$i = $conf['mod_mpr_location_lower_limit'];
 	while((! isset($arrmpr[$i])) && 
@@ -296,7 +295,7 @@ function shn_mpr_api_addmp($arrmpr) {
 	shn_db_insert($insert_array,'pgroup');
 	//reset $insert_array 
 	$insert_array = null;
-	*/
+	//
 
 	//reset $insert_array 
 
@@ -316,3 +315,4 @@ function shn_mpr_api_addmp($arrmpr) {
 				$_SESSION['mpr']['entry']['image_width']);
 	}
 }
+*/
