@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_image.inc,v 1.20 2009-08-22 15:16:00 ravithb Exp $ */
+/* $Id: lib_image.inc,v 1.21 2009-10-23 16:55:20 gmiernicki Exp $ */
 
 /**
  *
@@ -52,7 +52,7 @@ function shn_image_resize($src_path,$desc_path,$width,$height) {
 		$height = ($width / $width_orig) * $height_orig;
 	}
 
-	$image_p = imagecreatetruecolor($width, $height);
+	$imageNew = imagecreatetruecolor($width, $height);
 
 	$func = NULL;
 	$func2 = "imagejpeg";
@@ -89,10 +89,54 @@ function shn_image_resize($src_path,$desc_path,$width,$height) {
 		$image = $func($src_path);
 	}
 
-	imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+	imagecopyresampled($imageNew, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
 
-	$func2($image_p,$desc_path,100);
+	$func2($imageNew,$desc_path,100);
 }
+
+
+
+/**
+ *
+ * This function determines the correct way to add a border to ttf text
+ *
+ */
+function shn_image_imagettfborder($im, $size, $angle, $x, $y, $color, $font, $text, $width) {
+	// top
+	imagettftext($im, $size, $angle, $x-$width, $y-$width, $color, $font, $text);
+	imagettftext($im, $size, $angle, $x,        $y-$width, $color, $font, $text);
+	imagettftext($im, $size, $angle, $x+$width, $y-$width, $color, $font, $text);
+
+	// bottom
+	imagettftext($im, $size, $angle, $x-$width, $y+$width, $color, $font, $text);
+	imagettftext($im, $size, $angle, $x,        $y+$width, $color, $font, $text);
+	imagettftext($im, $size, $angle, $x-$width, $y+$width, $color, $font, $text);
+
+	// left
+	imagettftext($im, $size, $angle, $x-$width, $y, $color, $font, $text);
+
+	// right
+	imagettftext($im, $size, $angle, $x+$width, $y, $color, $font, $text);
+
+	for ($i = 1; $i < $width; $i++) {
+		// top line
+		imagettftext($im, $size, $angle, $x-$i, $y-$width, $color, $font, $text);
+		imagettftext($im, $size, $angle, $x+$i, $y-$width, $color, $font, $text);
+
+		// bottom line
+		imagettftext($im, $size, $angle, $x-$i, $y+$width, $color, $font, $text);
+		imagettftext($im, $size, $angle, $x+$i, $y+$width, $color, $font, $text);
+
+		// left line
+		imagettftext($im, $size, $angle, $x-$width, $y-$i, $color, $font, $text);
+		imagettftext($im, $size, $angle, $x-$width, $y+$i, $color, $font, $text);
+
+		// right line
+		imagettftext($im, $size, $angle, $x+$width, $y-$i, $color, $font, $text);
+		imagettftext($im, $size, $angle, $x+$width, $y+$i, $color, $font, $text);
+	}
+}
+
 
 
 /**
@@ -108,6 +152,7 @@ function shn_image_resize($src_path,$desc_path,$width,$height) {
  * @return void
  */
 function shn_image_resize_from_string($img, $width, $height) {
+	global $global;
 
 	// 2009:0707 updated this function to allow the generation
 	// of images of any size, not just the 100x100 thumbnails
@@ -163,14 +208,108 @@ function shn_image_resize_from_string($img, $width, $height) {
 		// nothing :)
 	}
 
-	$image_p = imagecreatetruecolor($width, $height);
+	$imageNew = imagecreatetruecolor($width, $height);
+	imagealphablending($imageNew, true);
 
 	$mime = $img['image_type'];
 	$image = imagecreatefromstring($img['image']);
 
-	imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+	imagecopyresampled($imageNew, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
 	$func2 = 'image'.$mime;
-	$func2($image_p);
+
+	// additional image overlay routines
+
+	// bottom TEXT ///////////////////////////////////////////////////////////////////////////////////////////
+	if (isset($_GET['overlay_bottom'])) {
+		$font =  $global['approot']."www/res/arial.ttf";
+		
+		// setup text overlay colors
+		$white = imagecolorallocatealpha($imageNew, 255, 255, 255, 0);
+		$black = imagecolorallocatealpha($imageNew, 0, 0, 0, 111);
+
+		// largest point size to allow for the bottom font
+		$fontSize = 16;
+		
+		// scale down point by point until we determine the correct size from the bounding box for the bottom text
+		$found = FALSE;
+		while (!$found) {
+			$bbox = imagettfbbox($fontSize, 0, $font, $_GET['overlay_bottom']);
+			if ($bbox[2] < $width - 12) {
+				$found = TRUE;
+			} else {
+				$fontSize--;
+			}
+		}
+		$x = ($width - $bbox[2]) / 2;
+		$y = $height - $bbox[3] / 2 - 5;
+
+		// draw 4 pixel black border below the bottom text
+		shn_image_imagettfborder($imageNew, $fontSize, 0, $x, $y, $black, $font, $_GET['overlay_bottom'], $fontSize/8);
+
+		// draw the bottom text
+		imagettftext($imageNew, $fontSize, 0, $x, $y, $white, $font, $_GET['overlay_bottom']);
+	}
+
+	// overlay triangle tag with a given color /////////////////////////////////////////////////////////////////////
+	if (isset($_GET['triangle'])) {
+		$r = sscanf($_GET['triangle'], '%2x%2x%2x');
+		$white    = imagecolorallocate($imageNew, 255, 255, 255);
+		$gray    = imagecolorallocate($imageNew,  127, 127, 127);
+		$tagColor = imagecolorallocate($imageNew, $r[0], $r[1], $r[2]);
+		$triangleSize = $height / 6;
+		$values1 = array(0, 0, $triangleSize+4, 0, 0, $triangleSize+4);
+		$values2 = array(2, 2, $triangleSize,   2, 2, $triangleSize  );
+		$values3 = array(0, 0, $triangleSize,   0, 0, $triangleSize  );
+		if (0) { //$_GET['triangle'] !== "000000") {
+			imagefilledpolygon($imageNew, $values1, 3, $gray);
+			imagefilledpolygon($imageNew, $values3, 3, $tagColor);
+		} else {
+			imagefilledpolygon($imageNew, $values1, 3, $white);
+			imagefilledpolygon($imageNew, $values2, 3, $tagColor);
+		}
+		//imagefilledpolygon($imageNew, $values2, 3, $tagColor);
+	}
+
+
+	// top TEXT ///////////////////////////////////////////////////////////////////////////////////////////////////
+	if (isset($_GET['overlay_top'])) {
+
+		$font =  $global['approot']."www/res/arial.ttf";
+		
+		// setup text overlay colors
+		$white = imagecolorallocatealpha($imageNew, 255, 255, 255, 0);
+		$black = imagecolorallocatealpha($imageNew, 0, 0, 0, 111);
+
+		// largest point size to allow for the top font
+		$fontSize = 16;
+		
+		// scale down point by point until we determine the correct size from the bounding box for the top text
+		$found = FALSE;
+		while (!$found) {
+			$bbox = imagettfbbox($fontSize, 0, $font, $_GET['overlay_top']);
+			if ($bbox[2] < $width - 12) {
+				$found = TRUE;
+			} else {
+				$fontSize--;
+			}
+		}
+		$x = ($width - $bbox[2]) / 2;
+		$y = $fontSize+5; //$bbox[6]; // /2+$fontSize;
+
+		// draw 4 pixel border around the text
+		shn_image_imagettfborder($imageNew, $fontSize, 0, $x, $y, $black, $font, $_GET['overlay_top'], ($fontSize/8));
+
+		// draw the text
+		imagettftext($imageNew, $fontSize, 0, $x, $y, $white, $font, $_GET['overlay_top']);
+	}
+
+	// add Location Icon /////////////////////////////////////////////////////////////////////////////////////////////
+	if (isset($_GET['location'])) {
+			$icon = imagecreatefrompng("../www/theme/lpf/img/".$_GET['location']);
+			imagecopyresampled($imageNew, $icon, $width-25, 0, 0, 0, 25, 25, 50, 50);
+	}
+
+	$func2($imageNew);
 }
 
 
