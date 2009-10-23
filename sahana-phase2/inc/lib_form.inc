@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.93 2009-08-14 20:21:38 gmiernicki Exp $ */
+/* $Id: lib_form.inc,v 1.94 2009-10-23 16:51:20 gmiernicki Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -842,15 +842,17 @@ function shn_form_wysiwyg($label, $name, $extra_opts = array()) {
 			static $mceinit = true;
 			if($mceinit){
 				?>
-<!-- TinyMCE -->
-<script type="text/javascript" src="res/tiny_mce/tiny_mce.js"></script>
-<script type="text/javascript">
-tinyMCE.init({
-mode : "specific_textareas",
-editor_selector : "mceEditor"
-});
-</script> <!-- /TinyMCE --> <?php
-                $mceinit = false;
+				<!-- TinyMCE -->
+					<script type="text/javascript" src="res/tiny_mce/tiny_mce.js"></script>
+					<script type="text/javascript">
+						tinyMCE.init({
+							mode : "specific_textareas",
+							editor_selector : "mceEditor"
+						});
+					</script>
+				<!-- /TinyMCE -->
+				<?php
+				$mceinit = false;
 			}
 			echo "<textarea id='$name' name='$name' rows='15' cols='80' style='width:100%' class='mceEditor'>".htmlspecialchars($value)."</textarea>";
 		break;
