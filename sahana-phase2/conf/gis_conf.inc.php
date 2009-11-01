@@ -10,7 +10,7 @@
 * 
 * @author       Mifan Careem <mifan@opensource.lk>
 * @author       Fran Boon <flavour@partyvibe.com>
-* @version      $Id: gis_conf.inc.php,v 1.2 2008-09-25 13:13:45 franboon Exp $;
+* @version      $Id: gis_conf.inc.php,v 1.3 2009-11-01 02:43:07 ravithb Exp $;
 * @copyright    Lanka Software Foundation - http://www.opensource.lk
 * @package      Sahana - http://sahana.sourceforge.net    	
 * @subpackage   gis
@@ -173,4 +173,4 @@ $conf['gis_ol_georss_2_projection'] = 'EPSG:4326';
 $conf['gis_ol_georss_2_visibility'] = '0';
 $conf['gis_ol_georss_2_enabled'] = '0';
 
-?>
+

@@ -23,4 +23,4 @@
 # To give the database conf priority value = 'database' 
 # To give conf files priority value = 'files' 
 $conf['sahana_conf_priority'] = 'database';
-?>
+
