@@ -388,7 +388,7 @@ function shn_dvr_grouptype_and_head_details($errors = false)
 	
 	shn_form_fsopen(_t("Displaced Location"));
 
-	$range = shn_dvr_get_loc_range();
+	$range = shn_dvr_get_loc_range();	
 
 	shn_location($range, $_SESSION['dvr']['group']['displaced_loc'], null,null);
 

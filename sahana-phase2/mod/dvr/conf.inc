@@ -32,3 +32,7 @@ $conf['mod_dvr_images'] = 6;
 
 $conf['mod_dvr_dependencies'] = "";
 
+$conf['mod_dvr_loc_start'] = 1;
+$conf['mod_dvr_loc_level_start'] = 1;
+$conf['mod_dvr_loc_level_end'] = 3;
+

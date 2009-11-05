@@ -505,20 +505,22 @@ function shn_dvr_get_loc_range() {
 	global $conf;
 	$db = $global['db'];
 	$loc = array ();
-	$q = "SELECT value FROM config WHERE module_id='or' AND confkey='loc_range_start'";
+	$q = "SELECT value FROM config WHERE module_id='dvr' AND confkey='loc_range_start'";
 	$res = $db->Execute($q);
 	if ($res->fields[0] == NULL) {
-		$loc["start"] = $conf['mod_or_loc_level_start'];
+		$loc["start"] = $conf['mod_dvr_loc_level_start'];
 	} else {
 		$loc["start"] = $res->fields[0];
 	}
 	$q = "SELECT value FROM config WHERE module_id='dvr' AND confkey='loc_range_end'";
 	$res = $db->Execute($q);
 	if ($res->fields[0] == NULL) {
-		$loc["end"] = $conf['mod_or_loc_level_end'];
-	} else {
+		$loc["end"] = $conf['mod_dvr_loc_level_end'];
+	}
+	else {
 		$loc["end"] = $res->fields[0];
 	}
+	
 	return $loc;
 }
 
@@ -528,13 +530,14 @@ function _shn_dvr_get_start_loc() {
 	$db = $global['db'];
 	$q = "SELECT value FROM config WHERE module_id='dvr' AND confkey='loc_start'";
 	$res = $db->Execute($q);
-	//   if($res->fields[0]==NULL){
-	//    	return $conf['mod_or_start_loc'];
-	//}else {
-	if ($res == NULL) {
-		return NULL;
-	} else {
-		return $res->fields["value"];
+	
+	if($res->fields["value"] == NULL){
+		$loc_start = $conf['mod_dvr_loc_start'];
 	}
+	else {
+		$loc_start = $res->fields["value"];
+	}
+		
+	return $loc_start;
 }
 
