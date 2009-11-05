@@ -656,8 +656,15 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 	// if a location is selected in post values use it, if the value is not given 
 	// this will set the location as it is when a submision fails of a form.
 	$value=(isset($value))?$value:shn_location_get_form_submit_loc();
-	$range=shn_location_get_loc_range();
-	$parent=shn_location_get_start_loc();
+			
+	if($range == null){
+		$range = shn_location_get_loc_range();	
+	}
+	
+	if($parent == null){
+		$parent = shn_location_get_start_loc();
+	}
+	
 	$count=0;
 	$keepparent=false;
 	$info=_t("If you know any of the following, please select only one of them first" .
