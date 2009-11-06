@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<module name='or'>
+  <description>Organization Registry</description>
+  <data>
+    <description>Organization Data</description>
+    <table name='org_main'>
+      <primarykeys>
+        <primarykey field_id='o_uuid' />
+      </primarykeys>
+      <foreign_keys>
+        <foreign_key ref_table="org_main" ref_field="o_uuid" field_id="parent_id"/>
+      </foreign_keys>
+    </table>
+    <table name='contact'>
+      <primarykeys>
+        <primarykey field_id='pgoc_uuid' />
+        <primarykey field_id='opt_contact_type' />
+        <primarykey field_id='contact_value' />
+      </primarykeys>
+    </table>
+    <table name='location_details'>
+      <primarykeys>
+        <primarykey field_id='poc_uuid' />
+        <primarykey field_id='location_id' />
+      </primarykeys>
+      <foreign_keys>
+        <foreign_key ref_table="location" ref_field="loc_uuid" field_id="location_id"/>
+      </foreign_keys>
+    </table>
+    <table name='sector'>
+      <primarykeys>
+        <primarykey field_id='pgoc_uuid' />
+        <primarykey field_id='opt_sector' />
+      </primarykeys>
+    </table>
+  </data>
+</module>

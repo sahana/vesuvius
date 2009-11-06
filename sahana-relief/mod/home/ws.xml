@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web_services>
+	<types>
+		<type>
+			  	<name>FAQInput</name>
+    			<typeclass>complexType</typeclass>
+    			<phptype>struct</phptype>
+    			<compositor>all</compositor>
+    			<restrictionBase></restrictionBase>
+    			<elements>
+					<element type="xsd:string">question</element>
+					<element type="xsd:string">module</element>
+					<element type="xsd:string">action</element>
+   				</elements>
+   				<attrs></attrs>
+   				<arrayType></arrayType>
+		</type>
+	</types>
+	<services>
+	 	<service>
+	 		<name>
+	 			FAQ List
+	 		</name>
+	 		<http_type>GET</http_type>
+	 		<api_function>
+	 			shn_search_answer_db
+	 		</api_function>
+	 		<input type="FAQInput">filter</input>
+	 		<output type="BasicArray" />
+	 		<documentation>
+	 			A useful method to retrieve the FAQs
+	 		</documentation>
+	  	</service>
+	 </services>
+ </web_services>

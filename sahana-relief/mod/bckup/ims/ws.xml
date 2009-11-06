@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web_services>
+	<services>
+	 	<service>
+	 		<name>
+	 			List items in all inventories with associated quantities.
+	 		</name>
+	 		<http_type>GET</http_type>
+	 		<api_function>
+	 			shn_ims_list_item_by_inventory
+	 		</api_function>
+	 		<params>
+	 		<param type="xsd:string" name="Inventory"></param>
+	 		</params>
+	 		<output type="BasicArray" />
+	 		<documentation>
+	 			A useful method to retrieve a list items in an all or a particular inventory 
+with associated quantities
+	 		</documentation>
+	  	</service>
+	 	<service>
+	 		<name>
+	 			Item Details
+	 		</name>
+	 		<http_type>GET</http_type>
+	 		<api_function>
+	 			shn_ims_get_item_details
+	 		</api_function>
+	 		<params>
+	 		<param type="xsd:string" name="Item"></param>
+	 		</params>
+	 		<output type="BasicArray" />
+	 		<documentation>
+ 			Give more details on particular item type. Which 
+inventories it is located in, quantities and expiry
+	 		</documentation>
+	 	</service>
+	 </services>
+ </web_services>

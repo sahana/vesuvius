@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<sec_policy xmlns="http://www.sahana.lk/security/policy"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.sahana.lk/security/policy sec_policy.xsd">
+
+	<usercase name="Organization Registration">
+		<functions>
+			<function>shn_or_reg_org</function>
+			<function>shn_or_reg_org_confirm</function>
+			<function>shn_or_reg_org_gis_map</function>
+			<function>shn_or_reg_org_cr</function>
+		</functions>
+		<tables>
+				<table perm="c">org_main</table>
+				<table perm="r">field_options</table>
+				<table perm="r">location</table>
+				<table perm="c">location_details</table>
+				<table perm="c">contact</table>
+		</tables>
+	</usercase>
+	<usercase name="Organization Registration View">
+		<functions>
+			<function>shn_or_edit_org</function>
+		</functions>
+		<tables>
+				<table perm="r">org_main</table>
+				<table perm="r">field_options</table>
+				<table perm="r">location</table>
+				<table perm="r">location_details</table>
+				<table perm="r">contact</table>
+		</tables>
+	</usercase>
+	<usercase name="Organization Registration Edit/Delete">
+		<functions>
+			<function>shn_or_view_org_submit</function>
+		</functions>
+		<tables>
+				<table perm="u">org_main</table>
+				<table perm="r">field_options</table>
+				<table perm="r">location</table>
+				<table perm="u">location_details</table>
+				<table perm="u">contact</table>
+		</tables>
+	</usercase>
+	<usercase name="Organization Department Registration">
+		<functions>
+			<function>shn_or_reg_operation</function>
+			<function>shn_or_reg_operation_cr</function>
+		</functions>
+		<tables>
+				<table perm="cr">org_main</table>
+				<table perm="r">field_options</table>
+				<table perm="r">location</table>
+				<table perm="c">location_details</table>
+				<table perm="c">contact</table>
+		</tables>
+	</usercase>
+	<usercase name="Organization Search">
+		<functions>
+			<function>shn_or_search</function>
+			<function>shn_or_search_cr</function>
+		</functions>
+		<tables>
+				<table perm="r">org_main</table>
+				<table perm="r">field_options</table>
+				<table perm="r">location</table>
+				<table perm="c">location_details</table>
+				<table perm="c">contact</table>
+		</tables>
+	</usercase>
+	<usercase name="Organization Reports">
+		<functions>
+			<function>shn_or_drill_report_loc</function>
+			<function>shn_or_drill_report_org_next</function>
+			<function>shn_or_drill_report_loc_show_orgs</function>
+			<function>shn_or_drill_report_org</function>
+			<function>shn_or_drill_report_org_next</function>
+			<function>shn_or_drill_report_org_show_orgs</function>
+			<function>shn_or_org_sector</function>
+		</functions>
+		<tables>
+				<table perm="r">org_main</table>
+				<table perm="r">field_options</table>
+				<table perm="r">location</table>
+				<table perm="c">location_details</table>
+				<table perm="c">contact</table>
+		</tables>
+	</usercase>
+</sec_policy>

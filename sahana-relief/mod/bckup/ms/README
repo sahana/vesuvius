@@ -1,0 +1,11 @@
+This work was started by Hasitha Anjana as part of GSoC 2008.
+It has subsequently been maintained by Fran Boon.
+
+Please see the Wiki page for more details:
+http://wiki.sahana.lk/doku.php?id=dev:gsoc2008_gis_map_edit
+
+1) Ensure php_mapscript is loaded into Apache.
+2) Ensure MapServer CGI is available as 'mapserv'
+3) To configure this module edit conf.inc.
+4) Do not remove file mod/ms/data/TEMPLATE0.map.
+5) Do not remove file www/res/img/maps/white.png.

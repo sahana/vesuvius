@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<module name='cs'>
+  <description>Catalog System</description>
+  <data>
+	<description>Catalog System</description>
+    <table name='ct_catalogue'>
+        <primarykeys>
+	      <primarykey field_id='ct_uuid' />
+        </primarykeys>
+    </table>
+    <table name='ct_unit'>
+	    <primarykeys>
+		    <primarykey field_id='unit_uuid' />
+	    </primarykeys>
+    </table>
+    <table name='ct_cat_unit'>
+
+    </table>
+    <table name='ct_unit_type'>
+	    <primarykeys>
+		    <primarykey field_id='unit_type_uuid' />
+	    </primarykeys>
+    </table>
+    <table name='ct_suppliers'>
+
+    </table>
+  </data>
+</module>

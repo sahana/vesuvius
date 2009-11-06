@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<sec_policy xmlns="http://www.sahana.lk/security/policy"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.sahana.lk/security/policy sec_policy.xsd">
+	<usercase name="View Aid Catalog">
+		<functions>
+			<function>shn_cs_viewedit</function>
+		</functions>
+		<tables>
+			<table perm="rud">ct_catalogue</table>
+			<table perm="r">field_options</table>
+			<table perm="d">ct_cat_unit</table>
+			<table perm="rud">ct_unit</table>
+		</tables>
+	</usercase>
+
+	<usercase name="Drill Down Catalog">
+		<functions>
+			<function>shn_cs_drill_down</function>
+		</functions>
+		<tables>
+			<table perm="r">ct_catalogue</table>
+		</tables>
+	</usercase>
+	<usercase name="Search Item Types">
+		<functions>
+			<function>shn_cs_search</function>
+		</functions>
+		<tables>
+			<table perm="r">ct_catalogue</table>
+			<table perm="r">ct_unit</table>
+			<table perm="r">ct_unit_type</table>
+		</tables>
+	</usercase>
+	<usercase name="Add Main Catalog">
+		<functions>
+			<function>shn_cs_addmain</function>
+		</functions>
+		<tables>
+			<table perm="rc">ct_catalogue</table>
+		</tables>
+	</usercase>
+	<usercase name="Add Sub Catalog">
+		<functions>
+			<function>shn_cs_addsub</function>
+		</functions>
+		<tables>
+			<table perm="c">ct_catalogue</table>
+		</tables>
+	</usercase>
+	<usercase name="Add Catalog Item">
+		<functions>
+			<function>shn_cs_additem</function>
+		</functions>
+		<tables>
+			<table perm="rcd">ct_catalogue</table>
+			<table perm="r">ct_unit_type</table>
+			<table perm="cd">ct_cat_unit</table>
+			<table perm="c">ct_suppliers</table>
+		</tables>
+	</usercase>
+</sec_policy>

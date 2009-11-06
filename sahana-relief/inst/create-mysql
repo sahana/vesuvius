@@ -1,0 +1,80 @@
+#!/bin/bash
+USER='sahana'
+PASS='sahanapwd'
+HOST='localhost'
+DATABASE='sahana'
+
+echo "Enter Hostname (default = localhost):"
+read HOST
+if [ "$HOST" = '' ]; then
+    HOST='localhost'
+fi
+
+echo "Enter Database (default = sahana):"
+read DATABASE
+if [ "$DATABASE" = '' ]; then
+    DATABASE='sahana'
+fi
+
+echo "Enter user with access to the Database $DATABASE (default = root):"
+read USER
+if [ "$USER" = '' ]; then
+    USER='root'
+fi
+
+echo "Enter user's password (default = <null>):"
+read PASS
+if [ "$PASS" = '' ]; then
+    PASS=''
+fi
+
+cat<<end333
+You Entered:
+  Hostname: $HOST
+  Database: $DATABASE
+  Username: $USER
+  Password: $PASS
+
+Continue (Y/n)?:
+end333
+
+read -n 1 ANS
+
+if [ "$ANS" = 'n' ]; then
+    exit 0
+fi
+
+function loadsql() {
+    echo "Loading SQL script $1"
+    if [ "$PASS" = '' ]; then
+        mysql $DATABASE -h $HOST -u $USER < $1
+    else
+        mysql $DATABASE -h $HOST -u $USER -p$PASS < $1
+    fi
+}
+
+echo "Creating database $DATABASE"
+if [ "$PASS" = '' ]; then
+    mysql -h $HOST -u $USER -e "CREATE DATABASE IF NOT EXISTS $DATABASE"
+else
+    mysql -h $HOST -u $USER -p$PASS -e "CREATE DATABASE IF NOT EXISTS $DATABASE"
+fi
+# Basic structure
+loadsql mysql-dbcreate.sql
+
+# other main tables
+loadsql mysql-acl.sql 
+
+# configuration details
+loadsql mysql-config.sql
+
+# Modules
+loadsql ../mod/rms/ins/rms.sql
+#loadsql ../mod/gis/dbcreate.sql
+loadsql ../mod/lr/dbcreate.sql
+
+# Sample data
+loadsql mysql-sampledata.sql
+
+
+

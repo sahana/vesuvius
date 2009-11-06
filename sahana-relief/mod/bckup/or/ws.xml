@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web_services>
+	<types>
+		<type>
+			  	<name>OrgInput</name>
+    			<typeclass>complexType</typeclass>
+    			<phptype>struct</phptype>
+    			<compositor>all</compositor>
+    			<restrictionBase></restrictionBase>
+    			<elements>
+    				<element type="xsd:int">limit</element>
+					<element type="xsd:string">type_filter</element>
+					<element type="xsd:string">service_filter</element>
+					<element type="xsd:string">location_filter</element>
+					<element type="xsd:string">address_filter</element>
+   				</elements>
+   				<attrs></attrs>
+   				<arrayType></arrayType>
+		</type>
+	</types>
+	<services>
+	 	<service>
+	 		<name>
+	 			List of Organizations (the number of orgs)
+	 		</name>
+	 		<http_type>GET</http_type>
+	 		<api_function>
+	 			shn_or_organization_list
+	 		</api_function>
+	 		<params>
+	 		<param type="xsd:int" name="Limit" ></param>
+	 		<param type="xsd:string" name="Name" ></param>
+	 		<param type="xsd:string" name="Type" ></param>
+	 		<param type="xsd:string" name="Service" ></param>
+	 		<param type="xsd:string" name="Location" ></param>
+	 		<param type="xsd:string" name="Address" ></param>
+	 		
+	 		</params>
+	 		<input type="OrgInput">filter</input>
+	 		<output type="BasicArray" />
+	 		<documentation>
+	 			A useful method to retrieve a list of organizations with the name and UUID
+	 		</documentation>
+	  	</service>
+	 	<service>
+	 		<name>
+	 			List of services offered
+	 		</name>
+	 		<http_type>GET</http_type>
+	 		<api_function>
+	 			shn_or_service_list
+	 		</api_function>
+	 		
+	 		<output type="BasicArray" />
+	 		<documentation>
+	 			A useful method to retrieve a list of services , organizations can offer
+	 		</documentation>
+	 	</service>
+	 	<service>
+	 		<name>
+	 			List of organization types
+	 		</name>
+	 		<http_type>GET</http_type>
+	 		<api_function>
+	 			shn_or_type_list
+	 		</api_function>
+	 		<params>
+	 		<param type="xsd:int" name="Limit" ></param>
+	 		<param type="xsd:string" name="Filter" ></param>
+	 		 		
+	 		</params>
+	 		<output type="BasicArray" />
+	 		<documentation>
+	 			A useful method to retrieve the list of types ,by which organizations are grouped by
+	 		</documentation>
+	 	</service>
+	 </services>
+ </web_services>

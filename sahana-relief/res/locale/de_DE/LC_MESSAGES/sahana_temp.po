@@ -1,0 +1,4812 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#: ../mod/admin/ims_assign.inc:75 ../mod/admin/ims_config.inc:14
+#: ../mod/admin/ims_level.inc:27 ../mod/admin/ims_level.inc:63
+#: ../mod/admin/ims_level.inc:178 ../mod/admin/ims_level.inc:228
+#: ../mod/admin/ims_level.inc:364 ../mod/admin/ims_level.inc:414
+#: ../mod/pref/ims_config.inc:34
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2006-06-13 22:44+0530\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../inc/lib_locale/lib_locale.inc:295 ../mod/msg/handler_cap_new.inc:132
+msgid "Sinhala"
+msgstr ""
+
+#: ../inc/lib_locale/lib_locale.inc:296
+msgid "Chinese Traditional"
+msgstr ""
+
+#: ../inc/lib_locale/lib_locale.inc:297 ../mod/msg/handler_cap_new.inc:132
+msgid "English"
+msgstr ""
+
+#: ../inc/lib_logger/actions.inc:2
+msgid "Create User"
+msgstr ""
+
+#: ../inc/lib_logger/actions.inc:3
+msgid "Edit User"
+msgstr ""
+
+#: ../inc/lib_logger/actions.inc:4
+msgid "Delete User"
+msgstr ""
+
+#: ../inc/lib_logger/actions.inc:5
+msgid "Create Org"
+msgstr ""
+
+#: ../inc/lib_logger/actions.inc:6
+msgid "Edit Org"
+msgstr ""
+
+#: ../inc/lib_logger/actions.inc:7
+msgid "Delete Org"
+msgstr ""
+
+#: ../inc/lib_logger/actions.inc:8 ../inc/lib_logger/actions.inc:11
+#: ../inc/lib_logger/actions.inc:12
+msgid "Create Group"
+msgstr ""
+
+#: ../inc/lib_logger/actions.inc:9
+msgid "Edit Group"
+msgstr ""
+
+#: ../inc/lib_logger/actions.inc:10
+msgid "Delete Group"
+msgstr ""
+
+#: ../inc/lib_security/acl_action_form.inc:49
+msgid "* New Action : "
+msgstr ""
+
+#: ../inc/lib_security/acl_action_form.inc:50
+#: ../inc/lib_security/acl_action_form.inc:145
+msgid "* Description:"
+msgstr ""
+
+#: ../inc/lib_security/acl_action_form.inc:56
+#: ../inc/lib_security/acl_action_form.inc:147 ../mod/admin/ims_assign.inc:97
+#: ../mod/admin/location.inc:190 ../mod/cs/add.inc:36 ../mod/cs/add.inc:113
+#: ../mod/cs/add.inc:318 ../mod/cs/add.inc:379 ../mod/ims/admin_forms.inc:120
+#: ../mod/ims/admin_forms.inc:164 ../mod/or/admin_forms.inc:120
+#: ../mod/or/admin_forms.inc:164 ../mod/rms/handler_plg_new.inc:318
+#: ../mod/rms/handler_req_new.inc:379 ../mod/sync/discovery.inc:108
+#: ../mod/vol/admin_forms.inc:119 ../mod/vol/admin_forms.inc:163
+msgid "Add"
+msgstr ""
+
+#: ../inc/lib_security/acl_action_form.inc:83
+#: ../inc/lib_security/acl_action_form.inc:170 ../mod/admin/location.inc:199
+#: ../mod/ims/admin_forms.inc:127 ../mod/ims/admin_forms.inc:171
+#: ../mod/mpr/edit.inc:762 ../mod/mpr/edit.inc:778
+#: ../mod/or/admin_forms.inc:127 ../mod/or/admin_forms.inc:171
+#: ../mod/sync/edit.inc:745 ../mod/sync/edit.inc:761
+#: ../mod/vol/admin_forms.inc:126 ../mod/vol/admin_forms.inc:170
+msgid "Remove"
+msgstr ""
+
+#: ../inc/lib_security/acl_action_form.inc:144
+msgid "* New Action Group : "
+msgstr ""
+
+#: ../inc/lib_security/acl_form_lib.inc:54
+msgid "Users : "
+msgstr ""
+
+#: ../inc/lib_security/acl_form_lib.inc:86
+msgid "Roles : "
+msgstr ""
+
+#: ../inc/lib_security/acl_form_lib.inc:118
+msgid "Actions : "
+msgstr ""
+
+#: ../inc/lib_security/acl_form_lib.inc:151
+msgid "Action Groups : "
+msgstr ""
+
+#: ../inc/lib_security/acl_form_lib.inc:153
+#: ../inc/lib_security/acl_form_lib.inc:190
+msgid "* Action Groups:"
+msgstr ""
+
+#: ../inc/lib_security/acl_form_lib.inc:187
+msgid "Select the Action Group : "
+msgstr ""
+
+#: ../inc/lib_security/acl_form_lib.inc:219
+msgid "Organization :"
+msgstr ""
+
+#: ../inc/lib_security/acl_module_form.inc:40 ../mod/admin/location.inc:150
+#: ../mod/admin/location.inc:206 ../mod/admin/location.inc:262
+#: ../mod/cs/add.inc:228 ../mod/cs/admin.inc:56 ../mod/cs/edit.inc:131
+#: ../mod/cs/edit.inc:312 ../mod/cs/edit.inc:467 ../mod/ims/add_item.inc:225
+#: ../mod/ims/admin_forms.inc:51 ../mod/ims/admin_forms.inc:89
+#: ../mod/ims/admin_forms.inc:134 ../mod/ims/admin_forms.inc:178
+#: ../mod/ims/view_inv.inc:180 ../mod/or/admin_forms.inc:51
+#: ../mod/or/admin_forms.inc:89 ../mod/or/admin_forms.inc:134
+#: ../mod/or/admin_forms.inc:178 ../mod/or/reg_org.inc:68
+#: ../mod/or/reg_org.inc:128 ../mod/or/view_org.inc:310
+#: ../mod/vol/admin_forms.inc:50 ../mod/vol/admin_forms.inc:88
+#: ../mod/vol/admin_forms.inc:133 ../mod/vol/admin_forms.inc:177
+#: ../mod/vol/view_vol.inc:189
+msgid "Save"
+msgstr ""
+
+#: ../inc/lib_security/acl_module_form.inc:92
+#: ../inc/lib_security/acl_module_form.inc:160
+msgid "ACL Installed"
+msgstr ""
+
+#: ../inc/lib_security/acl_module_form.inc:94
+#: ../inc/lib_security/acl_module_form.inc:162
+msgid "ACL NOT Installed"
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:115 ../mod/ims/lib_ims.inc:425
+#: ../mod/or/lib_or.inc:540 ../mod/vol/lib_vol.inc:367
+msgid "Account Name : "
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:116 ../mod/ims/lib_ims.inc:426
+#: ../mod/or/lib_or.inc:541 ../mod/vol/lib_vol.inc:368
+msgid "* User Name for Login: "
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:117 ../mod/ims/lib_ims.inc:427
+#: ../mod/or/lib_or.inc:542 ../mod/vol/lib_vol.inc:369
+msgid "* Password for Login: "
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:118 ../mod/ims/lib_ims.inc:428
+#: ../mod/or/lib_or.inc:543 ../mod/vol/lib_vol.inc:370
+msgid "* Confirm Password: "
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:203
+msgid "* Old Password: "
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:204
+msgid "* New Password: "
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:205
+msgid "* Confirm New Password: "
+msgstr ""
+
+#: ../mod/admin/acl.inc:58
+msgid "ACL is Installed,choose below to reinstall"
+msgstr ""
+
+#: ../mod/admin/acl.inc:280 ../mod/admin/acl.inc:284
+msgid "Sorry ! It seems you do not have an ACL script"
+msgstr ""
+
+#: ../mod/admin/acl.inc:307
+msgid "Default ACL was succesfully installed"
+msgstr ""
+
+#: ../mod/admin/forms.inc:22 ../mod/admin/location.inc:282
+msgid "Add Locations"
+msgstr ""
+
+#: ../mod/admin/forms.inc:24 ../mod/admin/location.inc:57
+#: ../mod/admin/location.inc:121 ../mod/admin/location.inc:284
+msgid "Fields marked with * are required (entry is compulsory)"
+msgstr ""
+
+#: ../mod/admin/forms.inc:57
+msgid "New Location Details)"
+msgstr ""
+
+#: ../mod/admin/forms.inc:59 ../mod/admin/location.inc:134
+#: ../mod/admin/location.inc:296
+msgid "Location Name : "
+msgstr ""
+
+#: ../mod/admin/forms.inc:61 ../mod/admin/location.inc:137
+#: ../mod/admin/location.inc:298
+msgid "Description : "
+msgstr ""
+
+#: ../mod/admin/forms.inc:62 ../mod/admin/location.inc:139
+#: ../mod/admin/location.inc:299
+msgid "ISO code : "
+msgstr ""
+
+#: ../mod/admin/forms.inc:64 ../mod/admin/location.inc:301
+msgid "Location Type (level)"
+msgstr ""
+
+#: ../mod/admin/forms.inc:67 ../mod/admin/location.inc:306
+msgid "Now Select the parent Location"
+msgstr ""
+
+#: ../mod/admin/ims_assign.inc:20
+msgid "Currently Assign Incidents"
+msgstr ""
+
+#: ../mod/admin/ims_assign.inc:24
+msgid "Incident Name"
+msgstr ""
+
+#: ../mod/admin/ims_assign.inc:25 ../mod/admin/ims_assign.inc:42
+#: ../mod/admin/ims_level.inc:39 ../mod/admin/ims_level.inc:191
+#: ../mod/admin/ims_level.inc:377 ../mod/admin/location.inc:151
+#: ../mod/cs/edit.inc:132 ../mod/cs/edit.inc:313
+#: ../mod/ims/mini_quantity.inc:242 ../mod/ims/view_edit_item.inc:62
+#: ../mod/ims/view_inv.inc:181 ../mod/or/view_org.inc:311
+#: ../mod/vol/view_vol.inc:190
+msgid "Delete"
+msgstr ""
+
+#: ../mod/admin/ims_assign.inc:76
+msgid "Added."
+msgstr ""
+
+#: ../mod/admin/ims_assign.inc:82 ../mod/admin/ims_assign.inc:86
+#: ../mod/pref/ims_config.inc:44
+msgid "Incident Type"
+msgstr ""
+
+#: ../mod/admin/ims_assign.inc:91
+msgid "New Incident"
+msgstr ""
+
+#: ../mod/admin/ims_assign.inc:94 ../mod/pref/ims_config.inc:45
+msgid "Select Incident"
+msgstr ""
+
+#: ../mod/admin/ims_assign.inc:110 ../mod/admin/ims_config.inc:49
+#: ../mod/admin/ims_level.inc:98 ../mod/admin/ims_level.inc:264
+#: ../mod/admin/ims_level.inc:450 ../mod/mpr/add.inc:160
+#: ../mod/mpr/add.inc:287 ../mod/mpr/edit.inc:248
+#: ../mod/pref/ims_config.inc:62 ../mod/sync/add.inc:155
+#: ../mod/sync/add.inc:282 ../mod/sync/discovery.inc:132
+#: ../mod/sync/discovery.inc:259 ../mod/sync/edit.inc:247
+msgid "You have not completed the form"
+msgstr ""
+
+#: ../mod/admin/ims_assign.inc:115
+msgid "Please specify the id"
+msgstr ""
+
+#: ../mod/admin/ims_assign.inc:120 ../mod/pref/ims_config.inc:72
+msgid "Please an incident"
+msgstr ""
+
+#: ../mod/admin/ims_config.inc:21
+msgid "Activate/Deactivate"
+msgstr ""
+
+#: ../mod/admin/ims_config.inc:24
+msgid "Activate"
+msgstr ""
+
+#: ../mod/admin/ims_config.inc:27
+msgid "Grouping"
+msgstr ""
+
+#: ../mod/admin/ims_config.inc:28
+msgid "Level1"
+msgstr ""
+
+#: ../mod/admin/ims_config.inc:30
+msgid "Level2"
+msgstr ""
+
+#: ../mod/admin/ims_config.inc:32
+msgid "Level3"
+msgstr ""
+
+#: ../mod/admin/ims_config.inc:36 ../mod/admin/ims_level.inc:57
+#: ../mod/admin/ims_level.inc:222 ../mod/admin/ims_level.inc:408
+#: ../mod/mpr/admin.inc:109 ../mod/pref/ims_config.inc:49
+msgid "Update"
+msgstr ""
+
+#: ../mod/admin/ims_config.inc:54
+msgid "Please enter the name for Level1"
+msgstr ""
+
+#: ../mod/admin/ims_config.inc:59
+msgid "Please enter the name for Level2"
+msgstr ""
+
+#: ../mod/admin/ims_config.inc:64
+msgid "Please enter the name for Level3"
+msgstr ""
+
+#: ../mod/admin/ims_level.inc:34 ../mod/admin/ims_level.inc:185
+#: ../mod/admin/ims_level.inc:371 ../mod/admin/ims_menus.inc:2
+#: ../mod/admin/ims_menus.inc:3 ../mod/admin/ims_menus.inc:4
+msgid "Manage "
+msgstr ""
+
+#: ../mod/admin/ims_level.inc:34 ../mod/admin/ims_level.inc:70
+#: ../mod/admin/ims_level.inc:190 ../mod/admin/ims_level.inc:237
+#: ../mod/admin/ims_level.inc:423 ../mod/admin/ims_menus.inc:2
+msgid "mod_admin_ims_level1"
+msgstr ""
+
+#: ../mod/admin/ims_level.inc:38 ../mod/admin/ims_level.inc:71
+#: ../mod/admin/ims_level.inc:189 ../mod/admin/ims_level.inc:236
+#: ../mod/admin/ims_level.inc:375 ../mod/admin/ims_level.inc:422
+#: ../mod/cms/aidworker.inc:32 ../mod/cs/edit.inc:52 ../mod/cs/edit.inc:241
+#: ../mod/cs/edit.inc:402 ../mod/mpr/add.inc:250 ../mod/mpr/add.inc:553
+#: ../mod/mpr/edit.inc:526 ../mod/mpr/edit.inc:760 ../mod/mpr/search.inc:68
+#: ../mod/mpr/search.inc:69 ../mod/mpr/search.inc:327
+#: ../mod/mpr/search.inc:444 ../mod/rms/lib_rms.inc:952
+#: ../mod/sync/add.inc:245 ../mod/sync/add.inc:549
+#: ../mod/sync/discovery.inc:222 ../mod/sync/discovery.inc:512
+#: ../mod/sync/edit.inc:509 ../mod/sync/edit.inc:743 ../mod/sync/search.inc:63
+#: ../mod/sync/search.inc:64 ../mod/sync/search.inc:322
+#: ../mod/sync/search.inc:435 ../mod/vol/report.inc:177
+#: ../mod/vol/view_vol.inc:30
+msgid "Name"
+msgstr ""
+
+#: ../mod/admin/ims_level.inc:70 ../mod/admin/ims_level.inc:235
+#: ../mod/admin/ims_level.inc:421
+msgid "Add New "
+msgstr ""
+
+#: ../mod/admin/ims_level.inc:74 ../mod/admin/ims_level.inc:240
+#: ../mod/admin/ims_level.inc:426
+msgid "Add New"
+msgstr ""
+
+#: ../mod/admin/ims_level.inc:103 ../mod/admin/ims_level.inc:269
+#: ../mod/admin/ims_level.inc:455
+msgid "Please enter the name for "
+msgstr ""
+
+#: ../mod/admin/ims_level.inc:185 ../mod/admin/ims_level.inc:235
+#: ../mod/admin/ims_level.inc:376 ../mod/admin/ims_menus.inc:3
+msgid "mod_admin_ims_level2"
+msgstr ""
+
+#: ../mod/admin/ims_level.inc:273 ../mod/admin/ims_level.inc:459
+msgid "Please select "
+msgstr ""
+
+#: ../mod/admin/ims_level.inc:371 ../mod/admin/ims_level.inc:421
+#: ../mod/admin/ims_menus.inc:4
+msgid "mod_admin_ims_level3"
+msgstr ""
+
+#: ../mod/admin/ims_menus.inc:1
+msgid "Configuration"
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:30
+msgid "Table / Field Names"
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:33
+msgid "Add Entry"
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:50
+msgid "The Table name cannot be blank,"
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:51
+msgid " please enter a valid Table name"
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:57
+msgid "The Field name cannot be blank, "
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:58
+msgid "please enter a valid Field name"
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:72
+msgid "DB L10N Entry added successfully!"
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:76
+msgid "The DB L10N Entry already exists"
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:92 ../mod/rms/handler_plg_ls.inc:117
+#: ../mod/rms/handler_plg_sch.inc:86 ../mod/rms/handler_req_ls.inc:133
+#: ../mod/rms/handler_req_sch.inc:92
+msgid "ID"
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:93
+msgid "Table Name"
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:94
+msgid "Field Name"
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:137
+msgid "DB L10N Entry removed successfully"
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:141
+msgid "Error occurred while removing DB L10N Entry"
+msgstr ""
+
+#: ../mod/admin/lc_main.inc:41
+msgid "File Exists"
+msgstr ""
+
+#: ../mod/admin/lc_main.inc:41
+msgid "File Doesn't Exist"
+msgstr ""
+
+#: ../mod/admin/lc_main.inc:42
+msgid "Writable"
+msgstr ""
+
+#: ../mod/admin/lc_main.inc:42
+msgid "Not Writable"
+msgstr ""
+
+#: ../mod/admin/lc_main.inc:47
+msgid "Template File Status"
+msgstr ""
+
+#: ../mod/admin/lc_main.inc:73
+msgid "Template file created successfully"
+msgstr ""
+
+#: ../mod/admin/lc_main.inc:73 ../mod/admin/lc_main.inc:80
+msgid "</p>"
+msgstr ""
+
+#: ../mod/admin/lc_main.inc:80
+msgid "Template written to Database successfully"
+msgstr ""
+
+#: ../mod/admin/lc_setlocale.inc:27 ../mod/admin/lc_translate.inc:33
+msgid "Current language : "
+msgstr ""
+
+#: ../mod/admin/lc_setlocale.inc:33
+msgid "Select Locale"
+msgstr ""
+
+#: ../mod/admin/lc_setlocale.inc:38 ../mod/admin/menu.inc:32
+msgid "Set Locale"
+msgstr ""
+
+#: ../mod/admin/lc_setlocale.inc:50
+msgid "Current locale setting "
+msgstr ""
+
+#: ../mod/admin/lc_setlocale.inc:51
+msgid "in the Database : "
+msgstr ""
+
+#: ../mod/admin/lc_setlocale.inc:60
+msgid "The locale setting is not set in the Database"
+msgstr ""
+
+#: ../mod/admin/lc_setlocale.inc:62
+msgid "Please select a valid locale from the list"
+msgstr ""
+
+#: ../mod/admin/lc_translate.inc:31
+msgid "Sahana Localization Module"
+msgstr ""
+
+#: ../mod/admin/lc_translate.inc:32 ../mod/admin/menu.inc:34
+msgid "Language Translation"
+msgstr ""
+
+#: ../mod/admin/location.inc:55
+msgid "First select the location to Edit & Delete"
+msgstr ""
+
+#: ../mod/admin/location.inc:70 ../mod/or/search.inc:28
+msgid "Select location and then select the level(province,district,ect),"
+msgstr ""
+
+#: ../mod/admin/location.inc:71 ../mod/or/search.inc:29
+msgid "the selected location field at the end of the form will be updated"
+msgstr ""
+
+#: ../mod/admin/location.inc:88
+msgid "Selected Location for Edit/Delete"
+msgstr ""
+
+#: ../mod/admin/location.inc:91 ../mod/ims/search.inc:238
+#: ../mod/or/search.inc:61 ../mod/vol/search.inc:36
+msgid "location"
+msgstr ""
+
+#: ../mod/admin/location.inc:119
+msgid "Edit Location"
+msgstr ""
+
+#: ../mod/admin/location.inc:131
+msgid "Location Details"
+msgstr ""
+
+#: ../mod/admin/location.inc:149 ../mod/cr/edit.inc:190 ../mod/cs/edit.inc:130
+#: ../mod/cs/edit.inc:311 ../mod/cs/edit.inc:466 ../mod/ims/view_inv.inc:179
+#: ../mod/or/view_org.inc:309 ../mod/vol/view_vol.inc:188
+msgid "Close"
+msgstr ""
+
+#: ../mod/admin/location.inc:172 ../mod/admin/menu.inc:24
+msgid "Location Levels"
+msgstr ""
+
+#: ../mod/admin/location.inc:174
+msgid "The Location you add will be added after remaining ones)"
+msgstr ""
+
+#: ../mod/admin/location.inc:186
+msgid "New Level : "
+msgstr ""
+
+#: ../mod/admin/location.inc:243 ../mod/ims/admin_forms.inc:70
+#: ../mod/or/admin_forms.inc:70 ../mod/vol/admin_forms.inc:69
+msgid "Set the Location Range"
+msgstr ""
+
+#: ../mod/admin/location.inc:245 ../mod/ims/admin_forms.inc:72
+#: ../mod/or/admin_forms.inc:72 ../mod/vol/admin_forms.inc:71
+msgid ""
+"In a Disaster,all the location levels might not be important ,set the range "
+"here"
+msgstr ""
+
+#: ../mod/admin/location.inc:294
+msgid "New Location Details"
+msgstr ""
+
+#: ../mod/admin/main.inc:42
+msgid "You called the admin view"
+msgstr ""
+
+#: ../mod/admin/main.inc:43
+msgid " on module"
+msgstr ""
+
+#: ../mod/admin/main.inc:51
+msgid "Sahana System Administration"
+msgstr ""
+
+#: ../mod/admin/main.inc:52
+msgid ""
+"The System Adminisitration section allows you to configure and customize "
+"Sahana based on your requirements"
+msgstr ""
+
+#: ../mod/admin/main.inc:54
+msgid "System Config"
+msgstr ""
+
+#: ../mod/admin/main.inc:54
+msgid ""
+"Contains all the configuration sections that apply across the Sahana "
+"application such as localization to location"
+msgstr ""
+
+#: ../mod/admin/main.inc:55 ../mod/admin/menu.inc:36
+msgid "Module Config"
+msgstr ""
+
+#: ../mod/admin/main.inc:55
+msgid ""
+"Contains specific configuration pages for each module that has been "
+"installed in the system allowing them to be customized individually and "
+"seperately."
+msgstr ""
+
+#: ../mod/admin/main.inc:56 ../mod/admin/menu.inc:44
+msgid "Security Config"
+msgstr ""
+
+#: ../mod/admin/main.inc:56
+msgid ""
+"Allows the system administrator to configure who gets access to what modules "
+"and to what degree to high degree of granularity if required."
+msgstr ""
+
+#: ../mod/admin/menu.inc:23 ../mod/rms/handler_req_ls.inc:179
+msgid "Locations"
+msgstr ""
+
+#: ../mod/admin/menu.inc:25 ../mod/lr/main.inc:29
+#: ../mod/rms/handler_req_new.inc:294
+msgid "Add Location"
+msgstr ""
+
+#: ../mod/admin/menu.inc:26
+msgid "Edit & Delete Location"
+msgstr ""
+
+#: ../mod/admin/menu.inc:30
+msgid "Localization"
+msgstr ""
+
+#: ../mod/admin/menu.inc:31
+msgid "Localization Main"
+msgstr ""
+
+#: ../mod/admin/menu.inc:33
+msgid "Database L10N"
+msgstr ""
+
+#: ../mod/admin/menu.inc:41
+msgid "Mutiple Incidents"
+msgstr ""
+
+#: ../mod/admin/menu.inc:45
+msgid "System &amp; User"
+msgstr ""
+
+#: ../mod/admin/menu.inc:46
+msgid "Modules"
+msgstr ""
+
+#: ../mod/admin/menu.inc:70
+msgid "Welcome to the Sahana ACL Module Configuration page"
+msgstr ""
+
+#: ../mod/admin/menu.inc:72
+msgid "Current Status (Installed/Enabled)"
+msgstr ""
+
+#: ../mod/admin/menu.inc:78
+msgid "ACL is not Installed! You need to Install ACL Base"
+msgstr ""
+
+#: ../mod/admin/menu.inc:92 ../mod/admin/menu.inc:101
+msgid "<strong>A</strong>CL Base Install"
+msgstr ""
+
+#: ../mod/admin/menu.inc:93
+msgid "<strong>U</strong>sers"
+msgstr ""
+
+#: ../mod/admin/menu.inc:94
+msgid "<strong>R</strong>oles"
+msgstr ""
+
+#: ../mod/admin/menu.inc:97
+msgid "Welcome to the Sahana ACL System Configuration page"
+msgstr ""
+
+#: ../mod/admin/menu.inc:110
+msgid "Install Default ACL"
+msgstr ""
+
+#: ../mod/admin/menu.inc:111
+msgid "User  Permissions"
+msgstr ""
+
+#: ../mod/admin/menu.inc:112
+msgid "Role Permissions"
+msgstr ""
+
+#: ../mod/admin/menu.inc:113
+msgid "Add &amp; Remove Actions"
+msgstr ""
+
+#: ../mod/admin/menu.inc:114
+msgid "Action Groups"
+msgstr ""
+
+#: ../mod/admin/menu.inc:124
+msgid "Add User"
+msgstr ""
+
+#: ../mod/admin/menu.inc:125
+msgid "Remove User"
+msgstr ""
+
+#: ../mod/admin/menu.inc:129
+msgid "Change Password"
+msgstr ""
+
+#: ../mod/admin/menu.inc:133
+msgid "Edit Roles of an User"
+msgstr ""
+
+#: ../mod/admin/menu.inc:134
+msgid "Add Users to Role"
+msgstr ""
+
+#: ../mod/admin/menu.inc:147
+msgid "Add Role"
+msgstr ""
+
+#: ../mod/admin/menu.inc:148
+msgid "Remove Role"
+msgstr ""
+
+#: ../mod/admin/menu.inc:152
+msgid "Existing Role Permissions"
+msgstr ""
+
+#: ../mod/admin/menu.inc:153
+msgid "Add &amp; Remove Role Permissions"
+msgstr ""
+
+#: ../mod/admin/menu.inc:166
+msgid "Add Action"
+msgstr ""
+
+#: ../mod/admin/menu.inc:167
+msgid "Remove Action"
+msgstr ""
+
+#: ../mod/admin/menu.inc:177
+msgid "Add Action Group"
+msgstr ""
+
+#: ../mod/admin/menu.inc:178
+msgid "Remove Action Action Group"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:23
+msgid "Aid Worker Registration"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:30 ../mod/cms/victim.inc:38
+msgid "Individual Information"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:33 ../mod/cms/victim.inc:43
+msgid "ID/SSN/Passport"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:34 ../mod/cms/victim.inc:46 ../mod/mpr/add.inc:91
+#: ../mod/mpr/add.inc:457 ../mod/mpr/edit.inc:176 ../mod/mpr/edit.inc:425
+#: ../mod/mpr/view.inc:81 ../mod/sync/add.inc:88 ../mod/sync/add.inc:453
+#: ../mod/sync/discovery.inc:416 ../mod/sync/edit.inc:176
+#: ../mod/sync/edit.inc:408 ../mod/sync/view.inc:81
+msgid "Race"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:35 ../mod/cms/victim.inc:47 ../mod/mpr/add.inc:90
+#: ../mod/mpr/add.inc:455 ../mod/mpr/edit.inc:175 ../mod/mpr/edit.inc:423
+#: ../mod/mpr/view.inc:79 ../mod/sync/add.inc:87 ../mod/sync/add.inc:451
+#: ../mod/sync/discovery.inc:414 ../mod/sync/edit.inc:175
+#: ../mod/sync/edit.inc:406 ../mod/sync/view.inc:79
+msgid "Religion"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:36 ../mod/cms/victim.inc:48 ../mod/mpr/add.inc:89
+#: ../mod/mpr/add.inc:453 ../mod/mpr/edit.inc:174 ../mod/mpr/edit.inc:421
+#: ../mod/mpr/view.inc:77 ../mod/sync/add.inc:86 ../mod/sync/add.inc:449
+#: ../mod/sync/discovery.inc:412 ../mod/sync/edit.inc:174
+#: ../mod/sync/edit.inc:404 ../mod/sync/view.inc:77
+msgid "Marital Status"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:37 ../mod/cr/camp.inc:84 ../mod/cr/edit.inc:83
+#: ../mod/cr/edit.inc:181
+msgid "Phone Number"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:38 ../mod/mpr/add.inc:258 ../mod/mpr/add.inc:561
+#: ../mod/rms/handler_plg_new.inc:48 ../mod/rms/handler_plg_new.inc:162
+#: ../mod/rms/handler_plg_new.inc:168 ../mod/rms/handler_plg_new.inc:263
+#: ../mod/rms/handler_req_new.inc:46 ../mod/rms/handler_req_new.inc:161
+#: ../mod/rms/handler_req_new.inc:167 ../mod/rms/handler_req_new.inc:256
+#: ../mod/sync/add.inc:253 ../mod/sync/add.inc:557
+#: ../mod/sync/discovery.inc:230 ../mod/sync/discovery.inc:520
+msgid "Email"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:39 ../mod/lr/main_fns.inc:37
+msgid "Contact Type"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:40 ../mod/msg/handler_cap_new.bak.inc:130
+msgid "Contact"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:42
+msgid "Service Information"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:43 ../mod/ims/report.inc:476
+#: ../mod/or/main.inc:257 ../mod/or/report.inc:307 ../mod/or/view_org.inc:116
+#: ../mod/vol/main.inc:173
+msgid "Organization Name"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:44
+msgid "Proffesion"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:45 ../mod/ims/report.inc:477
+#: ../mod/or/report.inc:308 ../mod/vol/main.inc:174 ../mod/vol/report.inc:178
+#: ../mod/vol/view_vol.inc:31 ../mod/vol/view_vol.inc:178
+msgid "Services Offered"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:47 ../mod/cms/victim.inc:59 ../mod/or/main.inc:33
+msgid "Register"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:54
+msgid "Edit Aid Worker Information"
+msgstr ""
+
+#: ../mod/cms/camp.inc:27
+msgid "Add New Camp - Details"
+msgstr ""
+
+#: ../mod/cms/camp.inc:50
+msgid "Name and Type"
+msgstr ""
+
+#: ../mod/cms/camp.inc:52 ../mod/cr/camp.inc:42 ../mod/cr/edit.inc:40
+#: ../mod/cr/edit.inc:127 ../mod/cr/main_fns.inc:61 ../mod/cr/main_fns.inc:90
+#: ../mod/cr/reports.inc:66 ../mod/cr/reports.inc:175 ../mod/cr/search.inc:29
+msgid "Camp Name"
+msgstr ""
+
+#: ../mod/cms/camp.inc:53 ../mod/cr/camp.inc:43 ../mod/cr/edit.inc:41
+#: ../mod/cr/edit.inc:128 ../mod/cr/reports.inc:67 ../mod/cr/reports.inc:176
+#: ../mod/cr/search.inc:32 ../mod/cr/search.inc:175
+msgid "Camp Type"
+msgstr ""
+
+#: ../mod/cms/camp.inc:54 ../mod/cr/camp.inc:71 ../mod/cr/edit.inc:42
+#: ../mod/cr/edit.inc:159 ../mod/cr/reports.inc:68 ../mod/cr/reports.inc:177
+#: ../mod/cr/search.inc:31 ../mod/ims/report.inc:480
+#: ../mod/ims/view_inv.inc:34 ../mod/mpr/add.inc:96 ../mod/mpr/add.inc:256
+#: ../mod/mpr/add.inc:497 ../mod/mpr/add.inc:557 ../mod/mpr/edit.inc:181
+#: ../mod/mpr/edit.inc:466 ../mod/mpr/view.inc:119 ../mod/or/main.inc:261
+#: ../mod/or/report.inc:311 ../mod/or/view_org.inc:120
+#: ../mod/rms/handler_plg_new.inc:50 ../mod/rms/handler_plg_new.inc:216
+#: ../mod/rms/handler_plg_new.inc:222 ../mod/rms/handler_plg_new.inc:265
+#: ../mod/rms/handler_req_new.inc:48 ../mod/rms/handler_req_new.inc:215
+#: ../mod/rms/handler_req_new.inc:221 ../mod/rms/handler_req_new.inc:258
+#: ../mod/rms/handler_req_new.inc:291 ../mod/rms/lib_rms.inc:921
+#: ../mod/rms/lib_rms.inc:940 ../mod/rms/lib_rms.inc:954
+#: ../mod/sync/add.inc:93 ../mod/sync/add.inc:251 ../mod/sync/add.inc:493
+#: ../mod/sync/add.inc:553 ../mod/sync/discovery.inc:228
+#: ../mod/sync/discovery.inc:456 ../mod/sync/discovery.inc:516
+#: ../mod/sync/edit.inc:181 ../mod/sync/edit.inc:449 ../mod/sync/view.inc:119
+msgid "Address"
+msgstr ""
+
+#: ../mod/cms/camp.inc:57
+msgid "Camp Administrator"
+msgstr ""
+
+#: ../mod/cms/camp.inc:58
+msgid "Camp Admin Name"
+msgstr ""
+
+#: ../mod/cms/camp.inc:59 ../mod/ims/main.inc:429 ../mod/ims/report.inc:481
+#: ../mod/or/report.inc:312 ../mod/vol/main.inc:178 ../mod/vol/report.inc:181
+#: ../mod/vol/view_vol.inc:35
+msgid "Contact Number"
+msgstr ""
+
+#: ../mod/cms/camp.inc:60
+msgid "Administrative Organization(s)"
+msgstr ""
+
+#: ../mod/cms/camp.inc:62
+msgid "Demographics"
+msgstr ""
+
+#: ../mod/cms/camp.inc:65
+msgid "Approximate Capacity [people]"
+msgstr ""
+
+#: ../mod/cms/camp.inc:66
+msgid "Number of Shelters"
+msgstr ""
+
+#: ../mod/cms/camp.inc:67
+msgid "Approximate Area Size [with units]"
+msgstr ""
+
+#: ../mod/cms/camp.inc:68
+msgid "Number of Persons per camp"
+msgstr ""
+
+#: ../mod/cms/camp.inc:70 ../mod/cms/camp.inc:88 ../mod/cms/camp.inc:120
+#: ../mod/cr/camp.inc:95 ../mod/cr/camp.inc:148 ../mod/cr/edit.inc:92
+#: ../mod/cr/edit.inc:234 ../mod/cs/lib_cs.inc:206 ../mod/ims/reg_inv.inc:70
+#: ../mod/ims/reg_inv.inc:124 ../mod/lr/main_fns.inc:45 ../mod/mpr/add.inc:139
+#: ../mod/mpr/add.inc:266 ../mod/mpr/add.inc:341 ../mod/mpr/add.inc:570
+#: ../mod/mpr/edit.inc:223 ../mod/mpr/edit.inc:301 ../mod/mpr/edit.inc:552
+#: ../mod/mpr/edit.inc:800 ../mod/mpr/images.inc:32 ../mod/mpr/search.inc:39
+#: ../mod/mpr/search.inc:78 ../mod/mpr/search.inc:293
+#: ../mod/msg/handler_cap_new.inc:84 ../mod/msg/handler_cap_new.inc:181
+#: ../mod/or/lib_or.inc:594 ../mod/rms/handler_mng_ff.inc:31
+#: ../mod/rms/handler_mng_ff.inc:63 ../mod/rms/handler_mng_ff.inc:148
+#: ../mod/rms/handler_plg_ls.inc:93 ../mod/rms/handler_plg_new.inc:33
+#: ../mod/rms/handler_plg_new.inc:52 ../mod/rms/handler_plg_new.inc:267
+#: ../mod/rms/handler_req_ls.inc:103 ../mod/rms/handler_req_new.inc:31
+#: ../mod/rms/handler_req_new.inc:50 ../mod/rms/handler_req_new.inc:260
+#: ../mod/rms/handler_req_new.inc:278 ../mod/sync/add.inc:134
+#: ../mod/sync/add.inc:261 ../mod/sync/add.inc:336 ../mod/sync/add.inc:566
+#: ../mod/sync/discovery.inc:238 ../mod/sync/discovery.inc:313
+#: ../mod/sync/discovery.inc:529 ../mod/sync/edit.inc:222
+#: ../mod/sync/edit.inc:299 ../mod/sync/edit.inc:535 ../mod/sync/edit.inc:783
+#: ../mod/sync/main.inc:199 ../mod/sync/search.inc:34
+#: ../mod/sync/search.inc:73 ../mod/sync/search.inc:288
+#: ../mod/vol/lib_vol.inc:410 ../mod/vol/lib_vol.inc:615
+msgid "Next"
+msgstr ""
+
+#: ../mod/cms/camp.inc:80
+msgid "Camp Administrator Details"
+msgstr ""
+
+#: ../mod/cms/camp.inc:82
+msgid "Administrator Full Name"
+msgstr ""
+
+#: ../mod/cms/camp.inc:83 ../mod/cms/camp.inc:86
+msgid "ID/Passport/SSN"
+msgstr ""
+
+#: ../mod/cms/camp.inc:84
+msgid "Camp Phone"
+msgstr ""
+
+#: ../mod/cms/camp.inc:85 ../mod/cr/camp.inc:85 ../mod/vol/report.inc:182
+msgid "Mobile Number"
+msgstr ""
+
+#: ../mod/cms/camp.inc:109
+msgid "Service Organizations"
+msgstr ""
+
+#: ../mod/cms/camp.inc:138
+msgid "Accept"
+msgstr ""
+
+#: ../mod/cms/camp.inc:143
+msgid "Camp Service Checklist"
+msgstr ""
+
+#: ../mod/cms/camp.inc:145
+msgid "Facilities / Services"
+msgstr ""
+
+#: ../mod/cms/camp.inc:149 ../mod/gis/admin.inc:170
+msgid "Done"
+msgstr ""
+
+#: ../mod/cms/camp.inc:174 ../mod/cr/camp.inc:200 ../mod/lr/main_fns.inc:67
+msgid "Location Information"
+msgstr ""
+
+#: ../mod/cms/camp.inc:175 ../mod/cr/camp.inc:201
+msgid "Plot the Camp Location OR Enter its GPS coordinates below"
+msgstr ""
+
+#: ../mod/cms/camp.inc:177 ../mod/lr/main_fns.inc:70
+msgid "Plot Location on Map"
+msgstr ""
+
+#: ../mod/cms/camp.inc:183
+msgid "Area Map"
+msgstr ""
+
+#: ../mod/cms/camp.inc:194
+msgid "Enter Camp Location. Click on Map where camp exists"
+msgstr ""
+
+#: ../mod/cms/camp.inc:221 ../mod/gis/gis_fns.inc:178
+#: ../mod/lr/main_fns.inc:81
+msgid "GPS Coordinates"
+msgstr ""
+
+#: ../mod/cms/camp.inc:222 ../mod/gis/gis_fns.inc:179
+#: ../mod/lr/main_fns.inc:82
+msgid "Northing / Latitude"
+msgstr ""
+
+#: ../mod/cms/camp.inc:223 ../mod/gis/gis_fns.inc:180
+#: ../mod/lr/main_fns.inc:83
+msgid "Easting / Longitude"
+msgstr ""
+
+#: ../mod/cms/home.inc:21 ../mod/cms/main.inc:34
+msgid "Camp Management System"
+msgstr ""
+
+#: ../mod/cms/main.inc:36 ../mod/cr/main.inc:27 ../mod/cr/main.inc:59
+#: ../mod/cs/main.inc:37 ../mod/lr/main.inc:28 ../mod/mpr/main.inc:44
+#: ../mod/pref/main.inc:53 ../mod/sync/main.inc:43
+msgid "Home"
+msgstr ""
+
+#: ../mod/cms/main.inc:48
+msgid "Add New Camp"
+msgstr ""
+
+#: ../mod/cms/main.inc:54
+msgid "Victims"
+msgstr ""
+
+#: ../mod/cms/main.inc:56
+msgid "Register Victim"
+msgstr ""
+
+#: ../mod/cms/main.inc:57
+msgid "Edit Victim"
+msgstr ""
+
+#: ../mod/cms/main.inc:58
+msgid "Update Victim"
+msgstr ""
+
+#: ../mod/cms/main.inc:60
+msgid "Relief Workers"
+msgstr ""
+
+#: ../mod/cms/main.inc:62
+msgid "Register Relief Worker"
+msgstr ""
+
+#: ../mod/cms/main.inc:63
+msgid "Edit Relief Worker"
+msgstr ""
+
+#: ../mod/cms/main.inc:64
+msgid "Update Relief Worker"
+msgstr ""
+
+#: ../mod/cms/main.inc:66 ../mod/cr/main.inc:28 ../mod/cr/main.inc:60
+#: ../mod/cr/search.inc:179 ../mod/cs/main.inc:38 ../mod/cs/search.inc:54
+#: ../mod/cs/search.inc:143 ../mod/ims/main.inc:44 ../mod/ims/search.inc:269
+#: ../mod/mpr/admin.inc:96 ../mod/or/search.inc:68
+#: ../mod/rms/handler_plg_sch.inc:27 ../mod/rms/handler_req_sch.inc:27
+#: ../mod/vol/search.inc:59
+msgid "Search"
+msgstr ""
+
+#: ../mod/cms/main.inc:67
+msgid "Statistics"
+msgstr ""
+
+#: ../mod/cms/main.inc:68 ../mod/cr/main.inc:63 ../mod/ims/main.inc:61
+#: ../mod/or/main.inc:38
+msgid "Reports"
+msgstr ""
+
+#: ../mod/cms/main.inc:69 ../mod/ims/home.inc:51
+#: ../mod/ims/mini_quantity.inc:240 ../mod/ims/report.inc:52
+#: ../mod/ims/report.inc:190 ../mod/ims/report.inc:269
+#: ../mod/ims/search.inc:145
+msgid "Inventory"
+msgstr ""
+
+#: ../mod/cms/main.inc:70 ../mod/cr/edit.inc:113
+msgid "Camp Details"
+msgstr ""
+
+#: ../mod/cms/main.inc:72 ../mod/cr/acl.inc:56 ../mod/cr/edit.inc:276
+#: ../mod/cr/main.inc:44 ../mod/cr/main.inc:62
+msgid "Edit Camp"
+msgstr ""
+
+#: ../mod/cms/main.inc:73
+msgid "Camp Closure"
+msgstr ""
+
+#: ../mod/cms/main.inc:74
+msgid "Synchronize"
+msgstr ""
+
+#: ../mod/cms/victim.inc:30
+msgid "Victim Registration"
+msgstr ""
+
+#: ../mod/cms/victim.inc:40 ../mod/cr/camp.inc:83 ../mod/cr/edit.inc:82
+#: ../mod/cr/edit.inc:180 ../mod/mpr/add.inc:83 ../mod/mpr/add.inc:441
+#: ../mod/mpr/edit.inc:168 ../mod/mpr/edit.inc:409 ../mod/mpr/view.inc:65
+#: ../mod/rms/handler_plg_new.inc:46 ../mod/rms/handler_plg_new.inc:114
+#: ../mod/rms/handler_plg_new.inc:261 ../mod/rms/handler_req_new.inc:44
+#: ../mod/rms/handler_req_new.inc:113 ../mod/rms/handler_req_new.inc:254
+#: ../mod/rms/lib_rms.inc:920 ../mod/rms/lib_rms.inc:936
+#: ../mod/sync/add.inc:80 ../mod/sync/add.inc:437
+#: ../mod/sync/discovery.inc:400 ../mod/sync/edit.inc:168
+#: ../mod/sync/edit.inc:392 ../mod/sync/view.inc:65
+msgid "Full Name"
+msgstr ""
+
+#: ../mod/cms/victim.inc:41 ../mod/mpr/add.inc:84 ../mod/mpr/add.inc:443
+#: ../mod/mpr/edit.inc:169 ../mod/mpr/edit.inc:411 ../mod/mpr/view.inc:67
+#: ../mod/sync/add.inc:81 ../mod/sync/add.inc:439
+#: ../mod/sync/discovery.inc:402 ../mod/sync/edit.inc:169
+#: ../mod/sync/edit.inc:394 ../mod/sync/view.inc:67
+msgid "Family Name"
+msgstr ""
+
+#: ../mod/cms/victim.inc:42 ../mod/mpr/add.inc:85 ../mod/mpr/add.inc:445
+#: ../mod/mpr/edit.inc:170 ../mod/mpr/edit.inc:413 ../mod/mpr/view.inc:69
+#: ../mod/sync/add.inc:82 ../mod/sync/add.inc:441
+#: ../mod/sync/discovery.inc:404 ../mod/sync/edit.inc:170
+#: ../mod/sync/edit.inc:396 ../mod/sync/view.inc:69
+msgid "Local Name"
+msgstr ""
+
+#: ../mod/cms/victim.inc:44 ../mod/mpr/add.inc:87 ../mod/mpr/add.inc:449
+#: ../mod/mpr/edit.inc:172 ../mod/mpr/edit.inc:417 ../mod/mpr/view.inc:73
+#: ../mod/sync/add.inc:84 ../mod/sync/add.inc:445
+#: ../mod/sync/discovery.inc:408 ../mod/sync/edit.inc:172
+#: ../mod/sync/edit.inc:400 ../mod/sync/view.inc:73
+msgid "Age Group"
+msgstr ""
+
+#: ../mod/cms/victim.inc:45
+msgid "Person Status"
+msgstr ""
+
+#: ../mod/cms/victim.inc:49
+msgid "Previous Contact  Type"
+msgstr ""
+
+#: ../mod/cms/victim.inc:50
+msgid "Previous Contact"
+msgstr ""
+
+#: ../mod/cms/victim.inc:52
+msgid "Group/Family"
+msgstr ""
+
+#: ../mod/cms/victim.inc:53
+msgid "Group Name/Sirname/Family Name"
+msgstr ""
+
+#: ../mod/cms/victim.inc:54 ../mod/mpr/add.inc:95 ../mod/mpr/add.inc:494
+#: ../mod/mpr/edit.inc:180 ../mod/mpr/edit.inc:462 ../mod/mpr/view.inc:115
+#: ../mod/sync/add.inc:92 ../mod/sync/add.inc:490
+#: ../mod/sync/discovery.inc:453 ../mod/sync/edit.inc:180
+#: ../mod/sync/edit.inc:445 ../mod/sync/view.inc:115
+msgid "Contact Details"
+msgstr ""
+
+#: ../mod/cms/victim.inc:55
+msgid "Number of Members in Group"
+msgstr ""
+
+#: ../mod/cms/victim.inc:56
+msgid "Individual is head of Group/Family"
+msgstr ""
+
+#: ../mod/cms/victim.inc:57
+msgid "Members of Group/Family are Missing"
+msgstr ""
+
+#: ../mod/cms/victim.inc:66
+msgid "Edit Victim Information"
+msgstr ""
+
+#: ../mod/cr/acl.inc:26
+msgid "ACL Base for Camps Registry is already installed"
+msgstr ""
+
+#: ../mod/cr/acl.inc:39
+msgid "Camp Registry"
+msgstr ""
+
+#: ../mod/cr/acl.inc:43 ../mod/mpr/admin.inc:140
+msgid "Deny admin group"
+msgstr ""
+
+#: ../mod/cr/acl.inc:46 ../mod/mpr/admin.inc:142
+msgid "Display Admin page"
+msgstr ""
+
+#: ../mod/cr/acl.inc:55 ../mod/cr/main.inc:29 ../mod/cr/main.inc:61
+msgid "Add Camp"
+msgstr ""
+
+#: ../mod/cr/acl.inc:66
+msgid "ACL Base for Request Management System was succesfully installed"
+msgstr ""
+
+#: ../mod/cr/admin.inc:34
+msgid "Camps Registry Administration"
+msgstr ""
+
+#: ../mod/cr/camp.inc:29
+msgid "Register New Camp"
+msgstr ""
+
+#: ../mod/cr/camp.inc:32 ../mod/cr/edit.inc:38 ../mod/cr/edit.inc:122
+msgid "General Details"
+msgstr ""
+
+#: ../mod/cr/camp.inc:82 ../mod/cr/edit.inc:81 ../mod/cr/edit.inc:179
+msgid "Contact Person Details"
+msgstr ""
+
+#: ../mod/cr/camp.inc:86 ../mod/vol/view_vol.inc:32
+msgid "Occupation"
+msgstr ""
+
+#: ../mod/cr/camp.inc:88 ../mod/cr/edit.inc:85 ../mod/cr/edit.inc:183
+msgid "Camp Population"
+msgstr ""
+
+#: ../mod/cr/camp.inc:89 ../mod/cr/edit.inc:86 ../mod/cr/edit.inc:184
+msgid "Family Count"
+msgstr ""
+
+#: ../mod/cr/camp.inc:90 ../mod/cr/edit.inc:87 ../mod/cr/edit.inc:185
+#: ../mod/cr/reports.inc:74 ../mod/cr/search.inc:37
+msgid "Total Count"
+msgstr ""
+
+#: ../mod/cr/camp.inc:91 ../mod/cr/edit.inc:88 ../mod/cr/edit.inc:186
+msgid "Men"
+msgstr ""
+
+#: ../mod/cr/camp.inc:92 ../mod/cr/edit.inc:89 ../mod/cr/edit.inc:187
+msgid "Women"
+msgstr ""
+
+#: ../mod/cr/camp.inc:93 ../mod/cr/edit.inc:90 ../mod/cr/edit.inc:188
+msgid "Children"
+msgstr ""
+
+#: ../mod/cr/camp.inc:143 ../mod/cr/edit.inc:229
+msgid "Services / Facilities Available"
+msgstr ""
+
+#: ../mod/cr/camp.inc:146 ../mod/cr/edit.inc:232
+msgid "Other Facilities"
+msgstr ""
+
+#: ../mod/cr/camp.inc:253 ../mod/cr/edit.inc:298
+msgid "Please Enter the Camp Name"
+msgstr ""
+
+#: ../mod/cr/camp.inc:259
+msgid "The Family Count is not a valid number"
+msgstr ""
+
+#: ../mod/cr/camp.inc:265 ../mod/cr/edit.inc:310
+msgid "The Total Count is not a valid number"
+msgstr ""
+
+#: ../mod/cr/camp.inc:271 ../mod/cr/edit.inc:316
+msgid "The Men Count is not a valid number"
+msgstr ""
+
+#: ../mod/cr/camp.inc:277 ../mod/cr/edit.inc:322
+msgid "The Women Count is not a valid number"
+msgstr ""
+
+#: ../mod/cr/camp.inc:283 ../mod/cr/edit.inc:328
+msgid "The Children Count is not a valid number"
+msgstr ""
+
+#: ../mod/cr/camp.inc:384
+msgid "The Availability of Services & Facilities of the Camp are as follows:"
+msgstr ""
+
+#: ../mod/cr/camp.inc:392 ../mod/cr/edit.inc:416
+msgid "Service Type"
+msgstr ""
+
+#: ../mod/cr/camp.inc:393 ../mod/cr/edit.inc:417
+msgid "Availability"
+msgstr ""
+
+#: ../mod/cr/camp.inc:410 ../mod/cr/edit.inc:434
+msgid "Available"
+msgstr ""
+
+#: ../mod/cr/camp.inc:419 ../mod/cr/edit.inc:441
+msgid "NOT AVAILABLE"
+msgstr ""
+
+#: ../mod/cr/camp.inc:435
+msgid "Use the Left Navigation Menu to Continue."
+msgstr ""
+
+#: ../mod/cr/conf.inc:3 ../mod/cr/main_fns.inc:23
+msgid "Camps Registry"
+msgstr ""
+
+#: ../mod/cr/edit.inc:29
+msgid "Update Existing Camp"
+msgstr ""
+
+#: ../mod/cr/edit.inc:248
+msgid "Deleted Camp Succesfully"
+msgstr ""
+
+#: ../mod/cr/edit.inc:278
+msgid "Name of Camp to edit"
+msgstr ""
+
+#: ../mod/cr/edit.inc:280 ../mod/ims/mini_quantity.inc:241
+#: ../mod/ims/view_edit_item.inc:61 ../mod/mpr/search.inc:351
+#: ../mod/sync/search.inc:342
+msgid "Edit"
+msgstr ""
+
+#: ../mod/cr/edit.inc:304
+msgid "The Familiy Count is not a valid number"
+msgstr ""
+
+#: ../mod/cr/edit.inc:408
+msgid "The availability of Services & Facilities of the camp are as follows"
+msgstr ""
+
+#: ../mod/cr/edit.inc:458
+msgid "Use the Navigation Menu to Continue"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:24
+msgid ""
+"This sub application of Sahana keeps track of the location of all the camps "
+"in the\n"
+"region and the some basic data on the facilities they might have and the "
+"number of\n"
+"people in them. It also provides a GIS view to plot the location of the "
+"camps in the\n"
+"affected area.\n"
+"Current features include:"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:30
+msgid ""
+"Tracking of basic meta-data on the location, facilities and size of the camp"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:31
+msgid "Integration of google maps to provide a GIS view of the affected region"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:32
+msgid "Ability to customize the list of important facilities needed at a camp"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:33
+msgid "Basic reports on the camps and drill-down by region"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:40
+msgid "Most Populated Camps"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:44
+msgid "Newest Camps"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:62
+msgid "Population"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:91 ../mod/cr/reports.inc:69
+#: ../mod/cr/reports.inc:137 ../mod/cr/reports.inc:174 ../mod/cr/search.inc:30
+#: ../mod/or/report.inc:50 ../mod/rms/handler_req_ls.inc:135
+#: ../mod/rms/handler_req_new.inc:276 ../mod/rms/handler_req_sch.inc:94
+msgid "Location"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:122 ../mod/cr/search.inc:25
+#: ../mod/ims/search.inc:123
+msgid "Search Results"
+msgstr ""
+
+#: ../mod/cr/main.inc:25
+msgid "Camps Registry Menu"
+msgstr ""
+
+#: ../mod/cr/main.inc:32 ../mod/cr/main.inc:64
+msgid "View All Camps"
+msgstr ""
+
+#: ../mod/cr/main.inc:33 ../mod/cr/main.inc:65
+msgid "View By Location"
+msgstr ""
+
+#: ../mod/cr/main.inc:34 ../mod/cr/main.inc:66
+msgid "View Admin Details"
+msgstr ""
+
+#: ../mod/cr/main.inc:39 ../mod/cr/main.inc:68
+msgid "Location Map"
+msgstr ""
+
+#: ../mod/cr/main.inc:58
+msgid "mod_cr_name"
+msgstr ""
+
+#: ../mod/cr/reports.inc:49
+msgid "Report for all camps"
+msgstr ""
+
+#: ../mod/cr/reports.inc:52
+msgid "Generate Report"
+msgstr ""
+
+#: ../mod/cr/reports.inc:62
+msgid "Camp Information"
+msgstr ""
+
+#: ../mod/cr/reports.inc:70 ../mod/cr/search.inc:36
+msgid "No: of Families"
+msgstr ""
+
+#: ../mod/cr/reports.inc:71 ../mod/cr/search.inc:33
+msgid "No: of Males"
+msgstr ""
+
+#: ../mod/cr/reports.inc:72 ../mod/cr/search.inc:34
+msgid "No: of Females"
+msgstr ""
+
+#: ../mod/cr/reports.inc:73 ../mod/cr/search.inc:35
+msgid "No: of Children"
+msgstr ""
+
+#: ../mod/cr/reports.inc:133
+msgid "Camp Information by Location"
+msgstr ""
+
+#: ../mod/cr/reports.inc:138
+msgid "Total Number of Victims in Camps"
+msgstr ""
+
+#: ../mod/cr/reports.inc:170
+msgid "Camp Information by Location Drilled"
+msgstr ""
+
+#: ../mod/cr/reports.inc:178
+msgid "Total Victims"
+msgstr ""
+
+#: ../mod/cr/reports.inc:186
+msgid "Camps in "
+msgstr ""
+
+#: ../mod/cr/search.inc:77 ../mod/cr/search.inc:126
+msgid "edit"
+msgstr ""
+
+#: ../mod/cr/search.inc:166
+msgid "Search for a Camp"
+msgstr ""
+
+#: ../mod/cr/search.inc:169
+msgid "SEARCH"
+msgstr ""
+
+#: ../mod/cr/search.inc:171
+msgid "Name of the Camp"
+msgstr ""
+
+#: ../mod/cs/add.inc:32
+msgid "Details Of the catalogue"
+msgstr ""
+
+#: ../mod/cs/add.inc:33 ../mod/cs/add.inc:105 ../mod/cs/add.inc:301
+#: ../mod/cs/add.inc:371 ../mod/cs/add.inc:376 ../mod/cs/search.inc:50
+msgid "Name   : "
+msgstr ""
+
+#: ../mod/cs/add.inc:34 ../mod/cs/add.inc:106 ../mod/cs/add.inc:302
+#: ../mod/cs/add.inc:372 ../mod/cs/edit.inc:121 ../mod/cs/edit.inc:456
+msgid "Description   : "
+msgstr ""
+
+#: ../mod/cs/add.inc:104
+msgid "Sub Catalogue Details"
+msgstr ""
+
+#: ../mod/cs/add.inc:179 ../mod/cs/lib_cs.inc:185 ../mod/rms/lib_rms.inc:799
+msgid "Information"
+msgstr ""
+
+#: ../mod/cs/add.inc:181
+msgid "There is no any Measurement Unit category found. "
+msgstr ""
+
+#: ../mod/cs/add.inc:181 ../mod/cs/lib_cs.inc:187
+msgid " First"
+msgstr ""
+
+#: ../mod/cs/add.inc:192 ../mod/cs/search.inc:136
+msgid "Select Measurement Unit Type"
+msgstr ""
+
+#: ../mod/cs/add.inc:215 ../mod/cs/add.inc:310
+msgid "Measurement Unit"
+msgstr ""
+
+#: ../mod/cs/add.inc:217 ../mod/ims/add_item.inc:145
+#: ../mod/ims/mini_quantity.inc:136 ../mod/ims/transfer_inv.inc:190
+#: ../mod/ims/transfer_inv.inc:419
+msgid "Unit : "
+msgstr ""
+
+#: ../mod/cs/add.inc:220
+msgid "Base Unit : "
+msgstr ""
+
+#: ../mod/cs/add.inc:222
+msgid "Multiplier : "
+msgstr ""
+
+#: ../mod/cs/add.inc:222
+msgid ""
+"Enter the Multiplier of the entered Unit to the base unit of the Unit Type. "
+"Eg: Unit = g, Base unit=kg, Multiplier=0.001 (g=kg*0.001)"
+msgstr ""
+
+#: ../mod/cs/add.inc:300
+msgid "Item Details"
+msgstr ""
+
+#: ../mod/cs/add.inc:306
+msgid "Measurement Type"
+msgstr ""
+
+#: ../mod/cs/add.inc:307
+msgid "Measurement Type :"
+msgstr ""
+
+#: ../mod/cs/add.inc:311
+msgid "Unit :"
+msgstr ""
+
+#: ../mod/cs/add.inc:370
+msgid "Unit Type Details"
+msgstr ""
+
+#: ../mod/cs/add.inc:375
+msgid "Base Unit Details"
+msgstr ""
+
+#: ../mod/cs/add.inc:376
+msgid "Specify a base unit here. Eg: Unit Type - Mass, Base Unit- kg"
+msgstr ""
+
+#: ../mod/cs/add.inc:430
+msgid "Please Enter the Catalogue Name"
+msgstr ""
+
+#: ../mod/cs/add.inc:452
+msgid "Please Enter the Unit Name"
+msgstr ""
+
+#: ../mod/cs/add.inc:458
+msgid "Please Enter the Multiplier"
+msgstr ""
+
+#: ../mod/cs/add.inc:476
+msgid "Please Enter the Sub Category Name"
+msgstr ""
+
+#: ../mod/cs/add.inc:491
+msgid "Please Enter the Item Name"
+msgstr ""
+
+#: ../mod/cs/add.inc:497
+msgid "Please Select the Unit Type"
+msgstr ""
+
+#: ../mod/cs/add.inc:503
+msgid "Please Select Unit/Units"
+msgstr ""
+
+#: ../mod/cs/add.inc:519
+msgid "Please Enter the Unit Type Name"
+msgstr ""
+
+#: ../mod/cs/add.inc:525
+msgid "Please Enter the Base Unit Name"
+msgstr ""
+
+#: ../mod/cs/admin.inc:47
+msgid "Current Value of Maximum Depth"
+msgstr ""
+
+#: ../mod/cs/admin.inc:53
+msgid "Select the New value of Maximum Depth"
+msgstr ""
+
+#: ../mod/cs/conf.inc:27 ../mod/cs/home.inc:21 ../mod/cs/main.inc:36
+msgid "Catalogue System"
+msgstr ""
+
+#: ../mod/cs/edit.inc:29
+msgid "Select Category"
+msgstr ""
+
+#: ../mod/cs/edit.inc:53 ../mod/cs/edit.inc:403 ../mod/cs/search.inc:98
+#: ../mod/msg/handler_cap_new.bak.inc:87 ../mod/msg/handler_cap_new.inc:146
+msgid "Description"
+msgstr ""
+
+#: ../mod/cs/edit.inc:54
+msgid "Item/Catalogue"
+msgstr ""
+
+#: ../mod/cs/edit.inc:100
+msgid ""
+"<b>Using Delete, you will lose all the records of the particular catalogues, "
+"Items, Unit or Unit Types.</b> By deleting a catalogue You will lose all the "
+"entries under the particular catalogue"
+msgstr ""
+
+#: ../mod/cs/edit.inc:116
+msgid "Details Of the catalogue/Item"
+msgstr ""
+
+#: ../mod/cs/edit.inc:118
+msgid "Catalogue / Item Name   : "
+msgstr ""
+
+#: ../mod/cs/edit.inc:242 ../mod/cs/search.inc:195
+msgid "Multiplier"
+msgstr ""
+
+#: ../mod/cs/edit.inc:290
+msgid "Details Of the Unit"
+msgstr ""
+
+#: ../mod/cs/edit.inc:292 ../mod/cs/search.inc:141
+msgid "Unit Name   : "
+msgstr ""
+
+#: ../mod/cs/edit.inc:296 ../mod/cs/edit.inc:300
+msgid "Multiplier   : "
+msgstr ""
+
+#: ../mod/cs/edit.inc:296 ../mod/cs/edit.inc:300
+msgid ""
+"Specify the multiplier of the particular unit to the base unit of the unit "
+"type"
+msgstr ""
+
+#: ../mod/cs/edit.inc:451
+msgid "Details Of the Unit Type"
+msgstr ""
+
+#: ../mod/cs/edit.inc:453
+msgid "Unit Type Name   : "
+msgstr ""
+
+#: ../mod/cs/home.inc:22
+msgid ""
+"The Catalogue System helps to capture the Information about catalogues, sub "
+"catalogues, and Items that are used by the Inventory Management System. "
+"\"Add Main catalogue\" will add root Items of the catalogue while \"Add sub "
+"catalogue\" adding sub Items under those root catalogues. \"Add Item\" is "
+"capturing information about Items that you wish to use in Inventery "
+"Management System. Before go to add catalogues and Items add the measurement "
+"unit types and units that are used to measure the particular Item. "
+msgstr ""
+
+#: ../mod/cs/lib_cs.inc:184
+msgid "None"
+msgstr ""
+
+#: ../mod/cs/lib_cs.inc:187
+msgid "There is no any root catalogue found. "
+msgstr ""
+
+#: ../mod/cs/lib_cs.inc:194
+msgid "Select the root Category"
+msgstr ""
+
+#: ../mod/cs/lib_cs.inc:198
+msgid "Select the sub category"
+msgstr ""
+
+#: ../mod/cs/lib_cs.inc:362
+msgid "Please Select the Catalogue that you need"
+msgstr ""
+
+#: ../mod/cs/main.inc:39
+msgid "Add Catalogue/Item"
+msgstr ""
+
+#: ../mod/cs/main.inc:40
+msgid "Add Main Catalogue"
+msgstr ""
+
+#: ../mod/cs/main.inc:41
+msgid "Add Sub Catalogue"
+msgstr ""
+
+#: ../mod/cs/main.inc:42 ../mod/ims/add_item.inc:43 ../mod/ims/main.inc:45
+msgid "Add Item"
+msgstr ""
+
+#: ../mod/cs/main.inc:44
+msgid "Add Unit Category/ Unit"
+msgstr ""
+
+#: ../mod/cs/main.inc:45
+msgid "Add Measurement Unit Type"
+msgstr ""
+
+#: ../mod/cs/main.inc:46
+msgid "Add Measurement Unit"
+msgstr ""
+
+#: ../mod/cs/main.inc:48
+msgid "View & Edit"
+msgstr ""
+
+#: ../mod/cs/main.inc:69
+msgid ""
+"Select the Search Type in the select box that you need to search. By "
+"selecting Catalogue/Item, you are able to Search for a Item or a Catalogue "
+"and by selecting Unit, you are able to search for Units."
+msgstr ""
+
+#: ../mod/cs/main.inc:145
+msgid ""
+"Here you are able to add Main catalogue types which are the root Items of "
+"the Item tree. Eg. Food, Medicine, clothing, etc."
+msgstr ""
+
+#: ../mod/cs/main.inc:157
+msgid ""
+"Here you are able to add Sub catalogue types which are under Main "
+"catalogues. Eg. Food --> Fruits, Dry food, etc. Fruits, Dry food are sub "
+"catalogues. The system administrator should have to specify the Maximum "
+"Depth of the Catalogue / Item Tree. Eg: Maximum Depth = 5 will allow you to "
+"add catalogues /Items upto 5 levels."
+msgstr ""
+
+#: ../mod/cs/main.inc:222
+msgid ""
+" This feature allows to add measurement unit/units. Before adding a sub "
+"category you have to add the measurement unit/units that is  used by the "
+"purticular category."
+msgstr ""
+
+#: ../mod/cs/main.inc:264
+msgid ""
+"Here you are able to add Items which are under catalogues. Eg. Fruits --> "
+"Apple,Mango etc. Apple,Mango are Items. The system administrator should have "
+"to specify the Maximum Depth of the Catalogue / Item Tree. Eg: Maximum Depth "
+"= 5 will allow you to add catalogues /Items upto 5 levels."
+msgstr ""
+
+#: ../mod/cs/main.inc:315
+msgid ""
+"Here you are able to view, edit and Delete all the catalogues, Items, Units "
+"and Unit Types which are handled by the catalogue system. <b>Using Delete, "
+"you will lose all the records of the particular catalogues, Items, Unit or "
+"Unit Types.</b>"
+msgstr ""
+
+#: ../mod/cs/main.inc:400
+msgid ""
+"Here you are able to add Unit type. For every Unit type you have to add a "
+"base unit. Eg. If you add volume as the unit type, Letre can be specified as "
+"the base unit."
+msgstr ""
+
+#: ../mod/cs/search.inc:30
+msgid "Select Search Type"
+msgstr ""
+
+#: ../mod/cs/search.inc:49 ../mod/cs/search.inc:139
+msgid "Search Details"
+msgstr ""
+
+#: ../mod/cs/search.inc:50
+msgid "Enter the Item/Catalogue to be searched"
+msgstr ""
+
+#: ../mod/cs/search.inc:97
+msgid "Category Name"
+msgstr ""
+
+#: ../mod/cs/search.inc:141
+msgid "Enter the Unit name to be searched."
+msgstr ""
+
+#: ../mod/cs/search.inc:193
+msgid "Unit Type"
+msgstr ""
+
+#: ../mod/cs/search.inc:194 ../mod/ims/home.inc:48
+#: ../mod/ims/mini_quantity.inc:239 ../mod/ims/report.inc:51
+#: ../mod/ims/report.inc:187 ../mod/ims/report.inc:268
+#: ../mod/ims/search.inc:144 ../mod/ims/transfer_inv.inc:74
+#: ../mod/ims/transfer_inv.inc:307 ../mod/ims/view_edit_item.inc:56
+msgid "Unit"
+msgstr ""
+
+#: ../mod/cs/search.inc:265
+msgid "Please Enter the Item/Catalogue Name to be searched"
+msgstr ""
+
+#: ../mod/cs/search.inc:270
+msgid "Please Select either Item or Catalogue radio button to search"
+msgstr ""
+
+#: ../mod/cs/search.inc:284
+msgid "Please Select the Measurement Unit Type"
+msgstr ""
+
+#: ../mod/cs/search.inc:290
+msgid "Please Enter the Unit Name to be searched"
+msgstr ""
+
+#: ../mod/dvr/add.inc:136
+msgid "b.caption"
+msgstr ""
+
+#: ../mod/gis/admin.inc:43 ../mod/gis/admin.inc:57
+msgid "GIS / Mapping Admin Page"
+msgstr ""
+
+#: ../mod/gis/admin.inc:106
+msgid "GIS Plugins Detected"
+msgstr ""
+
+#: ../mod/gis/admin.inc:111
+msgid "Sahana supports a modular GIS plugin architecture "
+msgstr ""
+
+#: ../mod/gis/admin.inc:112
+msgid "You can select which GIS plugin to use as your default GIS"
+msgstr ""
+
+#: ../mod/gis/admin.inc:113
+msgid "Select the default GIS plugin from the detected plugins below:"
+msgstr ""
+
+#: ../mod/gis/admin.inc:114
+msgid ""
+"For more information on adding custom plugins, refer to the documentation "
+"within the mod/gis subdirectory"
+msgstr ""
+
+#: ../mod/gis/admin.inc:155
+msgid "GIS Maps in Sahana can be set to display a default region"
+msgstr ""
+
+#: ../mod/gis/admin.inc:156
+msgid "In order to set the map display for a particular region, "
+msgstr ""
+
+#: ../mod/gis/admin.inc:157
+msgid ""
+"you should know the Northing/X coordinate and the Easting/Y coordinate of "
+"that region"
+msgstr ""
+
+#: ../mod/gis/admin.inc:158
+msgid "If these values are known, you can set them below:"
+msgstr ""
+
+#: ../mod/gis/admin.inc:164
+msgid "Default Center Coordinates"
+msgstr ""
+
+#: ../mod/gis/admin.inc:167
+msgid "Center Northing Value[x]"
+msgstr ""
+
+#: ../mod/gis/admin.inc:168
+msgid "Center Easting Value[y]"
+msgstr ""
+
+#: ../mod/gis/admin.inc:194
+msgid "Your Changed Were Saved"
+msgstr ""
+
+#: ../mod/gis/admin.inc:202
+msgid "Your Changes Were Saved"
+msgstr ""
+
+#: ../mod/gis/conf.inc:23 ../mod/gis/main_fns.inc:26
+msgid "GIS Mapping"
+msgstr ""
+
+#: ../mod/gis/main_fns.inc:27
+msgid ""
+"The GIS (Geographic Information System) Mapping Module provides Spatial and "
+"Mapping "
+msgstr ""
+
+#: ../mod/gis/main_fns.inc:28
+msgid ""
+"Functionality to Sahana. It is used by various modules to display maps, "
+msgstr ""
+
+#: ../mod/gis/main_fns.inc:29
+msgid ""
+"specify locations and coordinates of camps, victims and relief efforts. "
+"Currently it supports Google Maps"
+msgstr ""
+
+#: ../mod/gis/main.inc:25
+msgid "GIS Mapping Module"
+msgstr ""
+
+#: ../mod/home/conf.inc:3
+msgid "Sahana Home"
+msgstr ""
+
+#: ../mod/home/main.inc:9
+msgid "<h2>Welcome to the Sahana FOSS Disaster Management System</h2>"
+msgstr ""
+
+#: ../mod/home/main.inc:11
+msgid ""
+"Sahana is an integrated set of pluggable, web based disaster management "
+"applications that provide solutions to large-scale humanitarian problems in "
+"the aftermath of a disaster. These applications and problems they address "
+"are as follows:"
+msgstr ""
+
+#: ../mod/home/main.inc:13
+msgid ""
+"Missing Person Registry</b> <br/>Helping to reduce trauma by effectively "
+"finding missing persons"
+msgstr ""
+
+#: ../mod/home/main.inc:14
+msgid ""
+"Organization Registry</b> <br/>Coordinating and balancing the distribution "
+"of relief organizations in the affected areas and connecting relief groups "
+"allowing them to operate as one"
+msgstr ""
+
+#: ../mod/home/main.inc:15
+msgid ""
+"Request Management System</b> <br/>Registering and Tracking all incoming "
+"requests for support and relief up to fulfilment and helping donors connect "
+"to relief requirements"
+msgstr ""
+
+#: ../mod/home/main.inc:16
+msgid ""
+"Camp Registry</b><br/>Tracking the location and numbers of victims in the "
+"various camps and temporary shelters setup all around the affected area"
+msgstr ""
+
+#: ../mod/home/main.inc:20
+msgid "For more detail see the "
+msgstr ""
+
+#: ../mod/home/main.inc:22
+msgid "Sahana Website </a> and "
+msgstr ""
+
+#: ../mod/home/main.inc:24
+msgid " Brochure </a>"
+msgstr ""
+
+#: ../mod/home/stream.inc:11 ../mod/mpr/stream.inc:14
+msgid ""
+"\n"
+"        Welcome to the Sahana FOSS Disaster Management System\n"
+"        Sahana is an integrated set of pluggable, web based disaster "
+"management applications that pr ovide solutions to large-scale humanitarian "
+"problems in the aftermath of a disaster. These applications a nd problems "
+"they address are as follows:"
+msgstr ""
+
+#: ../mod/ims/add_item.inc:63
+msgid "Add items to the Inventory"
+msgstr ""
+
+#: ../mod/ims/add_item.inc:139
+msgid "* Item : "
+msgstr ""
+
+#: ../mod/ims/add_item.inc:140
+msgid "*  Amount : "
+msgstr ""
+
+#: ../mod/ims/add_item.inc:148 ../mod/ims/transfer_inv.inc:421
+msgid "Cost per Unit : "
+msgstr ""
+
+#: ../mod/ims/add_item.inc:148
+msgid "Cost of a unit which you are going to select below "
+msgstr ""
+
+#: ../mod/ims/add_item.inc:168 ../mod/ims/mini_quantity.inc:101
+#: ../mod/ims/mini_quantity.inc:126 ../mod/ims/search.inc:97
+msgid "Inventory : "
+msgstr ""
+
+#: ../mod/ims/add_item.inc:168
+msgid ""
+"If this box is empty please go to the Multiple Inventory Management System "
+"and add an Inventory first"
+msgstr ""
+
+#: ../mod/ims/add_item.inc:172
+msgid "Secondry details"
+msgstr ""
+
+#: ../mod/ims/add_item.inc:174
+msgid "Manufactured Date : "
+msgstr ""
+
+#: ../mod/ims/add_item.inc:174 ../mod/ims/add_item.inc:176
+msgid ""
+"Date Should be entered as year-month-date. .and / seperates are also accepted"
+msgstr ""
+
+#: ../mod/ims/add_item.inc:176
+msgid "Expire Date :"
+msgstr ""
+
+#: ../mod/ims/add_item.inc:191
+msgid "Suplier Organization : "
+msgstr ""
+
+#: ../mod/ims/add_item.inc:191
+msgid ""
+"If this box does not contain the organization name please go to the "
+"Organization Registry module and get your organization Registered "
+msgstr ""
+
+#: ../mod/ims/add_item.inc:218 ../mod/ims/search.inc:103
+msgid "Submit"
+msgstr ""
+
+#: ../mod/ims/admin_forms.inc:24 ../mod/or/admin_forms.inc:24
+#: ../mod/vol/admin_forms.inc:24
+msgid "Set the Starting Location"
+msgstr ""
+
+#: ../mod/ims/admin_forms.inc:26 ../mod/or/admin_forms.inc:26
+#: ../mod/vol/admin_forms.inc:26
+msgid ""
+"When a Disaster happens,typically organizations located in a certain region "
+"get involved. Therefore when you select a location its a waste of time to "
+"always start from country. If you know the country ,give it in this form,and "
+"you can start with sub-divisions of that country. Furthermore ,if the "
+"Disaster is confined to a much smaller geographical area, select the "
+"appropriate location to start with."
+msgstr ""
+
+#: ../mod/ims/admin_forms.inc:35 ../mod/or/admin_forms.inc:35
+#: ../mod/vol/admin_forms.inc:35
+msgid "I want all the Locations ,so don't set a starting point"
+msgstr ""
+
+#: ../mod/ims/admin_forms.inc:38 ../mod/or/admin_forms.inc:38
+#: ../mod/vol/admin_forms.inc:38
+msgid "Select the Location Level you want fix"
+msgstr ""
+
+#: ../mod/ims/admin_forms.inc:41 ../mod/or/admin_forms.inc:41
+#: ../mod/vol/admin_forms.inc:41
+msgid "Now Select the Location"
+msgstr ""
+
+#: ../mod/ims/admin_forms.inc:106 ../mod/or/admin_forms.inc:106
+#: ../mod/vol/admin_forms.inc:105
+msgid "Organization Types"
+msgstr ""
+
+#: ../mod/ims/admin_forms.inc:116 ../mod/or/admin_forms.inc:116
+#: ../mod/vol/admin_forms.inc:115
+msgid "Organization Type : "
+msgstr ""
+
+#: ../mod/ims/admin_forms.inc:117 ../mod/ims/admin_forms.inc:161
+#: ../mod/or/admin_forms.inc:117 ../mod/or/admin_forms.inc:161
+#: ../mod/vol/admin_forms.inc:116 ../mod/vol/admin_forms.inc:160
+msgid "Abbrevation [3 letter unique abbr. to store in the database] : "
+msgstr ""
+
+#: ../mod/ims/admin_forms.inc:150 ../mod/or/admin_forms.inc:150
+#: ../mod/vol/admin_forms.inc:149
+msgid "Organization Sectors"
+msgstr ""
+
+#: ../mod/ims/admin_forms.inc:160 ../mod/or/admin_forms.inc:160
+#: ../mod/vol/admin_forms.inc:159
+msgid "Organization Sector : "
+msgstr ""
+
+#: ../mod/ims/conf.inc:19
+msgid "Inventory Management System"
+msgstr ""
+
+#: ../mod/ims/home.inc:22
+msgid "Inventory Management System Home"
+msgstr ""
+
+#: ../mod/ims/home.inc:37
+msgid "Most recently added ten items "
+msgstr ""
+
+#: ../mod/ims/home.inc:46 ../mod/ims/mini_quantity.inc:237
+#: ../mod/ims/report.inc:49 ../mod/ims/report.inc:185
+#: ../mod/ims/transfer_inv.inc:72 ../mod/ims/transfer_inv.inc:305
+#: ../mod/ims/view_edit_item.inc:54 ../mod/rms/handler_mng_ff.inc:107
+#: ../mod/rms/handler_mng_ff.inc:145 ../mod/rms/handler_plg_new.inc:315
+#: ../mod/rms/handler_plg_new.inc:330 ../mod/rms/handler_req_new.inc:375
+#: ../mod/rms/handler_req_new.inc:391 ../mod/rms/lib_rms.inc:966
+#: ../mod/rms/lib_rms.inc:1015 ../mod/rms/lib_rms.inc:1064
+msgid "Item"
+msgstr ""
+
+#: ../mod/ims/home.inc:47 ../mod/ims/mini_quantity.inc:238
+#: ../mod/ims/report.inc:50 ../mod/ims/report.inc:186
+#: ../mod/ims/report.inc:267 ../mod/ims/search.inc:143
+#: ../mod/ims/transfer_inv.inc:73 ../mod/ims/view_edit_item.inc:55
+msgid "Amount"
+msgstr ""
+
+#: ../mod/ims/home.inc:49 ../mod/ims/report.inc:188 ../mod/ims/report.inc:270
+#: ../mod/ims/transfer_inv.inc:75 ../mod/ims/view_edit_item.inc:57
+msgid "Manufactured Date"
+msgstr ""
+
+#: ../mod/ims/home.inc:50 ../mod/ims/report.inc:189
+#: ../mod/ims/transfer_inv.inc:76 ../mod/ims/view_edit_item.inc:58
+msgid "Expire Date"
+msgstr ""
+
+#: ../mod/ims/home.inc:52 ../mod/ims/report.inc:191 ../mod/ims/report.inc:272
+#: ../mod/ims/search.inc:147
+msgid "Suplier"
+msgstr ""
+
+#: ../mod/ims/lib_ims.inc:317 ../mod/or/lib_or.inc:408
+#: ../mod/vol/lib_vol.inc:298 ../mod/vol/lib_vol.inc:383
+msgid "Gender:"
+msgstr ""
+
+#: ../mod/ims/lib_ims.inc:380 ../mod/or/lib_or.inc:499
+#: ../mod/vol/lib_vol.inc:346
+msgid "Name : "
+msgstr ""
+
+#: ../mod/ims/lib_ims.inc:383 ../mod/or/lib_or.inc:502
+#: ../mod/vol/lib_vol.inc:349
+msgid "Address : "
+msgstr ""
+
+#: ../mod/ims/lib_ims.inc:385 ../mod/or/lib_or.inc:504
+#: ../mod/vol/lib_vol.inc:351
+msgid "Phone : "
+msgstr ""
+
+#: ../mod/ims/lib_ims.inc:387 ../mod/or/lib_or.inc:506
+#: ../mod/vol/lib_vol.inc:353
+msgid "Mobile No : "
+msgstr ""
+
+#: ../mod/ims/lib_ims.inc:389 ../mod/or/lib_or.inc:508
+#: ../mod/vol/lib_vol.inc:355
+msgid "Fax : "
+msgstr ""
+
+#: ../mod/ims/lib_ims.inc:391 ../mod/or/lib_or.inc:510
+#: ../mod/vol/lib_vol.inc:357
+msgid "Email : "
+msgstr ""
+
+#: ../mod/ims/lib_ims.inc:393 ../mod/or/lib_or.inc:512
+#: ../mod/vol/lib_vol.inc:359
+msgid "Website : "
+msgstr ""
+
+#: ../mod/ims/lib_ims.inc:411 ../mod/or/lib_or.inc:529
+msgid "Man Power : "
+msgstr ""
+
+#: ../mod/ims/lib_ims.inc:413 ../mod/or/lib_or.inc:531
+msgid "Equipment : "
+msgstr ""
+
+#: ../mod/ims/lib_ims.inc:415 ../mod/or/lib_or.inc:533
+msgid "Other relevant resources : "
+msgstr ""
+
+#: ../mod/ims/lib_ims.inc:417
+msgid "Inventory Space : "
+msgstr ""
+
+#: ../mod/ims/lib_ims.inc:435 ../mod/or/lib_or.inc:648
+msgid ""
+"Add Operation<br> (Your Organization might be having branches or carrying "
+"out relief operations in this disaster. Then information of those operations "
+"is usefull : )"
+msgstr ""
+
+#: ../mod/ims/main.inc:43
+msgid "Item Management"
+msgstr ""
+
+#: ../mod/ims/main.inc:46 ../mod/ims/main.inc:51 ../mod/ims/main.inc:55
+msgid "View and Edit"
+msgstr ""
+
+#: ../mod/ims/main.inc:48
+msgid "Multiple Inventory Management"
+msgstr ""
+
+#: ../mod/ims/main.inc:50
+msgid "Add Inventory"
+msgstr ""
+
+#: ../mod/ims/main.inc:53 ../mod/ims/main.inc:54
+#: ../mod/ims/mini_quantity.inc:226 ../mod/ims/report.inc:42
+msgid "Re-Order Level"
+msgstr ""
+
+#: ../mod/ims/main.inc:57
+msgid "Inventory Transfer"
+msgstr ""
+
+#: ../mod/ims/main.inc:58 ../mod/ims/transfer_inv.inc:79
+msgid "Send Item"
+msgstr ""
+
+#: ../mod/ims/main.inc:59 ../mod/ims/transfer_inv.inc:312
+msgid "Transit Item"
+msgstr ""
+
+#: ../mod/ims/main.inc:62
+msgid "expired item"
+msgstr ""
+
+#: ../mod/ims/main.inc:63
+msgid "destroyed item"
+msgstr ""
+
+#: ../mod/ims/main.inc:64
+msgid "re-order level"
+msgstr ""
+
+#: ../mod/ims/main.inc:340 ../mod/or/main.inc:91 ../mod/vol/main.inc:90
+msgid "Sorry, you do not have permisssion to access this section"
+msgstr ""
+
+#: ../mod/ims/main.inc:340 ../mod/or/main.inc:91 ../mod/vol/main.inc:90
+msgid "This could be because:"
+msgstr ""
+
+#: ../mod/ims/main.inc:342 ../mod/or/main.inc:93 ../mod/vol/main.inc:92
+msgid ""
+"You have not logged in or Anonymous access is not allowed to this section"
+msgstr ""
+
+#: ../mod/ims/main.inc:343 ../mod/or/main.inc:94 ../mod/vol/main.inc:93
+msgid "Your username has not been given permission to access this section"
+msgstr ""
+
+#: ../mod/ims/main.inc:345 ../mod/or/main.inc:96 ../mod/vol/main.inc:95
+msgid "To gain access to this section please contact the administrator"
+msgstr ""
+
+#: ../mod/ims/main.inc:422 ../mod/or/main.inc:252 ../mod/vol/main.inc:169
+msgid "Search Result"
+msgstr ""
+
+#: ../mod/ims/main.inc:426 ../mod/ims/view_inv.inc:32
+msgid "Inventory Name"
+msgstr ""
+
+#: ../mod/ims/main.inc:427 ../mod/ims/report.inc:479
+#: ../mod/ims/view_inv.inc:33 ../mod/vol/main.inc:176
+#: ../mod/vol/report.inc:179 ../mod/vol/view_vol.inc:33
+msgid "Country of Origin"
+msgstr ""
+
+#: ../mod/ims/main.inc:428 ../mod/vol/main.inc:177 ../mod/vol/report.inc:180
+#: ../mod/vol/view_vol.inc:34
+msgid "Contact Address"
+msgstr ""
+
+#: ../mod/ims/main.inc:430 ../mod/vol/main.inc:179 ../mod/vol/report.inc:183
+#: ../mod/vol/view_vol.inc:37
+msgid "Contact Email"
+msgstr ""
+
+#: ../mod/ims/main.inc:431 ../mod/ims/report.inc:482
+#: ../mod/ims/view_inv.inc:36 ../mod/or/main.inc:263 ../mod/or/report.inc:313
+#: ../mod/or/view_org.inc:122 ../mod/vol/main.inc:180
+msgid "Man Power"
+msgstr ""
+
+#: ../mod/ims/main.inc:432 ../mod/ims/report.inc:484 ../mod/or/report.inc:315
+#: ../mod/vol/main.inc:181
+msgid "Facilities"
+msgstr ""
+
+#: ../mod/ims/main.inc:433
+msgid "Space"
+msgstr ""
+
+#: ../mod/ims/mini_quantity.inc:23 ../mod/ims/mini_quantity.inc:197
+msgid "Item Selection"
+msgstr ""
+
+#: ../mod/ims/mini_quantity.inc:86 ../mod/ims/transfer_inv.inc:416
+msgid "Item Name : "
+msgstr ""
+
+#: ../mod/ims/mini_quantity.inc:132
+msgid "Re-Order Level : "
+msgstr ""
+
+#: ../mod/ims/mini_quantity.inc:136
+msgid ""
+"Select the Measurement unit for entered amount. If this box is empty go back "
+"to the catalogue system and add a measurement unit"
+msgstr ""
+
+#: ../mod/ims/reg_inv.inc:29
+msgid "Add an Inventory"
+msgstr ""
+
+#: ../mod/ims/reg_inv.inc:39 ../mod/ims/view_inv.inc:160
+msgid "Inventory Name : "
+msgstr ""
+
+#: ../mod/ims/reg_inv.inc:89
+msgid "Add an Operation/Branch under the Inventory "
+msgstr ""
+
+#: ../mod/ims/reg_inv.inc:99 ../mod/or/reg_org.inc:103
+msgid "Operation/Branch Name : "
+msgstr ""
+
+#: ../mod/ims/report.inc:177
+msgid "Expired Item"
+msgstr ""
+
+#: ../mod/ims/report.inc:192
+msgid "Action"
+msgstr ""
+
+#: ../mod/ims/report.inc:260
+msgid "Destroyed Item"
+msgstr ""
+
+#: ../mod/ims/report.inc:266 ../mod/ims/search.inc:142
+msgid "Item Name"
+msgstr ""
+
+#: ../mod/ims/report.inc:271
+msgid "Expire_Date"
+msgstr ""
+
+#: ../mod/ims/report.inc:342 ../mod/or/report.inc:36
+msgid "Organization Report By "
+msgstr ""
+
+#: ../mod/ims/report.inc:342 ../mod/vol/report.inc:41
+msgid " "
+msgstr ""
+
+#: ../mod/ims/report.inc:344 ../mod/or/report.inc:38 ../mod/or/report.inc:145
+#: ../mod/or/report.inc:153 ../mod/or/report.inc:156 ../mod/vol/report.inc:43
+msgid "Each Row is a "
+msgstr ""
+
+#: ../mod/ims/report.inc:344 ../mod/or/report.inc:38 ../mod/or/report.inc:145
+#: ../mod/or/report.inc:153 ../mod/or/report.inc:156 ../mod/vol/report.inc:43
+msgid " ,Column is a  Service."
+msgstr ""
+
+#: ../mod/ims/report.inc:348 ../mod/vol/report.inc:47
+msgid ""
+"Intersection shows the precentage of Sub-divisions Covered per each service."
+msgstr ""
+
+#: ../mod/ims/report.inc:349 ../mod/vol/report.inc:48
+msgid "For this report Sub-division is a  "
+msgstr ""
+
+#: ../mod/ims/report.inc:349 ../mod/vol/report.inc:48
+msgid "."
+msgstr ""
+
+#: ../mod/ims/report.inc:350 ../mod/vol/report.inc:49
+msgid "If atleast one "
+msgstr ""
+
+#: ../mod/ims/report.inc:350
+msgid ""
+" in the Sub-division has an organization providing the service then that Sub-"
+"division is considered as covered for that service."
+msgstr ""
+
+#: ../mod/ims/report.inc:352 ../mod/vol/report.inc:51
+msgid "Intersection shows whether each "
+msgstr ""
+
+#: ../mod/ims/report.inc:352 ../mod/vol/report.inc:51
+msgid " has atleast one organization providing the service."
+msgstr ""
+
+#: ../mod/ims/report.inc:394 ../mod/or/report.inc:201 ../mod/vol/report.inc:93
+msgid "Covered"
+msgstr ""
+
+#: ../mod/ims/report.inc:397 ../mod/or/report.inc:204 ../mod/vol/report.inc:96
+msgid "Not Covered"
+msgstr ""
+
+#: ../mod/ims/report.inc:472 ../mod/or/report.inc:302
+#: ../mod/vol/report.inc:173
+msgid "Organization Report by Sector"
+msgstr ""
+
+#: ../mod/ims/report.inc:478 ../mod/or/main.inc:259 ../mod/or/report.inc:309
+#: ../mod/or/search.inc:39 ../mod/or/view_org.inc:118
+#: ../mod/or/view_org.inc:285 ../mod/vol/main.inc:175
+msgid "Organization Type"
+msgstr ""
+
+#: ../mod/ims/report.inc:483 ../mod/ims/view_inv.inc:37 ../mod/or/main.inc:264
+#: ../mod/or/report.inc:314 ../mod/or/view_org.inc:123
+msgid "Equipment"
+msgstr ""
+
+#: ../mod/ims/search.inc:32 ../mod/ims/search.inc:65
+msgid "Search an inventory item"
+msgstr ""
+
+#: ../mod/ims/search.inc:72
+msgid "Search items "
+msgstr ""
+
+#: ../mod/ims/search.inc:73
+msgid "Search by Item name   : "
+msgstr ""
+
+#: ../mod/ims/search.inc:76
+msgid "Item available"
+msgstr ""
+
+#: ../mod/ims/search.inc:77
+msgid "Item to be destroyed"
+msgstr ""
+
+#: ../mod/ims/search.inc:78
+msgid "Item already destroyed"
+msgstr ""
+
+#: ../mod/ims/search.inc:79
+msgid "  State  : "
+msgstr ""
+
+#: ../mod/ims/search.inc:146
+msgid "State"
+msgstr ""
+
+#: ../mod/ims/search.inc:212
+msgid "Total Amount"
+msgstr ""
+
+#: ../mod/ims/search.inc:231
+msgid "Search for Inventories by Location"
+msgstr ""
+
+#: ../mod/ims/search.inc:236 ../mod/vol/search.inc:34
+msgid "Selected Location"
+msgstr ""
+
+#: ../mod/ims/search.inc:239 ../mod/vol/search.inc:37
+msgid "Select location and then select the level(province,district,ect)"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:26 ../mod/ims/transfer_inv.inc:68
+#: ../mod/ims/transfer_inv.inc:156
+msgid "Send Item between Inventories"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:27
+msgid "Please select the Item to be sent"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:77 ../mod/ims/view_edit_item.inc:59
+msgid "Available Inventory"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:78
+msgid "state"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:164
+msgid "Item Send : "
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:166
+msgid "Amount Send: "
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:190
+msgid ""
+"Select the Measurement unit for entered amount. If this box does not contain "
+"the desired measurement unit please go back to the catalogue system and add"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:197
+msgid "From the Inventory : "
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:207
+msgid "To the Inventory : "
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:207
+msgid "Select the Inventory which items to be sent"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:209 ../mod/msg/handler_cap_new.bak.inc:51
+#: ../mod/msg/handler_cap_new.inc:59 ../mod/rms/handler_plg_ls.inc:119
+#: ../mod/rms/handler_plg_sch.inc:88 ../mod/rms/handler_req_ls.inc:136
+#: ../mod/rms/handler_req_sch.inc:95 ../mod/rms/lib_rms.inc:1015
+msgid "Date"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:209 ../mod/ims/transfer_inv.inc:426
+msgid "Year-Month-Date. Only -,.and / seperates are accepted"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:211
+msgid "Cost Per Unit : "
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:216
+msgid "Authorized by : "
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:216
+msgid "Person who send Item"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:217
+msgid "Requested by : "
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:218
+msgid "Destribution Method : "
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:219
+msgid "Cause"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:299
+msgid "Item Transit"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:306
+msgid "Amount Sent"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:308
+msgid "Inventory From"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:309
+msgid "Inventory To"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:310
+msgid "Date Sent"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:311
+msgid "Authorized Person"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:378
+msgid "Item Transit "
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:418
+msgid "Received Amount : "
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:423
+msgid "From : "
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:425
+msgid "To : "
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:426
+msgid "Date Received : "
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:427
+msgid "Authorized Person : "
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:427
+msgid "Person who received Item"
+msgstr ""
+
+#: ../mod/ims/transfer_inv.inc:437
+msgid "Received"
+msgstr ""
+
+#: ../mod/ims/view_edit_item.inc:29
+msgid "View and Edit Items"
+msgstr ""
+
+#: ../mod/ims/view_edit_item.inc:60
+msgid "Suplier Name"
+msgstr ""
+
+#: ../mod/ims/view_inv.inc:35 ../mod/or/main.inc:262
+#: ../mod/or/view_org.inc:121
+msgid "Contact Numbers"
+msgstr ""
+
+#: ../mod/ims/view_inv.inc:38 ../mod/or/main.inc:265
+#: ../mod/or/view_org.inc:124
+msgid "Other <br /> Facilities"
+msgstr ""
+
+#: ../mod/ims/view_inv.inc:39
+msgid "Inventory Space"
+msgstr ""
+
+#: ../mod/ims/view_inv.inc:147
+msgid "Inventory Registration Information of <em>"
+msgstr ""
+
+#: ../mod/ims/view_inv.inc:157 ../mod/or/view_org.inc:272
+#: ../mod/vol/view_vol.inc:150
+msgid "Primary Details"
+msgstr ""
+
+#: ../mod/ims/view_inv.inc:166 ../mod/or/view_org.inc:296
+#: ../mod/vol/view_vol.inc:181
+msgid "Contact Information"
+msgstr ""
+
+#: ../mod/ims/view_inv.inc:169 ../mod/or/view_org.inc:299
+msgid "Facilities Avaliable"
+msgstr ""
+
+#: ../mod/lr/conf.inc:4
+msgid "Landmark Registry"
+msgstr ""
+
+#: ../mod/lr/main_fns.inc:7
+msgid "Landmark Location  Registry"
+msgstr ""
+
+#: ../mod/lr/main_fns.inc:9
+msgid "The Landmark Location Registry helps you keep track of landmarks"
+msgstr ""
+
+#: ../mod/lr/main_fns.inc:26
+msgid "Landmark Specific Details"
+msgstr ""
+
+#: ../mod/lr/main_fns.inc:27
+msgid "Landmark Name"
+msgstr ""
+
+#: ../mod/lr/main_fns.inc:28
+msgid "Landmark Type"
+msgstr ""
+
+#: ../mod/lr/main_fns.inc:35
+msgid "Main Contact Details"
+msgstr ""
+
+#: ../mod/lr/main_fns.inc:36
+msgid "Contact Person  Name"
+msgstr ""
+
+#: ../mod/lr/main_fns.inc:38
+msgid "Contact Person  Address"
+msgstr ""
+
+#: ../mod/lr/main_fns.inc:39
+msgid "Contact Person  Phone"
+msgstr ""
+
+#: ../mod/lr/main_fns.inc:41 ../mod/mpr/add.inc:132 ../mod/mpr/add.inc:531
+#: ../mod/mpr/edit.inc:216 ../mod/mpr/edit.inc:500 ../mod/mpr/view.inc:133
+#: ../mod/sync/add.inc:127 ../mod/sync/add.inc:527
+#: ../mod/sync/discovery.inc:490 ../mod/sync/edit.inc:215
+#: ../mod/sync/edit.inc:483 ../mod/sync/view.inc:133
+msgid "Other Details"
+msgstr ""
+
+#: ../mod/lr/main_fns.inc:42
+msgid "Directions to Landmark"
+msgstr ""
+
+#: ../mod/lr/main_fns.inc:43
+msgid "Significance of  Landmark"
+msgstr ""
+
+#: ../mod/lr/main_fns.inc:68
+msgid "Plot the Location OR Enter its GPS coordinates "
+msgstr ""
+
+#: ../mod/lr/main_fns.inc:123
+msgid "Your Landmark has been succesfully added. "
+msgstr ""
+
+#: ../mod/lr/main.inc:26
+msgid "Location Registry Menu"
+msgstr ""
+
+#: ../mod/mpr/add.inc:57 ../mod/sync/add.inc:54
+msgid "WARNING"
+msgstr ""
+
+#: ../mod/mpr/add.inc:59 ../mod/sync/add.inc:56
+msgid ""
+"Please do a search and check whether the person you are looking for is "
+"already exists"
+msgstr ""
+
+#: ../mod/mpr/add.inc:63 ../mod/mpr/add.inc:64 ../mod/mpr/edit.inc:153
+#: ../mod/mpr/search.inc:330 ../mod/mpr/search.inc:445
+#: ../mod/msg/handler_cap_new.bak.inc:53 ../mod/msg/handler_cap_new.inc:61
+#: ../mod/rms/handler_plg_ls.inc:165 ../mod/rms/handler_plg_ls.inc:219
+#: ../mod/rms/handler_req_ls.inc:189 ../mod/rms/handler_req_ls.inc:238
+#: ../mod/sync/add.inc:60 ../mod/sync/add.inc:61 ../mod/sync/edit.inc:153
+#: ../mod/sync/search.inc:325 ../mod/sync/search.inc:436
+msgid "Status"
+msgstr ""
+
+#: ../mod/mpr/add.inc:72 ../mod/mpr/add.inc:415 ../mod/mpr/edit.inc:157
+#: ../mod/mpr/edit.inc:383 ../mod/mpr/search.inc:61 ../mod/mpr/search.inc:62
+#: ../mod/mpr/view.inc:39 ../mod/sync/add.inc:69 ../mod/sync/add.inc:411
+#: ../mod/sync/discovery.inc:374 ../mod/sync/edit.inc:157
+#: ../mod/sync/edit.inc:366 ../mod/sync/search.inc:56
+#: ../mod/sync/search.inc:57 ../mod/sync/view.inc:39
+msgid "Identity"
+msgstr ""
+
+#: ../mod/mpr/add.inc:73 ../mod/mpr/add.inc:419 ../mod/mpr/edit.inc:158
+#: ../mod/mpr/edit.inc:387 ../mod/mpr/view.inc:43 ../mod/sync/add.inc:70
+#: ../mod/sync/add.inc:415 ../mod/sync/discovery.inc:378
+#: ../mod/sync/edit.inc:158 ../mod/sync/edit.inc:370 ../mod/sync/view.inc:43
+msgid "Identity Card Number"
+msgstr ""
+
+#: ../mod/mpr/add.inc:73
+msgid ""
+"Specify the Identity card Number, Although this is not required this will be "
+"useful in searching for the person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:74 ../mod/mpr/add.inc:421 ../mod/mpr/edit.inc:159
+#: ../mod/mpr/edit.inc:389 ../mod/mpr/view.inc:45 ../mod/sync/add.inc:71
+#: ../mod/sync/add.inc:417 ../mod/sync/discovery.inc:380
+#: ../mod/sync/edit.inc:159 ../mod/sync/edit.inc:372 ../mod/sync/view.inc:45
+msgid "Passport Number"
+msgstr ""
+
+#: ../mod/mpr/add.inc:74
+msgid ""
+"Please Specify the passport number, Although this is not required this will "
+"be useful in searching for the person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:75 ../mod/mpr/add.inc:423 ../mod/mpr/edit.inc:160
+#: ../mod/mpr/edit.inc:391 ../mod/mpr/view.inc:47 ../mod/sync/add.inc:72
+#: ../mod/sync/add.inc:419 ../mod/sync/discovery.inc:382
+#: ../mod/sync/edit.inc:160 ../mod/sync/edit.inc:374 ../mod/sync/view.inc:47
+msgid "Driving License"
+msgstr ""
+
+#: ../mod/mpr/add.inc:75
+msgid ""
+"Please Specify the driving License number, Although this is not required "
+"this will be useful in searching for the person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:78 ../mod/mpr/add.inc:437 ../mod/mpr/edit.inc:163
+#: ../mod/mpr/edit.inc:405 ../mod/mpr/search.inc:75 ../mod/mpr/view.inc:61
+#: ../mod/sync/add.inc:75 ../mod/sync/add.inc:433
+#: ../mod/sync/discovery.inc:396 ../mod/sync/edit.inc:163
+#: ../mod/sync/edit.inc:388 ../mod/sync/search.inc:70 ../mod/sync/view.inc:61
+msgid "Basic Details"
+msgstr ""
+
+#: ../mod/mpr/add.inc:80 ../mod/sync/add.inc:77
+msgid "Please enter any of the following details on the person:"
+msgstr ""
+
+#: ../mod/mpr/add.inc:84
+msgid ""
+"Family name, or the surname could be specified for matching of people with "
+"similar Family names"
+msgstr ""
+
+#: ../mod/mpr/add.inc:85
+msgid ""
+"You may also specify the local name, even in different script than English"
+msgstr ""
+
+#: ../mod/mpr/add.inc:86 ../mod/mpr/edit.inc:171 ../mod/sync/add.inc:83
+#: ../mod/sync/edit.inc:171
+msgid "Date of Birth   (YYYY-MM-DD)"
+msgstr ""
+
+#: ../mod/mpr/add.inc:88 ../mod/mpr/add.inc:451 ../mod/mpr/edit.inc:173
+#: ../mod/mpr/edit.inc:419 ../mod/mpr/view.inc:75 ../mod/sync/add.inc:85
+#: ../mod/sync/add.inc:447 ../mod/sync/discovery.inc:410
+#: ../mod/sync/edit.inc:173 ../mod/sync/edit.inc:402 ../mod/sync/view.inc:75
+msgid "Gender"
+msgstr ""
+
+#: ../mod/mpr/add.inc:96
+msgid "Your address can be specified to contact you"
+msgstr ""
+
+#: ../mod/mpr/add.inc:97 ../mod/mpr/add.inc:519 ../mod/mpr/edit.inc:182
+#: ../mod/mpr/edit.inc:488 ../mod/mpr/view.inc:121 ../mod/sync/add.inc:94
+#: ../mod/sync/add.inc:515 ../mod/sync/discovery.inc:478
+#: ../mod/sync/edit.inc:182 ../mod/sync/edit.inc:471 ../mod/sync/view.inc:121
+msgid "Postal Code"
+msgstr ""
+
+#: ../mod/mpr/add.inc:97
+msgid "Specify a postal code, if it is available"
+msgstr ""
+
+#: ../mod/mpr/add.inc:98 ../mod/mpr/add.inc:521 ../mod/mpr/edit.inc:183
+#: ../mod/mpr/edit.inc:490 ../mod/mpr/view.inc:123 ../mod/sync/add.inc:95
+#: ../mod/sync/add.inc:517 ../mod/sync/discovery.inc:480
+#: ../mod/sync/edit.inc:183 ../mod/sync/edit.inc:473 ../mod/sync/view.inc:123
+msgid "Home Phone"
+msgstr ""
+
+#: ../mod/mpr/add.inc:99 ../mod/mpr/add.inc:523 ../mod/mpr/edit.inc:184
+#: ../mod/mpr/edit.inc:492 ../mod/mpr/view.inc:125
+#: ../mod/rms/handler_plg_new.inc:47 ../mod/rms/handler_plg_new.inc:135
+#: ../mod/rms/handler_plg_new.inc:141 ../mod/rms/handler_plg_new.inc:262
+#: ../mod/rms/handler_req_new.inc:45 ../mod/rms/handler_req_new.inc:134
+#: ../mod/rms/handler_req_new.inc:140 ../mod/rms/handler_req_new.inc:255
+#: ../mod/rms/lib_rms.inc:923 ../mod/rms/lib_rms.inc:938
+#: ../mod/sync/add.inc:96 ../mod/sync/add.inc:519
+#: ../mod/sync/discovery.inc:482 ../mod/sync/edit.inc:184
+#: ../mod/sync/edit.inc:475 ../mod/sync/view.inc:125
+msgid "Mobile"
+msgstr ""
+
+#: ../mod/mpr/add.inc:118
+msgid "Select location"
+msgstr ""
+
+#: ../mod/mpr/add.inc:122 ../mod/mpr/add.inc:468 ../mod/mpr/edit.inc:207
+#: ../mod/mpr/edit.inc:436 ../mod/mpr/view.inc:92 ../mod/sync/add.inc:117
+#: ../mod/sync/add.inc:464 ../mod/sync/discovery.inc:427
+#: ../mod/sync/edit.inc:206 ../mod/sync/edit.inc:419 ../mod/sync/view.inc:92
+msgid "Physical Details"
+msgstr ""
+
+#: ../mod/mpr/add.inc:123 ../mod/mpr/add.inc:472 ../mod/mpr/edit.inc:208
+#: ../mod/mpr/edit.inc:440 ../mod/mpr/search.inc:374 ../mod/mpr/view.inc:96
+#: ../mod/sync/add.inc:118 ../mod/sync/add.inc:468
+#: ../mod/sync/discovery.inc:431 ../mod/sync/edit.inc:207
+#: ../mod/sync/edit.inc:423 ../mod/sync/search.inc:365 ../mod/sync/view.inc:96
+msgid "Eye Colour"
+msgstr ""
+
+#: ../mod/mpr/add.inc:124 ../mod/mpr/add.inc:474 ../mod/mpr/edit.inc:209
+#: ../mod/mpr/edit.inc:442 ../mod/mpr/search.inc:375 ../mod/mpr/view.inc:98
+#: ../mod/sync/add.inc:119 ../mod/sync/add.inc:470
+#: ../mod/sync/discovery.inc:433 ../mod/sync/edit.inc:208
+#: ../mod/sync/edit.inc:425 ../mod/sync/search.inc:366 ../mod/sync/view.inc:98
+msgid "Skin Colour"
+msgstr ""
+
+#: ../mod/mpr/add.inc:125 ../mod/mpr/add.inc:476 ../mod/mpr/edit.inc:210
+#: ../mod/mpr/edit.inc:444 ../mod/mpr/search.inc:376 ../mod/mpr/view.inc:100
+#: ../mod/sync/add.inc:120 ../mod/sync/add.inc:472
+#: ../mod/sync/discovery.inc:435 ../mod/sync/edit.inc:209
+#: ../mod/sync/edit.inc:427 ../mod/sync/search.inc:367
+#: ../mod/sync/view.inc:100
+msgid "Hair Colour"
+msgstr ""
+
+#: ../mod/mpr/add.inc:126 ../mod/mpr/add.inc:478 ../mod/mpr/edit.inc:211
+#: ../mod/mpr/edit.inc:446 ../mod/mpr/search.inc:372 ../mod/mpr/view.inc:102
+#: ../mod/sync/add.inc:121 ../mod/sync/add.inc:474
+#: ../mod/sync/discovery.inc:437 ../mod/sync/edit.inc:210
+#: ../mod/sync/edit.inc:429 ../mod/sync/search.inc:363
+#: ../mod/sync/view.inc:102
+msgid "Height"
+msgstr ""
+
+#: ../mod/mpr/add.inc:127 ../mod/mpr/add.inc:480 ../mod/mpr/edit.inc:212
+#: ../mod/mpr/edit.inc:448 ../mod/mpr/search.inc:373 ../mod/mpr/view.inc:104
+#: ../mod/sync/add.inc:122 ../mod/sync/add.inc:476
+#: ../mod/sync/discovery.inc:439 ../mod/sync/edit.inc:211
+#: ../mod/sync/edit.inc:431 ../mod/sync/search.inc:364
+#: ../mod/sync/view.inc:104
+msgid "Weight"
+msgstr ""
+
+#: ../mod/mpr/add.inc:128 ../mod/mpr/add.inc:136 ../mod/mpr/add.inc:482
+#: ../mod/mpr/add.inc:542 ../mod/mpr/edit.inc:213 ../mod/mpr/edit.inc:220
+#: ../mod/mpr/edit.inc:450 ../mod/mpr/edit.inc:511 ../mod/mpr/search.inc:383
+#: ../mod/mpr/view.inc:106 ../mod/mpr/view.inc:144 ../mod/sync/add.inc:123
+#: ../mod/sync/add.inc:131 ../mod/sync/add.inc:478 ../mod/sync/add.inc:538
+#: ../mod/sync/discovery.inc:441 ../mod/sync/discovery.inc:501
+#: ../mod/sync/edit.inc:212 ../mod/sync/edit.inc:219 ../mod/sync/edit.inc:433
+#: ../mod/sync/edit.inc:494 ../mod/sync/search.inc:374
+#: ../mod/sync/view.inc:106 ../mod/sync/view.inc:144
+msgid "Comments"
+msgstr ""
+
+#: ../mod/mpr/add.inc:133 ../mod/mpr/add.inc:536 ../mod/mpr/edit.inc:217
+#: ../mod/mpr/edit.inc:505 ../mod/mpr/view.inc:138 ../mod/sync/add.inc:128
+#: ../mod/sync/add.inc:532 ../mod/sync/discovery.inc:495
+#: ../mod/sync/edit.inc:216 ../mod/sync/edit.inc:488 ../mod/sync/view.inc:138
+msgid "Blood Type"
+msgstr ""
+
+#: ../mod/mpr/add.inc:134 ../mod/mpr/add.inc:538 ../mod/mpr/edit.inc:218
+#: ../mod/mpr/edit.inc:507 ../mod/mpr/search.inc:381 ../mod/mpr/view.inc:140
+#: ../mod/sync/add.inc:129 ../mod/sync/add.inc:534
+#: ../mod/sync/discovery.inc:497 ../mod/sync/edit.inc:217
+#: ../mod/sync/edit.inc:490 ../mod/sync/search.inc:372
+#: ../mod/sync/view.inc:140
+msgid "Last Seen"
+msgstr ""
+
+#: ../mod/mpr/add.inc:135 ../mod/mpr/add.inc:540 ../mod/mpr/edit.inc:219
+#: ../mod/mpr/edit.inc:509 ../mod/mpr/search.inc:382 ../mod/mpr/view.inc:142
+#: ../mod/sync/add.inc:130 ../mod/sync/add.inc:536
+#: ../mod/sync/discovery.inc:499 ../mod/sync/edit.inc:218
+#: ../mod/sync/edit.inc:492 ../mod/sync/search.inc:373
+#: ../mod/sync/view.inc:142
+msgid "Last Clothing"
+msgstr ""
+
+#: ../mod/mpr/add.inc:166 ../mod/mpr/edit.inc:254 ../mod/sync/add.inc:161
+#: ../mod/sync/discovery.inc:138 ../mod/sync/edit.inc:253
+msgid "Please enter the full name of the missing person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:234 ../mod/sync/add.inc:229
+#: ../mod/sync/discovery.inc:206
+msgid "Reporter Details"
+msgstr ""
+
+#: ../mod/mpr/add.inc:237 ../mod/sync/add.inc:232
+#: ../mod/sync/discovery.inc:209
+msgid "Yes"
+msgstr ""
+
+#: ../mod/mpr/add.inc:237 ../mod/sync/add.inc:232
+#: ../mod/sync/discovery.inc:209
+msgid "No"
+msgstr ""
+
+#: ../mod/mpr/add.inc:238
+msgid "Have you reported anyone? "
+msgstr ""
+
+#: ../mod/mpr/add.inc:241 ../mod/sync/add.inc:236
+#: ../mod/sync/discovery.inc:213
+msgid "Are you a disaster victim too? "
+msgstr ""
+
+#: ../mod/mpr/add.inc:242 ../mod/sync/add.inc:237
+#: ../mod/sync/discovery.inc:214
+msgid "If you are a victim, Please specify the status"
+msgstr ""
+
+#: ../mod/mpr/add.inc:246 ../mod/sync/add.inc:241
+#: ../mod/sync/discovery.inc:218
+msgid "Personal Details"
+msgstr ""
+
+#: ../mod/mpr/add.inc:248 ../mod/sync/add.inc:243
+#: ../mod/sync/discovery.inc:220
+msgid ""
+"NOTE : If you have reproted before, we will use the following information to "
+"do a match"
+msgstr ""
+
+#: ../mod/mpr/add.inc:251 ../mod/mpr/add.inc:555 ../mod/sync/add.inc:246
+#: ../mod/sync/add.inc:551 ../mod/sync/discovery.inc:223
+#: ../mod/sync/discovery.inc:514
+msgid "Relation"
+msgstr ""
+
+#: ../mod/mpr/add.inc:254 ../mod/sync/add.inc:249
+#: ../mod/sync/discovery.inc:226
+msgid "IMPORTANT : At least one of the following contact method is required"
+msgstr ""
+
+#: ../mod/mpr/add.inc:257 ../mod/mpr/add.inc:559 ../mod/sync/add.inc:252
+#: ../mod/sync/add.inc:555 ../mod/sync/discovery.inc:229
+#: ../mod/sync/discovery.inc:518
+msgid "Phone"
+msgstr ""
+
+#: ../mod/mpr/add.inc:293 ../mod/sync/add.inc:288
+#: ../mod/sync/discovery.inc:265
+msgid "Please enter the full name of the reporting person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:299 ../mod/sync/add.inc:294
+#: ../mod/sync/discovery.inc:271
+msgid "Please enter the relationship of the reporting person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:308 ../mod/sync/add.inc:303
+#: ../mod/sync/discovery.inc:280
+msgid "Please enter any contact method of the reporting person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:338 ../mod/mpr/add.inc:339 ../mod/mpr/edit.inc:300
+#: ../mod/mpr/images.inc:30 ../mod/sync/add.inc:333 ../mod/sync/add.inc:334
+#: ../mod/sync/discovery.inc:310 ../mod/sync/discovery.inc:311
+#: ../mod/sync/edit.inc:298 ../mod/vol/lib_vol.inc:407
+#: ../mod/vol/lib_vol.inc:408
+msgid "Upload Picture"
+msgstr ""
+
+#: ../mod/mpr/add.inc:363 ../mod/mpr/edit.inc:326 ../mod/sync/add.inc:357
+#: ../mod/sync/discovery.inc:334 ../mod/sync/edit.inc:322
+#: ../mod/vol/process_vol.inc:278
+msgid "Invalid Image Type Please try again"
+msgstr ""
+
+#: ../mod/mpr/add.inc:405 ../mod/sync/add.inc:401
+#: ../mod/sync/discovery.inc:364
+msgid "Missing Person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:447 ../mod/mpr/edit.inc:415 ../mod/mpr/view.inc:71
+#: ../mod/sync/add.inc:443 ../mod/sync/discovery.inc:406
+#: ../mod/sync/edit.inc:398 ../mod/sync/view.inc:71
+msgid "Date of Birth"
+msgstr ""
+
+#: ../mod/mpr/add.inc:547 ../mod/mpr/main.inc:368 ../mod/mpr/main.inc:403
+#: ../mod/mpr/main.inc:411 ../mod/mpr/main.inc:426 ../mod/sync/add.inc:543
+#: ../mod/sync/discovery.inc:506 ../mod/sync/main.inc:444
+#: ../mod/sync/main.inc:479 ../mod/sync/main.inc:487 ../mod/sync/main.inc:502
+msgid "Reporting Person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:566 ../mod/mpr/edit.inc:548 ../mod/sync/add.inc:562
+#: ../mod/sync/discovery.inc:525 ../mod/sync/edit.inc:531
+msgid "Confirm"
+msgstr ""
+
+#: ../mod/mpr/add.inc:568 ../mod/mpr/edit.inc:550 ../mod/sync/add.inc:564
+#: ../mod/sync/discovery.inc:527 ../mod/sync/edit.inc:533
+msgid "Is the information that you've entered correct?"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:35 ../mod/mpr/admin.inc:138 ../mod/mpr/conf.inc:25
+#: ../mod/mpr/home.inc:21 ../mod/mpr/main.inc:42
+msgid "Missing Person Registry"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:37 ../mod/mpr/admin.inc:67
+msgid "General Configuration"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:38
+msgid "Manage Images"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:55
+msgid "Welcome to the Missing Person Registry admin page"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:56
+msgid "TODO: Something should go here"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:101
+msgid "Search results display limit"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:104
+msgid "Upload Pictures"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:105
+msgid "To Database"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:106
+msgid "To File"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:106
+msgid "Image save handler"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:128
+msgid ""
+"ACL Base for Missing Person Registry is already installed, This is a "
+"reinstall"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:151
+msgid "Add Person"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:152
+msgid "Edit Person"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:153 ../mod/mpr/edit.inc:791 ../mod/mpr/search.inc:364
+#: ../mod/sync/edit.inc:774 ../mod/sync/search.inc:355
+msgid "Add Tracker"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:162
+msgid "ACL Base for Missing Person Registry was succesfully installed"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:36 ../mod/mpr/audit.inc:40 ../mod/mpr/audit.inc:44
+#: ../mod/sync/audit.inc:36 ../mod/sync/audit.inc:40 ../mod/sync/audit.inc:44
+#: ../mod/sync/main.inc:162
+msgid "Download"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:38 ../mod/sync/audit.inc:38
+msgid "Download CSV"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:42 ../mod/sync/audit.inc:42
+msgid "Download PDF"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:46 ../mod/sync/audit.inc:46
+msgid "Download Ugly Excel"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:52 ../mod/sync/audit.inc:52
+msgid "Date/Time"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:53 ../mod/sync/audit.inc:53
+msgid "User Making Changes"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:54 ../mod/sync/audit.inc:54
+msgid "Table Affected"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:55 ../mod/sync/audit.inc:55
+msgid "Field Affected"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:56 ../mod/sync/audit.inc:56
+msgid "Type of change"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:57 ../mod/sync/audit.inc:57
+msgid "Previous Value"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:58 ../mod/sync/audit.inc:58
+msgid "New Value"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:63 ../mod/sync/audit.inc:63
+msgid "Inserted"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:154 ../mod/sync/edit.inc:154
+msgid "Change the status"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:165 ../mod/sync/edit.inc:165
+msgid "Please enter any of the following details on the person"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:259 ../mod/sync/edit.inc:258
+msgid "Invalid Date of Birth"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:295 ../mod/sync/edit.inc:293
+msgid "Replace Current Picture"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:370 ../mod/sync/edit.inc:353
+msgid "Person"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:516 ../mod/sync/edit.inc:499
+msgid "Reporting People"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:525 ../mod/mpr/edit.inc:759 ../mod/mpr/search.inc:326
+#: ../mod/mpr/search.inc:443 ../mod/sync/edit.inc:508 ../mod/sync/edit.inc:742
+#: ../mod/sync/search.inc:321 ../mod/sync/search.inc:434
+#: ../mod/vol/view_vol.inc:147
+msgid "Picture"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:527 ../mod/mpr/edit.inc:761 ../mod/sync/edit.inc:510
+#: ../mod/sync/edit.inc:744
+msgid "Relationship"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:754 ../mod/sync/edit.inc:737
+msgid "Current Trackers"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:770 ../mod/mpr/search.inc:358 ../mod/mpr/search.inc:459
+#: ../mod/mpr/view.inc:151 ../mod/msg/handler_cap_view.inc:55
+#: ../mod/msg/handler_cap_view.inc:71 ../mod/sync/edit.inc:753
+#: ../mod/sync/search.inc:349 ../mod/sync/search.inc:450
+#: ../mod/sync/view.inc:151
+msgid "View"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:782 ../mod/sync/edit.inc:765
+msgid "Click to remove the tracker"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:793 ../mod/mpr/search.inc:367 ../mod/sync/edit.inc:776
+#: ../mod/sync/search.inc:358
+msgid "Add a tracker"
+msgstr ""
+
+#: ../mod/mpr/home.inc:23
+msgid ""
+"The Missing person registry is an online bulletin board of missing and found "
+"people.\n"
+"It not only captures information about the people missing and found, but "
+"the\n"
+"information of the person seeking them is also captured, which adds to the "
+"chances\n"
+"of people finding each other. For example if two members of the a family "
+"unit is\n"
+"looking for the head of the family, we can use this data at least to connect "
+"those two\n"
+"family members."
+msgstr ""
+
+#: ../mod/mpr/home.inc:29 ../mod/sync/home.inc:24
+msgid "Features include:"
+msgstr ""
+
+#: ../mod/mpr/home.inc:31
+msgid ""
+"Meta data around the individual such identity numbers, visual\n"
+"appearance, last seen location, status, etc"
+msgstr ""
+
+#: ../mod/mpr/home.inc:33
+msgid ""
+"Sounds-like name search (using metafore and soundex\n"
+"algorithms)"
+msgstr ""
+
+#: ../mod/mpr/home.inc:35
+msgid "Uploading of a persons picture"
+msgstr ""
+
+#: ../mod/mpr/home.inc:36
+msgid "Grouping by family unit or other groups types"
+msgstr ""
+
+#: ../mod/mpr/home.inc:45
+msgid "Latest updates on Found People"
+msgstr ""
+
+#: ../mod/mpr/home.inc:58
+msgid "Latest updates on Missing People"
+msgstr ""
+
+#: ../mod/mpr/home.inc:150 ../mod/mpr/home.inc:171 ../mod/sync/home.inc:131
+#: ../mod/sync/home.inc:151
+msgid "Height : "
+msgstr ""
+
+#: ../mod/mpr/home.inc:151 ../mod/mpr/home.inc:172 ../mod/sync/home.inc:132
+#: ../mod/sync/home.inc:152
+msgid "Weight : "
+msgstr ""
+
+#: ../mod/mpr/home.inc:152 ../mod/mpr/home.inc:173 ../mod/sync/home.inc:133
+#: ../mod/sync/home.inc:153
+msgid "Eye Colour : "
+msgstr ""
+
+#: ../mod/mpr/home.inc:153 ../mod/mpr/home.inc:174 ../mod/sync/home.inc:134
+#: ../mod/sync/home.inc:154
+msgid "Skin Colour : "
+msgstr ""
+
+#: ../mod/mpr/home.inc:154 ../mod/mpr/home.inc:175 ../mod/sync/home.inc:135
+#: ../mod/sync/home.inc:155
+msgid "Hair Colour : "
+msgstr ""
+
+#: ../mod/mpr/home.inc:155 ../mod/mpr/home.inc:176 ../mod/sync/home.inc:136
+#: ../mod/sync/home.inc:156
+msgid "Last Seen : "
+msgstr ""
+
+#: ../mod/mpr/home.inc:156 ../mod/mpr/home.inc:177 ../mod/sync/home.inc:137
+#: ../mod/sync/home.inc:157
+msgid "Last Clothing : "
+msgstr ""
+
+#: ../mod/mpr/home.inc:157 ../mod/mpr/home.inc:178 ../mod/sync/home.inc:138
+#: ../mod/sync/home.inc:158
+msgid "Comments : "
+msgstr ""
+
+#: ../mod/mpr/home.inc:159 ../mod/mpr/home.inc:180 ../mod/mpr/search.inc:344
+#: ../mod/mpr/search.inc:346
+msgid "Assign to more incidents"
+msgstr ""
+
+#: ../mod/mpr/images.inc:29
+msgid "Add Another Picture"
+msgstr ""
+
+#: ../mod/mpr/main.inc:45
+msgid "Search for a Person"
+msgstr ""
+
+#: ../mod/mpr/main.inc:46
+msgid "Report a Missing Person"
+msgstr ""
+
+#: ../mod/mpr/main.inc:47
+msgid "Edit a Missing Person"
+msgstr ""
+
+#: ../mod/mpr/main.inc:48
+msgid "Report a Found Person"
+msgstr ""
+
+#: ../mod/mpr/main.inc:144 ../mod/mpr/main.inc:152 ../mod/mpr/main.inc:156
+#: ../mod/mpr/main.inc:170 ../mod/mpr/main.inc:181 ../mod/mpr/main.inc:214
+#: ../mod/mpr/main.inc:223 ../mod/sync/main.inc:220 ../mod/sync/main.inc:228
+#: ../mod/sync/main.inc:232 ../mod/sync/main.inc:246 ../mod/sync/main.inc:257
+#: ../mod/sync/main.inc:290 ../mod/sync/main.inc:299
+msgid "Edit Missing Person Entry"
+msgstr ""
+
+#: ../mod/mpr/main.inc:173 ../mod/mpr/main.inc:203 ../mod/mpr/main.inc:279
+#: ../mod/mpr/main.inc:295 ../mod/mpr/main.inc:323 ../mod/sync/main.inc:249
+#: ../mod/sync/main.inc:279 ../mod/sync/main.inc:355 ../mod/sync/main.inc:371
+#: ../mod/sync/main.inc:399
+msgid "Add a tracker to"
+msgstr ""
+
+#: ../mod/mpr/main.inc:245 ../mod/sync/main.inc:321
+msgid "View Person"
+msgstr ""
+
+#: ../mod/mpr/main.inc:346 ../mod/sync/main.inc:422
+msgid "Found Person Entry"
+msgstr ""
+
+#: ../mod/mpr/main.inc:348 ../mod/sync/main.inc:424
+msgid "Missing Person Entry"
+msgstr ""
+
+#: ../mod/mpr/main.inc:357 ../mod/mpr/main.inc:415 ../mod/sync/main.inc:433
+#: ../mod/sync/main.inc:491
+msgid "Upload Person's Picture"
+msgstr ""
+
+#: ../mod/mpr/main.inc:361 ../mod/sync/main.inc:437
+msgid "Person Details"
+msgstr ""
+
+#: ../mod/mpr/main.inc:375 ../mod/mpr/main.inc:398 ../mod/sync/main.inc:451
+#: ../mod/sync/main.inc:474
+msgid "Final Confirmation"
+msgstr ""
+
+#: ../mod/mpr/search.inc:31 ../mod/sync/search.inc:31
+msgid "Basic Search"
+msgstr ""
+
+#: ../mod/mpr/search.inc:32 ../mod/sync/search.inc:32
+msgid "Any Card Number"
+msgstr ""
+
+#: ../mod/mpr/search.inc:33 ../mod/sync/search.inc:33
+msgid "Any Name"
+msgstr ""
+
+#: ../mod/mpr/search.inc:34
+msgid "All incidents belongs to current incident"
+msgstr ""
+
+#: ../mod/mpr/search.inc:38
+msgid "All incidents"
+msgstr ""
+
+#: ../mod/mpr/search.inc:59 ../mod/sync/search.inc:54
+msgid "Advance Search"
+msgstr ""
+
+#: ../mod/mpr/search.inc:254 ../mod/mpr/search.inc:269
+#: ../mod/sync/search.inc:249 ../mod/sync/search.inc:264
+msgid "Total"
+msgstr ""
+
+#: ../mod/mpr/search.inc:254 ../mod/mpr/search.inc:269
+#: ../mod/sync/search.inc:249 ../mod/sync/search.inc:264
+msgid "Records were found"
+msgstr ""
+
+#: ../mod/mpr/search.inc:280 ../mod/sync/search.inc:275
+msgid "First"
+msgstr ""
+
+#: ../mod/mpr/search.inc:280 ../mod/mpr/search.inc:285
+#: ../mod/mpr/search.inc:293 ../mod/mpr/search.inc:298
+#: ../mod/rms/handler_plg_ls.inc:180 ../mod/rms/handler_req_ls.inc:204
+#: ../mod/sync/search.inc:275 ../mod/sync/search.inc:280
+#: ../mod/sync/search.inc:288 ../mod/sync/search.inc:293
+msgid "Records"
+msgstr ""
+
+#: ../mod/mpr/search.inc:285 ../mod/rms/handler_plg_ls.inc:73
+#: ../mod/rms/handler_req_ls.inc:83 ../mod/sync/search.inc:280
+msgid "Previous"
+msgstr ""
+
+#: ../mod/mpr/search.inc:298 ../mod/sync/search.inc:293
+msgid "Last"
+msgstr ""
+
+#: ../mod/mpr/search.inc:328 ../mod/sync/search.inc:323
+msgid "Appearance"
+msgstr ""
+
+#: ../mod/mpr/search.inc:329 ../mod/sync/search.inc:324
+msgid "Missing Details"
+msgstr ""
+
+#: ../mod/mpr/search.inc:331 ../mod/mpr/search.inc:394
+#: ../mod/mpr/search.inc:396 ../mod/mpr/search.inc:446
+#: ../mod/mpr/search.inc:474 ../mod/mpr/search.inc:476
+#: ../mod/rms/handler_mng_ff.inc:115 ../mod/rms/lib_rms.inc:1022
+#: ../mod/sync/main.inc:124 ../mod/sync/search.inc:326
+#: ../mod/sync/search.inc:385 ../mod/sync/search.inc:387
+#: ../mod/sync/search.inc:437 ../mod/sync/search.inc:465
+#: ../mod/sync/search.inc:467
+msgid "Select"
+msgstr ""
+
+#: ../mod/mpr/search.inc:340 ../mod/mpr/search.inc:342
+#: ../mod/sync/search.inc:335 ../mod/sync/search.inc:337
+msgid "Audit"
+msgstr ""
+
+#: ../mod/mpr/search.inc:355 ../mod/sync/search.inc:346
+msgid "Tracked by"
+msgstr ""
+
+#: ../mod/mpr/search.inc:390 ../mod/mpr/search.inc:469
+#: ../mod/sync/search.inc:381 ../mod/sync/search.inc:460
+msgid "Change the status to Alive & Well"
+msgstr ""
+
+#: ../mod/mpr/search.inc:392 ../mod/mpr/search.inc:471
+#: ../mod/sync/search.inc:383 ../mod/sync/search.inc:462
+msgid "Click to change to found"
+msgstr ""
+
+#: ../mod/mpr/search.inc:483 ../mod/mpr/view.inc:163
+#: ../mod/rms/handler_mng_ff.inc:56 ../mod/sync/search.inc:474
+#: ../mod/sync/view.inc:163
+msgid "Back"
+msgstr ""
+
+#: ../mod/mpr/view.inc:29 ../mod/rms/handler_plg_ls.inc:139
+#: ../mod/rms/handler_plg_sch.inc:104 ../mod/rms/handler_req_ls.inc:159
+#: ../mod/rms/handler_req_sch.inc:115 ../mod/sync/view.inc:29
+msgid "Details"
+msgstr ""
+
+#: ../mod/mpr/view.inc:149 ../mod/sync/view.inc:149
+msgid "People that are tracking"
+msgstr ""
+
+#: ../mod/mpr/view.inc:162 ../mod/sync/view.inc:162
+msgid "Click to edit"
+msgstr ""
+
+#: ../mod/msg/class_cap_alert.inc:655
+msgid "When the Scope = Restricted, A Restriction is needed"
+msgstr ""
+
+#: ../mod/msg/class_cap_alert.inc:666
+msgid "When the Scope = Private, An Address is needed"
+msgstr ""
+
+#: ../mod/msg/class_cap_area.inc:65
+msgid "The first and last pairs of coordinates MUST be the "
+msgstr ""
+
+#: ../mod/msg/class_cap_area.inc:66
+msgid "same."
+msgstr ""
+
+#: ../mod/msg/class_cap_area.inc:81
+msgid "areaDesc is a required value"
+msgstr ""
+
+#: ../mod/msg/class_cap_area.inc:113
+msgid "Altitude has to be set before setting Ceiling"
+msgstr ""
+
+#: ../mod/msg/class_cap_info.inc:121
+msgid "The subject event of the alert message is required"
+msgstr ""
+
+#: ../mod/msg/class_cap_info.inc:138
+msgid "urgency is a required value"
+msgstr ""
+
+#: ../mod/msg/class_cap_info.inc:150
+msgid "severity is a required value"
+msgstr ""
+
+#: ../mod/msg/class_cap_info.inc:162
+msgid "certainty is a required value"
+msgstr ""
+
+#: ../mod/msg/class_cap_resource.inc:47
+msgid "resourceDesc is a required value"
+msgstr ""
+
+#: ../mod/msg/class_cap_resource.inc:64
+msgid "The Size has to be a numeric value"
+msgstr ""
+
+#: ../mod/msg/conf.inc:20
+msgid "Messaging Module"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:49 ../mod/msg/handler_cap_new.inc:56
+msgid "New Cap Message"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:50 ../mod/msg/handler_cap_new.inc:58
+msgid "Message Identifier"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:52 ../mod/msg/handler_cap_new.inc:60
+msgid "Sender"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:54 ../mod/msg/handler_cap_new.inc:62
+msgid "Message Type"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:56 ../mod/msg/handler_cap_new.inc:64
+msgid "Note"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:58 ../mod/msg/handler_cap_new.inc:66
+msgid "Source"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:61 ../mod/msg/handler_cap_new.bak.inc:62
+#: ../mod/msg/handler_cap_new.inc:68
+msgid "Scope"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:64 ../mod/msg/handler_cap_new.inc:70
+msgid "Restriction [Restricted]"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:66 ../mod/msg/handler_cap_new.inc:72
+msgid "Addresses [private]"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:70 ../mod/msg/handler_cap_new.inc:76
+#: ../mod/rms/handler_req_new.inc:290
+msgid "Code"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:74 ../mod/msg/handler_cap_new.inc:80
+msgid "References"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:75 ../mod/msg/handler_cap_new.inc:81
+msgid "incidents"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:83
+msgid "Cap Message Info"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:85 ../mod/msg/handler_cap_new.inc:144
+msgid "Sender Name"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:86 ../mod/msg/handler_cap_new.inc:145
+msgid "Headline"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:88 ../mod/msg/handler_cap_new.inc:142
+msgid "Language"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:89 ../mod/msg/handler_cap_new.inc:147
+msgid "Event"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:90 ../mod/msg/handler_cap_new.inc:148
+msgid "Audience"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:97 ../mod/msg/handler_cap_new.bak.inc:98
+#: ../mod/msg/handler_cap_new.inc:155 ../mod/msg/handler_cap_new.inc:156
+msgid "Response Type"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:104
+#: ../mod/msg/handler_cap_new.bak.inc:105 ../mod/msg/handler_cap_new.inc:162
+#: ../mod/msg/handler_cap_new.inc:163 ../mod/rms/handler_plg_new.inc:314
+#: ../mod/rms/handler_req_new.inc:374
+msgid "Category"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:112 ../mod/msg/handler_cap_new.inc:170
+msgid "Urgency"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:113 ../mod/msg/handler_cap_new.inc:171
+msgid "Severity"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:114 ../mod/msg/handler_cap_new.inc:172
+msgid "Certainty"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:116 ../mod/msg/handler_cap_new.inc:174
+msgid "Effective"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:118 ../mod/msg/handler_cap_new.inc:176
+msgid "Onset"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:120 ../mod/msg/handler_cap_new.inc:178
+msgid "Expires"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:128
+msgid "Instruction"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:129
+msgid "Web"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:132
+msgid "Cap Message Info - Event Code"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:133
+#: ../mod/msg/handler_cap_new.bak.inc:141
+msgid "ValueName"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:134
+#: ../mod/msg/handler_cap_new.bak.inc:142
+#: ../mod/msg/handler_cap_new.bak.inc:180
+msgid "Value"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:140
+msgid "Cap Message Info - Parameter"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:148
+msgid "Cap Message Info - Resource"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:149
+msgid "Resource Description"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:150
+msgid "mime Type"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:151
+msgid "Size"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:152
+msgid "URI"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:153
+msgid "Attach File"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:154
+msgid "Digest"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:157
+msgid "Resources"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:160
+msgid "Cap Message Info - Area"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:161
+msgid "Area Description"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:163
+msgid "Polygon"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:164
+#: ../mod/msg/handler_cap_new.bak.inc:171
+msgid "X "
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:165
+#: ../mod/msg/handler_cap_new.bak.inc:172
+msgid "Y "
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:170
+msgid "Circle"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:173
+msgid "Radius "
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:178
+msgid "Geocode"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:179
+msgid "Value Name"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:185
+msgid "Altitude"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:186
+msgid "Ceiling"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.bak.inc:197
+msgid "New CAP Message"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.inc:52
+msgid "New Cap Template"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.inc:57 ../mod/msg/handler_cap_new.inc:58
+msgid "Actual"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.inc:75
+msgid "Optional"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.inc:132
+msgid "Tamil"
+msgstr ""
+
+#: ../mod/msg/handler_cap_new.inc:141
+msgid "Cap Message Information"
+msgstr ""
+
+#: ../mod/msg/handler_cap_view.inc:69
+msgid "Enter a URL <br/>(http://example.org/cap.xml)"
+msgstr ""
+
+#: ../mod/msg/handler_main.inc:24
+msgid "Messaging"
+msgstr ""
+
+#: ../mod/msg/lib_cap_help.inc:20
+msgid ""
+"The identifier of the alert message. <br /> (1) A number or string uniquely "
+"identifying this message, assigned by the sender <br /> (2) MUST NOT include "
+"spaces, commas restricted characters (< and &)"
+msgstr ""
+
+#: ../mod/msg/lib_cap_help.inc:21
+msgid ""
+"Identifies the originator of this alert. Guaranteed by assigner to be unique "
+"globally; e.g., may be based on an Internet domain name"
+msgstr ""
+
+#: ../mod/msg/lib_cap_help.inc:22
+msgid ""
+"Code Values: <br /> 'Actual' - Actionable by all targeted recipients <br /> "
+"'Exercise'- Actionable only by designated exercise participants; exercise "
+"identifier should appear in &lt;note&gt; <br />'System' - For messages that "
+"support alert network internal functions. <br />'Test' - Technical testing "
+"only, all recipients disregard <br />'Draft' - A preliminary template or "
+"draft, not actionable in its current form."
+msgstr ""
+
+#: ../mod/msg/lib_cap_help.inc:23
+msgid ""
+"Code Values: <br /> 'Alert' - Initial information requiring attention by "
+"targeted recipients <br />'Update' - Updates and supercedes the earlier "
+"message(s) identified in &lt;references&gt;<br />'Cancel' - Cancels the "
+"earlier message(s) identified in &lt;references&gt;<br />'Ack' - "
+"Acknowledges receipt and acceptance of the message(s)) identified in &lt;"
+"references&gt;<br />'Error' indicates rejection of the message(s) identified "
+"in &lt;references&gt; explanation SHOULD appear in &lt;note&gt;"
+msgstr ""
+
+#: ../mod/msg/lib_cap_help.inc:24
+msgid ""
+"The particular source of this alert; e.g., an operator or a specific device."
+msgstr ""
+
+#: ../mod/msg/lib_cap_help.inc:25
+msgid ""
+"Code Values:<br />'Public' - For general dissemination to unrestricted "
+"audiences <br />'Restricted' - For dissemination only to users with a known "
+"operational requirement <br />'Private' - For dissemination only to "
+"specified addresses"
+msgstr ""
+
+#: ../mod/or/conf.inc:18
+msgid "Organization Registry"
+msgstr ""
+
+#: ../mod/or/home.inc:29
+msgid ""
+"The Organization Registry keeps track of all the relief organizations and "
+"civil society groups working in the disaster region. It captures not only "
+"the places where they are active, but also captures information on the range "
+"of services they are providing in each area.          \n"
+"\t\t\t\tFeatures Include:"
+msgstr ""
+
+#: ../mod/or/home.inc:33
+msgid ""
+"Capturing a comprehensive list of meta data on an relief organization and "
+"all the activities they have in the region"
+msgstr ""
+
+#: ../mod/or/home.inc:34 ../mod/vol/home.inc:32
+msgid "Registering ad-hoc volunteers willing to contribute"
+msgstr ""
+
+#: ../mod/or/home.inc:35
+msgid "Capturing the essential services each group is providing and where"
+msgstr ""
+
+#: ../mod/or/home.inc:36 ../mod/vol/home.inc:34
+msgid ""
+"Reporting on the converge of services and support in the region and more"
+msgstr ""
+
+#: ../mod/or/home.inc:37 ../mod/vol/home.inc:35
+msgid "importantly where there are no aid services being provided"
+msgstr ""
+
+#: ../mod/or/home.inc:43
+msgid "Organizations"
+msgstr ""
+
+#: ../mod/or/home.inc:44 ../mod/vol/home.inc:42
+msgid "Please Register"
+msgstr ""
+
+#: ../mod/or/home.inc:45 ../mod/vol/home.inc:41
+msgid "Volunteers"
+msgstr ""
+
+#: ../mod/or/home.inc:52
+msgid " Organizations have registered"
+msgstr ""
+
+#: ../mod/or/home.inc:57
+msgid ""
+"\n"
+"\t\t\t\t\tRegistering your organization allows us to know who is doing what "
+"where and allows us to operate more effectively as one."
+msgstr ""
+
+#: ../mod/or/lib_or.inc:425
+msgid ""
+"please select whether you are a government organization,multinational ect"
+msgstr ""
+
+#: ../mod/or/lib_or.inc:447
+msgid ""
+"please select whether you are Department,Branch,ect of the parent "
+"organization"
+msgstr ""
+
+#: ../mod/or/lib_or.inc:464
+msgid ""
+"select the services your provide ,i.e what you do as an organization. e.g.if "
+"you are a supplier select it"
+msgstr ""
+
+#: ../mod/or/lib_or.inc:564
+msgid "select the parent entity"
+msgstr ""
+
+#: ../mod/or/lib_or.inc:574 ../mod/vol/lib_vol.inc:595
+msgid "Select the Disaster/event/incident"
+msgstr ""
+
+#: ../mod/or/lib_or.inc:576 ../mod/vol/lib_vol.inc:597
+msgid ""
+"Since there are multiple incidents you required to select relevant incidents "
+msgstr ""
+
+#: ../mod/or/lib_or.inc:642 ../mod/vol/lib_vol.inc:656
+msgid "select related incidents"
+msgstr ""
+
+#: ../mod/or/main.inc:55 ../mod/or/main.inc:126 ../mod/or/main.inc:156
+#: ../mod/or/main.inc:191 ../mod/vol/main.inc:47
+msgid "You have to select an incident"
+msgstr ""
+
+#: ../mod/or/main.inc:258 ../mod/or/view_org.inc:117
+msgid "Services Provided"
+msgstr ""
+
+#: ../mod/or/reg_org.inc:28
+msgid "Organization Registration"
+msgstr ""
+
+#: ../mod/or/reg_org.inc:38 ../mod/or/view_org.inc:275
+msgid "Organization Name : "
+msgstr ""
+
+#: ../mod/or/reg_org.inc:39
+msgid "If your organization is registered please enter your registration no"
+msgstr ""
+
+#: ../mod/or/reg_org.inc:40 ../mod/or/view_org.inc:277
+msgid "Registration Number : "
+msgstr ""
+
+#: ../mod/or/reg_org.inc:87
+msgid "Add an Operation/Branch under the Organization "
+msgstr ""
+
+#: ../mod/or/reg_org.inc:89
+msgid ""
+"Your Organization might be having branches or carrying out relief operations "
+"in this disaster. Then information of those operations is usefull "
+msgstr ""
+
+#: ../mod/or/report.inc:40
+msgid ""
+"Intersection shows the number of organizations providng the service in the "
+"location and its sub locations."
+msgstr ""
+
+#: ../mod/or/report.inc:157
+msgid "Intersection shows the precentage of "
+msgstr ""
+
+#: ../mod/or/report.inc:157
+msgid " Covered per each service."
+msgstr ""
+
+#: ../mod/or/report.inc:158
+msgid ""
+"e.g. For a country how many districts have at least one organization "
+"providing the service. <br /> "
+msgstr ""
+
+#: ../mod/or/report.inc:159
+msgid ""
+"If the country C has X no of district amd for the service S only Y no of "
+"districts have the presence of an organization the C/S intersection shows Y/X"
+msgstr ""
+
+#: ../mod/or/report.inc:306
+msgid "Service"
+msgstr ""
+
+#: ../mod/or/search.inc:26
+msgid "Search for Organizations by Incident,Type,Service and Location"
+msgstr ""
+
+#: ../mod/or/search.inc:36 ../mod/or/view_org.inc:281
+#: ../mod/vol/view_vol.inc:170
+msgid "Incidents related to the Organization"
+msgstr ""
+
+#: ../mod/or/search.inc:42 ../mod/or/view_org.inc:288
+msgid "Organization Sector"
+msgstr ""
+
+#: ../mod/or/search.inc:58
+msgid "Selected Location for Search"
+msgstr ""
+
+#: ../mod/or/view_org.inc:263
+msgid "Organization Registration Information of <em>"
+msgstr ""
+
+#: ../mod/pref/conf.inc:26 ../mod/pref/main.inc:51
+msgid "User Preferences"
+msgstr ""
+
+#: ../mod/pref/ims_config.inc:41
+msgid "Default Incident"
+msgstr ""
+
+#: ../mod/pref/ims_config.inc:67
+msgid "Please Select the incident type"
+msgstr ""
+
+#: ../mod/pref/ims_menu.inc:2
+msgid "Mutiple Incident Management"
+msgstr ""
+
+#: ../mod/pref/main.inc:81
+msgid "Welcome to User Preferences"
+msgstr ""
+
+#: ../mod/rms/conf.inc:24
+msgid "Request/Aid Management"
+msgstr ""
+
+#: ../mod/rms/handler_dep_check.inc:43 ../mod/rms/handler_dep_check.inc:65
+msgid "<strong>Please contact the system admin <br />and "
+msgstr ""
+
+#: ../mod/rms/handler_dep_check.inc:44
+msgid "create the required tables using the "
+msgstr ""
+
+#: ../mod/rms/handler_dep_check.inc:45
+msgid "'mod/rms/ins/dbcreate.sql' file, "
+msgstr ""
+
+#: ../mod/rms/handler_dep_check.inc:46
+msgid "and properly setup the Sahana Catalogue System</strong>"
+msgstr ""
+
+#: ../mod/rms/handler_dep_check.inc:66
+msgid "and add the initial data thats required by "
+msgstr ""
+
+#: ../mod/rms/handler_dep_check.inc:67
+msgid "this module</strong>"
+msgstr ""
+
+#: ../mod/rms/handler_home.inc:37
+msgid "The Sahana request management system is a central online repository "
+msgstr ""
+
+#: ../mod/rms/handler_home.inc:38
+msgid "where all relief organizations, relief works, government agents and "
+msgstr ""
+
+#: ../mod/rms/handler_home.inc:39
+msgid "camps can effectively match requests of aid and supplies to pledges "
+msgstr ""
+
+#: ../mod/rms/handler_home.inc:40
+msgid "of support. It effectively looks like an online aid trading system "
+msgstr ""
+
+#: ../mod/rms/handler_home.inc:41
+msgid "tracking request to fulfillment."
+msgstr ""
+
+#: ../mod/rms/handler_home.inc:48
+msgid "Basic meta data on the request and pledges such as "
+msgstr ""
+
+#: ../mod/rms/handler_home.inc:49
+msgid "the category, the units, contact details and the status"
+msgstr ""
+
+#: ../mod/rms/handler_home.inc:52
+msgid "Customizable category of aid"
+msgstr ""
+
+#: ../mod/rms/handler_home.inc:55
+msgid "Filtered search of aid pledges and requests"
+msgstr ""
+
+#: ../mod/rms/handler_home.inc:58
+msgid "Ability to track partial fulfillment of the request"
+msgstr ""
+
+#: ../mod/rms/handler_mng_ff.inc:20
+msgid "Fulfil Requests"
+msgstr ""
+
+#: ../mod/rms/handler_mng_ff.inc:29
+msgid "Request"
+msgstr ""
+
+#: ../mod/rms/handler_mng_ff.inc:30
+msgid "Request ID"
+msgstr ""
+
+#: ../mod/rms/handler_mng_ff.inc:42
+msgid "Please Enter a valid Request ID"
+msgstr ""
+
+#: ../mod/rms/handler_mng_ff.inc:107
+msgid "PledgeID"
+msgstr ""
+
+#: ../mod/rms/handler_mng_ff.inc:107
+msgid "Qty"
+msgstr ""
+
+#: ../mod/rms/handler_mng_ff.inc:107
+msgid "Used"
+msgstr ""
+
+#: ../mod/rms/handler_mng_ff.inc:140
+msgid "Allocate items from the selected pledge to the request"
+msgstr ""
+
+#: ../mod/rms/handler_mng_ff.inc:144
+msgid "Allocate"
+msgstr ""
+
+#: ../mod/rms/handler_mng_ff.inc:146
+msgid "Maximum Allocatable Quantity"
+msgstr ""
+
+#: ../mod/rms/handler_mng_ff.inc:147 ../mod/rms/handler_plg_new.inc:316
+#: ../mod/rms/handler_plg_new.inc:330 ../mod/rms/handler_req_new.inc:376
+#: ../mod/rms/handler_req_new.inc:391 ../mod/rms/lib_rms.inc:966
+#: ../mod/rms/lib_rms.inc:1064
+msgid "Quantity"
+msgstr ""
+
+#: ../mod/rms/handler_mng_ff.inc:189
+msgid ""
+"Please enter a valid 'Quantity', The 'Quantity' should be equal or less than "
+"the Maximum Value"
+msgstr ""
+
+#: ../mod/rms/handler_mng_ff.inc:208
+msgid "The Fulfilment Data was successfully added"
+msgstr ""
+
+#: ../mod/rms/handler_mng_stat.inc:20
+msgid "Request / Pledge Statistics"
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:20
+msgid "Pledge List"
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:67 ../mod/rms/handler_req_ls.inc:77
+msgid ":: "
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:118 ../mod/rms/handler_plg_sch.inc:87
+msgid "Donor"
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:120 ../mod/rms/handler_plg_sch.inc:89
+#: ../mod/rms/handler_req_ls.inc:137 ../mod/rms/handler_req_sch.inc:96
+msgid "status"
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:152
+msgid "Donors"
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:159 ../mod/rms/handler_req_ls.inc:186
+msgid "All"
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:160 ../mod/rms/handler_plg_ls.inc:211
+msgid "Not Confirmed"
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:161 ../mod/rms/handler_plg_ls.inc:212
+msgid "Confirmed"
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:162 ../mod/rms/handler_plg_ls.inc:213
+msgid "Delivered"
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:163 ../mod/rms/handler_plg_ls.inc:214
+msgid "Discarded"
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:172 ../mod/rms/handler_req_ls.inc:196
+msgid "Clear Filter"
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:196
+msgid "There are no Pledges on the Database that matches your criteria"
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:198 ../mod/rms/handler_plg_ls.inc:263
+#: ../mod/rms/handler_plg_ls.inc:273 ../mod/rms/handler_plg_sch.inc:135
+#: ../mod/rms/handler_req_ls.inc:283 ../mod/rms/handler_req_ls.inc:293
+#: ../mod/rms/handler_req_sch.inc:145
+msgid "RMS Home"
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:199 ../mod/rms/handler_plg_ls.inc:264
+msgid "Back to Pledge List"
+msgstr ""
+
+#: ../mod/rms/handler_plg_ls.inc:274 ../mod/rms/handler_req_ls.inc:284
+#: ../mod/rms/handler_req_ls.inc:294
+msgid "Back to Request List"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:21
+msgid "Enter New Pledge"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:31
+msgid "Existing Donor"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:32 ../mod/rms/lib_rms.inc:934
+msgid "Donor ID"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:35
+msgid "* Create New Donor: "
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:36 ../mod/rms/handler_req_new.inc:34
+msgid "A new Person will be added to the Sahana Database, <br />"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:37
+msgid ""
+"* Only the Full Name is required, But in order to Contact the Donor please "
+"add some contact information with this"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:38 ../mod/rms/handler_plg_new.inc:45
+msgid "New Donor"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:49 ../mod/rms/handler_plg_new.inc:189
+#: ../mod/rms/handler_plg_new.inc:195 ../mod/rms/handler_plg_new.inc:264
+#: ../mod/rms/handler_req_new.inc:47 ../mod/rms/handler_req_new.inc:188
+#: ../mod/rms/handler_req_new.inc:194 ../mod/rms/handler_req_new.inc:257
+#: ../mod/rms/lib_rms.inc:924 ../mod/rms/lib_rms.inc:939
+msgid "Telephone"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:77 ../mod/rms/handler_req_new.inc:75
+#: ../mod/rms/handler_req_new.inc:311
+msgid "Please fill all the required fields"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:230 ../mod/rms/handler_req_new.inc:229
+msgid "Added"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:238 ../mod/rms/handler_req_new.inc:237
+msgid "Updated"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:253
+msgid "New Donor; Please confirm the contact information and enter missing "
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:254 ../mod/rms/handler_req_new.inc:247
+msgid "information"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:260 ../mod/rms/handler_req_new.inc:253
+msgid "Confirm Person Information"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:313 ../mod/rms/handler_req_new.inc:373
+msgid "New Item"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:335 ../mod/rms/handler_req_new.inc:397
+msgid "Remove Item"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:348
+msgid "When all the items are added, Please press 'Finish'"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:350 ../mod/rms/handler_req_new.inc:414
+msgid "Finish"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:390
+msgid "Please enter a valid 'Donor Id'"
+msgstr ""
+
+#: ../mod/rms/handler_plg_new.inc:440
+msgid "The Pledge was successfully added"
+msgstr ""
+
+#: ../mod/rms/handler_plg_sch.inc:20
+msgid "Search for Donors and Pledges"
+msgstr ""
+
+#: ../mod/rms/handler_plg_sch.inc:26 ../mod/rms/handler_req_sch.inc:26
+msgid "Search Keywords"
+msgstr ""
+
+#: ../mod/rms/handler_plg_sch.inc:66 ../mod/rms/handler_req_sch.inc:72
+msgid "Please anter a valid keyword"
+msgstr ""
+
+#: ../mod/rms/handler_plg_sch.inc:115 ../mod/rms/handler_req_sch.inc:126
+msgid ""
+"There are no results that matches your search criteria, Please use a "
+"different keyword"
+msgstr ""
+
+#: ../mod/rms/handler_plg_sch.inc:138
+msgid "Back to Pledge Search"
+msgstr ""
+
+#: ../mod/rms/handler_req_ls.inc:20
+msgid "Request List"
+msgstr ""
+
+#: ../mod/rms/handler_req_ls.inc:134 ../mod/rms/handler_req_sch.inc:93
+msgid "Requester"
+msgstr ""
+
+#: ../mod/rms/handler_req_ls.inc:172
+msgid "Requesters"
+msgstr ""
+
+#: ../mod/rms/handler_req_ls.inc:187 ../mod/rms/handler_req_ls.inc:232
+msgid "Open"
+msgstr ""
+
+#: ../mod/rms/handler_req_ls.inc:188 ../mod/rms/handler_req_ls.inc:233
+msgid "Closed"
+msgstr ""
+
+#: ../mod/rms/handler_req_ls.inc:220
+msgid "There are no requests on the Database that matches your criteria"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:20
+msgid "Make New Request"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:29
+msgid "Existing Requester"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:30
+msgid "Requester ID"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:33
+msgid "* Create New Requester: "
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:35
+msgid ""
+"* Only the Full Name is required, But in order to Contact the Requester "
+"please add some contact information with this"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:36 ../mod/rms/handler_req_new.inc:43
+msgid "New Requester"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:246
+msgid ""
+"You seem to be a new requester, Please confirm the contact information and "
+"enter missing "
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:275
+msgid "Select Location"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:286
+msgid "New Location"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:287
+msgid "Location Name"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:288 ../mod/rms/lib_rms.inc:950
+msgid "Location ID"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:289
+msgid "Type"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:292 ../mod/rms/lib_rms.inc:956
+msgid "GIS"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:377 ../mod/rms/lib_rms.inc:1015
+msgid "Priority"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:391 ../mod/rms/lib_rms.inc:966
+msgid "Item Priority"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:412
+msgid ""
+"When all the request items are added, Please press 'Finish to complete the "
+"request'"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:452
+msgid "Please enter a valid 'Requester Id'"
+msgstr ""
+
+#: ../mod/rms/handler_req_new.inc:528
+msgid "The Request was successfully submitted"
+msgstr ""
+
+#: ../mod/rms/handler_req_sch.inc:20
+msgid "Request Search: Search for Requesters, Locations and Requests"
+msgstr ""
+
+#: ../mod/rms/handler_req_sch.inc:149
+msgid "Back to Request Search"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:24
+msgid "Welcome to The Sahana "
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:388 ../mod/rms/lib_rms.inc:402
+msgid "Please Enter a valid Quantity"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:819
+msgid "Alert"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:915
+msgid "Requester Contact Information"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:918
+msgid "RequesterID"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:922 ../mod/rms/lib_rms.inc:937
+msgid "email"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:931
+msgid "Donor Contact Information"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:947
+msgid "Request Location Information"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:953
+msgid "Location Type"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:955
+msgid "Post code"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:976
+msgid "Request Items"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:1015
+msgid "Requested"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:1015
+msgid "Fulfiled"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:1015
+msgid "Select to Fulfil"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:1034
+msgid "Request Fulfilment Status"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:1048
+msgid "The Request ID: "
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:1073
+msgid "Pledge Items"
+msgstr ""
+
+#: ../mod/rms/lib_rms.inc:1086
+msgid "The Pledge ID: "
+msgstr ""
+
+#: ../mod/rms/main.inc:44
+msgid "Requests"
+msgstr ""
+
+#: ../mod/rms/main.inc:45
+msgid "Make Request"
+msgstr ""
+
+#: ../mod/rms/main.inc:46
+msgid "List Requests"
+msgstr ""
+
+#: ../mod/rms/main.inc:47
+msgid "Search Requests"
+msgstr ""
+
+#: ../mod/rms/main.inc:49
+msgid "Pledges"
+msgstr ""
+
+#: ../mod/rms/main.inc:50
+msgid "New Pledge"
+msgstr ""
+
+#: ../mod/rms/main.inc:51
+msgid "List Pledges"
+msgstr ""
+
+#: ../mod/rms/main.inc:52
+msgid "Search Pledges"
+msgstr ""
+
+#: ../mod/rms/main.inc:54
+msgid "Manage"
+msgstr ""
+
+#: ../mod/rms/main.inc:55
+msgid "Fulfill Request"
+msgstr ""
+
+#: ../mod/sync/conf.inc:25
+msgid "Synchronization"
+msgstr ""
+
+#: ../mod/sync/discovery.inc:106
+msgid "Add New Discovery Server"
+msgstr ""
+
+#: ../mod/sync/discovery.inc:107
+msgid "Enter the URL of discovery server"
+msgstr ""
+
+#: ../mod/sync/home.inc:21
+msgid "Sahana to Sahana Synchonization Module"
+msgstr ""
+
+#: ../mod/sync/home.inc:23
+msgid ""
+"This module helps you to synchonize data between sahana instances and work "
+"sahana in a larger network."
+msgstr ""
+
+#: ../mod/sync/home.inc:26
+msgid "Join to Discovery Servers"
+msgstr ""
+
+#: ../mod/sync/home.inc:27
+msgid "Synchonize with different Sahana Instance and Keep a track of updates"
+msgstr ""
+
+#: ../mod/sync/home.inc:28
+msgid "Broadcast data that is to be shared"
+msgstr ""
+
+#: ../mod/sync/home.inc:37
+msgid "Latest updates on Sahana Instances"
+msgstr ""
+
+#: ../mod/sync/home.inc:50
+msgid "Latest Synchronization With Other Sahana Instances"
+msgstr ""
+
+#: ../mod/sync/main.inc:41
+msgid "Synchonization Module"
+msgstr ""
+
+#: ../mod/sync/main.inc:44
+msgid "Discovery Servers"
+msgstr ""
+
+#: ../mod/sync/main.inc:45
+msgid "Sync With Sahana Instance"
+msgstr ""
+
+#: ../mod/sync/main.inc:46
+msgid "Broadcast Avalibility"
+msgstr ""
+
+#: ../mod/sync/main.inc:47
+msgid "Download Data"
+msgstr ""
+
+#: ../mod/sync/main.inc:48
+msgid "Upload Data"
+msgstr ""
+
+#: ../mod/sync/main.inc:123
+msgid "Avalable Data"
+msgstr ""
+
+#: ../mod/sync/main.inc:196
+msgid "Upload Sahana Dump File"
+msgstr ""
+
+#: ../mod/sync/main.inc:197
+msgid "File"
+msgstr ""
+
+#: ../mod/sync/main.inc:643 ../mod/vol/lib_vol.inc:565
+msgid "Image Not Available"
+msgstr ""
+
+#: ../mod/sync/main.inc:658 ../mod/vol/lib_vol.inc:582
+msgid "Click to see the original size"
+msgstr ""
+
+#: ../mod/vol/conf.inc:19
+msgid "Volunteer Coordination System"
+msgstr ""
+
+#: ../mod/vol/home.inc:27
+msgid ""
+"The Volunteer Registry keeps track of all Volunteer working in the disaster "
+"region. It captures not only the places where they are active, but also "
+"captures information on the range of services they are providing in each "
+"area.          \n"
+"\t\t\t\tFeatures Include:"
+msgstr ""
+
+#: ../mod/vol/home.inc:33
+msgid "Capturing the essential services each Volunteer is providing and where"
+msgstr ""
+
+#: ../mod/vol/home.inc:50
+msgid " Volunteers have registered"
+msgstr ""
+
+#: ../mod/vol/home.inc:55
+msgid ""
+"\n"
+"\t\t\t\t\tRegistering as a volunteer allows us to know who is doing what "
+"where and allows us to operate more effectively as one."
+msgstr ""
+
+#: ../mod/vol/home.inc:67
+msgid "Last 10 Volunteers to Register"
+msgstr ""
+
+#: ../mod/vol/lib_vol.inc:389
+msgid "Upload Your Picture"
+msgstr ""
+
+#: ../mod/vol/lib_vol.inc:390
+msgid "Create an Account for Login"
+msgstr ""
+
+#: ../mod/vol/reg_vol.inc:28
+msgid "Volunteer Registration"
+msgstr ""
+
+#: ../mod/vol/reg_vol.inc:38 ../mod/vol/view_vol.inc:153
+msgid "Name in Full : "
+msgstr ""
+
+#: ../mod/vol/reg_vol.inc:40
+msgid "Date of Birth (yyyy-mm-dd) : "
+msgstr ""
+
+#: ../mod/vol/reg_vol.inc:42 ../mod/vol/view_vol.inc:159
+msgid "Occupation : "
+msgstr ""
+
+#: ../mod/vol/reg_vol.inc:46 ../mod/vol/view_vol.inc:164
+msgid "National ID No : "
+msgstr ""
+
+#: ../mod/vol/reg_vol.inc:47 ../mod/vol/view_vol.inc:166
+msgid "Passport No : "
+msgstr ""
+
+#: ../mod/vol/reg_vol.inc:48 ../mod/vol/view_vol.inc:168
+msgid "Driving License No : "
+msgstr ""
+
+#: ../mod/vol/report.inc:41
+msgid "Volunteer Report By "
+msgstr ""
+
+#: ../mod/vol/report.inc:49
+msgid ""
+" in the Sub-division has a volunteer providing the service then that Sub-"
+"division is considered as covered for that service."
+msgstr ""
+
+#: ../mod/vol/search.inc:26
+msgid "Search for Volunteers by Service and Location"
+msgstr ""
+
+#: ../mod/vol/search.inc:31
+msgid "Volunteer Service"
+msgstr ""
+
+#: ../mod/vol/view_vol.inc:36
+msgid "Contact Mobile"
+msgstr ""
+
+#: ../mod/vol/view_vol.inc:137
+msgid "Volunteer Registration information of "
+msgstr ""
+
+#: ../mod/vol/view_vol.inc:156
+msgid "Date of Birth : "
+msgstr ""
+
+#: ../mod/vol/view_vol.inc:162
+msgid "Identity Information"
+msgstr ""

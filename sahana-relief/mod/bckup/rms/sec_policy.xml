@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<sec_policy xmlns="http://www.sahana.lk/security/policy"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.sahana.lk/security/policy sec_policy.xsd">
+	<usercase name="View/New Requests">
+		<functions>
+			<function>shn_rms_req_new</function>
+			<function>shn_rms_req_ls</function>
+		</functions>
+		<tables>
+			<table perm="r">camp_general</table>
+			<table perm="r">config</table>
+			<table perm="r">contact</table>
+			<table perm="r">ct_catalogue</table>
+			<table perm="r">field_options</table>
+			<table perm="r">identity_to_person</table>
+			<table perm="r">ims_inventory_records</table>
+			<table perm="r">location</table>
+			<table perm="r">location_details</table>
+			<table perm="r">person_uuid</table>
+			<table perm="r">rms_priority</table>
+			<table perm="rc">rms_request</table>
+			<table perm="rc">rms_req_item</table>
+			<table perm="rc">ex_location</table>
+		</tables>
+	</usercase>
+
+	<usercase name="Search Requests">
+		<functions>
+			<function>shn_rms_req_sch</function>
+		</functions>
+		<tables>
+			<table perm="r">rms_request</table>
+			<table perm="r">person_uuid</table>
+			<table perm="r">location_details</table>
+			<table perm="r">contact</table>
+		</tables>
+	</usercase>
+
+	<usercase name="New Pledges">
+		<functions>
+			<function>shn_rms_plg_new</function>
+		</functions>
+		<tables>
+			<table perm="ru">contact</table>
+			<table perm="r">ct_catalogue</table>
+			<table perm="r">ct_cat_unit</table>
+			<table perm="r">ct_unit</table>
+			<table perm="u">identity_to_person</table>
+			<table perm="r">ims_inventory_records</table>
+			<table perm="rc">person_uuid</table>
+			<table perm="rc">rms_pledge</table>
+			<table perm="r">rms_plg_item</table>
+		</tables>
+	</usercase>
+
+	<usercase name="View Pledges">
+		<functions>
+			<function>shn_rms_plg_ls</function>
+		</functions>
+		<tables>
+			<table perm="r">contact</table>
+			<table perm="r">person_uuid</table>
+			<table perm="rc">rms_pledge</table>
+		</tables>
+	</usercase>
+
+	<usercase name="Search Pledges">
+		<functions>
+			<function>shn_rms_plg_sch</function>
+		</functions>
+		<tables>
+			<table perm="r">rms_pledge</table>
+			<table perm="r">person_uuid</table>
+			<table perm="r">contact</table>
+			<table perm="r">rms_plg_item</table>
+			<table perm="r">ct_catalogue</table>
+			<table perm="r">ct_unit</table>
+		</tables>
+	</usercase>
+
+	<usercase name="Manage">
+		<functions>
+			<function>shn_rms_mng_ff</function>
+		</functions>
+		<tables>
+			<table perm="r">contact</table>
+			<table perm="r">ct_catalogue</table>
+			<table perm="r">location_details</table>
+			<table perm="r">person_uuid</table>
+			<table perm="rc">rms_fulfil</table>
+			<table perm="r">rms_priority</table>
+			<table perm="r">rms_req_item</table>
+			<table perm="r">rms_request</table>
+		</tables>
+	</usercase>
+</sec_policy>

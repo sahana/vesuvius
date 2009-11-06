@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<sec_policy xmlns="http://www.sahana.lk/security/policy"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.sahana.lk/security/policy sec_policy.xsd">
+
+	<usercase name="Inventory Registration">
+		<functions>
+			<function>shn_ims_reg_inv_actions</function>
+		</functions>
+		<tables>
+				<table perm="r">location_details</table>
+				<table perm="r">ims_inventory_records</table>
+				<!--<table perm="r">contact</table>-->
+		</tables>
+	</usercase>
+	<usercase name="Inventory View and Edit">
+		<functions>
+			<function>shn_ims_view_inv_submit</function>
+		</functions>
+		<tables>
+				<table perm="r">location_details</table>
+				<table perm="r">ims_inventory_records</table>
+				<!--<table perm="r">contact</table>-->
+		</tables>
+	</usercase>
+	<usercase name="Item Add">
+		<functions>
+			<function>shn_ims_view_edit_item_actions</function>
+			<function>shn_ims_add_item_main_page</function>
+		</functions>
+			<tables>
+				<table perm="r">ims_item_records</table>
+				<!--<table perm="r">contact</table>-->
+			</tables>
+	</usercase>
+</sec_policy>

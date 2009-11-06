@@ -1,0 +1,97 @@
+<module name='rms'>
+  <description>Request Management System</description>
+  <data>
+<description>Organization Data</description>
+    <table name='rms_request'>
+      <primarykeys>
+        <primarykey field_id='req_uuid' />
+      </primarykeys>
+      <foreign_keys>
+        <foreign_key ref_table="person_uuid" ref_field="p_uuid" field_id="reqstr_uuid"/>
+	<foreign_key ref_table="location_details" ref_field="poc_uuid" field_id="loc_uuid"/>
+	<foreign_key ref_table="users" ref_field="p_uuid" field_id="user_id"/>
+      </foreign_keys>
+    </table>
+    
+   <table name='ext_location'>
+      <primarykeys>
+        <primarykey field_id='p_uuid' />
+        <primarykey field_id='loc_uuid' />
+      </primarykeys>
+      <foreign_keys>
+	<foreign_key ref_table="users" ref_field="p_uuid" field_id="p_uuid"/>
+	<foreign_key ref_table="rms_request" ref_field="loc_uuid" field_id="loc_uuid"/>
+      </foreign_keys>
+    </table>
+    
+    <table name='rms_req_item'>
+      <primarykeys>
+        <primarykey field_id='req_uuid' />
+        <primarykey field_id='item_uuid' />
+      </primarykeys>
+      <foreign_keys>
+        <foreign_key ref_table="ct_catalogue" ref_field="ct_uuid" field_id="item_uuid"/>
+	<foreign_key ref_table="rms_priority" ref_field="pri_uuid" field_id="pri_uuid"/>
+	<foreign_key ref_table="rms_request" ref_field="req_uuid" field_id="req_id"/>
+      </foreign_keys>
+    </table>
+
+    <table name='rms_priority'>
+      <primarykeys>
+        <primarykey field_id='pri_uuid' />
+      </primarykeys>
+    </table>
+
+    <table name='rms_status'>
+      <primarykeys>
+        <primarykey field_id='stat_uuid' />
+      </primarykeys>
+    </table>
+       
+    <table name='rms_pledge'>
+      <primarykeys>
+        <primarykey field_id='plg_uuid' />
+      </primarykeys>
+       <foreign_keys>
+	<foreign_key ref_table="person_uuid" ref_field="p_uuid" field_id="donor_uuid"/>
+	<foreign_key ref_table="users" ref_field="p_uuid" field_id="user_id"/>
+      </foreign_keys>
+    </table>
+    
+    <table name='rms_plg_item'>
+      <primarykeys>
+	<primarykey field_id='plg_uuid' />       
+ 	<primarykey field_id='item_uuid' />
+      </primarykeys>
+       <foreign_keys>
+	<foreign_key ref_table="ct_catalogue" ref_field="ct_uuid" field_id="item_uuid"/>
+	<foreign_key ref_table="rms_pledge" ref_field="plg_uuid" field_id="plg_uuid"/>
+      </foreign_keys>
+    </table>
+
+    <table name='rms_fulfil'>
+      <primarykeys>
+	<primarykey field_id='req_uuid' />       
+ 	<primarykey field_id='item_uuid' />
+        <primarykey field_id='plg_uuid' />
+        <primarykey field_id='quantity' />
+	<primarykey field_id='ff_date' />
+      </primarykeys>
+       <foreign_keys>
+	<foreign_key ref_table="ct_catalogue" ref_field="ct_uuid" field_id="item_uuid"/>
+	<foreign_key ref_table="rms_pledge" ref_field="plg_uuid" field_id="plg_uuid"/>
+	<foreign_key ref_table="rms_request" ref_field="req_uuid" field_id="req_uuid"/>
+	<foreign_key ref_table="users" ref_field="p_uuid" field_id="user_id"/>
+      </foreign_keys>
+    </table>
+
+    <table name='rms_tmp_sch'>
+      <primarykeys>
+	<primarykey field_id='' />
+      </primarykeys>
+       <foreign_keys>
+       <foreign_key ref_table="" ref_field="" field_id=""/>
+      </foreign_keys>
+    </table>
+</data>
+</module>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web_services>
+	<types>
+		<type>
+			  	<name>RMSInput</name>
+    			<typeclass>complexType</typeclass>
+    			<phptype>struct</phptype>
+    			<compositor>all</compositor>
+    			<restrictionBase></restrictionBase>
+    			<elements>
+    				<element type="xsd:string">item</element>
+					<element type="xsd:string">amount</element>
+					<element type="xsd:string">priority</element>
+   				</elements>
+   				<attrs></attrs>
+   				<arrayType></arrayType>
+		</type>
+	</types>
+	<services>
+	 	<service>
+	 		<name>
+	 			Make requests
+	 		</name>
+	 		<http_type>GET</http_type>
+	 		<api_function>
+	 			shn_rms_make_request
+	 		</api_function>
+	 		<input type="xsd:string">item</input>
+	 		<input type="xsd:string">amount</input>
+	 		<input type="xsd:string">priority</input>
+	 		<output type="xsd:string" />
+	 		<documentation>
+	 			A useful method to make requests.
+	 		</documentation>
+	  	</service>
+	 	<service>
+	 		<name>
+	 			Make new pledge
+	 		</name>
+	 		<http_type>GET</http_type>
+	 		<api_function>
+	 			shn_rms_new_pledge
+	 		</api_function>
+	 		<input type="xsd:string">item</input>
+	 		<input type="xsd:string">amount</input>
+	 		<output type="xsd:string" />
+	 		<documentation>
+	 			A useful method to make new pledges.
+	 		</documentation>
+	 	</service>
+	 	<service>
+	 		<name>
+	 			List requests
+	 		</name>
+	 		<http_type>GET</http_type>
+	 		<api_function>
+	 			shn_rms_request_list
+	 		</api_function>
+	 		<output type="BasicArray" />
+	 		<documentation>
+	 			A useful method to get requests list.
+	 		</documentation>
+	  	</service>
+	 </services>
+ </web_services>

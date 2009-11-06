@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<module name='ims'>
+  <description>Inventory Data</description>
+  <data>
+	<description>Inventory Data</description>
+    <table name='ims_item_recrds'>
+        <primarykeys>
+	      <primarykey field_id='item_id' />
+        </primarykeys>
+    </table>
+    <table name='ims_inventory_records'>
+	    <primarykeys>
+		    <primarykey field_id='inv_uuid' />
+	    </primarykeys>
+    </table>
+    <table name='ims_transfer_item'>
+	    <primarykeys>
+		    <primarykey field_id='transit_id' />
+	    </primarykeys>
+    </table>
+    <table name='ims_reorder_level'>
+	    <primarykeys>
+		    <primarykey field_id='catalog_id' />
+	    </primarykeys>
+	    <primarykeys>
+		    <primarykey field_id='inv_id' />
+	    </primarykeys>
+    </table>
+    <table name='ims_alternate'>
+
+    </table>
+    <table name='ims_relation'>
+	    
+    </table>
+  </data>
+</module>

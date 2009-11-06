@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<module name='cr'>
+  <description>Shelter Data</description>
+<data>
+  <description>Shelter Data</description>
+  <table name='camp_general'>
+    <primarykeys>
+      <primarykey field_id='c_uuid' />
+    </primarykeys>
+    <foreign_keys>
+      <foreign_key ref_table="location" ref_field="loc_uuid" field_id="parent_id"/>
+    </foreign_keys>
+  </table>
+  <table name='camp_reg'>
+    <primarykeys>
+      <primarykey field_id='c_uuid' />
+    </primarykeys>
+  </table>
+  <table name='camp_services'>
+    <primarykeys>
+      <primarykey field_id='c_uuid' />
+    </primarykeys>
+  </table>
+  <table name='camp_admin'>
+    <primarykeys>
+      <primarykey field_id='c_uuid' />
+      <primarykey field_id='contact_puuid' />
+    </primarykeys>
+  </table>
+  <table name='hospital_bed'>
+    <primarykeys>
+      <primarykey field_id='c_uuid' />
+    </primarykeys>
+  </table>
+</data>
+</module>

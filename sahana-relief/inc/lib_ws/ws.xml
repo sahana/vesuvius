@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web_services>
+<types>
+		<type>
+			  	<name>Basic</name>
+    			<typeclass>complexType</typeclass>
+    			<phptype>struct</phptype>
+    			<compositor>all</compositor>
+    			<restrictionBase></restrictionBase>
+    			<elements>
+    				<element type="xsd:string">name</element>
+					<element type="xsd:string">id</element>
+   				</elements>
+   				<attrs></attrs>
+   				<arrayType></arrayType>
+		</type>
+		<type>
+			  	<name>BasicArray</name>
+    			<typeclass>complexType</typeclass>
+    			<phptype>array</phptype>
+    			<compositor></compositor>
+    			<restrictionBase>SOAP-ENC:Array</restrictionBase>
+    			<elements>array()</elements>
+   				<attrs>
+   				array(array('ref'=>'SOAP-ENC:arrayType','wsdl:arrayType'=>'tns:Basic[]')
+    			)
+    			</attrs>
+   				<arrayType>tns:Basic</arrayType>
+		</type>
+</types>
+</web_services>

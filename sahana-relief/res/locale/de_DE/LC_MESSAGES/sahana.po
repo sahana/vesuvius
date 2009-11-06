@@ -1,0 +1,2388 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSIONn"
+"Report-Msgid-Bugs-To: n"
+"POT-Creation-Date: 2006-01-31 13:57+0600n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONEn"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>n"
+"Language-Team: LANGUAGE <LL@li.org>n"
+"MIME-Version: 1.0n"
+"Content-Type: text/plain; charset=UTF-8n"
+"Content-Transfer-Encoding: 8bitn"
+
+#: ../inc/lib_security/acl_action_form.inc:40
+msgid "* New Action : "
+msgstr "&#3505;&#3520; &#3482;&#3530;&#8205;&#3515;&#3538;&#3514;&#3535; : "
+
+#: ../inc/lib_security/acl_action_form.inc:41
+#: ../inc/lib_security/acl_action_form.inc:130
+msgid "* Description:"
+msgstr "&#3520;&#3538;&#3523;&#3530;&#3501;&#3515;&#3514;"
+
+#: ../inc/lib_security/acl_action_form.inc:47
+#: ../inc/lib_security/acl_action_form.inc:132 ../mod/or/admin_forms.inc:80
+#: ../mod/or/admin_forms.inc:127 ../mod/rms/handler_plg_new.inc:275
+msgid "Add"
+msgstr "&#3463;&#3501;&#3540;&#3517;&#3530; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../inc/lib_security/acl_action_form.inc:74
+#: ../inc/lib_security/acl_action_form.inc:155 ../mod/mpr/edit.inc:745
+#: ../mod/mpr/edit.inc:761 ../mod/or/admin_forms.inc:87
+#: ../mod/or/admin_forms.inc:134
+msgid "Remove"
+msgstr "&#3465;&#3520;&#3501;&#3530; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../inc/lib_security/acl_action_form.inc:129
+msgid "* New Action Group : "
+msgstr "&#3505;&#3520; &#3482;&#3530;&#8205;&#3515;&#3538;&#3514;&#3535; &#3482;&#3548;&#3495;&#3523;&#3482;&#3530; : "
+
+#: ../inc/lib_security/acl_form.inc:49 ../inc/lib_security/auth_form.inc:101
+#: ../mod/or/lib_or.inc:359
+msgid "Account Name : "
+msgstr "&#3505;&#3512; : "
+
+#: ../inc/lib_security/acl_form.inc:50 ../inc/lib_security/auth_form.inc:102
+#: ../mod/or/lib_or.inc:360
+msgid "* User Name for Login: "
+msgstr "&#3461;&#3536;&#3501;&#3540;&#3517;&#3530;&#3520;&#3539;&#3512;&#3546; &#3505;&#3512;: "
+
+#: ../inc/lib_security/acl_form.inc:51 ../inc/lib_security/auth_form.inc:103
+#: ../mod/or/lib_or.inc:361
+msgid "* Password for Login: "
+msgstr "&#3461;&#3536;&#3501;&#3540;&#3517;&#3530;&#3520;&#3539;&#3512;&#3546; &#3515;&#3524;&#3523;&#3530; &#3520;&#3488;&#3505;&#3514;: "
+
+#: ../inc/lib_security/acl_form.inc:52 ../inc/lib_security/auth_form.inc:104
+#: ../mod/or/lib_or.inc:362
+msgid "* Confirm Password: "
+msgstr "&#3515;&#3524;&#3523;&#3530; &#3520;&#3488;&#3505;&#3514; &#3505;&#3536;&#3520;&#3501;: "
+
+#: ../inc/lib_security/acl_form.inc:94 ../inc/lib_security/auth_form.inc:184
+msgid "* Old Password: "
+msgstr "&#3508;&#3545;&#3515; &#3514;&#3545;&#3503;&#3542; &#3515;&#3524;&#3523;&#3530; &#3520;&#3488;&#3505;&#3514;: "
+
+#: ../inc/lib_security/acl_form.inc:95 ../inc/lib_security/auth_form.inc:185
+msgid "* New Password: "
+msgstr "&#3505;&#3520; &#3515;&#3524;&#3523;&#3530; &#3520;&#3488;&#3505;&#3514;: "
+
+#: ../inc/lib_security/acl_form.inc:96 ../inc/lib_security/auth_form.inc:186
+msgid "* Confirm New Password: "
+msgstr "&#3505;&#3520; &#3515;&#3524;&#3523;&#3530; &#3520;&#3488;&#3505;&#3514; &#3505;&#3536;&#3520;&#3501;: "
+
+#: ../inc/lib_security/acl_form.inc:498
+#: ../inc/lib_security/acl_form_lib.inc:68
+msgid "Roles : "
+msgstr "&#3520;&#3536;&#3497; &#3482;&#3548;&#3495;&#3523;: "
+
+#: ../inc/lib_security/acl_form.inc:502 ../inc/lib_security/acl_form.inc:515
+#: ../inc/lib_security/acl_form_lib.inc:93
+msgid "Actions : "
+msgstr "&#3482;&#3530;&#8205;&#3515;&#3538;&#3514;&#3535;&#3520;&#3505;&#3530; : "
+
+#: ../inc/lib_security/acl_form.inc:511
+msgid "User : "
+msgstr "&#3511;&#3535;&#3520;&#3538;&#3501;&#3535; &#3482;&#3515;&#3505;&#3530;&#3505;&#3535; : "
+
+#: ../inc/lib_security/acl_form_lib.inc:43
+msgid "Users : "
+msgstr "&#3511;&#3535;&#3520;&#3538;&#3501;&#3535; &#3482;&#3515;&#3505;&#3530;&#3505;&#3535; : "
+
+#: ../inc/lib_security/acl_form_lib.inc:118
+msgid "Action Groups : "
+msgstr "&#3482;&#3530;&#8205;&#3515;&#3538;&#3514;&#3535;&#3520;&#3505;&#3530; &#3482;&#3548;&#3495;&#3523; : "
+
+#: ../inc/lib_security/acl_form_lib.inc:121
+#: ../inc/lib_security/acl_form_lib.inc:149
+msgid "* Action Groups:"
+msgstr "&#3482;&#3530;&#8205;&#3515;&#3538;&#3514;&#3535;&#3520;&#3505;&#3530; &#3482;&#3548;&#3495;&#3523;:"
+
+#: ../inc/lib_security/acl_form_lib.inc:146
+msgid "Select the Action Group : "
+msgstr "&#3482;&#3530;&#8205;&#3515;&#3538;&#3514;&#3535;&#3520;&#3505;&#3530; &#3482;&#3548;&#3495;&#3523;&#3482;&#3530; &#3501;&#3545;&#3549;&#3515;&#3535;&#3484;&#3505;&#3530;&#3505; : "
+
+#: ../inc/lib_security/acl_form_lib.inc:174
+msgid "Organization :"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505;&#3514; : "
+
+#: ../mod/admin/forms.inc:74
+msgid "Location Type(level)"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3503;&#3546;&#3521;&#3514;&#3546; &#3520;&#3515;&#3530;&#3484;&#3514;"
+
+#: ../mod/admin/forms.inc:81
+msgid "* Location Name : "
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3503;&#3546;&#3521;&#3514;&#3546; &#3505;&#3512; : "
+
+#: ../mod/admin/forms.inc:82
+msgid "Description : "
+msgstr "&#3520;&#3538;&#3523;&#3530;&#3501;&#3515;&#3514; : "
+
+#: ../mod/admin/forms.inc:83
+msgid "ISO code : "
+msgstr "ISO &#3461;&#3458;&#3482;&#3514; : "
+
+#: ../mod/admin/lc_setlocale.inc:39
+msgid "Select Locale"
+msgstr "&#3511;&#3535;&#3522;&#3535;&#3520; &#3501;&#3549;&#3515;&#3535;&#3484;&#3505;&#3530;&#3505;"
+
+#: ../mod/admin/lc_setlocale.inc:41
+msgid "Locale"
+msgstr "&#3511;&#3535;&#3522;&#3535;&#3520;"
+
+#: ../mod/admin/lc_setlocale.inc:44
+msgid "Set Locale"
+msgstr "&#3511;&#3535;&#3522;&#3535;&#3520; &#3508;&#3535;&#3520;&#3538;&#3488;&#3530;&#3488;&#3538;&#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/admin/lc_setlocale.inc:54
+msgid "Current locale setting "
+msgstr "&#3520;&#3515;&#3530;&#3501;&#3512;&#3535;&#3505;&#3514;&#3545; &#3511;&#3535;&#3520;&#3538;&#3501; &#3482;&#3515;&#3505; &#3511;&#3535;&#3522;&#3535;&#3520; "
+
+#: ../mod/admin/lc_setlocale.inc:61
+msgid "The locale setting is not set in the Database"
+msgstr "&#3501;&#3549;&#3515;&#3535;&#3484;&#3501;&#3530; &#3511;&#3535;&#3522;&#3535;&#3520; &#3503;&#3501;&#3530;&#3501; &#3484;&#3510;&#3497;&#3535;&#3520;&#3546; &#3523;&#3507;&#3524;&#3505;&#3530;&#3482;&#3515;&#3505;&#3536;&#3501;"
+
+#: ../mod/admin/lc_setlocale.inc:63
+msgid "Please select a valid locale from the list"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3505;&#3538;&#3520;&#3515;&#3503;&#3538; &#3511;&#3535;&#3522;&#3535;&#3520; &#3501;&#3549;&#3515;&#3535;&#3484;&#3505;&#3530;&#3505;"
+
+#: ../mod/admin/lc_translate.inc:23
+msgid "Sahana Localization Module"
+msgstr "'&#3523;&#3524;&#3505;'  "
+
+#: ../mod/admin/lc_translate.inc:24
+msgid "Language Translation"
+msgstr "&#3511;&#3535;&#3522;&#3535; &#3508;&#3515;&#3538;&#3520;&#3515;&#3530;&#3501;&#3505;"
+
+#: ../mod/admin/lc_translate.inc:50
+msgid "You can download the ["
+msgstr ""
+
+#: ../mod/admin/lc_translate.inc:51
+msgid "<a href='"
+msgstr ""
+
+#: ../mod/admin/lc_translate.inc:51
+msgid "approot"
+msgstr ""
+
+#: ../mod/admin/lc_translate.inc:52
+msgid "file and do the translation offline,"
+msgstr ""
+
+#: ../mod/admin/lc_translate.inc:53
+msgid ""
+"then paste the content of the file in the text area bellow and save it using "
+"save button."
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:23
+msgid "Aid Worker Registration"
+msgstr "&#3462;&#3504;&#3535;&#3515;&#3482;&#3515;&#3540;&#3520;&#3505;&#3530; &#3517;&#3538;&#3514;&#3535;&#3508;&#3503;&#3538;&#3458;&#3488;&#3538; &#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/cms/aidworker.inc:30 ../mod/cms/victim.inc:34
+msgid "Individual Information"
+msgstr "&#3508;&#3540;&#3503;&#3530;&#3484;&#3517;&#3514;&#3535;&#3484;&#3546; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/cms/aidworker.inc:32 ../mod/cms/victim.inc:36
+#: ../mod/mpr/add.inc:245 ../mod/mpr/add.inc:549 ../mod/mpr/edit.inc:509
+#: ../mod/mpr/edit.inc:743 ../mod/mpr/search.inc:63 ../mod/mpr/search.inc:64
+#: ../mod/mpr/search.inc:322 ../mod/mpr/search.inc:435
+#: ../mod/or/view_vol.inc:30 ../mod/rms/handler_plg_new.inc:26
+#: ../mod/rms/handler_plg_new.inc:262 ../mod/rms/lib_rms.inc:1196
+msgid "Name"
+msgstr "&#3505;&#3512;"
+
+#: ../mod/cms/aidworker.inc:33 ../mod/cms/victim.inc:37
+msgid "ID/SSN/Passport"
+msgstr "&#3524;&#3536;&#3503;&#3540;&#3505;&#3540;&#3512;&#3530;&#3508;&#3501;&#3530; &#3461;&#3458;&#3482;&#3514;/&#3484;&#3540;&#3520;&#3505;&#3530; &#3510;&#3517;&#3508;&#3501;&#3530; &#3461;&#3458;&#3482;&#3514;"
+
+#: ../mod/cms/aidworker.inc:34 ../mod/cms/victim.inc:40 ../mod/mpr/add.inc:88
+#: ../mod/mpr/add.inc:453 ../mod/mpr/edit.inc:176 ../mod/mpr/edit.inc:408
+#: ../mod/mpr/view.inc:81
+msgid "Race"
+msgstr "&#3494;&#3535;&#3501;&#3538;&#3514;"
+
+#: ../mod/cms/aidworker.inc:35 ../mod/cms/victim.inc:41 ../mod/mpr/add.inc:87
+#: ../mod/mpr/add.inc:451 ../mod/mpr/edit.inc:175 ../mod/mpr/edit.inc:406
+#: ../mod/mpr/view.inc:79
+msgid "Religion"
+msgstr "&#3461;&#3535;&#3484;&#3512;"
+
+#: ../mod/cms/aidworker.inc:36 ../mod/cms/victim.inc:42 ../mod/mpr/add.inc:86
+#: ../mod/mpr/add.inc:449 ../mod/mpr/edit.inc:174 ../mod/mpr/edit.inc:404
+#: ../mod/mpr/view.inc:77
+msgid "Marital Status"
+msgstr "&#3520;&#3538;&#3520;&#3535;&#3524;&#3482;/&#3461;&#3520;&#3538;&#3520;&#3535;&#3524;&#3482; &#3510;&#3520;"
+
+#: ../mod/cms/aidworker.inc:37 ../mod/cr/camp.inc:81 ../mod/cr/edit.inc:81
+#: ../mod/cr/edit.inc:179
+msgid "Phone Number"
+msgstr "&#3503;&#3540;&#3515;&#3482;&#3501;&#3505; &#3461;&#3458;&#3482;&#3514;"
+
+#: ../mod/cms/aidworker.inc:38 ../mod/mpr/add.inc:253 ../mod/mpr/add.inc:557
+msgid "Email"
+msgstr "&#3466;-&#3512;&#3546;&#3517;&#3530;"
+
+#: ../mod/cms/aidworker.inc:39
+msgid "Contact Type"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:40 ../mod/rms/handler_plg_new.inc:27
+#: ../mod/rms/handler_plg_new.inc:263 ../mod/rms/lib_rms.inc:1197
+msgid "Contact"
+msgstr "&#3517;&#3538;&#3508;&#3538;&#3505; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/cms/aidworker.inc:42
+msgid "Service Information"
+msgstr "&#3523;&#3546;&#3520;&#3535; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/cms/aidworker.inc:43 ../mod/cms/camp.inc:41 ../mod/or/main.inc:184
+#: ../mod/or/report.inc:168 ../mod/or/view_org.inc:28
+msgid "Organization Name"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505;&#3514;&#3546; &#3505;&#3512;"
+
+#: ../mod/cms/aidworker.inc:44
+msgid "Proffesion"
+msgstr ""
+
+#: ../mod/cms/aidworker.inc:45 ../mod/or/main.inc:185
+#: ../mod/or/report.inc:169 ../mod/or/view_vol.inc:31
+#: ../mod/or/view_vol.inc:148
+msgid "Services Offered"
+msgstr "&#3523;&#3546;&#3520;&#3535;&#3520;&#3505;&#3530;"
+
+#: ../mod/cms/aidworker.inc:47 ../mod/cms/victim.inc:53
+msgid "Register"
+msgstr "&#3517;&#3538;&#3514;&#3535;&#3508;&#3503;&#3538;&#3458;&#3488;&#3538; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/cms/aidworker.inc:54
+msgid "Edit Aid Worker Information"
+msgstr ""
+
+#: ../mod/cms/camp.inc:23
+msgid "Add New Camp - Details"
+msgstr ""
+
+#: ../mod/cms/camp.inc:33
+msgid "Name and Type"
+msgstr ""
+
+#: ../mod/cms/camp.inc:35 ../mod/cr/camp.inc:42 ../mod/cr/edit.inc:40
+#: ../mod/cr/edit.inc:125 ../mod/cr/search.inc:29
+msgid "Camp Name"
+msgstr "&#3482;&#3507;&#3520;&#3540;&#3515;&#3546; &#3505;&#3512;"
+
+#: ../mod/cms/camp.inc:36 ../mod/cr/camp.inc:43 ../mod/cr/edit.inc:41
+#: ../mod/cr/search.inc:32 ../mod/cr/search.inc:164
+msgid "Camp Type"
+msgstr "&#3482;&#3507;&#3520;&#3540;&#3515;&#3546; &#3520;&#3515;&#3530;&#3484;&#3514;"
+
+#: ../mod/cms/camp.inc:38
+msgid "Camp Administrator"
+msgstr ""
+
+#: ../mod/cms/camp.inc:39
+msgid "Camp Admin Name"
+msgstr ""
+
+#: ../mod/cms/camp.inc:40 ../mod/or/main.inc:189 ../mod/or/report.inc:173
+#: ../mod/or/view_org.inc:33 ../mod/or/view_vol.inc:35
+msgid "Contact Number"
+msgstr "&#3503;&#3540;&#3515;&#3482;&#3502;&#3505; &#3461;&#3458;&#3482;&#3514;"
+
+#: ../mod/cms/camp.inc:43 ../mod/cr/camp.inc:31 ../mod/cr/edit.inc:38
+#: ../mod/cr/edit.inc:120
+msgid "General Details"
+msgstr "&#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/cms/camp.inc:44
+msgid "Distance from City [km]"
+msgstr "&#3505;&#3484;&#3515;&#3514;&#3546; &#3523;&#3538;&#3495; &#3503;&#3540;&#3515; &#3508;&#3530;&#8205;&#3515;&#3512;&#3535;&#3499;&#3514; [km]"
+
+#: ../mod/cms/camp.inc:45
+msgid "Distance from Disaster [km]"
+msgstr "&#3462;&#3508;&#3503;&#3535; &#3508;&#3530;&#8205;&#3515;&#3503;&#3521;&#3514;&#3546; &#3523;&#3538;&#3495; &#3503;&#3540;&#3515; &#3508;&#3530;&#8205;&#3515;&#3512;&#3535;&#3499;&#3514; [km]"
+
+#: ../mod/cms/camp.inc:46
+msgid "Approximate Capacity [people]"
+msgstr ""
+
+#: ../mod/cms/camp.inc:47
+msgid "Number of Shelters"
+msgstr ""
+
+#: ../mod/cms/camp.inc:48
+msgid "Approximate Area Size [square metres]"
+msgstr ""
+
+#: ../mod/cms/camp.inc:50
+msgid "Create Camp"
+msgstr "&#3505;&#3520; &#3482;&#3507;&#3520;&#3540;&#3515;&#3482;&#3530;"
+
+#: ../mod/cms/camp.inc:72
+msgid "Accept"
+msgstr "&#3476;&#3520;&#3530;"
+
+#: ../mod/cms/camp.inc:77
+msgid "Camp Checklist"
+msgstr ""
+
+#: ../mod/cms/camp.inc:79
+msgid "Facilities / Services"
+msgstr ""
+
+#: ../mod/cms/camp.inc:83
+msgid "Done"
+msgstr "&#3523;&#3512;&#3530;&#3508;&#3540;&#3515;&#3530;&#3505;&#3514;&#3538;"
+
+#: ../mod/cms/home.inc:21
+msgid "Camp Management System"
+msgstr ""
+
+#: ../mod/cms/victim.inc:26
+msgid "Victim Registration"
+msgstr ""
+
+#: ../mod/cms/victim.inc:38 ../mod/mpr/add.inc:84 ../mod/mpr/add.inc:445
+#: ../mod/mpr/edit.inc:172 ../mod/mpr/edit.inc:400 ../mod/mpr/view.inc:73
+msgid "Age Group"
+msgstr "&#3520;&#3514;&#3523;&#3530; &#3482;&#3548;&#3495;&#3523;"
+
+#: ../mod/cms/victim.inc:39
+msgid "Person Status"
+msgstr "&#3508;&#3540;&#3503;&#3530;&#3484;&#3517;&#3514;&#3535;&#3484;&#3546; &#3520;&#3501;&#3530;&#3512;&#3505;&#3530; &#3501;&#3501;&#3530;&#3520;&#3514;"
+
+#: ../mod/cms/victim.inc:43
+msgid "Previous Contact  Type"
+msgstr "&#3508;&#3545;&#3515; "
+
+#: ../mod/cms/victim.inc:44
+msgid "Previous Contact"
+msgstr ""
+
+#: ../mod/cms/victim.inc:46
+msgid "Group/Family"
+msgstr ""
+
+#: ../mod/cms/victim.inc:47
+msgid "Group Name/Sirname/Family Name"
+msgstr ""
+
+#: ../mod/cms/victim.inc:48 ../mod/mpr/add.inc:92 ../mod/mpr/add.inc:490
+#: ../mod/mpr/edit.inc:180 ../mod/mpr/edit.inc:445 ../mod/mpr/view.inc:115
+msgid "Contact Details"
+msgstr "&#3517;&#3538;&#3508;&#3538;&#3505;&#3514; (&#3520;&#3538;&#3523;&#3530;&#3501;&#3515;)"
+
+#: ../mod/cms/victim.inc:49
+msgid "Number of Members in Group"
+msgstr ""
+
+#: ../mod/cms/victim.inc:50
+msgid "Individual is head of Group/Family"
+msgstr ""
+
+#: ../mod/cms/victim.inc:51
+msgid "Members of Group/Family are Missing"
+msgstr ""
+
+#: ../mod/cms/victim.inc:58
+msgid "Edit Victim Information"
+msgstr ""
+
+#: ../mod/cr/camp.inc:28
+msgid "Register New Camp"
+msgstr "&#3505;&#3520; &#3482;&#3507;&#3520;&#3540;&#3515;&#3482;&#3530;"
+
+#: ../mod/cr/camp.inc:71 ../mod/cr/edit.inc:42 ../mod/cr/edit.inc:157
+#: ../mod/cr/search.inc:31 ../mod/mpr/add.inc:93 ../mod/mpr/add.inc:251
+#: ../mod/mpr/add.inc:493 ../mod/mpr/add.inc:553 ../mod/mpr/edit.inc:181
+#: ../mod/mpr/edit.inc:449 ../mod/mpr/view.inc:119
+#: ../mod/rms/handler_plg_new.inc:28 ../mod/rms/handler_plg_new.inc:264
+#: ../mod/rms/lib_rms.inc:1198
+msgid "Address"
+msgstr "&#3517;&#3538;&#3508;&#3538;&#3505;&#3514;"
+
+#: ../mod/cr/camp.inc:79 ../mod/cr/edit.inc:79 ../mod/cr/edit.inc:177
+msgid "Contact Person Details"
+msgstr "&#3523;&#3512;&#3530;&#3510;&#3505;&#3530;&#3504; &#3508;&#3540;&#3503;&#3530;&#3484;&#3517;&#3514;&#3535;&#3484;&#3546; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/cr/camp.inc:80 ../mod/cr/edit.inc:80 ../mod/cr/edit.inc:178
+#: ../mod/mpr/add.inc:80 ../mod/mpr/add.inc:437 ../mod/mpr/edit.inc:168
+#: ../mod/mpr/edit.inc:392 ../mod/mpr/view.inc:65
+msgid "Full Name"
+msgstr "&#3523;&#3512;&#3530;&#3508;&#3542;&#3515;&#3530;&#3505; &#3505;&#3512;"
+
+#: ../mod/cr/camp.inc:83 ../mod/cr/edit.inc:83 ../mod/cr/edit.inc:181
+msgid "Camp Population"
+msgstr "&#3482;&#3507;&#3520;&#3540;&#3515;&#3546; &#3490;&#3505;&#3484;&#3524;&#3505;&#3514;"
+
+#: ../mod/cr/camp.inc:84 ../mod/cr/edit.inc:84 ../mod/cr/edit.inc:182
+msgid "Family Count"
+msgstr "&#3508;&#3520;&#3540;&#3517;&#3530; &#3484;&#3505;&#3499;"
+
+#: ../mod/cr/camp.inc:85 ../mod/cr/edit.inc:85 ../mod/cr/edit.inc:183
+#: ../mod/cr/search.inc:37
+msgid "Total Count"
+msgstr "&#3512;&#3540;&#3525;&#3540; &#3484;&#3505;&#3499;"
+
+#: ../mod/cr/camp.inc:86 ../mod/cr/edit.inc:86 ../mod/cr/edit.inc:184
+msgid "Men"
+msgstr "&#3508;&#3538;&#3515;&#3538;&#3512;&#3538;"
+
+#: ../mod/cr/camp.inc:87 ../mod/cr/edit.inc:87 ../mod/cr/edit.inc:185
+msgid "Women"
+msgstr "&#3484;&#3536;&#3524;&#3536;&#3499;&#3540;"
+
+#: ../mod/cr/camp.inc:88 ../mod/cr/edit.inc:88 ../mod/cr/edit.inc:186
+msgid "Children"
+msgstr "&#3525;&#3512;&#3514;&#3538;"
+
+#: ../mod/cr/camp.inc:90 ../mod/cr/camp.inc:139 ../mod/cr/edit.inc:90
+#: ../mod/cr/edit.inc:231 ../mod/mpr/add.inc:134 ../mod/mpr/add.inc:261
+#: ../mod/mpr/add.inc:336 ../mod/mpr/add.inc:566 ../mod/mpr/edit.inc:222
+#: ../mod/mpr/edit.inc:299 ../mod/mpr/edit.inc:535 ../mod/mpr/edit.inc:783
+#: ../mod/mpr/search.inc:34 ../mod/mpr/search.inc:73
+#: ../mod/mpr/search.inc:288 ../mod/or/reg_org.inc:70
+#: ../mod/or/reg_org.inc:125
+msgid "Next"
+msgstr "&#3465;&#3503;&#3538;&#3515;&#3538;&#3514;&#3495;"
+
+#: ../mod/cr/camp.inc:134 ../mod/cr/edit.inc:226
+msgid "Services / Facilities Available"
+msgstr "&#3517;&#3510;&#3535;&#3484;&#3501; &#3524;&#3536;&#3482;&#3538; &#3523;&#3546;&#3520;&#3535;/&#3508;&#3524;&#3523;&#3540;&#3482;&#3512;&#3530;"
+
+#: ../mod/cr/camp.inc:137 ../mod/cr/edit.inc:229
+msgid "Other Facilities"
+msgstr "&#3517;&#3510;&#3535;&#3484;&#3501; &#3524;&#3536;&#3482;&#3538; &#3520;&#3545;&#3505;&#3501;&#3530; &#3508;&#3524;&#3523;&#3540;&#3482;&#3512;&#3530;"
+
+#: ../mod/cr/camp.inc:183
+msgid "Location Information"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3503;&#3546;&#3521;&#3514;&#3546; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/cr/camp.inc:184
+msgid "Plot the Camp Location OR Enter its GPS coordinates below"
+msgstr "&#3523;&#3538;&#3501;&#3538;&#3514;&#3512; &#3508;&#3530;&#8205;&#3515;&#3503;&#3546;&#3521;&#3514; &#3523;&#3517;&#3482;&#3540;&#3499;&#3540; &#3482;&#3515;&#3505;&#3530;&#3505;/GPS &#3483;&#3499;&#3530;&#3497;&#3535;&#3458;&#3482;"
+
+#: ../mod/cr/camp.inc:186
+msgid "Plot Location on Map"
+msgstr "&#3523;&#3538;&#3501;&#3538;&#3514;&#3512; &#3508;&#3530;&#8205;&#3515;&#3503;&#3546;&#3521;&#3514; &#3523;&#3517;&#3482;&#3540;&#3499;&#3540; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/cr/camp.inc:193 ../mod/gis/main_fns.inc:35
+msgid "Area Map"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3503;&#3546;&#3521;&#3514;&#3546; &#3523;&#3538;&#3501;&#3538;&#3514;&#3512;"
+
+#: ../mod/cr/camp.inc:204
+msgid "Enter Camp Location. Click on Map where camp exists"
+msgstr "&#3523;&#3538;&#3501;&#3538;&#3514;&#3512; &#3508;&#3530;&#8205;&#3515;&#3503;&#3546;&#3521;&#3514; &#3523;&#3517;&#3482;&#3540;&#3499;&#3540; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/cr/camp.inc:231
+msgid "GPS Coordinates"
+msgstr "GPS &#3483;&#3499;&#3530;&#3497;&#3535;&#3458;&#3482;"
+
+#: ../mod/cr/camp.inc:232
+msgid "Northing / Latitude"
+msgstr "&#3467;&#3501;&#3540;&#3515;&#3540; &#3483;&#3499;&#3530;&#3497;&#3535;&#3458;&#3482;"
+
+#: ../mod/cr/camp.inc:233
+msgid "Easting / Longitude"
+msgstr "&#3503;&#3482;&#3540;&#3499;&#3540; &#3483;&#3499;&#3530;&#3497;&#3535;&#3458;&#3482;"
+
+#: ../mod/cr/camp.inc:246 ../mod/cr/edit.inc:295
+msgid "Please Enter the Camp Name"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3482;&#3507;&#3520;&#3540;&#3515;&#3546; &#3505;&#3512; &#3514;&#3548;&#3503;&#3505;&#3530;&#3505;"
+
+#: ../mod/cr/camp.inc:252
+msgid "The Family Count is not a valid number"
+msgstr "&#3508;&#3520;&#3540;&#3517;&#3530; &#3484;&#3505;&#3499; &#3520;&#3536;&#3515;&#3503;&#3538;"
+
+#: ../mod/cr/camp.inc:258 ../mod/cr/edit.inc:307
+msgid "The Total Count is not a valid number"
+msgstr "&#3512;&#3540;&#3525;&#3540; &#3484;&#3505;&#3499; &#3520;&#3536;&#3515;&#3503;&#3538;"
+
+#: ../mod/cr/camp.inc:264 ../mod/cr/edit.inc:313
+msgid "The Men Count is not a valid number"
+msgstr "&#3508;&#3538;&#3515;&#3538;&#3512;&#3538; &#3484;&#3505;&#3499; &#3520;&#3536;&#3515;&#3503;&#3538;"
+
+#: ../mod/cr/camp.inc:270 ../mod/cr/edit.inc:319
+msgid "The Women Count is not a valid number"
+msgstr "&#3484;&#3536;&#3524;&#3536;&#3499;&#3540; &#3484;&#3505;&#3499; &#3520;&#3536;&#3515;&#3503;&#3538;"
+
+#: ../mod/cr/camp.inc:276 ../mod/cr/edit.inc:325
+msgid "The Children Count is not a valid number"
+msgstr "&#3525;&#3512;&#3514;&#3538; &#3484;&#3505;&#3499; &#3520;&#3536;&#3515;&#3503;&#3538;"
+
+#: ../mod/cr/camp.inc:354
+msgid "The Availability of Services & Facilities of the Camp are as follows:"
+msgstr "&#3501;&#3538;&#3510;&#3545;&#3505; &#3523;&#3546;&#3520;&#3535; &#3523;&#3524; &#3508;&#3524;&#3523;&#3540;&#3482;&#3512;&#3530; &#3508;&#3524;&#3501; &#3523;&#3507;&#3524;&#3505;&#3530;&#3520;&#3546;"
+
+#: ../mod/cr/camp.inc:362
+msgid "Service Type"
+msgstr "&#3523;&#3546;&#3520;&#3535; &#3482;&#3548;&#3495;&#3523;"
+
+#: ../mod/cr/camp.inc:363
+msgid "Availability"
+msgstr "&#3501;&#3538;&#3510;&#3546;"
+
+#: ../mod/cr/camp.inc:379
+msgid "Available"
+msgstr "&#3463;&#3501;"
+
+#: ../mod/cr/camp.inc:387
+msgid "NOT AVAILABLE"
+msgstr "&#3505;&#3548;&#3512;&#3536;&#3501;"
+
+#: ../mod/cr/camp.inc:403
+msgid "Use the Left Navigation Menu to Continue."
+msgstr "&#3520;&#3512;&#3530; &#3508;&#3536;&#3501;&#3530;&#3501;&#3546; &#3463;&#3501;&#3538; &#3482;&#3530;&#3514;&#3535;&#3520;&#3482;&#3530; &#3511;&#3535;&#3520;&#3538;&#3501;&#3535; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/cr/conf.inc:4 ../mod/cr/main_fns.inc:23
+msgid "Camps Registry"
+msgstr "&#3482;&#3507;&#3520;&#3540;&#3515;&#3540; &#3482;&#3525;&#3512;&#3499;&#3535;&#3482;&#3515;&#3505; &#3508;&#3503;&#3530;&#3503;&#3501;&#3538;&#3514;"
+
+#: ../mod/cr/edit.inc:29
+msgid "Update Existing Camp"
+msgstr "&#3482;&#3507;&#3520;&#3540;&#3515;&#3546; &#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3540; &#3520;&#3545;&#3505;&#3523;&#3530;&#3520;&#3540;&#3520;&#3535;."
+
+#: ../mod/cr/edit.inc:188 ../mod/or/view_org.inc:193
+#: ../mod/or/view_vol.inc:158 ../mod/rms/handler_mgt_req.inc:33
+#: ../mod/rms/handler_mgt_req.inc:42
+msgid "Close"
+msgstr "&#3520;&#3523;&#3505;&#3530;&#3505;"
+
+#: ../mod/cr/edit.inc:245
+msgid "Deleted Camp Succesfully"
+msgstr "&#3482;&#3507;&#3520;&#3540;&#3515; &#3465;&#3520;&#3501;&#3530;&#3520;&#3540;&#3520;&#3535;."
+
+#: ../mod/cr/edit.inc:273 ../mod/cr/main.inc:44
+msgid "Edit Camp"
+msgstr "&#3482;&#3507;&#3520;&#3540;&#3515;&#3546; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515; &#3520;&#3545;&#3505;&#3523;&#3530; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/cr/edit.inc:275
+msgid "Name of Camp to edit"
+msgstr "&#3482;&#3507;&#3520;&#3540;&#3515;&#3546; &#3505;&#3512; &#3520;&#3545;&#3505;&#3523;&#3530; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/cr/edit.inc:277 ../mod/mpr/search.inc:342
+msgid "Edit"
+msgstr "&#3520;&#3545;&#3505;&#3523;&#3530; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/cr/edit.inc:301
+msgid "The Familiy Count is not a valid number"
+msgstr "&#3508;&#3520;&#3540;&#3517;&#3530; &#3484;&#3505;&#3499; &#3520;&#3536;&#3515;&#3503;&#3538;"
+
+#: ../mod/cr/edit.inc:432
+msgid "Use the Navigation Menu to Continue"
+msgstr "&#3520;&#3512;&#3530; &#3508;&#3536;&#3501;&#3530;&#3501;&#3546; &#3463;&#3501;&#3538; &#3482;&#3530;&#3514;&#3535;&#3520;&#3482;&#3530; &#3511;&#3535;&#3520;&#3538;&#3501;&#3535; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/cr/main.inc:27
+msgid "Camps Registry Menu"
+msgstr "&#3482;&#3507;&#3520;&#3540;&#3515;&#3540; &#3482;&#3525;&#3512;&#3499;&#3535;&#3482;&#3515;&#3505; &#3508;&#3503;&#3530;&#3503;&#3501;&#3538;&#3514;&#3546; "
+
+#: ../mod/cr/main.inc:29 ../mod/mpr/main.inc:42 ../mod/rms/main.inc:41
+msgid "Home"
+msgstr "&#3512;&#3540;&#3517;&#3530; &#3508;&#3538;&#3495;&#3540;&#3520;&#3495;"
+
+#: ../mod/cr/main.inc:30 ../mod/cr/search.inc:168 ../mod/or/search.inc:52
+#: ../mod/rms/handler_sc_req.inc:36
+msgid "Search"
+msgstr "&#3523;&#3548;&#3514;&#3505;&#3530;&#3505;"
+
+#: ../mod/cr/main.inc:31
+msgid "Add Camp"
+msgstr "&#3505;&#3520; &#3482;&#3507;&#3520;&#3540;&#3515;&#3482;&#3530;"
+
+#: ../mod/cr/main.inc:34
+msgid "View All Camps"
+msgstr "&#3482;&#3507;&#3520;&#3540;&#3515;&#3540; &#3523;&#3538;&#3514;&#3517;&#3530;&#3517;&#3512; &#3510;&#3517;&#3505;&#3530;&#3505;"
+
+#: ../mod/cr/main.inc:35
+msgid "View By Location"
+msgstr "&#3482;&#3507;&#3520;&#3540;&#3515;&#3540; &#3463;&#3501;&#3538; &#3523;&#3530;&#3502;&#3535;&#3505;"
+
+#: ../mod/cr/main.inc:39
+msgid "Location Map"
+msgstr "&#3508;&#3517;&#3535;&#3501;&#3546; &#3523;&#3538;&#3501;&#3538;&#3514;&#3512;"
+
+#: ../mod/cr/main_fns.inc:24
+msgid ""
+"This sub application of Sahana keeps track of the location of all the camps "
+"in thenregion and the some basic data on the facilities they might have and "
+"the number ofnpeople in them. It also provides a GIS view to plot the "
+"location of the camps in thenaffected area.nCurrent features include:"
+msgstr ""
+"&#3512;&#3546; '&#3523;&#3524;&#3505;' &#3482;&#3507;&#3520;&#3540;&#3515;&#3540; &#3482;&#3525;&#3512;&#3499;&#3535;&#3482;&#3515;&#3505; &#3508;&#3503;&#3530;&#3503;&#3501;&#3538;&#3514;&#3514;&#3538;. &#3512;&#3545; &#3512;&#3484;&#3538;&#3505;&#3530; &#3476;&#3510;&#3495; &#3462;&#3508;&#3503;&#3535; &#3520;&#3495; &#3517;&#3482;&#3530;&#3520;&#3540; &#3508;&#3517;&#3535;&#3501;&#3530;&#3524;&#3538; &#3463;&#3501;&#3538; &#3482;&#3507;&#3520;&#3540;&#3515;&#3540; &#3482;&#3525;&#3512;&#3499;&#3535;&#3482;&#3515; "
+"&#3484;&#3501; &#3524;&#3536;&#3482;. &#3482;&#3507;&#3520;&#3540;&#3515;&#3540; &#3508;&#3538;&#3524;&#3538;&#3495;&#3538; &#3523;&#3530;&#3502;&#3535;&#3505;, &#3474;&#3520;&#3535;&#3514;&#3546; &#3463;&#3501;&#3538; &#3508;&#3524;&#3523;&#3540;&#3482;&#3512;&#3530;, &#3474;&#3520;&#3535;&#3514;&#3546; &#3517;&#3536;&#3484;&#3540;&#3512;&#3530; &#3484;&#3545;&#3505; &#3463;&#3501;&#3538; &#3512;&#3538;&#3505;&#3538;&#3523;&#3540;&#3505;&#3530; &#3484;&#3505;&#3499;, &#3462;&#3503;&#3539; &#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3536; "
+"&#3482;&#3525;&#3512;&#3499;&#3535;&#3482;&#3515; &#3484;&#3501; &#3524;&#3536;&#3482;. &#3508;&#3524;&#3501; &#3523;&#3507;&#3524;&#3505;&#3530; &#3523;&#3546;&#3520;&#3535;&#3520;&#3505;&#3530; &#3512;&#3545; &#3512;&#3484;&#3538;&#3505;&#3530; &#3517;&#3536;&#3510;&#3546;. "
+
+#: ../mod/cr/main_fns.inc:30
+msgid ""
+"Tracking of basic meta-data on the location, facilities and size of the camp"
+msgstr "&#3482;&#3507;&#3520;&#3540;&#3515;&#3546; &#3508;&#3538;&#3524;&#3538;&#3495;&#3538; &#3523;&#3530;&#3502;&#3535;&#3505;&#3514;&#3546; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;, &#3463;&#3501;&#3538; &#3508;&#3524;&#3523;&#3540;&#3482;&#3512;&#3530; &#3523;&#3524; &#3482;&#3507;&#3520;&#3540;&#3515;&#3546; &#3520;&#3538;&#3521;&#3535;&#3517;&#3501;&#3530;&#3520;&#3514;."
+
+#: ../mod/cr/main_fns.inc:32
+msgid "Ability to customize the list of important facilities needed at a camp"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:33
+msgid "Basic reports on the camps and drill-down by region"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:40
+msgid "Most Populated Camps"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:44
+msgid "Newest Camps"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:122 ../mod/cr/search.inc:25
+msgid "Search Results"
+msgstr ""
+
+#: ../mod/cr/main_fns.inc:173
+msgid "GIS Map of Camps"
+msgstr ""
+
+#: ../mod/cr/reports.inc:48
+msgid "Report for all camps"
+msgstr ""
+
+#: ../mod/cr/reports.inc:51
+msgid "Generate Report"
+msgstr ""
+
+#: ../mod/cr/reports.inc:179
+msgid "Camps in "
+msgstr ""
+
+#: ../mod/cr/search.inc:30
+msgid "Location"
+msgstr ""
+
+#: ../mod/cr/search.inc:33 ../mod/cr/search.inc:36
+msgid "No: of Families"
+msgstr ""
+
+#: ../mod/cr/search.inc:34
+msgid "No: of Males"
+msgstr ""
+
+#: ../mod/cr/search.inc:35
+msgid "No: of Females"
+msgstr ""
+
+#: ../mod/cr/search.inc:77 ../mod/cr/search.inc:126
+msgid "edit"
+msgstr ""
+
+#: ../mod/cr/search.inc:158
+msgid "SEARCH"
+msgstr ""
+
+#: ../mod/cr/search.inc:160
+msgid "Name of the Camp"
+msgstr ""
+
+#: ../mod/dvr/add.inc:136
+msgid "b.caption"
+msgstr ""
+
+#: ../mod/gis/main.inc:25
+msgid "GIS Mapping Module"
+msgstr ""
+
+#: ../mod/gis/main_fns.inc:24
+msgid "GIS Mapping"
+msgstr ""
+
+#: ../mod/home/conf.inc:3
+msgid "Home Page"
+msgstr ""
+
+#: ../mod/home/main.inc:8
+msgid "<h2>Welcome to the Sahana FOSS Disaster Management System</h2>"
+msgstr ""
+
+#: ../mod/home/main.inc:10
+msgid ""
+"Sahana is an integrated set of pluggable, web based disaster management "
+"applications that provide solutions to large-scale humanitarian problems in "
+"the aftermath of a disaster. These applications and problems they address "
+"are as follows:"
+msgstr ""
+
+#: ../mod/home/main.inc:12
+msgid ""
+"Missing Person Registry</b> <br/>Helping to reduce trauma by effectively "
+"finding missing persons"
+msgstr ""
+
+#: ../mod/home/main.inc:13
+msgid ""
+"Organization Registry</b> <br/>Coordinating and balancing the distribution "
+"of relief organizations in the affected areas and connecting relief groups "
+"allowing them to operate as one"
+msgstr ""
+
+#: ../mod/home/main.inc:14
+msgid ""
+"Request Management System</b> <br/>Registering and Tracking all incoming "
+"requests for support and relief upto fullfilment and helping donors connect "
+"to relief requirements"
+msgstr ""
+
+#: ../mod/home/main.inc:15
+msgid ""
+"Camp Registry</b><br/>Tracking the location and numbers of victims in the "
+"various camps and temporary shelters setup all around the affected area"
+msgstr ""
+
+#: ../mod/home/main.inc:19
+msgid "For more detail see the "
+msgstr ""
+
+#: ../mod/home/main.inc:21
+msgid "Sahana Website </a> and "
+msgstr ""
+
+#: ../mod/home/main.inc:23
+msgid " Brochure </a>"
+msgstr ""
+
+#: ../mod/mpr/add.inc:54
+msgid "WARNING"
+msgstr ""
+
+#: ../mod/mpr/add.inc:56
+msgid ""
+"Please do a search and check whether the person you are looking for is "
+"already exists"
+msgstr ""
+
+#: ../mod/mpr/add.inc:60 ../mod/mpr/add.inc:61 ../mod/mpr/edit.inc:153
+#: ../mod/mpr/search.inc:325 ../mod/mpr/search.inc:436
+#: ../mod/rms/handler_plg_vw.inc:58 ../mod/rms/lib_rms.inc:1119
+msgid "Status"
+msgstr "&#3501;&#3501;&#3530;&#3520;&#3514;"
+
+#: ../mod/mpr/add.inc:69 ../mod/mpr/add.inc:411 ../mod/mpr/edit.inc:157
+#: ../mod/mpr/edit.inc:366 ../mod/mpr/search.inc:56 ../mod/mpr/search.inc:57
+#: ../mod/mpr/view.inc:39
+msgid "Identity"
+msgstr ""
+
+#: ../mod/mpr/add.inc:70 ../mod/mpr/add.inc:415 ../mod/mpr/edit.inc:158
+#: ../mod/mpr/edit.inc:370 ../mod/mpr/view.inc:43
+msgid "Identity Card Number"
+msgstr ""
+
+#: ../mod/mpr/add.inc:71 ../mod/mpr/add.inc:417 ../mod/mpr/edit.inc:159
+#: ../mod/mpr/edit.inc:372 ../mod/mpr/view.inc:45
+msgid "Passport Number"
+msgstr ""
+
+#: ../mod/mpr/add.inc:72 ../mod/mpr/add.inc:419 ../mod/mpr/edit.inc:160
+#: ../mod/mpr/edit.inc:374 ../mod/mpr/view.inc:47
+msgid "Driving License"
+msgstr ""
+
+#: ../mod/mpr/add.inc:75 ../mod/mpr/add.inc:433 ../mod/mpr/edit.inc:163
+#: ../mod/mpr/edit.inc:388 ../mod/mpr/search.inc:70 ../mod/mpr/view.inc:61
+msgid "Basic Details"
+msgstr ""
+
+#: ../mod/mpr/add.inc:77
+msgid "Please enter any of the following details on the person:"
+msgstr ""
+
+#: ../mod/mpr/add.inc:81 ../mod/mpr/add.inc:439 ../mod/mpr/edit.inc:169
+#: ../mod/mpr/edit.inc:394 ../mod/mpr/view.inc:67
+msgid "Family Name"
+msgstr ""
+
+#: ../mod/mpr/add.inc:82 ../mod/mpr/add.inc:441 ../mod/mpr/edit.inc:170
+#: ../mod/mpr/edit.inc:396 ../mod/mpr/view.inc:69
+msgid "Local Name"
+msgstr ""
+
+#: ../mod/mpr/add.inc:83 ../mod/mpr/edit.inc:171
+msgid "Date of Birth   (YYYY-MM-DD)"
+msgstr ""
+
+#: ../mod/mpr/add.inc:85 ../mod/mpr/add.inc:447 ../mod/mpr/edit.inc:173
+#: ../mod/mpr/edit.inc:402 ../mod/mpr/view.inc:75
+msgid "Gender"
+msgstr ""
+
+#: ../mod/mpr/add.inc:94 ../mod/mpr/add.inc:515 ../mod/mpr/edit.inc:182
+#: ../mod/mpr/edit.inc:471 ../mod/mpr/view.inc:121
+msgid "Postal Code"
+msgstr ""
+
+#: ../mod/mpr/add.inc:95 ../mod/mpr/add.inc:517 ../mod/mpr/edit.inc:183
+#: ../mod/mpr/edit.inc:473 ../mod/mpr/view.inc:123
+msgid "Home Phone"
+msgstr ""
+
+#: ../mod/mpr/add.inc:96 ../mod/mpr/add.inc:519 ../mod/mpr/edit.inc:184
+#: ../mod/mpr/edit.inc:475 ../mod/mpr/view.inc:125
+msgid "Mobile"
+msgstr ""
+
+#: ../mod/mpr/add.inc:117 ../mod/mpr/add.inc:464 ../mod/mpr/edit.inc:206
+#: ../mod/mpr/edit.inc:419 ../mod/mpr/view.inc:92
+msgid "Physical Details"
+msgstr ""
+
+#: ../mod/mpr/add.inc:118 ../mod/mpr/add.inc:468 ../mod/mpr/edit.inc:207
+#: ../mod/mpr/edit.inc:423 ../mod/mpr/search.inc:365 ../mod/mpr/view.inc:96
+msgid "Eye Colour"
+msgstr ""
+
+#: ../mod/mpr/add.inc:119 ../mod/mpr/add.inc:470 ../mod/mpr/edit.inc:208
+#: ../mod/mpr/edit.inc:425 ../mod/mpr/search.inc:366 ../mod/mpr/view.inc:98
+msgid "Skin Colour"
+msgstr ""
+
+#: ../mod/mpr/add.inc:120 ../mod/mpr/add.inc:472 ../mod/mpr/edit.inc:209
+#: ../mod/mpr/edit.inc:427 ../mod/mpr/search.inc:367 ../mod/mpr/view.inc:100
+msgid "Hair Colour"
+msgstr ""
+
+#: ../mod/mpr/add.inc:121 ../mod/mpr/add.inc:474 ../mod/mpr/edit.inc:210
+#: ../mod/mpr/edit.inc:429 ../mod/mpr/search.inc:363 ../mod/mpr/view.inc:102
+msgid "Height"
+msgstr ""
+
+#: ../mod/mpr/add.inc:122 ../mod/mpr/add.inc:476 ../mod/mpr/edit.inc:211
+#: ../mod/mpr/edit.inc:431 ../mod/mpr/search.inc:364 ../mod/mpr/view.inc:104
+msgid "Weight"
+msgstr ""
+
+#: ../mod/mpr/add.inc:123 ../mod/mpr/add.inc:131 ../mod/mpr/add.inc:478
+#: ../mod/mpr/add.inc:538 ../mod/mpr/edit.inc:212 ../mod/mpr/edit.inc:219
+#: ../mod/mpr/edit.inc:433 ../mod/mpr/edit.inc:494 ../mod/mpr/search.inc:374
+#: ../mod/mpr/view.inc:106 ../mod/mpr/view.inc:144
+#: ../mod/rms/handler_plg_new.inc:29 ../mod/rms/handler_plg_new.inc:265
+#: ../mod/rms/lib_rms.inc:351 ../mod/rms/lib_rms.inc:391
+#: ../mod/rms/lib_rms.inc:595 ../mod/rms/lib_rms.inc:1199
+msgid "Comments"
+msgstr "&#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/mpr/add.inc:127 ../mod/mpr/add.inc:527 ../mod/mpr/edit.inc:215
+#: ../mod/mpr/edit.inc:483 ../mod/mpr/view.inc:133
+msgid "Other Details"
+msgstr ""
+
+#: ../mod/mpr/add.inc:128 ../mod/mpr/add.inc:532 ../mod/mpr/edit.inc:216
+#: ../mod/mpr/edit.inc:488 ../mod/mpr/view.inc:138
+msgid "Blood Type"
+msgstr ""
+
+#: ../mod/mpr/add.inc:129 ../mod/mpr/add.inc:534 ../mod/mpr/edit.inc:217
+#: ../mod/mpr/edit.inc:490 ../mod/mpr/search.inc:372 ../mod/mpr/view.inc:140
+msgid "Last Seen"
+msgstr ""
+
+#: ../mod/mpr/add.inc:130 ../mod/mpr/add.inc:536 ../mod/mpr/edit.inc:218
+#: ../mod/mpr/edit.inc:492 ../mod/mpr/search.inc:373 ../mod/mpr/view.inc:142
+msgid "Last Clothing"
+msgstr ""
+
+#: ../mod/mpr/add.inc:155 ../mod/mpr/add.inc:282 ../mod/mpr/edit.inc:247
+msgid "You have not completed the form"
+msgstr ""
+
+#: ../mod/mpr/add.inc:161 ../mod/mpr/edit.inc:253
+msgid "Please enter the full name of the missing person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:229
+msgid "Reporter Details"
+msgstr ""
+
+#: ../mod/mpr/add.inc:232
+msgid "Yes"
+msgstr ""
+
+#: ../mod/mpr/add.inc:232
+msgid "No"
+msgstr ""
+
+#: ../mod/mpr/add.inc:236
+msgid "Are you a disaster victim too? "
+msgstr ""
+
+#: ../mod/mpr/add.inc:237
+msgid "If you are a victim, Please specify the status"
+msgstr ""
+
+#: ../mod/mpr/add.inc:241
+msgid "Personal Details"
+msgstr ""
+
+#: ../mod/mpr/add.inc:243
+msgid ""
+"NOTE : If you have reproted before, we will use the following information to "
+"do a match"
+msgstr ""
+
+#: ../mod/mpr/add.inc:246 ../mod/mpr/add.inc:551
+msgid "Relation"
+msgstr ""
+
+#: ../mod/mpr/add.inc:249
+msgid "IMPORTANT : At least one of the following contact method is required"
+msgstr ""
+
+#: ../mod/mpr/add.inc:252 ../mod/mpr/add.inc:555
+msgid "Phone"
+msgstr ""
+
+#: ../mod/mpr/add.inc:288
+msgid "Please enter the full name of the reporting person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:294
+msgid "Please enter the relationship of the reporting person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:303
+msgid "Please enter any contact method of the reporting person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:333 ../mod/mpr/add.inc:334 ../mod/mpr/conf.inc:47
+#: ../mod/mpr/edit.inc:298
+msgid "Upload Picture"
+msgstr ""
+
+#: ../mod/mpr/add.inc:357 ../mod/mpr/edit.inc:322
+msgid "Invalid Image Type Please try again"
+msgstr ""
+
+#: ../mod/mpr/add.inc:401
+msgid "Missing Person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:443 ../mod/mpr/edit.inc:398 ../mod/mpr/view.inc:71
+msgid "Date of Birth"
+msgstr ""
+
+#: ../mod/mpr/add.inc:543 ../mod/mpr/main.inc:348 ../mod/mpr/main.inc:383
+#: ../mod/mpr/main.inc:391 ../mod/mpr/main.inc:406
+msgid "Reporting Person"
+msgstr ""
+
+#: ../mod/mpr/add.inc:562 ../mod/mpr/conf.inc:47 ../mod/mpr/edit.inc:531
+msgid "Confirm"
+msgstr ""
+
+#: ../mod/mpr/add.inc:564 ../mod/mpr/edit.inc:533
+msgid "Is the information that you've entered correct?"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:36 ../mod/mpr/audit.inc:40 ../mod/mpr/audit.inc:44
+msgid "Download"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:38
+msgid "Download CSV"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:42
+msgid "Download PDF"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:46
+msgid "Download Ugly Excel"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:52 ../mod/rms/handler_plg_vw.inc:54
+#: ../mod/rms/handler_vw_req.inc:43 ../mod/rms/lib_rms.inc:868
+msgid "Date/Time"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:53
+msgid "User Making Changes"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:54
+msgid "Table Affected"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:55
+msgid "Field Affected"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:56
+msgid "Type of change"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:57
+msgid "Previous Value"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:58
+msgid "New Value"
+msgstr ""
+
+#: ../mod/mpr/audit.inc:63
+msgid "Inserted"
+msgstr ""
+
+#: ../mod/mpr/conf.inc:25 ../mod/mpr/home.inc:21 ../mod/mpr/main.inc:40
+msgid "Missing Person Registry"
+msgstr ""
+
+#: ../mod/mpr/conf.inc:46
+msgid "Edit Details"
+msgstr ""
+
+#: ../mod/mpr/conf.inc:46 ../mod/mpr/edit.inc:774 ../mod/mpr/search.inc:355
+msgid "Add Tracker"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:154
+msgid "Change the status"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:165
+msgid "Please enter any of the following details on the person"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:258
+msgid "Invalid Date of Birth"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:293
+msgid "Replace Current Picture"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:353
+msgid "Person"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:499
+msgid "Reporting People"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:508 ../mod/mpr/edit.inc:742 ../mod/mpr/search.inc:321
+#: ../mod/mpr/search.inc:434
+msgid "Picture"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:510 ../mod/mpr/edit.inc:744
+msgid "Relationship"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:737
+msgid "Current Trackers"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:753 ../mod/mpr/search.inc:349 ../mod/mpr/search.inc:450
+#: ../mod/mpr/view.inc:151 ../mod/rms/handler_main.inc:64
+#: ../mod/rms/handler_main.inc:65 ../mod/rms/handler_main.inc:66
+#: ../mod/rms/handler_main.inc:77 ../mod/rms/handler_main.inc:85
+#: ../mod/rms/handler_plg_vw.inc:59 ../mod/rms/handler_vw_req.inc:48
+#: ../mod/rms/lib_rms.inc:873
+msgid "View"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:765
+msgid "Click to remove the tracker"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:776 ../mod/mpr/search.inc:358
+msgid "Add a tracker"
+msgstr ""
+
+#: ../mod/mpr/home.inc:23
+msgid ""
+"The Missing person registry is an online bulletin board of missing and found "
+"people.n"
+"It not only captures information about the people missing and found, but "
+"then"
+"information of the person seeking them is also captured, which adds to the "
+"chancesn"
+"of people finding each other. For example if two members of the a family "
+"unit isn"
+"looking for the head of the family, we can use this data at least to connect "
+"those twon"
+"family members."
+msgstr ""
+
+#: ../mod/mpr/home.inc:29
+msgid "Features include:"
+msgstr ""
+
+#: ../mod/mpr/home.inc:31
+msgid ""
+"Meta data around the individual such identity numbers, visualn"
+"appearance, last seen location, status, etc"
+msgstr ""
+
+#: ../mod/mpr/home.inc:33
+msgid ""
+"Sounds-like name search (using metafore and soundexn"
+"algorithms)"
+msgstr ""
+
+#: ../mod/mpr/home.inc:35
+msgid "Uploading of a persons picture"
+msgstr ""
+
+#: ../mod/mpr/home.inc:36
+msgid "Grouping by family unit or other groups types"
+msgstr ""
+
+#: ../mod/mpr/home.inc:45
+msgid "Latest updates on Found People"
+msgstr ""
+
+#: ../mod/mpr/home.inc:58
+msgid "Latest updates on Missing People"
+msgstr ""
+
+#: ../mod/mpr/home.inc:139 ../mod/mpr/home.inc:159
+msgid "Height : "
+msgstr ""
+
+#: ../mod/mpr/home.inc:140 ../mod/mpr/home.inc:160
+msgid "Weight : "
+msgstr ""
+
+#: ../mod/mpr/home.inc:141 ../mod/mpr/home.inc:161
+msgid "Eye Colour : "
+msgstr ""
+
+#: ../mod/mpr/home.inc:142 ../mod/mpr/home.inc:162
+msgid "Skin Colour : "
+msgstr ""
+
+#: ../mod/mpr/home.inc:143 ../mod/mpr/home.inc:163
+msgid "Hair Colour : "
+msgstr ""
+
+#: ../mod/mpr/home.inc:144 ../mod/mpr/home.inc:164
+msgid "Last Seen : "
+msgstr "&#3461;&#3520;&#3523;&#3535;&#3505; &#3520;&#3521;&#3514;&#3545;&#3505;&#3530; &#3503;&#3540;&#3495;&#3540; &#3523;&#3530;&#3502;&#3535;&#3505;&#3514;"
+
+#: ../mod/mpr/home.inc:145 ../mod/mpr/home.inc:165
+msgid "Last Clothing : "
+msgstr "&#3461;&#3520;&#3523;&#3535;&#3505; &#3520;&#3521;&#3514;&#3545;&#3505;&#3530; &#3463;&#3507; &#3523;&#3538;&#3495;&#3538; &#3463;&#3507;&#3540;&#3512;"
+
+#: ../mod/mpr/home.inc:146 ../mod/mpr/home.inc:166
+msgid "Comments : "
+msgstr "&#3520;&#3538;&#3523;&#3530;&#3501;&#3515; : "
+
+#: ../mod/mpr/main.inc:43
+msgid "Search for a Person"
+msgstr "&#3508;&#3540;&#3503;&#3530;&#3517;&#3514;&#3545;&#3482;&#3540; &#3523;&#3545;&#3520;&#3539;&#3512;"
+
+#: ../mod/mpr/main.inc:44
+msgid "Report a Missing Person"
+msgstr "&#3461;&#3501;&#3540;&#3515;&#3540;&#3503;&#3524;&#3505;&#3530;&#3520;&#3540; &#3508;&#3540;&#3503;&#3530;&#3517;&#3514;&#3545;&#3482;&#3540; &#3520;&#3535;&#3515;&#3530;&#3501;&#3535; &#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/mpr/main.inc:45
+msgid "Edit a Missing Person"
+msgstr "&#3461;&#3501;&#3540;&#3515;&#3540;&#3503;&#3524;&#3505;&#3530;&#3520;&#3540; &#3508;&#3540;&#3503;&#3530;&#3517;&#3514;&#3545;&#3482;&#3540;&#3484;&#3546; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515; &#3520;&#3545;&#3505;&#3523;&#3530; &#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/mpr/main.inc:46
+msgid "Report a Found Person"
+msgstr "&#3523;&#3548;&#3514;&#3535;&#3484;&#3501;&#3530; &#3508;&#3540;&#3503;&#3530;&#3517;&#3514;&#3545;&#3482;&#3540; &#3520;&#3535;&#3515;&#3530;&#3501;&#3535; &#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/mpr/main.inc:124 ../mod/mpr/main.inc:132 ../mod/mpr/main.inc:136
+#: ../mod/mpr/main.inc:150 ../mod/mpr/main.inc:161 ../mod/mpr/main.inc:194
+#: ../mod/mpr/main.inc:203
+msgid "Edit Missing Person Entry"
+msgstr "&#3461;&#3501;&#3540;&#3515;&#3540;&#3503;&#3524;&#3505;&#3530;&#3520;&#3540; &#3508;&#3540;&#3503;&#3530;&#3517;&#3514;&#3545;&#3482;&#3540;&#3484;&#3546; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515; &#3520;&#3545;&#3505;&#3523;&#3530; &#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/mpr/main.inc:153 ../mod/mpr/main.inc:183 ../mod/mpr/main.inc:259
+#: ../mod/mpr/main.inc:275 ../mod/mpr/main.inc:303
+msgid "Add a tracker to"
+msgstr "&#3505;&#3520; &#3523;&#3548;&#3514;&#3505;&#3530;&#3505;&#3545;&#3482;&#3540; &#3473;&#3482;&#3501;&#3540; &#3482;&#3515;&#3539;&#3512;"
+
+#: ../mod/mpr/main.inc:225
+msgid "View Person"
+msgstr "&#3508;&#3540;&#3503;&#3530;&#3517;&#3514;&#3545;&#3482;&#3540;&#3484;&#3546; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/mpr/main.inc:326
+msgid "Found Person Entry"
+msgstr "&#3523;&#3548;&#3514;&#3535;&#3484;&#3501;&#3530; &#3508;&#3540;&#3503;&#3530;&#3517;&#3514;&#3545;&#3482;&#3540;&#3484;&#3546; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/mpr/main.inc:328
+msgid "Missing Person Entry"
+msgstr "&#3461;&#3501;&#3540;&#3515;&#3540;&#3503;&#3524;&#3505;&#3530;&#3520;&#3540; &#3508;&#3540;&#3503;&#3530;&#3517;&#3514;&#3545;&#3482;&#3540;&#3484;&#3546; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/mpr/main.inc:337 ../mod/mpr/main.inc:395
+msgid "Upload Person's Picture"
+msgstr "&#3508;&#3540;&#3503;&#3530;&#3484;&#3517;&#3514;&#3535;&#3484;&#3546; &#3508;&#3538;&#3505;&#3530;&#3501;&#3542;&#3515;&#3514; &#3461;&#3501;&#3540;&#3517;&#3501;&#3530; &#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/mpr/main.inc:341
+msgid "Person Details"
+msgstr "&#3508;&#3540;&#3503;&#3530;&#3484;&#3517;&#3514;&#3535;&#3484;&#3546; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/mpr/main.inc:355 ../mod/mpr/main.inc:378
+msgid "Final Confirmation"
+msgstr "&#3512;&#3546; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515; &#3505;&#3538;&#3520;&#3536;&#3515;&#3503;&#3538;&#3503; ?"
+
+#: ../mod/mpr/main.inc:547
+msgid "Image Not Available"
+msgstr "&#3508;&#3538;&#3505;&#3530;&#3501;&#3542;&#3515;&#3514;&#3482;&#3530; &#3517;&#3536;&#3510;&#3539; &#3505;&#3548;&#3512;&#3536;&#3501;"
+
+#: ../mod/mpr/main.inc:562
+msgid "Click to see the original size"
+msgstr "&#3523;&#3512;&#3530;&#3508;&#3542;&#3515;&#3530;&#3505; &#3508;&#3538;&#3505;&#3530;&#3501;&#3542;&#3515;&#3514;"
+
+#: ../mod/mpr/search.inc:31
+msgid "Basic Search"
+msgstr "&#3523;&#3535;&#3512;&#3535;&#3505;&#3530;&#8205;&#3514; &#3523;&#3545;&#3520;&#3539;&#3512;"
+
+#: ../mod/mpr/search.inc:32
+msgid "Any Card Number"
+msgstr "&#3524;&#3507;&#3540;&#3505;&#3535;&#3484;&#3536;&#3505;&#3539;&#3512;&#3546; &#3461;&#3458;&#3482;&#3514;"
+
+#: ../mod/mpr/search.inc:33
+msgid "Any Name"
+msgstr "&#3477;&#3505;&#3537;&#3512; &#3505;&#3512;&#3482;&#3530;"
+
+#: ../mod/mpr/search.inc:54
+msgid "Advance Search"
+msgstr "&#3520;&#3538;&#3523;&#3530;&#3501;&#3515;&#3535;&#3501;&#3530;&#3512;&#3482; &#3523;&#3545;&#3520;&#3539;&#3512;"
+
+#: ../mod/mpr/search.inc:249 ../mod/mpr/search.inc:264
+msgid "Total"
+msgstr "&#3473;&#3482;&#3501;&#3540;&#3520;"
+
+#: ../mod/mpr/search.inc:249 ../mod/mpr/search.inc:264
+msgid "Records were found"
+msgstr "&#3482;&#3530; &#3520;&#3535;&#3515;&#3530;&#3501;&#3535;&#3520;&#3505;&#3530; &#3524;&#3512;&#3540;&#3520;&#3538;&#3514;"
+
+#: ../mod/mpr/search.inc:275
+msgid "First"
+msgstr "&#3508;&#3517;&#3512;&#3540;&#3520;&#3530;"
+
+#: ../mod/mpr/search.inc:275 ../mod/mpr/search.inc:280
+#: ../mod/mpr/search.inc:288 ../mod/mpr/search.inc:293
+msgid "Records"
+msgstr "&#3520;&#3535;&#3515;&#3530;&#3501;&#3535;"
+
+#: ../mod/mpr/search.inc:280
+msgid "Previous"
+msgstr "&#3508;&#3545;&#3515;"
+
+#: ../mod/mpr/search.inc:293
+msgid "Last"
+msgstr "&#3461;&#3520;&#3523;&#3535;&#3505;"
+
+#: ../mod/mpr/search.inc:323
+msgid "Appearance"
+msgstr "&#3510;&#3535;&#3524;&#3538;&#3515; &#3508;&#3545;&#3505;&#3540;&#3512;"
+
+#: ../mod/mpr/search.inc:324
+msgid "Missing Details"
+msgstr ""
+
+#: ../mod/mpr/search.inc:326 ../mod/mpr/search.inc:385
+#: ../mod/mpr/search.inc:387 ../mod/mpr/search.inc:437
+#: ../mod/mpr/search.inc:465 ../mod/mpr/search.inc:467
+msgid "Select"
+msgstr "&#3501;&#3549;&#3515;&#3535;&#3484;&#3536;&#3505;&#3539;&#3512;"
+
+#: ../mod/mpr/search.inc:335 ../mod/mpr/search.inc:337
+msgid "Audit"
+msgstr ""
+
+#: ../mod/mpr/search.inc:346
+msgid "Tracked by"
+msgstr "&#3523;&#3548;&#3514;&#3505;&#3530;&#3505;&#3535;"
+
+#: ../mod/mpr/search.inc:381 ../mod/mpr/search.inc:460
+msgid "Change the status to Alive & Well"
+msgstr "&#3501;&#3501;&#3530;&#3520;&#3514; '&#3490;&#3538;&#3520;&#3501;&#3540;&#3505;&#3530; &#3461;&#3501;&#3515;' &#3514;&#3505;&#3540;&#3520;&#3545;&#3505;&#3530; &#3520;&#3545;&#3505;&#3523;&#3530;&#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/mpr/search.inc:383 ../mod/mpr/search.inc:462
+msgid "Click to change to found"
+msgstr "&#3523;&#3548;&#3514;&#3535;&#3484;&#3501;&#3530; &#3517;&#3545;&#3523;&#3495; &#3520;&#3545;&#3505;&#3523;&#3530;&#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/mpr/search.inc:474 ../mod/mpr/view.inc:163
+#: ../mod/rms/handler_plg_new.inc:108 ../mod/rms/handler_plg_new.inc:129
+#: ../mod/rms/handler_sc_req.inc:152 ../mod/rms/handler_sc_req.inc:165
+msgid "Back"
+msgstr "&#3508;&#3545;&#3515;&#3495;"
+
+#: ../mod/mpr/view.inc:29
+msgid "Details"
+msgstr "&#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/mpr/view.inc:149
+msgid "People that are tracking"
+msgstr "&#3523;&#3548;&#3514;&#3505;&#3530;&#3505;&#3505;&#3530;"
+
+#: ../mod/mpr/view.inc:162
+msgid "Click to edit"
+msgstr "&#3520;&#3545;&#3505;&#3523;&#3530;&#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/or/admin_forms.inc:25
+msgid "Set the Starting Location"
+msgstr "&#3508;&#3495;&#3505;&#3530;&#3484;&#3505;&#3539;&#3512;&#3546; &#3523;&#3530;&#3502;&#3535;&#3505;&#3514;"
+
+#: ../mod/or/admin_forms.inc:27
+msgid ""
+"When a Disaster happens,typically organizations located in a certain region "
+"get involved. Therefore when you select a location its a waste of time to "
+"always start from country. If you know the country ,give it in this form,and "
+"you can start with sub-divisions of that country. Furthermore ,if the "
+"Disaster is confined to a much smaller geographical area, select the "
+"appropriate location to start with."
+msgstr ""
+
+#: ../mod/or/admin_forms.inc:36
+msgid "I want all the Locations ,so don't set a starting point"
+msgstr "&#3523;&#3538;&#3514;&#3517;&#3540;&#3512; &#3523;&#3530;&#3502;&#3535;&#3505; &#3508;&#3545;&#3505;&#3530;&#3520;&#3539;&#3512; &#3523;&#3507;&#3524;&#3535; &#3508;&#3495;&#3505;&#3530;&#3484;&#3536;&#3505;&#3539;&#3512;&#3546; &#3523;&#3530;&#3502;&#3535;&#3505;&#3514;&#3482;&#3530; &#3505;&#3548;&#3501;&#3510;&#3505;&#3530;&#3505;"
+
+#: ../mod/or/admin_forms.inc:39
+msgid "Select the Location Level you want fix"
+msgstr "&#3523;&#3530;&#3501;&#3535;&#3505;&#3514;&#3546; &#3512;&#3495;&#3530;&#3495;&#3512; &#3501;&#3549;&#3515;&#3535;&#3484;&#3505;&#3530;&#3505;"
+
+#: ../mod/or/admin_forms.inc:49 ../mod/or/admin_forms.inc:97
+#: ../mod/or/admin_forms.inc:144 ../mod/or/view_org.inc:194
+#: ../mod/or/view_vol.inc:159
+msgid "Save"
+msgstr "&#3510;&#3546;&#3515;&#3535; &#3484;&#3505;&#3530;&#3505;"
+
+#: ../mod/or/admin_forms.inc:66
+msgid "Organization Types"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505; &#3520;&#3515;&#3530;&#3484;"
+
+#: ../mod/or/admin_forms.inc:76
+msgid "Organization Type : "
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505; &#3520;&#3515;&#3530;&#3484;&#3514; : "
+
+#: ../mod/or/admin_forms.inc:77 ../mod/or/admin_forms.inc:124
+msgid "Abbrevation [3 letter unique abbr. to store in the database] : "
+msgstr "&#3482;&#3545;&#3495;&#3538; &#3505;&#3512; [&#3503;&#3501;&#3530;&#3501; &#3484;&#3510;&#3497;&#3535;&#3520; &#3523;&#3507;&#3524;&#3535; &#3461;&#3482;&#3540;&#3515;&#3540; 3&#3482; &#3482;&#3545;&#3495;&#3538; &#3505;&#3512;]"
+
+#: ../mod/or/admin_forms.inc:113
+msgid "Organization Sectors"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505; &#3523;&#3546;&#3520;&#3535; &#3461;&#3458;&#3521;"
+
+#: ../mod/or/admin_forms.inc:123
+msgid "Organization Sector : "
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505; &#3523;&#3546;&#3520;&#3535; &#3461;&#3458;&#3521;&#3514;"
+
+#: ../mod/or/home.inc:30
+msgid "Organization Registry"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505; &#3517;&#3536;&#3514;&#3538;&#3523;&#3530;&#3501;&#3540;&#3520;"
+
+#: ../mod/or/home.inc:31
+msgid ""
+"The Organization Registry keeps track of all the relief organizations and "
+"civil society groups working in the disaster region. It captures not only "
+"the places where they are active, but also captures information on the range "
+"of services they are providing in each area.          n"
+"ttttFeatures Include:"
+msgstr ""
+
+#: ../mod/or/home.inc:35
+msgid ""
+"Capturing a comprehensive list of meta data on an relief organization and "
+"all the activities they have in the region"
+msgstr ""
+
+#: ../mod/or/home.inc:36
+msgid "Registering ad-hoc volunteers willing to contribute"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505;&#3535;&#3501;&#3530;&#3512;&#3482; &#3505;&#3548;&#3520;&#3505; &#3523;&#3530;&#3520;&#3546;&#3488;&#3530;&#3494;&#3535; &#3523;&#3546;&#3520;&#3482;&#3514;&#3538;&#3505;&#3530; &#3517;&#3538;&#3514;&#3535;&#3508;&#3503;&#3538;&#3505;&#3530;&#3488;&#3538; &#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/or/home.inc:37
+msgid "Capturing the essential services each group is providing and where"
+msgstr ""
+
+#: ../mod/or/home.inc:38
+msgid ""
+"Reporting on the converge of services and support in the region and more"
+msgstr ""
+
+#: ../mod/or/home.inc:39
+msgid "importantly where there are no aid services being provided"
+msgstr ""
+
+#: ../mod/or/home.inc:45
+msgid "Organizations"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505;"
+
+#: ../mod/or/home.inc:46
+msgid "Please Register"
+msgstr "&#3482;&#3515;&#3540;&#3505;&#3535;&#3482;&#3515; &#3517;&#3538;&#3514;&#3535;&#3508;&#3503;&#3538;&#3505;&#3530;&#3488;&#3538; &#3520;&#3545;&#3505;&#3530;&#3505;"
+
+#: ../mod/or/home.inc:47
+msgid "Volunteers"
+msgstr "&#3523;&#3530;&#3520;&#3546;&#3488;&#3530;&#3494;&#3535; &#3523;&#3546;&#3520;&#3482;&#3514;&#3538;&#3505;&#3530;"
+
+#: ../mod/or/home.inc:54
+msgid " Organizations have registered"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505; &#3517;&#3538;&#3514;&#3535;&#3508;&#3503;&#3538;&#3505;&#3530;&#3488;&#3538;&#3482;&#3515; &#3461;&#3520;&#3523;&#3505;&#3530;"
+
+#: ../mod/or/home.inc:59
+msgid ""
+"n"
+"tttttRegistering your organization allows us to know who is doing what "
+"where and allows us to operate more effectively as one."
+msgstr ""
+
+#: ../mod/or/home.inc:75
+msgid "Last 10 Organizations to Register"
+msgstr "&#3461;&#3520;&#3523;&#3535;&#3505; &#3520;&#3515;&#3495; &#3517;&#3538;&#3514;&#3535;&#3508;&#3503;&#3538;&#3505;&#3530;&#3488;&#3538;&#3520;&#3542; &#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505; 10"
+
+#: ../mod/or/lib_or.inc:270
+msgid "Gender:"
+msgstr "&#3523;&#3530;&#3501;&#3530;&#8205;&#3515;&#3539; &#3508;&#3540;&#3515;&#3540;&#3522; &#3510;&#3530;&#3524;&#3535;&#3520;&#3514;"
+
+#: ../mod/or/lib_or.inc:325
+msgid "Name : "
+msgstr "&#3505;&#3512; : "
+
+#: ../mod/or/lib_or.inc:328
+msgid "Address : "
+msgstr "&#3517;&#3538;&#3508;&#3538;&#3505;&#3514; : "
+
+#: ../mod/or/lib_or.inc:330
+msgid "Phone : "
+msgstr "&#3503;&#3540;&#3515;&#3482;&#3501;&#3505; &#3461;&#3458;&#3482;&#3514; : "
+
+#: ../mod/or/lib_or.inc:332
+msgid "Fax : "
+msgstr "&#3526;&#3536;&#3482;&#3530;&#3523;&#3530; &#3461;&#3458;&#3482;&#3514; : "
+
+#: ../mod/or/lib_or.inc:334
+msgid "Email : "
+msgstr "&#3466;&#3512;&#3546;&#3517;&#3530; &#3517;&#3538;&#3508;&#3538;&#3505;&#3514; : "
+
+#: ../mod/or/lib_or.inc:350
+msgid "Man Power : "
+msgstr "&#3521;&#3530;&#8205;&#3515;&#3512; &#3510;&#3517;&#3514; : "
+
+#: ../mod/or/lib_or.inc:352
+msgid "Other relevant resources : "
+msgstr "&#3461;&#3505;&#3545;&#3482;&#3530; &#3520;&#3503;&#3484;&#3501;&#3530; &#3523;&#3512;&#3530;&#3508;&#3501;&#3530; "
+
+#: ../mod/or/lib_or.inc:369
+msgid ""
+"Add Operation<br> (Your Organization might be having branches or carrying "
+"out relief operations in this disaster. Then information of those operations "
+"is usefull : "
+msgstr "&#3482;&#3535;&#3515;&#3530;&#8205;&#3514;&#3482;&#3530; &#3473;&#3482;&#3501;&#3540;&#3482;&#3538;&#3515;&#3539;&#3512;<br/> ()"
+
+#: ../mod/or/main.inc:180
+msgid "Search Result"
+msgstr "&#3523;&#3545;&#3520;&#3539;&#3512;&#3530; &#3508;&#3530;&#8205;&#3515;&#3501;&#3538;&#3508;&#3517;"
+
+#: ../mod/or/main.inc:186 ../mod/or/report.inc:170 ../mod/or/search.inc:30
+#: ../mod/or/view_org.inc:30 ../mod/or/view_org.inc:175
+msgid "Organization Type"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505; &#3520;&#3515;&#3530;&#3484;&#3514;"
+
+#: ../mod/or/main.inc:187 ../mod/or/report.inc:171 ../mod/or/view_org.inc:31
+#: ../mod/or/view_vol.inc:33
+msgid "Country of Origin"
+msgstr "&#3461;&#3514;&#3501;&#3530; &#3515;&#3495;"
+
+#: ../mod/or/main.inc:188 ../mod/or/report.inc:172 ../mod/or/view_org.inc:32
+#: ../mod/or/view_vol.inc:34
+msgid "Contact Address"
+msgstr "&#3517;&#3538;&#3508;&#3538;&#3505;&#3514;"
+
+#: ../mod/or/main.inc:190 ../mod/or/report.inc:174 ../mod/or/view_org.inc:34
+#: ../mod/or/view_vol.inc:36
+msgid "Contact Email"
+msgstr "&#3466;&#3512;&#3546;&#3517;&#3530; &#3517;&#3538;&#3508;&#3538;&#3505;&#3514;"
+
+#: ../mod/or/main.inc:191 ../mod/or/report.inc:175 ../mod/or/view_org.inc:35
+msgid "Man Power"
+msgstr "&#3521;&#3530;&#8205;&#3515;&#3512; &#3510;&#3517;&#3514;"
+
+#: ../mod/or/main.inc:192 ../mod/or/report.inc:176 ../mod/or/view_org.inc:36
+msgid "Facilities"
+msgstr "&#3508;&#3524;&#3523;&#3540;&#3482;&#3512;&#3530;"
+
+#: ../mod/or/reg_org.inc:27
+msgid "Organization Registration"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505; &#3517;&#3538;&#3514;&#3508;&#3503;&#3538;&#3505;&#3530;&#3488;&#3538;&#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/or/reg_org.inc:37
+msgid "* Organization Name : "
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505;&#3514;&#3546; &#3505;&#3512; : "
+
+#: ../mod/or/reg_org.inc:38 ../mod/or/view_org.inc:172
+msgid "Registration Number : "
+msgstr "&#3517;&#3538;&#3514;&#3508;&#3503;&#3538;&#3505;&#3530;&#3488;&#3538; &#3461;&#3458;&#3482;&#3514; : "
+
+#: ../mod/or/reg_org.inc:88
+msgid "Add an Operation/Branch under the Organization "
+msgstr "&#3482;&#3515;&#3530;&#8205;&#3514;&#3482;&#3530; &#3524;&#3549; &#3521;&#3535;&#3483;&#3535;&#3520;&#3482;&#3530; &#3473;&#3482;&#3501;&#3540;&#3482;&#3538;&#3515;&#3538;&#3512; "
+
+#: ../mod/or/reg_org.inc:98
+msgid "Operation/Branch Name : "
+msgstr "&#3482;&#3515;&#3530;&#8205;&#3514;&#3514;&#3546; &#3524;&#3549; &#3521;&#3535;&#3483;&#3535;&#3520;&#3546; &#3505;&#3512; :"
+
+#: ../mod/or/reg_vol.inc:27
+msgid "Volunteer Registration"
+msgstr "&#3523;&#3530;&#3520;&#3546;&#3488;&#3530;&#3494;&#3535; &#3523;&#3546;&#3520;&#3482;&#3514;&#3538;&#3505;&#3530; &#3517;&#3538;&#3514;&#3508;&#3503;&#3538;&#3505;&#3530;&#3488;&#3538;&#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/or/reg_vol.inc:37 ../mod/or/view_vol.inc:131
+msgid "Name in Full : "
+msgstr "&#3523;&#3512;&#3530;&#3508;&#3542;&#3515;&#3530;&#3505; &#3505;&#3512; : "
+
+#: ../mod/or/reg_vol.inc:39
+msgid "Date of Birth (yyyy-mm-dd) : "
+msgstr "&#3467;&#3508;&#3505;&#3530; &#3503;&#3538;&#3505;&#3514; (yyyy-mm-dd) : "
+
+#: ../mod/or/reg_vol.inc:41 ../mod/or/view_vol.inc:136
+msgid "Occupation : "
+msgstr "&#3515;&#3536;&#3482;&#3538;&#3514;&#3535;&#3520; : "
+
+#: ../mod/or/reg_vol.inc:45 ../mod/or/view_vol.inc:141
+msgid "National ID No : "
+msgstr "&#3490;&#3535;&#3501;&#3538;&#3482; &#3524;&#3536;&#3507;&#3540;&#3505;&#3540;&#3512;&#3530;&#3508;&#3501;&#3530; &#3461;&#3458;&#3482;&#3514; : "
+
+#: ../mod/or/reg_vol.inc:46 ../mod/or/view_vol.inc:143
+msgid "Passporl No : "
+msgstr "&#3484;&#3512;&#3505;&#3530; &#3510;&#3517;&#3508;&#3501;&#3530;&#8205;&#3515; &#3461;&#3458;&#3482;&#3514; : "
+
+#: ../mod/or/reg_vol.inc:47 ../mod/or/view_vol.inc:145
+msgid "Driving License No : "
+msgstr "&#3515;&#3538;&#3514;&#3503;&#3540;&#3515;&#3540; &#3510;&#3517;&#3508;&#3501;&#3530;&#8205;&#3515; &#3461;&#3458;&#3482;&#3514; : "
+
+#: ../mod/or/report.inc:38
+msgid "Organization Report By "
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505; &#3520;&#3535;&#3515;&#3530;&#3501;&#3535;&#3520; "
+
+#: ../mod/or/report.inc:38
+msgid " "
+msgstr ""
+
+#: ../mod/or/report.inc:40
+msgid "Each Row is a "
+msgstr "&#3473;&#3482;&#3530; &#3473;&#3482;&#3530; &#3508;&#3546;&#3517;&#3538; "
+
+#: ../mod/or/report.inc:40
+msgid " ,Column is a  Service."
+msgstr " ,&#3501;&#3539;&#3515;&#3540;&#3520; &#3523;&#3546;&#3520;&#3514;&#3482;&#3538;."
+
+#: ../mod/or/report.inc:44
+msgid ""
+"Intersection shows the precentage of Sub-divisions Covered per each service."
+msgstr "&#3461;&#3505;&#3530;&#3501;&#3515;&#3530; &#3545;&#3494;&#3530;&#3503;&#3505;&#3514;&#3545;&#3505;&#3530; &#3503;&#3536;&#3482;&#3530;&#3520;&#3545;&#3505;&#3530;&#3505;&#3546; &#3467;&#3508; &#3482;&#3548;&#3495;&#3530;&#3496;&#3535;&#3521; &#3520;&#3517;&#3538;&#3505;&#3530; &#3462;&#3520;&#3515;&#3505;&#3514; &#3520;&#3505; &#3508;&#3530;&#8205;&#3515;&#3501;&#3538;&#3521;&#3501;&#3514;&#3514;&#3538;."
+
+#: ../mod/or/report.inc:45
+msgid "For this report Sub-division is a  "
+msgstr "&#3512;&#3545;&#3512;&#3530; &#3520;&#3535;&#3515;&#3530;&#3501;&#3535;&#3520; &#3523;&#3507;&#3524;&#3535; &#3467;&#3508; &#3482;&#3548;&#3495;&#3530;&#3496;&#3535;&#3521;&#3514; &#3520;&#3505;&#3530;&#3505;&#3546; "
+
+#: ../mod/or/report.inc:45
+msgid "."
+msgstr ""
+
+#: ../mod/or/report.inc:46
+msgid "If atleast one "
+msgstr "&#3461;&#3520;&#3512; &#3520;&#3521;&#3530;&#8205;&#3514;&#3545;&#3505;&#3530; &#3473;&#3482;&#3482;&#3530; "
+
+#: ../mod/or/report.inc:46
+msgid ""
+" in the Sub-division has an organization providing the service then that Sub-"
+"division is considered as covered for that service."
+msgstr ""
+
+#: ../mod/or/report.inc:48
+msgid "Intersection shows whether each "
+msgstr "&#3461;&#3505;&#3530;&#3501;&#3515;&#3530; &#3545;&#3494;&#3530;&#3503;&#3505;&#3514;&#3545;&#3505;&#3530; &#3508;&#3545;&#3505;&#3530;&#3520;&#3505;&#3530;&#3505;&#3546; "
+
+#: ../mod/or/report.inc:48
+msgid " has atleast one organization providing the service."
+msgstr "&#3523;&#3546;&#3520;&#3514; &#3523;&#3508;&#3514;&#3505; &#3473;&#3482;&#3530; &#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505;&#3514;&#3482;&#3530; &#3524;&#3549; &#3461;&#3536;&#3501;."
+
+#: ../mod/or/report.inc:86
+msgid "Covered"
+msgstr "&#3462;&#3520;&#3515;&#3505;&#3514;&#3520;&#3539; &#3461;&#3536;&#3501;"
+
+#: ../mod/or/report.inc:89
+msgid "Not Covered"
+msgstr "&#3462;&#3520;&#3515;&#3505;&#3514;&#3520;&#3539; &#3505;&#3536;&#3501;"
+
+#: ../mod/or/report.inc:164
+msgid "Organization Report by Sector"
+msgstr "&#3461;&#3458;&#3521;&#3514; &#3461;&#3505;&#3540;&#3520; &#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505; &#3520;&#3535;&#3515;&#3530;&#3502;&#3535;&#3520;"
+
+#: ../mod/or/search.inc:25
+msgid "Search for Organizations by Service and Location"
+msgstr "&#3523;&#3546;&#3520;&#3514; &#3524;&#3535; &#3523;&#3530;&#3502;&#3535;&#3505;&#3514; &#3461;&#3505;&#3540;&#3520; &#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505; &#3523;&#3545;&#3520;&#3539;&#3512;"
+
+#: ../mod/or/search.inc:33 ../mod/or/view_org.inc:178
+msgid "Organization Sector"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505; &#3461;&#3458;&#3521;&#3514;"
+
+#: ../mod/or/search.inc:36
+msgid "Based Location"
+msgstr "&#3461;&#3503;&#3505;&#3512;&#3530;&#3520;&#3542; &#3523;&#3530;&#3502;&#3535;&#3505;&#3514;"
+
+#: ../mod/or/search.inc:38
+msgid "location"
+msgstr "&#3523;&#3530;&#3502;&#3535;&#3505;&#3514;"
+
+#: ../mod/or/search.inc:39
+msgid "Select location and then select the level(province,district,ect)"
+msgstr "&#3523;&#3530;&#3502;&#3535;&#3505;&#3514; &#3501;&#3549;&#3515;&#3535;&#3484;&#3501;&#3530;&#3508;&#3523;&#3540; &#3512;&#3495;&#3530;&#3495;&#3512; (&#3508;&#3517;&#3535;&#3501;&#3530;, &#3503;&#3538;&#3523;&#3530;&#3501;&#3538;&#3482;&#3530;&#3482;, &#3514;&#3505; &#3462;&#3503;&#3539;..) &#3501;&#3549;&#3515;&#3535;&#3484;&#3505;&#3530;&#3505;"
+
+#: ../mod/or/view_org.inc:29
+msgid "Services Provided"
+msgstr "&#3523;&#3508;&#3514;&#3505;&#3540; &#3517;&#3510;&#3505; &#3523;&#3546;&#3520;&#3535;"
+
+#: ../mod/or/view_org.inc:159
+msgid "Organization Registration Information of <em>"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505;&#3514;&#3546; &#3517;&#3538;&#3514;&#3535;&#3508;&#3503;&#3538;&#3505;&#3530;&#3488;&#3538; &#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3540; <em>"
+
+#: ../mod/or/view_org.inc:169 ../mod/or/view_vol.inc:129
+msgid "Primary Details"
+msgstr "&#3512;&#3542;&#3517;&#3538;&#3482; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/or/view_org.inc:170
+msgid "Organization Name : "
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505;&#3514;&#3546; &#3505;&#3512; : "
+
+#: ../mod/or/view_org.inc:182 ../mod/or/view_vol.inc:151
+msgid "Contact Information"
+msgstr "&#3523;&#3512;&#3530;&#3510;&#3530;&#3505;&#3530;&#3504;&#3539;&#3482;&#3515;&#3499;&#3530; &#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3540;"
+
+#: ../mod/or/view_org.inc:185
+msgid "Facilities Avaliable"
+msgstr "&#3503;&#3536;&#3505;&#3495; &#3508;&#3520;&#3501;&#3538;&#3505; &#3508;&#3524;&#3523;&#3540;&#3482;&#3512;&#3530;"
+
+#: ../mod/or/view_org.inc:195 ../mod/or/view_vol.inc:160
+msgid "Delete"
+msgstr "&#3465;&#3520;&#3501;&#3530; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/or/view_vol.inc:32
+msgid "Occupation"
+msgstr "&#3515;&#3536;&#3482;&#3538;&#3514;&#3535;&#3520;"
+
+#: ../mod/or/view_vol.inc:119
+msgid "Volunteer Registration information of "
+msgstr "&#3523;&#3530;&#3520;&#3546;&#3488;&#3530;&#3494;&#3535; &#3523;&#3546;&#3520;&#3482;&#3514;&#3538;&#3505;&#3530; &#3517;&#3538;&#3514;&#3535;&#3508;&#3503;&#3538;&#3505;&#3530;&#3488;&#3538;&#3482;&#3538;&#3515;&#3539;&#3512;&#3546; &#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3540;"
+
+#: ../mod/or/view_vol.inc:133
+msgid "Date of Birth : "
+msgstr "&#3467;&#3508;&#3505;&#3530;&#3503;&#3538;&#3505;&#3514; : "
+
+#: ../mod/or/view_vol.inc:139
+msgid "Identity Information"
+msgstr "&#3524;&#3507;&#3540;&#3505;&#3535;&#3484;&#3536;&#3505;&#3539;&#3512;&#3546; &#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3540;"
+
+#: ../mod/rms/admin.inc:34
+msgid "Items Category Settings"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3539;&#3512;&#3530; &#3520;&#3515;&#3530;&#3484; &#3523;&#3536;&#3482;&#3523;&#3539;&#3512;"
+
+#: ../mod/rms/admin.inc:35
+msgid "Add Category"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3539;&#3512;&#3530; &#3520;&#3515;&#3530;&#3484;&#3514;&#3482;&#3530; &#3473;&#3482;&#3501;&#3540;&#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/rms/admin.inc:36
+msgid "Remove Category"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3539;&#3512;&#3530; &#3520;&#3515;&#3530;&#3484;&#3514;&#3482;&#3530; &#3465;&#3520;&#3501;&#3530;&#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/rms/admin.inc:41
+msgid "Items Priority Settings"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3539;&#3512;&#3530; &#3520;&#3515;&#3530;&#3484;&#3514;&#3546; &#3508;&#3530;&#8205;&#3515;&#3512;&#3540;&#3482;&#3501;&#3530;&#3520;&#3514; &#3523;&#3536;&#3482;&#3523;&#3539;&#3512;"
+
+#: ../mod/rms/admin.inc:42
+msgid "Add Priority Type"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3512;&#3540;&#3482;&#3501;&#3530;&#3520;&#3514; &#3520;&#3515;&#3530;&#3484;&#3514;&#3482;&#3530; &#3473;&#3482;&#3501;&#3540;&#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/rms/admin.inc:43
+msgid "Remove Priority Type"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3512;&#3540;&#3482;&#3501;&#3530;&#3520;&#3514; &#3520;&#3515;&#3530;&#3484;&#3514;&#3482;&#3530; &#3465;&#3520;&#3501;&#3530;&#3482;&#3538;&#3515;&#3539;&#3512;"
+
+#: ../mod/rms/admin.inc:86
+msgid "CatID"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3539;&#3512;&#3530; &#3520;&#3515;&#3530;&#3484; &#3461;&#3458;&#3482;&#3514;"
+
+#: ../mod/rms/admin.inc:87 ../mod/rms/handler_plg_new.inc:30
+#: ../mod/rms/handler_plg_new.inc:268 ../mod/rms/handler_plg_vw.inc:56
+#: ../mod/rms/lib_rms.inc:631 ../mod/rms/lib_rms.inc:703
+#: ../mod/rms/lib_rms.inc:992 ../mod/rms/lib_rms.inc:1044
+#: ../mod/rms/lib_rms.inc:1200
+msgid "Category"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3539;&#3512;&#3530; &#3520;&#3515;&#3530;&#3484;&#3514;"
+
+#: ../mod/rms/admin.inc:88 ../mod/rms/admin.inc:239
+msgid "Description"
+msgstr "&#3520;&#3536;&#3497;&#3538;&#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/rms/admin.inc:159
+msgid "category added successfully"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3539;&#3512;&#3530; &#3520;&#3515;&#3530;&#3484;&#3514; &#3523;&#3535;&#3515;&#3530;&#3502;&#3482;&#3520; &#3473;&#3482;&#3501;&#3540;&#3482;&#3515;&#3505; &#3517;&#3503;&#3538;"
+
+#: ../mod/rms/admin.inc:163
+msgid "The category already exists"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3539;&#3512;&#3530; &#3520;&#3515;&#3530;&#3484;&#3514; &#3503;&#3536;&#3505;&#3495;&#3512;&#3501;&#3530; &#3461;&#3536;&#3501;"
+
+#: ../mod/rms/admin.inc:196
+msgid "Category removed successfully"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3539;&#3512;&#3530; &#3520;&#3515;&#3530;&#3484;&#3514; &#3523;&#3535;&#3515;&#3530;&#3502;&#3482;&#3520; &#3465;&#3520;&#3501;&#3530; &#3482;&#3515;&#3505; &#3517;&#3503;&#3538;"
+
+#: ../mod/rms/admin.inc:200
+msgid "This category cannot be removed, because it is in use atm"
+msgstr "&#3512;&#3545;&#3512; &#3461;&#3520;&#3523;&#3530;&#3502;&#3535;&#3520;&#3546; &#3512;&#3545;&#3512; &#3465;&#3517;&#3530;&#3517;&#3539;&#3512;&#3530; &#3520;&#3515;&#3530;&#3484;&#3514; &#3465;&#3520;&#3501;&#3530;&#3482;&#3517; &#3505;&#3548;&#3524;&#3536;&#3482;"
+
+#: ../mod/rms/admin.inc:237
+msgid "Priority_ID"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3512;&#3540;&#3482;&#3501;&#3530;&#3520; &#3461;&#3458;&#3482;&#3514;"
+
+#: ../mod/rms/admin.inc:238 ../mod/rms/lib_rms.inc:635
+#: ../mod/rms/lib_rms.inc:739 ../mod/rms/lib_rms.inc:996
+msgid "Priority"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3512;&#3540;&#3482;&#3501;&#3530;&#3520;&#3514;"
+
+#: ../mod/rms/admin.inc:311
+msgid "Priority type added successfully"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3512;&#3540;&#3482;&#3501;&#3530;&#3520; &#3520;&#3515;&#3530;&#3484;&#3514; &#3523;&#3535;&#3515;&#3530;&#3502;&#3482;&#3520; &#3473;&#3482;&#3501;&#3540;&#3482;&#3515;&#3505; &#3517;&#3503;&#3538;"
+
+#: ../mod/rms/admin.inc:315
+msgid "The Priority type already exists"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3512;&#3540;&#3482;&#3501;&#3530;&#3520; &#3520;&#3515;&#3530;&#3484;&#3514; &#3503;&#3536;&#3505;&#3495;&#3512;&#3501;&#3530; &#3461;&#3536;&#3501;"
+
+#: ../mod/rms/admin.inc:348
+msgid "Priority Type removed successfully"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3512;&#3540;&#3482; &#3520;&#3530;&#3515;&#3530;&#3484;&#3514; &#3523;&#3535;&#3515;&#3530;&#3502;&#3482;&#3520; &#3465;&#3520;&#3501;&#3530; &#3482;&#3515;&#3505; &#3517;&#3503;&#3538;"
+
+#: ../mod/rms/admin.inc:352
+msgid ""
+"This Priority type cannot be removed, because it is in use at the moment"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3512;&#3540;&#3482; &#3520;&#3530;&#3515;&#3530;&#3484;&#3514; &#3465;&#3520;&#3501;&#3530; &#3482;&#3538;&#3515;&#3538;&#3512; &#3523;&#3535;&#3515;&#3530;&#3502;&#3482; &#3505;&#3548;&#3520;&#3539;&#3514;.  &#3473;&#3514; &#3503;&#3536;&#3505;&#3495; &#3511;&#3535;&#3520;&#3538;&#3501; &#3482;&#3515;&#3505;&#3540; &#3517;&#3536;&#3510;&#3545;"
+
+#: ../mod/rms/conf.inc:23 ../mod/rms/lib_rms.inc:323
+msgid "Request Management System"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3523;&#3536;&#3508;&#3514;&#3540;&#3512;&#3530; &#3482;&#3517;&#3512;&#3505;&#3535;&#3482;&#3515;&#3505; &#3508;&#3503;&#3530;&#3504;&#3538;&#3501;&#3538;&#3514;"
+
+#: ../mod/rms/handler_cstat_req.inc:40
+msgid "The Request Status was successfully changed"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3501;&#3501;&#3530;&#3520;&#3514; &#3523;&#3535;&#3515;&#3530;&#3502;&#3482;&#3520; &#3545;&#3520;&#3505;&#3523;&#3530; &#3482;&#3515;&#3505; &#3517;&#3503;&#3538;  "
+
+#: ../mod/rms/handler_cstat_req.inc:40
+msgid "Please click"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3476;&#3510;&#3505;&#3530;&#3505; "
+
+#: ../mod/rms/handler_cstat_req.inc:41
+msgid "here to go back to the main page"
+msgstr "&#3512;&#3545;&#3501;&#3536;&#3505; &#3505;&#3536;&#3520;&#3501; &#3512;&#3540;&#3517;&#3530; &#3508;&#3538;&#3495;&#3540;&#3520;&#3495; &#3514;&#3535;&#3512;&#3495; "
+
+#: ../mod/rms/handler_cstat_req.inc:42
+msgid "or"
+msgstr "&#3524;&#3549;"
+
+#: ../mod/rms/handler_cstat_req.inc:42
+msgid "click"
+msgstr " &#3476;&#3510;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_cstat_req.inc:43
+msgid "here to view the request"
+msgstr "&#3512;&#3545;&#3501;&#3536;&#3505; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512; &#3510;&#3536;&#3517;&#3538;&#3512;&#3495; "
+
+#: ../mod/rms/handler_cstat_req.inc:48
+msgid "Sorry, you are not the owner of this request"
+msgstr "&#3523;&#3512;&#3535;&#3520;&#3505;&#3530;&#3505;, &#3476;&#3510; &#3512;&#3545;&#3512; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3546; &#3461;&#3514;&#3538;&#3501;&#3538;&#3482;&#3515;&#3540; &#3505;&#3548;&#3520;&#3545;&#3514;&#3538;  "
+
+#: ../mod/rms/handler_dep_check.inc:32
+msgid ""
+"<strong>Please create the required tables using the 'mod/rms/ins/rms.sql' "
+"file</strong>"
+msgstr "<strong> &#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3461;&#3520;&#3521;&#3530;&#8205;&#3514; &#3503;&#3501;&#3530;&#3501; &#3523;&#3503;&#3535;&#3484;&#3505;&#3530;&#3505; 'mod/rms/ins/rms.sql'  &#3512;&#3484;&#3538;&#3505;&#3530;</strong>"
+
+#: ../mod/rms/handler_dep_check.inc:42
+msgid ""
+"<strong>Please populate the tables using the 'mod/rms/ins/rms.sql' file</"
+"strong>"
+msgstr "<strong> &#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3461;&#3520;&#3521;&#3530;&#8205;&#3514; &#3503;&#3501;&#3530;&#3501; &#3508;&#3540;&#3515;&#3520;&#3535;&#3484;&#3505;&#3530;&#3505; 'mod/rms/ins/rms.sql'  &#3512;&#3484;&#3538;&#3505;&#3530;</strong>"
+
+#: ../mod/rms/handler_fulfill_req.inc:92
+msgid "Fulfil Requests"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3523;&#3508;&#3540;&#3515;&#3535;&#3484;&#3505;&#3530;&#3505; "
+
+#: ../mod/rms/handler_fulfill_req.inc:95 ../mod/rms/handler_view_req.inc:57
+msgid "Request Information"
+msgstr " &#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3540; &#3465;&#3517;&#3530;&#3517;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_fulfill_req.inc:101 ../mod/rms/handler_new_req.inc:111
+#: ../mod/rms/handler_new_req.inc:174
+msgid "Finish"
+msgstr "&#3523;&#3512;&#3530;&#3508;&#3540;&#3515;&#3530;&#3499;&#3530;&#3514;&#3538;"
+
+#: ../mod/rms/handler_main.inc:36
+msgid "Request Managment System"
+msgstr " &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3523;&#3536;&#3508;&#3514;&#3540;&#3512;&#3530; &#3482;&#3517;&#3512;&#3505;&#3535;&#3482;&#3515;&#3505; &#3508;&#3503;&#3530;&#3504;&#3538;&#3501;&#3538;&#3514;"
+
+#: ../mod/rms/handler_main.inc:39
+msgid ""
+"The Sahana request management system is a central online repository where "
+"alln"
+"ttrelief organizations, relief works, government agents and camps can "
+"effectivelyn"
+"ttmatch requests of aid and supplies to pledges of support. It effectively "
+"looks like ann"
+"ttonline aid trading system tracking request to fulfillment. Features "
+"include:"
+msgstr " &#3523;&#3524;&#3505; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3523;&#3536;&#3508;&#3514;&#3540;&#3512;&#3530; &#3482;&#3517;&#3512;&#3505;&#3535;&#3482;&#3515;&#3505; &#3508;&#3503;&#3530;&#3504;&#3538;&#3501;&#3538;&#3514; , &#3482;&#3546;&#3505;&#3530;&#3503;&#3540;&#3484;&#3501; &#3484;&#3510;&#3497;&#3535;&#3520;&#3482;&#3538;. &#3515;&#3535;&#3490;&#3530;&#8205;&#3514;  &#3462;&#3514;&#3501;&#3505; , &#3482;&#3507;&#3520;&#3540;&#3515;&#3540; , &#3523;&#3524;&#3505; &#3523;&#3508;&#3514;&#3505; &#3462;&#3514;&#3501;&#3505; &#3520;&#3517;&#3495; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3523;&#3524; &#3523;&#3536;&#3508;&#3514;&#3540;&#3512;&#3530; &#3484;&#3536;&#3517;&#3508;&#3539;&#3512;&#3495; &#3523;&#3524;&#3505; &#3514;&#3548;&#3503;&#3535; &#3484;&#3501; &#3524;&#3536;&#3482;. &#3473;&#3514; &#3524;&#3515;&#3538;&#3514;&#3495; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3523;&#3508;&#3540;&#3515;&#3535;&#3484;&#3536;&#3505;&#3538;&#3512;&#3495; &#3462;&#3504;&#3535;&#3515; &#3482;&#3515;&#3505; &#3524;&#3540;&#3520;&#3512;&#3535;&#3515;&#3540; &#3508;&#3503;&#3530;&#3504;&#3538;&#3501;&#3538;&#3514;&#3482;&#3530; &#3520;&#3530;&#3536;&#3505;&#3538;&#3514;. &#3473;&#3524;&#3538; &#3520;&#3538;&#3521;&#3546;&#3522;&#3535;&#3458;&#3484; &#3520;&#3530;&#3505;&#3540;&#3514;&#3546; : "
+
+#: ../mod/rms/handler_main.inc:47
+msgid ""
+"Basic meta data on the request and pledges such as the category, the units, "
+"contact details and the status"
+msgstr " &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3523;&#3536;&#3508;&#3514;&#3540;&#3512;&#3530; &#3503;&#3501;&#3530;&#3501; &#3484;&#3536;&#3505; &#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3540; , &#3520;&#3515;&#3530;&#3484;&#3514; , &#3473;&#3530;&#3482;&#3482;&#3514;, &#3523;&#3512;&#3540;&#3520;&#3538;&#3512;&#3545; &#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3540; &#3523;&#3524; &#3501;&#3501;&#3530;&#3520;&#3514; &#3514;&#3505;&#3535;&#3503;&#3538; "
+
+#: ../mod/rms/handler_main.inc:48
+msgid "Customizable category of aid"
+msgstr "&#3545;&#3520;&#3505;&#3523;&#3530; &#3482;&#3517; &#3524;&#3536;&#3482;&#3538; - &#3462;&#3504;&#3535;&#3515; &#3520;&#3515;&#3530;&#3484;&#3514;"
+
+#: ../mod/rms/handler_main.inc:49
+msgid "Filtered search of aid pledges and requests"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3523;&#3524; &#3523;&#3536;&#3508;&#3514;&#3540;&#3512;&#3530; &#3520;&#3517; &#3501;&#3549;&#3515;&#3535; &#3510;&#3546;&#3515;&#3535; &#3484;&#3501;&#3530; &#3523;&#3545;&#3520;&#3538;&#3512;"
+
+#: ../mod/rms/handler_main.inc:50
+msgid "Ability to track partial fulfillment of the request"
+msgstr "&#3462;&#3504;&#3535;&#3515;&#3514; &#3461;&#3515;&#3530;&#3504; &#3520;&#3521;&#3514;&#3545;&#3505;&#3530; &#3523;&#3508;&#3540;&#3515;&#3535;&#3484;&#3505;&#3530;&#3505; &#3524;&#3536;&#3482;&#3538; &#3520;&#3538;&#3512;"
+
+#: ../mod/rms/handler_main.inc:60
+msgid "User Information"
+msgstr "&#3511;&#3535;&#3520;&#3538;&#3501;&#3535; &#3482;&#3515;&#3505;&#3530;&#3505;&#3535;&#3484;&#3546; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/rms/handler_main.inc:62
+msgid "User Name"
+msgstr "&#3511;&#3535;&#3520;&#3538;&#3501;&#3535; &#3482;&#3515;&#3505;&#3530;&#3505;&#3535;&#3484;&#3546; &#3505;&#3512;"
+
+#: ../mod/rms/handler_main.inc:63
+msgid "User ID"
+msgstr "&#3511;&#3535;&#3520;&#3538;&#3501;&#3535; &#3482;&#3515;&#3505;&#3530;&#3505;&#3535;&#3484;&#3546; &#3461;&#3458;&#3482;&#3514;"
+
+#: ../mod/rms/handler_main.inc:64 ../mod/rms/handler_main.inc:77
+msgid "Total Requests"
+msgstr "&#3523;&#3538;&#3514;&#3517;&#3540;&#3512; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; "
+
+#: ../mod/rms/handler_main.inc:65
+msgid "Open Requests"
+msgstr " &#3520;&#3538;&#3520;&#3544;&#3501; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530;"
+
+#: ../mod/rms/handler_main.inc:66
+msgid "Closed Requests"
+msgstr "&#3520;&#3523;&#3505; &#3517;&#3503; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530;"
+
+#: ../mod/rms/handler_main.inc:68
+msgid "Fulfilled (fully/partially) Requests"
+msgstr "&#3523;&#3508;&#3540;&#3515;&#3505;&#3517;&#3503; (&#3523;&#3512;&#3530;&#3508;&#3540;&#3515;&#3530;&#3499;&#3514;&#3545;&#3505;&#3530; /&#3461;&#3515;&#3530;&#3504; &#3520;&#3521;&#3514;&#3545;&#3505;&#3530; ) &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530;"
+
+#: ../mod/rms/handler_main.inc:72
+msgid "Organization Information"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505;&#3514;&#3546; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/rms/handler_main.inc:74
+msgid "Org. Name"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505;.&#3505;&#3512;"
+
+#: ../mod/rms/handler_main.inc:75
+msgid "Org. ID"
+msgstr "&#3523;&#3458;&#3520;&#3538;&#3504;&#3535;&#3505;. &#3461;&#3458;&#3482;&#3514;"
+
+#: ../mod/rms/handler_main.inc:82
+msgid "Full Statistics"
+msgstr "&#3523;&#3512;&#3530;&#3508;&#3540;&#3515;&#3530;&#3499; &#3523;&#3458;&#3483;&#3535;&#3517;&#3546;&#3510;&#3505;"
+
+#: ../mod/rms/handler_main.inc:85
+msgid "Total Number of requests = "
+msgstr "&#3523;&#3512;&#3530;&#3508;&#3540;&#3515;&#3530;&#3499; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3508;&#3530;&#8205;&#3515;&#3512;&#3535;&#3499;&#3514;= "
+
+#: ../mod/rms/handler_mgt_req.inc:24
+msgid "Request Management"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3482;&#3517;&#3512;&#3505;&#3535;&#3482;&#3515;&#3505; &#3508;&#3503;&#3530;&#3504;&#3538;&#3501;&#3538;&#3514;"
+
+#: ../mod/rms/handler_mgt_req.inc:31 ../mod/rms/handler_mgt_req.inc:42
+#: ../mod/rms/handler_view_req.inc:66
+msgid "Change Request Status"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3501;&#3501;&#3530;&#3520;&#3514; &#3545;&#3520;&#3505;&#3523;&#3530; &#3482;&#3515;&#3505;&#3530;&#3505; "
+
+#: ../mod/rms/handler_mgt_req.inc:34 ../mod/rms/handler_mgt_req.inc:44
+msgid "Open"
+msgstr "&#3520;&#3538;&#3520;&#3544;&#3501; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_new_req.inc:45
+msgid "request removed"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512; &#3465;&#3520;&#3501;&#3530; &#3482;&#3515;&#3505; &#3517;&#3503;&#3538;"
+
+#: ../mod/rms/handler_new_req.inc:97 ../mod/rms/handler_new_req.inc:160
+#: ../mod/rms/lib_rms.inc:335 ../mod/rms/lib_rms.inc:363
+#: ../mod/rms/main.inc:46
+msgid "New Request"
+msgstr "&#3461;&#3517;&#3540;&#3501;&#3530; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3482;&#3530; "
+
+#: ../mod/rms/handler_new_req.inc:106 ../mod/rms/handler_new_req.inc:169
+msgid "Remove Request"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512; &#3465;&#3520;&#3501;&#3530; &#3482;&#3515;&#3505;&#3530;&#3505; "
+
+#: ../mod/rms/handler_plg_del.inc:20
+msgid "Removing a Pledge"
+msgstr "&#3462;&#3504;&#3535;&#3515;&#3514; &#3465;&#3520;&#3501;&#3530; &#3482;&#3515;&#3512;&#3538;&#3505;&#3530; &#3508;&#3536;&#3520;&#3501;&#3545;&#3530;"
+
+#: ../mod/rms/handler_plg_del.inc:27
+msgid "You are about to remove the pledge ( Pledge id :"
+msgstr "&#3476;&#3510; &#3503;&#3536;&#3505;&#3530; &#3462;&#3504;&#3535;&#3515;&#3514; &#3465;&#3520;&#3501;&#3530; &#3482;&#3515;&#3514;&#3538; (&#3462;&#3504;&#3535;&#3515;&#3514; &#3461;&#3458;&#3482;&#3514;:"
+
+#: ../mod/rms/handler_plg_del.inc:29
+msgid "(The information will be permanently deleted from the database)"
+msgstr "(&#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3540; &#3503;&#3501;&#3530;&#3501; &#3484;&#3510;&#3497;&#3535;&#3520;&#3545;&#3505;&#3530; &#3523;&#3507;&#3524;&#3495;&#3512; &#3465;&#3520;&#3501;&#3530; &#3482;&#3515;&#3505;&#3540; &#3461;&#3536;&#3501;) "
+
+#: ../mod/rms/handler_plg_del.inc:32
+msgid "Please press 'Remove' to remove the pledge."
+msgstr "&#3462;&#3504;&#3535;&#3515;&#3514; &#3465;&#3520;&#3501;&#3530; &#3482;&#3538;&#3515;&#3538;&#3512;&#3495; &#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; '&#3465;&#3520;&#3501;&#3530; &#3482;&#3515;&#3505;&#3530;&#3505;' &#3476;&#3510;&#3505;&#3530;&#3505; "
+
+#: ../mod/rms/handler_plg_del.inc:59
+msgid "<h3>The Pledge was successfully Removed</h3>"
+msgstr "<h3>&#3462;&#3504;&#3535;&#3515;&#3514; &#3523;&#3535;&#3515;&#3530;&#3502;&#3482;&#3520; &#3465;&#3520;&#3501;&#3530; &#3482;&#3515;&#3505; &#3517;&#3503;&#3538;</h3>"
+
+#: ../mod/rms/handler_plg_ls.inc:20
+msgid "List of Current Pledges"
+msgstr "&#3520;&#3501;&#3530;&#3512;&#3505;&#3530; &#3462;&#3504;&#3535;&#3515; &#3517;&#3536;&#3514;&#3538;&#3523;&#3530;&#3501;&#3540;&#3520;"
+
+#: ../mod/rms/handler_plg_ls.inc:93 ../mod/rms/lib_rms.inc:1214
+msgid "Change Status"
+msgstr "&#3501;&#3501;&#3530;&#3520;&#3514; &#3545;&#3520;&#3505;&#3523;&#3530; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_plg_ls.inc:94 ../mod/rms/handler_sc_req.inc:138
+msgid "More Details"
+msgstr "&#3520;&#3536;&#3497;&#3538; &#3503;&#3540;&#3515; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/rms/handler_plg_ls.inc:168 ../mod/rms/lib_rms.inc:304
+msgid "Filter by Category"
+msgstr "&#3520;&#3515;&#3530;&#3484;&#3514;&#3545;&#3505;&#3530; &#3501;&#3549;&#3515;&#3535; &#3510;&#3546;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_plg_new.inc:23
+msgid "Please Confirm the information"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3540; &#3505;&#3538;&#3521;&#3530;&#3488;&#3514; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_plg_new.inc:25 ../mod/rms/handler_plg_new.inc:261
+#: ../mod/rms/handler_sc_req.inc:134 ../mod/rms/lib_rms.inc:1195
+msgid "Date"
+msgstr "&#3503;&#3538;&#3505;&#3514;"
+
+#: ../mod/rms/handler_plg_new.inc:38 ../mod/rms/handler_plg_new.inc:270
+#: ../mod/rms/handler_plg_vw.inc:57 ../mod/rms/lib_rms.inc:632
+#: ../mod/rms/lib_rms.inc:731 ../mod/rms/lib_rms.inc:993
+#: ../mod/rms/lib_rms.inc:1045 ../mod/rms/lib_rms.inc:1104
+#: ../mod/rms/lib_rms.inc:1201
+msgid "Item"
+msgstr "&#3461;&#3514;&#3538;&#3501;&#3512;"
+
+#: ../mod/rms/handler_plg_new.inc:39 ../mod/rms/handler_plg_new.inc:271
+#: ../mod/rms/lib_rms.inc:633 ../mod/rms/lib_rms.inc:734
+#: ../mod/rms/lib_rms.inc:994 ../mod/rms/lib_rms.inc:1046
+#: ../mod/rms/lib_rms.inc:1202
+msgid "Units"
+msgstr "&#3474;&#3482;&#3482;"
+
+#: ../mod/rms/handler_plg_new.inc:47 ../mod/rms/handler_plg_new.inc:273
+#: ../mod/rms/lib_rms.inc:634 ../mod/rms/lib_rms.inc:736
+#: ../mod/rms/lib_rms.inc:1116 ../mod/rms/lib_rms.inc:1203
+msgid "Quantity"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3512;&#3535;&#3499;&#3514;"
+
+#: ../mod/rms/handler_plg_new.inc:82
+msgid "You have to enter a category or select a valid category from the list"
+msgstr "&#3520;&#3515;&#3530;&#3484;&#3514;&#3482;&#3530; &#3514;&#3548;&#3503;&#3505;&#3530;&#3505; , &#3505;&#3536;&#3501;&#3530;&#3505;&#3512;&#3530; &#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3517;&#3536;&#3514;&#3538;&#3523;&#3530;&#3501;&#3540;&#3520;&#3545;&#3505;&#3530; &#3520;&#3517;&#3458;&#3484;&#3540; &#3520;&#3515;&#3530;&#3484;&#3514;&#3482;&#3530; &#3501;&#3548;&#3530;&#3515;&#3484;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_plg_new.inc:87
+msgid "Please add a quantity"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3508;&#3530;&#8205;&#3515;&#3512;&#3535;&#3499;&#3514; &#3473;&#3482;&#3501;&#3540; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_plg_new.inc:92
+msgid "The quantity has to be a numeric value"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3512;&#3535;&#3499;&#3514; &#3461;&#3458;&#3482;&#3514;&#3482;&#3530; &#3520;&#3538;&#3514; &#3514;&#3540;&#3501;&#3540;&#3514;&#3538;"
+
+#: ../mod/rms/handler_plg_new.inc:97
+msgid "Please go <em>Back</em> and correct the errors"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; <em>&#3505;&#3536;&#3520;&#3501;</em> &#3484;&#3548;&#3523;&#3530; &#3520;&#3536;&#3515;&#3503;&#3538; &#3505;&#3538;&#3520;&#3536;&#3515;&#3503;&#3538; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_plg_new.inc:115
+msgid "If the information is correct please press <strong>Finish</strong><br/>"
+msgstr "&#3512;&#3545;&#3512; &#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3540; &#3505;&#3538;&#3520;&#3536;&#3515;&#3503;&#3538; &#3505;&#3512;&#3530; &#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; <strong>&#3523;&#3512;&#3530;&#3508;&#3540;&#3515;&#3530;&#3499;&#3514;&#3538;</strong><br/>&#3510;&#3548;&#3501;&#3530;&#3501;&#3512;&#3530; &#3476;&#3510;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_plg_new.inc:122
+msgid "If you need to change some details"
+msgstr "&#3476;&#3510;&#3495; &#3523;&#3512;&#3524;&#3515; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515; &#3520;&#3545;&#3505;&#3523;&#3530; &#3482;&#3515;&#3505;&#3530;&#3505; &#3461;&#3520;&#3521;&#3530;&#8205;&#3514; &#3505;&#3512;&#3530;"
+
+#: ../mod/rms/handler_plg_new.inc:123
+msgid "please go bak and change it"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3505;&#3536;&#3520;&#3501; &#3484;&#3548;&#3523;&#3530; &#3473;&#3514; &#3520;&#3545;&#3505;&#3523;&#3530; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_plg_new.inc:156
+msgid "Error inserting new Category"
+msgstr "&#3461;&#3517;&#3540;&#3501;&#3530; &#3520;&#3515;&#3530;&#3484;&#3514;&#3482;&#3530; &#3473;&#3482;&#3501;&#3540; &#3482;&#3538;&#3515;&#3538;&#3512;&#3545;&#3503;&#3538; &#3520;&#3536;&#3515;&#3536;&#3503;&#3538;&#3512;&#3482;&#3530; &#3523;&#3538;&#3503;&#3540; &#3520;&#3538;&#3514;"
+
+#: ../mod/rms/handler_plg_new.inc:168
+msgid "Error inserting new Unit"
+msgstr "&#3461;&#3517;&#3540;&#3501;&#3530; &#3474;&#3482;&#3482;&#3514;&#3482;&#3530; &#3473;&#3482;&#3501;&#3540; &#3482;&#3538;&#3515;&#3538;&#3512;&#3545;&#3503;&#3538; &#3520;&#3536;&#3515;&#3536;&#3503;&#3538;&#3512;&#3482;&#3530; &#3523;&#3538;&#3503;&#3540; &#3520;&#3538;&#3514;"
+
+#: ../mod/rms/handler_plg_new.inc:243
+msgid "some error"
+msgstr "&#3514;&#3512;&#3530;&#3482;&#3538;&#3523;&#3538; &#3520;&#3536;&#3515;&#3536;&#3503;&#3530;&#3503;&#3482;&#3530;"
+
+#: ../mod/rms/handler_plg_new.inc:260
+msgid "Donor Contact Information"
+msgstr "&#3503;&#3535;&#3514;&#3482;&#3514;&#3535;&#3484;&#3546; &#3523;&#3512;&#3540;&#3520;&#3538;&#3512;&#3545; &#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3540;"
+
+#: ../mod/rms/handler_plg_new.inc:267
+msgid "Pledge Details"
+msgstr "&#3462;&#3504;&#3535;&#3515; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515; "
+
+#: ../mod/rms/handler_plg_new.inc:269 ../mod/rms/handler_plg_new.inc:272
+msgid "Other"
+msgstr "&#3520;&#3545;&#3505;&#3501;&#3530;"
+
+#: ../mod/rms/handler_plg_new.inc:304
+msgid "The Pledge was successfully added"
+msgstr "&#3462;&#3504;&#3535;&#3515;&#3514; &#3523;&#3535;&#3515;&#3530;&#3502;&#3482;&#3520; &#3473;&#3482;&#3501;&#3540; &#3482;&#3515;&#3505; &#3517;&#3503;&#3538;"
+
+#: ../mod/rms/handler_plg_new.inc:305
+msgid "The pledge ID"
+msgstr "&#3462;&#3504;&#3535;&#3515; &#3461;&#3458;&#3482;&#3514;"
+
+#: ../mod/rms/handler_plg_stat.inc:24
+msgid "Pledge Status for pledge id : "
+msgstr "&#3512;&#3545;&#3512;&#3530; &#3462;&#3504;&#3535;&#3515; &#3461;&#3458;&#3482;&#3514;&#3495; &#3462;&#3504;&#3535;&#3515; &#3501;&#3501;&#3530;&#3520;&#3514;"
+
+#: ../mod/rms/handler_plg_stat.inc:31
+msgid "Change Pledge Status to : <em>Confirmed</em>"
+msgstr "&#3462;&#3504;&#3535;&#3515; &#3501;&#3501;&#3530;&#3520;&#3514; <em>&#3505;&#3538;&#3521;&#3530;&#3488;&#3514; &#3482;&#3515;&#3505; &#3517;&#3503;</em> &#3517;&#3545;&#3523;  &#3545;&#3520;&#3505;&#3523;&#3530; &#3482;&#3515;&#3505; &#3517;&#3503;&#3538; "
+
+#: ../mod/rms/handler_plg_stat.inc:37
+msgid "Confirmed"
+msgstr "&#3505;&#3538;&#3521;&#3530;&#3488;&#3514; &#3482;&#3515;&#3505; &#3517;&#3503;&#3538;"
+
+#: ../mod/rms/handler_plg_stat.inc:43
+msgid "Change Pledge Status to : <em>Not Confirmed</em>"
+msgstr "&#3462;&#3504;&#3535;&#3515; &#3501;&#3501;&#3530;&#3520;&#3514; <em>&#3505;&#3538;&#3521;&#3530;&#3488;&#3514; &#3505;&#3548;&#3482;&#3515;&#3505; &#3517;&#3503;</em> &#3517;&#3545;&#3523;  &#3545;&#3520;&#3505;&#3523;&#3530; &#3482;&#3515;&#3505; &#3517;&#3503;&#3538; "
+
+#: ../mod/rms/handler_plg_stat.inc:49
+msgid "Not Confirmed"
+msgstr "&#3505;&#3538;&#3521;&#3530;&#3488;&#3514; &#3505;&#3548;&#3482;&#3515;&#3505; &#3517;&#3503;&#3538; "
+
+#: ../mod/rms/handler_plg_stat.inc:84
+msgid "The Pledge Status was successfully Updated to"
+msgstr "&#3462;&#3504;&#3535;&#3515; &#3501;&#3501;&#3530;&#3520;&#3514; &#3523;&#3535;&#3515;&#3530;&#3502;&#3482;&#3520; &#3545;&#3520;&#3505;&#3523;&#3530; &#3482;&#3515;&#3505; &#3517;&#3503;&#3538; "
+
+#: ../mod/rms/handler_plg_stat.inc:90
+msgid "Back to List"
+msgstr "&#3517;&#3536;&#3514;&#3538;&#3523;&#3530;&#3501;&#3540;&#3520;&#3495; &#3505;&#3536;&#3520;&#3501; &#3514;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_plg_stat.inc:99
+msgid "Back to View"
+msgstr "&#3510;&#3536;&#3517;&#3538;&#3512;&#3495; &#3505;&#3536;&#3520;&#3501; &#3514;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_plg_vw.inc:53 ../mod/rms/lib_rms.inc:1194
+msgid "Pledge ID"
+msgstr "&#3462;&#3504;&#3535;&#3515; &#3461;&#3458;&#3482;&#3514;"
+
+#: ../mod/rms/handler_plg_vw.inc:55 ../mod/rms/lib_rms.inc:1096
+msgid "Donor Name"
+msgstr "&#3503;&#3535;&#3514;&#3482;&#3514;&#3535;&#3484;&#3546; &#3505;&#3512;&#3530;"
+
+#: ../mod/rms/handler_sc_req.inc:20 ../mod/rms/lib_rms.inc:43
+msgid "Search for a Request"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3482;&#3530; &#3523;&#3548;&#3514;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_sc_req.inc:34
+msgid "Search For Requests"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3523;&#3548;&#3514;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_sc_req.inc:35
+msgid "Enter Search Keyword"
+msgstr "&#3523;&#3545;&#3520;&#3540;&#3512;&#3530; &#3520;&#3488;&#3505;&#3514; &#3514;&#3548;&#3503;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_sc_req.inc:44
+msgid "View Request by ID"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3461;&#3458;&#3482;&#3514; &#3503;&#3538; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512; &#3510;&#3517;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_sc_req.inc:46
+msgid "Enter Request ID"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3461;&#3458;&#3482;&#3514; &#3514;&#3548;&#3503;&#3505;&#3530;&#3505; "
+
+#: ../mod/rms/handler_sc_req.inc:47
+msgid "View Request"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512; &#3510;&#3517;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_sc_req.inc:133 ../mod/rms/lib_rms.inc:867
+msgid "ID"
+msgstr "&#3461;&#3458;&#3482;&#3514;"
+
+#: ../mod/rms/handler_sc_req.inc:135 ../mod/rms/handler_vw_req.inc:44
+#: ../mod/rms/lib_rms.inc:869
+msgid "Requester"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530;&#3482;&#3515;&#3540;"
+
+#: ../mod/rms/handler_sc_req.inc:136 ../mod/rms/lib_rms.inc:344
+#: ../mod/rms/lib_rms.inc:378 ../mod/rms/lib_rms.inc:592
+msgid "Site Name"
+msgstr "&#3523;&#3530;&#3502;&#3535;&#3505;&#3514;&#3546; &#3505;&#3512;"
+
+#: ../mod/rms/handler_sc_req.inc:137 ../mod/rms/lib_rms.inc:349
+#: ../mod/rms/lib_rms.inc:387 ../mod/rms/lib_rms.inc:594
+msgid "Site Address"
+msgstr "&#3523;&#3530;&#3502;&#3535;&#3505;&#3514;&#3546; &#3517;&#3538;&#3508;&#3538;&#3505;&#3514; "
+
+#: ../mod/rms/handler_sc_req.inc:146
+msgid "<h3>No results found for the keyword : "
+msgstr "<h3>&#3512;&#3545;&#3512; &#3520;&#3488;&#3505;&#3514; &#3523;&#3507;&#3524;&#3535; &#3508;&#3530;&#8205;&#3515;&#3501;&#3538;&#3509;&#3517; &#3505;&#3536;&#3501; "
+
+#: ../mod/rms/handler_sc_req.inc:147
+msgid "<br/><h4>Click the back button to go back</h4>"
+msgstr "<br/><h4>&#3508;&#3523;&#3540; &#3514;&#3536;&#3520;&#3540;&#3512;&#3530; &#3510;&#3548;&#3501;&#3530;&#3501;&#3512; &#3476;&#3510;&#3505;&#3530;&#3505; &#3508;&#3523;&#3530;&#3523;&#3495; &#3514;&#3535;&#3512; &#3523;&#3507;&#3524;&#3535;</h4>"
+
+#: ../mod/rms/handler_view_req.inc:38
+msgid "Request Status"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3546; &#3501;&#3501;&#3530;&#3520;&#3514;"
+
+#: ../mod/rms/handler_view_req.inc:39
+msgid "Open requests"
+msgstr " &#3520;&#3538;&#3520;&#3544;&#3501; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530;"
+
+#: ../mod/rms/handler_view_req.inc:40
+msgid "Closed requests"
+msgstr "&#3520;&#3523;&#3508;&#3540; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530;"
+
+#: ../mod/rms/handler_view_req.inc:41
+msgid "All requests"
+msgstr "&#3523;&#3538;&#3514;&#3517;&#3540; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530;"
+
+#: ../mod/rms/handler_view_req.inc:72
+msgid "Close Request"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512; &#3520;&#3523;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_view_req.inc:74 ../mod/rms/handler_view_req.inc:84
+msgid "Fulfill"
+msgstr "&#3523;&#3508;&#3540;&#3515;&#3535;&#3484;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/handler_vw_req.inc:20
+msgid "View Request using the <em>Request ID</em>"
+msgstr "<em>&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3461;&#3458;&#3482;&#3514; </em>&#3511;&#3535;&#3520;&#3538;&#3501;&#3535; &#3482;&#3515; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512; &#3510;&#3517;&#3505;&#3530;&#3505;  "
+
+#: ../mod/rms/handler_vw_req.inc:45 ../mod/rms/lib_rms.inc:870
+msgid "Site"
+msgstr "&#3523;&#3530;&#3502;&#3535;&#3505;&#3514;"
+
+#: ../mod/rms/handler_vw_req.inc:46 ../mod/rms/lib_rms.inc:871
+msgid "District"
+msgstr "&#3503;&#3538;&#3523;&#3530;&#3501;&#3530;&#8205;&#3515;&#3538;&#3482;&#3530;&#3482;&#3514;"
+
+#: ../mod/rms/handler_vw_req.inc:47 ../mod/rms/lib_rms.inc:872
+msgid "Categories"
+msgstr "&#3520;&#3515;&#3530;&#3484;"
+
+#: ../mod/rms/lib_rms.inc:53
+msgid "Sahana Request Management System"
+msgstr "&#3523;&#3524;&#3505; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3523;&#3536;&#3508;&#3514;&#3540;&#3512;&#3530; &#3482;&#3517;&#3512;&#3505;&#3535;&#3482;&#3515;&#3505; &#3508;&#3503;&#3530;&#3504;&#3538;&#3501;&#3538;&#3514;"
+
+#: ../mod/rms/lib_rms.inc:74
+msgid "Oops... the following errors were encountered"
+msgstr "&#3461;&#3520;&#3520;&#3535;&#3503;&#3514;&#3514;&#3538;.....&#3508;&#3524;&#3501; &#3523;&#3507;&#3524;&#3505;&#3530; &#3520;&#3536;&#3515;&#3503;&#3538; &#3523;&#3512;&#3540; &#3520;&#3538;&#3514;  "
+
+#: ../mod/rms/lib_rms.inc:336 ../mod/rms/lib_rms.inc:364
+#: ../mod/rms/lib_rms.inc:588
+msgid "Request Date"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3503;&#3538;&#3505;&#3514; "
+
+#: ../mod/rms/lib_rms.inc:338 ../mod/rms/lib_rms.inc:367
+#: ../mod/rms/lib_rms.inc:589
+msgid "Requester Name"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530;&#3482;&#3515;&#3540;&#3484;&#3546; &#3505;&#3512; "
+
+#: ../mod/rms/lib_rms.inc:340 ../mod/rms/lib_rms.inc:371
+#: ../mod/rms/lib_rms.inc:590
+msgid "Requester Contact"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530;&#3482;&#3515;&#3540;&#3484;&#3546; &#3523;&#3512;&#3540;&#3520;&#3538;&#3512;&#3545; &#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3540;"
+
+#: ../mod/rms/lib_rms.inc:342 ../mod/rms/lib_rms.inc:375
+#: ../mod/rms/lib_rms.inc:591
+msgid "Requester Address"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530;&#3482;&#3515;&#3540;&#3484;&#3546; &#3517;&#3538;&#3508;&#3538;&#3505;&#3514; "
+
+#: ../mod/rms/lib_rms.inc:346 ../mod/rms/lib_rms.inc:382
+#: ../mod/rms/lib_rms.inc:593
+msgid "Site District"
+msgstr "&#3523;&#3530;&#3502;&#3535;&#3505;&#3514;&#3546;  &#3503;&#3538;&#3523;&#3530;&#3501;&#3530;&#8205;&#3515;&#3538;&#3482;&#3530;&#3482;&#3514;  "
+
+#: ../mod/rms/lib_rms.inc:416
+msgid "Please enter a valid date"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3520;&#3517;&#3458;&#3484;&#3540; &#3503;&#3538;&#3505;&#3514;&#3482;&#3530; &#3514;&#3548;&#3503;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/lib_rms.inc:422
+msgid "Please enter a name"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3505;&#3512; &#3514;&#3548;&#3503;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/lib_rms.inc:428
+msgid "Please enter contact information"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3523;&#3512;&#3540;&#3520;&#3538;&#3512;&#3545; &#3501;&#3548;&#3515;&#3501;&#3540;&#3515;&#3540; &#3514;&#3548;&#3503;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/lib_rms.inc:439
+msgid "Please enter a valid site name"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3520;&#3517;&#3458;&#3484;&#3540; &#3523;&#3530;&#3502;&#3535;&#3505;&#3514;&#3482;&#3530; &#3514;&#3548;&#3503;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/lib_rms.inc:445
+msgid "Please select a valid district"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3520;&#3517;&#3458;&#3484;&#3540; &#3503;&#3538;&#3523;&#3530;&#3501;&#3530;&#8205;&#3515;&#3538;&#3482;&#3530;&#3482;&#3514;&#3482;&#3530; &#3501;&#3548;&#3530;&#3515;&#3484;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/lib_rms.inc:465 ../mod/rms/lib_rms.inc:513
+msgid "The Quantity has to be a numeric value"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3512;&#3535;&#3499;&#3514; &#3461;&#3458;&#3482;&#3514;&#3482;&#3530; &#3520;&#3538;&#3514; &#3514;&#3540;&#3501;&#3540;&#3514;&#3538; "
+
+#: ../mod/rms/lib_rms.inc:489
+msgid "Please select a valid category"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3520;&#3517;&#3458;&#3484;&#3540; &#3520;&#3515;&#3530;&#3484;&#3514;&#3482;&#3530; &#3501;&#3548;&#3530;&#3515;&#3484;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/lib_rms.inc:495
+msgid "Please enter a valid item"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3520;&#3517;&#3458;&#3484;&#3540; &#3461;&#3514;&#3538;&#3501;&#3512;&#3514;&#3482;&#3530; &#3514;&#3548;&#3503;&#3505;&#3530;&#3505; "
+
+#: ../mod/rms/lib_rms.inc:507
+msgid "Please enter a valid quantity"
+msgstr "&#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3520;&#3517;&#3458;&#3484;&#3540; &#3508;&#3530;&#8205;&#3515;&#3512;&#3535;&#3499;&#3514;&#3482;&#3530; &#3514;&#3548;&#3503;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/lib_rms.inc:519
+msgid "Please select a valid priority"
+msgstr " &#3482;&#3515;&#3540;&#3499;&#3535;&#3482;&#3515; &#3520;&#3517;&#3458;&#3484;&#3540; &#3508;&#3530;&#8205;&#3515;&#3512;&#3540;&#3483;&#3501;&#3535;&#3520;&#3482;&#3530; &#3501;&#3549;&#3515;&#3535;&#3484;&#3505;&#3530;&#3505;   "
+
+#: ../mod/rms/lib_rms.inc:628
+msgid "Items"
+msgstr " &#3461;&#3514;&#3538;&#3501;&#3512;"
+
+#: ../mod/rms/lib_rms.inc:701
+msgid "Add Items"
+msgstr "&#3461;&#3514;&#3538;&#3501;&#3512; &#3473;&#3482;&#3501;&#3540; &#3482;&#3515;&#3505;&#3530;&#3505; "
+
+#: ../mod/rms/lib_rms.inc:863
+msgid "List of"
+msgstr " &#3517;&#3536;&#3514;&#3538;&#3523;&#3530;&#3501;&#3540;&#3520; "
+
+#: ../mod/rms/lib_rms.inc:863
+msgid "requests for "
+msgstr " &#3465;&#3517;&#3530;&#3517;&#3540;&#3512; &#3482;&#3515;&#3505;&#3540;&#3520;&#3546; "
+
+#: ../mod/rms/lib_rms.inc:989
+msgid "Current Fulfill Status"
+msgstr " &#3520;&#3515;&#3530;&#3501;&#3512;&#3535;&#3505; &#3523;&#3508;&#3540;&#3515;&#3535;&#3484;&#3536;&#3505;&#3538;&#3512;&#3545; &#3501;&#3501;&#3530;&#3520;&#3514; "
+
+#: ../mod/rms/lib_rms.inc:995
+msgid "Qty - Needed [Fulfilled]"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3512;&#3535;&#3499;&#3514; -&#3461;&#3520;&#3521;&#3530;&#8205;&#3514;/&#3523;&#3508;&#3540;&#3515;&#3535;&#3517;&#3505; &#3517;&#3503;"
+
+#: ../mod/rms/lib_rms.inc:1041
+msgid "Newly Added"
+msgstr " &#3461;&#3517;&#3540;&#3501;&#3538;&#3505;&#3530; &#3473;&#3482;&#3501;&#3540; &#3482;&#3517; "
+
+#: ../mod/rms/lib_rms.inc:1047
+msgid "Qty - Needed/Fulfilled (Status)"
+msgstr "&#3508;&#3530;&#8205;&#3515;&#3512;&#3535;&#3499;&#3514; -&#3461;&#3520;&#3521;&#3530;&#8205;&#3514;/&#3523;&#3508;&#3540;&#3515;&#3535;&#3517;&#3505; &#3517;&#3503;(&#3505;&#3501;&#3530;&#3520;&#3514;) "
+
+#: ../mod/rms/lib_rms.inc:1094
+msgid "Fulfilment information"
+msgstr "&#3523;&#3508;&#3540;&#3515;&#3535;&#3517;&#3538;&#3512;&#3545; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/rms/lib_rms.inc:1098
+msgid "Donor Contact"
+msgstr " &#3462;&#3504;&#3535;&#3515; &#3523;&#3512;&#3540;&#3520;&#3538;&#3512;&#3545; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515;"
+
+#: ../mod/rms/lib_rms.inc:1189
+msgid "Detailed Pledge Information"
+msgstr " &#3462;&#3504;&#3535;&#3515; &#3520;&#3536;&#3497;&#3538; &#3520;&#3538;&#3523;&#3530;&#3501;&#3515; "
+
+#: ../mod/rms/lib_rms.inc:1226
+msgid "Remove Pledge"
+msgstr "&#3462;&#3504;&#3535;&#3515; &#3465;&#3520;&#3501;&#3530; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/main.inc:37
+msgid "RMS Module Actions"
+msgstr "&#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3523;&#3536;&#3508;&#3514;&#3540;&#3512;&#3530; &#3482;&#3517;&#3512;&#3505;&#3535;&#3482;&#3515;&#3505; &#3482;&#3530;&#8205;&#3515;&#3538;&#3514;&#3535;&#3520;&#3505;&#3530;"
+
+#: ../mod/rms/main.inc:49
+msgid "List All Requests"
+msgstr " &#3523;&#3538;&#3514;&#3517;&#3540;&#3512; &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3517;&#3536;&#3514;&#3538;&#3523;&#3530;&#3501;&#3540;&#3484;&#3501; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/main.inc:52
+msgid "Search Requests"
+msgstr " &#3465;&#3517;&#3530;&#3517;&#3540;&#3512;&#3530; &#3523;&#3548;&#3514;&#3505;&#3530;&#3505; "
+
+#: ../mod/rms/main.inc:58
+msgid "Add Pledges"
+msgstr "&#3462;&#3504;&#3535;&#3515; &#3473;&#3482;&#3501;&#3540; &#3482;&#3515;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/main.inc:61
+msgid "View Pledge"
+msgstr "&#3462;&#3504;&#3535;&#3515; &#3510;&#3517;&#3505;&#3530;&#3505;"
+
+#: ../mod/rms/main.inc:64
+msgid "List Pledges"
+msgstr "&#3462;&#3504;&#3535;&#3515; &#3517;&#3536;&#3514;&#3538;&#3523;&#3530;&#3501;&#3540;&#3484;&#3501; &#3482;&#3515;&#3505;&#3530;&#3505;  "
+
+#: manually added entry
+msgid "en_US"
+msgstr "&#3465;&#3458;&#3484;&#3530;&#8205;&#3515;&#3539;&#3523;&#3538;"
+
+#: manually added entry
+msgid "Country"
+msgstr "&#3515;&#3495;"
+
+#: manually added entry
+msgid "Food and Nutrition"
+msgstr "&#3462;&#3524;&#3535;&#3515;"
+
+#: manually added entry
+msgid "Sahana FOSS Disaster Management System"
+msgstr "&#3523;&#3524;&#3505; (FOSS) &#3462;&#3508;&#3503;&#3535; &#3482;&#3525;&#3512;&#3499;&#3535;&#3482;&#3515;&#3505; &#3508;&#3503;&#3530;&#3504;&#3501;&#3538;&#3514;"
+
+#: manually added entry**Temp locale for Sinhala
+msgid "de_DE"
+msgstr "&#3523;&#3538;&#3458;&#3524;&#3517;"
+
+#: manually added entry**Temp locale for Sinhala
+msgid "Sinhala"
+msgstr "&#3523;&#3538;&#3458;&#3524;&#3517;"
+
+#: manually added entry**Temp locale for Sinhala
+msgid "English"
+msgstr "&#3465;&#3458;&#3484;&#3530;&#8205;&#3515;&#3539;&#3523;&#3538;"
+
+#: manually added entry**Temp locale for Sinhala
+msgid "Password"
+msgstr "&#3515;&#3524;&#3523;&#3530; &#3520;&#3488;&#3505;&#3514;"
+
+#: manually added entry**Temp locale for Sinhala
+msgid "Login"
+msgstr "&#3508;&#3538;&#3520;&#3538;&#3523;&#3545;&#3505;&#3530;&#3505;"
+
+#: manually added entry**Temp locale for Sinhala
+msgid "All Uers"
+msgstr "&#3523;&#3538;&#3514;&#3517;&#3540;&#3512; &#3511;&#3535;&#3520;&#3538;&#3501; &#3482;&#3515;&#3505;&#3530;&#3505;&#3505;&#3530;"
+
+#: manually added entry**Temp locale for Sinhala
+msgid "Filtered by Category : "
+msgstr "&#3501;&#3549;&#3515;&#3505;&#3517;&#3503; &#3520;&#3515;&#3530;&#3484;&#3514; : "
+
+
+#: DB L10N Starts here
+#: rms_req_units/unit, 
+msgid "Kg"
+msgstr ""
+
+#: rms_req_units/unit, 
+msgid "m"
+msgstr ""
+
+#: rms_req_units/unit, 
+msgid "Bottle"
+msgstr ""
