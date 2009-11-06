@@ -1222,14 +1222,14 @@ function shn_location_get_loc_range() {
 	$q="select value from config where module_id='admin' and confkey='loc_range_start'";
 	$res=$db->Execute($q);
 	if($res->fields[0]==NULL){
-		$loc["start"]=$conf['mod_or_loc_level_start'];
+		$loc["start"]=$conf['mod_admin_loc_level_start'];
 	}else {
 		$loc["start"]=$res->fields[0];
 	}
 	$q="select value from config where module_id='admin' and confkey='loc_range_end'";
 	$res=$db->Execute($q);
 	if($res->fields[0]==NULL){
-		$loc["end"]=$conf['mod_or_loc_level_end'];
+		$loc["end"]=$conf['mod_admin_loc_level_end'];
 	}else {
 		$loc["end"]=$res->fields[0];
 	}
