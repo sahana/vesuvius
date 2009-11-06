@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for i in check_php_*
+do
+   ./find_phpcode $* | ./$i
+done

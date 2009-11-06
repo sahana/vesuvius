@@ -1,0 +1,53 @@
+#!/usr/bin/perl -w
+
+#&validateArgs;
+
+# read int he list of files
+
+print "Running Check: $0\n";
+print "Checking for the existance of a valid LGPL license header\n Violations:\n";
+    
+while (<>) {
+
+    $file = $_;
+    # print "examining $file";
+    chomp($file);
+    open(SRC,"<$file") or die "File $file does not exist\n";
+
+    # your processing code goes here
+
+    $isLicense = 0;
+
+    while (<SRC>) {
+   
+        $isLicense = 1 if /LICENSE: This source file is subject to LGPL license/;
+    }
+
+    print " - $file : No License\n" unless $isLicense;
+    
+    close(SRC);
+    
+}
+
+
+
+sub validateArgs {
+    if ( $#ARGV < 1 ) {
+        &showUsageNotice;
+        die "Invalid number of arguments \n";
+    }
+}
+
+sub showUsageNotice {
+print <<"END";
+    Replace string command
+    <file list command> | replacestr <from string> <to string>
+
+    example usage:
+        ls | replacestr this that
+        find . | replacestr foo bar
+
+END
+
+}
+

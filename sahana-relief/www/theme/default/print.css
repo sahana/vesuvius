@@ -1,0 +1,74 @@
+/* 
+Sahana - Default Theme - Print Stylesheet 
+-----------------------------------------------------------------------------------
+J. Priyanga Fonseka - jo@opensource.lk 
+maintainer : Hayesha Somarathne - hayeshais@gmail.com
+
+Selectors are listed in their order of appearance in the html, where applicable.
+---------------------------------------------------------------------------------- */
+
+
+/* HTML BODY */
+@media print { * { background-color: white !important; color: #000; } }
+
+body { font: 0.8em sans-serif; }
+
+h1, h2, h3 { font-family: Arial, Helvetica, sans-serif; }
+h1 { text-align: center; font-family: Georgia, "Times New Roman", Times, serif; }
+	h1 a { text-decoration: none; }
+
+/* Removing unwanted items */
+#container { }
+	#header { display: none; }
+ 
+	#wrapper { }
+		#skip, #modmenuwrap, #menuwrap, #loginform, #openid_loginform, #breadcrumbs { display: none; }
+	#content { margin-left: 10%; padding-top: 1em; }
+		#content h1, #content h2 { text-align:center; border-bottom: 20pt; font-size: x-large; }
+		
+		/*hide message*/
+		#req_message, #error { display: none; }
+		
+		#submenu_v a.selected { text-decoration: none; font-weight: bold; }		
+
+		/* result tables */
+		#result { }
+		#result_msg { background-color: #DEE3E7; text-align: center; padding: 5px 5px 15px 5px; border: 3px #98AAB1 solid; }
+		#result img { position: relative; padding: 5px 5px 15px 5px; }
+		#result p { font-size: 115%; line-height: 1.3; padding-top: 10px; padding-bottom: 10px; }
+		#result ul { font-size: 150%; margin-left: 250px; margin-top: -200px; padding-bottom: 50px; }
+		#result ul li { line-height: 1.2; }
+		#result table { background: white; border-color: black; border: 1px solid; width: 100%; padding: 2pt; border-collapse: collapse; }
+		#result table thead td { text-align: center; padding: 3pt 0; } 
+		#result td { font-size: 100%; border: 1px solid black; color: black; padding: 2pt; }
+		#result td a { color: black; text-decoration: none; }
+		#result hr { border: 1px solid #000; }
+		
+		.rssfeed { display: none; }
+
+	/* No need to display the footer */
+	#footer { display: none; }
+
+/* Form styles */
+div.form-container form fieldset {  margin-top: 10pt; }
+.form-container input[type="text"] { color: black; border-width: 0; border: 1px solid #000; margin: 0 10px 10px 10px; } 
+.form-container img, .form-container input[type="file"] { display: none; }
+.form-container textArea { color: black; width: 300px; border-width: 0; border: 1px solid #000; margin: 0 10px 10px 10px; } 
+/* Removing the buttons */
+.form-container input[type="submit"] { display: none; }
+.form-container select { width: 0; margin-right: 200pt; visibility: hidden; }
+.form-container label { width: 30%; float: left; text-align: left; margin: 0 10px 10px 10px; clear: both; }
+.form-container label[id="value"] { text-align: right; }
+.form-container legend { font-weight: bold; }
+
+/* hide help and req */
+.popupLink, .popup, .req { display: none; }
+
+.popupLink, .popup, .req { display: none; }
+/*hide warnings, confirmations*/
+.error, .warning, .confirmation, #error_message { display: none; }
+
+.hideprint { display: none; }
+.error, .warning, .confirmation, .message, #error_message { display: none; }
+
+.hideprint { display: none; }

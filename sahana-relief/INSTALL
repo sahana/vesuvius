@@ -1,0 +1,52 @@
+21st December 2005
+
+Sahana - Install
+================
+
+o Assume that php and MySQL installed and working properly.
+
+    Requirements:
+        o php 4.3 or later
+        o MySQL 4.1 or later
+        o Apache web server 1.3 or later
+        o latest php4-gd libs
+        
+o Download Sahana latest release (preferably 'stable' version, if available). 
+  Please read README file for download instructions.
+
+o Extract the downloaded file to a proper place (if apt-get use, then it'll do it automatically ;-)
+  For example, 
+  
+    /usr/share/sahana
+
+  and create a symlink to exact location,
+
+    ln -s /usr/share/sahana/www/ /var/www/sahana
+    
+  or even extracting directly to /var/www/ (no syminks is necessary in this case).
+  
+  
+o Try to access Sahana from a client machine,
+
+        http://<ip_address_of_the_sahana_machine>/sahana/
+
+  If client and server are the same then use loop-back address,
+
+        http://127.0.0.1/sahana/
+      
+o "Sahana Web Setup" will appear on the browser.
+
+o Select appropriate seetings and click on "Setup Database" button. Normally default values will do (remember
+  to enter correct password to connect with database).
+
+o Select a "Theme"
+
+o Enter a location to write temporary configuration file.
+
+o Click on "Write Configuration File" button.
+
+o Copy temporarily created configuration file to Sahana configuration directory, In GNU/Linux,
+
+        cp /tmp/config.inc /usr/share/sahana/conf/config.inc
+
+o Click on "Start Sahana".

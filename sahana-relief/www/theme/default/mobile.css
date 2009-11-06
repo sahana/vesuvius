@@ -1,0 +1,118 @@
+/* 
+Sahana Mobile Stylesheet
+----------------------------------------------------------------------------------- 
+
+Selectors are listed in their order of appearance in the html, where applicable.
+---------------------------------------------------------------------------------- 
+
+
+  |---- Basic Page Formatting Styles
+  |---- Container
+     |---- Header
+     |---- Wrapper
+        |---- Menu Wrapper ( Module Menu, Main Menu, Login Form )
+        |---- Content ( Home, Result, Module specific styles )
+        |---- Footer  
+  |---- Message Display Styles
+
+*/
+
+* { position: static !important; float: none !important; /* background: none !important; */ }
+
+a { color: #039; text-decoration: underline; }
+a:hover { color: #c00; text-decoration: none; background-color: #ffc; }
+
+body { max-width: 320px; background-color: #eee; margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; font-size: 10px; line-height: 140%; }
+
+#container {}
+	#header { background-color: #369; text-align: right; border: #369 1px solid; }
+	#header h1 { background-color: #369; text-align: left; border-bottom: #036 2px solid; clear: both; font-size: 11px; margin: 1px 0; padding: 3px 5px; color: #fff; }
+
+		#incident_changer form { margin-left: 60%; width: 40%; margin-bottom: 0; }
+		#incident_changer select { color: #fff; border: 1px solid #000; background: #369; }
+		#incident_changer label { color : #fff; }
+		#language form { margin-left: 60%; width: 40%; margin-bottom: 0; }
+		#language select { color: #fff; border: 1px solid #000; background: #369; }
+		#language label { color : #fff; }
+
+	div#wrapper {}
+		div#wrapper_menu { }
+			p#skip { margin: 0; padding: 2px 0; text-align: center; font-weight: bold; background-color: #ddd; }
+			p#skip a { font-weight: normal; }
+			#modmenuwrap h2 { margin : 1px 0; font-size: 1.2em; padding: 4px 2px; border-top: 1px solid #9a9a9a; background-color: #ddd; color: #069; }
+			/*#modmenuwrap a { color: #418200; text-decoration: underline; }*/
+    			div#modmenuwrap ul { margin: 0px; padding: 0px; list-style-type: none; width: 100%; }
+    			div#modmenuwrap li { margin: 0px; padding: 0px; line-height: 20px; }
+    			div#modmenuwrap ul li a { display: block;  padding-left: 10px; background-color: #069; font-size: 0.9em; border-top: #07A 1px solid; border-bottom: #058 1px solid; }
+    			div#modmenuwrap ul li a.smopen { background:#069 url(img/down_arrow.gif) no-repeat right; }
+    			div#modmenuwrap ul li a.smclose { background:#069 url(img/up_arrow.gif) no-repeat right; }
+    			div#modmenuwrap ul li a:link, 
+    			div#modmenuwrap ul li a:visited { color: #EEE; text-decoration: none; }
+    			div#modmenuwrap ul li a:hover { color: #FFF; background-color: #036; border-top: #025 1px solid; border-bottom: #047 1px solid; }
+    			div#modmenuwrap ul ul { display:none; }
+    			div#modmenuwrap ul ul li a { display: block; padding-left: 20px; background-color: #07A; font-size: 0.85em; }
+    			div#modmenuwrap ul ul li a:link, 
+    			div#modmenuwrap ul ul li a:visited { border-top: #08B 1px solid; border-bottom: #069 1px solid; }
+    			div#modmenuwrap ul ul li a:hover { background-color: #069; border-top: #058 1px solid; border-bottom: #07A 1px solid; }
+
+
+			#menuwrap h2 { margin: 1px 0; font-size: 1.2em; padding: 4px 2px; background-color: #ddd; color: #555; }
+    			#menuwrap ul { list-style: none; float: left; margin: 0; padding: 0; background-color: #555; border: #555 1px solid; }
+    			/*div#menuwrap ul { margin: 0; padding: 0; list-style-type: none; width: 100%; }*/
+    			div#menuwrap ul li {  display: inline; margin: 0; padding: 0; line-height: 15px; }
+    			div#menuwrap ul li a { display: inline; padding: 1px 5px; background-color: #555; font-size: 0.9em;  border-right: #fff 1px solid; }
+    			div#menuwrap ul li a:link, 
+    			div#menuwrap ul li a:visited { color: #EEE; text-decoration: none; }
+    			div#menuwrap ul li a:hover { color: #FFF; background-color: #333; border-top: #222 1px solid; border-bottom: #444 1px solid; }
+
+			#loginform { width: 200px; float: none; }
+     			#loginform fieldset { padding: 10px; border: 1px solid #036; }
+     			#loginform legend { padding: 3px; font-size: 120%; }
+     			#loginform input#userName, #loginform input#pswd { width: 180px; height: 20px; font-size: 12px; }
+
+		#content { background-color: #fff; }
+     			#content h1, #content h2 { clear: both; margin: 1px 0; padding: 3px 5px; background: #369; color: #fff; color: #069; font-size: medium; font-weight:bolder; background:#F3F6FF; border: 0.1em #C6D1F5 solid; }
+
+			/* quick history styles */
+			#breadcrumbs  { display: none; }
+
+			.brake { display: none; }
+
+			#map { width: 100%; height: 200px; }			
+
+			#formset input[type="text"] { height: 20px; width: 100%; font-size: 10px; max-width: 350px; }
+     			#formset textArea { width: 100%; max-width: 350px; font-size: 10px; }
+     			#formset label { height: 20px; font-size: 10px; max-width: 350px; }
+     			#formset select { margin-left: 30%; height: 20px; width: 70%; font-size: 10px; max-width: 300px; }
+
+     			#result table { background-color: #fff; border-style: dotted; border-width: 0.1em; border-color: #369; margin-bottom: 5px; }
+     			#result td { border-style: solid; border-width: 1px; margin: 0; border-color: #369; }
+
+			#error { margin: 0 0 0 10px; padding: 5px 10px 5px 35px; border: 1px solid #fc6; }
+     			#error p { margin: 0; }
+     			#error ul { margin : auto; margin-bottom : 0.5em; list-style : disc; }
+     			#error p em { color : #c00; font-style : normal; font-weight : bold; }
+
+			.popup { border: 0.1em #eeddbb solid; background-color: #fcf9e0; }
+
+		#footer { background-color: #369; border-top: #036 1px solid; height: 2.5em; }
+			#footer br, #footer a img { display: none; }
+			a.help, a:link.help { color: #fff; text-decoration: none; }
+			a:hover.help { background-color: #369; text-decoration: underline; }
+			a:visited.help { font-weight: normal; color: #aaa; }
+
+
+.error { border:  #C00 1px solid; background: url(img/dialog-error.png) #FFE5E5 no-repeat 5px 5px; }
+.error p em { color:#C00; }
+
+.confirmation { border: #070 1px solid; background: url(img/dialog-confirmation.png) #E5FFE5 no-repeat 5px 5px; }
+.confirmation p em { color:#070; }
+
+.warning { border: #FC6 1px solid; background: url(img/dialog-warning.png) #FFC no-repeat 5px 5px; }
+.warning p em { color:#C00;  }
+
+.message { margin: 0; padding: 5px 10px 5px 25px; }
+.message p { margin: 0; }
+.message ul { margin: auto; margin-bottom: 0.5em; list-style: disc; padding: 0 0 0 15px; }
+.message ul li { margin: 0; padding: 0; }
+.message p em { font-style: normal; font-weight: bold; }

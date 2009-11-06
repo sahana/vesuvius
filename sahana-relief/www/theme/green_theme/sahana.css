@@ -1,0 +1,355 @@
+/*
+Sahana Stylesheet
+-----------------------------------------------------------------------------------
+Prabhath Sirisena - prabhath@vesess.com - http://nidahas.com
+
+Selectors are listed in their order of appearance in the html, where applicable.
+---------------------------------------------------------------------------------- */
+
+/* Neutralize styling:
+   Elements we want to clean out entirely: */
+html, body, form, fieldset {
+        margin: 0;
+        padding: 0;
+        font: 90%/125% Arial, Helvetica, sans-serif;
+}
+
+/* Neutralize styling:
+   Elements with a vertical margin: */
+h1, h2, h3, h4, h5, h6, p, pre,
+blockquote, ul, ol, dl, address {
+        margin: 0 0 1em 0;
+        padding: 0;
+}
+
+/* Apply left margin:
+   Only to the few elements that need it: */
+li, dd, blockquote {
+        margin-left: 1em;
+}
+
+/* Clear floats without structural markup */
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+/* End hide from IE-mac */
+
+/* Miscellaneous conveniences: */
+body {
+	color: #000;
+	background: #069;
+}
+
+form label {
+        cursor: pointer;
+}
+
+fieldset {
+        border: none;
+}
+
+input, select, textarea {
+        font-size: 100%;
+}
+
+.hide {
+	display: none;
+}
+
+.mini {
+	font-size: 80%;
+}
+
+/* Links should ALWAYS be unvisited */
+a {
+	color: #039;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: #C00;
+	text-decoration: none;
+	background-color: #FFC;
+}
+
+/* Now to layout elements... */
+
+#container {
+}
+
+#header {
+	border-bottom: #036 5px solid;
+	padding: 0 1em;
+	background-color: #069;
+}
+
+#header h1 {
+	margin-top: 0;
+	padding-top: 1em;
+	color: #FFF;
+	text-transform: uppercase;
+	float: left;
+}
+
+#wrapper {
+	background: url(img/wrapper_bk.png) #FFF repeat-y left top;
+}
+
+#content {
+	margin: 0 0 0 200px;
+	padding: 1em;
+}
+
+p#skip {
+	margin-bottom: 0;
+	padding: 10px;
+	width: 180px;
+	font-size: 90%;
+	float: left;
+}
+
+#menuwrap, #modmenuwrap {
+}
+
+#menuwrap h2, #modmenuwrap h2 {
+	margin: 1em 0 0.5em 0;
+	padding: 0 0 0 5px;
+	font-size: 120%;
+	text-transform: uppercase;
+}
+
+#menuwrap h2 {
+	color: #036;
+}
+
+#modmenuwrap h2 {
+	color: #360;
+}
+
+#menuwrap, #modmenuwrap {
+	float: left;
+	clear: left;
+	width: 180px;
+}
+
+#menuwrap {
+	width: 200px;
+	float: left;
+	clear: left;
+}
+
+#menuwrap ul
+{
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+	width: 100%;
+}
+
+#menuwrap li
+{
+	margin: 0px;
+	padding: 0px;
+	line-height: 20px;
+}
+
+#menuwrap ul li a
+{
+	display: block;
+	width: 190px;
+	padding-left: 10px;
+	background-color: #036;
+	font-size: 0.9em;
+}
+
+#menuwrap ul li a:link, #menuwrap ul li a:visited
+{
+	color: #E2E2F5;
+	text-decoration: none;
+}
+
+#menuwrap ul li a:hover
+{
+	background-color: #00458A;
+	color: #FFF;
+}
+
+#menuwrap ul ul li a
+{
+	display: block;
+	padding-left: 20px;
+	width: 180px;
+	background-color: #006FDD;
+	font-size: 0.85em;
+}
+
+#menuwrap ul ul li a:link, #menuwrap ul ul li a:visited
+{
+	color: #E2E2F5;
+	text-decoration: none;
+}
+
+#menuwrap ul ul li a:hover
+{
+	background-color: #0059B3;
+	color: #E2E2F5;
+}
+
+/* selected states */
+#menuwrap ul li a#current
+{
+	font-weight: bold;
+	color: #6699CC;
+	background-color: #00458A;
+}
+
+#menuwrap ul ul li a#subcurrent
+{
+	font-weight: bold;
+	color: #98C8F7;
+	background-color: #0059B3;
+}
+
+#modmenuwrap {
+	width: 200px;
+	float: left;
+	clear: left;
+}
+
+#modmenuwrap ul
+{
+	margin: 0px;
+	padding: 0px;
+	list-style-type: none;
+	width: 100%;
+}
+
+#modmenuwrap li
+{
+	margin: 0px;
+	padding: 0px;
+	line-height: 20px;
+}
+
+#modmenuwrap ul li a
+{
+	display: block;
+	width: 190px;
+	padding-left: 10px;
+	background-color: #360;
+	font-size: 0.9em;
+}
+
+#modmenuwrap ul li a:link, #modmenuwrap ul li a:visited
+{
+	color: #E2E2F5;
+	text-decoration: none;
+}
+
+#modmenuwrap ul li a:hover
+{
+	background-color: #418200;
+	color: #FFF;
+}
+
+#modmenuwrap ul ul li a
+{
+	display: block;
+	padding-left: 20px;
+	width: 180px;
+	background-color: #60BF00;
+	font-size: 0.85em;
+}
+
+#modmenuwrap ul ul li a:link, #modmenuwrap ul ul li a:visited
+{
+	color: #E2F5E2;
+	text-decoration: none;
+}
+
+#modmenuwrap ul ul li a:hover
+{
+	background-color: #509F00;
+	color: #E2F5E2;
+}
+
+/* selected states */
+#modmenuwrap ul li a#modcurrent
+{
+	font-weight: bold;
+	color: #9F0;
+	background-color: #418200;
+}
+
+#modmenuwrap ul ul li a#modsubcurrent
+{
+	font-weight: bold;
+	color: #9F0;
+	background-color: #509F00;
+}
+
+#loginform {
+	padding: 0 10px;
+	width: 180px;
+	margin: 1em 0;
+	float: left;
+	clear: left;
+}
+
+#loginform fieldset {
+	padding: 10px;
+	border: #036 1px solid;
+}
+
+#loginform legend {
+	font-size: 120%;
+	color: #036;
+}
+
+#loginform label {
+}
+
+#loginform input#userName, #loginform input#pswd {
+	margin-right: 10px;
+}
+
+#loginform p {
+	padding: 1em 0 0 0;
+	text-align: right;
+}
+
+#loginform a {
+	color: #036;
+}
+
+#loginform a:hover {
+	color: #F00;
+}
+
+#footer {
+	margin: 0;
+	padding: 10px;
+	clear: both;
+	color: #FFF;
+	background-color: #069;
+	border-top: #036 5px solid;
+}
+
+/* additional xajax styles for use in modSnapshot and other modules --------------------------------------------------------------------------------------- */
+
+.mainTable	{width: 100%; font-size: 12px;}
+.mainTable td	{border: none; padding: 3px; border-radius: 10px; -moz-border-radius: 10px; -webkit-border-radius: 10px;}
+.mainRowEven	{background-color: #ffffff;}
+.mainRowOdd	{background-color: #e5ffe5;}
+.mainArea	{padding: 10px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;background-color: #f3f6ff;margin-top: 20px;border: 1px solid #e3e6ef;}
+.logArea	{padding: 10px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;background-color: #f3f6ff;margin-top: 20px;border: 1px solid #e3e6ef;overflow-x: hidden;overflow-y: scroll;height: 40px;}
+.controlArea	{padding: 10px;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;background-color: #f3f6ff;margin-top: 20px;border: 1px solid #e3e6ef;text-align: center;}
+.controlButton	{background-color: #ccc; border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #000; border-bottom: 2px solid #000; margin-right: 30px;}
+.loadingMessage	{border: 1px solid green; background-color: #E5FFE5; padding: 15px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; color: green; font-weight: bold; font-size: 20px;}

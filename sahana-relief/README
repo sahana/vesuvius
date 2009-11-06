@@ -1,0 +1,95 @@
+6th March 2009
+
+Sahana - README
+===============
+
+Sahana is a Free and Open Source Disaster Management System.It mainly facilitates management of Missing people, disaster victims, Managing and administrating various organisations, managing camps and managing requests and assistance in the proper distribution of resources.
+
+version - trunk
+----------------
+http://www.sahana.lk/
+
+Copyright (C) 2005 Lanka Software Foundation [http://www.opensource.lk/]
+
+This software is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this software; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+
+Requirements:
+    o php 5.0 or later
+    o MySQL 4.1 or later
+    o Apache web server 1.3 or later
+    o latest php5-gd libs
+    o latest php5-gettext libs for localization
+
+Demo:
+
+        http://demo.sahana.lk/
+
+Download:
+    
+    o Download the latest Sahana release in your preferred format from,
+        
+        http://download.sahana.lk
+
+    o In order to get Sahana on Debian GNU/Linux or a Debian based distro 
+      (like Ubuntu, Knoppix, Mepis, etc.), you can add following to your 
+      /etc/apt/sources.list,
+
+        deb http://sahana.lk/apt stable main
+
+      and do,
+
+        apt-get update && apt-get install sahana
+      
+      to upgrade from an older Sahana version to a newer version,
+
+        apt-get upgrade
+        
+        
+Install:
+
+    Please see the INSTALL file.
+
+Support:
+
+    Sahana is developed through a distributed development environment. Therefore, e-mail is
+    the preferred way to discuss various items. Most of the conversations regarding the 	development of Sahana
+    is managed through the "sahana-maindev" mailinglist.
+    
+        https://lists.sourceforge.net/lists/listinfo/sahana-maindev
+
+    For those who want more general discussion on Humanitarian ICT,
+
+        http://groups.yahoo.com/group/humanitarian-ict/
+
+    The Sahana community also hangs out on an IRC channel,
+
+        #sahana on freenode
+
+Other:
+
+    Sahana specification,
+
+        http://www.reliefsource.org/foss/index.php/Sahana
+
+    Sahana Development Wiki for contributors,
+
+        http://www.sahana.lk/wiki/
+
+
+Enjoy!!!
+
+    Sahana Community
+

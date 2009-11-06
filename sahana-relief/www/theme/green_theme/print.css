@@ -1,0 +1,22 @@
+/* 
+Sahana Print Stylesheet 
+-----------------------------------------------------------------------------------
+
+Let the default browser styling take effect, and stay out of the way.
+Hide all unnecessary elements 
+----------------------------------------------------------------------------------- */
+
+* {
+	position: static !important;
+	float: none !important;
+      font: Arial, Helvetica, sans-serif;
+}
+
+body {	
+      color: #000 !important;
+	background: #FFF !important;
+}
+
+#skip, #modmenuwrap, #menuwrap, #loginform {
+	display: none;
+}

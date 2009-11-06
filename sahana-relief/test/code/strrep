@@ -1,0 +1,115 @@
+#!/bin/bash
+# strrep - script to manage string replace recursively through the directory tree
+#
+# Version 0.1 alpha - Author: chamindra@opensource.lk (http://www.linux.lk/~chamindra)
+# TODO: 
+# - implement generic perl type substition regex from the commandline
+# - implement a restore function
+
+FILTER=""
+BACKUP=""
+CMD="replace"
+
+help_msg() 
+{
+cat<<end333
+   Recursive string replacement development tool
+   
+   strrep [ -ilhsb -f "<filters>"] <from> <to> 
+
+   Options:
+     h - help
+     i - interactive replace with VI
+     l - just list the files that will be affected
+     s - simulate the replace
+     b - create backup files
+     f <filter string> - same as egrep -v (<filter string>) on filelist
+
+   Author: chamindra@opensource.lk
+
+end333
+}
+
+validate_args()
+{
+    if [ -z "$1" -o -z "$2" ]; then
+        echo "Invalid number of arguments"
+        help_msg
+        exit 1
+    fi
+}
+
+search_function()
+{
+    if [ -z $FILTER ]; then
+        grep -Rl "$1" * | grep -v "\.bak"  
+    else
+        grep -Rl "$1" * | grep -v "\.bak"  | egrep -v "($FILTER)"
+    fi
+}
+
+while getopts ":hilsf:ib" opt; do 
+	case $opt in 
+		i ) CMD="interactive";;
+		l ) CMD="list";;
+		h ) CMD="help";;
+		s ) CMD="simulate";;
+        f ) FILTER=$OPTARG;;
+        b ) BACKUP="y";;
+	esac
+done
+
+# shift the and treat the resti of the args from $1
+shift $(($OPTIND -1 ))
+
+# effectively $$OPTIND = the value of the args after the switches
+# eval TAIL='$'$OPTIND 
+
+#if [ -z "$3" ]; then
+#    help_msg
+#    exit 0
+#fi
+
+# perform backups if requested
+if [ ! -z $BACKUP ]; then
+    for i in $(search_function $1) 
+    do
+        cp $i $i.bak
+    done
+fi
+
+case $CMD in 
+	list )
+        echo "Searching for \"$1\" recursively"
+        search_function $1
+           ;;
+
+	interactive ) 
+        
+        validate_args $1 $2
+    
+        select i in $(search_function $1)
+        do
+            vim -c "%s/$1/$2/gc" -c ":wq" $i
+        done
+    ;;
+
+	help )
+		help_msg ;;
+
+	replace|* ) 
+
+        validate_args $1 $2
+
+        if [ "simulate" = "$CMD" ]; then
+            search_function | strrep-pipe $1 $2 s
+        else
+            search_function | strrep-pipe $1 $2
+        fi
+    ;;
+
+esac
+
+# process the rest as $1 etc
+
+

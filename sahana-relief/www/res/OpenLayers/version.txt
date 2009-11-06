@@ -1,0 +1,7 @@
+Version log for the Sahana OpenLayers library: http://openlayers.org/
+@see OpenLayers.js for license information
+
+<date>		   : Updated to OL 2.4
+April 23, 2008 : Updated to OL 2.6 Stable
+October 3, 2008 : Updated to OL 2.7 Stable
+
