@@ -43,11 +43,11 @@ To do more, create a login account with your contact information. Then you can:<
 <br>
 <br>
 <table style=\"width: 100%;\"><tr><td>
-	<div id=\"reportPerson\" style=\"float: left;\" onclick=\"location.href='index.php?mod=rez&act=default&page_id=9';\">
-		<img src=\"theme/lpf/img/icon-girl-missing.png\" alt=\"Report a Person\" style=\"margin: 0px 20px 0px 0px;\" align=\"middle\">Report a Person
+	<div id=\"reportPerson\" style=\"float: left;\" onclick=\"location.href='index.php?mod=mpr&act=report_select';\">
+		<img src=\"theme/default/img/icon-girl-missing.png\" alt=\"Report a Person\" style=\"margin: 0px 20px 0px 0px;\" align=\"middle\">Report a Person
 	</div>
 	<div id=\"searchPerson\" style=\"float: right;\" onclick=\"location.href='index.php?mod=mpr&act=search&type=all';\">
-		<img src=\"theme/lpf/img/icon-search.png\" alt=\"Search for a Person\" style=\"margin: 0px;\" align=\"middle\">Search for a Person
+		<img src=\"theme/default/img/icon-search.png\" alt=\"Search for a Person\" style=\"margin: 0px;\" align=\"middle\">Search for a Person
 	</div>
 </td></tr></table>
 <br>

@@ -654,3 +654,35 @@ function shn_mpr_end_flow() {
 	unset($_SESSION['mpr']['entry']);
 	shn_mpr_default();
 }
+
+
+
+
+/**
+ * This is "Report a Person" Selection Page
+ * @access public
+ * @return void
+ */
+function shn_mpr_report_select() {
+?>
+	<div id="home">
+		<h2>Person Registry : Reporting a Person</h2><br>
+		<br> 
+		<b>Please choose the status of the person you are reporting: </b><br>
+		<br> 
+		<br> 
+		<table style="width: 100%;"> 
+			<tbody><tr><td> 
+				<div id="reportMissing" style="float: left;" onclick="location.href='index.php?mod=mpr&amp;act=addmp&amp;type=missing';"> 
+					<img src="theme/default/img/icon-girl-missing.png" alt="Report a Missing Person" style="margin: 0px 20px 0px 0px;" align="middle">Missing
+				</div> 
+				<div id="reportFound" style="float: right;" onclick="location.href='index.php?mod=mpr&amp;act=addmp&amp;type=found';"> 
+					<img src="theme/default/img/icon-girl-found.png" alt="Report a Found Person" style="margin: 0px 20px 0px 0px;" align="middle">Found
+				</div> 
+			</td></tr> 
+			</tbody>
+		</table> 
+		<br>
+	</div>
+<?
+}
