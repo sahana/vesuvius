@@ -1,0 +1,307 @@
+/* 
+Sahana - RTL Theme - Stylesheet
+
+modified for right-to-left representation by nursix, 2009-07-26 (dominic@nursix.org)
+-----------------------------------------------------------------------------------
+designer : Prabhath Sirisena - prabhath@vesess.com - http://nidahas.com
+maintainer : Priyanga Fonseka  - jo@opensource.lk
+
+Selectors are listed in their order of appearance in the html, where applicable.
+---------------------------------------------------------------------------------- 
+
+  |---- Neutralizing Styles
+  |---- Basic Page Formatting Styles
+  +---- Container
+     |---- Header
+     +---- Wrapper
+        |---- Menu Wrapper ( Module Menu, Main Menu, Login Form, OpenId Login, Breadcrumbs )
+        |---- Content ( Home, Result, Module specific styles )
+        |---- Footer  
+  |---- Form Layout Styles
+  |---- Popup Menu Styles
+  |---- Message Display Styles
+
+
+*/
+
+
+
+/* Neutralizing Styles
+   ------------------------------------------------------------------------------- */
+/* Neutralize styling:: Elements we want to clean out entirely: */
+html, body, form, fieldset, textarea { direction: rtl; margin: 0; padding: 0; font: 100%/125% Arial, Helvetica, sans-serif; }
+
+/* Neutralize styling:: Elements with a vertical margin: */
+h1, h2, h3, h4, h5, h6, p, pre,
+blockquote, ul, ol, dl, address { direction: rtl; margin: 0 0 1em 0; padding: 0;  }
+
+/* Apply left margin:: Only to the few elements that need it: */
+li, dd, blockquote { direction: rtl; margin-right: 1em; }
+
+/* Clear floats without structural markup */
+.clearfix:after { content: ".";  display: block; height: 0; clear: both; visibility: hidden; }
+
+/* Hides from IE-mac \*/
+* html .clearfix { height: 1%; }
+/* End hide from IE-mac */
+
+
+/* Basic Page Formatting Styles
+   ------------------------------------------------------------------------------- */
+/* Miscellaneous conveniences: */
+body { font-size: 0.8em; color: #000; background: #369; }
+
+form label { cursor: pointer; }                                 
+
+fieldset { border: none; }
+
+input, select, textarea { font-size: 100%; }
+
+.hide { display: none;  }
+
+.mini { font-size: 80%; }
+
+.wide { width:100%; }
+
+/* Links should ALWAYS be unvisited */
+a { color: #039; text-decoration: underline; }
+a:hover { color: #C00; text-decoration: none; background-color: #FFC; }
+a img { border:none; }
+
+table { border-collapse: collapse }
+thead td { text-align:center; padding:.25em .25em .25em .25em; background: #555; color:#fff; font-size:100%; }
+td { padding:5px 5px 0 5px; border:1px solid #ccc; }
+/* hack for calander table on ie */
+table#scw td{ border:none;}
+
+
+/* Now to layout elements... */
+div#container { }
+
+	div#header { border-bottom: #069 1px solid; padding: 0 1em; height: 70px; position: relative; background: url(img/sahana_logo.png) #369 no-repeat left top; }
+		div#header h1 { display:none; }
+
+		form.head { position:absolute; background:#369; color: white; right: 0; font-size:11px; }
+		form.head select { background:#369; color:white; border: 1px inset #369; }
+		form.head label { font-weight:bold; font-style:italic; }
+
+		/* language selector  */
+		form#language { top:25px; }
+
+		/* insident changer select box in the top */
+		form#incident_changer { position:fixed; float:left; padding:2px 0px 2px 2px; z-index:1; }
+
+	div#wrapper { background: url(img/wrapper_bk.png) #FFF repeat-y right top; }
+		div#wrapper_menu {}	
+			p#skip { display: none; }
+			div#menuwrap { width: 200px; float: right; clear: right; }
+				div#menuwrap h2 { color: #555; margin: 1em 0 0.5em 0; padding: 0 5px 0 0; font-size: 120%; text-transform: uppercase; text-align: right; }
+				div#menuwrap ul { margin: 0px; padding: 0px; list-style-type: none; width: 100%; }
+				div#menuwrap li { margin: 0px; padding: 0px; line-height: 20px; }
+				div#menuwrap ul li a { display: block; width: 190px; padding-right: 10px; background-color: #555; font-size: 0.9em; border-top: #666 1px solid; border-bottom: #444 1px solid; }
+				div#menuwrap ul li a:link, 
+				div#menuwrap ul li a:visited { color: #EEE; text-decoration: none; }
+				div#menuwrap ul li a:hover { color: #FFF; background-color: #333; border-top: #222 1px solid; border-bottom: #444 1px solid; }
+
+    			div#modmenuwrap { width: 200px; float: right; clear: right; }
+				div#modmenuwrap h2 { color: #069; margin: 1em 0 0.5em 0; padding: 0 5px 0 0px; font-size: 120%; text-transform: uppercase; text-align: right; }
+    				div#modmenuwrap ul { margin: 0px; padding: 0px; list-style-type: none; width: 100%; }
+    				div#modmenuwrap li { margin: 0px; padding: 0px; line-height: 20px; }
+    				div#modmenuwrap ul li a { display: block; width: 190px; padding-right: 10px; background-color: #069; font-size: 0.9em; border-top: #07A 1px solid; border-bottom: #058 1px solid; }
+    				div#modmenuwrap ul li a.smopen { background:#069 url(img/down_arrow.gif) no-repeat left; }
+    				div#modmenuwrap ul li a.smclose { background:#069 url(img/up_arrow.gif) no-repeat left; }
+    				div#modmenuwrap ul li a:link, 
+    				div#modmenuwrap ul li a:visited { color: #EEE; text-decoration: none; }
+    				div#modmenuwrap ul li a:hover { color: #FFF; background-color: #036; border-top: #025 1px solid; border-bottom: #047 1px solid; }
+    				div#modmenuwrap ul ul { display:none; }
+    				div#modmenuwrap ul ul li a { display: block; padding-right: 20px; width: 180px; background-color: #07A; font-size: 0.85em; }
+    				div#modmenuwrap ul ul li a:link, 
+    				div#modmenuwrap ul ul li a:visited { border-top: #08B 1px solid; border-bottom: #069 1px solid; }
+    				div#modmenuwrap ul ul li a:hover { background-color: #069; border-top: #058 1px solid; border-bottom: #07A 1px solid; }
+
+			div#loginform { padding: 0 10px; width: 100px; 	margin-top: 1em; margin-bottom:6.2em; float: right; clear: right; }
+				div#loginform form fieldset { padding: 10px; border-color: #DED; border-width: 2px; border-style: groove; }
+				div#loginform form legend { font-size: 120%; color: #555; }
+				div#loginform form label { }
+				div#loginform form input#userName, 
+				div#loginform input#pswd { margin-left: 10px; width:140px; }
+
+			#openid_login { background: url(img/login-openid.gif) no-repeat; background-color: #fff; background-position: center right; color: #000; width: 122px; padding-right: 18px; }
+
+			div#openid_loginform { padding: 0 0 0 10px; width: 100px; margin-top: 1em; margin-bottom: 6.2em; float: right; clear: right; }
+				div#openid_loginform form fieldset { padding: 10px; border-color: #DED; border-width: 2px; border-style: groove; }
+				div#openid_loginform form legend { font-size: 120%; color: #555; }
+				div#openid_loginform form label { }
+				div#openid_loginform form input#userName, 
+				div#openid_loginform input#pswd { margin-left: 10px; width: 140px; }
+
+			/* quick history styles */
+			#breadcrumbs ,#breadcrumbs b,#breadcrumbs a, #breadcrumbs a:hover { color: #999; font-size: 0.9em; }
+
+		div#content { margin: 0 200px 0 0; padding: 1em; }
+			/* common styles */
+			div#content h1, div#content h2 { color:#069; font-size:15px; font-weight:bolder; background:#F3F6FF; padding:3px 3px 3px 3px; border:1px #C6D1F5 solid; margin-bottom:10px; }
+			div#content h3 { color:#069; font-size:14px; font-weight:bolder; border-bottom:1px #069 solid; margin-bottom:10px; }
+			div#content h4 { color:#069; margin-top:10px; font-size:13px; font-weight:bolder; border-bottom:1px #036 dotted; margin-bottom:10px; }
+			/* result styles */
+			#result { background-color: #eee; margin-bottom:15px; }
+			#result img { position:relative; padding: 5px 5px 15px 5px; }
+			#result p { font-size: 115%; line-height: 1.3; padding-top: 10px; padding-bottom: 10px; }
+			#result ul { font-size: 150%; margin-left: 250px; margin-top: -200px; padding-bottom: 50px; }
+			#result ul li { line-height: 1.2; }
+			#result table { background:white; width:100%; border-collapse:collapse; }
+			#result table thead td { text-align: center; padding:.25em .25em .25em .25em; background: #777; color:#fff;   font-size: 100%; /*  border:none; */ border:  1px solid #fff; }
+			#result tr td { text-align:right; padding: .1em .1em .1em .1em; font-size: 90%; color:#000; background:#ddd; border: 1px solid #fff; /*  border:none; */ }
+			#result tr:hover td { background:#ccc; } 
+			#result tr.green td { background:#C3FFAD; }
+			#result tr.yellow td { background:#FFF98F; }
+
+			#result_msg { background-color: #eee; text-align:center; padding: 5px 5px 15px 5px; border: 3px #eee solid; }
+
+			/* other styles */
+			#home { border: 10px #fff solid; }
+			#home ul { /*margin-left: 200px;*/ padding-bottom:112px; padding: 5px 5px 5px 5px; }
+			#home p { text-align:center; /*	padding-left:200px;*/ padding: 10px 10px 10px 10px; text-align:justify; line-height:1.25; }
+			#home h2 { font-size:16px; text-align:center; } 
+
+			#home_recent { }
+			#home_recent h1 { font-size:120%; margin: 0 0 0 0; padding: 25px 5px 5px 5px;  }
+			.about-sahana tr th { padding: 5px 0 2px 0; color: #fff; background-color: #369; border:1px #C6D1F5 solid;  }
+			.about-sahana tr td {  background:#F3F6FF; font-size: 11px;  }
+
+			/* layout table */
+			table.layout { border-collapse: collapse; width:100%; }
+			table.layout thead td { text-align:center; padding:0px; background: #555; color:#fff; font-size:100%; }
+			table.layout td { padding: 0px 0px 0 0px; border: 0px solid #ccc; }
+
+			#incident_name strong { position: fixed; top: 0px; right:0px; background:#369; color: white; margin-left:50%; padding: 5px; }
+
+			.red { color: red; }
+
+			/* alert styles */
+			div.alert { margin: 0 0 10px 0; padding: 5px 35px 5px 10px; border: #FC6 1px solid; background: url(img/oops.png) #FFC no-repeat 5px 5px; }
+
+			/* info styles */
+			div.info, div.form-container fieldset p { color:#666; padding: 5px 5px 5px 5px; }
+
+			/*GIS module*/
+			#map { width: 760px; height: 600px }
+
+			/* paging styles */
+			ul.paging { list-style-type: none; }
+			.paging li { display: inline; }
+			.paging li a { display: inline; text-decoration: none; font-weight: bold; }
+
+			div#tick { background: url(img/tic.png) no-repeat left; width: 10px; height: 10px; }
+
+			div#submenu_v { padding-right: 5px; margin-right: 0; border-bottom: 1px solid #C6D1F5; }
+			div#submenu_v a { color: #069; padding: 0 0.5em 1px 0.5em; line-height: 18px; border: 1px solid #C6D1F5;  border-bottom: none; background: #F3F6FF; text-decoration: none; font-weight: bolder; white-space: nowrap; }
+			div#submenu_v a:hover { color: #069; background: #C3CFFF; border-bottom: 1px solid #C3CFFF; }
+			div#submenu_v a.selected, 
+			div#submenu_v a.selected:hover { background-color: #FFF; border-bottom: 1px solid #FFF; }
+
+			/* page tab styles */
+			div#content ul#tabmenu { list-style-type: none; padding-left: 5px; margin-left: 0; border-bottom: 1px solid #C6D1F5; }
+			div#content ul#tabmenu li { display: inline; margin: 0; }
+			div#content ul#tabmenu li a, 
+			div#content ul#tabmenu li a:link { color: #069; padding: 0 0.5em 1px 0.5em; line-height: 18px; border: 1px solid #C6D1F5;  border-bottom: none; background: #F3F6FF; text-decoration: none; font-weight: bolder; }
+			div#content ul#tabmenu li a:hover { color: #069; background: #C3CFFF; border-bottom: 1px solid #C3CFFF; }
+			div#content ul#tabmenu li#active a { background-color: #F6FFCF; border-bottom: 1px solid #FFF;  }
+			div#content ul#tabmenu li#active a:hover { background-color: #FFF; border-bottom: 1px solid #FFF; } 
+
+			/* form tab styles */
+			ul#tab { display: inline; }
+			ul#tab li { display:inline; }
+			ul#tab li a { color: #666; text-decoration: none; font-weight: bold; border: #ccc 1px solid; padding: 3px 5px 0px 5px;   background: #efefef; }
+			ul#tab li a:hover { background: #FFC; }
+			ul#tab li#activeTab a { background: #999; color: white; padding: 3px 5px 0px 5px; }
+
+			/*  web service module  */ 
+			p.ws_info { margin: 1em; padding: 5px; }
+			ul.ws_options { margin: 15px; padding: 5px 10px 5px 0px; }
+			ul.ws_options li { padding: 5px 0; padding-bottom: 3px; } 
+			ul.ws_options span.ws_options_des { padding: 3px 15px 15px 0; color: #333; }
+			.hidden { position: absolute; visibility: hidden; z-index: 200; right: 250px; top: 100px; overflow: hidden; width: 600px; padding: 20px; font-size: 10px; background-color: #FFC; background-color: #fff; border: 1px solid #FC6; }
+
+			div.page_head { padding-bottom: 10px; }
+			div.page_head.active { color: red; }
+
+			div.page_navi a { }
+
+			div.rssfeed strong { vertical-align: 5px; }
+
+			form.paging_form input { border:none; background:none; padding:0px; color:blue; cursor:pointer; text-decoration:underline; }
+
+		div#footer { margin: 0; padding: 10px; clear: both; color: #666; background-color: #369; border-top: #058 1px solid; }
+			a.help, a:link.help { color: #fff; text-decoration: none; }
+			a:hover.help { background-color: #369; text-decoration: underline; }
+			a:visited.help { font-weight: normal; color: #aaa; }
+
+
+/* Form Layout Styles 
+   ------------------------------------------------------------------------------- */
+p.legend { margin-bottom: 1em; }
+p.legend em { color: #C00; font-style: normal; }
+
+div.form-container form { padding: 5px; background-color: #FFF; border: #EEE 1px solid; background-color: #FbFbFb; }
+/* div.form-container form { display:block; } */
+div.form-container p { margin: 0.5em 0 0 0; }
+div.form-container form p { margin: 0; }
+div.form-container form p.note { font-style: italic; margin-left: 18em; font-size: 80%; color: #666; }
+div.form-container form fieldset { margin:0 0 10px 0; padding: 10px; border: #DDD 1px solid; background-color:#FFF;}
+div.form-container form legend { font-weight: bold; color: #666; }
+div.form-container form fieldset div.brake { padding: 0.3em; }
+div.form-container form fieldset label{ position:relative; margin-left: 10px; padding-left: 10px; width: 15em; display: block; float: right; text-align: left; min-height:1em;top:0.25em;}
+div.form-container form fieldset label.errorfield,
+div.form-container form fieldset span.errorfield { color: #C00; }
+div.form-container form fieldset label.value{display:block;text-align:right;width:auto;}
+div.form-container form fieldset input.errorfield { border-color: #C00; background-color: #FEF; }
+div.form-container form fieldset input:focus,
+div.form-container form fieldset input.errorfield:focus, 
+div.form-container form fieldset textarea:focus { background-color: #FFC; border-color: #FC6;  }
+div.form-container div.controlset label, 
+div.form-container div.controlset input { display: inline; float: none; }
+div.form-container div.controlset div { margin-left: 15em; }
+div.form-container div.buttonrow { margin-left: 180px; }
+/* blank forms *//*
+div#formcontainer form#form_blank { padding: 5px; background-color: #fff; border:none; } */
+
+/* required field indicator */
+.req { color:red; font-weight:bold;  }
+
+
+/* Popup Menu Styles 
+   ------------------------------------------------------------------------------- */
+.popupLink { position:absolute; text-transform:uppercase; height:20px; width:50px; background-image: url(img/help_off.gif) ; }
+.popupLink span { display:none; }
+.popupLink:hover { background-color:transparent; background-image: url(img/help_on.gif); }
+
+.popup { position: absolute; visibility: hidden; background-color: yellow; width: 200px; border-right: 1px solid black; border-top: 1px solid black; border-bottom: 2px solid black; border-left: 2px solid black; padding: 3px; z-index: 10; }
+
+
+/* Message Display Styles 
+   ------------------------------------------------------------------------------- */
+.error { border:  #C00 1px solid; background: url(img/dialog-error.png) #FFE5E5 no-repeat 5px 5px; }
+.error p em { color:#C00; }
+
+.confirmation { border: #070 1px solid; background: url(img/dialog-confirmation.png) #E5FFE5 no-repeat 5px 5px; }
+.confirmation p em { color:#070; }
+
+.warning { border: #FC6 1px solid; background: url(img/dialog-warning.png) #FFC no-repeat 5px 5px; }
+.warning p em { color:#C00;  }
+
+.information { border: #9ED8D7 1px solid; background: url(img/dialog-information.png) #ECFDFF no-repeat 5px 5px; }
+.information p em { color:#748D8E;  }
+
+.message { margin: 0 0 10px 0; padding: 5px 35px 5px 10px; }
+.message p { margin: 0; }
+.message ul { margin: auto; margin-bottom: 0.5em; list-style: disc; }
+.message p em { font-style: normal; font-weight: bold; }
+
+#note { border:1px #999 solid; background-color: #ccc; text-align:center; padding: 5px 5px 5px 5px; margin-bottom: 10px; }
+
+.loading 
+{
+  float:right; display: block;padding: 10px;width: 760px;background-color: #fffbb8;color: #FF9900;border: 1px solid #ffcc00;font-weight: bold;position:fixed;z-index:6;
+
+ }
