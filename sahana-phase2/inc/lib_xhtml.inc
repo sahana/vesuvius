@@ -73,6 +73,43 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
 <link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?php echo _t($theme);?>/sahana.css" />
 <link rel="stylesheet" media="print" type="text/css" href="theme/<?php echo _t($theme);?>/print.css" />
 <link rel="stylesheet" media="handheld" type="text/css" href="theme/<?php echo _t($theme);?>/mobile.css" />
+<? 
+//--- Provide Stylesheets to hack different versions of IEs' css ---//
+
+// IE6 
+if (file_exists($global['approot']."www/theme/".$theme."/ie6.css")) { ?>
+<!--[if IE 6]>
+<link rel="stylesheet" type="text/css" href="theme/<?php echo _t($theme);?>/ie6.css" />
+<![endif]-->
+<? 
+}
+
+// IE7
+if (file_exists($global['approot']."www/theme/".$theme."/ie7.css")) { ?>
+<!--[if IE 7]>
+<link rel="stylesheet" type="text/css" href="theme/<?php echo _t($theme);?>/ie7.css" />
+<![endif]-->
+<? 
+}
+
+// IE8
+if (file_exists($global['approot']."www/theme/".$theme."/ie8.css")) { ?>
+<!--[if IE 8]>
+<link rel="stylesheet" type="text/css" href="theme/<?php echo _t($theme);?>/ie8.css" />
+<![endif]-->
+<? 
+}
+
+// IE9
+if (file_exists($global['approot']."www/theme/".$theme."/ie9.css")) { ?>
+<!--[if IE 9]>
+<link rel="stylesheet" type="text/css" href="theme/<?php echo _t($theme);?>/ie9.css" />
+<![endif]-->
+<? 
+} 
+//--- end IE styles ---//
+?>
+
 <link rel="icon" type="image/png" href="favicon.png">
 
 <script type="text/javascript" src="res/js/libsahana.js"></script>
