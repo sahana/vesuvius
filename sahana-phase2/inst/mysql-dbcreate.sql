@@ -127,7 +127,7 @@ CREATE TABLE `sahana_version` (
     `sahana_release` VARCHAR( 40 ) NOT NULL , -- Release String
     `release_date` VARCHAR( 40 ) NOT NULL , -- Release Date
     `release_info` LONGTEXT NOT NULL , -- Release Info
-    PRIMARY KEY ( `sahana_version` , `release` , `release_date` )
+    PRIMARY KEY ( `sahana_version` , `sahana_release` , `release_date` )
 );
 /**================= Security Tables ================================**/
 
