@@ -187,7 +187,7 @@ $conf['default_action']= 'default';
 
 // always show the incident select box
 // true will always show it, and false will have it disappear after the user logs in
-$conf['always_show_incident'] = true;
+$conf['always_show_language'] = true;
 
 # end of the config file.
 

@@ -138,7 +138,7 @@ function _shn_lc_issetsession()
 function _shn_lc_lang_list($mode=1)
 {
 	global $conf;
-	if (($conf['always_show_incident']) || ($_REQUEST['act'] == 'default' || $_REQUEST['act'] == '' || $_REQUEST['act'] == 'lc_set'))
+	if (($conf['always_show_language']) || ($_REQUEST['act'] == 'default' || $_REQUEST['act'] == '' || $_REQUEST['act'] == 'lc_set'))
 	{
 		$lc_list = _shn_get_lang_list();
 
