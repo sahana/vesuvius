@@ -185,5 +185,9 @@ $conf['default_module']= 'home';
 // this sets the default action we will perform on the default module above
 $conf['default_action']= 'default';
 
+// always show the incident select box
+// true will always show it, and false will have it disappear after the user logs in
+$conf['always_show_incident'] = true;
+
 # end of the config file.
 
