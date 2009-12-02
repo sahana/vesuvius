@@ -759,112 +759,81 @@ function _shn_auth_lock_user($uid,$status)
 }
 
 function shn_auth_gen_captcha(){
-	//Now lets use md5 to generate a totally random string
+	// Now lets use md5 to generate a totally random string
 	$md5 = md5(microtime() * mktime());
 
-	/*
-	 We dont need a 32 character long string so we trim it down to 5
-	 */
+	// We dont need a 32 character long string so we trim it down to 5
 	$string = substr($md5,0,5);
-	/*
-	 Now for the GD stuff, for ease of use lets create
-	 the image from a background image.
-	 */
-	global $global;
 
-	//	$img_path= $global['approot']."www/res/img/captcha.png";
-	//	$captcha = imagecreatefrompng($img_path);
-	//
-	//	/*
-	//	 Lets set the colours, the colour $line is used to generate lines.
-	//	 Using a blue misty colours. The colour codes are in RGB
-	//	 */
-	//
-	//	$black = imagecolorallocate($captcha, 0, 0, 0);
-	//	$line = imagecolorallocate($captcha,233,239,239);
-	//
-	//	/*
-	//	 Now to make it a little bit harder for any bots to break,
-	//	 assuming they can break it so far. Lets add some lines
-	//	 in (static lines) to attempt to make the bots life a little harder
-	//	 */
-	//	imageline($captcha,0,0,39,29,$line);
-	//	imageline($captcha,40,0,64,29,$line);
-	//	/*
-	//	 Now for the all important writing of the randomly generated string to the image.
-	//	 */
-	//	imagestring($captcha, 5, 20, 10, $string, $black);
-	//
-	$width = 140;
-	$height = 70;
-	$captcha = imagecreate($width,$height);
-	imagefilledrectangle($captcha,0,0,$width,$height,imagecolorallocate($captcha,255,255,255));
+	// Now for the GD stuff, for ease of use lets create the image from a background image.
+	global $global;
+	$width = 200;
+	$height = 80;
+	$captcha = imagecreatetruecolor($width, $height);
+	imagefilledrectangle($captcha, 0, 0, $width, $height, imagecolorallocatealpha($captcha, 247, 247, 247, 0));
 
 	// draw random rectangles
-	$rectangles = 50;
-	for($i=0;$i<$rectangles;$i++){
-		$x1 = rand(0,$width*0.9);
-		$y1 = rand(0,$height*0.9);
-		$x2 = rand($x1,$width);
-		$y2 = rand($y1,$height);
-		$red = rand(0,255);
-		$green = rand(0,255);
-		$blue = rand(0,255);
-		$alpha = 90;
-		$color = imagecolorallocatealpha($captcha,$red,$green,$blue,$alpha);
-		imagefilledrectangle($captcha,$x1,$y1,$x2,$y2,$color);
+	$rectangles = 100;
+	for($i=0; $i<$rectangles; $i++) {
+		$x1    = rand(0, $width*0.9);
+		$y1    = rand(0, $height*0.9);
+		$x2    = rand($x1, $width);
+		$y2    = rand($y1, $height);
+		$red   = rand(0, 255);
+		$green = rand(0, 255);
+		$blue  = rand(0, 255);
+		$alpha = rand(0, 127);
+		$color = imagecolorallocatealpha($captcha, $red, $green, $blue, $alpha);
+		imagefilledrectangle($captcha, $x1, $y1, $x2, $y2, $color);
 	}
-
-	for($i=0;$i<$rectangles;$i++){
-		$x1 = rand(0,$width*0.9);
-		$y1 = rand(0,$height*0.9);
-		$x2 = rand($x1,$width);
-		$y2 = rand($y1,$height);
-		$red = rand(0,255);
-		$green = rand(0,255);
-		$blue = rand(0,255);
-		$alpha = 70;
-		$color = imagecolorallocatealpha($captcha,$red,$green,$blue,$alpha);
-		imagerectangle($captcha,$x1,$y1,$x2,$y2,$color);
-	}
-
-	// draw the string.
-	for($i=0;$i<strlen($string);$i++){
-		$red = rand(0,127);
-		$green = rand(0,127);
-		$blue = rand(0,127);
-		$alpha = 20;
-		$color = imagecolorallocatealpha($captcha,$red,$green,$blue,$alpha);
-		$font = imageloadfont($global['approot']."/www/res/gdf/f1.gdf");
-		imagestring($captcha,$font,$i*rand(22,25)+5,rand(2,32),$string[$i],$color);
+	for($i=0; $i<$rectangles; $i++) {
+		$x1    = rand(0, $width*0.9);
+		$y1    = rand(0, $height*0.9);
+		$x2    = rand($x1, $width);
+		$y2    = rand($y1, $height);
+		$red   = rand(0, 255);
+		$green = rand(0, 255);
+		$blue  = rand(0, 255);
+		$alpha = rand(0, 127);
+		$color = imagecolorallocatealpha($captcha, $red, $green, $blue, $alpha);
+		imagerectangle($captcha, $x1, $y1, $x2, $y2, $color);
 	}
 
 	// draw random lines on the string
-	$lines = 25;
-	for($i=0;$i<$lines;$i++){
-		$red = rand(0,255);
-		$green = rand(0,255);
-		$blue = rand(0,255);
-		$alpha = 40;
-		$x1 = rand(0,$width);
-		$y1 = rand(0,$height);
-		$x2 = rand(0,$width);
-		$y2 = rand(0,$height);
-		$color = imagecolorallocatealpha($captcha,$red,$green,$blue,$alpha);
-		imageline($captcha,$x1,$y1,$x2,$y2,$color);
+	$lines = 50;
+	for($i=0; $i<$lines; $i++) {
+		imagesetthickness($captcha, rand(3,6));
+		$red   = rand(0, 191);
+		$green = rand(0, 191);
+		$blue  = rand(0, 191);
+		$alpha = rand(63, 127);
+		$x1    = rand(0, $width);
+		$y1    = rand(0, $height);
+		$x2    = rand(0, $width);
+		$y2    = rand(0, $height);
+		$color = imagecolorallocatealpha($captcha, $red, $green, $blue, $alpha);
+		imageline($captcha, $x1, $y1, $x2, $y2, $color);
 	}
 
-	/*
-	 Encrypt and store the key inside of a session
-	 */
+	// draw the string.
+	for($i=0; $i<strlen($string); $i++) {
+		$red   = rand(0, 63);
+		$green = rand(0, 63);
+		$blue  = rand(0, 63);
+		$alpha = rand(16, 47);
+		$color = imagecolorallocatealpha($captcha, $red, $green, $blue, $alpha);
+		//putenv('GDFONTPATH='.realpath("./../../www/res/ttf/"));
+		$font  = "FreeSansBold.ttf";
+		$angle = rand(-30, 30);
+		$x     = (($width/5)*$i)+abs($angle)/2;
+		$y     = rand(40,60);
+		imagettftext($captcha, 32, $angle, $x, $y, $color, $font, $string[$i]);
+	}
 
 	$_SESSION['security_captcha_key'] = md5($string);
 
-	/*
-	 Output the image
-	 */
+	// Output the image
 	imagepng($captcha);
-
 }
 
 
