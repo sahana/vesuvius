@@ -10,6 +10,7 @@
  *
  * @package    Sahana - http://sahana.sourceforge.net
  * @author     http://www.linux.lk/~chamindra
+ * @author     Greg Miernicki <miernickig@mail.nih.gov>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  */
 
@@ -25,6 +26,29 @@ $global['previous'] = false;
 // Include error handling routines
 require_once($APPROOT.'inc/lib_errors.inc');
 require_once($APPROOT.'inc/lib_exception.inc');
+
+// redirect? only if we are not using the stream module
+if (!isset($_GET['stream'])) {
+	include_once($global['approot']."/inc/browser_caps.inc");
+	$bc = $global['bcaps']->getBrowser(null,true);
+
+	// EXAMPLE of how to redirect for different user agents
+	/*
+	// check for iPod/iPhone and redirect them a different site for mobiles
+	if ((strstr($bc['browser_name'], "iPod")) || (strstr($bc['browser_name'], "iPhone"))) {
+		header("Location: http://sahana/mobile");
+	} 
+	*/
+}
+
+/* FirePHP is a debugging tool use to push internal application data to the Firebug console in Firefox */
+/* To enable its use, uncomment the line below to turn it on (not recommended on non-development sites */
+//require_once($APPROOT.'3rd/FirePHPCore-0.3.1/lib/FirePHPCore/FirePHP.class.php');
+
+/* The below commented example code shows how to use FirePHP to send the data from $global to the      */
+/* FireBug console. Simply uncomment the two lines to use it                                           */
+//$firephp = FirePHP::getInstance(true);
+//$firephp->log($global, '$global');
 
 // handle error reporting seperately and set our own error handler
 if (true) { // set to false if you want to develop without the custom error handler
@@ -82,7 +106,7 @@ if (!file_exists($APPROOT.'conf/sysconf.inc.php')){
 	 * database configuration is not loaded when handler_db is included, hence database configuration
 	 * settings in the config table is ignored
 	 */
-	if($conf['enable_monitor_sql']==true){
+	if ($conf['enable_monitor_sql']==true) {
 		$global['db']->LogSQL();
 		//echo "TEST";
 	}
@@ -91,8 +115,8 @@ if (!file_exists($APPROOT.'conf/sysconf.inc.php')){
 	 foreach ($mods as $mod){
 	 $conf['mod_'.$mod.'_enabled']=true;
 	 }*/
-	if(($_GET["mod"]="admin")&&($_GET["act"]=="acl_enable_acl_cr")){
-		if( shn_acl_check_perms("admin","acl_enable_acl_cr")==true){
+	if (($_GET["mod"]="admin") && ($_GET["act"]=="acl_enable_acl_cr")) {
+		if (shn_acl_check_perms("admin","acl_enable_acl_cr") == true) {
 			include_once ($APPROOT.'mod/admin/acl.inc');
 			_shn_admin_acl_enable_acl_cr(false);
 		}
@@ -100,57 +124,59 @@ if (!file_exists($APPROOT.'conf/sysconf.inc.php')){
 
 	// start the front controller pattern
 	shn_main_front_controller();
-
 }
+
+
 
 // === cleans the GET and POST ===
-function shn_main_clean_getpost()
-{
-
+function shn_main_clean_getpost() {
 	$purifier = new HTMLPurifier();
-
-	foreach ($_POST as $key=>$val){
-		if(is_array($_POST[$key])==true){
-
-		}else{
-			//$val=shn_db_clean($val);
+	foreach ($_POST as $key=>$val) {
+		if (!is_array($_POST[$key])) {
 			$val = $purifier->purify($val);
-			$val=escapeHTML($val);
-			$_POST[$key]=$val;
+			$val = escapeHTML($val);
+			$_POST[$key] = $val;
 		}
-
 	}
-
+	foreach ($_GET as $key=>$val){
+		if (!is_array($_GET[$key])) {
+			$val = $purifier->purify($val);
+			$val = escapeHTML($val);
+			$_GET[$key] = $val;
+		}
+	}
 }
+
+
+
 // === process the GET and POST ===
-function shn_main_filter_getpost()
-{
+function shn_main_filter_getpost() {
 	global $global, $conf;
 
 	$m = isset($conf['default_module']) ? $conf['default_module'] : "home";
 	$a = isset($conf['default_action']) ? $conf['default_action'] : "default";
 
-	if(!$global['previous']){
+	if (!$global['previous']) {
 		$global['action'] = (NULL == $_REQUEST['act']) ? $a : $_REQUEST['act'];
 		$global['module'] = (NULL == $_REQUEST['mod']) ? $m : $_REQUEST['mod'];
 
-		if(( $global['action']=='signup')&&($_REQUEST['mod']==null)){
+		if (($global['action'] == 'signup') && ($_REQUEST['mod'] == null)) {
 			$global['module']="pref";
 		}
-
 	}
 }
 
+
+
 // === front controller ===
-function shn_main_front_controller()
-{
+function shn_main_front_controller() {
 	global $global, $APPROOT, $conf;
 	$action = $global['action'];
 	$module = $global['module'];
 	$stream = $_REQUEST['stream'];
-	// check if the appropriate stream library exists
 
-	if( array_key_exists('stream', $_REQUEST) && file_exists($APPROOT.'/inc/lib_stream_'.$stream.'.inc')) {
+	// check if the appropriate stream library exists
+	if (array_key_exists('stream', $_REQUEST) && file_exists($APPROOT.'/inc/lib_stream_'.$stream.'.inc')) {
 		require_once ($APPROOT.'/inc/lib_stream_'.$stream.'.inc');
 		$stream_ = $stream.'_'; // for convenience
 	} else { // else revert to the html stream
@@ -164,14 +190,12 @@ function shn_main_front_controller()
 	// Redirect the module based on the action performed
 	// redirect admin functions through the admin module
 	if (preg_match('/^adm/',$action)) {
-
 		$global['effective_module'] = $module = 'admin';
 		$global['effective_action'] = $action = 'modadmin';
 	} // the orignal module and action is stored in $global
 
 	// This is a redirect for the report action
 	if (preg_match('/^rpt/',$action)) {
-
 		$global['effective_module'] = $module = 'rs';
 		$global['effective_action'] = $action = 'modreports';
 	}
@@ -185,7 +209,8 @@ function shn_main_front_controller()
 	// check if module exists (modules main.inc)
 	if (file_exists($module_file)) {
 		include($module_file);
-	} else { // default to the home page if the module main does not exist
+	} else { 
+		// default to the home page if the module main does not exist
 		add_error(_t('The requested module is not installed in Sahana'));
 		$module = 'home';
 		$action = 'default';
@@ -238,99 +263,80 @@ function shn_main_front_controller()
 		$_SESSION['last_action']=$action;
 		$_SESSION['last_stream']=$stream;
 
-		if($stream_==null) {
+		if ($stream_==null) {
 
-			if(( ($global['action'] == 'signup_cr')
-			or ($global['action'] == 'signup'))
-			&& ($global['module'] = 'pref')) {  // TODO: Check on =
-
-			// returns true if self-signup is enabled
-			if( shn_acl_is_signup_enabled() ) {
-				$module_function();
-			}
-
-			} else { // if not a self-signup action
-
+			if ((($global['action'] == 'signup_cr') || ($global['action'] == 'signup')) && ($global['module'] = 'pref')) {  
+				// TODO: Check on =
+				// returns true if self-signup is enabled
+				if( shn_acl_is_signup_enabled() ) {
+					$module_function();
+				}
+			} else { 
+				// if not a self-signup action
 				$allowed_mods = shn_get_allowed_mods_current_user();
 
 				// check if requested module is within users allowed modules
 				$res = array_search($module,$allowed_mods,false);
 
-				if(false !== $res){
-
-					if( shn_acl_check_perms($module,$module_function) == ALLOWED){
+				if (false !== $res) {
+					if( shn_acl_check_perms($module,$module_function) == ALLOWED) {
 						$module_function();
-					}else{
+					} else {
 						shn_error_display_restricted_access();
 					}
-
 				} else {
 					shn_error_display_restricted_access();
 				}
 			}
 
-		} else { // if the steam is not HTML
-
+		} else { 	
+			// if the steam is not HTML
 			$allowed_mods = shn_get_allowed_mods_current_user();
 
 			// check if requested module is within users allowed modules
-			$res = array_search($module,$allowed_mods,false);
+			$res = array_search($module, $allowed_mods, false);
 
-			//hack for messaging module receive function
-			$res= ($stream='text'&$action='receive_message')?true:$res;
-			if(false !== $res){
-
-				if( shn_acl_check_perms($module,$module_function) == ALLOWED){
+			// hack for messaging module receive function
+			$res = ($stream='text'&$action='receive_message')?true:$res;
+			if (false !== $res) {
+				if( shn_acl_check_perms($module,$module_function) == ALLOWED) {
 					$module_function();
-				}else{
+				} else {
 					add_error(shn_error_get_restricted_access_message());
 				}
-
 			} else {
 				add_error(shn_error_get_restricted_access_message());
 			}
 		}
 	}
-	/*
-	 * Show help if there are errors or warinings.
-	 */
-	if((count($global['submit_errors'])>0 || count($global['submit_warnings'])>0) && (strtolower($stream) == 'html')){
+	//Show help if there are errors or warinings.
+	if ((count($global['submit_errors']) > 0 || count($global['submit_warnings']) > 0) && (strtolower($stream) == 'html')) {
 		shn_user_feedback();
 	}
 	// close up the stream. In HTML send the footer
 	shn_stream_close();
-
-
 }
 
+
+
 // Call the web installer
-function shn_main_web_installer()
-{
+function shn_main_web_installer() {
 	global $global, $APPROOT, $conf;
 
 	// The 'help' action is a special case. The following allows the popup help text
 	// to be accessed before the sysconf.inc.php file has been created.
-	if ($global['action'] == "help"){
+	if ($global['action'] == "help") {
 		require_once ($APPROOT."/inc/lib_stream_{$_REQUEST['stream']}.inc");
-
 		$module = $global['module'];
-
 		$module_file = $APPROOT.'mod/'.$module.'/main.inc';
-
 		include($module_file);
-
 		shn_stream_init();
-
 		$module_function='shn_'.$_REQUEST['stream'].'_'.$module.'_'.$global['action'];
-
 		$_SESSION['last_module']=$module;
 		$_SESSION['last_action']=$action;
-
 		$module_function();
-
 		shn_stream_close();
-	}
-	else{
+	} else {
 		// include the sysconfig template for basic conf dependancies
 		require_once ($APPROOT.'conf/sysconf.inc.tpl.php');
 
@@ -338,4 +344,3 @@ function shn_main_web_installer()
 		require ($APPROOT.'inst/setup.inc');
 	}
 }
-
