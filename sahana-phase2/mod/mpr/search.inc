@@ -22,6 +22,19 @@ include $global['approot'] . "/inc/lib_paging.inc";
 
 
 /**
+ * Clean the 'type' parameter from vulnerabilities
+ */
+function shn_clean_type_parameter($type) {
+	if ($type != "all" && $type != "missing" && $type != "found") {
+		// we are being exploited, just default to all
+		$type = "all";
+	}
+	return $type;
+}
+
+
+
+/**
  * Search default form
  * 
  * @access public
@@ -32,14 +45,12 @@ function shn_mpr_search_default() {
 		shn_form_fsopen(_t('Basic Search'));
 			shn_form_text(_t('Name'), 'name', 'size="30"', array('help'=>'Enter a full or partial name'));
 			shn_form_text(_t('ID Card #'), 'idcard', 'size="30"', array('help'=>'Driver\'s License Number of Passport Number'));
-			//shn_form_checkbox(_t('All incidents belongs to current incident'),'list_incidents');
 			shn_form_checkbox(_t('All incidents'),'all_incidents');
 			?><label>&nbsp;</label><?php 
 			shn_form_submit(_t('Search'), 'class="controlButton"');
-			//shn_form_label("<a href=\"index.php?mod=mpr&act=search_adv&type={$_GET['type']}\">[Advance Search]</a>","");
 		shn_form_fsclose();
 		shn_form_hidden(array('seq'=>'result'));
-		shn_form_hidden(array('type'=>$_REQUEST['type']));
+		shn_form_hidden(array('type'=>shn_clean_type_parameter($_REQUEST['type'])));
 		shn_form_fsopen(_t('Person Reports'));
 			?><span id="listAllMissing" onclick="location.href='index.php?mod=mpr&act=list_missing';">List All Missing Persons</span><span id="listAllFound" onclick="location.href='index.php?mod=mpr&act=list_found';">List All Found Persons</span><?php
 		shn_form_fsclose();
@@ -75,7 +86,7 @@ function shn_mpr_search_advance() {
 			shn_form_submit(_t('Next'));
 		shn_form_fsclose();
 		shn_form_hidden(array('seq'=>'result'));
-		shn_form_hidden(array('type'=>$_GET['type']));
+		shn_form_hidden(array('type'=>shn_clean_type_parameter($_GET['type'])));
 	shn_form_fclose();
 }
 
