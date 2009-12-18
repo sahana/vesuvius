@@ -24,7 +24,9 @@ require_once("gettext.inc");
 */
 define(DEFAULT_LOCALE, $conf['locale']);
 
-$expire_cookie = time() + 3600 * 24;
+// many institutions do not allow public websites they host to store persistent cookies, 
+// therefore, we will only make them persist as long as the session itself
+/* $expire_cookie = time() + z; */
 
 /**
      * Set the session key 'locale' with the value 'locale'
@@ -47,10 +49,10 @@ $expire_cookie = time() + 3600 * 24;
      * Set the session key 'locale' to the new 'locale' value.
      */
     if ( isset ($getlocale) ) {
-        setcookie ('locale', $getlocale, $expire_cookie);
+        setcookie ('locale', $getlocale); //, $expire_cookie); ~~ we are now setting the cookie to expire with the session
         $_SESSION['locale'] = $getlocale;
     } else if ( !isset ($_COOKIE['locale']) ) {
-        setcookie ('locale', $defaultlocale, $expire_cookie);
+        setcookie ('locale', $defaultlocale); //, $expire_cookie); ~~ we are now setting the cookie to expire with the session
         $_SESSION['locale'] = $defaultlocale;
     }
 
