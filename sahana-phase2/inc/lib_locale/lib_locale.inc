@@ -145,7 +145,14 @@ function _shn_lc_lang_list($mode=1)
 		$locale = $_SESSION['locale'];
 		global $global;
 		//shn_form_fopen("lc_set",null,array('req_message'=>false,'id'=>"language"));
-		echo "<form method=\"post\" action=\"index.php?mod=".$global['module']."&amp;act=lc_set\" id=\"language\" class=\"head\"  >\n";
+
+		// this prevents Sahana Security Bulletin 2009:1210 by cleaning the module variable before outputting it
+		$mod = substr($global['module'], 0, 6);
+		if (!preg_match("/\A[0-9a-z]{2,6}\Z/", $mod)) {
+			$mod = "";
+		}
+
+		echo "<form method=\"post\" action=\"index.php?mod=".$mod."&amp;act=lc_set\" id=\"language\" class=\"head\"  >\n";
 
 		shn_form_hidden(array('seq'=>'set_locale'));
 
