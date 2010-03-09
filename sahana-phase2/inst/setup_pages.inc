@@ -611,8 +611,9 @@ function shn_setup_adv_advanced_config($step_no=null)
     }
     shn_form_select($themelist,_t('Theme'),'theme','onchange=setActiveStyleSheet(this.options[this.selectedIndex].value)',isset($_SESSION[SETUP_DATA_PREFIX."theme"])?array('value'=>$_SESSION[SETUP_DATA_PREFIX."theme"]):array('value'=>'default'));
     shn_form_fsclose();
-    shn_form_submit(_t('<< Back'),'name="back_button"');
-    shn_form_submit(_t("Next >>"));
+    
+    shn_form_submit(_t("<<Next "));
+    shn_form_submit(_t('Back>>'),'name="back_button"');
 
     $selected_modules = _shn_setup_get_selected_modules();
     if(isset($selected_modules)){
