@@ -44,6 +44,11 @@ if (file_exists($global['approot'].'conf/sysconf.inc.php')){
     }
     $global['stream_type'] = $_GET['stream_type'];
 
+	// hack to stop the disabling of the Sahna ACL via the streaming module
+	if (strpos($_GET['act'], "acl_enable") > -1) {
+		die();
+	}
+
     shn_front_controller();
 
 } else { // Launch the web setup
