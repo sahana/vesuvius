@@ -1,6 +1,0 @@
-[Autorun]
-Open=sahana.exe
-;ShellExecute=PortableApps\start-usb.bat
-Action=Start Sahana
-Icon=PortableApps\sahana.ico
-Label=Sahana

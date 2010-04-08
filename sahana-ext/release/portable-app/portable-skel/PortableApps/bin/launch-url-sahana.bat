@@ -1,1 +1,0 @@
-start http://localhost/sahana/www

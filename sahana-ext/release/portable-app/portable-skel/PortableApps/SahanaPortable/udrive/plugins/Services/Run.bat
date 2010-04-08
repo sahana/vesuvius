@@ -1,1 +1,0 @@
-..\..\usr\bin\perl w2c1.pl

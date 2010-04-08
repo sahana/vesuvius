@@ -1,7 +1,0 @@
-Social Networking Module and Disease Survillence Module Setup Guide.
-
-The Social Networking module depends on the new action based security system in the exp_acl_1 branch, hence 
-will NOT work with the current security system.
-
-Framework patches required for the dsm and sn modules to function correctly are included in framework_patches.patch file.
-

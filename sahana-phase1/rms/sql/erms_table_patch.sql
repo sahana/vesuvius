@@ -1,1 +1,0 @@
-ALTER TABLE requestheader ADD SiteContact varchar(50);

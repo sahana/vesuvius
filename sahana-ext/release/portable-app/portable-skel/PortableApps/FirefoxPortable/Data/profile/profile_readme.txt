@@ -1,1 +1,0 @@
-Firefox profile goes here
