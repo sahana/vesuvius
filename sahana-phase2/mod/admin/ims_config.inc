@@ -20,13 +20,11 @@ function _shn_ims_config_form($errors=false,$updated=false)
     shn_form_checkbox(_t("Activate"), 'frm_active',null,$extra_opt);
     shn_form_fsclose();
 
+    echo "<br /><br /><br />";
     shn_form_fsopen(_t("Grouping"));
-    shn_form_text(_t("Level1"),"mod_admin_ims_level1",null,
-                            array('value'=>$conf['mod_admin_ims_level1'],'req'=>true));
-    shn_form_text(_t("Level2"),"mod_admin_ims_level2",null,
-                            array('value'=>$conf['mod_admin_ims_level2'],'req'=>true));
-    shn_form_text(_t("Level3"),"mod_admin_ims_level3",null,
-                            array('value'=>$conf['mod_admin_ims_level3'],'req'=>true));
+    shn_form_text(_t("Level1"), "mod_admin_ims_level1", 'class="smoothinput"', array('value'=>$conf['mod_admin_ims_level1'],'req'=>true));
+    shn_form_text(_t("Level2"), "mod_admin_ims_level2", 'class="smoothinput"', array('value'=>$conf['mod_admin_ims_level2'],'req'=>true));
+    shn_form_text(_t("Level3"), "mod_admin_ims_level3", 'class="smoothinput"', array('value'=>$conf['mod_admin_ims_level3'],'req'=>true));
     shn_form_fsclose();
  
     shn_form_submit(_t('Update'));

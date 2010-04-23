@@ -1,9 +1,8 @@
 <?php
-
 /**
- * Main Controller of the Missing Person Registry 
+ * MPR Web Services
  *
- * PHP version 4 and 5
+ * PHP version >=5
  *
  * LICENSE: This source file is subject to LGPL license
  * that is available through the world-wide-web at the following URI:
@@ -21,7 +20,7 @@
 
 /**
  * This returns a list of uuid's of current missing people.
- * @param 
+ * @param
  * @access public
  * @return array
  */
@@ -50,7 +49,7 @@ function shn_mpr_list_missing_person_uuids() {
 
 /**
  * This returns a list of uuid's of current people who are not missing.
- * @param 
+ * @param
  * @access public
  * @return array
  */
@@ -78,7 +77,7 @@ function shn_mpr_list_found_person_uuids() {
 
 /**
  * This returns an array of (uuid, peron status, triage status) of all persons
- * @param 
+ * @param
  * @access public
  * @return array
  */
@@ -96,14 +95,327 @@ function shn_mpr_list_all() {
 		$list[] = array('p_uuid'=>$result->fields["p_uuid"], 'opt_status'=>$result->fields["opt_status"], 'triageCategory'=>$result->fields["triageCategory"]);
 		$result->MoveNext();
 	}
-	return $list;      
+	return $list;
+}
+
+
+
+/**
+ * This returns an array of (uuid, peron status, triage status) of all persons matching a search term across full name
+ * @param
+ * @access public
+ * @return array
+ */
+function shn_mpr_get_uuids_matching_search($uuid) {
+	global $global;
+	$db = $global['db'];
+	$list = array();
+	$q = "SELECT a.p_uuid, b.opt_status, c.triageCategory
+		FROM person_uuid a
+		LEFT OUTER JOIN person_status b USING (p_uuid)
+		LEFT OUTER JOIN mpres_patient c USING (p_uuid)
+		WHERE a.full_name LIKE '%".$uuid."%';";
+
+	$result = $db->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$list[] = array('p_uuid'=>$result->fields["p_uuid"], 'opt_status'=>$result->fields["opt_status"], 'triageCategory'=>$result->fields["triageCategory"]);
+		$result->MoveNext();
+	}
+	return $list;
+}
+
+
+
+/**
+ * This returns an array of (uuid, peron status) of all persons matching a search term across full name
+ * @param uuid ~ a misnomber, as there is a bug in sahana when renaming this field to something else, it actually contains the search term
+ * @access public
+ * @return array
+ */
+function shn_mpr_get_uuids_matching_search2($term) {
+	global $global;
+	$db = $global['db'];
+	$termCount = 0;
+	$qqq = "";
+
+	$expload = explode("GGGdelimiterKKK", $term);
+	$term     = $expload[0];
+	$missing  = $expload[1];
+	$alive    = $expload[2];
+	$injured  = $expload[3];
+	$deceased = $expload[4];
+	$unknown  = $expload[5];
+
+	if ($missing  == "true") { $missing  = true; }else{ $missing  = false; }
+	if ($alive    == "true") { $alive    = true; }else{ $alive    = false; }
+	if ($injured  == "true") { $injured  = true; }else{ $injured  = false; }
+	if ($deceased == "true") { $deceased = true; }else{ $deceased = false; }
+	if ($unknown  == "true") { $unknown  = true; }else{ $unknown  = false; }
+
+	$term = str_replace(";", " ", $term);
+	$term = str_replace(",", " ", $term);
+	$term = str_replace(".", " ", $term);
+	$term = str_replace("<", " ", $term);
+	$term = str_replace(">", " ", $term);
+	$term = str_replace("?", " ", $term);
+	$term = str_replace(":", " ", $term);
+	$term = str_replace("'", " ", $term);
+	$term = str_replace("\"", " ", $term);
+	$term = str_replace("`", " ", $term);
+	$term = str_replace("~", " ", $term);
+	$term = str_replace("!", " ", $term);
+	$term = str_replace("@", " ", $term);
+	$term = str_replace("#", " ", $term);
+	$term = str_replace("$", " ", $term);
+	$term = str_replace("%", " ", $term);
+	$term = str_replace(":", " ", $term);
+
+	$terms = explode(" ", $term);
+
+	for ($i = 0; $i < count($terms); $i++) {
+		$term = $terms[$i];
+		if (strlen($term) >= 2) {
+			if ($termCount == 0) {
+				$qqq .= "(a.full_name like '".$term."%' or a.full_name like '% ".$term."%' or a.full_name like '%,".$term."' or a.full_name like '%.".$term."')";
+				$termCount++;
+			} else  {
+				$qqq .= " OR (a.full_name like '".$term."%' or a.full_name like '% ".$term."%' or a.full_name like '%,".$term."' or a.full_name like '%.".$term."')";
+				$termCount++;
+			}
+		}
+	}
+
+	$oneTwo = false;
+	$mmm = "AND (";
+	if ($missing) { $mmm .= "b.opt_status = 'mis'"; $oneTwo = true;}
+	if ($alive) { 
+		if ($oneTwo) { $mmm .= " OR "; }else{ $oneTwo = true; }
+		$mmm .= "b.opt_status = 'ali'"; 
+	}
+	if ($injured) { 
+		if ($oneTwo) { $mmm .= " OR "; }else{ $oneTwo = true; }
+		$mmm .= "b.opt_status = 'inj'"; 
+	}
+	if ($deceased) { 
+		if ($oneTwo) { $mmm .= " OR "; }else{ $oneTwo = true; }
+		$mmm .= "b.opt_status = 'dec'"; 
+	}
+	if ($unknown) { 
+		if ($oneTwo) { $mmm .= " OR "; }else{ $oneTwo = true; }
+		$mmm .= "b.opt_status = 'unk' OR b.opt_status is null"; 
+	}
+
+	$mmm .= ")";
+	$q = "SELECT a.p_uuid, a.full_name, b.opt_status FROM person_uuid a LEFT OUTER JOIN person_status b USING (p_uuid) WHERE ".$qqq." ".$mmm." ORDER BY opt_status DESC;";
+
+	$result = $db->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$o = str_replace("\"", "", $result->fields["opt_status"]);
+		$list[] = array('p_uuid'=>$result->fields["p_uuid"], 'full_name'=>$result->fields["full_name"], 'opt_status'=>$o);
+		$result->MoveNext();
+	}
+
+	return $list;
+}
+
+
+
+
+/**
+ * This returns an array of (uuid, peron status) of all persons matching a search term across full name
+ * @param uuid ~ a misnomber, as there is a bug in sahana when renaming this field to something else, it actually contains the search term
+ * @access public
+ * @return array
+ */
+function shn_mpr_get_uuids_matching_search3($term) {
+	global $global;
+	$db = $global['db'];
+	$termCount = 0;
+	$qqq = "";
+
+	$expload = explode("GGGdelimiterKKK", $term);
+	$term     = $expload[0];
+	$missing  = $expload[1];
+	$alive    = $expload[2];
+	$injured  = $expload[3];
+	$deceased = $expload[4];
+	$unknown  = $expload[5];
+
+	if ($missing  == "true") { $missing  = true; }else{ $missing  = false; }
+	if ($alive    == "true") { $alive    = true; }else{ $alive    = false; }
+	if ($injured  == "true") { $injured  = true; }else{ $injured  = false; }
+	if ($deceased == "true") { $deceased = true; }else{ $deceased = false; }
+	if ($unknown  == "true") { $unknown  = true; }else{ $unknown  = false; }
+
+	$term = str_replace(";", " ", $term);
+	$term = str_replace(",", " ", $term);
+	$term = str_replace(".", " ", $term);
+	$term = str_replace("<", " ", $term);
+	$term = str_replace(">", " ", $term);
+	$term = str_replace("?", " ", $term);
+	$term = str_replace(":", " ", $term);
+	$term = str_replace("'", " ", $term);
+	$term = str_replace("\"", " ", $term);
+	$term = str_replace("`", " ", $term);
+	$term = str_replace("~", " ", $term);
+	$term = str_replace("!", " ", $term);
+	$term = str_replace("@", " ", $term);
+	$term = str_replace("#", " ", $term);
+	$term = str_replace("$", " ", $term);
+	$term = str_replace("%", " ", $term);
+	$term = str_replace(":", " ", $term);
+
+	$terms = explode(" ", $term);
+
+	for ($i = 0; $i < count($terms); $i++) {
+		$term = $terms[$i];
+		if (strlen($term) >= 2) {
+			if ($termCount == 0) {
+				$qqq .= "(a.full_name like '".$term."%' or a.full_name like '% ".$term."%' or a.full_name like '%,".$term."' or a.full_name like '%.".$term."')";
+				$termCount++;
+			} else  {
+				$qqq .= " OR (a.full_name like '".$term."%' or a.full_name like '% ".$term."%' or a.full_name like '%,".$term."' or a.full_name like '%.".$term."')";
+				$termCount++;
+			}
+		}
+	}
+
+	$oneTwo = false;
+	$mmm = "AND (";
+	if ($missing) { $mmm .= "b.opt_status = 'mis'"; $oneTwo = true;}
+	if ($alive) { 
+		if ($oneTwo) { $mmm .= " OR "; }else{ $oneTwo = true; }
+		$mmm .= "b.opt_status = 'ali'"; 
+	}
+	if ($injured) { 
+		if ($oneTwo) { $mmm .= " OR "; }else{ $oneTwo = true; }
+		$mmm .= "b.opt_status = 'inj'"; 
+	}
+	if ($deceased) { 
+		if ($oneTwo) { $mmm .= " OR "; }else{ $oneTwo = true; }
+		$mmm .= "b.opt_status = 'dec'"; 
+	}
+	if ($unknown) { 
+		if ($oneTwo) { $mmm .= " OR "; }else{ $oneTwo = true; }
+		$mmm .= "b.opt_status = 'unk' OR b.opt_status is null"; 
+	}
+
+	$mmm .= ")";
+	$q = "SELECT a.p_uuid, a.full_name, b.opt_status FROM person_uuid a LEFT OUTER JOIN person_status b USING (p_uuid) WHERE ".$qqq." ".$mmm." AND b.isVictim = '1' ORDER BY opt_status DESC;";
+
+	$result = $db->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$o = str_replace("\"", "", $result->fields["opt_status"]);
+		$list[] = array('p_uuid'=>$result->fields["p_uuid"], 'full_name'=>$result->fields["full_name"], 'opt_status'=>$o);
+		$result->MoveNext();
+	}
+
+	return $list;
+}
+
+function shn_mpr_get_uuids_matching_search4($term) {
+	global $global;
+	$db = $global['db'];
+	$termCount = 0;
+	$qqq = "";
+
+	$expload = explode("GGGdelimiterKKK", $term);
+	$term     = $expload[0];
+	$missing  = $expload[1];
+	$alive    = $expload[2];
+	$injured  = $expload[3];
+	$deceased = $expload[4];
+	$unknown  = $expload[5];
+
+	if ($missing  == "true") { $missing  = true; }else{ $missing  = false; }
+	if ($alive    == "true") { $alive    = true; }else{ $alive    = false; }
+	if ($injured  == "true") { $injured  = true; }else{ $injured  = false; }
+	if ($deceased == "true") { $deceased = true; }else{ $deceased = false; }
+	if ($unknown  == "true") { $unknown  = true; }else{ $unknown  = false; }
+
+	$term = str_replace(";", " ", $term);
+	$term = str_replace(",", " ", $term);
+	$term = str_replace(".", " ", $term);
+	$term = str_replace("<", " ", $term);
+	$term = str_replace(">", " ", $term);
+	$term = str_replace("?", " ", $term);
+	$term = str_replace(":", " ", $term);
+	$term = str_replace("'", " ", $term);
+	$term = str_replace("\"", " ", $term);
+	$term = str_replace("`", " ", $term);
+	$term = str_replace("~", " ", $term);
+	$term = str_replace("!", " ", $term);
+	$term = str_replace("@", " ", $term);
+	$term = str_replace("#", " ", $term);
+	$term = str_replace("$", " ", $term);
+	$term = str_replace("%", " ", $term);
+	$term = str_replace(":", " ", $term);
+
+	$terms = explode(" ", $term);
+
+	for ($i = 0; $i < count($terms); $i++) {
+		$term = $terms[$i];
+		if (strlen($term) >= 2) {
+			if ($termCount == 0) {
+				$qqq .= "(a.full_name like '".$term."%' or a.full_name like '% ".$term."%' or a.full_name like '%,".$term."' or a.full_name like '%.".$term."')";
+				$termCount++;
+			} else  {
+				$qqq .= " OR (a.full_name like '".$term."%' or a.full_name like '% ".$term."%' or a.full_name like '%,".$term."' or a.full_name like '%.".$term."')";
+				$termCount++;
+			}
+		}
+	}
+
+	$oneTwo = false;
+	$mmm = "AND ( 1 = 1 ";
+	if ($missing) { 
+		$mmm .= " OR b.opt_status = 'mis'";
+	}
+	if ($alive) { 
+		$mmm .= " OR b.opt_status = 'ali'"; 
+	}
+	if ($injured) { 
+		$mmm .= " OR b.opt_status = 'inj'"; 
+	}
+	if ($deceased) { 
+		$mmm .= " OR b.opt_status = 'dec'"; 
+	}
+	if ($unknown) { 
+		$mmm .= " OR b.opt_status = 'unk' OR b.opt_status is null"; 
+	}
+
+	$mmm .= ")";
+	$q = "
+	      SELECT a.p_uuid, a.full_name, 
+	             b.opt_status, DATE_FORMAT(b.updated, '%M %e %Y') as updated, 
+	             c.opt_gender, c.years_old, c.opt_age_group, 
+	             i.image_height, i.image_width, i.url,
+				 e.comments, e.last_seen
+	      	FROM person_uuid a 
+	        JOIN person_status b USING (p_uuid)
+	        JOIN image i ON a.p_uuid = i.x_uuid
+	        JOIN person_details c USING (p_uuid)
+			JOIN person_missing e USING (p_uuid)
+	       WHERE "
+	      . $qqq . " " . $mmm ." AND b.isVictim = '1' ORDER BY i.url DESC, b.opt_status DESC;";
+
+	$result = $db->Execute($q);
+	
+	while (!$result == NULL && !$result->EOF) {
+		$o = str_replace("\"", "", $result->fields["opt_status"]);
+		$list[] = array('p_uuid'=>$result->fields["p_uuid"], 'full_name'=>$result->fields["full_name"], 'opt_status'=>$o,
+				'imageUrl'=>$result->fields["url"], 'imageWidth'=>$result->fields["image_width"], 'imageHeight'=>$result->fields["image_height"], 'years_old'=>$result->fields["years_old"], 'age'=>$result->fields["opt_age_group"], 'id'=>$result->fields["personId"], 'statusSahanaUpdated'=>$result->fields["updated"], 'statusTriage'=>$result->fields["triageCategory"], 'peds'=>$result->fields["peds"], 'orgName'=>$result->fields["orgName"], 'last_seen'=>$result->fields["last_seen"], 'comments'=>strip_tags($result->fields["comments"]));
+		$result->MoveNext();
+	}
+	//return array($q);
+	return $list;
 }
 
 
 
 /**
  * This returns an array of information about a person.
- * @param 
+ * @param
  * @access public
  * @return array
  */
@@ -112,21 +424,97 @@ function shn_mpr_get_person_data($uuid) {
 	$db = $global['db'];
 	$list = array();
 	$q = "
-		SELECT a.p_uuid, a.full_name, b.opt_gender, b.birth_date, b.opt_age_group, c.opt_status, c.updated, d.triageCategory, d.personId, d.peds, d.orgName, i.image_height, i.image_width
+		SELECT a.p_uuid, a.full_name, b.opt_gender, b.birth_date, b.opt_age_group, c.opt_status, c.updated, d.triageCategory, d.personId, d.peds, d.orgName, i.image_height, i.image_width, i.url, e.last_seen, e.comments
 		FROM person_uuid a
 		LEFT OUTER JOIN person_details b USING (p_uuid)
 		LEFT OUTER JOIN person_status c USING (p_uuid)
 		LEFT OUTER JOIN mpres_patient d USING (p_uuid)
 		LEFT OUTER JOIN image i ON a.p_uuid = i.x_uuid
+		LEFT OUTER JOIN person_missing e USING (p_uuid)
 		WHERE a.p_uuid = '".$uuid."';";
-		
+
 	$result = $db->Execute($q);
 	while (!$result == NULL && !$result->EOF) {
-		$list[] = array('uuid'=>$result->fields["p_uuid"], 'name'=>$result->fields["full_name"], 'gender'=>$result->fields["opt_gender"], 'birthdate'=>$result->fields["birth_date"], 'age'=>$result->fields["opt_age_group"], 'statusSahana'=>$result->fields["opt_status"], 'statusSahanaUpdated'=>$result->fields["updated"], 'statusTriage'=>$result->fields["triageCategory"], 'id'=>$result->fields["personId"], 'peds'=>$result->fields["peds"], 'orgName'=>$result->fields["orgName"], 'imageWidth'=>$result->fields["image_width"], 'imageHeight'=>$result->fields["image_height"]);
+		$list[] = array('uuid'=>$result->fields["p_uuid"], 'name'=>$result->fields["full_name"], 'gender'=>$result->fields["opt_gender"], 'birthdate'=>$result->fields["birth_date"], 'age'=>$result->fields["opt_age_group"], 'statusSahana'=>$result->fields["opt_status"], 'statusSahanaUpdated'=>$result->fields["updated"], 'statusTriage'=>$result->fields["triageCategory"], 'id'=>$result->fields["personId"], 'peds'=>$result->fields["peds"], 'orgName'=>$result->fields["orgName"], 'imageWidth'=>$result->fields["image_width"], 'imageHeight'=>$result->fields["image_height"], 'imageUrl'=>$result->fields["url"], 'last_seen'=>$result->fields["last_seen"], 'comments'=>$result->fields["comments"]);
 		$result->MoveNext();
 	}
 	return $list;
 }
+
+
+
+/**
+ * This returns an array of information about a person.
+ * @param
+ * @access public
+ * @return array
+ */
+function shn_mpr_get_person_data2($uuid) {
+	global $global;
+	$db = $global['db'];
+	$list = array();
+	$q = "
+		SELECT a.p_uuid, a.full_name, b.opt_gender, b.years_old, b.opt_age_group, c.opt_status, c.updated, i.image_height, i.image_width, i.url, e.last_seen, e.comments
+		FROM person_uuid a
+		LEFT OUTER JOIN person_details b USING (p_uuid)
+		LEFT OUTER JOIN person_status c USING (p_uuid)
+		LEFT OUTER JOIN image i ON a.p_uuid = i.x_uuid
+		LEFT OUTER JOIN person_missing e USING (p_uuid)
+		WHERE a.p_uuid = '".$uuid."';";
+
+	$result = $db->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$list[] = array('uuid'=>$result->fields["p_uuid"], 'name'=>$result->fields["full_name"], 'gender'=>$result->fields["opt_gender"], 'years_old'=>$result->fields["years_old"], 'age'=>$result->fields["opt_age_group"], 'statusSahana'=>$result->fields["opt_status"], 'statusSahanaUpdated'=>$result->fields["updated"], 'statusTriage'=>$result->fields["triageCategory"], 'id'=>$result->fields["personId"], 'peds'=>$result->fields["peds"], 'orgName'=>$result->fields["orgName"], 'imageWidth'=>$result->fields["image_width"], 'imageHeight'=>$result->fields["image_height"], 'imageUrl'=>$result->fields["url"], 'last_seen'=>$result->fields["last_seen"], 'comments'=>strip_tags($result->fields["comments"]));
+		$result->MoveNext();
+	}
+	return $list;
+}
+
+
+
+/**
+ * This returns a list of uuid's of current missing people.
+ * @param
+ * @access public
+ * @return array
+ */
+function shn_mpr_total_records2() {
+	global $global;
+	$db = $global['db'];
+	$list = array();
+	$q = "SELECT COUNT(*) as count FROM person_uuid LEFT OUTER JOIN person_status b USING (p_uuid) WHERE b.isVictim = '1';";
+
+	$result = $db->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$list[] = array('count'=>$result->fields["count"]);
+		$result->MoveNext();
+	}
+	return $list;
+}
+
+
+
+
+/**
+ * This returns a list of uuid's of current missing people.
+ * @param
+ * @access public
+ * @return array
+ */
+function shn_mpr_total_records() {
+	global $global;
+	$db = $global['db'];
+	$list = array();
+	$q = "SELECT COUNT(*) as count FROM person_uuid;";
+
+	$result = $db->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$list[] = array('count'=>$result->fields["count"]);
+		$result->MoveNext();
+	}
+	return $list;
+}
+
 
 
 
@@ -185,8 +573,8 @@ function shn_mpr_api_addmp($arrmpr) {
 	// This hack should be integrated with the lib_location
 	//Starts
 	$i = $conf['mod_mpr_location_lower_limit'];
-	while((! isset($arrmpr[$i])) && 
-		$i > $conf['mod_mpr_location_upper_limit'] ) 
+	while((! isset($arrmpr[$i])) &&
+		$i > $conf['mod_mpr_location_upper_limit'] )
 	$i--;
 	//Ends
 
@@ -203,7 +591,7 @@ function shn_mpr_api_addmp($arrmpr) {
 	if(isset($arrmpr['phone'])){
 		$insert_array['contact_value'] = $arrmpr['phone'];
 		$insert_array['opt_contact_type'] = 'curr';
-		
+
 	}
 	shn_db_insert($insert_array,'contact', true, 'pgoc_uuid');
 	$insert_array = null;
@@ -216,7 +604,7 @@ function shn_mpr_api_addmp($arrmpr) {
 	}
 	shn_db_insert($insert_array,'contact',true,'pgoc_uuid');
 	$insert_array = null;
-	
+
 	//Physical Details : person_physical
 	$insert_array['p_uuid'] = $arrmpr['p_uuid'];
 	if(isset($arrmpr['opt_eye_color']))
@@ -248,11 +636,11 @@ function shn_mpr_api_addmp($arrmpr) {
 		$insert_array['comments'] = $arrmpr['comments'];
 
 	shn_db_insert($insert_array,'person_missing',true,'p_uuid');
-	//reset $insert_array 
+	//reset $insert_array
 	$insert_array = null;
 
 	$insert_array['p_uuid'] = $arrmpr['p_uuid'];
-	//person_details        
+	//person_details
 	if(isset($arrmpr['dob']))
 		$insert_array['birth_date'] = $arrmpr['dob'];
 	if(isset($arrmpr['opt_age_group']))
@@ -266,7 +654,7 @@ function shn_mpr_api_addmp($arrmpr) {
 	if(isset($arrmpr['opt_race']))
 		$insert_array['opt_race'] = $arrmpr['opt_race'];
 	shn_db_insert($insert_array,'person_details',true,'p_uuid');
-	//reset $insert_array 
+	//reset $insert_array
 	$insert_array = null;
 
 	$insert_array['p_uuid'] = $arrmpr['p_uuid'];
@@ -274,17 +662,17 @@ function shn_mpr_api_addmp($arrmpr) {
 	$insert_array['opt_status'] = $arrmpr['opt_status'];
 	$insert_array['isvictim'] = 'TRUE';
 	shn_db_insert($insert_array,'person_status',true,'p_uuid');
-	//reset $insert_array 
+	//reset $insert_array
 	$insert_array = null;
 
-	//insert into mutiple incidents 
+	//insert into mutiple incidents
 	$insert_array['x_uuid'] = $arrmpr['p_uuid'];
 	$insert_array['incident_id'] = $_SESSION['user_pref_ims_incident_id'];
 	shn_db_insert($insert_array,'resource_to_incident',true,'x_uuid');
-	//reset $insert_array 
+	//reset $insert_array
 	$insert_array = null;
 
-	/** 
+	/**
 	* todo: Later for now using the person_to_report to group
 	//Insert into pgroup
 	/*
@@ -293,11 +681,11 @@ function shn_mpr_api_addmp($arrmpr) {
 	$insert_array['p_uuid'] = $arrmpr['p_uuid'];
 	$insert_array['opt_group_type'] = 'mpr_trk';
 	shn_db_insert($insert_array,'pgroup');
-	//reset $insert_array 
+	//reset $insert_array
 	$insert_array = null;
 	//
 
-	//reset $insert_array 
+	//reset $insert_array
 
 	if($arrmpr['tracker_id']){
 		shn_add_person_to_report ($arrmpr['p_uuid'],

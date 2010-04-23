@@ -9,10 +9,13 @@
  * http://www.gnu.org/copyleft/lesser.html
  *
  * @author	Janaka Wickramasinghe <janaka@opensource.lk>
+ * 
  * @copyright	Lanka Software Foundation - http://www.opensource.lk
  * @package	module
  * @subpackage	mpr
  * @license	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ *
+ * Revised 1/23/2010 c.cornwell, NLM-CEB, Merged additional include of lib_uuid.inc in _addmp_commit from haitirelief branch.
  */
 
 include_once($global['approot']."/inc/lib_uuid.inc");
@@ -678,6 +681,7 @@ function shn_mpr_addmp_commit() {
 	global $global;
 	global $conf;
 
+    include_once($global['approot'].'inc/lib_uuid.inc');
 
 	//Basic Details : person_uuid
 	//@todo: soundex insert
@@ -883,9 +887,11 @@ function shn_mpr_addmp_commit() {
 		shn_mpr_addmp_insert_reporter($_SESSION['mpr_add']['entry']['p_uuid']);
 	}
 
-	//Insert Image if image save handler is set to database
+	//Insert Image if image save handler is set to database (chc 1/26/10 : add 'url' param)
 	if($conf['mod_mpr_upload_pic_handler']== 'database'){
-		shn_image_to_db_ex($_SESSION['mpr_add']['entry']['p_uuid'], $_SESSION['mpr']['entry']['image'], $_SESSION['mpr']['entry']['image_type'], $_SESSION['mpr']['entry']['image_height'], $_SESSION['mpr']['entry']['image_width'],'','person');
+		// shn_image_to_db_ex($_SESSION['mpr_add']['entry']['p_uuid'], $_SESSION['mpr']['entry']['image'], $_SESSION['mpr']['entry']['image_type'], $_SESSION['mpr']['entry']['image_height'], $_SESSION['mpr']['entry']['image_width'],'','person');
+
+		shn_image_to_db_url($_SESSION['mpr_add']['entry']['p_uuid'], $_SESSION['mpr']['entry']['image'], $_SESSION['mpr']['entry']['image_type'], $_SESSION['mpr']['entry']['image_height'], $_SESSION['mpr']['entry']['image_width'],$_SESSION['mpr']['entry']['url'],'','person');
 	} 
 	
 	//go back to the main menu
