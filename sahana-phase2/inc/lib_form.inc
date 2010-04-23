@@ -1,6 +1,6 @@
 <?php
 
-/* $Id: lib_form.inc,v 1.94 2009-10-23 16:51:20 gmiernicki Exp $ */
+/* $Id: lib_form.inc,v 1.94 2009/10/23 16:51:20 gmiernicki Exp $ */
 /**
  *
  * Sahana HTML form library
@@ -21,7 +21,10 @@
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
- */
+ * @see http://www.php.net/manual/en/features.file-upload.php#74692 regarding alternate solution for large file upload
+ *
+ * @edited Carl Cornwell <ccornwell@mail.nih.gov> Fix typo - change res to $resin shn_form_opt_select
+*/
 
 $shn_help_id;
 $shn_form_id; //this variable is used by the tab functions
@@ -417,7 +420,7 @@ function shn_form_opt_select($opt_field, $label, $select_opts = "", $extra_opts 
 	if (isset($extra_opts['select']) || $extra_opts['select'] == true) {
 		echo "<option value='select'>- Select -</option>";
 	}
-	while(!res==NULL && !$res->EOF) {
+	while(!$res==NULL && !$res->EOF) {
 		$sel = ($res->fields[1] == $value) ? 'selected="selected"' : null;
 		?><option value="<?php echo $res->fields[1]?>" <?php echo $sel?>><?php echo _lc($res->fields[2])?></option> <?php
 		$res->MoveNext();
@@ -585,7 +588,12 @@ function shn_form_upload($label, $name, $extra_opts = null) {
 	if ($extra_opts['private'] == true) {
 		$class = 'class="private"';
 	}
-	echo "<label>".$label."</label><input type=\"file\" name=\"".$name."\" tabindex=\"".++$shn_tabindex."\" ".$class." />";
+    // Added 1/23/10 (c.cornwell) to allow upload of Google daily PFIF snapshot
+    $max_size = " ";
+    if (isset($extra_opts['max_file_size'])) {
+        $max_size = " max_file_size = \"".$extra_opts['max_file_size']."\" ";
+    }
+	echo "<label>".$label."</label><input type=\"file\" name=\"".$name."\" tabindex=\"".++$shn_tabindex."\" ".$class.$max_size." />";
 	shn_form_extra_opts($extra_opts);
 }
 

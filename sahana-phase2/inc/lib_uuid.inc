@@ -1,5 +1,5 @@
 <?php 
-/* $Id: lib_uuid.inc,v 1.37 2010-03-03 18:43:04 gmiernicki Exp $ */
+/* $Id: lib_uuid.inc,v 1.36 2009/08/22 17:17:25 ravithb Exp $ */
 
 /**
  *
@@ -226,8 +226,6 @@ function _shn_gen_id($type='person') {
 			$global['db']->Execute("set storage_engine ='{$engine}'");
 		}
 	}
-	global $global;
-	global $conf;
 	$tables=$global['db']->MetaTables("TABLE",false,false);
 	$type.="_seq";
 	if(array_search($type,$tables)==false){
@@ -236,4 +234,3 @@ function _shn_gen_id($type='person') {
 	 
 	return $global['db']->GenID($type);
 }
-

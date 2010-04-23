@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_xml.inc,v 1.2 2009-08-22 17:17:25 ravithb Exp $ */
+/* $Id: lib_xml.inc,v 1.2 2009/08/22 17:17:25 ravithb Exp $ */
 
 /**
  *
@@ -21,14 +21,14 @@
  
 
 function findAttribute($object, $attribute) {
-  foreach($object->attributes() as $a => $b) {
-    if ($a == $attribute) {
-      $return = $b;
-    }
-  }
-  if($return) {
-    return (string)$return;
-  }
+	foreach($object->attributes() as $a => $b) {
+		if ($a == $attribute) {
+			$return = $b;
+		}
+	}
+	if($return) {
+		return (string)$return;
+	}
 }
 
  

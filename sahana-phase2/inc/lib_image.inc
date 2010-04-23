@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_image.inc,v 1.21 2009-10-23 16:55:20 gmiernicki Exp $ */
+/* $Id: lib_image.inc,v 1.21 2009/10/23 16:55:20 gmiernicki Exp $ */
 
 /**
  *
@@ -19,10 +19,12 @@
  * @subpackage image
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
  * @author     Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
- * @author     Greg Miernicki
+ * @author     Greg Miernicki <g@miernicki.com>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
+ * @edited 1/27/2010 c.cornwell/NLM-CEB, fix copy/paste and string matching errors  in split arg in shn_check_valid_image_type.
+ * @edited 1/26/2010 c.cornwell/NLM-CEB, Refactored shn_image_to_db_ex into shn_image_to_db_url to support optional inclusion of URL column without affect existing callers of .shn_image_to_db_ex.
  */
 
 
@@ -38,7 +40,7 @@
  * @access public
  * @return void
  */
-function shn_image_resize($src_path,$desc_path,$width,$height) {
+function shn_image_resize($src_path, $desc_path, $width, $height) {
 	$info = getimagesize($src_path);
 	if(! $info)
 	return false;
@@ -57,7 +59,9 @@ function shn_image_resize($src_path,$desc_path,$width,$height) {
 	$func = NULL;
 	$func2 = "imagejpeg";
 
-	list(,$mime) = split("\/",$info['mime']);
+	list(,$mime) = explode("/",$info['mime']);
+
+	$mime = strtolower($mime);
 
 	if(stripos($mime,"bmp")!==FALSE){
 		// bitmap
@@ -92,6 +96,80 @@ function shn_image_resize($src_path,$desc_path,$width,$height) {
 	imagecopyresampled($imageNew, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
 
 	$func2($imageNew,$desc_path,100);
+}
+
+
+
+/**
+ *
+ * This function can resize a given image (only width a height constraint) and save it to the given location.
+ *
+ * @param mixed $src_path
+ * @param mixed $desc_path
+ * @param mixed $height
+ * @access public
+ * @return void
+ */
+function shn_image_resize_height($src_path, $desc_path, $height) {
+	$info = getimagesize($src_path);
+	if(! $info)
+	return false;
+
+	$width_orig = $info[0];
+	$height_orig = $info[1];
+
+	$width = ($height / $height_orig) * $width_orig;
+
+	$imageNew = imagecreatetruecolor($width, $height);
+
+	$func = NULL;
+	$func2 = "imagejpeg";
+
+	list(,$mime) = explode("/",$info['mime']);
+
+	$mime = strtolower($mime);
+
+	if(stripos($mime,"bmp")!==FALSE){
+		// bitmap
+		$func =  "imagecreatefromwbmp";
+		$func2 = "imagewbmp";
+		$quality = null;
+
+	}else if(stripos($mime,"png")!==FALSE){
+		// png
+		$func = "imagecreatefrompng";
+		$func2 = "imagepng";
+		$quality = 0;
+
+	}else if(stripos($mime,"jpeg")!==FALSE){
+		// jpeg and pjpeg
+		$func = "imagecreatefromjpeg";
+		$func2 = "imagejpeg";
+		$quality = 100;
+
+	}else if(stripos($mime,"gif")!==FALSE){
+		// gif
+		$func = "imagecreatefromgif";
+		$func2 = "imagegif";
+		$quality = null;
+	}
+
+	$image = NULL;
+
+	if($func===NULL){
+		$func = "imagecreate";
+		$image = $func($width,$height);
+	}else{
+		$image = $func($src_path);
+	}
+
+	imagecopyresampled($imageNew, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+
+	if ($quality != null) {
+		$func2($imageNew, $desc_path, $quality);
+	} else {
+		$func2($imageNew, $desc_path);
+	}
 }
 
 
@@ -215,20 +293,55 @@ function shn_image_resize_from_string($img, $width, $height) {
 	$image = imagecreatefromstring($img['image']);
 
 	imagecopyresampled($imageNew, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-	$func2 = 'image'.$mime;
+	$func = NULL;
+	$func2 = "imagejpeg";
+
+	list(,$mime) = split("\/",$info['mime']);
+
+	$mime = strtolower($mime);
+
+	if(stripos($mime,"bmp")!==FALSE){
+		// bitmap
+		$func =  "imagecreatefromwbmp";
+		$func2 = "imagewbmp";
+
+	}else if(stripos($mime,"png")!==FALSE){
+		// png
+		$func = "imagecreatefrompng";
+		$func2 = "imagepng";
+
+	}else if(stripos($mime,"jpeg")!==FALSE){
+		// jpeg and pjpeg
+		$func = "imagecreatefromjpeg";
+		$func2 = "imagejpeg";
+
+	}else if(stripos($mime,"gif")!==FALSE){
+		// gif
+		$func = "imagecreatefromgif";
+		$func2 = "imagegif";
+	}
+
+
+
+
+
+
+
+
+	//$func2 = 'image'.strtolower($mime);
 
 	// additional image overlay routines
 
 	// bottom TEXT ///////////////////////////////////////////////////////////////////////////////////////////
 	if (isset($_GET['overlay_bottom'])) {
-		$font =  $global['approot']."www/res/arial.ttf";
+		$font =  $global['approot']."www/res/ttf/arial.ttf";
 		
 		// setup text overlay colors
 		$white = imagecolorallocatealpha($imageNew, 255, 255, 255, 0);
 		$black = imagecolorallocatealpha($imageNew, 0, 0, 0, 111);
 
 		// largest point size to allow for the bottom font
-		$fontSize = 16;
+		$fontSize = 24;
 		
 		// scale down point by point until we determine the correct size from the bounding box for the bottom text
 		$found = FALSE;
@@ -258,13 +371,13 @@ function shn_image_resize_from_string($img, $width, $height) {
 		$tagColor = imagecolorallocate($imageNew, $r[0], $r[1], $r[2]);
 		$triangleSize = $height / 6;
 		$values1 = array(0, 0, $triangleSize+4, 0, 0, $triangleSize+4);
-		$values2 = array(2, 2, $triangleSize,   2, 2, $triangleSize  );
+		$values2 = array(0, 0, $triangleSize,   0, 0, $triangleSize  );
 		$values3 = array(0, 0, $triangleSize,   0, 0, $triangleSize  );
 		if (0) { //$_GET['triangle'] !== "000000") {
 			imagefilledpolygon($imageNew, $values1, 3, $gray);
 			imagefilledpolygon($imageNew, $values3, 3, $tagColor);
 		} else {
-			imagefilledpolygon($imageNew, $values1, 3, $white);
+			//imagefilledpolygon($imageNew, $values1, 3, $white);
 			imagefilledpolygon($imageNew, $values2, 3, $tagColor);
 		}
 		//imagefilledpolygon($imageNew, $values2, 3, $tagColor);
@@ -274,14 +387,14 @@ function shn_image_resize_from_string($img, $width, $height) {
 	// top TEXT ///////////////////////////////////////////////////////////////////////////////////////////////////
 	if (isset($_GET['overlay_top'])) {
 
-		$font =  $global['approot']."www/res/arial.ttf";
+		$font =  $global['approot']."www/res/ttf/arial.ttf";
 		
 		// setup text overlay colors
 		$white = imagecolorallocatealpha($imageNew, 255, 255, 255, 0);
 		$black = imagecolorallocatealpha($imageNew, 0, 0, 0, 111);
 
 		// largest point size to allow for the top font
-		$fontSize = 16;
+		$fontSize = 24;
 		
 		// scale down point by point until we determine the correct size from the bounding box for the top text
 		$found = FALSE;
@@ -619,20 +732,41 @@ function shn_image_to_db($image_upload,$x_uuid,$replace_id=null) {
  * @param mixed $image_height
  * @param mixed $image_width
  * @param mixed $replace_id
+ * @param mixed $category
  * @access public
  * @return void
  */
 function shn_image_to_db_ex($x_uuid,$image,$image_type, $image_height, $image_width,$replace_id=null,$category=null) {
+    shn_image_to_db_url($x_uuid,$image,
+                        $image_type, $image_height, $image_width,
+                        null, $replace_id,$category);
+}
+
+/**
+ * shn_image_to_db_url
+ *
+ * @param mixed $image
+ * @param mixed $x_uuid
+ * @param mixed $image_type
+ * @param mixed $image_height
+ * @param mixed $image_width
+ * @param string $url
+ * @param mixed $replace_id
+ * @param mixed $category
+ * @access public
+ * @return void
+ */
+function shn_image_to_db_url($x_uuid,$image,$image_type, $image_height, $image_width,$url=null,$replace_id=null,$category=null) {
 	global $global;
 
 	$image = addslashes($image);
 
 	if($replace_id){
-		$sql = "UPDATE image SET image = '$image', image_type = '$image_type', image_height = '$image_height', image_width = '$image_width' 
+		$sql = "UPDATE image SET image = '$image', image_type = '$image_type', image_height = '$image_height', image_width = '$image_width','url' = '$url', 
 			WHERE image_id = '$replace_id'";
 	} else {
-		$sql = "INSERT INTO image (x_uuid, image, image_type, image_height, image_width,category)
-			VALUES ('$x_uuid','$image','$image_type','$image_height','$image_width','$category')";
+		$sql = "INSERT INTO image (x_uuid, image, image_type, image_height, image_width,url,category)
+			VALUES ('$x_uuid','$image','$image_type','$image_height','$image_width','$url','$category')";
 	}
 	$global['db']->Execute($sql);
 	// exit();
@@ -671,17 +805,20 @@ function shn_file_upload_error_msg($error_code) {
  * valid within sahana.
  *
  * @param unknown_type $type The mime type string
+ * @todo split has been deprecated. Replace with preg_split, str_split or explode as appropriate.
  */
 function shn_check_valid_image_type($type) {
 	$mime = $type;
 	if(strpos($type,"/")){
-		list(,$mime) = split("\/",$info['mime']);
+		list(,$mime) = split("\/",$type); // $info['mime']); chc 01/27/10
 	}
 
+//    error_log("check mime:".$type.",".$mime);
 	// check types.
-	if(stripos($mime,"png") || stripos($mime,"gif") || stripos($mime,"jpeg") || stripos($mime,"bmp")) {
-		return true;
+	//if(stripos($mime,"png") || stripos($mime,"gif") || stripos($mime,"jpeg") || stripos($mime,"bmp")) {
+    if(array_search($mime,array('png','gif','jpeg','bmp') === false )){
+        return false; // true;
 	} else {
-		return false;
+		return true; // false;
 	}
 }

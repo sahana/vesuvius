@@ -1,5 +1,5 @@
 <?php
-/* $Id: lib_stream_xml.inc,v 1.9 2009-08-22 17:17:25 ravithb Exp $ */
+/* $Id: lib_stream_xml.inc,v 1.9 2009/08/22 17:17:25 ravithb Exp $ */
 
 /**
  *
@@ -18,7 +18,7 @@
  * 
  */
  
-function shn_stream_init()
+function shn_stream_init($emit_xml_declaration = false)
 {
     $file = 'download.xml';
     if(isset($_GET['filename']))
@@ -29,7 +29,10 @@ function shn_stream_init()
     if(isset($_GET['download']))
         header("Content-Disposition: attachment; filename=$file");
 
-    echo "<?xml version=\"1.0\" ?>\n";
+    if ($emit_xml_declaration) {
+        echo "<?xml version=\"1.0\" ?>\n";
+    }
+    
     shn_stream_display_error();
 }
 
