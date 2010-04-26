@@ -1035,6 +1035,16 @@ CREATE TABLE incident(
     PRIMARY KEY (incident_id)
 );
 
+/*
+ Added by Greg@NIH to allow better description of the disaster/crisis incident
+*/
+ALTER TABLE  `incident` 
+	ADD  `shortname` VARCHAR( 16 ) NULL DEFAULT NULL,
+	ADD  `date`      DATE          NULL DEFAULT NULL,
+	ADD  `type`      VARCHAR( 32 ) NULL DEFAULT NULL,
+	ADD  `latitude`  DOUBLE        NULL DEFAULT NULL,
+	ADD  `longitude` DOUBLE        NULL DEFAULT NULL;
+
 /** 
  * Resources to Incidents
  * Modules : Framework, or
