@@ -1,0 +1,13 @@
+RewriteEngine On
+
+# make mod_rewrite skip the subsequent 2 rules if the file or folder exists already
+RewriteCond %{REQUEST_FILENAME} -d [NC,OR]
+RewriteCond %{REQUEST_FILENAME} -f [NC]
+RewriteRule .* - [S=2]
+
+# Redirects http://pl.nlm.nih.gov/shortname
+RewriteRule ^([^/][a-z]+)/?$ /index.php?shortname=$1 [QSA]
+
+# Redirects http://pl.nlm.nih.gov/*pl/*
+RewriteRule ^([^/][a-z]+)/(.+)$ /$2?shortname=$1 [QSA]
+
