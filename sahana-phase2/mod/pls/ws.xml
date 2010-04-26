@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web_services>
+	<services>
+		<service>
+			<name>Get Incident List</name>
+			<http_type>GET</http_type>
+			<api_function>shn_pls_get_incident_list</api_function>
+			<output type="BasicArray" />
+			<documentation>
+				Returns an array of (incident_id, parent_id, name, shortname, date, type, location) related to all registered disasters/incidents.
+			</documentation>
+		</service>
+		<service>
+			<name>Create UUID</name>
+			<http_type>GET</http_type>
+			<api_function>shn_pls_create_uuid</api_function>
+			<params>
+				<param type="xsd:string" name="incidentId"></param>
+			</params>
+			<output type="BasicArray" />
+			<documentation>
+				Returns a new uuid which is linked to the provided incident.
+			</documentation>
+		</service>
+		<service>
+			<name>Create UUID Batch</name>
+			<http_type>GET</http_type>
+			<api_function>shn_pls_create_uuid_batch</api_function>
+			<params>
+				<param type="xsd:string" name="incidentId"></param>
+				<param type="xsd:string" name="num"></param>
+			</params>
+			<output type="BasicArray" />
+			<documentation>
+				Returns a new uuid which is linked to the provided incident.
+				2nd parameter is the number of uuid's to create.
+			</documentation>
+		</service>		
+		<service>
+			<name>Get Person Data</name>
+			<http_type>GET</http_type>
+			<api_function>shn_pls_get_person_data</api_function>
+			<params>
+				<param type="xsd:string" name="uuid"></param>
+			</params>
+			<output type="BasicArray" />
+			<documentation>
+				Returns an array of information about a person.
+			</documentation>
+		</service>
+		<service>
+			<name>Basic Search</name>
+			<http_type>GET</http_type>
+			<api_function>shn_pls_basic_search</api_function>
+			<params>
+				<param type="xsd:string" name="searchString"></param>
+			</params>
+			<output type="BasicArray" />
+			<documentation>
+				Returns a basic set of information about persons matching a search.
+			</documentation>
+		</service>		
+		<service>
+			<name>test</name>
+			<http_type>GET</http_type>
+			<api_function>shn_pls_test</api_function>
+			<params>
+				<param type="xsd:string" name="x"></param>
+				<param type="xsd:string" name="y"></param>
+			</params>
+			<output type="BasicArray" />
+			<documentation>
+				Returns an array of the parameters.
+			</documentation>
+		</service>
+	</services>
+</web_services>
