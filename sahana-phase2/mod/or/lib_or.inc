@@ -33,7 +33,7 @@ function shn_or_org_search($limit=null,$org_name='',$org_type='all',$sector='all
     if($loc!=-1){
 		$search_str.=",location_details";
 		$loc_arr=array($loc);
-		$loc_arr=shn_location_get_descendants($loc,&$loc_arr);
+		$loc_arr=shn_location_get_descendants($loc,$loc_arr);
 		$loc_str=shn_or_create_database_IN_array($loc_arr);
     }
     $search_str.=" WHERE 1=1 ";
@@ -138,7 +138,7 @@ function _shn_org_location_string($loc)
 	global $global;
 	$db=$global["db"];
 	$loc_arr=array();
-   	shn_get_parents($loc,&$loc_arr);
+   	shn_get_parents($loc,$loc_arr);
    	if($loc_arr[0]=='unknown'){
    		shn_form_label(_t("Organization Location"),"Unknown");
    	}else{
@@ -253,7 +253,7 @@ $res_org=$db->Execute($q);
         return $org_list;
 }
 
-function shn_get_incident_descendants($parent,&$incident_arr)
+function shn_get_incident_descendants($parent,$incident_arr)
 {
 	global $global; 
     $db=$global['db'];
@@ -1088,7 +1088,7 @@ function _shn_or_check_org_reg_info_complete()
     return $error;
 }
 
-function array_copy($src,&$dest,$start,$end)
+function array_copy($src,$dest,$start,$end)
 {
 	for($i=$start;$i<$end;$i++){
 		$dest[$i-$start]=$src[$i];

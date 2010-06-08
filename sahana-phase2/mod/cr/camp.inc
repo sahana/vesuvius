@@ -834,7 +834,7 @@ function _shn_cr_location_string($loc)
     $db = $global["db"];
     $loc_arr = array();
     include $global['approot'] . "/inc/lib_location.inc";
-   	shn_get_parents($loc, &$loc_arr);
+   	shn_get_parents($loc, $loc_arr);
    	if ($loc_arr[0] == 'unknown') {
    	    //shn_form_label(_t("Organization Location"),"Unknown");
    	} else {

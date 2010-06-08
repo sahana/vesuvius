@@ -112,7 +112,7 @@ function shn_location_string($loc) {
 	global $global;
 	$db=$global["db"];
 	$loc_arr=array();
-	shn_get_parents($loc,&$loc_arr);
+	shn_get_parents($loc,$loc_arr);
 	if($loc_arr[0]=='unknown'){
 		shn_form_label(_t("Organization Location"),"Unknown");
 	}else{
@@ -142,7 +142,7 @@ function shn_location_string($loc) {
  * @access public
  * @return void
  */
-function shn_location_get_descendants($loc,&$loc_arr) {
+function shn_location_get_descendants($loc,$loc_arr) {
 	global $global;
 	$db=$global["db"];
 	$q="select loc_uuid from location where parent_id='{$loc}'";
@@ -223,7 +223,7 @@ function shn_location_get_x_uuid_loc_range() {
  * @access public
  * @return array
  */
-function shn_get_parents($child,&$loc_arr) {
+function shn_get_parents($child,$loc_arr) {
 	global $global;
 	include_once $global['approot']."/inc/lib_validate.inc";
 		

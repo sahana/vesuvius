@@ -1872,7 +1872,7 @@ function _shn_ims_location_string($loc)
 	global $global;
 	$db=$global["db"];
 	$loc_arr=array();
-   	shn_get_parents($loc,&$loc_arr);
+   	shn_get_parents($loc,$loc_arr);
    	if($loc_arr[0]=='unknown'){
    		shn_form_label(_t("Organization Location"),"Unknown");
    	}else{
