@@ -42,6 +42,7 @@ function shn_mpr_adminmenu() {
 		shn_adm_menuitem("adm_opt_eye_color", _t("Manage Eye Colors"));
 		shn_adm_menuitem("adm_opt_hair_color", _t("Manage Hair Colors"));
 		shn_adm_menuitem("adm_opt_skin_color", _t("Manage Skin Colors"));
+		shn_adm_menuitem("adm_opt_status", _t("Manage Victim Status"));
 	shn_adm_menuclose();
 }
 
@@ -237,10 +238,16 @@ function shn_mpr_adm_opt_skin_color() {
 	_shn_mpr_adm_field_options_controller('opt_skin_color');
 }
 
-
+function shn_mpr_adm_opt_status() {
+	shn_mpr_adminmenu();
+	//print 'button is'.$_POST['button_name'];
+	?><br /><h2><?php echo _t("Manage Victim Status"); ?></h2><?php
+	_shn_mpr_adm_field_options_controller('opt_status');
+}
 
 //temporary fix
 function _shn_mpr_adm_field_options_controller($type) {
+    # print '_controller($type):<pre>'.print_r($_POST,true).'</pre>';
 	switch ($_POST['seq']) {
 		case 'update' :
 			if (_shn_mpr_adm_field_options_validate($type)) {
@@ -304,6 +311,7 @@ function _shn_mpr_adm_field_options_form($type) {
 	global $global;
 	global $conf;
 	$button_type=$_POST['button_name'];
+    # print "<br>_form($type): button = $button_name <br/>";
 	if ($button_type=='Update') {
 		$sql = "SELECT field_name, option_code, option_description  FROM field_options WHERE field_name = '{$type}'";
 		$sel = $global['db']->GetAll($sql);
@@ -325,6 +333,7 @@ function _shn_mpr_adm_field_options_form($type) {
 	} else if($button_type=='AddNew') {
 		$code=$_POST['new_code'];
 		$desc=$_POST['new_desc'];
+        # print "AddNew: code = $code, desc=$desc <br/>";
 		if($code==null | $desc==null) {
 			if($code==null) {
 				add_error(_t("Please  enter the code"));
@@ -338,11 +347,15 @@ function _shn_mpr_adm_field_options_form($type) {
 			display_errors();
 		} else
 			_shn_mpr_insert_option($type,$code,$desc);
-		}
+		}  else if (!empty($button_type)) { 
+            add_error(_t("Unrecognized button_type ".$button_type));
+            display_errors();
+        }
+        
 		$sql = "SELECT field_name, option_code, option_description  FROM field_options WHERE field_name = '{$type}'";
 		$arr = $global['db']->GetAll($sql);
+        shn_form_fopen('adm_' . $type, null);
 		if (!empty ($arr)) {
-			shn_form_fopen('adm_' . $type, null);
 			shn_form_fsopen(_t('Update'));
 			shn_form_hidden(array ('seq' => 'update'));
 			?>
@@ -354,24 +367,26 @@ function _shn_mpr_adm_field_options_form($type) {
 <td width="100%"><strong><?php echo _t('Delete');?></strong></td>
 </thead>
 <?php
-	$count=0;
-	foreach ($arr as $row) { ?>
+        	$count=0;
+        	foreach ($arr as $row) { ?>
 <tr>
 	<td><input type="text" READONLY name="<?php echo $row['option_code'];?>" value="<?php echo $row['option_code'];?>"  /></td>
 	<td><input type="text" name="<?php echo $count++;?>" value="<?php echo $row['option_description'];?>" /></td>
 	<td><input type="checkbox" name="<?php echo $count++;?>" /></td>
 </tr>
 <?php
-	}?>
+            }
+    ?>
 </table>
 <?php
-	shn_form_submit(_t('Update'),"name='button_name'");
-	shn_form_fsclose();
-	}
+        	shn_form_submit(_t('Update'),"name='button_name'");
+        	shn_form_fsclose();
+    	}
 	shn_form_fsopen(_t('Add New '));
 	shn_form_text(_t("Code"), 'new_code', null, array('req'=>true));
 	shn_form_text(_t("Description"), 'new_desc', null, array('req'=>true));
 	shn_form_submit(_t('AddNew'),"name='button_name'");
+    shn_form_fsclose();
 	shn_form_fclose();
 }
 

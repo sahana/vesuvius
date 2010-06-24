@@ -97,11 +97,6 @@ class WebImage {
         // Set the image type and size.
         if ($image_data !== false) {
             //error_log("Got image data");
-            // if saving to cache and storing url pointer
-            // $saveFile = "/tmp/mprPfifFile_". rand(1000000,9999999); // random filenames are good :)
-            // $handle = fopen( $saveFile, "w" );
-            // fwrite( $handle, $image_data );
-            // fclose( $handle );
 
             $this->url = $url; //$saveFile; 
             $this->image = $image_data; // null;

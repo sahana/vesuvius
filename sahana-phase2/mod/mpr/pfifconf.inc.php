@@ -19,9 +19,32 @@
 ######################################################################
 #
 $pfif_conf = array(); // declare
-$pfif_conf['local_domain'] = 'pl.nlm.nih.gov';
-$pfif_conf['services'] = array('google' => 
-    array('read_url' => 'http://haiticrisis.appspot.com/api/read',
-          'post_url' => 'http://haiticrisis.appspot.com/api/write',
-          'auth_key' => 'fn74g09chf6asa2m'));
 
+$pfif_conf['source_url_domain'] = '.nlm.nih.gov'; // append to disaster id to yield PFIF source_url
+$pfif_conf['pfif_domain'] = 'pl.nlm.nih.gov'; // TODO: get from sysconf
+
+// TEMPORARY: Maps services to Sahana indicents - should be added to pfif_repository table
+$pfif_conf['service_to_incident'] = 
+        array('googlehaiti' => array('incident_id'=>8,
+                                     'db_host'=>'archivestage.nlm.nih.gov',
+                                     'db_name'=>'sahana',
+                                     'disaster_id' => 'hepl'),
+              'googlechile' => array('incident_id'=>9,
+                                     'db_host'=>'archivestage.nlm.nih.gov',
+                                     'db_name'=>'sahanaCEPL',
+                                     'disaster_id' => 'cepl'));
+
+$pfif_conf['services'] = array(); // chc 4/7/2010 : Initilialized from pfif_repository table via pfif_init.inc
+/*
+    'google' => 
+    array('read_url' => 'http://haiticrisis.appspot.com/api/read',
+          'feed_url' => 'http://haiticrisis.appspot.com/feeds',
+          'post_url' => 'http://haiticrisis.appspot.com/api/write',
+          'auth_key' => 'fn74g09chf6asa2m'),
+    'google_chile' =>
+    array('read_url' => 'http://chilepersonfinder.appspot.com/api/read',
+          'feed_url' => 'http://chilepersonfinder.appspot.com/feeds',
+          'post_url' => 'http://chilepersonfinder.appspot.com/api/write',
+          'auth_key' => '0xf28nsvSVho6L3h')
+          );
+*/
