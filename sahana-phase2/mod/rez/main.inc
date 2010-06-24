@@ -68,9 +68,9 @@ function shn_rez_default() {
 	global $global;
 	?><div id="home"><?
 	// if page_id, then render that page from db
-	if (isset($_GET['page_id'])) {
+	if (isset(mysql_real_escape_string($_GET['page_id']))) {
 		// get page info
-		$q = "select * from rez_pages where rez_page_id = '".$_GET['page_id']."';";
+		$q = "select * from rez_pages where rez_page_id = '".mysql_real_escape_string($_GET['page_id'])."';";
 		$res = $global['db']->Execute($q);
 
 		if ($row = $res->FetchRow() ){
