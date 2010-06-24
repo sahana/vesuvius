@@ -25,7 +25,6 @@ include_once $global['approot'] . "/inc/lib_errors.inc";
 include_once $global['approot'] . 'mod/mpr/tools.inc';
 include_once $global['approot'] . '/inc/lib_image.inc';
 include_once $global['approot'] . 'mod/mpr/report.inc';
-include_once $global['approot'] . '/conf/pfifconf_tmp.inc.php';
 
 /* {{{ Hack Need to fix */
 if (empty ($_SESSION['user_pref_ims_incident_id'])) {
@@ -62,14 +61,14 @@ function shn_mpr_mainmenu() {
 		shn_mod_menuitem("addmp&type=missing", _t("Report a Missing Person"));
 		shn_mod_menuitem("search&type=missing", _t("Edit a Missing Person"));
 		shn_mod_menuitem("addmp&type=found", _t("Report a Found Person"));
-		shn_mod_menuitem("list_missing", _t("List Missing People"), $module);
-		shn_mod_menuitem("list_found", _t("List Found People"), $module);
+			shn_mod_menuitem("list_missing", _t("List Missing People"), $module);
+			shn_mod_menuitem("list_found", _t("List Found People"), $module);
 
 		// Add PFIF Menu: chc 1/22/2010
 		if ($user = $_SESSION["user"]!='Anonymous'){
-			shn_sub_mod_menuopen(_t("PFIF"));
-				shn_mod_menuitem("import", _t("Import"), $module);
-				shn_mod_menuitem("export", _t("Export"), $module);
+		shn_sub_mod_menuopen(_t("PFIF"));
+		shn_mod_menuitem("import", _t("Import"), $module);
+		shn_mod_menuitem("export", _t("Export"), $module);
 			shn_sub_mod_menuclose();
 		}
 		
@@ -582,135 +581,6 @@ function shn_mpr_status() {
 	}
 }
 
-function shn_mpr_import(){
-    // if there is no post, render the form to upload
-    // var_dump('$_POST' , $_POST);
-    //var_dump('$_FILES' , $_FILES);
-    if( ! isset( $_POST['upload'])){
-        shn_form_fopen("import",null,array('enctype'=>'enctype="multipart/form-data"','req_message' => true));
-        add_warning(_t('Please make sure that you are adding a PFIF xml file.'));
-        shn_form_fsopen(_t('Import from PFIF xml'));
-        shn_form_hidden(array('upload'=>'upload'));
-        // Added 1/23/10 (c.cornwell)  Google daily PFIF snapshot requires increasing max allowed upload size
-        // @todo get max size from configuration file
-        // @see http://www.php.net/manual/en/features.file-upload.php#74692 regarding alternate solution for large file upload
-        shn_form_upload(_t('Upload PFIF xml'),'xml',array('max_file_size'=>'128M'));
-        shn_form_submit(_t('Upload'));
-        shn_form_fsclose();
-        shn_form_fsopen(_t('Download from Google PFIF API'));
-        shn_form_text(_t('Enter person_record_id'),'pfif_id');
-        shn_form_submit(_t('Download'));
-        shn_form_fsclose();
-        shn_form_fclose();
-    }else{
-        //validate
-        if (isset($_POST['pfif_id']) && !empty($_POST['pfif_id'])) {
-            // TODO: Need to restructure this to maximize reuse
-            include_once 'pfif.inc';
-             $pfif = new Pfif();
-             $loaded = $pfif->loadFromService($_POST['pfif_id']);
-             // error_log( $pfif->storeInXML() );
-             $result = $loaded ? $pfif->storeInDatabase() : false;
-             if($result == true){
-                 add_confirmation('Successfully Imported');
-             } else {
-                 add_error('There was an error in Importing');
-             }
-             shn_mpr_default();                     
-        }
-        else if(  $_FILES['xml']['error'] != 0){
-            add_warning('Please select a file to upload');
-            unset($_FILES); unset($_POST);
-            shn_mpr_import();
-        }else{
-             //if there is a post, upload the file and import the file to the database.
-             if(is_uploaded_file($_FILES['xml']['tmp_name'])){
-                 include_once 'pfif.inc';
-                 $pfif = new Pfif();
-                 $loaded = $pfif->loadFromXML($_FILES['xml']['tmp_name']);
-                 // $loaded = $pfif->readFromXML($_FILES['xml']['tmp_name']);
-                 //$pfif->storeInXML();
-                 $result = $loaded ? $pfif->storeInDatabase() : false;
-                 if($result == true){
-                     add_confirmation('Successfully Imported');
-                 } else {
-                     add_error('There was an error in Importing');
-                 }
-                 shn_mpr_default();                     
-             
-             }
-        }
-        
-    }
-   
-}
-
-function shn_mpr_export(){
-
-    if( ! isset( $_POST['upload'])){
-        echo '<h1 align="center">Get Export XML</h1>';
-        echo "<a href='index.php?mod=mpr&act=pfif_export&stream=xml&status=missing' >Get Missing </a>";
-        echo '<br />';
-        echo "<a href='index.php?mod=mpr&act=pfif_export&stream=xml&status=alive' > Get Alive </a>";
-        echo '<br />';
-        echo "<a href='index.php?mod=mpr&act=pfif_export&stream=xml&status=injured' > Get Injured </a>";
-        echo '<br />';
-        echo "<a href='index.php?mod=mpr&act=pfif_export&stream=xml&status=deceased' > Get Deceased </a>";
-        echo '<br />';
-        echo "<a href='index.php?mod=mpr&act=pfif_export&stream=xml&status=unknown' > Get Unknown </a>";
-
-        echo '<br />';
-        echo '<h1 align="center">Export To Google PFIF API</h1>';
-        shn_form_fopen("export",null,array('enctype'=>'enctype="multipart/form-data"','req_message' => true));
-        add_warning(_t('EXPERIMENTAL: Add source, time range selection parameters to replace id in Upload Selected ... section'));
-        shn_form_fsopen(_t('Upload PFIF XML file'));
-        shn_form_hidden(array('upload'=>'upload'));
-        shn_form_upload(_t('Source File'),'xml');
-        shn_form_submit(_t('Upload'));
-        shn_form_fsclose();
-        shn_form_fsopen(_t('Upload Selected Records'));
-        shn_form_text(_t('Enter person_record_id'),'pfif_id');
-        shn_form_submit(_t('Submit'));
-        shn_form_fsclose();
-        shn_form_fclose();
-    }else{
-        //validate
-        if (isset($_POST['pfif_id']) && !empty($_POST['pfif_id'])) {
-            // TODO: Need to restructure this to maximize reuse with upload case.
-            // TODO: Need to have post parse the return status and return true status for reporting.
-            include_once 'pfif.inc';
-             $pfif = new Pfif();
-             $result = $pfif->postDbToService($_POST['pfif_id']);
-             if(!($result == false)){
-                 add_confirmation('Successfully Exported<br/>'.$result);
-             } else {
-                 add_error('There was an error in Exporting');
-             }
-             shn_mpr_default();                     
-        }
-        else if(  $_FILES['xml']['error'] != 0){
-            add_warning('Please select a file to upload');
-            unset($_FILES); unset($_POST);
-            shn_mpr_export();
-        }else{
-             if(is_uploaded_file($_FILES['xml']['tmp_name'])){
-                 include_once 'pfif.inc';
-                 $pfif = new Pfif();
-                 $result = $pfif->postFileToService($_FILES['xml']['tmp_name']);
-                 if(!($result == false)){
-                     add_confirmation('Successfully Exported<br/>'.$result);
-                 } else {
-                     add_error('There was an error in Exporting');
-                 }
-                 shn_mpr_default();                     
-             }
-        }
-        
-    }
-
-       
-}
-
 
 /**
  * shn_soap_mpr_addmp 
@@ -757,9 +627,9 @@ function shn_soap_mpr_default() {
  */
 function shn_image_mpr_addmp_img() {
 	global $global;
-	$x_uuid = $_GET['x_uuid'];
-	$height = isset($_GET['height']) ? $_GET['height'] : null;
-	$width  = isset($_GET['width']) ? $_GET['width'] : null;
+	$x_uuid = mysql_real_escape_string($_GET['x_uuid']);
+	$height = isset($_GET['height']) ? mysql_real_escape_string($_GET['height']) : null;
+	$width  = isset($_GET['width']) ? mysql_real_escape_string($_GET['width']) : null;
 	switch ($_GET['stream']){
 		case 'image' :
 			if($_GET['session']){
@@ -787,39 +657,6 @@ function shn_mpr_end_flow() {
 	unset($_SESSION['mpr']['entry']);
 	shn_mpr_default();
 }
-
-function shn_xml_mpr_pfif_export(){
-	//status could be 'missing' , 'injured' , 'deceased' , 'alive','unknown' (TODO: add 'found = fou')
-	$status = $_GET['status'];		
-	
-	include_once 'pfif.inc';
-    // include_once $global['approot'] . '/inc/lib_stream_xml.inc';
-
-	$pfif = new Pfif();
-	//$pfif->storeInXML();
-	$pfif->loadFromDatabase($status); // TODO: add 'since' arg
-    // shn_stream_init(false);
-	// $pfif->storeInXML();
-    print $pfif->storeInXML();
-	
-}
-
-function shn_xml_mpr_pfif_import(){
-	//status could be 'missing' , 'injured' , 'deceased' , 'alive'
-	global $global;
-	include_once 'pfif.inc';
-	$pfif = new Pfif();
-	$loaded = $pfif->loadFromXML($global['approot'] . '/mod/mpr/test.xml'); // TODO: how is an arbitrary file imported using this action?
-	if ($loaded) {
-        $pfif->storeInDatabase();
-        // error_log( $pfif->storeInXML() );
-    } else {
-        error_log( "shn_mod_mpr_pfif_import: Import failed" );
-    }
-	
-}
-
-
 
 /**
  * This is "Report a Person" Selection Page
@@ -849,3 +686,7 @@ function shn_mpr_report_select() {
 	</div>
 <?php
 }
+
+// TODO: chc 3/8/2010 : Delete this once pfif code has been moved to its own module.
+include_once("pfif_main.inc");
+?>
