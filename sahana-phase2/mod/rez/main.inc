@@ -68,14 +68,18 @@ function shn_rez_default() {
 	global $global;
 	?><div id="home"><?
 	// if page_id, then render that page from db
-	if (isset(mysql_real_escape_string($_GET['page_id']))) {
+	if (isset($_GET['page_id'])) {
 		// get page info
-		$q = "select * from rez_pages where rez_page_id = '".mysql_real_escape_string($_GET['page_id'])."';";
+		$page_id = intval(mysql_real_escape_string($_GET['page_id']));
+		$q = "select * from rez_pages where rez_page_id = '".$page_id."';";
 		$res = $global['db']->Execute($q);
 
 		if ($row = $res->FetchRow() ){
 			echo "<h2>".$row['rez_page_title']."</h2>";
 			echo $row['rez_content'];
+		} else {
+			// page doesn't exist 
+			echo "<h2>Error 404 ~ Page not found.</h2>";
 		}
 
 	// if no page_id, then render the Resources homepage
