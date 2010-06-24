@@ -18,11 +18,10 @@
 
 
 function shn_location_get_loc(){
-	
-    global $global;
-    $db=$global['db'];
-	$level=$_GET{"lvl"}+1;
-	$parent=$_GET{"sel"};
+	global $global;
+	$db=$global['db'];
+	$level  = mysql_real_escape_string($_GET{"lvl"})+1;
+	$parent = mysql_real_escape_string($_GET{"sel"});
 
 	$q = "SELECT location.name,location.loc_uuid,parent_id FROM location WHERE location.opt_location_type='{$level}' AND parent_id='{$parent}' ORDER BY location.name";
 	//echo $q;
@@ -37,35 +36,35 @@ function shn_location_get_loc(){
 	echo $res;
 }
 
+
+
 function _shn_get_locations(){
 	
-    global $global;
-    $db=$global['db'];
-	$level=1;
-	$sel_id=$_GET{"sel"};
+	global $global;
+	$db=$global['db'];
+	$level  = 1;
+	$sel_id = mysql_real_escape_string($_GET{"sel"});
 
 	if($_GET{"type"}=="camp"){
 		$q="SELECT location_id FROM camp_general WHERE c_uuid='{$sel_id}'";
 		$res=$db->Execute($q);
 		if($res->EOF)
-		return;
+			return;
 		$loc_id=$res->fields["location_id"];
-	}else if($_GET{"type"}=="poc"){
+	} else if($_GET{"type"}=="poc"){
 		$q = "SELECT location_id FROM location_details WHERE poc_uuid='{$sel_id}'";
 		$res=$db->Execute($q);
 		if($res->EOF)
-		return;
+			return;
 		$loc_id=$res->fields["location_id"];
-	}else{
-		$loc_id=$_GET{"sel"};
+	} else {
+		$loc_id = mysql_real_escape_string($_GET{"sel"});
 	}
-
-
 
 	$q = "SELECT parent_id,opt_location_type FROM location WHERE loc_uuid='{$loc_id}'";
 	$res=$db->Execute($q);
 	if($res->EOF)
-	return;
+		return;
 	 
 	$parent=$res->fields["parent_id"];
 	$header.="loc_dir".",".$parent;
@@ -77,7 +76,7 @@ function _shn_get_locations(){
 	//echo $q;
 	$res_child=$db->Execute($q);
 	if($res_child->EOF)
-	return;
+		return;
 	$count=0;
 	while(!$res_child->EOF){
 		if($count==0){
@@ -101,16 +100,15 @@ function _shn_get_locations(){
 }
 
 
+
 function _shn_get_level_location(){
 	require_once('../3rd/adodb/adodb.inc.php');
 	require_once('../conf/sysconf.inc.php');
 	//Make the connection to $global['db']
 	$db = NewADOConnection($conf['db_engine']);
-	$db ->Connect($conf['db_host'].($conf['db_port']?':'.$conf['db_por
-t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
+	$db ->Connect($conf['db_host'].($conf['db_port']?':'.$conf['db_port']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
 
-
-	$level=$_GET{"sel"};
+	$level = mysql_real_escape_string($_GET{"sel"});
 	if($level==1){
 		echo "none,";
 	}
@@ -125,5 +123,4 @@ t']:''),$conf['db_user'],$conf['db_pass'],$conf['db_name']);
 	}
 	echo $res;
 }
-
 

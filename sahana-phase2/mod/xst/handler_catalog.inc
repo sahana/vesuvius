@@ -14,14 +14,11 @@
  *
  */
  
-function shn_text_catalog_unit_cat()
-{
-	
-    global $global;
-    $db=$global['db'];
-	$cat=$_GET{"cat"};
-
-	$q="select unit_uuid,name from ct_unit where unit_type_uuid ='$cat'";
+function shn_text_catalog_unit_cat() {
+	global $global;
+	$db  = $global['db'];
+	$cat = mysql_real_escape_string($_GET{"cat"});
+	$q   = "select unit_uuid,name from ct_unit where unit_type_uuid ='$cat'";
 	$res_child=$db->Execute($q);
 
 	if(!$res_child==NULL && !$res_child->EOF){
@@ -31,27 +28,22 @@ function shn_text_catalog_unit_cat()
 			$res_child->MoveNext();
 		}
 		echo $res;
-	}else{
+	} else {
 		echo "null,";
 	}
-
 }
 
 
 
 function shn_text_catalog_sub_cat(){
-	
-    global $global;
-    $db=$global['db'];
-	$cat=$_GET{"cat"};
-	$flag=$_GET{"flag"};
-	if($flag==false)
-	{
+	global $global;
+	$db   = $global['db'];
+	$cat  = mysql_real_escape_string($_GET{"cat"});
+	$flag = mysql_real_escape_string($_GET{"flag"});
+	if($flag==false) {
 		$q="select ct_uuid,name from ct_catalogue where parentid='{$cat}'";
 		$res_child=$db->Execute($q);
-	}
-	else if($flag==true)
-	{
+	} else if($flag==true) {
 		$q="select ct_uuid,name from ct_catalogue where parentid='{$cat}' and final_flag='0' ";
 		$res_child=$db->Execute($q);
 	}
@@ -65,10 +57,8 @@ function shn_text_catalog_sub_cat(){
 			$res=$res.",".$res_child->fields[1];
 			$res_child->MoveNext();
 		}
-		
 		echo $res;
-	}else{
-		
+	} else {
 		echo "null,";
 	}
 }
