@@ -30,7 +30,7 @@ function shn_mpr_addmp_img() {
 	global $global; 
 
 	// clean clean
-	$x_uuid = $_GET['x_uuid'];
+	$x_uuid = mysql_real_escape_string($_GET['x_uuid']);
 	switch ($_GET['stream_type']) {
 		case 'image' :
 			if($_GET['session']) {
