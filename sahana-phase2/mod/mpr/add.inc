@@ -16,8 +16,8 @@
  * @license	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  * Revised 1/23/2010 c.cornwell, NLM-CEB, Merged additional include of lib_uuid.inc in _addmp_commit from haitirelief branch.
+ * Revised 3/09/2010 c.cornwell, NLM-CEB, Include email contact for lost person when found.
  */
-
 include_once($global['approot']."/inc/lib_uuid.inc");
 include_once($global['approot']."/inc/lib_location.inc");
 
@@ -731,7 +731,14 @@ function shn_mpr_addmp_commit() {
 	shn_db_insert($insert_array,'contact', true, 'pgoc_uuid');
 	$insert_array = null; // reset array
 
-
+	// chc added 3/9/2010 : insert email contact
+    $insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+	if(isset($_SESSION['mpr_add']['entry']['phone'])){
+		$insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['email'];
+		$insert_array['opt_contact_type'] = 'emai';
+	}
+	$insert_array = null; // reset array
+    
 	$insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	if(isset($_SESSION['mpr_add']['entry']['phone'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['phone'];
