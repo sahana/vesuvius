@@ -1043,7 +1043,8 @@ ALTER TABLE  `incident`
 	ADD  `date`      DATE          NULL DEFAULT NULL,
 	ADD  `type`      VARCHAR( 32 ) NULL DEFAULT NULL,
 	ADD  `latitude`  DOUBLE        NULL DEFAULT NULL,
-	ADD  `longitude` DOUBLE        NULL DEFAULT NULL;
+	ADD  `longitude` DOUBLE        NULL DEFAULT NULL,
+	ADD  `default`   BOOL          NULL DEFAULT NULL;
 
 /** 
  * Resources to Incidents
