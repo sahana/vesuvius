@@ -47,7 +47,7 @@ if ($_SESSION['logged_in'] != true ) { ?>
 		<fieldset id="openIdFieldset">
 			<label><?php echo _t('OpenID')?> </label>
 			<input type="text" name="identity_url" id="openid_login" />
-			<input id="submitButtonOpen" type="submit" value="Sign In" />
+			<input id="submitButtonOpen" type="submit" value="Sign In" autocomplete="off"/>
 		</fieldset>
 	</form>
 	<div id="switchNormalLogin">
