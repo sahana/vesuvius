@@ -7,7 +7,7 @@
 			<api_function>shn_pls_get_incident_list</api_function>
 			<output type="BasicArray" />
 			<documentation>
-				Returns an array of (incident_id, parent_id, name, shortname, date, type, location) related to all registered disasters/incidents.
+				Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) related to all registered disasters/incidents sorted alphabetically with the default incident appearing first.
 			</documentation>
 		</service>
 		<service>
@@ -54,12 +54,25 @@
 			<api_function>shn_pls_basic_search</api_function>
 			<params>
 				<param type="xsd:string" name="searchString"></param>
+				<param type="xsd:string" name="incidentShortName"></param>
 			</params>
 			<output type="BasicArray" />
 			<documentation>
-				Returns a basic set of information about persons matching a search.
+				Returns a basic set of information about persons matching a search string assigned to a particular incident.
 			</documentation>
-		</service>		
+		</service>
+		<service>
+			<name>Basic Search All</name>
+			<http_type>GET</http_type>
+			<api_function>shn_pls_basic_search_all</api_function>
+			<params>
+				<param type="xsd:string" name="searchString"></param>
+			</params>
+			<output type="BasicArray" />
+			<documentation>
+				Returns a basic set of information about persons matching a search string across all incidents.
+			</documentation>
+		</service>				
 		<service>
 			<name>test</name>
 			<http_type>GET</http_type>

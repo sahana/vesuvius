@@ -8,9 +8,10 @@
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @author     Greg Miernicki <miernickig@mail.nih.gov>
- * @copyright  NIH - http://www.nih.gov
+ * @author     Greg Miernicki <g@miernicki.com>
+ * @copyright  http://sahanafoundation.org
  * @package    module
+ * @version    0.2
  * @subpackage pls
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
@@ -19,10 +20,10 @@
 
 
 /**
- * This is the test function to get SOAP working
+ * This is the test function to get SOAP working. It returns array of the two parameters values passed in.
  * @access public
- * @param y
- * @param x
+ * @param int y
+ * @param int x
  * @return array
  */
 function shn_pls_test($x, $y) {
@@ -35,14 +36,15 @@ function shn_pls_test($x, $y) {
 
 /**
  * This returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
- * @access public
  * @return array
  */
 function shn_pls_get_incident_list() {
 	global $global;
 	$db = $global['db'];
 	$list = array();
-	$q = "SELECT incident_id, parent_id, name, shortname, date, type, latitude, longitude FROM `incident` ;";
+	$q = "SELECT incident_id, parent_id, name, shortname, date, type, latitude, longitude 
+	      FROM `incident` 
+	      ORDER BY `default` DESC, `name` ASC;";
 
 	$result = $db->Execute($q);
 	while (!$result == NULL && !$result->EOF) {
@@ -64,10 +66,9 @@ function shn_pls_get_incident_list() {
 
 
 /**
- * This returns a single new sahana uuid
- * @access public
- * @param params
- * @return string
+ * This returns a single new uuid
+ * @param int incidentId
+ * @return string ~ uuid
  */
 function shn_pls_create_uuid($incidentId) {
 	global $global;
@@ -97,11 +98,11 @@ function shn_pls_create_uuid($incidentId) {
 
 
 /**
- * This returns a batch of new sahana uuids
+ * This returns a batch of new uuids
  * @access public
  * @param int incident
- * @param int num
- * @return string
+ * @param int num ~ number of id's to create
+ * @return array ~ list of new uuid's
  */
 function shn_pls_create_uuid_batch($incidentId, $num) {
 	global $global;
@@ -137,10 +138,11 @@ function shn_pls_create_uuid_batch($incidentId, $num) {
 
 
 /**
- * This returns an array of information about a person.
- * @param
- * @access public
+ * This returns an array of information about a person: uuid. full_name, gender, years_old, age_group, statusSahana, statusSahanaUpdated, statusTriage, triageCategory, id, peds, orgName, imageWidth, imageHeight, imageUrl, last_seen, comments
+ * @param string uuid
  * @return array
+ * 
+ * STATUS: DEPRECATED ~ going away soon ~ legacy from DNW
  */
 function shn_pls_get_person_data($uuid) {
 	global $global;
@@ -166,13 +168,13 @@ function shn_pls_get_person_data($uuid) {
 
 
 /**
- * This a basic array of person data matching a search (status-less).
- * @param  search_term
- * @access public
- * @return array
+ * This a basic search for a person matching a string (status-less) and assigned to a particular incident. Returned inforamtion per result: p_uuid, full_name, years_old, gender, status, statusUpdated, last_seen, comments, imageUrl, imageWidth, imageHeight, imageUrlThumb
+ * @param  string search_term
+ * @param  string incidentShortName
+ * @return array search_results
  */
 
-function shn_pls_basic_search($searchString) {
+function shn_pls_basic_search($searchString, $incidentShortName) {
 	global $global;
 	$db = $global['db'];
 	$termCount = 0;
@@ -215,15 +217,19 @@ function shn_pls_basic_search($searchString) {
 		SELECT a.p_uuid, a.full_name, 
 			b.opt_status, DATE_FORMAT(b.updated, '%M %e %Y') as updated, 
 			c.opt_gender, c.years_old,
-			i.image_height, i.image_width, i.url,
+			i.image_height, i.image_width, i.url, i.url_thumb,
 			e.comments, e.last_seen
-	      	FROM person_uuid a 
-	        JOIN person_status b USING (p_uuid)
-	        JOIN image i ON a.p_uuid = i.x_uuid
-	        JOIN person_details c USING (p_uuid)
+		FROM person_uuid a
+		JOIN person_status b USING (p_uuid)
+		JOIN image i ON a.p_uuid = i.x_uuid
+		JOIN person_details c USING (p_uuid)
 		JOIN person_missing e USING (p_uuid)
+		JOIN resource_to_incident r ON a.p_uuid = r.x_uuid
+		JOIN incident z ON z.incident_id = r.incident_id
 		WHERE ".$qqq." 
-		AND b.isVictim = '1' 
+		AND b.isVictim = '1'
+		AND r.x_uuid = a.p_uuid
+		AND z.shortname = '".$incidentShortName."'
 		ORDER BY i.url DESC, b.opt_status DESC;";
 
 	$result = $db->Execute($q);
@@ -242,6 +248,97 @@ function shn_pls_basic_search($searchString) {
 			'imageUrl'      => $result->fields["url"], 
 			'imageWidth'    => $result->fields["image_width"], 
 			'imageHeight'   => $result->fields["image_height"],
+			'imageUrlThumb' => $result->fields["url_thumb"],
+		);
+		$result->MoveNext();
+	}
+
+	return $list;
+}
+
+
+
+/**
+* This a basic search for a person matching a string (status-less) and assigned to ANY incident. Returned inforamtion per result: p_uuid, full_name, years_old, gender, status, statusUpdated, last_seen, comments, imageUrl, imageWidth, imageHeight, imageUrlThumb
+ * @param  string search_term
+ * @return array
+ */
+
+function shn_pls_basic_search_all($searchString) {
+	global $global;
+	$db = $global['db'];
+	$termCount = 0;
+	$qqq = "";
+
+	$term = str_replace(";", " ", $term);
+	$term = str_replace(",", " ", $term);
+	$term = str_replace(".", " ", $term);
+	$term = str_replace("<", " ", $term);
+	$term = str_replace(">", " ", $term);
+	$term = str_replace("?", " ", $term);
+	$term = str_replace(":", " ", $term);
+	$term = str_replace("'", " ", $term);
+	$term = str_replace("\"", " ", $term);
+	$term = str_replace("`", " ", $term);
+	$term = str_replace("~", " ", $term);
+	$term = str_replace("!", " ", $term);
+	$term = str_replace("@", " ", $term);
+	$term = str_replace("#", " ", $term);
+	$term = str_replace("$", " ", $term);
+	$term = str_replace("%", " ", $term);
+	$term = str_replace(":", " ", $term);
+
+	$terms = explode(" ", $searchString);
+
+	for ($i = 0; $i < count($terms); $i++) {
+		$term = $terms[$i];
+		if (strlen($term) >= 2) {
+			if ($termCount == 0) {
+				$qqq .= "(a.full_name like '".$term."%' or a.full_name like '% ".$term."%' or a.full_name like '%,".$term."' or a.full_name like '%.".$term."')";
+				$termCount++;
+			} else  {
+				$qqq .= " OR (a.full_name like '".$term."%' or a.full_name like '% ".$term."%' or a.full_name like '%,".$term."' or a.full_name like '%.".$term."')";
+				$termCount++;
+			}
+		}
+	}
+
+	$q = "
+		SELECT a.p_uuid, a.full_name, 
+			b.opt_status, DATE_FORMAT(b.updated, '%M %e %Y') as updated, 
+			c.opt_gender, c.years_old,
+			i.image_height, i.image_width, i.url, i.url_thumb,
+			e.comments, e.last_seen, z.shortname, z.name
+	      	FROM person_uuid a 
+	        JOIN person_status b USING (p_uuid)
+	        JOIN image i ON a.p_uuid = i.x_uuid
+	        JOIN person_details c USING (p_uuid)
+		JOIN person_missing e USING (p_uuid)
+		JOIN resource_to_incident r ON a.p_uuid = r.x_uuid
+		JOIN incident z ON z.incident_id = r.incident_id
+		WHERE ".$qqq." 
+		AND b.isVictim = '1' 
+		ORDER BY i.url DESC, b.opt_status DESC;";
+
+	$result = $db->Execute($q);
+	
+	while (!$result == NULL && !$result->EOF) {
+		$o = str_replace("\"", "", $result->fields["opt_status"]);
+		$list[] = array(
+			'p_uuid'            => $result->fields["p_uuid"], 
+			'full_name'         => $result->fields["full_name"], 
+			'years_old'         => $result->fields["years_old"], 
+			'gender'            => $result->fields["opt_gender"],
+			'status'            => $o,
+			'statusUpdated'     => $result->fields["updated"], 
+			'last_seen'         => $result->fields["last_seen"], 
+			'comments'          => strip_tags($result->fields["comments"]),
+			'imageUrl'          => $result->fields["url"], 
+			'imageWidth'        => $result->fields["image_width"], 
+			'imageHeight'       => $result->fields["image_height"],
+			'imageUrlThumb'     => $result->fields["url_thumb"],
+			'incidentName'      => $result->fields["name"], 
+			'incidentShortName' => $result->fields["shortname"],
 		);
 		$result->MoveNext();
 	}
