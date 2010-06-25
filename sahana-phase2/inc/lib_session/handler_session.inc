@@ -64,6 +64,8 @@ session_update_activity();
 * @return void
 */
 function shn_session_start() {
+	// start httponly cookies to prevent xss attacks
+	session_set_cookie_params(0, "/", null, false, true);
 	// retrieves or starts a session
 	session_start();
 
