@@ -26,7 +26,7 @@
 function shn_inw_default() {
 	global $global;
 	?><script>
-		window.location.href = '/inw/iWall.php';
+		window.location.href = 'inw/iWall.php';
 	</script>
 	<a href="/inw/iWall.php">Click here if not automatically redirected</a>
 	<?
