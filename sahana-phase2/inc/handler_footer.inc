@@ -11,9 +11,9 @@
  *
  * @package    moduleAPI
  * @subpackage form
- * @author     Chamindra de Silva (chamindra@opensource.lk>
+ * @author     Chamindra de Silva <chamindra@opensource.lk>
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @author     Greg Miernicki <miernickig@mail.nih.gov>
+ * @author     Greg Miernicki <g@miernicki.com>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
@@ -49,5 +49,5 @@ if (file_exists($global['approot']."www/theme/".$conf['theme']."/footer.php")) {
 	<img src="res/img/button-xhtml.png" width="80" height="15" alt="Valid XHTML 1.0" border="0" /></a> <a target="_blank" href="http://jigsaw.w3.org/css-validator/check/referer" title="Valid CSS">
 	<img src="res/img/button-css.png" width="80" height="15" alt="Valid CSS" border="0" /></a>
 </div>
-<? 
+<?php 
 }

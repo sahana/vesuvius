@@ -1,12 +1,12 @@
 <?php
 /**
- * Lost Person Finder v2 Theme HTML footer
+ * Lost Person Finder v3 Theme HTML footer
  *
  * LICENSE: This source file is subject to LGPL license
  * that is available through the world-wide-web at the following URI:
  * http://www.gnu.org/copyleft/lesser.html
  *
- * @author     Greg Miernicki <miernickig@mail.nih.gov>
+ * @author     Greg Miernicki <g@miernicki.com>
  */
 ?>
 <div id="blueBack">&nbsp;</div>
@@ -41,7 +41,7 @@
 	</center>
 <?
 /*
-echo "<br>disaster(".$_GET['disaster'].")";
+echo "<br>shortname(".$_GET['shortname'].")";
 echo "<br><pre>".print_r($_REQUEST, true)."</pre>";
 echo "<pre>".print_r($_SERVER, true)."</pre>";
 //echo "<br><pre>".print_r($global, true)."</pre>";

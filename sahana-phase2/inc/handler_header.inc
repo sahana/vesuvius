@@ -1,5 +1,4 @@
 <?php
-/* $Id: handler_header.inc,v 1.21 2009-06-10 19:55:08 gmiernicki Exp $ */
 /**
  *
  * Sahana HTML footer
@@ -12,25 +11,35 @@
  *
  * @package    moduleAPI
  * @subpackage form
- * @author     Chamindra de Silva (chamindra@opensource.lk>
+ * @author     Chamindra de Silva <chamindra@opensource.lk>
  * @author     Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author     Greg Miernicki <g@miernicki.com>
  * @copyright  Lanka Software Foundation - http://www.opensource.lk
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */
-?>
-    <div id="header" class="clearfix">
-        <?php  ?>
-        <h1><?php echo _t("Sahana FOSS Disaster Management System")?></h1>
-        <?php 
-            global $conf;
-            if(file_exists($global['approot'].'conf/sysconf.inc.php'))
-            {
-                shn_db_get_incident_select();
-                _shn_lc_lang_list(); 
-            }
-        ?>
-    </div>
-    <!-- /header -->
+
+global $conf;
+global $global;
+
+//--- We will allow themes to use their own header if one is provided ---//
+
+if (file_exists($global['approot']."www/theme/".$conf['theme']."/header.php")) { 
+	include($global['approot']."www/theme/".$conf['theme']."/header.php");
+
+//--- Else, we will use the Sahana "Built-In" header ---//
+
+} else { ?>
+<div id="header" class="clearfix">
+	<h1><?php echo _t("Sahana FOSS Disaster Management System")?></h1>
+	<?php 
+	if(file_exists($global['approot'].'conf/sysconf.inc.php')) {
+		shn_db_get_incident_select();
+		_shn_lc_lang_list(); 
+	}
+	?>
+</div>
+<?php
+}
 
 
