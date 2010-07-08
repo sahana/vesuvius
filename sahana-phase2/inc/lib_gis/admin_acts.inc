@@ -207,7 +207,7 @@ function shn_admin_gis_main_defaults()
     include_once $global['approot'].'/inc/lib_gis/admin_fns.inc';
     shn_admin_gis_commit_main();
     // Update conf from DB  so that view is refreshed
-    shn_config_database_fetch(&$conf,'admin');
+    shn_config_database_fetch($conf,'admin');
     shn_admin_gis_main_settings();
 }
 
@@ -228,7 +228,7 @@ function shn_admin_gis_layers_commit()
     _shn_admin_gis_commit_layers();
     add_confirmation(_t("Changes were saved"));
     // Update conf from DB  so that view is refreshed
-    shn_config_database_fetch(&$conf,'admin');
+    shn_config_database_fetch($conf,'admin');
     _shn_gis_layer_main_form();
 }
 
@@ -240,7 +240,7 @@ function shn_admin_gis_markers_commit()
     _shn_admin_gis_commit_markers();
     add_confirmation(_t("Changes were saved"));
     // Update conf from DB  so that view is refreshed
-    shn_config_database_fetch(&$conf,'admin');
+    shn_config_database_fetch($conf,'admin');
     _shn_admin_gis_markers_form();
     include_once $global['approot'].'/inc/lib_gis/upload_markers.inc';
     _shn_gis_upload_markers();
@@ -258,7 +258,7 @@ function shn_admin_gis_marker_folders_commit()
         add_confirmation(_t("Folder was created"));
     }
     // Update conf from DB  so that view is refreshed
-    shn_config_database_fetch(&$conf,'admin');
+    shn_config_database_fetch($conf,'admin');
     include_once $global['approot'].'/inc/lib_gis/select_markers.inc';
     _shn_admin_gis_markers_form();
     _shn_gis_upload_markers();
@@ -274,7 +274,7 @@ function shn_admin_gis_projection_commit()
     _shn_admin_gis_commit_projection();
     add_confirmation(_t("Changes were saved"));
     // Update conf from DB  so that view is refreshed
-    shn_config_database_fetch(&$conf,'admin');
+    shn_config_database_fetch($conf,'admin');
     _shn_admin_gis_projection_form();
     include_once $global['approot'].'/inc/lib_gis/upload_defs.inc';
 }
