@@ -529,7 +529,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 			//Need a better way
 			$d = dir($dir);
 			while (false !== ($f = $d->read())){
-				if(preg_match('/thumb_fin'.$x_uuid.'(.*)/',$f,&$matches)){
+				if(preg_match('/thumb_fin'.$x_uuid.'(.*)/',$f,$matches)){
 					$filename = $dir.trim($f);
 					$ext = $matches[1];
 					break;
@@ -560,7 +560,7 @@ function shn_show_thumb_url($x_uuid,$stream_type,$mod=null,$act=null,$session=fa
 			//Need a better way
 			$d = dir($dir);
 			while (false !== ($f = $d->read())){
-				if(preg_match('/thumb_'.$x_uuid.'(.*)/',$f,&$matches)){
+				if(preg_match('/thumb_'.$x_uuid.'(.*)/',$f,$matches)){
 					$filename = $dir.trim($f);
 					$ext = $matches[1];
 					break;
