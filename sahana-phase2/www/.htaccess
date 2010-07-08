@@ -1,13 +1,26 @@
+##### Use this page as the 404 document
+ErrorDocument 404 /index.php
+
+
+##### Turn on mod_rewrite to capture the shortname from a url and pass it on as a url parameter
 RewriteEngine On
 
-# make mod_rewrite skip the subsequent 2 rules if the file or folder exists already
-RewriteCond %{REQUEST_FILENAME} -d [NC,OR]
-RewriteCond %{REQUEST_FILENAME} -f [NC]
-RewriteRule .* - [S=2]
+##### for when Sahana is installed on a virtual host at root level ie. http://domain.com/
+RewriteBase /
 
-# Redirects http://pl.nlm.nih.gov/shortname
-RewriteRule ^([^/][a-z]+)/?$ /index.php?shortname=$1 [QSA]
+##### for when Sahana is installed in a user homedir ie. http://domain.gov/~gmiernicki/sahanaDev/www/
+#RewriteBase /~gmiernicki/sahanaDev/www/
 
-# Redirects http://pl.nlm.nih.gov/*pl/*
-RewriteRule ^([^/][a-z]+)/(.+)$ /$2?shortname=$1 [QSA]
+##### make mod_rewrite skip the subsequent 3 rules if the file or folder exists already
+RewriteCond %{REQUEST_FILENAME} -d [OR]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule .* - [S=3]
 
+##### matches /shortname
+RewriteRule ^([^/][a-z0-9]+)$ index.php?shortname=$1
+
+##### matches /shortname/
+RewriteRule ^([^/][a-z0-9]+)/$ index.php?shortname=$1
+
+##### matches /shortname/index.php?vars=params
+RewriteRule ^([^/][a-z0-9]+)/(.+)$ $2?shortname=$1 [QSA]
