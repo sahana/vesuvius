@@ -17,13 +17,6 @@
  *
  */
 
-/**
- * 
- * This function displays the home page of the missing person registry
- *
- * @access public
- * @return void
- */
-function shn_pls_default() {
-	echo "This is a web services only module and does not have any GUI functions.";
-}
+$conf['mod_pls_name']         = _t("Person Locator Services");  // Defines the name of the module
+$conf['mod_pls_menuorder']    = 8;                              // Defines this module's main menu priority 
+$conf['mod_pls_dependencies'] = "POP";                          // Doesnt depend on other modules (but is depending on by others)
