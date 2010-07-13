@@ -84,7 +84,7 @@ function shn_mainmenuclose() {
  * @access public
  * @return void
  */
-function shn_mod_menuitem($action, $desc, $module = null ) { 
+function shn_mod_menuitem($action, $desc, $module = null) { 
 	global $global;
 	if ( null == $module ) { 
 		$module = $global['module'];
@@ -92,7 +92,7 @@ function shn_mod_menuitem($action, $desc, $module = null ) {
 	shn_breadcrumb_set_nicename($module, $action, $desc);
 
 	// if this mod menu item is the current action, add a css class to allow proper styling
-	if ($_SERVER['REQUEST_URI'] == "/index.php?mod=".$module."&act=".$action) {
+	if(($_REQUEST['mod'] == $module) && ($_REQUEST['act'] == $action)) {
 		echo "<li class=\"currentModMenuItem\"><a href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a></li>";
 
 	// else display menu item normally
