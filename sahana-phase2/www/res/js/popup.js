@@ -49,7 +49,7 @@ function hideCurrentPopup() {
 // ***********************
 
 // initialize hacks whenever the page loads
-window.onload = function run(){initializeHacks();showMem();ie_hack_for_large_tables();}
+//window.onload = function run(){initializeHacks();showMem();ie_hack_for_large_tables();}
 
 // setup an event handler to hide popups for generic clicks on the document
 document.onclick = hideCurrentPopup;
