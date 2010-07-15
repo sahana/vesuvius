@@ -104,9 +104,10 @@ function shn_soap_ws_reg(){
 	require_once($global['approot'].'/3rd/nusoap/lib/nusoap.php');
 	global $conf;
 	$mod=$_GET["wbsmod"];// A web service of this mod is requested
-	$ns="http://localhost/".$mod; //change this to the actual namespace later
-	$nice_name=$conf['mod_'.$mod.'_name'];
-	$server->configureWSDL($nice_name.' Web Services',$ns);
+	$ns="http://".$_SERVER['SERVER_NAME']."/".$mod; //change this to the actual namespace later
+	$nice_name = $conf['mod_'.$mod.'_name'];
+	$nice_name = str_replace(" ", "_", $nice_name);
+	$server->configureWSDL($nice_name.'_Web_Services_',$ns);
 	$server->wsdl->schemaTargetNamespace=$ns;
 	//read the XML file describing the common types.
 	$xml_file=$global['approot']."/inc/lib_ws/ws.xml";
