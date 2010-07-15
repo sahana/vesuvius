@@ -10,7 +10,7 @@
  *
  * @author     Greg Miernicki <g@miernicki.com>
  * @package    module reg
- * @version    0.2
+ * @version    1.0
  * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  *
  */

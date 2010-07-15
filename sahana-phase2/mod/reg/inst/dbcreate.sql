@@ -2,7 +2,7 @@
 * This file creates the database structure for the reg module. 
 * The data stored here is for registrations that were performed using this module.
 * Modules: REG
-* Last changed: 20100521
+* Last changed: 20100709
 */
 
 DROP TABLE IF EXISTS `reg`;
@@ -26,6 +26,8 @@ CREATE TABLE reg (
 
 /* Insert MOD Rez Content Pages that accompany this module */
 INSERT INTO rez_pages (rez_page_id, rez_menu_title, rez_page_title, rez_menu_order, rez_content, rez_description, rez_timestamp, rez_visibility) VALUES
+
+(-4, 'Account Already Active', 'Account Already Active', 12, '<div><br></div><div>This confirmation link is no longer valid. The account attached to it is already active.</div>', 'Account Already Active', '2010-05-24 15:28:36', 'Hidden'),
 
 (-3, 'Registration Unsuccessful', 'Registration Unsuccessful', 11, '<div><br></div><div>Your attempted registration confirmation was unsuccessful. It appears you attempted to confirm an invalid user. Please re-initiate the registration process from your device to try again.</div>', 'Registration Unsuccessful', '2010-05-24 15:28:36', 'Hidden'),
 
