@@ -8,6 +8,8 @@
  *
  * @author     Greg Miernicki <g@miernicki.com>
  */
+
+
 ?>
 <div id="blueBack">&nbsp;</div>
 <div id="disaster_selekta">Event <?selekta(); ?><script>checkEvent('<? echo $_REQUEST['shortname']; ?>', '<? getDefaultEvent(); ?>');</script></div>
@@ -88,3 +90,22 @@ function getDefaultEvent() {
 	}
 }
 
+
+// discover bad shortname requests and redirect them
+function sanityCheck() {
+	global $global;
+	global $conf;
+	
+	$short = mysql_real_escape_string($_GET['shortname']);
+
+	$sql = "SELECT shortname FROM incident WHERE `shortname` = '".$short."' LIMIT 1;";  
+	$arr = $global['db']->GetAll($sql);
+	if (empty($arr) && $_GET['shortname'] != "") {
+		?>
+		<script>changeEvent('<? getDefaultEvent(); ?>');</script>
+		<?
+	}
+}
+
+// The page has finished loading, so we can perform the sanity check now :)
+sanityCheck();

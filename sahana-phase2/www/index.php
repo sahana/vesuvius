@@ -157,8 +157,8 @@ function shn_main_filter_getpost() {
 	$a = isset($conf['default_action']) ? $conf['default_action'] : "default";
 
 	if (!$global['previous']) {
-		$global['action'] = (NULL == $_REQUEST['act']) ? $a : $_REQUEST['act'];
-		$global['module'] = (NULL == $_REQUEST['mod']) ? $m : $_REQUEST['mod'];
+		$global['action'] = (NULL == $_REQUEST['act']) ? $a : mysql_real_escape_string($_REQUEST['act']);
+		$global['module'] = (NULL == $_REQUEST['mod']) ? $m : mysql_real_escape_string($_REQUEST['mod']);
 
 		if (($global['action'] == 'signup') && ($_REQUEST['mod'] == null)) {
 			$global['module']="pref";
