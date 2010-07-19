@@ -8,20 +8,6 @@
  *
  * @author     Greg Miernicki <g@miernicki.com>
  */
-?>
-<div id="header" class="clearfix">
-	<h1><?php 
-		echo _t(getLongName()." Person Locator");?>
-	</h1>
-	<h2>A beta project of the U.S. National Library of Medicine<br>
-	Lister Hill National Center for Biomedical Communications</h2>
-	<?php 
-	if(file_exists($global['approot'].'conf/sysconf.inc.php')) {
-		_shn_lc_lang_list(); 
-	}
-	?>
-</div>
-<?
 
 // Get the Long Name of the incident
 function getLongName() {
@@ -40,3 +26,18 @@ function getLongName() {
 	}
 	return $long;
 }
+
+?>
+<div id="header" class="clearfix">
+	<h1><?php 
+		echo _t(getLongName()." Person Locator");?>
+	</h1>
+	<h2>A beta project of the U.S. National Library of Medicine<br>
+	Lister Hill National Center for Biomedical Communications</h2>
+	<?php 
+	if(file_exists($global['approot'].'conf/sysconf.inc.php')) {
+		_shn_lc_lang_list(); 
+	}
+	?>
+</div>
+<?
