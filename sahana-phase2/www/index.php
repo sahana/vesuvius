@@ -157,8 +157,8 @@ function shn_main_filter_getpost() {
 	$a = isset($conf['default_action']) ? $conf['default_action'] : "default";
 
 	if (!$global['previous']) {
-		$global['action'] = (NULL == $_REQUEST['act']) ? $a : mysql_real_escape_string($_REQUEST['act']);
-		$global['module'] = (NULL == $_REQUEST['mod']) ? $m : mysql_real_escape_string($_REQUEST['mod']);
+		$global['action'] = (NULL == $_REQUEST['act']) ? $a : $_REQUEST['act'];
+		$global['module'] = (NULL == $_REQUEST['mod']) ? $m : $_REQUEST['mod'];
 
 		if (($global['action'] == 'signup') && ($_REQUEST['mod'] == null)) {
 			$global['module']="pref";
@@ -211,7 +211,7 @@ function shn_main_front_controller() {
 		include($module_file);
 	} else { 
 		// default to the home page if the module main does not exist
-		add_error(_t('The requested module is not installed in Sahana'));
+		add_error(_t('The requested module ('.$global['module'].') is not installed in Sahana'));
 		$module = 'home';
 		$action = 'default';
 		include($APPROOT.'mod/home/main.inc');
