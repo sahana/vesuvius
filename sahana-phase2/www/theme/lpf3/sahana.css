@@ -818,3 +818,6 @@ table#regLog, table#regLog tbody tr td { border: none; }
 .odder { background-color: #e7e7e7; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;}
 .evener, .odder {padding: 5px; text-align: center; }
 .evener a, .odder a {text-decoration: underline; }
+
+#rezMain li { padding: 5px; }
+.rezLink { font-size: 120%; }

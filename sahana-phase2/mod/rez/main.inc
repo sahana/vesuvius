@@ -84,9 +84,8 @@ function shn_rez_default() {
 
 	// if no page_id, then render the Resources homepage
 	} else {
-		echo "<h2>Resources : Main</h2>";
-			echo "<br><h3>Additional Resources</h3>";
-			echo "<ul>";
+		echo "<h2>Resources : Main</h2><br>";
+			echo "<ul id=\"rezMain\">";
 
 			// get page titles/descriptions
 			$q = "select * from rez_pages where rez_visibility = 'Public' order by rez_menu_order asc;";
@@ -94,7 +93,8 @@ function shn_rez_default() {
 			if($res){
 				// build page descriptions
 				while($row = $res->FetchRow() ) {
-					echo "<li><a href=\"index.php?mod=rez&act=default&page_id=".$row['rez_page_id']."\">".$row['rez_page_title']."</a> : ".$row['rez_description']."</li>";
+					echo "<li><a class=\"rezLink\" href=\"index.php?mod=rez&act=default&page_id=".$row['rez_page_id']."\">"
+						.$row['rez_page_title']."</a> ... ".$row['rez_description']."</li>";
 			}
 		echo "</ul>";
 		}

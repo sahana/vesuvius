@@ -92,13 +92,17 @@ function shn_mod_menuitem($action, $desc, $module = null) {
 	shn_breadcrumb_set_nicename($module, $action, $desc);
 
 	// if this mod menu item is the current action, add a css class to allow proper styling
-	if(($_REQUEST['mod'] == $module) && ($_REQUEST['act'] == $action)) {
+	if(($_REQUEST['mod'] == $module) && ($_REQUEST['act'] == $action) && !isset($_REQUEST['page_id']) ) {
+		echo "<li class=\"currentModMenuItem\"><a href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a></li>";
+	
+	// hack to accomodate links in mod_rez
+	} else if($module == 'rez' && isset($_REQUEST['page_id']) && ($action == "default&page_id=".$_REQUEST['page_id'])) {
 		echo "<li class=\"currentModMenuItem\"><a href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a></li>";
 
 	// else display menu item normally
 	} else {
 		echo "<li><a href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a></li>";
-	}
+	}	
 }
 
 
