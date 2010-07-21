@@ -236,7 +236,7 @@ function shn_reg_activate($uuid) {
  */
 function addUser($email, $password, $name) {
 	global $global;
-	require($global['approot']."/inc/lib_security/lib_auth.inc");
+	require_once($global['approot']."/inc/lib_security/lib_auth.inc");
 	$ret = shn_auth_add_user($name, $email, $password, $role=REGISTERED, null);
 }
 
