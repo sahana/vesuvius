@@ -1,7 +1,7 @@
 <?php
 
 /*
-$Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
+$Id: nusoap.php 4326 2010-07-27 16:44:18Z gmiernicki $
 
 NuSOAP - Web Services Toolkit for PHP
 
@@ -79,7 +79,7 @@ $GLOBALS['_transient']['static']['nusoap_base']['globalDebugLevel'] = 9;
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 * @author   Scott Nichol <snichol@users.sourceforge.net>
-* @version  $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
+* @version  $Id: nusoap.php 4326 2010-07-27 16:44:18Z gmiernicki $
 * @access   public
 */
 class nusoap_base {
@@ -103,7 +103,7 @@ class nusoap_base {
 	 * @var string
 	 * @access private
 	 */
-	var $revision = '$Revision: 1.123 $';
+	var $revision = '$Revision: 4326 $';
     /**
      * Current error string (manipulated by getError/setError)
 	 *
@@ -148,8 +148,8 @@ class nusoap_base {
 	* @var      string
 	* @access   public
 	*/
-    var $soap_defencoding = 'ISO-8859-1';
-	//var $soap_defencoding = 'UTF-8';
+    //var $soap_defencoding = 'ISO-8859-1';
+	var $soap_defencoding = 'UTF-8';
 
 	/**
 	* namespaces in an array of prefix => uri
@@ -1001,7 +1001,7 @@ function usleepWindows($usec)
 * Mainly used for returning faults from deployed functions
 * in a server instance.
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
+* @version  $Id: nusoap.php 4326 2010-07-27 16:44:18Z gmiernicki $
 * @access public
 */
 class nusoap_fault extends nusoap_base {
@@ -1089,7 +1089,7 @@ class soap_fault extends nusoap_fault {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 * @author   Scott Nichol <snichol@users.sourceforge.net>
-* @version  $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
+* @version  $Id: nusoap.php 4326 2010-07-27 16:44:18Z gmiernicki $
 * @access   public
 */
 class nusoap_xmlschema extends nusoap_base  {
@@ -2061,7 +2061,7 @@ class XMLSchema extends nusoap_xmlschema {
 * xsd:anyType and user-defined types.
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
-* @version  $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
+* @version  $Id: nusoap.php 4326 2010-07-27 16:44:18Z gmiernicki $
 * @access   public
 */
 class soapval extends nusoap_base {
@@ -2163,7 +2163,7 @@ class soapval extends nusoap_base {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 * @author   Scott Nichol <snichol@users.sourceforge.net>
-* @version  $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
+* @version  $Id: nusoap.php 4326 2010-07-27 16:44:18Z gmiernicki $
 * @access public
 */
 class soap_transport_http extends nusoap_base {
@@ -3468,7 +3468,7 @@ class soap_transport_http extends nusoap_base {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 * @author   Scott Nichol <snichol@users.sourceforge.net>
-* @version  $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
+* @version  $Id: nusoap.php 4326 2010-07-27 16:44:18Z gmiernicki $
 * @access   public
 */
 class nusoap_server extends nusoap_base {
@@ -4591,7 +4591,7 @@ class soap_server extends nusoap_server {
 * 
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 * @author   Scott Nichol <snichol@users.sourceforge.net>
-* @version  $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
+* @version  $Id: nusoap.php 4326 2010-07-27 16:44:18Z gmiernicki $
 * @access public 
 */
 class wsdl extends nusoap_base {
@@ -5426,7 +5426,7 @@ class wsdl extends nusoap_base {
 			<br><br>
 			<div class=title>'.$this->serviceName.'</div>
 			<div class=nav>
-				<p>View the <a href="'.$PHP_SELF.'?wsdl">WSDL</a> for the service.
+				<p>View the <a href="'.$_SERVER['REQUEST_URI'].'&wsdl">WSDL</a> for the service.
 				Click on an operation name to view it&apos;s details.</p>
 				<ul>';
 				foreach($this->getOperations() as $op => $data){
@@ -6526,7 +6526,7 @@ class wsdl extends nusoap_base {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 * @author   Scott Nichol <snichol@users.sourceforge.net>
-* @version  $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
+* @version  $Id: nusoap.php 4326 2010-07-27 16:44:18Z gmiernicki $
 * @access   public
 */
 class nusoap_parser extends nusoap_base {
@@ -7177,7 +7177,7 @@ class soap_parser extends nusoap_parser {
 *
 * @author   Dietrich Ayala <dietrich@ganx4.com>
 * @author   Scott Nichol <snichol@users.sourceforge.net>
-* @version  $Id: nusoap.php,v 1.123 2010/04/26 20:15:08 snichol Exp $
+* @version  $Id: nusoap.php 4326 2010-07-27 16:44:18Z gmiernicki $
 * @access   public
 */
 class nusoap_client extends nusoap_base  {
