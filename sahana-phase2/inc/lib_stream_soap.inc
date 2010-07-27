@@ -21,10 +21,15 @@
 global $global;
 require_once ($global['approot'].'inc/lib_ws/lib_stream_soap.inc');
 
+
+
 function shn_soap_check_perms(){
-	return ALLOWED;//skip authentication at this step since , authentication is performed at the last step. i.e at method
-				  // invocation level. otherwise cannot let WSDL be visible to any one and still protect the methods.
+	return ALLOWED;
+	// skip authentication at this step since , authentication is performed at the last step. i.e at method
+	// invocation level. otherwise cannot let WSDL be visible to any one and still protect the methods.
 }
+
+
 
 function _shn_soap_display_errors(){
     // do nothing
