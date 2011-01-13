@@ -1,2 +1,0 @@
-#!/bin/bash
-find $* \( -iregex .*php -o -iregex .*inc \)
