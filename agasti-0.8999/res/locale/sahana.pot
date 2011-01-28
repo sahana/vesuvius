@@ -1,0 +1,2843 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#: ../mod/gps/handler_marker.inc:114
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-12-12 21:07+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../inc/lib_gis/plugins/openlayers/openlayers_fns.php:1022
+#: ../inc/lib_gis/plugins/openlayers/openlayers_fns.php:1077
+msgid "Date: "
+msgstr ""
+
+#: ../inc/lib_gis/plugins/openlayers/openlayers_fns.php:1026
+#: ../inc/lib_gis/plugins/openlayers/openlayers_fns.php:1081
+msgid "anonymous"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:78
+msgid "Please specify a name"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:79
+msgid "Please specify valid start and end dates for availability (yyyy-mm-dd)"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:80
+msgid "Please specify a start date that is before the end date"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:81
+msgid "Date of birth is not a valid date"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:82
+msgid "Please make sure that the dates you specified are valid(yyyy-mm-dd)"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:83
+msgid "Date of birth is in the future"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:84
+msgid "Invalid start hours format"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:85
+msgid "Invalid end hours format"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:86
+msgid "Please select at least one skill"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:87
+msgid "Please enter a valid user name"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:88
+msgid "Please enter valid passwords"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:89
+msgid "Passwords do not match"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:90
+msgid "Please enter a valid current password"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:91
+msgid "Please enter valid new passwords"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:92
+msgid "Current Password does not match"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:93
+msgid "A Sahana account with the given username already exists."
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:94
+msgid "Please select at least one volunteer to send the message to"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:95
+msgid "Please type a message"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:96
+msgid "Please enter at least one field to search by"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:97
+msgid ""
+"Please enter an ID at least 4 characters long if no other fields are "
+"specified"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:98
+msgid "Please specify both a start and an end date."
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:99
+msgid "Please select a project"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:100
+msgid "Please specify a project manager"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:101
+msgid ""
+"If you specify an end date for availability, please specify a start date as "
+"well"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:102
+msgid ""
+"If you specify searching for an entire available date range, please specify "
+"both a start and end date"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:103
+msgid "Please specify a situation to modify access to"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:104
+msgid "Please specify a title"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:105
+msgid "Please specify a position_type"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:106
+msgid "Please specify a non-zero target number of volunteers"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:107
+msgid "Please specify a description"
+msgstr ""
+
+#: ../mod/vm/lib/Constants.php:108
+msgid "Please specify a non-zero pay rate"
+msgstr ""
+
+#: ../mod/vm/whiz/Whiz.php:36
+msgid "Template error: could not create template cache directory."
+msgstr ""
+
+#: ../mod/vm/whiz/Whiz.php:48
+msgid "Template error: No such template file:"
+msgstr ""
+
+#: ../mod/vm/whiz/Whiz.php:58
+msgid "Template error: Error caching template file:"
+msgstr ""
+
+#: ../mod/vm/whiz/Whiz.php:63
+msgid "Template error: could not write to template cache directory."
+msgstr ""
+
+#: ../mod/vm/view/VolunteerView.php:436 ../mod/vm/view/VolunteerView.php:483
+msgid "System Message"
+msgstr ""
+
+#: ../mod/vm/model/dao.php:1055
+msgid "You have been removed from Project"
+msgstr ""
+
+#: ../mod/vm/model/dao.php:1055 ../mod/vm/model/dao.php:1415
+#: ../mod/vm/model/dao.php:1422 ../mod/vm/model/dao.php:1424
+#: ../mod/vm/model/dao.php:1432 ../mod/vm/model/dao.php:1865
+msgid "This is an automated message"
+msgstr ""
+
+#: ../mod/vm/model/dao.php:1105 ../mod/vm/model/dao.php:1191
+msgid "Skills and Work Restrictions"
+msgstr ""
+
+#: ../mod/vm/model/dao.php:1415 ../mod/vm/model/dao.php:1422
+msgid "Your ability status for"
+msgstr ""
+
+#: ../mod/vm/model/dao.php:1415
+msgid "has been approved"
+msgstr ""
+
+#: ../mod/vm/model/dao.php:1422
+msgid "has been revoked"
+msgstr ""
+
+#: ../mod/vm/model/dao.php:1424
+msgid "Your ability status request for"
+msgstr ""
+
+#: ../mod/vm/model/dao.php:1424
+msgid "has been denied"
+msgstr ""
+
+#: ../mod/vm/model/dao.php:1432
+msgid "You have been given an approved ability status for"
+msgstr ""
+
+#: ../mod/vm/model/dao.php:1865
+msgid "You have been assigned to"
+msgstr ""
+
+#: ../mod/vm/controller/VolunteerController.php:150
+msgid "The image file is invalid, or is not of a supported type."
+msgstr ""
+
+#: ../mod/vm/controller/VolunteerController.php:153
+msgid "Changes saved."
+msgstr ""
+
+#: ../mod/vm/controller/VolunteerController.php:208
+msgid "Your Password has been updated"
+msgstr ""
+
+#: ../mod/vm/controller/VolunteerController.php:299
+msgid "Message Sent"
+msgstr ""
+
+#: ../mod/vm/controller/VolunteerController.php:461
+msgid "Please specify both a skill description and skill code"
+msgstr ""
+
+#: ../mod/vm/controller/VolunteerController.php:469
+msgid "The specified skill code already exists. Please choose another"
+msgstr ""
+
+#: ../mod/vm/controller/VolunteerController.php:489
+#: ../mod/vm/controller/VolunteerController.php:496
+msgid "Approval information has been updated"
+msgstr ""
+
+#: ../mod/vm/controller/VolunteerController.php:519
+msgid "There was a problem logging your time. Please go back and try again."
+msgstr ""
+
+#: ../mod/vm/controller/VolunteerController.php:521
+msgid "Error logging time:"
+msgstr ""
+
+#: ../mod/vm/controller/VolunteerController.php:776
+msgid "Volunteer Management Report"
+msgstr ""
+
+#: ../mod/vm/controller/ProjectController.php:138
+msgid "Volunteer has been successfully assigned"
+msgstr ""
+
+#: ../mod/vm/controller/AdminController.php:71
+msgid "The Search Registry has been updated."
+msgstr ""
+
+#: ../mod/vm/controller/AdminController.php:128
+msgid "Access control modifications have been saved"
+msgstr ""
+
+#: ../mod/vm/controller/AdminController.php:134
+msgid "Template cache has been cleared"
+msgstr ""
+
+#: ../mod/vm/controller/AdminController.php:156
+msgid "ACL settings have been updated."
+msgstr ""
+
+#: ../inc/lib_image.inc:314 ../inc/lib_image.inc:365
+msgid "Invalid Image Type Please try again"
+msgstr ""
+
+#: ../inc/lib_misc.inc:184
+msgid "Whitespace is not a valid input."
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:92
+msgid ""
+"You may enable or disable automatic locking of user accounts, if the user "
+"attempts to login with invalid credentials 3 times in a row."
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:314
+msgid "Data Classificatons"
+msgstr ""
+
+#: ../inc/user_feedback.inc:208
+msgid "Close"
+msgstr ""
+
+#: ../inc/user_feedback.inc:211
+msgid "Need help?"
+msgstr ""
+
+#: ../inc/user_feedback.inc:214
+msgid "Your email"
+msgstr ""
+
+#: ../inc/user_feedback.inc:216
+msgid "Please type in your question/feedback comment below"
+msgstr ""
+
+#: ../inc/user_feedback.inc:218
+msgid "Send"
+msgstr ""
+
+#: ../inc/user_feedback.inc:218
+msgid "Send your feedback comments to sahana team"
+msgstr ""
+
+#: ../inc/user_feedback.inc:219 ../mod/gps/handler_route.inc:52
+#: ../mod/gps/handler_download_waypoint.inc:70
+#: ../mod/rms/handler_plg_history.inc:56
+msgid "Search"
+msgstr ""
+
+#: ../inc/user_feedback.inc:219
+msgid "Search for an answer for your question"
+msgstr ""
+
+#: ../inc/user_feedback.inc:224
+msgid "Don't show this again."
+msgstr ""
+
+#: ../inc/lib_gis/admin_internal_layer.inc:61
+#: ../inc/lib_gis/admin_internal_layer.inc:113
+#: ../inc/lib_gis/admin_feeds.inc:70 ../inc/lib_gis/admin_files.inc:73
+#: ../mod/gps/main.inc:129
+msgid "Something went wrong"
+msgstr ""
+
+#: ../inc/lib_gis/admin_internal_layer.inc:164
+msgid "Enter Feature Class Name"
+msgstr ""
+
+#: ../inc/lib_gis/admin_internal_layer.inc:193
+msgid "Layer could not be created."
+msgstr ""
+
+#: ../inc/lib_gis/admin_internal_layer.inc:250
+#: ../mod/gps/handler_upload_waypoint.inc:75
+msgid "Feature Class"
+msgstr ""
+
+#: ../inc/lib_gis/admin_internal_layer.inc:251 ../mod/sn/me_reg.inc:91
+#: ../mod/sn/me_reg.inc:355 ../mod/sn/my_prof.inc:168
+#: ../mod/dsm/sur_rep.inc:86 ../mod/dsm/add_dis.inc:26
+#: ../mod/dsm/edt_dis.inc:58
+msgid "General Details"
+msgstr ""
+
+#: ../inc/lib_gis/admin_internal_layer.inc:253 ../mod/ms/layer_fns.inc:417
+msgid "Layer Name"
+msgstr ""
+
+#: ../inc/lib_gis/admin_internal_layer.inc:254
+#: ../mod/pre/handler_disaster.inc:34 ../mod/pre/handler_disaster.inc:315
+msgid "Description"
+msgstr ""
+
+#: ../inc/lib_gis/admin_internal_layer.inc:275
+msgid "Return to Original Menu"
+msgstr ""
+
+#: ../inc/lib_gis/upload_files.inc:40 ../inc/lib_gis/upload_markers.inc:42
+#: ../inc/lib_gis/gis_fns.inc:2235 ../inc/lib_gis/admin_files.inc:680
+#: ../inc/lib_gis/upload_defs.inc:39 ../mod/gps/handler_upload.inc:61
+msgid "The uploaded file exceeds the Max upload size"
+msgstr ""
+
+#: ../inc/lib_gis/upload_files.inc:43 ../inc/lib_gis/upload_markers.inc:45
+#: ../inc/lib_gis/gis_fns.inc:2238 ../inc/lib_gis/admin_files.inc:683
+#: ../inc/lib_gis/upload_defs.inc:42 ../mod/gps/handler_upload.inc:64
+msgid "The uploaded file was only partially uploaded."
+msgstr ""
+
+#: ../inc/lib_gis/upload_files.inc:46 ../inc/lib_gis/upload_markers.inc:48
+#: ../inc/lib_gis/gis_fns.inc:2241 ../inc/lib_gis/admin_files.inc:686
+#: ../inc/lib_gis/upload_defs.inc:45 ../mod/gps/handler_upload.inc:67
+msgid ""
+"No file was uploaded :  Please press the browse button and select a file to "
+"upload before you press the next button"
+msgstr ""
+
+#: ../inc/lib_gis/lib_gis_forms.inc:479
+msgid "GIS Disabled"
+msgstr ""
+
+#: ../inc/lib_gis/lib_gis_forms.inc:551
+msgid "Features"
+msgstr ""
+
+#: ../inc/lib_gis/admin_fns.inc:123
+msgid "Longitude saved"
+msgstr ""
+
+#: ../inc/lib_gis/admin_fns.inc:125
+msgid "Longitude Coordinate invalid"
+msgstr ""
+
+#: ../inc/lib_gis/admin_fns.inc:139
+msgid "Latitude saved"
+msgstr ""
+
+#: ../inc/lib_gis/admin_fns.inc:141
+msgid "Latitude Coordinate invalid"
+msgstr ""
+
+#: ../inc/lib_gis/admin_fns.inc:155
+msgid "Zoom saved"
+msgstr ""
+
+#: ../inc/lib_gis/admin_fns.inc:168
+msgid "Plugin saved"
+msgstr ""
+
+#: ../inc/lib_gis/admin_feeds.inc:309 ../inc/lib_gis/admin_files.inc:263
+#: ../inc/lib_gis/admin_files.inc:444
+msgid "Please enter a name for the feed"
+msgstr ""
+
+#: ../inc/lib_gis/admin_feeds.inc:315 ../inc/lib_gis/admin_files.inc:269
+#: ../inc/lib_gis/admin_files.inc:490
+#: ../mod/gps/handler_download_waypoint.inc:151
+#: ../mod/gps/handler_upload_waypoint.inc:140
+msgid "Failed to save feed"
+msgstr ""
+
+#: ../inc/lib_gis/admin_feeds.inc:317 ../inc/lib_gis/admin_files.inc:271
+#: ../inc/lib_gis/admin_files.inc:492
+#: ../mod/gps/handler_download_waypoint.inc:153
+#: ../mod/gps/handler_upload_waypoint.inc:142
+msgid "A feed has been successfully created at:"
+msgstr ""
+
+#: ../inc/lib_gis/admin_feeds.inc:396
+msgid "Select Feature Classes:"
+msgstr ""
+
+#: ../inc/lib_gis/upload_markers.inc:55
+msgid "Please upload an image file with the extension \".png\""
+msgstr ""
+
+#: ../inc/lib_gis/gis_fns.inc:2227 ../mod/gps/handler_upload.inc:54
+msgid "Make sure the tmp folder is writable"
+msgstr ""
+
+#: ../inc/lib_gis/gis_fns.inc:2255 ../mod/gps/handler_upload.inc:79
+msgid "Possible file upload attack!"
+msgstr ""
+
+#: ../inc/lib_gis/gis_fns.inc:2289 ../mod/gps/handler_upload.inc:108
+msgid "Can not open file."
+msgstr ""
+
+#: ../inc/lib_gis/gis_fns.inc:2302 ../mod/gps/handler_upload.inc:119
+msgid "Your File is not well-formed. Please upload a well-formed file"
+msgstr ""
+
+#: ../inc/lib_gis/gis_fns.inc:2313 ../mod/gps/handler_upload.inc:130
+msgid "Your File is not valid. Please upload a valid file"
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:282 ../inc/lib_gis/admin_files.inc:284
+#: ../mod/gps/handler_download_waypoint.inc:165
+msgid "Feature uuid '"
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:282
+msgid "' have been removed from the system."
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:284
+msgid "' could not be removed from the system."
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:388 ../inc/lib_gis/admin_files.inc:465
+#: ../mod/gps/handler_upload_waypoint.inc:58
+#: ../mod/gps/handler_upload_waypoint.inc:173
+msgid "File Type Unsuported"
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:475
+msgid ""
+"The following Features have been successfully uploaded to Sahana internal "
+"database:"
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:479 ../inc/lib_gis/admin_files.inc:482
+#: ../mod/gps/handler_upload_waypoint.inc:185
+#: ../mod/gps/handler_upload_waypoint.inc:187
+msgid "Feature number '"
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:479 ../inc/lib_gis/admin_files.inc:482
+#: ../mod/gps/handler_upload_waypoint.inc:185
+#: ../mod/gps/handler_upload_waypoint.inc:187
+msgid "', name '"
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:479 ../inc/lib_gis/admin_files.inc:482
+#: ../mod/gps/handler_upload_waypoint.inc:185
+#: ../mod/gps/handler_upload_waypoint.inc:187
+msgid "', coords '"
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:479
+#: ../mod/gps/handler_upload_waypoint.inc:185
+msgid "' was added."
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:482
+#: ../mod/gps/handler_upload_waypoint.inc:187
+msgid "' could not be added."
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:550
+#: ../mod/gps/handler_download_waypoint.inc:126
+msgid ""
+"After download has completed click finish to apply extra options and return "
+"to main page."
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:567
+#: ../mod/gps/handler_download_waypoint.inc:124
+#: ../mod/gps/handler_upload_waypoint.inc:119
+msgid "Extra Options:"
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:569
+msgid ""
+"Click Finish to upload features to Sahanas internal database and apply extra "
+"options."
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:571
+#: ../mod/gps/handler_download_waypoint.inc:128
+#: ../mod/gps/handler_upload_waypoint.inc:123
+msgid "Feed Options:"
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:573
+#: ../mod/gps/handler_download_waypoint.inc:130
+#: ../mod/gps/handler_upload_waypoint.inc:125
+msgid "Feed name"
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:585 ../mod/gps/handler_upload.inc:27
+#: ../mod/gps/main.inc:35
+msgid "Upload Waypoints"
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:588 ../inc/lib_gis/admin_files.inc:591
+#: ../mod/gps/handler_upload.inc:29 ../mod/gps/handler_upload.inc:33
+msgid "Upload File"
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:590 ../mod/gps/handler_upload.inc:32
+msgid "important: "
+msgstr ""
+
+#: ../inc/lib_gis/admin_files.inc:590 ../mod/gps/handler_upload.inc:32
+msgid "This system will only accept files which are well-formed and valid."
+msgstr ""
+
+#: ../inc/lib_gis/upload_defs.inc:51
+msgid "Please upload a Proj4js definition file with the extension \".js\""
+msgstr ""
+
+#: ../inc/lib_location.inc:782
+msgid ""
+"This location name is already in the database. Do you want to add anyway?  "
+"&nbsp&nbsp&nbsp<b><a href='#' onclick='_shn_loc_val_name();'>Add anyway</a></"
+"b> or else you can change the \"Location Name\" textbox and submit the form "
+"again."
+msgstr ""
+
+#: ../mod/cr/admin.inc:123 ../mod/gps/admin.inc:75
+msgid "Nothing to add"
+msgstr ""
+
+#: ../mod/cr/edit_ppl.inc:114
+msgid "Infected Count should be less or equal than total"
+msgstr ""
+
+#: ../mod/cr/edit.inc:187
+msgid "Available services"
+msgstr ""
+
+#: ../mod/pre/list_disaster.inc:122
+msgid "Search a disaster"
+msgstr ""
+
+#: ../mod/pre/handler_area.inc:139 ../mod/pre/handler_area.inc:187
+#: ../mod/pre/handler_area.inc:338 ../mod/pre/handler_area.inc:496
+#: ../mod/pre/lib_pre.inc:485 ../mod/pre/lib_pre.inc:561
+#: ../mod/pre/handler_shelter.inc:94 ../mod/pre/handler_shelter.inc:231
+#: ../mod/pre/handler_shelter.inc:307
+msgid "Location Details"
+msgstr ""
+
+#: ../mod/pre/handler_area.inc:242
+msgid "Set threat levels"
+msgstr ""
+
+#: ../mod/pre/handler_area.inc:262 ../mod/pre/handler_shelter.inc:140
+msgid "Location Information"
+msgstr ""
+
+#: ../mod/pre/handler_area.inc:263 ../mod/pre/handler_shelter.inc:141
+msgid "Plot the Location OR Enter its GPS coordinates below"
+msgstr ""
+
+#: ../mod/pre/admin.inc:75
+msgid "Add a effect of disasters"
+msgstr ""
+
+#: ../mod/pre/admin.inc:77
+msgid "Effect : "
+msgstr ""
+
+#: ../mod/pre/admin.inc:78
+msgid "Effect Code : "
+msgstr ""
+
+#: ../mod/pre/admin.inc:79 ../mod/pre/handler_evacuation.inc:61
+#: ../mod/pre/handler_disaster.inc:38 ../mod/pre/handler_disaster.inc:319
+#: ../mod/rs/table.inc:126
+msgid "Submit"
+msgstr ""
+
+#: ../mod/pre/handler_rec_plan.inc:66
+msgid "Search Recovery Methods"
+msgstr ""
+
+#: ../mod/pre/conf.inc:27 ../mod/pre/main.inc:28
+msgid "Disaster Preparedness"
+msgstr ""
+
+#: ../mod/pre/main.inc:29 ../mod/gps/main.inc:34 ../mod/ms/main.inc:31
+#: ../mod/vm/menu.inc:35 ../mod/vm/menu.inc:162
+msgid "Home"
+msgstr ""
+
+#: ../mod/pre/main.inc:30
+msgid "Disaster identification"
+msgstr ""
+
+#: ../mod/pre/main.inc:31
+msgid "Add a disaster"
+msgstr ""
+
+#: ../mod/pre/main.inc:32
+msgid "List disasters"
+msgstr ""
+
+#: ../mod/pre/main.inc:86
+msgid "Disaster Preparedness Module"
+msgstr ""
+
+#: ../mod/pre/main.inc:87
+msgid ""
+"Most disasters and there effects can be identify before it occurs. "
+"Identifying and tracking those information will helps to do a efficient and "
+"effective planing for recover or minimize the damage and public education. "
+"From that effort for relief waorks and rehabilitation can be minimized. "
+"Sahana disaster preparedness system is addressing requirements of pre "
+"disaster deployments. Sahana disaster preparedness system is addressing four "
+"basic functionalities in disaster preparedness."
+msgstr ""
+
+#: ../mod/pre/main.inc:89
+msgid "Features include:"
+msgstr ""
+
+#: ../mod/pre/main.inc:91
+msgid "Assessing Vulnerabilities"
+msgstr ""
+
+#: ../mod/pre/main.inc:92
+msgid "Planning"
+msgstr ""
+
+#: ../mod/pre/main.inc:93 ../mod/vm/menu.inc:117
+msgid "Reporting"
+msgstr ""
+
+#: ../mod/pre/main.inc:94
+msgid "Warning"
+msgstr ""
+
+#: ../mod/pre/handler_warning.inc:118
+msgid "Declair the Disaster"
+msgstr ""
+
+#: ../mod/pre/handler_evacuation.inc:55
+msgid "Allocation people to shelters"
+msgstr ""
+
+#: ../mod/pre/handler_evacuation.inc:57
+msgid "Area : "
+msgstr ""
+
+#: ../mod/pre/handler_evacuation.inc:58
+msgid "Available Population : "
+msgstr ""
+
+#: ../mod/pre/handler_evacuation.inc:86
+msgid "Add It"
+msgstr ""
+
+#: ../mod/pre/handler_disaster.inc:28
+msgid "Edit Disaster"
+msgstr ""
+
+#: ../mod/pre/handler_disaster.inc:31 ../mod/pre/handler_disaster.inc:312
+msgid "Disaster : "
+msgstr ""
+
+#: ../mod/pre/handler_disaster.inc:32 ../mod/pre/handler_disaster.inc:313
+msgid "Reason : "
+msgstr ""
+
+#: ../mod/pre/handler_disaster.inc:43
+msgid "Delete Disaster"
+msgstr ""
+
+#: ../mod/pre/handler_disaster.inc:174
+msgid "Edit a Recovery Method"
+msgstr ""
+
+#: ../mod/pre/handler_disaster.inc:178 ../mod/pre/handler_disaster.inc:237
+msgid "Recovery : "
+msgstr ""
+
+#: ../mod/pre/handler_disaster.inc:234
+msgid "Add a Recovery Method"
+msgstr ""
+
+#: ../mod/pre/handler_disaster.inc:310
+msgid "Add a Disaster"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:26 ../mod/gps/handler_route.inc:116
+#: ../mod/gps/main.inc:39
+msgid "Download Route"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:31
+msgid "Origin Point Detail"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:33 ../mod/gps/handler_route.inc:37
+#: ../mod/gps/handler_route.inc:41 ../mod/gps/handler_route.inc:45
+#: ../mod/gps/handler_route.inc:49
+msgid "Name of Marker"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:36
+msgid "Destination Point Detail"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:40
+msgid "Point immediately next to Origin"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:44
+msgid "Point before destination"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:48
+msgid "Mid Point on Route"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:63 ../mod/gps/handler_download_waypoint.inc:98
+msgid "Search Results"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:66
+msgid "Create Route"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:70
+msgid "information: "
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:70
+msgid "You may dynamically create your route by selecting route points."
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:80
+msgid "Author Name"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:81 ../mod/gps/handler_upload_waypoint.inc:73
+msgid "Event Date"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:82
+msgid "Route Name"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:83
+msgid "Point Name"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:84
+msgid "Point Description"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:85
+msgid "Select"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:237
+#: ../mod/gps/handler_download_waypoint.inc:64
+#: ../mod/gps/handler_marker.inc:207
+msgid "Name of Author"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:237 ../mod/gps/handler_marker.inc:207
+msgid "mod_gps_marker_author_help"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:238
+msgid "Name of Route"
+msgstr ""
+
+#: ../mod/gps/handler_route.inc:239 ../mod/gps/handler_marker.inc:135
+#: ../mod/gps/handler_marker.inc:208
+msgid "Download File"
+msgstr ""
+
+#: ../mod/gps/handler_upload.inc:37
+msgid "Upload"
+msgstr ""
+
+#: ../mod/gps/handler_upload.inc:126
+msgid ""
+"The file was uploaded successfully. Please complete the following steps to "
+"add features to database."
+msgstr ""
+
+#: ../mod/gps/admin.inc:33
+msgid " Administration"
+msgstr ""
+
+#: ../mod/gps/admin.inc:63
+msgid "Added Values"
+msgstr ""
+
+#: ../mod/gps/admin.inc:66
+msgid "Abbrevation should in 3 characters"
+msgstr ""
+
+#: ../mod/gps/admin.inc:70
+msgid "Please fill in empty values"
+msgstr ""
+
+#: ../mod/gps/conf.inc:27
+msgid "GPS Interface"
+msgstr ""
+
+#: ../mod/gps/conf.inc:33
+msgid "GPS"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:39
+msgid "Feature Search"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:45
+msgid "Feature Details"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:65
+msgid "Date of Event (From)"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:66
+msgid "Date of Event (To)"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:67
+msgid "Name of Feature"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:104
+msgid "Search For More Features"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:105
+msgid "Fresh Search"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:106
+msgid "Continue To Download"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:118
+#: ../mod/gps/handler_download_waypoint.inc:120
+msgid "Download"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:132
+msgid "Database Options:"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:135
+#: ../mod/gps/handler_download_waypoint.inc:146
+#: ../mod/gps/handler_upload_waypoint.inc:127
+#: ../mod/gps/handler_upload_waypoint.inc:135
+msgid "Finish"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:162
+msgid "Features have been removed from the system"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:165
+msgid "' could not be removed from system"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:169
+msgid "GIS not installed"
+msgstr ""
+
+#: ../mod/gps/handler_download_waypoint.inc:174
+#: ../mod/gps/handler_upload_waypoint.inc:147
+msgid "Menu"
+msgstr ""
+
+#: ../mod/gps/main_fns.inc:27
+msgid ""
+"The data is imported/exported via GPX files which can be transferred to/from "
+"a GPS device using, e.g. <a href=\"http://www.gpsbabel.org/\" "
+"target=_blank>GPS Babel</a>."
+msgstr ""
+
+#: ../mod/gps/main.inc:36
+msgid "Download Waypoints"
+msgstr ""
+
+#: ../mod/gps/main.inc:37
+msgid "Publish Features"
+msgstr ""
+
+#: ../mod/gps/handler_upload_waypoint.inc:63
+msgid "Uploaded Waypoints"
+msgstr ""
+
+#: ../mod/gps/handler_upload_waypoint.inc:65
+msgid "Select Features"
+msgstr ""
+
+#: ../mod/gps/handler_upload_waypoint.inc:70
+msgid "Feature Name"
+msgstr ""
+
+#: ../mod/gps/handler_upload_waypoint.inc:71
+msgid "Feature Description"
+msgstr ""
+
+#: ../mod/gps/handler_upload_waypoint.inc:72
+msgid "Feature Author"
+msgstr ""
+
+#: ../mod/gps/handler_upload_waypoint.inc:74
+msgid "Point Coordinates"
+msgstr ""
+
+#: ../mod/gps/handler_upload_waypoint.inc:76
+msgid "Select To Upload"
+msgstr ""
+
+#: ../mod/gps/handler_upload_waypoint.inc:111
+msgid "Upload Features"
+msgstr ""
+
+#: ../mod/gps/handler_upload_waypoint.inc:121
+msgid ""
+"Now upload has completed click finish to apply extra options and return to "
+"main page."
+msgstr ""
+
+#: ../mod/gps/handler_upload_waypoint.inc:179
+msgid "Selected features have been successfully uploaded:"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:33
+msgid "Name of Marker Cannot be empty"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:36
+msgid "Add Marker Detail"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:40
+msgid "Main Details"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:42
+msgid "Name of Waypoint"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:42
+msgid "mod_gps_marker_name_help"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:43
+msgid "Waypoint Type"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:43
+msgid "mod_gps_marker_type_help"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:44
+msgid "Waypoint Description"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:46
+msgid "Add Detail"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:69 ../mod/dsm/view_case.inc:68
+#: ../mod/ms/layer_fns.inc:330 ../mod/ms/layer_fns.inc:366
+msgid "Next"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:84
+msgid "Confirm Details of Marker "
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:87
+msgid "Marker Details"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:88
+msgid "Marker Name"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:89
+msgid "Marker Type"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:90
+msgid "Marker Description"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:91
+msgid "Marker Latitude"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:92
+msgid "Marker Longitude"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:100
+msgid "Add to File"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:101 ../mod/pref/main.inc:147
+msgid "Cancel"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:114
+msgid " was successfully added to a dwonloadable marker file"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:127
+msgid ""
+"Now you can add more Markers to this file By clicking the Add More Markers "
+"Button"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:129
+msgid "Add More Markers"
+msgstr ""
+
+#: ../mod/gps/handler_marker.inc:133
+msgid ""
+"Instead if you have added necessary markers to marker file, click the button "
+"below to download it."
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:79
+msgid "Self Sign Up process"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:96 ../mod/sn/me_reg.inc:359
+msgid "Full Name"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:114
+msgid "Picture"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:115 ../mod/sn/me_reg.inc:388 ../mod/sn/my_prof.inc:182
+msgid "E-Mail"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:116
+msgid "Confirm Email"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:117 ../mod/sn/me_reg.inc:390 ../mod/sn/my_prof.inc:185
+msgid "Date of Birth"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:121
+msgid "Expertice Details"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:140 ../mod/sn/me_reg.inc:399 ../mod/sn/my_prof.inc:195
+msgid "Experience"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:141 ../mod/sn/me_reg.inc:401 ../mod/sn/my_prof.inc:198
+msgid "Other infomation"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:145 ../mod/sn/me_reg.inc:405 ../mod/sn/my_prof.inc:202
+msgid "Location (optional)"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:148 ../mod/sn/me_reg.inc:408 ../mod/sn/my_prof.inc:205
+#: field_options:110
+msgid "Country"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:149 ../mod/sn/me_reg.inc:411 ../mod/sn/my_prof.inc:208
+#: field_options:112
+msgid "City"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:153
+msgid "Register"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:170
+msgid "Details of the person having the username u entered"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:349
+msgid "Confirm your details"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:394
+msgid "Preference Details"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:397 ../mod/sn/my_prof.inc:192
+msgid "Interest Area"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:415 ../mod/itag/main.inc:52
+#: ../mod/ms/layer_fns.inc:146 ../mod/ms/layer_fns.inc:496
+#: ../mod/pref/main.inc:148
+msgid "Save"
+msgstr ""
+
+#: ../mod/sn/me_reg.inc:469
+msgid "Thank you for registering in Social Network, ENJOY SN... "
+msgstr ""
+
+#: ../mod/sn/my_prof.inc:82
+msgid "My Profile"
+msgstr ""
+
+#: ../mod/sn/my_prof.inc:142 ../mod/vm/menu.inc:171
+msgid "Edit Your Details"
+msgstr ""
+
+#: ../mod/sn/my_prof.inc:171
+msgid "First Name"
+msgstr ""
+
+#: ../mod/sn/my_prof.inc:177
+msgid "Change Picture"
+msgstr ""
+
+#: ../mod/sn/my_prof.inc:189
+msgid "Strategic Information (optional)"
+msgstr ""
+
+#: ../mod/sn/my_prof.inc:212
+msgid "Save Changes"
+msgstr ""
+
+#: ../mod/sn/my_prof.inc:325 ../mod/sn/sn_friends.inc:250
+#: ../mod/sn/sn_group.inc:410
+msgid "Member Profile"
+msgstr ""
+
+#: ../mod/sn/sn_friends.inc:79
+msgid "People who have similar interest to you "
+msgstr ""
+
+#: ../mod/sn/sn_friends.inc:150
+msgid "You have no friends yet"
+msgstr ""
+
+#: ../mod/sn/cr_group.inc:520
+msgid "Thank you for creating a group in social network "
+msgstr ""
+
+#: ../mod/sn/admin/view_mem.inc:56
+msgid "Social Network Members"
+msgstr ""
+
+#: ../mod/dvr/duplicate_search.inc:197
+msgid "No duplicates found."
+msgstr ""
+
+#: ../mod/dvr/edt_grp.inc:135
+msgid "Adult male count should be a number"
+msgstr ""
+
+#: ../mod/dvr/edt_grp.inc:143
+msgid "Adult female count should be a number"
+msgstr ""
+
+#: ../mod/dvr/edt_grp.inc:151
+msgid "Children count should be a number"
+msgstr ""
+
+#: ../mod/dvr/edt_grp.inc:159
+msgid "Displaced count should be a number"
+msgstr ""
+
+#: ../mod/dvr/edt_grp.inc:167
+msgid "Missing people count should be a number"
+msgstr ""
+
+#: ../mod/dvr/edt_grp.inc:175
+msgid "Death count should be a number"
+msgstr ""
+
+#: ../mod/dvr/edt_grp.inc:183
+msgid "Rehabilitated count should be a number"
+msgstr ""
+
+#: ../mod/dsm/sur_rep.inc:52
+msgid "Diseases"
+msgstr ""
+
+#: ../mod/dsm/sur_rep.inc:135 ../mod/dsm/sur_rep.inc:152
+#: ../mod/dsm/rep_dis.inc:29
+msgid "Symptoms"
+msgstr ""
+
+#: ../mod/dsm/sur_rep.inc:166
+msgid "Risk Analysis"
+msgstr ""
+
+#: ../mod/dsm/sur_rep.inc:177
+msgid "Cost Estimation"
+msgstr ""
+
+#: ../mod/dsm/add_dis.inc:35
+msgid "Special Risks"
+msgstr ""
+
+#: ../mod/dsm/add_dis.inc:119
+msgid " Symptoms"
+msgstr ""
+
+#: ../mod/dsm/add_dis.inc:130
+msgid "Select Symptoms"
+msgstr ""
+
+#: ../mod/dsm/add_dis.inc:138
+msgid "Add New Symptom"
+msgstr ""
+
+#: ../mod/dsm/edt_dis.inc:78
+msgid "Primary Symptoms"
+msgstr ""
+
+#: ../mod/dsm/edt_dis.inc:89
+msgid "Minor Symptoms"
+msgstr ""
+
+#: ../mod/dsm/edt_dis.inc:126
+msgid "Causative Factors"
+msgstr ""
+
+#: ../mod/dsm/home.inc:11
+msgid ""
+"The Disease Surviellance Module contains data mining and surviellance "
+"informations on spreading of diseases. Graphs, maps and charts are being "
+"used to represent those information. The simple disease diagnosis system can "
+"be used in rulal areas and also as a primary disease diagnosis. This module "
+"also consists of data collecting and storing system for data analyzing and "
+"mining purposes."
+msgstr ""
+
+#: ../mod/dsm/edit_case.inc:64 ../mod/dsm/view_case.inc:65
+msgid "General details"
+msgstr ""
+
+#: ../mod/dsm/edit_case.inc:65 ../mod/dsm/view_case.inc:66
+msgid "Name"
+msgstr ""
+
+#: ../mod/dsm/edit_case.inc:74 ../mod/dsm/view_case.inc:75
+msgid "Contact details"
+msgstr ""
+
+#: ../mod/dsm/edit_case.inc:77 ../mod/dsm/view_case.inc:78
+msgid "Mobile"
+msgstr ""
+
+#: ../mod/dsm/edit_case.inc:78 ../mod/dsm/view_case.inc:79
+msgid "Telephone"
+msgstr ""
+
+#: ../mod/dsm/edit_case.inc:79 ../mod/dsm/view_case.inc:80
+msgid "Address"
+msgstr ""
+
+#: ../mod/dsm/edit_case.inc:80 ../mod/dsm/view_case.inc:81
+msgid "Email"
+msgstr ""
+
+#: ../mod/dsm/rep_dis.inc:13
+msgid "Diagnosis / Disease"
+msgstr ""
+
+#: ../mod/dsm/rep_dis.inc:20
+msgid "Details"
+msgstr ""
+
+#: ../mod/dsm/rep_dis.inc:43
+msgid "Diagnosis"
+msgstr ""
+
+#: ../mod/or/lib_or.inc:777
+msgid ""
+"You can specify the man power as a number or give details upto 100 "
+"characters."
+msgstr ""
+
+#: ../mod/itag/main.inc:45
+msgid "Map Details"
+msgstr ""
+
+#: ../mod/itag/main.inc:46 ../mod/itag/main.inc:108
+msgid "Name  : "
+msgstr ""
+
+#: ../mod/itag/main.inc:47 ../mod/itag/main.inc:109
+msgid "Description  : "
+msgstr ""
+
+#: ../mod/itag/main.inc:49
+msgid "Upload a JPEG Map"
+msgstr ""
+
+#: ../mod/itag/main.inc:50
+msgid "Image"
+msgstr ""
+
+#: ../mod/itag/main.inc:71
+msgid " Map was succesfully saved"
+msgstr ""
+
+#: ../mod/ms/conf.inc:16
+msgid "MapServer Configuration"
+msgstr ""
+
+#: ../mod/ms/map_fns.inc:218
+msgid "PNG"
+msgstr ""
+
+#: ../mod/ms/map_fns.inc:218
+msgid "JPG"
+msgstr ""
+
+#: ../mod/ms/map_fns.inc:297 ../mod/ms/main.inc:35
+msgid "Manage Maps"
+msgstr ""
+
+#: ../mod/ms/map_fns.inc:391
+msgid "Search Map"
+msgstr ""
+
+#: ../mod/ms/main.inc:32
+msgid "Create New Map"
+msgstr ""
+
+#: ../mod/ms/main.inc:33
+msgid "Add Layer to Map"
+msgstr ""
+
+#: ../mod/ms/main.inc:34
+msgid "Edit Layer"
+msgstr ""
+
+#: ../mod/ms/layer_fns.inc:90 ../mod/ms/layer_fns.inc:431
+msgid "ON"
+msgstr ""
+
+#: ../mod/ms/layer_fns.inc:90 ../mod/ms/layer_fns.inc:431
+msgid "OFF"
+msgstr ""
+
+#: ../mod/ms/layer_fns.inc:91 ../mod/ms/layer_fns.inc:433
+msgid "POLYGON"
+msgstr ""
+
+#: ../mod/ms/layer_fns.inc:91 ../mod/ms/layer_fns.inc:433
+msgid "POINT"
+msgstr ""
+
+#: ../mod/ms/layer_fns.inc:91 ../mod/ms/layer_fns.inc:433
+msgid "LINE"
+msgstr ""
+
+#: ../mod/ms/layer_fns.inc:136 ../mod/ms/layer_fns.inc:478
+msgid "Set Outline Color"
+msgstr ""
+
+#: ../mod/ms/layer_fns.inc:271
+msgid "Layer Added"
+msgstr ""
+
+#: ../mod/ms/layer_fns.inc:327 ../mod/ms/layer_fns.inc:339
+msgid "Edit Layers"
+msgstr ""
+
+#: ../mod/ms/layer_fns.inc:364 ../mod/ms/layer_fns.inc:494
+msgid "Prev"
+msgstr ""
+
+#: ../mod/sm/admin.inc:54
+msgid "Welcome to the Situation Awareness admin page"
+msgstr ""
+
+#: ../mod/sm/admin.inc:55 ../mod/mpr/admin.inc:64
+msgid "Please use the navigation menu above to configure each field."
+msgstr ""
+
+#: ../mod/rs/admin.inc:18
+msgid "Update database metadata tables"
+msgstr ""
+
+#: ../mod/rs/formats/csv/conf.inc:4
+msgid "CSV - comma separated values"
+msgstr ""
+
+#: ../mod/rs/home.inc:33
+msgid "Supported File formats &amp; Extentions :"
+msgstr ""
+
+#: ../mod/rs/main.inc:299
+msgid "Error : The format you selected is unavailable"
+msgstr ""
+
+#: ../mod/rs/rs_export.inc:30
+msgid "Export File Info"
+msgstr ""
+
+#: ../mod/rs/rs_export.inc:35
+msgid "Export"
+msgstr ""
+
+#: ../mod/rs/dnd_table.inc:75 ../mod/rs/dnd_table.inc:105
+msgid "Selecting data from a table"
+msgstr ""
+
+#: ../mod/rs/dnd_multiple_table.inc:71
+msgid "Selecting data from several tables"
+msgstr ""
+
+#: ../mod/rs/dnd_multiple_table.inc:236 ../mod/rs/table.inc:69
+msgid "Create report"
+msgstr ""
+
+#: ../mod/rs/table.inc:61 ../mod/rs/table.inc:119
+msgid "Viewing any part of database table"
+msgstr ""
+
+#: ../mod/rs/table.inc:64
+msgid "Names of fields of the table: "
+msgstr ""
+
+#: ../mod/rs/table.inc:65
+msgid "Choose which fields would you like to view. "
+msgstr ""
+
+#: ../mod/rs/table.inc:122
+msgid "Name of a table"
+msgstr ""
+
+#: ../mod/rs/table.inc:123
+msgid "Choose which table would you like to view."
+msgstr ""
+
+#: ../mod/admin/acl.inc:479
+#, php-format
+msgid "Configure ACL for "
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:30
+msgid ""
+"There are database fields which require translation, please put table name "
+"and column name in the following fields which require translation. Finally "
+"that table field values are added to sahana.po file and user can translate "
+"those values."
+msgstr ""
+
+#: ../mod/admin/main.inc:351
+msgid "User Locking is enabled now."
+msgstr ""
+
+#: ../mod/admin/main.inc:354
+msgid "User Locking is disabled now."
+msgstr ""
+
+#: ../mod/admin/main.inc:615
+msgid "sahana/res folder is not writable!"
+msgstr ""
+
+#: ../mod/admin/main.inc:735
+msgid "Module"
+msgstr ""
+
+#: ../mod/admin/main.inc:736
+msgid "Status"
+msgstr ""
+
+#: ../mod/admin/main.inc:737
+msgid "Actions"
+msgstr ""
+
+#: ../mod/admin/lc_add_new_language.inc:51
+msgid ""
+"Cannot write to file, please give file and directory permissions to sahana/"
+"res folder"
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:40
+msgid "Setp 1 : "
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:40
+msgid ""
+"First of all please give file and directory permissions to sahana/res folder"
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:41
+msgid "Setp 2 : "
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:41
+msgid ""
+"When you press the 'Enable Localization' button then you enter a "
+"localization mode, afterwards when you right click on any word phrase in the "
+"user interface you'll get a prompt box into which you can type the required "
+"translation and press ok"
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:42
+msgid "Step 3 : "
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:42
+msgid ""
+"When you finish translation, please go to Administration->Language/Locale-"
+">Update Translation"
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:43
+msgid "Step 4 : "
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:43
+msgid "Finally press update button"
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:44
+msgid "Step 5 : "
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:44
+msgid ""
+"Afterwards go to Administration->Language/Locale->setLocale and set the "
+"particular locale"
+msgstr ""
+
+#: ../mod/vm/lib/vm_validate.inc:251
+msgid "Shift start must be before shift end."
+msgstr ""
+
+#: ../mod/vm/lib/vm_validate.inc:253
+msgid "Shift start must not be in the future."
+msgstr ""
+
+#: ../mod/vm/lib/vm_validate.inc:255
+msgid "Shift end must not be in the future."
+msgstr ""
+
+#: ../mod/vm/lib/vm_validate.inc:257
+msgid "Start and end times must not be blank."
+msgstr ""
+
+#: ../mod/vm/conf.inc:29 ../mod/vm/menu.inc:160
+msgid "Volunteer Management"
+msgstr ""
+
+#: ../mod/vm/menu.inc:52
+msgid "Volunteers"
+msgstr ""
+
+#: ../mod/vm/menu.inc:53
+msgid "Assign to Project"
+msgstr ""
+
+#: ../mod/vm/menu.inc:54
+msgid "Show Assigned"
+msgstr ""
+
+#: ../mod/vm/menu.inc:55 ../mod/vm/menu.inc:80
+msgid "View All"
+msgstr ""
+
+#: ../mod/vm/menu.inc:56
+msgid "Search for a Volunteer"
+msgstr ""
+
+#: ../mod/vm/menu.inc:77
+msgid "Projects"
+msgstr ""
+
+#: ../mod/vm/menu.inc:78
+msgid "Add New"
+msgstr ""
+
+#: ../mod/vm/menu.inc:79
+msgid "View My Projects"
+msgstr ""
+
+#: ../mod/vm/menu.inc:97
+msgid "Messaging"
+msgstr ""
+
+#: ../mod/vm/menu.inc:98
+msgid "Inbox"
+msgstr ""
+
+#: ../mod/vm/menu.inc:99
+msgid "Outbox"
+msgstr ""
+
+#: ../mod/vm/menu.inc:100
+msgid "Send Message"
+msgstr ""
+
+#: ../mod/vm/menu.inc:119
+msgid "Custom Report"
+msgstr ""
+
+#: ../mod/vm/menu.inc:120
+msgid "Report On My Projects"
+msgstr ""
+
+#: ../mod/vm/menu.inc:136
+msgid "Management"
+msgstr ""
+
+#: ../mod/vm/menu.inc:137
+msgid "Modify Abilities/Limitations"
+msgstr ""
+
+#: ../mod/vm/menu.inc:138
+msgid "Approve Abilities"
+msgstr ""
+
+#: ../mod/vm/menu.inc:173
+msgid "Register to Volunteer"
+msgstr ""
+
+#: ../mod/sr/lib_form.inc:44
+msgid "<b>Add Types</b>"
+msgstr ""
+
+#: ../mod/sr/lib_form.inc:45
+msgid "<b>Delete Types</b>"
+msgstr ""
+
+#: ../mod/sr/lib_form.inc:46
+msgid "<b>Import Data</b>"
+msgstr ""
+
+#: ../mod/pref/main.inc:52
+msgid " was successfully registered as a User "
+msgstr ""
+
+#: ../mod/mpr/admin.inc:63
+msgid "Welcome to the Missing Person Registry admin page"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:218
+msgid "General Configuration"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:281
+msgid "Field was successfully deleted."
+msgstr ""
+
+#: ../mod/mpr/admin.inc:314
+msgid "new_desc"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:314
+msgid " was successfully added."
+msgstr ""
+
+#: ../mod/mpr/main.inc:262
+msgid "Edit Missing Person Entry"
+msgstr ""
+
+#: ../mod/mpr/main.inc:266
+#, php-format
+msgid "Are you sure you want to delete tracker %s from tracker list"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:618 field_options:265 field_options:268
+#: field_options:271 field_options:274 field_options:277
+msgid "Yes"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:619 field_options:266 field_options:269
+#: field_options:272 field_options:275 field_options:278
+msgid "No"
+msgstr ""
+
+#: ../mod/msg/conf.inc:21
+msgid "Messaging/Alerting Module"
+msgstr ""
+
+#: ../mod/msg/admin_to_be_removed.inc:37
+msgid "Messaging:SMS Admin Page"
+msgstr ""
+
+#: ../mod/msg/admin_to_be_removed.inc:52
+msgid "Administraion"
+msgstr ""
+
+#: ../mod/msg/admin_to_be_removed.inc:83
+msgid "SMS Plugin Configuration"
+msgstr ""
+
+#: ../mod/msg/admin_to_be_removed.inc:131
+msgid "Messaging Module SMS Gateway plugins"
+msgstr ""
+
+#: ../mod/msg/admin_to_be_removed.inc:134
+msgid "Sahana supports a modular messaging SMS gateway plugin architecture "
+msgstr ""
+
+#: ../mod/msg/admin_to_be_removed.inc:135
+msgid "You can select which SMS gateway to use as your default"
+msgstr ""
+
+#: ../mod/msg/admin_to_be_removed.inc:136
+msgid "Select the default SMS gateway plugin from the detected plugins below:"
+msgstr ""
+
+#: ../mod/msg/admin_to_be_removed.inc:137
+msgid ""
+"For more information on adding custom plugins, refer to the documentation "
+"within the mod/msg subdirectory"
+msgstr ""
+
+#: ../mod/msg/admin_to_be_removed.inc:141
+msgid "Detected messaging module SMS plugins"
+msgstr ""
+
+#: ../mod/msg/admin_to_be_removed.inc:142
+msgid "Select Messaging SMS plugin"
+msgstr ""
+
+#: ../mod/msg/admin_to_be_removed.inc:144
+msgid "Done"
+msgstr ""
+
+#: ../mod/msg/admin_to_be_removed.inc:167
+msgid "General Messaging"
+msgstr ""
+
+#: ../mod/msg/main.inc:62
+msgid "Send Message Console"
+msgstr ""
+
+#: ../mod/msg/main.inc:65
+msgid "Receive Message Console"
+msgstr ""
+
+#: ../mod/msg/main.inc:70
+msgid "Add Contact"
+msgstr ""
+
+#: ../mod/msg/main.inc:72
+msgid "Contact List"
+msgstr ""
+
+#: ../mod/msg/main.inc:73
+msgid "Add Group"
+msgstr ""
+
+#: ../mod/msg/main.inc:74
+msgid "Add Adhoc Group"
+msgstr ""
+
+#: ../mod/msg/main.inc:75
+msgid "Edit Adhoc Group"
+msgstr ""
+
+#: ../mod/msg/main.inc:79
+msgid "Sent Messages"
+msgstr ""
+
+#: ../mod/msg/main.inc:80
+msgid "Received Messages"
+msgstr ""
+
+#: ../mod/msg/main.inc:86
+msgid "Send Survey Message"
+msgstr ""
+
+#: ../mod/msg/main.inc:87
+msgid "Survey Reports"
+msgstr ""
+
+#: ../mod/msg/main.inc:91
+msgid "Create Stored Message"
+msgstr ""
+
+#: ../mod/msg/main.inc:92
+msgid "Create Template Message"
+msgstr ""
+
+#: ../mod/msg/main.inc:96
+msgid "New Alert"
+msgstr ""
+
+#: ../mod/msg/main.inc:97
+msgid "View Alert"
+msgstr ""
+
+#: ../mod/msg/main.inc:98
+msgid "Edit Alert"
+msgstr ""
+
+#: ../mod/msg/main.inc:99
+msgid "Upload CAP File"
+msgstr ""
+
+#: ../mod/msg/main.inc:437
+msgid "Contacts"
+msgstr ""
+
+#: ../mod/msg/adm_menu_actions.inc:45
+msgid "Email Server Administration"
+msgstr ""
+
+#: ../mod/rms/handler_mng_ff.inc:494
+msgid ""
+"Please enter a valid 'Quantity', The 'Quantity' should be larger than the 0"
+msgstr ""
+
+#: ../mod/rms/handler_plg_history.inc:76
+msgid "Used Qty"
+msgstr ""
+
+#: field_options:2
+msgid "family"
+msgstr ""
+
+#: field_options:3
+msgid "company"
+msgstr ""
+
+#: field_options:4
+msgid "society"
+msgstr ""
+
+#: field_options:5
+msgid "tourists"
+msgstr ""
+
+#: field_options:6
+msgid "other"
+msgstr ""
+
+#: field_options:7
+msgid "==Select Option=="
+msgstr ""
+
+#: field_options:8
+msgid "National Identity Card"
+msgstr ""
+
+#: field_options:9
+msgid "Passport"
+msgstr ""
+
+#: field_options:10
+msgid "Driving License Number"
+msgstr ""
+
+#: field_options:11 field_options:30 field_options:53 field_options:58
+#: field_options:72 field_options:77 field_options:83 field_options:89
+msgid "Other"
+msgstr ""
+
+#: field_options:12
+msgid "Alive & Well"
+msgstr ""
+
+#: field_options:13
+msgid "Missing"
+msgstr ""
+
+#: field_options:14
+msgid "Injured"
+msgstr ""
+
+#: field_options:15
+msgid "Deceased"
+msgstr ""
+
+#: field_options:16 field_options:43 field_options:51 field_options:54
+#: field_options:59 field_options:63 field_options:73 field_options:78
+#: field_options:84
+msgid "Unknown"
+msgstr ""
+
+#: field_options:17
+msgid "Male"
+msgstr ""
+
+#: field_options:18
+msgid "Female"
+msgstr ""
+
+#: field_options:19
+msgid "Father"
+msgstr ""
+
+#: field_options:20
+msgid "Mother"
+msgstr ""
+
+#: field_options:21
+msgid "Brother"
+msgstr ""
+
+#: field_options:22
+msgid "Sister"
+msgstr ""
+
+#: field_options:23
+msgid "GrandFather"
+msgstr ""
+
+#: field_options:24
+msgid "GrandMother"
+msgstr ""
+
+#: field_options:25
+msgid "GrandFatherPaternal"
+msgstr ""
+
+#: field_options:26
+msgid "GrandFatherMaternal"
+msgstr ""
+
+#: field_options:27
+msgid "GrandMotherPaternal"
+msgstr ""
+
+#: field_options:28
+msgid "GrandMotherMaternal"
+msgstr ""
+
+#: field_options:29
+msgid "Friend"
+msgstr ""
+
+#: field_options:31
+msgid "Home(permanent address)"
+msgstr ""
+
+#: field_options:32
+msgid "Contact Person"
+msgstr ""
+
+#: field_options:33
+msgid "Personal Mobile"
+msgstr ""
+
+#: field_options:34
+msgid "Current Phone"
+msgstr ""
+
+#: field_options:35
+msgid "Current Mobile"
+msgstr ""
+
+#: field_options:36
+msgid "Email address"
+msgstr ""
+
+#: field_options:37
+msgid "Fax Number"
+msgstr ""
+
+#: field_options:38
+msgid "Website"
+msgstr ""
+
+#: field_options:39
+msgid "Instant Messenger"
+msgstr ""
+
+#: field_options:40
+msgid "Permanent home address)"
+msgstr ""
+
+#: field_options:41
+msgid "Impact location"
+msgstr ""
+
+#: field_options:42
+msgid "Current location"
+msgstr ""
+
+#: field_options:44
+msgid "Infant (0-1)"
+msgstr ""
+
+#: field_options:45
+msgid "Child (1-15)"
+msgstr ""
+
+#: field_options:46
+msgid "Young Adult (16-21)"
+msgstr ""
+
+#: field_options:47
+msgid "Adult (22-50)"
+msgstr ""
+
+#: field_options:48
+msgid "Senior Citizen (50+)"
+msgstr ""
+
+#: field_options:49
+msgid "United Kingdom"
+msgstr ""
+
+#: field_options:50
+msgid "Sri Lanka"
+msgstr ""
+
+#: field_options:52
+msgid "Filipino"
+msgstr ""
+
+#: field_options:55
+msgid "Buddhist"
+msgstr ""
+
+#: field_options:56
+msgid "Christian"
+msgstr ""
+
+#: field_options:57
+msgid "Muslim"
+msgstr ""
+
+#: field_options:60
+msgid "Single"
+msgstr ""
+
+#: field_options:61
+msgid "Married"
+msgstr ""
+
+#: field_options:62
+msgid "Divorced"
+msgstr ""
+
+#: field_options:64
+msgid "A+"
+msgstr ""
+
+#: field_options:65
+msgid "A-"
+msgstr ""
+
+#: field_options:66
+msgid "B+"
+msgstr ""
+
+#: field_options:67
+msgid "B-"
+msgstr ""
+
+#: field_options:68
+msgid "AB+"
+msgstr ""
+
+#: field_options:69
+msgid "AB-"
+msgstr ""
+
+#: field_options:70
+msgid "O+"
+msgstr ""
+
+#: field_options:71
+msgid "O-"
+msgstr ""
+
+#: field_options:74 field_options:79 field_options:85
+msgid "Black"
+msgstr ""
+
+#: field_options:75
+msgid "Light Brown"
+msgstr ""
+
+#: field_options:76
+msgid "Blue"
+msgstr ""
+
+#: field_options:80
+msgid "Dark Brown"
+msgstr ""
+
+#: field_options:81
+msgid "Fair"
+msgstr ""
+
+#: field_options:82
+msgid "White"
+msgstr ""
+
+#: field_options:86
+msgid "Brown"
+msgstr ""
+
+#: field_options:87
+msgid "Red"
+msgstr ""
+
+#: field_options:88
+msgid "Blond"
+msgstr ""
+
+#: field_options:90
+msgid "NGO Run Camp"
+msgstr ""
+
+#: field_options:91
+msgid "Temporary Shelter"
+msgstr ""
+
+#: field_options:92
+msgid "Government Evacuation Center"
+msgstr ""
+
+#: field_options:93
+msgid "Administrative Facilities"
+msgstr ""
+
+#: field_options:94
+msgid "Sanitation Facilities"
+msgstr ""
+
+#: field_options:95
+msgid "Water Facilities"
+msgstr ""
+
+#: field_options:96
+msgid "Medical Facilities"
+msgstr ""
+
+#: field_options:97
+msgid "Government"
+msgstr ""
+
+#: field_options:98
+msgid "Private"
+msgstr ""
+
+#: field_options:99
+msgid "NGO"
+msgstr ""
+
+#: field_options:100
+msgid "International NGO"
+msgstr ""
+
+#: field_options:101
+msgid "Multinational NGO"
+msgstr ""
+
+#: field_options:102 field_options:242
+msgid "Department"
+msgstr ""
+
+#: field_options:103
+msgid "Subsidiary"
+msgstr ""
+
+#: field_options:104
+msgid "Branch"
+msgstr ""
+
+#: field_options:105
+msgid "Supplier of Goods"
+msgstr ""
+
+#: field_options:106
+msgid "Communications"
+msgstr ""
+
+#: field_options:107
+msgid "Medical Services"
+msgstr ""
+
+#: field_options:108
+msgid "Rehabilitation"
+msgstr ""
+
+#: field_options:109
+msgid "Education"
+msgstr ""
+
+#: field_options:111
+msgid "State"
+msgstr ""
+
+#: field_options:113
+msgid "depth"
+msgstr ""
+
+#: field_options:114
+msgid "number of page records"
+msgstr ""
+
+#: field_options:115
+msgid "the frequency of report update"
+msgstr ""
+
+#: field_options:116
+msgid "the frequency of chart update"
+msgstr ""
+
+#: field_options:117
+msgid "General"
+msgstr ""
+
+#: field_options:118
+msgid "Person Status"
+msgstr ""
+
+#: field_options:119
+msgid "Damage Status"
+msgstr ""
+
+#: field_options:120
+msgid "Disaster Status"
+msgstr ""
+
+#: field_options:121
+msgid "Help Needed"
+msgstr ""
+
+#: field_options:122
+msgid "Publish File To Export Directory"
+msgstr ""
+
+#: field_options:123
+msgid "KML"
+msgstr ""
+
+#: field_options:124
+msgid "GML"
+msgstr ""
+
+#: field_options:125
+msgid "GPX"
+msgstr ""
+
+#: field_options:126
+msgid "GeoRSS"
+msgstr ""
+
+#: field_options:127
+msgid "Airstrip"
+msgstr ""
+
+#: field_options:128
+msgid "Hospital"
+msgstr ""
+
+#: field_options:129
+msgid "Office"
+msgstr ""
+
+#: field_options:130
+msgid "Place of Worship"
+msgstr ""
+
+#: field_options:131
+msgid "School"
+msgstr ""
+
+#: field_options:132
+msgid "Village"
+msgstr ""
+
+#: field_options:133
+msgid "Warehouse"
+msgstr ""
+
+#: field_options:134
+msgid "Water Supply"
+msgstr ""
+
+#: field_options:135
+msgid "WC"
+msgstr ""
+
+#: field_options:136
+msgid "Grouping"
+msgstr ""
+
+#: field_options:137
+msgid "Observed"
+msgstr ""
+
+#: field_options:138 field_options:239
+msgid "None"
+msgstr ""
+
+#: field_options:139
+msgid "Emergency Phone Contact"
+msgstr ""
+
+#: field_options:140
+msgid "General Skills-Animals-Animal Control Vehicles"
+msgstr ""
+
+#: field_options:141
+msgid "General Skills-Animals-Animal Handling"
+msgstr ""
+
+#: field_options:142
+msgid "General Skills-Animals-Grief Counseling"
+msgstr ""
+
+#: field_options:143
+msgid "General Skills-Animals-Horse Trailers"
+msgstr ""
+
+#: field_options:144
+msgid "General Skills-Animals-Livestock Vehicles"
+msgstr ""
+
+#: field_options:145
+msgid "General Skills-Animals-Other"
+msgstr ""
+
+#: field_options:146
+msgid "General Skills-Animals-Veterinarian"
+msgstr ""
+
+#: field_options:147
+msgid "General Skills-Animals-Veterinary Technician"
+msgstr ""
+
+#: field_options:148
+msgid "General Skills-Automotive-Body Repair"
+msgstr ""
+
+#: field_options:149
+msgid "General Skills-Automotive-Engine Repair"
+msgstr ""
+
+#: field_options:150
+msgid "General Skills-Automotive-Lights, Electrical"
+msgstr ""
+
+#: field_options:151
+msgid "General Skills-Automotive-Other"
+msgstr ""
+
+#: field_options:152
+msgid "General Skills-Automotive-Tire Repair"
+msgstr ""
+
+#: field_options:153
+msgid "General Skills-Automotive-Wheel and Brake Repair"
+msgstr ""
+
+#: field_options:154
+msgid "General Skills-Baby and Child Care-Aide"
+msgstr ""
+
+#: field_options:155
+msgid "General Skills-Baby and Child Care-Leader"
+msgstr ""
+
+#: field_options:156
+msgid "General Skills-Baby and Child Care-Other"
+msgstr ""
+
+#: field_options:157
+msgid "General Skills-Construction Services-Glass Service"
+msgstr ""
+
+#: field_options:158
+msgid "General Skills-Construction Services-House Repair"
+msgstr ""
+
+#: field_options:159
+msgid "General Skills-Construction Services-Inspection, B"
+msgstr ""
+
+#: field_options:160
+msgid "General Skills-Construction Services-Other"
+msgstr ""
+
+#: field_options:161
+msgid "General Skills-Construction Services-Roofing"
+msgstr ""
+
+#: field_options:162
+msgid "General Skills-Construction Services-Window Repair"
+msgstr ""
+
+#: field_options:163
+msgid "General Skills-Electrical-External Wiring"
+msgstr ""
+
+#: field_options:164
+msgid "General Skills-Electrical-Internal Wiring"
+msgstr ""
+
+#: field_options:165
+msgid "General Skills-Electrical-Other"
+msgstr ""
+
+#: field_options:166
+msgid "General Skills-Food Service-Cooking"
+msgstr ""
+
+#: field_options:167
+msgid "General Skills-Food Service-Directing"
+msgstr ""
+
+#: field_options:168
+msgid "General Skills-Food Service-Other"
+msgstr ""
+
+#: field_options:169
+msgid "General Skills-Food Service-Preparing"
+msgstr ""
+
+#: field_options:170
+msgid "General Skills-Food Service-Serving"
+msgstr ""
+
+#: field_options:171
+msgid "General Skills-Hazardous Materials-Asbestos"
+msgstr ""
+
+#: field_options:172
+msgid "General Skills-Hazardous Materials-Chemicals"
+msgstr ""
+
+#: field_options:173
+msgid "General Skills-Hazardous Materials-Explosives"
+msgstr ""
+
+#: field_options:174
+msgid "General Skills-Hazardous Materials-Flammables"
+msgstr ""
+
+#: field_options:175
+msgid "General Skills-Hazardous Materials-Gases"
+msgstr ""
+
+#: field_options:176
+msgid "General Skills-Hazardous Materials-Identification"
+msgstr ""
+
+#: field_options:177
+msgid "General Skills-Hazardous Materials-Other"
+msgstr ""
+
+#: field_options:178
+msgid "General Skills-Hazardous Materials-Radioactive "
+msgstr ""
+
+#: field_options:179
+msgid "General Skills-Information Services-Book Restorati"
+msgstr ""
+
+#: field_options:180
+msgid "General Skills-Information Services-Computer"
+msgstr ""
+
+#: field_options:181
+msgid "General Skills-Information Services-Data Entry"
+msgstr ""
+
+#: field_options:182
+msgid "General Skills-Information Services-Hardware (Comp"
+msgstr ""
+
+#: field_options:183
+msgid "General Skills-Information Services-Other"
+msgstr ""
+
+#: field_options:184
+msgid "General Skills-Information Services-Software (Comp"
+msgstr ""
+
+#: field_options:185
+msgid "General Skills-Information Services-Telephone Repa"
+msgstr ""
+
+#: field_options:186
+msgid "General Skills-Medical-Assist to Physician"
+msgstr ""
+
+#: field_options:187
+msgid "General Skills-Medical-Counseling"
+msgstr ""
+
+#: field_options:188
+msgid "General Skills-Medical-Dentist"
+msgstr ""
+
+#: field_options:189
+msgid "General Skills-Medical-First Aid"
+msgstr ""
+
+#: field_options:190
+msgid "General Skills-Medical-Medical, Ambulance"
+msgstr ""
+
+#: field_options:191
+msgid "General Skills-Medical-Nurse"
+msgstr ""
+
+#: field_options:192
+msgid "General Skills-Medical-Other"
+msgstr ""
+
+#: field_options:193
+msgid "General Skills-Medical-Physician"
+msgstr ""
+
+#: field_options:194
+msgid "General Skills-Medical-Technician"
+msgstr ""
+
+#: field_options:195
+msgid "General Skills-Plumbing-Other"
+msgstr ""
+
+#: field_options:196
+msgid "General Skills-Plumbing-Pumping-With Pump"
+msgstr ""
+
+#: field_options:197
+msgid "General Skills-Plumbing-Pumping-Without Pump"
+msgstr ""
+
+#: field_options:198
+msgid "General Skills-Tree-Evaluation of Needs"
+msgstr ""
+
+#: field_options:199
+msgid "General Skills-Tree-Other"
+msgstr ""
+
+#: field_options:200
+msgid "General Skills-Tree-Removal of Trees"
+msgstr ""
+
+#: field_options:201
+msgid "General Skills-Tree-Trimming of Trees"
+msgstr ""
+
+#: field_options:202
+msgid "Unskilled-Other-Baby Care Help"
+msgstr ""
+
+#: field_options:203
+msgid "Unskilled-Other-Clerical"
+msgstr ""
+
+#: field_options:204
+msgid "Unskilled-Other-Food Help"
+msgstr ""
+
+#: field_options:205
+msgid "Unskilled-Other-Heavy Labor (Moving, Erecting Tent"
+msgstr ""
+
+#: field_options:206
+msgid "Unskilled-Other-Light Labor (Cleanup)"
+msgstr ""
+
+#: field_options:207
+msgid "Unskilled-Other-Messenger (Local People Preferred)"
+msgstr ""
+
+#: field_options:208
+msgid "Unskilled-Other-Miscellaneous"
+msgstr ""
+
+#: field_options:209
+msgid "Resources-Vehicle-Own Aircraft"
+msgstr ""
+
+#: field_options:210
+msgid "Resources-Building Aide-Own Backhoe"
+msgstr ""
+
+#: field_options:211
+msgid "Resources-Building Aide-Own Bulldozer"
+msgstr ""
+
+#: field_options:212
+msgid "Resources-Building Aide-Own Crane"
+msgstr ""
+
+#: field_options:213
+msgid "Resources-Building Aide-Own Forklift"
+msgstr ""
+
+#: field_options:214
+msgid "Resources-Building Aide-Own Heavy Equipment"
+msgstr ""
+
+#: field_options:215
+msgid "Resources-Vehicle-Own Medical; Ambulance"
+msgstr ""
+
+#: field_options:216
+msgid "Resources-Vehicle-Own Other"
+msgstr ""
+
+#: field_options:217
+msgid "Resources-Vehicle-Own Refrigerated"
+msgstr ""
+
+#: field_options:218
+msgid "Resources-Vehicle-Own Steamshovel"
+msgstr ""
+
+#: field_options:219
+msgid "Resources-Vehicle-Own Truck"
+msgstr ""
+
+#: field_options:220
+msgid "Resources-Vehicle-Own Van, Car"
+msgstr ""
+
+#: field_options:221
+msgid "Resources-Vehicle-Own Boat(s)"
+msgstr ""
+
+#: field_options:222
+msgid "Resources-Warehouse-Forklift"
+msgstr ""
+
+#: field_options:223
+msgid "Resources-Warehouse-General"
+msgstr ""
+
+#: field_options:224
+msgid "General Skills-Warehouse-Management"
+msgstr ""
+
+#: field_options:225
+msgid "Unskilled-With Tools-with Brooms"
+msgstr ""
+
+#: field_options:226
+msgid "Unskilled-With Tools-with Carpentry Tools"
+msgstr ""
+
+#: field_options:227
+msgid "Unskilled-With Tools-with Other Tools"
+msgstr ""
+
+#: field_options:228
+msgid "Unskilled-With Tools-with Pump, Small"
+msgstr ""
+
+#: field_options:229
+msgid "Unskilled-With Tools-with Saws, Chainsaw"
+msgstr ""
+
+#: field_options:230
+msgid "Unskilled-With Tools-with Wheelbarrow"
+msgstr ""
+
+#: field_options:231
+msgid "Unskilled-With Tools-with Yard Tools"
+msgstr ""
+
+#: field_options:232 field_options:234
+msgid "Restriction-No Heavy Lifting"
+msgstr ""
+
+#: field_options:233 field_options:235
+msgid "Restriction-Can not drive"
+msgstr ""
+
+#: field_options:236
+msgid "Restriction-Can not swim"
+msgstr ""
+
+#: field_options:237
+msgid "Restriction-Handicapped"
+msgstr ""
+
+#: field_options:238
+msgid "Site Manager"
+msgstr ""
+
+#: field_options:240
+msgid "Team"
+msgstr ""
+
+#: field_options:241
+msgid "Personal"
+msgstr ""
+
+#: field_options:243
+msgid "Organization"
+msgstr ""
+
+#: field_options:244
+msgid "Community"
+msgstr ""
+
+#: field_options:245
+msgid "Customer"
+msgstr ""
+
+#: field_options:246
+msgid "Short Messaging/Text Messaging/SMS"
+msgstr ""
+
+#: field_options:247
+msgid "Electronic Mail/EMail"
+msgstr ""
+
+#: field_options:248 field_options:254 field_options:258 field_options:264
+#: field_options:267 field_options:270 field_options:273 field_options:276
+msgid "--Not Selected--"
+msgstr ""
+
+#: field_options:249
+msgid "Level 1"
+msgstr ""
+
+#: field_options:250
+msgid "Level 2"
+msgstr ""
+
+#: field_options:251
+msgid "Level 3"
+msgstr ""
+
+#: field_options:252
+msgid "Level 4"
+msgstr ""
+
+#: field_options:253
+msgid "Level 5"
+msgstr ""
+
+#: field_options:255
+msgid "SLRC"
+msgstr ""
+
+#: field_options:256
+msgid "ICDA"
+msgstr ""
+
+#: field_options:257
+msgid "UDC"
+msgstr ""
+
+#: field_options:259
+msgid "Not Damaged"
+msgstr ""
+
+#: field_options:260
+msgid "Minimal Damages"
+msgstr ""
+
+#: field_options:261
+msgid "Partial Damages"
+msgstr ""
+
+#: field_options:262
+msgid "Severe Damages"
+msgstr ""
+
+#: field_options:263
+msgid "Destroyed Completely"
+msgstr ""

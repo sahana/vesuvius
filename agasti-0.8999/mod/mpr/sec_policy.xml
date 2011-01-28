@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+	<sec_policy xmlns="http://www.sahana.lk/security/policy" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sahana.lk/security/policy sec_policy.xsd">
+		<usercase name="Missing Person Registration">
+			<functions>
+				<function>shn_mpr_default</function>
+			</functions>
+			<tables>
+				<table perm="r">incident</table>
+			</tables>
+		</usercase>
+		<usercase name="Search For A Person">
+			<functions>
+				<function>shn_mpr_search_default</function>
+				<function>shn_mpr_search</function>
+			</functions>
+			<tables>
+				<table perm="r">person_uuid</table>
+				<table perm="r">person_status</table>
+				<table perm="r">person_misiing</table>
+				<table perm="r">phonetic_word</table>
+				<table perm="r">identity_to_person</table>
+			</tables>
+		</usercase>
+		<usercase name="Report A Missing Person">
+			<functions>
+				<function>shn_mpr_addmp_entry</function>
+				<function>shn_mpr_addmp</function>
+			</functions>
+			<tables>
+				<table perm="r">location</table>
+				<table perm="r">person_uuid</table>
+			</tables>
+		</usercase>
+		<usercase name="Edit A Missing Person">
+			<functions>
+				<function>shn_mpr_editmp_load</function>
+				<function>shn_mpr_editmp</function>
+			</functions>
+			<tables>
+				<table perm="r">person_status</table>
+				<table perm="r">identity_to_person</table>
+				<table perm="r">person_uuid</table>
+				<table perm="r">contact</table>
+				<table perm="r">location</table>
+				<table perm="r">person_to_report</table>
+			</tables>
+		</usercase>
+		<usercase name="Report A Found Person">
+			<functions>
+				<function>shn_mpr_found</function>
+				<function>shn_mpr_addmp</function>
+			</functions>
+			<tables>
+				<table perm="r">person_status</table>
+				<table perm="r">identity_to_person</table>
+				<table perm="r">person_uuid</table>
+				<table perm="r">contact</table>
+				<table perm="r">location</table>
+				<table perm="r">person_to_report</table>
+			</tables>
+		</usercase>
+		<usercase name="List Missing Person">
+			<functions>
+				<function>shn_mpr_list_missing</function>
+				<function>shn_mpr_home_show_mpr</function>
+			</functions>
+			<tables>
+				<table perm="r">person_uuid</table>
+				<table perm="r">person_status</table>
+				<table perm="r">person_misiing</table>
+				<table perm="r">phonetic_word</table>
+				<table perm="r">identity_to_person</table>
+			</tables>
+		</usercase>
+		<usercase name="List Found Person">
+			<functions>
+				<function>shn_mpr_list_found</function>
+				<function>shn_mpr_home_show_mpr</function>
+			</functions>
+			<tables>
+				<table perm="r">person_uuid</table>
+				<table perm="r">person_status</table>
+				<table perm="r">person_misiing</table>
+				<table perm="r">phonetic_word</table>
+				<table perm="r">identity_to_person</table>
+			</tables>
+		</usercase>
+	<usercase name="Import PFIF">
+		<functions>
+			<function>shn_mpr_import</function>
+		</functions>
+		<tables>
+				<table perm="w">person_status</table>
+				<table perm="w">identity_to_person</table>
+				<table perm="w">person_uuid</table>
+				<table perm="w">contact</table>
+				<table perm="w">location</table>
+				<table perm="w">person_to_report</table>
+		</tables>
+	</usercase>
+	<usercase name="Export PFIF">
+		<functions>
+			<function>shn_mpr_import</function>			
+		</functions>
+		<tables>
+				<table perm="r">person_uuid</table>
+				<table perm="r">person_status</table>
+				<table perm="r">person_misiing</table>
+				<table perm="r">phonetic_word</table>
+				<table perm="r">identity_to_person</table>
+		</tables>
+	</usercase>
+</sec_policy>

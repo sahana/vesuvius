@@ -1,0 +1,10 @@
+/* ie7 only stylesheet */
+
+div#reportPerson, div#searchPerson, div#reportMissing, div#reportFound {
+	background: url(img/pill.jpg) no-repeat;
+	width: 492px;
+	height: 212px;
+}
+
+div#modmenuwrap h2 { color: #FFF; padding: 6px 0 7px 15px; background: url(img/blueBack.jpg) #34689a repeat-x top; margin:0; font-size: 12px; font-weight: normal; }
+
