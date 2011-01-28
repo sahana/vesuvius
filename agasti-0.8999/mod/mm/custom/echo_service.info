@@ -1,0 +1,6 @@
+name = "Echo Service"
+description = "creating a new echo service module"
+package = "Services - services"
+dependencies[] = services
+dependencies[] = taxonomy
+core = "6.x"

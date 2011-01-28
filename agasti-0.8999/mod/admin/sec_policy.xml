@@ -1,0 +1,197 @@
+<?xml version="1.0"?>
+<sec_policy xmlns="http://www.sahana.lk/security/policy"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.sahana.lk/security/policy sec_policy.xsd">
+
+	<usercase name="Default">
+		<functions>
+			<function>shn_admin_default</function>
+		</functions>
+		<tables>
+				<table perm="r">incident</table>
+				<table perm="r">location</table>
+				<table perm="r">ct_catalogue</table>
+				<table perm="r">config</table>
+		</tables>
+	</usercase>
+	<usercase name="Disaster Incidents">
+		<functions>
+			<function>shn_admin_ims_config</function>
+		</functions>
+		<tables>
+				<table perm="crd">config</table>
+				<table perm="c">audit</table>
+		</tables>
+	</usercase>
+	<usercase name="Disaster Incident Levels">
+		<functions>
+			<function>shn_admin_ims_level1</function>
+			<function>shn_admin_ims_level2</function>
+			<function>shn_admin_ims_level3</function>
+			<function>shn_admin_ims_level4</function>
+		</functions>
+		<tables>
+				<table perm="r">config</table>
+				<table perm="crud">incident</table>
+		</tables>
+	</usercase>
+	<usercase name="Security Config: Add user">
+		<functions>
+			<function>shn_admin_add_user</function>
+		</functions>
+		<tables>
+				<table perm="r">config</table>
+				<table perm="cr">users</table>
+				<table perm="cr">alt_logins</table>
+				<!--<table perm="c">person</table>
+				<table perm="cu">person_uuid</table>-->
+				<table perm="c">sys_user_to_group</table>
+				<table perm="c">into password_event_log</table>
+		</tables>
+	</usercase>
+	<usercase name="Security Config: Delete user">
+		<functions>
+			<function>shn_admin_del_user</function>
+		</functions>
+		<tables>
+				<table perm="r">config</table>
+				<table perm="dr">users</table>
+		</tables>
+	</usercase>
+	<usercase name="Security Config: Edit Roles">
+		<functions>
+			<function>shn_admin_acl_user_edit_roles</function>
+		</functions>
+		<tables>
+				<table perm="r">config</table>
+				<table perm="r">person</table>
+				<table perm="crd">sys_user_to_group</table>
+				<table perm="r">sys_user_groups</table>
+		</tables>
+	</usercase>
+	<usercase name="Security Config: Reset Password">
+		<functions>
+			<function>shn_admin_reset_pwd</function>
+		</functions>
+		<tables>
+				<table perm="r">config</table>
+				<table perm="r">person_uuid</table>
+				<table perm="ur">users</table>
+		</tables>
+	</usercase>
+	<usercase name="Security Config: Edit User Status">
+		<functions>
+			<function>shn_admin_acl_change_user_status</function>
+		</functions>
+		<tables>
+				<table perm="r">config</table>			
+				<table perm="r">person_uuid</table>
+				<table perm="ur">users</table>
+		</tables>
+	</usercase>
+	<usercase name="Security Config:Unlock User">
+		<functions>
+			<function>shn_admin_acl_unlock_user</function>
+		</functions>
+		<tables>
+				<table perm="r">config</table>			
+				<table perm="r">person_uuid</table>
+				<table perm="ur">users</table>
+		</tables>
+	</usercase>
+	<usercase name="Security Config:Privacy">
+		<functions>
+			<function>shn_admin_acl_privacy</function>
+		</functions>
+		<tables>
+				<table perm="r">config</table>			
+		</tables>
+	</usercase>
+	<usercase name="Security Config:Data Classifications">
+		<functions>
+			<function>shn_admin_acl_data_classifications</function>
+		</functions>
+		<tables>
+				<table perm="r">config</table>			
+				<table perm="r">incident</table>
+				<table perm="r">location</table>
+				<table perm="r">ct_catalogue</table>
+		</tables>
+	</usercase>
+	<usercase name="Security Config:Data Privacy">
+		<functions>
+			<function>shn_admin_acl_data_privacy</function>
+		</functions>
+		<tables>
+				<table perm="r">config</table>		
+				<table perm="r">sys_data_classifications</table>
+				<table perm="ru">sys_group_to_data_classification</table>
+		</tables>
+	</usercase>
+	<usercase name="Security Config:Data Classification Tables">
+		<functions>
+			<function>shn_admin_acl_data_classifications_tables</function>
+		</functions>
+		<tables>
+				<table perm="r">config</table>	
+				<table perm="r">sys_data_classifications</table>
+				<table perm="ru">sys_tablefields_to_data_classification</table>		
+		</tables>
+	</usercase>
+	<usercase name="Security Config:Enable ACL">
+		<functions>
+			<function>shn_admin_acl_enable_acl</function>
+		</functions>
+		<tables>
+				<table perm="ru">config</table>			
+		</tables>
+	</usercase>
+	<usercase name="Security Config:Enable Modules">
+		<functions>
+			<function>shn_admin_acl_enable_mods</function>
+		</functions>
+		<tables>
+				<table perm="r">config</table>			
+				<table perm="r">users</table>
+				<table perm="cr">sys_group_to_module</table>
+		</tables>
+	</usercase>
+	<usercase name="Security Config:Enable Locking">
+		<functions>
+			<function>shn_admin_acl_enable_locking</function>
+		</functions>
+		<tables>
+				<table perm="cr">config</table>			
+				<table perm="r">users</table>
+				<table perm="r">sys_group_to_module</table>
+		</tables>
+	</usercase>
+	<usercase name="Security Config:Event Log">
+		<functions>
+			<function>shn_admin_acl_event_log</function>
+		</functions>
+		<tables>
+				<table perm="r">config</table>			
+				<table perm="r">users</table>
+				<table perm="r">sys_group_to_module</table>
+				<table perm="r">password_event_log</table>
+				<table perm="r">person_uuid</table>
+				<table perm="r">field_options</table>
+		</tables>
+	</usercase>
+	<usercase name="Security Config:Config List">
+		<functions>
+			<function>shn_admin_conf_list</function>
+		</functions>
+		<tables>
+				<table perm="cr">config</table>			
+				<table perm="r">person</table>
+				<table perm="r">sys_user_to_group</table>
+				<table perm="r">sys_user_groups</table>
+				<table perm="r">sys_group_to_module</table>
+				<table perm="r">users</table>
+				<table perm="r">sys_tablefields_to_data_classification</table>
+				<table perm="r">sys_group_to_data_classification"</table>
+		</tables>
+	</usercase>
+</sec_policy>
