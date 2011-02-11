@@ -32,12 +32,12 @@ function getLongName() {
 
 ?>
 <div id="header" class="clearfix">
-	<a href="index.php"><img src="theme/lpf3/img/pl.png"></a>
+	<a href="index.php"><img src="theme/vesuvius/img/pl.png"></a>
 	<h1><a href="index.php"><?php
-		echo _t(getLongName()." People Locator");?>
+		echo _t(getLongName()." &lt;Family Reunification System&gt;");?>
 	</a></h1>
-	<h2>U.S. National Library of Medicine<br>
-	Lister Hill National Center for Biomedical Communications</h2>
+	<h2>&lt;enter some text here&gt;<br>
+	&lt;enter some more text here&gt;</h2>
 	<?php
 	if(isset($conf['enable_locale']) && $conf['enable_locale'] == true) {
 		_shn_lc_lang_list();
