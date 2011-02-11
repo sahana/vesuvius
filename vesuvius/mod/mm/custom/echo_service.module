@@ -1,0 +1,180 @@
+<?php
+/**
+* Implementation of hook_help().
+*/
+function echo_service_help($section) {
+  switch ($section) {
+    case 'admin/help#services_node':
+      return t('<p>Provides echo methods to services applications. Requires services.module.</p>');
+    case 'admin/modules#description':
+      return t('Provides echo methods to services applications. Requires services.module.');
+  }
+}
+
+/**
+ * Path and callback method for the settings page.
+ * Implements hook_menu().
+ */
+function echo_service_menu() {
+  $items['admin/settings/echo_service'] = array(
+      'title' => 'Echo Service',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('echo_service_settings_form'),
+      'description' => 'Configure Echo Service',
+      'access arguments' => array('administer echo_service'),
+      'type' => MENU_NORMAL_ITEM,
+  );
+  return $items;
+}
+
+/**
+ * Permissions entry for settings administration.
+ * Implements hook_perm().
+ */
+function echo_service_perm() {
+  return array('administer Echo Service','access Echo Service');
+}
+
+/**
+* Implementation of hook_service()
+*/
+function echo_service_service() {
+  return array(
+    // echo.echo
+    array(
+      '#method'   => 'echo.echo',
+      '#callback' => 'echo_service_echo',
+      '#access arguments' => array('access Echo Service'),
+      //'#auth'     => false,
+      '#return'   => 'string',
+      '#args'     => array(
+        array(
+          '#name'         => 'message',
+          '#type'         => 'array',
+          '#description'  => t('The message to return.'),
+        )),
+      '#help'     => t('Returns an object containing a sessid and user.'))
+     
+  ,
+  array(
+      '#method'   => 'echo.getnid',
+      '#callback' => 'echo_service_getnid',
+      '#access arguments' => array('access Echo Service'),
+      //'#auth'     => false,
+      '#return'   => 'array',
+      '#args'     => array(
+        array(
+          '#name'         => 'nodeid',
+          '#type'         => 'string',
+          '#description'  => t('The node id to return.'),
+        )),
+      '#help'     => t('Returns an node id requested.'))
+	  ,
+  array(
+      '#method'   => 'echo.getnid_array',
+      '#callback' => 'echo_service_getnid_array',
+      '#access arguments' => array('access Echo Service'),
+      //'#auth'     => false,
+      '#return'   => 'array',
+      '#args'     => array(
+        array(
+          '#name'         => 'nodeids',
+          '#type'         => 'string',
+          '#description'  => t('The array of node id(s) to return.'),
+        )),
+      '#help'     => t('Returns an array of node id(s) requested.'))
+     
+     
+  );
+}
+
+function echo_service_echo($message) {
+ 
+  $sql = "SELECT vid,type FROM `vocabulary_node_types` where type='mods'";
+    
+    $result = db_query($sql);
+    while ($anode = db_fetch_object($result)) {
+          $output .= $anode->vid+":"+$anode->type;
+    }
+	$x=array($output);
+	return $x;
+
+}
+
+function echo_service_getnid($nid)
+{
+// nid search based on module name (like mm,cap,admin.dsm etc)
+  $sql = "SELECT field_name_value ,field_version_value,nid,field_package_fid  FROM `content_type_modules` where field_shortname_value='$nid'";
+    
+    $result = db_query($sql);
+    while ($anode = db_fetch_object($result)) {
+          $nodeid .= $anode->nid;   // get node id
+		  $version .= $anode->field_version_value; // get module version
+		  $fileid .= $anode->field_package_fid;
+    }
+	$filepath_sql="select filepath from files where fid='$fileid'";
+	$result = db_query($filepath_sql);
+    while ($anode = db_fetch_object($result)) {
+     	  $filepath .= $anode->filepath;
+    }
+	
+	$x=array("node-id"=>$nodeid,"version" =>$version ,"filepath"=>$filepath,"fid"=>$fileid);
+	return $x;
+
+
+
+
+
+}
+
+function echo_service_getnid_array($nids)
+{
+$final=array();
+$count=0;
+$array_nid=split(',',$nids);
+foreach($array_nid as $value)
+	{
+	$sql = "SELECT field_name_value ,field_version_value,nid,field_package_fid,field_image_fid  FROM `content_type_modules` where field_shortname_value='$value'";
+    $result = db_query($sql);
+	$bool=false;
+    while ($anode = db_fetch_object($result)) {
+	$bool=true;
+          $nodeid = $anode->nid;   // get node id
+		  $version = $anode->field_version_value; // get module version
+		  $fileid = $anode->field_package_fid;
+		  $field_name_value =$anode->field_name_value;
+		  $imageid =$anode->field_image_fid;
+    }
+	$filepath_sql="select filepath from files where fid='$fileid'";
+	$result = db_query($filepath_sql);
+    while ($anode = db_fetch_object($result)) {
+     	  $filepath = $anode->filepath;
+    }
+	$filepath_sql="select filepath from files where fid='$imageid'";
+	$result = db_query($filepath_sql);
+    while ($anode = db_fetch_object($result)) {
+     	  $imagepath = $anode->filepath;
+    }
+	if($bool)
+	{
+		$x=array("module_name"=>$field_name_value,
+				"module_short_name"=>"$value",
+				"module_node_id"=>$nodeid,
+				"module_filepath"=>$filepath,
+				"module_version" =>$version ,
+				"module_image_path"=>$imagepath);
+		$final[$value]=$x;
+		$count++;
+	}
+	else
+	{
+		// do not return anything for this module
+	}
+	}
+return $final;
+
+
+}
+
+
+?>

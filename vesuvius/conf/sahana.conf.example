@@ -1,0 +1,56 @@
+<?php
+/**
+ * @name         Main Sahana Configuration File
+ * @version      1.0
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0131
+ */
+
+# Unique identifier for all resources contained in the system ~ must be unique and 4 or more alphanumberic characters
+$conf['base_uuid'] = "pl.nlm.nih.gov/";
+
+# Use this theme directory
+$conf['theme'] = "lpf3";
+
+# Database Configuration
+$conf['db_name'] = "";
+$conf['db_host'] = "";
+$conf['db_port'] = "3306";
+$conf['db_user'] = "";
+$conf['db_pass'] = "";
+
+# Database Type / Engine / Abstraction Layer / Audit Logging
+$conf['db_engine']          = "mysql";
+$conf['storage_engine']     = "innodb";
+$conf['dbal_lib_name']      = "adodb";
+$conf['enable_monitor_sql'] = false;
+
+# Default locale
+$conf['locale'] = "en_US";
+
+// The Default Module/Action performed when a user first visits the site
+$conf['default_module']= 'rez';
+$conf['default_action']= 'landing';
+
+# Password Policy
+$conf['pwd_min_chars']       = 8;
+$conf['pwd_max_chars']       = 16;
+$conf['pwd_has_uppercase']   = true;
+$conf['pwd_has_lowercase']   = true;
+$conf['pwd_has_numbers']     = true;
+$conf['pwd_has_spchars']     = false;
+$conf['pwd_has_username']    = true;
+$conf['pwd_no_change_limit'] = true;
+
+# Whether to enable multiple language support
+$conf['enable_locale'] = false;
+
+# Turn on Web Services via PLUS module?
+$conf['enable_plus_web_services'] = true;
+
+# Enable SOLR for search? If not default to MySQL
+$conf['enable_solr_for_search'] = false;
