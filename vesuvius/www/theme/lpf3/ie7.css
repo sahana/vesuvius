@@ -1,0 +1,19 @@
+/* ie7 only stylesheet */
+
+div#modmenuwrap h2 { color: #FFF; padding: 6px 0 7px 15px; background: url(img/blueBack.jpg) #34689a repeat-x top; margin:0; font-size: 12px; font-weight: normal; }
+
+div.form-container form fieldset {
+	background-color: #fff;
+}
+
+
+#blueBack { height: 20px; }
+#locale, #disaster_selekta { vertical-align: middle; }
+#disaster_selekta { padding-bottom: 25px; }
+#eventLabel { position: relative; top: -3px; }
+
+div#menuwrap ul li.currentMainMenuItem a, .currentModMenuItem { 
+	background-color: #e6eef9; 
+}
+
+.inlineHelp { border: 1px solid #000; }

@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+	<module name='mpr'>
+		<description>Missing Person Registry</description>
+		<data>
+			<description>Missing people data</description>
+			<table name='person_uuid'>
+				<primarykeys>
+					<primarykey field_id='p_uuid' />
+				</primarykeys>
+			</table>
+			<table name='contact'>
+				<primarykeys>
+					<primarykey field_id='pgoc_uuid' />
+					<primarykey field_id='opt_contact_type' />
+					<primarykey field_id='contact_value' />
+				</primarykeys>
+			</table>
+			<table name='location_details'>
+				<primarykeys>
+					<primarykey field_id='poc_uuid' />
+					<primarykey field_id='location_id' />
+				</primarykeys>
+				<foreign_keys>
+					<foreign_key ref_table="location" ref_field="loc_uuid" field_id="location_id"/>
+				</foreign_keys>
+			</table>
+			<table name='person_status'>
+				<primarykeys>
+					<primarykey field_id='p_uuid' />
+				</primarykeys>
+				<foreign_keys>
+					<foreign_key ref_table="person_uuid" ref_field="p_uuid" field_id="p_uuid"/>
+				</foreign_keys>
+			</table>
+			<table name='identity_to_person'>
+				<foreign_keys>
+					<foreign_key ref_table="person_uuid" ref_field="p_uuid" field_id="p_uuid"/>
+				</foreign_keys>
+			</table>
+			<table name='person_details'>
+				<primarykeys>
+					<primarykey field_id='p_uuid' />
+				</primarykeys>
+				<foreign_keys>
+					<foreign_key ref_table="person_uuid" ref_field="p_uuid" field_id="p_uuid"/>
+				</foreign_keys>
+			</table>
+			<table name='person_missing'>
+				<primarykeys>
+					<primarykey field_id='p_uuid' />
+				</primarykeys>
+				<foreign_keys>
+					<foreign_key ref_table="person_uuid" ref_field="p_uuid" field_id="p_uuid"/>
+				</foreign_keys>
+			</table>
+			<table name='person_physical'>
+				<primarykeys>
+					<primarykey field_id='p_uuid' />
+				</primarykeys>
+				<foreign_keys>
+					<foreign_key ref_table="person_uuid" ref_field="p_uuid" field_id="p_uuid"/>
+				</foreign_keys>
+			</table>
+			<table name='incident'>
+				<primarykeys>
+					<primarykey field_id='incident_id' />
+				</primarykeys>
+			</table>
+			<table name='resource_to_incident'>
+				<primarykeys>
+					<primarykey field_id='x_uuid' />
+					<primarykey field_id='incident_id' />
+				</primarykeys>
+				<foreign_keys>
+					<foreign_key ref_table="incident" ref_field="incident" field_id="incident"/>
+				</foreign_keys>
+			</table>
+		</data>
+	</module>

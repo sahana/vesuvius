@@ -1,0 +1,80 @@
+one XML manifest file with all information required by module
+manager for the above stated tasks. The proposed XML file will contain
+following information:
+
+1.Module version number.
+2.Module Name.
+3.The version number of Sahana the module is compatible with.
+4.Module author information.
+5.Installer Script location.
+6.Uninstaller Script location.
+7.Names of the files to be copied.
+8.Names of other Modules required for this module to work properly.
+9.Desired Menu Order of the module.
+
+
+MAJOR_VERSION_NUMBER: 1
+MINOR_VERSION_NUMBER: 0
+REVISION_NUMBER: 2
+
+
+----------------------&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&---------------------------------
+
+<?xml version=”1.0” encoding=”utf-8”?>
+<!DOCTYPE >
+<module>
+<sahana>Sahana version number </sahana>
+<require>short name of the module required</require>
+<require>short name of the module required</require>
+<moduleInfo>
+<name>module name</name>
+<version>module version number</version>
+<menuOrder>menu order of the module</menuOrder>
+<description>A short description of the module </description>
+</moduleInfo>
+<authorInfo>
+<name>Author Name</name>
+<email>Author Email</email>
+<url>website </url>
+</authorInfo>
+<install>
+<file> location of the sql script for installation <file>
+</install>
+<uninstall>
+<file>location of the sql script for uninstallation</file>
+</uninstall>
+<files>
+<file>file location of the file to be copied to /www/mod/ folder </file>
+<file>file location of the file to be copied to /www/mod/ folder </file>
+</files>
+</module>                  one point is that what if some files were removed
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+module manager should appear in the modules list of Module table in db ??
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^___________________________________________________________^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+about.inc is not present in most of them
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^___________________________________________^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+for activating/deactivating modules either as mentioned by Chamindra sir conf['mod_mpr_enabled'] = True/false or make a db entry to check the status
+-------------------------============================================-===-=-=-=-=-=-=-==-=-==-==-=-=-==-==-=--------------------======================
+
+what if in the conf.inc file we even have the sql tables which are being installed or say in about.inc file and also other modules list to be included in  and then we can easily uninstall
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+ Accommodate module variants - e.g. staff management vs volunteer
+management variants of vol module. Is this what guid is there for?
+
+
+###############################################################################################################################################
+
+
+
