@@ -22,51 +22,25 @@ $events = array();
 			<a href="http://www.nlm.nih.gov"><img src="theme/lpf3/img/nlm.png"></a>
 			<a href="http://www.nih.gov"><img src="theme/lpf3/img/nih.png"></a>
 			<a href="http://www.hhs.gov"><img src="theme/lpf3/img/hhs.png"></a><br>
-			Developed and Hosted by the<br>
-			US National Library of Medicine
+			Based on the People Locator developed<br>
+			by the US National Library of Medicine
 		</td>
 		<td>
 			<a href="http://www.bethesdahospitalsemergencypartnership.org/"><img src="theme/lpf3/img/bhepp.png"></a>
 			<a href="http://www.suburbanhospital.org/"><img src="theme/lpf3/img/suburban.png"></a>
 			<a href="http://www.bethesda.med.navy.mil/"><img src="theme/lpf3/img/nnmc.png"></a>
 			<a href="http://clinicalcenter.nih.gov/"><img src="theme/lpf3/img/clinicalcenter.png"></a><br>
-			Funded through the <br>
+			Development funded through the <br>
 			Bethesda Hospital Emergency Preparedness Partnership
 		</td>
 		<td>
 			<a href="http://sahanafoundation.org"><img src="theme/lpf3/img/sahana.png"></a><br>
 			Powered by<br>
-			Sahana
+			Sahana Vesuvius
 		</td>
 		</tr>
 	</table>
-	<div id="notice">Notice: Submission of information is voluntary. All submitted information will be made publicly available. OMB NO: 0925-0612 EXPIRATION DATE: 6/30/2013 Public reporting burden for this collection of information is estimated to average 0.08 hours per response. This estimate includes the time for reviewing instructions, gathering, and entering data. An agency may not conduct or sponsor, and a person is not required to respond to, a collection of information unless it displays a currently valid OMB control number. Send comments regarding this burden estimate or any other aspect of this collection of information, including suggestions for reducing this burden, to: NIH, Project Clearance Branch, 6705 Rockledge Drive, MSC 7974, Bethesda, MD 20892-7974, ATTN: PRA (0925-0612). Do not return the completed form to this address.<br>
-	<?php
-		// show build & version
-
-		global $global;
-		$revision_file = $global['approot']."/www/theme/lpf3/version";
-		$time_file     = $global['approot']."/www/theme/lpf3/time";
-
-		// only show the rev/build info on stage/production ~ not dev as version/time dont exist there or in svn
-		if(file_exists($revision_file) && file_exists($time_file)) {
-			// open file with the revision number in the first line
-			$handle = fopen($revision_file, "r");
-
-			// read first line. TODO: check if it's not empty, etc.
-			$version = fgets($handle);
-
-			// open file to read timestamp
-			$handle2 = fopen($time_file, "r");
-
-			// extract time
-			$time = fgets($handle2);
-
-			// print generated link
-			echo "<span id=\"build\">version: <b>r".$version."</b> &nbsp; Build Time: <b>".$time."</b></span>";
-		}
-	?>
-	</div>
+	<div id="notice"></div>
 	</center>
 	<?php
 		/*
