@@ -13,16 +13,23 @@ https://code.launchpad.net/~sahanaphp-committers/sahana-agasti/1.0
 https://launchpad.net/sahana-agasti/+download
 
 
+
 2) Create a configuration file. You can do this by going to /conf and manually copying
 the sahana.conf.example file into a new file sahana.conf --- afterwards, edit the settings
 of this new file to your liking.
 
+
+
 3) Create a new MySQL Database on your server. Assign a new user to the database. Edit
 the sahana.conf file from the previous step with the new database settings.
+
+
 
 4) Import an initial database. You can do this in a number of tools, for example:
 PHPMyAdmin, MySQL Admin, or from a shell with the mysql command. The default database to
 use in the file /backups/vesuvius.sql
+
+
 
 5) Create a folder /www/tmp (this is the cache folder Sahana uses for many things) and
 appropriately change the permissions of the file so it is writable by the web server.
@@ -32,7 +39,16 @@ cd www ;
 mkdir tmp ;
 chmod 777 tmp ;
 
-6) If you did everything abov e correctly, you should be able to navigate to the site
+
+
+6) If you wish to use the snapshot module for database backups and restores, then you
+must also update the permissions on the /backups folder:
+
+chmod 777 backups ;
+
+
+
+7) If you did everything abov e correctly, you should be able to navigate to the site
 and login as root with the password vesuvius. After login, it would be adviseable to
 go to My Settings and then Change My Password to alter the default password and add
 a bit of security to your site.
