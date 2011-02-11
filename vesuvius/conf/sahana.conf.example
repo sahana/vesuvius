@@ -14,7 +14,7 @@
 $conf['base_uuid'] = "pl.nlm.nih.gov/";
 
 # Use this theme directory
-$conf['theme'] = "lpf3";
+$conf['theme'] = "vesuvius";
 
 # Database Configuration
 $conf['db_name'] = "";
