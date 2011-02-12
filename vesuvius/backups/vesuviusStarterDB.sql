@@ -2364,6 +2364,21 @@ INSERT INTO `rez_pages` (`rez_page_id`, `rez_menu_title`, `rez_page_title`, `rez
 (26, 'About Us', 'About Us', 17, '', 'Description of People Locator', '2011-02-11 17:22:42', 'Public'),
 (30, 'ABOUT', 'ABOUT', 22, '', 'ABOUT', '2011-02-11 17:22:51', 'External Page');
 
+
+
+UPDATE  `rez_pages` SET  `rez_content` =  '<h2>Links</h2>
+To update the content of this page, navigate to Administration -> Resources Pages and then click on the edit icon of the page you wish to edit.' WHERE  `rez_pages`.`rez_page_id` = 24;
+
+UPDATE  `rez_pages` SET  `rez_content` =  '<h2>Contact Us</h2>
+To update the content of this page, navigate to Administration -> Resources Pages and then click on the edit icon of the page you wish to edit.' WHERE  `rez_pages`.`rez_page_id` = 14;
+
+UPDATE  `rez_pages` SET  `rez_content` =  '<h2>About Us</h2>
+To update the content of this page, navigate to Administration -> Resources Pages and then click on the edit icon of the page you wish to edit.' WHERE  `rez_pages`.`rez_page_id` = 26;
+
+UPDATE  `rez_pages` SET  `rez_content` =  '<h2>ABOUT</h2>
+To update the content of this page, navigate to Administration -> Resources Pages and then click on the edit icon of the page you wish to edit.' WHERE  `rez_pages`.`rez_page_id` = 30;
+
+
 -- --------------------------------------------------------
 
 --
