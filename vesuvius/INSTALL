@@ -27,7 +27,7 @@ the sahana.conf file from the previous step with the new database settings.
 
 4) Import an initial database. You can do this in a number of tools, for example:
 PHPMyAdmin, MySQL Admin, or from a shell with the mysql command. The default database to
-use in the file /backups/vesuvius.sql
+use in the file /backups/vesuviusStarterDB.sql
 
 
 
@@ -48,7 +48,11 @@ chmod 777 backups ;
 
 
 
-7) If you did everything abov e correctly, you should be able to navigate to the site
-and login as root with the password vesuvius. After login, it would be adviseable to
-go to My Settings and then Change My Password to alter the default password and add
-a bit of security to your site.
+7) If you did everything above correctly, you should be able to navigate to the site
+and login >>
+
+username: root
+password: Agasti2011
+
+After login, it would be adviseable to go to My Settings and then Change My Password
+to alter the default password and add a bit of security to your site.
