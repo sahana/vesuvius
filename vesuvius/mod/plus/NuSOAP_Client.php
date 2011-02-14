@@ -17,13 +17,12 @@ if ( $client->getError() ) {
 
 //$result = $client->call('basicSearch', array('searchString'=>'e', 'incidentShortName'=>'cmax2009'));
 //$result = $client->call('basicSearchWithRange', array('searchString'=>'jos', 'incidentShortName'=>'cmax2009', 'startFrom'=>2, 'limit'=>1));
-$result = $client->call('basicSearchAll', array('searchString'=>'jos'));
-
+//$result = $client->call('basicSearchAll', array('searchString'=>'jos'));
 //$result = $client->call('askTimeout', array(null));
-//$result = $client->call('shn_plus_getPersonData', array('uuid'=>'8y2fp-45'));
-//$result = $client->call('shn_plus_createUuidBatch', array('incidentId'=>'1', 'num'=>'5'));
-//$result = $client->call('shn_plus_createUuid', array('incidentId'=>'1'));
-//$result = $client->call('shn_plus_getIncidentList', array(null));
+//$result = $client->call('getPersonData', array('uuid'=>'8y2fp-45'));
+//$result = $client->call('createUuidBatch', array('incidentId'=>'1', 'num'=>'5'));
+//$result = $client->call('createUuid', array('incidentId'=>'1'));
+$result = $client->call('getIncidentList', array(null));
 
 
 //$result = $client->call('shn_plus_test', array('x'=>317, 'y'=>123));
@@ -53,47 +52,3 @@ print '<h2>Details:</h2><hr />'.
 	htmlspecialchars( $client->response, ENT_QUOTES) .'</pre>'.
 	'<h3>Debug</h3><pre>' .
 	htmlspecialchars( $client->debug_str, ENT_QUOTES) .'</pre>';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function hmac_sha1($digest, $secret) {
-	if(($digest==null) || ($secret==null)){
-		return null;
-	}
-	$blocksize = 64;
-	$hashfunc = 'sha1';
-	if (strlen($secret) > $blocksize) {
-		$secret = pack('H*', $hashfunc($secret));
-	}
-	$secret = str_pad($secret, $blocksize, chr(0x00));
-	$ipad = str_repeat(chr(0x36), $blocksize);
-	$opad = str_repeat(chr(0x5c), $blocksize);
-	$hmac = pack(
-		'H*', $hashfunc(
-			($secret^$opad).pack(
-				'H*', $hashfunc(
-					($secret^$ipad).$digest
-				)
-			)
-		)
-	);
-	return $hmac;
-}

@@ -36,7 +36,7 @@ function shn_plus_register_all($namespace) {
 		$namespace,
 		"Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents."
 	);
-
+/*
 	shn_plus_register_one($server, 'basicSearch',
 		array(
 			'in' => array(
@@ -228,6 +228,7 @@ function shn_plus_register_all($namespace) {
 		$namespace,
 		"Accepts a reported person LPF XML file."
 	);
+*/
 }
 
 
