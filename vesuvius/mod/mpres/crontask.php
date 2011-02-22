@@ -8,7 +8,7 @@ $global['approot'] = getcwd()."/../../";
 require("class.mpres.php");
 require("class.nameParser.php");
 require("class.lpfPatient.php");
-require("../../conf/sysconf.inc.php");
+require("../../conf/sahana.conf");
 require("../../3rd/adodb/adodb.inc.php");
 require("../../inc/handler_db.inc");
 require("../../inc/lib_uuid.inc");
