@@ -11,7 +11,7 @@
     $now = time();
     if ($next - $now <= 15 ) {
         print "ERROR: next harvest must be later than current time: $next";
-        $next = $now + 360;
+        $next = $now + 120;
     }
     $next_str = strftime('%Y%m%d%H%M',$next);
     $cmd = 'at -s -f /home/ccornwell/public_html/pl/trunk/mod/mpr/at_job.sh -t ';

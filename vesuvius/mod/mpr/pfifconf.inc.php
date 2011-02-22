@@ -32,7 +32,15 @@ $pfif_conf['service_to_incident'] =
               'googlechile' => array('incident_id'=>9,
                                      'db_host'=>'localhost', // 'archivestage.nlm.nih.gov',
                                      'db_name'=>'sahanaCarl',
-                                     'disaster_id' => 'cepl'));
+                                     'disaster_id' => 'cepl'),
+              'googlechina' => array('incident_id'=>10,
+                                     'db_host'=>'localhost', // 'archivestage.nlm.nih.gov',
+                                     'db_name'=>'sahanaCarl',
+                                     'disaster_id' => 'chepl'),
+              'googlepakistan' => array('incident_id'=>11,
+                                     'db_host'=>'localhost', // 'archivestage.nlm.nih.gov',
+                                     'db_name'=>'sahanaCarl',
+                                     'disaster_id' => 'pfpl'));
 
 $pfif_conf['services'] = array(); // chc 4/7/2010 : Initilialized from pfif_repository table via pfif_init.inc
 /*
