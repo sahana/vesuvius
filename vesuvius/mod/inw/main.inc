@@ -214,11 +214,6 @@ function shn_inw_default() {
 		<script type="text/javascript" src="res/js/inw/Utils.js" ></script>
 		<script type="text/javascript" src="res/js/inw/ScrollView.js" ></script>
 		<script type="text/javascript" src="res/js/inw/iWall.js" ></script>
-		<script type="text/javascript">
-                       if ($("#disasterList").val() == "christchurch"
-                        || $("#disasterList").val() == "columbia2011")
-                               $("#hospital").hide();
-               </script>
 		<div class="push"></div>
 	<?
 }
