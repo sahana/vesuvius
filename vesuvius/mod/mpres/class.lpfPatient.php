@@ -1,7 +1,7 @@
 <?php
 /**
 * @package      lpfPatient
-* @version      1.5.1
+* @version      1.5.2
 * @author       Greg Miernicki <g@miernicki.com>
 * LastModified: 2010:0525
 * License:      LGPL

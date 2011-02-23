@@ -164,6 +164,8 @@ class mpres {
 					$res = $global['db']->Execute($q);
 					$row = $res->FetchRow();
 					$closed = $row['closed'];
+					$id = $row['incident_id'];
+					$this->person->incident_id = $id;
 
 					// event closed...................
 					if($closed != null) {
@@ -335,20 +337,28 @@ class mpres {
 						*/
 
 
-						$this->person->longName   = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventName'];
+						$this->person->shortName   = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventName'];
 
 						// fix missing last name
-						if(trim((string)$a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName']) != "") {
+						if(isset($a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName']) &&
+						   trim((string)$a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName']) != "") {
 							$this->person->familyName = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName'];
 						} else {
 							$this->person->familyName = "unknown";
 						}
+						if(is_array($this->person->familyName)) {
+							$this->person->familyName = "unknown";
+						}
 
 						// fix missing first name
-						if(trim((string)$a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName']) != "") {
+						if(isset($a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName']) &&
+						   trim((string)$a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName']) != "") {
 							$this->person->firstName  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName'];
 						} else {
 							$this->person->firstName  = "unknown";
+						}
+						if(is_array($this->person->firstName)) {
+							$this->person->firstName = "unknown";
 						}
 
 						// <dateTimeSent>2010-32-07T12:32:41Z</dateTimeSent>
@@ -365,7 +375,6 @@ class mpres {
 						} else {
 							$this->person->hospitalId = -1;
 						}
-
 
 						$this->person->gender     = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['gender'];
 						$this->person->age          = null;
