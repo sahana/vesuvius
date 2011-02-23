@@ -135,6 +135,7 @@ function searchSubset() {
 		$("#foundLabel").show();
 		//$("#modmenuwrap").append($("#searchOptions").show());
 		$("#menuwrap").append($("#searchOptions").css({marginTop: "10px", marginLeft: "5px"}).show());
+		if ($("#disasterList").val() == "christchurch" || $("#disasterList").val() == "columbia2011") $("#hospital").hide();
 		$("#content").css({marginRight: "0px", paddingRight: "0px"});
 		
 		if ( Globals.initDone == 1 )
