@@ -80,10 +80,21 @@ function shn_rap_default() {
  * @return void
  */
 function shn_rap_showClosedMessage() {
-	echo "
-		<h2>Error #21</h2>
-		This event is closed and is no longer accepting new person reports.
-	";
+	
+	// hack to routie reporting to google for NZ
+	if($_GET['shortname'] == "christchurch") {
+		echo '
+			<iframe
+			src="http://christchurch-2011.person-finder.appspot.com/?small=yes&lang=en"
+			width=400 height=300 frameborder=0
+			style="border: dashed 2px #77c"></iframe>
+		';
+	} else {
+		echo "
+			<h2>Error #21</h2>
+			This event is closed and is no longer accepting new person reports.
+		";
+	}
 }
 
 
