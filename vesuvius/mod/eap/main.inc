@@ -266,6 +266,11 @@ function shn_eap_findRights() {
 			$global['startFollow'] = true;
 			$global['role']        = "admin";
 		}
+
+		// hack to turn off notes on ChrustChurch and Columbia
+		if(($_GET['shortname'] == "christchurch") || ($_GET['shortname'] == "columbia2011")) {
+			$global['addNote'] = false;
+		}
 	}
 }
 
