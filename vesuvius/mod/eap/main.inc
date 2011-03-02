@@ -678,10 +678,6 @@ function shn_eap_edit() {
 	$global['full_thumb_url'] = makeBaseUrl().$thumbUrl;
 
 	echo "
-		<script>
-			c = document.getElementById('content');
-			c.style.marginRight = '0px';
-		</script>
 		<div class=\"form-container\">
 			<form>
 				<fieldset id=\"editImages\">
