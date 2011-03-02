@@ -19,11 +19,11 @@ $global['approot']  = $APPROOT;
 $global['previous'] = false;
 $global["setup"]    = false;
 
-// uncomment to use the internal Sahana error handling
-// shn_main_error();
+// uncomment line below to use the internal error handler
+//shn_main_error();
 
-// uncomment line below to use lagger for debugging
-shn_main_lagger();
+// uncomment line below to initialize the debugger
+shn_main_debugger();
 
 // uncomment to handle redirection for different browsers/device
 //shn_main_redirect();
@@ -354,11 +354,15 @@ function shn_main_error() {
 
 
 
-// lagger debugger
-function shn_main_lagger($off = false) {
-	// use Lagger for debugging...only on internal staging servers
-	if((($_SERVER['HTTP_HOST'] == "whistler.nlm.nih.gov") || ($_SERVER['HTTP_HOST'] == "archivestage.nlm.nih.gov")) && ($off != true)) {
-		include_once("/home/gmiernicki/public_html/lagger/PLconfig.php");
+// php-console debugger
+function shn_main_debugger() {
+	// only use debugger on these internal staging servers...
+	if(($_SERVER['HTTP_HOST'] == "whistler.nlm.nih.gov")
+	|| ($_SERVER['HTTP_HOST'] == "archivestage.nlm.nih.gov")
+	|| ($_SERVER['HTTP_HOST'] == "archivestage")) {
+
+		require_once('../3rd/php-console/PhpConsole.php');
+		PhpConsole::start(true, true, dirname(__FILE__));
 
 	// if not on development servers, disable error reporting
 	} else {
