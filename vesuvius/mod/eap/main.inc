@@ -1370,15 +1370,8 @@ function shn_eap_edit() {
 		Short URL to this page: <br>
 		<b><input type=\"text\" value=\"".$global['googl']."\"></b></input><br>
 		<br>
-		<span>Send this page to a mobile device:</span><br>
-		<img id=\"tehQRimage\" height=\"150\" class=\"qrImage\" src=\"https://www.google.com/chart?cht=qr&chs=150x150&choe=UTF-8&chld=H&chl=".$global['googl']."\">
-		<script>
-			function reloadQR() {
-				var obj = document.getElementById('tehQRimage');
-				obj.src = 'https://www.google.com/chart?cht=qr&chs=150x150&choe=UTF-8&chld=H&chl=".$global['googl']."';
-			}
-			setTimeout('reloadQR()', 1000);
-		</script>
+		<span>Send this page to a mobile device:</span><br><br>
+		<img id=\"tehQRimage\" height=\"200\" width=\"200\" class=\"qrImage\" src=\"https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=L|0&chl=".$global['googl']."\">
 		<br>
 		</fieldset>
 		</form>
@@ -1432,7 +1425,7 @@ function shn_eap_edit() {
 	} else {
 		echo "
 			<br>
-			<b>If you would like to leave a note, you must first login. If you don't have an account, then first <a href=\"index.php?act=signup\">sign up for one.</a>
+			<b>If you would like to leave a note, you must first login. If you don't have an account, then first <a href=\"index.php?act=signup\">sign up for one.</a></b>
 		";
 	}
 
