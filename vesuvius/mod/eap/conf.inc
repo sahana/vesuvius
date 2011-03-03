@@ -1,18 +1,14 @@
 <?php
 /**
- * Module >> Edit a Person
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author     Greg Miernicki <g@miernicki.com>
- * @package    module
- * @subpackage eap
- * @version    1.0
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @name         Edit A Person
+ * @version      1.0
+ * @package      eap
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0303
  */
 
 $conf['mod_eap_name']         = _t("Edit a Person");  // Defines the name of the module

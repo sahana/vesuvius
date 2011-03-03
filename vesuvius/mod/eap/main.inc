@@ -1,20 +1,15 @@
 <?php
 /**
- * Module >> Edit a Person :: Main Controller
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author     Greg Miernicki <g@miernicki.com>
- * @package    module
- * @subpackage eap
- * @version    1.0
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @name         Edit A Person
+ * @version      1.0
+ * @package      eap
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0303
  */
-
 
 include_once($global['approot']."/inc/lib_uuid.inc");
 include_once($global['approot']."/inc/lib_location.inc");
@@ -391,12 +386,21 @@ function emailUpdates() {
 function saveRevision($table, $column, $name, $oldValue, $newValue) {
 	global $global;
 
+	if($table == "resource_to_incident") {
+		$q = "
+			UPDATE ".$table."
+			SET ".$column." = '".mysql_real_escape_string($newValue)."'
+			WHERE x_uuid    = '".$global['uuid']."';
+		";
+	} else {
+		$q = "
+			UPDATE ".$table."
+			SET ".$column." = '".mysql_real_escape_string($newValue)."'
+			WHERE p_uuid    = '".$global['uuid']."';
+		";
+	}
+
 	// save the revision
-	$q = "
-		UPDATE ".$table."
-		SET ".$column." = '".mysql_real_escape_string($newValue)."'
-		WHERE p_uuid    = '".$global['uuid']."';
-	";
 	$r = $global['db']->Execute($q);
 
 	// note the revision
@@ -698,6 +702,15 @@ function shn_eap_edit() {
 
 	// LOAD PUBLIC DATA ///////////////////////////////////////////////////////////////////////////////
 
+	// load incident
+	$q  = "
+		SELECT *
+		FROM resource_to_incident
+		WHERE x_uuid = '".$global['uuid']."';
+	";
+	$r               = $global['db']->Execute($q);
+	$person_incident = $r->FetchRow();
+
 	// load physical
 	$q  = "
 		SELECT *
@@ -718,9 +731,14 @@ function shn_eap_edit() {
 	$r              = $global['db']->Execute($q);
 	$person_status  = $r->FetchRow();
 
-	// we use updated time of the new updated_server time is not available
-	if($person_status['updated_server'] == null) {
-		$person_status['updated_server'] = $person_status['updated'];
+	// check fpr not set status (rare.. but happens sometimes)
+	if(!isset($person_status['updated']) || $person_status['updated'] == null) {
+		$person_status['updated'] = "unknown";
+	}
+
+	// we use updated time if the new updated_server time is not available
+	if(!isset($person_status['updated_server']) || $person_status['updated_server'] == null) {
+		$person_status['updated_server'] = "unknown";
 	}
 
 	// load missing data (if person is missing)
@@ -820,6 +838,7 @@ function shn_eap_edit() {
 	// PUBLIC EDIT ////////////////////////////////////////////////////////////////////////////////////
 	if($global['publicEdit']) {
 
+		// edit...
 		if((count($_POST) > 0) && isset($_POST['given_name'])) {
 			$editGivenName  = trim($_POST['given_name']);
 			$editFamilyName = trim($_POST['family_name']);
@@ -835,6 +854,7 @@ function shn_eap_edit() {
 			$editComments   = trim($_POST['comments']);
 			$editStatus     = trim($_POST['opt_status']);
 			$editHospital   = trim($_POST['hospital']);
+			$editEvent      = trim($_POST['event']);
 
 			// check for revisions and save dem
 			if($editGivenName  !== $person_uuid['given_name'])  {
@@ -846,17 +866,18 @@ function shn_eap_edit() {
 				updateFullName($editGivenName, $editFamilyName);
 			}
 
-			if($editAge        !== $person_details['years_old'])         { saveRevision("person_details",     "years_old",      "Age",         $person_details['years_old'],         $editAge);      }
-			if($editMinAge     !== $person_details['minAge'])            { saveRevision("person_details",     "minAge",         "Minimum Age", $person_details['minAge'],            $editMinAge);   }
-			if($editMaxAge     !== $person_details['maxAge'])            { saveRevision("person_details",     "maxAge",         "Maximum Age", $person_details['maxAge'],            $editMaxAge);   }
-			if($editGender     !== $person_details['opt_gender'])        { saveRevision("person_details",     "opt_gender",     "Gender",      $person_details['opt_gender'],        $editGender);   }
-			if($editEye        !== $person_physical['opt_eye_color'])    { saveRevision("person_physical",    "opt_eye_color",  "Eye Color",   $person_physical['opt_eye_color'],    $editEye);      }
-			if($editSkin       !== $person_physical['opt_skin_color'])   { saveRevision("person_physical",    "opt_skin_color", "Skin Color",  $person_physical['opt_skin_color'],   $editSkin);     }
-			if($editHair       !== $person_physical['opt_hair_color'])   { saveRevision("person_physical",    "opt_hair_color", "Hair Color",  $person_physical['opt_hair_color'],   $editHair);     }
-			if($editHeight     !== $person_physical['height'])           { saveRevision("person_physical",    "height",         "Height",      $person_physical['height'],           $editHeight);   }
-			if($editWeight     !== $person_physical['weight'])           { saveRevision("person_physical",    "weight",         "Weight",      $person_physical['weight'],           $editWeight);   }
-			if($editComments   !== $person_physical['comments'])         { saveRevision("person_physical",    "comments",       "Comments",    $person_physical['comments'],         $editComments); }
-			if($editStatus     !== $person_status['opt_status'])         { saveRevision("person_status",      "opt_status",     "Status",      $person_status['opt_status'],         $editStatus);   }
+			if($editAge        !== $person_details['years_old'])         { saveRevision("person_details",       "years_old",      "Age",         $person_details['years_old'],         $editAge);      }
+			if($editMinAge     !== $person_details['minAge'])            { saveRevision("person_details",       "minAge",         "Minimum Age", $person_details['minAge'],            $editMinAge);   }
+			if($editMaxAge     !== $person_details['maxAge'])            { saveRevision("person_details",       "maxAge",         "Maximum Age", $person_details['maxAge'],            $editMaxAge);   }
+			if($editGender     !== $person_details['opt_gender'])        { saveRevision("person_details",       "opt_gender",     "Gender",      $person_details['opt_gender'],        $editGender);   }
+			if($editEye        !== $person_physical['opt_eye_color'])    { saveRevision("person_physical",      "opt_eye_color",  "Eye Color",   $person_physical['opt_eye_color'],    $editEye);      }
+			if($editSkin       !== $person_physical['opt_skin_color'])   { saveRevision("person_physical",      "opt_skin_color", "Skin Color",  $person_physical['opt_skin_color'],   $editSkin);     }
+			if($editHair       !== $person_physical['opt_hair_color'])   { saveRevision("person_physical",      "opt_hair_color", "Hair Color",  $person_physical['opt_hair_color'],   $editHair);     }
+			if($editHeight     !== $person_physical['height'])           { saveRevision("person_physical",      "height",         "Height",      $person_physical['height'],           $editHeight);   }
+			if($editWeight     !== $person_physical['weight'])           { saveRevision("person_physical",      "weight",         "Weight",      $person_physical['weight'],           $editWeight);   }
+			if($editComments   !== $person_physical['comments'])         { saveRevision("person_physical",      "comments",       "Comments",    $person_physical['comments'],         $editComments); }
+			if($editStatus     !== $person_status['opt_status'])         { saveRevision("person_status",        "opt_status",     "Status",      $person_status['opt_status'],         $editStatus);   }
+			if($editEvent      !== $person_incident['incident_id'])      { saveRevision("resource_to_incident", "incident_id",    "Event",       $person_incident['incident_id'],      $editEvent);    }
 
 			if($editHospital   !== $person_to_hospital['hospital_uuid']) { saveHospitalRevision("Hospital", $person_to_hospital['hospital_uuid'], $editHospital); }
 
@@ -876,6 +897,7 @@ function shn_eap_edit() {
 				$person_status['updated_server'] = $person_status['updated'];
 			}
 
+		// non-edit...load data
 		} else {
 			$editGivenName  = $person_uuid['given_name'];
 			$editFamilyName = $person_uuid['family_name'];
@@ -889,8 +911,9 @@ function shn_eap_edit() {
 			$editHeight     = $person_physical['height'];
 			$editWeight     = $person_physical['weight'];
 			$editComments   = $person_physical['comments'];
-			$editStatus     = $person_status['opt_status'];
+			$editStatus     = isset($person_status['opt_status']) ?  $person_status['opt_status'] : null;
 			$editHospital   = $person_to_hospital['hospital_uuid'];
+			$editEvent      = $person_incident['incident_id'];
 		}
 
 		echo "
@@ -939,6 +962,21 @@ function shn_eap_edit() {
 		shn_form_select($hospital_array, "<b>Located at Hospital</b>", "hospital", "onchange=\"\"", array('value'=>$editHospital));
 
 
+		// generate incident dropdown
+		$q = "
+			SELECT *
+			FROM incident;
+		";
+		$r = $global['db']->Execute($q);
+		$incident_array = array();
+		while(!$r->EOF) {
+			$incident_array[$r->fields['incident_id']] = $r->fields['name'];
+			$r->MoveNext();
+		}
+		shn_form_select($incident_array, "<b>Related to Event:</b>", "event", "onchange=\"\"", array('value'=>$editEvent));
+
+
+		// rest of public info......
 		echo "
 			<hr class=\"insideHrGreen\">
 
@@ -1414,7 +1452,8 @@ function shn_eap_edit() {
 	// if user is allowed to add notes... show the tool for this
 	if($global['addNote']) {
 		echo "
-			Add a note of your own...<br>
+			<b>Add a note of your own...</b><br>
+			<br>
 			<center>
 				<textarea name=\"addNote\" id=\"addNote\" style=\"width: 80%; \" rows=\"5\" tabindex=\"".++$shn_tabindex."\" ></textarea><br>
 				<input type=\"submit\" value=\"Save Note\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
