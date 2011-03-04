@@ -46,7 +46,7 @@ function detect_load() {
 }
 
 
-function load_map(latitude, longitude) {
+function load_map(latitude, longitude, street) {
 	if(latitude == null || longitude == null) {
 		latitude = 39;
 		longitude = -77.101;
@@ -118,6 +118,7 @@ function load_map(latitude, longitude) {
 
 	$("#latitude").val(latitude);
 	$("#longitude").val(longitude);
+	$("#address").val(street);
 	var location = new google.maps.LatLng(latitude, longitude);
 	marker.setPosition(location);
 	map.setCenter(location);
@@ -146,6 +147,7 @@ function em_get_data() {
 	r.eventVisibility  = $("#eventVisibility").val();
 	r.eventDate        = $("#eventDate").val();
 	r.eventId          = $("#eventId").val();
+	r.street           = $("#address").val();
 
 	if($("#eventDefault:checked").val() == "default") {
 		r.eventDefault = 1;

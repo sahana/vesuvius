@@ -547,6 +547,7 @@ function em_perform_save($page_id, $rj) {
 	$shortName   = mysql_real_escape_string($shortName);
 	$description = mysql_real_escape_string($r['eventDescription']);
 	$date        = mysql_real_escape_string($r['eventDate']);
+	$street      = mysql_real_escape_string($r['street']);
 	$latitude    = (double)$r['latitude'];
 	$longitude   = (double)$r['longitude'];
 
@@ -657,7 +658,8 @@ function em_perform_save($page_id, $rj) {
 			private_group = ".$group.",
 			closed        = ".$closed.",
 			`default`     = ".$default.",
-			parent_id     = ".$parent."
+			parent_id     = ".$parent.",
+			street        = '".$street."'
 		WHERE incident_id     = '".$eventId."';
 	";
 	$res = $global['db']->Execute($q);
@@ -991,7 +993,7 @@ function em_perform_edit($incident_id) {
 	<tr>
 		<td class=\"mainRowEven emFirst emLast\" style=\" border-bottom: none;\" colspan=2>
 			<label>Enter a Street Address: </label>
-			<input id=\"address\" type=\"text\"/> &nbsp; -OR- &nbsp; <input type=\"button\" style=\"position: relative; top: -2px;\" class=\"styleTehButton\" onclick=\"detect_load();\" value=\"Detect My Current Location\" />
+			<input id=\"address\" type=\"text\" /> &nbsp; -OR- &nbsp; <input type=\"button\" style=\"position: relative; top: -2px;\" class=\"styleTehButton\" onclick=\"detect_load();\" value=\"Detect My Current Location\" />
 		</td>
 	</tr>
 
@@ -1041,7 +1043,7 @@ function em_perform_edit($incident_id) {
 		$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
 	}
 
-	$global['xajax_res']->addScript("load_map(".$row['latitude'].",".$row['longitude'].");");
+	$global['xajax_res']->addScript("load_map(".$row['latitude'].", ".$row['longitude'].", '".$row['street']."');");
 	$global['xajax_res']->addScript("initDate();");
 
 	return $global['xajax_res']->getXML();
