@@ -1,22 +1,24 @@
 <?php
-/** This file is to add,edit,delete field options through the admin interface
- *
- * PHP version 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    Sahana - http://sahana.sourceforge.net
- * @author     Kethees <ks@respere.com>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
+/**
+ * @name         Administration
+ * @version      1.0
+ * @package      admin
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @author       Kethees <ks@respere.com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0303
  */
+
 
 global $global;
 include_once($global['approot']."/inc/lib_form.inc");
 include_once($global['approot']."/inc/lib_errors.inc");
 
-function _shn_admin_field_option_config(){
+
+function _shn_admin_field_option_config() {
 	shn_xajax_registerFunction('admin_get_field_options');
 	$error_flag = true;
 	if(isset($_POST['add'])){
@@ -83,19 +85,20 @@ function _shn_admin_field_option_config(){
 
 
 
-function _shn_admin_field_remove($codes,$field_name){
-    global $global;
-    if(is_array($codes))
-        foreach($codes as $code){
-            $sql = "DELETE FROM field_options WHERE option_code = '$code' AND field_name='$field_name'";
-           $res =  $global['db']->Execute($sql);
-        }
-    else{
-        $sql = "DELETE FROM field_options WHERE option_code = '$codes' AND field_name='$field_name'";
-        $res = $global['db']->Execute($sql);
-    }
+function _shn_admin_field_remove($codes,$field_name) {
+	global $global;
+	if(is_array($codes))
+		foreach($codes as $code){
+		$sql = "DELETE FROM field_options WHERE option_code = '$code' AND field_name='$field_name'";
+		$res =  $global['db']->Execute($sql);
+		}
+	else{
+		$sql = "DELETE FROM field_options WHERE option_code = '$codes' AND field_name='$field_name'";
+		$res = $global['db']->Execute($sql);
+	}
 	return $res;
 }
+
 
 
 function _shn_admin_field_add($description, $field_name) {
@@ -119,7 +122,7 @@ function _shn_admin_field_add($description, $field_name) {
 
 
 
-function shn_admin_field_options_xajax($field_name){
+function shn_admin_field_options_xajax($field_name) {
 	global $global;
 	$sql = "
 		SELECT DISTINCT option_code,option_description
@@ -144,7 +147,6 @@ function shn_admin_field_name($name, $onchange, $opt_data) {
 	echo "<select name='$name' multiple='true' onchange ='$onchange'>";
 
 	foreach($res as $rs) {
-		//$field_data = ereg_replace("_", " ", strtoupper(substr($rs[1], 0, 1)).strtolower(substr($rs[1], 1, strlen($rs[1]))));
 		$field_data = str_replace("_", " ", strtoupper(substr($rs[1], 0, 1)).strtolower(substr($rs[1], 1, strlen($rs[1]))));
 		if($opt_data == $rs[0]) {
 			?><option selected="<?php echo $opt_data; ?>" value="<?php echo $rs[0]?>"><?php echo _lc($field_data)?></option><?php
@@ -157,7 +159,7 @@ function shn_admin_field_name($name, $onchange, $opt_data) {
 
 
 
-function shn_admin_field_options($field_name){
+function shn_admin_field_options($field_name) {
 	global $global;
 
 	$q="SELECT DISTINCT option_code,option_description FROM field_options
@@ -170,3 +172,5 @@ function shn_admin_field_options($field_name){
 
 	return $options;
 }
+
+

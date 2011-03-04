@@ -1,16 +1,18 @@
 <?php
 /**
- *Sahana Admin & ACL section
- *PHP version 4 and 5
- *LICENSE: This source file is subject to LGPL license that is available through
- *the world-wide-web at the following URI: http://www.gnu.org/copyleft/lesser.
- *html
- *
- * @package    Sahana - http://sahana.sourceforge.net
- * @author     Ravindra <ravindra@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- *
+ * @name         Administration
+ * @version      1.0
+ * @package      admin
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @author       Ravindra De Silva
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0303
  */
+
+
 
 require_once $global['approot']."/inc/lib_menu.inc";
 
@@ -131,9 +133,9 @@ function _shn_admin_acl_role_menu($module=null) {
  * However, doing a module check here since it can be optional
  * @author      Mifan Careem <mifan@respere.com>
  */
- function _shn_admin_msg_menu(){
-        global $global;
-        include_once $global['approot']."/inc/lib_modules.inc";
+function _shn_admin_msg_menu(){
+	global $global;
+	include_once $global['approot']."/inc/lib_modules.inc";
 	if(shn_module_exists('msg')){
 		include_once $global['approot']."/mod/msg/adm_menu.inc";
 		shn_msg_admin_menu();

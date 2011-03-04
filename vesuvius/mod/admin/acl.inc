@@ -1,20 +1,17 @@
 <?php
-
-/*
- *
- * Sahana Admin & ACL section
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    Sahana - http://sahana.sourceforge.net
- * @author     Ravindra <ravindra@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- *
+/**
+ * @name         Administration
+ * @version      1.0
+ * @package      admin
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @author       Sudheera R. Fernando <sudheera@opensource.lk>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0303
  */
+
 
 global $global;
 
