@@ -1,8 +1,13 @@
 /**
-* This file creates the database log structure for the pls module.
-* Modules: pls
-* Last changed: 2011.0203 ~ teh IPcalypse!
-*/
+ * @name         PL User Services
+ * @version      1.0
+ * @package      plus
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0302
+ */
 
 CREATE TABLE `plus_access_log` (
   `access_id`   int(16)     NOT NULL AUTO_INCREMENT PRIMARY KEY,

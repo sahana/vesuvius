@@ -1,29 +1,16 @@
 <?php
 /**
- * This is the conf file for the PLUS module.
- *
- * This module provides "Person Locator Services" and is a web services only module.
- *
- * PHP version 5.2+ (compiled with imap support)
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author	Greg Miernicki
- * @package	module
- * @subpackage	plus
- * @license	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
- *
-
-
-/**
- * Default function
- *
- * @access public
- * @return void
+ * @name         PL User Services
+ * @version      1.0
+ * @package      plus
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0302
  */
+
+
 function shn_plus_default() {
 	shn_plus_configuration();
 }
