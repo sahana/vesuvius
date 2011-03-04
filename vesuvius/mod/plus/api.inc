@@ -1,4 +1,14 @@
 <?
+/**
+ * @name         PL User Services
+ * @version      1.0
+ * @package      plus
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0302
+ */
 
 
 /**
@@ -34,7 +44,7 @@ function shn_plus_register_all($namespace) {
 			)
 		),
 		$namespace,
-		"Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents."
+		"Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude, street) listing disaster incidents' components."
 	);
 /*
 	shn_plus_register_one($server, 'basicSearch',
@@ -285,6 +295,7 @@ function getIncidentList() {
 			'type'        => $result->fields["type"],
 			'latitude'    => $result->fields["latitude"],
 			'longitude'   => $result->fields["longitude"]
+			//'street'   => $result->fields["street"]
 		);
 		$result->MoveNext();
 	}
