@@ -2963,3 +2963,15 @@ ALTER TABLE `user_preference`
 --
 ALTER TABLE `voice_note`
   ADD CONSTRAINT `voice_note_ibfk_1` FOREIGN KEY (`p_uuid`) REFERENCES `person_uuid` (`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+
+
+
+
+
+-- schema revisions...
+-- thru 2011.0303
+ALTER TABLE  `image` DROP  `image` ;
+ALTER TABLE  `incident` ADD  `street` VARCHAR( 256 ) NULL DEFAULT NULL;
+

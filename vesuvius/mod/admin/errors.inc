@@ -1,18 +1,16 @@
 <?php
-/**error defines of the Organization Registry
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-* @package    sahana
-* @subpackage or
-*/
-
+/**
+ * @name         Administration
+ * @version      1.0
+ * @package      admin
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @author       Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0303
+ */
 
 define("SHN_ERR_ADMIN_LOCATION_INCOMPLETE","Organization location is essential for registration. Please complete and submit again");
 define("SHN_ERR_ADMIN_UNAME_INCOMPLETE",   "User Name is essential for registration. Please complete and submit again");

@@ -1,17 +1,17 @@
 <?php
-
-/** AJAX for  Admin
- *
- * PHP version 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    Sahana - http://sahana.sourceforge.net
- * @author     Kethees <ks@respere.com>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
+/**
+ * @name         Administration
+ * @version      1.0
+ * @package      admin
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @author       Kethees <ks@respere.com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0303
  */
+
 
 global $global;
 
@@ -52,3 +52,6 @@ function admin_conf_ajax_update($key,$value) {
 	$xajax_response->addScript("_hide('$key')");
 	return $xajax_response->getXML();
 }
+
+
+
