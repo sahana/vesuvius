@@ -11,7 +11,7 @@
  */
 
 $conf['mod_em_name']         = _t("Event Manager");  // Defines the name of the module
-$conf['mod_em_menuorder']    = 90;                      // Defines this module's main menu priority
+$conf['mod_em_menuorder']    = 90;                   // Defines this module's main menu priority
 $conf['mod_em_dependencies'] = "";
 $conf['mod_em_version']=0.1;
 
