@@ -531,20 +531,39 @@ function em_save_children($eventId, $group, $type) {
 
 
 
-// saves the edit's page content/attributes to the database
+// saves the event attributes to the database
 function em_perform_save($page_id, $rj) {
 	global $global;
 	$useDerived = false;
 	$passOnGenes = false;
 	$r = json_decode($rj, true);
+	$log = "";
+	$suggest = false;
 
 	$eventId     = mysql_real_escape_string((int)$r['eventId']);
 	$name        = mysql_real_escape_string($r['longName']);
+
 	$shortName   = $r['shortName'];
 	$shortName   = trim($shortName);
 	$shortName   = preg_replace("/[^a-zA-Z0-9\s]/", "", $shortName);
 	$shortName   = strtolower($shortName);
 	$shortName   = mysql_real_escape_string($shortName);
+
+	if($r['shortName'] != $shortName) {
+		$log .= "<span style=\"color: red;\"><b>Short Name field revised to match rules: 1) lowercase letters and numbers only 2) max 16 characters in length.</span></b><br>";
+		$suggest = true;
+	}
+	if(strlen($shortName) < 1) {
+
+		$log .= "<span style=\"color: red;\"><b>Since the Short Name field you entered (or from a revision) was too short, a new one has been auto-generated for you.</span></b><br>";
+		$suggest = true;
+		$shortName = "event".date("mdGis");
+	}
+	if($suggest) {
+		$log .= "<span style=\"color: red;\"><b>You may wish to <a onclick=\"javascript: em_append_log('Editting Event #<b>".$eventId."</b> ...<br>'); em_perform_edit(".$eventId.");\">edit</a> this event again to make corrections to the new Short Name: </span>".$shortName."</b><br>";
+	}
+
+
 	$description = mysql_real_escape_string($r['eventDescription']);
 	$date        = mysql_real_escape_string($r['eventDate']);
 	$street      = mysql_real_escape_string($r['street']);
@@ -669,7 +688,7 @@ function em_perform_save($page_id, $rj) {
 		em_save_children($eventId, $group, $type);
 	}
 
-	$log = "Event #<b>".$page_id."</b> <span style=\"color: green;\">Saved</span>.<b><br>";
+	$log .= "Event #<b>".$page_id."</b> <span style=\"color: green;\">Saved</span>.<b><br>";
 
 	// update log/ui
 	$pageControlHtml = '
