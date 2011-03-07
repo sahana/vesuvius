@@ -1,7 +1,7 @@
 <?
 /**
  * @name         PL User Services
- * @version      1.0
+ * @version      2.0.0
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
@@ -9,7 +9,6 @@
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  * @lastModified 2011.0302
  */
-
 
 function shn_soap_ws_authenticate(){
 	global $global;

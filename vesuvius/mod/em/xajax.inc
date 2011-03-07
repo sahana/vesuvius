@@ -555,7 +555,7 @@ function em_perform_save($page_id, $rj) {
 	}
 	if(strlen($shortName) < 1) {
 
-		$log .= "<span style=\"color: red;\"><b>Since the Short Name field you entered (or from a revision) was too short, a new one has been auto-generated for you.</span></b><br>";
+		$log .= "<span style=\"color: red;\"><b>Since the Short Name field was too short, a new one has been auto-generated for you.</span></b><br>";
 		$suggest = true;
 		$shortName = "event".date("mdGis");
 	}
@@ -969,7 +969,7 @@ function em_perform_edit($incident_id) {
 
 	<tr>
 		<td class=\"mainRowEven emFirst emLast\" style=\"\">Short Name</td>
-		<td class=\"mainRowEven emFirst emLast\" style=\"\"><input id=\"shortName\" type=\"text\" size=16 maxlength=16 value=\"".$row['shortname']."\" /></td>
+		<td class=\"mainRowEven emFirst emLast\" style=\"\"><input id=\"shortName\" type=\"text\" size=16 maxlength=16 value=\"".$row['shortname']."\" /> ( lowercase letters and numbers only )</td>
 	</tr>
 
 
