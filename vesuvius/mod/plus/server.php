@@ -1,7 +1,7 @@
 <?
 /**
  * @name         PL User Services
- * @version      1.0
+ * @version      2.0.0
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
