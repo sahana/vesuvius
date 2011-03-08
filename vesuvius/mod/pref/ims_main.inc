@@ -1,4 +1,14 @@
-<?php
+<?
+/**
+ * @name         User Preferences
+ * @version      1.0
+ * @package      pref
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
 
 
 include_once $global['approot']."/mod/pref/ims_config.inc";

@@ -1,21 +1,15 @@
-<?php
+<?
 /**
- * Main Controller of the User Preferences
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @package    module
- * @subpackage pref
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
+ * @name         User Preferences
+ * @version      1.0
+ * @package      pref
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
-
 
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
@@ -45,9 +39,9 @@ function shn_pref_forgotPassword() {
 		} else {
 			// check if the email address is associated with a sahana account
 			$email = trim($_POST['email']);
-			
+
 			$q = "
-				SELECT * 
+				SELECT *
 				FROM `users` u, `contact` c
 				WHERE c.pgoc_uuid = u.p_uuid
 				AND c.contact_value = '".mysql_real_escape_string($email)."'
@@ -75,7 +69,7 @@ function shn_pref_forgotPassword() {
 
 				$q = "
 					UPDATE  `users`
-					SET  `confirmation` =  '".$confirmation."' 
+					SET  `confirmation` =  '".$confirmation."'
 					WHERE  `users`.`user_id` = '".$user_id."';
 				";
 				$result = $global['db']->Execute($q);
@@ -117,7 +111,7 @@ function shn_pref_forgotPassword() {
 					Admins\n
 				";
 				$p->sendMessage($email, $email, $subject, $bodyHTML, $bodyAlt);
-	
+
 				// try and resend once if it fails
 				if(!$p->sentStatus) {
 					$p->sendMessage($email, $email, $subject, $bodyHTML, $bodyAlt);
@@ -146,7 +140,7 @@ function shn_pref_forgotPassword() {
 			$confirmation = base64_decode($_REQUEST['c']);
 
 			$q = "
-				SELECT * 
+				SELECT *
 				FROM `users` u, contact c
 				WHERE u.status = 'active'
 				AND `user_id` = '".$user_id."'
@@ -163,19 +157,19 @@ function shn_pref_forgotPassword() {
 				$salt      = $row['salt'];
 			} else {
 				$error = true;
-			} 
+			}
 		}
 
 		// valid code ~ so reset password and send the email
 		if(!$error) {
 
-			// reset password 
+			// reset password
 			$time = time();
 			$new_pass = mt_rand(123456789, 1234567890);
 			$new_pwd = substr($new_pass, 0, 4).$salt.substr($new_pass, 4);
 			$password_digest = md5(trim($new_pwd));
 			$q3 = "
-				update users 
+				update users
 				set password = '{$password_digest}', changed_timestamp = {$time}, confirmation = NULL
 				WHERE p_uuid = '$p_uuid' ;
 			";
@@ -252,7 +246,7 @@ function shn_pref_forgotPassword() {
 		";
 	}
 
-} 
+}
 
 
 
@@ -263,7 +257,7 @@ function shn_pref_makeBaseUrl() {
 	global $global;
 
 	$q = "
-		SELECT * 
+		SELECT *
 		FROM `incident`
 		WHERE `default` = '1'
 		LIMIT 1;
@@ -273,7 +267,7 @@ function shn_pref_makeBaseUrl() {
 		$shortname = $row['shortname'] ."/";
 	} else {
 		$shortname = "";
-	} 
+	}
 
 	if(isset($_SERVER['HTTPS'])) {
 		$protocol = "https://";
@@ -352,7 +346,7 @@ function shn_pref_signup($title="Create Your Account", $mod="pref", $act="signup
 	shn_form_text("Last Name ",     'family_name',   'size="30"', $extra_opts);
 	shn_form_text("User Name ",     'user_name',     'size="30"', $extra_opts);
 	shn_form_text("Email Address ", 'email_address', 'size="30"', $extra_opts);
-	
+
 	if(isset($_POST['password']) || isset($_POST['re_password'])) {
 		unset($_POST['password']);
 		unset($_POST['re_password']);
@@ -378,13 +372,13 @@ function shn_pref_signup($title="Create Your Account", $mod="pref", $act="signup
 	echo "</br><br/><br/>";
 	shn_form_fclose();
 	echo "</div>";
-} 
+}
 
 
 
 function shn_pref_signup_cr() {
 	if(shn_auth_self_signup_cr() == true){
-		shn_pref_signup();		
+		shn_pref_signup();
 		if($_SESSION['security_captcha_key'] != md5($_POST["captcha"])) {
 			add_error(_t("Please provide the text in the image correctly to prove you are human."));
 			return;

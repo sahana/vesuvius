@@ -1,7 +1,18 @@
-<?php
+<?
+/**
+ * @name         User Preferences
+ * @version      1.0
+ * @package      pref
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
+
+
 include_once $global['approot'].'/inc/lib_form.inc';
-function _shn_pref_config_form($errors=false,$updated=false)
-{
+function _shn_pref_config_form($errors=false,$updated=false) {
 	global $conf;
 	global $global;
 	$sql_level1 = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";
@@ -35,7 +46,7 @@ function _shn_pref_config_form($errors=false,$updated=false)
 	if($updated){
 		shn_form_fsopen(_t(""));
 		?>
-<p align="center">Updated.</p>
+	<p align="center">Updated.</p>
 		<?php
 		shn_form_fsclose();
 	}
@@ -53,8 +64,7 @@ function _shn_pref_config_form($errors=false,$updated=false)
 	shn_form_fclose();
 }
 
-function _shn_pref_config_validate()
-{
+function _shn_pref_config_validate() {
 	global $global;
 	$error_flag=false;
 	//clean the post
