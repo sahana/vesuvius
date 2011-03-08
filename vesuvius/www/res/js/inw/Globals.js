@@ -1,9 +1,21 @@
+/**
+ * @name         INW Global Object
+ * @version      1.6
+ * @package      inw
+ * @author       Merwan Rodriguez <rodriguezmer@mail.nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
+
 var Globals = {
-	totalRecords : 0,      
-	totalResults  : null,  
+	totalRecords : 0,
+	totalResults  : null,
 	searchTerm    : $.trim(document.getElementById("searchBox").value),
 	language      : document.getElementById("language").value,
-	refreshRate   : 3500, 
+	refreshRate   : 3500,
 	scrollSpeed   : 3000,
 	rowPadding    : 18, // # of pixels padding each row
 	imagePadding  : 18, // # of pixels padding between images on the same row

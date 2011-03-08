@@ -1,7 +1,7 @@
 <?php
 /**
  * @name         HTML Purifier Include
- * @version      0.9
+ * @version      1.0
  * @author       Chamindra de Silva <chamindra@opensource.lk>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation

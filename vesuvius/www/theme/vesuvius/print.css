@@ -1,20 +1,24 @@
-/* 
-Sahana - Default Theme - Print Stylesheet 
------------------------------------------------------------------------------------
-J. Priyanga Fonseka - jo@opensource.lk 
-
-Selectors are listed in their order of appearance in the html, where applicable.
-
----------------------------------------------------------------------------------- */
+<?
+/**
+ * @name         Vesuvius Theme
+ * @version      3.0
+ * @package      lpf
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
 
 
 /* HTML BODY */
 @media print { * { background-color: white !important; color: #000; } }
 
 body { font: 0.8em sans-serif; }
----------------------------------------------------------------------------------- 
+----------------------------------------------------------------------------------
 Selectors are listed in their order of appearance in the html, where applicable.
----------------------------------------------------------------------------------- 
+----------------------------------------------------------------------------------
 
 h1, h2, h3 { font-family: Arial, Helvetica, sans-serif; }
 h1 { text-align: center; font-family: Georgia, "Times New Roman", Times, serif; }
@@ -25,7 +29,7 @@ h1 { text-align: center; font-family: Georgia, "Times New Roman", Times, serif; 
      +---- Wrapper
         |---- Menu Wrapper ( Module Menu, Main Menu, Login Form, OpenId Login, Breadcrumbs )
         |---- Content ( Home, Result, Module specific styles )
-        |---- Footer  
+        |---- Footer
   |---- Form Layout Styles
   |---- Message Display Styles
 
@@ -48,11 +52,11 @@ h1 { text-align: center; font-family: Georgia, "Times New Roman", Times, serif; 
 		#skip, #modmenuwrap, #menuwrap, #loginform, #openid_loginform, #breadcrumbs { display: none; }
 	#content { margin-left: 10%; padding-top: 1em; }
 		#content h1, #content h2 { text-align:center; border-bottom: 20pt; font-size: x-large; }
-		
+
 		/*hide message*/
 		#req_message, #error { display: none; }
-		
-		#submenu_v a.selected { text-decoration: none; font-weight: bold; }		
+
+		#submenu_v a.selected { text-decoration: none; font-weight: bold; }
 
 		/* result tables */
 		#result { }
@@ -62,11 +66,11 @@ h1 { text-align: center; font-family: Georgia, "Times New Roman", Times, serif; 
 		#result ul { font-size: 150%; margin-left: 250px; margin-top: -200px; padding-bottom: 50px; }
 		#result ul li { line-height: 1.2; }
 		#result table { background: white; border-color: black; border: 1px solid; width: 100%; padding: 2pt; border-collapse: collapse; }
-		#result table thead td { text-align: center; padding: 3pt 0; } 
+		#result table thead td { text-align: center; padding: 3pt 0; }
 		#result td { font-size: 100%; border: 1px solid black; color: black; padding: 2pt; }
 		#result td a { color: black; text-decoration: none; }
 		#result hr { border: 1px solid #000; }
-		
+
 table{border-collapse:collapse;width:100%}
 table tr td {border:1px solid #8E8E8E}
 		.rssfeed { display: none; }
@@ -76,9 +80,9 @@ table tr td {border:1px solid #8E8E8E}
 
 /* Form styles */
 div.form-container form fieldset {  margin-top: 10pt; }
-.form-container input[type="text"] { color: black; border-width: 0; border: 1px solid #000; margin: 0 10px 10px 10px; } 
+.form-container input[type="text"] { color: black; border-width: 0; border: 1px solid #000; margin: 0 10px 10px 10px; }
 .form-container img, .form-container input[type="file"] { display: none; }
-.form-container textArea { color: black; width: 300px; border-width: 0; border: 1px solid #000; margin: 0 10px 10px 10px; } 
+.form-container textArea { color: black; width: 300px; border-width: 0; border: 1px solid #000; margin: 0 10px 10px 10px; }
 /* Removing the buttons */
 .form-container input[type="submit"] { display: none; }
 .form-container select { width: 0; margin-right: 200pt; visibility: hidden; }
