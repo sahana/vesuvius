@@ -1,12 +1,18 @@
 <?php
 /**
-* @package		nameParser
-* @version		1.1
-* @author		Greg Miernicki, Keith Beckman, DLM
-* LastModified:		2009:0128
-* License:		LGPL
-* @link			http://code.google.com/p/nameparser/
-*/
+ * @name         Name Parser
+ * @version      1.1
+ * @package      np
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @author       Keith Beckman, DLM
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         http://code.google.com/p/nameparser/
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
+
 
 class nameParser {
 
