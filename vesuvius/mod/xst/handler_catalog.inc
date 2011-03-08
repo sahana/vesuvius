@@ -1,19 +1,18 @@
-<?php
+<?
 /**
- *
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    Sahana - http://sahana.sourceforge.net
- * @author     Ishan Liyanage <ishan@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- *
+ * @name         Extensible Streaming
+ * @version      1.0
+ * @package      xst
+ * @author       Ishan Liyanage <ishanul@gmail.com>
+ * @author       Richard Smith <s0459387@sms.ed.ac.uk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
- 
+
+
 function shn_text_catalog_unit_cat() {
 	global $global;
 	$db  = $global['db'];

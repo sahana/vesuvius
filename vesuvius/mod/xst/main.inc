@@ -1,23 +1,17 @@
-<?php
+<?
 /**
- * This is the main file for the Sahana module. Once the module is selected in the
- * post all actions are passed to this file for processing.
- * <Description of file>
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author	   Ishan Liyanage <ishanul@gmail.com>
- * @author     Richard Smith <s0459387@sms.ed.ac.uk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @package    module
- * @subpackage xst (Extensible Streaming)
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
+ * @name         Extensible Streaming
+ * @version      1.0
+ * @package      xst
+ * @author       Ishan Liyanage <ishanul@gmail.com>
+ * @author       Richard Smith <s0459387@sms.ed.ac.uk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
+
 
 /**
  * Place all your dependant libraries below. Given are some typical ones
