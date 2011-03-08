@@ -1,8 +1,15 @@
 /**
-* DB Install script
-* Modules: RAP
-* Last changed: 20100921
-*/
+ * @name         Hospital Administration
+ * @version      0.1
+ * @package      ha
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
+ */
+
 
 CREATE TABLE `hospital` (
   `hospital_uuid`     int(32)      NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -40,7 +47,7 @@ CREATE TABLE `person_to_hospital` (
 
 
 
-INSERT INTO `hospital` (`hospital_uuid`, `name`, `short_name`, `street1`, `street2`, `city`, `county`, `region`, `postal_code`, `country`, `latitude`, `longitude`, `phone`, `fax`, `email`, `npi`, `patient_id_prefix`, `creation_time`, `icon_url`) 
+INSERT INTO `hospital` (`hospital_uuid`, `name`, `short_name`, `street1`, `street2`, `city`, `county`, `region`, `postal_code`, `country`, `latitude`, `longitude`, `phone`, `fax`, `email`, `npi`, `patient_id_prefix`, `creation_time`, `icon_url`)
 VALUES
 (1, 'Suburban Hospital', 'sh', '8600 Old Georgetown Rd', '', 'Bethesda', 'Montgomery', 'MD', '20817', 'USA', 38.99731, -77.10984, '3018963100', '', '', '', '911-', '2010-01-01 01:01:01', 'theme/lpf3/img/suburban.png'),
 (2, 'National Naval Medical Center', 'nnmc', 'National Naval Medical Center', '', 'Bethesda', 'Montgomery', 'MD', '20889', 'US', 39.00204, -77.0945, '3012954611', '', '', '', '', '2010-09-22 18:49:34', 'theme/lpf3/img/nnmc.png');

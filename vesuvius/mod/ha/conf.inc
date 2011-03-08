@@ -1,22 +1,18 @@
 <?php
 /**
- * REG Module
- *
- * PHP version >=5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author     Greg Miernicki <g@miernicki.com>
- * @package    module ha
- * @version    1.0
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
+ * @name         Hospital Administration
+ * @version      0.1
+ * @package      ha
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
  */
 
 
 $conf['mod_ha_name']         = _t("Hospital Administration");   // Defines the name of the module
-$conf['mod_ha_menuorder']    =  75;                              // Defines this module's main menu priority 
+$conf['mod_ha_menuorder']    =  75;                              // Defines this module's main menu priority
 $conf['mod_ha_dependencies'] = "";
-$conf['mod_ha_version']=1.0;
+$conf['mod_ha_version']      = 0.1;
