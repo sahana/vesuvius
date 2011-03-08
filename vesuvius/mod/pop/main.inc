@@ -1,25 +1,17 @@
-<?php
+<?
 /**
- * This is the main admin file for the POP module.
- *
- * PHP version 5.2+ (compiled with imap support)
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author	Greg Miernicki
- * @copyright	www.nlm.nih.gov
- * @package	module
- * @subpackage	pop
- * @license	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @name         Push Out Post
+ * @version      1.0
+ * @package      pop
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
 
 
-
 /**
- * Default Admin function
- *
  * @access public
  * @return void
  */
