@@ -1,19 +1,18 @@
 <?php
 /**
- * LPF Library Configuration
- *
- * PHP version 5.3+
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author	Greg Miernicki <g@miernicki.com>
- * @package	lpf
- * @license	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @name         LPF Library
+ * @version      0.5
+ * @package      lpf
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
  */
 
-$conf['mod_lpf_name']         = _t("LPF Library");  // Defines the name of the module
-$conf['mod_lpf_menuorder']    = 3;                  // Defines this module's main menu priority 
-$conf['mod_lpf_dependencies'] = "";                 // Doesnt depend on other modules (but is depending on by others)
-$conf['mod_lpf_version']      = 0.3;
+
+$conf['mod_lpf_name']         = _t("LPF Library");
+$conf['mod_lpf_menuorder']    = 3;
+$conf['mod_lpf_dependencies'] = "";
+$conf['mod_lpf_version']      = 0.5;
