@@ -1,20 +1,14 @@
 <?php
 /**
- * 
- * Main Search Controller of the Missing Person Registry 
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @package    module
- * @subpackage mpr
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
  */
 
 
@@ -36,17 +30,17 @@ function shn_clean_type_parameter($type) {
 
 /**
  * Search default form
- * 
+ *
  * @access public
  * @return void
  */
 function shn_mpr_search_default() {
-	shn_form_fopen("search",null,array('req_message'=>false)); 
+	shn_form_fopen("search",null,array('req_message'=>false));
 		shn_form_fsopen(_t('Basic Search'));
 			shn_form_text(_t('Name'), 'name', 'size="30"', array('help'=>'Enter a full or partial name'));
 			shn_form_text(_t('ID Card #'), 'idcard', 'size="30"', array('help'=>'Driver\'s License Number of Passport Number'));
 			shn_form_checkbox(_t('All incidents'),'all_incidents');
-			?><label>&nbsp;</label><?php 
+			?><label>&nbsp;</label><?php
 			shn_form_submit(_t('Search'), 'class="controlButton"');
 		shn_form_fsclose();
 		shn_form_hidden(array('seq'=>'result'));
@@ -61,13 +55,13 @@ function shn_mpr_search_default() {
 
 /**
  * Search Advance form
- * 
+ *
  * @access public
  * @return void
  * @todo work on the advance search function
  */
 function shn_mpr_search_advance() {
-	shn_form_fopen("search",null,array('req_message'=>false)); 
+	shn_form_fopen("search",null,array('req_message'=>false));
 		shn_form_fsopen(_t('Advanced Search'));
 			shn_form_fsopen(_t('Identity'));
 				shn_form_text(_t('Identity'),'idcard','size="30"');
@@ -94,15 +88,15 @@ function shn_mpr_search_advance() {
 
 /**
  * Search Query Generation
- * 
- * @deprecated 
+ *
+ * @deprecated
  * @access public
  * @return void
  */
-function shn_mpr_search_result() {   
+function shn_mpr_search_result() {
 	//@todo: rewrite
 	global $global;
-	
+
 	$name = trim($_POST['name']);
 	$idcard = trim($_POST['idcard']);
 	$post_type = trim($_POST['type']);
@@ -155,11 +149,11 @@ function shn_mpr_search_result() {
 
 /**
  * Search Result Display
- * 
- * @deprecated 
- * @param string $subquery 
- * @param mixed $limit 
- * @param mixed $offset 
+ *
+ * @deprecated
+ * @param string $subquery
+ * @param mixed $limit
+ * @param mixed $offset
  * @access public
  * @return void
  */
@@ -173,14 +167,14 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $o
 		//Select into temp table todo put the locks to reading tables ;-)
 		$sql1 = "CREATE TEMPORARY TABLE tmp_mpr_search( p_uuid BIGINT )";
 		$sql2 = "INSERT INTO tmp_mpr_search $subquery";
-		$sql3 =  "SELECT 
+		$sql3 =  "SELECT
 			a.p_uuid AS p_uuid, a.full_name AS full_name, a.family_name as family_name,
-			a.l10n_name AS l10n_name, b.height AS height, 
-			b.weight AS weight, b.opt_eye_color AS opt_eye_color, 
-			b.opt_skin_color AS opt_skin_color, b.opt_hair_color AS opt_hair_color, 
-			c.last_seen AS last_seen, c.last_clothing AS last_clothing, 
+			a.l10n_name AS l10n_name, b.height AS height,
+			b.weight AS weight, b.opt_eye_color AS opt_eye_color,
+			b.opt_skin_color AS opt_skin_color, b.opt_hair_color AS opt_hair_color,
+			c.last_seen AS last_seen, c.last_clothing AS last_clothing,
 			c.comments AS comments , d.opt_status as opt_status
-			FROM person_uuid a 
+			FROM person_uuid a
 			LEFT OUTER JOIN person_physical b USING (p_uuid)
 			LEFT OUTER JOIN person_missing c USING (p_uuid)
 			LEFT OUTER JOIN person_status d USING (p_uuid)
@@ -195,16 +189,16 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $o
 		$rs_count = $global['db']->Execute($sql3);
 		$global['db']->Execute($sql4);//echo $sql4;
 	} else {
-		$sql = "SELECT 
+		$sql = "SELECT
 		a.p_uuid AS p_uuid, a.full_name AS full_name, a.family_name as family_name,
-		a.l10n_name AS l10n_name, b.height AS height, 
-		b.weight AS weight, b.opt_eye_color AS opt_eye_color, 
-		b.opt_skin_color AS opt_skin_color, b.opt_hair_color AS opt_hair_color, 
-		c.last_seen AS last_seen, c.last_clothing AS last_clothing, 
+		a.l10n_name AS l10n_name, b.height AS height,
+		b.weight AS weight, b.opt_eye_color AS opt_eye_color,
+		b.opt_skin_color AS opt_skin_color, b.opt_hair_color AS opt_hair_color,
+		c.last_seen AS last_seen, c.last_clothing AS last_clothing,
 		c.comments AS comments , d.opt_status as opt_status
-		FROM person_uuid a 
-		LEFT OUTER JOIN person_physical b USING (p_uuid) 
-		LEFT OUTER JOIN person_missing c USING (p_uuid) 
+		FROM person_uuid a
+		LEFT OUTER JOIN person_physical b USING (p_uuid)
+		LEFT OUTER JOIN person_missing c USING (p_uuid)
 		LEFT OUTER JOIN person_status d USING (p_uuid)
 		WHERE a.p_uuid IN ($subquery)";
 		$extra_opt['post']=true;
@@ -231,27 +225,27 @@ function shn_mpr_search_result_vw($subquery="SELECT p_uuid FROM person_uuid", $o
 
 /**
  * Navigation Controll
- * 
+ *
  * @deprecated
- * @param mixed $rs 
+ * @param mixed $rs
  * @access public
  * @return void
  */
 function shn_mpr_search_navigation_top($rs) {
-    shn_mpr_search_nav_arrows($rs);    
+    shn_mpr_search_nav_arrows($rs);
 }
 
 
 
 /**
  * shn_mpr_search_navigation_bottom NOT NEEDED
- * 
- * @param mixed $rs 
+ *
+ * @param mixed $rs
  * @access public
  * @return void
  */
 function shn_mpr_search_navigation_bottom($rs) {
-	//NOTE: I know this looks really dumb, but 
+	//NOTE: I know this looks really dumb, but
 	//Later we are going to populate some bottom stuff
 	echo '<br /><strong>'._t('Total').' '.$rs->RecordCount().' '._t('Records were found').'</strong><br />';
 	shn_mpr_search_nav_arrows($rs);
@@ -264,15 +258,15 @@ function shn_mpr_search_nav() {
 	global $conf;
 
 	$limit = $conf['mod_mpr_search_limit'];
-	$offset = $_GET['offset']; 
+	$offset = $_GET['offset'];
 	$total = $_SESSION['mpr']['search']['record_count'];
 	$delta = $total - $offset - $limit;
-	echo '<br /><strong>'._t('Total').' '.$total.' '._t('Records were found').'</strong><br />';    
-	?><ul class="paging"><?php   
+	echo '<br /><strong>'._t('Total').' '.$total.' '._t('Records were found').'</strong><br />';
+	?><ul class="paging"><?php
 	// Back Arrows
 	if( $offset > 0 ) {
 		//Right Back
-		echo '<li><a href="index.php?mod='.$global['module'].'&act='.$_GET['act'].'&seq='.$_REQUEST['seq'].'&offset=0'.'">'.'|&lt;&lt;'._t('First').' '.$limit.' '._t('Records').' </a></li>';   
+		echo '<li><a href="index.php?mod='.$global['module'].'&act='.$_GET['act'].'&seq='.$_REQUEST['seq'].'&offset=0'.'">'.'|&lt;&lt;'._t('First').' '.$limit.' '._t('Records').' </a></li>';
 		//With Limit Jump
 		echo '<li><a href="index.php?mod='.$global['module'].'&act='.$_GET['act'].'&seq='.$_REQUEST['seq'].'&offset='. ( $offset - $limit ) . '">'.'&lt;&lt;'._t('Previous').' '.$limit.' '._t('Records').' </a></li>';
 	}
@@ -290,9 +284,9 @@ function shn_mpr_search_nav() {
 
 /**
  * Display Results
- * 
+ *
  * @deprecated
- * @param mixed $details 
+ * @param mixed $details
  * @access public
  * @return void
  */
@@ -313,7 +307,7 @@ function shn_mpr_search_show_result($details,$search) {
 		if($details!=null) {
 			foreach($details as $detail) {
 				?><TR><TD><?php
-				shn_show_thumb_url($detail['p_uuid'],null,'mpr','addmp_img'); 
+				shn_show_thumb_url($detail['p_uuid'],null,'mpr','addmp_img');
 				if($search) {
 					echo '<br><a title="'._t('Edit').'" href="index.php?mod='.$global['module'].'&act=viewmp&id='.$detail['p_uuid'].'">'.$detail['full_name'].'</a>'.'<br>'.$detail['family_name'].'<br>'.$detail['l10n_name'];
 				} else {
@@ -336,7 +330,7 @@ function shn_mpr_search_show_result($details,$search) {
 					echo '<br /><a title="'._t('Assign to more incidents').'" '.'href="index.php?mod=admin&act=ims_assign&id='.$detail['p_uuid'].'">'._t('Assign to more incidents').'</a>';
 					echo '<br />';
 					echo '<a title="'._t('Audit').'" '.'href="index.php?mod='.$global['module'].'&act=auditmp&id='.$detail['p_uuid'].'">'._t('Audit').'</a>';
-					?></TD><?php echo ($select?'<TD><a title="'._t('Select').'" href="index.php?'.$_SERVER['QUERY_STRING'].'&tracker_id='.$detail['p_uuid'].'&tracker_relation='.$_POST['opt_relationship_type'].'&seq=tracker_select" > '._t('Select').' </a>'.'</TD>':''); 
+					?></TD><?php echo ($select?'<TD><a title="'._t('Select').'" href="index.php?'.$_SERVER['QUERY_STRING'].'&tracker_id='.$detail['p_uuid'].'&tracker_relation='.$_POST['opt_relationship_type'].'&seq=tracker_select" > '._t('Select').' </a>'.'</TD>':'');
 					?></TR><?php
 				}
 			}
@@ -349,15 +343,15 @@ function shn_mpr_search_show_result($details,$search) {
 
 /**
  * Get List of Trackers
- * 
- * @param mixed $p_uuid 
+ *
+ * @param mixed $p_uuid
  * @access public
  * @return void
  */
 function shn_mpr_search_get_trackers($p_uuid) {
 	global $global;
-	$sql = "SELECT a.p_uuid, a.full_name, b.relation 
-		FROM person_uuid a, person_to_report b 
+	$sql = "SELECT a.p_uuid, a.full_name, b.relation
+		FROM person_uuid a, person_to_report b
 		WHERE b.p_uuid = '$p_uuid' AND a.p_uuid = b.rep_uuid";
 	$arr = $global['db']->GetAll($sql);
 	return $arr;
@@ -367,8 +361,8 @@ function shn_mpr_search_get_trackers($p_uuid) {
 
 /**
  * Search result with select button
- * 
- * @param mixed $details 
+ *
+ * @param mixed $details
  * @access public
  * @return void
  */
@@ -405,7 +399,7 @@ function shn_mpr_search_select($details) {
 
 /**
  * SearchQuery Generates sqls for search
- * 
+ *
  * @package module
  * @subpackage mpr
  * @copyright Lanka Software Foundation - http://www.opensource.lk
@@ -429,8 +423,8 @@ class SearchQuery {
 
 	/**
 	* Sets the name field including soundex and metaphone
-	* 
-	* @param mixed $name 
+	*
+	* @param mixed $name
 	* @access public
 	* @return void
 	*/
@@ -445,7 +439,7 @@ class SearchQuery {
 		}
 		$encode1 = substr($encode1,0,strlen($encode1) - 3);
 		$encode2 = substr($encode2,0,strlen($encode2) - 3);
-		
+
 		//TODO: Need to check this later
 		$this->__joins[] = " LEFT OUTER JOIN phonetic_word ON person_status.p_uuid = phonetic_word.pgl_uuid ";
 		$this->__where[] = " ( ($encode1) OR ($encode2) ) ";
@@ -455,8 +449,8 @@ class SearchQuery {
 
 	/**
 	* Sets the address
-	* 
-	* @param mixed $address 
+	*
+	* @param mixed $address
 	* @access public
 	* @return void
 	*/
@@ -475,8 +469,8 @@ class SearchQuery {
 
 	/**
 	* Sets any serial numeber
-	* 
-	* @param mixed $serial_no 
+	*
+	* @param mixed $serial_no
 	* @access public
 	* @return void
 	*/
@@ -490,22 +484,22 @@ class SearchQuery {
 
 	/**
 	* Sets the phone number
-	* 
-	* @param mixed $phone 
+	*
+	* @param mixed $phone
 	* @access public
 	* @return void
 	*/
 	function set_phone($phone) {
 		$this->__phone = $phone;
 		$this->__joins[] = " LEFT OUTER JOIN contact ON person_status.p_uuid = contact.pgoc_uuid AND contact.opt_contact_type = 'curr'";
-		$this->__where[] = " contact.contact_value LIKE '%{$this->__phone}%' "; 
+		$this->__where[] = " contact.contact_value LIKE '%{$this->__phone}%' ";
 	}
 
 
 
 	/**
 	* returns the generated sql
-	* 
+	*
 	* @access public
 	* @return string
 	*/
@@ -518,7 +512,7 @@ class SearchQuery {
 		if(! empty ($this->incident_id) || ! empty ($this->incident_list) ) {
 			$sql .= " INNER JOIN resource_to_incident ON resource_to_incident.x_uuid = person_status.p_uuid ";
 		}
-		
+
 		if ($this->__where) {
 			$sql .= " WHERE (";
 			foreach ($this->__where as $where) {
@@ -526,7 +520,7 @@ class SearchQuery {
 			}
 			$sql = substr($sql,0,strlen($sql) - 3);
 			$sql .= " ) ";
-			
+
 			if (!empty($this->incident_id)) {
 				$sql .= " AND resource_to_incident.incident_id = '{$this->incident_id}' ";
 			} else if(!empty ($this->incident_list)) {
@@ -539,7 +533,7 @@ class SearchQuery {
 				$sql .= " AND person_status.opt_status = 'mis' ";
 			}
 			$sql .= " GROUP BY 1";
-		}       
+		}
 		return $sql;
-	} 
+	}
 }

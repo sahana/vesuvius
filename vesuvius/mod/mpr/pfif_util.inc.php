@@ -1,13 +1,18 @@
 <?php
 /**
-* @package     pfif
-* @version      1.1
-* @author       Nilushan Silva <>
-* @author       Carl H. Cornwell <ccornwell@mail.nih.gov>
-* LastModified: 2010:0304:2003
-* License:      LGPL
-* @link         TBD
-*/
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Nilushan Silva
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
+ */
+
+
 require_once('webimage.inc');
 
 define("PFIF_NS_PREFIX","pfif");
@@ -33,11 +38,11 @@ define("PFIF_IMG_THUMB_PREFIX","thumb_");
 
 $pfif_node_cache = array(); // FIXME: temporary hack : should be able to get nodes by person_record_id using XPath
 
-// HACK ALERT: A dummy node list to prevent non-object access errors on missing elements. 
+// HACK ALERT: A dummy node list to prevent non-object access errors on missing elements.
 $dummy_node_list = null;
 function set_dummy_node_list($documentNode) {
     global $dummy_node_list;
-    
+
     $dummy_element = $documentNode->createElement('empty_node');
     $dummy_child = $documentNode->createElement(MISSING_NODE_TAGNAME);
     $dummy_element->appendChild($dummy_child);
@@ -49,7 +54,7 @@ function set_dummy_node_list($documentNode) {
         *
         */
 function utc_date($d) {
-    
+
     // If date had a 'T' separator and 'Z' as last character, then it is already in proper format. Otherwise, assume it needs conversion.
     if (!empty($d)) {
     $ts = strtotime($d);
@@ -59,7 +64,7 @@ function utc_date($d) {
     }
     return $z;
 }
-    
+
 /**
         * Gets the first name from a Sahana full name.
         *
@@ -81,9 +86,9 @@ function hepl_parse_name($s) {
         * These should be parsed separately and the () and [] encapsed comments discarded. Thus, given input
         *      "Antani, Sameer (NIH/NLM/LHC) [E]" <santani@mail.nih.gov>
         * this function should return
-        *       ['user'] = Antani, Sameer 
+        *       ['user'] = Antani, Sameer
         *       ['addr'] = santani@mail.nih.gov
-        * 
+        *
         */
 function hepl_parse_email($em) {
     print "parsing email: $m \n";
@@ -119,10 +124,10 @@ function hepl_parse_email($em) {
 
 function shn_full_name_to_first_name($full_name,$family_name) {
     // var_dump("full_name_to_first_name",$full_name,$family_name);
-    // FIXME: Temporary hack for Feb HEPL export 
+    // FIXME: Temporary hack for Feb HEPL export
     $tmp = hepl_parse_name($full_name);
     $full_name = $tmp['name'];
-    
+
     $first_name = '';
     if (!isset($family_name)) {
        # print("family_name is not set! <br/>");
@@ -139,10 +144,10 @@ function shn_determine_last_name($full_name,$family_name) {
     if (isset($family_name)) {
         $last_name = $family_name;
     } else {
-        // FIXME: Temporary hack for Feb HEPL export 
+        // FIXME: Temporary hack for Feb HEPL export
         $tmp = hepl_parse_name($full_name);
         $full_name = $tmp['name'];
-        
+
         $first_name = '';
         $parts = explode(' ',$full_name);
         $c = count($parts);
@@ -153,7 +158,7 @@ function shn_determine_last_name($full_name,$family_name) {
 
 /**
 * Map Sahana MPR status values to PFIF found (1.1) or status  (1.2) values
-* PFIF 1.1 defines only found = {true, false}. PFIF 1.2 uses status as defined below (with corresponding Sahana 
+* PFIF 1.1 defines only found = {true, false}. PFIF 1.2 uses status as defined below (with corresponding Sahana
 * value in parens):
     information_sought ('unk')
         The author of the note is seeking information on the person in question.
@@ -164,12 +169,12 @@ function shn_determine_last_name($full_name,$family_name) {
     believed_missing ('mis')
         The author of the note has reason to believe that the person in question is still missing.
     believed_dead ('dec')
-        The author of the note has received information that the person in question is dead.     
-    
+        The author of the note has received information that the person in question is dead.
+
    @see shn_map_status_from_pfif
 */
 function shn_map_status_to_pfif($status, $isvictim, $ver='1.2') {
-    $status_map = 
+    $status_map =
         array('unk'=>array('1.1'=>'false','1.2'=>'information_sought'),
               'fnd'=>array('1.1'=>'true','1.2'=>'information_sought'),
               'ali'=>array('1.1'=>'true','1.2'=>'believed_alive'),
@@ -189,14 +194,14 @@ function shn_map_status_to_pfif($status, $isvictim, $ver='1.2') {
          *    Map note's found (v1.1 & 1.2) and status (v1.2 only) fields to sahana opt_status value.
          *
          *    FIXME (chc 1/31/2010): Scan text for 'alive', 'well', 'dead', 'injured', 'hurt', etc and
-         *                   refine status as possible 
-         *                   --  use 'unk' for can't determine status at all, 
-         *                               'fnd' for found,  but health status indeterminate, 
+         *                   refine status as possible
+         *                   --  use 'unk' for can't determine status at all,
+         *                               'fnd' for found,  but health status indeterminate,
          *                               'dec' for deceased and
          *                               'inj' for injured?
          */
 function shn_map_status_from_pfif($note) {
-    $status_map = 
+    $status_map =
         array('information_sought'=>'unk',
               'believed_alive'=>'ali',
               'believed_missing'=>'mis',
@@ -205,18 +210,18 @@ function shn_map_status_from_pfif($note) {
 
     $result = '';
 
-    // Look for PFIF 1.2 element in $note->text. If found, convert $note->status value, 
+    // Look for PFIF 1.2 element in $note->text. If found, convert $note->status value,
     $text1dot2 = split_text($note->text,PFIF_V_1_2);
     $status = $text1dot2[PFIF_1_2_STS];
-    
+
     // otherwise use $note->found and return 'mis' or 'fnd'.
     if(!empty($status)) {
        $result = $status;
-        
+
     } else {
         $result = $note->found == 'true' ? 'fnd' : 'mis';
     }
-    
+
     return $result;
 }
 
@@ -229,7 +234,7 @@ function shn_map_status_from_pfif($note) {
  */
 function shn_map_gender_to_pfif($personRecord, $source_person) {
     $gender_map = array('unk'=>'', 'mal'=>'male', 'fml'=>'female'); // PFIF 1.2 defines an 'oth)er' category, but it is not clear what that means. The spec states that if gender is unknown it should be omitted.
-    
+
     // TODO: need to sort out 1.1 vs 1.2 sources. for now, only concerned with local records (chc 2/24/10)
     $g = $gender_map[$personRecord['opt_gender']];
     //DEBUG: error_log("mapped gender to ".$g);
@@ -240,7 +245,7 @@ function shn_map_gender_from_pfif($pfif_sex) {
     $gender_map = array('male'=>'mal', 'female'=>'fml','other'=>'unk'); //// PFIF 1.2 defines an 'oth)er' category, but it is not clear what that means, so we map to unkown, which means indeterminate or otherwise unreportable as male or female. The spec states that if gender is unknown it should be omitted.
 
     if (empty($sex)) {
-        $g = 'unk'; 
+        $g = 'unk';
     } else {
         $g = $gender_map[$sex];
     }
@@ -273,7 +278,7 @@ function shn_map_age_to_pfif($personRecord, $source_person) {
      */
 function shn_map_age_from_pfif($dob, $age, $source_date) {
     $result = array();
-    // TODO: dob can be YYYY, YYY-MM or YYYY-MM-DD. 
+    // TODO: dob can be YYYY, YYY-MM or YYYY-MM-DD.
     //              Use datediff to get approximate age in years
     //     NOTE: that MySQL allows partial dates specified as YYYY0000 or YYYYMM00, however we don't know
     //                 how Sahana will respond when such partial dates are encountered. So, only store date_of_birth when it
@@ -284,8 +289,8 @@ function shn_map_age_from_pfif($dob, $age, $source_date) {
             $result['date_of_birth'] = $full_dob;
         }
     }
-    
-    // FIXME: Should a fully specified DOB trump age? (chc 20100309) 
+
+    // FIXME: Should a fully specified DOB trump age? (chc 20100309)
     // age can be a single number or a range. split on '-' to get min and max
     if (!empty($age)) {
         $range = explode('-',$age);
@@ -397,7 +402,7 @@ function merge_text($pid,$l_pid,$status) {
         $result .= PFIF_1_2_CLOSE_TAG;
     else
         $result = '';
-        
+
     // print "'$result'\n";
     return $result;
 }
@@ -407,8 +412,8 @@ function merge_text($pid,$l_pid,$status) {
     *  NOTE: This is needed to resolve a change in Google's treatment of source_name and source_url since
      *       the initial release of Haiti and Chile person finder apps.
      * @return String the host needed to resolve a relative URL
-     * @param String $surl the PFIF source_url 
-     * @param String $surl the PFIF source_name 
+     * @param String $surl the PFIF source_url
+     * @param String $surl the PFIF source_name
     *
     */
     function extract_url_host($surl,$sname) {
@@ -435,18 +440,18 @@ function fetch_image($photo_url,$source_name,$person_record_id,$source_url=null)
             *  In the latter case, and in the case where we can't resolve the photo_url to a supported
             *  image, the photo_url will be available in comments.
             */
-            // Google-hack: combine source_url and photo_url 
+            // Google-hack: combine source_url and photo_url
             // TODO: 8/19/2010 - move this to find_best_image ???
-            // TODO: possible (generalization, if photo-url starts with '/' append to source-url. 
+            // TODO: possible (generalization, if photo-url starts with '/' append to source-url.
             // May not always work. (chc 3/5/2010)
             // TODO: (chc 8/10/10) : need to add Pakistan instance ... is '.appspot' sufficient?
             // $photo_url = $person->photo_url;
-            if ($photo_url[0] == '/' && 
+            if ($photo_url[0] == '/' &&
                 ((stripos($source_name,
                           'google.com') !== FALSE ) ||
                  (stripos($source_name,
                           'chilepersonfinder.appspot') !== FALSE ) ||
-                 (stripos($source_name, 
+                 (stripos($source_name,
                           'haiticrisis.appspot') !== FALSE )
                  )) {
                 $host = extract_url_host($source_url,$source_name);
@@ -478,7 +483,7 @@ function fetch_image($photo_url,$source_name,$person_record_id,$source_url=null)
                 $handle = fopen($filePath."/".$fileName,'w');
                 $status = fwrite($handle,$image->image);
                 fclose($handle);
-                
+
                 if ($status) { // write succeeded
                     // error_log("fetch_image:wrote file ".$filePath."/".$fileName);
                     $_SESSION['mpr']['entry']['url'] = $localUrl;
@@ -501,7 +506,7 @@ function fetch_image($photo_url,$source_name,$person_record_id,$source_url=null)
                     $_SESSION['mpr']['entry']['image'] = $image->image;
                 }
                 $_SESSION['pfif_info']['images_in'] += 1;
-            } else { // TODO: Note that add.inc:shn_mpr_addmp_commit() is going to insert an empty image record 
+            } else { // TODO: Note that add.inc:shn_mpr_addmp_commit() is going to insert an empty image record
                 // TODO: should we stuff the URL so it can be retried later? (chc 2/1/2010)
                 error_log("fetch_image:GET image failed for ".$person_record_id." from ".$photo_url);
                 $failed_images[] = array('x_uuid'=>$person_record_id,'url'=>$photo_url);

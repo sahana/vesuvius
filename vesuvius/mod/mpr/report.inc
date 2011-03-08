@@ -1,8 +1,15 @@
 <?php
-/*
-not very much documentation in this file? --greg
-*/
-
+/**
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
+ */
 
 
 function shn_mpr_rpt_default() {
@@ -11,7 +18,7 @@ function shn_mpr_rpt_default() {
 	shn_mpr_mis_ppl_pdf_report();
 	//shn_mpr_mis_ppl_xhtml_report();
 	//shn_mpr_mis_ppl_xls_report();
-	
+
 	// :::::: found people ::::::
 	//shn_mpr_fnd_ppl_ods_report();
 	shn_mpr_fnd_ppl_pdf_report();
@@ -41,7 +48,7 @@ function shn_mpr_mis_ppl_pdf_report() {
 		array_push($table_data, $table_row);
 		$res->MoveNext();
 	}
-	
+
 	$title = _t('List of Missing People');
 	$txt = _t('This is the list of missing people');
 	$mpr_report1_keyword_arr = array('mod' => 'mpr','report' => 'missing list','report1' => 'name','users' => 'all');
@@ -74,7 +81,7 @@ function shn_mpr_mis_ppl_ods_report() {
 		array_push($table_data, $table_row);
 		$res->MoveNext();
 	}
-	
+
 	$title = _t('List of Missing People');
 	$txt = _t('This is the list of missing people');
 	$mpr_report1_keyword_arr = array('mod' => 'mpr','report' => 'missing list','report1' => 'name','users' => 'all');
@@ -107,7 +114,7 @@ function shn_mpr_mis_ppl_xhtml_report() {
 		array_push($table_data, $table_row);
 		$res->MoveNext();
 	}
-	
+
 	$title = _t('List of Missing People');
 	$txt = _t('This is the list of missing people');
 	$mpr_report1_keyword_arr = array('mod' => 'mpr','report' => 'missing list','report1' => 'name','users' => 'all');
@@ -140,7 +147,7 @@ function shn_mpr_mis_ppl_xls_report() {
 		array_push($table_data, $table_row);
 		$res->MoveNext();
 	}
-	
+
 	$title = _t('List of Missing People');
 	$txt = _t('This is the list of missing people');
 	$mpr_report1_keyword_arr = array('mod' => 'mpr','report' => 'missing list','report1' => 'name','users' => 'all');
@@ -174,7 +181,7 @@ function shn_mpr_fnd_ppl_pdf_report() {
 		array_push($table_data, $table_row);
 		$res->MoveNext();
 	}
-	
+
 	$title = _t('List of Found People');
 	$txt = _t('This is the list of found people');
 	$mpr_report1_keyword_arr = array('mod' => 'mpr','report' => 'found list','report1' => 'name','users' => 'all');
@@ -207,7 +214,7 @@ function shn_mpr_fnd_ppl_xhtml_report() {
 		array_push($table_data, $table_row);
 		$res->MoveNext();
 	}
-	
+
 	$title = _t('List of Found People');
 	$txt = _t('This is the list of found people');
 	$mpr_report1_keyword_arr = array('mod' => 'mpr','report' => 'found list','report1' => 'name','users' => 'all');

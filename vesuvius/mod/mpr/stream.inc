@@ -1,11 +1,23 @@
 <?php
+/**
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
+ */
+
 
 require_once ($global['approot'].'mod/mpr/tools.inc');
 require_once ($global['approot'].'inc/lib_image.inc');
 
 /**
- * shn_home_default 
- * 
+ * shn_home_default
+ *
  * @access public
  * @return string
  */
@@ -27,7 +39,7 @@ function shn_mpr_default() {
 
 
 function shn_mpr_addmp_img() {
-	global $global; 
+	global $global;
 
 	// clean clean
 	$x_uuid = mysql_real_escape_string($_GET['x_uuid']);
@@ -37,9 +49,9 @@ function shn_mpr_addmp_img() {
 				shn_show_image_stream($x_uuid, true, $_SESSION['mpr']['entry'],true);
 			} else {
 				if ($_GET['thumbnail']) {
-					shn_show_image_stream($x_uuid,true); 
+					shn_show_image_stream($x_uuid,true);
 				} else {
-					shn_show_image_stream($x_uuid,false); 
+					shn_show_image_stream($x_uuid,false);
 				}
 			}
 		break;

@@ -1,4 +1,17 @@
 <?php
+/**
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
+ */
+
+
 error_reporting(E_ALL ^ E_NOTICE);
 // print "Configuring error display  ...\n";
 ini_set("display_errors", "stdout");
@@ -13,7 +26,7 @@ require_once("../../3rd/adodb/adodb.inc.php");
 require_once("../../inc/handler_db.inc");
 require_once "pfif_repository.inc";
 
-/* 
+/*
   * Set up assertion options and test reporting functions
 */
 assert_options(ASSERT_ACTIVE,   true);
@@ -38,8 +51,8 @@ global $global, $test_runner;
     $test_runner->tear_down();
 }
 
-/* 
- * Define the test runner class 
+/*
+ * Define the test runner class
 */
 class TestRunner {
     private $basic_suite = array('create',
@@ -66,13 +79,13 @@ class TestRunner {
     private $test_delay = 0;
     private $test_suite = array();
     private $test_repository = null;
-    
+
     public function __construct() {}
-    
+
     public function setup() {
         // TBD: what, if any, setup is necessary for running repository tests?
         // Check session for which test suite
-        if ($_SESSION['suite']=='basic') {        
+        if ($_SESSION['suite']=='basic') {
             // $this->test_repository = new Pfif_Repository(); // Is this needed?
             $this->clean_db();
         } else if ($_SESSION['suite']=='import') {
@@ -98,7 +111,7 @@ class TestRunner {
             $this->test_repository->first_entry = null;
             $this->test_repository->last_entry = null;
             $this->test_repository->get_log()->end_time = null;
-        } 
+        }
         // TODO: make this a command line option: $this->clean_db();
         print "tear_down completed ...\n";
     }
@@ -130,28 +143,28 @@ class TestRunner {
             throw new RuntimeException("repository cleanup failed!");
         }
     }
-    
+
     public function configure_basic_tests($delay=0) {
        $_SESSION['suite'] = "basic";
        $this->test_suite = $this->basic_suite;
        $this->test_delay = $delay;
         // Use sys exec to run sql pfif_repository/pfif_log init  script
     }
-    
+
     public function configure_import_tests($delay=0) {
         $_SESSION['suite'] = "import";
        $this->test_suite = $this->import_suite;
        $this->test_delay = $delay;
         // Populate pfif_repository/pfif_log init with repos & logs to support import scenarios
     }
-    
+
     public function configure_export_tests($delay=0) {
        $_SESSION['suite'] = "export";
        $this->test_suite = $this->export_suite;
        $this->test_delay = $delay;
         // Populate pfif_repository/pfif_log init with repos & logs to support export scenarios
     }
-    
+
     public function run_tests($test_list = array()) {
         // Allow caller to override configured test list
         $suite = !empty($test_list) ? $test_list : $this->test_suite;
@@ -218,7 +231,7 @@ class TestRunner {
 
     public function test_find_by_id() {
         global $global,$conf;
-        
+
         $test = $_SESSION['test'];
 
         $_SESSION['test']=$test.".test key valid";
@@ -320,7 +333,7 @@ class TestRunner {
      */
     public function test_is_ready_for_import() {
         if ($this->test_repository == null ||
-           stripos($this->test_repository->name,'test_import') === FALSE) 
+           stripos($this->test_repository->name,'test_import') === FALSE)
         {
            $this->test_repository = self::createValidImportRepository();
         }
@@ -446,7 +459,7 @@ class TestRunner {
         $counts['first_entry'] = gmdate(UTC_DATE_FORMAT,$first);
         $counts['last_entry'] = gmdate(UTC_DATE_FORMAT,$last);
     }
-    
+
     public function test_end_harvest() {
         $counts = array(
                     'st2'=>array( 'pfif_person_count'=>0,

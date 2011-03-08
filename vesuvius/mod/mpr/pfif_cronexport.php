@@ -1,12 +1,19 @@
 <?php
 /**
-* @package     pfif
-* @version      1.1
-* @author       Carl H. Cornwell <ccornwell@mail.nih.gov>
-* LastModified: 2010:0308:1402
-* License:      LGPL
-* @link         TBD
-*/
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Nilushan Silva
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
+ */
+
+// PFIF 1.1
+
 // print "Configuring error reporting  ...\n";
 error_reporting(E_ALL | E_STRICT); // E_NOTICE);
 // print "Configuring error display  ...\n";
@@ -62,7 +69,7 @@ if (true) {
     print "load for post to $service_name at $start_time ".($loaded ? "suceeded with $loaded records" : "failed")."\n";
 } else {
     $id = 'LPFp-46833'; // CEPL web('pl.nlm.nih.gov/person.2140';)// 'CEPL-20100301-0002-e7fcd'; // HEPL ('LPFp-46833');
-    $loaded = $p->loadFromDatabase('id?'.$id); 
+    $loaded = $p->loadFromDatabase('id?'.$id);
     print "load $id".($loaded ? " suceeded with $loaded records" : " failed")."\n";
 }
 

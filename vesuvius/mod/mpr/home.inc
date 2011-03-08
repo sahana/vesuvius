@@ -1,19 +1,15 @@
 <?php
-/** 
- * Home Page of the Missing Person Registry 
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @author     Greg Miernicki <g@miernicki.com> <miernickig@mail.nih.gov>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @package    module
- * @subpackage mpr
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+/**
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
  */
 
 
@@ -26,7 +22,7 @@
 		?><img src="tmp/mprfound.png"/><img src="tmp/mprfound.png"/><?php
 	}
 	$alternate_homepage = shn_db_get_config("mpr", "alternate_homepage");
-	
+
 	// new default MPR homepage
 	if (($alternate_homepage == FALSE) || ($alternate_homepage == "0")) {
 		$html = "<br>
@@ -67,20 +63,20 @@ The site does no automatic notification at this time, so check back periodically
 	// <a href=\"index.php?mod=mpr&amp;act=list_found\">List all Found Persons</a>
 	// <a href=\"index.php?mod=mpr&amp;act=search&amp;type=all\">Search for a Person</a>
 	// <a href=\"index.php?mod=mpr&act=search&type=missing\">Edit Missing Person?</a>
-	
+
 	/*
 	<tr><td colspan=\"2\" style=\"text-align: center;\">
 				<img src=\"theme/lpf/img/icon-search.png\" alt=\"Search\" align=\"center\"><a href=\"index.php?mod=mpr&amp;act=search&amp;type=all\">Search for a Person</a>
 			</td></tr>
 			*/
-	
-	
+
+
 	// old MPR homepage
 	} else if ($alternate_homepage == "-1") {
 		?>
 		<p>
-		<?php 
-		echo  _t('The Missing person registry is an online bulletin board of missing and found people. It captures information about the people missing and found, as well as information on the person seeking them, increasing the chancesof people finding each other. For example if two members of a family unit are looking for the head of the family, we can use this data to at least connect those two family members.'); 
+		<?php
+		echo  _t('The Missing person registry is an online bulletin board of missing and found people. It captures information about the people missing and found, as well as information on the person seeking them, increasing the chancesof people finding each other. For example if two members of a family unit are looking for the head of the family, we can use this data to at least connect those two family members.');
 		?>
 		</p>
 		<br/></br>
@@ -105,7 +101,7 @@ The site does no automatic notification at this time, so check back periodically
 		</ul>
 		<br/>
 		<?php
-		
+
 	// use selected modResource page selected in MPR general configuration
 	} else {
 		$q = "select * from rez_pages where rez_page_id = '".$alternate_homepage."';";
@@ -141,44 +137,44 @@ require($global['approot'].'mod/mpr/mpr_lib.inc');
 
 /**
  * Shows the latest updates on missing and found perople
- * 
- * @param string $type 
- * @param int $limit 
+ *
+ * @param string $type
+ * @param int $limit
  * @access public
  * @return void
  */
- 
+
 function shn_mpr_get_latest($type,$limit=6) {
 	global $global;
 	$incident_join = "INNER JOIN resource_to_incident e ON a.p_uuid = e.x_uuid ";
 	$sql_missing = "
 		SELECT
-			a.p_uuid AS p_uuid, a.full_name AS full_name, 
-			b.height AS height, b.weight AS weight, 
-			b.opt_eye_color AS opt_eye_color, 
-			b.opt_skin_color AS opt_skin_color, b.opt_hair_color AS opt_hair_color, 
-			c.last_seen AS last_seen, c.last_clothing AS last_clothing, 
-			c.comments AS comments 
-		FROM person_uuid a 
-		LEFT OUTER JOIN person_physical b USING (p_uuid) 
+			a.p_uuid AS p_uuid, a.full_name AS full_name,
+			b.height AS height, b.weight AS weight,
+			b.opt_eye_color AS opt_eye_color,
+			b.opt_skin_color AS opt_skin_color, b.opt_hair_color AS opt_hair_color,
+			c.last_seen AS last_seen, c.last_clothing AS last_clothing,
+			c.comments AS comments
+		FROM person_uuid a
+		LEFT OUTER JOIN person_physical b USING (p_uuid)
 		INNER JOIN person_missing c USING (p_uuid)
-		INNER JOIN person_status d USING (p_uuid) 
-		$incident_join 
-		WHERE d.opt_status = 'mis' AND e.incident_id = '{$_SESSION['user_pref_ims_incident_id']}' 
+		INNER JOIN person_status d USING (p_uuid)
+		$incident_join
+		WHERE d.opt_status = 'mis' AND e.incident_id = '{$_SESSION['user_pref_ims_incident_id']}'
 		ORDER BY d.updated DESC";
 
 	$sql_found = "
 		SELECT
-			a.p_uuid AS p_uuid, a.full_name AS full_name, 
-			b.height AS height, b.weight AS weight, 
-			b.opt_eye_color AS opt_eye_color, 
-			b.opt_skin_color AS opt_skin_color, b.opt_hair_color AS opt_hair_color, 
-			c.last_seen AS last_seen, c.last_clothing AS last_clothing, 
-			c.comments AS comments 
-		FROM person_uuid a 
-		LEFT OUTER JOIN person_physical b USING (p_uuid) 
+			a.p_uuid AS p_uuid, a.full_name AS full_name,
+			b.height AS height, b.weight AS weight,
+			b.opt_eye_color AS opt_eye_color,
+			b.opt_skin_color AS opt_skin_color, b.opt_hair_color AS opt_hair_color,
+			c.last_seen AS last_seen, c.last_clothing AS last_clothing,
+			c.comments AS comments
+		FROM person_uuid a
+		LEFT OUTER JOIN person_physical b USING (p_uuid)
 		INNER JOIN person_missing c USING (p_uuid)
-		INNER JOIN person_status d USING (p_uuid) 
+		INNER JOIN person_status d USING (p_uuid)
 		$incident_join
 		WHERE d.opt_status != 'mis' AND e.incident_id = '{$_SESSION['user_pref_ims_incident_id']}'
 		ORDER BY d.updated DESC";
@@ -187,9 +183,9 @@ function shn_mpr_get_latest($type,$limit=6) {
 	if($type=='missing') {
 		$final_sql=$sql_missing;
 		$rs = $global['db']->SelectLimit($sql_missing,$limit,$offset);
-		
+
 	} elseif ($type=='found') {
-		$final_sql=$sql_found;     
+		$final_sql=$sql_found;
 		$rs = $global['db']->SelectLimit($sql_found,$limit,$offset);
 	}
 	$rs = $global['db']->SelectLimit($final_sql,$limit);

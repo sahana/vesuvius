@@ -1,17 +1,16 @@
 <?php
 /**
-* The ancillary Sahana configuration file for PFIF related constants
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author ccornwell, contractor, NLM-CEB, ccornwell@mail.nih.gov
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
+ */
+
 
 ######################################################################
 #                 Sahana MPR PFIF Configuration Settings                 #
@@ -24,7 +23,7 @@ $pfif_conf['source_url_domain'] = '.nlm.nih.gov'; // append to disaster id to yi
 $pfif_conf['pfif_domain'] = 'pl.nlm.nih.gov'; // TODO: get from sysconf
 
 // TEMPORARY: Maps services to Sahana indicents - should be added to pfif_repository table
-$pfif_conf['service_to_incident'] = 
+$pfif_conf['service_to_incident'] =
         array('googlehaiti' => array('incident_id'=>8,
                                      'db_host'=>'localhost', // archivestage.nlm.nih.gov',
                                      'db_name'=>'sahanaCarl',
@@ -44,7 +43,7 @@ $pfif_conf['service_to_incident'] =
 
 $pfif_conf['services'] = array(); // chc 4/7/2010 : Initilialized from pfif_repository table via pfif_init.inc
 /*
-    'google' => 
+    'google' =>
     array('read_url' => 'http://haiticrisis.appspot.com/api/read',
           'feed_url' => 'http://haiticrisis.appspot.com/feeds',
           'post_url' => 'http://haiticrisis.appspot.com/api/write',
