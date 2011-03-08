@@ -1,4 +1,15 @@
-<?php
+<?
+/**
+ * @name         User Preferences
+ * @version      1.0
+ * @package      pref
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
+
 include_once $global['approot'].'/inc/lib_form.inc';
 include_once($global['approot']."/inc/lib_user_pref.inc");
 
@@ -25,7 +36,7 @@ global $global;
 		  return $val;
 		}
 	}
-	else { 
+	else {
 	        $sql = "UPDATE config SET value = 'false' WHERE confkey = 'shn_xform_enabled'";
         	$global['db']->Execute($sql);
 		$sql1 = "SELECT value FROM config WHERE confkey = 'shn_xform_enabled'";

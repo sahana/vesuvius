@@ -1,14 +1,21 @@
-<?php
-
-
-
+<?
+/**
+ * @name         User Preferences
+ * @version      1.0
+ * @package      pref
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
 
 
 function shn_pref_personal() {
 
 echo "<i>Coming Soon: The ability modify personal details within your user profile.</i>";
 
-} 
+}
 
 
 
@@ -28,7 +35,7 @@ function shn_pref_tracking() {
 	";
 
 	$q  = "
-		SELECT * 
+		SELECT *
 		FROM person_to_report u, person_uuid p
 		WHERE rep_uuid = '".$_SESSION['user_p_uuid']."'
 		AND p.p_uuid = u.p_uuid;
@@ -65,7 +72,7 @@ function shn_pref_tracking() {
 	echo "<legend>People That I Am Following</legend>";
 
 	$q  = "
-		SELECT * 
+		SELECT *
 		FROM person_followers f, person_uuid p
 		WHERE follower_p_uuid = '".$_SESSION['user_p_uuid']."'
 		AND p.p_uuid = f.p_uuid;
@@ -94,4 +101,4 @@ function shn_pref_tracking() {
 	echo "</form></div>";
 
 
-} 
+}

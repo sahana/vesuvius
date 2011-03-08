@@ -1,28 +1,17 @@
-<?php
-/* $Id */
-
+<?
 /**
- * Main Configuration of the User Preferences
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @package    module
- * @subpackage pref 
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
+ * @name         User Preferences
+ * @version      1.0
+ * @package      pref
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
 
 
-/**
- * Gives the nice name of the module
- * @global string $conf['mod_pref_name']
- */
 $conf['mod_pref_name']         = _t("My Settings");
 $conf['mod_pref_menuorder']    = 70;
 $conf['mod_pref_dependencies'] = "";

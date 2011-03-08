@@ -1,23 +1,15 @@
-<?php
-/* $Id */
-
+<?
 /**
- * Main Controller of the User Preferences
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @package    module
- * @subpackage pref 
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
+ * @name         User Preferences
+ * @version      1.0
+ * @package      pref
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
-
 
 include_once $global['approot']."/inc/lib_modules.inc";
 include_once $global['approot']."/inc/lib_menu.inc";
@@ -36,13 +28,13 @@ while (false !== ($f = $d->read())) {
         }
     }
 }
-        
+
 /**
  * This function defines the menu list.
  * @access public
  * @return void
  */
-function shn_pref_mainmenu() 
+function shn_pref_mainmenu()
 {
     global $global;
     $module = $global['module'];
@@ -51,7 +43,7 @@ function shn_pref_mainmenu()
     shn_mod_menuopen(_t("User Preferences"));
 
     shn_mod_menuitem("default",_t("Home"));
-    
+
     /* get the sub menus */
     $d = dir($global['approot'].'mod/pref/');
     while (false !== ($f = $d->read())) {
@@ -64,13 +56,13 @@ function shn_pref_mainmenu()
 
 
     shn_mod_menuclose();
-   
+
     // include the main menu
     include $global['approot']."/inc/handler_mainmenu.inc";
-} 
+}
 
 /**
- * 
+ *
  * This function displays the home page of the User Preferences
  *
  * @access public
@@ -98,7 +90,7 @@ echo "</ul>";
 /**
  * This function cleans the POST values
  * @todo Put this somewhere else, i.e. form handling
- * @param mixed $local_post 
+ * @param mixed $local_post
  * @access public
  * @return void
  */
