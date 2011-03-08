@@ -1,25 +1,19 @@
-<?php
+<?
 /**
- * TP Module
- *
- * PHP version >=5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author     Greg Miernicki <g@miernicki.com>
- * @package    module tp
- * @version    1.0
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
+ * @name         TriagePic
+ * @version      1.2
+ * @package      tp
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
 
 
-
 /**
- * Default Admin function 
- * 
+ * Default Admin function
+ *
  * @access public
  * @return void
  */
@@ -49,8 +43,8 @@ function shn_tp_default() {
 
 
 /**
- * Default Admin function 
- * 
+ * Default Admin function
+ *
  * @access public
  * @return void
  */
@@ -62,7 +56,7 @@ function shn_tp_download() {
 	$extPathReal = realpath($extPath);
 	$border = "style=\"border: none;\"";
 	$show = false;
-	
+
 	if(file_exists($intPathReal)) {
 		echo "<span style=\"color: red;\"><b>RED = Internal</b> /triagepic_cache</span> ";
 		echo "
