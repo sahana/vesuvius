@@ -6,8 +6,9 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0302
+ * @lastModified 2011.0308
  */
+
 
 CREATE TABLE `plus_access_log` (
   `access_id`   int(16)     NOT NULL AUTO_INCREMENT PRIMARY KEY,
