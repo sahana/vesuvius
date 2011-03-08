@@ -1,13 +1,15 @@
-<?php
+<?
 /**
- * modRez admin console
- *
- * @package	module
- * @subpackage	rez
- * @author 	Greg Miernicki
- * @copyright	www.nlm.nih.gov
- * @license	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @name         Resources
+ * @version      1.2
+ * @package      rez
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
+
 
 include_once ($global['approot'].'/mod/rez/xajax.inc');
 shn_xajax_registerFunction('rez_append_log');

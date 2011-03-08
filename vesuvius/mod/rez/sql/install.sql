@@ -1,7 +1,13 @@
 /**
-* modRez: The table structure to pages and their content for the resources tab.
-* Last changed: 20090806
-*/
+ * @name         Resources
+ * @version      1.2
+ * @package      rez
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
 
 DROP TABLE IF EXISTS `rez_pages`;
 
