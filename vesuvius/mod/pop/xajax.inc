@@ -1,13 +1,15 @@
-<?php
+<?
 /**
- * POP module's xajax library
- *
- * @package	module
- * @subpackage	pop
- * @author 	Greg Miernicki
- * @copyright	www.nlm.nih.gov
- * @license	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @name         Push Out Post
+ * @version      1.0
+ * @package      pop
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
+
 
 global $global;
 // register publicly accessible xajax funtions
