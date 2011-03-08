@@ -1,15 +1,17 @@
 <?php
 /**
- * @author       Greg Miernicki <g@miernicki.com>
- * @author       Quentin Zervaas <x@phpriot.com>
- * @package      googleGeocoder
- * @subpackage   mpres
+ * @name         Google Geocoder
  * @version      1.0
- * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @package      googleGeocoder
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @author       Quentin Zervaas <x@phpriot.com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2010.1008
+ * @lastModified 2011.0308
  */
+
 
 class googleGeocoder {
 	public static $url = 'http://maps.google.com/maps/geo';

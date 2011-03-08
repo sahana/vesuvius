@@ -1,4 +1,3 @@
-<?php
 /**
  * @name         MPR Email Service
  * @version      1.6
@@ -11,15 +10,14 @@
  * @lastModified 2011.0308
  */
 
+CREATE table mpres_log (
+	log_index       int          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	p_uuid          varchar(64)  NOT NULL,
+	email_subject   varchar(256) NOT NULL,
+	email_from      varchar(128) NOT NULL,
+	email_date      varchar(64)  NOT NULL,
+	update_time     datetime     NOT NULL,
+	INDEX(`p_uuid`),
+	FOREIGN KEY (`p_uuid`) REFERENCES `person_uuid` (`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/**
- * Gives the nice name of the module
- */
-$conf['mod_mpres_name'] = _t("MPR Email Service");
-
-/**
- * Gives the priority order in the main menu when listed
- */
-$conf['mod_mpres_menuorder']    = 3;
-$conf['mod_mpres_dependencies'] = "mpr(1.0)";
-$conf['mod_mpres_version']      = 1.6;
