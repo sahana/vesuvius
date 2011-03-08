@@ -1,12 +1,12 @@
 /**
- * SAHANA Dyanmic Localization javascript library
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author      Prabath Kumarasinghe <prabath321@gmail.com>
- * @copyright   Lanka Software Foundation - http://www.opensource.lk
+ * @name         Sahana Locale Javascript
+ * @version      1.0
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
 
 var request = null;
@@ -42,28 +42,28 @@ if (e.button==2){
 	else if (e.srcElement) targ = e.srcElement
 	if (targ.nodeType == 3) // defeat Safari bug
    		targ = targ.parentNode
-	var tname;	
+	var tname;
 	imptarg = targ;
 	tname=targ.nodeName
 	tname3 = targ.textContent
-		
+
 	if(imptarg.tagName=='SELECT'){
 		var i=0;
 		while(i<targ.length){
 			disp_promt_for_select(targ[i].textContent,imptarg.name);
 			i++;
 		}
-			
+
 	}else if(imptarg.type=='text'){
 		alert('Text boxes tags cannot be translate');
 	}else if(imptarg.type=='submit'){
 		tname3 = imptarg.value;
-		submitValuesForCheck(tname3);		
+		submitValuesForCheck(tname3);
 	}else{
 		submitValuesForCheck(tname3);
 	}
-	
-	
+
+
  	}
 }
 
@@ -71,8 +71,8 @@ function disp_promt_for_select(tname3,tagname){
 	var translateword = prompt(tname3,"");
 	if(translateword!=null && translateword!="")
 		submitSelectValues(translateword,tname3,tagname);
-	
-	
+
+
 }
 
 function submitSelectValues(translateword,tname3,tagname){
@@ -91,10 +91,10 @@ request.send("translateword="+translateword+"&dropdownvalue="+tname3+"&tagname="
 
 function getResponseForSelect(){
 	if(request.readyState==4){
-		if(request.status==200){	
+		if(request.status==200){
 		alert("I am ahere");
 		var test = request.responseText;
-		
+
 		}else{
 			//alert("From else" + request.status);
 		}
@@ -120,12 +120,12 @@ request.send("msgid="+tname3+"&request="+'first');
 
 function getResponse(){
 if(request.readyState==4){
-	if(request.status==200){	
-		
+	if(request.status==200){
+
 		var restext = request.responseText;
-				
-			tag = restext.substring(0,6);			
-			if(tag == 'tag111'){				
+
+			tag = restext.substring(0,6);
+			if(tag == 'tag111'){
 				disp_prompt_second(restext.substring(6),tname3);
 			}else if(tag == 'tag222'){
 				imptarg.textContent = restext.substring(6);
@@ -134,7 +134,7 @@ if(request.readyState==4){
 				imptarg.textContent = tname3;
 				disp_prompt(tname3);
 			}
-			
+
 	}
 	else{
 		//alert("From else" + request.status);
@@ -146,11 +146,11 @@ if(request.readyState==4){
 
 var forcetext;
 function disp_prompt_second(tname3,defaulttext){
-	forcetext = tname3;   
+	forcetext = tname3;
 	var translateword = prompt(tname3,defaulttext)
 	if(translateword!=null && translateword!="")
 		showResultTextTwo(translateword);
-	
+
 /*Ext.MessageBox.show({
            title: 'Sahana Localization',
            msg: tname3,
@@ -158,7 +158,7 @@ function disp_prompt_second(tname3,defaulttext){
            buttons: Ext.MessageBox.OKCANCEL,
            multiline: true,
 	   fn: showResultTextTwo,
-	   value: defaulttext, 
+	   value: defaulttext,
 	   //animEl: tname
         });*/
 }
@@ -167,19 +167,19 @@ var importantTwo;
 function showResultTextTwo(text){
 	importantTwo = text;
 	finalTwo();
-	
+
 };
 
 
 function finalTwo(){
-	
+
 	if(importantTwo==''){
 		imptarg.textContent = forcetext;
 	}
 	else{
 		imptarg.textContent = importantTwo;
 	}
-	submitValuesTwo();		
+	submitValuesTwo();
 }
 
 function submitValuesTwo(){
@@ -198,8 +198,8 @@ request.send("msgid="+forcetext+"&msgstr="+importantTwo+"&request="+'second');
 
 function requestSuccess(){
 	if(request.readyState==4){
-		if(request.status==200){		
-		var test = request.responseText;		
+		if(request.status==200){
+		var test = request.responseText;
 		}else{
 			//alert("From else" + request.status);
 	 	}
@@ -228,7 +228,7 @@ alert('This word pharse already translated');
 function disp_prompt(tname3){
 	var translateword = prompt(tname3,"");
 	if(translateword!=null && translateword!="")
-		showResultText(translateword);        
+		showResultText(translateword);
 
 	/*Ext.MessageBox.show({
            title: 'Sahana Localization',
@@ -246,7 +246,7 @@ function disp_prompt(tname3){
 var important;
 function showResultText(text){
        	important = text;
-	final();	
+	final();
 };
 
 
@@ -258,7 +258,7 @@ function final(){
 	else{
 		imptarg.textContent = important;
 	}
-	submitValues();	
+	submitValues();
 }
 
 

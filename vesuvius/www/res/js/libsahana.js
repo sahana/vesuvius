@@ -1,13 +1,14 @@
 /**
- * SAHANA javascript library
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author      J P Fonseka <jo@opensource.lk>
- * @copyright   Lanka Software Foundation - http://www.opensource.lk
+ * @name         Sahana Main Javascript
+ * @version      1.0
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
+
 
 //incident changing functions
 var req;
@@ -27,7 +28,7 @@ function changeIncident(ivalue)
          req.open('GET', 'index.php?mod=pref&act=ims_set_incident&stream=text&incident_id='+ivalue, true);
          req.setRequestHeader("content-type","application/x-www-form-urlencoded");
          req.send(' ');
-         
+
      }
      else
      {
@@ -141,7 +142,7 @@ function toggle_visibility(id){
     var el=document.getElementById(id).style;
     if(el.display=='block'){
 	el.display='none';
-    } 
+    }
     else{
         el.display='block';
     }
@@ -168,8 +169,8 @@ function resize_wrapper(){
        	var result=document.getElementById('result');
 	var content=document.getElementById('content');
        	var wrapper=document.getElementById('wrapper');
-	
-       	if(result){ 
+
+       	if(result){
        		if(document.documentElement.clientWidth < document.body.clientWidth)
        			wrapper.style.width=(document.body.clientWidth+3)+"px";
        	}
@@ -180,13 +181,13 @@ function resize_wrapper(){
 }
 
 function resize_wrapper_ie7(){
-   var table = null;   
+   var table = null;
    var map = document.getElementById('map');
 	var wrapper = document.getElementById('wrapper');
-	
+
 	 if ( document.getElementById('result') ) {
 			table = document.getElementById('result').getElementsByTagName('table')[0];
-	 } 
+	 }
 
 	if(table != null){
 		if((document.documentElement.clientWidth) > (document.body.clientWidth -205)){

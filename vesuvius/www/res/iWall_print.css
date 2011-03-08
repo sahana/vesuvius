@@ -1,4 +1,17 @@
-#footer, #header, #disaster_selekta, #detailInfo, #detailsPane, 
+/**
+ * @name         Interactive Notification Wall
+ * @version      1.6
+ * @package      inw
+ * @author       Merwan Rodriguez <rodriguezmer@mail.nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
+
+
+#footer, #header, #disaster_selekta, #detailInfo, #detailsPane,
 #pager, #perPageWrapper, #printLink, #map_canvas, #searchForm,
 #blueBack, #wrapper_menu, #skip, #menuwrap, #modmenuwrap, #loginform, #modmenu, #glass, #sortOptions
 {
@@ -19,13 +32,13 @@
 	top: 0px !important;*/
 	vertical-align: top;
 }
-	
-.stub { 
+
+.stub {
 
 	-webkit-box-shadow: 3px 3px 3px rgba(0,0,0,0.4);
 	-moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.4);
 	box-shadow: 3px 3px 3px rgba(0,0,0,0.4);
-	
+
 	/*background:transparent;
        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#20CC0000,endColorstr=#20000000);
        zoom: 1;
@@ -37,16 +50,16 @@
 
 /*	border: 0px solid #E0ECFF;
 	*border: 1px solid #E5ECFF;*/
-	margin:5px 5px 15px 5px; 
-	float: left; 
+	margin:5px 5px 15px 5px;
+	float: left;
 	width:300px;
 	height: 100px;
 	position: relative;
 	cursor: pointer;
 	page-break-before: auto;
-	
-}	
-	
+
+}
+
 .stubPicture {
 	-webkit-border-top-left-radius: 5px;
 	-webkit-border-bottom-left-radius: 5px;
@@ -79,7 +92,7 @@
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
-	
+
 	top: 0 !important;
 	left: 0 !important;
 }
@@ -116,13 +129,13 @@
 
 #detailsPane #close{
 	border:solid 0px #E0ECFF;
-	position:absolute; 
+	position:absolute;
 	background-color: white;
 	z-index:99999;
-	right: 3px; 
-	top: 3px; 
+	right: 3px;
+	top: 3px;
 	height: 17px;
-	padding:5px; 
+	padding:5px;
 	cursor: pointer;
 	width: 42px;
 	border-radius: 2px;
@@ -139,11 +152,11 @@
 	margin: 5px auto 5px auto;
 	padding-top:10px;
 	overflow: hidden;
-	zIndex: 2;	
+	zIndex: 2;
 	border-radius: 2px;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;
-	
+
 	/*filter:alpha(opacity=95);
 	-moz-opacity:0.95;
 	-khtml-opacity: 0.95;
@@ -154,7 +167,7 @@
 	margin-bottom: 5px;
 	/*background-color: #E0ECFF;*/
 	border: solid 2px #E0ECFF;
-	
+
 	/*width: 90%;*/
 	margin: 0px 5px 0px 5px;
 	padding:5px;
@@ -167,7 +180,7 @@
 	background-color: #E0ECFF;
 	color: black;
 	font-weight: normal;
-	padding:2px 3px 0px 3px;	
+	padding:2px 3px 0px 3px;
 	border-radius: 2px;
 	-moz-border-radius: 2px;
 	-webkit-border-radius: 2px;

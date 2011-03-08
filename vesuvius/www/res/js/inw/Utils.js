@@ -1,3 +1,15 @@
+/**
+ * @name         INW Utils Object
+ * @version      1.6
+ * @package      inw
+ * @author       Merwan Rodriguez <rodriguezmer@mail.nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
+
 var Utils = {
 	/**
 	 * true = interactive
@@ -6,32 +18,32 @@ var Utils = {
 	displayMode : function(mode) {
 		if ( mode == "fullScreen" )
 			mode = ScrollView.goFullScreen();
-			
-		Globals.displayMode = (mode == 'interactive'); 
+
+		Globals.displayMode = (mode == 'interactive');
 		Globals.currPage = 1;
 		Globals.initDone = 1;
 		Globals.personListOld = [];
 		searchSubset();
 	},
 
-	showDetail : function(person) { 
+	showDetail : function(person) {
 
 		var doc = document;
 
 		//pause the scroll
 		if ( !Globals.displayMode )
 			ScrollView.pause();
-			
-		$("#glass").css({ height : $(document).height() }).show();
-		
 
-		
+		$("#glass").css({ height : $(document).height() }).show();
+
+
+
 		$("#detailsPane")
 		  .css({left: Math.round($(window).width()/2)-400+'px',
 				 top: Math.round($(window).height()/2)-250 + Utils.realScrollTop() + 'px'
 				 })
 		  .show();
-		
+
 		$("#dt_uuid").html(person.uuid)
 		$("#dt_fullName").html(person.name || "N/A");
 		$("#dt_age").html(person.ageGroup || "N/A");
@@ -44,9 +56,9 @@ var Utils = {
 			$("#dt_hospitalIcon").html("<img src='" + person.hospitalIcon + "' />");
 		else
 			$("#dt_hospitalIcon").html("");
-		
+
 		$("#dt_image").html('<img style="position:relative;max-height:300px;max-width:300px" src="'+person.imageUrl+'">');
-		
+
 		// Utils.loadMap();
 	},
 
@@ -56,9 +68,9 @@ var Utils = {
 		//play the scroll
 		if ( !Globals.displayMode )
 			ScrollView.play();
-			
+
 		$("#glass").hide();
-		$("#detailsPane").hide();	
+		$("#detailsPane").hide();
 		if ($("#map_canvas").css("visibility") === "visible")
 			Utils.showMap();
 	},
@@ -95,7 +107,7 @@ var Utils = {
 
 			$("#showMap > a").html("Map");
 		}
-		
+
 		$("#dt_image").toggle();
 		$("#detailInfo").toggle();
 	},
@@ -107,7 +119,7 @@ var Utils = {
 			if (status == google.maps.GeocoderStatus.OK && document.getElementById("dt_location").innerHTML != "NULL" && document.getElementById("dt_location").innerHTML != "N/A") {
 			  map.setCenter(results[0].geometry.location);
 			  var marker = new google.maps.Marker({
-				  map: map, 
+				  map: map,
 				  position: results[0].geometry.location
 			  });
 			  $("#showMap").show();
@@ -120,8 +132,8 @@ var Utils = {
 	},
 
 
-/* 
- *  Takes a jquery object, returns a jquery object (div) w/ details embedded in it 
+/*
+ *  Takes a jquery object, returns a jquery object (div) w/ details embedded in it
     Maybe should be moved to ScrollView???
  */
 	pictureDetails : function(imageDiv, person) {
@@ -136,25 +148,25 @@ var Utils = {
 						+  "<span class='statusSahanaFull " + person.tagClass + "' style='margin-left: 10px;color:#" + person.tagColor + ";'>" + person.statusSahanaFull + "</span><br /><br />"
 						+  "<div>" + person.statusSahanaUpdated + "</div></br><br />"
 						+  "<div>" + person.uuid + "</div><br />");
-						
+
 		var row = person.row,
 			pos = Globals.Q[person.row].length;
-						
+
 		newLayer.mouseover(function() { ScrollView.info(row, pos) });
 		newLayer.mouseout(function() { ScrollView.unfade(row, pos) });
-		
+
 		imageDiv.append(newLayer);
-		
+
 		return imageDiv;
-		
+
 	},
-	
+
 	changeObserver : function( lastUpdated ) {
 		if ( !Globals.lastUpdated ) {
 			Globals.lastUpdated = lastUpdated
 			return;
 		}
-		
+
 		if ( lastUpdated != Globals.lastUpdated ) {
 			Globals.mostRecent = Globals.lastUpdated; // saving for later
 			Globals.lastUpdated = lastUpdated;
@@ -164,29 +176,29 @@ var Utils = {
 				$("#updateAlerts2").fadeIn("slow");
 				setTimeout(	searchSubset, 60000 );
 			}
-			
+
 		}
 	},
-	
+
 	ascDesc : function( el ) {
 		if ( el.src.indexOf("desc") > 0 ) {
 			el.src = "res/img/asc.png";
 			el.title = "Ascending (click for descending)";
-			
+
 			if ( $("#selectSort").val() != "" )
 				Globals.sortedBy = $("#selectSort").val() + " ASC"
 		}
 		else {
 			el.src = "res/img/desc.png";
 			el.title = "Descending (click for ascending)"
-			
+
 			if ( $("#selectSort").val() != "" )
 				Globals.sortedBy = $("#selectSort").val() + " DESC"
 		}
-		
+
 		searchSubset();
 	},
-	
+
 	sortBy : function( el ) {
 		var order = document.getElementById("sortOrderIcon").src.indexOf("desc") > 0 ? "desc" : "asc";
 		if ( el.value == "" ) {
@@ -197,9 +209,9 @@ var Utils = {
 			Globals.sortedBy = el.value + " " + order;
 			$("#sortOrderIcon").show();
 		}
-		
+
 		Globals.initDone = 1;
-		
+
 		searchSubset();
 	},
 
@@ -219,11 +231,11 @@ var Utils = {
 			}
 			, 1000);
 	},
-	
+
 	printDetail : function() {
 		$("#loadingX").show();
 		$("#pager, #perPageWrapper, #printLink, #scrolling_content, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap, #disaster_selekta").hide();
-		
+
 		$("#printSheet").attr("href", "res/iWall_printIndividual.css");
 		setTimeout(function() {
 			window.print();
@@ -231,24 +243,24 @@ var Utils = {
 		$("#loadingX").hide();
 		$("#pager, #perPageWrapper, #printLink, #scrolling_content, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap, #disaster_selekta").show();
 		}, 1000)
-		
-		
+
+
 	},
-	
+
 	realScrollTop : function() {
 		// the joys of web development ( IE! ) :<
 		var ie_scrollTop = document.documentElement.scrollTop?document.documentElement.scrollTop:document.body.scrollTop;
 		var other_scrollTop = $("body").scrollTop();
 		var realScrollTop = ie_scrollTop > other_scrollTop ? ie_scrollTop : other_scrollTop;
 		// end awful kludge
-	
+
 		return realScrollTop
 	},
-	
+
 	formSearch : function() {
-		Globals.mostRecent = undefined; 
+		Globals.mostRecent = undefined;
 		Globals.lastUpdated = undefined;
-		Globals.initDone = 1; 
+		Globals.initDone = 1;
 		searchSubset();
 	},
 	isNumber : function(n) {

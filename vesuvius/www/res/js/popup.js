@@ -1,21 +1,32 @@
+/**
+ * @name         Sahana Popup Javascript
+ * @version      1.0
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
+
 // store variables to control where the popup will appear relative to the cursor position
 // positive numbers are below and to the right of the cursor, negative numbers are above and to the left
 var xOffset = 30;
 var yOffset = -5;
 
-function showPopup (targetObjectId, eventObj, HelpId) { 
+function showPopup (targetObjectId, eventObj, HelpId) {
     document.getElementById('help_popup').innerHTML = '';
     document.getElementById('help_popup').innerHTML = help_arr[HelpId];
-    
+
 
     if(eventObj) {
     // hide any currently-visible popups
     hideCurrentPopup();
     // stop event from bubbling up any farther
     eventObj.cancelBubble = true;
-    // move popup div to current cursor position 
+    // move popup div to current cursor position
     // (add scrollTop to account for scrolling for IE)
-    var newXCoordinate = (eventObj.pageX)?eventObj.pageX + xOffset : eventObj.x + xOffset + ((document.body.scrollLeft)?document.body.scrollLeft:document.documentElement.scrollLeft); 
+    var newXCoordinate = (eventObj.pageX)?eventObj.pageX + xOffset : eventObj.x + xOffset + ((document.body.scrollLeft)?document.body.scrollLeft:document.documentElement.scrollLeft);
     var newYCoordinate = (eventObj.pageY)?eventObj.pageY + yOffset : eventObj.y + yOffset + ((document.body.scrollTop)?document.body.scrollTop:document.documentElement.scrollTop);
     moveObject(targetObjectId, newXCoordinate, newYCoordinate);
     // and make it visible
@@ -57,7 +68,7 @@ document.onclick = hideCurrentPopup;
 function initializeHacks() {
     // this ugly little hack resizes a blank div to make sure you can click
     // anywhere in the window for Mac MSIE 5
-    if ((navigator.appVersion.indexOf('MSIE 5') != -1) 
+    if ((navigator.appVersion.indexOf('MSIE 5') != -1)
     && (navigator.platform.indexOf('Mac') != -1)
     && getStyleObject('blankDiv')) {
     window.onresize = explorerMacResizeFix;
@@ -77,7 +88,7 @@ function createFakeEventObj() {
 
 function resizeBlankDiv() {
     // resize blank placeholder div so IE 5 on mac will get all clicks in window
-    if ((navigator.appVersion.indexOf('MSIE 5') != -1) 
+    if ((navigator.appVersion.indexOf('MSIE 5') != -1)
     && (navigator.platform.indexOf('Mac') != -1)
     && getStyleObject('blankDiv')) {
     getStyleObject('blankDiv').width = document.body.clientWidth - 20;

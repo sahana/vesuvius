@@ -1,4 +1,15 @@
-/* ie7 only stylesheet */
+/**
+ * @name         Vesuvius Theme
+ * @version      3.0
+ * @package      lpf
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
+
 
 div#modmenuwrap h2 { color: #FFF; padding: 6px 0 7px 15px; background: url(img/blueBack.jpg) #34689a repeat-x top; margin:0; font-size: 12px; font-weight: normal; }
 
@@ -12,8 +23,8 @@ div.form-container form fieldset {
 #disaster_selekta { padding-bottom: 25px; }
 #eventLabel { position: relative; top: -3px; }
 
-div#menuwrap ul li.currentMainMenuItem a, .currentModMenuItem { 
-	background-color: #e6eef9; 
+div#menuwrap ul li.currentMainMenuItem a, .currentModMenuItem {
+	background-color: #e6eef9;
 }
 
 .inlineHelp { border: 1px solid #000; }

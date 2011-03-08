@@ -1,15 +1,16 @@
-<?php
+<?
 /**
- * @name         Sahana Main Controller
+ * @name         Sahana Agasti Main Controller
  * @version      1.0
  * @author       Chamindra de Silva <chamindra@opensource.lk>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
- * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0111
+ * @lastModified 2011.0308
  */
+
 
 // Define the application's root path ~ the base path should not be exposed to the web for more security
 $APPROOT = realpath(dirname(__FILE__)).'/../';

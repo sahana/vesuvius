@@ -1,14 +1,15 @@
-<?php
+<?
 /**
- * Lost Person Finder v3 Theme HTML footer
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author     Greg Miernicki <g@miernicki.com>
+ * @name         Lost Person Finder Theme
+ * @version      3.0
+ * @package      lpf
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
-
 
 // array of events
 $events = array();

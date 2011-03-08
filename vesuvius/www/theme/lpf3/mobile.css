@@ -1,9 +1,22 @@
-/* 
+/**
+ * @name         Lost Person Finder Theme
+ * @version      3.0
+ * @package      lpf
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
+
+
+/*
 Sahana Mobile Stylesheet
------------------------------------------------------------------------------------ 
+-----------------------------------------------------------------------------------
 
 Selectors are listed in their order of appearance in the html, where applicable.
----------------------------------------------------------------------------------- 
+----------------------------------------------------------------------------------
 
 
   |---- Basic Page Formatting Styles
@@ -12,7 +25,7 @@ Selectors are listed in their order of appearance in the html, where applicable.
      |---- Wrapper
         |---- Menu Wrapper ( Module Menu, Main Menu, Login Form )
         |---- Content ( Home, Result, Module specific styles )
-        |---- Footer  
+        |---- Footer
   |---- Message Display Styles
 
 */
@@ -46,12 +59,12 @@ body { max-width: 320px; background-color: #eee; margin: 0; padding: 0; font-fam
     			div#modmenuwrap ul li a { display: block;  padding-left: 10px; background-color: #069; font-size: 0.9em; border-top: #07A 1px solid; border-bottom: #058 1px solid; }
     			div#modmenuwrap ul li a.smopen { background:#069 url(img/down_arrow.gif) no-repeat right; }
     			div#modmenuwrap ul li a.smclose { background:#069 url(img/up_arrow.gif) no-repeat right; }
-    			div#modmenuwrap ul li a:link, 
+    			div#modmenuwrap ul li a:link,
     			div#modmenuwrap ul li a:visited { color: #EEE; text-decoration: none; }
     			div#modmenuwrap ul li a:hover { color: #FFF; background-color: #036; border-top: #025 1px solid; border-bottom: #047 1px solid; }
     			div#modmenuwrap ul ul { display:none; }
     			div#modmenuwrap ul ul li a { display: block; padding-left: 20px; background-color: #07A; font-size: 0.85em; }
-    			div#modmenuwrap ul ul li a:link, 
+    			div#modmenuwrap ul ul li a:link,
     			div#modmenuwrap ul ul li a:visited { border-top: #08B 1px solid; border-bottom: #069 1px solid; }
     			div#modmenuwrap ul ul li a:hover { background-color: #069; border-top: #058 1px solid; border-bottom: #07A 1px solid; }
 
@@ -61,7 +74,7 @@ body { max-width: 320px; background-color: #eee; margin: 0; padding: 0; font-fam
     			/*div#menuwrap ul { margin: 0; padding: 0; list-style-type: none; width: 100%; }*/
     			div#menuwrap ul li {  display: inline; margin: 0; padding: 0; line-height: 15px; }
     			div#menuwrap ul li a { display: inline; padding: 1px 5px; background-color: #555; font-size: 0.9em;  border-right: #fff 1px solid; }
-    			div#menuwrap ul li a:link, 
+    			div#menuwrap ul li a:link,
     			div#menuwrap ul li a:visited { color: #EEE; text-decoration: none; }
     			div#menuwrap ul li a:hover { color: #FFF; background-color: #333; border-top: #222 1px solid; border-bottom: #444 1px solid; }
 
@@ -78,7 +91,7 @@ body { max-width: 320px; background-color: #eee; margin: 0; padding: 0; font-fam
 
 			.brake { display: none; }
 
-			#map { width: 100%; height: 200px; }			
+			#map { width: 100%; height: 200px; }
 
 			#formset input[type="text"] { height: 20px; width: 100%; font-size: 10px; max-width: 350px; }
      			#formset textArea { width: 100%; max-width: 350px; font-size: 10px; }
@@ -123,7 +136,7 @@ body { max-width: 320px; background-color: #eee; margin: 0; padding: 0; font-fam
      +---- Wrapper
         |---- Menu Wrapper ( Module Menu, Main Menu, Login Form )
         |---- Content ( Home, Result, Module specific styles )
-        |---- Footer  
+        |---- Footer
   |---- Message Display Styles
 
 */
@@ -157,12 +170,12 @@ body { max-width: 320px; background-color: #eee; margin: 0; padding: 0; font-fam
     			div#modmenuwrap ul li a { display: block;  padding-left: 10px; background-color: #069; font-size: 0.9em; border-top: #07A 1px solid; border-bottom: #058 1px solid; }
     			div#modmenuwrap ul li a.smopen { background:#069 url(img/down_arrow.gif) no-repeat right; }
     			div#modmenuwrap ul li a.smclose { background:#069 url(img/up_arrow.gif) no-repeat right; }
-    			div#modmenuwrap ul li a:link, 
+    			div#modmenuwrap ul li a:link,
     			div#modmenuwrap ul li a:visited { color: #EEE; text-decoration: none; }
     			div#modmenuwrap ul li a:hover { color: #FFF; background-color: #036; border-top: #025 1px solid; border-bottom: #047 1px solid; }
     			div#modmenuwrap ul ul { display:none; }
     			div#modmenuwrap ul ul li a { display: block; padding-left: 20px; background-color: #07A; font-size: 0.85em; }
-    			div#modmenuwrap ul ul li a:link, 
+    			div#modmenuwrap ul ul li a:link,
     			div#modmenuwrap ul ul li a:visited { border-top: #08B 1px solid; border-bottom: #069 1px solid; }
     			div#modmenuwrap ul ul li a:hover { background-color: #069; border-top: #058 1px solid; border-bottom: #07A 1px solid; }
 
@@ -172,7 +185,7 @@ body { max-width: 320px; background-color: #eee; margin: 0; padding: 0; font-fam
     			/*div#menuwrap ul { margin: 0; padding: 0; list-style-type: none; width: 100%; }*/
     			div#menuwrap ul li {  display: inline; margin: 0; padding: 0; line-height: 15px; }
     			div#menuwrap ul li a { display: inline; padding: 1px 5px; background-color: #555; font-size: 0.9em;  border-right: #fff 1px solid; }
-    			div#menuwrap ul li a:link, 
+    			div#menuwrap ul li a:link,
     			div#menuwrap ul li a:visited { color: #EEE; text-decoration: none; }
     			div#menuwrap ul li a:hover { color: #FFF; background-color: #333; border-top: #222 1px solid; border-bottom: #444 1px solid; }
 
@@ -189,7 +202,7 @@ body { max-width: 320px; background-color: #eee; margin: 0; padding: 0; font-fam
 
 			.brake { display: none; }
 
-			#map { width: 100%; height: 200px; }			
+			#map { width: 100%; height: 200px; }
 
 			#formset input[type="text"] { height: 20px; width: 100%; font-size: 10px; max-width: 350px; }
      			#formset textArea { width: 100%; max-width: 350px; font-size: 10px; }
