@@ -8,8 +8,9 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0302
+ * @lastModified 2011.0307
  */
+
 
 include_once ($global['approot'].'/inc/lib_menu.inc');
 include_once ($global['approot'].'/inc/lib_errors.inc');
