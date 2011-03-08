@@ -1,28 +1,25 @@
 <?php
 /**
- * This is the main admin file for the INW module.
- *
- * PHP version 5.2+
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author	Merwan Rodriguez
- * @package	module
- * @subpackage	inw
- * @license	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @name         Interactive Notification Wall (Search)
+ * @version      2.0
+ * @package      inw
+ * @author       Merwan Rodriguez <rodriguezmer@mail.nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
  */
 
-	include_once ($global['approot'].'/inc/lib_menu.inc');
-	include_once ($global['approot'].'/inc/lib_errors.inc');
-	require_once ($global['approot'].'/inc/handler_db.inc');
 
-	include_once $global['approot'].'/inc/lib_xajax.inc';
-	include_once ($global['approot'].'/mod/inw/xajax.inc');
+include_once ($global['approot'].'/inc/lib_menu.inc');
+include_once ($global['approot'].'/inc/lib_errors.inc');
+require_once ($global['approot'].'/inc/handler_db.inc');
+include_once $global['approot'].'/inc/lib_xajax.inc';
+include_once ($global['approot'].'/mod/inw/xajax.inc');
 
-	shn_xajax_registerFunction('inw_getData');
-	shn_xajax_registerFunction('inw_checkForChanges');
+shn_xajax_registerFunction('inw_getData');
+shn_xajax_registerFunction('inw_checkForChanges');
 
 
 

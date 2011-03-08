@@ -1,49 +1,60 @@
 <?php
+/**
+ * @name         Interactive Notification Wall (Search)
+ * @version      2.0
+ * @package      inw
+ * @author       Merwan Rodriguez <rodriguezmer@mail.nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
+ */
 
 class SearchDB
 {
-	public	$incident, 
+	public	$incident,
 			$searchTerm,
-			
-			$pageStart, 
-			$perPage, 
-			$sortBy, 
+
+			$pageStart,
+			$perPage,
+			$sortBy,
 			$mode,
 
-			$missing, 
-			$alive, 
+			$missing,
+			$alive,
 			$injured,
 			$deceased,
 			$unknown,
-			
+
 			$male,
 			$female,
 			$genderUnk,
-			
+
 			$child,
 			$adult,
 			$ageUnk,
-			
+
 			$suburban,
 			$nnmc,
 			$otherHosp,
-			
+
 			$results,
 			$numRowsFound,
 			$allCount,
 			$lastUpdated;
-	
+
 	private $whereClause,
-	
+
 			$whereClausePrecise,
 			$whereClauseBroad,
 			$whereClauseSoundex,
-	
+
 			$fromClause,
-			
+
 			$db;
-		
-	
+
+
 	/**
 	 *  Constructor
 	 *
@@ -51,30 +62,30 @@ class SearchDB
 	 *  	   $sPageControls = "$pageStart;$perPage;$sortBy;$mode"
 	 *         $sGender = gender imploded
 	 *	   	   $sAge = age imploded
-	 *	
+	 *
 	 *///
-	public function SearchDB($incident, $searchTerm, $sStatus = "true;true;true;true;true", $sGender="true;true;true", $sAge="true;true;true", $sHospital="true;true;true", $sPageControls="0;-1;;true") {  
-		
+	public function SearchDB($incident, $searchTerm, $sStatus = "true;true;true;true;true", $sGender="true;true;true", $sAge="true;true;true", $sHospital="true;true;true", $sPageControls="0;-1;;true") {
+
 		$this->incident = $incident;
 		$this->searchTerm = $searchTerm;
-		
+
 		$this->setStatusFilters($sStatus);
 		$this->setPageControls($sPageControls);
 		$this->setGenderFilters($sGender);
 		$this->setAgeFilters($sAge);
 		$this->setHospitalFilters($sHospital);
-		
-		
-		
+
+
+
 		$this->numRowsFound = -1;
-		
+
 		$this->buildFromClause();
 		$this->buildWhereClause();
 		$this->buildMainQuery();
-		
+
 		$this->initDBConnection();
 	}
-	
+
 	private function setStatusFilters($sStatus) {
 		$tempArray = explode(";", $sStatus);
 		$this->missing   = $tempArray[0];
@@ -83,16 +94,16 @@ class SearchDB
 		$this->deceased  = $tempArray[3];
 		$this->unknown   = $tempArray[4];
 	}
-	
+
 	private function setPageControls($sPageControls) {
 		$tempArray = explode(";", $sPageControls);
-		
+
 		$this->pageStart = $tempArray[0];
 		$this->perPage   = $tempArray[1];
 		$this->sortBy    = $tempArray[2];
 		$this->mode      = $tempArray[3];
 	}
-	
+
 	private function setGenderFilters($sGender) {
 		$tempArray = explode(";", $sGender);
 
@@ -100,7 +111,7 @@ class SearchDB
 		$this->female    = $tempArray[1];
 		$this->genderUnk = $tempArray[2];
 	}
-	
+
 	private function setAgeFilters($sAge) {
 		$tempArray = explode(";", $sAge);
 
@@ -108,58 +119,58 @@ class SearchDB
 		$this->adult     = $tempArray[1];
 		$this->ageUnk    = $tempArray[2];
 	}
-	
+
 	private function setHospitalFilters($sHospital) {
 		$tempArray = explode(";", $sHospital);
-		
+
 		$this->suburban  = $tempArray[0];
 		$this->nnmc      = $tempArray[1];
 		$this->otherHosp = $tempArray[2];
 	}
-	
-	
+
+
 	private function initDBConnection() {
 		global $global;
-		$this->db = $global["db"];  
+		$this->db = $global["db"];
 	}
-	
+
 	private function buildWhereClause() {
 		$this->buildFiltersClause();
-		
+
 		$this->parseSearchTermsBroad();
 		$this->parseSearchTermsSoundex();
 		$this->parseSearchTermsPrecise();
 	}
-	
+
 	private function buildFiltersClause() {
 		$this->whereClause .= " ( 1 = 0 ";
 		if ($this->missing == "true")
 			$this->whereClause .= " OR opt_status = 'mis'";
-		if ($this->alive == "true") 
-			$this->whereClause .= " OR opt_status = 'ali'"; 
-		if ($this->injured == "true") 
-			$this->whereClause .= " OR opt_status = 'inj'"; 
+		if ($this->alive == "true")
+			$this->whereClause .= " OR opt_status = 'ali'";
+		if ($this->injured == "true")
+			$this->whereClause .= " OR opt_status = 'inj'";
 		if ($this->deceased == "true")
-			$this->whereClause .= " OR opt_status = 'dec'"; 
-		if ($this->unknown == "true") 
-			$this->whereClause .= " OR opt_status = 'unk' OR opt_status IS NULL"; 
-		
+			$this->whereClause .= " OR opt_status = 'dec'";
+		if ($this->unknown == "true")
+			$this->whereClause .= " OR opt_status = 'unk' OR opt_status IS NULL";
+
 		$this->whereClause .= ") AND ( 1 = 0 ";
 		if ($this->male == "true")
 			$this->whereClause .= " OR opt_gender = 'mal'";
 		if ($this->female == "true")
 			$this->whereClause .= " OR opt_gender = 'fml'";
 		if ($this->genderUnk == "true")
-			$this->whereClause .= " OR (opt_gender <> 'mal' AND opt_gender <> 'fml' OR opt_gender IS NULL)";		
-		
-		$this->whereClause .= ") AND ( 1 = 0 ";	
+			$this->whereClause .= " OR (opt_gender <> 'mal' AND opt_gender <> 'fml' OR opt_gender IS NULL)";
+
+		$this->whereClause .= ") AND ( 1 = 0 ";
 		if ($this->child == "true")
 			$this->whereClause .= " OR CAST(years_old AS UNSIGNED) < 18 ";
 		if ($this->adult == "true")
-			$this->whereClause .= " OR CAST(years_old AS UNSIGNED) >= 18 ";		
+			$this->whereClause .= " OR CAST(years_old AS UNSIGNED) >= 18 ";
 		if ($this->ageUnk == "true")
-			$this->whereClause .= " OR CONVERT(years_old, UNSIGNED INTEGER) IS NULL";		
-			
+			$this->whereClause .= " OR CONVERT(years_old, UNSIGNED INTEGER) IS NULL";
+
 		$this->whereClause .= ") AND ( 1 = 0 ";
 		if ( $this->suburban == "true" )
 			$this->whereClause .= " OR hospital = 'sh' ";
@@ -167,19 +178,19 @@ class SearchDB
 			$this->whereClause .= " OR hospital = 'nnmc' ";
 		if ( $this->otherHosp == "true" )
 			$this->whereClause .= " OR (hospital <> 'sh' AND hospital <> 'nnmc' OR hospital IS NULL) ";
-		
+
 		$this->whereClause .= " ) ";
 		$this->whereClause .= " AND shortname = '" . $this->incident . "'";
 	}
-	
+
 	private function buildMainQuery() {
 		$this->mainQ = "SELECT * " . $this->fromClause . " WHERE ";
 	}
-	
+
 	private function parseSearchTermsBroad() {
 		if ( strlen($this->searchTerm) > 0 ) {
-			$toReplace = array(";", ";", ",", ".", "<", ">", "?", ":", "'", "\"", "`", "~", "!", "@", "#", "$", "%", ":");	
-			str_replace($toReplace, " ", $this->searchTerm);	
+			$toReplace = array(";", ";", ",", ".", "<", ">", "?", ":", "'", "\"", "`", "~", "!", "@", "#", "$", "%", ":");
+			str_replace($toReplace, " ", $this->searchTerm);
 			$terms = explode(" ", $this->searchTerm);
 			for ($i = 0; $i < count($terms); $i++) {
 				$this->whereClauseBroad .= $i > 0 ? " OR " : " ( ";
@@ -191,14 +202,14 @@ class SearchDB
 			}
 			$this->whereClauseBroad .= " ) AND ";
 		}
-		
+
 		$this->whereClauseBroad .= $this->whereClause;
 	}
-	
+
 	private function parseSearchTermsSoundex() {
 		if ( strlen($this->searchTerm) > 0 ) {
-			$toReplace = array(";", ";", ",", ".", "<", ">", "?", ":", "'", "\"", "`", "~", "!", "@", "#", "$", "%", ":");	
-			str_replace($toReplace, " ", $this->searchTerm);	
+			$toReplace = array(";", ";", ",", ".", "<", ">", "?", ":", "'", "\"", "`", "~", "!", "@", "#", "$", "%", ":");
+			str_replace($toReplace, " ", $this->searchTerm);
 
 			if ( strlen($this->searchTerm) > 0 ) {
 				$this->whereClauseSoundex .= " (full_name SOUNDS LIKE '" . $this->searchTerm . "') AND ";
@@ -208,23 +219,23 @@ class SearchDB
 	}
 
 	private function parseSearchTermsPrecise() {
-		$toReplace = array(";", ";", ",", ".", "<", ">", "?", ":", "'", "\"", "`", "~", "!", "@", "#", "$", "%", ":");	
-		str_replace($toReplace, " ", $this->searchTerm);	
+		$toReplace = array(";", ";", ",", ".", "<", ">", "?", ":", "'", "\"", "`", "~", "!", "@", "#", "$", "%", ":");
+		str_replace($toReplace, " ", $this->searchTerm);
 		if ( strlen($this->searchTerm) > 0 ) {
 			$this->whereClausePrecise .= " (full_name = '" . $this->searchTerm . "') AND ";
 		}
-		
+
 		$this->whereClausePrecise .= $this->whereClause;
-	}	
-	
+	}
+
 	// kinda redudant now because of the view, but this might change later.
 	private function buildFromClause() {
 		$this->fromClause =  "FROM person_search";
 	}
-	
+
 	private function getResultsCount() {
-		$qRC = "SELECT count(*) FROM (" . $this->mainQ . $this->whereClausePrecise . " UNION " . 
-				$this->mainQ . $this->whereClauseBroad . " UNION " . 
+		$qRC = "SELECT count(*) FROM (" . $this->mainQ . $this->whereClausePrecise . " UNION " .
+				$this->mainQ . $this->whereClauseBroad . " UNION " .
 				$this->mainQ . $this->whereClauseSoundex . ") as t";
 
 		$result = $this->db->Execute($qRC);
@@ -234,9 +245,9 @@ class SearchDB
 			break;
 		}
 	}
-	
+
 	private function getTotalResults() {
-		$qTA = "SELECT count(*)	" . $this->fromClause . " WHERE shortname = '" . $this->incident . "'";	
+		$qTA = "SELECT count(*)	" . $this->fromClause . " WHERE shortname = '" . $this->incident . "'";
 
 		$result = $this->db->Execute($qTA);
 		while (!$result == NULL && !$result->EOF) {
@@ -245,14 +256,14 @@ class SearchDB
 			break;
 		}
 	}
-	
-		
+
+
 	public function executeSearch() {
-		
-		
+
+
 		$q = "SELECT DATE_FORMAT(t.updated, '%m/%e/%y @ %l:%i:%s %p') as updated,
 						 p_uuid,
-						 full_name, 
+						 full_name,
 						 given_name,
 						 family_name,
 						 opt_status,
@@ -265,14 +276,14 @@ class SearchDB
 						 last_seen,
 						 icon_url,
 						 shortname,
-						 hospital 
-					FROM (" . $this->mainQ . $this->whereClausePrecise .  
-				 " UNION " . $this->mainQ . $this->whereClauseSoundex . 
+						 hospital
+					FROM (" . $this->mainQ . $this->whereClausePrecise .
+				 " UNION " . $this->mainQ . $this->whereClauseSoundex .
 				 " UNION " . $this->mainQ . $this->whereClauseBroad . ") as t";
 
 		if ( $this->sortBy != "" )
-			$q .= " ORDER BY " . $this->sortBy;	
-		
+			$q .= " ORDER BY " . $this->sortBy;
+
 		if ( $this->mode == "true" && $this->perPage != "-1" )
 			$q .= " LIMIT " . $this->pageStart . ", " . $this->perPage;
 
@@ -280,20 +291,20 @@ class SearchDB
 
 		while (!$result == NULL && !$result->EOF) {
 			$encodedUUID = base64_encode($result->fields["p_uuid"]);
-			$this->results[] = array('p_uuid'=>$result->fields["p_uuid"], 
+			$this->results[] = array('p_uuid'=>$result->fields["p_uuid"],
 					'encodedUUID'=>$encodedUUID,
-					'full_name'=>$result->fields["full_name"], 
+					'full_name'=>$result->fields["full_name"],
 					'opt_status'=>str_replace("\"", "", $result->fields["opt_status"]),
-					'imageUrl'=>$result->fields["url_thumb"], 
-					'imageWidth'=>$result->fields["image_width"], 
-					'imageHeight'=>$result->fields["image_height"], 
-					'years_old'=>$result->fields["years_old"], 
-					'id'=>$result->fields["personId"], 
-					'statusSahanaUpdated'=>$result->fields["updated"], 
-					'statusTriage'=>$result->fields["triageCategory"], 
-					'peds'=>$result->fields["peds"], 
-					'orgName'=>$result->fields["orgName"], 
-					'last_seen'=>$result->fields["last_seen"], 
+					'imageUrl'=>$result->fields["url_thumb"],
+					'imageWidth'=>$result->fields["image_width"],
+					'imageHeight'=>$result->fields["image_height"],
+					'years_old'=>$result->fields["years_old"],
+					'id'=>$result->fields["personId"],
+					'statusSahanaUpdated'=>$result->fields["updated"],
+					'statusTriage'=>$result->fields["triageCategory"],
+					'peds'=>$result->fields["peds"],
+					'orgName'=>$result->fields["orgName"],
+					'last_seen'=>$result->fields["last_seen"],
 					'comments'=>strip_tags($result->fields["comments"]),
 					'gender' => $result->fields["opt_gender"],
 					'hospitalIcon' => $result->fields["icon_url"]);
@@ -313,11 +324,11 @@ class SearchDB
 			$this->lastUpdated = $result->fields[0];
 			$result->MoveNext();
 		}
-		
+
 		mysql_free_result($result);
 	}
 
-	
+
 }
 
 
@@ -325,7 +336,7 @@ class SearchDB
  // $search = new SearchDB("cmax2009", "", "true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true");
  // $search->getLastUpdate();
  // echo $search->lastUpdated;
- 
+
  //echo $search->lastUpdated;
  //echo $search->numRowsFound;
 ?>
