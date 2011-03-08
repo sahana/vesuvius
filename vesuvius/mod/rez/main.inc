@@ -1,65 +1,19 @@
-<?php
+<?
 /**
- * modRez xajax library
- *
- * @package	module
- * @subpackage	rez
- * @author 	Greg Miernicki
- * @copyright	www.nlm.nih.gov
- * @license	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @name         Resources
+ * @version      1.2
+ * @package      rez
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
+
 
 include_once ($global['approot'].'/inc/lib_menu.inc');
 include_once ($global['approot'].'/inc/lib_errors.inc');
 require_once ($global['approot'].'/inc/handler_db.inc');
-
-
-/**
- * Generate the module's own specific menu structure.
- * @access public
- * @return void
- */
-/*
-function shn_rez_mainmenu() {
-	global $conf;
-	global $global;
-	$module = $global['module'];
-
-	// include the main menu before mod menu?
-	if ($conf['mod_rez_mainmenu_before_modmenu']) {
-		include $global['approot'].'/inc/handler_mainmenu.inc';
-	}
-
-	// open menu
-	shn_mod_menuopen(_t('Resources'));
-
-	// show "Home" menu item
-	shn_mod_menuitem("default",_t("Main"));
-
-	// get pages info
-	$q = "select * from rez_pages where rez_visibility = 'Public' order by rez_menu_order asc;";
-	$res = $global['db']->Execute($q);
-
-	$pages = array();
-	$count = 0;
-
-	// build menu, if resources exist
-	if($res){
-		while($row = $res->FetchRow() ){
-			shn_mod_menuitem("default&page_id=".$row['rez_page_id'],_t($row['rez_menu_title']));
-		}
-	}
-
-	shn_mod_menuclose();
-
-	// include the main menu after mod menu?
-	if (!$conf['mod_rez_mainmenu_before_modmenu']) {
-		include $global['approot'].'/inc/handler_mainmenu.inc';
-	}
-}
-*/
-
-
 
 
 function shn_rez_header2() {
