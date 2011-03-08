@@ -1,18 +1,15 @@
-<?php
+<?
 /**
- *
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    Sahana - http://sahana.sourceforge.net
- * @author     Ravindra <ravindra@opensource.lk>
- * @author     Ishan Liyanage <ishan@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- *
+ * @name         Extensible Streaming
+ * @version      1.0
+ * @package      xst
+ * @author       Ishan Liyanage <ishanul@gmail.com>
+ * @author       Richard Smith <s0459387@sms.ed.ac.uk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
 
 
@@ -39,7 +36,7 @@ function shn_location_get_loc(){
 
 
 function _shn_get_locations(){
-	
+
 	global $global;
 	$db=$global['db'];
 	$level  = 1;
@@ -65,11 +62,11 @@ function _shn_get_locations(){
 	$res=$db->Execute($q);
 	if($res->EOF)
 		return;
-	 
+
 	$parent=$res->fields["parent_id"];
 	$header.="loc_dir".",".$parent;
 	$header.=",".$res->fields["opt_location_type"];
-	 
+
 	$level=$res->fields["opt_location_type"];
 
 	$q = "SELECT location.name,location.loc_uuid FROM location WHERE location.opt_location_type='{$level}' AND parent_id='{$parent}' ORDER BY location.name";
@@ -94,8 +91,8 @@ function _shn_get_locations(){
 	}
 	//echo $header;
 	// echo $res_data;
-	
-	 
+
+
 	echo $header.";".$res_data;
 }
 
