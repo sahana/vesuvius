@@ -1,9 +1,20 @@
-<?php
+<?
+/**
+ * @name         Snapshot
+ * @version      1.1
+ * @package      snap
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
+
 // cron job task for for automating snapshots
 
 // set approot since we don't know it yet
 $global['approot'] = getcwd()."/../../";
-require("../../conf/sysconf.inc.php");
+require("../../conf/sahana.conf");
 require("./conf.inc");
 require('class.SQLBackup.php');
 

@@ -55,7 +55,7 @@
  *	2009:0326 : Code Cleanup ~ proper indentation, bracketing (v1.0.3.2)
  */
 
-include_once('DB/class.factory.DB.php') ;
+include_once('db/class.factory.DB.php') ;
 
 if (!function_exists("cloneObject")) {
 	function &cloneObject(&$o) {
