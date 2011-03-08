@@ -1,13 +1,18 @@
 <?php
 /**
-* @package     pfif
-* @version      1.1
-* @author       Nilushan Silva <>
-* @author       Carl H. Cornwell <ccornwell@mail.nih.gov>
-* LastModified: 2010:0304:2003
-* License:      LGPL
-* @link         TBD
-*/
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
+ */
+
+
+
 require_once("../../inc/handler_db.inc");
 require_once("pfif_log.inc");
 class Pfif_Repository {
@@ -27,11 +32,11 @@ class Pfif_Repository {
 
     protected $harvest_log;
     protected $export_log;
-    
+
     public function __construct()
     {
     }
-    
+
     public function is_ready_for_import($import_time = null) {
         $sched_time = empty($now) ? time() : $import_time;
         // No log records exist, so ready for initial import.
@@ -39,23 +44,23 @@ class Pfif_Repository {
         if ($this->first_entry == NULL || empty($log_end)) {
             return true;
         }
-        
-        // Check whether sched interval has elapsed since last log end_time 
+
+        // Check whether sched interval has elapsed since last log end_time
         $delta = $this->sched_interval_minutes * 60;
         return ((strtotime($log_end) + $delta) >= $import_time);
     }
-    
+
     public function start_import($mode,$direction) {
         $start_time = time();
         $this->harvest_log->start($this->id,$start_time,$mode,$direction);
     }
-    
+
     public function end_import($status,$info_array=array()) {
     }
-    
+
     public function is_ready_for_export() {
     }
-    
+
     public static function find($id) {
         $r_list = array();
         return $r_list;
@@ -65,7 +70,7 @@ class Pfif_Repository {
     global $global;
         $global['db']->SetFetchMode(ADODB_FETCH_ASSOC);
         $where_clause = "`role`='source' ";
-        $where_clause .= ($name == 'all') 
+        $where_clause .= ($name == 'all')
                                 ? '' :
                                 "AND `name` = '".addslashes($name)."'";
         $sql = "SELECT * from `pfif_repository` WHERE $where_clause";
@@ -89,7 +94,7 @@ class Pfif_Repository {
             }
             unset($row);
         }
-           
+
         return $r_list;
     }
 
@@ -109,17 +114,17 @@ class Pfif_Repository {
         $r_list = array();
         return $r;
     }
-    
+
     public function save() {};
-    
+
     public function update() {};
-    
-    public static function get_last_harvest_log($repository_id, 
+
+    public static function get_last_harvest_log($repository_id,
                                                 $direction) {
         global $global;
 
         $log = new Pfif_Harvest_Log();
-    
+
         $global['db']->SetFetchMode(ADODB_FETCH_ASSOC);
         $where_clause = "`repository_id`='".$repository_id."' ";
         $where_clause .= "AND `direction` = '".$direction."' ";
@@ -129,7 +134,7 @@ class Pfif_Repository {
         $sql = "SELECT * from `pfif_harvest_log` WHERE $where_clause ".
                "ORDER BY start_time DESC";
         $rs = $global['db']->GetAssoc($sql);
-        
+
         if ($rs) {
             foreach ($rs as $id => $row) {
                 var_dump($id,$row);
@@ -146,7 +151,7 @@ class Pfif_Repository {
         } else {
             print "No log records found for query\n$sql\n";
         }
-        
+
         return $log;
     }
 }

@@ -1,13 +1,17 @@
 <?php
 /**
-* @package     pfif
-* @version      1.1
-* @author       Nilushan Silva <>
-* @author       Carl H. Cornwell <ccornwell@mail.nih.gov>
-* LastModified: 2010:0308:1307
-* License:      LGPL
-* @link         TBD
-*/
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
+ */
+
+
 // TODO: chc 3/8/2010 : may need additional imports when made into a separate module.
 include_once $global['approot'] . 'mod/mpr/pfifconf.inc.php';
 
@@ -49,7 +53,7 @@ function shn_mpr_import(){
              } else {
                  add_error('There was an error in Importing');
              }
-             shn_mpr_default();                     
+             shn_mpr_default();
         }
         else if(  $_FILES['xml']['error'] != 0){
             add_warning('Please select a file to upload');
@@ -69,13 +73,13 @@ function shn_mpr_import(){
                  } else {
                      add_error('There was an error in Importing');
                  }
-                 shn_mpr_default();                     
-             
+                 shn_mpr_default();
+
              }
         }
-        
+
     }
-   
+
 }
 
 /**
@@ -100,7 +104,7 @@ function shn_mpr_export(){
         shn_form_fopen("export",null,array('enctype'=>'enctype="multipart/form-data"','req_message' => true));
         shn_form_fsopen(_t('Show Selected Record'));
         shn_form_text(_t('Enter person_record_id'),'show_pfif_id');
-        shn_form_submit(_t('Show'));        
+        shn_form_submit(_t('Show'));
         shn_form_fsclose();
         shn_form_fclose();
         echo '<h1 align="center">Export To Google PFIF API</h1>';
@@ -124,7 +128,7 @@ function shn_mpr_export(){
             $pfif = new Pfif();
             $pfif->loadFromDb('id?'.$_POST['show_pfif_id']);
             print $pfif->storeInXML();
-            
+
         } else if (isset($_POST['pfif_id']) && !empty($_POST['pfif_id'])) {
             // TODO: Need to restructure this to maximize reuse with upload case.
             // TODO: Need to have post parse the return status and return true status for reporting.
@@ -136,7 +140,7 @@ function shn_mpr_export(){
              } else {
                  add_error('There was an error in Exporting');
              }
-             shn_mpr_default();                     
+             shn_mpr_default();
         }
         else if(  $_FILES['xml']['error'] != 0){
             add_warning('Please select a file to upload');
@@ -152,10 +156,10 @@ function shn_mpr_export(){
                  } else {
                      add_error('There was an error in Exporting');
                  }
-                 shn_mpr_default();                     
+                 shn_mpr_default();
              }
         }
-        
+
     }
 }
 // The next two functions should be moved to API.inc in order for them to be publicly discoverable
@@ -165,10 +169,10 @@ function shn_mpr_export(){
  */
 function shn_xml_mpr_pfif_export(){
 	//status could be 'missing' , 'injured' , 'deceased' , 'alive','unknown' (TODO: add 'found = fou')
-	$status = $_GET['status'];		
+	$status = $_GET['status'];
 	$version = isset($_GET['ver']) ? $_GET['ver'] : '1.2';
 	$since = isset($_GET['since']) ? $_GET['since'] : null;
-    
+
 	include_once 'pfif.inc';
     // include_once $global['approot'] . '/inc/lib_stream_xml.inc';
 
@@ -178,7 +182,7 @@ function shn_xml_mpr_pfif_export(){
     // shn_stream_init(false);
 	// $pfif->storeInXML();
     print $pfif->storeInXML($version);
-	
+
 }
 
 /**
@@ -197,5 +201,5 @@ function shn_xml_mpr_pfif_import(){
     } else {
         error_log( "shn_mod_mpr_pfif_import: Import failed" );
     }
-	
+
 }

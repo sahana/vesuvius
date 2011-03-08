@@ -1,20 +1,18 @@
 <?php
 /**
- *
- * WebImage -- a class to encapsulate the image table
- *
- * PHP version 4 and 5
- * * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    mod
- * @subpackage mpr
- * @author     Carl H. Cornwell <ccornwell at aqulient dor com>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * 
- */                                                 
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
+ */
+
+// WebImage -- a class to encapsulate the image table
+
 require_once($global['approot']."/inc/lib_image.inc");
 
 class WebImage {
@@ -26,7 +24,7 @@ class WebImage {
     public $url = null;        // The source URL for the image
     private $initialized = false;
     private $cached = false; // False if stored in database, true if stored in file cache
-    
+
     public function __construct($url = null, $uuid = null) {
         // error_log('WebImage:'.$url.','.$uuid);
         if (isset($url) && isset($uuid)) {
@@ -37,7 +35,7 @@ class WebImage {
             error_log('shn_mod_mpr_WebImage: bad arguments (url = '.$url.' uuid= '.$uuid.')');
         }
     }
-    
+
     public function is_initialized() {
         return $this->initialized;
     }
@@ -49,7 +47,7 @@ class WebImage {
     public function set_id($uuid) {
         $this->id = $uuid;
     }
-    
+
     public function set_image($url) {
         $status = false;
         if (isset($url))  {
@@ -61,16 +59,16 @@ class WebImage {
 
     public function get_from_db($id) {
         return false;
-    }    
-    
+    }
+
     public function get_all_from_db($uuid) {
         return false;
     }
-    
+
     public function store_in_db() {
         return false;
     }
-    
+
     private function _init($url) {
         // Check the URL to be sure it exists and is for a supported image type
         // DEBUG: use this URL for testing
@@ -98,7 +96,7 @@ class WebImage {
         if ($image_data !== false) {
             //error_log("Got image data");
 
-            $this->url = $url; //$saveFile; 
+            $this->url = $url; //$saveFile;
             $this->image = $image_data; // null;
             $this->width = $image_info[0];
             $this->height = $image_info[1];

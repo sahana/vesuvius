@@ -1,23 +1,20 @@
 <?php
 /**
- * Add Missing Person Registry 
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author	Janaka Wickramasinghe <janaka@opensource.lk>
- * 
- * @copyright	Lanka Software Foundation - http://www.opensource.lk
- * @package	module
- * @subpackage	mpr
- * @license	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
- * Revised 1/23/2010 c.cornwell, NLM-CEB, Merged additional include of lib_uuid.inc in _addmp_commit from haitirelief branch.
- * Revised 3/09/2010 c.cornwell, NLM-CEB, Include email contact for lost person when found.
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
  */
+
+// Revised 1/23/2010 c.cornwell, NLM-CEB, Merged additional include of lib_uuid.inc in _addmp_commit from haitirelief branch.
+// Revised 3/09/2010 c.cornwell, NLM-CEB, Include email contact for lost person when found.
+
 include_once($global['approot']."/inc/lib_uuid.inc");
 include_once($global['approot']."/inc/lib_location.inc");
 
@@ -25,7 +22,7 @@ include_once($global['approot']."/inc/lib_location.inc");
 /**
  * This function cleans the POST values
  * @todo Put this somewhere else, i.e. form handling
- * @param mixed $local_post 
+ * @param mixed $local_post
  * @access public
  * @return void
  */
@@ -42,7 +39,7 @@ function shn_tools_clean_post(&$local_post) {
 
 /**
  * This is the Add Entry Form
- * @param mixed $errors 
+ * @param mixed $errors
  * @access public
  * @return void
  */
@@ -56,7 +53,7 @@ function shn_mpr_addmp_entry($errors=false) {
 	if (shn_db_get_config("mpr", "show_warning")) {
 		add_warning(_t('Please do a search and check whether the person has already been added.'));
 	}
-	
+
 	if($_GET['type']=='found'){
 		shn_form_fsopen(_t('Status'));
 		$q="select * from field_options where field_name='opt_status'";
@@ -73,7 +70,7 @@ function shn_mpr_addmp_entry($errors=false) {
 		shn_form_hidden(array('opt_status'=>'mis'));
 	}
 	shn_form_hidden(array('seq'=>'entry'));
-	
+
 	shn_form_fsopen(_t('Information Privacy'));
 		?><p><?php echo _t("<span class=\"publicText\">Public</span> information that, if you provide, you agree can be exposed to the general public. <span class=\"privateText\">Private</span> information in this report will not be generally released.  It may be shared with other family members and friends you designate, emergency responders, medical providers, clergy/councilors, law enforcement, and authorized displaced-person agencies."); ?></p><?php
 	shn_form_fsclose();
@@ -119,7 +116,7 @@ function shn_mpr_addmp_entry($errors=false) {
 		shn_form_opt_select("opt_eye_color",_t('Eye Color'),null,array('sort'=>'display_order, option_description ASC','select'=>'true', 'public'=>true, 'help'=>'The choices for Skin Color are those used by governmental agencies and law enforcement when reporting missing people.  These are frequently-used descriptive words, rather than precise colors.  Adjectives like “light” and “dark” may be considered in conjunction with the choices for “Race” and “Ethnicity” fields above.'));
 		shn_form_opt_select("opt_skin_color",_t('Skin Color'),null,array('sort'=>'display_order, option_description ASC','select'=>'true', 'public'=>true));
 		shn_form_opt_select("opt_hair_color",_t('Hair Color'),null,array('sort'=>'display_order, option_description ASC','select'=>'true', 'public'=>true));
-		
+
 		// added the usage of different units here and in the general configuration of the module ~ gmiernicki
 		if (shn_db_get_config("mpr", "use_english_metrics")) {
 			shn_form_text(_t("Height (<i>in feet/inches</i>)"),'height','size="10"',array('public'=>true, 'help'=>'Enter value to the nearest ½ inch.  Examples: 5\' 3 1/2", 60.5", 59"'));
@@ -128,10 +125,10 @@ function shn_mpr_addmp_entry($errors=false) {
 			shn_form_text(_t('Height (<i>in centimeters</i>)'),'height','size="10"',array('public'=>true, 'help'=>'Enter the value to the nearest centimeter.'));
 			shn_form_text(_t('Weight (<i>in kilograms</i>)'),'weight','size="10"',array('public'=>true, 'help'=>'Enter the value to the nearest kilogram.'));
 		}
-				
+
 		shn_form_textarea(_t('Other Obvious Distinctive Features'),'physical_comments', null, array('cols'=>48, 'public'=>true));
 	shn_form_fsclose();
-	
+
 	shn_form_fsopen(_t('Other Details'));
 		shn_form_opt_select("opt_blood_type",_t('Blood Type'),null,array('private'=>true, 'sort'=>'display_order, option_description ASC','select'=>'true'));
 		shn_form_textarea(_t('Last Seen Location'),'last_seen', null, array('cols'=>48, 'public'=>true));
@@ -155,20 +152,20 @@ function shn_mpr_addmp_validate() {
 	global $conf;
 
 	$error_flag=false;
-	
+
 	//clean the post
 	shn_tools_clean_post(&$local_post);
-	
+
 	$_SESSION['mpr_add']['entry']=$local_post;
 	if(! isset($_SESSION['mpr_add']['entry']['p_uuid'])) {
 		$_SESSION['mpr_add']['entry']['p_uuid'] = shn_create_uuid();
 	}
 	$dob=$_POST['dob'];
-		
+
 	if(!shn_valid_dob($dob,false,'/^\d{4}-\d{2}-\d{2}$/','Date of birth')) {
-		//add_error(_t("Please Check the Date format"));	
+		//add_error(_t("Please Check the Date format"));
 		$error_flag = true;
-	}	
+	}
 	if(isset($_POST['height']) && $_POST['height']!=null) {
 		$height = $_POST['height'];
 		if(is_numeric($height)==false) {
@@ -182,7 +179,7 @@ function shn_mpr_addmp_validate() {
 		add_error(_t("You have not completed the form"));
 		return false;
 	}
-	
+
 	//fullname is entered?
 	if(! isset($local_post['full_name'])) {
 		add_error(_t("Please enter the full name of the missing person"));
@@ -213,32 +210,32 @@ function shn_mpr_addmp_validate() {
 				$_SESSION['mpr']['entry']['image_width'] = $info[0];
 			}
 
-			//putting a dot ;-) 
+			//putting a dot ;-)
 			$ext = '.'.$ext;
 			$upload_dir = $global['approot'].'www/tmp/';
 			$uploadfile = $upload_dir .'ori_'. $_SESSION['mpr_add']['entry']['p_uuid'].$ext;
 			move_uploaded_file($_FILES['picture']['tmp_name'], $uploadfile);
-			$desc_path = $upload_dir . 'thumb_'.$_SESSION['mpr_add']['entry']['p_uuid'].$ext; 
+			$desc_path = $upload_dir . 'thumb_'.$_SESSION['mpr_add']['entry']['p_uuid'].$ext;
 			//make thumb 100X100 or some thing like that ;-)
 			shn_image_resize($uploadfile,$desc_path,100,100);
 		}
 	} else {
 		add_error(shn_file_upload_error_msg($_FILES['picture']['error']));
 		$error_flag = true;
-	}   
+	}
 	if($error_flag) {
 		return false;
 	} else {
 		//set session
 		return true;
 	}
-} 
+}
 
 
 
 /**
- * This is the reproter entry form 
- * @param mixed $errors 
+ * This is the reproter entry form
+ * @param mixed $errors
  * @access public
  * @return void
  */
@@ -249,7 +246,7 @@ function shn_mpr_addmp_reporter($errors=false) {
 	shn_js_toggle_layer();
 	// todo: Clean the $_GET['act'] baby ;-)
 	shn_form_fopen($_GET['act'],null);
-	?><p><?php echo  _t('We are collecting the information on the person who is reporting the missing person due to the following reasons.'). 
+	?><p><?php echo  _t('We are collecting the information on the person who is reporting the missing person due to the following reasons.').
 		'<ul><li>'.
 		_t('To inform back on finding the missing person').'</li><li>'.
 		_t('In a situation where the person who is reporting also a victim of the disaster. The details given here would help to associate he/she with his/her relatives.')
@@ -266,13 +263,13 @@ function shn_mpr_addmp_reporter($errors=false) {
 						echo 'style="display:none;"';
 					} else {
 						echo 'style="display:block;"';
-					}   
+					}
 				} else {
 					echo 'style="display:none;"';
-				}   
-				?>  
+				}
+				?>
 			>
-			<?php 
+			<?php
 			shn_form_select(array("yes"=>_t('Yes'),"no"=>_t('No')), _t('Are you a disaster victim too? '), "is_dv", 'onchange="javascript:toggle(\'isvictim\',this.value);"');
 			?>
 			<div id="isvictim"
@@ -282,7 +279,7 @@ function shn_mpr_addmp_reporter($errors=false) {
 					echo 'style="display:none;"';
 					}else{
 					echo 'style="display:block;"';
-					}   
+					}
 				} else {
 					echo 'style="display:block;"';
 				}
@@ -303,7 +300,7 @@ function shn_mpr_addmp_reporter($errors=false) {
 			shn_form_text('Relationship to Person','opt_relationship_type');
 			//  shn_form_text(_t('Relation'),'rep_relation','size="30"',array('req'=>true));
 			?>
-			<div id="reporter_details" 
+			<div id="reporter_details"
 			<?php
 				if(isset($_POST['reported_before'])) {
 					if($_POST['reported_before']=='yes') {
@@ -314,7 +311,7 @@ function shn_mpr_addmp_reporter($errors=false) {
 				} else {
 					echo 'style="display:none;"';
 				}
-			?>	
+			?>
 			>
 			<p><?php echo  _t('IMPORTANT : At least one of the following contact method is required'); ?></p><?php
 			shn_form_textarea(_t('Address'),'rep_address');
@@ -336,7 +333,7 @@ function shn_mpr_addmp_reporter($errors=false) {
  */
 function shn_mpr_addmp_reporter_validate() {
 	$error_flag=false;
-	
+
 	//clean the post
 	shn_tools_clean_post(&$local_post);
 
@@ -373,7 +370,7 @@ function shn_mpr_addmp_reporter_validate() {
 			$error_flag=true;
 		}
 	}
-	
+
 	if ($error_flag) {
 		return false;
 	} else {
@@ -387,7 +384,7 @@ function shn_mpr_addmp_reporter_validate() {
 
 /**
  * This is the image upload form
- * @param mixed $errors 
+ * @param mixed $errors
  * @access public
  * @return void
  */
@@ -421,12 +418,12 @@ function shn_mpr_addmp_upload_pic() {
 		return true;
 	}
 
-	//Uploads 
+	//Uploads
 	$info = getimagesize($_FILES['picture']['tmp_name']);
-	//check the image type 
+	//check the image type
 	if (!$info) {
 		add_error(_t("Invalid image type please try again"));
-		return false;    
+		return false;
 	}
 
 	list($ignore,$ext) = split("\/",$info['mime']);
@@ -443,12 +440,12 @@ function shn_mpr_addmp_upload_pic() {
 		return true;
 	}
 
-	//putting a dot ;-) 
+	//putting a dot ;-)
 	$ext = '.'.$ext;
 	$upload_dir = $global['approot'].'www/tmp/';
 	$uploadfile = $upload_dir .'ori_'. $_SESSION['mpr_add']['entry']['p_uuid'].$ext;
 	move_uploaded_file($_FILES['picture']['tmp_name'], $uploadfile);
-	$desc_path = $upload_dir . 'thumb_'.$_SESSION['mpr_add']['entry']['p_uuid'].$ext; 
+	$desc_path = $upload_dir . 'thumb_'.$_SESSION['mpr_add']['entry']['p_uuid'].$ext;
 
 	//make thumb 100X100 or some thing like that ;-)
 	shn_image_resize($uploadfile,$desc_path,100,100);
@@ -484,15 +481,15 @@ function shn_mpr_addmp_confirm() {
 			shn_form_label(_t('Passport Number'),$_SESSION['mpr_add']['entry']['passport']);
 		}
 		if(isset($_SESSION['mpr_add']['entry']['drv_license'])) {
-			shn_form_label(_t('Driving License'),$_SESSION['mpr_add']['entry']['drv_license']); 
+			shn_form_label(_t('Driving License'),$_SESSION['mpr_add']['entry']['drv_license']);
 		}
 		if($identity_section) {
 			shn_form_fsclose();
 		}
 
 		//Basic Details
-		if (isset($_SESSION['mpr_add']['entry']['full_name']) || isset($_SESSION['mpr_add']['entry']['family_name']) || isset($_SESSION['mpr_add']['entry']['local_name']) 
-			|| isset($_SESSION['mpr_add']['entry']['dob']) || isset($_SESSION['mpr_add']['entry']['opt_age_group']) || isset($_SESSION['mpr_add']['entry']['opt_gender']) 
+		if (isset($_SESSION['mpr_add']['entry']['full_name']) || isset($_SESSION['mpr_add']['entry']['family_name']) || isset($_SESSION['mpr_add']['entry']['local_name'])
+			|| isset($_SESSION['mpr_add']['entry']['dob']) || isset($_SESSION['mpr_add']['entry']['opt_age_group']) || isset($_SESSION['mpr_add']['entry']['opt_gender'])
 			|| isset($_SESSION['mpr_add']['entry']['opt_marital_status']) || isset($_SESSION['mpr_add']['entry']['opt_religion']) || isset($_SESSION['mpr_add']['entry']['opt_race']) ) {
 			shn_form_fsopen(_t('Basic Details'));
 			$basic_section = true;
@@ -529,7 +526,7 @@ function shn_mpr_addmp_confirm() {
 		}
 
 		//Physical Details
-		if (isset($_SESSION['mpr_add']['entry']['opt_eye_color']) || isset($_SESSION['mpr_add']['entry']['opt_skin_color']) || isset($_SESSION['mpr_add']['entry']['opt_hair_color']) 
+		if (isset($_SESSION['mpr_add']['entry']['opt_eye_color']) || isset($_SESSION['mpr_add']['entry']['opt_skin_color']) || isset($_SESSION['mpr_add']['entry']['opt_hair_color'])
 			|| isset($_SESSION['mpr_add']['entry']['height']) || isset($_SESSION['mpr_add']['entry']['weight']) || isset($_SESSION['mpr_add']['entry']['physical_comments'])) {
 			shn_form_fsopen(_t('Physical Details'));
 			$physical_section = true;
@@ -557,7 +554,7 @@ function shn_mpr_addmp_confirm() {
 		}
 
 		//Contact Details
-		#    if(isset($_SESSION['mpr_add']['entry']['address']) || 
+		#    if(isset($_SESSION['mpr_add']['entry']['address']) ||
 		#            isset($_SESSION['mpr_add']['entry']['zip']) ||
 		#            isset($_SESSION['mpr_add']['entry']['phone']) ||
 		#            isset($_SESSION['mpr_add']['entry']['mobile']) ){
@@ -569,7 +566,7 @@ function shn_mpr_addmp_confirm() {
 		if (isset($_SESSION['mpr_add']['entry']['address'])) {
 			shn_form_label(_t('Address'),$_SESSION['mpr_add']['entry']['address']);
 		}
-		
+
 		/* This hack should also include in the
 			lib_location
 		*/
@@ -578,7 +575,7 @@ function shn_mpr_addmp_confirm() {
 		while ( $i < $conf['mod_mpr_location_lower_limit'] ) {
 			$i++;
 			if (isset($_SESSION['mpr_add']['entry'][$i])) {
-				$sql = " SELECT location.name , field_options.option_description FROM location ". 
+				$sql = " SELECT location.name , field_options.option_description FROM location ".
 				" INNER JOIN field_options ON field_options.option_code = location.opt_location_type " .
 				" WHERE location.opt_location_type = '$i' AND " .
 				" location.loc_uuid = '{$_SESSION['mpr_add']['entry'][$i]}' ";
@@ -587,7 +584,7 @@ function shn_mpr_addmp_confirm() {
 			}
 		}
 		//Ends
-		
+
 		if (isset($_SESSION['mpr_add']['entry']['zip'])) {
 			shn_form_label(_t('Postal Code'),$_SESSION['mpr_add']['entry']['zip']);
 		}
@@ -601,8 +598,8 @@ function shn_mpr_addmp_confirm() {
 			shn_form_fsclose();
 		}
 
-		if (isset($_SESSION['mpr_add']['entry']['opt_blood_type']) || isset($_SESSION['mpr_add']['entry']['last_seen']) || isset($_SESSION['mpr_add']['entry']['last_clothing']) 
-			|| isset($_SESSION['mpr_add']['entry']['comments']) ) { 
+		if (isset($_SESSION['mpr_add']['entry']['opt_blood_type']) || isset($_SESSION['mpr_add']['entry']['last_seen']) || isset($_SESSION['mpr_add']['entry']['last_clothing'])
+			|| isset($_SESSION['mpr_add']['entry']['comments']) ) {
 			shn_form_fsopen(_t('Other Details'));
 			$other_section = true;
 		}
@@ -627,7 +624,7 @@ function shn_mpr_addmp_confirm() {
 		//Reporting Person
 		shn_form_fsopen(_t('Reporting Person'));
 			if (isset($_SESSION['mpr_add']['entry']['tracker_id'])) {
-				shn_add_get_tracker_details($_SESSION['mpr_add']['entry']['tracker_id']); 
+				shn_add_get_tracker_details($_SESSION['mpr_add']['entry']['tracker_id']);
 			}
 			if (isset($_SESSION['mpr_add']['report_person']['rep_full_name'])) {
 				shn_form_label(_t('Name'),$_SESSION['mpr_add']['report_person']['rep_full_name']);
@@ -646,7 +643,7 @@ function shn_mpr_addmp_confirm() {
 			}
 		shn_form_fsclose();
 
-		
+
 		/*
 		shn_form_fsopen(_t('Confirm'));
 			?><p><?php echo  _t('Is the information that you\'ve entered correct?'); ?></p><?php
@@ -670,7 +667,7 @@ function shn_mpr_addmp_commit() {
 		global $global;
 		include_once($global['approot'].'inc/lib_dbentity/obj_person.inc');
 		$missing_person = new shn_Person($_SESSION['mpr_entry']['p_uuid']);
-		
+
 		foreach($_SESSION['mpr_entry'] as $k => $v){
 			if($k != 'seq')
 			echo '$missing_person->set_'."$k($v)<br>";
@@ -699,7 +696,7 @@ function shn_mpr_addmp_commit() {
 		shn_db_insert_phonetic($insert_array['l10n_name'],$insert_array['p_uuid']);
 	}
 	shn_db_insert($insert_array,'person_uuid',$audit_flag, 'p_uuid');
-	$insert_array = null; // reset array 
+	$insert_array = null; // reset array
 
 
 	//Identity
@@ -723,7 +720,7 @@ function shn_mpr_addmp_commit() {
 
 
 	//Contacts
-	$insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];  
+	$insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	if(isset($_SESSION['mpr_add']['entry']['address'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['address'];
 		$insert_array['opt_contact_type'] = 'hom';
@@ -738,12 +735,12 @@ function shn_mpr_addmp_commit() {
 		$insert_array['opt_contact_type'] = 'emai';
 	}
 	$insert_array = null; // reset array
-    
+
 	$insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	if(isset($_SESSION['mpr_add']['entry']['phone'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['phone'];
 		$insert_array['opt_contact_type'] = 'curr';
-		
+
 	}
 	shn_db_insert($insert_array,'contact', $audit_flag, 'pgoc_uuid');
 	$insert_array = null; // reset array
@@ -840,7 +837,7 @@ function shn_mpr_addmp_commit() {
 	$insert_array = null; // reset array
 
 
-	//person_details        
+	//person_details
 	$insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	if(isset($_SESSION['mpr_add']['entry']['dob'])) {
 		$insert_array['birth_date'] = $_SESSION['mpr_add']['entry']['dob'];
@@ -872,13 +869,13 @@ function shn_mpr_addmp_commit() {
 	$insert_array = null; // reset array
 
 
-	//insert into mutiple incidents 
+	//insert into mutiple incidents
 	$insert_array['x_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	$insert_array['incident_id'] = $_SESSION['user_pref_ims_incident_id'];
 	shn_db_insert($insert_array,'resource_to_incident',$audit_flag,'x_uuid');
 	$insert_array = null; // reset array
 
-	/* todo: Later for now using the person_to_report to group 
+	/* todo: Later for now using the person_to_report to group
 	//Insert into pgroup
 	//For Tracking purpose create a group around missing person
 	$insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
@@ -912,22 +909,22 @@ function shn_mpr_addmp_commit() {
         if (!empty($errchk)) {
             error_log("Error saving image info:".$errchk);
         }
-	} 
-	
+	}
+
 	//go back to the main menu
-	//shn_mpr_default();    
+	//shn_mpr_default();
 }
 
 
 
 /**
  * This function inserts the reporting person to the people registry
- * @param mixed $p_uuid 
+ * @param mixed $p_uuid
  * @access public
  * @return void
  */
 function shn_mpr_addmp_insert_reporter($p_uuid) {
-	//Reported person entry 
+	//Reported person entry
 	$rep_uuid = shn_create_uuid('p');
 
 
@@ -944,8 +941,8 @@ function shn_mpr_addmp_insert_reporter($p_uuid) {
 
 	//Insert the status
 	/*
-	* If not a victim, isvictim = false , status = ali (Alive and Well) 
-	* If a victim, isvictim = true , status = given status 
+	* If not a victim, isvictim = false , status = ali (Alive and Well)
+	* If a victim, isvictim = true , status = given status
 	*/
 	$insert_array['p_uuid'] = $rep_uuid;
 	if($_SESSION['mpr_add']['report_person']['is_dv'] == 'yes') {
@@ -954,7 +951,7 @@ function shn_mpr_addmp_insert_reporter($p_uuid) {
 	} else {
 		$insert_array['opt_status'] = 'ali';
 		$insert_array['isvictim'] = 'FALSE';
-	} 
+	}
 	shn_db_insert($insert_array,'person_status',true,'p_uuid');
 	$insert_array = null; // reset array
 
@@ -988,8 +985,8 @@ function shn_mpr_addmp_insert_reporter($p_uuid) {
 	shn_db_insert($insert_array,'contact',true,'pgoc_uuid');
 	$insert_array = null; // reset array
 
-	
-	/* 
+
+	/*
 	* Insert into the person_to_report
 	*/
 	shn_add_person_to_report($p_uuid,$rep_uuid,$_SESSION['mpr_add']['report_person']['opt_relationship_type']);
@@ -999,9 +996,9 @@ function shn_mpr_addmp_insert_reporter($p_uuid) {
 
 /**
  * This function helps you to add reporting persons to the missing person
- * @param mixed $p_uuid 
- * @param mixed $rep_uuid 
- * @param mixed $relation 
+ * @param mixed $p_uuid
+ * @param mixed $rep_uuid
+ * @param mixed $relation
  * @access public
  * @return void
  */
@@ -1022,7 +1019,7 @@ function shn_add_person_to_report($p_uuid, $rep_uuid, $relation) {
 
 /**
  * This function fetches the information of the reporting person with given id.
- * @param mixed $p_uuid 
+ * @param mixed $p_uuid
  * @access public
  * @return void
  */
@@ -1047,11 +1044,11 @@ function shn_add_get_tracker_details($p_uuid) {
 /**
  * This is a bunch of javascript helps for the collapse and expanind of a
  * given division.
- * @todo Move to somewhere 
+ * @todo Move to somewhere
  * @access public
  * @return void
  */
-function shn_js_toggle_layer() { 
+function shn_js_toggle_layer() {
 	?>
 	<script language="javascript">
 		function toggle(divition,values) {

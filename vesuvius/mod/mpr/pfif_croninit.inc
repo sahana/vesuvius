@@ -1,17 +1,18 @@
 <?php
 /**
-* Initialization script for scheduled PFIF import/export services
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author ccornwell, contractor, NLM-CEB, ccornwell@mail.nih.gov
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Nilushan Silva
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
+ */
+
+// PFIF 1.1
 
 include_once "pfifconf.inc.php"; // Declares the configuration structure
 
@@ -42,8 +43,8 @@ global $pfif_conf;
 function get_service_params($role, $base, $params) {
     $svc = array();
     $dom_config = DOMDocument::loadXML($params);
-    
-    // Service Name 
+
+    // Service Name
     $el = $dom_config->getElementsByTagName('service');
     if ($el->length > 0) {
         $i = $el->item(0);
@@ -57,14 +58,14 @@ function get_service_params($role, $base, $params) {
         $svc['read_url'] = $base.'/'.$ru->item(0)->nodeValue;
         $rp = $r->item(0)->getElementsByTagName('param');
         // TODO: extract and store params
-        
+
         $f = $el->item(0)->getElementsByTagName('feed');
         $fu = $f->item(0)->getElementsByTagName('url');
         $svc['feed_url'] = $base.'/'.$fu->item(0)->nodeValue;
         $fp = $f->item(0)->getElementsByTagName('param');
         // TODO: extract and store params
     } else {
-        
+
     }
 
     return $svc;

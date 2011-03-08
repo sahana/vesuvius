@@ -1,19 +1,16 @@
 <?php
 /**
- * Edit page of the Missing Person Registry
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author	   Janaka Wickramasinghe <janaka@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @package    module
- * @subpackage mpr
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
  */
+
 
 
 /**
@@ -117,7 +114,7 @@ function shn_mpr_editmp_load($p_uuid) {
 	$sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'zip'";
 	$rs=$global['db']->Execute($sql);
 	$_SESSION['mpr_edit']['entry']['zip'] = $rs->fields[0];
-	
+
 	//Home phone
 	$sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'curr'";
 	$rs = $global['db']->Execute($sql);
@@ -187,7 +184,7 @@ function shn_mpr_editmp_entry($errors=false) {
 			$i--;
 		}
 		// End Hack :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-		
+
 		$selected_loc_id = (isset($_POST[$i]) ? $_POST[$i] : $_SESSION['mpr_edit']['entry']['location_id']);
 		_shn_location_form($conf['mod_mpr_location_upper_limit'],
 		$conf['mod_mpr_location_lower_limit'],
@@ -247,14 +244,14 @@ function shn_mpr_editmp_validate() {
 		//add_error(_t("Please Check the Date format"));
 		$error_flag = true;
 	}
-	
+
 	//set session
 	$local_post['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
-	
+
 	//clean
 	$_SESSION['mpr_edit']['entry']=null;
 	$_SESSION['mpr_edit']['entry']=$local_post;
-	
+
 	//No file was uploaded ignore
 	if($_FILES['picture']['error']==0 || $_FILES['picture']['error'] == UPLOAD_ERR_NO_FILE){
 		//if($_FILES['picture']['error']!=UPLOAD_ERR_NO_FILE){
@@ -344,7 +341,7 @@ function shn_mpr_editmp_upload_pic() {
 	if($_FILES['picture']['error']==UPLOAD_ERR_NO_FILE) {
 		return true;
 	}
-	
+
 	//Uploads
 	$info = getimagesize($_FILES['picture']['tmp_name']);
 
@@ -396,7 +393,7 @@ function shn_mpr_editmp_confirm() {
 			shn_form_hidden(array('seq'=>'commit'));
 			shn_show_thumb_url($_SESSION['mpr_edit']['entry']['p_uuid'],'', 'mpr', 'addmp_img',true);
 			?><br /><?php
-			
+
 			//Status
 			shn_form_label(shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_status'],'opt_status'),'');
 		shn_form_fsclose();
@@ -434,7 +431,7 @@ function shn_mpr_editmp_confirm() {
 			shn_form_label(_t('Local Name'),$_SESSION['mpr_edit']['entry']['local_name']);
 		}
 		if (isset($_SESSION['mpr_edit']['entry']['dob'])) {
-			shn_form_label(_t('Date of Birth'),$_SESSION['mpr_edit']['entry']['dob']); 
+			shn_form_label(_t('Date of Birth'),$_SESSION['mpr_edit']['entry']['dob']);
 		}
 		if (isset($_SESSION['mpr_edit']['entry']['opt_age_group'])) {
 			shn_form_label(_t('Age Group'),shn_get_field_opt($_SESSION['mpr_edit']['entry']['opt_age_group'],'opt_age_group'));
@@ -740,14 +737,14 @@ function shn_mpr_editmp_commit() {
 	$update_array = null;
 
     //add address
-    $insert_array['pgoc_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];  
+    $insert_array['pgoc_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
     if(isset($_SESSION['mpr_edit']['entry']['address'])){
         $insert_array['contact_value'] = $_SESSION['mpr_edit']['entry']['address'];
         $insert_array['opt_contact_type'] = 'hom';
     }
     shn_db_insert($insert_array,'contact', true, 'pgoc_uuid');
     $insert_array = null;
-    
+
     //add postal code
     $insert_array['pgoc_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
     if(isset($_SESSION['mpr_edit']['entry']['zip'])){
@@ -756,7 +753,7 @@ function shn_mpr_editmp_commit() {
     }
     shn_db_insert($insert_array,'contact',true,'pgoc_uuid');
     $insert_array = null;
-        
+
 	$update_array['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
 	//flush and refill baby
 	$global['db']->Execute("DELETE FROM person_status WHERE p_uuid = '{$update_array['p_uuid']}'");

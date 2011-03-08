@@ -1,4 +1,16 @@
 <?php
+/**
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
+ */
+
 error_reporting(E_ALL ^ E_NOTICE);
 // print "Configuring error display  ...\n";
 ini_set("display_errors", "stdout");
@@ -25,7 +37,7 @@ assert_options(ASSERT_WARNING,  false);
 assert_options(ASSERT_CALLBACK, 'assert_failure');
 
 $log = new Pfif_Harvest_Log();
-$test_start = time(); // subsequent time tags referenced to test start time 
+$test_start = time(); // subsequent time tags referenced to test start time
 $test_interval = 5;
 
 $repos_id = 1;

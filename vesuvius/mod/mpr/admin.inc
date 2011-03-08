@@ -1,29 +1,25 @@
 <?php
-
 /**
- * Administration of the Missing Person Registry 
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @author     Greg Miernicki <g@miernicki.com>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @package    module
- * @subpackage mpr
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
  */
+
 
 include_once ($global['approot'] . '/inc/lib_form.inc');
 include_once ($global['approot'] . '/inc/lib_validate.inc');
 
+
 /**
- * shn_mpr_adminmenu 
- * 
+ * shn_mpr_adminmenu
+ *
  * @access public
  * @return void
  */
@@ -50,7 +46,7 @@ function shn_mpr_adminmenu() {
 
 /**
  * Main admin page for the MPR module ~ defaults to the general configuration page now -- greg
- * 
+ *
  * @access public
  * @return void
  */
@@ -87,7 +83,7 @@ function shn_mpr_adm_gen() {
 	$show_updates_missing = (shn_db_get_config("mpr", "show_updates_missing")!== FALSE) ? shn_db_get_config("mpr", "show_updates_missing") : 0;  // default to hide
 	$show_warning         = (shn_db_get_config("mpr", "show_warning")        !== FALSE) ? shn_db_get_config("mpr", "show_warning")         : 0;  // default to hide
 	$use_english_metrics  = (shn_db_get_config("mpr", "use_english_metrics") !== FALSE) ? shn_db_get_config("mpr", "use_english_metrics")  : 0;  // default to SI units
-	$alternate_homepage   = (shn_db_get_config("mpr", "alternate_homepage")  !== FALSE) ? shn_db_get_config("mpr", "alternate_homepage")   : ""; // 0 uses content from home.inc, any other value 
+	$alternate_homepage   = (shn_db_get_config("mpr", "alternate_homepage")  !== FALSE) ? shn_db_get_config("mpr", "alternate_homepage")   : ""; // 0 uses content from home.inc, any other value
 	                                                                                                                                             // uses the page content from the mod Rez page
 
 	// if theres a post...
@@ -125,7 +121,7 @@ function shn_mpr_adm_gen() {
 		} else {
 			add_error(_t("Configuration not saved."));
 		}
-	} 
+	}
 
 	// cast form value to array
 	$pictures_per_page  = array("value"=>$pictures_per_page);
@@ -136,17 +132,17 @@ function shn_mpr_adm_gen() {
 	shn_form_fsclose();
 
 	shn_form_fsopen(_t('Show missing/found updates on the MPR main page'));
-		shn_form_radio2(array("1"=>"Show","0"=>"Hide"),"Show Found Person Updates",   "show_updates_found",   $show_updates_found,   null); 
-		shn_form_radio2(array("1"=>"Show","0"=>"Hide"),"Show Missing Person Updates", "show_updates_missing", $show_updates_missing, null); 
+		shn_form_radio2(array("1"=>"Show","0"=>"Hide"),"Show Found Person Updates",   "show_updates_found",   $show_updates_found,   null);
+		shn_form_radio2(array("1"=>"Show","0"=>"Hide"),"Show Missing Person Updates", "show_updates_missing", $show_updates_missing, null);
 	shn_form_fsclose();
 
 	shn_form_fsopen(_t('Show warning message before "Reporting a Person"'));
-		shn_form_radio2(array("1"=>"Show","0"=>"Hide"),"Show Warning", "show_warning", $show_warning, null); 
+		shn_form_radio2(array("1"=>"Show","0"=>"Hide"),"Show Warning", "show_warning", $show_warning, null);
 	shn_form_fsclose();
-	
+
 	shn_form_fsopen(_t('Use English Metrics'));
-		shn_form_radio2(array("1"=>"English","0"=>"SI"),"Use English measurements (pounds/feet) instead of the SI standards (kilograms/meters).", "use_english_metrics", $use_english_metrics, null); 
-	shn_form_fsclose();	
+		shn_form_radio2(array("1"=>"English","0"=>"SI"),"Use English measurements (pounds/feet) instead of the SI standards (kilograms/meters).", "use_english_metrics", $use_english_metrics, null);
+	shn_form_fsclose();
 
 	shn_form_fsopen(_t('MPR Main Page'));
 		if (file_exists($global['approot'].'/mod/rez')) {
@@ -327,7 +323,7 @@ function _shn_mpr_adm_field_options_form($type) {
 				//print $code;
 				_shn_mpr_delete_option($code);
 			} else {
-				_shn_mpr_update_option($code,$desc);		
+				_shn_mpr_update_option($code,$desc);
 			}
 		}
 	} else if($button_type=='AddNew') {
@@ -347,11 +343,11 @@ function _shn_mpr_adm_field_options_form($type) {
 			display_errors();
 		} else
 			_shn_mpr_insert_option($type,$code,$desc);
-		}  else if (!empty($button_type)) { 
+		}  else if (!empty($button_type)) {
             add_error(_t("Unrecognized button_type ".$button_type));
             display_errors();
         }
-        
+
 		$sql = "SELECT field_name, option_code, option_description  FROM field_options WHERE field_name = '{$type}'";
 		$arr = $global['db']->GetAll($sql);
         shn_form_fopen('adm_' . $type, null);

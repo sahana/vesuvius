@@ -1,12 +1,20 @@
 <?php
 /**
-* @package     pfif
-* @version      1.1
-* @author       Carl H. Cornwell <ccornwell@mail.nih.gov>
-* LastModified: 2010:0308:1402
-* License:      LGPL
-* @link         TBD
-*/
+ * @name         Missing Person Registry
+ * @version      1.5
+ * @package      mpr
+ * @author       Nilushan Silva
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0307
+ */
+
+// PFIF 1.1
+
+
 // print "Configuring error reporting  ...\n";
 error_reporting(E_ALL ^ E_NOTICE);
 // print "Configuring error display  ...\n";
@@ -33,7 +41,7 @@ require_once $global['approot'] . 'mod/mpr/add.inc';
 require_once $global['approot'] . 'mod/mpr/edit.inc';
 
 /**
-* Switch database in order to support multiple DB instances. 
+* Switch database in order to support multiple DB instances.
 * TBD: how are disasters mapped to repositories?
 */
 function shn_db_use($db_name,$db_host=null) {
@@ -97,7 +105,7 @@ foreach ($repositories as $r) {
         $import_repos[$r->id] = $r;
         $next[$r->id] = $r->sched_interval_minutes*60 + $sched_time;
     } else {
-        $next[$r->id] = $r->sched_interval_minutes*60 + 
+        $next[$r->id] = $r->sched_interval_minutes*60 +
                         $r->get_log()->end_time;
     }
 }
@@ -116,7 +124,7 @@ foreach ($import_queue as $service_name => $service) {
     $incident_conf = $pfif_conf['service_to_incident'][$service_name];
     $pfif_conf['disaster_id'] = $incident_conf['disaster_id'];
     // var_dump("repository",$repos,"conf",$incident_conf);
-    
+
     $service_uri = $service['feed_url'];
     // TODO: min_entry_date and skip must come from repos and asscoiated log
     $req_params = $repos->get_harvest_request_params();
@@ -138,11 +146,11 @@ foreach ($import_queue as $service_name => $service) {
             shn_db_use($incident_conf['db_name'],$incident_conf['db_host']);
             if ($is_scheduled) { // Output to database for production
                 $loaded = $p->storeInDatabase();
-                print "Import ".($loaded ? "stored" : "store failed")."\n";        
+                print "Import ".($loaded ? "stored" : "store failed")."\n";
             } else { // Output to file for test/debug
                 $xml =  $p->storeInXML(PFIF_V_1_2); // PFIF_V_1_1);
                 // print $xml;
-                $logfile_name = 'crontest_'.$service_name.'.xml'; 
+                $logfile_name = 'crontest_'.$service_name.'.xml';
                 $fh = fopen($logfile_name,'a+');
                 $charstowrite = strlen($xml);
                 $written = fwrite($fh,$xml,$charstowrite);
