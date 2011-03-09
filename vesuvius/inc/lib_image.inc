@@ -1,35 +1,21 @@
-<?php
-/* $Id: lib_image.inc,v 1.21 2009/10/23 16:55:20 gmiernicki Exp $ */
-
+<?
 /**
- *
- * This is the database handler. A vital component of the framework.
- * This will be included from the front controller and the reset of the
- * application can use the database resource, available in $global['db']
- * you may need to make it into a global scope. i.e global $global;
- *
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    moduleAPI
- * @subpackage image
- * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @author     Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
- * @author     Greg Miernicki <g@miernicki.com>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
- * @edited 1/27/2010 c.cornwell/NLM-CEB, fix copy/paste and string matching errors  in split arg in shn_check_valid_image_type.
- * @edited 1/26/2010 c.cornwell/NLM-CEB, Refactored shn_image_to_db_ex into shn_image_to_db_url to support optional inclusion of URL column without affect existing callers of .shn_image_to_db_ex.
+ * @name         Image Library
+ * @version      1.0
+ * @package      framework
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author       Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
 
 
+
 /**
- *
  * This function can resize a given image and save it to the given
  * location.
  *

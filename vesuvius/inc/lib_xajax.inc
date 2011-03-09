@@ -1,14 +1,18 @@
-<?php
+<?
 /**
- * This library will help developers to use xajax
- *
- * @package    framework
- * @author J P Fonseka <jo@respere.com>
- * @copyright  Respere http://www.respere.com
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @name         lib XAJAX
+ * @version      1.0
+ * @package      framework
+ * @author       J P Fonseka <jo@respere.com>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
 
-//include the xajax library
+
 require_once($global['approot']."/3rd/xajax/xajax.inc.php");
 
 //set the xajx object which developer should use in there code
@@ -22,6 +26,8 @@ function shn_xajax_registerFunction($name){
 	global $global;
 	$global['xajax']->registerFunction($name);
 }
+
+
 
 /**
  * print javascript function this will be called in html stream library if xajax
@@ -42,7 +48,7 @@ function shn_xajax_printJavascript(){
 		?>
 <script type="text/javascript">
 <!--
-            xajax.loadingFunction = 
+            xajax.loadingFunction =
                 function(){xajax.$('loadingMessage').style.display='block';alert('start');};
             function hideLoadingMessage()
             {

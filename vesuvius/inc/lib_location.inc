@@ -1,42 +1,33 @@
-<?php
+<?
 /**
- *
- * This is the location library. A vital component of the framework.
- * locations are used by several modules like organization regsitry,Camp registry 
- * This library has nearly everything you need to do with locations.
- * 
- * 
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    framework
- * @subpackage location
- * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
- * @author     Greg Miernicki <g@miernicki.com><miernickig@mail.nih.gov>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * 
+ * @name         Location Library
+ * @version      1.0
+ * @package      framework
+ * @author       Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
 
 
 global $global;
-//include_once $global['approot']."/inc/handler_form.inc";
 define ("UNKNOWN","unknown");
+
+
 /**
  * Returns the $_POST location. In the form the user may have entered village
  * some times he may not select a village ,but a district. Therefore
  * this function will start from lowest level and find the first instance
  * with a location set and return that location id.
- * of course if the user has ticked the unknown check box UNKNOWN will be 
+ * of course if the user has ticked the unknown check box UNKNOWN will be
  * returned and neither of these cases -1 will be returned to indicate
  * the user has not completed the location section
- *  
- * 
- * @param mixed $child 
+ *
+ *
+ * @param mixed $child
  * @access public
  * @return location uuid
  */
@@ -45,7 +36,7 @@ function shn_location_get_form_submit_loc() {
 		return UNKNOWN;
 	}
 	$n_lvl=$_POST["levels"];//the hidden $_POST variable which indicates the max no of levels
-	
+
 	while($n_lvl>0){
 		$lvl="loc_select_".$n_lvl;
 		if((isset($_POST["$lvl"]))&&($_POST["$lvl"]!="0")){
@@ -81,9 +72,9 @@ function shn_get_level_description($level_code){
 
 
 /**
- * Returns true if the location does not have any children 
- * 
- * @param mixed $loc 
+ * Returns true if the location does not have any children
+ *
+ * @param mixed $loc
  * @access public
  * @return void
  */
@@ -91,7 +82,7 @@ function shn_location_is_leaf($loc) {
 	global $global;
 	$db=$global["db"];
 	$q="select loc_uuid from location where parent_id='{$loc}'";
-	
+
 	$res=$db->Execute($q);
 	if(!$res==NULL && !$res->EOF){
 		return false;
@@ -127,7 +118,7 @@ function shn_location_string($loc) {
 			}else{
 				$location=$location." -->".$res->Fields("name");
 			}
-			
+
 		}
 	}
 	return $location;
@@ -136,9 +127,9 @@ function shn_location_string($loc) {
 
 
 /**
- * Returns an array of descendants of a location 
- * 
- * @param mixed $loc 
+ * Returns an array of descendants of a location
+ *
+ * @param mixed $loc
  * @access public
  * @return void
  */
@@ -160,8 +151,8 @@ function shn_location_get_descendants($loc,$loc_arr) {
 
 /**
  * Displays the full range of location levels for the user to select a subrange
- * 
- * @param mixed $loc 
+ *
+ * @param mixed $loc
  * @access public
  * @return void
  */
@@ -186,7 +177,7 @@ function shn_location_level_range_form($name,$label,$sel) {
 
 /**
  * ?
- * 
+ *
  * @access public
  * @return ?
  */
@@ -217,20 +208,20 @@ function shn_location_get_x_uuid_loc_range() {
 /**
  * Returns the list of parents of the location. Starting from the location to
  * the parent,grand parent,ect. For each
- * level the name and location id is returned. 
- * 
- * @param mixed $child 
+ * level the name and location id is returned.
+ *
+ * @param mixed $child
  * @access public
  * @return array
  */
 function shn_get_parents($child,$loc_arr) {
 	global $global;
 	include_once $global['approot']."/inc/lib_validate.inc";
-		
+
 	if(shn_is_null($child)){
 			return $loc_arr;
 	}
-	
+
 	$db=$global['db'];
 		$q="select parent_id from location where loc_uuid='{$child}'";
 	$res_temp=$db->Execute($q);
@@ -239,8 +230,8 @@ function shn_get_parents($child,$loc_arr) {
 		$child
 	);
 	shn_get_parents($res_temp->fields['parent_id'],$loc_arr);
-		
-	
+
+
 	/*
 	$q="select search_id,name,loc_uuid from location where loc_uuid=$child";
 	$res_temp=$db->Execute($q);
@@ -248,14 +239,14 @@ function shn_get_parents($child,$loc_arr) {
 	$final[0]=$res_temp->fields[0];
 	$final[1]=$res_temp->fields[1];
 	$final[2]=$res_temp->fields[2];
-	
+
 	$bsd_village=$res_temp->fields[0];
 	$loc=split("\.", $bsd_village);
 	$loc_return=array();
 	for($k=0;$k<count($loc)-1;$k++){
 		$cur=$cur.$loc[$k];
 		$temp=array();
-		$temp[0]=$cur;     
+		$temp[0]=$cur;
 		$q="select name,loc_uuid from location where search_id='$cur'";
 		$res_loc=$db->Execute($q);
 		$temp[1]=$res_loc->fields[0];
@@ -279,9 +270,9 @@ function shn_get_parents($child,$loc_arr) {
 
 
 /**
- * Returns the level of the location 
- * 
- * @param mixed $loc 
+ * Returns the level of the location
+ *
+ * @param mixed $loc
  * @access public
  * @return mixed
  */
@@ -296,9 +287,9 @@ function shn_get_level($loc){
 
 
 /**
- * Returns whether the location is in the last level or not 
- * 
- * @param mixed $loc 
+ * Returns whether the location is in the last level or not
+ *
+ * @param mixed $loc
  * @access public
  * @return bool
  */
@@ -321,7 +312,7 @@ function shn_is_last_level($loc){
 
 
 /**
- * Returns the last location level avaliable 
+ * Returns the last location level avaliable
  * @param mixed $loc
  * @access public
  * @return void
@@ -343,7 +334,7 @@ function shn_get_last_level(){
 
 
 /**
- * Returns the range of levels avaliable 
+ * Returns the range of levels avaliable
  * @param mixed $loc
  * @access public
  * @return void
@@ -363,26 +354,26 @@ function shn_get_range(){
 
 
 /**
- * Generates the java script required for AJAX functionality 
- * 
- * @param mixed $to 
+ * Generates the java script required for AJAX functionality
+ *
+ * @param mixed $to
  * @access public
  * @return void
  */
 function shn_location_jscript($start,$to,$parent=false){
 	global $global;
 	$fetch_server="index.php?";
-	?>           
+	?>
 	<script type="text/javascript">
-	var url = "<?php echo $fetch_server?>"; 
+	var url = "<?php echo $fetch_server?>";
 	var curlevel=0;
 	var http;
 	var to=<?php echo $to ?>;
 	var start = <?php echo $start;?>;
 	<?php if($parent){
-			echo "var parent=true;";    
+			echo "var parent=true;";
 		}else{
-			echo "var parent=false;"; 
+			echo "var parent=false;";
 		}
 		?>
 		var previous="nothing";
@@ -416,8 +407,8 @@ function shn_location_jscript($start,$to,$parent=false){
 
 	// The callback funtion
 	function handleHttpResponse(){
-		if (http.readyState == 4) { // Split the comma delimited response into an array  
-			results = http.responseText.split(","); 
+		if (http.readyState == 4) { // Split the comma delimited response into an array
+			results = http.responseText.split(",");
 				curlevel=curlevel+1;
 				var dropdown="loc_select_"+curlevel;
 			var x=document.getElementById(dropdown);
@@ -427,53 +418,53 @@ function shn_location_jscript($start,$to,$parent=false){
 			if(x.options==null){
 				j=0;
 			}else{
-	
+
 				for (i=0; i<=x.options.length+1; i++){
 				x.options[0]=null;
 			}
 			x.options[0] = opt;
 			j=1;
 			}
-	
+
 		var next=results[1];
-		
+
 
 		for (i=1; i<results.length-1; i=i+2, j++){
 				opt = document.createElement("option") ;
 				opt.value = results[i] ;
 				opt.text = results[i+1].replace(/[^A-Za-z0-9]$/,"");
 				x.options[j] = opt;
-				
-		
+
+
 		//
 		}
 		x.selectedIndex=-1;
 		if(curlevel<to){
 			update_next_level(next,curlevel);
 		}
-		} 
+		}
 	}
-	
+
 		// The callback funtion for locations related to organizations,camps
 		// The callback funtion
 	function handleHttpResponseComplex(){
 			var selection=0;
 		if (http.readyState == 4) { // Split the comma delimited response into an array
-	
-		var all_arr=http.responseText.split(";"); 
+
+		var all_arr=http.responseText.split(";");
 		var header=all_arr[0];
 				if(header){
-			header_arr = header.split(","); 
+			header_arr = header.split(",");
 			type=header_arr[0];
 			next=header_arr[1];
 			cur_lvl=header_arr[2];
 			selection=header_arr[3]*1+1;//multiplication required to convert to number
-		
+
 					//alert(all_arr);
 			var data=all_arr[1];
 			if(data){
 				results = data.split(",");
-				
+
 						var dropdown="loc_select_"+cur_lvl;
 					var x=document.getElementById(dropdown);
 
@@ -481,7 +472,7 @@ function shn_location_jscript($start,$to,$parent=false){
 						opt.value = "" ;
 						opt.text = "";
 				x.options[0] = opt;
-				
+
 
 				for (i=0; i<results.length;i++){
 						opt = document.createElement("option") ;
@@ -490,15 +481,15 @@ function shn_location_jscript($start,$to,$parent=false){
 						opt.value = option_data[0] ;
 						opt.text = option_data[1].replace(/[^A-Za-z]$/,"");
 					x.options[x.options.length] = opt;//i+1
-		
+
 				}
 				x.selectedIndex=selection;
-			
+
 				if(cur_lvl>0){
 						update_location(next,type);
 				}
 			}
-			} 
+			}
 		}
 	}
 
@@ -506,22 +497,22 @@ function shn_location_jscript($start,$to,$parent=false){
 		curlevel=level;
 		http = getHTTPObject();
 		var url2=url + "act=get_loc&mod=xst&stream=text&lvl="+curlevel+"&sel="+selection;
-		
-		http.open("GET", url2, true); 
-	//        http.onreadystatechange = null; 
-		http.onreadystatechange = function(){}; 
-		http.onreadystatechange = handleHttpResponse; 
+
+		http.open("GET", url2, true);
+	//        http.onreadystatechange = null;
+		http.onreadystatechange = function(){};
+		http.onreadystatechange = handleHttpResponse;
 		http.send(null);
 	}
-	
+
 	function update_location(selection,type){
-		
+
 		if(type!='loc_dir'){
 				for(j=1;j<=to;j++){
-					
+
 					var dropdown="loc_select_"+j;
 					var x=document.getElementById(dropdown);
-					
+
 				for (i=0; i<=x.options.length+1; i++){
 					x.options[0]=null;
 				}
@@ -529,48 +520,48 @@ function shn_location_jscript($start,$to,$parent=false){
 		}
 		http = getHTTPObject();
 		var url2=url + "act=get_loc_val&mod=xst&stream=text&type="+type+"&sel="+selection;
-		http.open("GET", url2, true); 
-		http.onreadystatechange = function(){}; 
-		http.onreadystatechange = handleHttpResponseComplex; 
+		http.open("GET", url2, true);
+		http.onreadystatechange = function(){};
+		http.onreadystatechange = handleHttpResponseComplex;
 		http.send(null);
 	}
-	
-		
-		
-		
+
+
+
+
 		function radio_click(div){
-			
+
 			if(div=='loc_dir'){
 				for(i=start;i<=to;i++){
 						var x=document.getElementsByName(i);
 						//x[0].selectedIndex=-1;
 						var y=document.getElementById(i);
-					
+
 						y.style.display='block';
 				}
 
 
 			}else{
 				var y=document.getElementById(div);
-				
+
 				y.style.display='block';
 			}
-			
-			
-			
+
+
+
 			if(previous=='loc_dir'){
 
 				for(i=start;i<=to;i++){
 						var x=document.getElementsByName(i);
 						//x[0].selectedIndex=-1;
 						var y=document.getElementById(i);
-						
+
 						y.style.display='none';
 				}
 			}else{
 				if(previous!="nothing"){
 					var y=document.getElementById(previous);
-					
+
 					y.style.display='none';
 				}
 			}
@@ -578,7 +569,7 @@ function shn_location_jscript($start,$to,$parent=false){
 			return;
 	}
 	if(parent==true){
-	
+
 				for(i=1;i<=to;i++){
 			//	alert("start"+start);
 					if(i<=start){
@@ -588,25 +579,25 @@ function shn_location_jscript($start,$to,$parent=false){
 				}
 			//var y=document.getElementById(i);
 			//y.style.display='none';
-			
+
 		}else{
-	
+
 		for(i=start;i<=to;i++){
 			var x=document.getElementsByName(i);
 			//x[0].selectedIndex=-1;
 			//var y=document.getElementById(i);
 			//y.style.display='none';
-			
+
 			}
 		}
 		var y=document.getElementById("loc_org");
 		if(y)
 		y.style.display='none';
-		
+
 		var y=document.getElementById("loc_camp");
 		if(y)
 		y.style.display='none';
-		
+
 	</script>
 	<?php
 }
@@ -615,7 +606,7 @@ function shn_location_jscript($start,$to,$parent=false){
 
 /**
  * ?
- * 
+ *
  * @access public
  * @return void
  */
@@ -641,10 +632,10 @@ function shn_location_init_jscript($start,$end) {
 
 
 /**
- * shn_location 
- * Generates a set of select boxes with locations with in the given levels. Will add to the form. 
- * @param mixed $from 
- * @param mixed $to 
+ * shn_location
+ * Generates a set of select boxes with locations with in the given levels. Will add to the form.
+ * @param mixed $from
+ * @param mixed $to
  * @access public
  * @return void
  */
@@ -653,18 +644,18 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 		shn_form_label(null,"Please Select a location", array("req"=>true));
 		?> <br /> <?
 	}
-	// if a location is selected in post values use it, if the value is not given 
+	// if a location is selected in post values use it, if the value is not given
 	// this will set the location as it is when a submision fails of a form.
 	$value=(isset($value))?$value:shn_location_get_form_submit_loc();
-			
+
 	if($range == null){
-		$range = shn_location_get_loc_range();	
+		$range = shn_location_get_loc_range();
 	}
-	
+
 	if($parent == null){
 		$parent = shn_location_get_start_loc();
 	}
-	
+
 	$count=0;
 	$keepparent=false;
 	$info=_t("If you know any of the following, please select only one of them first" .
@@ -746,11 +737,11 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 	} else {
 		if($parent==null){
 			_shn_location_form($range);
-			//$start='1';	
+			//$start='1';
 		} else {
 			_shn_location_form_parent($range,$parent);
 			$keepparent=true;
-		}  
+		}
 	}
 	shn_location_jscript($start,$range["end"],$keepparent);
 }
@@ -760,8 +751,8 @@ function shn_location($range,$value=null,$parent=null,$extra_opts=null){
 /**
  * shn_location_mpr
  * Generates a set of select boxes with locations for MPR module given POST data.
- * @param mixed $from 
- * @param mixed $to 
+ * @param mixed $from
+ * @param mixed $to
  * @access public
  * @return void
  */
@@ -779,8 +770,8 @@ function shn_location_mpr() {
 
 
 /**
- * Retrieves a list of camps 
- * 
+ * Retrieves a list of camps
+ *
  * @access private
  * @return void
  */
@@ -800,8 +791,8 @@ function _shn_location_camp_list(){
 
 
 /**
- * Adds a location to the database.Retrives the values to insert from the POST variables. 
- * 
+ * Adds a location to the database.Retrives the values to insert from the POST variables.
+ *
  * @access public
  * @return void
  */
@@ -840,7 +831,7 @@ function shn_location_add() {
 	$insert_array['loc_uuid']= shn_create_uuid('location');
 	$insert_array['parent_id']=$loc;
 	shn_db_insert($insert_array,'location', false, 'loc_uuid');
-	
+
 	$q="select * from field_options where field_name='opt_location_type' and option_code='$lvl'";
 	$res = $global['db']->Execute($q);
 	if((!$res==NULL) && (!$res->EOF)) {
@@ -853,8 +844,8 @@ function shn_location_add() {
 
 
 /**
- * Batch adds locations to the database. Retrives the values to insert from the POST variables / uploaded .csv file. 
- * 
+ * Batch adds locations to the database. Retrives the values to insert from the POST variables / uploaded .csv file.
+ *
  * @access public
  * @return void
  */
@@ -880,7 +871,7 @@ function shn_location_addb() {
 				$description = $data[1];
 				$iso = $data[2];
 				if ( $name == "" || $iso == "" ) {
-					add_error("Line #".$lines." has an empty name or iso code, thus was not imported."); 
+					add_error("Line #".$lines." has an empty name or iso code, thus was not imported.");
 				} else {
 					// determine if there are any duplicates of the current item we are inserting
 					// "rename" 	=> Rename imported duplicate Location
@@ -903,7 +894,7 @@ function shn_location_addb() {
 							$q2 = "DELETE FROM location WHERE loc_uuid = '".$row['loc_uuid']."';";
 							$res2 = $global['db']->Execute($q2);
 							add_warning("Duplicate value: <b>".$name."</b> deleted and replaced with new location by the same name.");
-							
+
 						// drop = do nothing, forget the insert
 						} elseif ($dupe == "drop") {
 							// nothing, value is dropped!
@@ -924,7 +915,7 @@ function shn_location_addb() {
 					}
 				}
 			} else {
-				add_error("Line #".$lines." had the incorrect number of fields, thus was not imported."); 
+				add_error("Line #".$lines." had the incorrect number of fields, thus was not imported.");
 			}
 			$lines++;
 		}
@@ -939,7 +930,7 @@ function shn_location_addb() {
 
 /**
  * Deletes a location from the database.
- * 
+ *
  * @access public
  * @return void
  */
@@ -963,7 +954,7 @@ function shn_location_del($loc) {
 
 /**
  * Edits a Location?
- * 
+ *
  * @access public
  * @return void
  */
@@ -978,18 +969,18 @@ function shn_location_edit($loc) {
 	$db->Execute($q);
 	$msg= $name." Location was succesfully updated ";
 	add_confirmation($msg);
-	
+
 }
 
 
 
 /**
  * ?
- * 
+ *
  * @access public
  * @return void
  */
-function _shn_location_form_parent($range,$parent){   
+function _shn_location_form_parent($range,$parent){
 	global $global;
 	$db=$global['db'];
 	$value=$parent;
@@ -999,7 +990,7 @@ function _shn_location_form_parent($range,$parent){
 		shn_get_parents($value,$loc_arr);
 		//parents in the order child,parent,grand parent,..etc
 	}
-	
+
 	$parent_level=shn_get_level($parent);
 	$from=$range["start"];
 	$to=$range["end"];
@@ -1062,20 +1053,20 @@ function _shn_location_form_parent($range,$parent){
 
 
 /**
- * _shn_location_form_value 
- * 
+ * _shn_location_form_value
+ *
  * @param mixed $range
- * @param mixed $value 
+ * @param mixed $value
  * @access protected
  * @return void
  */
 function _shn_location_form_value($range,$value) {
 	/*assume the location is d ,and its parents are
 	a,b,c,d.
-	first of all we need to obtain the parents  
+	first of all we need to obtain the parents
 	for that use shn_get_parents
 	then starting from the great ancesstor we display
-	the drop down boxes. 
+	the drop down boxes.
 	that is we popluate a drop down box with all the children
 	of a and select b.
 	like wise we continue unitll we populate all the children
@@ -1106,7 +1097,7 @@ function _shn_location_form_value($range,$value) {
 				unset($extra_opts['help']);
 			}
 			$res_options=$db->Execute($q);
-			
+
 			//$res_options contains all the children,but we want to select one of a,b,c
 			$options=array();
 			if(!$res_options->EOF){
@@ -1119,10 +1110,10 @@ function _shn_location_form_value($range,$value) {
 				//add all the locations e.g $options['sl'=>'sri lanka']
 				$res_options->MoveNext();
 			}
-			
+
 			$select_opts='onChange=update_next_level(this.options[this.selectedIndex].value,'.$res->fields[0].')';
 			$extra_opts['value']=$selection;
-		
+
 			//which one to diplay out of all the locations.
 			//should be one of the parents
 			// $extra_opts['req']=true;
@@ -1138,19 +1129,19 @@ function _shn_location_form_value($range,$value) {
 
 
 /**
- * _shn_location_form 
- * 
- * @param mixed $from 
- * @param mixed $to 
+ * _shn_location_form
+ *
+ * @param mixed $from
+ * @param mixed $to
  * @access protected
  * @return void
  */
-function _shn_location_form($range) {   
+function _shn_location_form($range) {
 	global $global;
 	$db=$global['db'];
 	$loc=array();
 	$from=$range["start"];
-	$to=$range["end"]; 
+	$to=$range["end"];
 	$cur=$from;
 	while($cur<=$to) {
 		$q = "select option_code,option_description from field_options where field_name='opt_location_type' and option_code=".$cur;
@@ -1189,7 +1180,7 @@ function _shn_location_form($range) {
 
 /**
  * ?
- * 
+ *
  * @access public
  * @return void
  */
@@ -1210,7 +1201,7 @@ function shn_location_get_start_loc() {
 
 /**
  * ?
- * 
+ *
  * @access public
  * @return void
  */
@@ -1240,7 +1231,7 @@ function shn_location_get_loc_range() {
 
 /**
  * minor function to validate duplicate location names
- * 
+ *
  * @access public
  * @return void
  */

@@ -1,21 +1,18 @@
-<?php
+<?
 /**
- *
- * <Description goes here>
- *
- * PHP version 4 and 5
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    framework
- * @subpackage stream_html
- * @author     Chamindra de Silva <chamindra@opensource.lk>
- * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
+ * @name         HTML Stream Library
+ * @version      1.0
+ * @package      framework
+ * @author       Chamindra de Silva <chamindra@opensource.lk>
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
+
 
 require_once ($global['approot'].'inc/lib_menu.inc');
 
@@ -42,7 +39,6 @@ function shn_stream_init() {
 	// Now include the wrapper for the main content
 	echo "<div id=\"wrapper\" class=\"clearfix\">";
 	echo "<div id=\"wrapper_menu\">";
-	//echo "<p id=\"skip\">Jump to: <a href=\"#content\">". _t('Content')."</a> | <a href=\"#modulemenu\">". _t('Module Menu')."</a></p>";
 
 	// hack for the admin section such that the menu and login come from the admin section
 	if (isset($global['effective_module']) && $global['effective_module'] != null) {
@@ -133,3 +129,5 @@ function shn_stream_close() {
 	echo "</body>";
 	echo "</html>";
 }
+
+

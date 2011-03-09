@@ -1,23 +1,21 @@
-<?php
+<?
 /**
- *
- * This is the Sahana paging library
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    framework
- * @author     Ishan Liyanage <ishanul@gmail.com>
- * @author     J P Fonseka <jo@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
+ * @name         Paging Library
+ * @version      1.0
+ * @package      framework
+ * @author       Ishan Liyanage <ishanul@gmail.com>
+ * @author       J P Fonseka <jo@opensource.lk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
 
-//require_once("lib_export.inc");
+
+
+
 /**
  * The main paging function
  *
@@ -28,9 +26,7 @@
  * @access public
  * @return void
  */
-
-function shn_paging_get_report($query,$rpp=20,$headers=NULL,$extra_opt)
-{
+function shn_paging_get_report($query,$rpp=20,$headers=NULL,$extra_opt) {
 	global $global;
 	if(isset($_REQUEST['rpp'])){
 		if('none'!=$_REQUEST['rpp'])
@@ -62,7 +58,9 @@ function shn_paging_get_report($query,$rpp=20,$headers=NULL,$extra_opt)
 	}
 }
 
-function _shn_page_get_rs($query,$rpp){
+
+
+function _shn_page_get_rs($query,$rpp) {
 	global $global;
 	if(isset($_REQUEST['page'])){
 		$page=$_REQUEST['page'];
@@ -94,8 +92,10 @@ function _shn_page_get_rs($query,$rpp){
 	return $res;
 }
 
+
+
 //navigation with links
-function _shn_page_draw_navi(&$res,$url,$rpp){
+function _shn_page_draw_navi(&$res,$url,$rpp) {
 	_shn_paging_set_rpp();
 	global $global;
 	if(isset($_REQUEST['page']))
@@ -194,8 +194,9 @@ function _shn_page_draw_navi(&$res,$url,$rpp){
 }
 
 
+
 //navigation with posts
-function _shn_page_draw_navi_post(&$res,$url){
+function _shn_page_draw_navi_post(&$res,$url) {
 	_shn_paging_set_rpp();
 	global $global;
 	if(isset($_REQUEST['page']))
@@ -258,65 +259,65 @@ function _shn_page_draw_navi_post(&$res,$url){
 	//$options=array('none'=>'default','all'=>'All','10'=>'10','20'=>'20','30'=>'30','40'=>'40','50'=>'50','100'=>'100');
 	$options=array('none'=>'Default','1000000'=>'All','10'=>'10','20'=>'20','30'=>'30','40'=>'40','50'=>'50','100'=>'100');
 	?>
-<div><?php 
-//shn_form_hidden(array('rpp'=>''));
+	<div><?php
+	//shn_form_hidden(array('rpp'=>''));
 
-//print the amount of pages
-echo _t("Page "). "$page/$last" . " : ";
+	//print the amount of pages
+	echo _t("Page "). "$page/$last" . " : ";
 
-//draw the First and prev links
-if($page!=1)
-{
-	shn_form_submit(_t('Previous'),"id ='page' name='page'");
-	shn_form_submit('1',"id ='page' name='page'");
+	//draw the First and prev links
+	if($page!=1)
+	{
+		shn_form_submit(_t('Previous'),"id ='page' name='page'");
+		shn_form_submit('1',"id ='page' name='page'");
 
+	}
+
+	//draw the page links
+	if($start>1)
+	echo "&#8230;";
+	for($i=$start;$i<=($end);$i++)
+	{
+		if($i==$page)
+		echo "<span class='red'>".$i."</span>";
+		elseif($i==$start||$i==$end)
+		continue;
+		else
+		shn_form_submit($i,"id ='page' name='page'");
+	}
+	if($end<$last)
+	echo "&#8230;";
+
+
+	//draw the next and the last link
+	if($page!=$last)
+	{
+		shn_form_submit($last,"id ='page' name='page'");
+		shn_form_submit(_t('Next'),"id ='page' name='page'");
+	}
+	?> &nbsp;&nbsp; <?php
+	shn_form_select($options,_t("Records per page"), "rpp","onchange='set_rpp(this.value);'", $extra_opts = null);
+
+	?> <input type="hidden" id="c_page" name="c_page"
+		value=<?php echo $page?> /></div>
+	</form>
+	<?php
 }
 
-//draw the page links
-if($start>1)
-echo "&#8230;";
-for($i=$start;$i<=($end);$i++)
-{
-	if($i==$page)
-	echo "<span class='red'>".$i."</span>";
-	elseif($i==$start||$i==$end)
-	continue;
-	else
-	shn_form_submit($i,"id ='page' name='page'");
-}
-if($end<$last)
-echo "&#8230;";
 
 
-//draw the next and the last link
-if($page!=$last)
-{
-	shn_form_submit($last,"id ='page' name='page'");
-	shn_form_submit(_t('Next'),"id ='page' name='page'");
-}
-?> &nbsp;&nbsp; <?php
-shn_form_select($options,_t("Records per page"), "rpp","onchange='set_rpp(this.value);'", $extra_opts = null);
-
-?> <input type="hidden" id="c_page" name="c_page"
-	value=<?php echo $page?> /></div>
-</form>
-<?php
-}
-
-
-function _shn_page_draw_table(&$res,&$headers){
+function _shn_page_draw_table(&$res,&$headers) {
 	?>
-<div id='result'>
-<table>
-<?php
-if(isset($headers))
-_shn_page_table_header($headers);
-
-_shn_page_table_body($res);
-?>
-</table>
-</div>
-<?php
+	<div id='result'>
+	<table>
+	<?php
+	if(isset($headers))
+	_shn_page_table_header($headers);
+	_shn_page_table_body($res);
+	?>
+	</table>
+	</div>
+	<?php
 }
 
 
@@ -324,35 +325,36 @@ _shn_page_table_body($res);
 function _shn_page_table_body(&$res){
 	foreach($res as $record){
 		?>
-<tr>
-<?php
-foreach($record as $field){
-	?>
-	<td><?php echo $field?></td>
-	<?php
-}
-?>
-</tr>
-<?php
+		<tr>
+		<?php
+		foreach($record as $field){
+			?>
+			<td><?php echo $field?></td>
+			<?php
+		}
+		?>
+		</tr>
+		<?php
 	}
 }
 
 
-function _shn_page_table_header($headers)
-{
+
+function _shn_page_table_header($headers) {
 	?>
-<thead>
-<?php
-foreach($headers as $heads)
-{
+	<thead>
+	<?php
+	foreach($headers as $heads)
+	{
+		?>
+		<td><?php echo $heads;?></td>
+		<?php
+	}
 	?>
-	<td><?php echo $heads;?></td>
+	</thead>
 	<?php
 }
-?>
-</thead>
-<?php
-}
+
 
 
 //this function generate the url used for navigation links and the forms
@@ -368,7 +370,9 @@ function _shn_paging_url(){
 	return $url;
 }
 
-function get_record_no(){
+
+
+function get_record_no() {
 	global $global;
 	static $no;
 	if(!isset($no)){
@@ -377,15 +381,18 @@ function get_record_no(){
 	}
 	return $no++;
 }
-function _shn_paging_set_rpp(){
+
+
+
+function _shn_paging_set_rpp() {
 	?>
-<script language="JavaScript" type="text/javascript">
-function set_rpp(rpp_val){
-	//alert(rpp_val);
-	//document.getElementById('page').value="1";
-	document.getElementById('rpp').value=rpp_val;
-	document.paging_form.submit();
-}
-</script>
+	<script language="JavaScript" type="text/javascript">
+	function set_rpp(rpp_val){
+		//alert(rpp_val);
+		//document.getElementById('page').value="1";
+		document.getElementById('rpp').value=rpp_val;
+		document.paging_form.submit();
+	}
+	</script>
 	<?php
 }
