@@ -1,27 +1,15 @@
-<?php 
-/* $Id: lib_uuid.inc,v 1.36 2009/08/22 17:17:25 ravithb Exp $ */
-
+<?
 /**
- *
- * This is the library that generates global unique ids.
- * Each "Sahana" instance will be given a unique id(40) which will be prefixed
- * to the primary keys.
- *
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    moduleAPI
- * @subpackage UUID
- * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @author     Greg Miernicki <g@miernicki.com>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
- * @todo       define a subpackage
+ * @name         UUID Library
+ * @version      1.0
+ * @package      framework
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
 
 
@@ -80,7 +68,7 @@ function shn_create_uuid($type='person') {
 		case 'victim_group':
 			$gen_id='gr-'._shn_gen_id('victim_group');
 			break;
-	 
+
 		case 'person':
 		case 'p' :
 			$gen_id = 'person.'._shn_gen_id('person');
@@ -158,7 +146,7 @@ function shn_create_uuid($type='person') {
 		case 'unt':
 			$gen_id = 'ut-'._shn_gen_id('unit_type');
 			break;
-			 
+
 		case 'report':
 		case 'rep':
 			$gen_id = 'rpt-'._shn_gen_id('report');
@@ -178,7 +166,7 @@ function shn_create_uuid($type='person') {
 		case 'sr':
 			$gen_id = 'sitrep-'._shn_gen_id('sitrep');
 			break;
-			
+
 		case 'volunteer':
 		case 'vm':
 			$gen_id = 'vm-'._shn_gen_id('volunteer');
@@ -199,7 +187,7 @@ function shn_create_uuid($type='person') {
 		case 'amp':
 			$gen_id = 'amp-'._shn_gen_id($type);
 			break;
-        
+
 		default :
 			$gen_id = $type.'-'._shn_gen_id($type);
 			break;
@@ -231,6 +219,6 @@ function _shn_gen_id($type='person') {
 	if(array_search($type,$tables)==false){
 		$global['db']->CreateSequence($type,1);
 	}
-	 
+
 	return $global['db']->GenID($type);
 }

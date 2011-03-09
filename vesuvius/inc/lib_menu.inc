@@ -1,19 +1,16 @@
-<?php
+<?
 /**
-* Template helpers for generating menus
-*
-* PHP version 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    moduleAPI
-* @subpackage menu
-* @author     http://www.linux.lk/~chamindra
-* @author     Greg Miernicki <g@miernicki.com>
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/
+ * @name         Menu Library
+ * @version      1.0
+ * @package      framework
+ * @author       http://www.linux.lk/~chamindra
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
 
 
 /**

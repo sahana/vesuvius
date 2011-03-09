@@ -1,26 +1,17 @@
-<?php
+<?
 /**
- *
- * This library helps in authentication ,but not authorization. A vital component of the framework.
- * Developers are required to use this library for security.
- * 
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    framework
- * @subpackage security
- * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * 
+ * @name         OpenID Handler
+ * @version      0.1
+ * @package      framework
+ * @author       Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
-if($_SESSION['logged_in'] == true){
-	return;
-}
+
 
 
 /*****
@@ -42,11 +33,11 @@ You should have received a copy of the GNU Lesser General Public
 License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
-Reciprocal linking.  The author humbly requests that if you should use 
-PHP-OpenID on your website to provide an OpenID enabled service that you 
-place a link to the author's website ( http://videntity.org ) somewhere 
-that your users can discover it.  You are however under no obligation to 
-do so.  
+Reciprocal linking.  The author humbly requests that if you should use
+PHP-OpenID on your website to provide an OpenID enabled service that you
+place a link to the author's website ( http://videntity.org ) somewhere
+that your users can discover it.  You are however under no obligation to
+do so.
 
 More info about PHP OpenID:
 openid@videntity.org
@@ -61,9 +52,9 @@ http://www.openid.net
 // Dumb mode identity verification example.
 //
 // This example is completely stateless, and just requires mod_php >= 4.1.0
-// to run.  Stick the php openid tree somewhere beneath your docroot and go nuts. 
-// Once you understand this example you'll know the basics of OpenID 
-// and using the PH OpenID library.  You can then move on to more 
+// to run.  Stick the php openid tree somewhere beneath your docroot and go nuts.
+// Once you understand this example you'll know the basics of OpenID
+// and using the PH OpenID library.  You can then move on to more
 // robust examples, and integrating OpenID into your app.
 //
 // Copyright 2005, Janrain, Inc.
@@ -103,14 +94,14 @@ function setAlert($m) {
 // Our OpenIDConsumer subclass.  See openid.consumer.OpenIDConsumer
 // for more more documentation.
 class SimpleConsumer extends OpenIDConsumer {
-    
+
     function verify_return_to( $return_to ) {
-    
+
         $parts = parse_url( $return_to );
 
         if (! isset($parts["port"])) $parts["port"] = ($parts["scheme"] == 'https' ? 443 : 80);
 
-        // you should verify return_to host:port string match host and 
+        // you should verify return_to host:port string match host and
         // port of this server
         if( $parts['host'] != HOST || $parts['port'] != PORT ) {
             return false;
@@ -136,9 +127,9 @@ class SimpleActionHandler extends ActionHandler {
         // here is where you would do what is necessary to log an openid "user"
         // user into your system.  We just print a message confirming the
         // valid login.
-        
-     
-       
+
+
+
         $user_name=shn_auth_get_openid_user($_SESSION["openid_login"]);
         if($user_name==null){
         	add_error("There is no registered user with the given OpenID");
@@ -147,7 +138,7 @@ class SimpleActionHandler extends ActionHandler {
         	$_SESSION['logged_in'] = true;
         	$_SESSION['user']=$user_name;
         }
-		
+
        // setAlert( sprintf( '<b>Identity verified!</b> Thanks, ' .
          //                  '<a href="%s">' .
            //                '%s</a>', $this->query['open_id'], $this->query['open_id'] ) );
@@ -185,13 +176,13 @@ class SimpleActionHandler extends ActionHandler {
         // return the openid from the original form
         return $this->query['open_id'];
     }
-};    
+};
 
 
 function dispatch() {
     // generate a dictionary of arguments
     $query = formArgstoDict();
-    
+
     // create consumer and handler objects
     $consumer = new SimpleConsumer();
     $handler = new SimpleActionHandler($query, $consumer);
@@ -240,7 +231,7 @@ function dispatch() {
 		// let our SimpleActionHandler do the work
         $response->doAction($handler);
     }
-};    
+};
 
 // dispatch the event based on url args.
 dispatch();

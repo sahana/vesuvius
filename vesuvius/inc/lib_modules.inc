@@ -1,27 +1,23 @@
-<?php  
+<?
 /**
-* This library helps in handling the dynamism of plugin module design 
-* Sahana - http://sahana.sourceforge.net
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    framework
-* @subpackage module 
-* @author     http://www.linux.lk/~chamindra
-* @author     Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
-* @author     Greg Miernicki <g@miernicki.com>
-* @copyright  Sahana Foundation - http://www.sahanafoundation.org
-*/
+ * @name         Module Library
+ * @version      1.0
+ * @package      framework
+ * @author       http://www.linux.lk/~chamindra
+ * @author       Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
 
 
 
 /**
  * shn_get_all_modules
- * 
+ *
  * @access public
  * @return void
  *
@@ -52,8 +48,10 @@ function shn_get_all_modules($nice_name_req=true) {
 			array_push($module_list, $t['mod']);
 		}
 	}
-	return $module_list; 
+	return $module_list;
 }
+
+
 
 // helper function to above function
 function compare_nice_name($a, $b) {
@@ -63,8 +61,8 @@ function compare_nice_name($a, $b) {
 
 
 /**
- * shn_get_module_names 
- * 
+ * shn_get_module_names
+ *
  * @access public
  * @return void
  *
@@ -87,14 +85,14 @@ function shn_get_module_names() {
 			}
 		}
 	}
-	return $module_list; 
+	return $module_list;
 }
 
 
 
 /**
- * shn_get_module_names 
- * 
+ * shn_get_module_names
+ *
  * @access public
  * @return void
  */
@@ -115,17 +113,17 @@ function shn_get_enabled_module_names() {
 			}
 		}
 	}
-	return $module_list; 
+	return $module_list;
 }
 
 
 
 /**
- * shn_get_modules_with_admin 
- * 
+ * shn_get_modules_with_admin
+ *
  * @access public
  * @return void
- * 
+ *
  * Description: get all modules that have admin pages
  */
 function shn_get_modules_with_admin() {
@@ -140,17 +138,17 @@ function shn_get_modules_with_admin() {
 			array_push($module_list, $f);
 		}
 	}
-	return $module_list; 
+	return $module_list;
 }
 
 
 
 /**
- * shn_get_modules_with_web_services 
- * 
+ * shn_get_modules_with_web_services
+ *
  * @access public
  * @return void
- * 
+ *
  * Description: get all modules that expose web services
  */
 function shn_get_modules_with_web_services() {
@@ -167,15 +165,15 @@ function shn_get_modules_with_web_services() {
 			array_push($module_list, array($f,$nice_name));
 		}
 	}
-	return $module_list; 
+	return $module_list;
 }
 
 
 
 
 /**
- * shn_include_module_conf 
- * 
+ * shn_include_module_conf
+ *
  * @access public
  * @depracted
  * @return void
@@ -200,10 +198,10 @@ function shn_include_module_conf() {
 
 
 /**
- * shn_include_page_section 
- * 
- * @param mixed $section 
- * @param mixed $module 
+ * shn_include_page_section
+ *
+ * @param mixed $section
+ * @param mixed $module
  * @access public
  * @return void
  */
@@ -224,27 +222,27 @@ function shn_include_page_section($section, $module=null) {
 			}
 		} else {
 			include($global['approot'].'inc/handler_'.$section.'.inc');
-		} 
+		}
 	} else {
 		include($global['approot'].'inc/handler_'.$section.'.inc');
 	}
 }
- 
+
 
 
 /**
- * Return the 'nice' name of the module 
- * 
- * @param mixed $module 
+ * Return the 'nice' name of the module
+ *
+ * @param mixed $module
  * @access public
  * @return string
  */
 function shn_get_module_name($module=null) {
 	global $global;
 	global $conf;
-	
+
 	if (!$module) {
-		return $conf['mod_' . $global['module'] . '_name'];          
+		return $conf['mod_' . $global['module'] . '_name'];
 	} else {
 		return $conf['mod_' . $module . '_name'];
 	}
@@ -253,9 +251,9 @@ function shn_get_module_name($module=null) {
 
 
 /**
- * Check if module exists 
- * 
- * @param mixed $module 
+ * Check if module exists
+ *
+ * @param mixed $module
  * @return boolean
  */
 function shn_module_exists($module=null) {

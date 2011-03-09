@@ -1,28 +1,22 @@
-<?php
+<?
 /**
- *
- * This is a generic exception handler library, you can add new exception classes when required
- * your own custom exceptions
- * This library give ability to report and display exceptions.
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    moduleAPI
- * @subpackage exception
- * @author     Ravith Botejue. <ravithb@yahoo.com>
- * @author     Prabath Kumarasinghe <prabath@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @name         Exception Library
+ * @version      1.0
+ * @package      framework
+ * @author       Ravith Botejue. <ravithb@yahoo.com>
+ * @author       Prabath Kumarasinghe <prabath@opensource.lk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
 
-/**Documentation - http://www.sahana.lk/wiki/doku.php?id=dev:exeptions */
 
-if(file_exists($global['approot'].'conf/sysconf.inc.php')) {
-	include_once($global['approot'].'conf/sysconf.inc.php');
+
+if(file_exists($global['approot'].'conf/sahana.conf')) {
+	include_once($global['approot'].'conf/sahana.conf');
 }
 require_once($global['approot'].'inc/lib_locale/gettext.inc');
 include_once($global['approot'].'inc/lib_errors.inc');

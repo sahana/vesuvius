@@ -1,31 +1,25 @@
-<?php
-
-/* $Id: lib_form.inc,v 1.94 2009/10/23 16:51:20 gmiernicki Exp $ */
+<?
 /**
- *
- * Sahana HTML form library
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    moduleAPI
- * @subpackage form
- * @author     Chamindra de Silva (chamindra@opensource.lk>
- * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @author     Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
- * @author     Richard Smith <s0459387@sms.ed.ac.uk>
- * @author     Greg Miernicki <g@miernicki.com>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @name         Form Library
+ * @version      1.0
+ * @package      framework
+ * @author       Chamindra de Silva (chamindra@opensource.lk>
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author       Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
+ * @author       Richard Smith <s0459387@sms.ed.ac.uk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  *
  * @see http://www.php.net/manual/en/features.file-upload.php#74692 regarding alternate solution for large file upload
  *
  * @edited Carl Cornwell <ccornwell@mail.nih.gov> Fix typos - change res to $res in shn_form_opt_select
  *                                                          - add php to <?if in shn_form_checkbox
-*/
+ */
+
 
 $shn_help_id;
 $shn_form_id; //this variable is used by the tab functions

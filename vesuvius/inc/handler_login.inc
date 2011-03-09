@@ -1,20 +1,18 @@
-<?php  
+<?
 /**
-* Displays the login box 
-* Sahana - http://sahana.sourceforge.net
-*
-* PHP version 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    framework
-* @subpackage handler 
-* @author     http://www.linux.lk/~chamindra
-* @author     ravindra@opensource.lk
-* @author     g@miernicki.com
-*/
+ * @name         Login Handler
+ * @version      1.0
+ * @package      framework
+ * @author       http://www.linux.lk/~chamindra
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
+
+
 
 global $conf;
 global $global;
@@ -33,7 +31,7 @@ if ($_SESSION['logged_in'] != true ) {
 				if($acl == true) {
 					echo "<span id=\"signUp\"><a href=\"index.php?act=signup\">Register for an Account</a></span>";
 					echo "<span id=\"forgotPassword\"><a href=\"index.php?act=forgotPassword\">Forgot My Password</a></span>";
-				} 
+				}
 				echo "
 				</fieldset>
 			</form>
@@ -65,7 +63,7 @@ if ($_SESSION['logged_in'] != true ) {
 				".$_SESSION['group_name']." / ".$_SESSION['user_name']."<br><br>
 				<span id=\"logoutLink\" class=\"styleTehButton\"><a href=\"index.php?act=logout\">Logout</a></span>
 			</div>
-			
+
 		</div>
 	";
 }

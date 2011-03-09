@@ -1,24 +1,19 @@
-<?php
-
-/* $Id: lib_stream_text.inc,v 1.7 2009-08-22 17:17:25 ravithb Exp $ */
-
+<?
 /**
- *
- * Streaming Help Library
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    framework
- * @subpackage stream_text
- * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
+ * @name         Text Stream Library
+ * @version      1.0
+ * @package      framework
+ * @subpackage   stream_text
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
+
+
 
 function shn_stream_init() {
 	//for install hack
@@ -32,8 +27,10 @@ function shn_stream_init() {
 }
 
 
+
 function shn_text_check_perms() {
-	return ALLOWED; //skip authentication at this step since , authentication is performed at the last step. i.e at method
+	return ALLOWED;
+	//skip authentication at this step since , authentication is performed at the last step. i.e at method
 	// invocation level. otherwise cannot let WSDL be visible to any one and still protect the methods.
 }
 
@@ -57,4 +54,5 @@ function _shn_text_display_errors() {
 function shn_stream_close() {
 	display_errors();
 }
+
 

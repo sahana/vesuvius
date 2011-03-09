@@ -1,15 +1,17 @@
-<?php
+<?
 /**
- *
- * Sahana authentication form generator library.
- *
- * @package    framework
- * @subpackage security
- * @author     Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
+ * @name         Authentication Form Library
+ * @version      1.0
+ * @package      framework
+ * @author       Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
+
 
 
 global $global;

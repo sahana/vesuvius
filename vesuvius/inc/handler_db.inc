@@ -1,29 +1,21 @@
-<?php
-/* $Id: handler_db.inc,v 1.31 2009-08-22 17:17:25 ravithb Exp $ */
-
+<?
 /**
+ * @name         Database Handler
+ * @version      1.0
+ * @package      framework
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  *
- * This is the database handler. A vital component of the framework.
- * This will be included from the front controller and the reset of the
- * application can use the database resourse, availabe in $global['db']
- * you may need to make it into a global scope. i.e global $global;
- *
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    framework
- * @subpackage database
- * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- *
- * @todo       Enable Caching
- * @todo       Database Connection Nice Error handling
+ * @todo         Enable Caching
+ * @todo         Database Connection Nice Error handling
  */
+
+
 
 global $global;
 

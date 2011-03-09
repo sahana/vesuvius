@@ -1,22 +1,19 @@
-<?php
+<?
 /**
- *
- * This is a generic error handler, you can create and manage a error container
- * and display the errors.
- *
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    moduleAPI
- * @subpackage errors
- * @author     Janaka Wickramasinghe <janaka@opensource.lk>
- * @author     Chamindra de Silva <chaindra@opensource.lk>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
- * @license    http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @name         Error Library
+ * @version      1.0
+ * @package      framework
+ * @author       Janaka Wickramasinghe <janaka@opensource.lk>
+ * @author       Chamindra de Silva <chaindra@opensource.lk>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
+
+
 
 // The following are three global containers to hold the messages or
 // confirmation, warning and error following a submit
@@ -25,6 +22,8 @@ $global['submit_errors'] = array();
 $global['submit_warnings'] = array();
 $global['submit_confirmations'] = array();
 $global['submit_informations'] = array();
+
+
 
 function add_warning($warning) {
 	global $global;

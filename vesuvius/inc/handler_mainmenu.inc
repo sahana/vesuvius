@@ -1,19 +1,18 @@
-<?php
+<?
 /**
- * This handler displays the mainmenu dynamically based on action
- * Sahana - http://sahana.sourceforge.net
- * PHP version 4 and 5
- *
- * LICENSE: This source file is subject to LGPL license
- * that is available through the world-wide-web at the following URI:
- * http://www.gnu.org/copyleft/lesser.html
- *
- * @package    framework
- * @subpackage handler
- * @author     http://www.linux.lk/~chamindra
- * @author     Greg Miernicki <g@miernicki.com>
- * @copyright  Lanka Software Foundation - http://www.opensource.lk
+ * @name         Main Menu Handler
+ * @version      1.0
+ * @package      framework
+ * @author       http://www.linux.lk/~chamindra
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
  */
+
+
 
 global $conf;
 global $global;
