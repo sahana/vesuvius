@@ -219,7 +219,7 @@ var Utils = {
 
 		Globals.oldCurrPage = Globals.currPage;
 		Globals.currPage = 1;
-		Globals.perPage = 10000000; //max out
+		// Globals.perPage = 10000000; // leave it as is
 		Globals.displayMode = true;
 		searchSubset();
 

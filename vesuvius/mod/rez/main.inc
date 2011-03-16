@@ -82,23 +82,75 @@ function shn_rez_default() {
 
 	// if page_id, then render that page from db
 	if (isset($_GET['page_id'])) {
-		// get page info
-		$page_id = intval(mysql_real_escape_string($_GET['page_id']));
-		$q = "select * from rez_pages where rez_page_id = '".$page_id."';";
-		$res = $global['db']->Execute($q);
 
-		if ($row = $res->FetchRow() ){
-			//echo "<h2>".$row['rez_page_title']."</h2>";
-			shn_rez_header2();
-			echo $row['rez_content'];
+		if($_GET['page_id'] == "-45") {
+			//$out = file_get_contents("https://docs.google.com/document/pub?id=17pApAVZvg4g93sjZOY3Rp8-MfSu8wSRMycUca3LXNJc");
+
+// create a new cURL resource
+$ch = curl_init();
+
+// set URL and other appropriate options
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_PROXY, "130.14.55.36:3128");
+curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);
+curl_setopt($ch, CURLOPT_URL, "https://docs.google.com/document/pub?id=17pApAVZvg4g93sjZOY3Rp8-MfSu8wSRMycUca3LXNJc");
+curl_setopt($ch, CURLOPT_HEADER, false);
+
+// grab URL and pass it to the browser
+$out = curl_exec($ch);
+
+// close cURL resource, and free up system resources
+curl_close($ch);
+
+/*
+			$doc = new DOMDocument;
+			$doc->loadHTML($out);
+			$book = $doc->documentElement;
+
+			// retrieve node and remove it
+			$html = $book->getElementsByTagName('html')->item(0);
+			$old = $book->removeChild($html);
+			$out = $doc->saveXML();
+*/
+			$out = str_replace('<div id="header">PLUS</div>', '', $out);
+
+
+			echo $out."
+				<style>
+					#header {
+						border-bottom: none;
+					}
+
+					#footer {
+						border-top: none;
+						border-bottom: none;
+						text-align: center;
+						margin-bottom: 50px;
+					}
+					#header, #footer {
+						background: none;
+					}
+				</style>
+			";
 		} else {
-			// page doesn't exist
-			echo "<h2>Error 404 ~ Page not found.</h2>";
+
+			// get page info
+			$page_id = intval(mysql_real_escape_string($_GET['page_id']));
+			$q = "select * from rez_pages where rez_page_id = '".$page_id."';";
+			$res = $global['db']->Execute($q);
+
+			if ($row = $res->FetchRow() ){
+				shn_rez_header2();
+				echo $row['rez_content'];
+			} else {
+				// page doesn't exist
+				echo "<h2>Error 404 ~ Page not found.</h2>";
+			}
 		}
 
 	// if no page_id, then render the Resources homepage
 	} else {
-		//echo "<h2>Resources : Main</h2><br>";
 		echo "<ul id=\"rezMain\">";
 
 			// get page titles/descriptions
@@ -113,7 +165,6 @@ function shn_rez_default() {
 							".$row['rez_page_title']."</a>
 						</li>
 					";
-					// $row['rez_description'] removed
 				}
 			}
 		echo "</ul>";

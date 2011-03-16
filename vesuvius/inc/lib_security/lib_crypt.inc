@@ -14,30 +14,40 @@
 
 
 global $global;
-require_once "constants.inc";
-require_once ($global['approot'].'inc/lib_security/lib_auth.inc');
-require_once "errors.inc";
+require_once("constants.inc");
+require_once($global['approot'].'inc/lib_security/lib_auth.inc');
+require_once("errors.inc");
 define("ADODB_SESSION", $global['approot']."/3rd/adodb/session");
-include_once ADODB_SESSION.'/crypt.inc.php';
+include_once(ADODB_SESSION.'/crypt.inc.php');
+
+
 
 function encrypt($data, $key) {
 	$md5crypt = new MD5Crypt();
 	$enc = $md5crypt->encrypt($data, $key);
 }
 
+
+
 function decrypt($data, $key) {
 	$md5crypt = new MD5Crypt();
 	return $md5crypt->decrypt($data, $key);
 }
 
+
+
 function readkey($sess_id){
 	global $global;
-	$db=$global['db'];
-	$sql="select key from session_keys where session_id='{$sess_id}'";
-	$res=$db->Execute($sql);
-	if(($res==null) or ($res->EOF)){
+	$db = $global['db'];
+	$sql = "
+		select key
+		from session_keys
+		where session_id = '{$sess_id}';
+	";
+	$res = $db->Execute($sql);
+	if(($res == null) || ($res->EOF)) {
 		return false;
-	}else {
+	} else {
 		return $res->fields["key"];
 	}
 }
@@ -45,10 +55,9 @@ function readkey($sess_id){
 
 
 function genkey($sess_id){
-	$salt1=_shn_generateSalt();
-    $salt2=_shn_generateSalt();
-    return md5(trim($salt1.$salt2.$sess_id));
-
+	$salt1 = _shn_generateSalt();
+	$salt2 = _shn_generateSalt();
+	return md5(trim($salt1.$salt2.$sess_id));
 }
 
 
