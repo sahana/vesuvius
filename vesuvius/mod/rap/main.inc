@@ -84,6 +84,10 @@ function shn_rap_showClosedMessage() {
 			width=400 height=300 frameborder=0
 			style="border: dashed 2px #77c"></iframe>
 		';
+	} else if($_GET['shortname'] == "sendai2011") {
+		echo '
+			<iframe src="http://japan.person-finder.appspot.com/?small=yes&lang=en" width=400 height=300 frameborder=0 style="border: dashed 2px #77c"> </iframe>
+		';
 	} else {
 		echo "
 			<h2>Error #21</h2>

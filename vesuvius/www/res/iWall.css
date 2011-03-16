@@ -249,9 +249,9 @@ h1 {
 
 
 #searchBox {
-	border: 1px solid black;
+	/*border: 1px solid black;*/
 	width: 350px;
-	height: 23px;
+	/*height: 23px;*/
 	line-height: 20px;
 	/*position: absolute;*/
 	color: #777;
@@ -260,14 +260,15 @@ h1 {
 }
 
 #buttonSearch {
-	color: white;
+	/*color: white;
 	background-color: #6289B0;
 	font-weight: bold;
 	border: 0px;
 	height: 27px;
-	width: 100px;
-	position:relative;
-	*top: -10px;
+	width: 100px;*/
+	/*position:relative;
+	*top: -10px;*/
+	margin-top:-5px;
 
 }
 
@@ -342,20 +343,6 @@ h1 {
 	-moz-border-radius: 10px;
 	padding: 3px 0px 3px 0px;/
 }
-
-#child {
-	position: absolute;
-	top: 90px;
-	margin: 20px;
-	border-top: 1px solid #ddd;
-	padding: 30px;
-}
-
-#child h3 {
-	font-weight: bold;
-	font-size: 120%;
-}
-
 
 #loadingX {
 	position: absolute;

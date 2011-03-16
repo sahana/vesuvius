@@ -15,7 +15,7 @@
 include_once ($global['approot'].'/inc/lib_menu.inc');
 include_once ($global['approot'].'/inc/lib_errors.inc');
 require_once ($global['approot'].'/inc/handler_db.inc');
-include_once $global['approot'].'/inc/lib_xajax.inc';
+include_once ($global['approot'].'/inc/lib_xajax.inc');
 include_once ($global['approot'].'/mod/inw/xajax.inc');
 
 shn_xajax_registerFunction('inw_getData');
@@ -31,6 +31,7 @@ shn_xajax_registerFunction('inw_checkForChanges');
  */
 function shn_inw_default() {
 	global $global;
+	global $conf;
 	// iWall
 	error_reporting(E_ERROR);
 	require_once("languageStrings.php");
@@ -46,8 +47,10 @@ function shn_inw_default() {
 		<![endif]-->
 
 			<input type="text" id="jsonHolder" style="display:none" />
+			<input type="text" id="SOLRFacets" style="display:none" />
+			<input type="hidden" id="searchMode" value="<?= $conf["enable_solr_for_search"] ? "solr" : "sql" ?>" />
 			<div id="searchOptions" style="display:none;">
-				<div style="font-weight: bold; background-color: #6289B0; color: white; padding:2px">Display</div>
+				<div style="font-weight: bold; background-color: #6289B0; color: white; padding:2px">Display Options</div>
 				<div style="float:left;">
 					<!--input type="textbox" autocomplete="off" value="Enter a name..." id="searchBox"/-->
 					<div id="sortBy" style="float:right;margin-right: 4px;">
@@ -56,10 +59,10 @@ function shn_inw_default() {
 						<img id="sortOrderIcon" style="width:10px; height:10px; display: none;" src="res/img/desc.png" title="Descending (click for ascending)" />
 						<select id="selectSort" style="width: 85px;" onchange="Utils.sortBy( this )">
 							<option value="">Relevance</option>
-							<option value="t.updated">Time</option>
-							<option value="t.full_name">Name</option>
-							<option value="t.years_old">Age</option>
-							<option value="t.opt_status">Status</option>
+							<option value="updated">Time</option>
+							<option value="full_name">Name</option>
+							<option value="years_old">Age</option>
+							<option value="opt_status">Status</option>
 						</select>
 					</div>
 					<div style="clear:both;"></div>
@@ -101,23 +104,23 @@ function shn_inw_default() {
 							<br />
 							<div id="gender">
 								<div style=" font-weight: bold; background-color: #6289B0; color: white; padding:2px;"><? echo GENDER; ?> </div>
-								<input type="checkbox" id="checkSexMale"   checked onclick="Utils.formSearch()" /><label for="checkSexMale"><? echo MALE; ?></label><br />
-								<input type="checkbox" id="checkSexFemale" checked onclick="Utils.formSearch()" /><label for="checkSexFemale"><? echo FEMALE; ?></label><br />
-								<input type="checkbox" id="checkSexOther"  checked onclick="Utils.formSearch()" /><label for="checkSexOther"><? echo OTHER_UNKNOWN; ?></label><br />
+								<input type="checkbox" id="checkSexMale"   checked onclick="Utils.formSearch()" /><label for="checkSexMale" id="male"><? echo MALE; ?></label><br />
+								<input type="checkbox" id="checkSexFemale" checked onclick="Utils.formSearch()" /><label for="checkSexFemale" id="female"><? echo FEMALE; ?></label><br />
+								<input type="checkbox" id="checkSexOther"  checked onclick="Utils.formSearch()" /><label for="checkSexOther" id="otherGender"><? echo OTHER_UNKNOWN; ?></label><br />
 							</div>
 							<br />
 							<div id="age">
 								<div style=" font-weight: bold; background-color: #6289B0; color: white; padding:2px;"><? echo AGE; ?></div>
-								<input type="checkbox" id="checkAgeChild"   checked onclick="Utils.formSearch()" /><label for="checkAgeChild">Youth (0-17)</label><br />
-								<input type="checkbox" id="checkAgeYouth"   checked onclick="Utils.formSearch()" /><label for="checkAgeYouth">Adult (18+)</label><br />
-								<input type="checkbox" id="checkAgeUnknown" checked onclick="Utils.formSearch()" /><label for="checkAgeUnknown"><? echo UNKNOWN; ?></label><br />
+								<input type="checkbox" id="checkAgeChild"   checked onclick="Utils.formSearch()" /><label for="checkAgeChild" id="child">Youth (0-17)</label><br />
+								<input type="checkbox" id="checkAgeYouth"   checked onclick="Utils.formSearch()" /><label for="checkAgeYouth" id="adult">Adult (18+)</label><br />
+								<input type="checkbox" id="checkAgeUnknown" checked onclick="Utils.formSearch()" /><label for="checkAgeUnknown" id="otherAge"><? echo UNKNOWN; ?></label><br />
 							</div>
 							<br />
 							<div id="hospital">
 								<div style=" font-weight: bold; background-color: #6289B0; color: white; padding:2px;">Source</div>
-								<input type="checkbox" id="checkSuburban"   checked onclick="Utils.formSearch()" /><label for="checkSuburban">Suburban Hospital</label><br />
-								<input type="checkbox" id="checkNNMC"   checked onclick="Utils.formSearch()" /><label for="checkNNMC">Navy Medical Center</label><br />
-								<input type="checkbox" id="checkOtherHosp"   checked onclick="Utils.formSearch()" /><label for="checkOtherHospital">Public/Other</label><br />
+								<input type="checkbox" id="checkSuburban"   checked onclick="Utils.formSearch()" /><label for="checkSuburban" id="suburban">Suburban Hospital</label><br />
+								<input type="checkbox" id="checkNNMC"   checked onclick="Utils.formSearch()" /><label for="checkNNMC" id="nnmc">Navy Medical Center</label><br />
+								<input type="checkbox" id="checkOtherHosp"   checked onclick="Utils.formSearch()" /><label for="checkOtherHospital" id="otherHospital">Public/Other</label><br />
 							</div>
 						</div>
 					</div>
@@ -126,12 +129,12 @@ function shn_inw_default() {
 				</div>
 			</div>
 			<form action="javascript:Utils.formSearch()" id="searchForm">
-				<div style="margin-bottom: 5px;font-size: 16pt;display: block;" id="searchFor">
-					Search For...
+				<div style="margin-bottom: 5px;font-size: 12pt;display: block; margin-top:20px;">
+					Search <!-- Using [ <input name="searchMode" type="radio" id="solr" checked /><label for="solr">SOLR</label> or <input type="radio" name="searchMode" id="sql"   /><label for="sql">SQL</label> ] -->
 				</div>
 				<input type="textbox" autocomplete="off" value="Enter a name..." id="searchBox"/>
 				<div id="searchButtonWrapper" style="display: inline;">
-					<input type="submit" value="Search" id="buttonSearch"/>
+					<input type="submit" value="Search" id="buttonSearch" class="styleTehButton"/>
 				</div>
 				<div style="clear:both;"></div>
 				<div style="float:left;font-size: .85em; display: none;" id="foundLabel">
@@ -144,7 +147,7 @@ function shn_inw_default() {
 					<span style="color: black"> | </span> There are new or updated records in the database, the results will be automatically refreshed in 1 minute.
 				</div>
 				<span id="printLink" style="display: none;float: right;margin-right:15px;margin-top:0px;">
-					<a href="#" onclick="Utils.printSet()">Print Results</a>
+					<a href="#" onclick="Utils.printSet()">Print Results Page</a>
 				</span>
 				<div style="clear:both;"></div>
 			</form>
@@ -211,6 +214,7 @@ function shn_inw_default() {
 		<script type="text/javascript" src="res/js/inw/Utils.js" ></script>
 		<script type="text/javascript" src="res/js/inw/ScrollView.js" ></script>
 		<script type="text/javascript" src="res/js/inw/iWall.js" ></script>
+
 		<div class="push"></div>
 	<?
 }
