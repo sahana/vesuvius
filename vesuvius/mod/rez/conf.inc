@@ -15,3 +15,5 @@ $conf['mod_rez_name']         = _t("Resources");
 $conf['mod_rez_menuorder']    = 20;
 $conf['mod_rez_dependencies'] = "";
 $conf['mod_rez_version']      = "1.2";
+
+$conf['mod_rez_hide_in_menu'] = true;

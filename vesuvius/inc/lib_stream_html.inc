@@ -46,8 +46,8 @@ function shn_stream_init() {
 	}
 
 	// include the mainmenu and login provided there is not a module override
-	shn_include_page_section('mainmenu',$module);
-	shn_include_page_section('login',$module);
+	shn_include_page_section('mainmenu', $module);
+	shn_include_page_section('login', $module);
 
 	// display the breadcrumbs: It is important that this happens after the menu definition the nice name is constructed from the query string
 	$nicename = 'shn_q_'.$_SERVER['QUERY_STRING'].'_nicename';

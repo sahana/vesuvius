@@ -35,7 +35,14 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
 	} else if ($global['db'] == TRUE){
 		# get an array of current incidents, and store them
 		# in the $title_result variable
-		$sql_incident = "SELECT name FROM incident a inner JOIN user_preference b ON a.incident_id = b.value WHERE b.p_uuid = '{$_SESSION['user_id']}' AND b.pref_key = 'incident_id' ";
+		$sql_incident = "
+			SELECT name
+			FROM incident a
+			INNER JOIN user_preference b
+			ON a.incident_id = b.value
+			WHERE b.p_uuid = '{$_SESSION['user_id']}'
+			AND b.pref_key = 'incident_id';
+		";
 		$title_result = $global['db']->GetAll($sql_incident);
 
 		$title_part_1 = $conf['mod_'.$global['module'].'_name']; # the current module

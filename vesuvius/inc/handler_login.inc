@@ -16,16 +16,16 @@
 
 global $conf;
 global $global;
-
-if ($_SESSION['logged_in'] != true ) {
+/*
+if (0) { //$_SESSION['logged_in'] != true ) {
 	echo "
-		<div id=\"loginform\">
+		<div id=\"loginform\" style=\"display: none;\">
 			<form method=\"post\" action=\"index.php?act=login\">
 				<fieldset>
 					<legend>Login</legend>
 					<label>Username</label><input type=\"text\"     name=\"user_name\" id=\"userName\" autocomplete=\"off\" />
 					<label>Password</label><input type=\"password\" name=\"password\"  id=\"pswd\"     autocomplete=\"off\" />
-					<label>&nbsp;</label><input   type=\"submit\"   id=\"loginButton\" value=\"Sign In\" class=\"styleTehButton\" /><br>
+					<label>&nbsp;</label><input   type=\"submit\"   id=\"loginButton\" value=\"Login\" class=\"styleTehButton\" /><br>
 				";
 				$acl = shn_acl_is_signup_enabled();
 				if($acl == true) {
@@ -44,7 +44,7 @@ if ($_SESSION['logged_in'] != true ) {
 				<fieldset id=\"openIdFieldset\">
 					<label>OpenID</label>
 					<input type=\"text\" name=\"identity_url\" id=\"openid_login\" />
-					<input id=\"submitButtonOpen\" type=\"submit\" value=\"Sign In\" autocomplete=\"off\"/>
+					<input id=\"submitButtonOpen\" type=\"submit\" value=\"Login\" autocomplete=\"off\"/>
 				</fieldset>
 			</form>
 			<div id=\"switchNormalLogin\">
@@ -67,5 +67,4 @@ if ($_SESSION['logged_in'] != true ) {
 		</div>
 	";
 }
-
-
+*/

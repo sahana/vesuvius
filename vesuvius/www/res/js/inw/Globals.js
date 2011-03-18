@@ -36,6 +36,7 @@ var Globals = {
 	sortedBy : "",  //default value
 	json : "",
 	displayMode : true,
+	searchMode : "solr",
 	personListOld : [], // old list of persons for comparison
 	personList : [], // list of people we WILL download information for
 	Q : [],

@@ -87,62 +87,61 @@ $(document).ready(function start() {
 
 function searchSubset() {
 	var searchTerm = $.trim($("#searchBox").attr("value"));
-	
-	if (searchTerm.length >= 2 || searchTerm.length == 0) {
-		//language = document.getElementById('language').value;
-		var missing   = $("#checkMissing")  .is(":checked"),
-		    alive     = $("#checkAliveWell").is(":checked"),
-		    injured   = $("#checkInjured")  .is(":checked"),
-		    deceased  = $("#checkDeceased") .is(":checked"),
-		    unknown   = $("#checkUnknown")  .is(":checked"),
-			
-			male 	  = $("#checkSexMale")  .is(":checked"),
-			female 	  = $("#checkSexFemale").is(":checked"),
-			genderUnk = $("#checkSexOther") .is(":checked"),
-			
-			child 	  = $("#checkAgeChild")  .is(":checked"),
-			adult	  = $("#checkAgeYouth")  .is(":checked"),
-			ageUnk    = $("#checkAgeUnknown").is(":checked"),
-			
-			suburban  = $("#checkSuburban")  .is(":checked"),
-			nnmc      = $("#checkNNMC")      .is(":checked"),
-			otherHosp = $("#checkOtherHosp") .is(":checked"),
-			
-			searchTerm = searchTerm == "Enter a name..." || searchTerm == "All" ? "" : searchTerm,
-			
-			sStatus       = missing + ";" + alive + ";" + injured + ";" + deceased + ";" + unknown,
-			sGender       = male + ";" + female + ";" + genderUnk,
-			sAge          = child + ";" + adult + ";" +	ageUnk,
-			sHospital     = suburban + ";" + nnmc + ";" + otherHosp,
-			
-			sPageControls = Globals.perPage * (Globals.currPage - 1)  + ";" 
-						  + Globals.perPage + ";" 
-						  + Globals.sortedBy + ";" 
-						  +	Globals.displayMode;
-			
-			
-		Globals.incident = Globals.incident || $("#disasterList").val(); //this is because the <select> is actually in the footer for some reason.
-		Globals.searchMode = $("#searchMode").val();
-		$("#updateAlerts, #updateAlerts2").hide();
 
-		//alert(sPageControls);
-		inw_getData(Globals.searchMode, Globals.incident, searchTerm, sStatus, sGender,	sAge, sHospital, sPageControls);
-		clearInterval(Globals.updaterId);
+	//language = document.getElementById('language').value;
+	var missing   = $("#checkMissing")  .is(":checked"),
+		alive     = $("#checkAliveWell").is(":checked"),
+		injured   = $("#checkInjured")  .is(":checked"),
+		deceased  = $("#checkDeceased") .is(":checked"),
+		unknown   = $("#checkUnknown")  .is(":checked"),
 		
-		//run it before setting the interval for immediate results.
-		inw_checkForChanges(Globals.searchMode, Globals.incident, searchTerm, sStatus, sGender, sAge, sHospital);
-		//Globals.updaterId = setInterval(function() {
-		//									inw_checkForChanges(Globals.searchMode, Globals.incident, searchTerm, sStatus, sGender, sAge, sHospital);		
-		//								}, Globals.updaterTimer);
-		$("#foundLabel").show();
-		//$("#modmenuwrap").append($("#searchOptions").show());
-		$("#menuwrap").append($("#searchOptions").css({marginTop: "10px", marginLeft: "5px"}).show());
-		if ($("#disasterList").val() == "christchurch" || $("#disasterList").val() == "colombia2011" || $("#disasterList").val() == "sendai2011") $("#hospital").hide();
-		$("#content").css({marginRight: "0px", paddingRight: "0px"});
+		male 	  = $("#checkSexMale")  .is(":checked"),
+		female 	  = $("#checkSexFemale").is(":checked"),
+		genderUnk = $("#checkSexOther") .is(":checked"),
 		
-		if ( Globals.initDone == 1 )
-			$("#scrolling_content").html('<div id="loadingX" class="glass"><img src="res/img/loader.gif" /></div>').show(50);
-	}
+		child 	  = $("#checkAgeChild")  .is(":checked"),
+		adult	  = $("#checkAgeYouth")  .is(":checked"),
+		ageUnk    = $("#checkAgeUnknown").is(":checked"),
+		
+		suburban  = $("#checkSuburban")  .is(":checked"),
+		nnmc      = $("#checkNNMC")      .is(":checked"),
+		otherHosp = $("#checkOtherHosp") .is(":checked"),
+		
+		searchTerm = searchTerm == "Enter a name..." || searchTerm == "All" ? "" : searchTerm,
+		
+		sStatus       = missing + ";" + alive + ";" + injured + ";" + deceased + ";" + unknown,
+		sGender       = male + ";" + female + ";" + genderUnk,
+		sAge          = child + ";" + adult + ";" +	ageUnk,
+		sHospital     = suburban + ";" + nnmc + ";" + otherHosp,
+		
+		sPageControls = Globals.perPage * (Globals.currPage - 1)  + ";" 
+					  + Globals.perPage + ";" 
+					  + Globals.sortedBy + ";" 
+					  +	Globals.displayMode;
+		
+		
+	Globals.incident = Globals.incident || $("#disasterList").val(); //this is because the <select> is actually in the footer for some reason.
+	Globals.searchMode = $("#searchMode").val();
+	$("#updateAlerts, #updateAlerts2").hide();
+
+	//alert(sPageControls);
+	inw_getData(Globals.searchMode, Globals.incident, searchTerm, sStatus, sGender,	sAge, sHospital, sPageControls);
+	//clearInterval(Globals.updaterId);
+	
+	//run it before setting the interval for immediate results.
+	//inw_checkForChanges(Globals.searchMode, Globals.incident, searchTerm, sStatus, sGender, sAge, sHospital);
+	//Globals.updaterId = setInterval(function() {
+	//									inw_checkForChanges(Globals.searchMode, Globals.incident, searchTerm, sStatus, sGender, sAge, sHospital);		
+	//								}, Globals.updaterTimer);
+	$("#foundLabel").show();
+	//$("#modmenuwrap").append($("#searchOptions").show());
+	$("#menuwrap").append($("#searchOptions").css({marginTop: "10px", marginLeft: "5px"}).show());
+	if ($("#disasterList").val() == "christchurch" || $("#disasterList").val() == "colombia2011" || $("#disasterList").val() == "sendai2011") $("#hospital").hide();
+	$("#content").css({marginRight: "0px", paddingRight: "0px"});
+	
+	if ( Globals.initDone == 1 )
+		$("#scrolling_content").html('<div id="loadingX" class="glass"><img src="res/img/loader.gif" /></div>').show(50);
+	
 }
 
 Object.size = function(obj) {
@@ -163,31 +162,50 @@ function handleUuidListResponse() {
 	var temp = [], freshUuids = [];
 	Globals.resultSet = eval($("#jsonHolder").val());
 	showFacets();
+	
+
 	if ( Globals.displayMode ) {
 		Globals.displayMode = true; 
 		DetailsView.drawPage();
 	}
-	else //if ( Globals.initDone == 1 )
+	else 
 		ScrollView.init();
-	/*else {
-		ScrollView.initHTML();
-		ScrollView.loadScroller();
-	}*/
 }
 
 function showFacets() {
+	var tempGender = 0,
+		tempAge = 0;
+		
 	if ( Globals.searchMode == "solr" ) {
 		var facets = jQuery.parseJSON($("#SOLRFacets").val());
 		for( facet in facets ) {
 			$("#" + facet + " > span").remove();
 			$("#" + facet).append($("<span></span>")
 						  .css("font-size", "8pt")
-						  .html(" - [" + facets[facet] + "]"));
+						  .html(" - [" + Utils.addCommas(facets[facet]) + "]"));
+			if ( facet == "male" || facet == "female" )
+				tempGender++;
+			else if ( facet == "child" || facet == "adult" )
+				tempAge++;
 		}
+		
+		// Per glenns request.
+		if ( tempGender == 0 ) 
+			$("#gender").hide();
+		else 
+			$("#gender").show();
+			
+		if ( tempAge == 0 )
+			$("#age").hide();
+		else 
+			$("#age").show();
+		
 	} else {
 		$("#filtersWrapper").find("label > span").remove();
 	}
 }
+
+
 
 //
 // Person Class

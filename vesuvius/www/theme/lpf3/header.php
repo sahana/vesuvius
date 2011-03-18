@@ -15,36 +15,44 @@
 global $global;
 global $conf;
 
-// Get the Long Name of the incident
-function getLongName() {
-	global $global;
-	global $conf;
+// get incident specific information for the header
 
-	$short = mysql_real_escape_string($_GET['shortname']);
-
-	$long = "";
-	$sql = "SELECT name FROM incident WHERE `shortname` = '".$short."' LIMIT 1;";
-	$arr = $global['db']->GetAll($sql);
-	if (!empty($arr)) {
-		foreach($arr as $row) {
-			$long = $row['name'];
-		}
+$short = mysql_real_escape_string($_GET['shortname']);
+$long = "";
+$sql = "
+	SELECT *
+	FROM incident
+	WHERE `shortname` = '".$short."'
+	LIMIT 1;
+";
+$arr = $global['db']->GetAll($sql);
+if (!empty($arr)) {
+	foreach($arr as $row) {
+		$long = $row['name'];
+		$date = $row['date'];
 	}
-	return $long;
 }
 
-?>
-<div id="header" class="clearfix">
-	<a href="index.php"><img src="theme/lpf3/img/pl.png"></a>
-	<h1><a href="index.php"><?php
-		echo _t(getLongName()." People Locator");?>
-	</a></h1>
-	<h2>U.S. National Library of Medicine<br>
-	Lister Hill National Center for Biomedical Communications</h2>
-	<?php
-	if(isset($conf['enable_locale']) && $conf['enable_locale'] == true) {
-		_shn_lc_lang_list();
-	}
-	?>
-</div>
-<?
+
+$date = date("F j, Y", strtotime($row["date"]));
+
+echo '
+	<div id="header" class="clearfix">
+		<a href="index.php"><img src="theme/lpf3/img/pl.png"></a>
+';
+if(isset($conf['enable_locale']) && $conf['enable_locale'] == true) {
+	_shn_lc_lang_list();
+}
+echo '</div>';
+
+echo '
+	<div id="headerText">
+		<h1><a href="index.php">'._t("People Locator").'</a></h1>
+		<h2><a href="index.php"><span>'._t('for the ').'</span>'.$long.'</a></h1>
+		<h3><a href="index.php">'.$date.'</a></h2>
+		<h4><a href="index.php">U.S. National Library of Medicine</a></h2>
+		<h4><a href="index.php">Lister Hill National Center for Biomedical Communications</a></h2>
+	</div>
+';
+
+// end theme header

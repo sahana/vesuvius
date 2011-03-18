@@ -15,7 +15,7 @@
 // load nusoap client library
 require_once("../../3rd/nusoap/lib/nusoap.php");
 
-$wsdl     = "http://archivestage.nlm.nih.gov/~gmiernicki/sahanaDev/www/index.php?wsdl";
+$wsdl     = "http://archivestage.nlm.nih.gov/~gmiernicki/sahanaDev/www/index.php?wsdl&api=3.0.0";
 $client   = new nusoap_client($wsdl);
 $client->useHTTPPersistentConnection();
 
@@ -33,10 +33,7 @@ if ( $client->getError() ) {
 //$result = $client->call('getPersonData', array('uuid'=>'8y2fp-45'));
 //$result = $client->call('createUuidBatch', array('incidentId'=>'1', 'num'=>'5'));
 //$result = $client->call('createUuid', array('incidentId'=>'1'));
-$result = $client->call('getIncidentList', array(null));
-
-
-//$result = $client->call('shn_plus_test', array('x'=>317, 'y'=>123));
+$result = $client->call('version', array(null));
 
 //$results = $client->call('shn_pls_submitLPFXML', array('lpfXmlFile'=>file_get_contents("lpf.xml")));
 

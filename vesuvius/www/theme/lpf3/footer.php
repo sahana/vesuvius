@@ -139,9 +139,9 @@ function selekta() {
 			$selected = "";
 		}
 		if($row['closed'] == "1") {
-			echo "<option ".$selected." value=\"".$row['shortname']."\" class=\"110 red\">".$row['name']." CLOSED </option>";
+			echo "<option ".$selected." value=\"".$row['shortname']."\" class=\"110 grey\">".$row['name']."</option>";
 		} else {
-			echo "<option ".$selected." value=\"".$row['shortname']."\" class=\"110\">".$row['name']." OPEN </option>";
+			echo "<option ".$selected." value=\"".$row['shortname']."\" class=\"110\">".$row['name']."</option>";
 		}
 	}
 	echo "</select>";
