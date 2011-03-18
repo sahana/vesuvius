@@ -36,15 +36,15 @@ function shn_plus_register_all($namespace) {
 		);
 	*/
 
-	shn_plus_register_one($server, 'getIncidentList',
+	shn_plus_register_one($server, 'version',
 		array(
 			'in' => array(),
 			'out' => array(
-				'incidentList' => 'xsd:string'
+				'apiVersion' => 'xsd:string'
 			)
 		),
 		$namespace,
-		"Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude, street) listing disaster incidents' components."
+		"Returns version info (2)."
 	);
 /*
 	shn_plus_register_one($server, 'basicSearch',
@@ -275,31 +275,9 @@ function shn_plus_register_one($server, $methodname, $params, $ns, $rtfm) {
  * Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
  * @return array
  */
-function getIncidentList() {
-	logAccess("shn_plus_getIncidentList"); // log access
-	global $global;
-	$db = $global['db'];
-	$list = array();
-	$q = "SELECT incident_id, parent_id, name, shortname, date, type, latitude, longitude
-	      FROM `incident`
-	      ORDER BY `default` DESC, `name` ASC;";
-
-	$result = $db->Execute($q);
-	while (!$result == NULL && !$result->EOF) {
-		$list[] = array(
-			'incident_id' => $result->fields["incident_id"],
-			'parent_id'   => $result->fields["parent_id"],
-			'name'        => $result->fields["name"],
-			'shortname'   => $result->fields["shortname"],
-			'date'        => $result->fields["date"],
-			'type'        => $result->fields["type"],
-			'latitude'    => $result->fields["latitude"],
-			'longitude'   => $result->fields["longitude"]
-			//'street'   => $result->fields["street"]
-		);
-		$result->MoveNext();
-	}
-	return array('incidentList'=>json_encode($list));
+function version() {
+	logAccess("version"); // log access
+	return array('apiVersion'=>'2.0.0');
 }
 
 

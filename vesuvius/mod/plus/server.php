@@ -23,16 +23,34 @@ if(!isset($conf['enable_plus_web_services']) || (isset($conf['enable_plus_web_se
 
 require_once($APPROOT."3rd/nusoap/lib/nusoap.php");
 
+// figure out which api version to load
+if(isset($_GET['api']) && file_exists($APPROOT."/mod/plus/api_".$_GET['api'].".inc")) {
+	require_once($APPROOT."/mod/plus/api_".$_GET['api'].".inc");
+	$versionString = "&amp;api=".$_GET['api'];
+} else {
+	require_once("api_".$conf['mod_plus_latest_api'].".inc");
+	$versionString = "";
+}
+
+
+// fix broken apache servers that don't default to index.php
+if(($_SERVER['HTTP_HOST'] == "archivestage.nlm.nih.gov")
+|| ($_SERVER['HTTP_HOST'] == "archivestage")) {
+	$fix = "index.php";
+} else {
+	$fix = "";
+}
+
+
 // init vars
 $serviceName = "plusWebServices";
 $ns          = "urn:".$serviceName;
-$endpoint     = makeBaseUrl()."?wsdl";
+$endpoint     = makeBaseUrl().$fix."?wsdl".$versionString;
 
 $server = new nusoap_server;
 $server->configureWSDL($serviceName, $ns, $endpoint, 'document');
 $server->wsdl->schemaTargetNamespace = $ns;
 
-require_once("api.inc");
 shn_plus_register_all($ns);
 
 //if in safe mode, raw post data not set:

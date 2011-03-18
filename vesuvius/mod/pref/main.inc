@@ -19,6 +19,68 @@ include_once $global['approot']."/inc/lib_errors.inc";
 include_once "tracker.inc";
 
 
+
+function shn_pref_loginForm() {
+	global $conf;
+	global $global;
+
+	if ($_SESSION['logged_in'] != true ) {
+
+		echo "
+			<form method=\"post\" action=\"index.php?act=login\">
+					username<input type=\"text\" name=\"user_name\" id=\"userName\" autocomplete=\"off\" /><br>
+					password<input type=\"password\" name=\"password\"  id=\"pswd\"     autocomplete=\"off\" /><br>
+					<input   type=\"submit\"   id=\"loginButton\" value=\"Login\" class=\"styleTehButton\" /><br><br>
+		";
+
+		$acl = shn_acl_is_signup_enabled();
+		if($acl == true) {
+			echo "
+				<span id=\"signUp\"><a href=\"index.php?mod=pref&act=signup\">Register for an Account</a></span><br>
+				<span id=\"forgotPassword\"><a href=\"index.php?mod=pref&act=forgotPassword\">Forgot My Password</a></span>
+			";
+		}
+
+		echo "
+			</form>
+		";
+
+/*
+				<div id=\"switchOpenId\">
+					<a href=\"#\" onclick=\"switchLogin('loginform','openid_loginform');\">Login with an OpenID></a>
+				</div>
+			<div id=\"openid_loginform\">
+				<form action=\"\" method=\"get\">
+					<fieldset id=\"openIdFieldset\">
+						<label>OpenID</label>
+						<input type=\"text\" name=\"identity_url\" id=\"openid_login\" />
+						<input id=\"submitButtonOpen\" type=\"submit\" value=\"Login\" autocomplete=\"off\"/>
+					</fieldset>
+				</form>
+				<div id=\"switchNormalLogin\">
+					<a href=\"#\" onclick=\"switchLogin('openid_loginform','loginform');\">Go back to the Normal Login</a>
+				</div>
+			</div>
+			<script type=\"text/javascript\">
+				switchLogin('openid_loginform','loginform');
+			</script>
+*/
+
+
+	} else {
+		echo "
+			<div id=\"loggedIn\">
+					<b>Currently logged in as :</b><br>
+					".$_SESSION['group_name']." / ".$_SESSION['user_name']."<br><br>
+					<span id=\"logoutLink\" class=\"styleTehButton\"><a href=\"index.php?act=logout\">Logout</a></span>
+			</div>
+		";
+	}
+}
+
+
+
+
 /**
  * Forgot Password Controller
  * @return void
@@ -433,10 +495,12 @@ while (false !== ($f = $d->read())) {
 function shn_pref_default() {
 	echo "<div id=\"home\">";
 	echo "
-		<ul>".
-			"<li><b><a href=\"index.php?mod=pref&act=ch_passwd\">Change My Password</a></b></li><br>".
-			"<li><b><a href=\"index.php?mod=pref&act=personal\">Edit My Personal Details</a></b></li>".
-		"</ul>";
+		<ul>
+			<li><b><a href=\"index.php?mod=pref&act=ch_passwd\">Change My Password</a></b></li><br>
+			<li><b><a href=\"index.php?mod=pref&act=personal\">Edit My Personal Details</a></b></li><br>
+			<li><b><a href=\"index.php?mod=pref&act=logout\">Logout</a></b></li>
+		</ul>
+	";
 	echo "</div>";
 
 }

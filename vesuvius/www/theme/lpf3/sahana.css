@@ -98,9 +98,14 @@ div#container {
 }
 
 div#header { height: 130px; font-family: arial; background-color: #fff;}
-div#header a {text-decoration: none; font-family: arial;}
-div#header h1 { position: absolute; top: 40px; text-align: left; left: 242px; color: #34689a; margin: 0; font-size: 24px; font-weight: normal; font-family: arial;}
-div#header h2 { position: absolute; top: 69px; text-align: left; left: 242px; color: #34689a; margin: 0; font-size: 16px; font-weight: normal; font-family: arial;}
+
+div#headerText { position: absolute; top: 23px;  left: 250px; }
+div#headerText a {text-decoration: none; font-family: arial;}
+div#headerText h1 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 24px; font-weight: normal; font-family: arial; line-height: 25px; letter-spacing: 200%;}
+div#headerText h2 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 23px; font-weight: normal; font-family: arial; line-height: 27px; }
+div#headerText h2 span { font-size: 18px; }
+div#headerText h3 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 16px; font-weight: normal; font-family: arial; line-height: 19px; }
+div#headerText h4 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 12px; font-weight: normal; font-family: arial; line-height: 15px; }
 
 div#user_act{ display:block;position:absolute;top:2px; right:0px;padding-right:15px;  }
 #disaster_selekta {margin-right: 1em; color: #FFF; font-size: 12px font-weight: bold; position: absolute; top: 134px; height: 16px; z-index: 100;}
@@ -175,70 +180,14 @@ div#loginform, div#openid_loginform {
 	background:       -moz-linear-gradient(0% 0% 0deg,#FFFFFF, #e0ecff);
 	background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(#ffffff), to(#e8f4ff));
 	*/
+	display: none;
 }
 
 div#loginform form fieldset legend { display: none; }
 div#loginform hr { display: none; }
 div#loginform form fieldset label { display: block; float: left; margin-left: 10px; margin-right: 10px; line-height: 20px; width: 70px; text-align: right; padding-top: 4px;}
 
-#userName, #pswd {
-	width: 150px;
-	line-height: 20px;
-	padding: 0px 5px;
-	font-size: 14px;
-}
 
-#loginButton {
-	padding: 3px 20px;
-	margin: 6px 35px;
-}
-
-#signUp {
-	float: left;
-}
-
-#forgotPassword {
-	float: right;
-}
-
-#signUp, #forgotPassword {
-	margin-top: 3px;
-}
-
-#switchOpenId {
-	position: absolute;
-	top: 85px;
-	right: 10px;
-	display: none;
-}
-
-#switchNormalLogin {
-	position: absolute;
-	top: 80px;
-	right: 50px;
-}
-
-#openIdFieldset {
-	position: absolute;
-	top: 20px;
-	right: 10px;
-}
-
-
-#userName, #pswd, #openid_login {
-	background-color: #fff;
-	border: 1px solid #34689a;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-}
-
-
-#loggedIn {
-	margin: 15px;
-	text-align: center;
-
-}
 
 
 /* quick history styles */
@@ -311,6 +260,7 @@ table.layout td { padding: 0px 0px 0 0px; border: 0px solid #ccc; }
 .red { color: red; }
 .green { color: green; }
 .110 { font-size: 110%; }
+.grey { color: grey; }
 
 
 

@@ -113,11 +113,6 @@ function shn_main_filter_getpost() {
 	if (!$global['previous']) {
 		$global['action'] = !isset($_REQUEST['act']) ? $a : $_REQUEST['act'];
 		$global['module'] = !isset($_REQUEST['mod']) ? $m : $_REQUEST['mod'];
-
-		if (((isset($global['action']) && $global['action'] == 'signup') || (isset($global['action']) && $global['action'] == 'forgotPassword')) &&
-			(!isset($_REQUEST['mod']) || $_REQUEST['mod'] == null)) {
-			$global['module'] = "pref";
-		}
 	}
 }
 
@@ -230,7 +225,7 @@ function shn_main_front_controller() {
 
 	if($stream_ == null) {
 
-		if((($global['action'] == 'signup_cr') || ($global['action'] == 'signup') || ($global['action'] == 'forgotPassword')) && ($global['module'] = 'pref')) {
+		if((($global['action'] == 'signup_cr') || ($global['action'] == 'signup') || ($global['action'] == 'forgotPassword') || ($global['action'] == 'loginForm')) && ($global['module'] = 'pref')) {
 			// TODO: Check on =
 			// returns true if self-signup is enabled
 			if(shn_acl_is_signup_enabled()) {

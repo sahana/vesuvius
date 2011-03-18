@@ -568,7 +568,7 @@ class SearchDB
 	
 	
 	private function getLastUpdateSQL() {
-		global $conf;
+		/*global $conf;
 		$mysqli = new mysqli( $conf["db_host"], $conf["db_user"], $conf["db_pass"], $conf["db_name"], $conf["db_port"] ); // "archivestage.nlm.nih.gov", "mrodriguez", "xdr5XDR%", "pltest3" );
 		$query = 	"SELECT DATE_FORMAT(MAX(t.updated), '%m/%e/%y @ %l:%i:%s %p') as updated FROM (
 						SELECT
@@ -616,7 +616,7 @@ class SearchDB
 		}
 		
 		$stmt->close();
-		$mysqli->close();
+		$mysqli->close();*/
 	}
 
 	
@@ -646,7 +646,7 @@ class SearchDB
 		$temp["alive"] = $this->SOLRfacetResults->{"opt_status:ali"};
 		$temp["injured"] = $this->SOLRfacetResults->{"opt_status:inj"};
 		$temp["deceased"] = $this->SOLRfacetResults->{"opt_status:dec"};
-		$temp["unknown"] = $this->SOLRfacetResults->{"opt_status:unk OR -[* TO *]"};
+		$temp["unknown"] = $this->SOLRfacetResults->{"opt_status:unk"};
 		
 		$temp["male"] = $this->SOLRfacetResults->{"opt_gender:mal"};
 		$temp["female"] = $this->SOLRfacetResults->{"opt_gender:fml"};
@@ -699,7 +699,7 @@ class SearchDB
 							. $this->SOLRfq
 							. "&facet=true" //&facet.field=opt_status&facet.field=years_old&facet.field=opt_gender&facet.field=hospital&facet.missing=true"
 							. "&facet.query=years_old:[0 TO 17]&facet.query=years_old:[18 TO *]&facet.query=years_old:(-[* TO *])"
-							. "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk OR -[* TO *]"
+							. "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk"
 							. "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:(-mal AND -fml)"
 							. "&facet.query=hospital:sh&facet.query=hospital:nnmc&facet.query=hospital:(-[* TO *])";
 							
@@ -730,7 +730,7 @@ class SearchDB
 		if ($this->deceased != "true")
 			$this->SOLRfq .= " -dec"; 
 		if ($this->unknown != "true") 
-			$this->SOLRfq .= " -unk [* TO *]"; 
+			$this->SOLRfq .= " -unk"; 
 		
 		// opt_gender filters
 		$this->SOLRfq .= ")&fq=opt_gender:(*:*";

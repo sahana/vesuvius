@@ -141,7 +141,7 @@ function shn_inw_default() {
 					Found <span id="recordsFound">0</span> out of <span id="totalRecords">0</span> records in <span id="timeElapsed">0</span> seconds
 				</div>
 				<div id="updateAlerts" style=" font-weight: bold;float:left;font-size: .85em; display: none; margin-left: 5px; color: #C00">
-					<span style="color: black"> | </span> There are new or updated records in the database, click <a href="javascript:searchSubset()">here</a> to refresh the results
+				<!--	<span style="color: black"> | </span> There are new or updated records in the database, click <a href="javascript:searchSubset()">here</a> to refresh the results -->
 				</div>
 				<div id="updateAlerts2" style="float:left;font-size: .85em; font-weight: bold; display: none; margin-left: 5px; color: #C00">
 					<span style="color: black"> | </span> There are new or updated records in the database, the results will be automatically refreshed in 1 minute.

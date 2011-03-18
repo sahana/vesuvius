@@ -105,6 +105,8 @@ var DetailsView =
 
 		if ( lastLabel != lastPage )
 			$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + lastLabel + "; searchSubset()'> ... </a>");
-
+			
+		$("#recordsFound").html(Utils.addCommas($("#recordsFound"));
+		$("#totalRecords").html(Utils.addCommas($("#totalRecords"));
 	}
 };
