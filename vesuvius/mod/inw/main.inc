@@ -138,7 +138,7 @@ function shn_inw_default() {
 				</div>
 				<div style="clear:both;"></div>
 				<div style="float:left;font-size: .85em; display: none;" id="foundLabel">
-					Found <span id="recordsFound">0</span> out of <span id="totalRecords">0</span> records in <span id="timeElapsed">0</span> seconds
+					Found <span id="recordsFound">0</span> out of <span id="totalRecords">0</span> records in <span id="timeElapsed">0</span> seconds <span id="maxShown" style="display:none;font-size: .6em">(max 10,000 shown)</span>
 				</div>
 				<div id="updateAlerts" style=" font-weight: bold;float:left;font-size: .85em; display: none; margin-left: 5px; color: #C00">
 				<!--	<span style="color: black"> | </span> There are new or updated records in the database, click <a href="javascript:searchSubset()">here</a> to refresh the results -->
@@ -165,8 +165,9 @@ function shn_inw_default() {
 
 		<div style="clear:both;" id="beforeScrollingContent"></div> <!-- for IE -->
 		<div id="scrolling_content">
-			To search for a specific person, enter a name above and press "Enter" or click "Search"<br />
-			If you would like to see all the records for this incident, leave the search field blank and press "Enter" or click "Search".
+			To search for a specific person, enter a name above and press "Enter" or click "Search".<br />
+			If you would like to see all the records for this incident, leave the search field blank and press "Enter" or click "Search".<br />
+			To search among those whose names were not reported, enter "unknown" above and press "Enter" or click "Search".
 		</div>
 		<div id="detailsPane">
 		<div id="dt_eapLink" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">View/Edit Full Record</a></div>

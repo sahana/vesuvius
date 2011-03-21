@@ -49,9 +49,9 @@ echo '
 	<div id="headerText">
 		<h1><a href="index.php">'._t("People Locator").'</a></h1>
 		<h2><a href="index.php"><span>'._t('for the ').'</span>'.$long.'</a></h1>
-		<h3><a href="index.php">'.$date.'</a></h2>
-		<h4><a href="index.php">U.S. National Library of Medicine</a></h2>
-		<h4><a href="index.php">Lister Hill National Center for Biomedical Communications</a></h2>
+		<h3><a href="index.php">'._t("of").' '.$date.'</a></h2>
+		<h4><a href="index.php">'._t("U.S. National Library of Medicine").'</a></h2>
+		<h4><a href="index.php">'._t("Lister Hill National Center for Biomedical Communications").'</a></h2>
 	</div>
 ';
 

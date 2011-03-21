@@ -134,6 +134,11 @@ function searchSubset() {
 	//									inw_checkForChanges(Globals.searchMode, Globals.incident, searchTerm, sStatus, sGender, sAge, sHospital);		
 	//								}, Globals.updaterTimer);
 	$("#foundLabel").show();
+	if ( Globals.displayMode )
+		$("#maxShown").hide();
+	else 
+		$("#maxShown").show();
+		
 	//$("#modmenuwrap").append($("#searchOptions").show());
 	$("#menuwrap").append($("#searchOptions").css({marginTop: "10px", marginLeft: "5px"}).show());
 	if ($("#disasterList").val() == "christchurch" || $("#disasterList").val() == "colombia2011" || $("#disasterList").val() == "sendai2011") $("#hospital").hide();
@@ -183,9 +188,9 @@ function showFacets() {
 			$("#" + facet).append($("<span></span>")
 						  .css("font-size", "8pt")
 						  .html(" - [" + Utils.addCommas(facets[facet]) + "]"));
-			if ( facet == "male" || facet == "female" )
+			if ( (facet == "male" || facet == "female") && parseInt(facet[facets]) > 0 )
 				tempGender++;
-			else if ( facet == "child" || facet == "adult" )
+			else if ( (facet == "child" || facet == "adult") && parseInt(facet[facets]) > 0 )
 				tempAge++;
 		}
 		
