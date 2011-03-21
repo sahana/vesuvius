@@ -353,7 +353,8 @@ function shn_main_error() {
 // php-console debugger
 function shn_main_debugger() {
 	// only use debugger on these internal staging servers...
-	if(($_SERVER['HTTP_HOST'] == "whistler.nlm.nih.gov")
+	if(($_SERVER['HTTP_HOST'] == "plstage.nlm.nih.gov")
+	|| ($_SERVER['HTTP_HOST'] == "plstage")
 	|| ($_SERVER['HTTP_HOST'] == "archivestage.nlm.nih.gov")
 	|| ($_SERVER['HTTP_HOST'] == "archivestage")) {
 

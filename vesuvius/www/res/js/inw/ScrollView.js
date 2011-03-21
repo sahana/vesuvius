@@ -132,9 +132,9 @@ var ScrollView = {
 			for (var person in Globals.personList)
 				if (Globals.personList[person].hasOwnProperty('uuid')) {
 					count++;
-					this.getPersonData(Globals.personList[person]);
+					ScrollView.getPersonData(Globals.personList[person]);
 					if ( count > 100 ) {
-						setTimeout(update, 3000) // wait 3 seconds! this is for IE/FF3.0- not to lose their patience on big sets.
+						setTimeout(ScrollView.update, 3000) // wait 3 seconds! this is for IE/FF3.0- not to lose their patience on big sets.
 						break;
 					}
 				}
@@ -145,7 +145,8 @@ var ScrollView = {
 		var freshUuids = [];
 		if ( Globals.resultSet && Globals.resultSet.length > 0 ) {
 			Globals.initDone = 1;
-			for ( var i = 0; i < Globals.totalResults; i++ ) {
+			var tempResultCount = Globals.totalResults > 10000 ? 10000 : Globals.totalResults; //solr maxes out at 1000 count (for practical uses)
+			for ( var i = 0; i < tempResultCount; i++ ) {
 				p = new Person();
 				p.init( Globals.resultSet[i] );
 				//if status is changed, delete from Globals.personListOld and Q so it gets readded.

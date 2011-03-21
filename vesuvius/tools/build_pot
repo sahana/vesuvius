@@ -30,8 +30,8 @@ echo ./field_options >> filelist.txt
 xgettext -L PHP -f filelist.txt --from-code=UTF-8 -o sahana.pot
 
 # copy over the previous version
-mv sahana.pot ../res/locale
+#mv sahana.pot ../res/locale
 
 # Remove file list and field_options script
-rm -f filelist.txt
-rm -f field_options
+#rm -f filelist.txt
+#rm -f field_options

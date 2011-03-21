@@ -55,7 +55,7 @@ function inw_checkForChanges($mode, $incident, $searchTerm, $sStatus, $sGender, 
 		$global["xajax_res"]->addAssign("recordsFound", "innerHTML", $search->numRowsFound);
 		$global["xajax_res"]->addAssign("totalRecords", "innerHTML", $search->allCount);
 		$global["xajax_res"]->addAssign("timeElapsed", "innerHTML", substr($timeElapsed, 0, 5));
-		$global["xajax_res"]->addScript("Globals.timeElapsed = " . $timeElapsed . "; Globals.totalResults = " . $search->numRowsFound . "; Globals.totalRecords = " . $search->allCount . "; handleUuidListResponse();");
+		$global["xajax_res"]->addScript("Globals.timeElapsed = " . $timeElapsed . "; Globals.totalResults = " . $search->numRowsFound . "; Globals.totalRecords = " . $search->allCount . "; setTimeout(handleUuidListResponse, 1000);");
 		
 		//$global["xajax_res"]->addScript("alert('" . count($search->results) . ", " . $search->numRowsFound . ", " . $search->allCount . "')");
 	}

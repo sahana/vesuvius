@@ -708,7 +708,7 @@ class SearchDB
 		if ( $this->mode == "true" && $this->perPage != "-1" )
 			$this->SOLRquery .= "&start=" . $this->pageStart . "&rows=" . $this->perPage;
 		else 
-			$this->SOLRquery .= "&rows=1000"; // max number of rows is 1000
+			$this->SOLRquery .= "&rows=10000"; // max number of rows returned is 1000
 			
 		if ( $this->sortBy != "" )
 			$this->SOLRquery .= "&sort=" . $this->sortBy . ",score desc";

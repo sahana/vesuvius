@@ -51,7 +51,12 @@ var Utils = {
 		$("#dt_status").html(person.statusSahanaFull || "N/A");
 		$("#dt_statusSahanaUpdated").html(person.statusSahanaUpdated || "N/A");
 		$("#dt_location").html(person.location || "N/A");
-		$("#dt_eapLink > a").attr("href", "index.php?mod=eap&act=edit&uuid=" + person.encodedUUID);
+		
+		if ( $("#disasterList").val() == "sendai2011" ) // obviously a hack.
+			$("#dt_eapLink > a").attr("href", "http://japan.person-finder.appspot.com/view?id=" + person.uuid );
+		else 
+			$("#dt_eapLink > a").attr("href", "index.php?mod=eap&act=edit&uuid=" + person.encodedUUID);
+			
 		if ( person.hospitalIcon != "" )
 			$("#dt_hospitalIcon").html("<img src='" + person.hospitalIcon + "' />");
 		else
@@ -261,12 +266,12 @@ var Utils = {
 		Globals.mostRecent = undefined;
 		Globals.lastUpdated = undefined;
 		Globals.initDone = 1;
-		Globals.currPage = 0;
+		Globals.currPage = 1;
 		searchSubset();
 	},
 	isNumber : function(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
-	}
+	},
 	
 	addCommas : function (nStr) { // credit - http://www.mredkj.com/javascript/numberFormat.html
 		nStr += '';
