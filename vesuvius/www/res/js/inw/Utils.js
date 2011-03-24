@@ -53,7 +53,7 @@ var Utils = {
 		$("#dt_location").html(person.location || "N/A");
 		
 		if ( $("#disasterList").val() == "sendai2011" ) // obviously a hack.
-			$("#dt_eapLink > a").attr("href", "http://japan.person-finder.appspot.com/view?id=" + person.uuid );
+			$("#dt_eapLink > a").attr("href", "http://japan.person-finder.appspot.com/view?lang=en&id=" + person.uuid );
 		else 
 			$("#dt_eapLink > a").attr("href", "index.php?mod=eap&act=edit&uuid=" + person.encodedUUID);
 			

@@ -87,7 +87,7 @@ $(document).ready(function start() {
 
 function searchSubset() {
 	var searchTerm = $.trim($("#searchBox").attr("value"));
-
+	
 	//language = document.getElementById('language').value;
 	var missing   = $("#checkMissing")  .is(":checked"),
 		alive     = $("#checkAliveWell").is(":checked"),
@@ -124,8 +124,22 @@ function searchSubset() {
 	Globals.searchMode = $("#searchMode").val();
 	$("#updateAlerts, #updateAlerts2").hide();
 
-	//alert(sPageControls);
 	inw_getData(Globals.searchMode, Globals.incident, searchTerm, sStatus, sGender,	sAge, sHospital, sPageControls);
+	if ( Globals.searchMode == "sql" ) {
+		sPageControls = Globals.perPage * (Globals.currPage)  + ";" 
+				  + Globals.perPage + ";" 
+				  + Globals.sortedBy + ";" 
+				  +	Globals.displayMode;
+		if ( Globals.displayMode )
+			inw_hasNextPage(Globals.searchMode, Globals.incident, searchTerm, sStatus, sGender,	sAge, sHospital, sPageControls);
+		$("#sqlFoundLabel").show();
+		$("#solrFoundLabel").hide();
+	} else {
+		$("#solrFoundLabel").show();
+		$("#sqlFoundLabel").hide();
+	}
+		
+		
 	//clearInterval(Globals.updaterId);
 	
 	//run it before setting the interval for immediate results.
@@ -165,9 +179,12 @@ Object.size = function(obj) {
 
 function handleUuidListResponse() {
 	var temp = [], freshUuids = [];
-	Globals.resultSet = eval($("#jsonHolder").val());
+
+	//Globals.resultSet = jQuery.parseJSON(document.getElementById("jsonHolder").value);
+	$("#totalRecordsSOLR").html(Utils.addCommas($("#totalRecordsSOLR").html()));
+	$("#totalRecordsSQL").html(Utils.addCommas($("#totalRecordsSQL").html()));
+
 	showFacets();
-	
 
 	if ( Globals.displayMode ) {
 		Globals.displayMode = true; 

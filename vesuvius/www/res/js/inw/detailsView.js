@@ -42,7 +42,8 @@ var DetailsView =
 			//}
 		//);
 
-		this.setPager();
+		if ( Globals.searchMode == "solr" )
+			this.setPager();
 
 	},
 
@@ -87,26 +88,35 @@ var DetailsView =
 		$("#pager").html("").css({display: "block"});
 		$("#perPageWrapper").css({display: "block"});
 		$("#sortBy").css({display: "block"});
+		
+		if ( Globals.searchMode == "sql" ) {
+			if ( Globals.currPage == 1 )
+				$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage + 1) + "; searchSubset()'><img src='res/img/inw_next.png' /> </a>");
+			else  {
+				$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage - 1) + "; searchSubset()'><img src='res/img/inw_prev.png' /></a>")
+				if ( Globals.hasNextPage )
+					$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage + 1) + "; searchSubset()'><img src='res/img/inw_next.png' /></a>" );
+			}
+		} else { 
+			var lastPage = Globals.perPage == "All" ? 1 : Math.ceil(Globals.totalResults / Globals.perPage),
+				currPage = Globals.currPage, //local reference == faster.
+				firstLabel = currPage - 5 < 1 ? 1 : currPage - 5,
+				lastLabel = currPage + 5 > lastPage ? lastPage : ((currPage + 5) < 11 ? 11 : currPage + 5); // weee!
 
-		var lastPage = Globals.perPage == "All" ? 1 : Math.ceil(Globals.totalResults / Globals.perPage),
-		    currPage = Globals.currPage, //local reference == faster.
-			firstLabel = currPage - 5 < 1 ? 1 : currPage - 5,
-			lastLabel = currPage + 5 > lastPage ? lastPage : ((currPage + 5) < 11 ? 11 : currPage + 5); // weee!
+			$("#pager").append("Page - ");
+			if ( firstLabel != 1 )
+				$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + firstLabel + "; searchSubset()'> ... </a>");
 
-		$("#pager").append("Page - ");
-		if ( firstLabel != 1 )
-			$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + firstLabel + "; searchSubset()'> ... </a>");
+			for ( var i = firstLabel; i <= lastLabel; i++ )
+				if ( i != Globals.currPage)
+					$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = parseInt(this.innerHTML); searchSubset()'>" + i + "</a>");
+				else
+					$("#pager").append("<span style='text-decoration: underline; font-weight: bold; margin-right:10px;'>" + i + "</span>");
 
-		for ( var i = firstLabel; i <= lastLabel; i++ )
-			if ( i != Globals.currPage)
-				$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = parseInt(this.innerHTML); searchSubset()'>" + i + "</a>");
-			else
-				$("#pager").append("<span style='text-decoration: underline; font-weight: bold; margin-right:10px;'>" + i + "</span>");
-
-		if ( lastLabel != lastPage )
-			$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + lastLabel + "; searchSubset()'> ... </a>");
-			
-		$("#recordsFound").html(Utils.addCommas($("#recordsFound").html()));
-		$("#totalRecords").html(Utils.addCommas($("#totalRecords").html()));
+			if ( lastLabel != lastPage )
+				$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + lastLabel + "; searchSubset()'> ... </a>");
+				
+			$("#recordsFound").html(Utils.addCommas($("#recordsFound").html()));
+		}
 	}
 };

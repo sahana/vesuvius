@@ -47,7 +47,8 @@ var Globals = {
 	updaterTimer : 60000,  //1min
 	doRefresh : true,
 	isiPad : false,
-	timeElapsed : 0
+	timeElapsed : 0,
+	hasNextPage : true
 };
 
 
