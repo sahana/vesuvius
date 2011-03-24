@@ -18,6 +18,7 @@ $global['xajax_functions'] = array();
 
 array_push($global['xajax_functions'],'inw_getData');
 array_push($global['xajax_functions'],'inw_checkForChanges');
+array_push($global['xajax_functions'],'inw_hasNextPage');
 
 function inw_checkForChanges($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital) {
 	global $global;
@@ -28,6 +29,21 @@ function inw_checkForChanges($mode, $incident, $searchTerm, $sStatus, $sGender, 
 	return $global["xajax_res"]->getXML();
 }
 
+function inw_hasNextPage($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital, $sPageControls ) {
+	global $global;
+	
+	$mode = strtolower($mode); // just making sure.
+	$search = new SearchDB($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital, $sPageControls);
+	$search->executeSearch();
+
+	if ( count($search->results) > 0 ) 
+		$global["xajax_res"]->addScript("Globals.hasNextPage = true; DetailsView.setPager()");
+	else
+		$global["xajax_res"]->addScript("Globals.hasNextPage = false; DetailsView.setPager()");
+
+	return $global["xajax_res"]->getXML();
+
+}
 /**
  * params: $aStatus = status imploded
 		   $aPageControls = $pageStart, $perPage, $sortBy, $mode
@@ -50,12 +66,15 @@ function inw_checkForChanges($mode, $incident, $searchTerm, $sStatus, $sGender, 
 	
 	
 	if ( count($search->results) > 0 ) {
-		$global["xajax_res"]->addAssign("jsonHolder", "value", json_encode($search->results));  
+		$global["xajax_res"]->addScript("Globals.resultSet = " . json_encode($search->results));
+		//$global["xajax_res"]->addAssign("jsonHolder", "value", json_encode($search->results));  
 		$global["xajax_res"]->addAssign("SOLRFacets", "value", json_encode($search->SOLRfacetResults));  
 		$global["xajax_res"]->addAssign("recordsFound", "innerHTML", $search->numRowsFound);
-		$global["xajax_res"]->addAssign("totalRecords", "innerHTML", $search->allCount);
-		$global["xajax_res"]->addAssign("timeElapsed", "innerHTML", substr($timeElapsed, 0, 5));
-		$global["xajax_res"]->addScript("Globals.timeElapsed = " . $timeElapsed . "; Globals.totalResults = " . $search->numRowsFound . "; Globals.totalRecords = " . $search->allCount . "; setTimeout(handleUuidListResponse, 1000);");
+		$global["xajax_res"]->addAssign("totalRecordsSQL", "innerHTML", $search->allCount);
+		$global["xajax_res"]->addAssign("totalRecordsSOLR", "innerHTML", $search->allCount);
+		$global["xajax_res"]->addAssign("timeElapsedSQL", "innerHTML", substr($timeElapsed, 0, 5));
+		$global["xajax_res"]->addAssign("timeElapsedSOLR", "innerHTML", substr($timeElapsed, 0, 5));
+		$global["xajax_res"]->addScript("Globals.timeElapsed = " . $timeElapsed . "; Globals.totalResults = " . $search->numRowsFound . "; Globals.totalRecords = " . $search->allCount . "; handleUuidListResponse();");
 		
 		//$global["xajax_res"]->addScript("alert('" . count($search->results) . ", " . $search->numRowsFound . ", " . $search->allCount . "')");
 	}
@@ -64,7 +83,8 @@ function inw_checkForChanges($mode, $incident, $searchTerm, $sStatus, $sGender, 
 		$global["xajax_res"]->addAssign("SOLRFacets", "value", json_encode($search->SOLRfacetResults));  
 		//$global["xajax_res"]->addScript("recordsFound", "innerHTML", "0");  //ugh... i hate xajax...
 		$global["xajax_res"]->addScript("Globals.totalResults = 0; $('#recordsFound').html('0');");
-		$global["xajax_res"]->addAssign("totalRecords", "innerHTML", $search->allCount);
+		$global["xajax_res"]->addAssign("totalRecordsSQL", "innerHTML", $search->allCount);
+		$global["xajax_res"]->addAssign("totalRecordsSOLR", "innerHTML", $search->allCount);
 		$global["xajax_res"]->addScript("Globals.totalRecords = " . $search->allCount . ";");
 		$global["xajax_res"]->addScript("$('#scrollingContent').html('');showFacets();$('#pager').hide();$('#perPageWrapper').hide()");
 		$global["xajax_res"]->addAssign("scrolling_content", "innerHTML", "<br /><span style='color:red'>No matches for '" . $searchTerm . "'. Please broaden your search criteria and try again.</span>");

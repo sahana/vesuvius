@@ -15,6 +15,8 @@
 global $global;
 global $conf;
 
+$date = "";
+
 // get incident specific information for the header
 
 $short = mysql_real_escape_string($_GET['shortname']);
@@ -31,10 +33,10 @@ if (!empty($arr)) {
 		$long = $row['name'];
 		$date = $row['date'];
 	}
+	// fix date
+	$date = date("F j, Y", strtotime($row["date"]));
 }
 
-
-$date = date("F j, Y", strtotime($row["date"]));
 
 echo '
 	<div id="header" class="clearfix">

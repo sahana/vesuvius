@@ -1,13 +1,13 @@
 <?
 /**
  * @name         Report a Person
- * @version      1.1
+ * @version      1.2
  * @package      rap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0325
  */
 
 
@@ -30,7 +30,7 @@ function shn_rap_checkCredz() {
 		}
 	}
 
-	// check if EM (Event Manager) is installed, if so, verify this event allows reporting
+	// todo: check if EM (Event Manager) is installed, if so, verify this event allows reporting
 
 
 	return $good;
@@ -643,7 +643,11 @@ function shn_rap_commitPerson($saveImage = false) {
 	if($eye      == "'select'") { $eye      = "NULL"; }
 	if($skin     == "'select'") { $skin     = "NULL"; }
 
-	$q0  = "SELECT * FROM incident WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."';";
+	$q0  = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."';
+	";
 	$r0  = $global['db']->Execute($q0);
 	$row = $r0->FetchRow();
 	$id = $row['incident_id'];
@@ -651,12 +655,15 @@ function shn_rap_commitPerson($saveImage = false) {
 	$uuid = $_SESSION['rap']['entry']['p_uuid'];
 
 	// insert person
-	$q1 = "	INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name)
+	$q1 = "
+		INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
 		VALUES (
 			'".$uuid."',
 			'".mysql_real_escape_string($given_name)." ".mysql_real_escape_string($family_name)."',
 			'".mysql_real_escape_string($family_name)."',
-			'".mysql_real_escape_string($given_name)."'
+			'".mysql_real_escape_string($given_name)."',
+			'".$id."',
+			'-1'
 		);
 	";
 	$res = $global['db']->Execute($q1);
@@ -664,35 +671,39 @@ function shn_rap_commitPerson($saveImage = false) {
 
 	// insert person's missing information if missing
 	if($status == "'mis'") {
-		$q2 = "INSERT INTO person_missing (p_uuid, last_seen, last_clothing, comments) VALUES ('".$uuid."', ".$seen.", ".$clothing.", ".$comments.");";
+		$q2 = "
+			INSERT INTO person_missing (p_uuid, last_seen, last_clothing, comments)
+			VALUES ('".$uuid."', ".$seen.", ".$clothing.", ".$comments.");
+		";
 		$res = $global['db']->Execute($q2);
 	}
 
-	// add person to the null hospital
-	$q3 = "
-		INSERT INTO person_to_hospital (`p_uuid`, `hospital_uuid`)
-		VALUE ('".$uuid."', '-1');
-	";
-	$r3 = $global['db']->Execute($q3);
-
-	// insert an assignment of this person to the correct incident
-	$q4 = "INSERT INTO resource_to_incident (x_uuid, incident_id) VALUES ('".$uuid."','".$id."');";
-	$res = $global['db']->Execute($q4);
-
 	// insert person's status
-	$q5 = "INSERT INTO person_status (p_uuid, opt_status, updated, isvictim, updated_server) VALUES ( '".$uuid."', ".$status.", CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);";
+	$q5 = "
+		INSERT INTO person_status (p_uuid, opt_status, updated, isvictim, updated_server)
+		VALUES ( '".$uuid."', ".$status.", CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);
+	";
 	$res = $global['db']->Execute($q5);
 
 	// insert into rap_log
-	$q7 = "INSERT INTO rap_log (p_uuid) VALUES ('".$uuid."');";
+	$q7 = "
+		INSERT INTO rap_log (p_uuid)
+		VALUES ('".$uuid."');
+	";
 	$res = $global['db']->Execute($q7);
 
 	// insert person's details
-	$q8 = "INSERT INTO person_details (p_uuid, opt_race, opt_religion, opt_gender, years_old, minAge, maxAge) VALUES ('".$uuid."', ".$race.", ".$religion.", ".$gender.", ".$age.", ".$minAge.", ".$maxAge.");";
+	$q8 = "
+		INSERT INTO person_details (p_uuid, opt_race, opt_religion, opt_gender, years_old, minAge, maxAge)
+		VALUES ('".$uuid."', ".$race.", ".$religion.", ".$gender.", ".$age.", ".$minAge.", ".$maxAge.");
+	";
 	$res = $global['db']->Execute($q8);
 
 	// insert person
-	$q11 = "INSERT INTO person_to_report (p_uuid, rep_uuid) VALUES ('".$uuid."','".$_SESSION['user_p_uuid']."');";
+	$q11 = "
+		INSERT INTO person_to_report (p_uuid, rep_uuid)
+		VALUES ('".$uuid."','".$_SESSION['user_p_uuid']."');
+	";
 	$res = $global['db']->Execute($q11);
 
 	// insert personal physical

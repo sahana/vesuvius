@@ -19,7 +19,7 @@ var ScrollView = {
 		Globals.initDone = 1;
 		if ( $("#content").css("display") != "none" ) // if not in full screen mode.
 			Globals.maxRows = Math.ceil(($(window).height()-210)/300) > 4 ? 4 : Math.ceil(($(window).height()-210)/300);
-		Globals.maxRows = Globals.totalResults > 4 ? Globals.maxRows : Globals.totalResults;
+		Globals.maxRows = 3;//Globals.totalResults > 4 ? Globals.maxRows : Globals.totalResults;
 
 		Globals.Q2 = ScrollView.initQArray();
 		Globals.Q = ScrollView.initQArray();
@@ -35,8 +35,8 @@ var ScrollView = {
 
 		$("#displayMode").val("handsFree");
 
-		this.initHTML();
-		this.loadScroller();
+		ScrollView.initHTML();
+		ScrollView.loadScroller();
 		$("#scrollControls").show();
 
 		if ( !Globals.isiPad ) {
@@ -145,8 +145,10 @@ var ScrollView = {
 		var freshUuids = [];
 		if ( Globals.resultSet && Globals.resultSet.length > 0 ) {
 			Globals.initDone = 1;
-			var tempResultCount = Globals.totalResults > 10000 ? 10000 : Globals.totalResults; //solr maxes out at 1000 count (for practical uses)
-			for ( var i = 0; i < tempResultCount; i++ ) {
+			var tempResultCount = Globals.totalResults > 1000 ? 1000 : Globals.totalResults; //solr maxes out at 1000 count (for practical uses)
+			//for ( var i = 0; i < tempResultCount; i++ ) {
+			var i = 0;
+			while ( Globals.resultSet[i] ) {
 				p = new Person();
 				p.init( Globals.resultSet[i] );
 				//if status is changed, delete from Globals.personListOld and Q so it gets readded.
@@ -159,6 +161,7 @@ var ScrollView = {
 					Globals.personList[p.uuid] = Globals.personListOld[p.uuid] = p;
 				}
 				freshUuids.push( p.uuid );
+				i += 1;
 			}
 			// CHECK FOR UUIDs TO REMOVE
 			var fuLength = freshUuids.length;
@@ -177,7 +180,7 @@ var ScrollView = {
 			document.getElementById( 'infoLine1' ).innerHTML = '<span style="color: red; font-weight: bold;">'+snmf+'</span>';
 			Globals.initDone = 0;
 		}
-		this.update();
+		ScrollView.update();
 	},
 
 	getPersonData : function(person) {
@@ -188,7 +191,7 @@ var ScrollView = {
 		// incremental row assignments
 		person.row = Globals.nextRow;
 
-	  this.addPersonToQ(person);
+	  ScrollView.addPersonToQ(person);
 
 	  delete Globals.personList[person.uuid];
 
@@ -450,7 +453,8 @@ var ScrollView = {
 					{ top: 0,
 					  left: 0,
 					  height: "100%",
-					  width: "100%"}).show();
+					  width: "100%",
+					  position: "absolute"}).show();
 			$("#build, #dt_print, #content, #pager, #perPageWrapper, #printLink, #disaster_selekta, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap").hide();
 			$("body").css({backgroundColor : "white" });
 			Globals.maxRows = Math.ceil($(window).height()/350) > 4 ? 4 : Math.ceil($(window).height()/350)
@@ -470,6 +474,7 @@ var ScrollView = {
 		$(document).unbind("keyup");
 		$("#dt_print, #content, #pager, #perPageWrapper, #printLink, #disaster_selekta, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap").show();
 		$("#scrolling_content, #detailsPane, #glass").insertAfter("#beforeScrollingContent");
+		$("#scrolling_content").css({ position: "relative" });
 		$("body").css({backgroundColor : "#6289C0" });
 		$("#exitFullScreenIpad").hide();
 		Globals.initDone = 1;

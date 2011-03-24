@@ -54,3 +54,6 @@ $conf['enable_plus_web_services'] = true;
 
 # Enable SOLR for search? If not default to MySQL
 $conf['enable_solr_for_search'] = false;
+$conf["SOLR_root"] = "http://localhost/solr/lpf/";
+$conf["SOLR_port"] = 8983;
+

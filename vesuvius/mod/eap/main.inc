@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Edit A Person
- * @version      1.0
+ * @version      1.1
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0303
+ * @lastModified 2011.0323
  */
 
 include_once($global['approot']."/inc/lib_uuid.inc");
@@ -386,19 +386,11 @@ function emailUpdates() {
 function saveRevision($table, $column, $name, $oldValue, $newValue) {
 	global $global;
 
-	if($table == "resource_to_incident") {
-		$q = "
-			UPDATE ".$table."
-			SET ".$column." = '".mysql_real_escape_string($newValue)."'
-			WHERE x_uuid    = '".$global['uuid']."';
-		";
-	} else {
-		$q = "
-			UPDATE ".$table."
-			SET ".$column." = '".mysql_real_escape_string($newValue)."'
-			WHERE p_uuid    = '".$global['uuid']."';
-		";
-	}
+	$q = "
+		UPDATE ".$table."
+		SET ".$column." = '".mysql_real_escape_string($newValue)."'
+		WHERE p_uuid    = '".$global['uuid']."';
+	";
 
 	// save the revision
 	$r = $global['db']->Execute($q);
@@ -476,55 +468,6 @@ function saveContactRevision($type, $name, $oldValue, $newValue) {
 
 
 /**
- * saveHospitalRevision
- *
- * @access public
- * @return void
- */
-function saveHospitalRevision($name, $oldValue, $newValue) {
-	global $global;
-
-	// we delete and then insert here because sometimes the contact value is not yet set, so an update would fail~!
-
-	// delete the old value
-	$q = "
-		DELETE FROM person_to_hospital
-		WHERE p_uuid = '".$global['uuid']."';
-	";
-	$r = $global['db']->Execute($q);
-
-
-	// insert the new value
-	$q = "
-		INSERT INTO person_to_hospital (`p_uuid`, `hospital_uuid`)
-		VALUE ('".$global['uuid']."', '".mysql_real_escape_string($newValue)."');
-	";
-	$r = $global['db']->Execute($q);
-
-
-	// note the revision
-	$q = "
-		INSERT INTO person_updates (`p_uuid`, `updated_table`, `updated_column`, `old_value`, `new_value`, `updated_by_p_uuid`)
-		VALUES ('".$global['uuid']."', 'person_to_hospital', 'hospital_uuid', '".$oldValue."', '".$newValue."', '".$_SESSION['user_p_uuid']."');
-	";
-	$r = $global['db']->Execute($q);
-
-	// update timestamp
-	$q = "
-		UPDATE person_status
-		SET updated = CURRENT_TIMESTAMP
-		WHERE p_uuid = '".$global['uuid']."';
-	";
-	$r = $global['db']->Execute($q);
-
-	add_confirmation("Updated ".$name." from \"".$oldValue."\" to \"".$newValue."\"");
-
-	addEmailUpdates("person_to_hospital", "hospital_uuid", $name, $oldValue, $newValue);
-}
-
-
-
-/**
  * updateFullName ~ full_name is derived, so we update it when given or family names are updated
  *
  * @access public
@@ -573,11 +516,25 @@ function shn_eap_edit() {
 		FROM person_uuid
 		WHERE p_uuid = '".$global['uuid']."';
 	";
-	$r        = $global['db']->Execute($q);
-	$row      = $r->FetchRow();
-	$full_name = $row['full_name'];
+	$r                   = $global['db']->Execute($q);
+	$row                 = $r->FetchRow();
+	$full_name           = $row['full_name'];
+	$person_incident     = array();
+	$person_incident['incident_id'] = $row['incident_id'];
+	$hospital            = $row['hospital_uuid'];
 	$global['full_name'] = $full_name;
-	$person_uuid = $row;
+	$person_uuid         = $row;
+
+	// if hospital not assigned yet...
+	if($hospital == NULL) {
+		$person_to_hospital = array();
+		$person_to_hospital['hospital_uuid'] = -1; // teh null hospital :)
+		$person_to_hospital['name']          = "SELECT";
+	} else {
+		$person_to_hospital = array();
+		$person_to_hospital['hospital_uuid'] = $hospital;
+	}
+
 
 	$q  = "
 		SELECT *
@@ -702,15 +659,6 @@ function shn_eap_edit() {
 
 	// LOAD PUBLIC DATA ///////////////////////////////////////////////////////////////////////////////
 
-	// load incident
-	$q  = "
-		SELECT *
-		FROM resource_to_incident
-		WHERE x_uuid = '".$global['uuid']."';
-	";
-	$r               = $global['db']->Execute($q);
-	$person_incident = $r->FetchRow();
-
 	// load physical
 	$q  = "
 		SELECT *
@@ -730,6 +678,11 @@ function shn_eap_edit() {
 	";
 	$r              = $global['db']->Execute($q);
 	$person_status  = $r->FetchRow();
+
+	// check for not sets
+	if(!isset($person_status['opt_status'])) {
+		$person_status['opt_status'] = "unk";
+	}
 
 	// check fpr not set status (rare.. but happens sometimes)
 	if(!isset($person_status['updated']) || $person_status['updated'] == null) {
@@ -754,16 +707,6 @@ function shn_eap_edit() {
 	} else {
 		$missing = false;
 	}
-
-	// load hospital data
-	$q  = "
-		SELECT *
-		FROM person_to_hospital p, hospital h
-		WHERE p.hospital_uuid = h.hospital_uuid
-		AND p.p_uuid = '".$global['uuid']."';
-	";
-	$r        = $global['db']->Execute($q);
-	$hospital = $r->FetchRow();
 
 	// set opt values to UNK if thats teh case
 	$person_details['opt_gender']      == null ? $gender = "UNK" : $gender = $person_details['opt_gender'];
@@ -815,23 +758,6 @@ function shn_eap_edit() {
 	$r   = $global['db']->Execute($q);
 	$row = $r->FetchRow();
 	$hair = $row['option_description'];
-
-	// hospital information
-	$q = "
-		SELECT *
-		FROM person_to_hospital p, hospital h
-		WHERE p.p_uuid = '".$global['uuid']."'
-		AND h.hospital_uuid = p.hospital_uuid;
-	";
-	$r   = $global['db']->Execute($q);
-	if($person_to_hospital = $r->FetchRow()) {
-		// ok, good ;)
-	} else {
-		// person must not be at hospital or not assigned to one yet
-		$person_to_hospital = array();
-		$person_to_hospital['hospital_uuid'] = -1; // teh null hospital :)
-		$person_to_hospital['name']          = "SELECT";
-	}
 	// LOAD PUBLIC DATA END ///////////////////////////////////////////////////////////////////////////
 
 
@@ -877,9 +803,8 @@ function shn_eap_edit() {
 			if($editWeight     !== $person_physical['weight'])           { saveRevision("person_physical",      "weight",         "Weight",      $person_physical['weight'],           $editWeight);   }
 			if($editComments   !== $person_physical['comments'])         { saveRevision("person_physical",      "comments",       "Comments",    $person_physical['comments'],         $editComments); }
 			if($editStatus     !== $person_status['opt_status'])         { saveRevision("person_status",        "opt_status",     "Status",      $person_status['opt_status'],         $editStatus);   }
-			if($editEvent      !== $person_incident['incident_id'])      { saveRevision("resource_to_incident", "incident_id",    "Event",       $person_incident['incident_id'],      $editEvent);    }
-
-			if($editHospital   !== $person_to_hospital['hospital_uuid']) { saveHospitalRevision("Hospital", $person_to_hospital['hospital_uuid'], $editHospital); }
+			if($editEvent      !== $person_incident['incident_id'])      { saveRevision("person_uuid",          "incident_id",    "Event",       $person_incident['incident_id'],      $editEvent);    }
+			if($editHospital   !== $person_to_hospital['hospital_uuid']) { saveRevision("person_uuid",          "hospital_uuid",  "Hospital",    $person_to_hospital['hospital_uuid'], $editHospital); }
 
 			// reload status since changes made......
 			$q  = "

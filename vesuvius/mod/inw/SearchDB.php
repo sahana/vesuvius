@@ -90,8 +90,6 @@ class SearchDB
 			$this->buildFromClause();
 			$this->buildWhereClause();
 			$this->buildMainQuery();
-			$this->initDBConnection();
-			
 		} else if ( $searchMode == "solr" ) {
 			global $conf;
 			$this->SOLRroot = $conf["SOLR_root"];
@@ -152,10 +150,6 @@ class SearchDB
 	
 	private function buildWhereClause() {
 		$this->buildFiltersClause();
-		
-		$this->parseSearchTermsBroad();
-		$this->parseSearchTermsSoundex();
-		$this->parseSearchTermsPrecise();
 	}
 	
 	private function buildFiltersClause() {
@@ -221,65 +215,11 @@ class SearchDB
 		$this->mainQ = "SELECT * " . $this->fromClause . " WHERE ";
 	}
 	
-	private function parseSearchTermsBroad() {
-		if ( strlen($this->searchTerm) > 0 ) {
-			$toReplace = array(";", ";", ",", ".", "<", ">", "?", ":", "'", "\"", "`", "~", "!", "@", "#", "$", "%", ":");	
-			str_replace($toReplace, " ", $this->searchTerm);	
-			$terms = explode(" ", $this->searchTerm);
-			for ($i = 0; $i < count($terms); $i++) {
-				$this->whereClauseBroad .= $i > 0 ? " OR " : " ( ";
-				if (strlen($terms[$i]) >= 2) {
-					$this->whereClauseBroad .= " full_name like '".$terms[$i]."%' or full_name like '% ".$terms[$i]."%' or full_name like '%,".$terms[$i]."' or full_name like '%.".$terms[$i]."'";
-					$this->whereClauseBroad .= " OR given_name sounds like '".$terms[$i]."'" ;
-					$this->whereClauseBroad .= " OR family_name sounds like '".$terms[$i]."'" ;
-				}
-			}
-			$this->whereClauseBroad .= " ) AND ";
-		}
-		
-		$this->whereClauseBroad .= $this->whereClause;
-	}
-	
-	private function parseSearchTermsSoundex() {
-		if ( strlen($this->searchTerm) > 0 ) {
-			$toReplace = array(";", ";", ",", ".", "<", ">", "?", ":", "'", "\"", "`", "~", "!", "@", "#", "$", "%", ":");	
-			str_replace($toReplace, " ", $this->searchTerm);	
-
-			if ( strlen($this->searchTerm) > 0 ) {
-				$this->whereClauseSoundex .= " (full_name SOUNDS LIKE '" . $this->searchTerm . "') AND ";
-			}
-		}
-		$this->whereClauseSoundex .= $this->whereClause;
-	}
-
-	private function parseSearchTermsPrecise() {
-		$toReplace = array(";", ";", ",", ".", "<", ">", "?", ":", "'", "\"", "`", "~", "!", "@", "#", "$", "%", ":");	
-		str_replace($toReplace, " ", $this->searchTerm);	
-		if ( strlen($this->searchTerm) > 0 ) {
-			$this->whereClausePrecise .= " (full_name = '" . $this->searchTerm . "') AND ";
-		}
-		
-		$this->whereClausePrecise .= $this->whereClause;
-	}	
-	
 	// kinda redudant now because of the view, but this might change later.
 	private function buildFromClause() {
 		$this->fromClause =  "FROM person_search";
 	}
 	
-	private function getResultsCount() {
-		$qRC = "SELECT count(*) FROM (" . $this->mainQ . $this->whereClausePrecise . " UNION " . 
-				$this->mainQ . $this->whereClauseBroad . " UNION " . 
-				$this->mainQ . $this->whereClauseSoundex . ") as t";
-
-		 //echo $qRC;
-		$result = $this->db->Execute($qRC);
-		while (!$result == NULL && !$result->EOF) {
-			$this->numRowsFound = $result->fields[0];
-			mysql_free_result($result);
-			break;
-		}
-	}
 	
 	private function getTotalResults() {
 		$qTA = "SELECT count(*)	" . $this->fromClause . " WHERE shortname = '" . $this->incident . "'";	
@@ -305,92 +245,13 @@ class SearchDB
 		
 		//echo $proc;
 		$mysqli = new mysqli( $conf["db_host"], $conf["db_user"], $conf["db_pass"], $conf["db_name"], $conf["db_port"] ); // "archivestage.nlm.nih.gov", "mrodriguez", "xdr5XDR%", "pltest3" );
-		/*$query = "SELECT SQL_CALC_FOUND_ROWS * FROM (
-					SELECT
-							`a`.`p_uuid`       AS `p_uuid`,
-							`a`.`full_name`    AS `full_name`,
-							`a`.`given_name`   AS `given_name`,
-							`a`.`family_name`  AS `family_name`,
-							(CASE WHEN `b`.`opt_status` NOT IN ('ali', 'mis', 'inj', 'dec', 'unk') OR `b`.`opt_status` IS NULL THEN 'unk' ELSE `b`.`opt_status` END) AS `opt_status`,
-					DATE_FORMAT(b.updated, '%m/%e/%y @ %l:%i:%s %p') as updated,
-							(CASE WHEN `c`.`opt_gender` NOT IN ('mal', 'fml') OR `c`.`opt_gender` IS NULL THEN 'unk' ELSE `c`.`opt_gender` END) AS `opt_gender`,
-							(CASE WHEN CAST(`c`.`years_old` AS UNSIGNED) < 18 THEN 'child' WHEN CAST(`c`.`years_old` AS UNSIGNED) >= 18 THEN 'adult' ELSE 'unknown' END) as `age_group`,
-							`i`.`image_height` AS `image_height`,
-							`i`.`image_width`  AS `image_width`,
-							`i`.`url_thumb`    AS `url_thumb`,
-							`e`.`comments`     AS `comments`,
-							`e`.`last_seen`    AS `last_seen`,
-							(CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)  AS `hospital`,
-							(CASE WHEN (`h`.`hospital_uuid` = -(1)) THEN NULL ELSE `h`.`icon_url` END) AS `icon_url`,
-							`inc`.`shortname`  AS `shortname`
-					   FROM `person_uuid` `a`
-					   JOIN `person_status` `b`          ON (`a`.`p_uuid` = `b`.`p_uuid` AND `b`.`isVictim` = 1)
-				  LEFT JOIN `image` `i`                  ON `a`.`p_uuid` = `i`.`x_uuid`
-					   JOIN `person_details` `c`         ON `a`.`p_uuid` = `c`.`p_uuid`
-				  LEFT JOIN `person_missing` `e`         ON `a`.`p_uuid` = `e`.`p_uuid`
-					   JOIN `incident` `inc`             ON `inc`.`incident_id` = `a`.`incident_id`
-				  LEFT JOIN `hospital` `h`               ON `h`.`hospital_uuid` = `a`.`hospital_uuid`
-				) as t
-				  WHERE INSTR(?, t.opt_status)
-					AND INSTR(?, t.opt_gender)
-					  AND INSTR(?, t.age_group)
-					  AND INSTR(?, t.hospital)
-					AND t.`shortname` = ?
-				  AND t.full_name like CONCAT('%', ?, '%')
-				 ORDER BY CASE WHEN t.full_name like CONCAT(?, ' %') THEN 0
-						   WHEN t.full_name like CONCAT(?, '%') THEN 1
-						   WHEN t.full_name like CONCAT('% ', ?, '%') THEN 2
-						   ELSE 3
-						  END,
-						  ?
-				LIMIT ?, ?;";
-		
-		if ( $stmt = $mysqli->prepare($query) ) {
-			$stmt->bind_param("ssssssssssii", $this->statusString, $this->genderString, $this->ageString,
-											 $this->hospitalString, $this->incident, $this->searchTerm,
-											 $this->searchTerm, $this->searchTerm, $this->searchTerm,
-											 $this->sortBy, $this->pageStart, $this->perPage);
-			
-			$stmt->execute();
-			$stmt->bind_result($p_uuid, $full_name, $given_name, $family_name, $opt_status, $updated, 
-					   $opt_gender, $age_group, $image_height, $image_width, $url_thumb, $comments, $last_seen,
-					   $hospital, $icon_url, $shortname);
-					   
-			while ($stmt->fetch()) {
-				$encodedUUID = base64_encode($p_uuid);
-				$this->results[] = array('p_uuid'=>$p_uuid, 
-						'encodedUUID'=>$encodedUUID,
-						'full_name'=>$full_name, 
-						'opt_status'=>str_replace("\"", "", $opt_status),
-						'imageUrl'=>$url_thumb, 
-						'imageWidth'=>$image_width, 
-						'imageHeight'=>$image_height, 
-						'age_group'=>$age_group, 
-						'statusSahanaUpdated'=>$updated, 
-						'last_seen'=>$last_seen, 
-						'comments'=>strip_tags($comments),
-						'gender' => $opt_gender,
-						'hospitalIcon' => $icon_url);
-			}
-		} else {
-			printf("Prepared Statement Error: %s\n", $mysqli->error);
+		if ( $this->mode != "true" ) {
+			$this->pageStart = 0;
+			$this->perPage = 2000;
 		}
 		
-		$stmt->close();
-		$mysqli->close();
-		
-		$this->numRowsFound = 500;
-		$this->allCount = 10000;
-		
-		//echo "<pre>";
-		//print_r( $this->results );
-		//echo "</pre>";
-		*/
-		
-		$proc = "CALL PLSearch('$this->searchTerm', '$this->statusString', '$this->genderString', '$this->ageString', '$this->hospitalString', '$this->incident', '$this->sortBy', $this->pageStart, $this->perPage, @rowsFound, @allCount)";
-
-		//$res = $mysqli->multi_query( $proc ); //CALL $proc; SELECT @rowsFound; SELECT @totalRows;" ); 
-		$res = $mysqli->multi_query( "$proc; SELECT @rowsFound; SELECT @allCount;" ); 
+		$proc = "CALL PLSearch2('$this->searchTerm', '$this->statusString', '$this->genderString', '$this->ageString', '$this->hospitalString', '$this->incident', '$this->sortBy', $this->pageStart, $this->perPage, @allCount)";
+		$res = $mysqli->multi_query( "$proc; SELECT @allCount;" ); 
 
 		//print_r($res);
 		if( $res ) {
@@ -410,22 +271,22 @@ class SearchDB
 									'imageHeight'=>$row["image_height"], 
 									'age_group'=>$row["age_group"], 
 									'statusSahanaUpdated'=>$row["updated"], 
-//									'last_seen'=>$row["last_seen"], 
-//									'comments'=>strip_tags($row["comments"]),
+									'last_seen'=>$row["last_seen"], 
+									'comments'=>strip_tags($row["comments"]),
 									'gender' => $row["opt_gender"],
 									'hospitalIcon' => $row["icon_url"]);
 						}
-					} elseif ( $c == 1 ) { // rows found
+					/*} elseif ( $c == 1 ) { // rows found
 						while( $row = $result->fetch_row() )
 							foreach( $row as $cell ) 
 								$this->numRowsFound = $cell;
-					} elseif ( $c == 2 ) { // total rows
+					} elseif ( $c == 2 ) { // total rows*/
+					} elseif ( $c == 1 ) { // total rows
 						while( $row = $result->fetch_row() )
 							foreach( $row as $cell ) 
 								$this->allCount = $cell;
 					}
 				  
-
 					$result->close();
 					if( $mysqli->more_results() ) $c += 1;					
 				} 
@@ -436,108 +297,6 @@ class SearchDB
 		//echo "<pre>";
 		//print_r($this->results);
 		//echo "</pre>";
-		
-		/*$q = "SELECT DATE_FORMAT(t.updated, '%m/%e/%y @ %l:%i:%s %p') as updated,
-						 p_uuid,
-						 full_name, 
-						 given_name,
-						 family_name,
-						 opt_status,
-						 opt_gender,
-						 years_old,
-						 image_height,
-						 image_width,
-						 url_thumb,
-						 comments,
-						 last_seen,
-						 icon_url,
-						 shortname,
-						 hospital 
-					FROM person_search as t";
-
-		if ( $this->sortBy != "" )
-			$q .= " ORDER BY " . $this->sortBy;	
-		
-		if ( $this->mode == "true" && $this->perPage != "-1" )
-			$q .= " LIMIT " . $this->pageStart . ", " . $this->perPage;
-*/
-/*
-		$q = "SELECT SQL_CALC_FOUND_ROWS * FROM (
-			  SELECT DISTINCT
-				`a`.`p_uuid`       AS `p_uuid`,
-				`a`.`full_name`    AS `full_name`,
-				(CASE WHEN `b`.`opt_status` NOT IN ('ali', 'mis', 'inj', 'dec', 'unk') OR `b`.`opt_status` IS NULL THEN 'unk' ELSE `b`.`opt_status` END) AS `opt_status`,
-				`b`.`updated` 	   AS `updated`,
-				(CASE WHEN `c`.`opt_gender` NOT IN ('mal', 'fml') OR `c`.`opt_gender` IS NULL THEN 'unk' ELSE `c`.`opt_gender` END) AS `opt_gender`,
-				(CASE WHEN CAST(`c`.`years_old` AS UNSIGNED) < 18 THEN 'child' WHEN CAST(`c`.`years_old` AS UNSIGNED) >= 18 THEN 'adult' ELSE 'unknown' END) as `age_group`,
-				`i`.`image_height` AS `image_height`,
-				`i`.`image_width`  AS `image_width`,
-				`i`.`url_thumb`    AS `url_thumb`,
-				`e`.`comments`     AS `comments`,
-				`e`.`last_seen`    AS `last_seen`,
-				(CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)  AS `hospital`,
-				(CASE WHEN (`h`.`hospital_uuid` = -(1)) THEN NULL ELSE `h`.`icon_url` END) AS `icon_url`,
-				`inc`.`shortname`  AS `shortname`
-			   FROM `person_uuid` `a`
-			   JOIN `person_status` `b`          ON (`a`.`p_uuid` = `b`.`p_uuid` AND `b`.`isVictim` = 1)
-		  LEFT JOIN `image` `i`                  ON `a`.`p_uuid` = `i`.`x_uuid`
-			   JOIN `person_details` `c`         ON `a`.`p_uuid` = `c`.`p_uuid`
-		  LEFT JOIN `person_missing` `e`         ON `a`.`p_uuid` = `e`.`p_uuid`
-			   JOIN `resource_to_incident` `rti` ON `a`.`p_uuid` = `rti`.`x_uuid`
-			   JOIN `incident` `inc`             ON `inc`.`incident_id` = `rti`.`incident_id`
-		  LEFT JOIN `person_to_hospital` `pth`   ON `a`.`p_uuid` = `pth`.`p_uuid`
-		  LEFT JOIN `hospital` `h`               ON `pth`.`hospital_uuid` = `h`.`hospital_uuid`
-		) as t
-		  WHERE INSTR('$this->statusString', t.opt_status)
-			AND INSTR('$this->genderString', t.opt_gender)
-			  AND INSTR('$this->ageString', t.age_group)
-			  AND INSTR('$this->hospitalString', t.hospital)
-			AND t.`shortname` = '$this->incident'
-		  AND t.full_name like CONCAT('%', '$this->searchTerm', '%')
-		 ORDER BY CASE WHEN t.full_name like CONCAT('$this->searchTerm', ' %') THEN 0
-				   WHEN t.full_name like CONCAT('$this->searchTerm', '%') THEN 1
-				   WHEN t.full_name like CONCAT('% ', '$this->searchTerm', '%') THEN 2
-				   ELSE 3
-				  END,";
-				  
-		if ( $this->sortBy != "" )
-			$q .= $this->sortBy;	
-		
-		if ( $this->mode == "true" && $this->perPage != "-1" )
-			$q .= " LIMIT " . $this->pageStart . ", " . $this->perPage;				  
-*/
-		//echo $q;
-
-		/*$result = $this->db->Execute($q);
-		//$this->numRowsFound = 1000;
-		//$this->allCount = 1000;
-		
-		
-			 echo "<pre>";
-			 print_r( $result );
-			 echo "</pre>";		
-		while (!$result == NULL && !$result->EOF) {
-
-			 $encodedUUID = base64_encode($result->fields["p_uuid"]);
-			 $this->results[] = array('p_uuid'=>$result->fields["p_uuid"], 
-					 'encodedUUID'=>$encodedUUID,
-					 'full_name'=>$result->fields["full_name"], 
-					 'opt_status'=>str_replace("\"", "", $result->fields["opt_status"]),
-					 'imageUrl'=>$result->fields["url_thumb"], 
-					 'imageWidth'=>$result->fields["image_width"], 
-					 'imageHeight'=>$result->fields["image_height"], 
-					 'age_group'=>$result->fields["age_group"], 
-					 'statusSahanaUpdated'=>$result->fields["updated"], 
-					 'last_seen'=>$result->fields["last_seen"], 
-					 'comments'=>strip_tags($result->fields["comments"]),
-					 'gender' => $result->fields["opt_gender"],
-					 'hospitalIcon' => $result->fields["icon_url"]);
-			 $result->MoveNext();
-		}
-		mysql_free_result($result);
-
-		$this->getResultsCount();
-		$this->getTotalResults();*/
 	}
 
 	public function getLastUpdate() {
@@ -708,7 +467,7 @@ class SearchDB
 		if ( $this->mode == "true" && $this->perPage != "-1" )
 			$this->SOLRquery .= "&start=" . $this->pageStart . "&rows=" . $this->perPage;
 		else 
-			$this->SOLRquery .= "&rows=10000"; // max number of rows returned is 1000
+			$this->SOLRquery .= "&rows=2000"; // max number of rows returned is 2000
 			
 		if ( $this->sortBy != "" )
 			$this->SOLRquery .= "&sort=" . $this->sortBy . ",score desc";
@@ -782,8 +541,8 @@ class SearchDB
 
 
 // testing
-  $search = new SearchDB("solr", "christchurch", "", "true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "0;25;opt_status+desc;true");
-  $search->executeSearch();
+//  $search = new SearchDB("sql", "cmax2009", "", "true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "0;25;opt_status+desc;true");
+//  $search->executeSearch();
  // $search->getLastUpdateSOLR();
 	
 // echo json_encode($search->results);

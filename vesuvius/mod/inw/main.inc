@@ -20,6 +20,7 @@ include_once ($global['approot'].'/mod/inw/xajax.inc');
 
 shn_xajax_registerFunction('inw_getData');
 shn_xajax_registerFunction('inw_checkForChanges');
+shn_xajax_registerFunction('inw_hasNextPage');
 
 
 
@@ -138,7 +139,8 @@ function shn_inw_default() {
 				</div>
 				<div style="clear:both;"></div>
 				<div style="float:left;font-size: .85em; display: none;" id="foundLabel">
-					Found <span id="recordsFound">0</span> out of <span id="totalRecords">0</span> records in <span id="timeElapsed">0</span> seconds <span id="maxShown" style="display:none;font-size: .6em">(max 10,000 shown)</span>
+					<span id="solrFoundLabel" style="display: none">Found <span id="recordsFound">0</span> out of <span id="totalRecordsSOLR">0</span> records in <span id="timeElapsedSOLR">0</span> seconds <span id="maxShown" style="display:none;font-size: .6em">(max 2,000 shown)</span></span>
+					<span id="sqlFoundLabel"  style="display: none">Searched <span id="totalRecordsSQL">0</span> records in <span id="timeElapsedSQL">0</span> seconds <span id="maxShown" style="display:none;font-size: .6em">(max 1,200 shown)</span></span>
 				</div>
 				<div id="updateAlerts" style=" font-weight: bold;float:left;font-size: .85em; display: none; margin-left: 5px; color: #C00">
 				<!--	<span style="color: black"> | </span> There are new or updated records in the database, click <a href="javascript:searchSubset()">here</a> to refresh the results -->
@@ -152,9 +154,7 @@ function shn_inw_default() {
 				<div style="clear:both;"></div>
 			</form>
 			<br />
-		<div id="pager" style="display:none;float:left;margin-right:15px;margin-top:5px;"></div>
-		<div id="perPageWrapper" style="display:none;float:left; margin-right:15px;">
-			<span style="margin-right: 15px;">|</span>
+		<div id="perPageWrapper" style="display:none;float:right; margin-right:15px;">
 			Results Per Page -
 			<select id="perPage" onchange="Globals.currPage = 1; Globals.perPage = this.value; searchSubset()">
 				<option value="25">25</option>
@@ -162,6 +162,7 @@ function shn_inw_default() {
 				<option value="100">100</option>
 			</select>
 		</div>
+		<div id="pager" style="display:none;float:left;margin-right:25px;margin-top:5px;"></div>
 
 		<div style="clear:both;" id="beforeScrollingContent"></div> <!-- for IE -->
 		<div id="scrolling_content">
@@ -206,6 +207,7 @@ function shn_inw_default() {
 
 		<!--script type="text/javascript" src="https://maps-api-ssl.google.com/maps/api/js?v=2&client=gme-hhs&sensor=false"></script-->
 		<script type="text/javascript" src="res/js/jquery-1.4.4.min.js" ></script>
+		<script type="text/javascript" src="https://github.com/douglascrockford/JSON-js/raw/8e0b15cb492f63067a88ad786e4d5fc0fa89a241/json2.js"></script>
 		<script type="text/javascript" src="res/js/jquery-ui-effectscore.min.js" ></script>
 		<!--script type="text/javascript" src="res/js/inw/jquery.animate-enhanced.min.js" ></script-->
 
