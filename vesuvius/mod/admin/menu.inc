@@ -84,28 +84,6 @@ function _shn_admin_acl_user_roles_menu($user_home=false) {
 
 
 
-function _shn_admin_acl_privacy_menu($privacy_home=false) {
-	shn_tabmenu_open();
-	shn_tabmenu_item("acl_data_privacy", _t("Data Classifications & Role Permissions"), 'admin');
-	shn_tabmenu_item("acl_data_classifications_tables", _t("Data Classifications & System Data "), 'admin');
-	shn_tabmenu_close();
-	if($privacy_home==true){
-		?>
-		<br>
-		<div id="home">
-		<h2><?php echo  _t('Welcome to Privacy section'); ?></h2>
-		<p><strong><?php echo _t('You can set Privacy settings for Data and Roles')?></strong></p>
-		<ul>
-		<li>If you need to modify which roles have permissions to create/read/modify which data, click on the <strong>'Data Classifications & Role Permissions'</strong> tab on the top of the page.</li>
-		<li>If you need to modify data sensitivity classifications of the data in the system, click on the <strong>'Data Classifications & System Data'</strong> tab on the top of the page.</li>
-		</ul>
-		</div>
-		<?php
-	}
-}
-
-
-
 function _shn_admin_acl_user_menu() {
 	_shn_admin_acl_user_roles_menu();
 }

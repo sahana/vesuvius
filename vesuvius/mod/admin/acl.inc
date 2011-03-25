@@ -195,12 +195,6 @@ function _shn_admin_acl_user_roles() {
 
 
 
-function _shn_admin_acl_data_privacy() {
-	shn_acl_form_role_select();
-}
-
-
-
 function _shn_admin_acl_role_edit_perms() {
 	shn_acl_form_role_perms_grid($_POST["roles"]);
 }
@@ -218,80 +212,6 @@ function _shn_admin_acl_user_perms() {
 	$module=$_GET['sel'];
 	_shn_admin_acl_module_sub_menu($module);
 	shn_acl_form_user_perms_grid($module,false);
-}
-
-
-
-function _shn_admin_acl_role_perms() {
-	$module=$_GET['sel'];
-	_shn_admin_acl_role_menu($module);
-	shn_acl_form_role_perms_grid($module,false);
-}
-
-
-
-function _shn_admin_acl_role_edit_perms_cr() {
-	$perm_string=$_POST{"perms"};
-	$perms=explode(";",$perm_string);
-	$role=$_POST{"role"};
-	//	array_pop($perms);
-	$success = true;
-	for($i=1;$i<count($perms);$i++) {
-		$save="";
-		$rule=explode(":",$perms[$i]);
-		$level=$rule[0];
-		//if(!shn_acl_delrole_perms($level))
-		//return false;
-		$cruds=array(
-     			"create"=>"c",
-     			"read"=>"r",
-     			"update"=>"u",
-     			"delete"=>"d"
-     			);
-     	$total=0;
-     	foreach($cruds as $crud=>$crud_value) {
-			$name=$level.$crud;
-			if(isset($_POST{trim($name)})) {
-				$save=$save.$crud_value;
-			}else{
-				$save=$save."-";
-			}
-     	}
-     	$success &= shn_acl_update_role_perms($role,$level,$save);
-	}
-	if($success == true){
-	   add_confirmation(_t("Role permissions to access data were successfully updated."));
-	}
-	shn_acl_form_role_perms_grid($role);
-
-}
-
-
-
-function _shn_admin_acl_data_classifications_tables() {
-	shn_acl_form_classifications_to_data();
-}
-
-
-
-function _shn_admin_acl_data_classifications_tables_cr() {
-	global $global;
-	$db=$global['db'];
-	$tables=shn_acl_sys_data_tables();
-	//var_dump($_POST);
-	foreach($tables as $table=>$level_id) {
-
-		$level_val=$_POST[$table];
-		$q="UPDATE sys_tablefields_to_data_classification set level_id=$level_val where table_field='{$table}'";
-
-		$res=$db->Execute($q);
-		if($res==false) {
-			add_error($db->ErrorMsg());
-			return $res;
-		}
-	}
-	// return $res;
-	_shn_admin_acl_data_classifications_tables();
 }
 
 

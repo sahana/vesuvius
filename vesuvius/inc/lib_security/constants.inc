@@ -9,7 +9,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0324
  */
 
 
@@ -28,13 +28,6 @@ define("ORGADMIN",       5);
 define("VOLCOORDINATOR", 6);
 define("CAMPADMIN",      7);
 define("ADMINUSER",      1);
-
-$crud_arr= array(
-	"delete_arr"=>array(1,3,5,7,9,11,13,15),
-	"update_arr"=>array(2,3,6,7,10,11,14,15),
-	"read_arr"=>array(4,5,6,7,12,13,14,15),
-	"create_arr"=>array(8,9,10,11,12,13,14,15)
-);
 
 define("PWDPOLICY", "
 	<h4>Password must adhere to following rules:</h4>
