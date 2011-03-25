@@ -68,7 +68,7 @@ function _shn_pref_config_validate() {
 	global $global;
 	$error_flag=false;
 	//clean the post
-	shn_tools_clean_post(&$local_post);
+	shn_tools_clean_post($local_post);
 
 	//anything entered?
 	if(empty($local_post)){
