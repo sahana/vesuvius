@@ -12,7 +12,7 @@
 
 // PLUS SOAP Server
 
-global $APPROOT;
+global $global;
 global $server;
 global $conf;
 
@@ -21,7 +21,7 @@ if(!isset($conf['enable_plus_web_services']) || (isset($conf['enable_plus_web_se
 	die();
 }
 
-require_once($APPROOT."3rd/nusoap/lib/nusoap.php");
+require_once($global['approot']."3rd/nusoap/lib/nusoap.php");
 
 // figure out which api version to load
 if(isset($_GET['api']) && file_exists($APPROOT."/mod/plus/api_".$_GET['api'].".inc")) {
