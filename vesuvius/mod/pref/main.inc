@@ -28,15 +28,27 @@ function shn_pref_loginForm() {
 
 		echo "
 			<form method=\"post\" action=\"index.php?act=login\">
-					username<input type=\"text\" name=\"user_name\" id=\"userName\" autocomplete=\"off\" /><br>
-					password<input type=\"password\" name=\"password\"  id=\"pswd\"     autocomplete=\"off\" /><br>
-					<input   type=\"submit\"   id=\"loginButton\" value=\"Login\" class=\"styleTehButton\" /><br><br>
+				<table style=\"width: 300px; margin: 10px;\">
+					<tr>
+						<td style=\"width: 100px; text-align: left;\">Username</td>
+						<td style=\"width: 200px; text-align: left;\"><input type=\"text\" name=\"user_name\" id=\"userName\" autocomplete=\"off\" /></td>
+					</tr>
+					<tr>
+						<td style=\"width: 100px; text-align: left;\">Password</td>
+						<td style=\"width: 200px; text-align: left;\"><input type=\"password\" name=\"password\"  id=\"pswd\"     autocomplete=\"off\" /></td>
+					</tr>
+					<tr><td colspan=2>&nbsp;</td></tr>
+					<tr>
+						<td  style=\"text-align: center;\" colspan=2><input   type=\"submit\"   id=\"loginButton\" value=\"Login\" class=\"styleTehButton\" /></td>
+					</tr>
+				</table>
 		";
 
 		$acl = shn_acl_is_signup_enabled();
 		if($acl == true) {
 			echo "
-				<span id=\"signUp\"><a href=\"index.php?mod=pref&act=signup\">Register for an Account</a></span><br>
+				<br><br>
+				<span id=\"signUp\"><a href=\"index.php?mod=pref&act=signup\">Register for an Account</a></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
 				<span id=\"forgotPassword\"><a href=\"index.php?mod=pref&act=forgotPassword\">Forgot My Password</a></span>
 			";
 		}
@@ -441,8 +453,8 @@ function shn_pref_signup($title="Create Your Account", $mod="pref", $act="signup
 function shn_pref_signup_cr() {
 	if(shn_auth_self_signup_cr() == true){
 		shn_pref_signup();
-		if($_SESSION['security_captcha_key'] != md5($_POST["captcha"])) {
-			add_error(_t("Please provide the text in the image correctly to prove you are human."));
+		if(!isset($_POST["captcha"]) || ($_SESSION['security_captcha_key'] != md5($_POST["captcha"]))) {
+			add_error(_t("Please provideeeeeeeee the text in the image correctly to prove you are human."));
 			return;
 		}
 		shn_pref_signup();
@@ -497,8 +509,6 @@ function shn_pref_default() {
 	echo "
 		<ul>
 			<li><b><a href=\"index.php?mod=pref&act=ch_passwd\">Change My Password</a></b></li><br>
-			<li><b><a href=\"index.php?mod=pref&act=personal\">Edit My Personal Details</a></b></li><br>
-			<li><b><a href=\"index.php?mod=pref&act=logout\">Logout</a></b></li>
 		</ul>
 	";
 	echo "</div>";

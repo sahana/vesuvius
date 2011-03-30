@@ -98,7 +98,6 @@ div#container {
 }
 
 div#header { height: 130px; font-family: arial; background-color: #fff;}
-
 div#headerText { position: absolute; top: 23px;  left: 250px; }
 div#headerText a {text-decoration: none; font-family: arial;}
 div#headerText h1 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 24px; font-weight: normal; font-family: arial; line-height: 25px; letter-spacing: 200%;}
@@ -164,30 +163,17 @@ div#modmenuwrap ul ul li a:hover {}
 	border-bottom-right-radius: 0px;
 }
 
-div#loginform, div#openid_loginform {
-	margin: 	0px;
+div#loginform {
+	margin: 	8px;
 	position:	absolute;
 	right: 		0px;
 	top:		0px;
-	width:		300px;
-	height: 	100px;
-	padding:	20px 15px 15px 15px;
-	color: 		#FFF;
-	z-index: 	10;
-	font-size: 	13px;
+	text-align:	right;
+	padding:	0px;
 	color: 		#000;
-	/*
-	background:       -moz-linear-gradient(0% 0% 0deg,#FFFFFF, #e0ecff);
-	background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(#ffffff), to(#e8f4ff));
-	*/
-	display: none;
+	z-index: 	9999;
+	font-size: 	100%;
 }
-
-div#loginform form fieldset legend { display: none; }
-div#loginform hr { display: none; }
-div#loginform form fieldset label { display: block; float: left; margin-left: 10px; margin-right: 10px; line-height: 20px; width: 70px; text-align: right; padding-top: 4px;}
-
-
 
 
 /* quick history styles */

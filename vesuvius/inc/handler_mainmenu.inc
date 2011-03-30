@@ -16,8 +16,8 @@
 
 global $conf;
 global $global;
-require_once $global['approot'].'/inc/lib_modules.inc';
-require_once $global['approot'].'/inc/lib_menu.inc';
+require_once($global['approot'].'/inc/lib_modules.inc');
+require_once($global['approot'].'/inc/lib_menu.inc');
 
 shn_mainmenuopen(_t('Main Menu'));
 

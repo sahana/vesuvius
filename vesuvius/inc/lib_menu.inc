@@ -24,6 +24,8 @@
  */
 function shn_mainmenuitem($action, $desc, $module = null) {
 	global $global;
+	require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
+
 	if ($module == null) {
 		$module = $global['module'];
 	}
@@ -61,8 +63,12 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 		$class = ' class=""';
 	}
 
-
-	echo "<li ".$class."><a href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a></li>";
+	// a 3rd hack to show the proper home linl (it doesn't have the shortname in the url)
+	if($desc == "Home") {
+		echo "<li ".$class."><a href=\"".makeBaseUrlMinusEvent()."\">".$desc."</a></li>";
+	} else {
+		echo "<li ".$class."><a href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a></li>";
+	}
 
 }
 

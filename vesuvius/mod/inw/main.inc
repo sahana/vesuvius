@@ -49,6 +49,7 @@ function shn_inw_default() {
 
 			<input type="text" id="jsonHolder" style="display:none" />
 			<input type="text" id="SOLRFacets" style="display:none" />
+			<input type="text" id="shortName" style="display:none" value="<?= $_REQUEST["shortname"] ?>" />
 			<input type="hidden" id="searchMode" value="<?= $conf["enable_solr_for_search"] ? "solr" : "sql" ?>" />
 			<div id="searchOptions" style="display:none;">
 				<div style="font-weight: bold; background-color: #6289B0; color: white; padding:2px">Display Options</div>
@@ -139,8 +140,9 @@ function shn_inw_default() {
 				</div>
 				<div style="clear:both;"></div>
 				<div style="float:left;font-size: .85em; display: none;" id="foundLabel">
-					<span id="solrFoundLabel" style="display: none">Found <span id="recordsFound">0</span> out of <span id="totalRecordsSOLR">0</span> records in <span id="timeElapsedSOLR">0</span> seconds <span id="maxShown" style="display:none;font-size: .6em">(max 2,000 shown)</span></span>
-					<span id="sqlFoundLabel"  style="display: none">Searched <span id="totalRecordsSQL">0</span> records in <span id="timeElapsedSQL">0</span> seconds <span id="maxShown" style="display:none;font-size: .6em">(max 1,200 shown)</span></span>
+					<span id="solrFoundLabel" style="display: none">Found <span id="recordsFound">0</span> out of <span id="totalRecordsSOLR">0</span> records in <span id="timeElapsedSOLR">0</span> seconds </span>
+					<span id="sqlFoundLabel"  style="display: none">Searched <span id="totalRecordsSQL">0</span> records in <span id="timeElapsedSQL">0</span> seconds </span>
+					<span id="maxShown" style="display:none;font-size: .6em">(max 2,000 shown)</span>
 				</div>
 				<div id="updateAlerts" style=" font-weight: bold;float:left;font-size: .85em; display: none; margin-left: 5px; color: #C00">
 				<!--	<span style="color: black"> | </span> There are new or updated records in the database, click <a href="javascript:searchSubset()">here</a> to refresh the results -->
@@ -207,7 +209,6 @@ function shn_inw_default() {
 
 		<!--script type="text/javascript" src="https://maps-api-ssl.google.com/maps/api/js?v=2&client=gme-hhs&sensor=false"></script-->
 		<script type="text/javascript" src="res/js/jquery-1.4.4.min.js" ></script>
-		<script type="text/javascript" src="https://github.com/douglascrockford/JSON-js/raw/8e0b15cb492f63067a88ad786e4d5fc0fa89a241/json2.js"></script>
 		<script type="text/javascript" src="res/js/jquery-ui-effectscore.min.js" ></script>
 		<!--script type="text/javascript" src="res/js/inw/jquery.animate-enhanced.min.js" ></script-->
 

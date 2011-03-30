@@ -56,6 +56,7 @@ class lpfPatient {
 	*/
 	public function	__construct() {
 		$this->uuid = shn_create_uuid();
+		$this->incident_id = 0; // default
 	}
 
 
@@ -79,7 +80,7 @@ class lpfPatient {
 
 	public function insertPersonXMLv12() {
 		global $global;
-		$this->figureOutIncidentIdv12();
+		$this->figureOutIncidentId();
 		$this->insertImages();
 
 		// insert person
@@ -96,6 +97,8 @@ class lpfPatient {
 			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', '".$this->clientDate."', TRUE, CURRENT_TIMESTAMP);
 		";
 		$res = $global['db']->Execute($q4);
+
+echo "\n\n\n".$q4."\n\n\n";
 
 		// insert person's details
 		$q5 = "
@@ -211,8 +214,8 @@ class lpfPatient {
 		global $global;
 		// insert a person's images
 		for ($i=0; $i < sizeof($this->images); $i++) {
-			$q = " INSERT INTO image (x_uuid, image, image_type, image_height, image_width, created, category, url, url_thumb, original_filename)
-				VALUES ('".$this->uuid."', NULL, '".$this->images[$i]->type."', '".$this->images[$i]->height."', '".$this->images[$i]->width."', CURRENT_TIMESTAMP, ".
+			$q = " INSERT INTO image (x_uuid, image_type, image_height, image_width, created, category, url, url_thumb, original_filename)
+				VALUES ('".$this->uuid."', '".$this->images[$i]->type."', '".$this->images[$i]->height."', '".$this->images[$i]->width."', CURRENT_TIMESTAMP, ".
 				"'person', '".$this->images[$i]->url."', '".$this->images[$i]->url_thumb."', '".$this->images[$i]->original_filename."');";
 			$res = $global['db']->Execute($q);
 		}
@@ -227,23 +230,14 @@ class lpfPatient {
 			FROM incident WHERE shortname = '".$this->shortName."';
 		";
 		$result = $global['db']->Execute($query);
-		$row    = $result->FetchRow();
-		$this->incident_id = $row['incident_id'];
-	}
+		if($row = $result->FetchRow()) {
+			$this->incident_id = $row['incident_id'];
 
-
-
-	public function figureOutIncidentIdv12() {
-		global $global;
-		if($this->longName == "Unnamed TEST or DEMO") {
+		// if we can't figure out what incident it is, default to the test incident (#1)
+		} else {
 			$this->incident_id = 1;
-		} else if($this->longName == "CMAX 2009 - DRILL") {
-			$this->incident_id = 2;
-		} else if($this->longName == "CMAX 2010 - DRILL") {
-			$this->incident_id = 3;
 		}
 	}
-
 
 
 	public function extractSahanaStatus() {

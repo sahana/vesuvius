@@ -12,11 +12,8 @@
  */
 
 
-// Define the application's root path ~ the base path should not be exposed to the web for more security
-$APPROOT = realpath(dirname(__FILE__)).'/../';
-
-// define global $APPROOT for convenience and efficiency;
-$global['approot']  = $APPROOT;
+// define global $global['approot'] for convenience and efficiency;
+$global['approot']  = realpath(dirname(__FILE__)).'/../';
 $global['previous'] = false;
 $global["setup"]    = false;
 
@@ -30,9 +27,9 @@ shn_main_debugger();
 //shn_main_redirect();
 
 // include the base libraries
-require_once($APPROOT.'inc/lib_config.inc');
-require_once($APPROOT.'inc/lib_modules.inc');
-require_once($APPROOT.'inc/lib_errors.inc');
+require_once($global['approot'].'inc/lib_config.inc');
+require_once($global['approot'].'inc/lib_modules.inc');
+require_once($global['approot'].'inc/lib_errors.inc');
 
 // clean get and post variables
 shn_main_filter_getpost();
@@ -41,18 +38,18 @@ shn_main_filter_getpost();
 //shn_main_install_check();
 
 // include the main sysconf file
-require($APPROOT.'conf/sahana.conf');
+require($global['approot'].'conf/sahana.conf');
 
 // include the main libraries the system depends on
-require_once ($APPROOT.'inc/handler_db.inc');
-require_once($APPROOT.'inc/lib_security/lib_crypt.inc');
-require_once($APPROOT.'inc/handler_session.inc');
-//require_once($APPROOT.'inc/lib_security/handler_openid.inc'); // replacing openID lib soon....
-require_once($APPROOT.'inc/lib_security/lib_auth.inc');
-require_once($APPROOT.'inc/lib_security/constants.inc');
-require_once($APPROOT.'inc/lib_locale/handler_locale.inc');
-require_once($APPROOT.'inc/lib_exception.inc');
-require_once($APPROOT.'inc/lib_user_pref.inc');
+require_once ($global['approot'].'inc/handler_db.inc');
+require_once($global['approot'].'inc/lib_security/lib_crypt.inc');
+require_once($global['approot'].'inc/handler_session.inc');
+//require_once($global['approot'].'inc/lib_security/handler_openid.inc'); // replacing openID lib soon....
+require_once($global['approot'].'inc/lib_security/lib_auth.inc');
+require_once($global['approot'].'inc/lib_security/constants.inc');
+require_once($global['approot'].'inc/lib_locale/handler_locale.inc');
+require_once($global['approot'].'inc/lib_exception.inc');
+require_once($global['approot'].'inc/lib_user_pref.inc');
 
 // check permissions on the currrent event ~ if using event manager (we check permission in case we need to redirect for permissions violations)
 shn_main_checkEventPermissions();
@@ -106,9 +103,9 @@ function shn_main_clean_getpost() {
 function shn_main_filter_getpost() {
 	global $global, $conf;
 
-	// we set the default module/function here. by default, we send them to the landing page of the resources module
-	$m = isset($conf['default_module']) ? $conf['default_module'] : "rez";
-	$a = isset($conf['default_action']) ? $conf['default_action'] : "landing";
+	// we set the default module/function here. by default, we send them to the home module if not defined in sahana.conf
+	$m = isset($conf['default_module']) ? $conf['default_module'] : "home";
+	$a = isset($conf['default_action']) ? $conf['default_action'] : "default";
 
 	if (!$global['previous']) {
 		$global['action'] = !isset($_REQUEST['act']) ? $a : $_REQUEST['act'];
@@ -121,7 +118,6 @@ function shn_main_filter_getpost() {
 // front controller
 function shn_main_front_controller() {
 	global $global;
-	global $APPROOT;
 	global $conf;
 	$action = $global['action'];
 	$module = $global['module'];
@@ -145,8 +141,8 @@ function shn_main_front_controller() {
 	}
 
 	// check if the appropriate stream library exists
-	if(array_key_exists('stream', $_REQUEST) && file_exists($APPROOT.'/inc/lib_stream_'.$stream.'.inc')) {
-		require_once ($APPROOT.'/inc/lib_stream_'.$stream.'.inc');
+	if(array_key_exists('stream', $_REQUEST) && file_exists($global['approot'].'/inc/lib_stream_'.$stream.'.inc')) {
+		require_once($global['approot'].'/inc/lib_stream_'.$stream.'.inc');
 		$stream_ = $stream.'_'; // for convenience
 
 	// else revert to the html stream
@@ -154,7 +150,7 @@ function shn_main_front_controller() {
 		if(array_key_exists('stream', $_REQUEST)) {
 			add_error(_t('The stream requested is not valid.'));
 		}
-		require_once $APPROOT."/inc/lib_stream_html.inc";
+		require_once($global['approot']."/inc/lib_stream_html.inc");
 		$stream_ = null; // the default is html
 	}
 
@@ -165,17 +161,11 @@ function shn_main_front_controller() {
 		$global['effective_action'] = $action = 'modadmin';
 	} // the orignal module and action is stored in $global
 
-	// This is a redirect for the report action
-	if(preg_match('/^rpt/',$action)) {
-		$global['effective_module'] = $module = 'rs';
-		$global['effective_action'] = $action = 'modreports';
-	}
-
 	// fixes the security vulnerability associated with null characters in the $module string
 	$module = str_replace("\0", "", $module);
 
 	// identify the correct module file based on action and module
-	$module_file = $APPROOT.'mod/'.$module.'/main.inc';
+	$module_file = $global['approot'].'mod/'.$module.'/main.inc';
 
 	// check if module exists (modules main.inc)
 	if(file_exists($module_file)) {
@@ -183,9 +173,9 @@ function shn_main_front_controller() {
 	} else {
 		// default to the home page if the module main does not exist
 		add_error(_t('The requested module is not installed in Sahana'));
-		$module = 'rez';
-		$action = 'landing';
-		include($APPROOT.'mod/rez/main.inc');
+		$module = 'home';
+		$action = 'default';
+		include($global['approot'].'mod/home/main.inc');
 	}
 
 	// identify the name of the module function based on the action,
@@ -226,8 +216,6 @@ function shn_main_front_controller() {
 	if($stream_ == null) {
 
 		if((($global['action'] == 'signup_cr') || ($global['action'] == 'signup') || ($global['action'] == 'forgotPassword') || ($global['action'] == 'loginForm')) && ($global['module'] = 'pref')) {
-			// TODO: Check on =
-			// returns true if self-signup is enabled
 			if(shn_acl_is_signup_enabled()) {
 				$module_function();
 			}
@@ -277,59 +265,55 @@ function shn_main_front_controller() {
 
 // check if the event manager is installed and if so, check if the current user has group permission to the currently chosen incident
 function shn_main_checkEventPermissions() {
-	global $APPROOT;
 	global $global;
+	global $conf;
 
 	// only check if the event manager is installed
-	if(file_exists($APPROOT."mod/em/main.inc")) {
+	if(file_exists($global['approot']."mod/em/main.inc")) {
 
-		// check if visitor comes in with no shortname and initialize it as the default event if so to avoid a js redirect
+		// check if visitor comes in with no shortname....
 		isset($_GET['shortname']) ? $short = $_GET['shortname'] : $short = "";
-		if($short == "") {
+
+		// if we access the pref or eap module (login and other event independent stuff) allow with no shortname
+		if(($global['module'] == "pref") || ($global['module'] == "eap")) {
+			// slide
+
+		// else if the shortname is not set, sent them to the default module
+		} else if($short == "") {
+			$global['module'] = $conf['default_module'];
+			$global['action'] = $conf['default_action'];
+
+		// else check if the user has the permissions necessary for this event/incident
+		} else {
 			$q = "
-				SELECT shortname
+				SELECT *
 				FROM incident
-				WHERE `default` = '1'
+				WHERE shortname = '". mysql_real_escape_string($short)."'
 				LIMIT 1;
 			";
+
 			$res = $global['db']->GetAll($q);
-			if (!empty($res)) {
+			if(!empty($res)) {
 				foreach($res as $row) {
-					$_GET['shortname'] = $row['shortname'];
-				}
-			}
-		}
 
-		// check if the user has the permissions necessary for this event/incident
-		$q = "
-			SELECT *
-			FROM incident
-			WHERE shortname = '". mysql_real_escape_string($_GET['shortname'])."'
-			LIMIT 1;
-		";
+					// if the user is not privileged to the event, and the event is not public, then redirect the user to a resource error page
+					if($row['private_group'] != null) {
+						if(!isset($_SESSION['group_id']) || (isset($_SESSION['group_id']) && $row['private_group'] != $_SESSION['group_id'])) {
 
-		$res = $global['db']->GetAll($q);
-		if(!empty($res)) {
-			foreach($res as $row) {
-
-				// if the user is not privileged to the event, and the event is not public, then redirect the user to a resource error page
-				if($row['private_group'] != null) {
-					if(!isset($_SESSION['group_id']) || (isset($_SESSION['group_id']) && $row['private_group'] != $_SESSION['group_id'])) {
-
-						// this is the page we redirect the user to if they dont have permission to view/access this event
-						header("Location: ../index.php?mod=rez&act=default&page_id=-20");
+							// this is the page we redirect the user to if they dont have permission to view/access this event
+							header("Location: ../index.php?mod=rez&act=default&page_id=-20");
+						}
 					}
 				}
+
+			// they provided us a fake/non-existant event... redirect em back to having no event
+			} else {
+				header("Location: ../index.php");
 			}
-
-		// they provided us a fake/non-existant event... redirect em back to having no event, thus default event :)
-		} else {
-			header("Location: ../index.php");
 		}
-
-		// escape it here in case we forget to elsewhere...
-		$_GET['shortname'] =  mysql_real_escape_string($_GET['shortname']);
 	}
+
+	//echo "action(".$global['action'].") module(".$global['module'].")<br>";
 }
 
 
@@ -337,8 +321,8 @@ function shn_main_checkEventPermissions() {
 // sahana internal error handling
 function shn_main_error() {
 	// Include error handling routines
-	require_once($APPROOT.'inc/handler_error.inc');
-	require_once($APPROOT.'inc/lib_exception.inc');
+	require_once($global['approot'].'inc/handler_error.inc');
+	require_once($global['approot'].'inc/lib_exception.inc');
 
 	// handle error reporting seperately and set our own error handler
 	error_reporting(0);
@@ -393,7 +377,7 @@ function shn_main_redirect() {
 // check if we should install Agasti
 function shn_main_install_check() {
 	// does the sahana.conf exist in the conf directory? if not start the web installer
-	if (!file_exists($APPROOT.'conf/sahana.conf')) {
+	if (!file_exists($global['approot'].'conf/sahana.conf')) {
 		$global["setup"] = true;
 		//shn_main_web_installer();
 		// we have to come up with a new web installer... since the old one is gone!
@@ -404,7 +388,7 @@ function shn_main_install_check() {
 
 // provide SOAP Services
 function shn_main_plus() {
-	global $APPROOT;
-	require_once($APPROOT.'mod/plus/server.php');
+	global $global;
+	require_once($global['approot'].'mod/plus/server.php');
 }
 

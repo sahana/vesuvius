@@ -41,7 +41,7 @@ var Globals = {
 	personList : [], // list of people we WILL download information for
 	Q : [],
 	Q2 : [],
-	incident : $("#disasterList").val(),
+	incident : $("#shortName").val(),
 	results : [],
 	updaterId : null,
 	updaterTimer : 60000,  //1min

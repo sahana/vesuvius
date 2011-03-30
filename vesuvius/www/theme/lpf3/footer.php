@@ -11,12 +11,13 @@
  * @lastModified 2011.0308
  */
 
+/*
 // array of events
 $events = array();
+*/
 
 ?>
 <div id="blueBack">&nbsp;</div>
-<div id="disaster_selekta"><label for="event" id="eventLabel">Event </label><?selekta(); ?><script>checkEvent('<? echo $_GET['shortname']; ?>', '<? getDefaultEvent(); ?>');</script></div>
 <div id="footer"><center><table id="footerTable">
 		<tr>
 		<td>
@@ -81,7 +82,7 @@ $events = array();
 </div>
 <?php
 
-
+/*
 function addChildren($id, $spacer) {
 	global $events;
 	global $global;
@@ -162,4 +163,4 @@ function getDefaultEvent() {
 		}
 	}
 }
-
+*/

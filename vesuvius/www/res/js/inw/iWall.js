@@ -120,7 +120,7 @@ function searchSubset() {
 					  +	Globals.displayMode;
 		
 		
-	Globals.incident = Globals.incident || $("#disasterList").val(); //this is because the <select> is actually in the footer for some reason.
+	Globals.incident = Globals.incident || $("#shortName").val(); //this is because the <select> is actually in the footer for some reason.
 	Globals.searchMode = $("#searchMode").val();
 	$("#updateAlerts, #updateAlerts2").hide();
 
@@ -155,7 +155,7 @@ function searchSubset() {
 		
 	//$("#modmenuwrap").append($("#searchOptions").show());
 	$("#menuwrap").append($("#searchOptions").css({marginTop: "10px", marginLeft: "5px"}).show());
-	if ($("#disasterList").val() == "christchurch" || $("#disasterList").val() == "colombia2011" || $("#disasterList").val() == "sendai2011") $("#hospital").hide();
+	if ($("#shortName").val() == "christchurch" || $("#shortName").val() == "colombia2011" || $("#shortName").val() == "sendai2011") $("#hospital").hide();
 	$("#content").css({marginRight: "0px", paddingRight: "0px"});
 	
 	if ( Globals.initDone == 1 )
