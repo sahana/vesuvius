@@ -322,6 +322,7 @@ class mpres {
 						$this->login                   = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['login']['username']['#text'];
 						$this->personId                = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['personId']['#text'];
 						$this->eventName               = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventName']['#text'];
+						$this->eventLongName           = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventLongName']['#text'];
 						$this->orgName                 = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgName']['#text'];
 						$this->orgId                   = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgId']['#text'];
 						$this->lastName                = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName']['#text'];
@@ -341,6 +342,7 @@ class mpres {
 
 
 						$this->person->shortName   = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventName'];
+						$this->person->longName    = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventLongName'];
 
 						// fix missing last name
 						if(isset($a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName']) &&
@@ -364,7 +366,7 @@ class mpres {
 							$this->person->firstName = "unknown";
 						}
 
-						// <dateTimeSent>2010-32-07T12:32:41Z</dateTimeSent>
+						// <dateTimeSent>2011-03-28T07:52:17Z</dateTimeSent>
 						$date = $a['EDXLDistribution']['dateTimeSent'];
 						$date = str_replace("T", " ", $date);
 						$date = str_replace("Z", "", $date);

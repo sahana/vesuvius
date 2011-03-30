@@ -79,10 +79,7 @@ function shn_rap_showClosedMessage() {
 	// hack to routie reporting to google for NZ
 	if($_GET['shortname'] == "christchurch") {
 		echo '
-			<iframe
-			src="http://christchurch-2011.person-finder.appspot.com/?small=yes&lang=en"
-			width=400 height=300 frameborder=0
-			style="border: dashed 2px #77c"></iframe>
+			<iframe src="http://christchurch-2011.person-finder.appspot.com/?small=yes&lang=en" width=400 height=300 frameborder=0 style="border: dashed 2px #77c"></iframe>
 		';
 	} else if($_GET['shortname'] == "sendai2011") {
 		echo '
@@ -114,10 +111,10 @@ function shn_rap_checkClosed() {
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 	$closed = $row['closed'];
-	if($closed != null) {
-		return true;	// event closed
-	} else {
+	if($closed == 0) {
 		return false;	// event open
+	} else {
+		return true;	// event closed
 	}
 }
 
@@ -769,9 +766,11 @@ function shn_rap_commitPerson($saveImage = false) {
 		$crop_w = $w  / $ratio;
 		$crop_h = $h  / $ratio;
 
+
 		$q18 = "
 			INSERT INTO image (x_uuid, image_type, image_height, image_width, url, url_thumb, crop_x, crop_y, crop_w, crop_h, full_path)
-			VALUES ('".$uuid."', '".$image_type."', '".$image_height."', '".$image_width."', '".$url."', '".$url_thumb."', '".$crop_x."', '".$crop_y."', '".$crop_w."', '".$crop_h."', '".$full_path."');";
+			VALUES ('".$uuid."', '".$image_type."', '".$image_height."', '".$image_width."', '".$url."', '".$url_thumb."', '".$crop_x."', '".$crop_y."', '".$crop_w."', '".$crop_h."', '".$full_path."');
+		";
 		$res = $global['db']->Execute($q18);
 	}
 

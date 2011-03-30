@@ -15,8 +15,9 @@
 
 // following code decides the session management approach (e.g write sessions to the database or files)
 global $global;
-require_once ($global['approot'].'inc/lib_security/constants.inc');
-require_once ($global['approot'].'inc/lib_security/lib_auth.inc');
+require_once($global['approot'].'inc/lib_security/constants.inc');
+require_once($global['approot'].'inc/lib_security/lib_auth.inc');
+require_once($global['approot'].'mod/lpf/lib_lpf.inc');
 
 //start the session
 shn_session_start();
@@ -27,19 +28,13 @@ $user_data = shn_authenticate_user();
 switch ($user_data["result"]){
 	case LOGGEDIN:
 		shn_session_change($user_data);
-		// Go to DEFAULT module on login (going to previous module does not always work!
-		// see ~> https://sourceforge.net/tracker/?func=detail&aid=2750574&group_id=127855&atid=709778 )
-		$global["module"]= isset($conf['default_module']) ? $conf['default_module'] : "home"; //$_SESSION["last_module"];
-		$global["action"]= isset($conf['default_action']) ? $conf['default_action'] : "default"; //$_SESSION["last_action"];
-		$global['previous']= false; //true;
+		$global["module"]= isset($conf['default_module']) ? $conf['default_module'] : "home";
+		$global["action"]= isset($conf['default_action']) ? $conf['default_action'] : "default";
+		$global['previous']= false;
 		break;
 	case LOGGEDOUT:
 		shn_session_end($user_data);
-		// Go to DEFAULT module on Logout
-		$global["module"] = isset($conf['default_module']) ? $conf['default_module'] : "home";
-		$global["action"] = isset($conf['default_action']) ? $conf['default_action'] : "default";
-		$global['previous'] = false;
-		break;
+		header("Location: ".makeBaseUrlMinusEvent());
 	default:
 		break;
 }

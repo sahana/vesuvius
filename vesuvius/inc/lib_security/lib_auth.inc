@@ -679,15 +679,16 @@ function shn_auth_add_user_cr(){
 
 
 
-function shn_auth_self_signup_cr(){
+function shn_auth_self_signup_cr() {
 	global $global;
-	$db=$global["db"];
-	$VARCHAR=100;
+	$db = $global["db"];
+	$VARCHAR = 100;
+	$error = null;
 
-	list($error,$user_name)=(shn_validate_user_name($_POST{"user_name"}))?array($error,$_POST{"user_name"}):array(true,NULL);
+	list($error, $user_name) = (shn_validate_user_name($_POST{"user_name"})) ? array($error, $_POST{"user_name"}) : array(true, NULL);
 
-	//for the moment return true
-	list($error,$password)=(shn_validate_password($_POST{"user_name"},$_POST{"password"}))?array($error || false,$_POST{"password"}):array($error || true,$_POST{"password"});
+	// for the moment return true
+	list($error, $password) = (shn_validate_password($_POST{"user_name"}, $_POST{"password"})) ? array($error || false,$_POST{"password"}) : array($error || true, $_POST{"password"});
 
 	if (is_null($_POST{"re_password"})){
 		$error|=true;
@@ -725,7 +726,7 @@ function shn_auth_self_signup_cr(){
 	if($error==true){
 		return $error;
 	}
-	$role=REGISTERED;
+	$role = REGISTERED;
 
 	return $error;
 }

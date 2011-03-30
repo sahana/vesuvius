@@ -244,7 +244,7 @@ class SearchDB
 		global $conf;
 		
 		//echo $proc;
-		$mysqli = new mysqli( $conf["db_host"], $conf["db_user"], $conf["db_pass"], $conf["db_name"], $conf["db_port"] ); // "archivestage.nlm.nih.gov", "mrodriguez", "xdr5XDR%", "pltest3" );
+		$mysqli = new mysqli( $conf["db_host"], $conf["db_user"], $conf["db_pass"], $conf["db_name"], $conf["db_port"] ); 
 		if ( $this->mode != "true" ) {
 			$this->pageStart = 0;
 			$this->perPage = 2000;
@@ -272,7 +272,7 @@ class SearchDB
 									'age_group'=>$row["age_group"], 
 									'statusSahanaUpdated'=>$row["updated"], 
 									'last_seen'=>$row["last_seen"], 
-									'comments'=>strip_tags($row["comments"]),
+//									'comments'=>strip_tags($row["comments"]),
 									'gender' => $row["opt_gender"],
 									'hospitalIcon' => $row["icon_url"]);
 						}
@@ -322,7 +322,7 @@ class SearchDB
         curl_close($ch);      		
 		
 		$date = new DateTime($temp->response->docs[0]->updated);
-		$this->lastUpdated = $date->format('m/d/y @ g:m:s A');
+		$this->lastUpdated = $date->format('m/d/y @ g:i:s A');
 	}
 	
 	
@@ -433,6 +433,7 @@ class SearchDB
 		
 		foreach ($tempObject->response->docs as $doc) {
 			$date = new DateTime($doc->updated);
+			date_sub($date, date_interval_create_from_date_string('4 hours'));
 			$this->results[] = array('p_uuid' => $doc->p_uuid, 
 				 'encodedUUID' => base64_encode($doc->p_uuid),
 				   'full_name' => isset($doc->full_name) ? $doc->full_name : null, 
@@ -442,7 +443,7 @@ class SearchDB
 				 'imageHeight' => isset($doc->image_height) ? $doc->image_height : null, 
 				   'years_old' => isset($doc->years_old) ? $doc->years_old : null, 
 						  'id' => isset($doc->personId) ? $doc->personId : null, 
-		 'statusSahanaUpdated' => $doc->updated ? $date->format('m/d/y @ g:m:s A') : null, 
+		 'statusSahanaUpdated' => $doc->updated ? $date->format('m/d/y @ g:i:s A') : null, 
 				'statusTriage' => isset($doc->triageCategory) ? $doc->triageCategory : null, 
 						'peds' => isset($doc->peds) ? $doc->peds : null, 
 					 'orgName' => isset($doc->orgName) ? $doc->orgName : null, 

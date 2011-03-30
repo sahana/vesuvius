@@ -128,9 +128,7 @@ if (file_exists($global['approot']."www/theme/".$theme."/ie9.css")) { ?>
 	}
 ?>
 
-<script type="text/javascript" src="theme/<?php echo _t($theme);?>/sahana.js"></script>
 <script type="text/javascript" src="res/js/popup.js"></script>
-<script type="text/javascript" src="index.php?stream=text&amp;mod=xst&amp;act=help"></script>
 	<?php
 	if ($arrPostfix != null) {
 		foreach ($arrPostfix as $i) {
