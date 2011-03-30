@@ -14,6 +14,12 @@
 include_once($global['approot']."/inc/lib_uuid.inc");
 include_once($global['approot']."/inc/lib_location.inc");
 $revisionQ = array();
+global $global;
+$global['uuid'] = ""; // init
+
+function shn_eap_modrewrite() {
+	shn_eap_edit();
+}
 
 
 /**
@@ -196,8 +202,14 @@ function makeBaseUrl() {
  */
 function shn_eap_findRights() {
 	global $global;
+	global $conf;
 
-	$global['uuid'] = base64_decode($_GET['uuid']);
+	// if we came in via a mod_rewrite rule for a uuid formed from a url, use its $val here...
+	if(isset($_GET['val'])) {
+		$global['uuid'] = mysql_real_escape_string($conf['base_uuid'].$_GET['val']);
+	} else {
+		$global['uuid'] = mysql_real_escape_string(base64_decode($_GET['uuid']));
+	}
 
 	// anonymous user ~ not logged in
 	if(($_SESSION['logged_in'] != 1) || ($_SESSION['user'] == 'Anonymous')) {
@@ -533,6 +545,7 @@ function shn_eap_edit() {
 	} else {
 		$person_to_hospital = array();
 		$person_to_hospital['hospital_uuid'] = $hospital;
+		$person_to_hospital['name']          = "";
 	}
 
 
@@ -981,8 +994,8 @@ function shn_eap_edit() {
 				echo "<img style=\"float: left;\" src=\"".$hospital['icon_url']."\"><br>";
 			}
 			echo "
-				<label style=\"position: relative; left: -53px;\" for=\"hospital\"><b>Located at Hospital</b> </label>
-				<input style=\"position: relative; left: -53px;\" type=\"text\" name=\"hospital\" id=\"hospital\" value=\"".$person_to_hospital['name']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+				<label for=\"opt_status\"><b>Located at Hospital</b> </label>
+				<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$person_to_hospital['name']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 				<br>
 			";
 		}

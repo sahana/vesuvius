@@ -13,10 +13,13 @@ RewriteBase /
 ##### for when Sahana is installed in a user homedir ie. http://domain.gov/~gmiernicki/sahanaDev/www/
 #RewriteBase /~gmiernicki/sahanaDev/www/
 
-##### make mod_rewrite skip the subsequent 3 rules if the file or folder exists already
+##### make mod_rewrite skip the subsequent 7 rules if the file or folder exists already
 RewriteCond %{REQUEST_FILENAME} -d [OR]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule .* - [S=6]
+RewriteRule .* - [S=7]
+
+##### matches /person.XXXXX for the person uuid's as urls
+RewriteRule ^(person.[0-9]+)$ index.php?mod=eap&act=modrewrite&val=$1
 
 ##### handle the about page via php
 RewriteRule ^(about|ABOUT)$ index.php?mod=rez&act=default&page_id=-30 [L]

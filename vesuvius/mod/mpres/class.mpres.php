@@ -171,7 +171,7 @@ class mpres {
 					$this->person->incident_id = $id;
 
 					// event closed...................
-					if($closed != null) {
+					if($closed != 0) {
 						$this->messages .= "LPF XML email found however, event ".$this->person->shortName." is closed, so they were not inserted.\n";
 
 					// event open.... insert dem!

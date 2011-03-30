@@ -98,7 +98,6 @@ class lpfPatient {
 		";
 		$res = $global['db']->Execute($q4);
 
-echo "\n\n\n".$q4."\n\n\n";
 
 		// insert person's details
 		$q5 = "
