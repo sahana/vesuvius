@@ -60,7 +60,11 @@ function shn_inw_default() {
 					<b>Sort By</b>
 						<img id="sortOrderIcon" style="width:10px; height:10px; display: none;" src="res/img/desc.png" title="Descending (click for ascending)" />
 						<select id="selectSort" style="width: 85px;" onchange="Utils.sortBy( this )">
-							<option value="">Relevance</option>
+							<? if ( $conf["enable_solr_for_search"] ) { ?>
+								<option value="">Relevance</option>
+							<? } else { ?>
+								<option value="">-- select --</option>
+							<? } ?>
 							<option value="updated">Time</option>
 							<option value="full_name">Name</option>
 							<option value="years_old">Age</option>
@@ -102,6 +106,8 @@ function shn_inw_default() {
 							<input type="checkbox" id="checkDeceased"  name="checkDeceased" checked onclick="Utils.formSearch()" /><label for="checkDeceased" class="bold" id="deceased"><? echo DECEASED; ?></label>
 							<br />
 							<input type="checkbox" id="checkUnknown"  name="checkUnknown" checked onclick="Utils.formSearch()" /><label for="checkUnknown" id="unknown" class="bold"><? echo UNKNOWN; ?></label>
+							<br />
+							<input type="checkbox" id="checkFound"  name="checkFound" checked onclick="Utils.formSearch()" /><label for="checkFound" id="found" class="bold"><? echo FOUND; ?></label>
 							<br />
 							<br />
 							<div id="gender">

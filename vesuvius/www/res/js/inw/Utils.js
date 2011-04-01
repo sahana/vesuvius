@@ -49,7 +49,7 @@ var Utils = {
 		$("#dt_age").html(person.ageGroup || "N/A");
 		$("#dt_gender").html(person.gender || "N/A");
 		$("#dt_status").html(person.statusSahanaFull || "N/A");
-		$("#dt_statusSahanaUpdated").html(person.statusSahanaUpdated || "N/A");
+		$("#dt_statusSahanaUpdated").html(person.statusSahanaUpdated ? person.statusSahanaUpdated + " UTC" : "N/A");
 		$("#dt_location").html(person.location || "N/A");
 		
 		if ( $("#shortName").val() == "sendai2011" ) // obviously a hack.

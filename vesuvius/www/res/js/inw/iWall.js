@@ -87,13 +87,14 @@ $(document).ready(function start() {
 
 function searchSubset() {
 	var searchTerm = $.trim($("#searchBox").attr("value"));
+	Globals.sortedBy = $("#selectSort").val();
 	
-	//language = document.getElementById('language').value;
 	var missing   = $("#checkMissing")  .is(":checked"),
 		alive     = $("#checkAliveWell").is(":checked"),
 		injured   = $("#checkInjured")  .is(":checked"),
 		deceased  = $("#checkDeceased") .is(":checked"),
 		unknown   = $("#checkUnknown")  .is(":checked"),
+		found     = $("#checkFound")  .is(":checked"),
 		
 		male 	  = $("#checkSexMale")  .is(":checked"),
 		female 	  = $("#checkSexFemale").is(":checked"),
@@ -109,11 +110,11 @@ function searchSubset() {
 		
 		searchTerm = searchTerm == "Enter a name..." || searchTerm == "All" ? "" : searchTerm,
 		
-		sStatus       = missing + ";" + alive + ";" + injured + ";" + deceased + ";" + unknown,
+		sStatus       = missing + ";" + alive + ";" + injured + ";" + deceased + ";" + unknown + ";" + found,
 		sGender       = male + ";" + female + ";" + genderUnk,
 		sAge          = child + ";" + adult + ";" +	ageUnk,
 		sHospital     = suburban + ";" + nnmc + ";" + otherHosp,
-		
+
 		sPageControls = Globals.perPage * (Globals.currPage - 1)  + ";" 
 					  + Globals.perPage + ";" 
 					  + Globals.sortedBy + ";" 
@@ -148,7 +149,7 @@ function searchSubset() {
 	//									inw_checkForChanges(Globals.searchMode, Globals.incident, searchTerm, sStatus, sGender, sAge, sHospital);		
 	//								}, Globals.updaterTimer);
 	$("#foundLabel").show();
-	if ( Globals.displayMode )
+	if ( Globals.displayMode && Globals.searchMode != "sql" )
 		$("#maxShown").hide();
 	else 
 		$("#maxShown").show();

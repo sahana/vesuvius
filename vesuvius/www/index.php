@@ -208,11 +208,6 @@ function shn_main_front_controller() {
 	// initialize stream based on selected steam POST value this includes the inclusion of various sections in XHTML including the HTTP header,content header, menubar, login
 	shn_stream_init();
 
-	// store the last module, stream and action in the history
-	$_SESSION['last_module'] = $module;
-	$_SESSION['last_action'] = $action;
-	$_SESSION['last_stream'] = $stream;
-
 	if($stream_ == null) {
 
 		if((($global['action'] == 'signup_cr') || ($global['action'] == 'signup') || ($global['action'] == 'forgotPassword') || ($global['action'] == 'loginForm')) && ($global['module'] = 'pref')) {
@@ -259,6 +254,8 @@ function shn_main_front_controller() {
 
 	// close up the stream. In HTML send the footer
 	shn_stream_close();
+
+
 }
 
 
@@ -276,7 +273,6 @@ function shn_main_checkEventPermissions() {
 
 		// if we access the pref or eap module (login and other event independent stuff) allow with no shortname
 		if(($global['module'] == "pref") || ($global['module'] == "eap")) {
-			// slide
 
 		// else if the shortname is not set, sent them to the default module
 		} else if($short == "") {
@@ -306,14 +302,12 @@ function shn_main_checkEventPermissions() {
 					}
 				}
 
-			// they provided us a fake/non-existant event... redirect em back to having no event
+			// they provided us a fake/non-existant event... redirect 'em back to having no event
 			} else {
 				header("Location: ../index.php");
 			}
 		}
 	}
-
-	//echo "action(".$global['action'].") module(".$global['module'].")<br>";
 }
 
 
@@ -391,4 +385,6 @@ function shn_main_plus() {
 	global $global;
 	require_once($global['approot'].'mod/plus/server.php');
 }
+
+
 

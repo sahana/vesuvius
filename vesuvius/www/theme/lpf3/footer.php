@@ -71,13 +71,11 @@ $events = array();
 	</div>
 	</center>
 	<?php
-		/*
-		echo "<br>shortname(".$_GET['shortname'].")";
-		echo "<br><pre>".print_r($_REQUEST, true)."</pre>";
-		echo "<pre>".print_r($_SERVER, true)."</pre>";
+		//echo "<br><pre>".print_r($_REQUEST, true)."</pre>";
+		//echo "<pre>".print_r($_SERVER, true)."</pre>";
 		//echo "<br><pre>".print_r($global, true)."</pre>";
+		//echo "<br><pre>".print_r($_SESSION, true)."</pre>";
 		//echo "<br><pre>".print_r($conf, true)."</pre>";
-		*/
 	?>
 </div>
 <?php

@@ -68,13 +68,9 @@ function shn_text_xst_victims() {
 
 
 
-//This is a small hack
-function shn_xst_help(){
-	global $global;
-	include_once ($global['approot']."mod/home/main.inc");
-	shn_home_default();
+function shn_xst_help(){}
 
-}
+
 
 function shn_xst_online_cam_upload_img(){
 	global $global;
