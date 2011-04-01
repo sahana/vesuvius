@@ -89,7 +89,7 @@ html {
 	margin:5px 5px 15px 5px;
 	float: left;
 	width:300px;
-	height: 100px;
+	height: 110px;
 	position: relative;
 	cursor: pointer;
 
@@ -336,12 +336,13 @@ h1 {
 #unknown {color: #777;}
 
 #found {
-	border: 1px solid orange;
+	color: #802A2A;
+	/*border: 1px solid orange;*/
 	/*background-color: #ffd090;*/
-	border-radius: 10px;
+	/*border-radius: 10px;
 	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	padding: 3px 0px 3px 0px;/
+	-moz-border-radius: 10px;*/
+	/*padding: 3px 0px 3px 0px;*/
 }
 
 #loadingX {

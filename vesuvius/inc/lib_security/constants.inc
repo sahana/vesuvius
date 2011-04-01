@@ -17,6 +17,7 @@ define("SALT_LENGTH",    9);
 define("LOCK",           900);
 define("LOGGEDIN",       "logged in");
 define("LOGGEDOUT",      "logged out");
+define("LOGINFAILED",    "login failed");
 define("DENIED",         1);
 define("ALLOWED",        2);
 define("ANONYMOUS_USER", -2);

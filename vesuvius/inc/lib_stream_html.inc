@@ -49,15 +49,6 @@ function shn_stream_init() {
 	shn_include_page_section('mainmenu', $module);
 	shn_include_page_section('login', $module);
 
-	// display the breadcrumbs: It is important that this happens after the menu definition the nice name is constructed from the query string
-	$nicename = 'shn_q_'.$_SERVER['QUERY_STRING'].'_nicename';
-
-	if (array_key_exists($nicename, $global)) {
-		shn_breadcrumb_push($global[$nicename]);
-	}
-
-	shn_breadcrumb_display();
-
 	// now include the main content of the page
 	echo "</div>";
 	echo "<!-- Left hand side menus & login form -->";

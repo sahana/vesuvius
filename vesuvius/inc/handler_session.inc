@@ -9,7 +9,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0401
  */
 
 
@@ -25,16 +25,20 @@ shn_session_start();
 // authenticate user
 $user_data = shn_authenticate_user();
 
-switch ($user_data["result"]){
+switch($user_data["result"]) {
 	case LOGGEDIN:
+		$global["module"] = isset($conf['default_module']) ? $conf['default_module'] : "home";
+		$global["action"] = isset($conf['default_action']) ? $conf['default_action'] : "default";
+		$global['previous'] = false;
 		shn_session_change($user_data);
-		$global["module"]= isset($conf['default_module']) ? $conf['default_module'] : "home";
-		$global["action"]= isset($conf['default_action']) ? $conf['default_action'] : "default";
-		$global['previous']= false;
 		break;
 	case LOGGEDOUT:
 		shn_session_end($user_data);
 		header("Location: ".makeBaseUrlMinusEvent());
+	case LOGINFAILED:
+		$global["module"]= "pref";
+		$global["action"]= "loginForm";
+		$global['previous']= false;
 	default:
 		break;
 }
@@ -162,7 +166,10 @@ function shn_session_change($user_data) {
 	$key     = genkey($sess_id);
 	$secret  = genkey($sess_id);
 	$time    = time();
-	$sql     = "insert into sessions (session_id, sess_key, secret, inactive_expiry, expiry) values('{$sess_id}', '{$key}', '{$secret}', {$time}, {$time})";
+	$sql = "
+		insert into sessions (session_id, sess_key, secret, inactive_expiry, expiry)
+		values('{$sess_id}', '{$key}', '{$secret}', {$time}, {$time});
+	";
 	$res     = $db->Execute($sql);
 	$expiry  = time() + 14400; // 4 hours
 	$_SESSION['user'] = $user_data["user"];

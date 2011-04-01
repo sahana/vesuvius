@@ -91,7 +91,7 @@ function go() {
 
 	// insert person's status
 	$q5 = "
-		INSERT INTO person_status (p_uuid, opt_status, updated, isvictim, updated_server)
+		INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
 		VALUES ( '".$uuid."', ".$status.", CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);
 	";
 	$res = $global['db']->Execute($q5);

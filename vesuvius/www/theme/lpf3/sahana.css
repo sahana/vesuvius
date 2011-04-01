@@ -977,6 +977,10 @@ fieldset#editImages {
 	border: 1px solid orange;
 }
 
+fieldset#editHeader {
+	border: 1px solid black;
+}
+
 fieldset#editNotes, fieldset#editShare {
 	margin-top: 40px;
 	background-color: #fff;

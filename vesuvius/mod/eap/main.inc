@@ -8,11 +8,12 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0323
+ * @lastModified 2011.0331
  */
 
-include_once($global['approot']."/inc/lib_uuid.inc");
-include_once($global['approot']."/inc/lib_location.inc");
+require_once($global['approot']."/inc/lib_uuid.inc");
+require_once($global['approot']."/inc/lib_location.inc");
+require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 $revisionQ = array();
 global $global;
 $global['uuid'] = ""; // init
@@ -417,7 +418,7 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
 	// update timestamp
 	$q = "
 		UPDATE person_status
-		SET updated = CURRENT_TIMESTAMP
+		SET last_updated = CURRENT_TIMESTAMP
 		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r = $global['db']->Execute($q);
@@ -467,7 +468,7 @@ function saveContactRevision($type, $name, $oldValue, $newValue) {
 	// update timestamp
 	$q = "
 		UPDATE person_status
-		SET updated = CURRENT_TIMESTAMP
+		SET last_updated = CURRENT_TIMESTAMP
 		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r = $global['db']->Execute($q);
@@ -557,7 +558,27 @@ function shn_eap_edit() {
 	$r        = $global['db']->Execute($q);
 	$person_details = $r->FetchRow();
 
-	echo "<h2>".$full_name." :: ".$global['uuid']."</h2>";
+	echo "
+		<div class=\"form-container\">
+			<form>
+				<fieldset id=\"editHeader\">
+					<legend>Person Record</legend>
+					<label for=\"opt_status\"><b>Full Name</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$full_name."\" size=\"64\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+					<br>
+					<br>
+					<label for=\"opt_status\"><b>Origin ID / Origin URL</b> </label>
+					<span style=\"padding: 5px 10px; background: #fff; border-radius: 5px; margin-left: 2px;\"><a href=\"https://".$global['uuid']."\">".$global['uuid']."</a></span>
+					<br>
+				</fieldset>
+			</form>
+		</div>
+	";
+
+
+
+
+
 	// HEADER END ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -698,13 +719,13 @@ function shn_eap_edit() {
 	}
 
 	// check fpr not set status (rare.. but happens sometimes)
-	if(!isset($person_status['updated']) || $person_status['updated'] == null) {
-		$person_status['updated'] = "unknown";
+	if(!isset($person_status['last_updated']) || $person_status['last_updated'] == null) {
+		$person_status['last_updated'] = "unknown";
 	}
 
 	// we use updated time if the new updated_server time is not available
-	if(!isset($person_status['updated_server']) || $person_status['updated_server'] == null) {
-		$person_status['updated_server'] = "unknown";
+	if(!isset($person_status['creation_time']) || $person_status['creation_time'] == null) {
+		$person_status['creation_time'] = "unknown";
 	}
 
 	// load missing data (if person is missing)
@@ -830,9 +851,9 @@ function shn_eap_edit() {
 			$r              = $global['db']->Execute($q);
 			$person_status  = $r->FetchRow();
 
-			// we use updated time of the new updated_server time is not available
-			if($person_status['updated_server'] == null) {
-				$person_status['updated_server'] = $person_status['updated'];
+			// we use last updated in the case creation time is unavailable
+			if($person_status['creation_time'] == null) {
+				$person_status['creation_time'] = $person_status['last_updated'];
 			}
 
 		// non-edit...load data
@@ -854,6 +875,17 @@ function shn_eap_edit() {
 			$editEvent      = $person_incident['incident_id'];
 		}
 
+		$timezone = new DateTimeZone( "UTC" );
+		$date = new DateTime();
+		$date->setTimezone( $timezone );
+
+		$date->setTimestamp(strtotime($person_status['creation_time']));
+		$creation_time =  $date->format('l, F j, Y g:i a T');
+
+		$date->setTimestamp(strtotime($person_status['last_updated']));
+		$last_updated =  $date->format('l, F j, Y g:i a T');
+
+
 		echo "
 			<div class=\"form-container\">
 			<form method=\"post\" id=\"editPublic\" name=\"editPublic\" action=\"index.php?mod=eap&act=edit".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
@@ -861,11 +893,11 @@ function shn_eap_edit() {
 			<legend><span class=\"publicText\">View / Edit Public Information</span></legend>
 
 			<label for=\"opt_status\"><b>Record Created</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$person_status['updated_server']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$creation_time."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"opt_status\"><b>Last Updated</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$person_status['updated']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$last_updated."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 			<br>
 		";
@@ -970,6 +1002,17 @@ function shn_eap_edit() {
 
 	// PUBLIC VIEW ////////////////////////////////////////////////////////////////////////////////////
 	} else {
+
+		$timezone = new DateTimeZone( "UTC" );
+		$date = new DateTime();
+		$date->setTimezone( $timezone );
+
+		$date->setTimestamp(strtotime($person_status['creation_time']));
+		$creation_time =  $date->format('l, F j, Y g:i a T');
+
+		$date->setTimestamp(strtotime($person_status['last_updated']));
+		$last_updated =  $date->format('l, F j, Y g:i a T');
+
 		echo "
 			<div class=\"form-container\">
 			<form>
@@ -977,11 +1020,11 @@ function shn_eap_edit() {
 			<legend><span class=\"publicText\">Information</span></legend>
 
 			<label for=\"opt_status\"><b>Record Created</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$person_status['updated_server']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$creation_time."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"opt_status\"><b>Last Updated</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$person_status['updated']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$last_updated."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"opt_status\"><b>Health / Locational Status</b> </label>
@@ -1446,117 +1489,5 @@ function shn_eap_edit() {
 	emailUpdates();
 }
 
-
-
-/*
-API Google URL Shortner - goo.gl
-Marcus Nunes - marcusnunes.com - 09/18/2010
-
-eg:
-$googl = new goo_gl('http://marcusnunes.com/api-goo.gl.php');
-echo $googl->result();
-*/
-
-class goo_gl{
-
-	var $url, $resul;
-
-	//goo.gl construct method
-	function goo_gl($url){
-
-		$this->url = $url;
-
-		$curl = curl_init();
-		curl_setopt($curl, CURLOPT_URL, 'http://goo.gl/api/url');
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($curl, CURLOPT_POST, 1);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, 'user=toolbar@google.com&url='.urlencode($this->url).'&auth_token='.$this->googlToken($url));
-		$saida = curl_exec($curl);
-		curl_close($curl);
-		if($saida){
-			$json = json_decode($saida);
-			$this->resul = $json->short_url;
-		}
-	}
-
-	//show url shorted by goo.gl
-	function result(){
-		return $this->resul;
-	}
-
-	//token code
-	function googlToken($b){
-		$i = $this->tke($b);
-		$i = $i >> 2 & 1073741823;
-		$i = $i >> 4 & 67108800 | $i & 63;
-		$i = $i >> 4 & 4193280 | $i & 1023;
-		$i = $i >> 4 & 245760 | $i & 16383;
-		$j = "7";
-		$h = $this->tkf($b);
-		$k = ($i >> 2 & 15) << 4 | $h & 15;
-		$k |= ($i >> 6 & 15) << 12 | ($h >> 8 & 15) << 8;
-		$k |= ($i >> 10 & 15) << 20 | ($h >> 16 & 15) << 16;
-		$k |= ($i >> 14 & 15) << 28 | ($h >> 24 & 15) << 24;
-		$j .= $this->tkd($k);
-		return $j;
-	}
-
-	function tkc(){
-		$l = 0;
-		foreach(func_get_args() as $val){
-			$val &= 4294967295;
-			$val += $val > 2147483647 ? -4294967296 : ($val < -2147483647 ? 4294967296 : 0);
-			$l   += $val;
-			$l   += $l > 2147483647 ? -4294967296 : ($l < -2147483647 ? 4294967296 : 0);
-		}
-		return $l;
-	}
-
-	function tkd($l){
-		$l = $l > 0 ? $l : $l + 4294967296;
-		$m = "$l";  //deve ser uma string
-		$o = 0;
-		$n = false;
-		for($p = strlen($m) - 1; $p >= 0; --$p){
-			$q = $m[$p];
-			if($n){
-				$q *= 2;
-				$o += floor($q / 10) + $q % 10;
-			} else {
-				$o += $q;
-			}
-			$n = !$n;
-		}
-		$m = $o % 10;
-		$o = 0;
-		if($m != 0){
-			$o = 10 - $m;
-			if(strlen($l) % 2 == 1){
-				if ($o % 2 == 1){
-					$o += 9;
-				}
-				$o /= 2;
-			}
-		}
-		return "$o$l";
-	}
-
-	function tke($l){
-		$m = 5381;
-		for($o = 0; $o < strlen($l); $o++){
-			$m = $this->tkc($m << 5, $m, ord($l[$o]));
-		}
-		return $m;
-	}
-
-	function tkf($l){
-		$m = 0;
-		for($o = 0; $o < strlen($l); $o++){
-			$m = $this->tkc(ord($l[$o]), $m << 6, $m << 16, -$m);
-		}
-		return $m;
-	}
-
-}
 
 

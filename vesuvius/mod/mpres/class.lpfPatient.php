@@ -93,7 +93,7 @@ class lpfPatient {
 
 		// insert person's status
 		$q4 = "
-			INSERT INTO person_status (p_uuid, opt_status, updated, isvictim, updated_server)
+			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
 			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', '".$this->clientDate."', TRUE, CURRENT_TIMESTAMP);
 		";
 		$res = $global['db']->Execute($q4);
@@ -137,8 +137,8 @@ class lpfPatient {
 
 		// insert person's status
 		$q4 = "
-			INSERT INTO person_status (p_uuid, opt_status, updated, isvictim)
-			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', CURRENT_TIMESTAMP, TRUE);
+			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
+			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);
 		";
 		$res = $global['db']->Execute($q4);
 
@@ -180,8 +180,8 @@ class lpfPatient {
 
 		// insert person's status
 		$q4 = "
-			INSERT INTO person_status (p_uuid, opt_status, updated, isvictim)
-			VALUES ( '".$this->uuid."', '".$this->sahanaStatus."', CURRENT_TIMESTAMP, TRUE);
+			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
+			VALUES ( '".$this->uuid."', '".$this->sahanaStatus."', CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);
 		";
 		$res = $global['db']->Execute($q4);
 

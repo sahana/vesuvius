@@ -380,7 +380,7 @@ function shn_auth_user_list2() {
 function shn_authenticate_user() {
 	global $global;
 	$db = $global['db'];
-	$user_data = array("user_id"=>ANONYMOUS_USER,"user"=>"Anonymous");
+	$user_data = array("user_id" => ANONYMOUS_USER, "user" => "Anonymous");
 	$user_data["result"] = null;
 
 	if(isset($_GET['act']) && $_GET['act'] == "logout") {
@@ -390,7 +390,8 @@ function shn_authenticate_user() {
 		return $user_data ;
 	}
 
-	/* if user has not requested login no need to authenticate, simply
+	/*
+	if user has not requested login no need to authenticate, simply
 	 return -1 , so the calling application can identify that
 	 authentication was not attempted
 	 */
@@ -407,62 +408,70 @@ function shn_authenticate_user() {
 			FROM users
 			WHERE user_name = '$user';
 		";
-		$res=$db->Execute($q);
-		if(($res==null)||($res->EOF)){
+		$res = $db->Execute($q);
+		if(($res == null) || ($res->EOF)) {
 			add_error("Login Failed : Invalid user name or password.");
-			shn_acl_log_msg("Login Failed : Invalid user name or password.","aonymous","Aonymous User");
-			$user_data["user_id"]=ANONYMOUS_USER;
-			$user_data["user"]="Anonymous";
+			shn_acl_log_msg("Login Failed : Invalid user name or password.", "anonymous", "Anonymous User");
+			$user_data["user_id"] = ANONYMOUS_USER;
+			$user_data["user"] = "Anonymous";
+			$user_data["result"] = LOGINFAILED;
 			return $user_data;
-		}else{
-			$status=$res->fields["status"];
-			$salt=$res->fields["salt"];
-			$uid=$res->fields["p_uuid"];
+		} else {
+			$status = $res->fields["status"];
+			$salt = $res->fields["salt"];
+			$uid = $res->fields["p_uuid"];
 		}
-		if($status=='pending'){
-			$user_data["user_id"]=ANONYMOUS_USER;
-			$user_data["user"]="Anonymous";
+		if($status == 'pending') {
+			add_error("Your account is not yet active. Please refer to the registration email you have recieved to activate it.");
+			shn_acl_log_msg("Login Failed : Account Pending", "anonymous", "Anonymous User");
+			$user_data["user_id"] = ANONYMOUS_USER;
+			$user_data["user"] = "Anonymous";
+			$user_data["result"] = LOGINFAILED;
 			return $user_data;
 		}
-
-
-		if(($status=='locked')&& (shn_acl_is_locking_enabled())){
-			$sql="SELECT changed_timestamp FROM password_event_log WHERE p_uuid='{$uid}' and event_type=1 order by changed_timestamp desc ";
+		if(($status == 'locked') && (shn_acl_is_locking_enabled())) {
+			$sql = "
+				SELECT changed_timestamp
+				FROM password_event_log
+				WHERE p_uuid='{$uid}'
+				AND event_type = 1
+				ORDER BY changed_timestamp desc;
+			";
 			$res=$db->Execute($sql);
-			if(($res==null)||($res->EOF)){
-				add_error("Login Failed : Password log attacked.");
-				shn_acl_log_msg("Login Failed : Password log attacked.",$uid,$user,1);
-				$user_data["user_id"]=ANONYMOUS_USER;
-				$user_data["user"]="Anonymous";
+			if(($res == null) || ($res->EOF)){
+				add_error("Login Failed : Attack Logged.");
+				shn_acl_log_msg("Login Failed : Attack Logged.", $uid, $user,1);
+				$user_data["user_id"] = ANONYMOUS_USER;
+				$user_data["user"] = "Anonymous";
+				$user_data["result"] = LOGINFAILED;
 				return $user_data;
-			}else{
-				$tstamp=$res->fields["changed_timestamp"];
-				$now=time();
-				$diff=$now-$tstamp;
-				if($diff < LOCK){
+			} else {
+				$tstamp = $res->fields["changed_timestamp"];
+				$now = time();
+				$diff = $now-$tstamp;
+				if($diff < LOCK) {
 					add_error("Login Failed : Password lock still valid.");
 					add_error("This account has been locked.  Please contact the Administrator to unlock the account.");
 					shn_acl_log_msg("Login Failed : Password lock still valid.",$uid,$user);
-					$user_data["user_id"]=ANONYMOUS_USER;
-					$user_data["user"]="Anonymous";
+					$user_data["user_id"] = ANONYMOUS_USER;
+					$user_data["user"] = "Anonymous";
+					$user_data["result"] = LOGINFAILED;
 					return $user_data;
 				}
-
 			}
-
 		}
-
 		// banned user
-		if($status == 'banned'){
+		if($status == 'banned') {
 			add_error("Login Failed : You have been banned by an administrator of the system.");
 			shn_acl_log_msg("Login Failed : Banned user login atttempt.",$uid,$user,1);
-			$user_data["user_id"]=ANONYMOUS_USER;
-			$user_data["user"]="Anonymous";
+			$user_data["user_id"] = ANONYMOUS_USER;
+			$user_data["user"] = "Anonymous";
+			$user_data["result"] = LOGINFAILED;
 			return $user_data;
 		}
 
-		$pwd=substr($pwd, 0, 4).$salt.substr($pwd, 4);
-		$user_data["result"]=LOGGEDOUT;
+		$pwd = substr($pwd, 0, 4).$salt.substr($pwd, 4);
+		$user_data["result"] = LOGGEDOUT;
 
 		// Create a digest of the password collected from the challenge
 		$password_digest = md5(trim($pwd));
@@ -474,26 +483,26 @@ function shn_authenticate_user() {
 			AND password = '$password_digest' and salt='{$salt}';
 		";
 
-		$res=$db->Execute($q);
-		if(($res==null)||($res->EOF)){
-			/* no result ,so return 1 ,which is  not a valid user_id , the calling
-			 application can identify authentication was attempted,but failed
-			 */
+		$res = $db->Execute($q);
+		if(($res == null) || ($res->EOF)) {
+			// no result ,so return 1 ,which is  not a valid user_id , the calling application can identify authentication was attempted,but failed
 			add_error("Login Failed : Invalid user name or password.");
-			shn_acl_log_msg("Login Failed : Invalid Password.",$uid,$user,1);
-			$user_data["user_id"]=ANONYMOUS_USER;
-			$user_data["user"]="Anonymous";
+			shn_acl_log_msg("Login Failed : Invalid Password.", $uid, $user, 1);
+			$user_data["user_id"] = ANONYMOUS_USER;
+			$user_data["user"] = "Anonymous";
+			$user_data["result"] = LOGINFAILED;
 			_shn_auth_lock_user($uid,$status);
 			return $user_data;
 
-		}else{
-			if((($status=='locked')||($status=='try1')||($status=='try2'))&& (shn_acl_is_locking_enabled())){
+		} else {
+			if((($status == 'locked') || ($status == 'try1') || ($status == 'try2')) && (shn_acl_is_locking_enabled())) {
 				shn_auth_activate_user($uid);
 			}
-			$user_data["user_id"]=$res->fields["p_uuid"];
-			$user_data["user"]=$user;
-			$user_data["result"]=LOGGEDIN;
-			$global['welcome']=true;
+			add_confirmation("Login Successful.");
+			$user_data["user_id"] = $res->fields["p_uuid"];
+			$user_data["user"] = $user;
+			$user_data["result"] = LOGGEDIN;
+			$global['welcome'] = true;
 			return $user_data;
 		}
 	}

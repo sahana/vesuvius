@@ -18,6 +18,7 @@ class SearchDB
 			$injured,
 			$deceased,
 			$unknown,
+			$found,
 			
 			$genderString,
 			$male,
@@ -72,7 +73,7 @@ class SearchDB
 	 *	   	   $sAge = age imploded
 	 *	
 	 *///
-	public function SearchDB($searchMode, $incident, $searchTerm, $sStatus = "true;true;true;true;true", $sGender="true;true;true", $sAge="true;true;true", $sHospital="true;true;true", $sPageControls="0;-1;;true") {  
+	public function SearchDB($searchMode, $incident, $searchTerm, $sStatus = "true;true;true;true;true;true", $sGender="true;true;true", $sAge="true;true;true", $sHospital="true;true;true", $sPageControls="0;-1;;true") {  
 		$this->incident = $incident;
 		$this->searchTerm = $searchTerm;
 		
@@ -107,6 +108,7 @@ class SearchDB
 		$this->injured   = $tempArray[2];
 		$this->deceased  = $tempArray[3];
 		$this->unknown   = $tempArray[4];
+		$this->found     = $tempArray[5];
 	}
 	
 	private function setPageControls($sPageControls) {
@@ -250,7 +252,7 @@ class SearchDB
 			$this->perPage = 2000;
 		}
 		
-		$proc = "CALL PLSearch2('$this->searchTerm', '$this->statusString', '$this->genderString', '$this->ageString', '$this->hospitalString', '$this->incident', '$this->sortBy', $this->pageStart, $this->perPage, @allCount)";
+		$proc = "CALL PLSearch('$this->searchTerm', '$this->statusString', '$this->genderString', '$this->ageString', '$this->hospitalString', '$this->incident', '$this->sortBy', $this->pageStart, $this->perPage, @allCount)";
 		$res = $mysqli->multi_query( "$proc; SELECT @allCount;" ); 
 
 		//print_r($res);
@@ -406,6 +408,7 @@ class SearchDB
 		$temp["injured"] = $this->SOLRfacetResults->{"opt_status:inj"};
 		$temp["deceased"] = $this->SOLRfacetResults->{"opt_status:dec"};
 		$temp["unknown"] = $this->SOLRfacetResults->{"opt_status:unk"};
+		$temp["found"] = $this->SOLRfacetResults->{"opt_status:fnd"};
 		
 		$temp["male"] = $this->SOLRfacetResults->{"opt_gender:mal"};
 		$temp["female"] = $this->SOLRfacetResults->{"opt_gender:fml"};
@@ -433,7 +436,7 @@ class SearchDB
 		
 		foreach ($tempObject->response->docs as $doc) {
 			$date = new DateTime($doc->updated);
-			date_sub($date, date_interval_create_from_date_string('4 hours'));
+			//date_sub($date, date_interval_create_from_date_string('4 hours'));
 			$this->results[] = array('p_uuid' => $doc->p_uuid, 
 				 'encodedUUID' => base64_encode($doc->p_uuid),
 				   'full_name' => isset($doc->full_name) ? $doc->full_name : null, 
@@ -443,7 +446,7 @@ class SearchDB
 				 'imageHeight' => isset($doc->image_height) ? $doc->image_height : null, 
 				   'years_old' => isset($doc->years_old) ? $doc->years_old : null, 
 						  'id' => isset($doc->personId) ? $doc->personId : null, 
-		 'statusSahanaUpdated' => $doc->updated ? $date->format('m/d/y @ g:i:s A') : null, 
+		 'statusSahanaUpdated' => $doc->updated ? $date->format('y-m-d  G:i:s') : null, 
 				'statusTriage' => isset($doc->triageCategory) ? $doc->triageCategory : null, 
 						'peds' => isset($doc->peds) ? $doc->peds : null, 
 					 'orgName' => isset($doc->orgName) ? $doc->orgName : null, 
@@ -459,7 +462,7 @@ class SearchDB
 							. $this->SOLRfq
 							. "&facet=true" //&facet.field=opt_status&facet.field=years_old&facet.field=opt_gender&facet.field=hospital&facet.missing=true"
 							. "&facet.query=years_old:[0 TO 17]&facet.query=years_old:[18 TO *]&facet.query=years_old:(-[* TO *])"
-							. "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk"
+							. "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk&facet.query=opt_status:fnd"
 							. "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:(-mal AND -fml)"
 							. "&facet.query=hospital:sh&facet.query=hospital:nnmc&facet.query=hospital:(-[* TO *])";
 							
@@ -491,6 +494,8 @@ class SearchDB
 			$this->SOLRfq .= " -dec"; 
 		if ($this->unknown != "true") 
 			$this->SOLRfq .= " -unk"; 
+		if ($this->found != "true") 
+			$this->SOLRfq .= " -fnd"; 
 		
 		// opt_gender filters
 		$this->SOLRfq .= ")&fq=opt_gender:(*:*";

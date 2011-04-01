@@ -19,7 +19,7 @@ var ScrollView = {
 		Globals.initDone = 1;
 		if ( $("#content").css("display") != "none" ) // if not in full screen mode.
 			Globals.maxRows = Math.ceil(($(window).height()-210)/300) > 4 ? 4 : Math.ceil(($(window).height()-210)/300);
-		Globals.maxRows = 3;//Globals.totalResults > 4 ? Globals.maxRows : Globals.totalResults;
+		//Globals.maxRows = 3;//Globals.totalResults > 4 ? Globals.maxRows : Globals.totalResults;
 
 		Globals.Q2 = ScrollView.initQArray();
 		Globals.Q = ScrollView.initQArray();
@@ -455,7 +455,7 @@ var ScrollView = {
 					  height: "100%",
 					  width: "100%",
 					  position: "absolute"}).show();
-			$("#build, #dt_print, #content, #pager, #perPageWrapper, #printLink, #disaster_selekta, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap").hide();
+			$("#headerText, #build, #dt_print, #content, #pager, #perPageWrapper, #printLink, #disaster_selekta, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap").hide();
 			$("body").css({backgroundColor : "white" });
 			Globals.maxRows = Math.ceil($(window).height()/350) > 4 ? 4 : Math.ceil($(window).height()/350)
 			Globals.imageHeight = Math.floor(($(window).height() - (2*(Globals.rowPadding+Globals.imageBorder))) / Globals.maxRows);
@@ -472,7 +472,7 @@ var ScrollView = {
 
 	exitFullScreen : function() {
 		$(document).unbind("keyup");
-		$("#dt_print, #content, #pager, #perPageWrapper, #printLink, #disaster_selekta, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap").show();
+		$("#headerText, #dt_print, #content, #pager, #perPageWrapper, #printLink, #disaster_selekta, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap").show();
 		$("#scrolling_content, #detailsPane, #glass").insertAfter("#beforeScrollingContent");
 		$("#scrolling_content").css({ position: "relative" });
 		$("body").css({backgroundColor : "#6289C0" });
