@@ -568,7 +568,16 @@ function shn_eap_edit() {
 					<br>
 					<br>
 					<label for=\"opt_status\"><b>Origin ID / Origin URL</b> </label>
-					<span style=\"padding: 5px 10px; background: #fff; border-radius: 5px; margin-left: 2px;\"><a href=\"https://".$global['uuid']."\">".$global['uuid']."</a></span>
+	";
+
+	// make a URL link only for pl.nlm.nih.gov ~ which treats uuid's as URLs
+	if(strpos($global['uuid'], "pl.nlm.nih.gov") !== FALSE) {
+		echo "<span style=\"padding: 5px 10px; background: #fff; border-radius: 5px; margin-left: 2px;\"><a href=\"https://".$global['uuid']."\">".$global['uuid']."</a></span>";
+	} else {
+		echo "<span style=\"padding: 5px 10px; background: #fff; border-radius: 5px; margin-left: 2px;\">".$global['uuid']."</span>";
+	}
+
+	echo "
 					<br>
 				</fieldset>
 			</form>
