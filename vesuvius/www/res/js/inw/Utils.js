@@ -49,11 +49,11 @@ var Utils = {
 		$("#dt_age").html(person.ageGroup || "N/A");
 		$("#dt_gender").html(person.gender || "N/A");
 		$("#dt_status").html(person.statusSahanaFull || "N/A");
-		$("#dt_statusSahanaUpdated").html(person.statusSahanaUpdated ? person.statusSahanaUpdated + " UTC" : "N/A");
+		$("#dt_statusSahanaUpdated").html(person.statusSahanaUpdated + " UTC" );
 		$("#dt_location").html(person.location || "N/A");
 		
 		if ( $("#shortName").val() == "sendai2011" ) // obviously a hack.
-			$("#dt_eapLink > a").attr("href", "http://japan.person-finder.appspot.com/view?lang=en&id=" + person.uuid );
+			$("#dt_eapLink > a").attr("href", "http://japan.person-finder.appspot.com/view?lang=en&id=" + person.uuid ).attr("target", "_new");
 		else 
 			$("#dt_eapLink > a").attr("href", "index.php?mod=eap&act=edit&uuid=" + person.encodedUUID);
 			

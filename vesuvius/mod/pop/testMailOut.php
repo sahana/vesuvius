@@ -20,8 +20,8 @@ error_reporting(E_ALL);
 $global['approot'] = getcwd()."/../../";
 
 // include required libraries
-require("class.pop.php");
-require("../../conf/sysconf.inc.php");
+require("../../mod/lpf/lib_lpf.inc");
+require("../../conf/sahana.conf");
 require("../../3rd/adodb/adodb.inc.php");
 require("../../inc/handler_db.inc");
 require("../../inc/lib_uuid.inc");

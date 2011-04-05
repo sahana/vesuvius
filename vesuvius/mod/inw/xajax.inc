@@ -58,10 +58,8 @@ function inw_hasNextPage($mode, $incident, $searchTerm, $sStatus, $sGender, $sAg
 	$mode = strtolower($mode); // just making sure.
 	$timeElsapsed = 0;
 	$search = new SearchDB($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital, $sPageControls);
-	
 	$timeStart = microtime(true);
 	$search->executeSearch();
-
 	$timeElapsed = microtime(true) - $timeStart;
 	
 	

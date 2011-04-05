@@ -28,6 +28,7 @@ $(document).ready(function start() {
 		}
 
 	}
+
 	
 	var doc = document;  //local reference
 	Globals.initDone = 1; 
@@ -60,8 +61,11 @@ $(document).ready(function start() {
 	
 	Globals.imageHeight = Math.floor(($(window).height() - Globals.headerHeight - Globals.footerHeight - (2*(Globals.rowPadding+Globals.imageBorder))) / Globals.maxRows);
 	
-	//searchSubset();
-	
+	if ( window.location.hash ) { //for bookmarking
+		box.style.color = "#000000";
+		$("#searchBox").val(unescape(window.location.hash).replace('#', ''));
+		searchSubset();
+	}
 });
 
 // function reDraw() {
@@ -86,9 +90,9 @@ $(document).ready(function start() {
 // }
 
 function searchSubset() {
-	var searchTerm = $.trim($("#searchBox").attr("value"));
-	Globals.sortedBy = $("#selectSort").val();
-	
+	Globals.searchTerms = $.trim($("#searchBox").attr("value"));
+	Globals.searchTerms = Globals.searchTerms == "Enter a name..." || Globals.searchTerms == "All" ? "" : Globals.searchTerms;
+
 	var missing   = $("#checkMissing")  .is(":checked"),
 		alive     = $("#checkAliveWell").is(":checked"),
 		injured   = $("#checkInjured")  .is(":checked"),
@@ -107,9 +111,7 @@ function searchSubset() {
 		suburban  = $("#checkSuburban")  .is(":checked"),
 		nnmc      = $("#checkNNMC")      .is(":checked"),
 		otherHosp = $("#checkOtherHosp") .is(":checked"),
-		
-		searchTerm = searchTerm == "Enter a name..." || searchTerm == "All" ? "" : searchTerm,
-		
+
 		sStatus       = missing + ";" + alive + ";" + injured + ";" + deceased + ";" + unknown + ";" + found,
 		sGender       = male + ";" + female + ";" + genderUnk,
 		sAge          = child + ";" + adult + ";" +	ageUnk,
@@ -125,14 +127,14 @@ function searchSubset() {
 	Globals.searchMode = $("#searchMode").val();
 	$("#updateAlerts, #updateAlerts2").hide();
 
-	inw_getData(Globals.searchMode, Globals.incident, searchTerm, sStatus, sGender,	sAge, sHospital, sPageControls);
+	inw_getData(Globals.searchMode, Globals.incident, Globals.searchTerms, sStatus, sGender,	sAge, sHospital, sPageControls);
 	if ( Globals.searchMode == "sql" ) {
 		sPageControls = Globals.perPage * (Globals.currPage)  + ";" 
 				  + Globals.perPage + ";" 
 				  + Globals.sortedBy + ";" 
 				  +	Globals.displayMode;
 		if ( Globals.displayMode )
-			inw_hasNextPage(Globals.searchMode, Globals.incident, searchTerm, sStatus, sGender,	sAge, sHospital, sPageControls);
+			inw_hasNextPage(Globals.searchMode, Globals.incident, Globals.searchTerms, sStatus, sGender,	sAge, sHospital, sPageControls);
 		$("#sqlFoundLabel").show();
 		$("#solrFoundLabel").hide();
 	} else {
@@ -181,11 +183,11 @@ Object.size = function(obj) {
 function handleUuidListResponse() {
 	var temp = [], freshUuids = [];
 
-	//Globals.resultSet = jQuery.parseJSON(document.getElementById("jsonHolder").value);
 	$("#totalRecordsSOLR").html(Utils.addCommas($("#totalRecordsSOLR").html()));
 	$("#totalRecordsSQL").html(Utils.addCommas($("#totalRecordsSQL").html()));
 
 	showFacets();
+	window.location.hash = Globals.searchTerms;
 
 	if ( Globals.displayMode ) {
 		Globals.displayMode = true; 
@@ -206,13 +208,13 @@ function showFacets() {
 			$("#" + facet).append($("<span></span>")
 						  .css("font-size", "8pt")
 						  .html(" - [" + Utils.addCommas(facets[facet]) + "]"));
-			if ( (facet == "male" || facet == "female") && parseInt(facet[facets]) > 0 )
+			if ( (facet == "male" || facet == "female") && parseInt(facets[facet]) > 0 )
 				tempGender++;
-			else if ( (facet == "child" || facet == "adult") && parseInt(facet[facets]) > 0 )
+			else if ( (facet == "child" || facet == "adult") && parseInt(facets[facet]) > 0 )
 				tempAge++;
 		}
 		
-		// Per glenns request.
+		/* // Per glenns request.
 		if ( tempGender == 0 ) 
 			$("#gender").hide();
 		else 
@@ -222,7 +224,7 @@ function showFacets() {
 			$("#age").hide();
 		else 
 			$("#age").show();
-		
+		*/
 	} else {
 		$("#filtersWrapper").find("label > span").remove();
 	}
@@ -244,6 +246,7 @@ function Person() {
 	// Also inits other useful fields.
 	this.init =  function(args) {
 		if ( args ) {
+			var date = Date.parse(args["statusSahanaUpdated"]);
 			this.uuid         = args["p_uuid"]; 
 			this.encodedUUID  = args["encodedUUID"];
 			this.statusSahana = args["opt_status"]; 
@@ -251,7 +254,7 @@ function Person() {
 			this.gender       = args["gender"] == "mal" ? "Male" : (args["gender"] == "fml" ? "Female" : "Unknown"); 
 			this.age          = args["years_old"] || "N\/A"; 
 			this.ageGroup     = !Utils.isNumber(this.age) ? "Unknown" : (this.age >= 18 ? "Adult" : "Youth");
-			this.statusSahanaUpdated = args["statusSahanaUpdated"]; 
+			this.statusSahanaUpdated = date.toString("yyyy-MM-dd HH:mm:ss"); 
 			this.statusTriage = args["statusTriage"]; 
 			this.id           = args["id"]; 
 			this.peds         = args["peds"]; 

@@ -446,7 +446,7 @@ class SearchDB
 				 'imageHeight' => isset($doc->image_height) ? $doc->image_height : null, 
 				   'years_old' => isset($doc->years_old) ? $doc->years_old : null, 
 						  'id' => isset($doc->personId) ? $doc->personId : null, 
-		 'statusSahanaUpdated' => $doc->updated ? $date->format('y-m-d  G:i:s') : null, 
+		 'statusSahanaUpdated' => isset($doc->updated) ? str_replace('Z', '', $doc->updated) : null,
 				'statusTriage' => isset($doc->triageCategory) ? $doc->triageCategory : null, 
 						'peds' => isset($doc->peds) ? $doc->peds : null, 
 					 'orgName' => isset($doc->orgName) ? $doc->orgName : null, 

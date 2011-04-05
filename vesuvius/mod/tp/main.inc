@@ -1,13 +1,13 @@
 <?
 /**
  * @name         TriagePic
- * @version      1.2
+ * @version      1.3
  * @package      tp
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0404
  */
 
 
@@ -50,13 +50,14 @@ function shn_tp_default() {
  */
 function shn_tp_download() {
 	global $global;
-	$intPath = getcwd()."/tmp/triagepic_cache/";
+	//$intPath = getcwd()."/tmp/triagepic_cache/";
 	$extPath = getcwd()."/tmp/triagepic_cache_ext/";
-	$intPathReal = realpath($intPath);
+	//$intPathReal = realpath($intPath);
 	$extPathReal = realpath($extPath);
 	$border = "style=\"border: none;\"";
 	$show = false;
 
+/*
 	if(file_exists($intPathReal)) {
 		echo "<span style=\"color: red;\"><b>RED = Internal</b> /triagepic_cache</span> ";
 		echo "
@@ -68,11 +69,16 @@ function shn_tp_download() {
 		echo "<br><br><span style=\"color: green;\"><b>GREEN = External</b> /triagepic_cache_ext</span>";
 		$show = true;
 	}
+*/
 	if(file_exists($extPathReal)) {
 		echo "
 			<iframe src =\"tmp/triagepic_cache_ext/publish.htm\" width=\"100%\" height=\"470\" ".$border.">
 			<p>Your browser does not support iframes.</p>
 			</iframe>
+		";
+	} else {
+		echo "
+			Please contact a site administrator as the tp_cache folder is missing.
 		";
 	}
 }
