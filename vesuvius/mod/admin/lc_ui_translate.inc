@@ -36,7 +36,7 @@ function _shn_admin_lc_set_ui_translate() {
 		<p><?php echo _t("This interface allows a user to translate Sahana into their mother tongue through the user interface. Please follow the instructions below.")?></p>
 		<ul>
 		<li><b><?php echo _("Setp 1 : ")?></b> <br/><?php echo _("First of all please give file and directory permissions to sahana/res folder");?></li>
-		<li><b><?php echo _("Setp 2 : ")?></b> <br/><?php echo _("When you press the 'Enable Localization' button then you enter a localization mode, afterwards when you right click on any word phrase in the user interface you'll get a prompt box into which you can type the required translation and press ok")?></li>
+		<li><b><?php echo _("Setp 2 : ")?></b> <br/><?php echo _("When you press the 'Enable Localization' button then you enter a localization mode, afterwards when you right click on any word phrase in the user interface you'll get a prompt box into which you can type the required translation and press OK")?></li>
 		<li><b><?php echo _("Step 3 : ")?></b> <br/><?php echo _("When you finish translation, please go to Administration->Language/Locale->Update Translation")?></li>
 		<li><b><?php echo _("Step 4 : ")?></b> <br/><?php echo _("Finally press update button")?></li>
 		<li><b><?php echo _("Step 5 : ")?></b> <br/><?php echo _("Afterwards go to Administration->Language/Locale->setLocale and set the particular locale")?></li>
@@ -71,13 +71,13 @@ function _shn_admin_lc_ui_trns_enable() {
         '--output=../res/locale/' . $locale. '/LC_MESSAGES/sahana_temp.po';
         system($cmd, &$return);
 	}
-	add_confirmation("Localization mode enable succesfully, please refresh your browser and Please right click on word phrases. ");
+	add_confirmation("Localization mode enabled succesfully, please refresh your browser and please right-click on word phrases. ");
 }
 
 
 
 function _shn_admin_lc_ui_trns_disable() {
-	add_confirmation("Localization mode disable Ssuccesfully, please refresh your browser ");
+	add_confirmation("Localization mode disabled succesfully, please refresh your browser ");
 	$_SESSION['admin']['locale']['enable'] = "reset";
 }
 

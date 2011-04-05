@@ -220,14 +220,14 @@ class mpres {
 
 		$subject  = "[AUTO-REPLY]: People Locator Record Submission FAILURE";
 		$bodyHTML = "
-			Thank you for the person record you sbmitted for event(".$name."). However, the event you attempted to assign this person to is closed. Therefore your submission has been rejected.<br>
+			Thank you for the person record you submitted for event(".$name."). However, the event you attempted to assign this person to is closed. Therefore your submission has been rejected.<br>
 			<br>
 			<br>
 			<b>- People Locator</b><br>
 			<br>
 		";
 		$bodyAlt = "
-			Thank you for the person record you sbmitted for event(".$name."). However, the event you attempted to assign this person to is closed. Therefore your submission has been rejected.\n
+			Thank you for the person record you submitted for event(".$name."). However, the event you attempted to assign this person to is closed. Therefore your submission has been rejected.\n
 			\n
 			\n
 			- People Locator\n
@@ -245,7 +245,7 @@ class mpres {
 
 		$subject  = "[AUTO-REPLY]: People Locator Record Submission SUCCESS";
 		$bodyHTML = "
-			Thank you for the person record you sbmitted. It has been added to our registry and will show up in search results in a few minutes.<br>
+			Thank you for the person record you submitted. It has been added to our registry and will show up in search results in a few minutes.<br>
 			<br>
 			You can always view the record (and updates) of this person at the following url:<br>
 			<a href=\"https://".$uuid."\">https://".$uuid."</a><br>
@@ -255,7 +255,7 @@ class mpres {
 			<br>
 		";
 		$bodyAlt = "
-			Thank you for the person record you sbmitted. It has been added to our registry and will show up in search results in a few minutes.\n
+			Thank you for the person record you submitted. It has been added to our registry and will show up in search results in a few minutes.\n
 			\n
 			You can always view the record (and updates) of this person at the following url:\n
 			https://".$uuid."</a>\n
