@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         MPR Email Service
- * @version      1.7
+ * @version      1.8
  * @package      mpres
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0324
+ * @lastModified 2011.0404
  */
 
 
@@ -32,6 +32,7 @@ class mpres {
 	private $currentAttachments;
 	private $currentMessageHasXML;
 	private $currentRandomValue;
+	private $senderAddress;
 	private $person;
 
 	private $XMLversion;
@@ -142,6 +143,16 @@ class mpres {
 			for ( $i = $size-1; $i >= 0; $i-- ) {
 				// retrieve current message's data
 				$this->currentMessage = $overview[$i];
+				$this->senderAddress  = $overview[$i]->from;
+
+				// starts out like:
+				// "triune@gmail.com" <triune@gmail.com>
+				// so turn it into:
+				// triune@gmail.com
+				$e = explode("<", (string)$this->senderAddress);
+				$e = explode(">", $e[1]);
+				$this->senderAddress = $e[0];
+
 				$this->fixDate(); // reformat the date for our purposes
 				$this->fixFrom(); // strip extra characters from the from field
 
@@ -172,12 +183,14 @@ class mpres {
 
 					// event closed...................
 					if($closed != 0) {
-						$this->messages .= "LPF XML email found however, event ".$this->person->shortName." is closed, so they were not inserted.\n";
+						$this->messages .= "LPF XML email found however, event ".$this->person->shortName." is closed, so the person was not inserted.\n";
+						$this->replyError($this->person->shortName);
 
-					// event open.... insert dem!
+					// event open.... insert 'em !
 					} else {
 						$this->person->insertPersonXML($this->XMLversion);
 						$this->messages .= "LPF XML email found and person(".$this->person->uuid.") inserted.\n";
+						$this->replySuccess($this->person->uuid);
 					}
 
 				// this is not a TriagePic or ReUnite email, so we will act that it contains a victim's name/status in the subject line
@@ -185,6 +198,7 @@ class mpres {
 					$this->person->incident_id = $this->incident_id;
 					$this->person->insertPerson();
 					$this->messages .= "Normal email found and person(".$this->person->uuid.") inserted.\n";
+					$this->replySuccess($this->person->uuid);
 				}
 
 				// delete the message from the inbox
@@ -195,6 +209,62 @@ class mpres {
 				$this->person = NULL;
 			}
 		}
+	}
+
+
+
+	private function replyError($name) {
+		global $global;
+		require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+		$p = new pop();
+
+		$subject  = "[AUTO-REPLY]: People Locator Record Submission FAILURE";
+		$bodyHTML = "
+			Thank you for the person record you sbmitted for event(".$name."). However, the event you attempted to assign this person to is closed. Therefore your submission has been rejected.<br>
+			<br>
+			<br>
+			<b>- People Locator</b><br>
+			<br>
+		";
+		$bodyAlt = "
+			Thank you for the person record you sbmitted for event(".$name."). However, the event you attempted to assign this person to is closed. Therefore your submission has been rejected.\n
+			\n
+			\n
+			- People Locator\n
+			\n
+		";
+		$p->sendMessage($this->senderAddress, "", $subject, $bodyHTML, $bodyAlt);
+	}
+
+
+
+	private function replySuccess($uuid) {
+		global $global;
+		require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+		$p = new pop();
+
+		$subject  = "[AUTO-REPLY]: People Locator Record Submission SUCCESS";
+		$bodyHTML = "
+			Thank you for the person record you sbmitted. It has been added to our registry and will show up in search results in a few minutes.<br>
+			<br>
+			You can always view the record (and updates) of this person at the following url:<br>
+			<a href=\"https://".$uuid."\">https://".$uuid."</a><br>
+			<br>
+			<br>
+			<b>- People Locator</b><br>
+			<br>
+		";
+		$bodyAlt = "
+			Thank you for the person record you sbmitted. It has been added to our registry and will show up in search results in a few minutes.\n
+			\n
+			You can always view the record (and updates) of this person at the following url:\n
+			https://".$uuid."</a>\n
+			\n
+			\n
+			- People Locator\n
+			\n
+		";
+		$p->sendMessage($this->senderAddress, "", $subject, $bodyHTML, $bodyAlt);
 	}
 
 

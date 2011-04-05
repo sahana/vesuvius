@@ -170,7 +170,7 @@ class pop {
 
 			//$mail->AddAttachment('example/file.gif');
 			$mail->Send();
-			$sendStatus = "SUCCESS";
+			$sendStatus = "SUCCESS\n";
 			$this->messages .= "Successfully sent the message.\n";
 			$this->sentStatus = TRUE;
 		} catch (phpmailerException $e) {
@@ -194,6 +194,17 @@ class pop {
 
 		$result = $global['db']->Execute($q);
 		//$this->messages .= "\n\n".$q."\n\n";
+	}
+
+
+	/**
+	* Prints the message log
+	*/
+	public function spit() {
+		$this->stopTime = microtime(true);
+		$totalTime = $this->stopTime - $this->startTime;
+		$this->messages .= "scriptExecutedIn >> ".$totalTime." seconds.\n";
+		echo $this->messages;
 	}
 }
 

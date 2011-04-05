@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         MPR Email Service
- * @version      1.7
+ * @version      1.8
  * @package      mpres
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0324
+ * @lastModified 2011.0404
  */
 
 // cron job for mpres
@@ -17,14 +17,14 @@
 $global['approot'] = getcwd()."/../../";
 
 // include required libraries
-require("class.mpres.php");
-require("class.nameParser.php");
-require("class.lpfPatient.php");
-require("../../conf/sahana.conf");
-require("../../3rd/adodb/adodb.inc.php");
-require("../../inc/handler_db.inc");
-require("../../inc/lib_uuid.inc");
-require("../../inc/lib_image.inc");
+require_once("class.mpres.php");
+require_once("class.lpfPatient.php");
+require_once("../../conf/sahana.conf");
+require_once("../../3rd/adodb/adodb.inc.php");
+require_once("../../inc/handler_db.inc");
+require_once("../../inc/lib_uuid.inc");
+require_once("../../inc/lib_image.inc");
+require_once("../../mod/lpf/lib_lpf.inc");
 
 $m = new mpres();
 $m->loopInbox();

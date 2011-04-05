@@ -48,7 +48,8 @@ var Globals = {
 	doRefresh : true,
 	isiPad : false,
 	timeElapsed : 0,
-	hasNextPage : true
+	hasNextPage : true,
+	searchTerms : ""
 };
 
 

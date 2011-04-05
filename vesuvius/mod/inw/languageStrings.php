@@ -40,7 +40,7 @@ if ($l == "en") {
 	define("GENDER",          "Gender");
 	define("MALE",            "Male");
 	define("FEMALE",          "Female");
-	define("OTHER_UNKNOWN",   "Other/Unknown");
+	define("OTHER_UNKNOWN",   "Unknown");
 	define("AGE",             "Age");
 	define("ADULT",           "Adult");
 	define("UNKNOWN",         "Unknown");
@@ -86,7 +86,7 @@ if ($l == "en") {
 	define("GENDER",          "Sexe");
 	define("MALE",            "Masculin");
 	define("FEMALE",          "F&eacute;minin");
-	define("OTHER_UNKNOWN",   "Autre/Inconnu");
+	define("OTHER_UNKNOWN",   "Inconnu");
 	define("AGE",             "&Acirc;ge");
 	define("ADULT",           "Adulte");
 	define("UNKNOWN",         "Inconnu");
@@ -136,7 +136,7 @@ if ($l == "en") {
 	define("GENDER",          "Sexo");
 	define("MALE",            "Macho");
 	define("FEMALE",          "Hembra");
-	define("OTHER_UNKNOWN",   "Otro/Desconocido");
+	define("OTHER_UNKNOWN",   "Desconocido");
 	define("AGE",             "Edad");
 	define("ADULT",           "Adulto");
 	define("UNKNOWN",         "Desconocido");

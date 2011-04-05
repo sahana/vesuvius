@@ -65,18 +65,16 @@ var DetailsView =
 
 	createInfoTag : function(person) {
 		var statusTab = $("<div class='status' id='status_" + person.uuid + "' style='background-color:#" + person.tagColor + "'>" + person.statusSahanaFull + "</div>");
-		var date = Date.parse(person.statusSahanaUpdated);
+
 		//should build this correctly (no  mixing of html w/ javascript) in the future.
 		var div = $("<div style='width: 210px;float:left; margin: 5px 5px 5px 5px; font-weight:700' id='" + person.uuid + "'></div>")
 					.append("<div  id='name_" + person.uuid + "' style='overflow:hidden;white-space: nowrap; width: 170px;text-overflow: ellipsis; margin-bottom:3px;'>" + person.name + "</div>")
 					.append(statusTab)
-					.append("<div id='ageGender_" + person.uuid + "' style='font-weight:normal'><div style='float: left;width:75px;text-align:right;font-weight:bold;margin-right:5px;'>Age Group:</div> " + person.ageGroup + "<br /> <div style='float: left;width:75px;text-align:right;font-weight:bold;margin-right:5px;'>Gender:</div> " + person.gender + "</div>")
-					.append("<div id='updatedDate_" + person.uuid + "'style='font-weight:normal'><div style='float: left;width:75px;text-align:right;font-weight:bold;margin-right:5px;'>Date:</div> "
-								+ date.toString("yyyy-MM-dd"))
-					.append("<div id='updatedTime_" + person.uuid + "'style='font-weight:normal'><div style='float: left;width:75px;text-align:right;font-weight:bold;margin-right:5px;'>Time:</div> "
-								+ date.toString("hh:mm:ss") + "<span style='font-size:.7em'>(UTC)</span></div>");
-		if ( Globals.mostRecent && Date.parse(person.statusSahanaUpdated.replace('@','')) > Date.parse(Globals.mostRecent.replace('@','')) )
-			div.append("<div style='position:absolute; bottom:1px; right: 5px;  color: yellow;'>Updated</div>");
+					.append("<div id='ageGender_" + person.uuid + "' style='float:left;font-weight:normal'><div style='float: left;width:55px;text-align:right;font-weight:bold;margin-right:5px;'>Age:</div> " + person.ageGroup + "<br /> <div style='float: left;width:55px;text-align:right;font-weight:bold;margin-right:5px;'>Gender:</div> " + person.gender + "</div>")
+					.append("<div id='updated_" + person.uuid + "'style='float:left;white-space:nowrap;font-weight:normal'><div style='float: left;width:55px;text-align:right;font-weight:bold;margin-right:5px;'>Updated:</div> "
+								+ person.statusSahanaUpdated + " UTC" );
+		//if ( Globals.mostRecent && Date.parse(person.statusSahanaUpdated.replace('@','')) > Date.parse(Globals.mostRecent.replace('@','')) )
+		//	div.append("<div style='position:absolute; bottom:1px; right: 5px;  color: yellow;'>Updated</div>");
 
 
 

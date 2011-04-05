@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0328
+ * @lastModified 2011.0405
  */
 
 
@@ -52,6 +52,13 @@ function shn_home_default() {
 		showList();
 	}
 
+	// HEPL HACK!
+	echo "
+		<br><br><h3>For this event you can search and report new information through our first generation site :</h3>
+		<span style=\"line-height: 160%; font-size: 120%;\">
+		<span style=\"color: red;\"><span style=\"text-shadow: 1px 1px 1px #000;\">▶</span></span>&nbsp;
+		<a href=\"http://hepl.nlm.nih.gov\">Haiti Earthquake People Locator</a></span><br>
+	";
 
 	echo "
 		<script>
