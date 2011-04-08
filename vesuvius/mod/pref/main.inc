@@ -11,12 +11,14 @@
  * @lastModified 2011.0308
  */
 
-include_once $global['approot']."/inc/lib_modules.inc";
-include_once $global['approot']."/inc/lib_menu.inc";
-include_once $global['approot']."/inc/lib_form.inc";
-include_once $global['approot']."/inc/lib_validate.inc";
-include_once $global['approot']."/inc/lib_errors.inc";
-include_once "tracker.inc";
+global $global;
+require_once($global['approot']."/inc/lib_modules.inc");
+require_once($global['approot']."/inc/lib_menu.inc");
+require_once($global['approot']."/inc/lib_form.inc");
+require_once($global['approot']."/inc/lib_validate.inc");
+require_once($global['approot']."/inc/lib_errors.inc");
+require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+require_once("tracker.inc");
 
 
 
@@ -25,37 +27,48 @@ function shn_pref_loginForm() {
 	global $global;
 
 	if ($_SESSION['logged_in'] != true ) {
-
-		echo "
-			<form method=\"post\" action=\"index.php?act=login\">
-				<table style=\"width: 300px; margin: 10px;\">
-					<tr>
-						<td style=\"width: 100px; text-align: left;\">Username</td>
-						<td style=\"width: 200px; text-align: left;\"><input type=\"text\" name=\"user_name\" id=\"userName\" autocomplete=\"off\" /></td>
-					</tr>
-					<tr>
-						<td style=\"width: 100px; text-align: left;\">Password</td>
-						<td style=\"width: 200px; text-align: left;\"><input type=\"password\" name=\"password\"  id=\"pswd\"     autocomplete=\"off\" /></td>
-					</tr>
-					<tr><td colspan=2>&nbsp;</td></tr>
-					<tr>
-						<td  style=\"text-align: center;\" colspan=2><input   type=\"submit\"   id=\"loginButton\" value=\"Login\" class=\"styleTehButton\" /></td>
-					</tr>
-				</table>
-		";
+		echo '
+			<div class="form-container">
+				<form method="post" action="index.php?act=login" id="form0" name="form0">
+				<fieldset id="noIdDefined">
+				<legend>Login</legend>
+				<label for="user_name">Username </label><input type="text" name="user_name" id="user_name" tabindex="1" autocomplete="off"><br>
+				<div class="brake"></div>
+				<label for="pswd">Password </label><input type="password" name="password" id="pswd" autocomplete="off" tabindex="2"><br>
+				<div class="brake"></div>
+				<br>
+				<label>&nbsp;</label><input type="submit" value="Login" class="styleTehButton" tabindex="3">
+				</fieldset>
+				<br><br><br>
+				</form>
+			</div>
+		';
 
 		$acl = shn_acl_is_signup_enabled();
 		if($acl == true) {
-			echo "
-				<br><br>
-				<span id=\"signUp\"><a href=\"index.php?mod=pref&act=signup\">Register for an Account</a></span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-				<span id=\"forgotPassword\"><a href=\"index.php?mod=pref&act=forgotPassword\">Forgot My Password</a></span>
-			";
-		}
 
-		echo "
-			</form>
-		";
+
+		echo '
+			<div class="form-container">
+				<form>
+				<fieldset id="noIdDefined">
+				<legend>Register / Forgot</legend>
+				<input id="followButton" class="styleTehButton" type="button" value="Register as a new user" onclick="register();">
+				&nbsp; &nbsp; &nbsp; &nbsp;
+				<input id="followButton" class="styleTehButton" type="button" value="Forgot My Password" onclick="forgot();">
+				</form>
+			</div>
+			<script>
+				function register() {
+					window.location = \'index.php?mod=pref&act=signup\';
+				}
+				function forgot() {
+					window.location = \'index.php?mod=pref&act=forgotPassword\';
+				}
+			</script>
+		';
+
+		}
 
 /*
 				<div id=\"switchOpenId\">
@@ -139,7 +152,7 @@ function shn_pref_forgotPassword() {
 				// needed for users table to work from here on out......
 				// ALTER TABLE  `users` ADD  `confirmation` VARCHAR( 255 ) NULL DEFAULT NULL
 
-				$url = shn_pref_makeBaseUrl() ."index.php?mod=pref&act=forgotPassword&zz=2&c=".base64_encode($confirmation)."&u=".base64_encode($user_id);
+				$url = makeBaseUrl() ."index.php?mod=pref&act=forgotPassword&zz=2&c=".base64_encode($confirmation)."&u=".base64_encode($user_id);
 
 				$q = "
 					UPDATE  `users`
@@ -149,7 +162,6 @@ function shn_pref_forgotPassword() {
 				$result = $global['db']->Execute($q);
 
 				// send out the password reset link in an email
-				require($global['approot']."mod/lpf/lib_lpf.inc");
 				$p = new pop();
 				$subject  = "Your login details...";
 
@@ -250,10 +262,9 @@ function shn_pref_forgotPassword() {
 			$result = $global['db']->Execute($q3);
 
 			// send out the new password in an email
-			require($global['approot']."mod/lpf/lib_lpf.inc");
 			$p = new pop();
 			$subject  = "Your login details...";
-			$url = shn_pref_makeBaseUrl()."index.php";
+			$url = makeBaseUrl()."index.php";
 
 			$bodyHTML = "
 				Dear ".$user_name.",<br>
@@ -324,37 +335,6 @@ function shn_pref_forgotPassword() {
 
 
 
-/**
- * Make the base url of the links we use
- */
-function shn_pref_makeBaseUrl() {
-	global $global;
-
-	$q = "
-		SELECT *
-		FROM `incident`
-		WHERE `default` = '1'
-		LIMIT 1;
-	";
-	$result = $global['db']->Execute($q);
-	if($row = $result->FetchRow()) {
-		$shortname = $row['shortname'] ."/";
-	} else {
-		$shortname = "";
-	}
-
-	if(isset($_SERVER['HTTPS'])) {
-		$protocol = "https://";
-	} else {
-		$protocol = "http://";
-	}
-	$link = $protocol.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'];
-	$link = str_replace("index.php", "", $link);
-	$link = $link.$shortname;
-	return $link;
-}
-
-
 
 /**
  * Generates a form to rest a forgotten password
@@ -367,7 +347,7 @@ function shn_pref_emailCaptchaForm() {
 		<h2>Forgot My Password</h2>
 		<div id=\"formcontainer\">
 		<br>
-		If you have forgotten your username or password, you can request to have your username emailed to you and to reset your password.
+		If you have forgotten your username or password, you can request to have your username emailed to you and to reset your password.<br>
 		When you fill in your registered email address, you will be sent instructions on how to reset your password.<br>
 	";
 	shn_form_fopen("forgotPassword&zz=1", "pref");
@@ -454,7 +434,7 @@ function shn_pref_signup_cr() {
 	if(shn_auth_self_signup_cr() == true){
 		shn_pref_signup();
 		if(!isset($_POST["captcha"]) || ($_SESSION['security_captcha_key'] != md5($_POST["captcha"]))) {
-			add_error(_t("Please provideeeeeeeee the text in the image correctly to prove you are human."));
+			add_error(_t("Please provide the text in the image correctly to prove you are human."));
 			return;
 		}
 		shn_pref_signup();

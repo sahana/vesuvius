@@ -8,7 +8,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0331
+ * @lastModified 2011.0408
  */
 
 require_once($global['approot']."/inc/lib_uuid.inc");
@@ -165,37 +165,6 @@ function shn_eap_mainmenu() {
 
 
 /**
- * Make the url to the current page
- */
-function makePageUrl() {
-	if(isset($_SERVER['HTTPS'])) {
-		$protocol = "https://";
-	} else {
-		$protocol = "http://";
-	}
-	$link = $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-	return $link;
-}
-
-
-
-/**
- * Make the base url of the links we use
- */
-function makeBaseUrl() {
-	if(isset($_SERVER['HTTPS'])) {
-		$protocol = "https://";
-	} else {
-		$protocol = "http://";
-	}
-	$link = $protocol.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'];
-	$link = str_replace("index.php", "", $link);
-	return $link;
-}
-
-
-
-/**
  * findRights
  *
  * @access public
@@ -211,6 +180,22 @@ function shn_eap_findRights() {
 	} else {
 		$global['uuid'] = mysql_real_escape_string(base64_decode($_GET['uuid']));
 	}
+
+	// first and foremost, check if the user has permissions to view the record
+	$q = "
+		SELECT *
+		FROM person_uuid p, incident i
+		WHERE p.incident_id = i.incident_id
+		AND p.p_uuid = '".$global['uuid']."';
+	";
+	$r  = $global['db']->Execute($q);
+	$row = $r->FetchRow();
+	if((!isset($_SESSION['group_id']) || ($_SESSION['group_id'] != (int)$row['private_group'])) && $row['private_group'] != NULL) {
+		$global['permissionToView'] = false;
+	} else {
+		$global['permissionToView'] = true;
+	}
+
 
 	// anonymous user ~ not logged in
 	if(($_SESSION['logged_in'] != 1) || ($_SESSION['user'] == 'Anonymous')) {
@@ -274,11 +259,6 @@ function shn_eap_findRights() {
 			$global['startFollow'] = true;
 			$global['role']        = "admin";
 		}
-
-		// hack to turn off notes on ChrustChurch and Columbia
-		if(($_GET['shortname'] == "christchurch") || ($_GET['shortname'] == "columbia2011")) {
-			$global['addNote'] = false;
-		}
 	}
 }
 
@@ -306,7 +286,6 @@ function addEmailUpdates($table, $column, $name, $oldValue, $newValue) {
 function emailUpdates() {
 	global $global;
 	global $revisionQ;
-	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 
 	// only email if revisions...
 	if(count($revisionQ) > 0) {
@@ -513,6 +492,16 @@ function shn_eap_edit() {
 	global $shn_tabindex;
 
 	shn_eap_findRights();
+
+	// if the person record is assigned to a private event and the user does not have permission to view it...
+	if(!$global['permissionToView']) {
+		echo "
+			<h2>Error #21</h2>
+			You do not have permission to view this record.
+		";
+		return;
+	}
+
 	$googl = new goo_gl(makePageUrl());
 	$global['googl'] = $googl->result();
 
@@ -735,20 +724,6 @@ function shn_eap_edit() {
 	// we use updated time if the new updated_server time is not available
 	if(!isset($person_status['creation_time']) || $person_status['creation_time'] == null) {
 		$person_status['creation_time'] = "unknown";
-	}
-
-	// load missing data (if person is missing)
-	if(isset($status['opt_status']) && $status['opt_status'] == "mis") {
-		$missing = true;
-		$q  = "
-			SELECT *
-			FROM person_missing
-			WHERE p_uuid = '".$global['uuid']."';
-		";
-		$r               = $global['db']->Execute($q);
-		$person_missing  = $r->FetchRow();
-	} else {
-		$missing = false;
 	}
 
 	// set opt values to UNK if thats teh case

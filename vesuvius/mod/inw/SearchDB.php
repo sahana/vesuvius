@@ -547,7 +547,7 @@ class SearchDB
 
 
 // testing
-//  $search = new SearchDB("sql", "cmax2009", "", "true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "0;25;opt_status+desc;true");
+//  $search = new SearchDB("sql", "cmax2009", "", "true;true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "0;25;opt_status+desc;true");
 //  $search->executeSearch();
  // $search->getLastUpdateSOLR();
 	

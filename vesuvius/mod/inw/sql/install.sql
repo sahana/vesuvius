@@ -13,12 +13,11 @@ AS select `a`.`p_uuid` AS `p_uuid`,
 (case when (`h`.`hospital_uuid` = -(1)) then NULL else `h`.`icon_url` end) AS `icon_url`,
 `inc`.`shortname` AS `shortname`,
 `h`.`short_name` AS `hospital`,
-`e`.`comments` AS `comments`,
-`e`.`last_seen` AS `last_seen` 
+`c`.`other_comments` AS `comments`,
+`c`.`last_seen` AS `last_seen` 
 from `person_uuid` `a` join `person_status` `b` on (`a`.`p_uuid` = `b`.`p_uuid` and `b`.`isvictim` = 1)
  left join `image` `i` on `a`.`p_uuid` = `i`.`x_uuid`
  join `person_details` `c` on `a`.`p_uuid` = `c`.`p_uuid`
  join `incident` `inc` on `inc`.`incident_id` = `a`.`incident_id`
  left join `hospital` `h` on `h`.`hospital_uuid` = `a`.`hospital_uuid`
- left join `person_missing` `e` on `a`.`p_uuid` = `e`.`p_uuid`
- left join person_updates f on a.p_uuid = f.p_uuid;
+  left join person_updates f on a.p_uuid = f.p_uuid;

@@ -913,17 +913,35 @@ class goo_gl{
 
 
 
-
-
-
-
-
-
-
-
 ///////////////////////////////////////////////////
 // HELPER FUNCTIONS
 ///////////////////////////////////////////////////
+
+
+
+function makePageUrl() {
+	if(isset($_SERVER['HTTPS'])) {
+		$protocol = "https://";
+	} else {
+		$protocol = "http://";
+	}
+	$link = $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+	return $link;
+}
+
+
+
+function makeBaseUrl() {
+	if(isset($_SERVER['HTTPS'])) {
+		$protocol = "https://";
+	} else {
+		$protocol = "http://";
+	}
+	$link = $protocol.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'];
+	$link = str_replace("index.php", "", $link);
+	return $link;
+}
+
 
 
 function makeBaseUrlMinusEvent() {
@@ -952,3 +970,7 @@ function makeBaseUrlMinusEventForHome() {
 	$link = str_replace("/index.php", "", $link);
 	return $link;
 }
+
+
+
+

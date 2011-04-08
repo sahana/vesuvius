@@ -271,13 +271,13 @@ function shn_main_checkEventPermissions() {
 		// check if visitor comes in with no shortname....
 		isset($_GET['shortname']) ? $short = $_GET['shortname'] : $short = "";
 
-		// if we access the pref, eap, or rez modules (login, full person record, and resource content) allow with no shortname
-		if(($global['module'] == "pref") || ($global['module'] == "eap") || ($global['module'] == "rez")) {
-
-		// else if the shortname is not set, sent them to the default module
-		} else if($short == "") {
+		// these 3 modules are event dependent, so kick a user out if they try to access them without first choosing an event
+		if(($short == "") && (($global['module'] == "inw") || ($global['module'] == "rap") || ($global['module'] == "rez"))) {
 			$global['module'] = $conf['default_module'];
 			$global['action'] = $conf['default_action'];
+
+		} else if($short == "") {
+			// do nothing as these modules other moduels are event in-specific
 
 		// else check if the user has the permissions necessary for this event/incident
 		} else {
