@@ -877,10 +877,6 @@ table#regLog, table#regLog tbody tr td { border: none; }
 	text-decoration: none;
 }
 
-#missingDetails {
-	display: none;
-}
-
 .styleTehButton {
 	-webkit-user-select: none;
 	background-attachment: scroll;

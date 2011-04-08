@@ -15,17 +15,20 @@
 
 require_once "constants.inc";
 
-function shn_acl_log_msg($comment,$p_uuid=null,$user_name=null,$event_type=1) {
+function shn_acl_log_msg($comment, $p_uuid = null, $user_name = null, $event_type=1) {
 	global $global;
 	$db = $global["db"];
 	$timestamp = time();
-	if($p_uuid==null) {
-		$p_uuid=$_SESSION['user_id'];
+	if($p_uuid == null) {
+		$p_uuid = $_SESSION['user_id'];
 	}
-	if($user_name==null){
-		$user_name=$_SESSION['user'];
+	if($user_name == null){
+		$user_name = $_SESSION['user'];
 	}
-	$sql = "insert into password_event_log(changed_timestamp,p_uuid,user_name,comment,event_type) values($timestamp,'{$p_uuid}','{$user_name}','{$comment}',{$event_type})";
+	$sql = "
+		insert into password_event_log(changed_timestamp, p_uuid, user_name, comment, event_type)
+		values($timestamp, '{$p_uuid}', '{$user_name}','{$comment}',{$event_type});
+	";
 	$res = $db->Execute($sql);
 }
 

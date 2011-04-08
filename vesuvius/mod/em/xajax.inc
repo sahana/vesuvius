@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Event Manager
- * @version      1.2
+ * @version      1.3
  * @package      em
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0401
+ * @lastModified 2011.0407
  */
 
 global $global;
@@ -124,10 +124,14 @@ function em_show_events($internal = FALSE) {
 		}
 
 		// generate open close text
-		if($closed == NULL) {
+		if((int)$closed == 0) {
 			$closedText = "OPEN";
-		} else {
+		} else if((int)$closed == 1) {
 			$closedText = "CLOSED";
+		} else if((int)$closed == 2) {
+			$closedText = "CLOSED(PF)";
+		} else {
+			$closedText = "OPEN";
 		}
 
 		// find class to color the row...
@@ -207,10 +211,14 @@ function em_show_events($internal = FALSE) {
 			}
 
 			// generate open close text
-			if($closed == NULL) {
+			if((int)$closed == 0) {
 				$closedText = "OPEN";
-			} else {
+			} else if((int)$closed == 1) {
 				$closedText = "CLOSED";
+			} else if((int)$closed == 2) {
+				$closedText = "CLOSED(PF)";
+			} else {
+				$closedText = "OPEN";
 			}
 
 			// find class to color the row...
@@ -289,10 +297,14 @@ function em_show_events($internal = FALSE) {
 				}
 
 				// generate open close text
-				if($closed == NULL) {
+				if((int)$closed == 0) {
 					$closedText = "OPEN";
-				} else {
+				} else if((int)$closed == 1) {
 					$closedText = "CLOSED";
+				} else if((int)$closed == 2) {
+					$closedText = "CLOSED(PF)";
+				} else {
+					$closedText = "OPEN";
 				}
 
 				// find class to color the row...
@@ -371,7 +383,7 @@ function em_perform_help() {
 		<h2>Adding a New Event</h2>
 		<ul>
 			<li>Clicking on the new Event button will create a new event with default sample data.</li>
-			<li>New events default to being CLOSED, TEST, Non-DEFAULT, private to the admin group, and located at NLM.</li>
+			<li>New events default to being OPEN, TEST, Non-DEFAULT, private to the admin group, and located at NLM.</li>
 			<li>Once the new event is created, you are immediately redirected to begin editing it.</li>
 		</ul>
 		<br>
@@ -410,7 +422,7 @@ function em_perform_help() {
 			<li><b>Type</b>: indicates whether the event is a <b>REAL</b> or a <b>TEST</b> event. This is spcified by per disaster and all incidents and events that are children of the particular disaster inherit this value from the parent.</li>
 			<li><b>Default</b>: shows which event is the default event a user see when they come to the site.</li>
 			<li><b>Visibility</b>: shows whether an event is visible to the public (enyone may view it) or whether it is only visible to a specific user class.</li>
-			<li><b>Open</b>: an event that is <b>CLOSED</b> cannot accept new persons in the RAP (Report A Person), PLS (Person Locator web Services), and MPRES (Missing Person Registry Email Services). <b>OPEN</b> events allow new persons to be accepted via these three avenues.</li>
+			<li><b>Open</b>: an event that is <b>CLOSED</b> cannot accept new persons in the RAP (Report A Person), PLS (Person Locator web Services), and MPRES (Missing Person Registry Email Services). <b>OPEN</b> events allow new persons to be accepted via these three avenues. <b>CLOSED(PF)</b> events are the same as <b>CLOSED</b> events except that they allow the reporting of persons via the Google Person Finder.</li>
 			<li><b>Edit</b>: is the link you click on to edit this particular event.</li>
 		</ul>
 		<img alt=\"IE6,7,8 dont support inline images, please upgrade to IE9 or Google Chrome, Firefox, Safari\" class=\"inlineHelp\" src=\"data:image/png;base64,".base64_encode(file_get_contents($global['approot'].'/mod/em/help2.png'))."\">
@@ -566,6 +578,7 @@ function em_perform_save($page_id, $rj) {
 
 
 	$description = mysql_real_escape_string($r['eventDescription']);
+	$externalReport = mysql_real_escape_string($r['externalReport']);
 	$date        = mysql_real_escape_string($r['eventDate']);
 	$street      = mysql_real_escape_string($r['street']);
 	$latitude    = (double)$r['latitude'];
@@ -638,15 +651,11 @@ function em_perform_save($page_id, $rj) {
 		$default = "NULL";
 	}
 
-
-	// formulate closed
-	$closed      = (int)$r['eventClosed'];
-	if($closed != 1) {
-		$closed = "NULL";
-	} else {
-		$closed = "'1'";
+	// check for bad values
+	$closed = (int)$r['eventClosed'];
+	if(($closed < 0) || ($closed > 2)) {
+		$closed = 0;
 	}
-
 
 	// formulate group
 	$group = (int)$r['eventVisibility'];
@@ -668,19 +677,20 @@ function em_perform_save($page_id, $rj) {
 	$q = "
 		UPDATE incident
 		SET
-			name          = '".$name."',
-			shortname     = '".$shortName."',
-			description   = '".$description."',
-			date          = '".$date."',
-			latitude      = '".$latitude."',
-			longitude     = '".$longitude."',
-			type          = '".$type."',
-			private_group = ".$group.",
-			closed        = ".$closed.",
-			`default`     = ".$default.",
-			parent_id     = ".$parent.",
-			street        = '".$street."'
-		WHERE incident_id     = '".$eventId."';
+			name            = '".$name."',
+			shortname       = '".$shortName."',
+			description     = '".$description."',
+			date            = '".$date."',
+			latitude        = '".$latitude."',
+			longitude       = '".$longitude."',
+			type            = '".$type."',
+			private_group   = ".$group.",
+			closed          = ".$closed.",
+			`default`       = ".$default.",
+			parent_id       = ".$parent.",
+			street          = '".$street."',
+			external_report = '".$externalReport."'
+		WHERE incident_id       = '".$eventId."';
 	";
 	$res = $global['db']->Execute($q);
 
@@ -751,7 +761,7 @@ function em_perform_new() {
 		INSERT INTO incident
 			(parent_id, search_id, name, shortname, date, type, latitude, longitude, private_group, closed)
 		VALUES
-			(null, null, 'new event', 'new', '".date("Y-m-d")."', 'TEST', '39', '-77.101', '".$group."', '1');
+			(null, null, 'new event', 'new', '".date("Y-m-d")."', 'TEST', '39', '-77.101', '".$group."', '0');
 	";
 	$res = $global['db']->Execute($q);
 
@@ -910,9 +920,16 @@ function em_perform_edit($incident_id) {
 	// end default
 
 
-	// generate closed checkbox
-		$checked = $row['closed'] == "1" ? "CHECKED" : "";
-		$closed = "<input type=\"checkbox\" id=\"eventClosed\" id=\"eventClosed\" value=\"closed\" ".$checked." >";
+	// generate closed checkboxtextarea
+		$checkedZero = $row['closed'] == "0" ? "CHECKED" : "";
+		$checkedOne  = $row['closed'] == "1" ? "CHECKED" : "";
+		$checkedTwo  = $row['closed'] == "2" ? "CHECKED" : "";
+		$closed = "
+			<input type=\"radio\" id=\"eventClosed\" name=\"eventClosed\" value=\"0\" ".$checkedZero." > <b>OPEN</b><br>
+			<input type=\"radio\" id=\"eventClosed\" name=\"eventClosed\" value=\"1\" ".$checkedOne." > <b>CLOSED</b><br>
+			<input type=\"radio\" id=\"eventClosed\" name=\"eventClosed\" value=\"2\" ".$checkedTwo." > <b>CLOSED(PF) ~ Insert Google Person Finder Widget code below:</b><br>
+			<textarea id=\"externalReport\" rows=4 cols=60 />".$row['external_report']."</textarea>
+		";
 	// end closed
 
 

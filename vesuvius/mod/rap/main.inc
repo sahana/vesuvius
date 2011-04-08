@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0325
+ * @lastModified 2011.0408
  */
 
 
@@ -25,14 +25,10 @@ include_once($global['approot']."/inc/lib_location.inc");
 function shn_rap_checkCredz() {
 	$good = false;
 	if(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == 1) {
-		if(isset($_SESSION['group_id']) && $_SESSION['group_id'] != 3) { // anonymous
+		if(isset($_SESSION['group_id']) && $_SESSION['group_id'] != 3) { // not anonymous
 			$good = true; // allowed to report
 		}
 	}
-
-	// todo: check if EM (Event Manager) is installed, if so, verify this event allows reporting
-
-
 	return $good;
 }
 
@@ -75,16 +71,18 @@ function shn_rap_default() {
  * @return void
  */
 function shn_rap_showClosedMessage() {
+	global $global;
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."';
+	";
+	$res = $global['db']->Execute($q);
+	$row = $res->FetchRow();
+	$external_report = $row['external_report'];
 
-	// hack to routie reporting to google for NZ
-	if($_GET['shortname'] == "christchurch") {
-		echo '
-			<iframe src="http://christchurch-2011.person-finder.appspot.com/?small=yes&lang=en" width=400 height=300 frameborder=0 style="border: dashed 2px #77c"></iframe>
-		';
-	} else if($_GET['shortname'] == "sendai2011") {
-		echo '
-			<iframe src="http://japan.person-finder.appspot.com/?small=yes&lang=en" width=400 height=300 frameborder=0 style="border: dashed 2px #77c"> </iframe>
-		';
+	if(shn_rap_checkClosed() == 2) {
+		echo htmlspecialchars_decode($external_report);
 	} else {
 		echo "
 			<h2>Error #21</h2>
@@ -111,11 +109,7 @@ function shn_rap_checkClosed() {
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 	$closed = $row['closed'];
-	if($closed == 0) {
-		return false;	// event open
-	} else {
-		return true;	// event closed
-	}
+	return $closed;
 }
 
 
@@ -130,7 +124,7 @@ function shn_rap_checkClosed() {
 function shn_rap_controller() {
 	global $global;
 
-	if(shn_rap_checkClosed()) {
+	if(shn_rap_checkClosed() > 0) {
 		shn_rap_showClosedMessage();
 		return;
 	}
@@ -203,23 +197,8 @@ function shn_rap_entry($errors=false) {
 				$opt_status[$res->fields['option_code']] = $res->fields['option_description'];
 				$res->MoveNext();
 			}
-			shn_form_select($opt_status, "Health / Locational Status", "opt_status", "onchange=\"checkMissing();\"", array('public'=>true, 'help'=>'Please epcify to the best of your knowledge the condition of the person you are reporting.'));
+			shn_form_select($opt_status, "Health / Locational Status", "", array('public'=>true, 'help'=>'Please epcify to the best of your knowledge the condition of the person you are reporting.'));
 		shn_form_fsclose();
-
-		echo "
-			<script>
-				function checkMissing() {
-					var opt_status = document.getElementById('opt_status');
-					if(opt_status.value == 'mis') {
-						var m = document.getElementById('missingDetails');
-						m.style['display'] = 'block';
-					} else {
-						var m = document.getElementById('missingDetails');
-						m.style['display'] = 'none';
-					}
-				}
-			</script>
-		";
 
 		shn_form_fsopen(_t('Basic Person Details'));
 			?><p><?php echo  _t('Please enter any of the following details of the person:'); ?></p>	<?php
@@ -252,7 +231,7 @@ function shn_rap_entry($errors=false) {
 			shn_form_textarea(_t('Other Obvious Distinctive Features'),'physical', null, array('cols'=>48, 'public'=>true));
 		shn_form_fsclose();
 
-		shn_form_fsopen(_t('Missing Person Details'), "missingDetails");
+		shn_form_fsopen(_t('Last Known Details'), "missingDetails");
 			shn_form_textarea(_t('Last Seen Location'),'last_seen', null, array('cols'=>48, 'public'=>true));
 			shn_form_textarea(_t('Clothing and Appearance when Last Seen'),'last_clothing', null, array('cols'=>48, 'public'=>true));
 			shn_form_textarea(_t('Other Information to Help Locate this Person'),'comments', null, array('cols'=>48, 'public'=>true));
@@ -665,16 +644,6 @@ function shn_rap_commitPerson($saveImage = false) {
 	";
 	$res = $global['db']->Execute($q1);
 
-
-	// insert person's missing information if missing
-	if($status == "'mis'") {
-		$q2 = "
-			INSERT INTO person_missing (p_uuid, last_seen, last_clothing, comments)
-			VALUES ('".$uuid."', ".$seen.", ".$clothing.", ".$comments.");
-		";
-		$res = $global['db']->Execute($q2);
-	}
-
 	// insert person's status
 	$q5 = "
 		INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
@@ -691,8 +660,8 @@ function shn_rap_commitPerson($saveImage = false) {
 
 	// insert person's details
 	$q8 = "
-		INSERT INTO person_details (p_uuid, opt_race, opt_religion, opt_gender, years_old, minAge, maxAge)
-		VALUES ('".$uuid."', ".$race.", ".$religion.", ".$gender.", ".$age.", ".$minAge.", ".$maxAge.");
+		INSERT INTO person_details (p_uuid, opt_race, opt_religion, opt_gender, years_old, minAge, maxAge, last_seen, last_clothing, other_comments)
+		VALUES ('".$uuid."', ".$race.", ".$religion.", ".$gender.", ".$age.", ".$minAge.", ".$maxAge.", ".$seen.", ".$clothing.", ".$comments.");
 	";
 	$res = $global['db']->Execute($q8);
 

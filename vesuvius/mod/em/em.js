@@ -1,13 +1,13 @@
 /**
  * @name         Event Manager
- * @version      1.2
+ * @version      1.3
  * @package      em
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0401
+ * @lastModified 2011.0407
  */
 
 
@@ -144,23 +144,21 @@ function em_get_data() {
 	r.longName         = htmlspecialchars($("#longName").val());
 	r.shortName        = $("#shortName").val();
 	r.eventDescription = htmlspecialchars($("#eventDescription").val());
+	r.externalReport   = htmlspecialchars($("#externalReport").val());
 	r.eventParent      = $("#eventParent").val();
 	r.eventType        = $("#eventType").val();
 	r.eventVisibility  = $("#eventVisibility").val();
 	r.eventDate        = $("#eventDate").val();
 	r.eventId          = $("#eventId").val();
 	r.street           = $("#address").val();
+	r.eventClosed      = $("#eventClosed:checked").val();
 
 	if($("#eventDefault:checked").val() == "default") {
 		r.eventDefault = 1;
 	} else {
 		r.eventDefault = 0;
 	}
-	if($("#eventClosed:checked").val() == "closed") {
-		r.eventClosed = 1;
-	} else {
-		r.eventClosed = 0;
-	}
+
 	var rj = array2json(r);
 	return(rj);
 }

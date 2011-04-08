@@ -15,9 +15,6 @@ html {
 	/*height: auto !important;*/
 }
 
-#content {
-	/*min-height: 900px !important;*/
-}
 
 #icon {
 	position: absolute;
@@ -709,10 +706,10 @@ td {padding: 4px;}
 }
 
 #scrolling_content {
-	min-height:400px;
-	margin-top:0px;
+	min-height: 600px;
+	margin-top: 0px;
 	border: solid 0px #34689a;
-	position:relative;
+	position: relative;
 }
 
 

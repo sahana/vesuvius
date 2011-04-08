@@ -128,13 +128,6 @@ class lpfPatient {
 		";
 		$res = $global['db']->Execute($q1);
 
-		// insert person missing info
-		$q2 = "
-			INSERT INTO person_missing (p_uuid, last_seen, last_clothing, comments)
-			VALUES ('".$this->uuid."', NULL, NULL, '".$this->comments."');
-		";
-		$res = $global['db']->Execute($q2);
-
 		// insert person's status
 		$q4 = "
 			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
@@ -144,8 +137,8 @@ class lpfPatient {
 
 		// insert person's details
 		$q5 = "
-			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old)
-			VALUES ('".$this->uuid."', NULL, '".$this->gender."', '".$this->age."');
+			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old, last_seen, last_clothing, other_comments)
+			VALUES ('".$this->uuid."', NULL, '".$this->gender."', '".$this->age."', NULL, NULL, '".$this->comments."');
 		";
 		$res = $global['db']->Execute($q5);
 
@@ -171,12 +164,6 @@ class lpfPatient {
 		";
 		$res = $global['db']->Execute($q1);
 
-		// insert person's missing status
-		$q2 = "
-			INSERT INTO person_missing (p_uuid, last_seen, last_clothing, comments)
-			VALUES ('".$this->uuid."', NULL, NULL, NULL);
-		";
-		$res = $global['db']->Execute($q2);
 
 		// insert person's status
 		$q4 = "
@@ -185,6 +172,7 @@ class lpfPatient {
 		";
 		$res = $global['db']->Execute($q4);
 
+
 		// insert into mpres_log
 		$q5 = "
 			INSERT INTO mpres_log (p_uuid, email_subject, email_from, email_date, update_time)
@@ -192,12 +180,14 @@ class lpfPatient {
 		";
 		$res = $global['db']->Execute($q5);
 
+
 		// insert person's details
 		$q6 = "
-			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old)
-			VALUES ('".$this->uuid."', NULL, NULL, NULL);
+			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old, last_seen, last_clothing, other_comments)
+			VALUES ('".$this->uuid."', NULL, NULL, NULL, NULL, NULL, NULL);
 		";
 		$res = $global['db']->Execute($q6);
+
 
 		// insert person who reported link to root cuz we dont really know who reported them
 		$q7 = "

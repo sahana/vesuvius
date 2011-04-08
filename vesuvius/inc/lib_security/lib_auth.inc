@@ -9,7 +9,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0408
  */
 
 
@@ -21,12 +21,16 @@ require_once "lib_acl.inc";
 function shn_auth_get_openid_user($openid){
 	global $global;
 	$db=$global['db'];
-	$q="select users.user_name from users,alt_logins where users.p_uuid=alt_logins.p_uuid and alt_logins.user_name='{$openid}'";
-
-	$res=$db->Execute($q);
-	if(($res==null) or ($res->EOF)){
+	$q = "
+		select users.user_name
+		from users, alt_logins
+		where users.p_uuid = alt_logins.p_uuid
+		and alt_logins.user_name='{$openid}';
+	";
+	$res = $db->Execute($q);
+	if(($res == null) || ($res->EOF)){
 		return null;
-	}else {
+	} else {
 		return $res->fields["user_name"];
 	}
 }
@@ -35,22 +39,24 @@ function shn_auth_get_openid_user($openid){
 
 function shn_auth_user_list_and_status(){
 	global $global;
-	$db=$global['db'];
-
-	$q="select users.p_uuid,full_name,user_name,status from person_uuid,users where users.p_uuid=person_uuid.p_uuid and users.p_uuid <> 1  order by full_name";
+	$db = $global['db'];
+	$q = "
+		select users.p_uuid, full_name, user_name, status
+		from person_uuid,users
+		where users.p_uuid = person_uuid.p_uuid
+		and users.p_uuid <> 1
+		order by full_name;
+	";
 	$res=$db->Execute($q);
 	$users=array();
 
 	while(!$res->EOF){
-		//$name=$res->fields[2].".".$res->fields["full_name"];
 		$name=$res->fields["full_name"].":".$res->fields["user_name"];
 		$users[$res->fields["p_uuid"]]=array($name,$res->fields["status"]);
 		$res->MoveNext();
 	}
 	return $users;
-
 }
-
 
 
 
@@ -165,13 +171,14 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 	if($_POST["email_address"] != null) {
 		$q = "
 			SELECT *
-			FROM `contact`
-			WHERE `opt_contact_type` = 'email'
-			AND `contact_value` = '".mysql_real_escape_string(trim($_POST['email_address']))."';
+			FROM contact c, users u
+			WHERE c.opt_contact_type = 'email'
+			AND c.contact_value = '".mysql_real_escape_string(trim($_POST['email_address']))."'
+			AND c.pgoc_uuid = u.p_uuid;
 		";
 		$res = $db->Execute($q);
 		if(($res == null) || ($res->EOF)) {
-			// email address not used
+			// email address not used for any of the users in the system
 		} else {
 			add_error(SHN_AUTH_ERR_EMAIL_EXISTS);
 			$error=true;

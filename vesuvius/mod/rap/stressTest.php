@@ -79,16 +79,6 @@ function go() {
 	";
 	$res = $global['db']->Execute($q1);
 
-
-	// insert person's missing information if missing
-	if($status == "'mis'") {
-		$q2 = "
-			INSERT INTO person_missing (p_uuid, last_seen, last_clothing, comments)
-			VALUES ('".$uuid."', ".$seen.", ".$clothing.", ".$comments.");
-		";
-		$res = $global['db']->Execute($q2);
-	}
-
 	// insert person's status
 	$q5 = "
 		INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
@@ -107,8 +97,8 @@ function go() {
 
 	// insert person's details
 	$q8 = "
-		INSERT INTO person_details (p_uuid, opt_race, opt_religion, opt_gender, years_old, minAge, maxAge)
-		VALUES ('".$uuid."', ".$race.", ".$religion.", ".$gender.", ".$age.", ".$minAge.", ".$maxAge.");
+		INSERT INTO person_details (p_uuid, opt_race, opt_religion, opt_gender, years_old, minAge, maxAge, last_seen, last_clothing, other_comments)
+		VALUES ('".$uuid."', ".$race.", ".$religion.", ".$gender.", ".$age.", ".$minAge.", ".$maxAge.", ".$seen.", ".$clothing.", ".$comments.");
 	";
 	$res = $global['db']->Execute($q8);
 
