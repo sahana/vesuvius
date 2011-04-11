@@ -197,18 +197,18 @@ function shn_rap_entry($errors=false) {
 				$opt_status[$res->fields['option_code']] = $res->fields['option_description'];
 				$res->MoveNext();
 			}
-			shn_form_select($opt_status, "Health / Locational Status", "", array('public'=>true, 'help'=>'Please epcify to the best of your knowledge the condition of the person you are reporting.'));
+			shn_form_select($opt_status, "Health / Locational Status", "", array('public'=>true, 'help'=>'Please specify to the best of your knowledge the condition of the person you are reporting.'));
 		shn_form_fsclose();
 
 		shn_form_fsopen(_t('Basic Person Details'));
 			?><p><?php echo  _t('Please enter any of the following details of the person:'); ?></p>	<?php
-			shn_form_text(_t('First Name '),'given_name','size="30"',array('req'=>true, 'help'=>'This is the person\'s first name or the name by which he/she is most frequently referred to as.', 'public'=>true));
-			shn_form_text(_t('Last Name'),'family_name','size="30"', array('req'=>true, 'help'=>_t('Also known as the surname.  Typically the last name or the first.'), 'public'=>true));
-			shn_form_text(_t('Age'),'age','size="8"', array('help'=>_t('The exact age for the person (in years) or a best guess.'), 'public'=>true));
-			shn_form_text(_t('Lower Age Range'),'age_lower','size="8"', array('help'=>_t('The lower limit for a person\'s age if an exact age is not known.'), 'public'=>true));
-			shn_form_text(_t('Upper Age Range'),'age_upper','size="8"', array('help'=>_t('The upper limit for a person\'s age if an exact age is not known.'), 'public'=>true));
+			shn_form_text(_t('Given Name '),'given_name','size="30"',array('req'=>true, 'help'=>'This is the person\'s first name or the name by which he/she is most frequently referred to as.', 'public'=>true));
+			shn_form_text(_t('Family Name'),'family_name','size="30"', array('req'=>true, 'help'=>_t('Also known as the surname.  Typically the last name or the first.'), 'public'=>true));
+			shn_form_text(_t('Age'),'age','size="8"', array('help'=>_t('The exact age for the person or a best guess (can be combined with the age range below if an exact number is not known).'), 'public'=>true));
+			shn_form_text(_t('Lower End of Age Range'),'age_lower','size="8"', array('help'=>_t('The lower limit for a person\'s age if an exact age is not known. (optional if exact age is known)'), 'public'=>true));
+			shn_form_text(_t('Upper End of Age Range'),'age_upper','size="8"', array('help'=>_t('The upper limit for a person\'s age if an exact age is not known. (optional if exact age is known)'), 'public'=>true));
 			shn_form_opt_select("opt_gender",_t('Gender'),null,array('sort'=>'display_order, option_description ASC', 'value'=>'unk', 'public'=>true));
-			shn_form_opt_select("opt_religion",_t('Religion'),null,array('sort'=>'display_order, option_description ASC', 'value'=>'UNK', 'private'=>true));
+			shn_form_opt_select("opt_religion",_t('Religion'), null,array('sort'=>'display_order, option_description ASC', 'value'=>'UNK', 'private'=>true));
 			shn_form_opt_select("opt_race",_t('Race'),null,array('sort'=>'display_order, option_description ASC', 'value'=>'U', 'private'=>true, 'help'=>'The Race choices are those defined by the US Government, e.g., the FBI when reporting missing people.'));
 		shn_form_fsclose();
 
@@ -221,20 +221,20 @@ function shn_rap_entry($errors=false) {
 		shn_form_fsclose();
 
 		shn_form_fsopen(_t('Person\'s Physical Details'));
-			shn_form_opt_select("opt_eye_color",_t('Eye Color'),null,array('sort'=>'display_order, option_description ASC', 'value'=>'UNK', 'public'=>true, 'help'=>'The choices for Skin Color are those used by governmental agencies and law enforcement when reporting missing people.  These are frequently-used descriptive words, rather than precise colors.  Adjectives like “light” and “dark” may be considered in conjunction with the choices for “Race” and “Ethnicity” fields above.'));
-			shn_form_opt_select("opt_skin_color",_t('Skin Color'),null,array('sort'=>'display_order, option_description ASC', 'value'=>'UNK', 'public'=>true));
+			shn_form_opt_select("opt_eye_color",_t('Eye Color'),null, array('sort'=>'display_order, option_description ASC', 'value'=>'UNK', 'public'=>true));
+			shn_form_opt_select("opt_skin_color",_t('Skin Color'),null,array('sort'=>'display_order, option_description ASC', 'value'=>'UNK', 'public'=>true, 'help'=>'The choices for Skin Color are those used by governmental agencies and law enforcement when reporting missing people.  These are frequently-used descriptive words, rather than precise colors.  Adjectives like “light” and “dark” may be considered in conjunction with the choices for “Race” and “Ethnicity” fields above.'));
 			shn_form_opt_select("opt_hair_color",_t('Hair Color'),null,array('sort'=>'display_order, option_description ASC', 'value'=>'UNK', 'public'=>true));
 
-			shn_form_text(_t("Height"),'height','size="10"',array('public'=>true, 'help'=>'Enter value to the nearest ½ inch.  Examples: 5\' 3 1/2", 60.5", 59"'));
-			shn_form_text(_t('Weight'),'weight','size="10"',array('public'=>true, 'help'=>'Enter value to the nearest pound.'));
+			shn_form_text(_t("Height"),'height','size="10"',array('public'=>true, 'help'=>'Use Metric or English system, include units.'));
+			shn_form_text(_t('Weight'),'weight','size="10"',array('public'=>true, 'help'=>'Use Metric or English system, include units.'));
 
 			shn_form_textarea(_t('Other Obvious Distinctive Features'),'physical', null, array('cols'=>48, 'public'=>true));
 		shn_form_fsclose();
 
 		shn_form_fsopen(_t('Last Known Details'), "missingDetails");
 			shn_form_textarea(_t('Last Seen Location'),'last_seen', null, array('cols'=>48, 'public'=>true));
-			shn_form_textarea(_t('Clothing and Appearance when Last Seen'),'last_clothing', null, array('cols'=>48, 'public'=>true));
-			shn_form_textarea(_t('Other Information to Help Locate this Person'),'comments', null, array('cols'=>48, 'public'=>true));
+			shn_form_textarea(_t('Last Seen Clothing/Appearance'),'last_clothing', null, array('cols'=>48, 'public'=>true));
+			shn_form_textarea(_t('Other Comments'),'comments', null, array('cols'=>48, 'public'=>true));
 		shn_form_fsclose();
 
 		shn_form_submit("Next", "class=\"styleTehButton\"");
@@ -585,31 +585,34 @@ function shn_rap_commitPerson($saveImage = false) {
 
 	include_once($global['approot'].'inc/lib_uuid.inc');
 
+	// status has to be set.... ALWAYS
 	isset($_SESSION['rap']['entry']['opt_status'])     ? $status      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_status'])."'"     : $status      = "'unk'";
-	isset($_SESSION['rap']['entry']['given_name'])     ? $given_name  =                              $_SESSION['rap']['entry']['given_name']          : $given_name  = "'unknown'";
-	isset($_SESSION['rap']['entry']['family_name'])    ? $family_name =                              $_SESSION['rap']['entry']['family_name']         : $family_name = "'unknown'";
-	isset($_SESSION['rap']['entry']['opt_gender'])     ? $gender      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_gender'])."'"     : $gender      = "'unk'";
-	isset($_SESSION['rap']['entry']['age'])            ? $age         = "'".mysql_real_escape_string($_SESSION['rap']['entry']['age'])."'"            : $age         = "'0'";
-	isset($_SESSION['rap']['entry']['age_lower'])      ? $minAge      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['age_lower'])."'"      : $minAge      = "'0'";
-	isset($_SESSION['rap']['entry']['age_upper'])      ? $maxAge      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['age_upper'])."'"      : $maxAge      = "'150'";
-	isset($_SESSION['rap']['entry']['opt_religion'])   ? $religion    = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_religion'])."'"   : $religion    = "'UNK'";
-	isset($_SESSION['rap']['entry']['opt_race'])       ? $race        = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_race'])."'"       : $race        = "'U'";
 
-	isset($_SESSION['rap']['entry']['address'])        ? $address     = "'".mysql_real_escape_string($_SESSION['rap']['entry']['address'])."'"        : $address     = "'unknown'";
-	isset($_SESSION['rap']['entry']['zip'])            ? $zip         = "'".mysql_real_escape_string($_SESSION['rap']['entry']['zip'])."'"            : $zip         = "'unknown'";
-	isset($_SESSION['rap']['entry']['phone'])          ? $phone       = "'".mysql_real_escape_string($_SESSION['rap']['entry']['phone'])."'"          : $phone       = "'unknown'";
-	isset($_SESSION['rap']['entry']['mobile'])         ? $mobile      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['mobile'])."'"         : $mobile      = "'unknown'";
-	isset($_SESSION['rap']['entry']['email'])          ? $email       = "'".mysql_real_escape_string($_SESSION['rap']['entry']['email'])."'"          : $email       = "'unknown'";
+	// set defaults for all rest to null
+	isset($_SESSION['rap']['entry']['given_name'])     ? $given_name  =                              $_SESSION['rap']['entry']['given_name']          : $given_name  = "NULL";
+	isset($_SESSION['rap']['entry']['family_name'])    ? $family_name =                              $_SESSION['rap']['entry']['family_name']         : $family_name = "NULL";
+	isset($_SESSION['rap']['entry']['opt_gender'])     ? $gender      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_gender'])."'"     : $gender      = "NULL";
+	isset($_SESSION['rap']['entry']['age'])            ? $age         = "'".mysql_real_escape_string($_SESSION['rap']['entry']['age'])."'"            : $age         = "NULL";
+	isset($_SESSION['rap']['entry']['age_lower'])      ? $minAge      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['age_lower'])."'"      : $minAge      = "NULL";
+	isset($_SESSION['rap']['entry']['age_upper'])      ? $maxAge      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['age_upper'])."'"      : $maxAge      = "NULL";
+	isset($_SESSION['rap']['entry']['opt_religion'])   ? $religion    = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_religion'])."'"   : $religion    = "NULL";
+	isset($_SESSION['rap']['entry']['opt_race'])       ? $race        = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_race'])."'"       : $race        = "NULL";
 
-	isset($_SESSION['rap']['entry']['opt_eye_color'])  ? $eye         = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_eye_color'])."'"  : $eye         = "'UNK'";
-	isset($_SESSION['rap']['entry']['opt_skin_color']) ? $skin        = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_skin_color'])."'" : $skin        = "'UNK'";
-	isset($_SESSION['rap']['entry']['opt_hair_color']) ? $hair        = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_hair_color'])."'" : $hair        = "'UNK'";
-	isset($_SESSION['rap']['entry']['height'])         ? $height      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['height'])."'"         : $height      = "'unknown'";
-	isset($_SESSION['rap']['entry']['weight'])         ? $weight      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['weight'])."'"         : $weight      = "'unknown'";
-	isset($_SESSION['rap']['entry']['physical'])       ? $physical    = "'".mysql_real_escape_string($_SESSION['rap']['entry']['physical'])."'"       : $physical    = "'unknown'";
-	isset($_SESSION['rap']['entry']['last_seen'])      ? $seen        = "'".mysql_real_escape_string($_SESSION['rap']['entry']['last_seen'])."'"      : $seen        = "'unknown'";
-	isset($_SESSION['rap']['entry']['last_clothing'])  ? $clothing    = "'".mysql_real_escape_string($_SESSION['rap']['entry']['last_clothing'])."'"  : $clothing    = "'unknown'";
-	isset($_SESSION['rap']['entry']['comments'])       ? $comments    = "'".mysql_real_escape_string($_SESSION['rap']['entry']['comments'])."'"       : $comments    = "'unknown'";
+	isset($_SESSION['rap']['entry']['address'])        ? $address     = "'".mysql_real_escape_string($_SESSION['rap']['entry']['address'])."'"        : $address     = "NULL";
+	isset($_SESSION['rap']['entry']['zip'])            ? $zip         = "'".mysql_real_escape_string($_SESSION['rap']['entry']['zip'])."'"            : $zip         = "NULL";
+	isset($_SESSION['rap']['entry']['phone'])          ? $phone       = "'".mysql_real_escape_string($_SESSION['rap']['entry']['phone'])."'"          : $phone       = "NULL";
+	isset($_SESSION['rap']['entry']['mobile'])         ? $mobile      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['mobile'])."'"         : $mobile      = "NULL";
+	isset($_SESSION['rap']['entry']['email'])          ? $email       = "'".mysql_real_escape_string($_SESSION['rap']['entry']['email'])."'"          : $email       = "NULL";
+
+	isset($_SESSION['rap']['entry']['opt_eye_color'])  ? $eye         = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_eye_color'])."'"  : $eye         = "NULL";
+	isset($_SESSION['rap']['entry']['opt_skin_color']) ? $skin        = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_skin_color'])."'" : $skin        = "NULL";
+	isset($_SESSION['rap']['entry']['opt_hair_color']) ? $hair        = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_hair_color'])."'" : $hair        = "NULL";
+	isset($_SESSION['rap']['entry']['height'])         ? $height      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['height'])."'"         : $height      = "NULL";
+	isset($_SESSION['rap']['entry']['weight'])         ? $weight      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['weight'])."'"         : $weight      = "NULL";
+	isset($_SESSION['rap']['entry']['physical'])       ? $physical    = "'".mysql_real_escape_string($_SESSION['rap']['entry']['physical'])."'"       : $physical    = "NULL";
+	isset($_SESSION['rap']['entry']['last_seen'])      ? $seen        = "'".mysql_real_escape_string($_SESSION['rap']['entry']['last_seen'])."'"      : $seen        = "NULL";
+	isset($_SESSION['rap']['entry']['last_clothing'])  ? $clothing    = "'".mysql_real_escape_string($_SESSION['rap']['entry']['last_clothing'])."'"  : $clothing    = "NULL";
+	isset($_SESSION['rap']['entry']['comments'])       ? $comments    = "'".mysql_real_escape_string($_SESSION['rap']['entry']['comments'])."'"       : $comments    = "NULL";
 
 	// NULL values that come in as "select"
 	if($race     == "'select'") { $race     = "NULL"; }
@@ -618,6 +621,14 @@ function shn_rap_commitPerson($saveImage = false) {
 	if($hair     == "'select'") { $hair     = "NULL"; }
 	if($eye      == "'select'") { $eye      = "NULL"; }
 	if($skin     == "'select'") { $skin     = "NULL"; }
+
+	// NULL Values that come in as u or unk
+	if($race     == "'U'")   { $race     = "NULL"; }
+	if($religion == "'UNK'") { $religion = "NULL"; }
+	if($gender   == "'unk'") { $gender   = "NULL"; }
+	if($eye      == "'UNK'") { $eye      = "NULL"; }
+	if($skin     == "'UNK'") { $skin     = "NULL"; }
+	if($hair     == "'UNK'") { $hair     = "NULL"; }
 
 	$q0  = "
 		SELECT *
@@ -644,12 +655,14 @@ function shn_rap_commitPerson($saveImage = false) {
 	";
 	$res = $global['db']->Execute($q1);
 
+
 	// insert person's status
 	$q5 = "
 		INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
 		VALUES ( '".$uuid."', ".$status.", CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);
 	";
 	$res = $global['db']->Execute($q5);
+
 
 	// insert into rap_log
 	$q7 = "
@@ -658,12 +671,14 @@ function shn_rap_commitPerson($saveImage = false) {
 	";
 	$res = $global['db']->Execute($q7);
 
+
 	// insert person's details
 	$q8 = "
 		INSERT INTO person_details (p_uuid, opt_race, opt_religion, opt_gender, years_old, minAge, maxAge, last_seen, last_clothing, other_comments)
 		VALUES ('".$uuid."', ".$race.", ".$religion.", ".$gender.", ".$age.", ".$minAge.", ".$maxAge.", ".$seen.", ".$clothing.", ".$comments.");
 	";
 	$res = $global['db']->Execute($q8);
+
 
 	// insert person
 	$q11 = "
@@ -672,11 +687,12 @@ function shn_rap_commitPerson($saveImage = false) {
 	";
 	$res = $global['db']->Execute($q11);
 
+
 	// insert personal physical
-	$q11 = "
+	$q12 = "
 		INSERT INTO person_physical (p_uuid, height, weight, opt_eye_color, opt_skin_color, opt_hair_color, comments)
 		VALUES ('".$uuid."', ".$height.", ".$weight.", ".$eye.", ".$skin.", ".$hair.", ".$physical.");";
-	$res = $global['db']->Execute($q11);
+	$res = $global['db']->Execute($q12);
 
 
 	// insert phone
@@ -744,7 +760,19 @@ function shn_rap_commitPerson($saveImage = false) {
 	}
 
 
-
+/*
+echo "Q1>> ".$q1."<br>";
+echo "Q5>> ".$q5."<br>";
+echo "Q7>> ".$q7."<br>";
+echo "Q8>> ".$q8."<br>";
+echo "Q11>> ".$q11."<br>";
+echo "Q12>> ".$q12."<br>";
+echo "Q13>> ".$q13."<br>";
+echo "Q14>> ".$q14."<br>";
+echo "Q15>> ".$q15."<br>";
+echo "Q16>> ".$q16."<br>";
+echo "Q17>> ".$q17."<br>";
+*/
 
 /*
 

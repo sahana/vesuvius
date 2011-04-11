@@ -7,36 +7,18 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0408
+ * @lastModified 2011.0411
  */
 
 
 /**
  * This function is called by the Document/Literal SOAP server upon initalization to register all the api services from this module's api.
- *
- * As you can see in this function, each of the API functions must be essentially declared(registered) here manually.
- * This approach is different from other Sahana modules that used the RPC/encoded SOAP server.
- *
  * @access public
  * @param string namespace
  */
-function shn_plus_register_all($namespace) {
+function shn_plus_registerAll($namespace) {
 	global $server;
-	/*
-		$server->register(
-			$function,  // $name the name of the PHP function, class.method or class..method
-			$in,        // $in assoc array of input values: key = param name, value = param type
-			$out,       // $out assoc array of output values: key = param name, value = param type
-			$ns,        // $namespace the element namespace for the method or false
-			$action,    // $soapaction the soapaction for the method or false
-			"document", // $style optional (rpc|document) or false Note: when 'document' is specified, parameter and return wrappers are created for you automatically
-			"literal",  // $use optional (encoded|literal) or false
-			$doc,       // $documentation optional Description to include in WSDL
-			null        // $encodingStyle optional (usually 'http://schemas.xmlsoap.org/soap/encoding/' for encoded)
-		);
-	*/
-
-	shn_plus_register_one($server, 'version',
+	shn_plus_registerOne($server, 'version',
 		array(
 			'in' => array(),
 			'out' => array(
@@ -44,8 +26,20 @@ function shn_plus_register_all($namespace) {
 			)
 		),
 		$namespace,
-		"Returns version info (2)."
+		"Returns version info (2.0.0)"
 	);
+
+	shn_plus_registerOne($server, 'getIncidentList',
+		array(
+			'in' => array(),
+			'out' => array(
+				'incidentList' => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude, street) listing disaster incidents' components."
+	);
+
 /*
 	shn_plus_register_one($server, 'basicSearch',
 		array(
@@ -90,18 +84,6 @@ function shn_plus_register_all($namespace) {
 		"Basic search matching a string across all incidents."
 	);
 
-
-
-
-
-
-
-
-
-
-
-
-
 	shn_plus_register_one($server, 'test',
 		array(
 			'in' => array(
@@ -115,22 +97,6 @@ function shn_plus_register_all($namespace) {
 		$namespace,
 		"Test function to assist setting up a SOAP client. It returns the summation of the two integers values passed in."
 	);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	shn_plus_register_one($server, 'verifyCredentials',
 		array(
@@ -242,33 +208,11 @@ function shn_plus_register_all($namespace) {
 }
 
 
-
-function shn_plus_register_one($server, $methodname, $params, $ns, $rtfm) {
-	global $ns;
-	$server->register(
-		$methodname,
-		$params["in"],
-		$params["out"],
-		$ns,
-		$server->wsdl->endpoint.'#'.$methodname, // soapaction
-		'document',
-		'literal',
-		$rtfm
-	);
-}
-
-
-// API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-// API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-// API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-// API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-// API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-// API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-// API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-// API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-// API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-// API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-
+// API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
 
 /**
@@ -276,8 +220,40 @@ function shn_plus_register_one($server, $methodname, $params, $ns, $rtfm) {
  * @return array
  */
 function version() {
-	logAccess("version"); // log access
+	shn_plus_logAccess("version");
 	return array('apiVersion'=>'2.0.0');
+}
+
+
+/**
+* Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
+* @return array
+*/
+function getIncidentList() {
+	shn_plus_logAccess("getIncidentList");
+	global $global;
+	$db = $global['db'];
+	$list = array();
+	$q = "
+		SELECT *
+		FROM incident
+		ORDER BY `default` DESC, name ASC;
+	";
+	$result = $db->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$list[] = array(
+			'incident_id' => $result->fields["incident_id"],
+			'parent_id'   => $result->fields["parent_id"],
+			'name'        => $result->fields["name"],
+			'shortname'   => $result->fields["shortname"],
+			'date'        => $result->fields["date"],
+			'type'        => $result->fields["type"],
+			'latitude'    => $result->fields["latitude"],
+			'longitude'   => $result->fields["longitude"]
+		);
+		$result->MoveNext();
+	}
+	return array('incidentList'=>json_encode($list));
 }
 
 
@@ -287,10 +263,9 @@ function version() {
  * @param  string search_term
  * @param  string incidentShortName
  * @return array search_results
- */
-
+ *
 function basicSearch($searchString, $incidentShortName) {
-	logAccess("basicSearch"); // log access
+	shn_plus_logAccess("basicSearch");
 	global $global;
 	$db = $global['db'];
 	$termCount = 0;
@@ -360,10 +335,9 @@ function basicSearch($searchString, $incidentShortName) {
  * @param  string search_term
  * @param  string incidentShortName
  * @return array search_results
- */
-
+ *
 function basicSearchWithRange($searchString, $incidentShortName, $startFrom, $limit) {
-	logAccess("basicSearchWithRange"); // log access
+	shn_plus_logAccess("basicSearchWithRange");
 	global $global;
 	$db = $global['db'];
 	$termCount = 0;
@@ -433,10 +407,9 @@ function basicSearchWithRange($searchString, $incidentShortName, $startFrom, $li
 * This a basic search for a person matching a string across all incidents.
  * @param  string search_term
  * @return array
- */
-
+ *
 function basicSearchAll($searchString) {
-	logAccess("basicSearchAll"); // log access
+	shn_plus_logAccess("basicSearchAll");
 	global $global;
 	$list = null;
 	$db = $global['db'];
@@ -512,24 +485,6 @@ function basicSearchAll($searchString) {
 
 
 
-/**
- * Test function to get SOAP working. It returns the added value of the two integers passed in as parameters.
- * @access public
- * @param int y
- * @return array
- */
-function shn_plus_test($x, $y) {
-	logAccess("shn_plus_test"); // log access
-	$list = array();
-	$list[] = array('sum'=>$x+$y);
-	return array('sum'=>json_encode($list));
-}
-
-
-
-
-
-
 
 
 
@@ -549,9 +504,9 @@ function shn_plus_test($x, $y) {
  * Returns the number of seconds ReUnite sessions should last.
  * @access public
  * @return integer
- */
+ *
 function askTimeout() {
-	logAccess("askTimeout"); // log access
+	shn_plus_logAccess("askTimeout");
 
 	$timeout = shn_db_get_config("plu s","timeout");
 	return array('timeout'=>$timeout);
@@ -559,103 +514,7 @@ function askTimeout() {
 
 
 
-/**
- * returns( true, null ) for valid credentials
- * returns( true, secret_code ) for cases when parameter secret_code is null
- * returns( false, null ) for invalid credentials
- * @access public
- * @return boolean
- * @return string
- */
-function verifyCredentials($email, $password, $api_key, $secret_code) {
-	logAccess("shn_plus_verifyCredentials"); // log access
 
-	global $global;
-	$db = $global['db'];
-
-	if(($secret_code != null) || ($secret_code != "")) {
-		$sq = "AND w.secret = '".$secret_code."' ;";
-	} else {
-		$sq = " ;";
-	}
-
-	$q = "
-		SELECT u.p_uuid, u.user_name, w.password, w.secret, w.api_key
-		FROM users u
-		JOIN ws_keys w USING (p_uuid)
-		WHERE u.user_name = '".$email."'
-		AND w.password = '".$password."'
-		AND w.api_key = '".$api_key."'
-		".$sq."
-	";
-	$res = $db->Execute($q);
-
-	if(($res == null) || ($res->EOF)) {
-		return array('passed'=>false, 'secret_code'=>null);
-	} else {
-		if(($secret_code == null) || ($secret_code == "")) {
-			$s = $res->fields["secret"];
-		} else {
-			$s = null;
-		}
-		return array('passed'=>true, 'secret_code'=>$s);
-	}
-}
-
-
-
-/**
- * returns(true) when there is an active account in the system with the supplied email address
- * sends out a email to the address with a link the user must click on to initiate the new password request
- * if the user clicks on the link, a 2nd email will be sent out with the new password inside
- *
- * return(false) when the email address is not for a valid active account
- *
- * @access public
- * @return integer
- */
-function requestNewPassword($email) {
-	logAccess("shn_plus_requestNewPassword"); // log access
-
-	global $global;
-	$db = $global['db'];
-
-	// check if user is real and active
-	$q = "
-		SELECT EMAIL_ADDRESS, is_active
-		FROM reg
-		WHERE EMAIL_ADDRESS = '".$email."'
-		AND is_active = '1' ;
-	";
-	$res = $db->Execute($q);
-
-	if(($res == null) || ($res->EOF)) {
-		// either not active or not real ~ bail
-		return array('sent'=>false);
-	}
-
-	// give em a new confirmation code
-	$cc = md5(uniqid(rand(), true));
-	$q2 = "UPDATE reg SET confirmation_code = '".$cc."' WHERE EMAIL_ADDRESS = '".$email."';";
-	$r2 = $global['db']->Execute($q2);
-
-	// Email the user a link to click on to initiate a password change
-	$link = makeBaseUrl()."register.php?action=newPassword&EMAIL=".$email."&CONFIRM_CODE=".$cc;
-
-	require($global['approot']."mod/lpf/lib_lpf.inc");
-	$p = new pop();
-	$subject  = "Please confirm your request to reset your password";
-	$bodyHTML =
-		"Please visit the following link to reset your password.<br><br>"
-		."<a href=\"".$link."\">".$link."</a><br><br>"
-		."If you do not wish to reset your password, please disregard this email.";
-	$bodyAlt =
-		"Please visit the following link to reset your password.\n\n"
-		.$link."\n\n"
-		."If you do not wish to reset your password, please disregard this email.\n\n";
-	$p->sendMessage($email, $email, $subject, $bodyHTML, $bodyAlt);
-	return array('sent'=>true);
-}
 
 
 
@@ -665,9 +524,9 @@ function requestNewPassword($email) {
  *
  * @access public
  * @return integer
- */
+ *
 function changePassword($email, $oldPassword, $newPassword) {
-	logAccess("shn_plus_changePassword"); // log access
+	shn_plus_logAccess("shn_plus_changePassword");
 
 	global $global;
 	$db = $global['db'];
@@ -729,9 +588,9 @@ function changePassword($email, $oldPassword, $newPassword) {
  * This returns a single new uuid associated to a specific incident.
  * @param int incidentId
  * @return string ~ uuid
- */
+ *
 function createUuid($incidentId) {
-	logAccess("createUuid"); // log access
+	shn_plus_logAccess("createUuid");
 	global $global;
 	$db = $global['db'];
 	$count = 0;
@@ -769,9 +628,9 @@ function createUuid($incidentId) {
  * @param int incident
  * @param int num ~ number of id's to create
  * @return array ~ list of new uuid's
- */
+ *
 function createUuidBatch($incidentId, $num) {
-	logAccess("createUuidBatch"); // log access
+	shn_plus_logAccess("createUuidBatch");
 	global $global;
 	$db = $global['db'];
 	$list = array();
@@ -817,9 +676,9 @@ function createUuidBatch($incidentId, $num) {
  * @access public
  * @param int lpfXml
  * @return array
- */
+ *
 function submitLpfXml($lpfXmlFile) {
-	logAccess("submitLpfXml"); // log access
+	shn_plus_logAccess("submitLpfXml");
 
 	$a = xml2array(base64_decode($lpfXmlFile));
 
@@ -890,284 +749,5 @@ function submitLpfXml($lpfXmlFile) {
 	return array('success'=>$success, 'error'=>$error);
 }
 
-
-
-/**
- * Log access to PLS
- * @access public
- */
-function logAccess($call="") {
-	global $global;
-
-	$api    = isset($global['api_key']) ? $global['api_key'] : "";
-	$agent  = explode(" ", $_SERVER['HTTP_USER_AGENT']);
-	$appver = explode("/", $agent[0]);
-	$app    = $appver[0];
-	$ver    = $appver[1];
-	$ip     = $_SERVER['REMOTE_ADDR'];
-	$q1 = "
-		INSERT INTO plus_access_log (`api_key`, `access_time`, `application`, `version`, `ip`, `call`)
-		VALUES ('".$api."', CURRENT_TIMESTAMP, '".$app."', '".$ver."', '".$ip."', '".$call."');
-	";
-
-	$res = $global['db']->Execute($q1);
-}
-
-
-
-/**
-* Function converts an XML string into an array
-* Original Author: lz_speedy@web.de
-* Original Source: http://goo.gl/7WRp
 */
-function xml2array($xml, $get_attributes = 1, $priority = 'tag') {
-	$contents = "";
-	if (!function_exists('xml_parser_create')) {
-		return array ();
-	}
-	$parser = xml_parser_create('');
-	$contents = $xml;
 
-	xml_parser_set_option($parser, XML_OPTION_TARGET_ENCODING, "UTF-8");
-	xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0);
-	xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1);
-	xml_parse_into_struct($parser, trim($contents), $xml_values);
-	xml_parser_free($parser);
-	if (!$xml_values) {
-		return; //Hmm...
-	}
-	$xml_array = array ();
-	$parents = array ();
-	$opened_tags = array ();
-	$arr = array ();
-	$current = & $xml_array;
-	$repeated_tag_index = array ();
-	foreach ($xml_values as $data) {
-		unset ($attributes, $value);
-		extract($data);
-		$result = array ();
-		$attributes_data = array ();
-		if (isset ($value)) {
-			if ($priority == 'tag') {
-				$result = $value;
-			} else {
-				$result['value'] = $value;
-			}
-		}
-		if (isset($attributes) and $get_attributes) {
-			foreach ($attributes as $attr => $val) {
-				if ($priority == 'tag') {
-					$attributes_data[$attr] = $val;
-				} else {
-					$result['attr'][$attr] = $val; //Set all the attributes in a array called 'attr'
-				}
-			}
-		}
-		if ($type == "open") {
-			$parent[$level -1] = & $current;
-			if (!is_array($current) or (!in_array($tag, array_keys($current)))) {
-				$current[$tag] = $result;
-				if ($attributes_data) {
-					$current[$tag . '_attr'] = $attributes_data;
-				}
-				$repeated_tag_index[$tag . '_' . $level] = 1;
-				$current = & $current[$tag];
-			} else {
-				if (isset ($current[$tag][0])) {
-					$current[$tag][$repeated_tag_index[$tag . '_' . $level]] = $result;
-					$repeated_tag_index[$tag . '_' . $level]++;
-				} else {
-					$current[$tag] = array (
-						$current[$tag],
-						$result
-					);
-					$repeated_tag_index[$tag . '_' . $level] = 2;
-					if (isset ($current[$tag . '_attr'])) {
-						$current[$tag]['0_attr'] = $current[$tag . '_attr'];
-						unset ($current[$tag . '_attr']);
-					}
-				}
-				$last_item_index = $repeated_tag_index[$tag . '_' . $level] - 1;
-				$current = & $current[$tag][$last_item_index];
-			}
-		} elseif ($type == "complete") {
-			if (!isset ($current[$tag])) {
-				$current[$tag] = $result;
-				$repeated_tag_index[$tag . '_' . $level] = 1;
-				if ($priority == 'tag' and $attributes_data) {
-					$current[$tag . '_attr'] = $attributes_data;
-				}
-			} else {
-				if (isset ($current[$tag][0]) and is_array($current[$tag])) {
-					$current[$tag][$repeated_tag_index[$tag . '_' . $level]] = $result;
-					if ($priority == 'tag' and $get_attributes and $attributes_data) {
-						$current[$tag][$repeated_tag_index[$tag . '_' . $level] . '_attr'] = $attributes_data;
-					}
-					$repeated_tag_index[$tag . '_' . $level]++;
-				} else {
-					$current[$tag] = array (
-						$current[$tag],
-						$result
-					);
-					$repeated_tag_index[$tag . '_' . $level] = 1;
-					if ($priority == 'tag' and $get_attributes) {
-						if (isset ($current[$tag . '_attr'])) {
-							$current[$tag]['0_attr'] = $current[$tag . '_attr'];
-							unset ($current[$tag . '_attr']);
-						}
-						if ($attributes_data) {
-							$current[$tag][$repeated_tag_index[$tag . '_' . $level] . '_attr'] = $attributes_data;
-						}
-					}
-					$repeated_tag_index[$tag . '_' . $level]++; //0 and 1 index is already taken
-				}
-			}
-		} elseif ($type == 'close') {
-			$current = & $parent[$level -1];
-		}
-	}
-	return ($xml_array);
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-require($global['approot']."/conf/sysconf.inc.php");
-require($global['approot']."/3rd/adodb/adodb.inc.php");
-require($global['approot']."/inc/handler_db.inc");
-require($global['approot']."/inc/lib_uuid.inc");
-require($global['approot']."/inc/lib_security/lib_auth.inc");
-
-
-
- * Validate an email address.
- * Provide email address (raw input)
- * Returns true if the email address has the email
- * address format and the domain exists.
- * borrowed from: http://goo.gl/ufhg
-
-function isEmailValid($email) {
-	$isValid = true;
-	$atIndex = strrpos($email, "@");
-	if(is_bool($atIndex) && !$atIndex) {
-		$isValid = false;
-	} else {
-		$domain    = substr($email, $atIndex+1);
-		$local     = substr($email, 0, $atIndex);
-		$localLen  = strlen($local);
-		$domainLen = strlen($domain);
-		if($localLen < 1 || $localLen > 64) {
-			// local part length exceeded
-			$isValid = false;
-		} else if($domainLen < 1 || $domainLen > 255) {
-			// domain part length exceeded
-			$isValid = false;
-		} else if($local[0] == '.' || $local[$localLen-1] == '.') {
-			// local part starts or ends with '.'
-			$isValid = false;
-		} else if(preg_match('/\\.\\./', $local)) {
-			// local part has two consecutive dots
-			$isValid = false;
-		} else if(!preg_match('/^[A-Za-z0-9\\-\\.]+$/', $domain)) {
-			// character not valid in domain part
-			$isValid = false;
-		} else if(preg_match('/\\.\\./', $domain)) {
-			// domain part has two consecutive dots
-			$isValid = false;
-		} else if(!preg_match('/^(\\\\.|[A-Za-z0-9!#%&`_=\\/$\'*+?^{}|~.-])+$/', str_replace("\\\\","",$local))) {
-			// character not valid in local part unless
-			// local part is quoted
-			if (!preg_match('/^"(\\\\"|[^"])+"$/', str_replace("\\\\","",$local))) {
-				$isValid = false;
-			}
-		}
-		if($isValid && !(checkdnsrr($domain,"MX") || checkdnsrr($domain,"A"))) {
-			// domain not found in DNS
-			$isValid = false;
-		}
-	}
-	return $isValid;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	// check creds
-	if($secret_code == null || $secret_code == "") {
-		$q = "
-			SELECT salt, p_uuid, status
-			FROM users
-			WHERE user_name = '$email';
-		";
-		$res = $db->Execute($q);
-		if(($res == null) || ($res->EOF)) {
-			return array('passed'=>false, 'secret_code'=>null);
-		} else {
-			$status = $res->fields["status"];
-			$salt   = $res->fields["salt"];
-			$uid    = $res->fields["p_uuid"];
-			$pwd    = substr($password, 0, 4).$salt.substr($pwd, 4);
-			$password_digest = md5(trim($pwd)); // Create a digest of the password collected from the challenge
-			$q2 = "
-				SELECT p_uuid
-				FROM users
-				WHERE user_name = '$email'
-				AND password = '$password_digest'
-				AND salt='{$salt}';
-			";
-			$res2 = $db->Execute($q2);
-
-			if(($res2 == null) || ($res2->EOF)) {
-				return array('passed'=>false, 'secret_code'=>null);
-			} else {
-
-
-
-
-				return array('passed'=>true, 'secret_code'=>$s);
-		}
-	} else {
-
-
-*/

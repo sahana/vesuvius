@@ -6,13 +6,12 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0411
  */
 
 
 CREATE TABLE `plus_access_log` (
   `access_id`   int(16)     NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `api_key`     varchar(60) NOT NULL,
   `access_time` timestamp   NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `application` varchar(32) NULL,
   `version`     varchar(16) NULL,

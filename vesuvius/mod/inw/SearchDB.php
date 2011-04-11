@@ -310,7 +310,7 @@ class SearchDB
 	
 	public function getLastUpdateSOLR() {
 		global $conf;
-		$solrQuery = $conf["SOLRroot"] . "select/?fl=*,score&q=*:*%20" 
+		$solrQuery = $conf["SOLRroot"] . "select/?fl=*,score&q=+" 
 					 . trim(urlencode($this->searchTerm)) . "~" //for fuzzy search
 					 . $this->SOLRfq . "&sort=updated+desc&rows=1";
 	
@@ -458,7 +458,7 @@ class SearchDB
 	}
 	
 	private function buildSOLRQuery() {
-		$this->SOLRquery = $this->SOLRroot . "select/?fl=*,score&q=*:*%20" . trim(urlencode($this->searchTerm)) . "~" //for fuzzy search
+		$this->SOLRquery = $this->SOLRroot . "select/?fl=*,score&qt=dismax&q=+" . trim(urlencode($this->searchTerm)) //. "~" //for fuzzy search [commented out for dismax]
 							. $this->SOLRfq
 							. "&facet=true" //&facet.field=opt_status&facet.field=years_old&facet.field=opt_gender&facet.field=hospital&facet.missing=true"
 							. "&facet.query=years_old:[0 TO 17]&facet.query=years_old:[18 TO *]&facet.query=years_old:(-[* TO *])"
