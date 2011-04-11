@@ -1,7 +1,7 @@
 <?php
 /**
  * @name         Edit A Person
- * @version      1.1
+ * @version      1.2
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
@@ -18,9 +18,15 @@ $revisionQ = array();
 global $global;
 $global['uuid'] = ""; // init
 
+
+
+/**
+ * Entry point for mod_rewrite person uuid urls
+ */
 function shn_eap_modrewrite() {
 	shn_eap_edit();
 }
+
 
 
 /**
@@ -46,7 +52,10 @@ function shn_eap_follow() {
 	if($global['startFollow']) {
 		add_confirmation("You successfully began following this person.");
 		if(!$alreadyFollowing) {
-			$q = "INSERT INTO person_followers (p_uuid, follower_p_uuid) VALUES ('".$global['uuid']."','".$_SESSION['user_p_uuid']."');";
+			$q = "
+				INSERT INTO person_followers (p_uuid, follower_p_uuid)
+				VALUES ('".$global['uuid']."','".$_SESSION['user_p_uuid']."');
+			";
 			$r = $global['db']->Execute($q);
 		}
 	} else {
@@ -72,7 +81,8 @@ function shn_eap_unFollow() {
 		$q = "
 			DELETE FROM person_followers
 			WHERE `p_uuid` = '".$global['uuid']."'
-			AND `follower_p_uuid` = '".$_SESSION['user_p_uuid']."';";
+			AND `follower_p_uuid` = '".$_SESSION['user_p_uuid']."';
+		";
 		$r = $global['db']->Execute($q);
 
 	} else {
@@ -378,9 +388,21 @@ function emailUpdates() {
 function saveRevision($table, $column, $name, $oldValue, $newValue) {
 	global $global;
 
+	// turn empty strings into NULL
+	if(trim($oldValue) == "") {
+		$old = "NULL";
+	} else {
+		$old = "'".mysql_real_escape_string($oldValue)."'";
+	}
+	if(trim($newValue) == "") {
+		$new = "NULL";
+	} else {
+		$new = "'".mysql_real_escape_string($newValue)."'";
+	}
+
 	$q = "
 		UPDATE ".$table."
-		SET ".$column." = '".mysql_real_escape_string($newValue)."'
+		SET ".$column." = ".$new."
 		WHERE p_uuid    = '".$global['uuid']."';
 	";
 
@@ -390,7 +412,7 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
 	// note the revision
 	$q = "
 		INSERT into person_updates (`p_uuid`, `updated_table`, `updated_column`, `old_value`, `new_value`, `updated_by_p_uuid`)
-		VALUES ('".$global['uuid']."', '".$table."', '".$column."', '".mysql_real_escape_string($oldValue)."', '".mysql_real_escape_string($newValue)."', '".$_SESSION['user_p_uuid']."');
+		VALUES ('".$global['uuid']."', '".$table."', '".$column."', ".$old.", ".$new.", '".$_SESSION['user_p_uuid']."');
 	";
 	$r = $global['db']->Execute($q);
 
@@ -402,7 +424,7 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
 	";
 	$r = $global['db']->Execute($q);
 
-	add_confirmation("Updated ".$name." from \"".$oldValue."\" to \"".$newValue."\"");
+	add_confirmation("Updated ".$name." from '".$oldValue."' to '".$newValue."'");
 
 	addEmailUpdates($table, $column, $name, $oldValue, $newValue);
 }
@@ -716,6 +738,7 @@ function shn_eap_edit() {
 		$person_status['opt_status'] = "unk";
 	}
 
+/*
 	// check fpr not set status (rare.. but happens sometimes)
 	if(!isset($person_status['last_updated']) || $person_status['last_updated'] == null) {
 		$person_status['last_updated'] = "unknown";
@@ -725,6 +748,7 @@ function shn_eap_edit() {
 	if(!isset($person_status['creation_time']) || $person_status['creation_time'] == null) {
 		$person_status['creation_time'] = "unknown";
 	}
+*/
 
 	// set opt values to UNK if thats teh case
 	$person_details['opt_gender']      == null ? $gender = "UNK" : $gender = $person_details['opt_gender'];
@@ -784,43 +808,52 @@ function shn_eap_edit() {
 
 		// edit...
 		if((count($_POST) > 0) && isset($_POST['given_name'])) {
-			$editGivenName  = trim($_POST['given_name']);
-			$editFamilyName = trim($_POST['family_name']);
-			$editAge        = trim($_POST['age']);
-			$editMinAge     = trim($_POST['age_lower']);
-			$editMaxAge     = trim($_POST['age_upper']);
-			$editGender     = trim($_POST['opt_gender']);
-			$editEye        = trim($_POST['opt_eye_color']);
-			$editSkin       = trim($_POST['opt_skin_color']);
-			$editHair       = trim($_POST['opt_hair_color']);
-			$editHeight     = trim($_POST['height']);
-			$editWeight     = trim($_POST['weight']);
-			$editComments   = trim($_POST['comments']);
-			$editStatus     = trim($_POST['opt_status']);
-			$editHospital   = trim($_POST['hospital']);
-			$editEvent      = trim($_POST['event']);
+			$editGivenName     = trim($_POST['given_name']);
+			$editFamilyName    = trim($_POST['family_name']);
+			$editAge           = trim($_POST['age']);
+			$editMinAge        = trim($_POST['age_lower']);
+			$editMaxAge        = trim($_POST['age_upper']);
+			$editGender        = trim($_POST['opt_gender']);
+			$editEye           = trim($_POST['opt_eye_color']);
+			$editSkin          = trim($_POST['opt_skin_color']);
+			$editHair          = trim($_POST['opt_hair_color']);
+			$editHeight        = trim($_POST['height']);
+			$editWeight        = trim($_POST['weight']);
+			$editComments      = trim($_POST['comments']);
+			$editStatus        = trim($_POST['opt_status']);
+			$editHospital      = trim($_POST['hospital']);
+			$editEvent         = trim($_POST['event']);
+			$editLastSeen      = trim($_POST['last_seen']);
+			$editLastClothing  = trim($_POST['last_clothing']);
+			$editOtherComments = trim($_POST['other_comments']);
 
 			// check for revisions and save dem
 			if($editGivenName  !== $person_uuid['given_name'])  {
-				saveRevision("person_uuid", "given_name", "First Name", $person_uuid['given_name'],  $editGivenName);
+				saveRevision("person_uuid", "given_name", "Given Name", $person_uuid['given_name'],  $editGivenName);
 				updateFullName($editGivenName, $editFamilyName);
 			}
 			if($editFamilyName !== $person_uuid['family_name']) {
-				saveRevision("person_uuid", "family_name", "Last Name", $person_uuid['family_name'], $editFamilyName);
+				saveRevision("person_uuid", "family_name", "Family Name", $person_uuid['family_name'], $editFamilyName);
 				updateFullName($editGivenName, $editFamilyName);
 			}
 
-			if($editAge        !== $person_details['years_old'])         { saveRevision("person_details",       "years_old",      "Age",         $person_details['years_old'],         $editAge);      }
-			if($editMinAge     !== $person_details['minAge'])            { saveRevision("person_details",       "minAge",         "Minimum Age", $person_details['minAge'],            $editMinAge);   }
-			if($editMaxAge     !== $person_details['maxAge'])            { saveRevision("person_details",       "maxAge",         "Maximum Age", $person_details['maxAge'],            $editMaxAge);   }
-			if($editGender     !== $person_details['opt_gender'])        { saveRevision("person_details",       "opt_gender",     "Gender",      $person_details['opt_gender'],        $editGender);   }
+			if($editLastSeen      !== $person_details['last_seen'])      { saveRevision("person_details",       "last_seen",      "Last Seen",      $person_details['last_seen'],      $editLastSeen);      }
+			if($editLastClothing  !== $person_details['last_clothing'])  { saveRevision("person_details",       "last_clothing",  "Last Clothing",  $person_details['last_clothing'],  $editLastClothing);  }
+			if($editOtherComments !== $person_details['other_comments']) { saveRevision("person_details",       "other_comments", "Other Comments", $person_details['other_comments'], $editOtherComments); }
+			if($editAge           !== $person_details['years_old'])      { saveRevision("person_details",       "years_old",      "Age",            $person_details['years_old'],      $editAge);           }
+			if($editMinAge        !== $person_details['minAge'])         { saveRevision("person_details",       "minAge",         "Minimum Age",    $person_details['minAge'],         $editMinAge);        }
+			if($editMaxAge        !== $person_details['maxAge'])         { saveRevision("person_details",       "maxAge",         "Maximum Age",    $person_details['maxAge'],         $editMaxAge);        }
+			if($editGender        !== $person_details['opt_gender'])     { saveRevision("person_details",       "opt_gender",     "Gender",         $person_details['opt_gender'],     $editGender);        }
+
 			if($editEye        !== $person_physical['opt_eye_color'])    { saveRevision("person_physical",      "opt_eye_color",  "Eye Color",   $person_physical['opt_eye_color'],    $editEye);      }
 			if($editSkin       !== $person_physical['opt_skin_color'])   { saveRevision("person_physical",      "opt_skin_color", "Skin Color",  $person_physical['opt_skin_color'],   $editSkin);     }
 			if($editHair       !== $person_physical['opt_hair_color'])   { saveRevision("person_physical",      "opt_hair_color", "Hair Color",  $person_physical['opt_hair_color'],   $editHair);     }
 			if($editHeight     !== $person_physical['height'])           { saveRevision("person_physical",      "height",         "Height",      $person_physical['height'],           $editHeight);   }
 			if($editWeight     !== $person_physical['weight'])           { saveRevision("person_physical",      "weight",         "Weight",      $person_physical['weight'],           $editWeight);   }
 			if($editComments   !== $person_physical['comments'])         { saveRevision("person_physical",      "comments",       "Comments",    $person_physical['comments'],         $editComments); }
+
 			if($editStatus     !== $person_status['opt_status'])         { saveRevision("person_status",        "opt_status",     "Status",      $person_status['opt_status'],         $editStatus);   }
+
 			if($editEvent      !== $person_incident['incident_id'])      { saveRevision("person_uuid",          "incident_id",    "Event",       $person_incident['incident_id'],      $editEvent);    }
 			if($editHospital   !== $person_to_hospital['hospital_uuid']) { saveRevision("person_uuid",          "hospital_uuid",  "Hospital",    $person_to_hospital['hospital_uuid'], $editHospital); }
 
@@ -844,31 +877,37 @@ function shn_eap_edit() {
 		} else {
 			$editGivenName  = $person_uuid['given_name'];
 			$editFamilyName = $person_uuid['family_name'];
-			$editAge        = $person_details['years_old'];
-			$editMinAge     = $person_details['minAge'];
-			$editMaxAge     = $person_details['maxAge'];
-			$editGender     = $person_details['opt_gender'];
+
+			$editAge           = $person_details['years_old'];
+			$editMinAge        = $person_details['minAge'];
+			$editMaxAge        = $person_details['maxAge'];
+			$editGender        = $person_details['opt_gender'];
+			$editLastSeen      = $person_details['last_seen'];
+			$editLastClothing  = $person_details['last_clothing'];
+			$editOtherComments = $person_details['other_comments'];
+
 			$editEye        = $person_physical['opt_eye_color'];
 			$editSkin       = $person_physical['opt_skin_color'];
 			$editHair       = $person_physical['opt_hair_color'];
 			$editHeight     = $person_physical['height'];
 			$editWeight     = $person_physical['weight'];
 			$editComments   = $person_physical['comments'];
+
 			$editStatus     = isset($person_status['opt_status']) ?  $person_status['opt_status'] : null;
+
 			$editHospital   = $person_to_hospital['hospital_uuid'];
 			$editEvent      = $person_incident['incident_id'];
 		}
 
-		$timezone = new DateTimeZone( "UTC" );
+		//$timezone = new DateTimeZone( "UTC" );
 		$date = new DateTime();
-		$date->setTimezone( $timezone );
+		//$date->setTimezone( $timezone );
 
 		$date->setTimestamp(strtotime($person_status['creation_time']));
 		$creation_time =  $date->format('l, F j, Y g:i a T');
 
 		$date->setTimestamp(strtotime($person_status['last_updated']));
 		$last_updated =  $date->format('l, F j, Y g:i a T');
-
 
 		echo "
 			<div class=\"form-container\">
@@ -934,11 +973,11 @@ function shn_eap_edit() {
 		echo "
 			<hr class=\"insideHrGreen\">
 
-			<label for=\"given_name\">First Name </label>
+			<label for=\"given_name\">Given Name </label>
 			<input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$editGivenName."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
-			<label for=\"given_name\">Last Name </label>
+			<label for=\"given_name\">Family Name </label>
 			<input type=\"text\" name=\"family_name\" id=\"family_name\" value=\"".$editFamilyName."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
@@ -972,6 +1011,20 @@ function shn_eap_edit() {
 
 			<label for=\"height\">Distinctive Features</label>
 			<textarea name=\"comments\" id=\"comments\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editComments."</textarea>
+			<br>
+
+			<hr class=\"insideHrGreen\">
+
+			<label for=\"height\">Last Seen Location</label>
+			<textarea name=\"last_seen\" id=\"last_seen\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editLastSeen."</textarea>
+			<br>
+
+			<label for=\"height\">Last Seen Clothing/Appearance</label>
+			<textarea name=\"last_clothing\" id=\"last_clothing\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editLastClothing."</textarea>
+			<br>
+
+			<label for=\"height\">Other Comments</label>
+			<textarea name=\"other_comments\" id=\"other_comments\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editOtherComments."</textarea>
 			<br>
 			<br>
 
@@ -1030,11 +1083,11 @@ function shn_eap_edit() {
 		echo "
 			<hr class=\"insideHrGreen\">
 
-			<label for=\"given_name\">First Name </label>
+			<label for=\"given_name\">Given Name </label>
 			<input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$person_uuid['given_name']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
-			<label for=\"given_name\">Last Name </label>
+			<label for=\"given_name\">Family Name </label>
 			<input type=\"text\" name=\"family_name\" id=\"family_name\" value=\"".$person_uuid['family_name']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
@@ -1085,6 +1138,20 @@ function shn_eap_edit() {
 
 			<label for=\"height\">Distinctive Features</label>
 			<textarea name=\"comments\" id=\"comments\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_physical['comments']."</textarea>
+			<br>
+
+			<hr class=\"insideHrGreen\">
+
+			<label for=\"height\">Last Seen Location</label>
+			<textarea name=\"last_seen\" id=\"last_seen\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_details['last_seen']."</textarea>
+			<br>
+
+			<label for=\"height\">Last Seen Clothing/Appearance</label>
+			<textarea name=\"last_clothing\" id=\"last_clothing\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_details['last_clothing']."</textarea>
+			<br>
+
+			<label for=\"height\">Other Comments</label>
+			<textarea name=\"other_comments\" id=\"other_comments\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_details['other_comments']."</textarea>
 			<br>
 
 			</fieldset></form></div>

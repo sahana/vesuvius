@@ -94,7 +94,7 @@ function shn_plus_rawLog() {
 
 function shn_plus_configuration() {
 	global $global;
-	include_once $global['approot'].'/inc/lib_xajax.inc';
+	require_once($global['approot'].'/inc/lib_xajax.inc');
 
 	echo "
 			<h2>

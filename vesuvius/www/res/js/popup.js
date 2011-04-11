@@ -1,12 +1,12 @@
 /**
  * @name         Sahana Popup Javascript
- * @version      1.0
+ * @version      1.1
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0408
  */
 
 // store variables to control where the popup will appear relative to the cursor position
@@ -14,44 +14,59 @@
 var xOffset = 30;
 var yOffset = -5;
 
-function showPopup (targetObjectId, eventObj, HelpId) {
-    document.getElementById('help_popup').innerHTML = '';
-    document.getElementById('help_popup').innerHTML = help_arr[HelpId];
+function showPopup(targetObjectId, eventObj, HelpId) {
+	document.getElementById('help_popup').innerHTML = '';
+	document.getElementById('help_popup').innerHTML = help_arr[HelpId];
+	var notIE = true;
+
+	var IE6 = (navigator.appVersion.indexOf('MSIE 6.')==-1) ? false : true;
+	var IE7 = (navigator.appVersion.indexOf('MSIE 7.')==-1) ? false : true;
+	var IE8 = (navigator.appVersion.indexOf('MSIE 8.')==-1) ? false : true;
+	if(IE6 || IE7 || IE8) {
+		var ie = explode('<br>', help_arr[HelpId]);
+		alert(ie[1]);
+		notIE = false;
+	}
+
+	if(eventObj && notIE) {
+		// hide any currently-visible popups
+		hideCurrentPopup();
+
+		// stop event from bubbling up any farther
+		eventObj.cancelBubble = true;
+
+		// move popup div to current cursor position
+		// (add scrollTop to account for scrolling for IE)
+		var newXCoordinate = (eventObj.pageX) ? eventObj.pageX + xOffset : eventObj.x + xOffset + ((document.body.scrollLeft) ? document.body.scrollLeft:document.documentElement.scrollLeft);
+		var newYCoordinate = (eventObj.pageY) ? eventObj.pageY + yOffset : eventObj.y + yOffset + ((document.body.scrollTop)  ? document.body.scrollTop:document.documentElement.scrollTop);
+
+		moveObject(targetObjectId, newXCoordinate, newYCoordinate);
+
+		// and make it visible
+		if(changeObjectVisibility(targetObjectId, 'visible')) {
+			// if we successfully showed the popup
+			// store its Id on a globally-accessible object
+			window.currentlyVisiblePopup = targetObjectId;
+			return true;
+		} else {
+			// we couldn't show the popup, boo hoo!
+			return false;
+		}
+	} else {
+		// there was no event object, so we won't be able to position anything, so give up
+		return false;
+	}
+}
 
 
-    if(eventObj) {
-    // hide any currently-visible popups
-    hideCurrentPopup();
-    // stop event from bubbling up any farther
-    eventObj.cancelBubble = true;
-    // move popup div to current cursor position
-    // (add scrollTop to account for scrolling for IE)
-    var newXCoordinate = (eventObj.pageX)?eventObj.pageX + xOffset : eventObj.x + xOffset + ((document.body.scrollLeft)?document.body.scrollLeft:document.documentElement.scrollLeft);
-    var newYCoordinate = (eventObj.pageY)?eventObj.pageY + yOffset : eventObj.y + yOffset + ((document.body.scrollTop)?document.body.scrollTop:document.documentElement.scrollTop);
-    moveObject(targetObjectId, newXCoordinate, newYCoordinate);
-    // and make it visible
-    if( changeObjectVisibility(targetObjectId, 'visible') ) {
-        // if we successfully showed the popup
-        // store its Id on a globally-accessible object
-        window.currentlyVisiblePopup = targetObjectId;
-        return true;
-    } else {
-        // we couldn't show the popup, boo hoo!
-        return false;
-    }
-    } else {
-    // there was no event object, so we won't be able to position anything, so give up
-    return false;
-    }
-} // showPopup
 
 function hideCurrentPopup() {
-    // note: we've stored the currently-visible popup on the global object window.currentlyVisiblePopup
-    if(window.currentlyVisiblePopup) {
-    changeObjectVisibility(window.currentlyVisiblePopup, 'hidden');
-    window.currentlyVisiblePopup = false;
-    }
-} // hideCurrentPopup
+	// note: we've stored the currently-visible popup on the global object window.currentlyVisiblePopup
+	if(window.currentlyVisiblePopup) {
+		changeObjectVisibility(window.currentlyVisiblePopup, 'hidden');
+		window.currentlyVisiblePopup = false;
+	}
+}
 
 
 
@@ -145,3 +160,48 @@ function moveObject(objectId, newXCoordinate, newYCoordinate) {
 
 
 
+
+
+function explode (delimiter, string, limit) {
+	// http://kevin.vanzonneveld.net
+	// +     original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	// +     improved by: kenneth
+	// +     improved by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	// +     improved by: d3x
+	// +     bugfixed by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+	// *     example 1: explode(' ', 'Kevin van Zonneveld');
+	// *     returns 1: {0: 'Kevin', 1: 'van', 2: 'Zonneveld'}
+	// *     example 2: explode('=', 'a=bc=d', 2);
+	// *     returns 2: ['a', 'bc=d']
+	var emptyArray = {
+		0: ''
+	};
+
+	// third argument is not required
+	if (arguments.length < 2 || typeof arguments[0] == 'undefined' || typeof arguments[1] == 'undefined') {
+		return null;
+}
+
+if (delimiter === '' || delimiter === false || delimiter === null) {
+	return false;
+}
+
+if (typeof delimiter == 'function' || typeof delimiter == 'object' || typeof string == 'function' || typeof string == 'object') {
+	return emptyArray;
+	}
+
+	if (delimiter === true) {
+		delimiter = '1';
+	}
+
+	if (!limit) {
+		return string.toString().split(delimiter.toString());
+	} else {
+		// support for limit argument
+		var splitted = string.toString().split(delimiter.toString());
+		var partA = splitted.splice(0, limit - 1);
+		var partB = splitted.join(delimiter.toString());
+		partA.push(partB);
+		return partA;
+	}
+	}

@@ -11,8 +11,9 @@
  * @lastModified 2011.0404
  */
 
-
+global $global;
 require("class.imageAttachment.php");
+require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
 class lpfPatient {
 
@@ -24,7 +25,7 @@ class lpfPatient {
 
 	public $uuid;
 
-	public $firstName;
+	public $givenName;
 	public $familyName;
 	public $gender;
 
@@ -85,8 +86,8 @@ class lpfPatient {
 
 		// insert person
 		$q1 = "
-			INSERT INTO person_uuid (p_uuid, full_name, family_name, l10n_name, given_name, incident_id, hospital_uuid)
-			VALUES ('".$this->uuid."', '".$this->firstName." ".$this->familyName."', '".$this->familyName."', NULL, '".$this->firstName."', '".$this->incident_id."', '".$this->hospitalId."');
+			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
+			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', '".$this->hospitalId."');
 		";
 		$res = $global['db']->Execute($q1);
 
@@ -123,10 +124,11 @@ class lpfPatient {
 
 		// insert person
 		$q1 = "
-			INSERT INTO person_uuid (p_uuid, full_name, family_name, l10n_name, incident_id)
-			VALUES ('".$this->uuid."', '".$this->firstName." ".$this->familyName."', '".$this->familyName."', NULL, '".$this->incident_id."');
+			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
+			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', '".$this->hospitalId."');
 		";
 		$res = $global['db']->Execute($q1);
+
 
 		// insert person's status
 		$q4 = "
@@ -135,12 +137,14 @@ class lpfPatient {
 		";
 		$res = $global['db']->Execute($q4);
 
+
 		// insert person's details
 		$q5 = "
 			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old, last_seen, last_clothing, other_comments)
 			VALUES ('".$this->uuid."', NULL, '".$this->gender."', '".$this->age."', NULL, NULL, '".$this->comments."');
 		";
 		$res = $global['db']->Execute($q5);
+
 
 		// insert into mpres_log
 		$q7 = "
@@ -154,13 +158,20 @@ class lpfPatient {
 
 	public function insertPerson() {
 		global $global;
-		$this->extractSahanaStatus();
+
+		$this->extractStatusFromSubject();
+
+		$name = new nameParser($this->emailSubject);
+		$this->givenName  = $name->getFirstName();
+		$this->familyName = $name->getLastName();
+
+
 		$this->insertImages();
 
 		// insert person
 		$q1 = "
-			INSERT INTO person_uuid (p_uuid, full_name, family_name, l10n_name, incident_id)
-			VALUES ('".$this->uuid."','".$this->emailSubject."', NULL, NULL, ,'".$this->incident_id."');
+			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
+			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', '-1');
 		";
 		$res = $global['db']->Execute($q1);
 
@@ -203,9 +214,11 @@ class lpfPatient {
 		global $global;
 		// insert a person's images
 		for ($i=0; $i < sizeof($this->images); $i++) {
-			$q = " INSERT INTO image (x_uuid, image_type, image_height, image_width, created, category, url, url_thumb, original_filename)
+			$q = "
+				INSERT INTO image (x_uuid, image_type, image_height, image_width, created, category, url, url_thumb, original_filename)
 				VALUES ('".$this->uuid."', '".$this->images[$i]->type."', '".$this->images[$i]->height."', '".$this->images[$i]->width."', CURRENT_TIMESTAMP, ".
-				"'person', '".$this->images[$i]->url."', '".$this->images[$i]->url_thumb."', '".$this->images[$i]->original_filename."');";
+				"'person', '".$this->images[$i]->url."', '".$this->images[$i]->url_thumb."', '".$this->images[$i]->original_filename."');
+			";
 			$res = $global['db']->Execute($q);
 		}
 	}
@@ -214,11 +227,11 @@ class lpfPatient {
 
 	public function figureOutIncidentId() {
 		global $global;
-		$query  = "
+		$q  = "
 			SELECT *
 			FROM incident WHERE shortname = '".$this->shortName."';
 		";
-		$result = $global['db']->Execute($query);
+		$result = $global['db']->Execute($q);
 		if($row = $result->FetchRow()) {
 			$this->incident_id = $row['incident_id'];
 
@@ -229,7 +242,7 @@ class lpfPatient {
 	}
 
 
-	public function extractSahanaStatus() {
+	public function extractStatusFromSubject() {
 		$s = strtolower($this->emailSubject);
 		$needle   = array();
 		$status   = array();
@@ -354,8 +367,10 @@ class lpfPatient {
 
 		$this->sahanaStatus = "";
 		for ($i=0; $i < count($needle); $i++) {
-			if(preg_match($needle[$i], $s)>0) {
+			if(preg_match($needle[$i], $s) > 0) {
 				$this->sahanaStatus = $status[$i];
+				// remove the status from the email subject
+				$this->emailSubject = preg_replace($needle[$i], " ", $this->emailSubject);
 			}
 		}
 		if($this->sahanaStatus == "") {
