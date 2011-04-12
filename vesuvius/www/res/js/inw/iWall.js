@@ -250,7 +250,7 @@ function Person() {
 			this.uuid         = args["p_uuid"]; 
 			this.encodedUUID  = args["encodedUUID"];
 			this.statusSahana = args["opt_status"]; 
-			this.name         = $.trim(args["full_name"]) == "unknown unknown" ? "Unknown name" :  $.trim(args["full_name"]) || "Unknown name"; 
+			this.name         = $.trim(args["full_name"]) == "unknown unknown" || $.trim(args["full_name"]) == undefined ? "Unknown name" :  $.trim(args["full_name"]) || "Unknown name"; 
 			this.gender       = args["gender"] == "mal" ? "Male" : (args["gender"] == "fml" ? "Female" : "Unknown"); 
 			this.age          = args["years_old"] || "N\/A"; 
 			this.ageGroup     = !Utils.isNumber(this.age) ? "Unknown" : (this.age >= 18 ? "Adult" : "Youth");

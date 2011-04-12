@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Edit A Person
- * @version      1.2
+ * @version      1.3
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0408
+ * @lastModified 2011.0412
  */
 
 require_once($global['approot']."/inc/lib_uuid.inc");
@@ -552,7 +552,7 @@ function shn_eap_edit() {
 	// if hospital not assigned yet...
 	if($hospital == NULL) {
 		$person_to_hospital = array();
-		$person_to_hospital['hospital_uuid'] = -1; // teh null hospital :)
+		$person_to_hospital['hospital_uuid'] = null;
 		$person_to_hospital['name']          = "SELECT";
 	} else {
 		$person_to_hospital = array();
@@ -808,6 +808,9 @@ function shn_eap_edit() {
 
 		// edit...
 		if((count($_POST) > 0) && isset($_POST['given_name'])) {
+
+echo "<pre>".print_r($_POST, true)."</pre>";
+
 			$editGivenName     = trim($_POST['given_name']);
 			$editFamilyName    = trim($_POST['family_name']);
 			$editAge           = trim($_POST['age']);

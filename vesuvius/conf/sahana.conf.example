@@ -7,7 +7,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0131
+ * @lastModified 2011.0412
  */
 
 # Unique identifier for all resources contained in the system ~ must be unique and 4 or more alphanumberic characters
@@ -33,8 +33,8 @@ $conf['enable_monitor_sql'] = false;
 $conf['locale'] = "en_US";
 
 // The Default Module/Action performed when a user first visits the site
-$conf['default_module']= 'rez';
-$conf['default_action']= 'landing';
+$conf['default_module']= 'home';
+$conf['default_action']= 'default';
 
 # Password Policy
 $conf['pwd_min_chars']       = 8;

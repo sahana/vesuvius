@@ -87,7 +87,7 @@ class lpfPatient {
 		// insert person
 		$q1 = "
 			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
-			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', '".$this->hospitalId."');
+			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', ".$this->hospitalId.");
 		";
 		$res = $global['db']->Execute($q1);
 
@@ -125,7 +125,7 @@ class lpfPatient {
 		// insert person
 		$q1 = "
 			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
-			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', '".$this->hospitalId."');
+			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', ".$this->hospitalId.");
 		";
 		$res = $global['db']->Execute($q1);
 
@@ -171,7 +171,7 @@ class lpfPatient {
 		// insert person
 		$q1 = "
 			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
-			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', '-1');
+			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', NULL);
 		";
 		$res = $global['db']->Execute($q1);
 
