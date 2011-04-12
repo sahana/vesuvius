@@ -445,11 +445,11 @@ class mpres {
 
 						// fix org
 						if(trim($a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgName']) == "National Naval Medical Center") {
-							$this->person->hospitalId = 2;
+							$this->person->hospitalId = "'2'";
 						} else if(trim($a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgName']) == "Suburban Hospital") {
-							$this->person->hospitalId = 1;
+							$this->person->hospitalId = "'1'";
 						} else {
-							$this->person->hospitalId = -1;
+							$this->person->hospitalId = "NULL";
 						}
 
 						$this->person->gender     = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['gender'];

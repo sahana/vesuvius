@@ -20,18 +20,36 @@ of this new file to your liking.
 
 
 
-3) Create a new MySQL Database on your server. Assign a new user to the database. Edit
+3) Create an .htaccess file in your /www directory. There is an example there in the same
+location: .htaccess.example ~ copy it to .htaccess and then begin to modify the file. You
+may or may not even need to edit it, depending on where your site is located. Specifically,
+refer to these lines:
+
+##### for when Sahana is installed on a virtual host at root level ie. http://domain.com/
+RewriteBase /
+
+##### for when Sahana is installed in a user homedir ie. http://domain.gov/~gmiernicki/sahanaDev/www/
+#RewriteBase /~gmiernicki/sahanaDev/www/
+
+If your site is running on the root path of a domain, you will not have to change anything.
+You are good to go with the default example file. Else, your site is running on a non-root
+path, comment out the first RewriteBase line, uncomment out the second one, and then update
+its path to the path of your installation.
+
+
+
+4) Create a new MySQL Database on your server. Assign a new user to the database. Edit
 the sahana.conf file from the previous step with the new database settings.
 
 
 
-4) Import an initial database. You can do this in a number of tools, for example:
+5) Import an initial database. You can do this in a number of tools, for example:
 PHPMyAdmin, MySQL Admin, or from a shell with the mysql command. The default database to
 use in the file /backups/vesuviusStarterDB.sql
 
 
 
-5) Create a folder /www/tmp (this is the cache folder Sahana uses for many things) and
+6) Create a folder /www/tmp (this is the cache folder Sahana uses for many things) and
 appropriately change the permissions of the file so it is writable by the web server.
 This can be done by executing the commands below:
 
@@ -41,14 +59,14 @@ chmod 777 tmp ;
 
 
 
-6) If you wish to use the snapshot module for database backups and restores, then you
+7) If you wish to use the snapshot module for database backups and restores, then you
 must also update the permissions on the /backups folder:
 
 chmod 777 backups ;
 
 
 
-7) If you did everything above correctly, you should be able to navigate to the site
+8) If you did everything above correctly, you should be able to navigate to the site
 and login >>
 
 username: root
@@ -56,3 +74,5 @@ password: Agasti2011
 
 After login, it would be adviseable to go to My Settings and then Change My Password
 to alter the default password and add a bit of security to your site.
+
+

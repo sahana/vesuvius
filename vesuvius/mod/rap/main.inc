@@ -650,7 +650,7 @@ function shn_rap_commitPerson($saveImage = false) {
 			'".mysql_real_escape_string($family_name)."',
 			'".mysql_real_escape_string($given_name)."',
 			'".$id."',
-			'-1'
+			NULL
 		);
 	";
 	$res = $global['db']->Execute($q1);
