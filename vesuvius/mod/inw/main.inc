@@ -137,8 +137,8 @@ function shn_inw_default() {
 				</div>
 			</div>
 			<form action="javascript:Utils.formSearch()" id="searchForm">
-				<div style="margin-bottom: 5px;font-size: 12pt;display: block; margin-top:20px;">
-					Search <!-- Using [ <input name="searchMode" type="radio" id="solr" checked /><label for="solr">SOLR</label> or <input type="radio" name="searchMode" id="sql"   /><label for="sql">SQL</label> ] -->
+				<div style="margin-bottom: 5px;font-size: 12pt;display: block; margin-top:6px;">
+					<!-- Search Using [ <input name="searchMode" type="radio" id="solr" checked /><label for="solr">SOLR</label> or <input type="radio" name="searchMode" id="sql"   /><label for="sql">SQL</label> ] -->
 				</div>
 				<input type="textbox" autocomplete="off" value="Enter a name..." id="searchBox"/>
 				<div id="searchButtonWrapper" style="display: inline;">
@@ -179,32 +179,32 @@ function shn_inw_default() {
 			To search among those whose names were not reported, enter "unknown" above and press "Enter" or click "Search".
 		</div>
 		<div id="detailsPane">
-		<div id="dt_eapLink" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">View/Edit Full Record</a></div>
-		<div id="close" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">Close</a></div>
-		<div id="dt_print" onclick="Utils.printDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">Print</a></div>
-		<!--div id="showMap" onclick="Utils.showMap();"><a href="#" style="color:#6694E3; text-decoration: underline">Map</a></div-->
-		<div id="dt_image" style="float:left;padding:5px 5px 5px 5px; border:solid 1px #CCC;position:relative;z-index:2;" >
-			<!--span id="caption">caption here</span-->
-		</div>
-		<div id="detailInfo" style="text-align:left;float:left;margin-top:5px;margin-left:20px; width:400px; position:relative; border: solid 0px #CCC;">
-			<label for="dt_uuid">ID</label>
-			<div id="dt_uuid" style="font-weight:normal;"></div>
-			<label for="dt_fullName">Name</label>
-			<div id="dt_fullName" style="font-weight:normal;"></div>
-			<label for="dt_age">Age Group</label>
-			<div id="dt_age" style="font-weight:normal;"></div>
-			<label for="dt_gender">Gender </label>
-			<div id="dt_gender" style="font-weight:normal;"></div>
-			<label for="dt_status">Status </label>
-			<div id="dt_status" style="font-weight:normal;"></div>
-			<label for="dt_statusSahanaUpdated">When Reported</label>
-			<div id="dt_statusSahanaUpdated" style="font-weight:normal;"></div>
-			<label for="dt_location">Last Known Location</label>
-			<div id="dt_location" style="font-weight:normal;"></div>
-		</div>
-		<div id="dt_hospitalIcon" ></div>
-		<div id="map_canvas" class="map">Loading...</div>
-		<div style="clear:both;"></div>
+			<div id="dt_eapLink" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">View/Edit Full Record</a></div>
+			<div id="close" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">Close</a></div>
+			<div id="dt_print" onclick="Utils.printDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">Print</a></div>
+			<!--div id="showMap" onclick="Utils.showMap();"><a href="#" style="color:#6694E3; text-decoration: underline">Map</a></div-->
+			<div id="dt_image" style="float:left;padding:5px 5px 5px 5px; border:solid 1px #CCC;position:relative;z-index:2;" >
+				<!--span id="caption">caption here</span-->
+			</div>
+			<div id="detailInfo" style="text-align:left;float:left;margin-top:5px;margin-left:20px; width:400px; position:relative; border: solid 0px #CCC;">
+				<label for="dt_uuid">ID</label>
+				<div id="dt_uuid" style="font-weight:normal;"></div>
+				<label for="dt_fullName">Name</label>
+				<div id="dt_fullName" style="font-weight:normal;"></div>
+				<label for="dt_age">Age Group</label>
+				<div id="dt_age" style="font-weight:normal;"></div>
+				<label for="dt_gender">Gender </label>
+				<div id="dt_gender" style="font-weight:normal;"></div>
+				<label for="dt_status">Status </label>
+				<div id="dt_status" style="font-weight:normal;"></div>
+				<label for="dt_statusSahanaUpdated">When Reported</label>
+				<div id="dt_statusSahanaUpdated" style="font-weight:normal;"></div>
+				<label for="dt_location">Last Known Location</label>
+				<div id="dt_location" style="font-weight:normal;"></div>
+			</div>
+			<div id="dt_hospitalIcon" ></div>
+			<div id="map_canvas" class="map">Loading...</div>
+			<div style="clear:both;"></div>
 		</div>
 		<div id="exitFullScreen"></div>
 		<div id="exitFullScreenIpad" onclick="ScrollView.exitFullScreen()">Tap here to exit...</div>

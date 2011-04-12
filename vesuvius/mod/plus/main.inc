@@ -12,20 +12,26 @@
 
 
 function shn_plus_default() {
-	shn_plus_configuration();
+	shn_plus_rawLog();
 }
 
 
 
 function shn_plus_header2() {
 	global $global;
-	echo "
-		<ul>
-			<li><a href=\"index.php?mod=plus&act=configuration\">Change Settings</li>
-			<li><a href=\"index.php?mod=plus&act=rawLog\">View the Access Log</a></li>
-			<li>View the Submission Log</li>
-		</ul>
-	";
+	echo "<ul>";
+
+	if($global['action'] == "configuration") {
+		echo "<li>Change Settings</li>";
+	} else {
+		echo "<li><a href=\"index.php?mod=plus&act=configuration\">Change Settings</a></li>";
+	}
+	if($global['action'] == "rawLog" || $global['action'] == "default") {
+		echo "<li>View the Access Log</li>";
+	} else {
+		echo "<li><a href=\"index.php?mod=plus&act=rawLog\">View the Access Log</a></li>";
+	}
+	echo "</ul>";
 }
 
 
@@ -43,14 +49,9 @@ function shn_plus_submissionLog() {
 
 function shn_plus_rawLog() {
 	global $global;
+	shn_plus_header2();
+
 	echo "<div id=\"home\">";
-	echo "
-			<h2>
-			<i>View the Access Log</i> ::
-			<a href=\"index.php?mod=plus&act=submissionLog\">View the Submission Log</a> ::
-			<a href=\"index.php?mod=plus&act=configuration\">Change Settings</a>
-			</h2>
-	";
 	$query  = "
 		SELECT *
 		FROM plus_access_log
@@ -60,13 +61,14 @@ function shn_plus_rawLog() {
 	$result = $global['db']->Execute($query);
 	$count = 0;
 	echo "<div class=\"form-container\"><form><fieldset>";
-	echo "<legend>Accesses:</legend>";
+	echo "<legend>Raw Access Log</legend>";
 	echo "<table id=\"regLog\"><tr>
 		<td class=\"evener\"><b>Time</b></td>
 		<td class=\"evener\"><b>Application</b></td>
 		<td class=\"evener\"><b>Version</b></td>
 		<td class=\"evener\"><b>IP</b></td>
 		<td class=\"evener\" style=\"text-align: left;\"><b>Call</b></td>
+		<td class=\"evener\"><b>apiVersion</b></td>
 	</tr>";
 	while($row = $result->FetchRow()) {
 		if(($count%2)==0) {
@@ -80,6 +82,7 @@ function shn_plus_rawLog() {
 				<td ".$odd.">".$row['version']."</td>
 				<td ".$odd.">".$row['ip']."</td>
 				<td ".$odd." style=\"text-align: left;\">".$row['call']."</td>
+				<td ".$odd.">".$row['api_version']."</td>
 			</tr>";
 		$count++;
 	}
@@ -95,14 +98,7 @@ function shn_plus_rawLog() {
 function shn_plus_configuration() {
 	global $global;
 	require_once($global['approot'].'/inc/lib_xajax.inc');
-
-	echo "
-			<h2>
-			<a href=\"index.php?mod=plus&act=rawLog\">View the Access Log</a> ::
-			<a href=\"index.php?mod=plus&act=submissionLog\">View the Submission Log</a> ::
-			<i>Change Settings</i>
-			</h2>
-	";
+	shn_plus_header2();
 
 	$posted = 0;
 	// if its a post ~ save configuration after we validate
@@ -143,9 +139,10 @@ function shn_plus_configuration() {
 			<td class="odd"><input type="text" name="timeout" id="timeout" value="<?php echo $timeout; ?>" tabindex="1"  /><span class='req'>*</span></td>
 		</tr>
 		</table>
+		<br><br>
 		<?php
-		shn_form_fsclose();
 		shn_form_submit("Save Settings", $submit_opts = "class=\"styleTehButton\"");
+		shn_form_fsclose();
 	shn_form_fclose();
 }
 
