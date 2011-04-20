@@ -17,7 +17,6 @@ Array.prototype.remove = function(from, to) {
 // called when user starts the application
 $(document).ready(function start() {
 	
-	//$("div", this).each(function() { $(this).append(this.id)});//.css("border", "solid 1px black");
 	Globals.isiPad = window.Touch != undefined;
 	window.onorientationchange = function() {
 		ScrollView.pause();
@@ -30,10 +29,10 @@ $(document).ready(function start() {
 	}
 
 	
-	var doc = document;  //local reference
+	var doc = document;  
 	Globals.initDone = 1; 
 
-    $("#content").css({paddingRight: "15px", paddingTop: "10px"/*, marginTop: "10px"*/});
+    $("#content").css({ paddingRight: "15px", paddingTop: "10px" });
 	
 	$("#details").hide();
 	
@@ -61,33 +60,12 @@ $(document).ready(function start() {
 	
 	Globals.imageHeight = Math.floor(($(window).height() - Globals.headerHeight - Globals.footerHeight - (2*(Globals.rowPadding+Globals.imageBorder))) / Globals.maxRows);
 	
-	if ( window.location.hash ) { //for bookmarking
+	if ( window.location.hash.length > 1 ) { //for bookmarking
 		box.style.color = "#000000";
 		$("#searchBox").val(unescape(window.location.hash).replace('#', ''));
 		searchSubset();
 	}
 });
-
-// function reDraw() {
-	// var row, i;
-	// for (row = 0; row <= Globals.maxRows; row++) {
-		// // only draw images that appear on the <body> !! we used to check if they finished loading ~~ && Q[row][i].image.complete ~~ not anymore
-		// for ( i = 0; Q[row] && i < Q[row].length; i++ ) { 
-			// if ((Q[row][i].image != null) && (Q[row][i].x + Q[row][i].imageWidth) >= 0) {
-				// //document.getElementById(Q[row][i].id).style.left = Q[row][i].x;
-				// document.getElementById("row"+row+"picture"+i).style.left = Math.round(Q[row][i].x)+"px";
-			// }
-
-			// // only increment x coordinates if we are scrolling the row
-			// if (Globals.scroll[row]) {
-				// Q[row][i].x = Q[row][i].x + Globals.dX;
-				// if (Q[row][i].x > Globals.docWidth) {
-					// Q[row][i].x = findNewX(row,Q[row][i].imageWidth);
-				// }
-			// }
-		// }
-	// }
-// }
 
 function searchSubset() {
 	Globals.searchTerms = $.trim($("#searchBox").attr("value"));
@@ -123,7 +101,7 @@ function searchSubset() {
 					  +	Globals.displayMode;
 		
 		
-	Globals.incident = Globals.incident || $("#shortName").val(); //this is because the <select> is actually in the footer for some reason.
+	Globals.incident = Globals.incident || $("#shortName").val(); 
 	Globals.searchMode = $("#searchMode").val();
 	$("#updateAlerts, #updateAlerts2").hide();
 
@@ -141,22 +119,13 @@ function searchSubset() {
 		$("#solrFoundLabel").show();
 		$("#sqlFoundLabel").hide();
 	}
-		
-		
-	//clearInterval(Globals.updaterId);
-	
-	//run it before setting the interval for immediate results.
-	//inw_checkForChanges(Globals.searchMode, Globals.incident, searchTerm, sStatus, sGender, sAge, sHospital);
-	//Globals.updaterId = setInterval(function() {
-	//									inw_checkForChanges(Globals.searchMode, Globals.incident, searchTerm, sStatus, sGender, sAge, sHospital);		
-	//								}, Globals.updaterTimer);
+
 	$("#foundLabel").show();
 	if ( Globals.displayMode && Globals.searchMode != "sql" )
 		$("#maxShown").hide();
 	else 
 		$("#maxShown").show();
 		
-	//$("#modmenuwrap").append($("#searchOptions").show());
 	$("#menuwrap").append($("#searchOptions").css({marginTop: "10px", marginLeft: "5px"}).show());
 	if ($("#shortName").val() == "christchurch" || $("#shortName").val() == "colombia2011" || $("#shortName").val() == "sendai2011") $("#hospital").hide();
 	$("#content").css({marginRight: "0px", paddingRight: "0px"});
@@ -173,12 +142,6 @@ Object.size = function(obj) {
 	}
 	return size;
 };
-// Get the size of an object
-//var size = Object.size(myArray);
-
-
-
-
 
 function handleUuidListResponse() {
 	var temp = [], freshUuids = [];
@@ -213,18 +176,6 @@ function showFacets() {
 			else if ( (facet == "child" || facet == "adult") && parseInt(facets[facet]) > 0 )
 				tempAge++;
 		}
-		
-		/* // Per glenns request.
-		if ( tempGender == 0 ) 
-			$("#gender").hide();
-		else 
-			$("#gender").show();
-			
-		if ( tempAge == 0 )
-			$("#age").hide();
-		else 
-			$("#age").show();
-		*/
 	} else {
 		$("#filtersWrapper").find("label > span").remove();
 	}
@@ -236,11 +187,6 @@ function showFacets() {
 // Person Class
 //
 function Person() {
-  
-	// Returns a new instance of Person which is a deep-copy of this.
-    	//this.clone = function(toClone) {
-    	//return (new Person()).init(toClone.args);
-    	//};
 
 	// Basically takes the json-derived associative-array and inits fields.
 	// Also inits other useful fields.

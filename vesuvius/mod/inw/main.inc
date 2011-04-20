@@ -137,15 +137,12 @@ function shn_inw_default() {
 				</div>
 			</div>
 			<form action="javascript:Utils.formSearch()" id="searchForm">
-				<div style="margin-bottom: 5px;font-size: 12pt;display: block; margin-top:6px;">
-					<!-- Search Using [ <input name="searchMode" type="radio" id="solr" checked /><label for="solr">SOLR</label> or <input type="radio" name="searchMode" id="sql"   /><label for="sql">SQL</label> ] -->
-				</div>
-				<input type="textbox" autocomplete="off" value="Enter a name..." id="searchBox"/>
-				<div id="searchButtonWrapper" style="display: inline;">
+				<input type="textbox" autocomplete="off" value="Enter a name..." id="searchBox" style="color: #CCC"/>
+				<div id="searchButtonWrapper" style="float:left">
 					<input type="submit" value="Search" id="buttonSearch" class="styleTehButton"/>
 				</div>
 				<div style="clear:both;"></div>
-				<div style="float:left;font-size: .85em; display: none;" id="foundLabel">
+				<div style="float:left;font-size: .85em; display: none;margin-top: 2px;" id="foundLabel">
 					<span id="solrFoundLabel" style="display: none">Found <span id="recordsFound">0</span> out of <span id="totalRecordsSOLR">0</span> records in <span id="timeElapsedSOLR">0</span> seconds </span>
 					<span id="sqlFoundLabel"  style="display: none">Searched <span id="totalRecordsSQL">0</span> records in <span id="timeElapsedSQL">0</span> seconds </span>
 					<span id="maxShown" style="display:none;font-size: .6em">(max 2,000 shown)</span>
@@ -186,9 +183,9 @@ function shn_inw_default() {
 			<div id="dt_image" style="float:left;padding:5px 5px 5px 5px; border:solid 1px #CCC;position:relative;z-index:2;" >
 				<!--span id="caption">caption here</span-->
 			</div>
-			<div id="detailInfo" style="text-align:left;float:left;margin-top:5px;margin-left:20px; width:400px; position:relative; border: solid 0px #CCC;">
-				<label for="dt_uuid">ID</label>
-				<div id="dt_uuid" style="font-weight:normal;"></div>
+			<div id="detailInfo" style="text-align:left;float:left;margin-top:5px;margin-left:20px; width:300px; position:relative; border: solid 0px #CCC;">
+				<!--label for="dt_uuid">ID</label>
+				<div id="dt_uuid" style="font-weight:normal;"></div-->
 				<label for="dt_fullName">Name</label>
 				<div id="dt_fullName" style="font-weight:normal;"></div>
 				<label for="dt_age">Age Group</label>
@@ -201,6 +198,8 @@ function shn_inw_default() {
 				<div id="dt_statusSahanaUpdated" style="font-weight:normal;"></div>
 				<label for="dt_location">Last Known Location</label>
 				<div id="dt_location" style="font-weight:normal;"></div>
+				<label for="dt_comments">Comments</label>
+				<div id="dt_comments" style="font-weight: normal; height: 50px; overflow-y: auto;"></div>				
 			</div>
 			<div id="dt_hospitalIcon" ></div>
 			<div id="map_canvas" class="map">Loading...</div>

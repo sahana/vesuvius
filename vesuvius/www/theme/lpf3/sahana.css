@@ -54,7 +54,7 @@ fieldset { border: none; }
 
 input, select, textarea { font-size: 100%; border: 1px solid #777; margin: 3px;}
 
-textarea { margin: 3px; font-size: 100%; }
+textarea { margin: 3px; font-size: 120%; }
 
 input[type=text], input[type=password], textarea {
 	padding: 3px 10px 3px 10px;
@@ -250,6 +250,15 @@ table.layout td { padding: 0px 0px 0 0px; border: 0px solid #ccc; }
 
 
 
+.fakeTextBox {
+	width: 400px;
+	white-space: nowrap;
+	overflow: hidden;
+	padding: 5px 10px;
+	background: #fff;
+	border-radius: 5px;
+}
+
 /* alert styles */
 div.alert { margin: 0 0 10px 0; padding: 5px 10px 5px 35px; border: #FC6 1px solid; background: url(img/oops.png) #FFC no-repeat 5px 5px; }
 
@@ -257,13 +266,6 @@ div.alert { margin: 0 0 10px 0; padding: 5px 10px 5px 35px; border: #FC6 1px sol
 
 /* info styles */
 div.info, div.form-container fieldset p { color:#666; padding: 5px 5px 5px 5px; }
-
-
-
-/* GIS module */
-#map { width: 760px; height: 600px }
-.center {margin-left:auto;margin-right:auto;}
-
 
 
 /* paging styles */
@@ -1509,3 +1511,4 @@ div.shr-bookmarks{margin:20px 0;clear:both !important}div.shr-bookmarks-expand{h
 	width: 200px; /*must have*/
 	height: 200px; /*must have*/
 }
+
