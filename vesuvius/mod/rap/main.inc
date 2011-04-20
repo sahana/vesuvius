@@ -197,7 +197,7 @@ function shn_rap_entry($errors=false) {
 				$opt_status[$res->fields['option_code']] = $res->fields['option_description'];
 				$res->MoveNext();
 			}
-			shn_form_select($opt_status, "Health / Locational Status", "", array('public'=>true, 'help'=>'Please specify to the best of your knowledge the condition of the person you are reporting.'));
+			shn_form_select($opt_status, "Health / Locational Status", "", array('public'=>true, 'help'=>'Please specify to the best of your knowledge the condition of the person you are reporting.'),  array('value'=>'unk'));
 		shn_form_fsclose();
 
 		shn_form_fsopen(_t('Basic Person Details'));
@@ -207,9 +207,9 @@ function shn_rap_entry($errors=false) {
 			shn_form_text(_t('Age'),'age','size="8"', array('help'=>_t('The exact age for the person or a best guess (can be combined with the age range below if an exact number is not known).'), 'public'=>true));
 			shn_form_text(_t('Lower End of Age Range'),'age_lower','size="8"', array('help'=>_t('The lower limit for a person\'s age if an exact age is not known. (optional if exact age is known)'), 'public'=>true));
 			shn_form_text(_t('Upper End of Age Range'),'age_upper','size="8"', array('help'=>_t('The upper limit for a person\'s age if an exact age is not known. (optional if exact age is known)'), 'public'=>true));
-			shn_form_opt_select("opt_gender",_t('Gender'),null,array('sort'=>'display_order, option_description ASC', 'value'=>'unk', 'public'=>true));
-			shn_form_opt_select("opt_religion",_t('Religion'), null,array('sort'=>'display_order, option_description ASC', 'value'=>'UNK', 'private'=>true));
-			shn_form_opt_select("opt_race",_t('Race'),null,array('sort'=>'display_order, option_description ASC', 'value'=>'U', 'private'=>true, 'help'=>'The Race choices are those defined by the US Government, e.g., the FBI when reporting missing people.'));
+			shn_form_opt_select("opt_gender",_t('Gender'),null,array('sort'=>'display_order, option_description ASC', 'value'=>null, 'public'=>true));
+			shn_form_opt_select("opt_religion",_t('Religion'), null,array('sort'=>'display_order, option_description ASC', 'value'=>null, 'private'=>true));
+			shn_form_opt_select("opt_race",_t('Race'),null,array('sort'=>'display_order, option_description ASC', 'value'=>null, 'private'=>true, 'help'=>'The Race choices are those defined by the US Government, e.g., the FBI when reporting missing people.'));
 		shn_form_fsclose();
 
 		shn_form_fsopen(_t('Person\'s Contact Information'));
@@ -221,9 +221,9 @@ function shn_rap_entry($errors=false) {
 		shn_form_fsclose();
 
 		shn_form_fsopen(_t('Person\'s Physical Details'));
-			shn_form_opt_select("opt_eye_color",_t('Eye Color'),null, array('sort'=>'display_order, option_description ASC', 'value'=>'UNK', 'public'=>true));
-			shn_form_opt_select("opt_skin_color",_t('Skin Color'),null,array('sort'=>'display_order, option_description ASC', 'value'=>'UNK', 'public'=>true, 'help'=>'The choices for Skin Color are those used by governmental agencies and law enforcement when reporting missing people.  These are frequently-used descriptive words, rather than precise colors.  Adjectives like “light” and “dark” may be considered in conjunction with the choices for “Race” and “Ethnicity” fields above.'));
-			shn_form_opt_select("opt_hair_color",_t('Hair Color'),null,array('sort'=>'display_order, option_description ASC', 'value'=>'UNK', 'public'=>true));
+			shn_form_opt_select("opt_eye_color",_t('Eye Color'),null, array('sort'=>'display_order, option_description ASC', 'value'=>null, 'public'=>true));
+			shn_form_opt_select("opt_skin_color",_t('Skin Color'),null,array('sort'=>'display_order, option_description ASC', 'value'=>null, 'public'=>true, 'help'=>'The choices for Skin Color are those used by governmental agencies and law enforcement when reporting missing people.  These are frequently-used descriptive words, rather than precise colors.  Adjectives like “light” and “dark” may be considered in conjunction with the choices for “Race” and “Ethnicity” fields above.'));
+			shn_form_opt_select("opt_hair_color",_t('Hair Color'),null,array('sort'=>'display_order, option_description ASC', 'value'=>null, 'public'=>true));
 
 			shn_form_text(_t("Height"),'height','size="10"',array('public'=>true, 'help'=>'Use Metric or English system, include units.'));
 			shn_form_text(_t('Weight'),'weight','size="10"',array('public'=>true, 'help'=>'Use Metric or English system, include units.'));

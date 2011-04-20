@@ -51,6 +51,7 @@ var Utils = {
 		$("#dt_status").html(person.statusSahanaFull || "N/A");
 		$("#dt_statusSahanaUpdated").html(person.statusSahanaUpdated + " UTC" );
 		$("#dt_location").html(person.location || "N/A");
+		$("#dt_comments").html(person.comments || "N/A");
 		
 		if ( $("#shortName").val() == "sendai2011" ) // obviously a hack.
 			$("#dt_eapLink > a").attr("href", "http://japan.person-finder.appspot.com/view?lang=en&id=" + person.uuid ).attr("target", "_new");
@@ -175,7 +176,7 @@ var Utils = {
 		if ( lastUpdated != Globals.lastUpdated ) {
 			Globals.mostRecent = Globals.lastUpdated; // saving for later
 			Globals.lastUpdated = lastUpdated;
-			if ( Globals.displayMode )   //this commenting out is only temporary (for cmax)
+			if ( Globals.displayMode )   
 				$("#updateAlerts").fadeIn("slow");
 			else {
 				$("#updateAlerts2").fadeIn("slow");
@@ -224,7 +225,6 @@ var Utils = {
 
 		Globals.oldCurrPage = Globals.currPage;
 		Globals.currPage = 1;
-		// Globals.perPage = 10000000; // leave it as is
 		Globals.displayMode = true;
 		searchSubset();
 

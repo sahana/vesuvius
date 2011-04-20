@@ -33,6 +33,11 @@ html {
 	left: 65px;
 }
 
+input[type="checkbox"] {
+	border: 0px !important;
+	*margin: 0px !important;
+}
+
 
 /*img {
 	border: none;
@@ -246,30 +251,13 @@ h1 {
 
 
 #searchBox {
-	/*border: 1px solid black;*/
-	width: 350px;
-	/*height: 23px;*/
-	line-height: 20px;
-	/*position: absolute;*/
-	color: #777;
-	margin-bottom: 10px;
-	margin-top: 1px;
+    float: left;
+    font-size: 14pt;
+    height: 26px;
+    line-height: 20px;
+	margin: 0px 5px 0px 0px !important;
+    width: 350px;
 }
-
-#buttonSearch {
-	/*color: white;
-	background-color: #6289B0;
-	font-weight: bold;
-	border: 0px;
-	height: 27px;
-	width: 100px;*/
-	/*position:relative;
-	*top: -10px;*/
-	margin-top:-5px;
-
-}
-
-
 
 #links {
 	position: absolute;
@@ -496,6 +484,23 @@ h1 {
 	-webkit-border-radius: 2px;*/
 }
 
+#detailsPane #dt_header{
+	border:solid 0px #E0ECFF;
+	position:relative;
+	background-color: white;
+	z-index:99999;
+	/*right: 50%; */
+	width: 200px;
+	left: 325px;
+	bottom: 0px;
+	height: 17px;
+	padding:5px;
+	cursor: pointer;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
 #detailsPane #dt_eapLink{
 	border:solid 0px #E0ECFF;
 	position:absolute;
@@ -505,7 +510,7 @@ h1 {
 	width: 200px;
 	left: 325px;
 	bottom: 0px;
-	height: 17px;
+	height: 15px;
 	padding:5px;
 	cursor: pointer;
 	border-radius: 2px;

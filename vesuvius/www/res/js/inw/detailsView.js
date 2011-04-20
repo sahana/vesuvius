@@ -20,27 +20,20 @@ var DetailsView =
 		$("#displayMode").val("interactive");
 		$("#printLink").show();
 
-		//content.slideUp(100, function() {
-				var tempDiv = $("<div></div>");
-				for ( var i = 0; i < Globals.resultSet.length; i++ ) {
-					var p = new Person();
+		var tempDiv = $("<div></div>");
+		for ( var i = 0; i < Globals.resultSet.length; i++ ) {
+			var p = new Person();
 
-					if ( Globals.resultSet[i])
-						p.init(Globals.resultSet[i]);
-					else break;
+			if ( Globals.resultSet[i])
+				p.init(Globals.resultSet[i]);
+			else break;
 
-					//if ( Globals.aPerson[p.uuid] )
-					//	continue;
-					//else {
-						Globals.aPerson[p.uuid] = p;  //for the future.
-						var stub = DetailsView.createStub(p);
-						tempDiv.append(stub);
-					//}
-				}
+			Globals.aPerson[p.uuid] = p;  //for the future.
+				var stub = DetailsView.createStub(p);
+				tempDiv.append(stub);
+		}
 
-				content.html("").append(tempDiv).append("<div style='clear:both'></div>").show()
-			//}
-		//);
+		content.html("").append(tempDiv).append("<div style='clear:both'></div>").show()
 
 		if ( Globals.searchMode == "solr" )
 			this.setPager();
@@ -52,7 +45,6 @@ var DetailsView =
 										src : person.imageUrl })
 								.addClass("stubPicture"),
 
-			//tempStub =  $("<div onmouseover='this.style.backgroundColor=\"#F7F7FF\"' onmouseout='this.style.backgroundColor=\"#FFF\"' class='stub'></div>")
 			tempStub =  $("<div style='background-color: " + person.tagRGBA + "'></div>")
 							   .css({border: "1px solid #" + person.tagColor, background : person.tagRGBA + " url(" + person.hospitalIcon + ") no-repeat right top"})
 							   .addClass("ieStubBorder")
@@ -66,17 +58,13 @@ var DetailsView =
 	createInfoTag : function(person) {
 		var statusTab = $("<div class='status' id='status_" + person.uuid + "' style='background-color:#" + person.tagColor + "'>" + person.statusSahanaFull + "</div>");
 
-		//should build this correctly (no  mixing of html w/ javascript) in the future.
+		// should build this correctly (minimize mixing of html w/ javascript) in the future.
 		var div = $("<div style='width: 210px;float:left; margin: 5px 5px 5px 5px; font-weight:700' id='" + person.uuid + "'></div>")
 					.append("<div  id='name_" + person.uuid + "' style='overflow:hidden;white-space: nowrap; width: 170px;text-overflow: ellipsis; margin-bottom:3px;'>" + person.name + "</div>")
 					.append(statusTab)
 					.append("<div id='ageGender_" + person.uuid + "' style='float:left;font-weight:normal'><div style='float: left;width:55px;text-align:right;font-weight:bold;margin-right:5px;'>Age:</div> " + person.ageGroup + "<br /> <div style='float: left;width:55px;text-align:right;font-weight:bold;margin-right:5px;'>Gender:</div> " + person.gender + "</div>")
 					.append("<div id='updated_" + person.uuid + "'style='float:left;white-space:nowrap;font-weight:normal'><div style='float: left;width:55px;text-align:right;font-weight:bold;margin-right:5px;'>Updated:</div> "
 								+ person.statusSahanaUpdated + " UTC" );
-		//if ( Globals.mostRecent && Date.parse(person.statusSahanaUpdated.replace('@','')) > Date.parse(Globals.mostRecent.replace('@','')) )
-		//	div.append("<div style='position:absolute; bottom:1px; right: 5px;  color: yellow;'>Updated</div>");
-
-
 
 		return div;
 	},

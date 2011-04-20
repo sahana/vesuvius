@@ -40,7 +40,7 @@ function shn_home_default() {
 	$events = array(); // reset
 	getList(2);
 	if(sizeof($events) > 0 ){
-		echo "<br><br><h3>For these events you can search and report new information through Google :</h3>";
+		echo "<br><br><h3>For these events you can search locally and report new information through Google :</h3>";
 		showList();
 	}
 

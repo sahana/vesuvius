@@ -15,11 +15,10 @@ var ScrollView = {
 	init : function() {
 		ScrollView.pause();
 		$("#glass").css({ height : $(document).height() }).show().html("<div style='position: absolute; font-size: 14pt; top: 50%; left: 45%'>Loading...<BR /><img src=\"res/img/loader.gif\" /></div>");
-		Globals.aPerson = [];  //this directly applies to DetailsView, it's here as a kludge
+		Globals.aPerson = [];  // this directly applies to DetailsView, it's here as a kludge
 		Globals.initDone = 1;
 		if ( $("#content").css("display") != "none" ) // if not in full screen mode.
 			Globals.maxRows = Math.ceil(($(window).height()-210)/300) > 4 ? 4 : Math.ceil(($(window).height()-210)/300);
-		//Globals.maxRows = 3;//Globals.totalResults > 4 ? Globals.maxRows : Globals.totalResults;
 
 		Globals.Q2 = ScrollView.initQArray();
 		Globals.Q = ScrollView.initQArray();
@@ -134,7 +133,7 @@ var ScrollView = {
 					count++;
 					ScrollView.getPersonData(Globals.personList[person]);
 					if ( count > 100 ) {
-						setTimeout(ScrollView.update, 3000) // wait 3 seconds! this is for IE/FF3.0- not to lose their patience on big sets.
+						setTimeout(ScrollView.update, 3000) // wait 3 seconds! this is for IE8-/FF3.0- not to lose their patience on big sets.
 						break;
 					}
 				}
@@ -146,12 +145,12 @@ var ScrollView = {
 		if ( Globals.resultSet && Globals.resultSet.length > 0 ) {
 			Globals.initDone = 1;
 			var tempResultCount = Globals.totalResults > 1000 ? 1000 : Globals.totalResults; //solr maxes out at 1000 count (for practical uses)
-			//for ( var i = 0; i < tempResultCount; i++ ) {
 			var i = 0;
 			while ( Globals.resultSet[i] ) {
 				p = new Person();
 				p.init( Globals.resultSet[i] );
-				//if status is changed, delete from Globals.personListOld and Q so it gets readded.
+				
+				// if status is changed, delete from Globals.personListOld and Q so it gets readded.
 				if (Globals.personListOld[ p.uuid ]
 					&& ( Globals.mostRecent && Date.parse(p.statusSahanaUpdated.replace('@','')) > Date.parse(Globals.mostRecent.replace('@','')) )) {
 					ScrollView.removePersonFromQ(p.uuid);
@@ -277,7 +276,7 @@ var ScrollView = {
 			}
 
 			person.opacity = 0.0;
-			Globals.personListOld[person.uuid] = person;  //save newest changes to use in details pane.
+			Globals.personListOld[person.uuid] = person;  // save newest changes to use in details pane.
 
 			var tempColor = "#"+person.tagColor,
 				tempWidth = (person.imageWidth+(2*Globals.imageBorder))+"px",
@@ -328,7 +327,7 @@ var ScrollView = {
 
 	unfade : function(row, pos) {
 		var slide = document.getElementById('row'+row+'picture'+pos+'i') || document.getElementById('row'+row+'picture'+pos+'_details');
-		if ( slide ) { //avoiding a strange exception being thrown
+		if ( slide ) { // avoiding a strange exception being thrown
 			slide.style.opacity = '1';
 			slide.style.filter = 'alpha(opacity=100)';
 		}
@@ -372,7 +371,6 @@ var ScrollView = {
 			if (direction == "right") {
 				$("#row_" + row).append(Globals.Q2[row][Globals.scrollCount[row]]);
 				var personUuid = Globals.Q2[row][Globals.scrollCount[row]].attr("id");
-				//document.getElementById(personUuid).onclick = function(personUuid) { alert($(this).attr("id")); /*Utils.showDetail(personUuid)*/ };
 				Globals.scrollCount[row]++;
 				Globals.scrollRightEnd[row]++;
 				if ( Globals.scrollCount[row] >= Globals.Q2[row].length )
@@ -478,7 +476,8 @@ var ScrollView = {
 		$("body").css({backgroundColor : "#6289C0" });
 		$("#exitFullScreenIpad").hide();
 		Globals.initDone = 1;
-		//reset to old values
+		
+		// reset to old values
 		Globals.maxRows = Math.ceil(($(window).height()-210)/300) > 4 ? 4 : Math.ceil(($(window).height()-210)/300);
 		Globals.imageHeight = Math.floor(($(window).height() - Globals.headerHeight - Globals.footerHeight - (2*(Globals.rowPadding+Globals.imageBorder))) / Globals.maxRows);
 

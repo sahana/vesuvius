@@ -1,14 +1,14 @@
 <?
 /**
  * @name         lib XHTML
- * @version      1.0
+ * @version      1.1
  * @package      framework
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0420
  */
 
 
@@ -67,74 +67,27 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
 		$title = "Sahana";
 	}
 
+	# globalize title
+	$global['title'] = $title;
+
 	# set the theme if it is not given as a parameter
 	$theme || $theme = $conf['theme'];
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-<title><?php echo _t($title);?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="Software " content="US National Library of Medicine People Locator" />
-<meta name="Website" content="http://pl.nlm.nih.gov" />
-<meta name="Licence" content="Lesser General Public Licence, Version 2.1" />
-<meta name="Licence Website" content="http://www.gnu.org/licenses/lgpl-2.1.txt" />
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+	$global['theme'] = $theme;
 
-<link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?php echo _t($theme);?>/sahana.css" />
-<link rel="stylesheet" media="print" type="text/css" href="theme/<?php echo _t($theme);?>/print.css" />
-<link rel="stylesheet" media="handheld" type="text/css" href="theme/<?php echo _t($theme);?>/mobile.css" />
-<?
-//--- Provide Stylesheets to hack different versions of IEs' css ---//
-
-// IE6
-if (file_exists($global['approot']."www/theme/".$theme."/ie6.css")) { ?>
-<!--[if IE 6]>
-<link rel="stylesheet" type="text/css" href="theme/<?php echo _t($theme);?>/ie6.css" />
-<![endif]-->
-<?
-}
-
-// IE7
-if (file_exists($global['approot']."www/theme/".$theme."/ie7.css")) { ?>
-<!--[if IE 7]>
-<link rel="stylesheet" type="text/css" href="theme/<?php echo _t($theme);?>/ie7.css" />
-<![endif]-->
-<?
-}
-
-// IE8
-if (file_exists($global['approot']."www/theme/".$theme."/ie8.css")) { ?>
-<!--[if IE 8]>
-<link rel="stylesheet" type="text/css" href="theme/<?php echo _t($theme);?>/ie8.css" />
-<![endif]-->
-<?
-}
-
-// IE9
-if (file_exists($global['approot']."www/theme/".$theme."/ie9.css")) { ?>
-<!--[if IE 9]>
-<link rel="stylesheet" type="text/css" href="theme/<?php echo _t($theme);?>/ie9.css" />
-<![endif]-->
-<?
-}
-//--- end IE styles ---//
-?>
-
-<link rel="icon" type="image/png" href="favicon.png">
-
-<?php
-	if(isset($conf['enable_locale']) && $conf['enable_locale'] == true) {
-		echo "<script type=\"text/javascript\" src=\"res/js/locale.js\"></script>";
+	if(file_exists($global['approot']."www/theme/".$theme."/head.php")) {
+		require_once($global['approot']."www/theme/".$theme."/head.php");
+		shn_theme_head();
+	} else {
+		echo "theme not setup correctly.";
+		die();
 	}
-?>
 
-<script type="text/javascript" src="res/js/popup.js"></script>
-<script type="text/javascript" src="index.php?stream=text&amp;mod=xst&amp;act=help"></script>
-	<?php
 	if ($arrPostfix != null) {
 		foreach ($arrPostfix as $i) {
-		echo '        '.$i."\n";
+			echo '        '.$i."\n";
 		}
 	}
 	echo "</head>\n";
 }
+
+

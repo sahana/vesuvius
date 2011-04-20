@@ -440,6 +440,18 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
 function saveContactRevision($type, $name, $oldValue, $newValue) {
 	global $global;
 
+	// turn empty strings into NULL
+	if(trim($oldValue) == "") {
+		$old = "NULL";
+	} else {
+		$old = "'".mysql_real_escape_string($oldValue)."'";
+	}
+	if(trim($newValue) == "") {
+		$new = "NULL";
+	} else {
+		$new = "'".mysql_real_escape_string($newValue)."'";
+	}
+
 	// we delete and then insert here because sometimes the contact value is not yet set, so an update would fail~!
 
 	// delete the old value
@@ -511,6 +523,7 @@ function updateFullName($editGivenName, $editFamilyName) {
  */
 function shn_eap_edit() {
 	global $global;
+	global $conf;
 	global $shn_tabindex;
 
 	shn_eap_findRights();
@@ -537,7 +550,7 @@ function shn_eap_edit() {
 	// HEADER ////////////////////////////////////////////////////////////////////////////////////
 	$q  = "
 		SELECT *
-		FROM person_uuid
+		FROM person_uuid p
 		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r                   = $global['db']->Execute($q);
@@ -553,11 +566,19 @@ function shn_eap_edit() {
 	if($hospital == NULL) {
 		$person_to_hospital = array();
 		$person_to_hospital['hospital_uuid'] = null;
-		$person_to_hospital['name']          = "SELECT";
+		$person_to_hospital['name']          = null;
 	} else {
+		$q = "
+			SELECT *
+			FROM hospital
+			WHERE hospital_uuid = '".$hospital."';
+		";
+		$r = $global['db']->Execute($q);
+		$row = $r->FetchRow();
 		$person_to_hospital = array();
 		$person_to_hospital['hospital_uuid'] = $hospital;
-		$person_to_hospital['name']          = "";
+		$person_to_hospital['name']          = $row['name'];
+		$person_to_hospital['icon_url']      = $row['icon_url'];
 	}
 
 
@@ -575,30 +596,48 @@ function shn_eap_edit() {
 				<fieldset id=\"editHeader\">
 					<legend>Person Record</legend>
 					<label for=\"opt_status\"><b>Full Name</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$full_name."\" size=\"64\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+					<div class=\"fakeTextBox\">".$full_name."</div>
 					<br>
-					<br>
-					<label for=\"opt_status\"><b>Origin ID / Origin URL</b> </label>
 	";
 
-	// make a URL link only for pl.nlm.nih.gov ~ which treats uuid's as URLs
-	if(strpos($global['uuid'], "pl.nlm.nih.gov") !== FALSE) {
-		echo "<span style=\"padding: 5px 10px; background: #fff; border-radius: 5px; margin-left: 2px;\"><a href=\"https://".$global['uuid']."\">".$global['uuid']."</a></span>";
+	// if the origin of the record is on this server, show a combined origin id / origin url
+	if(preg_match("+".$conf['base_uuid']."+", $global['uuid']) > 0) {
+		echo "
+			<label for=\"opt_status\"><b>Origin ID / Origin URL</b> </label>
+			<div class=\"fakeTextBox\"><a href=\"https://".$global['uuid']."\">".$global['uuid']."</a></div><br>
+		";
+
+	// record has foreign origin, so show separate url and uuid fields
 	} else {
-		echo "<span style=\"padding: 5px 10px; background: #fff; border-radius: 5px; margin-left: 2px;\">".$global['uuid']."</span>";
+		$q = "
+			SELECT *
+			FROM pfif_person
+			WHERE p_uuid = '".$global['uuid']."';
+		";
+		$r = $global['db']->Execute($q);
+		if($row = $r->FetchRow()) {
+			$url = $row['source_url'];
+		} else {
+			$url = "&nbsp;";
+		}
+		// fix bad data
+		if($url == "NULL" || $url == "null") {
+			$url = "&nbsp;";
+		}
+		echo "
+			<label for=\"opt_status\"><b>Origin ID</b> </label>
+			<div class=\"fakeTextBox\">".$global['uuid']."</div>
+			<br>
+			<label for=\"opt_status\"><b>Origin URL</b> </label>
+			<div class=\"fakeTextBox\"><a href=\"".$url."\">".$url."</a></div>
+		";
 	}
 
 	echo "
-					<br>
 				</fieldset>
 			</form>
 		</div>
 	";
-
-
-
-
-
 	// HEADER END ////////////////////////////////////////////////////////////////////////////////
 
 
@@ -713,6 +752,11 @@ function shn_eap_edit() {
 
 	// LOAD PUBLIC DATA ///////////////////////////////////////////////////////////////////////////////
 
+	$gender = null;
+	$skin = null;
+	$eye = null;
+	$hair = null;
+
 	// load physical
 	$q  = "
 		SELECT *
@@ -737,24 +781,6 @@ function shn_eap_edit() {
 	if(!isset($person_status['opt_status'])) {
 		$person_status['opt_status'] = "unk";
 	}
-
-/*
-	// check fpr not set status (rare.. but happens sometimes)
-	if(!isset($person_status['last_updated']) || $person_status['last_updated'] == null) {
-		$person_status['last_updated'] = "unknown";
-	}
-
-	// we use updated time if the new updated_server time is not available
-	if(!isset($person_status['creation_time']) || $person_status['creation_time'] == null) {
-		$person_status['creation_time'] = "unknown";
-	}
-*/
-
-	// set opt values to UNK if thats teh case
-	$person_details['opt_gender']      == null ? $gender = "UNK" : $gender = $person_details['opt_gender'];
-	$person_physical['opt_eye_color']  == null ? $eye    = "UNK" : $eye    = $person_physical['opt_eye_color'];
-	$person_physical['opt_skin_color'] == null ? $skin   = "UNK" : $skin   = $person_physical['opt_skin_color'];
-	$person_physical['opt_hair_color'] == null ? $hair   = "UNK" : $hair   = $person_physical['opt_hair_color'];
 
 	// map field_options to real values
 	// map gender
@@ -809,8 +835,6 @@ function shn_eap_edit() {
 		// edit...
 		if((count($_POST) > 0) && isset($_POST['given_name'])) {
 
-echo "<pre>".print_r($_POST, true)."</pre>";
-
 			$editGivenName     = trim($_POST['given_name']);
 			$editFamilyName    = trim($_POST['family_name']);
 			$editAge           = trim($_POST['age']);
@@ -829,6 +853,25 @@ echo "<pre>".print_r($_POST, true)."</pre>";
 			$editLastSeen      = trim($_POST['last_seen']);
 			$editLastClothing  = trim($_POST['last_clothing']);
 			$editOtherComments = trim($_POST['other_comments']);
+
+			if($editGivenName == '')     { $editGivenName = null; }
+			if($editFamilyName == '')    { $editFamilyName = null; }
+			if($editAge == '')           { $editAge = null; }
+			if($editMinAge == '')        { $editMinAge = null; }
+			if($editMaxAge == '')        { $editMaxAge = null; }
+			if($editGender == '')        { $editGender = null; }
+			if($editEye == '')           { $editEye = null; }
+			if($editSkin == '')          { $editSkin = null; }
+			if($editHair == '')          { $editHair = null; }
+			if($editWeight == '')        { $editWeight = null; }
+			if($editHeight == '')        { $editHeight = null; }
+			if($editComments == '')      { $editComments = null; }
+			if($editStatus == '')        { $editStatus = 'unk'; }
+			if($editHospital == '')      { $editHospital = null; }
+			if($editEvent == '')         { $editEvent = null; }
+			if($editLastSeen == '')      { $editLastSeen = null; }
+			if($editLastClothing == '')  { $editLastClothing = null; }
+			if($editOtherComments == '') { $editOtherComments = null; }
 
 			// check for revisions and save dem
 			if($editGivenName  !== $person_uuid['given_name'])  {
@@ -951,6 +994,7 @@ echo "<pre>".print_r($_POST, true)."</pre>";
 		";
 		$r = $global['db']->Execute($q);
 		$hospital_array = array();
+		$hospital_array[null] = 'Unknown';
 		while(!$r->EOF) {
 			$hospital_array[$r->fields['hospital_uuid']] = $r->fields['name'];
 			$r->MoveNext();
@@ -1072,16 +1116,34 @@ echo "<pre>".print_r($_POST, true)."</pre>";
 			<br>
 		";
 
-		if($person_to_hospital['hospital_uuid'] > 0) {
-			if(strlen($hospital['icon_url']) > 5) {
-				echo "<img style=\"float: left;\" src=\"".$hospital['icon_url']."\"><br>";
+		if($person_to_hospital['hospital_uuid'] != null) {
+			/*
+			if(strlen($person_to_hospital['icon_url']) > 5) {
+				echo "<img style=\"float: left;\" src=\"".$person_to_hospital['icon_url']."\"><br>";
 			}
+			*/
 			echo "
 				<label for=\"opt_status\"><b>Located at Hospital</b> </label>
 				<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$person_to_hospital['name']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 				<br>
 			";
 		}
+
+		// generate incident dropdown
+		$q = "
+			SELECT *
+			FROM incident
+			WHERE incident_id = '".$person_incident['incident_id']."';
+		";
+		$r = $global['db']->Execute($q);
+		$row = $r->FetchRow();
+		$eventName = $row['name'];
+
+		echo "
+			<label for=\"opt_status\"><b>Related to Event</b> </label>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$eventName."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<br>
+		";
 
 		echo "
 			<hr class=\"insideHrGreen\">
@@ -1205,6 +1267,14 @@ echo "<pre>".print_r($_POST, true)."</pre>";
 			$editEmail      = trim($_POST['email']);
 			$editReligion   = trim($_POST['opt_religion']);
 			$editRace       = trim($_POST['opt_race']);
+
+			if($editAddress  == '') { $editAddress  = null; }
+			if($editZip      == '') { $editZip      = null; }
+			if($editPhone    == '') { $editPhone    = null; }
+			if($editCell     == '') { $editCell     = null; }
+			if($editEmail    == '') { $editEmail    = null; }
+			if($editReligion == '') { $editReligion = null; }
+			if($editRace     == '') { $editRace     = null; }
 
 			if($editAddress   != $address)                        { saveContactRevision("home",  "Address",  $address, $editAddress); }
 			if($editZip       != $zip)                            { saveContactRevision("zip",   "Zip Code", $zip,     $editZip);     }
