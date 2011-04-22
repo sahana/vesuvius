@@ -97,6 +97,17 @@ var Utils = {
 		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 		var geocoder = Utils.codeAddress();
 	},
+	
+	showNotes : function() {
+		$("#dt_notes, #dt_notes_label").toggle();
+		$("#detailInfo > div, #detailInfo > label").toggle();
+		if ( $("#dt_notesTab > a").html() === "Notes" ) {
+			$("#dt_notesTab > a").html("Info");
+			// load w/ xajax.
+		} else {
+			$("#dt_notesTab > a").html("Notes");
+		}
+	},
 
 	showMap : function() {
 		if ( $("#map_canvas").css("visibility") === "hidden" ) {

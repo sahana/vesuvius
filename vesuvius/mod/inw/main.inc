@@ -179,6 +179,7 @@ function shn_inw_default() {
 			<div id="dt_eapLink" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">View/Edit Full Record</a></div>
 			<div id="close" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">Close</a></div>
 			<div id="dt_print" onclick="Utils.printDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">Print</a></div>
+			<!--div id="dt_notesTab" onclick="Utils.showNotes();"><a href="#" style="color:#6694E3; text-decoration: underline">Notes</a></div-->
 			<!--div id="showMap" onclick="Utils.showMap();"><a href="#" style="color:#6694E3; text-decoration: underline">Map</a></div-->
 			<div id="dt_image" style="float:left;padding:5px 5px 5px 5px; border:solid 1px #CCC;position:relative;z-index:2;" >
 				<!--span id="caption">caption here</span-->
@@ -200,6 +201,8 @@ function shn_inw_default() {
 				<div id="dt_location" style="font-weight:normal;"></div>
 				<label for="dt_comments">Comments</label>
 				<div id="dt_comments" style="font-weight: normal; height: 50px; overflow-y: auto;"></div>				
+				<label id="dt_notes_label" for="dt_notes" style="display:none;">Notes</label>
+				<div id="dt_notes" style="font-weight: normal; height: 400px; overflow-y: auto;display: none;"></div>				
 			</div>
 			<div id="dt_hospitalIcon" ></div>
 			<div id="map_canvas" class="map">Loading...</div>

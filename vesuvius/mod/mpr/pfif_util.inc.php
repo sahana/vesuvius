@@ -30,7 +30,7 @@ define ("PFIF_1_2_PID" , "person");
 define ("PFIF_1_2_LPID" , "duplicates");
 define ("PFIF_1_2_STS" , "status");
 
-define("PFIF_NOTE_CONTAINER_ID" , "pl.nln.nih.gov/note.container");
+define("PFIF_NOTE_CONTAINER_ID" , "pl.nlm.nih.gov/note.container");
 define ("MISSING_NODE_TAGNAME", "empty_child");
 
 define("PFIF_IMG_CACHE_DIR","/tmp/pfif_cache/");
@@ -50,17 +50,29 @@ function set_dummy_node_list($documentNode) {
 }
 
 /**
-        * Transform date to UTC format.
-        *
-        */
+ * Transform local time to UTC time.
+ *
+ */
 function utc_date($d) {
-
-    // If date had a 'T' separator and 'Z' as last character, then it is already in proper format. Otherwise, assume it needs conversion.
     if (!empty($d)) {
-    $ts = strtotime($d);
-    $z = gmdate('Y-m-d\TH:i:s\Z',$ts);
+       $ts = strtotime($d);
+       $z = gmdate('Y-m-d\TH:i:s\Z',$ts);
     } else {
-        $z = null;
+       $z = null;
+    }
+    return $z;
+}
+
+/**
+ * Transform UTC time to local time.
+ *
+ */
+function local_date($d) {
+    if (!empty($d)) {
+       $ts = strtotime($d);
+       $z = date('Y-m-d H:i:s',$ts);
+    } else {
+       $z = null;
     }
     return $z;
 }
@@ -190,17 +202,12 @@ function shn_map_status_to_pfif($status, $isvictim, $ver='1.2') {
     return $value;
 
 }
+
 /**
-         *    Map note's found (v1.1 & 1.2) and status (v1.2 only) fields to sahana opt_status value.
-         *
-         *    FIXME (chc 1/31/2010): Scan text for 'alive', 'well', 'dead', 'injured', 'hurt', etc and
-         *                   refine status as possible
-         *                   --  use 'unk' for can't determine status at all,
-         *                               'fnd' for found,  but health status indeterminate,
-         *                               'dec' for deceased and
-         *                               'inj' for injured?
-         */
-function shn_map_status_from_pfif($note) {
+ *    Map note's found and status fields to sahana opt_status value.
+*/
+function shn_map_status_from_pfif($status, $found, $old_status) {
+    // PFIF to PL mapping.
     $status_map =
         array('information_sought'=>'unk',
               'believed_alive'=>'ali',
@@ -208,20 +215,54 @@ function shn_map_status_from_pfif($note) {
               'believed_dead'=>'dec',
               'is_note_author'=>'ali');
 
-    $result = '';
+    // Overrider earlier statuses using this mapping.
+    $status_ranking_map = 
+       array('unk'=>array('unk'=>'unk',
+                          'ali'=>'ali',
+                          'mis'=>'mis',
+                          'dec'=>'dec',
+                          'fnd'=>'fnd'),
+             'mis'=>array('unk'=>'mis',
+                          'ali'=>'ali',
+                          'mis'=>'mis',
+                          'dec'=>'dec',
+                          'fnd'=>'fnd'),
+             'fnd'=>array('unk'=>'fnd',
+                          'ali'=>'ali',
+                          'mis'=>'fnd',
+                          'dec'=>'dec',
+                          'fnd'=>'fnd'),
+             'inj'=>array('unk'=>'inj',
+                          'ali'=>'ali',
+                          'mis'=>'inj',
+                          'dec'=>'dec',
+                          'fnd'=>'inj'),
+             'dec'=>array('unk'=>'dec',
+                          'ali'=>'ali',
+                          'mis'=>'dec',
+                          'dec'=>'dec',
+                          'fnd'=>'dec'),
+             'ali'=>array('unk'=>'ali',
+                          'ali'=>'ali',
+                          'mis'=>'ali',
+                          'dec'=>'dec',
+                          'fnd'=>'ali'));
 
-    // Look for PFIF 1.2 element in $note->text. If found, convert $note->status value,
-    $text1dot2 = split_text($note->text,PFIF_V_1_2);
-    $status = $text1dot2[PFIF_1_2_STS];
-
-    // otherwise use $note->found and return 'mis' or 'fnd'.
+    // Map new status from PFIF record.
+    $new_status = 'unk';  // default for unspecified status
+    $old_status = (empty($old_status))? 'unk' : $old_status; 
     if(!empty($status)) {
-       $result = $status;
-
-    } else {
-        $result = $note->found == 'true' ? 'fnd' : 'mis';
+       $new_status = $status_map[$status];
+    } 
+    // We have to do something with the "found" field if present. Have it
+    // outrank a concurrent status of "missing" or "unknown".
+    if ($found == 'true' && ($new_status == 'unk' || $new_status == 'mis')) {
+        $new_status = 'fnd';
     }
 
+    // Do the ranking mapping.
+    $result = $status_ranking_map[$old_status][$new_status];
+    //error_log("Old status: " . $old_status . " new status: " . $result); 
     return $result;
 }
 
@@ -233,23 +274,23 @@ function shn_map_status_from_pfif($note) {
  *
  */
 function shn_map_gender_to_pfif($personRecord, $source_person) {
-    $gender_map = array('unk'=>'', 'mal'=>'male', 'fml'=>'female'); // PFIF 1.2 defines an 'oth)er' category, but it is not clear what that means. The spec states that if gender is unknown it should be omitted.
-
-    // TODO: need to sort out 1.1 vs 1.2 sources. for now, only concerned with local records (chc 2/24/10)
-    $g = $gender_map[$personRecord['opt_gender']];
-    //DEBUG: error_log("mapped gender to ".$g);
+    $gender_map = array('unk'=>'', 'mal'=>'male', 'fml'=>'female'); // PFIF 1.2 defines an 'oth)er' category, but it is not  clear what that means.
+                                                                    // The spec states that if gender is unknown it should be omitted.
+    // TODO: factor in PFIF record
+    $g = '';
+    if (!empty($personRecord['opt_gender'])) {
+       $g = $gender_map[$personRecord['opt_gender']];
+       //DEBUG: error_log("mapped gender to ".$g);
+    }
     return $g;
 }
 
 function shn_map_gender_from_pfif($pfif_sex) {
-    $gender_map = array('male'=>'mal', 'female'=>'fml','other'=>'unk'); //// PFIF 1.2 defines an 'oth)er' category, but it is not clear what that means, so we map to unkown, which means indeterminate or otherwise unreportable as male or female. The spec states that if gender is unknown it should be omitted.
+    $gender_map = array('male'=>'mal','female'=>'fml','other'=>'unk'); //// PFIF 1.2 defines an 'oth)er' category, but it is not clear what that means, so we map to unkown, which means indeterminate or otherwise unreportable as male or female. The spec states that if gender is unknown it should be omitted.
 
-    if (empty($sex)) {
-        $g = 'unk';
-    } else {
-        $g = $gender_map[$sex];
-    }
+    return $gender_map[$pfif_sex];
 }
+
 /**
  *
  * Maps Approximate age, if given, or age range to PFIF age element.
@@ -258,20 +299,20 @@ function shn_map_gender_from_pfif($pfif_sex) {
  * @param person        Person instance containing original imported PFIF person record
  *
  */
-function shn_map_age_to_pfif($personRecord, $source_person) {
-    // TODO: need to sort out 1.1 vs 1.2 sources. for now, only concerned with local records (chc 2/24/10)
+function shn_map_age_to_pfif($personRecord) {
+    $age = '';
     if (!empty($personRecord['years_old'])) {
-        return $personRecord['years_old']; // perhaps from mpres
-    } else {
-        // TODO: if opt_age_range empty compute from DOB if present ?? (chc 3/10/2010)
-        return $personRecord['opt_age_range']; // perhaps from mpr.add: may be empty
+        $age = $personRecord['years_old'];   // perhaps from mpres
+    } else if (!empty($personRecord['minAge']) && !empty($personRecord['maxAge'])) {
+        $age = ($personRecord['maxAge']+$personRecord['minAge'])/2;
     }
+    return $age;
 }
 
 /**
      *
      * Maps PFIF age and/or date_of_birth fields to appropriate combination of Sahana
-     *  birth_date, years_old and opt_age_group
+     *  birth_date and years_old
      *
      * @param $age          contents of the person.age element
      * @param person       contents of the person.data_of_birth element
@@ -295,16 +336,16 @@ function shn_map_age_from_pfif($dob, $age, $source_date) {
     if (!empty($age)) {
         $range = explode('-',$age);
         if (count($range) == 1) {
-            $result['opt_age_group'] = $range[0];
+            $result['years_old'] = $range[0];
         } else {
-            $result['opt_age_group'] = round(($range[0]+$range[1])/2);
+            $result['years_old'] = round(($range[0]+$range[1])/2);
         }
     } else if (!empty($dob)) {
         $reftime = strtotime($source_date);
         $refdate = getdate($reftime);
         $birthtime = strtotime($dob);
         $birthday = getdate($birthtime);
-        $result['opt_age_group'] = $refdate['year'] - $birthday['year'];
+        $result['years_old'] = $refdate['year'] - $birthday['year'];
     }
     return $result;
 }

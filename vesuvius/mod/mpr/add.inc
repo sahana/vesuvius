@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @name         Missing Person Registry
  * @version      1.5
@@ -17,7 +18,6 @@
 
 include_once($global['approot']."/inc/lib_uuid.inc");
 include_once($global['approot']."/inc/lib_location.inc");
-
 
 /**
  * This function cleans the POST values
@@ -662,7 +662,7 @@ function shn_mpr_addmp_confirm() {
  * @access public
  * @return void
  */
-function shn_mpr_addmp_commit() {
+function shn_mpr_addperson_commit() {
 	/* LATER
 		global $global;
 		include_once($global['approot'].'inc/lib_dbentity/obj_person.inc');
@@ -678,61 +678,42 @@ function shn_mpr_addmp_commit() {
 	global $global;
 	global $conf;
 
-    include_once($global['approot'].'inc/lib_uuid.inc');
 	$audit_flag = defined(MPR_ADD_AUDIT_ENABLED) ? MPR_ADD_AUDIT_ENABLED : false;
 	//Basic Details : person_uuid
-	//@todo: soundex insert
 	$insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+	if(isset($_SESSION['mpr_add']['entry']['incident_id'])){
+		$insert_array['incident_id'] = $_SESSION['mpr_add']['entry']['incident_id'];
+	}
 	if(isset($_SESSION['mpr_add']['entry']['full_name'])){
 		$insert_array['full_name'] = $_SESSION['mpr_add']['entry']['full_name'];
-		shn_db_insert_phonetic($insert_array['full_name'],$insert_array['p_uuid']);
+	}
+	if(isset($_SESSION['mpr_add']['entry']['given_name'])){
+		$insert_array['given_name'] = $_SESSION['mpr_add']['entry']['given_name'];
 	}
 	if(isset($_SESSION['mpr_add']['entry']['family_name'])){
 		$insert_array['family_name'] = $_SESSION['mpr_add']['entry']['family_name'];
-		shn_db_insert_phonetic($insert_array['family_name'],$insert_array['p_uuid']);
 	}
 	if(isset($_SESSION['mpr_add']['entry']['local_name'])){
 		$insert_array['l10n_name'] = $_SESSION['mpr_add']['entry']['local_name'];
-		shn_db_insert_phonetic($insert_array['l10n_name'],$insert_array['p_uuid']);
 	}
-	shn_db_insert($insert_array,'person_uuid',$audit_flag, 'p_uuid');
-	$insert_array = null; // reset array
-
-
-	//Identity
-	$insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
-	if(isset($_SESSION['mpr_add']['entry']['idcard'])) {
-		$insert_array['serial'] = $_SESSION['mpr_add']['entry']['idcard'];
-		$insert_array['opt_id_type'] = 'nic';
-		shn_db_insert($insert_array,'identity_to_person',$audit_flag,'p_uuid');
-	}
-	if(isset($_SESSION['mpr_add']['entry']['passport'])) {
-		$insert_array['serial'] = $_SESSION['mpr_add']['entry']['passport'];
-		$insert_array['opt_id_type'] = 'pas';
-		shn_db_insert($insert_array,'identity_to_person',$audit_flag,'p_uuid');
-	}
-	if(isset($_SESSION['mpr_add']['entry']['drv_license'])) {
-		$insert_array['serial'] = $_SESSION['mpr_add']['entry']['drv_license'];
-		$insert_array['opt_id_type'] = 'dln';
-		shn_db_insert($insert_array,'identity_to_person', $audit_flag, 'p_uuid');
-	}
+	shn_db_insert($insert_array, 'person_uuid', $audit_flag, 'p_uuid');
 	$insert_array = null; // reset array
 
 
 	//Contacts
 	$insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
-	if(isset($_SESSION['mpr_add']['entry']['address'])){
+	if(!empty($_SESSION['mpr_add']['entry']['address'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['address'];
-		$insert_array['opt_contact_type'] = 'hom';
+		$insert_array['opt_contact_type'] = 'home';
+		shn_db_insert($insert_array,'contact', $audit_flag, 'pgoc_uuid');
 	}
-	shn_db_insert($insert_array,'contact', $audit_flag, 'pgoc_uuid');
 	$insert_array = null; // reset array
 
-	// chc added 3/9/2010 : insert email contact
-    $insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
-	if(isset($_SESSION['mpr_add']['entry']['phone'])){
+    	$insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+	if(isset($_SESSION['mpr_add']['entry']['email'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['email'];
-		$insert_array['opt_contact_type'] = 'emai';
+		$insert_array['opt_contact_type'] = 'email';
+	        shn_db_insert($insert_array,'contact', $audit_flag, 'pgoc_uuid');
 	}
 	$insert_array = null; // reset array
 
@@ -740,9 +721,8 @@ function shn_mpr_addmp_commit() {
 	if(isset($_SESSION['mpr_add']['entry']['phone'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['phone'];
 		$insert_array['opt_contact_type'] = 'curr';
-
+		shn_db_insert($insert_array,'contact', $audit_flag, 'pgoc_uuid');
 	}
-	shn_db_insert($insert_array,'contact', $audit_flag, 'pgoc_uuid');
 	$insert_array = null; // reset array
 
 
@@ -750,11 +730,13 @@ function shn_mpr_addmp_commit() {
 	if(isset($_SESSION['mpr_add']['entry']['mobile'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['mobile'];
 		$insert_array['opt_contact_type'] = 'cmob';
+		shn_db_insert($insert_array,'contact',$audit_flag,'pgoc_uuid');
 	}
-	shn_db_insert($insert_array,'contact',$audit_flag,'pgoc_uuid');
 	$insert_array = null; // reset array
 
 
+        // 4/11 ljn - What is this?
+    	$insert_array['poc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	/* This hack should be integrated with the lib_location */
 	//Starts
 	$i = $conf['mod_mpr_location_lower_limit'];
@@ -768,18 +750,18 @@ function shn_mpr_addmp_commit() {
 
 	if(isset($_SESSION['mpr_add']['entry']['zip'])) {
 		$insert_array['postcode'] = $_SESSION['mpr_add']['entry']['zip'];
+	        shn_db_insert($insert_array,'location_details', $audit_flag, 'poc_uuid');
 	}
-	shn_db_insert($insert_array,'location_details', $audit_flag, 'poc_uuid');
 	$insert_array = null; // reset array
-
 
 	//insert postal code to contact
 	$insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	if(isset($_SESSION['mpr_add']['entry']['zip'])){
-		$insert_array['contact_value']=$_SESSION['mpr_add']['entry']['zip'];
-		$insert_array['opt_contact_type']='zip';
+		$insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['zip'];
+		$insert_array['opt_contact_type'] = 'zip';
+		shn_db_insert($insert_array,'contact',$audit_flag,'pgoc_uuid');
 	}
-	shn_db_insert($insert_array,'contact',$audit_flag,'pgoc_uuid');
+
 	/*    $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	//Contacts
 	if(isset($_SESSION['mpr_add']['entry']['address']))
@@ -822,28 +804,13 @@ function shn_mpr_addmp_commit() {
 	$insert_array = null; // reset array
 
 
-	//Other Details
-	$insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
-	if(isset($_SESSION['mpr_add']['entry']['last_seen'])) {
-		$insert_array['last_seen'] = $_SESSION['mpr_add']['entry']['last_seen'];
-	}
-	if(isset($_SESSION['mpr_add']['entry']['last_clothing'])) {
-		$insert_array['last_clothing'] = $_SESSION['mpr_add']['entry']['last_clothing'];
-	}
-	if(isset($_SESSION['mpr_add']['entry']['comments'])) {
-		$insert_array['comments'] = $_SESSION['mpr_add']['entry']['comments'];
-	}
-	shn_db_insert($insert_array,'person_missing',$audit_flag,'p_uuid');
-	$insert_array = null; // reset array
-
-
 	//person_details
 	$insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	if(isset($_SESSION['mpr_add']['entry']['dob'])) {
 		$insert_array['birth_date'] = $_SESSION['mpr_add']['entry']['dob'];
 	}
-	if(isset($_SESSION['mpr_add']['entry']['opt_age_group'])) {
-		$insert_array['opt_age_group'] = $_SESSION['mpr_add']['entry']['opt_age_group'];
+	if(isset($_SESSION['mpr_add']['entry']['years_old'])) {
+		$insert_array['years_old'] = $_SESSION['mpr_add']['entry']['years_old'];
 	}
 	if(isset($_SESSION['mpr_add']['entry']['opt_gender'])) {
 		$insert_array['opt_gender'] = $_SESSION['mpr_add']['entry']['opt_gender'];
@@ -857,6 +824,15 @@ function shn_mpr_addmp_commit() {
 	if(isset($_SESSION['mpr_add']['entry']['opt_race'])) {
 		$insert_array['opt_race'] = $_SESSION['mpr_add']['entry']['opt_race'];
 	}
+	if(isset($_SESSION['mpr_add']['entry']['last_seen'])) {
+		$insert_array['last_seen'] = $_SESSION['mpr_add']['entry']['last_seen'];
+	}
+	if(isset($_SESSION['mpr_add']['entry']['last_clothing'])) {
+		$insert_array['last_clothing'] = $_SESSION['mpr_add']['entry']['last_clothing'];
+	}
+	if(isset($_SESSION['mpr_add']['entry']['other_comments'])) {
+		$insert_array['other_comments'] = $_SESSION['mpr_add']['entry']['other_comments'];
+	}
 	shn_db_insert($insert_array,'person_details',$audit_flag,'p_uuid');
 	$insert_array = null; // reset array
 
@@ -864,16 +840,12 @@ function shn_mpr_addmp_commit() {
 	//Insert Into person_status mis
 	$insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	$insert_array['opt_status'] = $_SESSION['mpr_add']['entry']['opt_status'];
+	$insert_array['last_updated'] = $_SESSION['mpr_add']['entry']['last_updated'];
+	$insert_array['creation_time'] = $_SESSION['mpr_add']['entry']['creation_time'];
 	$insert_array['isvictim'] = 'TRUE';
 	shn_db_insert($insert_array,'person_status',$audit_flag,'p_uuid');
 	$insert_array = null; // reset array
 
-
-	//insert into mutiple incidents
-	$insert_array['x_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
-	$insert_array['incident_id'] = $_SESSION['user_pref_ims_incident_id'];
-	shn_db_insert($insert_array,'resource_to_incident',$audit_flag,'x_uuid');
-	$insert_array = null; // reset array
 
 	/* todo: Later for now using the person_to_report to group
 	//Insert into pgroup
@@ -894,7 +866,7 @@ function shn_mpr_addmp_commit() {
 	//Insert Image if image save handler is set to database (chc 1/26/10 : add 'url' param)
     // print_r($_SESSION['mpr']['entry']);
 	if(!empty($_SESSION['mpr']['entry']['image_type']) && $conf['mod_mpr_upload_pic_handler']== 'database'){
-		// shn_image_to_db_ex($_SESSION['mpr_add']['entry']['p_uuid'], $_SESSION['mpr']['entry']['image'], $_SESSION['mpr']['entry']['image_type'], $_SESSION['mpr']['entry']['image_height'], $_SESSION['mpr']['entry']['image_width'],'','person');
+		//shn_image_to_db_ex($_SESSION['mpr_add']['entry']['p_uuid'], $_SESSION['mpr']['entry']['image'], $_SESSION['mpr']['entry']['image_type'], $_SESSION['mpr']['entry']['image_height'], $_SESSION['mpr']['entry']['image_width'],'','person');
 
 		shn_image_to_db_url2($_SESSION['mpr_add']['entry']['p_uuid'],
                              $_SESSION['mpr']['entry']['image'],
@@ -918,13 +890,60 @@ function shn_mpr_addmp_commit() {
 
 
 /**
+ * This function commits the given note data to the database.
+ * @access public
+ * @return void
+ */
+function shn_mpr_addnote_commit() {
+	/* LATER
+		global $global;
+		include_once($global['approot'].'inc/lib_dbentity/obj_person.inc');
+		$missing_person = new shn_Person($_SESSION['mpr_entry']['p_uuid']);
+		
+		foreach($_SESSION['mpr_entry'] as $k => $v){
+			if($k != 'seq')
+			echo '$missing_person->set_'."$k($v)<br>";
+		}
+	*/
+
+	// $insert_array[<field_name>] = value
+	global $global;
+	global $conf;
+
+        $key = "WHERE `p_uuid` = '" . $_SESSION['mpr_add']['entry']['p_uuid'] . "'";
+	//Other Details
+	if(isset($_SESSION['mpr_add']['entry']['last_seen'])) {
+                $insert_array = array();
+		$insert_array['last_seen'] = $_SESSION['mpr_add']['entry']['last_seen'];
+	        shn_db_update($insert_array, 'person_details', $key);
+	        $insert_array = null; // reset array
+	}
+
+	//Insert status into person_status
+        $insert_array = array();
+	$insert_array['opt_status'] = $_SESSION['mpr_add']['entry']['opt_status'];
+        if (isset($_SESSION['mpr_add']['entry']['last_updated'])) {
+	   $insert_array['last_updated'] = $_SESSION['mpr_add']['entry']['last_updated'];
+        }
+	shn_db_update($insert_array, 'person_status', $key);
+	$insert_array = null; // reset array
+
+	//go back to the main menu
+	//shn_mpr_default();    
+}
+
+
+
+/**
  * This function inserts the reporting person to the people registry
  * @param mixed $p_uuid
  * @access public
  * @return void
  */
 function shn_mpr_addmp_insert_reporter($p_uuid) {
-	//Reported person entry
+	$audit_flag = defined(MPR_ADD_AUDIT_ENABLED) ? MPR_ADD_AUDIT_ENABLED : false;
+
+	//Reported person entry 
 	$rep_uuid = shn_create_uuid('p');
 
 
@@ -933,9 +952,9 @@ function shn_mpr_addmp_insert_reporter($p_uuid) {
 	if(isset($_SESSION['mpr_add']['report_person']['rep_full_name'])){
 		$insert_array['full_name'] = $_SESSION['mpr_add']['report_person']['rep_full_name'];
 		// Insert into Phonetic words
-		shn_db_insert_phonetic($_SESSION['mpr_add']['report_person']['rep_full_name'],$insert_array['p_uuid']);
+		//shn_db_insert_phonetic($_SESSION['mpr_add']['report_person']['rep_full_name'],$insert_array['p_uuid']);
 	}
-	shn_db_insert($insert_array,'person_uuid',true,'p_uuid');
+	shn_db_insert($insert_array, 'person_uuid', $audit_flag, 'p_uuid');
 	$insert_array = null; // reset array
 
 
@@ -952,7 +971,7 @@ function shn_mpr_addmp_insert_reporter($p_uuid) {
 		$insert_array['opt_status'] = 'ali';
 		$insert_array['isvictim'] = 'FALSE';
 	}
-	shn_db_insert($insert_array,'person_status',true,'p_uuid');
+	shn_db_insert($insert_array,'person_status', $audit_flag, 'p_uuid');
 	$insert_array = null; // reset array
 
 
@@ -962,9 +981,9 @@ function shn_mpr_addmp_insert_reporter($p_uuid) {
 		// todo: make the location
 		$insert_array['location_id'] = '0';
 		$insert_array['address'] = $_SESSION['mpr_add']['report_person']['rep_address'];
-		$insert_array['opt_person_loc_type'] = 'hom';
+		$insert_array['opt_person_loc_type'] = 'home';
+	        shn_db_insert($insert_array,'location_details', $audit_flag,'poc_uuid');
 	}
-	shn_db_insert($insert_array,'location_details',true,'poc_uuid');
 	$insert_array = null; // reset array
 
 
@@ -972,17 +991,17 @@ function shn_mpr_addmp_insert_reporter($p_uuid) {
 	if(isset($_SESSION['mpr_add']['report_person']['rep_phone'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['report_person']['rep_phone'];
 		$insert_array['opt_contact_type'] = 'curr';
+	        shn_db_insert($insert_array,'contact', $audit_flag, 'pgoc_uuid');
 	}
-	shn_db_insert($insert_array,'contact',true,'pgoc_uuid');
 	$insert_array = null; // reset array
 
 
 	$insert_array['pgoc_uuid'] = $rep_uuid;
 	if(isset($_SESSION['mpr_add']['report_person']['rep_email'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['report_person']['rep_email'];
-		$insert_array['opt_contact_type'] = 'emai';
+		$insert_array['opt_contact_type'] = 'email';
+	        shn_db_insert($insert_array,'contact', $audit_flag,'pgoc_uuid');
 	}
-	shn_db_insert($insert_array,'contact',true,'pgoc_uuid');
 	$insert_array = null; // reset array
 
 
@@ -1012,7 +1031,7 @@ function shn_add_person_to_report($p_uuid, $rep_uuid, $relation) {
 	} else {
 		$insert_array['relation'] = "Not Specified";
 	}
-	shn_db_insert($insert_array,'person_to_report',true,'p_uuid');
+	shn_db_insert($insert_array,'person_to_report', $audit_flag, 'p_uuid');
 }
 
 
@@ -1028,7 +1047,7 @@ function shn_add_get_tracker_details($p_uuid) {
 
 	$rs = $global['db']->GetRow(
 		"SELECT a.full_name, b.address , c.contact_value as phone, d.contact_value as email FROM person_uuid a ".
-		"LEFT OUTER JOIN location_details b ON a.p_uuid = b.poc_uuid AND b.opt_person_loc_type = 'hom' ".
+		"LEFT OUTER JOIN location_details b ON a.p_uuid = b.poc_uuid AND b.opt_person_loc_type = 'home' ".
 		"LEFT OUTER JOIN contact c ON a.p_uuid = c.pgoc_uuid AND c.opt_contact_type = 'curr' ".
 		"LEFT OUTER JOIN contact d ON a.p_uuid = d.pgoc_uuid AND d.opt_contact_type = 'email' ".
 		"WHERE a.p_uuid = '$p_uuid'");
