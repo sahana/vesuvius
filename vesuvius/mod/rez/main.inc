@@ -82,7 +82,7 @@ function shn_rez_default() {
 	global $global;
 
 	// if page_id, then render that page from db
-	if (isset($_GET['page_id'])) {
+	if(isset($_GET['page_id'])) {
 
 		// hack to download the google doc for the PLUS documentation
 		if($_GET['page_id'] == "-45") {

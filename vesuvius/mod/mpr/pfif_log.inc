@@ -1,17 +1,4 @@
 <?php
-/**
- * @name         Missing Person Registry
- * @version      1.5
- * @package      mpr
- * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
- * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
- * @link         https://pl.nlm.nih.gov/about
- * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0307
- */
-
-
 // TODO: Need to add validate() method to be called by save() and update()
 
 require_once("../../inc/handler_db.inc");
@@ -30,26 +17,6 @@ abstract class Pfif_Log {
     public $note_count = 0;
 
     public function __construct() {}
-
-    /**
-     * Fix MySQL date for use in PFIF request
-     *
-     * @param <DATETIME in MySQL format> $d
-     * @return <DATETIME in PFIF UTC format>
-     */
-    public static function fix_entry_date($d) {
-        return str_replace(' ','T',$d).'Z';
-    }
-
-    /**
-     * Fix PFIF UTC date for use in MySQL request
-     *
-     * @param <DATETIME in PFIF UTC format>
-     * @return <DATETIME in MySQL format> $d
-     */
-    public static function unfix_entry_date($d) {
-        return substr(str_replace('T',' ',$d),0,strlen($d)-1);
-    }
 
     public function start($repos_id, $start_time, $mode, $log_table) {
         if ($this->status == null ||
@@ -88,29 +55,34 @@ abstract class Pfif_Log {
             *                  String last entries from harvested repository, and
             *                  int count of person and
             *                  int note records harvested.
+            *   @param array() String min_entry_date and skip request params
             *   @param String  The operation status may be one of:
             *       - paused : the log's cumulative counts are being updated for a continuing operation
             *       - completed : the log's cumulative counts are being updated and the log record should be closed
             *       - error : the last operation failed. TBD what information is available
             *
             */
-    public function stop($end_time,$log_info,$log_status='completed') {
-        // var_dump("pfif_log:stopping:\n",$this);
+    public function stop($end_time,$log_info,$req_params,$log_status='completed') {
+        //var_dump("pfif_log:stopping:\n",$this);
         if ($this->status != 'completed') {
             $this->status=$log_status;
             $this->end_time =  date(LOG_DATE_FORMAT,$end_time);
             if (empty($this->first_entry)) {
                 $this->first_entry = $log_info['first_entry'];
             }
-            $last_entry = self::unfix_entry_date($log_info['last_entry']);
-            // var_dump("checking last entry: ",$this->last_entry,$last_entry);
+            $last_entry = $log_info['last_entry'];
             if (!empty($last_entry) && strtotime($last_entry) > strtotime($this->last_entry)) {
-                print " updating last entry and count";
+                //print " updating last entry and last count\n";
                 $this->last_entry = $last_entry;
                 $this->last_count = $log_info['last_entry_count'];
             } else if (!empty($last_entry) && strtotime($last_entry) == strtotime($this->last_entry)) {
-                print " updating last entry count\n";
+                //print " updating last count\n";
                 $this->last_count += $log_info['last_entry_count'];
+            } else if (empty($this->last_entry)) {
+                // No new items so repeat old log entries.
+                //print " updating log with previous entries\n";
+                $this->last_entry = $req_params['min_entry_date'];
+                $this->last_count = $req_params['skip'];
             }
             $this->update_counts($log_info);
         } else {
@@ -118,7 +90,7 @@ abstract class Pfif_Log {
              *  have been flushed. Throw runtime exception reporting error. */
             throw new RuntimeException("DESIGN ERROR: log->stop called in completed state");
         }
-        // var_dump("\npfif_log:stopped:\n",$this);
+        //var_dump("\npfif_log:stopped:\n",$this);
         return true;
     }
 
@@ -136,8 +108,8 @@ abstract class Pfif_Log {
     }
 
     /*
-            * DB layer methods
-            */
+     * DB layer methods
+     */
     public function save($log_table) {
     global $global,$conf;
         $status = false;
@@ -146,7 +118,7 @@ abstract class Pfif_Log {
         } else {
             $insert_array = $this->copy_vars_to_array();
             try {
-                shn_db_insert($insert_array,$log_table,false);
+                shn_db_insert($insert_array, $log_table, false);
                 $msg = $global['db']->ErrorMsg();
                 if (!empty($msg)) {
                     throw new RuntimeException($msg);

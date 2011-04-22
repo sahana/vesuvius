@@ -13,13 +13,15 @@
 
 
 require_once("../../inc/handler_db.inc");
-require_once("pfif_harvest_log.inc");
+require_once("pfif_harvest_person_log.inc");
+require_once("pfif_harvest_note_log.inc");
 require_once("pfif_export_log.inc");
-define("UTC_DATE_FORMAT","Y-m-d\TH:i:s\Z");
+require_once("pfif_util.inc.php");
 class Pfif_Repository {
     public $id;
     public $name;
     public $base_url;
+    public $resource_type;
     public $role;
     public $granularity;
     public $deleted_record;
@@ -32,94 +34,96 @@ class Pfif_Repository {
     public $total_notes;
 
     protected $is_new = true;      // Record has not been saved
-    protected $harvest_log = null; // FIXME: chc 4/27/10 : why are separate logs needed, isn't it
-                                   //         true that only one or the other is possible based on $role?
-    protected $export_log  = null;
+    protected $log = null;
 
     public function __construct()
     {
     }
 
     /**
-     * is_ready_for_import determines whether an inbound harvest operation
-     * can be initiated for this repository. The conditions include a test for
-     * role (must be 'source'), harvest not already in progress and time since last harvest.
+     * is_ready_for_harvest determines whether a harvest can be initiated
+     * for this repository. The conditions include a test for proper role, harvest
+     * not already in progress and time since last harvest.
      *
-     * @return @code(true) if operation is permissible, otheriwse @code(false)
+     * @return @code(true) if harvest is permissible, otherwise @code(false)
+     * @param dir  direction ('in' or 'out')
      * @param datetime  scheduled time (default = now)
      *
      */
-    public function is_ready_for_import($import_time = null) {
+    public function is_ready_for_harvest($dir, $time = null) {
 
-        // Make sure role is 'source' (can't do a scheduled import to a sink)
-        // and that import interval is not 0 (scheduled import has been disabled)
-        if ($this->role != 'source' || $this->sched_interval_minutes == 0) {
+        // Make sure role is correct (e.g. can't do a scheduled import to a sink)
+        if (($dir == 'out' && $this->role != 'sink') || ($dir == 'in' && $this->role != 'source')) {
+            return false;
+        }
+        // Is harvest interval 0? (scheduled harvest has been disabled)
+        if ($this->sched_interval_minutes == 0) {
             return false;
         }
 
-        // If nothing has been logged, repository is ready for initial import.
-        $log_end = $this->harvest_log->end_time;
-        // var_dump('log_end',$log_end,'first_entry',$this->first_entry);
+        // If nothing has been logged, repository is ready for initial harvest.
+        $log_end = $this->log->end_time;
+        //var_dump('log_end', $log_end, 'first_entry', $this->first_entry);
         if ($this->first_entry == NULL || empty($log_end)) {
             return true;
         }
 
-        // Verify that a import is not already in progress
-        if (!empty($this->harvest_log) && $this->harvest_log->status == 'started') {
-            return false; // FIXME: if sched time has elapsed and any times are 0 then record should be marked in error and return value shoudl be 'ready'
+        // Verify that a harvest is not already in progress
+        if (!empty($this->log) && $this->log->status == 'started') {
+            return false;
         }
 
         // Check whether sched time is greater than last log end_time
-        $sched_time = empty($import_time) ? time() : $import_time;
+        $sched_time = empty($time) ? time() : $time;
         $delta = $this->sched_interval_minutes * 60;
-        $comp_time = strtotime($log_end) + $delta - 30;  // chc 8/19/10 : allow 30 second window
+        $comp_time = strtotime($log_end) + $delta - 60;  // allow 60 second window
         $ready = ($comp_time <= $sched_time);
-        var_dump('sched_time',$sched_time,'delta',$delta,'comp_time',$comp_time,'ready',$ready);
+        //var_dump('sched_time',$sched_time,'delta',$delta,'comp_time',$comp_time,'ready',$ready);
         return ($ready);
     }
 
-    public function get_harvest_request_params() {
+    public function get_request_params() {
         $params = array();
-        // var_dump("log contains",$this->harvest_log);
-        if (empty($this->harvest_log) || empty($this->harvest_log->last_entry)) {
+        //var_dump("log contains", $this->log);
+        if (empty($this->log) || empty($this->log->last_entry)) {
             $params['min_entry_date'] = '2010-01-01T00:00:01Z';
-        } else if ($this->harvest_log->last_entry == "0000-00-00 00:00:00") {
-            $params['min_entry_date'] = Pfif_Log::fix_entry_date($this->harvest_log->first_entry); // start at time of first entry logged
+        } else if ($this->log->last_entry == "0000-00-00 00:00:00") {
+            $params['min_entry_date'] = utc_date($this->log->first_entry); // start at time of first entry logged
         } else {
-            $params['min_entry_date'] = Pfif_Log::fix_entry_date($this->harvest_log->last_entry); // start at time of last entry date logged
-        } // FIXME: should also check for non 0 first_entry.  If found, then set record needs to be declared in error and new record opened.
-        $params['skip'] = $this->harvest_log->last_count; // TODO: last entry count if last entry > first entry, otherwise
-                             // have to look back a record to see if there are more records to skip
-        $params['max_results'] = 200; // get the max FIXME: 8/18/2010 chc : as of today, 200 results in a server error (500), in any event we should be getting this from the $params field?
+            $params['min_entry_date'] = utc_date($this->log->last_entry); // start at time of last entry date logged
+        } 
+        $params['skip'] = $this->log->last_count;
         return $params;
     }
+
     /**
-     * start_harvest validates that harvest is permissible and updates
-     * harvest_log to indicate that a harvest operation is in progress.
+     * start_harvest validates that the import/export is permissible and updates
+     * log to indicate that a harvest is in progress.
      *
      * @throws RuntimeException if repository is not ready for harvest
      * @return @void
-     * @param String  harvest mode 'scheduled', 'manual' or 'test'
-     * @param String  harvest direction 'in' or 'out'
+     * @param String  mode 'scheduled', 'manual' or 'test'
+     * @param String  direction 'in', 'update' or 'out'
      */
     private function is_logrecord_done($start_time) {
         // ($start_time - $log_start_time) > $this->log_granularity)
-        $log_start  = strtotime($this->harvest_log->start_time);
+        $log_start  = strtotime($this->log->start_time);
         $gran = date_parse($this->log_granularity);
         $gran_secs = 3600*$gran['hour']+60*$gran['minute']+$gran['second'];
         $done = ($start_time - $log_start >= $gran_secs);
+        //var_dump($done, $start_time, $log_start, $gran_secs);
         return $done;
     }
-    public function start_harvest($mode,$direction) {
+    public function start_harvest($mode, $direction) {
         $start_time = time();
-        if ($this->is_ready_for_import($start_time)) {
-            $log = $this->harvest_log;
+        if ($this->is_ready_for_harvest($direction, $start_time)) {
+            $log = $this->log;
             if ($log->status == 'paused' && $this->is_logrecord_done($start_time)) {
                 $log->status = 'completed';
                 $log->update();
                 print "start_harvest: closed log record with start time ".$log->start_time."\n";
             }
-            $this->harvest_log->start($this->id,$start_time,$mode,$direction);
+            $this->log->start($this->id, $start_time, $mode, $direction);
         } else {
             throw new RuntimeException("Invalid start request: repository not ready.");
         }
@@ -132,24 +136,25 @@ class Pfif_Repository {
      * @throws RuntimeException if repository is not ready for harvest
      * @return @void
      * @param boolean  @code(true) if completed successfully, otherwise @code(false)
+     * @param array() request params
      * @param array() harvest statistics (@see pfif.php and pfif_cron_import.php)
      *
      * @todo update repos last_entry and counts
      */
-    public function end_harvest($success,$info_array=array()) {
+    public function end_harvest($success,$req_params,$info_array=array()) {
         // Verify that harvest is in progress
-        if ($this->harvest_log->status != 'started') {
+        if ($this->log->status != 'started') {
             throw new RuntimeException('Invalid end request: no harvest in progress.');
         }
 
         // If request was not successful, log 'error' otherwise
         // check log_granularity and if reached log 'completed' otherwise 'paused'
-        $log_start  = strtotime($this->harvest_log->start_time);
+        $log_start  = strtotime($this->log->start_time);
         $end_time = time();
         $end_status = '';
         $gran = date_parse($this->log_granularity);
         $gran_secs = 3600*$gran['hour']+60*$gran['minute']+$gran['second'];
-        // var_dump('log_start',$log_start,'end_time',$end_time,'log_granularity',$gran_secs);
+        //var_dump('log_start',$log_start,'end_time',$end_time,'log_granularity',$gran_secs);
         if (!$success) {
             $end_status = 'error';
         } else if ($end_time - $log_start <= $gran_secs) {
@@ -157,13 +162,13 @@ class Pfif_Repository {
         } else {
             $end_status = 'completed';
         }
-        // var_dump('end status',$end_status);
-        $this->harvest_log->stop($end_time,$info_array,$end_status);
+        //var_dump('end status',$end_status);
+        $this->log->stop($end_time,$info_array,$req_params,$end_status);
         $this->update_summary($info_array);
     }
 
     private function update_summary($info_array) {
-        // var_dump('update_summary: info_array',$info_array);
+        //var_dump('update_summary: info_array',$info_array);
         if (empty($this->first_entry)) {
             $this->first_entry = $info_array['first_entry'];
         }
@@ -173,8 +178,6 @@ class Pfif_Repository {
         $this->save(); // TODO: can this return a status that needs to be reported to caller?
     }
 
-    public function is_ready_for_export() {
-    }
 
     /**
     * Create a Pfif_Repository from provided attributes and store in database.
@@ -200,9 +203,13 @@ class Pfif_Repository {
 
         $log = null;
         if (isset($pr->role) && $pr->role == 'source') {
-            $pr->harvest_log = new Pfif_Harvest_Log();
+            if ($pr->resource_type == 'person') {
+               $pr->log = new Pfif_Harvest_Person_Log();
+            } else {
+               $pr->log = new Pfif_Harvest_Note_Log();
+            }
         } else if (isset($pr->role) && $pr->role == 'sink') {
-            $pr->export_log = new Pfif_Export_Log();
+            $pr->log = new Pfif_Export_Log();
         }
 
         // Return instance regardless of save status.
@@ -217,11 +224,7 @@ class Pfif_Repository {
     }
 
     public function get_log() {
-        if ($this->role == 'source') {
-            return $this->harvest_log;
-        } else {
-            return $this->export_log;
-        }
+        return $this->log;
     }
 
     public static function find($where_clause = '1') {
@@ -235,9 +238,9 @@ class Pfif_Repository {
             error_log("ERROR: find ".$where_clause." failed! ".$global['db']->_errorMsg."\n");
         } else {
             foreach ($rs as $id => $row) {
-//                var_dump($id,$row);
+                //var_dump($id,$row);
                 $pr = self::parse_resultset($id, $row, true /* include log */);
-//                var_dump('Parsed Object',$pr);
+                //var_dump('Parsed Object',$pr);
                 $r_list[$id] = $pr;
             }
             unset($row);
@@ -255,8 +258,9 @@ class Pfif_Repository {
         return $r_list;
     }
 
-    public static function find_source($name = 'all') {
+    public static function find_source($type, $name = 'all') {
         $where_clause = "`role`='source' ";
+        $where_clause .= "AND `resource_type`='" .$type."' ";
         $where_clause .= ($name == 'all')
                                 ? '' :
                                 "AND `name` = '".addslashes($name)."'";
@@ -361,19 +365,34 @@ class Pfif_Repository {
         }
         unset($prop_value);
 
-        $direction = $pr->role == 'source' ? 'in' : 'out';
+        $direction = ($pr->role == 'source')? 'in' : 'out';
         if (isset($pr->role) && $pr->role == 'source') {
-            $log = Pfif_Harvest_Log::get_last($id,$direction);
-            // var_dump("parse_resultset: log =",$log);
+            if ($pr->resource_type == 'note') {
+               $log = Pfif_Harvest_Note_Log::get_last($id, $direction);
+            } else {
+               $log = Pfif_Harvest_Person_Log::get_last($id, $direction);
+            }
+            //var_dump("parse_resultset: log =",$log);
             if (empty($log)) {
-                $log = new Pfif_Harvest_log();
+                if ($pr->resource_type == 'person') {
+                   $log = new Pfif_Harvest_Person_Log();
+                } else {
+                   $log = new Pfif_Harvest_Note_Log();
+                }
                 $log->direction = $direction;
                 $log->repository_id = $id;
             }
-            $pr->harvest_log = $log;
+            $pr->log = $log;
+            //var_dump("parse_resultset: log =",$log);
         } else if (isset($pr->role) && $pr->role == 'sink') {
-            // TODO: get last entry if any;
-            $pr->export_log = new Pfif_Export_Log();
+            $log = Pfif_Export_Log::get_last($id, $direction);
+            //var_dump("parse_resultset: log =",$log);
+            if (empty($log)) {
+                $log = new Pfif_Export_Log();
+                $log->direction = $direction;
+                $log->repository_id = $id;
+            }
+            $pr->log = $log;
         }
 
         return $pr;
@@ -396,8 +415,7 @@ class Pfif_Repository {
         }
         // Unset non-db attributes
         unset($props['is_new']);
-        unset($props['harvest_log']);
-        unset($props['export_log']);
+        unset($props['log']);
         foreach ($props as $prop_name => $prop_value) {
             if ($prop_value != NULL) {
                 $name = trim($prop_name);

@@ -272,7 +272,7 @@ function shn_main_checkEventPermissions() {
 		isset($_GET['shortname']) ? $short = $_GET['shortname'] : $short = "";
 
 		// these 3 modules are event dependent, so kick a user out if they try to access them without first choosing an event
-		if(($short == "") && (($global['module'] == "inw") || ($global['module'] == "rap") || ($global['module'] == "rez"))) {
+		if(($short == "") && (($global['module'] == "inw") || ($global['module'] == "rap"))) {
 			$global['module'] = $conf['default_module'];
 			$global['action'] = $conf['default_action'];
 
