@@ -17,6 +17,7 @@ global $server;
 global $conf;
 require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 require_once($global['approot'].'/mod/plus/lib_plus.inc');
+require_once($global['approot'].'/mod/plus/errors.php');
 require_once($global['approot'].'3rd/nusoap/lib/nusoap.php');
 
 // determine if web services are on or off

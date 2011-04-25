@@ -17,4 +17,4 @@ $conf['mod_plus_dependencies'] = "pop(0.1):lpf(0.1)";
 $conf['mod_plus_version']      = "2.0.0";
 
 // api version to default to if one is not specified
-$conf['mod_plus_latest_api'] = "1.9.0";
+$conf['mod_plus_latest_api'] = "1.9.1";
