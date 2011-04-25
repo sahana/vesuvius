@@ -15,11 +15,11 @@
 // load nusoap client library
 require_once("../../3rd/nusoap/lib/nusoap.php");
 
-//$wsdl     = "https://pl.nlm.nih.gov/?wsdl";
+$wsdl     = "https://pl.nlm.nih.gov/?wsdl";
 //$wsdl     = "http://plstage.nlm.nih.gov/~gmiernicki/sahanaDev/www/index.php?wsdl";
 //$wsdl     = "http://plstage.nlm.nih.gov/~gmiernicki/sahanaDev/www/index.php?wsdl&api=1.9.0";
-$wsdl     = "http://plstage.nlm.nih.gov/~gmiernicki/sahanaDev/www/index.php?wsdl&api=2.0.0";
-
+//$wsdl     = "http://plstage.nlm.nih.gov/~gmiernicki/sahanaDev/www/index.php?wsdl&api=2.0.0";
+//$wsdl     = "http://plstage.nlm.nih.gov/~gmiernicki/sahanaDev/www/index.php?wsdl&api=1.9.1";
 
 $client   = new nusoap_client($wsdl);
 $client->useHTTPPersistentConnection();
@@ -32,7 +32,12 @@ if ( $client->getError() ) {
 
 
 //$result = $client->call('version', array(null));
-$result = $client->call('getIncidentList', array(null));
+//$result = $client->call('getIncidentList', array(null));
+
+//$result = $client->call('getHospitalList', array(null));
+//$result = $client->call('getHospitalData', array('hospital_uuid'=>1));
+$result = $client->call('getHospitalPolicy', array('hospital_uuid'=>2));
+
 //$result = $client->call('basicSearch', array('searchString'=>'e', 'incidentShortName'=>'cmax2009'));
 //$result = $client->call('basicSearchWithRange', array('searchString'=>'jos', 'incidentShortName'=>'cmax2009', 'startFrom'=>2, 'limit'=>1));
 //$result = $client->call('basicSearchAll', array('searchString'=>'jos'));

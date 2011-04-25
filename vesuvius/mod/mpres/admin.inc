@@ -8,7 +8,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0404
+ * @lastModified 2011.0422
  */
 
 
@@ -19,27 +19,7 @@
  * @return void
  */
 function shn_mpres_adm_default() {
-	global $global;
-	?><h2>Missing Person Registry Email Service Settings</h2>
-		<p><?= _t('The MPR (Missing Person Registry) Email Service is a tool to allow people to report missing persons via email.'); ?></p><br></br>
-		<div>
-			<h3><b><em><?= (_t("Features Include:")) ?></em></b></h3>
-		</div>
-		<br></br>
-		<ul>
-			<li><?= _t('Downloads Missing Person data that has been submitted to an email account via POP/IMAP'); ?></li>
-			<li><?= _t('Extracts and parses the missing person\'s name from the subject line of an email (can be in various formats)'); ?></li>
-			<li><?= _t('Parses the email body for image attachments and downloads them into a temporary location'); ?></li>
-			<li><?= _t('Allows a user with sufficient priviledges the ability to import (or delete) downloaded email submissions into the MPR'); ?></li>
-			<li><i><?= _t('Accepts MPR requests from other applications in an XML format (todo: future component)'); ?></i></li>
-		</ul>
-		<strong><? echo _t("Description of Actions:"); ?></strong><br/>
-		<ul>
-			<li><a href="index.php?mod=mpres&act=adm_configuration"><b><?= _t('Configuration Settings'); ?> </b></a><br/><?= _t('Configure the settings specific to the email account gathering MPR data.'); ?></li>
-			<li><a href="index.php?mod=mpres&act=adm_log"><b><?= _t('Check Email Import Log'); ?> </b> </a><br/><?= _t('Check the log/remove entries that have been committed to the Missing Person Registry'); ?></li>
-		</ul>
-		<br/>
-	<?
+	 shn_mpres_adm_configuration();
 }
 
 
@@ -186,7 +166,7 @@ function shn_mpres_adm_configuration() {
 			shn_form_text("Number of image attachments to allow in each email (1-20)","mpres_attachments",null,array("req"=>true,"value"=>$attachments));
 		shn_form_fsclose();
 
-		shn_form_fsopen("Incident");
+		shn_form_fsopen("Event");
 			shn_mpres_incident_select($incident_id);
 		shn_form_fsclose();
 
@@ -217,7 +197,7 @@ function shn_mpres_import_data(){
  */
 function shn_mpres_incident_select($incident_id){
 	global $global;
-	?> <label for="mpres_incident">This is the incident new persons will be assigned to</label><select name="mpres_incident_id"><?php
+	?> <label for="mpres_incident">The event chosen here will be assigned to all persons reported using unstructured emails.</label><select name="mpres_incident_id"><?php
 	$query1 = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";
 	$result1 = $global['db']->Execute($query1);
 	while($row1 = $result1->FetchRow()){

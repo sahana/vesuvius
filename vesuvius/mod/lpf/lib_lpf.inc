@@ -1115,7 +1115,7 @@ class arr2xml {
 	}
 
 	function get_xml() {
-		$header = "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?><root>";
+		$header = "<?xml version=\"1.0\" encoding=\"utf-8\"?><root>";
 		$footer = "</root>";
 
 		echo $header;
