@@ -34,9 +34,9 @@ if ( $client->getError() ) {
 //$result = $client->call('version', array(null));
 //$result = $client->call('getIncidentList', array(null));
 
-//$result = $client->call('getHospitalList', array(null));
+$result = $client->call('getHospitalList', array(null));
 //$result = $client->call('getHospitalData', array('hospital_uuid'=>1));
-$result = $client->call('getHospitalPolicy', array('hospital_uuid'=>2));
+//$result = $client->call('getHospitalPolicy', array('hospital_uuid'=>2));
 
 //$result = $client->call('basicSearch', array('searchString'=>'e', 'incidentShortName'=>'cmax2009'));
 //$result = $client->call('basicSearchWithRange', array('searchString'=>'jos', 'incidentShortName'=>'cmax2009', 'startFrom'=>2, 'limit'=>1));
