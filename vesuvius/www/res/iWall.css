@@ -391,18 +391,71 @@ h1 {
 
 }
 
-#detailInfo div  {
+#dt_image {
+	float:left;
+	padding:0px 5px 5px 5px; 
+	border:solid 0px #CCC;
+	position:relative;
+	z-index:2;
+}
+
+#dt_image ul {
+	padding: 10px;
+	margin: 0px 0px 0px 0px !important;
+	border: solid 2px #E0ECFF;
+	margin-top: 20px;
+	max-height: 360px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+#dt_image ul li {
+	text-decoration : underline;
+	color : #6694E3;
+	list-style : none;
+	text-align : left;
+	cursor : pointer;
+	padding: 5px;
+	margin-left: 0px !important;
+	margin-bottom: 5px;
+	width: 200px;
+}
+
+
+
+#dt_notes {
+	font-weight: normal; 
+	height: 386px; 
+	overflow-y: auto; 
+	overflow-x: hidden;
+	display: none; 
+	width: 465px !important;
+	border: dashed 1px #E0ECFF !important;
+	margin-left: -10px !important;
+	margin-top: 16px !important;
+}
+
+#dt_notes > div, #dt_notes > textarea {
 	margin-bottom: 10px;
-	/*background-color: #E0ECFF;*/
+	width: 80%;
+	padding:5px 5px 5px 10px;
+}
+
+#detailInfo > div  {
+	margin-bottom: 10px;
 	border: solid 2px #E0ECFF;
 	width: 350px;
 	padding:5px;
-	/*border-radius: 2px;
-	-moz-border-radius: 2px;
-	-webkit-border-radius: 2px;*/
 }
 
-#detailInfo label {
+#detailInfo legend {
+	background-color: transparent !important;
+	padding-left: 0px !important;
+	
+
+}
+
+#detailInfo label, #dt_image label, #detailInfo legend {
 	margin-bottom: 0px;
 	background-color: #E0ECFF;
 	color: black;
@@ -613,7 +666,6 @@ h1 {
 }
 
 p {padding: 10px; }
-ul {padding: 0px 0px 0 40px; }
 table {border-collapse: collapse; border: 3px solid #444;}
 td {padding: 4px;}
 

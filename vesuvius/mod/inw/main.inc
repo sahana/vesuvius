@@ -21,6 +21,7 @@ include_once ($global['approot'].'/mod/inw/xajax.inc');
 shn_xajax_registerFunction('inw_getData');
 shn_xajax_registerFunction('inw_checkForChanges');
 shn_xajax_registerFunction('inw_hasNextPage');
+shn_xajax_registerFunction('inw_getNotes');
 
 
 
@@ -48,6 +49,7 @@ function shn_inw_default() {
 		<![endif]-->
 
 			<input type="text" id="jsonHolder" style="display:none" />
+			<input type="text" id="jsonNotes" style="display:none" />
 			<input type="text" id="SOLRFacets" style="display:none" />
 			<input type="text" id="shortName" style="display:none" value="<?= $_REQUEST["shortname"] ?>" />
 			<input type="hidden" id="searchMode" value="<?= $conf["enable_solr_for_search"] ? "solr" : "sql" ?>" />
@@ -177,13 +179,14 @@ function shn_inw_default() {
 		</div>
 		<div id="detailsPane">
 			<div id="dt_eapLink" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">View/Edit Full Record</a></div>
-			<div id="close" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">Close</a></div>
-			<div id="dt_print" onclick="Utils.printDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">Print</a></div>
-			<!--div id="dt_notesTab" onclick="Utils.showNotes();"><a href="#" style="color:#6694E3; text-decoration: underline">Notes</a></div-->
+			<div id="close" onclick="Utils.closeDetail();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Close</a></div>
+			<div id="dt_print" onclick="Utils.printDetail();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Print</a></div>
+			<div id="dt_notesTab" onclick="Utils.showNotes();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Notes</a></div>
 			<!--div id="showMap" onclick="Utils.showMap();"><a href="#" style="color:#6694E3; text-decoration: underline">Map</a></div-->
-			<div id="dt_image" style="float:left;padding:5px 5px 5px 5px; border:solid 1px #CCC;position:relative;z-index:2;" >
+			<div id="dt_image" >
 				<!--span id="caption">caption here</span-->
 			</div>
+			
 			<div id="detailInfo" style="text-align:left;float:left;margin-top:5px;margin-left:20px; width:300px; position:relative; border: solid 0px #CCC;">
 				<!--label for="dt_uuid">ID</label>
 				<div id="dt_uuid" style="font-weight:normal;"></div-->
@@ -201,8 +204,8 @@ function shn_inw_default() {
 				<div id="dt_location" style="font-weight:normal;"></div>
 				<label for="dt_comments">Comments</label>
 				<div id="dt_comments" style="font-weight: normal; height: 50px; overflow-y: auto;"></div>				
-				<label id="dt_notes_label" for="dt_notes" style="display:none;">Notes</label>
-				<div id="dt_notes" style="font-weight: normal; height: 400px; overflow-y: auto;display: none;"></div>				
+				<!--label id="dt_notes_label" for="dt_notes" style="display:none;">Note Contents</label-->
+				<div id="dt_notes"></div>				
 			</div>
 			<div id="dt_hospitalIcon" ></div>
 			<div id="map_canvas" class="map">Loading...</div>

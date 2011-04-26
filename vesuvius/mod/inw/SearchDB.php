@@ -253,6 +253,7 @@ class SearchDB
 		}
 		
 		$proc = "CALL PLSearch('$this->searchTerm', '$this->statusString', '$this->genderString', '$this->ageString', '$this->hospitalString', '$this->incident', '$this->sortBy', $this->pageStart, $this->perPage, @allCount)";
+		echo $proc;
 		$res = $mysqli->multi_query( "$proc; SELECT @allCount;" ); 
 
 		//print_r($res);
@@ -547,8 +548,13 @@ class SearchDB
 
 
 // testing
-//  $search = new SearchDB("sql", "cmax2009", "", "true;true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "0;25;opt_status+desc;true");
-//  $search->executeSearch();
+//   $search = new SearchDB("sql", "sendai2011", "Mike", "true;true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "0;25;last_updated;true");
+//   $search->executeSearch();
+  // echo count($search->results);
+  
+  // $search2 = new SearchDB("sql", "sendai2011", "Mike", "true;true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "25;25;;true");
+  // $search2->executeSearch();
+  // echo count($search2->results);
  // $search->getLastUpdateSOLR();
 	
 // echo json_encode($search->results);

@@ -19,6 +19,41 @@ $global['xajax_functions'] = array();
 array_push($global['xajax_functions'],'inw_getData');
 array_push($global['xajax_functions'],'inw_checkForChanges');
 array_push($global['xajax_functions'],'inw_hasNextPage');
+array_push($global['xajax_functions'],'inw_getNotes');
+
+function inw_getNotes($uuid) {
+	global $global;
+	$db = $global['db'];
+	
+	$db->EXECUTE("set names 'utf8'");
+	
+	$q = "SELECT note_record_id, entry_date, 
+				 author_name, 
+				 found, 
+				 REPLACE(status, '_', ' ') as status, 
+				 last_known_location, 
+				 text
+		    FROM pfif_note WHERE p_uuid = '$uuid' ORDER BY entry_date DESC";
+	
+	$result = $db->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$list[] = array('note_id'=>$result->fields["note_record_id"], 
+						'date'=>$result->fields["entry_date"], 
+						'author'=>$result->fields["author_name"], 
+						'found'=>$result->fields["found"], 
+						'status'=>$result->fields["status"], 
+						'lastSeen'=>$result->fields["last_known_location"], 
+						'text'=>$result->fields["text"]);
+						
+		$result->MoveNext();
+	}
+	mysql_free_result($result);
+	
+	$global["xajax_res"]->addAssign("jsonNotes", "value", json_encode($list));  
+	$global["xajax_res"]->addScript("Utils.loadNotes()"); 
+	return $global["xajax_res"]->getXML();
+
+}
 
 function inw_checkForChanges($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital) {
 	global $global;
@@ -33,10 +68,10 @@ function inw_hasNextPage($mode, $incident, $searchTerm, $sStatus, $sGender, $sAg
 	global $global;
 	
 	$mode = strtolower($mode); // just making sure.
-	$search = new SearchDB($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital, $sPageControls);
-	$search->executeSearch();
-
-	if ( count($search->results) > 0 ) 
+	$search2 = new SearchDB($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital, $sPageControls);
+	$search2->executeSearch();
+	
+	if ( count($search2->results) > 0 ) 
 		$global["xajax_res"]->addScript("Globals.hasNextPage = true; DetailsView.setPager()");
 	else
 		$global["xajax_res"]->addScript("Globals.hasNextPage = false; DetailsView.setPager()");

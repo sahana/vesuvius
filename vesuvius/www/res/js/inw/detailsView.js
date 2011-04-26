@@ -76,10 +76,11 @@ var DetailsView =
 		$("#sortBy").css({display: "block"});
 		
 		if ( Globals.searchMode == "sql" ) {
-			if ( Globals.currPage == 1 )
+			if ( Globals.currPage == 1 && Globals.hasNextPage )
 				$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage + 1) + "; searchSubset()'><img src='res/img/inw_next.png' /> </a>");
-			else  {
-				$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage - 1) + "; searchSubset()'><img src='res/img/inw_prev.png' /></a>")
+			else {
+				if ( Globals.currPage != 1 )
+					$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage - 1) + "; searchSubset()'><img src='res/img/inw_prev.png' /></a>")
 				if ( Globals.hasNextPage )
 					$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage + 1) + "; searchSubset()'><img src='res/img/inw_next.png' /></a>" );
 			}
