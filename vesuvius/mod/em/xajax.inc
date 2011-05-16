@@ -925,9 +925,9 @@ function em_perform_edit($incident_id) {
 		$checkedOne  = $row['closed'] == "1" ? "CHECKED" : "";
 		$checkedTwo  = $row['closed'] == "2" ? "CHECKED" : "";
 		$closed = "
-			<input type=\"radio\" id=\"eventClosed\" name=\"eventClosed\" value=\"0\" ".$checkedZero." > <b>OPEN</b><br>
-			<input type=\"radio\" id=\"eventClosed\" name=\"eventClosed\" value=\"1\" ".$checkedOne." > <b>CLOSED</b><br>
-			<input type=\"radio\" id=\"eventClosed\" name=\"eventClosed\" value=\"2\" ".$checkedTwo." > <b>CLOSED(PF) ~ Insert Google Person Finder Widget code below:</b><br>
+			<input type=\"radio\" id=\"eventClosed\" name=\"eventClosed\" value=\"0\" ".$checkedZero." > <b>REPORTING OPEN</b> for RAP/MPRES/PLUS/PFIF<br>
+			<input type=\"radio\" id=\"eventClosed\" name=\"eventClosed\" value=\"1\" ".$checkedOne." > <b>REPORTING CLOSED</b> for RAP/MPRES/PLUS/PFIF<br>
+			<input type=\"radio\" id=\"eventClosed\" name=\"eventClosed\" value=\"2\" ".$checkedTwo." > <b>REPORTING CLOSED</b> for RAP/MPRES/PLUS + <b>REPORTING OPEN</b> for PFIF. Enter reporting widget code below:<br>
 			<textarea id=\"externalReport\" rows=4 cols=60 />".$row['external_report']."</textarea>
 		";
 	// end closed
@@ -1023,7 +1023,7 @@ function em_perform_edit($incident_id) {
 	<tr>
 
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" style=\"\">Closed</td>
+		<td class=\"mainRowOdd emLastWhite\" style=\"\">Event Status</td>
 		<td class=\"mainRowOdd emFirstWhite\" style=\"\">".$closed."</td>
 	<tr>
 

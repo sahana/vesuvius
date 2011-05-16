@@ -33,10 +33,10 @@ var Globals = {
 	currPage : 1,
 	oldCurrPage : 1, // place holder
 	maxRows :  Math.ceil(($(window).height()-210)/300) > 4 ? 4 : Math.ceil(($(window).height()-210)/300),
+	searchMode : "solr",
 	sortedBy : "",  //default value
 	json : "",
 	displayMode : true,
-	searchMode : "solr",
 	personListOld : [], // old list of persons for comparison
 	personList : [], // list of people we WILL download information for
 	Q : [],

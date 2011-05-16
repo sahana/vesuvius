@@ -106,6 +106,8 @@ div#headerText h2 span { font-size: 18px; }
 div#headerText h3 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 16px; font-weight: normal; font-family: arial; line-height: 19px; }
 div#headerText h4 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 12px; font-weight: normal; font-family: arial; line-height: 15px; }
 
+div#rightHeaderLogo { float: right !important; margin-right: 25px; margin-top: 35px; *margin-top: -90px; }
+
 div#user_act{ display:block;position:absolute;top:2px; right:0px;padding-right:15px;  }
 #disaster_selekta {margin-right: 1em; color: #FFF; font-size: 12px font-weight: bold; position: absolute; top: 134px; height: 16px; z-index: 100;}
 form#language         {margin-right: 1em; color: #FFF; font-size: 12px font-weight: bold; position: absolute; top: 164px; height: 16px; z-index: 100;}
