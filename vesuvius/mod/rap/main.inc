@@ -85,7 +85,7 @@ function shn_rap_showClosedMessage() {
 		echo htmlspecialchars_decode($external_report);
 	} else {
 		echo "
-			<h2>Error #21</h2>
+			<h2>Reporting Closed</h2>
 			This event is closed and is no longer accepting new person reports.
 		";
 	}
@@ -190,14 +190,18 @@ function shn_rap_entry($errors=false) {
 		shn_form_fsclose();
 
 		shn_form_fsopen(_t('Person\'s Status'));
-			$q="select * from field_options where field_name='opt_status'";
+			$q = "
+				select *
+				from field_options
+				where field_name='opt_status';
+			";
 			$res = $global['db']->Execute($q);
 			$opt_status = array();
 			while (!$res->EOF) {
 				$opt_status[$res->fields['option_code']] = $res->fields['option_description'];
 				$res->MoveNext();
 			}
-			shn_form_select($opt_status, "Health / Locational Status", "", array('public'=>true, 'help'=>'Please specify to the best of your knowledge the condition of the person you are reporting.'),  array('value'=>'unk'));
+			shn_form_select($opt_status, "Health / Locational Status", "opt_status", array('public'=>true, 'help'=>'Please specify to the best of your knowledge the condition of the person you are reporting.'),  array('value'=>'unk'));
 		shn_form_fsclose();
 
 		shn_form_fsopen(_t('Basic Person Details'));
@@ -664,6 +668,7 @@ function shn_rap_commitPerson($saveImage = false) {
 	$res = $global['db']->Execute($q5);
 
 
+
 	// insert into rap_log
 	$q7 = "
 		INSERT INTO rap_log (p_uuid)
@@ -802,6 +807,11 @@ Array
 	add_confirmation("You have successfully registered <b>".$given_name." ".$family_name."</b> into the registry.");
 	add_confirmation("You can follow this link: <b><a href=\"index.php?mod=eap&act=edit&uuid=".base64_encode($uuid)."\">".$uuid."</a></b> to make changes to the person's record or use the tools available there to share this information with others.");
 	add_confirmation("If you come back to the site at a later time, you can find this person again by visiting the <a href=\"index.php?mod=pref&act=tracking\"><b>My People</b></a> link above.");
+
+	global $conf;
+	if($conf['enable_solr_for_search'] == true) {
+		add_confirmation("It may take up to 5 minutes before the person you just reported shows up in our search results.");
+	}
 }
 
 

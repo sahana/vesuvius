@@ -64,8 +64,6 @@ function shn_inw_default() {
 						<select id="selectSort" style="width: 85px;" onchange="Utils.sortBy( this )">
 							<? if ( $conf["enable_solr_for_search"] ) { ?>
 								<option value="">Relevance</option>
-							<? } else { ?>
-								<option value="">-- select --</option>
 							<? } ?>
 							<option value="updated">Time</option>
 							<option value="full_name">Name</option>

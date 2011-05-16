@@ -75,7 +75,8 @@ class SearchDB
 	 *///
 	public function SearchDB($searchMode, $incident, $searchTerm, $sStatus = "true;true;true;true;true;true", $sGender="true;true;true", $sAge="true;true;true", $sHospital="true;true;true", $sPageControls="0;-1;;true") {  
 		$this->incident = $incident;
-		$this->searchTerm = $searchTerm;
+		$toReplace = array(",", ".", "/", "\\", "?", "!", "~", "@", "$", "%", "^", "&", "*", "(", ")", "+", "-"); 
+		$this->searchTerm = str_replace($toReplace, "", $searchTerm);
 		
 		$this->setStatusFilters($sStatus);
 		$this->setPageControls($sPageControls);
@@ -273,6 +274,7 @@ class SearchDB
 									'imageWidth'=>$row["image_width"], 
 									'imageHeight'=>$row["image_height"], 
 									'age_group'=>$row["age_group"], 
+									'years_old'=>$row["years_old"],
 									'statusSahanaUpdated'=>$row["updated"], 
 									'last_seen'=>$row["last_seen"], 
 //									'comments'=>strip_tags($row["comments"]),
@@ -311,7 +313,7 @@ class SearchDB
 	
 	public function getLastUpdateSOLR() {
 		global $conf;
-		$solrQuery = $conf["SOLRroot"] . "select/?fl=*,score&q=+" 
+		$solrQuery = $conf["SOLRroot"] . "select/?fl=*,score+desc&q=+" 
 					 . trim(urlencode($this->searchTerm)) . "~" //for fuzzy search
 					 . $this->SOLRfq . "&sort=updated+desc&rows=1";
 	
@@ -402,7 +404,7 @@ class SearchDB
 	private function cleanUpFacets() {
 		$temp["child"] = $this->SOLRfacetResults->{"years_old:[0 TO 17]"};
 		$temp["adult"] = $this->SOLRfacetResults->{"years_old:[18 TO *]"};
-		$temp["otherAge"] = $this->SOLRfacetResults->{"years_old:(-[* TO *])"};
+		$temp["otherAge"] = $this->SOLRfacetResults->{"years_old:\-1"};
 		
 		$temp["missing"] = $this->SOLRfacetResults->{"opt_status:mis"};
 		$temp["alive"] = $this->SOLRfacetResults->{"opt_status:ali"};
@@ -413,11 +415,11 @@ class SearchDB
 		
 		$temp["male"] = $this->SOLRfacetResults->{"opt_gender:mal"};
 		$temp["female"] = $this->SOLRfacetResults->{"opt_gender:fml"};
-		$temp["otherGender"] = $this->SOLRfacetResults->{"opt_gender:(-mal AND -fml)"};
+		$temp["otherGender"] = $this->SOLRfacetResults->{"opt_gender:unk"};
 		
 		$temp["suburban"] = $this->SOLRfacetResults->{"hospital:sh"};
 		$temp["nnmc"] = $this->SOLRfacetResults->{"hospital:nnmc"};
-		$temp["otherHospital"] = $this->SOLRfacetResults->{"hospital:(-[* TO *])"};
+		$temp["otherHospital"] = $this->SOLRfacetResults->{"hospital:public"};
 		
 		$this->SOLRfacetResults = $temp;
 	}
@@ -462,10 +464,10 @@ class SearchDB
 		$this->SOLRquery = $this->SOLRroot . "select/?fl=*,score&qt=dismax&q=+" . trim(urlencode($this->searchTerm)) //. "~" //for fuzzy search [commented out for dismax]
 							. $this->SOLRfq
 							. "&facet=true" //&facet.field=opt_status&facet.field=years_old&facet.field=opt_gender&facet.field=hospital&facet.missing=true"
-							. "&facet.query=years_old:[0 TO 17]&facet.query=years_old:[18 TO *]&facet.query=years_old:(-[* TO *])"
+							. "&facet.query=years_old:[0 TO 17]&facet.query=years_old:[18 TO *]&facet.query=years_old:\-1"
 							. "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk&facet.query=opt_status:fnd"
-							. "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:(-mal AND -fml)"
-							. "&facet.query=hospital:sh&facet.query=hospital:nnmc&facet.query=hospital:(-[* TO *])";
+							. "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:unk"
+							. "&facet.query=hospital:sh&facet.query=hospital:nnmc&facet.query=hospital:public";
 							
 
 								
@@ -500,12 +502,12 @@ class SearchDB
 		
 		// opt_gender filters
 		$this->SOLRfq .= ")&fq=opt_gender:(*:*";
-		if ($this->male != "true")
-			$this->SOLRfq .= " -mal";
-		if ($this->female != "true")
-			$this->SOLRfq .= " -fml";
-		if ($this->genderUnk != "true")
-			$this->SOLRfq .= " (mal OR fml)"; //show only mal or fml
+		if ($this->male != "true") 
+			$this->SOLRfq .= " -mal"; 
+		if ($this->female != "true") 
+			$this->SOLRfq .= " -fml"; 
+		if ($this->genderUnk != "true")  
+			$this->SOLRfq .= " -unk"; 
 		
 		// years_old filters
 		$this->SOLRfq .= ")&fq=years_old:(*:*";	
@@ -514,7 +516,7 @@ class SearchDB
 		if ($this->adult != "true")
 			$this->SOLRfq .= " -[18 TO *] ";		
 		if ($this->ageUnk != "true")
-			$this->SOLRfq .= " [* TO *]";		
+			$this->SOLRfq .= " -\-1";		
 		
 		// hospital filters
 		$this->SOLRfq .= ")&fq=hospital:(*:*";
@@ -523,7 +525,7 @@ class SearchDB
 		if ( $this->nnmc != "true" )
 			$this->SOLRfq .= " -nnmc ";
 		if ( $this->otherHosp != "true" )
-			$this->SOLRfq .= " [* TO *]";
+			$this->SOLRfq .= " -public";
 		
 		//incident shortname filter (always applied)
 		$this->SOLRfq .= ")&fq=shortname:(" . $this->incident . ")";
@@ -550,7 +552,7 @@ class SearchDB
 // testing
 //   $search = new SearchDB("sql", "sendai2011", "Mike", "true;true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "0;25;last_updated;true");
 //   $search->executeSearch();
-  // echo count($search->results);
+//   echo count($search->results);
   
   // $search2 = new SearchDB("sql", "sendai2011", "Mike", "true;true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "25;25;;true");
   // $search2->executeSearch();

@@ -1097,6 +1097,9 @@ function shn_eap_edit() {
 		$date->setTimestamp(strtotime($person_status['last_updated']));
 		$last_updated =  $date->format('l, F j, Y g:i a T');
 
+		$editMinAge = $person_details['minAge'];
+		$editMaxAge = $person_details['maxAge'];
+
 		echo "
 			<div class=\"form-container\">
 			<form>
@@ -1158,6 +1161,14 @@ function shn_eap_edit() {
 
 			<label for=\"age\">Age</label>
 			<input type=\"text\" name=\"age\" id=\"age\" value=\"".$person_details['years_old']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<br>
+
+			<label for=\"age_lower\">Lower Age Range</label>
+			<input type=\"text\" name=\"age_lower\" id=\"age_upper\" value=\"".$editMinAge."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\">
+			<br>
+
+			<label for=\"age_upper\">Upper Age Range</label>
+			<input type=\"text\" name=\"age_upper\" id=\"age_upper\" value=\"".$editMaxAge."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\">
 			<br>
 		";
 

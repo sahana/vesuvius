@@ -362,7 +362,7 @@ class mpres {
 					$this->messages .= "found XML attachment>>(".$f.")\n";
 					$this->messages .= "xml url>>>(".$saveXmlUrl.")\n";
 
-					$a = $this->xml2array($this->currentAttachments[$i]['attachment']);
+					$a = xml2array($this->currentAttachments[$i]['attachment']);
 
 					// LPF v1.6 XML from Re-Unite
 					if(isset($a['lpfContent'])) {

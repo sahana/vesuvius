@@ -4,7 +4,15 @@
  *
  * @see http://code.google.com/p/php-console
  * @author Barbushin Sergey http://linkedin.com/in/barbushin
- * @version 1.0
+ * @version 1.1
+ * 
+ * @desc Sending messages to Google Chrome console
+ *
+ * You need to install Google Chrome extension:
+ * https://chrome.google.com/extensions/detail/nfhmhhlpfleoednkpnnnkolmclajemef
+ *
+ * All class properties and methods are static because it's required to let
+ * them work on script shutdown when FATAL error occurs.
  *
  */
 class PhpConsole {
@@ -22,28 +30,28 @@ class PhpConsole {
 	protected $sourceBasePath;
 
 	protected function __construct($handleErrors, $handleExceptions, $sourceBasePath) {
-		if ($handleErrors) {
+		if($handleErrors) {
 			$this->initErrorsHandler();
 		}
-		if ($handleExceptions) {
+		if($handleExceptions) {
 			$this->initExceptionsHandler();
 		}
-		if ($sourceBasePath) {
+		if($sourceBasePath) {
 			$this->sourceBasePath = realpath($sourceBasePath);
 		}
 		$this->initClient();
 	}
 
 	public static function start($handleErrors = true, $handleExceptions = true, $sourceBasePath = null) {
-		if (!self::$instance) {
+		if(!self::$instance) {
 			self::$instance = new PhpConsole($handleErrors, $handleExceptions, $sourceBasePath);
 		}
 	}
 
 	protected function handle(PhpConsoleEvent $event) {
-		if (self::$ignoreRepeatedEvents) {
+		if(self::$ignoreRepeatedEvents) {
 			$eventHash = md5($event->message . $event->file . $event->line);
-			if (in_array($eventHash, $this->handledMessagesHashes)) {
+			if(in_array($eventHash, $this->handledMessagesHashes)) {
 				return;
 			}
 			else {
@@ -67,8 +75,7 @@ class PhpConsole {
 	const messagesCookiePrefix = 'phpcsl_';
 	const cookiesLimit = 50;
 	const cookieSizeLimit = 4000;
-	const defaultNotifyTimelimit = 1;
-	const messageLengthLimit = 1000;
+	const messageLengthLimit = 2500;
 
 	protected static $isEnabledOnClient;
 	protected static $isDisabled;
@@ -79,10 +86,10 @@ class PhpConsole {
 	protected static $index = 0;
 
 	protected function initClient() {
-		if (self::$isEnabledOnClient === null) {
+		if(self::$isEnabledOnClient === null) {
 			self::setEnabledOnServer();
 			self::$isEnabledOnClient = self::isEnabledOnClient();
-			if (self::$isEnabledOnClient) {
+			if(self::$isEnabledOnClient) {
 				ob_start();
 			}
 		}
@@ -93,13 +100,13 @@ class PhpConsole {
 	}
 
 	protected static function setEnabledOnServer() {
-		if (!isset($_COOKIE[self::serverProtocolCookie]) || $_COOKIE[self::serverProtocolCookie] != self::serverProtocol) {
+		if(!isset($_COOKIE[self::serverProtocolCookie]) || $_COOKIE[self::serverProtocolCookie] != self::serverProtocol) {
 			self::setCookie(self::serverProtocolCookie, self::serverProtocol);
 		}
 	}
 
 	protected function sendEventToClient(PhpConsoleEvent $event) {
-		if (!self::$isEnabledOnClient || self::$isDisabled) {
+		if(!self::$isEnabledOnClient || self::$isDisabled) {
 			return;
 		}
 		$message = array();
@@ -107,44 +114,46 @@ class PhpConsole {
 		$message['subject'] = $event->type;
 		$message['text'] = substr($event->message, 0, self::messageLengthLimit);
 
-		if ($event->file) {
+		if($event->file) {
 			$message['source'] = ($this->sourceBasePath ? preg_replace('!^' . preg_quote($this->sourceBasePath, '!') . '!', '', $event->file) : $event->file) . ($event->line ? ':' . $event->line : '');
 		}
-		if ($event->trace) {
+		if($event->trace) {
 			$traceArray = $this->convertTraceToArray($event->trace, $event->file, $event->line);
-			if ($traceArray) {
+			if($traceArray) {
 				$message['trace'] = $traceArray;
 			}
 		}
 
 		self::pushMessageToBuffer($message);
 
-		if (strpos($event->tags, ',fatal')) {
+		if(strpos($event->tags, ',fatal')) {
 			self::flushMessagesBuffer();
 		}
 	}
 
 	protected function convertTraceToArray($traceData, $eventFile = null, $eventLine = null) {
 		$trace = array();
-		foreach ($traceData as $call) {
-			if ((isset($call['class']) && $call['class'] == __CLASS__) || (!$trace && isset($call['file']) && $call['file'] == $eventFile && $call['line'] == $eventLine)) {
+		foreach($traceData as $call) {
+			if((isset($call['class']) && $call['class'] == __CLASS__) || (!$trace && isset($call['file']) && $call['file'] == $eventFile && $call['line'] == $eventLine)) {
 				$trace = array();
 				continue;
 			}
 			$args = array();
-			foreach ($call['args'] as $arg) {
-				if (is_object($arg)) {
-					$args[] = get_class($arg);
-				}
-				elseif (is_array($arg)) {
-					$args[] = 'Array';
-				}
-				else {
-					$arg = var_export($arg, 1);
-					$args[] = strlen($arg) > 12 ? substr($arg, 0, 8) . '...\'' : $arg;
+			if(isset($call['args'])) {
+				foreach($call['args'] as $arg) {
+					if(is_object($arg)) {
+						$args[] = get_class($arg);
+					}
+					elseif(is_array($arg)) {
+						$args[] = 'Array';
+					}
+					else {
+						$arg = var_export($arg, 1);
+						$args[] = strlen($arg) > 12 ? substr($arg, 0, 8) . '...\'' : $arg;
+					}
 				}
 			}
-			if (isset($call['file']) && $this->sourceBasePath) {
+			if(isset($call['file']) && $this->sourceBasePath) {
 				$call['file'] = preg_replace('!^' . preg_quote($this->sourceBasePath, '!') . '!', '', $call['file']);
 			}
 			$trace[] = (isset($call['file']) ? ($call['file'] . ':' . $call['line']) : '[internal call]') . ' - ' . (isset($call['class']) ? $call['class'] . $call['type'] : '') . $call['function'] . '(' . implode(', ', $args) . ')';
@@ -158,7 +167,7 @@ class PhpConsole {
 
 	protected static function pushMessageToBuffer($message) {
 		$encodedMessageLength = strlen(rawurlencode(json_encode($message)));
-		if (self::$bufferLength + $encodedMessageLength > self::cookieSizeLimit) {
+		if(self::$bufferLength + $encodedMessageLength > self::cookieSizeLimit) {
 			self::flushMessagesBuffer();
 		}
 		self::$messagesBuffer[] = $message;
@@ -170,13 +179,13 @@ class PhpConsole {
 	}
 
 	public static function flushMessagesBuffer() {
-		if (self::$messagesBuffer) {
+		if(self::$messagesBuffer) {
 			self::sendMessages(self::$messagesBuffer);
 			self::$bufferLength = 0;
 			self::$messagesSent += count(self::$messagesBuffer);
 			self::$messagesBuffer = array();
 			self::$cookiesSent++;
-			if (self::$cookiesSent == self::cookiesLimit) {
+			if(self::$cookiesSent == self::cookiesLimit) {
 				self::$isDisabled = true;
 				$message = array('type' => 'error', 'subject' => 'PHP CONSOLE', 'text' => 'MESSAGES LIMIT EXCEEDED BECAUSE OF COOKIES STORAGE LIMIT. TOTAL MESSAGES SENT: ' . self::$messagesSent, 'source' => __FILE__, 'notify' => 3);
 				self::sendMessages(array($message));
@@ -185,7 +194,7 @@ class PhpConsole {
 	}
 
 	protected static function setCookie($name, $value) {
-		if (headers_sent($file, $line)) {
+		if(headers_sent($file, $line)) {
 			throw new Exception('setcookie() failed because haders are sent (' . $file . ':' . $line . '). Try to use ob_start()');
 		}
 		setcookie($name, $value, null, '/');
@@ -210,8 +219,8 @@ class PhpConsole {
 		ini_set('ignore_repeated_errors', self::$ignoreRepeatedEvents);
 		ini_set('ignore_repeated_source', self::$ignoreRepeatedEvents);
 
-		foreach ($this->notCompitableCodes as $code => $tag) {
-			if (defined($code)) {
+		foreach($this->notCompitableCodes as $code => $tag) {
+			if(defined($code)) {
 				$this->codesTags[constant($code)] = $tag;
 				$this->codesNames[constant($code)] = $code;
 			}
@@ -223,16 +232,16 @@ class PhpConsole {
 
 	public function checkFatalError() {
 		$error = error_get_last();
-		if ($error) {
+		if($error) {
 			$this->handleError($error['type'], $error['message'], $error['file'], $error['line']);
 		}
 	}
 
 	public function handleError($code = null, $message = null, $file = null, $line = null) {
-		if (error_reporting() == 0) { // if error has been supressed with an @
+		if(error_reporting() == 0) { // if error has been supressed with an @
 			return;
 		}
-		if (!$code) {
+		if(!$code) {
 			$code = E_USER_ERROR;
 		}
 
@@ -246,7 +255,7 @@ class PhpConsole {
 
 		$this->handle($event);
 
-		if (static::$callOldErrorHandler && $this->oldErrorHandler) {
+		if(self::$callOldErrorHandler && $this->oldErrorHandler) {
 			call_user_func_array($this->oldErrorHandler, array($code, $message, $file, $line));
 		}
 	}
@@ -264,7 +273,7 @@ class PhpConsole {
 	public function handleException(Exception $exception) {
 		$event = new PhpConsoleEvent();
 		$event->message = $exception->getMessage();
-		$event->tags = 'error,fatal,exception,'.get_class($exception);
+		$event->tags = 'error,fatal,exception,' . get_class($exception);
 		$event->type = get_class($exception);
 		$event->file = $exception->getFile();
 		$event->line = $exception->getLine();
@@ -273,7 +282,7 @@ class PhpConsole {
 		$this->handle($event);
 
 		// TODO: check if need to throw
-		if (self::$callOldExceptionsHandler && $this->oldExceptionsHandler) {
+		if(self::$callOldExceptionsHandler && $this->oldExceptionsHandler) {
 			call_user_func($this->oldExceptionsHandler, $exception);
 		}
 	}
@@ -283,7 +292,7 @@ class PhpConsole {
 	 **************************************************************/
 
 	public static function debug($message, $tags = 'debug') {
-		if (self::$instance) {
+		if(self::$instance) {
 			$event = new PhpConsoleEvent();
 			$event->message = $message;
 			$event->tags = $tags;

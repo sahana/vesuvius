@@ -21,6 +21,9 @@ $full = false; // true when we show the full header...
 echo '
 	<div id="header" class="clearfix">
 		<a href="'.makeBaseUrlMinusEvent().'"><img src="theme/lpf3/img/pl.png"></a>
+		<div id="rightHeaderLogo">
+			<a href="http://www.nlm.nih.gov/"><img src="theme/lpf3/img/NLMlogoSmall.gif"></a>
+		</div>
 ';
 
 
@@ -57,10 +60,10 @@ if(isset($_GET['shortname'])) {
 		echo '
 			<div id="headerText">
 				<h1><a href="'.makeBaseUrlMinusEvent().'">'._t("People Locator").'</a></h1>
-				<h2><span>'._t('for the ').'</span>'.$long.'</h1>
-				<h3>'._t("of").' '.$date.'</h2>
-				<h4>'._t("U.S. National Library of Medicine").'</h2>
-				<h4>'._t("Lister Hill National Center for Biomedical Communications").'</h2>
+				<h2><span>'._t('for the ').'</span>'.$long.'</h2>
+				<h3>'._t("of").' '.$date.'</h3>
+				<h4>'._t("U.S. National Library of Medicine").'</h4>
+				<h4>'._t("Lister Hill National Center for Biomedical Communications").'</h4>
 			</div>
 		';
 		$full = true;
@@ -73,8 +76,8 @@ if(!$full) {
 		<div id="headerText">
 			<h1>&nbsp;</h1>
 			<h1><a href="'.makeBaseUrlMinusEvent().'">'._t("People Locator").'</a></h1>
-			<h4>'._t("U.S. National Library of Medicine").'</h2>
-			<h4>'._t("Lister Hill National Center for Biomedical Communications").'</h2>
+			<h4>'._t("U.S. National Library of Medicine").'</h4>
+			<h4>'._t("Lister Hill National Center for Biomedical Communications").'</h4>
 		</div>
 	';
 }
