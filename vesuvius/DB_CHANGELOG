@@ -1,6 +1,22 @@
 Log of all Changes to the PL.nlm.nih.gov database(s)
 ----------------------------------------------------
 
+2011:0329 Leif
+--------------
+
+Modified delete_pfif_person procedure so it wouldn't delete OUR registered users:
+
+DELETE p.* FROM person_uuid p, person_to_report pr WHERE pr.rep_uuid = p.p_uuid AND pr.p_uuid = id AND pr.rep_uuid NOT IN (SELECT p_uuid FROM users);
+                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Also added these columns for PFIF 1.3:
+
+ALTER TABLE `pfif_person` ADD `full_name` VARCHAR( 128 ) NULL DEFAULT NULL
+AFTER `source_url`
+
+ALTER TABLE `pfif_person` ADD `expiry_date` DATETIME NULL DEFAULT NULL
+AFTER `entry_date`
+
+ALTER TABLE `person_uuid` ADD `expiry_date` DATETIME NULL DEFAULT NULL 
 
 2012:0425 Greg
 --------------
