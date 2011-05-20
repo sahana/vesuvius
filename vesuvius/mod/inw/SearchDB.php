@@ -156,62 +156,47 @@ class SearchDB
 	}
 	
 	private function buildFiltersClause() {
-		//$this->whereClause .= " ( 1 = 0 ";
+		
 		$this->statusString = "";
 		if ($this->missing == "true")
 			$this->statusString .= "mis;";
-			//$this->whereClause .= " OR opt_status = 'mis'";
+		
 		if ($this->alive == "true") 
 			$this->statusString .= "ali;";
-			//$this->whereClause .= " OR opt_status = 'ali'"; 
+		
 		if ($this->injured == "true") 
 			$this->statusString .= "inj;";
-			//$this->whereClause .= " OR opt_status = 'inj'"; 
+		
 		if ($this->deceased == "true")
 			$this->statusString .= "dec;";
-			//$this->whereClause .= " OR opt_status = 'dec'"; 
+		
 		if ($this->unknown == "true") 
 			$this->statusString .= "unk;";	
-			//$this->whereClause .= " OR opt_status = 'unk' OR opt_status IS NULL"; 
-		
-		//$this->whereClause .= ") AND ( 1 = 0 ";
-		$this->genderString = "";
+
+                $this->genderString = "";
 		if ($this->male == "true")
 			$this->genderString .= "mal;";
-			//$this->whereClause .= " OR opt_gender = 'mal'";
 		if ($this->female == "true")
 			$this->genderString .= "fml;";
-			//$this->whereClause .= " OR opt_gender = 'fml'";
 		if ($this->genderUnk == "true")
 			$this->genderString .= "unk;";
-			//$this->whereClause .= " OR (opt_gender <> 'mal' AND opt_gender <> 'fml' OR opt_gender IS NULL)";		
-		
-		//$this->whereClause .= ") AND ( 1 = 0 ";	
+
 		$this->ageString = "";
 		if ($this->child == "true")
 			$this->ageString .= "child;";
-			//$this->whereClause .= " OR CAST(years_old AS UNSIGNED) < 18 ";
 		if ($this->adult == "true")
-			//$this->whereClause .= " OR CAST(years_old AS UNSIGNED) >= 18 ";		
 			$this->ageString .= "adult;";
 		if ($this->ageUnk == "true")
 			$this->ageString .= "unknown;";
-			//$this->whereClause .= " OR CONVERT(years_old, UNSIGNED INTEGER) IS NULL";		
 			
-		//$this->whereClause .= ") AND ( 1 = 0 ";
 		$this->hospitalString = "";
 		if ( $this->suburban == "true" )
 			$this->hospitalString .= "suburban;";
-			//$this->whereClause .= " OR hospital = 'sh' ";
 		if ( $this->nnmc == "true" )
 			$this->hospitalString .= "nnmc;";
-			//$this->whereClause .= " OR hospital = 'nnmc' ";
 		if ( $this->otherHosp == "true" )
 			$this->hospitalString .= "other;";
-			//$this->whereClause .= " OR (hospital <> 'sh' AND hospital <> 'nnmc' OR hospital IS NULL) ";
 		
-		//$this->whereClause .= " ) ";
-		//$this->whereClause .= " AND shortname = '" . $this->incident . "'";
 	}
 	
 	private function buildMainQuery() {
@@ -243,7 +228,7 @@ class SearchDB
 	}
 		
 	private function executeSQLQuery() {
-	
+
 		global $conf;
 		
 		//echo $proc;
@@ -253,7 +238,7 @@ class SearchDB
 			$this->perPage = 2000;
 		}
 		
-		$proc = "CALL PLSearch('$this->searchTerm', '$this->statusString', '$this->genderString', '$this->ageString', '$this->hospitalString', '$this->incident', '$this->sortBy', $this->pageStart, $this->perPage, @allCount)";
+		$proc = "CALL PLSearch('$this->searchTerm', '$this->statusString', '$this->genderString', '$this->ageString', '$this->hospitalString', '$this->incident', '$this->sortBy', $this->pageStart, $this->perPage)";
 		echo $proc;
 		$res = $mysqli->multi_query( "$proc; SELECT @allCount;" ); 
 
@@ -274,10 +259,9 @@ class SearchDB
 									'imageWidth'=>$row["image_width"], 
 									'imageHeight'=>$row["image_height"], 
 									'age_group'=>$row["age_group"], 
-									'years_old'=>$row["years_old"],
 									'statusSahanaUpdated'=>$row["updated"], 
 									'last_seen'=>$row["last_seen"], 
-//									'comments'=>strip_tags($row["comments"]),
+									'comments'=>strip_tags($row["comments"]),
 									'gender' => $row["opt_gender"],
 									'hospitalIcon' => $row["icon_url"]);
 						}
@@ -286,11 +270,7 @@ class SearchDB
 							foreach( $row as $cell ) 
 								$this->numRowsFound = $cell;
 					} elseif ( $c == 2 ) { // total rows*/
-					} elseif ( $c == 1 ) { // total rows
-						while( $row = $result->fetch_row() )
-							foreach( $row as $cell ) 
-								$this->allCount = $cell;
-					}
+					} 
 				  
 					$result->close();
 					if( $mysqli->more_results() ) $c += 1;					
@@ -298,10 +278,17 @@ class SearchDB
 			} while( $mysqli->more_results() && $mysqli->next_result() ); 
 		} 
 		$mysqli->close(); 
-		
-		//echo "<pre>";
-		//print_r($this->results);
-		//echo "</pre>";
+	}
+	
+	public function getSQLAllCount() {
+		$qRC = "SELECT COUNT(p.p_uuid) FROM person_uuid p JOIN incident i ON p.incident_id = i.incident_id WHERE i.shortname = '$this->incident' ;";
+		$result = $this->db->Execute($qRC);
+		while (!$result == NULL && !$result->EOF) {
+			$this->allCount = $result->fields[0];
+			mysql_free_result($result);
+			break;
+		}
+		echo $this->allCount;
 	}
 
 	public function getLastUpdate() {
@@ -311,20 +298,21 @@ class SearchDB
 			$this->getLastUpdateSQL();
 	}
 	
-	public function getLastUpdateSOLR() {
+	// TODO: need to test for no connection found?
+        public function getLastUpdateSOLR() {
 		global $conf;
 		$solrQuery = $conf["SOLRroot"] . "select/?fl=*,score+desc&q=+" 
 					 . trim(urlencode($this->searchTerm)) . "~" //for fuzzy search
 					 . $this->SOLRfq . "&sort=updated+desc&rows=1";
 	
 		$ch = curl_init(); 
-        curl_setopt($ch, CURLOPT_URL, $solrQuery . "&wt=json"); // ensure the json version is called
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
-        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+                curl_setopt($ch, CURLOPT_URL, $solrQuery . "&wt=json"); // ensure the json version is called
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
+                curl_setopt($ch, CURLOPT_VERBOSE, 1);
 		curl_setopt($ch, CURLOPT_PORT, $this->SOLRport);
 		
 		$temp = json_decode(curl_exec($ch)); 
-        curl_close($ch);      		
+                curl_close($ch);      		
 		
 		$date = new DateTime($temp->response->docs[0]->updated);
 		$this->lastUpdated = $date->format('m/d/y @ g:i:s A');
@@ -396,8 +384,6 @@ class SearchDB
         curl_close($ch);      		
 		
 		$this->processSOLRjson();
-		
-		//echo $this->SOLRjson;
 	}
 	
 	// ugly but I'd like to have clean json responses.
@@ -461,13 +447,14 @@ class SearchDB
 	}
 	
 	private function buildSOLRQuery() {
-		$this->SOLRquery = $this->SOLRroot . "select/?fl=*,score&qt=dismax&q=+" . trim(urlencode($this->searchTerm)) //. "~" //for fuzzy search [commented out for dismax]
-							. $this->SOLRfq
-							. "&facet=true" //&facet.field=opt_status&facet.field=years_old&facet.field=opt_gender&facet.field=hospital&facet.missing=true"
-							. "&facet.query=years_old:[0 TO 17]&facet.query=years_old:[18 TO *]&facet.query=years_old:\-1"
-							. "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk&facet.query=opt_status:fnd"
-							. "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:unk"
-							. "&facet.query=hospital:sh&facet.query=hospital:nnmc&facet.query=hospital:public";
+		$this->SOLRquery = 
+                    $this->SOLRroot . "select/?fl=*,score&qt=dismax&q=+" . trim(urlencode($this->searchTerm)) //. "~" //for fuzzy search [commented out for dismax]
+                                    . $this->SOLRfq
+                                    . "&facet=true" //&facet.field=opt_status&facet.field=years_old&facet.field=opt_gender&facet.field=hospital&facet.missing=true"
+                                    . "&facet.query=years_old:[0 TO 17]&facet.query=years_old:[18 TO *]&facet.query=years_old:\-1"
+                                    . "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk&facet.query=opt_status:fnd"
+                                    . "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:unk"
+                                    . "&facet.query=hospital:sh&facet.query=hospital:nnmc&facet.query=hospital:public";
 							
 
 								
@@ -480,8 +467,7 @@ class SearchDB
 			$this->SOLRquery .= "&sort=" . $this->sortBy . ",score desc";
 			
 		$this->SOLRquery = str_replace(" ", "%20", $this->SOLRquery);			
-	
-	 //echo "FROM buildSOLRQuery() :: <BR />$this->SOLRquery <BR/><BR/>";
+
 	}
 	
 	private function buildSOLRFilters() {
@@ -533,7 +519,6 @@ class SearchDB
 	
 	private function getSOLRallCount() {
 		$tmpSOLRquery = $this->SOLRroot . "select/?q=*:*&fq=shortname:(" . $this->incident . ")";
-		//echo $tmpSOLRquery;
 		$ch = curl_init(); 
         curl_setopt($ch, CURLOPT_URL, $tmpSOLRquery . "&wt=json"); // ensure the json version is called
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
@@ -554,8 +539,8 @@ class SearchDB
 //   $search->executeSearch();
 //   echo count($search->results);
   
-  // $search2 = new SearchDB("sql", "sendai2011", "Mike", "true;true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "25;25;;true");
-  // $search2->executeSearch();
+   // $search2 = new SearchDB("sql", "sendai2011", "Mike", "true;true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "25;25;updated desc;true");
+   // $search2->executeSearch();
   // echo count($search2->results);
  // $search->getLastUpdateSOLR();
 	
@@ -563,7 +548,7 @@ class SearchDB
 
 // echo json_encode($search2->results);
   
-  
+
  
  
 

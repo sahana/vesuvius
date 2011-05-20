@@ -1,4 +1,3 @@
-<?
 /**
  * @name         Vesuvius Theme
  * @version      3.0
@@ -55,7 +54,7 @@ fieldset { border: none; }
 
 input, select, textarea { font-size: 100%; border: 1px solid #777; margin: 3px;}
 
-textarea { margin: 3px; font-size: 100%; }
+textarea { margin: 3px; font-size: 120%; }
 
 input[type=text], input[type=password], textarea {
 	padding: 3px 10px 3px 10px;
@@ -99,9 +98,13 @@ div#container {
 }
 
 div#header { height: 130px; font-family: arial; background-color: #fff;}
-div#header a {text-decoration: none; font-family: arial;}
-div#header h1 { position: absolute; top: 40px; text-align: left; left: 242px; color: #34689a; margin: 0; font-size: 24px; font-weight: normal; font-family: arial;}
-div#header h2 { position: absolute; top: 69px; text-align: left; left: 242px; color: #34689a; margin: 0; font-size: 16px; font-weight: normal; font-family: arial;}
+div#headerText { position: absolute; top: 23px;  left: 250px; }
+div#headerText a {text-decoration: none; font-family: arial;}
+div#headerText h1 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 24px; font-weight: normal; font-family: arial; line-height: 25px; letter-spacing: 200%;}
+div#headerText h2 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 23px; font-weight: normal; font-family: arial; line-height: 27px; }
+div#headerText h2 span { font-size: 18px; }
+div#headerText h3 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 16px; font-weight: normal; font-family: arial; line-height: 19px; }
+div#headerText h4 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 12px; font-weight: normal; font-family: arial; line-height: 15px; }
 
 div#user_act{ display:block;position:absolute;top:2px; right:0px;padding-right:15px;  }
 #disaster_selekta {margin-right: 1em; color: #FFF; font-size: 12px font-weight: bold; position: absolute; top: 134px; height: 16px; z-index: 100;}
@@ -160,85 +163,16 @@ div#modmenuwrap ul ul li a:hover {}
 	border-bottom-right-radius: 0px;
 }
 
-div#loginform, div#openid_loginform {
-	margin: 	0px;
+div#loginform {
+	margin: 	8px;
 	position:	absolute;
 	right: 		0px;
 	top:		0px;
-	width:		300px;
-	height: 	100px;
-	padding:	20px 15px 15px 15px;
-	color: 		#FFF;
-	z-index: 	10;
-	font-size: 	13px;
+	text-align:	right;
+	padding:	0px;
 	color: 		#000;
-	/*
-	background:       -moz-linear-gradient(0% 0% 0deg,#FFFFFF, #e0ecff);
-	background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(#ffffff), to(#e8f4ff));
-	*/
-}
-
-div#loginform form fieldset legend { display: none; }
-div#loginform hr { display: none; }
-div#loginform form fieldset label { display: block; float: left; margin-left: 10px; margin-right: 10px; line-height: 20px; width: 70px; text-align: right; padding-top: 4px;}
-
-#userName, #pswd {
-	width: 150px;
-	line-height: 20px;
-	padding: 0px 5px;
-	font-size: 14px;
-}
-
-#loginButton {
-	padding: 3px 20px;
-	margin: 6px 35px;
-}
-
-#signUp {
-	float: left;
-}
-
-#forgotPassword {
-	float: right;
-}
-
-#signUp, #forgotPassword {
-	margin-top: 3px;
-}
-
-#switchOpenId {
-	position: absolute;
-	top: 85px;
-	right: 10px;
-	display: none;
-}
-
-#switchNormalLogin {
-	position: absolute;
-	top: 80px;
-	right: 50px;
-}
-
-#openIdFieldset {
-	position: absolute;
-	top: 20px;
-	right: 10px;
-}
-
-
-#userName, #pswd, #openid_login {
-	background-color: #fff;
-	border: 1px solid #34689a;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-}
-
-
-#loggedIn {
-	margin: 15px;
-	text-align: center;
-
+	z-index: 	9999;
+	font-size: 	100%;
 }
 
 
@@ -312,8 +246,18 @@ table.layout td { padding: 0px 0px 0 0px; border: 0px solid #ccc; }
 .red { color: red; }
 .green { color: green; }
 .110 { font-size: 110%; }
+.grey { color: grey; }
 
 
+
+.fakeTextBox {
+	width: 400px;
+	white-space: nowrap;
+	overflow: hidden;
+	padding: 5px 10px;
+	background: #fff;
+	border-radius: 5px;
+}
 
 /* alert styles */
 div.alert { margin: 0 0 10px 0; padding: 5px 10px 5px 35px; border: #FC6 1px solid; background: url(img/oops.png) #FFC no-repeat 5px 5px; }
@@ -322,13 +266,6 @@ div.alert { margin: 0 0 10px 0; padding: 5px 10px 5px 35px; border: #FC6 1px sol
 
 /* info styles */
 div.info, div.form-container fieldset p { color:#666; padding: 5px 5px 5px 5px; }
-
-
-
-/* GIS module */
-#map { width: 760px; height: 600px }
-.center {margin-left:auto;margin-right:auto;}
-
 
 
 /* paging styles */
@@ -942,10 +879,6 @@ table#regLog, table#regLog tbody tr td { border: none; }
 	text-decoration: none;
 }
 
-#missingDetails {
-	display: none;
-}
-
 .styleTehButton {
 	-webkit-user-select: none;
 	background-attachment: scroll;
@@ -1040,6 +973,10 @@ fieldset#editFollow {
 
 fieldset#editImages {
 	border: 1px solid orange;
+}
+
+fieldset#editHeader {
+	border: 1px solid black;
 }
 
 fieldset#editNotes, fieldset#editShare {
@@ -1574,3 +1511,4 @@ div.shr-bookmarks{margin:20px 0;clear:both !important}div.shr-bookmarks-expand{h
 	width: 200px; /*must have*/
 	height: 200px; /*must have*/
 }
+

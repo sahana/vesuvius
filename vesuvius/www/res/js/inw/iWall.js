@@ -71,7 +71,12 @@ $(document).ready(function start() {
 function searchSubset() {
 	Globals.searchTerms = $.trim($("#searchBox").attr("value"));
 	Globals.searchTerms = Globals.searchTerms == "Enter a name..." || Globals.searchTerms == "All" ? "" : Globals.searchTerms;
-
+	
+	if ( Globals.searchTerms === "" && Globals.searchMode === "sql" ) {
+		alert("Please enter a name.");
+		return;
+	}
+	
 	var missing   = $("#checkMissing")  .is(":checked"),
 		alive     = $("#checkAliveWell").is(":checked"),
 		injured   = $("#checkInjured")  .is(":checked"),
@@ -112,8 +117,10 @@ function searchSubset() {
 				  + Globals.perPage + ";" 
 				  + Globals.sortedBy + ";" 
 				  +	Globals.displayMode;
-		if ( Globals.displayMode )
+		if ( Globals.displayMode ) {
 			inw_hasNextPage(Globals.searchMode, Globals.incident, Globals.searchTerms, sStatus, sGender,	sAge, sHospital, sPageControls);
+			inw_getAllCount(Globals.incident);
+		}
 		$("#sqlFoundLabel").show();
 		$("#solrFoundLabel").hide();
 	} else {
@@ -148,7 +155,6 @@ function handleUuidListResponse() {
 	var temp = [], freshUuids = [];
 
 	$("#totalRecordsSOLR").html(Utils.addCommas($("#totalRecordsSOLR").html()));
-	$("#totalRecordsSQL").html(Utils.addCommas($("#totalRecordsSQL").html()));
 
 	showFacets();
 	window.location.hash = Globals.searchTerms;
