@@ -11,14 +11,13 @@
  * @lastModified 2011.0308
  */
 
-
-
+/*
 // array of events
 $events = array();
+*/
 
 ?>
 <div id="blueBack">&nbsp;</div>
-<div id="disaster_selekta"><label for="event" id="eventLabel">Event </label><?selekta(); ?><script>checkEvent('<? echo $_GET['shortname']; ?>', '<? getDefaultEvent(); ?>');</script></div>
 <div id="footer"><center><table id="footerTable">
 		<tr>
 		<td>
@@ -46,18 +45,16 @@ $events = array();
 	<div id="notice"></div>
 	</center>
 	<?php
-		/*
-		echo "<br>shortname(".$_GET['shortname'].")";
-		echo "<br><pre>".print_r($_REQUEST, true)."</pre>";
-		echo "<pre>".print_r($_SERVER, true)."</pre>";
+		//echo "<br><pre>".print_r($_REQUEST, true)."</pre>";
+		//echo "<pre>".print_r($_SERVER, true)."</pre>";
 		//echo "<br><pre>".print_r($global, true)."</pre>";
+		//echo "<br><pre>".print_r($_SESSION, true)."</pre>";
 		//echo "<br><pre>".print_r($conf, true)."</pre>";
-		*/
 	?>
 </div>
 <?php
 
-
+/*
 function addChildren($id, $spacer) {
 	global $events;
 	global $global;
@@ -115,9 +112,9 @@ function selekta() {
 			$selected = "";
 		}
 		if($row['closed'] == "1") {
-			echo "<option ".$selected." value=\"".$row['shortname']."\" class=\"110 red\">".$row['name']." CLOSED </option>";
+			echo "<option ".$selected." value=\"".$row['shortname']."\" class=\"110 grey\">".$row['name']."</option>";
 		} else {
-			echo "<option ".$selected." value=\"".$row['shortname']."\" class=\"110\">".$row['name']." OPEN </option>";
+			echo "<option ".$selected." value=\"".$row['shortname']."\" class=\"110\">".$row['name']."</option>";
 		}
 	}
 	echo "</select>";
@@ -138,4 +135,4 @@ function getDefaultEvent() {
 		}
 	}
 }
-
+*/

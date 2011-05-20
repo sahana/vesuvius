@@ -97,6 +97,28 @@ input[type="checkbox"] {
 
 }
 
+.stubText {
+	width: 210px;
+	float:left; 
+	margin: 5px 5px 5px 5px; 
+	font-weight:700;
+}
+
+.stubName { /* name */
+	overflow:hidden;
+	white-space: nowrap; 
+	width: 170px;
+	text-overflow: ellipsis; 
+	margin-bottom:3px;
+	*font-size: 13px !important;
+}
+
+.stubDetails { float:left; font-weight:normal; margin: 0 !important; padding: 0 !important; list-style: none; }
+.stubDetails li { margin: 0 !important; padding: 0 !important; }
+
+.dataName { width:57px !important; display: block;float: left;width: 7em;text-align: right; font-weight: 700; margin-right: 5px; *font-size:13px;}
+.dataValue { *font-size: 13px; }
+
 .ieStubBorder {}
 
 .status:first-letter {
@@ -241,6 +263,14 @@ h1 {
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	padding: 10px;
+}
+
+#selectSort { width: 100px; *font-size: 14px }
+#displayMode{ width: 101px; *font-size: 14px }
+
+#searchOptions b {
+	*font-size: 14px;
+
 }
 
 #searchForm {

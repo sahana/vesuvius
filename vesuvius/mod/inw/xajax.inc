@@ -20,6 +20,7 @@ array_push($global['xajax_functions'],'inw_getData');
 array_push($global['xajax_functions'],'inw_checkForChanges');
 array_push($global['xajax_functions'],'inw_hasNextPage');
 array_push($global['xajax_functions'],'inw_getNotes');
+array_push($global['xajax_functions'],'inw_getAllCount');
 
 function inw_getNotes($uuid) {
 	global $global;
@@ -52,7 +53,26 @@ function inw_getNotes($uuid) {
 	$global["xajax_res"]->addAssign("jsonNotes", "value", json_encode($list));  
 	$global["xajax_res"]->addScript("Utils.loadNotes()"); 
 	return $global["xajax_res"]->getXML();
+}
 
+function inw_getAllCount($incident) {
+		global $global;
+		$db = $global['db'];
+		$qRC = "SELECT COUNT(p.p_uuid) FROM person_uuid p JOIN incident i ON p.incident_id = i.incident_id WHERE i.shortname = '$incident' ;";
+		$result = $db->Execute($qRC);
+		$allCount = 0;
+		
+		
+		while (!$result == NULL && !$result->EOF) {
+			$allCount = $result->fields[0];
+			mysql_free_result($result);
+			break;
+		}
+
+		$global["xajax_res"]->addAssign("totalRecordsSQL", "innerHTML", $allCount);
+		$global["xajax_res"]->addScript('$("#totalRecordsSQL").html(Utils.addCommas($("#totalRecordsSQL").html()))');
+
+		return $global["xajax_res"]->getXML();		
 }
 
 function inw_checkForChanges($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital) {
@@ -107,8 +127,11 @@ function inw_hasNextPage($mode, $incident, $searchTerm, $sStatus, $sGender, $sAg
 		$global["xajax_res"]->addAssign("totalRecordsSOLR", "innerHTML", $search->allCount);
 		$global["xajax_res"]->addAssign("timeElapsedSQL", "innerHTML", substr($timeElapsed, 0, 5));
 		$global["xajax_res"]->addAssign("timeElapsedSOLR", "innerHTML", substr($timeElapsed, 0, 5));
-		$global["xajax_res"]->addScript("Globals.timeElapsed = " . $timeElapsed . "; Globals.totalResults = " . $search->numRowsFound . "; Globals.totalRecords = " . $search->allCount . "; handleUuidListResponse();");
-		
+		if ( $mode == "solr" )
+			$global["xajax_res"]->addScript("Globals.timeElapsed = " . $timeElapsed . "; Globals.totalResults = " . $search->numRowsFound . "; Globals.totalRecords = " . $search->allCount . "; handleUuidListResponse();");
+		else 
+			$global["xajax_res"]->addScript("Globals.timeElapsed = " . $timeElapsed . "; handleUuidListResponse();");
+			
 		//$global["xajax_res"]->addScript("alert('" . count($search->results) . ", " . $search->numRowsFound . ", " . $search->allCount . "')");
 	}
 	else {
@@ -118,7 +141,8 @@ function inw_hasNextPage($mode, $incident, $searchTerm, $sStatus, $sGender, $sAg
 		$global["xajax_res"]->addScript("Globals.totalResults = 0; $('#recordsFound').html('0');");
 		$global["xajax_res"]->addAssign("totalRecordsSQL", "innerHTML", $search->allCount);
 		$global["xajax_res"]->addAssign("totalRecordsSOLR", "innerHTML", $search->allCount);
-		$global["xajax_res"]->addScript("Globals.totalRecords = " . $search->allCount . ";");
+		if ( $mode == "solr" )
+			$global["xajax_res"]->addScript("Globals.totalRecords = " . $search->allCount . ";");
 		$global["xajax_res"]->addScript("$('#scrollingContent').html('');showFacets();$('#pager').hide();$('#perPageWrapper').hide()");
 		$global["xajax_res"]->addAssign("scrolling_content", "innerHTML", "<br /><span style='color:red'>No matches for '" . $searchTerm . "'. Please broaden your search criteria and try again.</span>");
 		//$global["xajax_res"]->addAssign("scrolling_content", "innerHTML", $searchTerm);

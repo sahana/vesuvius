@@ -1,4 +1,4 @@
-// Vesuvius 0.9 Installation Instructions
+// Vesuvius 0.9.1 Installation Instructions
 ==============================================
 
 Currently, Vesuvius lacks an installer, so the installation process is done manually.
@@ -45,7 +45,7 @@ the sahana.conf file from the previous step with the new database settings.
 
 5) Import an initial database. You can do this in a number of tools, for example:
 PHPMyAdmin, MySQL Admin, or from a shell with the mysql command. The default database to
-use in the file /backups/vesuviusStarterDB.sql
+use in the file /backups/vesuviusStarterDb_v091.sql
 
 
 

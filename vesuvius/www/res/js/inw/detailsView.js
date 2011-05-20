@@ -56,16 +56,30 @@ var DetailsView =
 	},
 
 	createInfoTag : function(person) {
-		var statusTab = $("<div class='status' id='status_" + person.uuid + "' style='background-color:#" + person.tagColor + "'>" + person.statusSahanaFull + "</div>");
+		var statusTab = 
+			$("<div></div>").addClass("status").attr("id", "status_" + person.uuid)
+							.css("background-color", "#" + person.tagColor)
+							.html(person.statusSahanaFull);
 
-		// should build this correctly (minimize mixing of html w/ javascript) in the future.
-		var div = $("<div style='width: 210px;float:left; margin: 5px 5px 5px 5px; font-weight:700' id='" + person.uuid + "'></div>")
-					.append("<div  id='name_" + person.uuid + "' style='overflow:hidden;white-space: nowrap; width: 170px;text-overflow: ellipsis; margin-bottom:3px;'>" + person.name + "</div>")
-					.append(statusTab)
-					.append("<div id='ageGender_" + person.uuid + "' style='float:left;font-weight:normal'><div style='float: left;width:55px;text-align:right;font-weight:bold;margin-right:5px;'>Age:</div> " + person.ageGroup + "<br /> <div style='float: left;width:55px;text-align:right;font-weight:bold;margin-right:5px;'>Gender:</div> " + person.gender + "</div>")
-					.append("<div id='updated_" + person.uuid + "'style='float:left;white-space:nowrap;font-weight:normal'><div style='float: left;width:55px;text-align:right;font-weight:bold;margin-right:5px;'>Updated:</div> "
-								+ person.statusSahanaUpdated + " UTC" );
-
+		var name = $("<div></div>").attr("id", person.uuid).html(person.name);
+		
+		var details = $("<ul></ul>").attr("id", "details_" + person.uuid).addClass("stubDetails");
+		var dataName = $("<span></span>").addClass("dataName");
+		var dataValue = $("<span></span>").addClass("dataValue");
+		
+		details.append($("<li></li>").append(dataName.clone().html("Age:")).append(dataValue.clone().html(person.ageGroup)));
+		details.append($("<li></li>").append(dataName.clone().html("Gender:")).append(dataValue.clone().html(person.gender)));
+		details.append($("<li></li>").append(dataName.clone().html("Updated:")).append(dataValue.clone().html(person.statusSahanaUpdated + " UTC")));
+		
+		
+		var div = 
+			$("<div></div>")
+				.addClass("stubText")
+				.attr("id", person.uuid)
+				.append(name)
+				.append(statusTab)
+				.append(details);
+				
 		return div;
 	},
 

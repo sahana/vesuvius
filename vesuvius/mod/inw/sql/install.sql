@@ -22,6 +22,7 @@ from `person_uuid` `a` join `person_status` `b` on (`a`.`p_uuid` = `b`.`p_uuid` 
  left join `hospital` `h` on `h`.`hospital_uuid` = `a`.`hospital_uuid`
  left join person_updates f on a.p_uuid = f.p_uuid;
 
+DELIMITER //
 DROP PROCEDURE `PLSearch`//
 CREATE DEFINER=`mrodriguez`@`localhost` PROCEDURE `PLSearch`(
      IN searchTerms CHAR(255),
@@ -32,9 +33,7 @@ CREATE DEFINER=`mrodriguez`@`localhost` PROCEDURE `PLSearch`(
 	 IN incidentName VARCHAR(100),
 	 IN sortBy VARCHAR(100),
 	 IN pageStart INT,
-	 IN perPage INT,
-    OUT totalRows INT
-
+	 IN perPage INT
 )
 BEGIN
 
@@ -44,7 +43,6 @@ BEGIN
             SELECT SQL_NO_CACHE pu.*
                 FROM person_uuid pu
                    JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
-                  LIMIT 2000
          );
     
     ELSE
@@ -53,7 +51,6 @@ BEGIN
                 FROM person_uuid pu
                    JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
             WHERE full_name like CONCAT(searchTerms , '%') 
-            LIMIT 2000
             );
      END IF;
     
@@ -99,16 +96,10 @@ BEGIN
                                                         @pageStart, @perPage;
 
       DEALLOCATE PREPARE stmt;
+      DROP TABLE tmp_names;
 
-      
-			 
-	DROP TABLE tmp_names;
-    
-    
-      SELECT COUNT(p.p_uuid) INTO totalRows
-          FROM person_uuid p
-             JOIN incident i ON p.incident_id = i.incident_id
-      WHERE i.shortname = incidentName;
    
    
 END
+DELIMITER ;
+

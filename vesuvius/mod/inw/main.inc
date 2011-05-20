@@ -22,7 +22,7 @@ shn_xajax_registerFunction('inw_getData');
 shn_xajax_registerFunction('inw_checkForChanges');
 shn_xajax_registerFunction('inw_hasNextPage');
 shn_xajax_registerFunction('inw_getNotes');
-
+shn_xajax_registerFunction('inw_getAllCount');
 
 
 /**
@@ -61,7 +61,7 @@ function shn_inw_default() {
 					<br />
 					<b>Sort By</b>
 						<img id="sortOrderIcon" style="width:10px; height:10px; display: none;" src="res/img/desc.png" title="Descending (click for ascending)" />
-						<select id="selectSort" style="width: 85px;" onchange="Utils.sortBy( this )">
+						<select id="selectSort" onchange="Utils.sortBy( this )">
 							<? if ( $conf["enable_solr_for_search"] ) { ?>
 								<option value="">Relevance</option>
 							<? } ?>
@@ -74,7 +74,7 @@ function shn_inw_default() {
 					<div style="clear:both;"></div>
 					<div id="displayModeWrapper" style="float:right;margin-right: 4px; margin-top:5px;">
 						<b>Mode</b>
-						<select id="displayMode" style="width: 105px;" onchange="Utils.displayMode(this.value)">
+						<select id="displayMode" onchange="Utils.displayMode(this.value)">
 							<option value="interactive">Interactive</option>
 							<option value="handsFree">Hands Free</option>
 							<option value="fullScreen">Full Screen</option>
@@ -217,7 +217,7 @@ function shn_inw_default() {
 		<br />
 
 		<!--script type="text/javascript" src="https://maps-api-ssl.google.com/maps/api/js?v=2&client=gme-hhs&sensor=false"></script-->
-		<script type="text/javascript" src="res/js/jquery-1.4.4.min.js" ></script>
+		<script type="text/javascript" src="res/js/jquery-1.6.1.min.js" ></script>
 		<script type="text/javascript" src="res/js/jquery-ui-effectscore.min.js" ></script>
 		<!--script type="text/javascript" src="res/js/inw/jquery.animate-enhanced.min.js" ></script-->
 
