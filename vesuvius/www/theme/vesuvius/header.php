@@ -20,7 +20,7 @@ $full = false; // true when we show the full header...
 // show image
 echo '
 	<div id="header" class="clearfix">
-		<a href="'.makeBaseUrlMinusEvent().'"><img src="theme/lpf3/img/pl.png"></a>
+		<a href="'.makeBaseUrlMinusEvent().'"><img src="theme/vesuvius/img/pl.png"></a>
 ';
 
 

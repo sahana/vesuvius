@@ -1,6 +1,6 @@
 <?
 /**
- * @name         lpf theme html head
+ * @name         vesuvius theme html head
  * @version      1.0
  * @package      framework
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>

@@ -78,7 +78,7 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
 		require_once($global['approot']."www/theme/".$theme."/head.php");
 		shn_theme_head();
 	} else {
-		echo "theme not setup correctly.";
+		echo "theme not setup correctly ~ theme(".$theme.")";
 		die();
 	}
 
