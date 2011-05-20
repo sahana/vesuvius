@@ -26,6 +26,7 @@ function add_pfif_service($repository) {
 
    if ($repository->role == 'source') {
        $pfif_conf['services'][$svc['name']]['read_url'] = $svc['read_url'];
+       $pfif_conf['services'][$svc['name']]['view_url'] = $svc['view_url'];
        $pfif_conf['services'][$svc['name']]['read_params'] = $svc['read_params'];
        $pfif_conf['services'][$svc['name']]['feed_url'] = $svc['feed_url'];
        $pfif_conf['services'][$svc['name']]['feed_params'] = $svc['feed_params'];
@@ -62,6 +63,8 @@ function get_service_params($role, $base, $params) {
       $r = $el->item(0)->getElementsByTagName('read');
       $ru = $r->item(0)->getElementsByTagName('url');
       $svc['read_url'] = $base.'/'.$ru->item(0)->nodeValue;
+      // Temp kludge for prune function.
+      $svc['view_url'] = $base.'/view';
       $rp = $r->item(0)->getElementsByTagName('param');
         
       $f = $el->item(0)->getElementsByTagName('feed');

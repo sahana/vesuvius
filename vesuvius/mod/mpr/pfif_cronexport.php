@@ -48,7 +48,7 @@ $repositories = Pfif_Repository::find_sink();
 if (!$repositories) {
    die("No repositories ready for harvest.\n");
 }
-//var_dump("Found repositories for import", $repositories);
+//var_dump("Found repositories for export", $repositories);
 
 $sched_time = time();
 $export_repos = array();
@@ -82,8 +82,9 @@ foreach ($export_queue as $service_name => $service) {
    $repos->start_harvest('scheduled', 'out');
    print "\n\nExport started to $pfif_uri at " . $repos->get_log()->start_time . "\n";
    if (true) {
-      $loaded = $p->loadFromDatabase('', $min_entry_date, $skip);
-      print "load for post to $service_name for records after $min_entry_date " . ($loaded ? "suceeded with $loaded records" : "failed") . "\n";
+      $local_date = local_date($min_entry_date);
+      $loaded = $p->loadFromDatabase('', $local_date, $skip);
+      print "load for post to $service_name for records after $local_date " . ($loaded ? "suceeded with $loaded records" : "failed") . "\n";
    } else {
       $id = 'pl.nlm.nih.gov/person.10505'; // e.g. 'japan.person-finder.appspot.com/person.4440739'
       $loaded = $p->loadFromDatabase($id);
@@ -98,9 +99,9 @@ foreach ($export_queue as $service_name => $service) {
       fclose($fh);
       print "Logged $written of $charstowrite characters to crontest.xml\n";
    
-      // $post_status = $p->postDbToService('LPFp-46833',$service_name); // TESTING
-      $post_status = "TESTING: record(s) not uploaded";
-      //$post_status = $p->postToService('xml',$xml,$service_name);
+      //$post_status = $p->postDbToService('LPFp-46833',$service_name); // TESTING
+      //$post_status = "TESTING: record(s) not uploaded";
+      $post_status = $p->postToService('xml',$xml,$service_name);
       // TODO: Adjust count depending on post_status.
       $_SESSION['pfif_info']['pfif_person_count'] = $loaded;
       update_harvest_log($repos, $req_params, 'completed');

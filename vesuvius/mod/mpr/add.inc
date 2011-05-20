@@ -812,6 +812,12 @@ function shn_mpr_addperson_commit() {
 	if(isset($_SESSION['mpr_add']['entry']['years_old'])) {
 		$insert_array['years_old'] = $_SESSION['mpr_add']['entry']['years_old'];
 	}
+	if(isset($_SESSION['mpr_add']['entry']['minAge'])) {
+		$insert_array['minAge'] = $_SESSION['mpr_add']['entry']['minAge'];
+	}
+	if(isset($_SESSION['mpr_add']['entry']['maxAge'])) {
+		$insert_array['maxAge'] = $_SESSION['mpr_add']['entry']['maxAge'];
+	}
 	if(isset($_SESSION['mpr_add']['entry']['opt_gender'])) {
 		$insert_array['opt_gender'] = $_SESSION['mpr_add']['entry']['opt_gender'];
 	}
@@ -824,9 +830,10 @@ function shn_mpr_addperson_commit() {
 	if(isset($_SESSION['mpr_add']['entry']['opt_race'])) {
 		$insert_array['opt_race'] = $_SESSION['mpr_add']['entry']['opt_race'];
 	}
-	if(isset($_SESSION['mpr_add']['entry']['last_seen'])) {
-		$insert_array['last_seen'] = $_SESSION['mpr_add']['entry']['last_seen'];
-	}
+        // Fixme: Should delete this since this won't be set.
+	//if(isset($_SESSION['mpr_add']['entry']['last_seen'])) {
+		//$insert_array['last_seen'] = $_SESSION['mpr_add']['entry']['last_seen'];
+	//}
 	if(isset($_SESSION['mpr_add']['entry']['last_clothing'])) {
 		$insert_array['last_clothing'] = $_SESSION['mpr_add']['entry']['last_clothing'];
 	}
@@ -886,53 +893,6 @@ function shn_mpr_addperson_commit() {
 	//go back to the main menu
 	//shn_mpr_default();
 }
-
-
-
-/**
- * This function commits the given note data to the database.
- * @access public
- * @return void
- */
-function shn_mpr_addnote_commit() {
-	/* LATER
-		global $global;
-		include_once($global['approot'].'inc/lib_dbentity/obj_person.inc');
-		$missing_person = new shn_Person($_SESSION['mpr_entry']['p_uuid']);
-		
-		foreach($_SESSION['mpr_entry'] as $k => $v){
-			if($k != 'seq')
-			echo '$missing_person->set_'."$k($v)<br>";
-		}
-	*/
-
-	// $insert_array[<field_name>] = value
-	global $global;
-	global $conf;
-
-        $key = "WHERE `p_uuid` = '" . $_SESSION['mpr_add']['entry']['p_uuid'] . "'";
-	//Other Details
-	if(isset($_SESSION['mpr_add']['entry']['last_seen'])) {
-                $insert_array = array();
-		$insert_array['last_seen'] = $_SESSION['mpr_add']['entry']['last_seen'];
-	        shn_db_update($insert_array, 'person_details', $key);
-	        $insert_array = null; // reset array
-	}
-
-	//Insert status into person_status
-        $insert_array = array();
-	$insert_array['opt_status'] = $_SESSION['mpr_add']['entry']['opt_status'];
-        if (isset($_SESSION['mpr_add']['entry']['last_updated'])) {
-	   $insert_array['last_updated'] = $_SESSION['mpr_add']['entry']['last_updated'];
-        }
-	shn_db_update($insert_array, 'person_status', $key);
-	$insert_array = null; // reset array
-
-	//go back to the main menu
-	//shn_mpr_default();    
-}
-
-
 
 /**
  * This function inserts the reporting person to the people registry

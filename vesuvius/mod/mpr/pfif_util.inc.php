@@ -134,40 +134,6 @@ function hepl_parse_email($em) {
     return $result;
 }
 
-function shn_full_name_to_first_name($full_name,$family_name) {
-    // var_dump("full_name_to_first_name",$full_name,$family_name);
-    // FIXME: Temporary hack for Feb HEPL export
-    $tmp = hepl_parse_name($full_name);
-    $full_name = $tmp['name'];
-
-    $first_name = '';
-    if (!isset($family_name)) {
-       # print("family_name is not set! <br/>");
-        $parts = explode(' ',$full_name);
-        $c = count($parts);
-        $family_name = $c > 0 ? $parts[$c - 1] : '';
-    }
-    $first_name = str_replace(' '.$family_name,'',$full_name);
-    #print "replacing ".$family_name." with null in ".$full_name." to yield first_name = ".$first_name."<br/>";
-    return $first_name;
-}
-
-function shn_determine_last_name($full_name,$family_name) {
-    if (isset($family_name)) {
-        $last_name = $family_name;
-    } else {
-        // FIXME: Temporary hack for Feb HEPL export
-        $tmp = hepl_parse_name($full_name);
-        $full_name = $tmp['name'];
-
-        $first_name = '';
-        $parts = explode(' ',$full_name);
-        $c = count($parts);
-        $last_name = $c > 0 ? $parts[$c - 1] : '';
-    }
-    return $last_name;
-}
-
 /**
 * Map Sahana MPR status values to PFIF found (1.1) or status  (1.2) values
 * PFIF 1.1 defines only found = {true, false}. PFIF 1.2 uses status as defined below (with corresponding Sahana
@@ -296,7 +262,6 @@ function shn_map_gender_from_pfif($pfif_sex) {
  * Maps Approximate age, if given, or age range to PFIF age element.
  *
  * @param personRecord  resultset from db for person of interest
- * @param person        Person instance containing original imported PFIF person record
  *
  */
 function shn_map_age_to_pfif($personRecord) {
@@ -304,7 +269,7 @@ function shn_map_age_to_pfif($personRecord) {
     if (!empty($personRecord['years_old'])) {
         $age = $personRecord['years_old'];   // perhaps from mpres
     } else if (!empty($personRecord['minAge']) && !empty($personRecord['maxAge'])) {
-        $age = ($personRecord['maxAge']+$personRecord['minAge'])/2;
+        $age = $personRecord['minAge'].'-'.$personRecord['minAge'];
     }
     return $age;
 }
@@ -323,7 +288,7 @@ function shn_map_age_from_pfif($dob, $age, $source_date) {
     //              Use datediff to get approximate age in years
     //     NOTE: that MySQL allows partial dates specified as YYYY0000 or YYYYMM00, however we don't know
     //                 how Sahana will respond when such partial dates are encountered. So, only store date_of_birth when it
-    //                 is psecified to the day. Otherwise, may use partial date to establish age if age is not specified.
+    //                 is specified to the day. Otherwise, may use partial date to establish age if age is not specified.
     if (!empty($dob)) {
         $full_dob = strlen($dob) == 10 ? $dob : false;
         if ($full_dob) {
@@ -338,7 +303,8 @@ function shn_map_age_from_pfif($dob, $age, $source_date) {
         if (count($range) == 1) {
             $result['years_old'] = $range[0];
         } else {
-            $result['years_old'] = round(($range[0]+$range[1])/2);
+            $result['minAge'] = $range[0];
+            $result['maxAge'] = $range[1];
         }
     } else if (!empty($dob)) {
         $reftime = strtotime($source_date);
@@ -350,103 +316,6 @@ function shn_map_age_from_pfif($dob, $age, $source_date) {
     return $result;
 }
 
-function split_other($oth,$v) {
-    // error_log("splitting ".$oth);
-    $result = array();
-    $result[PFIF_1_2_AGE] = null;
-    $result[PFIF_1_2_SEX] = null;
-    $result[PFIF_1_2_DOB] = null;
-
-        $ofs = strlen(PFIF_1_2_OPEN_TAG);
-    // Scan for pfif 1.2 block
-    $p2start = stripos($oth,PFIF_1_2_OPEN_TAG);
-    $p2end = stripos($oth,PFIF_1_2_CLOSE_TAG,$p2start);
-    if ($p2start === FALSE) {
-        $result['other'] = $oth;
-    } else if ($v == '1.2') {
-        $tok_start = $p2start + $ofs;
-        $p2 = substr($oth,$tok_start,$p2end - $tok_start);
-        $delim = ': ';
-        $tok = strtok($p2,$delim);
-        while ($tok !== FALSE) {
-            $result[$tok] = strtok($delim);
-            $tok = strtok($delim);
-        }
-        $result['other'] = substr($oth,0,$p2start);
-    } else {
-        $p2mid = $p2start+$ofs;
-        $result['other'] = substr($oth,0,$p2start).' '.
-                           substr($oth,$p2mid,$p2end-$p2mid).
-                           substr($oth,$p2end+$ofs+1);
-    }
-    // error_log(var_export($result,true));
-    return $result;
-}
-
-function merge_other($age,$dob,$sex) {
-    $delim = ': ';
-    $result = PFIF_1_2_OPEN_TAG;
-    $result .= !empty($age) ? PFIF_1_2_AGE.':'.$age.' ' : '';
-    $result .= !empty($dob) ? PFIF_1_2_DOB.':'.$dob.' ' : '';
-    $result .= !empty($sex) ?PFIF_1_2_SEX.':'.$sex : '';
-    if (strlen($result) > strlen(PFIF_1_2_OPEN_TAG))
-        $result .= PFIF_1_2_CLOSE_TAG;
-    else
-        $result = '';
-    return $result;
-}
-
-function split_text($text,$v) {
-    // print ("splitting'$text' using version $v \n");
-    // error_log("splitting ".$text);
-    $result = array();
-    $result[PFIF_1_2_PID] = null;
-    $result[PFIF_1_2_LPID] = null;
-    $result[PFIF_1_2_STS] = null;
-
-    $ofs = strlen(PFIF_1_2_OPEN_TAG);
-    // Scan for pfif 1.2 block
-    $p2start = stripos($text,PFIF_1_2_OPEN_TAG);
-    $p2end = stripos($text,PFIF_1_2_CLOSE_TAG,$p2start);
-    if ($p2start === FALSE) {
-        $result['text'] = $text;
-    } else if ($v == '1.2') {
-        $tok_start = $p2start + $ofs;
-        $p2 = substr($text,$tok_start,$p2end - $tok_start);
-        $delim = ': ';
-        $tok = strtok($p2,$delim);
-        while ($tok !== FALSE) {
-            $result[$tok] = strtok($delim);
-            $tok = strtok($delim);
-        }
-        $result['text'] = substr($text,0,$p2start);
-    } else {
-        $p2mid = $p2start+$ofs;
-        $result['text'] = substr($text,0,$p2start).' '.
-                           substr($text,$p2mid,$p2end-$p2mid).
-                           substr($text,$p2end+$ofs+1);
-    }
-    // error_log(var_export($result,true));
-    // print_r ($result);
-    return $result;
-}
-
-function merge_text($pid,$l_pid,$status) {
-    // print "merging ($pid, $l_pid, $status) into ";
-
-    $delim = ': ';
-    $result = PFIF_1_2_OPEN_TAG;
-    $result .= !empty($pid) ? PFIF_1_2_PID.':'.$pid.' ' : '';
-    $result .= !empty($l_pid) ? PFIF_1_2_LPID.':'.$l_pid.' ' : '';
-    $result .= !empty($status) ? PFIF_1_2_STS.':'.$status : '';
-    if (strlen($result) > strlen(PFIF_1_2_OPEN_TAG))
-        $result .= PFIF_1_2_CLOSE_TAG;
-    else
-        $result = '';
-
-    // print "'$result'\n";
-    return $result;
-}
     /**
     *
     *  Experimental: return the base URL needed to resolve a relative photo_url

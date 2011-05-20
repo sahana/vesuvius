@@ -26,6 +26,7 @@ $pfif_conf = array(); // declare
 $pfif_conf['service_to_incident'] =
         array('googlechristchurch' => array('incident_id'=>8),
         'googlejapan' => array('incident_id'=>9),
-        'googletest' => array('incident_id'=>1));
+        'googleiscram2011' => array('incident_id'=>27),
+        'googletest' => array('incident_id'=>27));
 
 $pfif_conf['services'] = array(); // chc 4/7/2010 : Initilialized from pfif_repository table via pfif_croninit.inc
