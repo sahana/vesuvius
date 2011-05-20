@@ -92,6 +92,7 @@ input[type="checkbox"] {
 	float: left;
 	width:300px;
 	height: 100px;
+	*height: 110px;
 	position: relative;
 	cursor: pointer;
 
@@ -117,7 +118,7 @@ input[type="checkbox"] {
 .stubDetails li { margin: 0px 0px -4px 0px !important; padding: 0 !important; }
 
 .dataName { width:57px !important; display: block;float: left;width: 7em;text-align: right; font-weight: 700; margin-right: 5px; *font-size:13px;}
-.dataValue { *font-size: 13px; *margin-bottom: -8px; }
+.dataValue { *font-size: 13px; *margin-bottom: -4px; }
 
 .ieStubBorder {}
 
@@ -259,7 +260,8 @@ h1 {
 	float:left;
 	width: 160px;
 	border: solid 1px #6289B0;
-
+	*font-size: 13px;
+	
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
@@ -360,6 +362,8 @@ h1 {
 	-moz-border-radius: 10px;*/
 	/*padding: 3px 0px 3px 0px;*/
 }
+
+
 
 #loadingX {
 	position: absolute;

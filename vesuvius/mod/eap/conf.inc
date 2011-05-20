@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Edit A Person
- * @version      1.3
+ * @version      1.4
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0412
+ * @lastModified 2011.0520
  */
 
 $conf['mod_eap_name']         = _t("Edit a Person");  // Defines the name of the module
