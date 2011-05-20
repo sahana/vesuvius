@@ -115,7 +115,7 @@ input[type="checkbox"] {
 }
 
 .stubDetails { float:left; font-weight:normal; margin: 0 !important; padding: 0 !important; list-style: none; }
-.stubDetails li { margin: 0px 0px -4px 0px !important; padding: 0 !important; }
+.stubDetails li { margin: 0px 0px 0px 0px !important; padding: 0 !important; }
 
 .dataName { width:57px !important; display: block;float: left;width: 7em;text-align: right; font-weight: 700; margin-right: 5px; *font-size:13px;}
 .dataValue { *font-size: 13px; *margin-bottom: -4px; }
