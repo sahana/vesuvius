@@ -1,31 +1,26 @@
 <?php
+
 /**
- * @name         Missing Person Registry
- * @version      1.5
- * @package      mpr
- * @author       Nilushan Silva
- * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
- * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
- * @link         https://pl.nlm.nih.gov/about
- * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0307
+ * Loads PFIF Persons or Notes depending on first argument. Uses harvest log information to keep
+ * track of where it left off. In case you want to restart from the beginning (for example, to
+ * restore some accidentally deleted records), simply delete the relevant harvest log and rerun.
+ *
+ * @package     pfif
+ * @version      1.1
+ * @author       Carl H. Cornwell <ccornwell@mail.nih.gov>
+ * LastModified: 2010:0308:1402
+ * License:      LGPL
+ * @link         TBD
  */
-
-// PFIF 1.1
-
-
 // print "Configuring error reporting  ...\n";
 error_reporting(E_ALL ^ E_NOTICE);
 // print "Configuring error display  ...\n";
 ini_set("display_errors", "stdout");
 
-
 // cron job task for for mpr_pfif import
-
 // set approot since we don't know it yet
-$global['approot'] = getcwd()."/../../";
-require_once("../../conf/sysconf.inc.php");
+$global['approot'] = getcwd() . "/../../";
+require_once("../../conf/sahana.conf");
 require_once("../../3rd/adodb/adodb.inc.php");
 require_once("../../inc/handler_db.inc");
 require_once("../../inc/lib_uuid.inc");
@@ -41,133 +36,129 @@ require_once $global['approot'] . 'mod/mpr/add.inc';
 require_once $global['approot'] . 'mod/mpr/edit.inc';
 
 /**
-* Switch database in order to support multiple DB instances.
-* TBD: how are disasters mapped to repositories?
-*/
-function shn_db_use($db_name,$db_host=null) {
-global $global, $conf;
+ * Switch database in order to support multiple DB instances.
+ * NOT USED CURRENTLY
+ */
+function shn_db_use($db_name, $db_host=null) {
+   global $global, $conf;
 
-    if (empty($db_host)) $db_host = $conf['db_host'];
-    $global['db']->Close();
-    $global['db'] = NewADOConnection($conf['db_engine']);
-    $_host_port = $db_host.(isset($conf['db_port'])?':'.$conf['db_port']:'');
-    $global['db']->Connect($_host_port,$conf['db_user'],$conf['db_pass'],$db_name);
+   if (empty($db_host))
+      $db_host = $conf['db_host'];
+   $global['db']->Close();
+   $global['db'] = NewADOConnection($conf['db_engine']);
+   $_host_port = $db_host . (isset($conf['db_port']) ? ':' . $conf['db_port'] : '');
+   $global['db']->Connect($_host_port, $conf['db_user'], $conf['db_pass'], $db_name);
 }
 
 /**
- *  Update the harvest log for the specified repository
+ *  Log harvest end
  */
-function update_harvest_log($r, $status) {
-    $pfif_info = $_SESSION['pfif_info'];
-    $pfif_info['end_time'] = time();
-    // var_dump("ending harvest with pfif_info:",$pfif_info);
-    $r->end_harvest($status,$pfif_info);
-}
-function is_nonzero($x) {
-    return ($x != 0);
+function update_harvest_log($r, $req_params, $status) {
+   $pfif_info = $_SESSION['pfif_info'];
+   $pfif_info['end_time'] = time();
+   //var_dump("ending harvest with pfif_info:", $pfif_info);
+   $r->end_harvest($status, $req_params, $pfif_info);
 }
 
-function queue_next_harvest($next) {
-    $nonzero = array_filter($next,"is_nonzero");
-    $ready = sort($nonzero);
-    if ($ready) {
-        $_SESSION['next_harvest'] = array_shift($nonzero);
-    } else {
-        unset($_SESSION['next_harvest']);
-    }
-}
- /*
-  -----------------------------------------------------------------------------------------------------------------------
-   */
-$is_scheduled = ($argc > 1 && $argv[1] == "test") ? false : true;
+/*
+ -----------------------------------------------------------------------------------------------------------------------
+*/
+
+// Update persons or notes, depending on arg 1.
+if ($argc < 2) {
+   die("Wrong number of arguments: Expecting at least 2.");
+} else if ($argv[1] != "person" && $argv[1] != "note") {
+   die("Expect 'person' or 'note' as first argument.");
+} 
+$is_person = ($argv[1] == "person") ? true : false;
+$is_scheduled = ($argc > 2 && $argv[2] == "test") ? false : true;
 $mode = $is_scheduled ? "scheduled" : "test";
 
-print "Starting PFIF import ".strftime("%c")."\n";
+print "\nStarting PFIF ".$argv[1]." import at ".strftime("%c")."\n";
 
-// print_r($_SERVER);
-print "Using db ".$global['db']->database." in ".$mode." mode\n";
-// print_r($conf);
-// die("\n");
+//print_r($_SERVER);
+print "Using db " . $global['db']->database . " in " . $mode . " mode\n";
+// Store Japanese correctly.
+$global['db']->Execute("SET NAMES 'utf8'");
+//print_r($conf);
 
-$repositories = Pfif_Repository::find_source(); // Get all sources
+// Get all PFIF repository sources.
+$repositories = Pfif_Repository::find_source(($is_person)? 'person' : 'note');
 if (!$repositories) {
-    die("EXITING TEST WITH STATUS = FAILED\n");
+   die("No repositories ready for harvest.\n");
 }
-// var_dump("Found repositories for import",$repositories);
-$sched_time = time();
-$next = array(); // list of next scheduled times for each repository
-$import_repos = array();
+//var_dump("Found repositories for import", $repositories);
 
+$sched_time = time();
+$import_repos = array();
 foreach ($repositories as $r) {
-    if ($r->is_ready_for_import($sched_time)) {
-        add_pfif_service($r);
-        // var_dump("importing from repository",$r);
-        $import_repos[$r->id] = $r;
-        $next[$r->id] = $r->sched_interval_minutes*60 + $sched_time;
-    } else {
-        $next[$r->id] = $r->sched_interval_minutes*60 +
-                        $r->get_log()->end_time;
-    }
+   if ($r->is_ready_for_harvest($sched_time)) {
+      add_pfif_service($r);             // initializes pfif_conf
+      $import_repos[$r->id] = $r;
+      //var_dump("importing from repository",$r);
+   }
 }
 unset($r);
 unset($repositories);
 
-// die("CONFIGURING TEST DRIVER FOR REPOSITORY IMPORT SCHEDULING\n");
-
 $import_queue = $pfif_conf['services'];
-print "Queued imports:\n".print_r($import_queue,true)."\n";
-// var_dump("Next import:",$next);
-queue_next_harvest($next);
+//print "Queued imports:\n".print_r($import_queue,true)."\n";
 
 foreach ($import_queue as $service_name => $service) {
-    $repos = $import_repos[$pfif_conf['map'][$service_name]];
-    $incident_conf = $pfif_conf['service_to_incident'][$service_name];
-    $pfif_conf['disaster_id'] = $incident_conf['disaster_id'];
-    // var_dump("repository",$repos,"conf",$incident_conf);
+   $repos = $import_repos[$pfif_conf['map'][$service_name]];
+   $incident_conf = $pfif_conf['service_to_incident'][$service_name];
+   $pfif_conf['disaster_id'] = $incident_conf['disaster_id'];
+   //var_dump("repository", $repos, "conf", $incident_conf);
 
-    $service_uri = $service['feed_url'];
-    // TODO: min_entry_date and skip must come from repos and asscoiated log
-    $req_params = $repos->get_harvest_request_params();
-    $pfif_uri = $service_uri.
-                    '?min_entry_date='.$req_params['min_entry_date'].
-                    '&max_results='.$req_params['max_results'];
-    $pfif_uri .= ($req_params['skip'] ? '&skip='.$req_params['skip'] : '');
-    $log_request = "IMPORT REQUEST: ".$pfif_uri." \n";
-    $p = new Pfif();
-    $p->setPfifConf($incident_conf['incident_id'],$pfif_conf);
-    //$_SESSION['user_pref_ims_incident_id'] = $incident_conf['incident_id'];
-
-    try {
-        $repos->start_harvest($mode,'in');
-        print "Import started from: $log_request at ".$repos->get_log()->start_time."/n";
-        $loaded = $p->loadFromXML($pfif_uri);
-
-        if ($loaded) {
-            shn_db_use($incident_conf['db_name'],$incident_conf['db_host']);
-            if ($is_scheduled) { // Output to database for production
-                $loaded = $p->storeInDatabase();
-                print "Import ".($loaded ? "stored" : "store failed")."\n";
-            } else { // Output to file for test/debug
-                $xml =  $p->storeInXML(PFIF_V_1_2); // PFIF_V_1_1);
-                // print $xml;
-                $logfile_name = 'crontest_'.$service_name.'.xml';
-                $fh = fopen($logfile_name,'a+');
-                $charstowrite = strlen($xml);
-                $written = fwrite($fh,$xml,$charstowrite);
-                fclose($fh);
-                print "wrote $written of $charstowrite characters to $logfile_name\n";
+   $service_uri = $service['feed_url'];
+   $req_params = $repos->get_request_params();
+   $pfif_uri = $service_uri .
+           '?min_entry_date=' . $req_params['min_entry_date'] .
+           '&max_results=' . $service['max_results'] .
+           '&key=' . $service['auth_key'] .
+           '&skip=' . $req_params['skip'] .
+           '&version=1.2';
+   $p = new Pfif();
+   $p->setPfifConf($pfif_conf, $service_name);
+   //print_r($pfif_conf);
+   try {
+      $repos->start_harvest($mode, 'in');
+      print "\nImport started from $pfif_uri at " . $repos->get_log()->start_time . "\n";
+      if ($is_person) {
+         $loaded = $p->loadPersonsFromXML($pfif_uri);
+      } else {
+         $loaded = $p->loadNotesFromXML($pfif_uri);
+      }
+      if ($loaded) {
+         // TODO: Keep this?
+         //shn_db_use($incident_conf['db_name'], $incident_conf['db_host']);
+         if ($is_scheduled) { // Output to database for production
+            if ($is_person) {
+               $loaded = $p->storePersonsInDatabase();
+            } else {
+               $loaded = $p->storeNotesInDatabase();
             }
-            update_harvest_log($repos,'completed');
-        } else {
-            print "Import failed from repository $service_name\n";
-            update_harvest_log($repos,'error');
-        }
-        unset ($p);
-    } catch (Exception $e) {
-        error_log("Error in import: ".$e->getMessage()."\n");
-    }
+            print "Import " . ($loaded ? "stored" : "store failed") . "\n";
+         } else { // Output to file for test/debug
+            $xml = $p->storeInXML();
+            //print $xml;
+            $logfile_name = 'crontest_' . $service_name . '.xml';
+            $fh = fopen($logfile_name, 'a+');
+            $charstowrite = strlen($xml);
+            $written = fwrite($fh, $xml, $charstowrite);
+            fclose($fh);
+            print "wrote $written of $charstowrite characters to $logfile_name\n";
+         }
+         update_harvest_log($repos, $req_params, 'completed');
+      } else {
+         print "Import failed from repository $service_name\n";
+         update_harvest_log($repos, $req_params, 'error');
+      }
+      unset($p);
+   } catch (Exception $e) {
+      error_log("Error in import: " . $e->getMessage() . "\n");
+   }
+   unset($_SESSION['pfif_info']);
 }
 unset($service);
-print "\nPFIF import completed ".strftime("%c")."\n";
-var_dump($_SESSION['next_harvest']);
-print "\nnext harvest at ".strftime('%Y%m%d%H%M',$_SESSION['next_harvest'])."\n";
+print "PFIF import completed " . strftime("%c") . "\n";
