@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Edit A Person
- * @version      1.3
+ * @version      1.4
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0412
+ * @lastModified 2011.0520
  */
 
 require_once($global['approot']."/inc/lib_uuid.inc");
@@ -1525,12 +1525,20 @@ function shn_eap_edit() {
 		<b><input type=\"text\" value=\"".$global['googl']."\"></b></input><br>
 		<br>
 		<span>Send this page to a mobile device:</span><br><br>
-		<img id=\"tehQRimage\" height=\"200\" width=\"200\" class=\"qrImage\" src=\"https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=L|0&chl=".$global['googl']."\">
+		<script type=\"text/javascript\" src=\"res/js/jquery-1.6.1.min.js\"></script>
+		<script type=\"text/javascript\" src=\"res/js/jquery.qrcode.min.js\"></script>
+		<div id=\"qrcode\"></div>
+		<script>
+			jQuery('#qrcode').qrcode(\"".$global['googl']."\");
+		</script>
 		<br>
 		</fieldset>
 		</form>
 		</div>
 	";
+
+	// old QR code generation from google >>
+	// <img id=\"tehQRimage\" height=\"200\" width=\"200\" class=\"qrImage\" src=\"https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=L|0&chl=".$global['googl']."\">
 	// SHARE END ///////////////////////////////////////////////////////////////////////////////////////
 
 
