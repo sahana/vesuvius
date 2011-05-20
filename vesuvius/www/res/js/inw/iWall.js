@@ -72,8 +72,8 @@ function searchSubset() {
 	Globals.searchTerms = $.trim($("#searchBox").attr("value"));
 	Globals.searchTerms = Globals.searchTerms == "Enter a name..." || Globals.searchTerms == "All" ? "" : Globals.searchTerms;
 	
-	if ( Globals.searchTerms === "" && Globals.searchMode === "sql" ) {
-		alert("Please enter a name.");
+	if ( Globals.searchTerms.length < 2 && Globals.searchMode === "sql" ) {
+		alert("Please enter at least 2 characters of a name.");
 		return;
 	}
 	
