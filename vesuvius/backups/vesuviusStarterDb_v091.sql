@@ -1472,8 +1472,10 @@ LOCK TABLES `voice_note` WRITE;
 /*!40000 ALTER TABLE `voice_note` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+
 --
--- Dumping routines for database 'vesuvius091'
+-- Dumping routines for database 'pl'
 --
 DELIMITER ;;
 /*!50003 DROP PROCEDURE IF EXISTS `delete_person` */;;
@@ -1481,38 +1483,38 @@ DELIMITER ;;
 /*!50003 CREATE*/ /*!50020 DEFINER=`root`@`localhost`*/ /*!50003 PROCEDURE `delete_person`(IN id VARCHAR(128))
 BEGIN
 
-
+-- Delete reporter from contact
 DELETE c.* FROM contact c, person_to_report pr WHERE pr.rep_uuid = c.pgoc_uuid AND pr.p_uuid = id;
 
-
+-- Delete reporter from location_details
 DELETE ld.* FROM location_details ld, person_to_report pr WHERE pr.rep_uuid = ld.poc_uuid AND pr.p_uuid = id;
 
-
+-- Delete reporter from person_uuid (child tables: person_status)
 DELETE p.* FROM person_uuid p, person_to_report pr WHERE pr.rep_uuid = p.p_uuid AND pr.p_uuid = id AND pr.rep_uuid NOT IN (SELECT p_uuid FROM users);
 
-
+-- Delete person from person_uuid (child tables: person_status, person_to_report, person_details, person_physical)
 DELETE person_uuid.* FROM person_uuid WHERE p_uuid = id;
 
-
+-- Delete person from pfif_person
 DELETE pfif_person.* FROM pfif_person WHERE p_uuid = id;
 
-
+-- Delete note from pfif_note
 DELETE pfif_note.* FROM pfif_note WHERE p_uuid = id;
 
-
+-- Set to null linked records in pfif_note
 UPDATE pfif_note SET linked_person_record_id = NULL WHERE p_uuid = id;
 
-
+-- Delete person from contact
 DELETE contact.* FROM contact WHERE pgoc_uuid = id;
 
-
+-- Delete person from image
 DELETE image.* from image where x_uuid = id;
 
 END */;;
 /*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE*/;;
 /*!50003 DROP PROCEDURE IF EXISTS `PLSearch` */;;
 /*!50003 SET SESSION SQL_MODE=""*/;;
-/*!50003 CREATE*/ /*!50020 DEFINER=`mrodriguez`@`localhost`*/ /*!50003 PROCEDURE `PLSearch`(
+/*!50003 CREATE*/ /*!50020 DEFINER=`sahanaPlStage`@`localhost`*/ /*!50003 PROCEDURE `PLSearch`(
      IN searchTerms CHAR(255),
 	 IN statusFilter VARCHAR(100),
 	 IN genderFilter VARCHAR(100),
@@ -1521,38 +1523,36 @@ END */;;
 	 IN incidentName VARCHAR(100),
 	 IN sortBy VARCHAR(100),
 	 IN pageStart INT,
-	 IN perPage INT,
-    OUT totalRows INT
-
+	 IN perPage INT
 )
 BEGIN
 
-	DROP TABLE IF EXISTS tmp_names; 
-    IF searchTerms = '' THEN 
+	DROP TABLE IF EXISTS tmp_names;
+    IF searchTerms = '' THEN
             CREATE TEMPORARY TABLE tmp_names AS (
             SELECT SQL_NO_CACHE pu.*
                 FROM person_uuid pu
                    JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
-                  LIMIT 2000
+                  LIMIT 5000
          );
-    
+
     ELSE
             CREATE TEMPORARY TABLE  tmp_names AS (
             SELECT SQL_NO_CACHE pu.*
                 FROM person_uuid pu
                    JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
-            WHERE full_name like CONCAT(searchTerms , '%') 
-            LIMIT 2000
+            WHERE full_name like CONCAT(searchTerms , '%')
+            LIMIT 5000
             );
      END IF;
-    
+
     SET @sqlString = CONCAT("SELECT  SQL_NO_CACHE `tn`.`p_uuid`       AS `p_uuid`,
 				`tn`.`full_name`    AS `full_name`,
 				`tn`.`given_name`   AS `given_name`,
 				`tn`.`family_name`  AS `family_name`,
 				(CASE WHEN `ps`.`opt_status` NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR `ps`.`opt_status` IS NULL THEN 'unk' ELSE `ps`.`opt_status` END) AS `opt_status`,
 				  DATE_FORMAT(ps.last_updated, '%Y-%m-%d %k:%i:%s') as updated,
-                  
+
 				(CASE WHEN `pd`.`opt_gender` NOT IN ('mal', 'fml') OR `pd`.`opt_gender` IS NULL THEN 'unk' ELSE `pd`.`opt_gender` END) AS `opt_gender`,
 				(CASE WHEN `pd`.`years_old` < 18 THEN 'child' WHEN `pd`.`years_old` >= 18 THEN 'adult' ELSE 'unknown' END) as `age_group`,
                                 `pd`.`years_old` as `years_old`,
@@ -1567,9 +1567,9 @@ BEGIN
              JOIN person_status ps  ON (tn.p_uuid = ps.p_uuid AND ps.isVictim = 1 AND INSTR(?, 	(CASE WHEN ps.opt_status NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR ps.opt_status IS NULL THEN 'unk' ELSE  ps.opt_status END)))
              JOIN person_details pd ON (tn.p_uuid = pd.p_uuid AND INSTR(?, (CASE WHEN `opt_gender` NOT IN ('mal', 'fml') OR `opt_gender` IS NULL THEN 'unk' ELSE `opt_gender` END))
 															  AND INSTR(?, (CASE WHEN CAST(`years_old` AS UNSIGNED) < 18 THEN 'child' WHEN CAST(`years_old` AS UNSIGNED) >= 18 THEN 'adult' ELSE 'unknown' END)))
-			 LEFT 
+			 LEFT
 			 JOIN hospital h        ON (tn.hospital_uuid = h.hospital_uuid AND INSTR(?, (CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)))
-             LEFT 
+             LEFT
 			 JOIN image i			ON (tn.p_uuid = i.x_uuid)
            ORDER BY ", sortBy, " LIMIT ?, ?;");
 
@@ -1584,22 +1584,14 @@ BEGIN
       SET @perPage = perPage;
 
       SET NAMES utf8;
-      EXECUTE stmt USING @statusFilter, @genderFilter, @ageFilter, @hospitalFilter, 
+      EXECUTE stmt USING @statusFilter, @genderFilter, @ageFilter, @hospitalFilter,
                                                         @pageStart, @perPage;
 
       DEALLOCATE PREPARE stmt;
+      DROP TABLE tmp_names;
 
-      
-			 
-	DROP TABLE tmp_names;
-    
-    
-      SELECT COUNT(p.p_uuid) INTO totalRows
-          FROM person_uuid p
-             JOIN incident i ON p.incident_id = i.incident_id
-      WHERE i.shortname = incidentName;
-   
-   
+
+
 END */;;
 /*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE*/;;
 /*!50003 DROP PROCEDURE IF EXISTS `PLSearch2` */;;
@@ -1617,7 +1609,7 @@ END */;;
 BEGIN
 
 
-  
+  /* Consider removing the relevance order by (case when ... ) because honestly it is just barely good enough. */
 
   SET @sqlString = "
 		SELECT STRAIGHT_JOIN SQL_NO_CACHE
@@ -1691,7 +1683,7 @@ BEGIN
 
 
 
-
+/*  counting */
 		SELECT STRAIGHT_JOIN COUNT(a.p_uuid)
 		   FROM `person_uuid` `a`
 		   JOIN `person_status` `b`          ON (`a`.`p_uuid` = `b`.`p_uuid` AND `b`.`isVictim` = 1 )
@@ -1710,6 +1702,7 @@ BEGIN
 END */;;
 /*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE*/;;
 DELIMITER ;
+
 
 --
 -- Final view structure for view `person_search`
