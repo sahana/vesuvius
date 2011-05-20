@@ -61,7 +61,7 @@ var DetailsView =
 							.css("background-color", "#" + person.tagColor)
 							.html(person.statusSahanaFull);
 
-		var name = $("<div></div>").attr("id", person.uuid).html(person.name);
+		var name = $("<div></div>").addClass("stubName").attr("id", person.uuid).html(person.name);
 		
 		var details = $("<ul></ul>").attr("id", "details_" + person.uuid).addClass("stubDetails");
 		var dataName = $("<span></span>").addClass("dataName");

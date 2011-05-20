@@ -109,15 +109,15 @@ input[type="checkbox"] {
 	white-space: nowrap; 
 	width: 170px;
 	text-overflow: ellipsis; 
-	margin-bottom:3px;
+	margin-bottom: 3px;
 	*font-size: 13px !important;
 }
 
 .stubDetails { float:left; font-weight:normal; margin: 0 !important; padding: 0 !important; list-style: none; }
-.stubDetails li { margin: 0 !important; padding: 0 !important; }
+.stubDetails li { margin: 0px 0px -4px 0px !important; padding: 0 !important; }
 
 .dataName { width:57px !important; display: block;float: left;width: 7em;text-align: right; font-weight: 700; margin-right: 5px; *font-size:13px;}
-.dataValue { *font-size: 13px; }
+.dataValue { *font-size: 13px; *margin-bottom: -8px; }
 
 .ieStubBorder {}
 
@@ -132,6 +132,7 @@ input[type="checkbox"] {
 	bottom: -1px;
 	left: 0px;
 	padding: 2px 0px 2px 2px;
+	*font-size: 13px;
 
 	filter:alpha(opacity=70);
 	-moz-opacity:0.70;
@@ -265,8 +266,8 @@ h1 {
 	padding: 10px;
 }
 
-#selectSort { width: 100px; *font-size: 14px }
-#displayMode{ width: 101px; *font-size: 14px }
+#selectSort { width: 90px; *font-size: 14px }
+#displayMode{ width: 91px; *font-size: 14px }
 
 #searchOptions b {
 	*font-size: 14px;
