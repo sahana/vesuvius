@@ -22,13 +22,13 @@ global $global;
 if ($_SESSION['logged_in'] == true ) {
 	echo "
 		<div id=\"loginform\">
-			<a href=\"index.php?mod=pref&act=default\">My Settings</a> | <a href=\"index.php?mod=pref&act=logout\">Logout</a>
+			<a href=\"index.php?mod=pref&amp;act=default\">My Settings</a> | <a href=\"index.php?mod=pref&amp;act=logout\">Logout</a>
 		</div>
 	";
 } else {
 	echo "
 		<div id=\"loginform\">
-			<a href=\"index.php?mod=pref&act=loginForm\">Login / Register</a>
+			<a href=\"index.php?mod=pref&amp;act=loginForm\">Login / Register</a>
 		</div>
 	";
 }
