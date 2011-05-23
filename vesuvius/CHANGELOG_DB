@@ -1,5 +1,14 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
--none-
+2011:0523 Leif
+--------------
 
+Procedure name "delete_pfif_person()" changed to "delete_person()".
+
+Also, delete_person() procedure statement changed as follows:
+  UPDATE pfif_note SET linked_person_record_id = NULL WHERE p_uuid = id;
+  changed to
+  UPDATE pfif_note SET linked_person_record_id = NULL WHERE linked_person_record_id = id;
+
+ALTER TABLE `pfif_repository` ADD `incident_id` BIGINT NULL DEFAULT NULL AFTER `name` 
