@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Edit A Person
- * @version      1.4
+ * @version      1.05
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0520
+ * @lastModified 2011.0524
  */
 
 require_once($global['approot']."/inc/lib_uuid.inc");
@@ -945,15 +945,27 @@ function shn_eap_edit() {
 			$editEvent      = $person_incident['incident_id'];
 		}
 
-		//$timezone = new DateTimeZone( "UTC" );
+		$timezone = new DateTimeZone( "UTC" );
 		$date = new DateTime();
-		//$date->setTimezone( $timezone );
+		$date->setTimezone( $timezone );
 
 		$date->setTimestamp(strtotime($person_status['creation_time']));
 		$creation_time =  $date->format('l, F j, Y g:i a T');
+		if($person_status['creation_time'] == null) {
+			$creation_time = "---";
+		}
 
 		$date->setTimestamp(strtotime($person_status['last_updated']));
 		$last_updated =  $date->format('l, F j, Y g:i a T');
+		if($person_status['last_updated'] == null) {
+			$last_updated = "---";
+		}
+
+		$date->setTimestamp(strtotime($person_uuid['expiry_date']));
+		$expiry_date =  $date->format('l, F j, Y g:i a T');
+		if($person_uuid['expiry_date'] == null) {
+			$expiry_date = "---";
+		}
 
 		echo "
 			<div class=\"form-container\">
@@ -967,6 +979,10 @@ function shn_eap_edit() {
 
 			<label for=\"opt_status\"><b>Last Updated</b> </label>
 			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$last_updated."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<br>
+
+			<label for=\"opt_status\"><b>Record Expires</b> </label>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$expiry_date."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 			<br>
 		";
@@ -1093,9 +1109,21 @@ function shn_eap_edit() {
 
 		$date->setTimestamp(strtotime($person_status['creation_time']));
 		$creation_time =  $date->format('l, F j, Y g:i a T');
+		if($person_status['creation_time'] == null) {
+			$creation_time = "---";
+		}
 
 		$date->setTimestamp(strtotime($person_status['last_updated']));
 		$last_updated =  $date->format('l, F j, Y g:i a T');
+		if($person_status['last_updated'] == null) {
+			$last_updated = "---";
+		}
+
+		$date->setTimestamp(strtotime($person_uuid['expiry_date']));
+		$expiry_date =  $date->format('l, F j, Y g:i a T');
+		if($person_uuid['expiry_date'] == null) {
+			$expiry_date = "---";
+		}
 
 		$editMinAge = $person_details['minAge'];
 		$editMaxAge = $person_details['maxAge'];
@@ -1112,6 +1140,10 @@ function shn_eap_edit() {
 
 			<label for=\"opt_status\"><b>Last Updated</b> </label>
 			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$last_updated."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<br>
+
+			<label for=\"opt_status\"><b>Record Expires</b> </label>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$expiry_date."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"opt_status\"><b>Health / Locational Status</b> </label>
