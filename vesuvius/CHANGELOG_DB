@@ -22,7 +22,7 @@ AS select `pu`.`p_uuid` AS `p_uuid`,
 (CASE WHEN `h`.`short_name` NOT IN ('sh', 'nnmc') OR `h`.`short_name` IS NULL THEN 'public' ELSE `h`.`short_name` END) AS `hospital`,
 `pd`.`other_comments` AS `comments`,
 `pd`.`last_seen` AS `last_seen` 
-from `person_uuid` `pu` join `person_status` `ps` on (`pu`.`p_uuid` = `ps`.`p_uuid` and `ps`.`isvictim` = 1 and `pu`.`expiry_date` > NOW())
+from `person_uuid` `pu` join `person_status` `ps` on (`pu`.`p_uuid` = `ps`.`p_uuid` and `ps`.`isvictim` = 1 and (`pu`.`expiry_date` > NOW() OR `pu`.`expiry_date` IS NULL))
  left join `image` `i` on `pu`.`p_uuid` = `i`.`x_uuid`
  join `person_details` `pd` on `pu`.`p_uuid` = `pd`.`p_uuid`
  join `incident` `inc` on `inc`.`incident_id` = `pu`.`incident_id`
