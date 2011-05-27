@@ -402,7 +402,7 @@ function shn_authenticate_user() {
 	 return -1 , so the calling application can identify that
 	 authentication was not attempted
 	 */
-	if(!isset($_GET['act']) || (isset($_GET['act']) && $_GET['act'] != "login")) {
+	if(!isset($_GET['doLogin']) || (isset($_GET['doLogin']) && $_GET['doLogin'] != "1")) {
 		$user_data["user_id"] =- 1;
 		return $user_data ;
 	} else {

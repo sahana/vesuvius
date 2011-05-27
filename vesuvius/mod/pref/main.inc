@@ -29,7 +29,7 @@ function shn_pref_loginForm() {
 	if ($_SESSION['logged_in'] != true ) {
 		echo '
 			<div class="form-container">
-				<form method="post" action="index.php?act=login" id="form0" name="form0">
+				<form method="post" action="index.php?doLogin=1" id="form0" name="form0">
 				<fieldset id="noIdDefined">
 				<legend>Login</legend>
 				<label for="user_name">Username </label><input type="text" name="user_name" id="user_name" tabindex="1" autocomplete="off"><br>
