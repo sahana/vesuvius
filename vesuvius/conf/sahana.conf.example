@@ -32,9 +32,13 @@ $conf['enable_monitor_sql'] = false;
 # Default locale
 $conf['locale'] = "en_US";
 
-// The Default Module/Action performed when a user first visits the site
-$conf['default_module']= 'home';
-$conf['default_action']= 'default';
+// The Default Module/Action performed when a user first visits the site (w/o an event)
+$conf['default_module'] = 'home';
+$conf['default_action'] = 'default';
+
+// The Default Module/Action performed when a user first visits the site (w/ an event)
+$conf['default_module_event'] = 'inw';
+$conf['default_action_event'] = 'default';
 
 # Password Policy
 $conf['pwd_min_chars']       = 8;

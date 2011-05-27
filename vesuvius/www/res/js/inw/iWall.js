@@ -77,16 +77,17 @@ function searchSubset() {
 		return;
 	}
 	
-	var missing   = $("#checkMissing")  .is(":checked"),
-		alive     = $("#checkAliveWell").is(":checked"),
-		injured   = $("#checkInjured")  .is(":checked"),
-		deceased  = $("#checkDeceased") .is(":checked"),
-		unknown   = $("#checkUnknown")  .is(":checked"),
-		found     = $("#checkFound")  .is(":checked"),
+	var missing   = $("#checkMissing")   .is(":checked"),
+		alive     = $("#checkAliveWell") .is(":checked"),
+		injured   = $("#checkInjured")   .is(":checked"),
+		deceased  = $("#checkDeceased")  .is(":checked"),
+		unknown   = $("#checkUnknown")   .is(":checked"),
+		found     = $("#checkFound")     .is(":checked"),
 		
-		male 	  = $("#checkSexMale")  .is(":checked"),
-		female 	  = $("#checkSexFemale").is(":checked"),
-		genderUnk = $("#checkSexOther") .is(":checked"),
+		complex   = $("#checkSexComplex").is(":checked"),
+		male 	  = $("#checkSexMale")   .is(":checked"),
+		female 	  = $("#checkSexFemale") .is(":checked"),
+		genderUnk = $("#checkSexOther")  .is(":checked"),
 		
 		child 	  = $("#checkAgeChild")  .is(":checked"),
 		adult	  = $("#checkAgeYouth")  .is(":checked"),
@@ -97,7 +98,7 @@ function searchSubset() {
 		otherHosp = $("#checkOtherHosp") .is(":checked"),
 
 		sStatus       = missing + ";" + alive + ";" + injured + ";" + deceased + ";" + unknown + ";" + found,
-		sGender       = male + ";" + female + ";" + genderUnk,
+		sGender       = complex + ";" + male + ";" + female + ";" + genderUnk,
 		sAge          = child + ";" + adult + ";" +	ageUnk,
 		sHospital     = suburban + ";" + nnmc + ";" + otherHosp,
 
@@ -135,7 +136,7 @@ function searchSubset() {
 		$("#maxShown").show();
 		
 	$("#menuwrap").append($("#searchOptions").css({marginTop: "10px", marginLeft: "5px"}).show());
-	if ($("#shortName").val() == "christchurch" || $("#shortName").val() == "colombia2011" || $("#shortName").val() == "sendai2011") $("#hospital").hide();
+	if ( !$("#shortName").val().match(/cmax/) ) $("#hospital").hide();
 	$("#content").css({marginRight: "0px", paddingRight: "0px"});
 	
 	if ( Globals.initDone == 1 )
@@ -204,9 +205,8 @@ function Person() {
 			this.encodedUUID  = args["encodedUUID"];
 			this.statusSahana = args["opt_status"]; 
 			this.name         = $.trim(args["full_name"]) == "unknown unknown" || $.trim(args["full_name"]) == undefined ? "Unknown name" :  $.trim(args["full_name"]) || "Unknown name"; 
-			this.gender       = args["gender"] == "mal" ? "Male" : (args["gender"] == "fml" ? "Female" : "Unknown"); 
 			this.age          = args["years_old"] || "N\/A"; 
-			this.ageGroup     = !Utils.isNumber(this.age) ? "Unknown" : (this.age >= 18 ? "Adult" : "Youth");
+			this.ageGroup     = !Utils.isNumber(this.age) || this.age < 0 ? "Unknown" : (this.age >= 18 ? "Adult" : "Youth");
 			this.statusSahanaUpdated = date.toString("yyyy-MM-dd HH:mm:ss"); 
 			this.statusTriage = args["statusTriage"]; 
 			this.id           = args["id"]; 
@@ -222,6 +222,15 @@ function Person() {
 			this.x            = -999999;
 			this.y            = -999999;
 			this.wipe         = false; 
+
+			if ( args["gender"] === "mal" )
+				this.gender = "Male";
+			else if ( args["gender"] === "fml" )
+				this.gender = "Female";
+			else if ( args["gender"] === "cpx" )
+				this.gender = "Complex";
+			else 
+				this.gender = "Unknown";				
 			
 			this.statusString()
 		}

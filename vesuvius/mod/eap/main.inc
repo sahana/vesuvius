@@ -974,15 +974,15 @@ function shn_eap_edit() {
 			<legend><span class=\"publicText\">View / Edit Public Information</span></legend>
 
 			<label for=\"opt_status\"><b>Record Created</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$creation_time."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$creation_time."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"opt_status\"><b>Last Updated</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$last_updated."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$last_updated."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"opt_status\"><b>Record Expires</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$expiry_date."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$expiry_date."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 			<br>
 		";
@@ -1037,23 +1037,23 @@ function shn_eap_edit() {
 			<hr class=\"insideHrGreen\">
 
 			<label for=\"given_name\">Given Name </label>
-			<input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$editGivenName."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
+			<input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$editGivenName."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
 			<label for=\"given_name\">Family Name </label>
-			<input type=\"text\" name=\"family_name\" id=\"family_name\" value=\"".$editFamilyName."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
+			<input type=\"text\" name=\"family_name\" id=\"family_name\" value=\"".$editFamilyName."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
 			<label for=\"age\">Age</label>
-			<input type=\"text\" name=\"age\" id=\"age\" value=\"".$editAge."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
+			<input type=\"text\" name=\"age\" id=\"age\" value=\"".$editAge."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
 			<label for=\"age_lower\">Lower Age Range</label>
-			<input type=\"text\" name=\"age_lower\" id=\"age_upper\" value=\"".$editMinAge."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
+			<input type=\"text\" name=\"age_lower\" id=\"age_upper\" value=\"".$editMinAge."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
 			<label for=\"age_upper\">Upper Age Range</label>
-			<input type=\"text\" name=\"age_upper\" id=\"age_upper\" value=\"".$editMaxAge."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
+			<input type=\"text\" name=\"age_upper\" id=\"age_upper\" value=\"".$editMaxAge."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 		";
 
@@ -1065,29 +1065,29 @@ function shn_eap_edit() {
 
 		echo "
 			<label for=\"height\">Height</label>
-			<input type=\"text\" name=\"height\" id=\"height\" value=\"".$editHeight."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
+			<input type=\"text\" name=\"height\" id=\"height\" value=\"".$editHeight."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
 			<label for=\"height\">Weight</label>
-			<input type=\"text\" name=\"weight\" id=\"weight\" value=\"".$editWeight."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
+			<input type=\"text\" name=\"weight\" id=\"weight\" value=\"".$editWeight."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
 			<label for=\"height\">Distinctive Features</label>
-			<textarea name=\"comments\" id=\"comments\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editComments."</textarea>
+			<textarea name=\"comments\" id=\"comments\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editComments."</textarea>
 			<br>
 
 			<hr class=\"insideHrGreen\">
 
 			<label for=\"height\">Last Seen Location</label>
-			<textarea name=\"last_seen\" id=\"last_seen\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editLastSeen."</textarea>
+			<textarea name=\"last_seen\" id=\"last_seen\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editLastSeen."</textarea>
 			<br>
 
 			<label for=\"height\">Last Seen Clothing/Appearance</label>
-			<textarea name=\"last_clothing\" id=\"last_clothing\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editLastClothing."</textarea>
+			<textarea name=\"last_clothing\" id=\"last_clothing\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editLastClothing."</textarea>
 			<br>
 
 			<label for=\"height\">Other Comments</label>
-			<textarea name=\"other_comments\" id=\"other_comments\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editOtherComments."</textarea>
+			<textarea name=\"other_comments\" id=\"other_comments\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editOtherComments."</textarea>
 			<br>
 			<br>
 
@@ -1135,19 +1135,19 @@ function shn_eap_edit() {
 			<legend><span class=\"publicText\">Information</span></legend>
 
 			<label for=\"opt_status\"><b>Record Created</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$creation_time."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$creation_time."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"opt_status\"><b>Last Updated</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$last_updated."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$last_updated."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"opt_status\"><b>Record Expires</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$expiry_date."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$expiry_date."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"opt_status\"><b>Health / Locational Status</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$person_status['option_description']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$person_status['option_description']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 		";
 
@@ -1159,7 +1159,7 @@ function shn_eap_edit() {
 			*/
 			echo "
 				<label for=\"opt_status\"><b>Located at Hospital</b> </label>
-				<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$person_to_hospital['name']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+				<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$person_to_hospital['name']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 				<br>
 			";
 		}
@@ -1176,7 +1176,7 @@ function shn_eap_edit() {
 
 		echo "
 			<label for=\"opt_status\"><b>Related to Event</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$eventName."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$eventName."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 		";
 
@@ -1184,23 +1184,23 @@ function shn_eap_edit() {
 			<hr class=\"insideHrGreen\">
 
 			<label for=\"given_name\">Given Name </label>
-			<input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$person_uuid['given_name']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$person_uuid['given_name']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"given_name\">Family Name </label>
-			<input type=\"text\" name=\"family_name\" id=\"family_name\" value=\"".$person_uuid['family_name']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"family_name\" id=\"family_name\" value=\"".$person_uuid['family_name']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"age\">Age</label>
-			<input type=\"text\" name=\"age\" id=\"age\" value=\"".$person_details['years_old']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"age\" id=\"age\" value=\"".$person_details['years_old']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"age_lower\">Lower Age Range</label>
-			<input type=\"text\" name=\"age_lower\" id=\"age_upper\" value=\"".$editMinAge."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\">
+			<input type=\"text\" name=\"age_lower\" id=\"age_upper\" value=\"".$editMinAge."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\">
 			<br>
 
 			<label for=\"age_upper\">Upper Age Range</label>
-			<input type=\"text\" name=\"age_upper\" id=\"age_upper\" value=\"".$editMaxAge."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\">
+			<input type=\"text\" name=\"age_upper\" id=\"age_upper\" value=\"".$editMaxAge."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\">
 			<br>
 		";
 
@@ -1210,56 +1210,56 @@ function shn_eap_edit() {
 		if(!$hide) {
 			echo "
 				<label for=\"age_lower\">Lower Age Range</label>
-				<input type=\"text\" name=\"age_lower\" id=\"age_upper\" value=\"".$person_details['minAge']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+				<input type=\"text\" name=\"age_lower\" id=\"age_upper\" value=\"".$person_details['minAge']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 				<br>
 
 				<label for=\"age_upper\">Upper Age Range</label>
-				<input type=\"text\" name=\"age_upper\" id=\"age_upper\" value=\"".$person_details['maxAge']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+				<input type=\"text\" name=\"age_upper\" id=\"age_upper\" value=\"".$person_details['maxAge']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 				<br>
 			";
 		}
 
 		echo "
 			<label for=\"gender\">Gender</label>
-			<input type=\"text\" name=\"gender\" id=\"gender\" value=\"".$gender."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"gender\" id=\"gender\" value=\"".$gender."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"eye_color\">Eye Color</label>
-			<input type=\"text\" name=\"eye_color\" id=\"eye_color\" value=\"".$eye."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"eye_color\" id=\"eye_color\" value=\"".$eye."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"skin_color\">Skin Color</label>
-			<input type=\"text\" name=\"skin_color\" id=\"skin_color\" value=\"".$skin."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"skin_color\" id=\"skin_color\" value=\"".$skin."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"hair_color\">Hair Color</label>
-			<input type=\"text\" name=\"hair_color\" id=\"hair_color\" value=\"".$hair."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"hair_color\" id=\"hair_color\" value=\"".$hair."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"height\">Height</label>
-			<input type=\"text\" name=\"height\" id=\"height\" value=\"".$person_physical['height']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"height\" id=\"height\" value=\"".$person_physical['height']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"height\">Weight</label>
-			<input type=\"text\" name=\"weight\" id=\"weight\" value=\"".$person_physical['weight']."\" size=\"30\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"weight\" id=\"weight\" value=\"".$person_physical['weight']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"height\">Distinctive Features</label>
-			<textarea name=\"comments\" id=\"comments\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_physical['comments']."</textarea>
+			<textarea name=\"comments\" id=\"comments\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_physical['comments']."</textarea>
 			<br>
 
 			<hr class=\"insideHrGreen\">
 
 			<label for=\"height\">Last Seen Location</label>
-			<textarea name=\"last_seen\" id=\"last_seen\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_details['last_seen']."</textarea>
+			<textarea name=\"last_seen\" id=\"last_seen\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_details['last_seen']."</textarea>
 			<br>
 
 			<label for=\"height\">Last Seen Clothing/Appearance</label>
-			<textarea name=\"last_clothing\" id=\"last_clothing\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_details['last_clothing']."</textarea>
+			<textarea name=\"last_clothing\" id=\"last_clothing\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_details['last_clothing']."</textarea>
 			<br>
 
 			<label for=\"height\">Other Comments</label>
-			<textarea name=\"other_comments\" id=\"other_comments\" cols=\"43\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_details['other_comments']."</textarea>
+			<textarea name=\"other_comments\" id=\"other_comments\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_details['other_comments']."</textarea>
 			<br>
 
 			</fieldset></form></div>
@@ -1344,11 +1344,18 @@ function shn_eap_edit() {
 			<legend><span class=\"privateText\">View / Edit Private Information</span></legend>
 		";
 
-		shn_form_textarea("Address",                  "address", null,       array('value'=>$editAddress, 'cols'=>43));
-		shn_form_text(    "Zip/Postal Code",          "zip",    'size="15"', array('value'=>$editZip  ));
-		shn_form_text(    "Home Phone Number",        "phone",  'size="15"', array('value'=>$editPhone));
-		shn_form_text(    "Cell/Mobile Phone Number", "mobile", 'size="15"', array('value'=>$editCell ));
-		shn_form_text(    "Email Address",            "email",  'size="25"', array('value'=>$editEmail));
+		//shn_form_textarea("Address",                  "address", null,       array('value'=>$editAddress, 'cols'=>70));
+
+		echo "
+			<label for=\"address\">Street Address</label>
+			<textarea name=\"address\" id=\"address\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editAddress."</textarea>
+			<br>
+		";
+
+		shn_form_text(    "Zip/Postal Code",          "zip",    'size="50"', array('value'=>$editZip  ));
+		shn_form_text(    "Home Phone Number",        "phone",  'size="50"', array('value'=>$editPhone));
+		shn_form_text(    "Cell/Mobile Phone Number", "mobile", 'size="50"', array('value'=>$editCell ));
+		shn_form_text(    "Email Address",            "email",  'size="50"', array('value'=>$editEmail));
 
 		shn_form_opt_select("opt_race", "Race ",         null, array('sort'=>'display_order, option_description ASC', 'value'=>$editRace    ));
 		shn_form_opt_select("opt_religion", "Religion ", null, array('sort'=>'display_order, option_description ASC', 'value'=>$editReligion));

@@ -410,7 +410,6 @@ var ScrollView = {
 						  		  {duration: speed || 900,
 								   callback:
 										function() {
-											alert("hi!");
 											$("#row_" + row + " > div:last-child").detach();
 										},
 									easing: "easeInOutCirc"
