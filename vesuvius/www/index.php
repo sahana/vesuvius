@@ -16,7 +16,6 @@
 $global['approot']  = realpath(dirname(__FILE__)).'/../';
 $global['previous'] = false;
 $global["setup"]    = false;
-$conf['fuck'] = "ok";
 
 // uncomment line below to use the internal error handler
 //shn_main_error();
