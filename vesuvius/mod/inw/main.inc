@@ -57,7 +57,7 @@ function shn_inw_default() {
 				<div style="font-weight: bold; background-color: #6289B0; color: white; padding:2px">Display Options</div>
 				<div style="float:left;">
 					<!--input type="textbox" autocomplete="off" value="Enter a name..." id="searchBox"/-->
-					<div id="sortBy" style="float:right;margin-right: 4px;">
+					<div id="sortBy" style="float:right;margin-right: 4px;width:160px; text-align: right;">
 					<br />
 					<b>Sort By</b>
 						<img id="sortOrderIcon" style="width:10px; height:10px; display: none;" src="res/img/desc.png" title="Descending (click for ascending)" />
@@ -112,9 +112,10 @@ function shn_inw_default() {
 							<br />
 							<div id="gender">
 								<div style=" font-weight: bold; background-color: #6289B0; color: white; padding:2px;"><? echo GENDER; ?> </div>
-								<input type="checkbox" id="checkSexMale"   checked onclick="Utils.formSearch()" /><label for="checkSexMale" id="male"><? echo MALE; ?></label><br />
-								<input type="checkbox" id="checkSexFemale" checked onclick="Utils.formSearch()" /><label for="checkSexFemale" id="female"><? echo FEMALE; ?></label><br />
-								<input type="checkbox" id="checkSexOther"  checked onclick="Utils.formSearch()" /><label for="checkSexOther" id="otherGender"><? echo OTHER_UNKNOWN; ?></label><br />
+								<input type="checkbox" id="checkSexMale"    checked onclick="Utils.formSearch()" /><label for="checkSexMale" id="male"><? echo MALE; ?></label><br />
+								<input type="checkbox" id="checkSexFemale"  checked onclick="Utils.formSearch()" /><label for="checkSexFemale" id="female"><? echo FEMALE; ?></label><br />
+								<input type="checkbox" id="checkSexComplex" checked onclick="Utils.formSearch()" /><label for="checkSexComplex" id="complex">Complex</label><br />
+								<input type="checkbox" id="checkSexOther"   checked onclick="Utils.formSearch()" /><label for="checkSexOther" id="otherGender"><? echo OTHER_UNKNOWN; ?></label><br />
 							</div>
 							<br />
 							<div id="age">
@@ -217,7 +218,7 @@ function shn_inw_default() {
 		<br />
 
 		<!--script type="text/javascript" src="https://maps-api-ssl.google.com/maps/api/js?v=2&client=gme-hhs&sensor=false"></script-->
-		<script type="text/javascript" src="res/js/jquery-1.6.1.min.js" ></script>
+		<script type="text/javascript" src="res/js/jquery-1.4.4.min.js" ></script>
 		<script type="text/javascript" src="res/js/jquery-ui-effectscore.min.js" ></script>
 		<!--script type="text/javascript" src="res/js/inw/jquery.animate-enhanced.min.js" ></script-->
 

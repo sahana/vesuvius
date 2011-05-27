@@ -58,7 +58,7 @@ function shn_rap_default() {
 		echo '<a href="index.php?mod=rap&act=controller"><span class="styleTehButton">Begin the process of Reporting a new Person</span></a>';
 	} else {
 
-		echo '<b>You must first login to add a person to the registry. If you do not yet have an account, <a href="index.php?act=signup">please create one first.</a></b>';
+		echo '<b>You must first login to add a person to the registry. If you do not yet have an account, <a href="index.php?mod=pref&amp;act=signup">please create one first.</a></b>';
 	}
 }
 
@@ -171,7 +171,7 @@ function shn_rap_entry($errors=false) {
 	global $conf;
 
 	if(!shn_rap_checkCredz()) {
-		echo '<b>You must first login to add a person to the registry. If you do not yet have an account, <a href="index.php?act=signup">please create one first.</a><b>';
+		echo '<b>You must first login to add a person to the registry. If you do not yet have an account, <a href="index.php?mod=pref&amp;act=signup">please create one first.</a><b>';
 		return;
 	}
 
@@ -206,14 +206,14 @@ function shn_rap_entry($errors=false) {
 
 		shn_form_fsopen(_t('Basic Person Details'));
 			?><p><?php echo  _t('Please enter any of the following details of the person:'); ?></p>	<?php
-			shn_form_text(_t('Given Name '),'given_name','size="30"',array('req'=>true, 'help'=>'This is the person\'s first name or the name by which he/she is most frequently referred to as.', 'public'=>true));
-			shn_form_text(_t('Family Name'),'family_name','size="30"', array('req'=>true, 'help'=>_t('Also known as the surname.  Typically the last name or the first.'), 'public'=>true));
+			shn_form_text(_t('Given Name '),'given_name','size="30"',array('req'=>true, 'help'=>'The person\'s first name or the name by which (s)he is most frequently known.', 'public'=>true));
+			shn_form_text(_t('Family Name'),'family_name','size="30"', array('help'=>_t('The person\'s surname or last name.'), 'public'=>true));
 			shn_form_text(_t('Age'),'age','size="8"', array('help'=>_t('The exact age for the person or a best guess (can be combined with the age range below if an exact number is not known).'), 'public'=>true));
 			shn_form_text(_t('Lower End of Age Range'),'age_lower','size="8"', array('help'=>_t('The lower limit for a person\'s age if an exact age is not known. (optional if exact age is known)'), 'public'=>true));
 			shn_form_text(_t('Upper End of Age Range'),'age_upper','size="8"', array('help'=>_t('The upper limit for a person\'s age if an exact age is not known. (optional if exact age is known)'), 'public'=>true));
 			shn_form_opt_select("opt_gender",_t('Gender'),null,array('sort'=>'display_order, option_description ASC', 'value'=>null, 'public'=>true));
 			shn_form_opt_select("opt_religion",_t('Religion'), null,array('sort'=>'display_order, option_description ASC', 'value'=>null, 'private'=>true));
-			shn_form_opt_select("opt_race",_t('Race'),null,array('sort'=>'display_order, option_description ASC', 'value'=>null, 'private'=>true, 'help'=>'The Race choices are those defined by the US Government, e.g., the FBI when reporting missing people.'));
+			shn_form_opt_select("opt_race",_t('Race'),null,array('sort'=>'display_order, option_description ASC', 'value'=>null, 'private'=>true, 'help'=>'The Race choices are those commonly used by the US Government.'));
 		shn_form_fsclose();
 
 		shn_form_fsopen(_t('Person\'s Contact Information'));
@@ -306,7 +306,7 @@ function shn_rap_uploadPic($errors=false) {
 	echo "<h1>Add a Photograph of the Person</h1>";
 
 	if(!shn_rap_checkCredz()) {
-		echo '<b>You must first login to add a person to the registry. If you do not yet have an account, <a href="index.php?act=signup">please create one first.</a><b>';
+		echo '<b>You must first login to add a person to the registry. If you do not yet have an account, <a href="index.php?mod=pref&amp;act=signup">please create one first.</a><b>';
 		return;
 	}
 
@@ -330,7 +330,7 @@ function shn_rap_uploadPic($errors=false) {
 
 function shn_rap_cropPic() {
 	if(!shn_rap_checkCredz()) {
-		echo '<b>You must first login to add a person to the registry. If you do not yet have an account, <a href="index.php?act=signup">please create one first.</a><b>';
+		echo '<b>You must first login to add a person to the registry. If you do not yet have an account, <a href="index.php?mod=pref&amp;act=signup">please create one first.</a><b>';
 		return;
 	}
 
@@ -583,7 +583,7 @@ function shn_rap_commitPerson($saveImage = false) {
 	global $conf;
 
 	if(!shn_rap_checkCredz()) {
-		echo '<b>You must first login to add a person to the registry. If you do not yet have an account, <a href="index.php?act=signup">please create one first.</a><b>';
+		echo '<b>You must first login to add a person to the registry. If you do not yet have an account, <a href="index.php?mod=pref&amp;act=signup">please create one first.</a><b>';
 		return;
 	}
 
@@ -593,8 +593,14 @@ function shn_rap_commitPerson($saveImage = false) {
 	isset($_SESSION['rap']['entry']['opt_status'])     ? $status      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_status'])."'"     : $status      = "'unk'";
 
 	// set defaults for all rest to null
-	isset($_SESSION['rap']['entry']['given_name'])     ? $given_name  =                              $_SESSION['rap']['entry']['given_name']          : $given_name  = "NULL";
-	isset($_SESSION['rap']['entry']['family_name'])    ? $family_name =                              $_SESSION['rap']['entry']['family_name']         : $family_name = "NULL";
+
+	// except given name which is always present
+	$given_name = "'".mysql_real_escape_string($_SESSION['rap']['entry']['given_name'])."'";
+	isset($_SESSION['rap']['entry']['family_name'])    ? $family_name = "'".mysql_real_escape_string($_SESSION['rap']['entry']['family_name'])."'"    : $family_name = "NULL";
+
+	$full_part = isset($_SESSION['rap']['entry']['family_name']) ? " ".$_SESSION['rap']['entry']['family_name'] : "";
+	$full_name = "'".mysql_real_escape_string($_SESSION['rap']['entry']['given_name'].$full_part)."'";
+
 	isset($_SESSION['rap']['entry']['opt_gender'])     ? $gender      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['opt_gender'])."'"     : $gender      = "NULL";
 	isset($_SESSION['rap']['entry']['age'])            ? $age         = "'".mysql_real_escape_string($_SESSION['rap']['entry']['age'])."'"            : $age         = "NULL";
 	isset($_SESSION['rap']['entry']['age_lower'])      ? $minAge      = "'".mysql_real_escape_string($_SESSION['rap']['entry']['age_lower'])."'"      : $minAge      = "NULL";
@@ -650,9 +656,9 @@ function shn_rap_commitPerson($saveImage = false) {
 		INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
 		VALUES (
 			'".$uuid."',
-			'".mysql_real_escape_string($given_name)." ".mysql_real_escape_string($family_name)."',
-			'".mysql_real_escape_string($family_name)."',
-			'".mysql_real_escape_string($given_name)."',
+			".$full_name.",
+			".$family_name.",
+			".$given_name.",
 			'".$id."',
 			NULL
 		);
@@ -804,7 +810,7 @@ Array
 
 */
 
-	add_confirmation("You have successfully registered <b>".$given_name." ".$family_name."</b> into the registry.");
+	add_confirmation("You have successfully registered <b>".$full_name."</b> into the registry.");
 	add_confirmation("You can follow this link: <b><a href=\"index.php?mod=eap&act=edit&uuid=".base64_encode($uuid)."\">".$uuid."</a></b> to make changes to the person's record or use the tools available there to share this information with others.");
 	add_confirmation("If you come back to the site at a later time, you can find this person again by visiting the <a href=\"index.php?mod=pref&act=tracking\"><b>My People</b></a> link above.");
 

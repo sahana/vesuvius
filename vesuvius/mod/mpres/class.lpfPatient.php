@@ -274,7 +274,6 @@ class lpfPatient {
 		$s = str_replace(";", " ", $s);
 		$s = str_replace("'", " ", $s);
 		$s = str_replace("\""," ", $s);
-		$s = str_replace(",", " ", $s);
 		$s = str_replace(".", " ", $s);
 		$s = str_replace("<", " ", $s);
 		$s = str_replace(">", " ", $s);
@@ -284,84 +283,127 @@ class lpfPatient {
 		// vocabulary of english/french/spanish status words and their corresponding sahana status code
 		$needle[] = '/missing/';
 		$status[] = 'mis';
+
 		$needle[] = '/lost/';
 		$status[] = 'mis';
+
 		$needle[] = '/looking for/';
 		$status[] = 'mis';
+
+		$needle[] = '/found/';
+		$status[] = 'fnd';
+
 		$needle[] = '/find/';
 		$status[] = 'mis';
+
 		$needle[] = '/disparu/';
 		$status[] = 'mis';
+
 		$needle[] = '/perdu/';
 		$status[] = 'mis';
+
 		$needle[] = '/a la recherche de/';
 		$status[] = 'mis';
+
 		$needle[] = '/trouver/';
 		$status[] = 'mis';
+
 		$needle[] = '/moun yap chache/';
 		$status[] = 'mis';
+
 		$needle[] = '/injured/';
 		$status[] = 'inj';
+
 		$needle[] = '/hurt/';
 		$status[] = 'inj';
+
 		$needle[] = '/wounded/';
 		$status[] = 'inj';
+
 		$needle[] = '/sick/';
 		$status[] = 'inj';
+
 		$needle[] = '/treated/';
 		$status[] = 'inj';
+
 		$needle[] = '/recovering/';
 		$status[] = 'inj';
+
 		$needle[] = '/blesse/';
 		$status[] = 'inj';
+
 		$needle[] = '/mal en point/';
 		$status[] = 'inj';
+
 		$needle[] = '/malade/';
 		$status[] = 'inj';
+
 		$needle[] = '/soigne/';
 		$status[] = 'inj';
+
 		$needle[] = '/convalecent/';
 		$status[] = 'inj';
+
 		$needle[] = '/deceased/';
 		$status[] = 'dec';
+
 		$needle[] = '/dead/';
 		$status[] = 'dec';
+
 		$needle[] = '/died/';
 		$status[] = 'dec';
+
 		$needle[] = '/buried/';
 		$status[] = 'dec';
+
 		$needle[] = '/decede/';
 		$status[] = 'dec';
+
 		$needle[] = '/mort/';
 		$status[] = 'dec';
+
 		$needle[] = '/inhume/';
 		$status[] = 'dec';
+
 		$needle[] = '/mouri/';
 		$status[] = 'dec';
+
 		$needle[] = '/alive & well/';
 		$status[] = 'ali';
+
 		$needle[] = '/alive and well/';
 		$status[] = 'ali';
+
 		$needle[] = '/alive/';
 		$status[] = 'ali';
+
 		$needle[] = '/well/';
 		$status[] = 'ali';
+
 		$needle[] = '/okay/';
 		$status[] = 'ali';
+
 		$needle[] = '/recovered/';
 		$status[] = 'ali';
+
 		$needle[] = '/en vie/';
 		$status[] = 'ali';
+
 		$needle[] = '/en bonne sante/';
 		$status[] = 'ali';
+
 		$needle[] = '/gueri/';
 		$status[] = 'ali';
+
 		$needle[] = '/bien prtant/';
 		$status[] = 'ali';
+
 		$needle[] = '/vivant ak anfom/';
 		$status[] = 'ali';
+
 		$needle[] = '/vivant/';
 		$status[] = 'ali';
+
 		$needle[] = '/anfom/';
 		$status[] = 'ali';
 

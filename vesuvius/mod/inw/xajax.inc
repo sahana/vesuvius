@@ -131,8 +131,6 @@ function inw_hasNextPage($mode, $incident, $searchTerm, $sStatus, $sGender, $sAg
 			$global["xajax_res"]->addScript("Globals.timeElapsed = " . $timeElapsed . "; Globals.totalResults = " . $search->numRowsFound . "; Globals.totalRecords = " . $search->allCount . "; handleUuidListResponse();");
 		else 
 			$global["xajax_res"]->addScript("Globals.timeElapsed = " . $timeElapsed . "; handleUuidListResponse();");
-			
-		//$global["xajax_res"]->addScript("alert('" . count($search->results) . ", " . $search->numRowsFound . ", " . $search->allCount . "')");
 	}
 	else {
 		$global["xajax_res"]->addAssign("jsonHolder", "value", "");

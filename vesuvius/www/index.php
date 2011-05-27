@@ -16,6 +16,7 @@
 $global['approot']  = realpath(dirname(__FILE__)).'/../';
 $global['previous'] = false;
 $global["setup"]    = false;
+$conf['fuck'] = "ok";
 
 // uncomment line below to use the internal error handler
 //shn_main_error();
@@ -30,9 +31,6 @@ shn_main_debugger();
 require_once($global['approot'].'inc/lib_config.inc');
 require_once($global['approot'].'inc/lib_modules.inc');
 require_once($global['approot'].'inc/lib_errors.inc');
-
-// clean get and post variables
-shn_main_filter_getpost();
 
 // uncomment the line below to allow a check for the installer (Agasti will be packaged this way) we turn it off to save time when we are sure we are not installing :)
 //shn_main_install_check();
@@ -51,17 +49,20 @@ require_once($global['approot'].'inc/lib_locale/handler_locale.inc');
 require_once($global['approot'].'inc/lib_exception.inc');
 require_once($global['approot'].'inc/lib_user_pref.inc');
 
-// check permissions on the currrent event ~ if using event manager (we check permission in case we need to redirect for permissions violations)
-shn_main_checkEventPermissions();
-
 // clean post/get variables
 shn_main_clean_getpost();
+
+// load all the configurations based on the priority specified files and database, base and mods
+shn_config_load_in_order();
+
+// find defaults
+shn_defaults();
 
 // populate user preferences
 shn_user_pref_populate();
 
-// load all the configurations based on the priority specified files and database, base and mods
-shn_config_load_in_order();
+// check permissions on the currrent event ~ if using event manager (we check permission in case we need to redirect for permissions violations)
+shn_main_checkEventPermissions();
 
 // start the front controller pattern
 shn_main_front_controller();
@@ -71,6 +72,31 @@ shn_main_front_controller();
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // MAIN FUNCTIONS BELOW /////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+// find the proper default module and actions
+function shn_defaults() {
+	global $global;
+	global $conf;
+
+	isset($_GET['shortname']) ? $short = $_GET['shortname'] : $short = "";
+
+	// we set the default module/function here. by default, we send them to the home module if not defined in sahana.conf
+	$m = isset($conf['default_module']) ? $conf['default_module'] : "home";
+	$a = isset($conf['default_action']) ? $conf['default_action'] : "default";
+
+	// use different defaults when coming in with an event
+	if($short != "") {
+		$m = isset($conf['default_module_event']) ? $conf['default_module_event'] : "rez";
+		$a = isset($conf['default_action_event']) ? $conf['default_action_event'] : "default";
+	}
+
+	if(!$global['previous']) {
+		$global['action'] = !isset($_REQUEST['act']) ? $a : $_REQUEST['act'];
+		$global['module'] = !isset($_REQUEST['mod']) ? $m : $_REQUEST['mod'];
+	}
+}
 
 
 
@@ -94,22 +120,6 @@ function shn_main_clean_getpost() {
 			$val = escapeHTML($val);
 			$_GET[$key] = $val;
 		}
-	}
-}
-
-
-
-// process the module actions
-function shn_main_filter_getpost() {
-	global $global, $conf;
-
-	// we set the default module/function here. by default, we send them to the home module if not defined in sahana.conf
-	$m = isset($conf['default_module']) ? $conf['default_module'] : "home";
-	$a = isset($conf['default_action']) ? $conf['default_action'] : "default";
-
-	if (!$global['previous']) {
-		$global['action'] = !isset($_REQUEST['act']) ? $a : $_REQUEST['act'];
-		$global['module'] = !isset($_REQUEST['mod']) ? $m : $_REQUEST['mod'];
 	}
 }
 

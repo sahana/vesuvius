@@ -23,6 +23,7 @@ class SearchDB
 			$genderString,
 			$male,
 			$female,
+			$complex,
 			$genderUnk,
 			
 			$ageString,
@@ -73,7 +74,7 @@ class SearchDB
 	 *	   	   $sAge = age imploded
 	 *	
 	 *///
-	public function SearchDB($searchMode, $incident, $searchTerm, $sStatus = "true;true;true;true;true;true", $sGender="true;true;true", $sAge="true;true;true", $sHospital="true;true;true", $sPageControls="0;-1;;true") {  
+	public function SearchDB($searchMode, $incident, $searchTerm, $sStatus = "true;true;true;true;true;true", $sGender="true;true;true;true", $sAge="true;true;true", $sHospital="true;true;true", $sPageControls="0;-1;;true") {  
 		$this->incident = $incident;
 		$toReplace = array(",", ".", "/", "\\", "?", "!", "~", "@", "$", "%", "^", "&", "*", "(", ")", "+", "-"); 
 		$this->searchTerm = str_replace($toReplace, "", $searchTerm);
@@ -124,9 +125,10 @@ class SearchDB
 	private function setGenderFilters($sGender) {
 		$tempArray = explode(";", $sGender);
 
-		$this->male      = $tempArray[0];
-		$this->female    = $tempArray[1];
-		$this->genderUnk = $tempArray[2];
+		$this->complex   = $tempArray[0];
+		$this->male      = $tempArray[1];
+		$this->female    = $tempArray[2];
+		$this->genderUnk = $tempArray[3];
 	}
 	
 	private function setAgeFilters($sAge) {
@@ -173,11 +175,13 @@ class SearchDB
 		if ($this->unknown == "true") 
 			$this->statusString .= "unk;";	
 
-                $this->genderString = "";
+        $this->genderString = "";
 		if ($this->male == "true")
 			$this->genderString .= "mal;";
 		if ($this->female == "true")
 			$this->genderString .= "fml;";
+		if ($this->complex == "true")
+			$this->genderString .= "cpx;";
 		if ($this->genderUnk == "true")
 			$this->genderString .= "unk;";
 
@@ -253,15 +257,15 @@ class SearchDB
 							$encodedUUID = base64_encode($row["p_uuid"]);
 							$this->results[] = array('p_uuid'=>$row["p_uuid"], 
 									'encodedUUID'=>$encodedUUID,
-									'full_name'=>$row["full_name"], 
+									'full_name'=>htmlspecialchars($row["full_name"]), 
 									'opt_status'=>str_replace("\"", "", $row["opt_status"]),
-									'imageUrl'=>$row["url_thumb"], 
+									'imageUrl'=>htmlspecialchars($row["url_thumb"]), 
 									'imageWidth'=>$row["image_width"], 
 									'imageHeight'=>$row["image_height"], 
 									'age_group'=>$row["age_group"], 
 									'statusSahanaUpdated'=>$row["updated"], 
-									'last_seen'=>$row["last_seen"], 
-									'comments'=>strip_tags($row["comments"]),
+									'last_seen'=>htmlspecialchars($row["last_seen"]), 
+									'comments'=>htmlspecialchars(strip_tags($row["comments"])),
 									'gender' => $row["opt_gender"],
 									'hospitalIcon' => $row["icon_url"]);
 						}
@@ -401,6 +405,7 @@ class SearchDB
 		
 		$temp["male"] = $this->SOLRfacetResults->{"opt_gender:mal"};
 		$temp["female"] = $this->SOLRfacetResults->{"opt_gender:fml"};
+		$temp["complex"] = $this->SOLRfacetResults->{"opt_gender:cpx"};
 		$temp["otherGender"] = $this->SOLRfacetResults->{"opt_gender:unk"};
 		
 		$temp["suburban"] = $this->SOLRfacetResults->{"hospital:sh"};
@@ -428,7 +433,7 @@ class SearchDB
 			//date_sub($date, date_interval_create_from_date_string('4 hours'));
 			$this->results[] = array('p_uuid' => $doc->p_uuid, 
 				 'encodedUUID' => base64_encode($doc->p_uuid),
-				   'full_name' => isset($doc->full_name) ? $doc->full_name : null, 
+				   'full_name' => isset($doc->full_name) ? htmlspecialchars($doc->full_name) : null, 
 				  'opt_status' => isset($doc->opt_status) ? $doc->opt_status : null,
 				    'imageUrl' => isset($doc->url_thumb) ? $doc->url_thumb : null, 
 				  'imageWidth' => isset($doc->image_width) ? $doc->image_width : null, 
@@ -439,8 +444,8 @@ class SearchDB
 				'statusTriage' => isset($doc->triageCategory) ? $doc->triageCategory : null, 
 						'peds' => isset($doc->peds) ? $doc->peds : null, 
 					 'orgName' => isset($doc->orgName) ? $doc->orgName : null, 
-				   'last_seen' => isset($doc->last_seen) ? $doc->last_seen : null, 
-				    'comments' => isset($doc->comments) ? strip_tags($doc->comments) : null, 
+				   'last_seen' => isset($doc->last_seen) ? htmlspecialchars($doc->last_seen) : null, 
+				    'comments' => isset($doc->comments) ? strip_tags(htmlspecialchars($doc->comments)) : null, 
 					  'gender' => isset($doc->opt_gender) ? $doc->opt_gender : null,
 			    'hospitalIcon' => isset($doc->icon_url) ? $doc->icon_url : null);
 		}
@@ -453,7 +458,7 @@ class SearchDB
                                     . "&facet=true" //&facet.field=opt_status&facet.field=years_old&facet.field=opt_gender&facet.field=hospital&facet.missing=true"
                                     . "&facet.query=years_old:[0 TO 17]&facet.query=years_old:[18 TO *]&facet.query=years_old:\-1"
                                     . "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk&facet.query=opt_status:fnd"
-                                    . "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:unk"
+                                    . "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:unk&facet.query=opt_gender:cpx"
                                     . "&facet.query=hospital:sh&facet.query=hospital:nnmc&facet.query=hospital:public";
 							
 
@@ -492,6 +497,8 @@ class SearchDB
 			$this->SOLRfq .= " -mal"; 
 		if ($this->female != "true") 
 			$this->SOLRfq .= " -fml"; 
+		if ($this->complex != "true") 
+			$this->SOLRfq .= " -cpx"; 			
 		if ($this->genderUnk != "true")  
 			$this->SOLRfq .= " -unk"; 
 		
