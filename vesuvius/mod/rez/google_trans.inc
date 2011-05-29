@@ -17,14 +17,15 @@ include_once ($global['approot'].'/inc/lib_errors.inc');
  * @return The current locale
  */
 function shn_getLocale() {
-	global $global;
+	global $global; 
 	$contents = file_get_contents($global['approot'].'/res/locale/locale');
 	$locale = substr($contents, 0, 2);
-	return locale;
+	return $locale;
 }
 /**
  * @param $text String String to be translated
  * @desc Function to use Google Translate API to translate strings
+ * @return The string translated into the relevant language
  * Google Translate API Key = AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM
  */
 function shn_google_translate($text) {
@@ -36,14 +37,18 @@ function shn_google_translate($text) {
 	//get the language we need to translate to
 	$lang = shn_getLocale();
 	
+	
+	
 	//Since we're sending a GET request to Google Translate REST API, we need to make some characters URI-friendly
 	$text = urlencode($text);
 	curl_setopt($crl , CURLOPT_URL, "https://www.googleapis.com/language/translate/v2?key=AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM&q={$text}&source=en&target={$lang}");
 	curl_setopt($crl, CURLOPT_RETURNTRANSFER, 1);
 	$result = curl_exec($crl);
-	$result = json_decode($result);
-	//print_r($result);	
+	$result = json_decode($result, true);
+		
 	curl_close($crl);
+	
+	
 	//check for first 'data' level of json string
 	if (!is_array($result) || !array_key_exists('data', $result)) {
     	add_error('Upper Level data key not found in JSON string');
@@ -57,7 +62,8 @@ function shn_google_translate($text) {
     if (!is_array($result['data']['translations'])) {
         add_error('Translations array not returned properly');
     }
- 	return $result['data']['translations']['translatedText'];
+    
+ 	return $result['data']['translations'][0]['translatedText'];
     
     //Exception if final step fails
     add_error('Could not translate!');
