@@ -1,8 +1,6 @@
 *.svn
 .svn
 vesuvius/conf/sahana.conf
-vesuvius/backups/stage5.sql
-vesuvius/backups/CMAX2009_DATA_new.sql.gz
 vesuvius/www/tmp
 vesuvius/mod/int
 vesuvius/mod/tp
