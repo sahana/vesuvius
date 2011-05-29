@@ -42,7 +42,7 @@ function shn_rez_header2() {
 				} else {
 					echo "
 						<li>
-							<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=rez&act=default&page_id=".$row['rez_page_id']."\">".$row['rez_page_title']."</a>
+							<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=rez&act=default&page_id=".$row['rez_page_id']."\">".shn_google_translate($row['rez_page_title'])."</a>
 						</li>
 					";
 				}
