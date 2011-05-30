@@ -12,6 +12,7 @@
 
 
 global $global;
+include_once ('cache_rez.inc');
 
 // create an array as it does not exist previosuly and will make warnings
 $global['xajax_functions'] = array();
@@ -359,6 +360,7 @@ function rez_perform_save($page_id, $r) {
 	// update log to reflect the save
 	$global['xajax_res']->addAppend('rezLog','innerHTML',"Page #".$page_id." <span style=\"color: green;\">Saved</span>.<b><br>");
 	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
+	rez_cache_db();
 	return $global['xajax_res']->getXML();
 }
 
@@ -403,7 +405,7 @@ function rez_perform_edit($page_id, $clone = false) {
 	$global['xajax_res']->addAssign('rezControl','innerHTML',$editControlHtml);
 
 	$global['xajax_res']->addScript('area2 = new nicEditor({fullPanel : true}).panelInstance(\'pageContent\'); document.getElementById(\'wysiwyg\').disabled = true;');
-
+	rez_cache_db();
 	return $global['xajax_res']->getXML();
 }
 
@@ -426,6 +428,7 @@ function rez_perform_delete($page_id, $confirm) {
 	$global['xajax_res']->addAssign('rezMain','innerHTML',rez_show_pages(TRUE));
 	$global['xajax_res']->addAssign('rezMain','style.opacity','1.0');
 	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
+	rez_cache_db();
 	return $global['xajax_res']->getXML();
 }
 
