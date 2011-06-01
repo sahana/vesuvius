@@ -108,8 +108,7 @@ div#headerText h4 { position: relative; text-align: left; color: #34689a; margin
 
 div#user_act{ display:block;position:absolute;top:2px; right:0px;padding-right:15px;  }
 #disaster_selekta {margin-right: 1em; color: #FFF; font-size: 12px font-weight: bold; position: absolute; top: 134px; height: 16px; z-index: 100;}
-form#language         {margin-right: 1em; color: #FFF; font-size: 12px font-weight: bold; position: absolute; top: 164px; height: 16px; z-index: 100;}
-form#incident_changer { right: 180px;  }
+#language {position: absolute; top: 44px; right: 20px; height: 16px; z-index: 100;}
 
 #disaster_selekta { right: 30px; /*old with language = 180px */ }
 
@@ -374,7 +373,6 @@ div#footer hr {display: none;}
 	background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgba(130,169,224,0.1)), color-stop(80%, rgba(114,153,208,1)), to(rgba(98,137,192,1)));
 }
 #disasterList, #locale { height: 20px; border: 1px solid #6289b0; }
-#locale { display: none; }
 
 a.help, a:link.help {  text-decoration: none; }
 a:hover.help { text-decoration: underline; }
