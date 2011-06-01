@@ -55,7 +55,7 @@ shn_main_clean_getpost();
 shn_config_load_in_order();
 
 // find defaults
-shn_defaults();
+shn_main_defaults();
 
 // populate user preferences
 shn_user_pref_populate();
@@ -75,7 +75,7 @@ shn_main_front_controller();
 
 
 // find the proper default module and actions
-function shn_defaults() {
+function shn_main_defaults() {
 	global $global;
 	global $conf;
 
