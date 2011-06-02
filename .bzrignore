@@ -5,3 +5,6 @@ vesuvius/www/tmp
 vesuvius/mod/int
 vesuvius/mod/tp
 vesuvius/www/.htaccess
+.project
+.settings
+.buildpath
