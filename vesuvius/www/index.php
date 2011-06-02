@@ -8,7 +8,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0601
  */
 
 
@@ -44,9 +44,9 @@ require_once($global['approot'].'inc/handler_session.inc');
 //require_once($global['approot'].'inc/lib_security/handler_openid.inc'); // replacing openID lib soon....
 require_once($global['approot'].'inc/lib_security/lib_auth.inc');
 require_once($global['approot'].'inc/lib_security/constants.inc');
-require_once($global['approot'].'inc/lib_locale/handler_locale.inc');
 require_once($global['approot'].'inc/lib_exception.inc');
 require_once($global['approot'].'inc/lib_user_pref.inc');
+require_once($global['approot'].'inc/lib_locale/handler_locale.inc');
 
 // clean post/get variables
 shn_main_clean_getpost();
@@ -342,6 +342,7 @@ function shn_main_debugger() {
 	// only use debugger on these internal staging servers...
 	if(($_SERVER['HTTP_HOST'] == "plstage.nlm.nih.gov")
 	|| ($_SERVER['HTTP_HOST'] == "plstage")
+	|| ($_SERVER['HTTP_HOST'] == "127.0.0.1")
 	|| ($_SERVER['HTTP_HOST'] == "archivestage.nlm.nih.gov")
 	|| ($_SERVER['HTTP_HOST'] == "archivestage")) {
 

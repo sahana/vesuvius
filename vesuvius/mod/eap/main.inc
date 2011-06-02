@@ -1561,7 +1561,7 @@ function shn_eap_edit() {
 		</div>
 		<br>
 		Short URL to this page: <br>
-		<b><input type=\"text\" value=\"".$global['googl']."\"></b></input><br>
+		<b><input type=\"text\" value=\"".$global['googl']."\"></b><br>
 		<br>
 		<span>Send this page to a mobile device:</span><br><br>
 		<script type=\"text/javascript\" src=\"res/js/jquery-1.6.1.min.js\"></script>

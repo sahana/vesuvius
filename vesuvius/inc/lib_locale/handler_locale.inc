@@ -57,7 +57,7 @@ if(isset ($_SESSION["locale"])) {
 	T_setlocale(LC_ALL, $locale);
 
 	// Set the text domain as 'messages'
-	$domain = 'sahana';
+	$domain = 'vesuvius';
 	$path = $global['approot'] . "res/locale";
 	T_bindtextdomain($domain, $path);
 	T_bind_textdomain_codeset($domain, $encoding);
