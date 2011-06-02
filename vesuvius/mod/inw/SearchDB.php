@@ -76,7 +76,7 @@ class SearchDB
 	 *///
 	public function SearchDB($searchMode, $incident, $searchTerm, $sStatus = "true;true;true;true;true;true", $sGender="true;true;true;true", $sAge="true;true;true", $sHospital="true;true;true", $sPageControls="0;-1;;true") {  
 		$this->incident = $incident;
-		$toReplace = array(",", ".", "/", "\\", "?", "!", "~", "@", "$", "%", "^", "&", "*", "(", ")", "+", "-"); 
+		$toReplace = array(",", ".", "/", "\\", "?", "!", "~", "@", "$", "%", "^", "&", "*", "(", ")", "+", "#"); 
 		$this->searchTerm = str_replace($toReplace, "", $searchTerm);
 		
 		$this->setStatusFilters($sStatus);
