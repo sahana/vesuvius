@@ -56,7 +56,7 @@ function display_submit_message($type = 'warning', $msg = 'please note the follo
 	if (count($global[$container]) == 0 ) return;
 	?>
 	<div class="<?php echo $type?> message">
-	<p><em><?php echo$msg?></em></p>
+	<p><em><?php echo $msg?></em></p>
 	<ul>
 	<?php
 	foreach ($global[$container] as $i){
