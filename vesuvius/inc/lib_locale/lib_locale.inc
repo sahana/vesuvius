@@ -135,10 +135,8 @@ function _shn_lc_issetsession() {
 /**
  * Displays the list of available languages
  */
-function _shn_lc_lang_list($mode=1) {
+function _shn_lc_lang_list($mode = 1) {
 	global $conf;
-
-	// we ALWAYS show language box unless hidden by CSS
 	$lc_list = _shn_get_lang_list();
 
 	$locale = $_SESSION['locale'];
@@ -151,10 +149,10 @@ function _shn_lc_lang_list($mode=1) {
 		$mod = "";
 	}
 
-	echo "<form method=\"post\" action=\"index.php?mod=".$mod."&amp;act=lc_set\" id=\"language\" class=\"head\"  >\n";
+	echo "<div id=\"language\"><form method=\"post\" action=\"index.php?mod=".$mod."&amp;act=lc_set\" id=\"language_form\">";
 	shn_form_hidden(array('seq'=>'set_locale'));
-	shn_form_select($lc_list,"Language","locale",'onchange="submit(this);"',array('value'=>"$locale"));
-	echo "</form>";
+	shn_form_select($lc_list, "Language", "locale", 'onchange="submit(this);"', array('value'=>"$locale"));
+	echo "</form></div>";
 }
 
 
@@ -259,7 +257,6 @@ function _shn_get_lang_list() {
 			$name = $name." ".$ex_name;
 		}
 		$l_list[$locale] = $name;
-		//... do something with the values
 	}
 	fclose($handle);
 	asort($l_list);
