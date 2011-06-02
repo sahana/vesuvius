@@ -207,7 +207,7 @@ function Person() {
 			this.name         = $.trim(args["full_name"]) == "unknown unknown" || $.trim(args["full_name"]) == undefined ? "Unknown name" :  $.trim(args["full_name"]) || "Unknown name"; 
 			this.age          = args["years_old"] || "N\/A"; 
 			this.ageGroup     = !Utils.isNumber(this.age) || this.age < 0 ? "Unknown" : (this.age >= 18 ? "Adult" : "Youth");
-			this.statusSahanaUpdated = date.toString("yyyy-MM-dd HH:mm:ss"); 
+			this.statusSahanaUpdated = date.toString("yyyy-MM-dd HH:mm"); 
 			this.statusTriage = args["statusTriage"]; 
 			this.id           = args["id"]; 
 			this.peds         = args["peds"]; 
