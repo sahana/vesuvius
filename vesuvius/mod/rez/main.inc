@@ -14,7 +14,7 @@
 include_once ($global['approot'].'/inc/lib_menu.inc');
 include_once ($global['approot'].'/inc/lib_errors.inc');
 require_once ($global['approot'].'/inc/handler_db.inc');
-require_once ('google_trans.inc');
+
 
 
 function shn_rez_header2() {
@@ -37,12 +37,12 @@ function shn_rez_header2() {
 			while($row = $res->FetchRow() ) {
 				if($row['rez_page_id'] == $_GET['page_id']) {
 					echo "
-						<li><b>".shn_google_translate($row['rez_page_title'])."</b></li>
+						<li><b>".$row['rez_page_title']."</b></li>
 					";
 				} else {
 					echo "
 						<li>
-							<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=rez&act=default&page_id=".$row['rez_page_id']."\">".shn_google_translate($row['rez_page_title'])."</a>
+							<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=rez&act=default&page_id=".$row['rez_page_id']."\">".$row['rez_page_title']."</a>
 						</li>
 					";
 				}
@@ -63,7 +63,7 @@ function shn_rez_header2() {
 		$res = $global['db']->Execute($q);
 		if($res) {
 			while($row = $res->FetchRow() ) {
-				echo "<h2>".shn_google_translate($row['rez_page_title'])."</h2>";
+				echo "<h2>".$row['rez_page_title']."</h2>";
 			}
 		}
 	}
@@ -131,7 +131,7 @@ function shn_rez_default() {
 
 			if ($row = $res->FetchRow() ){
 				shn_rez_header2();
-				echo shn_google_translate($row['rez_content']);
+				echo $row['rez_content'];
 			} else {
 				// page doesn't exist
 				echo "<h2>Error 404 ~ Page not found.</h2>";
@@ -151,7 +151,7 @@ function shn_rez_default() {
 					echo "
 						<li>
 							<a class=\"rezLink\" href=\"index.php?mod=rez&act=default&page_id=".$row['rez_page_id']."\">
-							".shn_google_translate($row['rez_page_title'])."</a>
+							".$row['rez_page_title']."</a>
 						</li>
 					";
 				}
