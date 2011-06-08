@@ -1,0 +1,6 @@
+Changes in v1.9.2
+-----------------
+- getIncidentList (deprecated and removed)
++ getEventList
++ getEventListUser
++ getGroupList

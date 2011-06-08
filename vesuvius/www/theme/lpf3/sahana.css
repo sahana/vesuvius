@@ -14,7 +14,7 @@
 html, body, form, fieldset {
 	margin: 0;
 	padding: 0;
-	font-family: Arial;
+	font-family: Arial, Arial Unicode MS;
 	height: 100%;
 	font-size: 100%;
 }
@@ -330,9 +330,29 @@ div#footer {
 	padding: 10px 0px 10px 0px;
 	margin: 0px;
 	font-size: 11px;
+
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#6289b0');
-	background:       -moz-linear-gradient(90deg, rgba(98,137,192,1), rgba(98,137,192,0.3) 40%, rgba(98,137,192,0));
-	background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(98,137,192,0)), color-stop(10%, rgba(98,137,192,0.05)), color-stop(40%, rgba(98,137,192,0.3)), to(rgba(98,137,192,1)));
+
+	background-image: -ms-linear-gradient(
+				top,
+				rgba(98,137,192,0),
+				rgba(98,137,192,0.03) 10%,
+				rgba(98,137,192,0.4) 45%,
+				rgba(98,137,192,1));
+
+	background-image: -moz-linear-gradient(
+				top,
+				rgba(98,137,192,0),
+				rgba(98,137,192,0.03) 10%,
+				rgba(98,137,192,0.4) 45%,
+				rgba(98,137,192,1));
+
+	background-image: -webkit-linear-gradient(
+				top,
+				rgba(98,137,192,0),
+				rgba(98,137,192,0.03) 10%,
+				rgba(98,137,192,0.4) 45%,
+				rgba(98,137,192,1));
 	position: absolute;
 	bottom: 0px;
 	height: 163px;
@@ -341,14 +361,17 @@ div#footer {
 #footerTable { padding: 0px; border: none; height: 100px; margin-top: 20px; width: 600px; }
 #footerTable td { padding: 0px; border: none; text-align: center; }
 #footerTable td img { padding: 8px;}
-#footerTable tr td { color: #fff; text-shadow: #666 1px 1px 2px; font-size: 11px; }
+#footerTable tr td {
+	color: #fff; text-shadow: rgba(0,0,0,0.7) 1px 1px 2px; font-size: 12px;
+	/*filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=0, Color='#666', Positive='true');*/
+}
 div#footer hr {display: none;}
 #notice {
 	padding: 5px;
 	font-style: italic;
 	color: #fff;
 	font-size: 9px;
-	text-shadow: #777 1px 1px;
+	text-shadow: rgba(0,0,0,0.7) 1px 1px 2px;
 }
 
 

@@ -13,7 +13,7 @@
 var DetailsView =
 {
 	drawPage : function() {
-		var content = $("#scrolling_content");
+		var scont = $("#scrolling_content");
 
 		clearInterval(Globals.reDrawIntervalId);
 		$("#scrollControls").hide();
@@ -32,16 +32,15 @@ var DetailsView =
 				var stub = DetailsView.createStub(p);
 				tempDiv.append(stub);
 		}
-
-		content.html("").append(tempDiv).append("<div style='clear:both'></div>").show()
+		
+		scont.html("").append(tempDiv).append("<div style='clear:both'></div>").show();
 
 		if ( Globals.searchMode == "solr" )
 			this.setPager();
-
 	},
 
 	createStub : function(person) {
-		var image = $("<img />").attr({ id : "picture_" + person.uuid,
+		var image = $("<img />").attr({ /*id : "picture_" + person.uuid,*/
 										src : person.imageUrl })
 								.addClass("stubPicture"),
 
@@ -57,13 +56,14 @@ var DetailsView =
 
 	createInfoTag : function(person) {
 		var statusTab = 
-			$("<div></div>").addClass("status").attr("id", "status_" + person.uuid)
-							.css("background-color", "#" + person.tagColor)
-							.html(person.statusSahanaFull);
+			$("<div></div>").css("background-color", "#" + person.tagColor)
+							//.addClass("status")//.attr("id", "status_" + person.uuid)
+							//.html(person.statusSahanaFull);
 
-		var name = $("<div></div>").addClass("stubName").attr("id", person.uuid).html(person.name);
+	
+		var name = $("<div></div>").addClass("stubName")/*.attr("id", person.uuid)*/.html(person.name);
 		
-		var details = $("<ul></ul>").attr("id", "details_" + person.uuid).addClass("stubDetails");
+		var details = $("<ul></ul>")/*.attr("id", "details_" + person.uuid)*/.addClass("stubDetails");
 		var dataName = $("<span></span>").addClass("dataName");
 		var dataValue = $("<span></span>").addClass("dataValue");
 		
@@ -75,7 +75,7 @@ var DetailsView =
 		var div = 
 			$("<div></div>")
 				.addClass("stubText")
-				.attr("id", person.uuid)
+				/*.attr("id", person.uuid)*/
 				.append(name)
 				.append(statusTab)
 				.append(details);

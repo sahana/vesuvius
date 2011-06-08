@@ -122,9 +122,9 @@ input[type="checkbox"] {
 
 .ieStubBorder {}
 
-.status:first-letter {
+/*.status:first-letter {
 	text-transform: uppercase;
-}
+}*/
 
 .status {
 	width: 299px;

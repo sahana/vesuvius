@@ -30,7 +30,11 @@ $(document).ready(function start() {
 	}
 
 	
-	var doc = document;  
+	var doc = document,
+		hash = window.location.hash;  
+	
+	hash = hash.replace("_details", "");
+
 	Globals.initDone = 1; 
 
     $("#content").css({ paddingRight: "15px", paddingTop: "10px" });
@@ -61,9 +65,13 @@ $(document).ready(function start() {
 	
 	Globals.imageHeight = Math.floor(($(window).height() - Globals.headerHeight - Globals.footerHeight - (2*(Globals.rowPadding+Globals.imageBorder))) / Globals.maxRows);
 	
-	if ( window.location.hash.length > 1 ) { //for bookmarking
-		box.style.color = "#000000";
-		$("#searchBox").val(unescape(window.location.hash).replace('#', ''));
+	if ( hash.length > 1 ) { //for bookmarking
+		if ( hash === "#searchAll" ) {
+			hash = "";
+		} else {
+			box.style.color = "#000000";
+			$("#searchBox").val(unescape(hash).replace('#', ''));
+		}
 		searchSubset();
 	}
 });
@@ -158,7 +166,7 @@ function handleUuidListResponse() {
 	$("#totalRecordsSOLR").html(Utils.addCommas($("#totalRecordsSOLR").html()));
 
 	showFacets();
-	window.location.hash = Globals.searchTerms;
+	window.location.hash = Globals.searchTerms === "" ? "searchAll" : Globals.searchTerms;
 
 	if ( Globals.displayMode ) {
 		Globals.displayMode = true; 

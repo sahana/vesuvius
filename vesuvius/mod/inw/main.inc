@@ -47,7 +47,7 @@ function shn_inw_default() {
 				}
 			</style>
 		<![endif]-->
-
+			<noscript>Your browser does not support JavaScript! You will need to enable it or use a modern browser before searching.</noscript>
 			<input type="text" id="jsonHolder" style="display:none" />
 			<input type="text" id="jsonNotes" style="display:none" />
 			<input type="text" id="SOLRFacets" style="display:none" />
