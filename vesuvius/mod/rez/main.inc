@@ -108,6 +108,10 @@ function shn_rez_default() {
 			$out = str_replace('<div id="header">PLUS</div>', '', $out);
 			echo $out."
 				<style>
+					#headerText {
+						display: none;
+					}
+
 					#header {
 						border-bottom: none;
 					}

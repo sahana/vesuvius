@@ -1,14 +1,15 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.0.0
+ * @version      1.9.2
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0411
+ * @lastModified 2011.0606
  */
+
 
 
 /**
@@ -67,45 +68,49 @@ function shn_plus_logAccess($call="") {
 
 /**
 * Checks the credentials of a user
-* @return boolean
+* @return int ~ error code
+* error code: 0 for user/password valid and user is active
+* error code: 1 invalid username or password
+* error code: 2 user account is not active
 */
-function shn_plus_checkCredz($user, $pass) {
+function shn_plus_checkCredz($username, $password) {
 	global $global;
-	require($global['approot']."/conf/sahana.conf");
-	require($global['approot']."/3rd/adodb/adodb.inc.php");
-	require($global['approot']."/inc/handler_db.inc");
-	require($global['approot']."/inc/lib_uuid.inc");
-	require($global['approot']."/inc/lib_security/lib_auth.inc");
+	require_once($global['approot']."/conf/sahana.conf");
+	require_once($global['approot']."/3rd/adodb/adodb.inc.php");
+	require_once($global['approot']."/inc/handler_db.inc");
+	require_once($global['approot']."/inc/lib_uuid.inc");
+	require_once($global['approot']."/inc/lib_security/lib_auth.inc");
 
 	$q = "
 		SELECT salt, p_uuid, status
 		FROM users
-		WHERE user_name = '$user';
+		WHERE user_name = '".mysql_real_escape_string($username)."';
 	";
-	$res = $db->Execute($q);
+	$res = $global['db']->Execute($q);
 	if(($res == null) || ($res->EOF)) {
-		return false;
+		return 1;
 	} else {
-		$status = $res->fields["status"];
-		$salt   = $res->fields["salt"];
-		$uid    = $res->fields["p_uuid"];
-		$pwd    = substr($password, 0, 4).$salt.substr($pwd, 4);
+		if($res->fields["status"] != "active") {
+			return 2;
+		}
+		$salt = $res->fields["salt"];
+		$pwd  = substr($password, 0, 4) .$salt. substr($password, 4);
 
 		// Create a digest of the password collected from the challenge
 		$password_digest = md5(trim($pwd));
 		$q2 = "
-			SELECT p_uuid
+			SELECT *
 			FROM users
-			WHERE user_name = '$email'
-			AND password = '$password_digest'
-			AND salt='{$salt}';
+			WHERE user_name = '".mysql_real_escape_string($username)."'
+			AND password = '".$password_digest."'
+			AND salt = '".$salt."';
 		";
-		$res2 = $db->Execute($q2);
 
+		$res2 = $global['db']->Execute($q2);
 		if(($res2 == null) || ($res2->EOF)) {
-			return false;
+			return 1;
 		} else {
-			return true;
+			return 0; // successfull auth'd
 		}
 	}
 }

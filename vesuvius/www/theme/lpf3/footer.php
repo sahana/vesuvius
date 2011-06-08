@@ -42,7 +42,7 @@ $events = array();
 		</td>
 		</tr>
 	</table>
-	<div id="notice">Notice: Submission of information is voluntary. All submitted information will be made publicly available. OMB NO: 0925-0612 EXPIRATION DATE: 6/30/2013 Public reporting burden for this collection of information is estimated to average 0.08 hours per response. This estimate includes the time for reviewing instructions, gathering, and entering data. An agency may not conduct or sponsor, and a person is not required to respond to, a collection of information unless it displays a currently valid OMB control number. Send comments regarding this burden estimate or any other aspect of this collection of information, including suggestions for reducing this burden, to: NIH, Project Clearance Branch, 6705 Rockledge Drive, MSC 7974, Bethesda, MD 20892-7974, ATTN: PRA (0925-0612). Do not return the completed form to this address.<br>
+	<div id="notice">Notice: Submission of information is voluntary. All submitted information will be made publicly available. OMB NO: 0925-0612 EXPIRATION DATE: 6/30/2013 Public reporting burden for this collection of information is estimated to average 0.08 hours per response. This estimate includes the time for reviewing instructions, gathering, and entering data. An agency may not conduct or sponsor, and a person is not required to respond to, a collection of information unless it displays a currently valid OMB control number. Send comments regarding this burden estimate or any other aspect of this collection of information, including suggestions for reducing this burden, to: NIH, Project Clearance Branch, 6705 Rockledge Drive, MSC 7974, Bethesda, MD 20892-7974, ATTN: PRA (0925-0612). Do not return the completed form to this address.
 	<?php
 		// show build & version
 
@@ -65,7 +65,7 @@ $events = array();
 			$time = fgets($handle2);
 
 			// print generated link
-			echo "<span id=\"build\">version: <b>r".$version."</b> &nbsp; Build Time: <b>".$time."</b></span>";
+			echo "version: <b>r".$version."</b> &nbsp; Build Time: <b>".$time."</b>";
 		}
 	?>
 	</div>

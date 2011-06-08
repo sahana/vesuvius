@@ -7,9 +7,11 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0411
+ * @lastModified 2011.0606
  */
 
+global $api_version;
+$api_version = "1.9.0";
 
 /**
  * This function is called by the Document/Literal SOAP server upon initalization to register all the api services from this module's api.
@@ -54,9 +56,22 @@ function shn_plus_registerAll($namespace) {
  * @return array
  */
 function version() {
+	global $api_version;
 	shn_plus_logAccess("version");
-	return array('apiVersion'=>'1.9.0');
+
+	$e        = explode(".", $api_version);
+	$major    = $e[0];
+	$minor    = $e[1];
+	$revision = $e[2];
+
+	return array(
+		'versionMajor'    => (int)$major,
+		'versionMinor'    => (int)$minor,
+		'versionRevision' => (int)$revision,
+		'versionString'   => (string)$api_version
+	);
 }
+
 
 
 /**

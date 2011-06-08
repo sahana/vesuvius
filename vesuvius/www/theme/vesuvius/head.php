@@ -29,7 +29,7 @@ function shn_theme_head() {
 <meta name="Website" content="http://pl.nlm.nih.gov" />
 <meta name="Licence" content="Lesser General Public Licence, Version 2.1" />
 <meta name="Licence Website" content="http://www.gnu.org/licenses/lgpl-2.1.txt" />
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+
 <meta name="google-site-verification" content="Y2Ts00HnBQEr3M3KegrKRRAMVuQPejmqeqPKDsMGRGw" />
 
 <link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?php echo _t($global['theme']);?>/sahana.css" />

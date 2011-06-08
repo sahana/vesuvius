@@ -65,7 +65,14 @@ var Utils = {
 			$("#dt_hospitalIcon").html("");
 
 		$("#dt_image").html('<img style="position:relative;max-height:300px;max-width:300px" src="'+person.imageUrl+'">');
-
+		doc.location.hash += "_details";
+		Globals.pollerId = setInterval( 
+			function() { 
+				if ( doc.location.hash.indexOf("_details") === -1 ) { 
+					Utils.closeDetail()
+					clearInterval(Globals.pollerId);
+				}
+			}, 100);
 		// Utils.loadMap();
 	},
 
@@ -88,6 +95,8 @@ var Utils = {
 		
 		if ($("#map_canvas").css("visibility") === "visible")
 			Utils.showMap();
+		
+		document.location.hash = document.location.hash.replace("_details", "");
 	},
 
 	printDetail : function() {
