@@ -197,7 +197,11 @@ function getEventList() {
 		);
 		$result->MoveNext();
 	}
-	return array('eventList'=>json_encode($list));
+	return array(
+		'eventList'    => json_encode($list),
+		'errorCode'    => 0,
+		'errorMessage' => null
+	);
 }
 
 

@@ -24,11 +24,14 @@ function shn_plus_registerAll($namespace) {
 		array(
 			'in' => array(),
 			'out' => array(
-				'apiVersion' => 'xsd:string'
+				'versionMajor'    => 'xsd:integer',
+				'versionMinor'    => 'xsd:integer',
+				'versionRevision' => 'xsd:integer',
+				'versionString'   => 'xsd:string'
 			)
 		),
 		$namespace,
-		"Returns version info (1.9.0)"
+		"Returns version info (".$api_version.")"
 	);
 
 	shn_plus_registerOne($server, 'getIncidentList',
