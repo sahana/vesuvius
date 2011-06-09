@@ -8,6 +8,7 @@ function init() {
 				color: #fff;
 				font-size: 12px;
 				font-family: courier;
+				margin: 20px;
 			}
 			table {
 				width: 100%;
@@ -30,9 +31,13 @@ function init() {
 				background-color: red;
 				font-weight: bold;
 			}
+			a:link, a:visited, a:hover, a:active {color: orange; text-decoration: none;}
+			a:hover {text-decoration:underline;}
 		</style>
 	";
 }
+
+
 
 function init2() {
 	global $sites;
@@ -45,7 +50,49 @@ function init2() {
 	echo "</tr>";
 }
 
-////// PLUS UNIT TEST FUNCTIONS ////////
+
+
+function showEntry() {
+	global $conf;
+	echo "
+		<h1>PLUS Web Service Unit Tests</h1>
+		<br>
+		<h2>Available API Levels:</h2><br>
+	";
+        $dir   = getcwd();
+        $files = scandir($dir);
+        $j     = count($files);
+        for ($i = 0; $i < $j; $i++) {
+                if ($files[$i] == "." || $files[$i] == "..") {
+                        array_splice($files, $i, 1);
+                        $j--;
+                } else {
+			$pos = strpos($files[$i], "api_");
+			if($pos === false) {
+				// not an api
+			} else {
+				$a = str_replace("api_", "", $files[$i]);
+				$a = str_replace(".inc", "", $a);
+				if($a == $conf['mod_plus_latest_api']) {
+					$b = " (current)";
+				} else {
+					$b = "";
+				}
+				echo "<h2><a href=\"unitTest.php?api=".$a."\">".$a."</a>".$b."</h2>";
+			}
+		}
+        }
+}
+
+
+
+// stub to not fatally die!
+function _t() {}
+
+
+
+////// PLUS UNIT TEST FUNCTIONS //////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
 function version() {

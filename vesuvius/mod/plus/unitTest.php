@@ -4,16 +4,15 @@
 // load nusoap client library
 require_once("../../3rd/nusoap/lib/nusoap.php");
 require_once("unitTestLib.php");
+require_once("conf.inc");
 
 global $sites;
+global $conf;
 init();
 if(!isset($_GET['api'])) {
-	echo "apis";
+	showEntry();
 } else {
 	$api = "&api=".$_GET['api'];
-	if($_GET['api'] == "current") {
-		$api = "";
-	}
 
 	$sites = array(
 		"PL"               => "https://pl.nlm.nih.gov/?wsdl".$api,
@@ -36,5 +35,5 @@ if(!isset($_GET['api'])) {
 	getHospitalData("1");
 	getHospitalPolicy("1");
 
-	echo "</table></body>";
+	echo "</table><br><h2>Note: deprecated functions are not listed/tested.</h2></body>";
 }
