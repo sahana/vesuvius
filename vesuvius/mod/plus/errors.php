@@ -23,5 +23,6 @@ define("ERRORCODES", serialize(array(
 	0   => "No error.",
 	1   => "Invalid username or password.",
 	2   => "User account is not active.",
-	100  => "No hospital registered with this id."
+	100 => "No hospital registered with this id.",
+	200 => "sessionTimeout value missing from database."
 )));

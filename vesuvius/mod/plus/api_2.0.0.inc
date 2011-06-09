@@ -1,15 +1,17 @@
 <?
 /**
  * @name         PL User Services
- * @version      1.9.2
+ * @version      1.9.3
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0606
+ * @lastModified 2011.0615
  */
 
+global $api_version;
+$api_version = "2.0.0";
 
 /**
  * This function is called by the Document/Literal SOAP server upon initalization to register all the api services from this module's api.
@@ -18,201 +20,28 @@
  */
 function shn_plus_registerAll($namespace) {
 	global $server;
+	global $api_version;
 	shn_plus_registerOne($server, 'version',
 		array(
 			'in' => array(),
 			'out' => array(
-				'apiVersion' => 'xsd:string'
+				'versionMajor'    => 'xsd:integer',
+				'versionMinor'    => 'xsd:integer',
+				'versionRevision' => 'xsd:integer',
+				'versionString'   => 'xsd:string'
 			)
 		),
 		$namespace,
-		"Returns version info (2.0.0)"
+		"Returns version info (".$api_version.")"
 	);
-
-	shn_plus_registerOne($server, 'getIncidentList',
-		array(
-			'in' => array(),
-			'out' => array(
-				'incidentList' => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude, street) listing disaster incidents' components."
-	);
-
-/*
-	shn_plus_register_one($server, 'basicSearch',
-		array(
-			'in' => array(
-				'searchString'      => 'xsd:string',
-				'incidentShortName' => 'xsd:string'
-			),
-			'out' => array(
-				'results' => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Basic search matching a string and assigned to a particular incident."
-	);
-
-	shn_plus_register_one($server, 'basicSearchWithRange',
-		array(
-			'in' => array(
-				'searchString'      => 'xsd:string',
-				'incidentShortName' => 'xsd:string',
-				'startFrom'         => 'xsd:int',
-				'limit'             => 'xsd:int'
-			),
-			'out' => array(
-				'results' => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Basic search matching a string and assigned to a particular incident passing back XML and with range restraints."
-	);
-
-	shn_plus_register_one($server, 'basicSearchAll',
-		array(
-			'in' => array(
-				'searchString' => 'xsd:string'
-			),
-			'out' => array(
-				'results' => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Basic search matching a string across all incidents."
-	);
-
-	shn_plus_register_one($server, 'test',
-		array(
-			'in' => array(
-				'x' => 'xsd:integer',
-				'y' => 'xsd:integer'
-			),
-			'out' => array(
-				'sum' => 'xsd:integer'
-			)
-		),
-		$namespace,
-		"Test function to assist setting up a SOAP client. It returns the summation of the two integers values passed in."
-	);
-
-	shn_plus_register_one($server, 'verifyCredentials',
-		array(
-			'in' => array(
-				'email'       => 'xsd:string',
-				'password'    => 'xsd:string',
-				'api_key'     => 'xsd:string',
-				'secret_code' => 'xsd:string'
-			),
-			'out' => array(
-				'passed'      => 'xsd:boolean',
-				'secret_code' => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Verifies credentials provided. Returns true for valid and false for invalid. 2nd return value is null if sent in as null, the secret_code otherwise on valid."
-	);
-
-
-	shn_plus_register_one($server, 'requestNewPassword',
-		array(
-			'in' => array(
-				'email' => 'xsd:string'
-			),
-			'out' => array(
-				'sent' => 'xsd:boolean'
-			)
-		),
-		$namespace,
-		"If the email account is valid, send a change password email. Return value of whether the email account is valid and request sent."
-	);
-
-
-	shn_plus_register_one($server, 'changePassword',
-		array(
-			'in' => array(
-				'email'       => 'xsd:string',
-				'oldPassword' => 'xsd:string',
-				'newPassword' => 'xsd:string'
-			),
-			'out' => array(
-				'changed' => 'xsd:boolean'
-			)
-		),
-		$namespace,
-		"Changes the password for the user provided they supply the correct original password. Returns success of this operation."
-	);
-
-	shn_plus_register_one($server, 'askTimeout',
-		array(
-			'in' => array(),
-			'out' => array(
-				'timeout' => 'xsd:integer'
-			)
-		),
-		$namespace,
-		"Returns the timeout period for applications like ReUnite in seconds."
-	);
-
-
-
-
-
-
-
-	shn_plus_register_one($server, 'createUuid',
-		array(
-			'in' => array(
-				'incidentId' => 'xsd:integer'
-			),
-			'out' => array(
-				'uuid' => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Returns a single new uuid associated to a specific incident."
-	);
-
-	shn_plus_register_one($server, 'createUuidBatch',
-		array(
-			'in' => array(
-				'incidentId' => 'xsd:integer',
-				'num'        => 'xsd:integer'
-			),
-			'out' => array(
-				'uuidList' => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Returns a batch of new uuids associated to a specific incident."
-	);
-
-
-
-	shn_plus_register_one($server, 'submitLpfXml',
-		array(
-			'in' => array(
-				'lpfXmlFile' => 'xsd:base64Binary'
-			),
-			'out' => array(
-				'success' => 'xsd:boolean',
-				'error'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Accepts a reported person LPF XML file."
-	);
-*/
 }
 
 
-// API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-// API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-// API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-// API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-// API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
 
 /**
@@ -220,50 +49,52 @@ function shn_plus_registerAll($namespace) {
  * @return array
  */
 function version() {
+	global $api_version;
 	shn_plus_logAccess("version");
-	return array('apiVersion'=>'2.0.0');
-}
 
+	$e        = explode(".", $api_version);
+	$major    = $e[0];
+	$minor    = $e[1];
+	$revision = $e[2];
 
-/**
-* Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
-* @return array
-*/
-function getIncidentList() {
-	shn_plus_logAccess("getIncidentList");
-	global $global;
-	$db = $global['db'];
-	$list = array();
-	$q = "
-		SELECT *
-		FROM incident
-		ORDER BY `default` DESC, name ASC;
-	";
-	$result = $db->Execute($q);
-	while (!$result == NULL && !$result->EOF) {
-		$list[] = array(
-			'incident_id' => $result->fields["incident_id"],
-			'parent_id'   => $result->fields["parent_id"],
-			'name'        => $result->fields["name"],
-			'shortname'   => $result->fields["shortname"],
-			'date'        => $result->fields["date"],
-			'type'        => $result->fields["type"],
-			'latitude'    => $result->fields["latitude"],
-			'longitude'   => $result->fields["longitude"]
-		);
-		$result->MoveNext();
-	}
-	return array('incidentList'=>json_encode($list));
+	return array(
+		'versionMajor'    => (int)$major,
+		'versionMinor'    => (int)$minor,
+		'versionRevision' => (int)$revision,
+		'versionString'   => (string)$api_version
+	);
 }
 
 
 
-/**
- * This a basic search for a person matching a string and assigned to a particular incident.
- * @param  string search_term
- * @param  string incidentShortName
- * @return array search_results
- *
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+GRAVEYARD OF OLD v1 API CODE
+
+
+
+
 function basicSearch($searchString, $incidentShortName) {
 	shn_plus_logAccess("basicSearch");
 	global $global;
@@ -330,12 +161,9 @@ function basicSearch($searchString, $incidentShortName) {
 
 
 
-/**
- * This a basic search for a person matching a string and assigned to a particular incident.
- * @param  string search_term
- * @param  string incidentShortName
- * @return array search_results
- *
+
+
+
 function basicSearchWithRange($searchString, $incidentShortName, $startFrom, $limit) {
 	shn_plus_logAccess("basicSearchWithRange");
 	global $global;
@@ -403,11 +231,7 @@ function basicSearchWithRange($searchString, $incidentShortName, $startFrom, $li
 
 
 
-/**
-* This a basic search for a person matching a string across all incidents.
- * @param  string search_term
- * @return array
- *
+
 function basicSearchAll($searchString) {
 	shn_plus_logAccess("basicSearchAll");
 	global $global;
@@ -475,56 +299,6 @@ function basicSearchAll($searchString) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * Returns the number of seconds ReUnite sessions should last.
- * @access public
- * @return integer
- *
-function askTimeout() {
-	shn_plus_logAccess("askTimeout");
-
-	$timeout = shn_db_get_config("plu s","timeout");
-	return array('timeout'=>$timeout);
-}
-
-
-
-
-
-
-
-/**
- * returns( true ) when the email and oldPassword match, the newPassword replaces the old password
- * returns( false ) otherwise
- *
- * @access public
- * @return integer
- *
 function changePassword($email, $oldPassword, $newPassword) {
 	shn_plus_logAccess("shn_plus_changePassword");
 
@@ -582,13 +356,6 @@ function changePassword($email, $oldPassword, $newPassword) {
 
 
 
-
-
-/**
- * This returns a single new uuid associated to a specific incident.
- * @param int incidentId
- * @return string ~ uuid
- *
 function createUuid($incidentId) {
 	shn_plus_logAccess("createUuid");
 	global $global;
@@ -622,13 +389,7 @@ function createUuid($incidentId) {
 
 
 
-/**
- * This returns a batch of new uuids associated to a specific incident.
- * @access public
- * @param int incident
- * @param int num ~ number of id's to create
- * @return array ~ list of new uuid's
- *
+
 function createUuidBatch($incidentId, $num) {
 	shn_plus_logAccess("createUuidBatch");
 	global $global;
@@ -671,12 +432,8 @@ function createUuidBatch($incidentId, $num) {
 
 
 
-/**
- * Accepts LPF XML v1.6+ person reports.
- * @access public
- * @param int lpfXml
- * @return array
- *
+
+
 function submitLpfXml($lpfXmlFile) {
 	shn_plus_logAccess("submitLpfXml");
 
@@ -748,6 +505,13 @@ function submitLpfXml($lpfXmlFile) {
 	}
 	return array('success'=>$success, 'error'=>$error);
 }
+
+
+
+
+
+
+
 
 */
 

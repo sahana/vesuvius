@@ -22,6 +22,10 @@ function init() {
 				width: 20%;
 				border: 1px solid #000;
 			}
+			td.func {
+				text-align: left;
+				padding-left: 5px;
+			}
 			td.pass {
 				color: green;
 				background-color: green;
@@ -68,7 +72,8 @@ function showEntry() {
                         $j--;
                 } else {
 			$pos = strpos($files[$i], "api_");
-			if($pos === false) {
+			$til = strpos($files[$i], "~");
+			if($pos === false || $til) {
 				// not an api
 			} else {
 				$a = str_replace("api_", "", $files[$i]);
@@ -97,7 +102,7 @@ function _t() {}
 
 function version() {
 	global $sites;
-	echo "<tr><td>version()</td>";
+	echo "<tr><td class=\"func\">version()</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
 		//$client->useHTTPPersistentConnection();
@@ -115,7 +120,7 @@ function version() {
 
 function getEventList() {
 	global $sites;
-	echo "<tr><td>getEventList()</td>";
+	echo "<tr><td class=\"func\">getEventList()</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
 		$result = $client->call('getEventList', array(null));
@@ -132,7 +137,7 @@ function getEventList() {
 
 function getEventListUser($username, $password) {
 	global $sites;
-	echo "<tr><td>getEventListUser(user, pass)</td>";
+	echo "<tr><td class=\"func\">getEventListUser(user,pass)</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
 		$result = $client->call('getEventListUser', array('username'=>$username, 'password'=>$password));
@@ -149,7 +154,7 @@ function getEventListUser($username, $password) {
 
 function getGroupList() {
 	global $sites;
-	echo "<tr><td>getGroupList()</td>";
+	echo "<tr><td class=\"func\">getGroupList()</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
 		$result = $client->call('getGroupList', array(null));
@@ -166,7 +171,7 @@ function getGroupList() {
 
 function getHospitalList() {
 	global $sites;
-	echo "<tr><td>getHospitalList()</td>";
+	echo "<tr><td class=\"func\">getHospitalList()</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
 		$result = $client->call('getHospitalList', array(null));
@@ -183,7 +188,7 @@ function getHospitalList() {
 
 function getHospitalData($uuid) {
 	global $sites;
-	echo "<tr><td>getHospitalData(uuid)</td>";
+	echo "<tr><td class=\"func\">getHospitalData(uuid)</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
 		$result = $client->call('getHospitalData', array('hospital_uuid'=>$uuid));
@@ -200,7 +205,7 @@ function getHospitalData($uuid) {
 
 function getHospitalPolicy($uuid) {
 	global $sites;
-	echo "<tr><td>getHospitalPolicy(uuid)</td>";
+	echo "<tr><td class=\"func\">getHospitalPolicy(uuid)</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
 		$result = $client->call('getHospitalPolicy', array('hospital_uuid'=>$uuid));
@@ -217,7 +222,20 @@ function getHospitalPolicy($uuid) {
 
 
 
-
+function getSessionTimeout() {
+	global $sites;
+	echo "<tr><td class=\"func\">getSessionTimeout()</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('getSessionTimeout', array(null));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
 
 
 
