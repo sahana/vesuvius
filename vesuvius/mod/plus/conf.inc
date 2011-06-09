@@ -11,8 +11,8 @@
  */
 
 
-$conf['mod_plus_name']         = _t("PL User Services");  // Defines the name of the module
-$conf['mod_plus_menuorder']    = 99;                     // Defines this module's main menu priority
+$conf['mod_plus_name']         = _t("Web Services");  // Defines the name of the module
+$conf['mod_plus_menuorder']    = 99;                  // Defines this module's main menu priority
 $conf['mod_plus_dependencies'] = "pop(0.1):lpf(0.1)";
 $conf['mod_plus_version']      = "1.9.2";
 
