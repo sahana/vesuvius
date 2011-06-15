@@ -452,15 +452,21 @@ class mpres {
 							$this->person->hospitalId = "NULL";
 						}
 
-						$this->person->gender     = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['gender'];
-						$this->person->age          = null;
+						$this->person->age = null;
+
+						$this->person->gender = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['gender'];
 
 						if($this->person->gender == "M") {
-							$this->person->gender = "mal";
-						} else if($this->person->gender == "F") {
-							$this->person->gender = "fml";
+							$this->person->gender = "'mal'";
+
+						} elseif($this->person->gender == "'F'") {
+							$this->person->gender = "'fml'";
+
+						} elseif($this->person->gender == "C") {
+							$this->person->gender = "'cpx'";
+
 						} else {
-							$this->person->gender = "unk";
+							$this->person->gender = "NULL";
 						}
 
 
@@ -470,11 +476,11 @@ class mpres {
 							$this->person->age = "'17'";
 							$this->person->minAge = "'0'";
 							$this->person->maxAge = "'17'";
-						} else if($this->person->peds == "N") {
+						} elseif($this->person->peds == "N") {
 							$this->person->age = "'18'";
 							$this->person->minAge = "'18'";
 							$this->person->maxAge = "'150'";
-						} else if($this->person->peds == "Y,N") {
+						} elseif($this->person->peds == "Y,N") {
 							$this->person->age = "'18'";
 							$this->person->minAge = "'0'";
 							$this->person->maxAge = "'150'";
@@ -488,9 +494,9 @@ class mpres {
 						$b = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['triageCategory'];
 						if(($b == "Green") || ($b == "BH Green")) {
 							$this->person->sahanaStatus = "ali";
-						} else if(($b == "Yellow") || ($b == "Red") || ($b == "Gray")) {
+						} elseif(($b == "Yellow") || ($b == "Red") || ($b == "Gray")) {
 							$this->person->sahanaStatus = "inj";
-						} else if($b == "Black") {
+						} elseif($b == "Black") {
 							$this->person->sahanaStatus = "dec";
 						} else {
 							$this->person->sahanaStatus = "ali";

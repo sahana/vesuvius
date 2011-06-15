@@ -57,13 +57,13 @@ var DetailsView =
 	createInfoTag : function(person) {
 		var statusTab = 
 			$("<div></div>").css("background-color", "#" + person.tagColor)
-							//.addClass("status")//.attr("id", "status_" + person.uuid)
-							//.html(person.statusSahanaFull);
+							.addClass("status")
+							.html(person.statusSahanaFull);
 
 	
-		var name = $("<div></div>").addClass("stubName")/*.attr("id", person.uuid)*/.html(person.name);
+		var name = $("<div></div>").addClass("stubName").html(person.name);
 		
-		var details = $("<ul></ul>")/*.attr("id", "details_" + person.uuid)*/.addClass("stubDetails");
+		var details = $("<ul></ul>").addClass("stubDetails");
 		var dataName = $("<span></span>").addClass("dataName");
 		var dataValue = $("<span></span>").addClass("dataValue");
 		

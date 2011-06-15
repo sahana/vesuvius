@@ -35,6 +35,7 @@ if(!isset($_GET['api'])) {
 	getHospitalData("1");
 	getHospitalPolicy("1");
 	getSessionTimeout();
+	registerUser("testCaseUser", "testCase@email.com", "testPassword99", "testCaseGiven", "testCaseFamily");
 
 	echo "</table><br><h2>Note: deprecated functions are not listed/tested.</h2></body>";
 }

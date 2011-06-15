@@ -226,9 +226,9 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 		insert into person_uuid(p_uuid, full_name, family_name, given_name)
 		values(
 			'".$pid."',
-			'".$given_name." ".$family_name."',
-			'".$family_name."',
-			'".$given_name."'
+			'".mysql_real_escape_string($given_name)." ".mysql_real_escape_string($family_name)."',
+			'".mysql_real_escape_string($family_name)."',
+			'".mysql_real_escape_string($given_name)."'
 		);
 	";
 	$res = $db->Execute($q);
@@ -256,7 +256,7 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 
 		$q = "
 			INSERT INTO users(p_uuid, password, changed_timestamp, user_name, salt, status)
-			values('".$pid."','".$stored_password."', ".$time." ,'".$user_name."', '".$salt."', '".$status."');
+			values('".$pid."','".$stored_password."', ".$time." ,'".mysql_real_escape_string($user_name)."', '".$salt."', '".$status."');
 		";
 		$res = $db->Execute($q);
 
@@ -288,46 +288,65 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 
 
 
-/**
- *check the existence of an user
- *@return bool
- *@param string user name
- *@access public
- */
-function shn_is_user($user_name){
 
-	$q = "select p_uuid from  users where  user_name = '{$user_name}'";
+// check the existence of an user
+function shn_is_user($user_name) {
 	global $global;
-	$db=$global['db'];
-	$res=$db->Execute($q);
-	if(($res==null) or ($res->EOF)){
+	$db = $global['db'];
+	$q = "
+		SELECT p_uuid
+		FROM users
+		WHERE user_name = '".mysql_real_escape_string($user_name)."';
+	";
+	$res = $db->Execute($q);
+	if(($res == null) || ($res->EOF)) {
 		return false;
-	}else {
+	} else {
 		return true;
 	}
 }
 
 
 
-function shn_auth_user_list($fullname=false,$admin=true){
+// check the existence of an user with the email address
+function shn_is_user_with_email($email) {
 	global $global;
-	$db=$global['db'];
+	$db = $global['db'];
+	$q = "
+		SELECT *
+		FROM contact c, users u
+		where c.contact_value = '".mysql_real_escape_string($email)."'
+		and c.pgoc_uuid = u.p_uuid;
+	";
+	$res = $db->Execute($q);
+	if(($res == null) || ($res->EOF)) {
+		return false;
+	} else {
+		return true;
+	}
+}
 
-	$q="select users.p_uuid,full_name,user_name from person_uuid,users where users.p_uuid=person_uuid.p_uuid order by user_name";
-	//$q="select users.p_uuid,full_name,user_name from person_uuid,users where users.p_uuid=person_uuid.p_uuid and users.p_uuid <> 1  order by user_name";
 
-	$res=$db->Execute($q);
-	$users=array();
+
+function shn_auth_user_list($fullname = false, $admin = true) {
+	global $global;
+	$db = $global['db'];
+
+	$q = "
+		select users.p_uuid, full_name, user_name
+		from person_uuid, users
+		where users.p_uuid = person_uuid.p_uuid
+		order by user_name;
+	";
+	$res = $db->Execute($q);
+	$users = array();
 
 	while(!$res->EOF){
-		//$name=$res->fields[2].".".$res->fields["full_name"];
 		if($res->fields["full_name"]==null){
 			$name="Full Name not avaliable - ".$name=$res->fields["user_name"];
-		}else{
+		} else{
 			$name=$res->fields["full_name"]." - ".$name=$res->fields["user_name"];
 		}
-
-		//$name=$res->fields["full_name"];
 		if(($res->fields["p_uuid"]!="1") or($admin==true)){
 			$users[$res->fields["p_uuid"]]=$name;
 		}
@@ -943,7 +962,7 @@ define("HAS_USERNAME",7);
  * @return true if the password matches the policy, An Error code if the password doesnt match, stating which rule fails.
  */
 function shn_check_password_matches_policy($password, $username, $extra_opts=null) {
-	global $global,$conf;
+	global $global, $conf;
 	if(isset($extra_opts['rule_set'])) {
 		// specify from where to get the rule set values.
 		// this is used in setup because the values are in the session.

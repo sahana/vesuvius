@@ -76,8 +76,8 @@ class SearchDB
 	 *///
 	public function SearchDB($searchMode, $incident, $searchTerm, $sStatus = "true;true;true;true;true;true", $sGender="true;true;true;true", $sAge="true;true;true", $sHospital="true;true;true", $sPageControls="0;-1;;true") {  
 		$this->incident = $incident;
-		$toReplace = array(",", ".", "/", "\\", "?", "!", "~", "@", "$", "%", "^", "&", "*", "(", ")", "+", "#"); 
-		$this->searchTerm = str_replace($toReplace, "", $searchTerm);
+		$toReplace = array(",", ".", "/", "\\", "?", "!", "@", "$", "%", "^", "&", "(", ")", "+", "#"); 
+		$this->searchTerm = strtolower(str_replace($toReplace, "", $searchTerm));
 		
 		$this->setStatusFilters($sStatus);
 		$this->setPageControls($sPageControls);
@@ -431,9 +431,10 @@ class SearchDB
 		foreach ($tempObject->response->docs as $doc) {
 			$date = new DateTime($doc->updated);
 			//date_sub($date, date_interval_create_from_date_string('4 hours'));
+			
 			$this->results[] = array('p_uuid' => $doc->p_uuid, 
 				 'encodedUUID' => base64_encode($doc->p_uuid),
-				   'full_name' => isset($doc->full_name) ? htmlspecialchars($doc->full_name) : null, 
+				   'full_name' => isset($doc->full_name) ? htmlspecialchars( mb_convert_case($doc->full_name, MB_CASE_TITLE, "UTF-8")) : null, 
 				  'opt_status' => isset($doc->opt_status) ? $doc->opt_status : null,
 				    'imageUrl' => isset($doc->url_thumb) ? $doc->url_thumb : null, 
 				  'imageWidth' => isset($doc->image_width) ? $doc->image_width : null, 
@@ -452,7 +453,7 @@ class SearchDB
 	}
 	
 	private function buildSOLRQuery() {
-                $this->searchTerm = $this->searchTerm == "" ? "*:*" : $this->searchTerm . "*";
+                $this->searchTerm = $this->searchTerm == "" ? "*:*" : $this->searchTerm . "~";
 
                 $this->SOLRquery =
                     $this->SOLRroot . "select/?fl=*,score&qt=edismax&q=+" . trim(urlencode($this->searchTerm))

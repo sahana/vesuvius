@@ -590,6 +590,7 @@ function shn_eap_edit() {
 	$r        = $global['db']->Execute($q);
 	$person_details = $r->FetchRow();
 
+	$full_name = htmlspecialchars(mb_convert_case($full_name, MB_CASE_TITLE, "UTF-8"));
 	echo "
 		<div class=\"form-container\">
 			<form>
@@ -1033,6 +1034,8 @@ function shn_eap_edit() {
 
 
 		// rest of public info......
+		$editGivenName  = htmlspecialchars(mb_convert_case($editGivenName,  MB_CASE_TITLE, "UTF-8"));
+		$editFamilyName = htmlspecialchars(mb_convert_case($editFamilyName, MB_CASE_TITLE, "UTF-8"));
 		echo "
 			<hr class=\"insideHrGreen\">
 
@@ -1180,6 +1183,8 @@ function shn_eap_edit() {
 			<br>
 		";
 
+		$person_uuid['given_name']  = htmlspecialchars(mb_convert_case($person_uuid['given_name'],  MB_CASE_TITLE, "UTF-8"));
+		$person_uuid['family_name'] = htmlspecialchars(mb_convert_case($person_uuid['family_name'], MB_CASE_TITLE, "UTF-8"));
 		echo "
 			<hr class=\"insideHrGreen\">
 

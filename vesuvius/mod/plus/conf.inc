@@ -13,7 +13,7 @@
 
 $conf['mod_plus_name']         = _t("Web Services");  // Defines the name of the module
 $conf['mod_plus_menuorder']    = 99;                  // Defines this module's main menu priority
-$conf['mod_plus_dependencies'] = "pop(0.1):lpf(0.1)";
+$conf['mod_plus_dependencies'] = "pop(0.1):lpf(0.1):rez(1.2)";
 $conf['mod_plus_version']      = "1.9.2";
 
 // api version to default to if one is not specified

@@ -30,3 +30,8 @@ CREATE TABLE `plus_report_log` (
   FOREIGN KEY(`p_uuid`) REFERENCES `person_uuid` (`p_uuid`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+
+INSERT INTO rez_pages (rez_page_id, rez_menu_title, rez_page_title, rez_menu_order, rez_content, rez_description, rez_timestamp, rez_visibility) VALUES
+(-5, 'Account activated.', 'Account activated.', 7, '<div><br></div><div>Your account has been successfully activated. You may now <a href="index.php?mod=pref&amp;act=loginForm" title="login" target="">login to the site</a> to begin using it.</div>', 'Account activated.', '2011-06-14 13:09:49', 'Hidden'),
+(-4, 'Account already active.', 'Account already active.', 6, '<div><br></div><div>This confirmation link is no longer valid. The account attached to it is already active.</div>', 'Account already active.', '2011-06-14 13:06:55', 'Hidden'),
+(-3, 'Invalid confirmation request.', 'Invalid confirmation request.', 5, '<div><br></div><div>Your attempted registration confirmation was unsuccessful. It appears you attempted to confirm an invalid user or used an invalid confirmation code.</div>', 'Invalid confirmation request.', '2011-06-14 13:06:20', 'Hidden');

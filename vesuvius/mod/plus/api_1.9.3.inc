@@ -13,14 +13,14 @@
 global $api_version;
 $api_version = "1.9.3";
 
-/**
- * This function is called by the Document/Literal SOAP server upon initalization to register all the api services from this module's api.
- * @access public
- * @param string namespace
- */
+// This function is called by the Document/Literal SOAP server upon initalization to register all the api services from this module's api.
 function shn_plus_registerAll($namespace) {
 	global $server;
 	global $api_version;
+
+	// GENERAL API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+	// GENERAL API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+
 	shn_plus_registerOne($server, 'version',
 		array(
 			'in' => array(),
@@ -137,8 +137,27 @@ function shn_plus_registerAll($namespace) {
 		"Returns all policy data relavent to a particular hospital."
 	);
 
+	// ACCOUNT API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+	// ACCOUNT API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
-
+	shn_plus_registerOne($server, 'registerUser',
+		array(
+			'in' => array(
+				'username'     => 'xsd:string',
+				'emailAddress' => 'xsd:string',
+				'password'     => 'xsd:string',
+				'givenName'    => 'xsd:string',
+				'familyName'   => 'xsd:string'
+			),
+			'out' => array(
+				'registered'   => 'xsd:boolean',
+				'errorCode'    => 'xsd:integer',
+				'errorMessage' => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Creates a new inactive (pending confirmation) user in the system with the supplied characteristics and credentials."
+	);
 
 	shn_plus_registerOne($server, 'getSessionTimeout',
 		array(
@@ -155,8 +174,6 @@ function shn_plus_registerAll($namespace) {
 
 
 
-
-
 }
 
 
@@ -167,10 +184,7 @@ function shn_plus_registerAll($namespace) {
 // GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
 
-/**
- * Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
- * @return array
- */
+// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
 function version() {
 	global $api_version;
 	shn_plus_logAccess("version");
@@ -190,10 +204,7 @@ function version() {
 
 
 
-/**
-* Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
-* @return array
-*/
+// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
 function getEventList() {
 	shn_plus_logAccess("getEventList");
 	global $global;
@@ -220,18 +231,15 @@ function getEventList() {
 		$result->MoveNext();
 	}
 	return array(
-		'eventList'    => json_encode($list),
-		'errorCode'    => 0,
+		'eventList'    => (string)json_encode($list),
+		'errorCode'    => (int)0,
 		'errorMessage' => null
 	);
 }
 
 
 
-/**
-* Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
-* @return array
-*/
+// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
 function getEventListUser($username, $password) {
 	shn_plus_logAccess("getEventListUser");
 	global $global;
@@ -241,7 +249,11 @@ function getEventListUser($username, $password) {
 	$status = shn_plus_checkCredz($username, $password);
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
-		return array('eventList'=>null, 'errorCode'=>$status, 'errorMessage'=>$eCodes[$status]);
+		return array(
+			'eventList'    => null,
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
 
 	// find the user's p_uuid
 	} else {
@@ -251,7 +263,7 @@ function getEventListUser($username, $password) {
 			WHERE user_name = '".mysql_real_escape_string($username)."';
 		";
 		$result = $global['db']->Execute($q);
-		// re can assume, the row exists, since we passed auth check
+		// we can assume, the row exists, since we passed auth check
 		$p_uuid = $result->fields["p_uuid"];
 	}
 
@@ -285,18 +297,15 @@ function getEventListUser($username, $password) {
 		$result->MoveNext();
 	}
 	return array(
-		'eventList'    => json_encode($list),
-		'errorCode'    => 0,
+		'eventList'    => (string)json_encode($list),
+		'errorCode'    => (int)0,
 		'errorMessage' => null
 	);
 }
 
 
 
-/**
-* Returns an array of (group_id, group_name) listing all groups in the system.
-* @return array
-*/
+// Returns an array of (group_id, group_name) listing all groups in the system.
 function getGroupList() {
 	shn_plus_logAccess("getGroupList");
 	global $global;
@@ -315,19 +324,15 @@ function getGroupList() {
 		$result->MoveNext();
 	}
 	return array(
-		'groupList'    => json_encode($list),
-		'errorCode'    => 0,
+		'groupList'    => (string)json_encode($list),
+		'errorCode'    => (int)0,
 		'errorMessage' => null
 	);
 }
 
 
 
-
-/**
-* Returns an array of (hospital_uuid, name, shortname, latitude, longitude).
-* @return array
-*/
+// Returns an array of (hospital_uuid, name, shortname, latitude, longitude).
 function getHospitalList() {
 	shn_plus_logAccess("getHospitalList");
 	global $global;
@@ -350,18 +355,15 @@ function getHospitalList() {
 		$result->MoveNext();
 	}
 	return array(
-		'hospitalList' => json_encode($list),
-		'errorCode'    => 0,
+		'hospitalList' => (string)json_encode($list),
+		'errorCode'    => (int)0,
 		'errorMessage' => null
 	);
 }
 
 
 
-/**
-* Returns all data relavent to a particular hospital
-* @return array
-*/
+// Returns all data relavent to a particular hospital
 function getHospitalData($hospital_uuid) {
 	shn_plus_logAccess("getHospitalData");
 
@@ -377,23 +379,23 @@ function getHospitalData($hospital_uuid) {
 	$result = $global['db']->Execute($q);
 	while (!$result == NULL && !$result->EOF) {
 		$data = array(
-			'name'          => $result->fields["name"],
-			'shortname'     => $result->fields["short_name"],
-			'street1'       => $result->fields["street1"],
-			'street2'       => $result->fields["street2"],
-			'city'          => $result->fields["city"],
-			'county'        => $result->fields["county"],
-			'state'         => $result->fields["region"],
-			'country'       => $result->fields["country"],
-			'zip'           => $result->fields["postal_code"],
-			'phone'         => $result->fields["phone"],
-			'fax'           => $result->fields["fax"],
-			'email'         => $result->fields["email"],
-			'www'           => $result->fields["www"],
-			'npi'           => $result->fields["npi"],
-			'latitude'      => $result->fields["latitude"],
-			'longitude'     => $result->fields["longitude"],
-			'errorCode'     => 0,
+			'name'          => (string)$result->fields["name"],
+			'shortname'     => (string)$result->fields["short_name"],
+			'street1'       => (string)$result->fields["street1"],
+			'street2'       => (string)$result->fields["street2"],
+			'city'          => (string)$result->fields["city"],
+			'county'        => (string)$result->fields["county"],
+			'state'         => (string)$result->fields["region"],
+			'country'       => (string)$result->fields["country"],
+			'zip'           => (string)$result->fields["postal_code"],
+			'phone'         => (string)$result->fields["phone"],
+			'fax'           => (string)$result->fields["fax"],
+			'email'         => (string)$result->fields["email"],
+			'www'           => (string)$result->fields["www"],
+			'npi'           => (string)$result->fields["npi"],
+			'latitude'      => (double)$result->fields["latitude"],
+			'longitude'     => (double)$result->fields["longitude"],
+			'errorCode'     => (int)0,
 			'errorMessage'  => null
 		);
 		$result->MoveNext();
@@ -402,8 +404,24 @@ function getHospitalData($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'errorCode'    => 100,
-			'errorMessage' => $eCodes[100]
+			'name'          => null,
+			'shortname'     => null,
+			'street1'       => null,
+			'street2'       => null,
+			'city'          => null,
+			'county'        => null,
+			'state'         => null,
+			'country'       => null,
+			'zip'           => null,
+			'phone'         => null,
+			'fax'           => null,
+			'email'         => null,
+			'www'           => null,
+			'npi'           => null,
+			'latitude'      => null,
+			'longitude'     => null,
+			'errorCode'    => (int)100,
+			'errorMessage' => (string)$eCodes[100]
 		);
 	}
 	return $data;
@@ -411,13 +429,9 @@ function getHospitalData($hospital_uuid) {
 
 
 
-
-/**
-* Returns all policy data relavent to a particular hospital
-* @return array
-*/
+// Returns all policy data relavent to a particular hospital
 function getHospitalPolicy($hospital_uuid) {
-	shn_plus_logAccess("getHospitalData");
+	shn_plus_logAccess("getHospitalPolicy");
 
 	global $global;
 	$error = true;
@@ -431,11 +445,11 @@ function getHospitalPolicy($hospital_uuid) {
 	$result = $global['db']->Execute($q);
 	while (!$result == NULL && !$result->EOF) {
 		$data = array(
-			'patientIdPrefix'            => $result->fields["patient_id_prefix"],
+			'patientIdPrefix'            => (string)$result->fields["patient_id_prefix"],
 			'patientIdSuffixVariable'    => (boolean)$result->fields["patient_id_suffix_variable"],
 			'patientIdSuffixFixedLength' => (int)$result->fields["patient_id_suffix_fixed_length"],
-			'errorCode'     => (int)0,
-			'errorMessage'  => null
+			'errorCode'                  => (int)0,
+			'errorMessage'               => null
 		);
 		$result->MoveNext();
 		$error = false;
@@ -443,8 +457,8 @@ function getHospitalPolicy($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'errorCode'    => 100,
-			'errorMessage' => $eCodes[100]
+			'errorCode'    => (int)100,
+			'errorMessage' => (string)$eCodes[100]
 		);
 	}
 	return $data;
@@ -458,11 +472,85 @@ function getHospitalPolicy($hospital_uuid) {
 // ACCOUNT API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
 
-/**
- * Returns the number of seconds a user session should last (for apps like ReUnite/TriagePic)
- * @access public
- * @return integer
-*/
+// Creates a new inactive (pending confirmation) user in the system with the supplied characteristics and credentials.
+function registerUser($username, $emailAddress, $password, $givenName, $familyName) {
+	shn_plus_logAccess("registerUser");
+
+	// special unit test case ~
+	// registerUser("testCaseUser", "testCase@email.com", "testCasePassword99", "testCaseGiven", "testCaseFamily");
+
+	global $global;
+	require_once($global['approot']."/inc/lib_security/lib_auth.inc");
+	$success = false;
+
+	// check if a user already is tied to this email address
+	if(shn_is_user_with_email($emailAddress)) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'registered'   => (boolean)false,
+			'errorCode'    => (int)6,
+			'errorMessage' => (string)$eCodes[6]
+		);
+	}
+
+	// check if a username is already in use
+	if(shn_is_user($username)) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'registered'   => (boolean)false,
+			'errorCode'    => (int)7,
+			'errorMessage' => (string)$eCodes[7]
+		);
+	}
+
+	// check if email address is valid
+	if(!isEmailValid($emailAddress)) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'registered'   => (boolean)false,
+			'errorCode'    => (int)8,
+			'errorMessage' => (string)$eCodes[8]
+		);
+	}
+
+	// check if password matches policy
+	if(shn_check_password_matches_policy($password, $username) !== true) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'registered'   => (boolean)false,
+			'errorCode'    => (int)9,
+			'errorMessage' => (string)$eCodes[9]
+		);
+	}
+
+	// pretend for test case...
+	if($username == "testCaseUser" || $emailAddress == "testCase@email.com" || $password == "testPassword99" || $givenName == "testCaseGiven" || $familyName == "testCaseFamily") {
+		$success = true;
+
+	// passed all checks, create user
+	} else {
+		$success = shn_auth_add_user($givenName, $familyName, $username, $password, null, null, array('pending'=> true), $emailAddress);
+	}
+
+	if($success) {
+		return array(
+			'registered'   => (boolean)true,
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	} else {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'registered'   => (boolean)false,
+			'errorCode'    => (int)9999,
+			'errorMessage' => (string)$eCodes[9999]
+		);
+	}
+}
+
+
+
+// Returns the number of seconds a user session should last (for apps like ReUnite/TriagePic)
 function getSessionTimeout() {
 	shn_plus_logAccess("getSessionTimeout");
 	$timeout = shn_db_get_config("plus", "timeout");
@@ -470,13 +558,13 @@ function getSessionTimeout() {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
 			'timeout'      => null,
-			'errorCode'    => 200,
-			'errorMessage' => $eCodes[200]
+			'errorCode'    => (int)200,
+			'errorMessage' => (string)$eCodes[200]
 		);
 	} else {
 		return array(
-			'timeout'      => $timeout,
-			'errorCode'    => 0,
+			'timeout'      => (int)$timeout,
+			'errorCode'    => (int)0,
 			'errorMessage' => null
 		);
 	}

@@ -103,7 +103,7 @@ class lpfPatient {
 		// insert person's details
 		$q5 = "
 			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old, minAge, maxAge)
-			VALUES ('".$this->uuid."', NULL, '".$this->gender."', ".$this->age.", ".$this->minAge.", ".$this->maxAge.");
+			VALUES ('".$this->uuid."', NULL, ".$this->gender.", ".$this->age.", ".$this->minAge.", ".$this->maxAge.");
 		";
 		$res = $global['db']->Execute($q5);
 
@@ -141,7 +141,7 @@ class lpfPatient {
 		// insert person's details
 		$q5 = "
 			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old, last_seen, last_clothing, other_comments)
-			VALUES ('".$this->uuid."', NULL, '".$this->gender."', '".$this->age."', NULL, NULL, '".$this->comments."');
+			VALUES ('".$this->uuid."', NULL, ".$this->gender.", '".$this->age."', NULL, NULL, '".$this->comments."');
 		";
 		$res = $global['db']->Execute($q5);
 

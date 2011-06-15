@@ -91,7 +91,7 @@ function version() {
 
 /*
 GRAVEYARD OF OLD v1 API CODE
-
+*/
 
 
 
@@ -508,10 +508,46 @@ function submitLpfXml($lpfXmlFile) {
 
 
 
+/**
+ * This returns an array of information about a person.
+ * @param
+ * @access public
+ * @return array
+ */
+function shn_pls_get_person_data($uuid) {
+	global $global;
+	$db = $global['db'];
+	$list = array();
+	$q = "
+		SELECT a.p_uuid, a.full_name, b.opt_gender, b.years_old, b.opt_age_group, c.opt_status, c.updated, i.image_height, i.image_width, i.url, e.last_seen, e.comments
+		FROM person_uuid a
+		LEFT OUTER JOIN person_details b USING (p_uuid)
+		LEFT OUTER JOIN person_status c USING (p_uuid)
+		LEFT OUTER JOIN image i ON a.p_uuid = i.x_uuid
+		LEFT OUTER JOIN person_missing e USING (p_uuid)
+		WHERE a.p_uuid = '".$uuid."';";
+
+	$result = $db->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$list[] = array('uuid'=>$result->fields["p_uuid"], 'name'=>$result->fields["full_name"], 'gender'=>$result->fields["opt_gender"], 'years_old'=>$result->fields["years_old"], 'age'=>$result->fields["opt_age_group"], 'statusSahana'=>$result->fields["opt_status"], 'statusSahanaUpdated'=>$result->fields["updated"], 'statusTriage'=>$result->fields["triageCategory"], 'id'=>$result->fields["personId"], 'peds'=>$result->fields["peds"], 'orgName'=>$result->fields["orgName"], 'imageWidth'=>$result->fields["image_width"], 'imageHeight'=>$result->fields["image_height"], 'imageUrl'=>$result->fields["url"], 'last_seen'=>$result->fields["last_seen"], 'comments'=>strip_tags($result->fields["comments"]));
+		$result->MoveNext();
+	}
+	return $list;
+}
 
 
 
 
 
-*/
+
+
+
+
+
+
+
+
+
+
+
 
