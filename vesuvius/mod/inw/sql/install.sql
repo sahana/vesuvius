@@ -3,7 +3,7 @@
 --
 CREATE ALGORITHM=UNDEFINED VIEW `person_search` 
 AS select `pu`.`p_uuid` AS `p_uuid`,
-`pu`.`full_name` AS `full_name`,
+LOWER(`pu`.`full_name`) AS `full_name`,
 `pu`.`given_name` AS `given_name`,
 `pu`.`family_name` AS `family_name`,
 (CASE WHEN `ps`.`opt_status` NOT IN ('ali', 'mis', 'inj', 'dec', 'unk', 'fnd') OR `ps`.`opt_status` IS NULL THEN 'unk' ELSE `ps`.`opt_status` END) AS `opt_status`,

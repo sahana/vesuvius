@@ -20,9 +20,17 @@ define("UNDEFINED_HOSPITAL_MSG",             "Undefined Hospital ~ No hospital r
 
 // define error codes
 define("ERRORCODES", serialize(array(
-	0   => "No error.",
-	1   => "Invalid username or password.",
-	2   => "User account is not active.",
-	100 => "No hospital registered with this id.",
-	200 => "sessionTimeout value missing from database."
+	0    => "No error.",
+	1    => "Invalid username or password.",
+	2    => "User account is not active.",
+	3    => "Invalid confirmation request.",
+	4    => "Account already active.",
+	5    => "Account activated.",
+	6    => "User exists with provided email address.",
+	7    => "Username already in use.",
+	8    => "Invalid email address.",
+	9    => "Password does not meet the following criteria: 1. The minimum length of the password is 8 characters. 2. The maximum length of the password is 16 characters. 3. Must have at least one uppercase character. 4. Must have at least one lowercase character. 5. Must have at least one numeral (0-9). 6. The password cannot contain your username.",
+	100  => "No hospital registered with this id.",
+	200  => "sessionTimeout value missing from database.",
+	9999 => "Unknown error.",
 )));

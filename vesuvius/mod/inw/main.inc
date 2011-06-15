@@ -141,6 +141,7 @@ function shn_inw_default() {
 				<input type="textbox" autocomplete="off" value="Enter a name..." id="searchBox" style="color: #CCC"/>
 				<div id="searchButtonWrapper" style="float:left">
 					<input type="submit" value="Search" id="buttonSearch" class="styleTehButton"/>
+					<input type="button" value="Clear"  id="buttonHelp" class="styleTehButton" onclick="Utils.help()"/>
 				</div>
 				<div style="clear:both;"></div>
 				<div style="float:left;font-size: .85em; display: none;margin-top: 2px;" id="foundLabel">
@@ -172,9 +173,13 @@ function shn_inw_default() {
 
 		<div style="clear:both;" id="beforeScrollingContent"></div> <!-- for IE -->
 		<div id="scrolling_content">
-			To search for a specific person, enter a name above and press "Enter" or click "Search".<br />
-			If you would like to see all the records for this incident, leave the search field blank and press "Enter" or click "Search".<br />
-			To search among those whose names were not reported, enter "unknown" above and press "Enter" or click "Search".
+			<ul>
+			  <li>Enter "unknown" to search records without names.</li>
+			  <li>Leave the box blank to browse all records.</li>
+			  <li>Use * as a wildcard (for example: "Cath*" will find "Catherine").</li>
+			  <li>Search is case-insensitive.</li>
+			</ul>
+
 		</div>
 		<div id="detailsPane">
 			<div id="dt_eapLink" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">View/Edit Full Record</a></div>

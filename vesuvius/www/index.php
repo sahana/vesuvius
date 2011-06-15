@@ -73,6 +73,30 @@ shn_main_front_controller();
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+// cleans the GET and POST
+function shn_main_clean_getpost() {
+	global $global;
+
+	require_once($global['approot'].'/3rd/htmlpurifier/include.php');
+	$purifier = new HTMLPurifier();
+
+	foreach($_POST as $key=>$val) {
+		if(!is_array($_POST[$key])) {
+			$val = $purifier->purify($val);
+			$val = escapeHTML($val);
+			$_POST[$key] = $val;
+		}
+	}
+	foreach($_GET as $key=>$val) {
+		if(!is_array($_GET[$key])) {
+			$val = $purifier->purify($val);
+			$val = escapeHTML($val);
+			$_GET[$key] = $val;
+		}
+	}
+}
+
+
 
 // find the proper default module and actions
 function shn_main_defaults() {
@@ -99,31 +123,6 @@ function shn_main_defaults() {
 
 
 
-// cleans the GET and POST
-function shn_main_clean_getpost() {
-	global $global;
-
-	require_once($global['approot'].'/3rd/htmlpurifier/include.php');
-	$purifier = new HTMLPurifier();
-
-	foreach($_POST as $key=>$val) {
-		if(!is_array($_POST[$key])) {
-			$val = $purifier->purify($val);
-			$val = escapeHTML($val);
-			$_POST[$key] = $val;
-		}
-	}
-	foreach($_GET as $key=>$val) {
-		if(!is_array($_GET[$key])) {
-			$val = $purifier->purify($val);
-			$val = escapeHTML($val);
-			$_GET[$key] = $val;
-		}
-	}
-}
-
-
-
 // front controller
 function shn_main_front_controller() {
 	global $global;
@@ -138,7 +137,13 @@ function shn_main_front_controller() {
 
 	// are we streaming PLUS SOAP Services?
 	if(isset($_REQUEST['wsdl'])) {
-		shn_main_plus();
+		shn_main_plus_server();
+		exit();
+	}
+
+	// is the user confirming an account registration?
+	if(isset($_REQUEST['register'])) {
+		shn_main_plus_register();
 		exit();
 	}
 
@@ -391,10 +396,22 @@ function shn_main_install_check() {
 
 
 // provide SOAP Services
-function shn_main_plus() {
+function shn_main_plus_server() {
 	global $global;
 	require_once($global['approot'].'mod/plus/server.php');
 }
+
+
+
+// provide registration services
+function shn_main_plus_register() {
+	global $global;
+	require_once($global['approot'].'mod/plus/register.php');
+}
+
+
+
+
 
 
 
