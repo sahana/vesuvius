@@ -125,13 +125,13 @@ function basicSearch($searchString, $incidentShortName) {
 			c.other_comments, c.last_seen
 		FROM person_uuid a
 		JOIN person_status b USING (p_uuid)
-		JOIN image i ON a.p_uuid = i.x_uuid
+		JOIN image i ON a.p_uuid = i.p_uuid
 		JOIN person_details c USING (p_uuid)
-		JOIN resource_to_incident r ON a.p_uuid = r.x_uuid
+		JOIN resource_to_incident r ON a.p_uuid = r.p_uuid
 		JOIN incident z ON z.incident_id = r.incident_id
 		WHERE ".$qqq."
 		AND b.isVictim = '1'
-		AND r.x_uuid = a.p_uuid
+		AND r.p_uuid = a.p_uuid
 		AND z.shortname = '".$incidentShortName."'
 		ORDER BY i.url DESC, b.opt_status DESC;";
 
@@ -194,13 +194,13 @@ function basicSearchWithRange($searchString, $incidentShortName, $startFrom, $li
 			c.other_comments, c.last_seen
 		FROM person_uuid a
 		JOIN person_status b USING (p_uuid)
-		JOIN image i ON a.p_uuid = i.x_uuid
+		JOIN image i ON a.p_uuid = i.p_uuid
 		JOIN person_details c USING (p_uuid)
-		JOIN resource_to_incident r ON a.p_uuid = r.x_uuid
+		JOIN resource_to_incident r ON a.p_uuid = r.p_uuid
 		JOIN incident z ON z.incident_id = r.incident_id
 		WHERE ".$qqq."
 		AND b.isVictim = '1'
-		AND r.x_uuid = a.p_uuid
+		AND r.p_uuid = a.p_uuid
 		AND z.shortname = '".$incidentShortName."'
 		ORDER BY i.url DESC, b.opt_status DESC
 		LIMIT ".$startFrom.", ".$limit.";
@@ -263,9 +263,9 @@ function basicSearchAll($searchString) {
 			c.other_comments, c.last_seen, z.shortname, z.name
 	      	FROM person_uuid a
 	        JOIN person_status b USING (p_uuid)
-	        JOIN image i ON a.p_uuid = i.x_uuid
+	        JOIN image i ON a.p_uuid = i.p_uuid
 	        JOIN person_details c USING (p_uuid)
-		JOIN resource_to_incident r ON a.p_uuid = r.x_uuid
+		JOIN resource_to_incident r ON a.p_uuid = r.p_uuid
 		JOIN incident z ON z.incident_id = r.incident_id
 		WHERE ".$qqq."
 		AND b.isVictim = '1'
@@ -377,7 +377,7 @@ function createUuid($incidentId) {
 		include_once $global['approot'].'/inc/lib_uuid.inc';
 		$uuid = shn_create_uuid();
 		$q = "
-			INSERT into resource_to_incident (incident_id, x_uuid)
+			INSERT into resource_to_incident (incident_id, p_uuid)
 			VALUES ('".$incidentId."', '".$uuid."');
 		";
 		$result = $db->Execute($q);
@@ -416,7 +416,7 @@ function createUuidBatch($incidentId, $num) {
 				$uuid = shn_create_uuid();
 				$list[] = array('uuid'=>$uuid);
 				$q = "
-					INSERT into resource_to_incident (incident_id, x_uuid)
+					INSERT into resource_to_incident (incident_id, p_uuid)
 					VALUES ('".$incidentId."', '".$uuid."');
 				";
 				$result = $db->Execute($q);
@@ -523,7 +523,7 @@ function shn_pls_get_person_data($uuid) {
 		FROM person_uuid a
 		LEFT OUTER JOIN person_details b USING (p_uuid)
 		LEFT OUTER JOIN person_status c USING (p_uuid)
-		LEFT OUTER JOIN image i ON a.p_uuid = i.x_uuid
+		LEFT OUTER JOIN image i ON a.p_uuid = i.p_uuid
 		LEFT OUTER JOIN person_missing e USING (p_uuid)
 		WHERE a.p_uuid = '".$uuid."';";
 

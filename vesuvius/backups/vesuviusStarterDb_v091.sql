@@ -75,7 +75,7 @@ SET character_set_client = utf8;
 CREATE TABLE `audit` (
   `audit_id` bigint(20) NOT NULL auto_increment,
   `updated` timestamp NOT NULL default CURRENT_TIMESTAMP,
-  `x_uuid` varchar(128) NOT NULL,
+  `p_uuid` varchar(128) NOT NULL,
   `u_uuid` varchar(128) NOT NULL,
   `change_type` varchar(3) NOT NULL,
   `change_table` varchar(100) NOT NULL,
@@ -130,10 +130,10 @@ DROP TABLE IF EXISTS `contact`;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `contact` (
-  `pgoc_uuid` varchar(128) NOT NULL,
+  `p_uuid` varchar(128) NOT NULL,
   `opt_contact_type` varchar(10) NOT NULL,
   `contact_value` varchar(100) default NULL,
-  PRIMARY KEY  (`pgoc_uuid`,`opt_contact_type`),
+  PRIMARY KEY  (`p_uuid`,`opt_contact_type`),
   KEY `contact_value` (`contact_value`),
   KEY `opt_contact_type` (`opt_contact_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -226,7 +226,7 @@ SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
 CREATE TABLE `image` (
   `image_id` bigint(20) NOT NULL auto_increment,
-  `x_uuid` varchar(128) NOT NULL,
+  `p_uuid` varchar(128) NOT NULL,
   `image_type` varchar(100) NOT NULL,
   `image_height` int(11) default NULL,
   `image_width` int(11) default NULL,
@@ -241,7 +241,7 @@ CREATE TABLE `image` (
   `crop_h` int(16) default NULL,
   `full_path` varchar(512) default NULL,
   PRIMARY KEY  (`image_id`),
-  UNIQUE KEY `image_id` (`x_uuid`)
+  UNIQUE KEY `image_id` (`p_uuid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=57125 DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
 
@@ -1484,7 +1484,7 @@ DELIMITER ;;
 BEGIN
 
 -- Delete reporter from contact
-DELETE c.* FROM contact c, person_to_report pr WHERE pr.rep_uuid = c.pgoc_uuid AND pr.p_uuid = id;
+DELETE c.* FROM contact c, person_to_report pr WHERE pr.rep_uuid = c.p_uuid AND pr.p_uuid = id;
 
 -- Delete reporter from location_details
 DELETE ld.* FROM location_details ld, person_to_report pr WHERE pr.rep_uuid = ld.poc_uuid AND pr.p_uuid = id;
@@ -1505,10 +1505,10 @@ DELETE pfif_note.* FROM pfif_note WHERE p_uuid = id;
 UPDATE pfif_note SET linked_person_record_id = NULL WHERE p_uuid = id;
 
 -- Delete person from contact
-DELETE contact.* FROM contact WHERE pgoc_uuid = id;
+DELETE contact.* FROM contact WHERE p_uuid = id;
 
 -- Delete person from image
-DELETE image.* from image where x_uuid = id;
+DELETE image.* from image where p_uuid = id;
 
 END */;;
 /*!50003 SET SESSION SQL_MODE=@OLD_SQL_MODE*/;;
@@ -1570,7 +1570,7 @@ BEGIN
 			 LEFT
 			 JOIN hospital h        ON (tn.hospital_uuid = h.hospital_uuid AND INSTR(?, (CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)))
              LEFT
-			 JOIN image i			ON (tn.p_uuid = i.x_uuid)
+			 JOIN image i			ON (tn.p_uuid = i.p_uuid)
            ORDER BY ", sortBy, " LIMIT ?, ?;");
 
       PREPARE stmt FROM @sqlString;
@@ -1631,7 +1631,7 @@ BEGIN
 
 		   FROM `person_uuid` `a`
 		   JOIN `person_status` `b`     ON (`a`.`p_uuid` = `b`.`p_uuid` AND `b`.`isVictim` = 1 )
-	  LEFT JOIN `image` `i`           ON `a`.`p_uuid` = `i`.`x_uuid`
+	  LEFT JOIN `image` `i`           ON `a`.`p_uuid` = `i`.`p_uuid`
 		   JOIN `person_details` `c`    ON `a`.`p_uuid` = `c`.`p_uuid`
 		   JOIN `incident` `inc`        ON (`inc`.`incident_id` = `a`.`incident_id` AND `a`.`incident_id` <> 0 )
 	  LEFT JOIN `hospital` `h`        ON `h`.`hospital_uuid` = `a`.`hospital_uuid`
@@ -1712,7 +1712,7 @@ DELIMITER ;
 /*!50001 DROP VIEW IF EXISTS `person_search`*/;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
 /*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `person_search` AS select `a`.`p_uuid` AS `p_uuid`,`a`.`full_name` AS `full_name`,`a`.`given_name` AS `given_name`,`a`.`family_name` AS `family_name`,(case when ((`b`.`opt_status` not in (_utf8'ali',_utf8'mis',_utf8'inj',_utf8'dec',_utf8'unk',_utf8'fnd')) or isnull(`b`.`opt_status`)) then _utf8'unk' else `b`.`opt_status` end) AS `opt_status`,`b`.`last_updated` AS `updated`,(case when ((`c`.`opt_gender` not in (_utf8'mal',_utf8'fml')) or isnull(`c`.`opt_gender`)) then _utf8'unk' else `c`.`opt_gender` end) AS `opt_gender`,(case when isnull(cast(`c`.`years_old` as unsigned)) then -(1) else `c`.`years_old` end) AS `years_old`,`i`.`image_height` AS `image_height`,`i`.`image_width` AS `image_width`,`i`.`url_thumb` AS `url_thumb`,(case when (`h`.`hospital_uuid` = -(1)) then NULL else `h`.`icon_url` end) AS `icon_url`,`inc`.`shortname` AS `shortname`,(case when ((`h`.`short_name` not in (_utf8'sh',_utf8'nnmc')) or isnull(`h`.`short_name`)) then _utf8'public' else `h`.`short_name` end) AS `hospital`,`c`.`other_comments` AS `comments`,`c`.`last_seen` AS `last_seen` from ((((((`person_uuid` `a` join `person_status` `b` on(((`a`.`p_uuid` = `b`.`p_uuid`) and (`b`.`isvictim` = 1)))) left join `image` `i` on((`a`.`p_uuid` = `i`.`x_uuid`))) join `person_details` `c` on((`a`.`p_uuid` = `c`.`p_uuid`))) join `incident` `inc` on((`inc`.`incident_id` = `a`.`incident_id`))) left join `hospital` `h` on((`h`.`hospital_uuid` = `a`.`hospital_uuid`))) left join `person_updates` `f` on((`a`.`p_uuid` = `f`.`p_uuid`))) */;
+/*!50001 VIEW `person_search` AS select `a`.`p_uuid` AS `p_uuid`,`a`.`full_name` AS `full_name`,`a`.`given_name` AS `given_name`,`a`.`family_name` AS `family_name`,(case when ((`b`.`opt_status` not in (_utf8'ali',_utf8'mis',_utf8'inj',_utf8'dec',_utf8'unk',_utf8'fnd')) or isnull(`b`.`opt_status`)) then _utf8'unk' else `b`.`opt_status` end) AS `opt_status`,`b`.`last_updated` AS `updated`,(case when ((`c`.`opt_gender` not in (_utf8'mal',_utf8'fml')) or isnull(`c`.`opt_gender`)) then _utf8'unk' else `c`.`opt_gender` end) AS `opt_gender`,(case when isnull(cast(`c`.`years_old` as unsigned)) then -(1) else `c`.`years_old` end) AS `years_old`,`i`.`image_height` AS `image_height`,`i`.`image_width` AS `image_width`,`i`.`url_thumb` AS `url_thumb`,(case when (`h`.`hospital_uuid` = -(1)) then NULL else `h`.`icon_url` end) AS `icon_url`,`inc`.`shortname` AS `shortname`,(case when ((`h`.`short_name` not in (_utf8'sh',_utf8'nnmc')) or isnull(`h`.`short_name`)) then _utf8'public' else `h`.`short_name` end) AS `hospital`,`c`.`other_comments` AS `comments`,`c`.`last_seen` AS `last_seen` from ((((((`person_uuid` `a` join `person_status` `b` on(((`a`.`p_uuid` = `b`.`p_uuid`) and (`b`.`isvictim` = 1)))) left join `image` `i` on((`a`.`p_uuid` = `i`.`p_uuid`))) join `person_details` `c` on((`a`.`p_uuid` = `c`.`p_uuid`))) join `incident` `inc` on((`inc`.`incident_id` = `a`.`incident_id`))) left join `hospital` `h` on((`h`.`hospital_uuid` = `a`.`hospital_uuid`))) left join `person_updates` `f` on((`a`.`p_uuid` = `f`.`p_uuid`))) */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

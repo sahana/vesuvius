@@ -116,3 +116,46 @@ function shn_plus_checkCredz($username, $password) {
 }
 
 
+
+/**
+ * Creates a new registration.
+ */
+function shn_plus_emailNewUser($username) {
+	global $global;
+	$q = "
+		SELECT *
+		FROM users u, contact c
+		WHERE u.p_uuid = c.p_uuid
+		AND u.user_name = '".mysql_real_escape_string($username)."';
+	";
+	$res = $global['db']->Execute($q);
+	if(($res == null) || ($res->EOF)) {
+		return false;
+	} else {
+		// Email the newly registered user a confirmation link.
+		$link = makeBaseUrl()."index.php?register&confirm=".$res->fields["confirmation"]."&username=".$username;
+		require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+		$p = new pop();
+		$subject  = "Please confirm the registration of your new PL user account";
+		$bodyHTML =
+			"Thank you for registering.<br><br>"
+			."You <b>must</b> click on this link in order for the registration process to be completed:<br><a href=\"".$link."\">".$link."</a><br><br>"
+			."Once completed, your account will be active allowing you to login the Person Locator web site and other devices which utilize its web services.<br><br><br>"
+			."<b>- People Locator</b>";
+		$bodyAlt =
+			"Thank you for registering.\n\n"
+			."You must click on this link in order for the registration process to be completed:\n".$link."\n"
+			."Once completed, your account will be active allowing you to login the Person Locator web site and other devices which utilize its web services.\n\n\n"
+			."- People Locator";
+		$p->sendMessage($res->fields["contact_value"], $username, $subject, $bodyHTML, $bodyAlt);
+	}
+}
+
+
+
+
+
+
+
+
+

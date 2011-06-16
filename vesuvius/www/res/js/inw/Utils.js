@@ -44,7 +44,7 @@ var Utils = {
 
 		$("#dt_uuid").html(person.uuid)
 		$("#dt_fullName").html(person.name || "N/A");
-		$("#dt_age").html(person.ageGroup || "N/A");
+		$("#dt_age").html(person.displayAge);
 		$("#dt_gender").html(person.gender || "N/A");
 		$("#dt_status").html(person.statusSahanaFull || "N/A");
 		$("#dt_statusSahanaUpdated").html(person.statusSahanaUpdated + " UTC" );

@@ -212,9 +212,12 @@ function Person() {
 			this.uuid         = args["p_uuid"]; 
 			this.encodedUUID  = args["encodedUUID"];
 			this.statusSahana = args["opt_status"]; 
-			this.name         = $.trim(args["full_name"]) == "unknown unknown" || $.trim(args["full_name"]) == undefined ? "Unknown name" :  $.trim(args["full_name"]) || "Unknown name"; 
-			this.age          = args["years_old"] || "N\/A"; 
-			this.ageGroup     = !Utils.isNumber(this.age) || this.age < 0 ? "Unknown" : (this.age >= 18 ? "Adult" : "Youth");
+			this.name         = $.trim(args["full_name"]) === "Unknown Unknown" || $.trim(args["full_name"]) == undefined ? "Unknown name" :  $.trim(args["full_name"]) || "Unknown name"; 
+			
+			this.age		  = args["years_old"] || -1;
+			this.minAge       = args["minAge"] || -1;
+			this.maxAge       = args["maxAge"] || -1;
+			
 			this.statusSahanaUpdated = date.toString("yyyy-MM-dd HH:mm"); 
 			this.statusTriage = args["statusTriage"]; 
 			this.id           = args["id"]; 
@@ -230,6 +233,14 @@ function Person() {
 			this.x            = -999999;
 			this.y            = -999999;
 			this.wipe         = false; 
+			
+			if ( this.age > -1 ) 
+				this.displayAge = this.age;
+			else if ( this.minAge > -1 && this.maxAge > -1 )
+				this.displayAge = this.minAge + "-" + this.maxAge;
+			else 
+				this.displayAge = "Unknown";
+
 
 			if ( args["gender"] === "mal" )
 				this.gender = "Male";

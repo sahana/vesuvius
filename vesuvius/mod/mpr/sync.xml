@@ -10,7 +10,7 @@
 			</table>
 			<table name='contact'>
 				<primarykeys>
-					<primarykey field_id='pgoc_uuid' />
+					<primarykey field_id='p_uuid' />
 					<primarykey field_id='opt_contact_type' />
 					<primarykey field_id='contact_value' />
 				</primarykeys>
@@ -68,7 +68,7 @@
 			</table>
 			<table name='resource_to_incident'>
 				<primarykeys>
-					<primarykey field_id='x_uuid' />
+					<primarykey field_id='p_uuid' />
 					<primarykey field_id='incident_id' />
 				</primarykeys>
 				<foreign_keys>

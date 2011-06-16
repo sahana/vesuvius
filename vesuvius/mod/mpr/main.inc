@@ -623,18 +623,18 @@ function shn_soap_mpr_default() {
  */
 function shn_image_mpr_addmp_img() {
 	global $global;
-	$x_uuid = mysql_real_escape_string($_GET['x_uuid']);
+	$p_uuid = mysql_real_escape_string($_GET['p_uuid']);
 	$height = isset($_GET['height']) ? mysql_real_escape_string($_GET['height']) : null;
 	$width  = isset($_GET['width']) ? mysql_real_escape_string($_GET['width']) : null;
 	switch ($_GET['stream']){
 		case 'image' :
 			if(isset($_GET['session'])){
-				shn_show_image_stream($x_uuid, true, $_SESSION['mpr']['entry'], true, null, $width, $height);
+				shn_show_image_stream($p_uuid, true, $_SESSION['mpr']['entry'], true, null, $width, $height);
 			} else {
 				if(isset($_GET['thumbnail'])) {
-					shn_show_image_stream($x_uuid, true, null, false, null, $width, $height);
+					shn_show_image_stream($p_uuid, true, null, false, null, $width, $height);
 				} else {
-					shn_show_image_stream($x_uuid, false, null, false, null, $width, $height);
+					shn_show_image_stream($p_uuid, false, null, false, null, $width, $height);
 				}
 			}
 		break;

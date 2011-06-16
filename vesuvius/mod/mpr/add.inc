@@ -701,36 +701,36 @@ function shn_mpr_addperson_commit() {
 
 
 	//Contacts
-	$insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+	$insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	if(!empty($_SESSION['mpr_add']['entry']['address'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['address'];
 		$insert_array['opt_contact_type'] = 'home';
-		shn_db_insert($insert_array,'contact', $audit_flag, 'pgoc_uuid');
+		shn_db_insert($insert_array,'contact', $audit_flag, 'p_uuid');
 	}
 	$insert_array = null; // reset array
 
-    	$insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+    	$insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	if(isset($_SESSION['mpr_add']['entry']['email'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['email'];
 		$insert_array['opt_contact_type'] = 'email';
-	        shn_db_insert($insert_array,'contact', $audit_flag, 'pgoc_uuid');
+	        shn_db_insert($insert_array,'contact', $audit_flag, 'p_uuid');
 	}
 	$insert_array = null; // reset array
 
-	$insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+	$insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	if(isset($_SESSION['mpr_add']['entry']['phone'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['phone'];
 		$insert_array['opt_contact_type'] = 'curr';
-		shn_db_insert($insert_array,'contact', $audit_flag, 'pgoc_uuid');
+		shn_db_insert($insert_array,'contact', $audit_flag, 'p_uuid');
 	}
 	$insert_array = null; // reset array
 
 
-	$insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+	$insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	if(isset($_SESSION['mpr_add']['entry']['mobile'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['mobile'];
 		$insert_array['opt_contact_type'] = 'cmob';
-		shn_db_insert($insert_array,'contact',$audit_flag,'pgoc_uuid');
+		shn_db_insert($insert_array,'contact',$audit_flag,'p_uuid');
 	}
 	$insert_array = null; // reset array
 
@@ -755,11 +755,11 @@ function shn_mpr_addperson_commit() {
 	$insert_array = null; // reset array
 
 	//insert postal code to contact
-	$insert_array['pgoc_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
+	$insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	if(isset($_SESSION['mpr_add']['entry']['zip'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['entry']['zip'];
 		$insert_array['opt_contact_type'] = 'zip';
-		shn_db_insert($insert_array,'contact',$audit_flag,'pgoc_uuid');
+		shn_db_insert($insert_array,'contact',$audit_flag,'p_uuid');
 	}
 
 	/*    $insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
@@ -903,7 +903,7 @@ function shn_mpr_addperson_commit() {
 function shn_mpr_addmp_insert_reporter($p_uuid) {
 	$audit_flag = defined(MPR_ADD_AUDIT_ENABLED) ? MPR_ADD_AUDIT_ENABLED : false;
 
-	//Reported person entry 
+	//Reported person entry
 	$rep_uuid = shn_create_uuid('p');
 
 
@@ -947,20 +947,20 @@ function shn_mpr_addmp_insert_reporter($p_uuid) {
 	$insert_array = null; // reset array
 
 
-	$insert_array['pgoc_uuid'] = $rep_uuid;
+	$insert_array['p_uuid'] = $rep_uuid;
 	if(isset($_SESSION['mpr_add']['report_person']['rep_phone'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['report_person']['rep_phone'];
 		$insert_array['opt_contact_type'] = 'curr';
-	        shn_db_insert($insert_array,'contact', $audit_flag, 'pgoc_uuid');
+	        shn_db_insert($insert_array,'contact', $audit_flag, 'p_uuid');
 	}
 	$insert_array = null; // reset array
 
 
-	$insert_array['pgoc_uuid'] = $rep_uuid;
+	$insert_array['p_uuid'] = $rep_uuid;
 	if(isset($_SESSION['mpr_add']['report_person']['rep_email'])){
 		$insert_array['contact_value'] = $_SESSION['mpr_add']['report_person']['rep_email'];
 		$insert_array['opt_contact_type'] = 'email';
-	        shn_db_insert($insert_array,'contact', $audit_flag,'pgoc_uuid');
+	        shn_db_insert($insert_array,'contact', $audit_flag,'p_uuid');
 	}
 	$insert_array = null; // reset array
 
@@ -1008,8 +1008,8 @@ function shn_add_get_tracker_details($p_uuid) {
 	$rs = $global['db']->GetRow(
 		"SELECT a.full_name, b.address , c.contact_value as phone, d.contact_value as email FROM person_uuid a ".
 		"LEFT OUTER JOIN location_details b ON a.p_uuid = b.poc_uuid AND b.opt_person_loc_type = 'home' ".
-		"LEFT OUTER JOIN contact c ON a.p_uuid = c.pgoc_uuid AND c.opt_contact_type = 'curr' ".
-		"LEFT OUTER JOIN contact d ON a.p_uuid = d.pgoc_uuid AND d.opt_contact_type = 'email' ".
+		"LEFT OUTER JOIN contact c ON a.p_uuid = c.p_uuid AND c.opt_contact_type = 'curr' ".
+		"LEFT OUTER JOIN contact d ON a.p_uuid = d.p_uuid AND d.opt_contact_type = 'email' ".
 		"WHERE a.p_uuid = '$p_uuid'");
 	#var_dump($rs);
 	$_SESSION['mpr_add']['report_person']['rep_full_name'] = $rs['full_name'];

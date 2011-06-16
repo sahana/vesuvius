@@ -187,11 +187,16 @@ class SearchDB
 
 		$this->ageString = "";
 		if ($this->child == "true")
-			$this->ageString .= "child;";
+			$this->ageString .= "youth;";
 		if ($this->adult == "true")
 			$this->ageString .= "adult;";
+		if ($this->adult == "true" && $this->child == "true")
+			$this->ageString .= "both;";
 		if ($this->ageUnk == "true")
 			$this->ageString .= "unknown;";
+			
+		if ($this->adult == "true" && $this->child == "true")
+			$this->ageString .= "both;";			
 			
 		$this->hospitalString = "";
 		if ( $this->suburban == "true" )
@@ -262,7 +267,9 @@ class SearchDB
 									'imageUrl'=>htmlspecialchars($row["url_thumb"]), 
 									'imageWidth'=>$row["image_width"], 
 									'imageHeight'=>$row["image_height"], 
-									'age_group'=>$row["age_group"], 
+									'years_old'=>$row["years_old"], 
+									'minAge'=>$row["minAge"], 
+									'maxAge'=>$row["maxAge"], 
 									'statusSahanaUpdated'=>$row["updated"], 
 									'last_seen'=>htmlspecialchars($row["last_seen"]), 
 									'comments'=>htmlspecialchars(strip_tags($row["comments"])),
@@ -392,9 +399,9 @@ class SearchDB
 	
 	// ugly but I'd like to have clean json responses.
 	private function cleanUpFacets() {
-		$temp["child"] = $this->SOLRfacetResults->{"years_old:[0 TO 17]"};
-		$temp["adult"] = $this->SOLRfacetResults->{"years_old:[18 TO *]"};
-		$temp["otherAge"] = $this->SOLRfacetResults->{"years_old:\-1"};
+		$temp["child"] = $this->SOLRfacetResults->{"ageGroup:youth"};
+		$temp["adult"] = $this->SOLRfacetResults->{"ageGroup:adult"};
+		$temp["otherAge"] = $this->SOLRfacetResults->{"ageGroup:unknown"};
 		
 		$temp["missing"] = $this->SOLRfacetResults->{"opt_status:mis"};
 		$temp["alive"] = $this->SOLRfacetResults->{"opt_status:ali"};
@@ -440,6 +447,8 @@ class SearchDB
 				  'imageWidth' => isset($doc->image_width) ? $doc->image_width : null, 
 				 'imageHeight' => isset($doc->image_height) ? $doc->image_height : null, 
 				   'years_old' => isset($doc->years_old) ? $doc->years_old : null, 
+				      'minAge' => isset($doc->minAge) ? $doc->minAge : null, 
+					  'maxAge' => isset($doc->maxAge) ? $doc->maxAge : null, 
 						  'id' => isset($doc->personId) ? $doc->personId : null, 
 		 'statusSahanaUpdated' => isset($doc->updated) ? str_replace('Z', '', $doc->updated) : null,
 				'statusTriage' => isset($doc->triageCategory) ? $doc->triageCategory : null, 
@@ -459,7 +468,7 @@ class SearchDB
                     $this->SOLRroot . "select/?fl=*,score&qt=edismax&q=+" . trim(urlencode($this->searchTerm))
                                     . $this->SOLRfq
                                     . "&facet=true" //&facet.field=opt_status&facet.field=years_old&facet.field=opt_gender&facet.field=hospital&facet.missing=true"
-                                    . "&facet.query=years_old:[0 TO 17]&facet.query=years_old:[18 TO *]&facet.query=years_old:\-1"
+                                    . "&facet.query=ageGroup:youth&facet.query=ageGroup:adult&facet.query=ageGroup:unknown"
                                     . "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk&facet.query=opt_status:fnd"
                                     . "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:unk&facet.query=opt_gender:cpx"
                                     . "&facet.query=hospital:sh&facet.query=hospital:nnmc&facet.query=hospital:public";
@@ -506,13 +515,17 @@ class SearchDB
 			$this->SOLRfq .= " -unk"; 
 		
 		// years_old filters
-		$this->SOLRfq .= ")&fq=years_old:(*:*";	
+		$this->SOLRfq .= ")&fq=ageGroup:(*:*";	
 		if ($this->child != "true")
-			$this->SOLRfq .= " -[0 TO 17] ";
+			$this->SOLRfq .= " -youth ";
 		if ($this->adult != "true")
-			$this->SOLRfq .= " -[18 TO *] ";		
+			$this->SOLRfq .= " -adult ";		
+		if ($this->child != "true" && $this->adult != "true")
+			$this->SOLRfq .= " -both ";
 		if ($this->ageUnk != "true")
-			$this->SOLRfq .= " -\-1";		
+			$this->SOLRfq .= " -unknown";	
+
+
 		
 		// hospital filters
 		$this->SOLRfq .= ")&fq=hospital:(*:*";
@@ -549,8 +562,8 @@ class SearchDB
 //   $search->executeSearch();
 //   echo count($search->results);
   
-   // $search2 = new SearchDB("sql", "sendai2011", "Mike", "true;true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "25;25;updated desc;true");
-   // $search2->executeSearch();
+    //$search2 = new SearchDB("sql", "sendai2011", "Mike", "true;true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "25;25;updated desc;true");
+    //$search2->executeSearch();
   // echo count($search2->results);
  // $search->getLastUpdateSOLR();
 	

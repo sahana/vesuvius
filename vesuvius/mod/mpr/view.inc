@@ -193,11 +193,11 @@ function _shn_mpr_get_details($p_uuid) {
 		d.opt_id_type = 'dln'
 		LEFT OUTER JOIN person_details e ON e.p_uuid = a.p_uuid
 		LEFT OUTER JOIN person_physical f ON f.p_uuid = a.p_uuid
-		LEFT OUTER JOIN contact g ON g.pgoc_uuid = a.p_uuid AND g.opt_contact_type
+		LEFT OUTER JOIN contact g ON g.p_uuid = a.p_uuid AND g.opt_contact_type
 		= 'curr'
-		LEFT OUTER JOIN contact h ON h.pgoc_uuid = a.p_uuid AND h.opt_contact_type
+		LEFT OUTER JOIN contact h ON h.p_uuid = a.p_uuid AND h.opt_contact_type
 		= 'cmob'
-		LEFT OUTER JOIN contact i ON i.pgoc_uuid = a.p_uuid AND i.opt_contact_type
+		LEFT OUTER JOIN contact i ON i.p_uuid = a.p_uuid AND i.opt_contact_type
 		= 'emai'
 		LEFT OUTER JOIN location_details j ON j.poc_uuid = a.p_uuid
 		LEFT OUTER JOIN person_missing k ON k.p_uuid = a.p_uuid

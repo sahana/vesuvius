@@ -146,7 +146,7 @@ require($global['approot'].'mod/mpr/mpr_lib.inc');
 
 function shn_mpr_get_latest($type,$limit=6) {
 	global $global;
-	$incident_join = "INNER JOIN resource_to_incident e ON a.p_uuid = e.x_uuid ";
+	$incident_join = "INNER JOIN resource_to_incident e ON a.p_uuid = e.p_uuid ";
 	$sql_missing = "
 		SELECT
 			a.p_uuid AS p_uuid, a.full_name AS full_name,

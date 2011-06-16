@@ -42,16 +42,16 @@ function shn_mpr_addmp_img() {
 	global $global;
 
 	// clean clean
-	$x_uuid = mysql_real_escape_string($_GET['x_uuid']);
+	$p_uuid = mysql_real_escape_string($_GET['p_uuid']);
 	switch ($_GET['stream_type']) {
 		case 'image' :
 			if($_GET['session']) {
-				shn_show_image_stream($x_uuid, true, $_SESSION['mpr']['entry'],true);
+				shn_show_image_stream($p_uuid, true, $_SESSION['mpr']['entry'],true);
 			} else {
 				if ($_GET['thumbnail']) {
-					shn_show_image_stream($x_uuid,true);
+					shn_show_image_stream($p_uuid,true);
 				} else {
-					shn_show_image_stream($x_uuid,false);
+					shn_show_image_stream($p_uuid,false);
 				}
 			}
 		break;

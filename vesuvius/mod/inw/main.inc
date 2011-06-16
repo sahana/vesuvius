@@ -196,7 +196,7 @@ function shn_inw_default() {
 				<div id="dt_uuid" style="font-weight:normal;"></div-->
 				<label for="dt_fullName">Name</label>
 				<div id="dt_fullName" style="font-weight:normal;"></div>
-				<label for="dt_age">Age Group</label>
+				<label for="dt_age">Age</label>
 				<div id="dt_age" style="font-weight:normal;"></div>
 				<label for="dt_gender">Gender </label>
 				<div id="dt_gender" style="font-weight:normal;"></div>

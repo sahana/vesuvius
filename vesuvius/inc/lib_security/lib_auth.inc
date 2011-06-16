@@ -174,7 +174,7 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 			FROM contact c, users u
 			WHERE c.opt_contact_type = 'email'
 			AND c.contact_value = '".mysql_real_escape_string(trim($_POST['email_address']))."'
-			AND c.pgoc_uuid = u.p_uuid;
+			AND c.p_uuid = u.p_uuid;
 		";
 		$res = $db->Execute($q);
 		if(($res == null) || ($res->EOF)) {
@@ -246,6 +246,7 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 		$user_password   = substr($user_password, 0, 4).$salt.substr($user_password, 4);
 		$stored_password = md5(trim($user_password));
 		$time            = time();
+		$confirmation    = md5(uniqid(rand(), true)); // code used to activate account
 
 		if($extra_opts['pending'] == true) {
 			$status = 'pending';
@@ -255,8 +256,8 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 		}
 
 		$q = "
-			INSERT INTO users(p_uuid, password, changed_timestamp, user_name, salt, status)
-			values('".$pid."','".$stored_password."', ".$time." ,'".mysql_real_escape_string($user_name)."', '".$salt."', '".$status."');
+			INSERT INTO users(p_uuid, password, changed_timestamp, user_name, salt, status, confirmation)
+			values('".$pid."','".$stored_password."', ".$time." ,'".mysql_real_escape_string($user_name)."', '".$salt."', '".$status."', '".$confirmation."');
 		";
 		$res = $db->Execute($q);
 
@@ -278,7 +279,7 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 		}
 
 		$q9 = "
-			INSERT INTO contact(pgoc_uuid, opt_contact_type, contact_value)
+			INSERT INTO contact(p_uuid, opt_contact_type, contact_value)
 			values('".$pid."', 'email', '".mysql_real_escape_string($email)."');
 		";
 		$res9 = $db->Execute($q9);
@@ -316,7 +317,7 @@ function shn_is_user_with_email($email) {
 		SELECT *
 		FROM contact c, users u
 		where c.contact_value = '".mysql_real_escape_string($email)."'
-		and c.pgoc_uuid = u.p_uuid;
+		and c.p_uuid = u.p_uuid;
 	";
 	$res = $db->Execute($q);
 	if(($res == null) || ($res->EOF)) {
@@ -793,7 +794,7 @@ function _shn_auth_del_user_cr() {
 	}
 	for($i=0;$i<count($user);$i++) {
 		if($user[$i]!=ADMINUSER){
-			$q="delete from contact where pgoc_uuid='{$user[$i]}'";
+			$q="delete from contact where p_uuid='{$user[$i]}'";
 			$res=$db->Execute($q);
 			if($res==false){
 				add_error($db->ErrorMsg());

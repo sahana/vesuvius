@@ -72,7 +72,7 @@ CREATE TABLE `alt_logins` (
 CREATE TABLE `audit` (
   `audit_id` bigint(20) NOT NULL auto_increment,
   `updated` timestamp NOT NULL default CURRENT_TIMESTAMP,
-  `x_uuid` varchar(60) NOT NULL,
+  `p_uuid` varchar(60) NOT NULL,
   `u_uuid` varchar(60) NOT NULL,
   `change_type` varchar(3) NOT NULL,
   `change_table` varchar(100) NOT NULL,
@@ -122,17 +122,17 @@ INSERT INTO `config` (`config_id`, `module_id`, `confkey`, `value`) VALUES
 --
 
 CREATE TABLE `contact` (
-  `pgoc_uuid` varchar(60) NOT NULL,
+  `p_uuid` varchar(60) NOT NULL,
   `opt_contact_type` varchar(10) NOT NULL,
   `contact_value` varchar(100) default NULL,
-  PRIMARY KEY  (`pgoc_uuid`,`opt_contact_type`)
+  PRIMARY KEY  (`p_uuid`,`opt_contact_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `contact`
 --
 
-INSERT INTO `contact` (`pgoc_uuid`, `opt_contact_type`, `contact_value`) VALUES
+INSERT INTO `contact` (`p_uuid`, `opt_contact_type`, `contact_value`) VALUES
 ('1', 'email', 'root@localhost');
 
 -- --------------------------------------------------------
@@ -612,7 +612,7 @@ INSERT INTO `hospital` (`hospital_uuid`, `name`, `short_name`, `street1`, `stree
 
 CREATE TABLE `image` (
   `image_id` bigint(20) NOT NULL auto_increment,
-  `x_uuid` varchar(60) NOT NULL,
+  `p_uuid` varchar(60) NOT NULL,
   `image` mediumblob,
   `image_type` varchar(100) NOT NULL,
   `image_height` int(11) default NULL,
@@ -628,7 +628,7 @@ CREATE TABLE `image` (
   `crop_h` int(16) default NULL,
   `full_path` varchar(512) default NULL,
   PRIMARY KEY  (`image_id`),
-  KEY `image_id` (`image_id`,`x_uuid`)
+  KEY `image_id` (`image_id`,`p_uuid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10186 ;
 
 --
@@ -2286,8 +2286,8 @@ CREATE TABLE `rap_log` (
 
 CREATE TABLE `resource_to_incident` (
   `incident_id` bigint(20) NOT NULL,
-  `x_uuid` varchar(60) NOT NULL default '',
-  PRIMARY KEY  (`incident_id`,`x_uuid`)
+  `p_uuid` varchar(60) NOT NULL default '',
+  PRIMARY KEY  (`incident_id`,`p_uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -2793,7 +2793,7 @@ CREATE TABLE `voice_note` (
 --
 DROP TABLE IF EXISTS `person_search`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `person_search` AS select distinct `a`.`p_uuid` AS `p_uuid`,`a`.`full_name` AS `full_name`,`a`.`given_name` AS `given_name`,`a`.`family_name` AS `family_name`,`b`.`opt_status` AS `opt_status`,`b`.`updated` AS `updated`,`c`.`opt_gender` AS `opt_gender`,`c`.`years_old` AS `years_old`,`i`.`image_height` AS `image_height`,`i`.`image_width` AS `image_width`,`i`.`url_thumb` AS `url_thumb`,`e`.`comments` AS `comments`,`e`.`last_seen` AS `last_seen`,(case when (`h`.`hospital_uuid` = -(1)) then NULL else `h`.`icon_url` end) AS `icon_url`,`inc`.`shortname` AS `shortname`,`h`.`short_name` AS `hospital` from ((((((((`person_uuid` `a` join `person_status` `b` on((`a`.`p_uuid` = `b`.`p_uuid`))) left join `image` `i` on((`a`.`p_uuid` = `i`.`x_uuid`))) join `person_details` `c` on((`a`.`p_uuid` = `c`.`p_uuid`))) left join `person_missing` `e` on((`a`.`p_uuid` = `e`.`p_uuid`))) join `resource_to_incident` `rti` on((`a`.`p_uuid` = `rti`.`x_uuid`))) join `incident` `inc` on((`inc`.`incident_id` = `rti`.`incident_id`))) left join `person_to_hospital` `pth` on((`a`.`p_uuid` = `pth`.`p_uuid`))) left join `hospital` `h` on((`pth`.`hospital_uuid` = `h`.`hospital_uuid`))) where (((1 = 0) or (`b`.`opt_status` = _utf8'mis') or (`b`.`opt_status` = _utf8'ali') or (`b`.`opt_status` = _utf8'inj') or (`b`.`opt_status` = _utf8'dec') or (`b`.`opt_status` = _utf8'unk') or isnull(`b`.`opt_status`)) and ((1 = 0) or (`c`.`opt_gender` = _utf8'mal') or (`c`.`opt_gender` = _utf8'fml') or ((`c`.`opt_gender` <> _utf8'mal') and (`c`.`opt_gender` <> _utf8'fml')) or isnull(`c`.`opt_gender`)) and ((1 = 0) or (cast(`c`.`years_old` as unsigned) < 18) or (cast(`c`.`years_old` as unsigned) >= 18) or isnull(cast(`c`.`years_old` as unsigned))) and ((1 = 0) or (`h`.`short_name` = _utf8'sh') or (`h`.`short_name` = _utf8'nnmc') or ((`h`.`short_name` <> _utf8'sh') and (`h`.`short_name` <> _utf8'nnmc')) or isnull(`h`.`short_name`)) and (`b`.`isvictim` = _utf8'1')) group by `a`.`p_uuid`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `person_search` AS select distinct `a`.`p_uuid` AS `p_uuid`,`a`.`full_name` AS `full_name`,`a`.`given_name` AS `given_name`,`a`.`family_name` AS `family_name`,`b`.`opt_status` AS `opt_status`,`b`.`updated` AS `updated`,`c`.`opt_gender` AS `opt_gender`,`c`.`years_old` AS `years_old`,`i`.`image_height` AS `image_height`,`i`.`image_width` AS `image_width`,`i`.`url_thumb` AS `url_thumb`,`e`.`comments` AS `comments`,`e`.`last_seen` AS `last_seen`,(case when (`h`.`hospital_uuid` = -(1)) then NULL else `h`.`icon_url` end) AS `icon_url`,`inc`.`shortname` AS `shortname`,`h`.`short_name` AS `hospital` from ((((((((`person_uuid` `a` join `person_status` `b` on((`a`.`p_uuid` = `b`.`p_uuid`))) left join `image` `i` on((`a`.`p_uuid` = `i`.`p_uuid`))) join `person_details` `c` on((`a`.`p_uuid` = `c`.`p_uuid`))) left join `person_missing` `e` on((`a`.`p_uuid` = `e`.`p_uuid`))) join `resource_to_incident` `rti` on((`a`.`p_uuid` = `rti`.`p_uuid`))) join `incident` `inc` on((`inc`.`incident_id` = `rti`.`incident_id`))) left join `person_to_hospital` `pth` on((`a`.`p_uuid` = `pth`.`p_uuid`))) left join `hospital` `h` on((`pth`.`hospital_uuid` = `h`.`hospital_uuid`))) where (((1 = 0) or (`b`.`opt_status` = _utf8'mis') or (`b`.`opt_status` = _utf8'ali') or (`b`.`opt_status` = _utf8'inj') or (`b`.`opt_status` = _utf8'dec') or (`b`.`opt_status` = _utf8'unk') or isnull(`b`.`opt_status`)) and ((1 = 0) or (`c`.`opt_gender` = _utf8'mal') or (`c`.`opt_gender` = _utf8'fml') or ((`c`.`opt_gender` <> _utf8'mal') and (`c`.`opt_gender` <> _utf8'fml')) or isnull(`c`.`opt_gender`)) and ((1 = 0) or (cast(`c`.`years_old` as unsigned) < 18) or (cast(`c`.`years_old` as unsigned) >= 18) or isnull(cast(`c`.`years_old` as unsigned))) and ((1 = 0) or (`h`.`short_name` = _utf8'sh') or (`h`.`short_name` = _utf8'nnmc') or ((`h`.`short_name` <> _utf8'sh') and (`h`.`short_name` <> _utf8'nnmc')) or isnull(`h`.`short_name`)) and (`b`.`isvictim` = _utf8'1')) group by `a`.`p_uuid`;
 
 --
 -- Constraints for dumped tables
