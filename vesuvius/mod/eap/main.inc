@@ -352,7 +352,7 @@ function emailUpdates() {
 			FROM person_followers f, person_uuid p, contact c
 			WHERE f.p_uuid = '".$global['uuid']."'
 			AND p.p_uuid = f.follower_p_uuid
-			AND c.pgoc_uuid = f.follower_p_uuid
+			AND c.p_uuid = f.follower_p_uuid
 			AND c.opt_contact_type = 'email';
 		";
 
@@ -366,7 +366,7 @@ function emailUpdates() {
 			SELECT *
 			FROM person_to_report p, contact c, person_uuid pp
 			WHERE p.p_uuid = '".$global['uuid']."'
-			AND p.rep_uuid = c.pgoc_uuid
+			AND p.rep_uuid = c.p_uuid
 			AND c.opt_contact_type = 'email'
 			AND pp.p_uuid = p.rep_uuid;
 		";
@@ -457,7 +457,7 @@ function saveContactRevision($type, $name, $oldValue, $newValue) {
 	// delete the old value
 	$q = "
 		DELETE FROM contact
-		WHERE pgoc_uuid = '".$global['uuid']."'
+		WHERE p_uuid = '".$global['uuid']."'
 		AND opt_contact_type = '".$type."';
 	";
 	$r = $global['db']->Execute($q);
@@ -465,7 +465,7 @@ function saveContactRevision($type, $name, $oldValue, $newValue) {
 
 	// insert the new value
 	$q = "
-		INSERT INTO contact (`pgoc_uuid`, `opt_contact_type`, `contact_value`)
+		INSERT INTO contact (`p_uuid`, `opt_contact_type`, `contact_value`)
 		VALUE ('".$global['uuid']."', '".$type."', '".mysql_real_escape_string($newValue)."');
 	";
 	$r = $global['db']->Execute($q);
@@ -654,7 +654,7 @@ function shn_eap_edit() {
 	$q  = "
 		SELECT COUNT(*)
 		FROM image
-		WHERE x_uuid = '".$global['uuid']."';
+		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r   = $global['db']->Execute($q);
 	$row = $r->FetchRow();
@@ -665,7 +665,7 @@ function shn_eap_edit() {
 		$q  = "
 			SELECT *
 			FROM image
-			WHERE x_uuid = '".$global['uuid']."'
+			WHERE p_uuid = '".$global['uuid']."'
 			LIMIT 1;
 		";
 		$r        = $global['db']->Execute($q);
@@ -1285,7 +1285,7 @@ function shn_eap_edit() {
 		$q  = "
 			SELECT *
 			FROM contact
-			WHERE pgoc_uuid = '".$global['uuid']."';
+			WHERE p_uuid = '".$global['uuid']."';
 		";
 		$r   = $global['db']->Execute($q);
 		while ($row = $r->FetchRow()) {

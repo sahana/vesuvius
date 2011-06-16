@@ -28,9 +28,9 @@ if($confirm == null || $username == null) {
 	";
 	$r = $global['db']->Execute($q);
 	if($row = $r->FetchRow()) {
-		if($row['active'] == "active") {
+		if($row['status'] == "active") {
 			gotoAlreadyActive();
-		} else if($row['active'] == "pending" && $confirm == $row['confirmation']) {
+		} else if($row['status'] == "pending" && $confirm == $row['confirmation']) {
 			activateUser($username);
 			gotoActivated();
 		} else {
@@ -41,16 +41,18 @@ if($confirm == null || $username == null) {
 	}
 }
 
-function gotoInvalid()       {header("Location: ".makeBaseUrlMinusEvent()."?mod=rez&act=default&page_id=-3");}
-function gotoAlreadyActive() {header("Location: ".makeBaseUrlMinusEvent()."?mod=rez&act=default&page_id=-4");}
-function gotoActivated()     {header("Location: ".makeBaseUrlMinusEvent()."?mod=rez&act=default&page_id=-5");}
+function gotoInvalid()       {header("Location: ".makeBaseUrl()."index.php?mod=rez&act=default&page_id=-3");}
+function gotoAlreadyActive() {header("Location: ".makeBaseUrl()."index.php?mod=rez&act=default&page_id=-4");}
+function gotoActivated()     {header("Location: ".makeBaseUrl()."index.php?mod=rez&act=default&page_id=-5");}
 
 function activateUser($username) {
 	global $global;
 	$q = "
-		UPDATE users
-		SET status = 'active'
-		WHERE = '".mysql_real_escape_string($username)."';
+		UPDATE  users
+		SET
+			status =  'active',
+			confirmation = NULL
+		WHERE user_name = '".mysql_real_escape_string($username)."';
 	";
 	$r = $global['db']->Execute($q);
 }

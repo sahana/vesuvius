@@ -106,22 +106,22 @@ function shn_mpr_editmp_load($p_uuid) {
 	$_SESSION['mpr_edit']['entry']['opt_gender'] = $rs->fields['opt_gender'];
 
 	//Home address
-	$sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'hom'";
+	$sql = "SELECT contact_value FROM contact WHERE p_uuid = '$p_uuid' AND opt_contact_type = 'hom'";
 	$rs = $global['db']->Execute($sql);
 	$_SESSION['mpr_edit']['entry']['address'] = $rs->fields[0];
 
 	//postalcode
-	$sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'zip'";
+	$sql = "SELECT contact_value FROM contact WHERE p_uuid = '$p_uuid' AND opt_contact_type = 'zip'";
 	$rs=$global['db']->Execute($sql);
 	$_SESSION['mpr_edit']['entry']['zip'] = $rs->fields[0];
 
 	//Home phone
-	$sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'curr'";
+	$sql = "SELECT contact_value FROM contact WHERE p_uuid = '$p_uuid' AND opt_contact_type = 'curr'";
 	$rs = $global['db']->Execute($sql);
 	$_SESSION['mpr_edit']['entry']['phone'] = $rs->fields[0];
 
 	//Mobile phone
-	$sql = "SELECT contact_value FROM contact WHERE pgoc_uuid = '$p_uuid' AND opt_contact_type = 'cmob'";
+	$sql = "SELECT contact_value FROM contact WHERE p_uuid = '$p_uuid' AND opt_contact_type = 'cmob'";
 	$rs = $global['db']->Execute($sql);
 	$_SESSION['mpr_edit']['entry']['mobile'] = $rs->fields[0];
 }
@@ -656,9 +656,9 @@ function shn_mpr_editmp_commit() {
 	//reset $update_array
 	$update_array = null;
 
-	$update_array['pgoc_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
+	$update_array['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
 	//flush and refill baby
-	$global['db']->Execute("DELETE FROM contact WHERE pgoc_uuid = '{$update_array['pgoc_uuid']}'");
+	$global['db']->Execute("DELETE FROM contact WHERE p_uuid = '{$update_array['p_uuid']}'");
 	if(isset($_SESSION['mpr_edit']['entry']['phone'])){
 		$update_array['contact_value'] = $_SESSION['mpr_edit']['entry']['phone'];
 		$update_array['opt_contact_type'] = 'curr';
@@ -668,7 +668,7 @@ function shn_mpr_editmp_commit() {
 	//reset $update_array
 	$update_array = null;
 
-	$update_array['pgoc_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
+	$update_array['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
 	if(isset($_SESSION['mpr_edit']['entry']['mobile'])){
 		$update_array['contact_value'] = $_SESSION['mpr_edit']['entry']['mobile'];
 		$update_array['opt_contact_type'] = 'cmob';
@@ -737,21 +737,21 @@ function shn_mpr_editmp_commit() {
 	$update_array = null;
 
     //add address
-    $insert_array['pgoc_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
+    $insert_array['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
     if(isset($_SESSION['mpr_edit']['entry']['address'])){
         $insert_array['contact_value'] = $_SESSION['mpr_edit']['entry']['address'];
         $insert_array['opt_contact_type'] = 'hom';
     }
-    shn_db_insert($insert_array,'contact', true, 'pgoc_uuid');
+    shn_db_insert($insert_array,'contact', true, 'p_uuid');
     $insert_array = null;
 
     //add postal code
-    $insert_array['pgoc_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
+    $insert_array['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
     if(isset($_SESSION['mpr_edit']['entry']['zip'])){
         $insert_array['contact_value']=$_SESSION['mpr_edit']['entry']['zip'];
         $insert_array['opt_contact_type']='zip';
     }
-    shn_db_insert($insert_array,'contact',true,'pgoc_uuid');
+    shn_db_insert($insert_array,'contact',true,'p_uuid');
     $insert_array = null;
 
 	$update_array['p_uuid'] = $_SESSION['mpr_edit']['entry']['p_uuid'];
@@ -766,11 +766,11 @@ function shn_mpr_editmp_commit() {
 
 	//Insert Image if image save handler is set to database
 	if($conf['mod_mpr_upload_pic_handler']== 'database'){
-		$res = $global['db']->Execute("SELECT image_id FROM image WHERE x_uuid='{$_SESSION['mpr_edit']['entry']['p_uuid']}'");
+		$res = $global['db']->Execute("SELECT image_id FROM image WHERE p_uuid='{$_SESSION['mpr_edit']['entry']['p_uuid']}'");
 		if($res){
 			/*echo "<pre>";
 			 echo "Update arr : ".var_dump($update_array);
-			 echo "<br/>UUID for x_uuid : ".$_SESSION['mpr_edit']['entry']['p_uuid'];
+			 echo "<br/>UUID for p_uuid : ".$_SESSION['mpr_edit']['entry']['p_uuid'];
 			 echo "</pre>";*/
 			$res->MoveFirst();
 			$img_id = $res->Fields('image_id');

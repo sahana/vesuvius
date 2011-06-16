@@ -17,16 +17,16 @@
 /**
  * Shows the audit log
  *
- * @param mixed $x_uuid
+ * @param mixed $p_uuid
  * @access public
  * @return void
  */
-function shn_audit_show($x_uuid) {
+function shn_audit_show($p_uuid) {
 	global $global;
 
 	$sql = "SELECT a.updated, b.full_name, a.change_table, a.change_field, " .
 	"a.change_type, a.prev_val, a.new_val FROM audit a LEFT OUTER JOIN " .
-	"person_uuid b ON b.p_uuid = a.u_uuid WHERE a.x_uuid = '$x_uuid' ";
+	"person_uuid b ON b.p_uuid = a.u_uuid WHERE a.p_uuid = '$p_uuid' ";
 	$arr_result = $global['db']->GetAll($sql);
 
 	//    echo ' <a title="'._t('Download').'"'.

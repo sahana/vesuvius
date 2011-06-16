@@ -120,42 +120,42 @@ function go() {
 
 	// insert phone
 	$q13 = "
-		INSERT INTO contact (pgoc_uuid, opt_contact_type, contact_value)
+		INSERT INTO contact (p_uuid, opt_contact_type, contact_value)
 		VALUES ('".$uuid."', 'curr', ".$phone.");";
 	$res = $global['db']->Execute($q13);
 
 
 	// insert phone mobile
 	$q14 = "
-		INSERT INTO contact (pgoc_uuid, opt_contact_type, contact_value)
+		INSERT INTO contact (p_uuid, opt_contact_type, contact_value)
 		VALUES ('".$uuid."', 'cmob', ".$mobile.");";
 	$res = $global['db']->Execute($q14);
 
 
 	// insert address
 	$q15 = "
-		INSERT INTO contact (pgoc_uuid, opt_contact_type, contact_value)
+		INSERT INTO contact (p_uuid, opt_contact_type, contact_value)
 		VALUES ('".$uuid."', 'home', ".$address.");";
 	$res = $global['db']->Execute($q15);
 
 
 	// insert zip
 	$q16 = "
-		INSERT INTO contact (pgoc_uuid, opt_contact_type, contact_value)
+		INSERT INTO contact (p_uuid, opt_contact_type, contact_value)
 		VALUES ('".$uuid."', 'zip', ".$zip.");";
 	$res = $global['db']->Execute($q16);
 
 
 	// insert email
 	$q17 = "
-		INSERT INTO contact (pgoc_uuid, opt_contact_type, contact_value)
+		INSERT INTO contact (p_uuid, opt_contact_type, contact_value)
 		VALUES ('".$uuid."', 'email', ".$phone.");";
 	$res = $global['db']->Execute($q17);
 
 
 	// insert image
 	$q18 = "
-		INSERT INTO image (x_uuid, image_type, image_height, image_width, url, url_thumb, crop_x, crop_y, crop_w, crop_h, full_path)
+		INSERT INTO image (p_uuid, image_type, image_height, image_width, url, url_thumb, crop_x, crop_y, crop_w, crop_h, full_path)
 		VALUES ('".$uuid."', 'jpg', '0', '0', 'url', 'url', '0', '0', '0', '0', 'path');
 	";
 	$res = $global['db']->Execute($q18);

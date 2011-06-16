@@ -115,7 +115,7 @@ function shn_db_insert($arr, $table, $audit=true, $primary_field='') {
 
 		//If Primary Field given then check for the value
 		if( $primary_field != '' ) {
-			$x_uuid = $arr[$primary_field];
+			$p_uuid = $arr[$primary_field];
 		}
 
 		//if primary field is not given the look get the primary key
@@ -146,8 +146,8 @@ function shn_db_insert($arr, $table, $audit=true, $primary_field='') {
 
 		if($audit) {
 			$sql_audit[] = "
-				INSERT INTO audit (x_uuid, u_uuid, change_type, change_table, change_field, new_val )
-				VALUES ('$x_uuid' , '$u_uuid', 'ins' , '$table' , '$k' , ".shn_db_clean($v) ." );
+				INSERT INTO audit (p_uuid, u_uuid, change_type, change_table, change_field, new_val )
+				VALUES ('$p_uuid' , '$u_uuid', 'ins' , '$table' , '$k' , ".shn_db_clean($v) ." );
 			";
 		}
 	}

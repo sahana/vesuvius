@@ -181,7 +181,7 @@ function shn_location_level_range_form($name,$label,$sel) {
  * @access public
  * @return ?
  */
-function shn_location_get_x_uuid_loc_range() {
+function shn_location_get_p_uuid_loc_range() {
 	global $global;
 	global $conf;
 	$db=$global['db'];

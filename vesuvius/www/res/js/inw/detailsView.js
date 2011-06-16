@@ -67,7 +67,7 @@ var DetailsView =
 		var dataName = $("<span></span>").addClass("dataName");
 		var dataValue = $("<span></span>").addClass("dataValue");
 		
-		details.append($("<li></li>").append(dataName.clone().html("Age:")).append(dataValue.clone().html(person.ageGroup)));
+		details.append($("<li></li>").append(dataName.clone().html("Age:")).append(dataValue.clone().html(person.displayAge)));
 		details.append($("<li></li>").append(dataName.clone().html("Gender:")).append(dataValue.clone().html(person.gender)));
 		details.append($("<li></li>").append(dataName.clone().html("Updated:")).append(dataValue.clone().html(person.statusSahanaUpdated + " UTC")));
 		

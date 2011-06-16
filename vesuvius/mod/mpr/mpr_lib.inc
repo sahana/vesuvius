@@ -127,7 +127,7 @@ function shn_mpr_home_show_mpr($type="missing",$limit=5,$offset) {
 	#$incident_ids = shn_db_get_all_incidents($_SESSION['user_pref_ims_incident_id']);
 	#$incident_sql = implode($incident_ids,"','");
 	#$incident_sql = "'$incident_sql'";
-	$incident_join = "INNER JOIN resource_to_incident e ON a.p_uuid = e.x_uuid ";
+	$incident_join = "INNER JOIN resource_to_incident e ON a.p_uuid = e.p_uuid ";
 	$sql_missing = "
 		SELECT
 			a.p_uuid AS p_uuid, a.full_name AS full_name,

@@ -533,6 +533,7 @@ function registerUser($username, $emailAddress, $password, $givenName, $familyNa
 	}
 
 	if($success) {
+		shn_plus_emailNewUser($username);
 		return array(
 			'registered'   => (boolean)true,
 			'errorCode'    => (int)0,

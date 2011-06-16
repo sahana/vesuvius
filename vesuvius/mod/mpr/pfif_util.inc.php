@@ -182,7 +182,7 @@ function shn_map_status_from_pfif($status, $found, $old_status) {
               'is_note_author'=>'ali');
 
     // Overrider earlier statuses using this mapping.
-    $status_ranking_map = 
+    $status_ranking_map =
        array('unk'=>array('unk'=>'unk',
                           'ali'=>'ali',
                           'mis'=>'mis',
@@ -216,10 +216,10 @@ function shn_map_status_from_pfif($status, $found, $old_status) {
 
     // Map new status from PFIF record.
     $new_status = 'unk';  // default for unspecified status
-    $old_status = (empty($old_status))? 'unk' : $old_status; 
+    $old_status = (empty($old_status))? 'unk' : $old_status;
     if(!empty($status)) {
        $new_status = $status_map[$status];
-    } 
+    }
     // We have to do something with the "found" field if present. Have it
     // outrank a concurrent status of "missing" or "unknown".
     if ($found == 'true' && ($new_status == 'unk' || $new_status == 'mis')) {
@@ -228,7 +228,7 @@ function shn_map_status_from_pfif($status, $found, $old_status) {
 
     // Do the ranking mapping.
     $result = $status_ranking_map[$old_status][$new_status];
-    //error_log("Old status: " . $old_status . " new status: " . $result); 
+    //error_log("Old status: " . $old_status . " new status: " . $result);
     return $result;
 }
 
@@ -419,7 +419,7 @@ function fetch_image($photo_url,$source_name,$person_record_id,$source_url=null)
             } else { // TODO: Note that add.inc:shn_mpr_addmp_commit() is going to insert an empty image record
                 // TODO: should we stuff the URL so it can be retried later? (chc 2/1/2010)
                 error_log("fetch_image:GET image failed for ".$person_record_id." from ".$photo_url);
-                $failed_images[] = array('x_uuid'=>$person_record_id,'url'=>$photo_url);
+                $failed_images[] = array('p_uuid'=>$person_record_id,'url'=>$photo_url);
             }
         } else {
             // error_log("no photo for ".$person->person_record_id);

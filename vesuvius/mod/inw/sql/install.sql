@@ -10,6 +10,17 @@ LOWER(`pu`.`full_name`) AS `full_name`,
 (CASE WHEN `ps`.`last_updated` < `upd`.`update_time` THEN `upd`.`update_time` ELSE `ps`.`last_updated` END) AS `updated`,
 (CASE WHEN `pd`.`opt_gender` NOT IN ('mal', 'fml') OR `pd`.`opt_gender` IS NULL THEN 'unk' ELSE `pd`.`opt_gender` END) AS `opt_gender`,
 (CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NULL THEN -1 ELSE `pd`.`years_old` END) AS `years_old`,
+(CASE WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NULL THEN -1 ELSE `pd`.`minAge` END) AS `minAge`,
+(CASE WHEN CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NULL THEN -1 ELSE `pd`.`maxAge` END) AS `maxAge`,
+(CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NOT NULL THEN
+			(CASE WHEN `pd`.`years_old` < 18 THEN 'youth'
+				  WHEN `pd`.`years_old` >= 18 THEN 'adult' END)
+	 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL 
+	      AND `pd`.`minAge` < 18 AND `pd`.`maxAge` >= 18 THEN 'both'
+	 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`minAge` >= 18 THEN 'adult'
+	 WHEN CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`maxAge` < 18 THEN 'youth'
+	 ELSE 'unknown'
+	 END) AS ageGroup,
 `i`.`image_height` AS `image_height`,
 `i`.`image_width` AS `image_width`,
 `i`.`url_thumb` AS `url_thumb`,
@@ -19,7 +30,7 @@ LOWER(`pu`.`full_name`) AS `full_name`,
 `pd`.`other_comments` AS `comments`,
 `pd`.`last_seen` AS `last_seen` 
 from `person_uuid` `pu` join `person_status` `ps` on (`pu`.`p_uuid` = `ps`.`p_uuid` and `ps`.`isvictim` = 1 and (`pu`.`expiry_date` > NOW() OR `pu`.`expiry_date` IS NULL))
- left join `image` `i` on `pu`.`p_uuid` = `i`.`x_uuid`
+ left join `image` `i` on `pu`.`p_uuid` = `i`.`p_uuid`
  join `person_details` `pd` on `pu`.`p_uuid` = `pd`.`p_uuid`
  join `incident` `inc` on `inc`.`incident_id` = `pu`.`incident_id`
  left join `hospital` `h` on `h`.`hospital_uuid` = `pu`.`hospital_uuid`
@@ -33,9 +44,8 @@ from `person_uuid` `pu` join `person_status` `ps` on (`pu`.`p_uuid` = `ps`.`p_uu
  -- 
  
 DELIMITER //
-DROP PROCEDURE `PLSearch`//
-DROP PROCEDURE `PLSearch`//
-CREATE DEFINER=`sahanaPlStage`@`localhost` PROCEDURE `PLSearch`(
+DROP PROCEDURE IF EXISTS `PLSearch`//
+CREATE PROCEDURE `PLSearch`(
      IN searchTerms CHAR(255),
 	 IN statusFilter VARCHAR(100),
 	 IN genderFilter VARCHAR(100),
@@ -72,11 +82,13 @@ BEGIN
 				`tn`.`given_name`   AS `given_name`,
 				`tn`.`family_name`  AS `family_name`,
 				(CASE WHEN `ps`.`opt_status` NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR `ps`.`opt_status` IS NULL THEN 'unk' ELSE `ps`.`opt_status` END) AS `opt_status`,
-				(CASE WHEN  DATE_FORMAT(ps.last_updated, '%Y-%m-%d %k:%i:%s') as updated,
+
+				DATE_FORMAT(ps.last_updated, '%Y-%m-%d %k:%i:%s') as updated,
                   
 				(CASE WHEN `pd`.`opt_gender` NOT IN ('mal', 'fml') OR `pd`.`opt_gender` IS NULL THEN 'unk' ELSE `pd`.`opt_gender` END) AS `opt_gender`,
-				(CASE WHEN `pd`.`years_old` < 18 THEN 'child' WHEN `pd`.`years_old` >= 18 THEN 'adult' ELSE 'unknown' END) as `age_group`,
-                                `pd`.`years_old` as `years_old`,
+				`pd`.`years_old` as `years_old`,
+				`pd`.`minAge` as `minAge`,
+				`pd`.`maxAge` as `maxAge`,				
 				`i`.`image_height` AS `image_height`,
 				`i`.`image_width`  AS `image_width`,
 				`i`.`url_thumb`    AS `url_thumb`,
@@ -85,15 +97,23 @@ BEGIN
 				`pd`.last_seen,
 				`pd`.other_comments as comments
 			 FROM tmp_names tn
-             JOIN person_status ps  ON (tn.p_uuid = ps.p_uuid AND ps.isVictim = 1 AND tn.expiry_date > NOW() AND INSTR(?, 	(CASE WHEN ps.opt_status NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR ps.opt_status IS NULL THEN 'unk' ELSE  ps.opt_status END)))
+             JOIN person_status ps  ON (tn.p_uuid = ps.p_uuid AND ps.isVictim = 1 and (`tn`.`expiry_date` > NOW() OR `tn`.`expiry_date` IS NULL) AND INSTR(?, 	(CASE WHEN ps.opt_status NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR ps.opt_status IS NULL THEN 'unk' ELSE  ps.opt_status END)))
              JOIN person_details pd ON (tn.p_uuid = pd.p_uuid AND INSTR(?, (CASE WHEN `opt_gender` NOT IN ('mal', 'fml') OR `opt_gender` IS NULL THEN 'unk' ELSE `opt_gender` END))
-															  AND INSTR(?, (CASE WHEN CAST(`years_old` AS UNSIGNED) < 18 THEN 'child' WHEN CAST(`years_old` AS UNSIGNED) >= 18 THEN 'adult' ELSE 'unknown' END)))
+															  AND INSTR(?, (CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NOT NULL THEN
+							(CASE WHEN `pd`.`years_old` < 18 THEN 'youth'
+								  WHEN `pd`.`years_old` >= 18 THEN 'adult' END)
+					 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL 
+						  AND `pd`.`minAge` < 18 AND `pd`.`maxAge` >= 18 THEN 'both'
+					 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`minAge` >= 18 THEN 'adult'
+					 WHEN CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`maxAge` < 18 THEN 'youth'
+					 ELSE 'unknown'
+					 END)))
 			 LEFT 
 			 JOIN hospital h        ON (tn.hospital_uuid = h.hospital_uuid AND INSTR(?, (CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)))
              LEFT 
-			 JOIN image i			ON (tn.p_uuid = i.x_uuid)
+			 JOIN image i			ON (tn.p_uuid = i.p_uuid)
            ORDER BY ", sortBy, " LIMIT ?, ?;");
-
+		   
       PREPARE stmt FROM @sqlString;
 
       SET @statusFilter = statusFilter;

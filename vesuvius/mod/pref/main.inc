@@ -130,7 +130,7 @@ function shn_pref_forgotPassword() {
 			$q = "
 				SELECT *
 				FROM `users` u, `contact` c
-				WHERE c.pgoc_uuid = u.p_uuid
+				WHERE c.p_uuid = u.p_uuid
 				AND c.contact_value = '".mysql_real_escape_string($email)."'
 				AND u.status = 'active'
 				LIMIT 1;
@@ -231,7 +231,7 @@ function shn_pref_forgotPassword() {
 				WHERE u.status = 'active'
 				AND `user_id` = '".$user_id."'
 				AND `confirmation` = '".mysql_real_escape_string($confirmation)."'
-				AND c.pgoc_uuid = u.p_uuid
+				AND c.p_uuid = u.p_uuid
 				LIMIT 1;
 			";
 

@@ -1,10 +1,17 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
+2011:0615 Greg
+--------------
+image.x_uuid renamed to image.p_uuid in database ~ codebase updated to reflect this change
+contact.pgoc_uuid renamed to contact.p_uuid in database ~ ""
+
 2011:0608 Greg
+--------------
 added PLUS Web Services v1.9.2 which implements all of the General API Functions
 
 2011:0526 Greg
+--------------
 added: $conf['default_action_event'] and  $conf['default_module_event'] to sahana.conf so that users coming into the site with a specific event can land on a different set of default module/actions versus a user that comes into the system without specifiying an event
 
 
