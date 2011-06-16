@@ -246,7 +246,7 @@ class mpres {
 
 		$subject  = "[AUTO-REPLY]: People Locator Record Submission SUCCESS";
 		$bodyHTML = "
-			Thank you for the person record you submitted. It has been added to our registry and will show up in search results in a few minutes.<br>
+			Thank you for the person record you submitted for event(".$name."). It has been added to our registry and will show up in search results in a few minutes.<br>
 			<br>
 			You can always view the record (and updates) of this person at the following url:<br>
 			<a href=\"https://".$uuid."\">https://".$uuid."</a><br>
@@ -256,7 +256,7 @@ class mpres {
 			<br>
 		";
 		$bodyAlt = "
-			Thank you for the person record you submitted. It has been added to our registry and will show up in search results in a few minutes.\n
+			Thank you for the person record you submitted for event(".$name."). It has been added to our registry and will show up in search results in a few minutes.\n
 			\n
 			You can always view the record (and updates) of this person at the following url:\n
 			https://".$uuid."</a>\n

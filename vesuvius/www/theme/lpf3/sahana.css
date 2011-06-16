@@ -1004,7 +1004,15 @@ fieldset#editHeader {
 	border: 1px solid black;
 }
 
-fieldset#editNotes, fieldset#editShare {
+fieldset#editShare {
+	border: 1px solid orange;
+}
+
+div#qrcode canvas {
+	width: 128px;
+}
+
+fieldset#editNotes {
 	margin-top: 40px;
 	background-color: #fff;
 	border: none;
@@ -1018,21 +1026,73 @@ fieldset legend {
 	font-size: 125%;
 }
 
-fieldset#editNotes i {
-	background-color: #E0ECFF;
-	padding: 3px 10px 1px 10px;
-	border-radius: 3px;              -moz-border-radius: 3px;              -webkit-border-radius: 3px;
-	border-bottom-left-radius: 0px;  -moz-border-bottom-left-radius: 0px;  -webkit-border-bottom-left-radius: 0px;
-	border-bottom-right-radius: 0px; -moz-border-bottom-right-radius: 0px; -webkit-border-bottom-right-radius: 0px;
+fieldset#editNotes div {
+	padding: 25px 10px 0px 25px;
+	-webkit-border-bottom-right-radius: 10px;
+	-webkit-border-bottom-left-radius: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-moz-border-radius-bottomleft: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	background-color: #fcfcfc;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#fff), to(#e0e0ef));
+	background: -moz-linear-gradient(#fff, #e0e0ef);
+	background: -o-linear-gradient(#fff, #e0e0ef);
+	background: linear-gradient(#fff, #e0e0ef);
 }
 
-fieldset#editNotes div {
-	border: 3px solid #E0ECFF;
-	padding: 10px;
-	border-radius: 5px;          -moz-border-radius: 5px;          -webkit-border-radius: 5px;
-	border-top-left-radius: 0px; -moz-border-top-left-radius: 0px; -webkit-border-top-left-radius: 0px;
-	background-color: #fcfcfc;
-	background-image: -webkit-gradient(linear, 0% 40%, 0% 70%, from(#fdfdff), to(#f6f6ff));
+.noteFooter {
+	font-size: 10px; float: right;
+}
+
+.triangle-obtuse {
+	position: relative;
+	padding: 15px 30px !important;
+	margin: 1em 10 3em;
+	color: white !important;
+	background: #075698;
+	background: -webkit-gradient(linear, 0 0, 0 100%, from(#2E88C4), to(#075698));
+	background: -moz-linear-gradient(#2E88C4, #075698);
+	background: -o-linear-gradient(#2E88C4, #075698);
+	background: linear-gradient(#2E88C4, #075698);
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+
+	display: block;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	border: none;
+}
+
+.triangle-obtuse::before {
+	content: "";
+	position: absolute;
+	bottom: -20px;
+	left: 60px;
+	border: 0;
+	border-right-width: 30px;
+	border-bottom-width: 20px;
+	display: block;
+	width: 0;
+	border-style: solid;
+	border-color: transparent #075698 ;
+}
+
+.triangle-obtuse::after {
+	content: "";
+	position: absolute;
+	bottom: -20px;
+	left: 80px;
+	border: 0;
+	border-right-width: 10px;
+	border-bottom-width: 20px;
+	display: block;
+	width: 0;
+	border-style: solid;
+	border-color: transparent white;
 }
 
 
@@ -1534,4 +1594,7 @@ div.shr-bookmarks{margin:20px 0;clear:both !important}div.shr-bookmarks-expand{h
 	width: 200px; /*must have*/
 	height: 200px; /*must have*/
 }
+
+
+
 
