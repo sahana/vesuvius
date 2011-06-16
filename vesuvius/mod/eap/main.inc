@@ -1519,21 +1519,31 @@ function shn_eap_edit() {
 		<form>
 		<fieldset id=\"editShare\">
 		<legend>Share</legend>
-		<b>Please use any of following methods to share this person's record with others:</b><br>
 
+		<span>Send this page to a mobile device :</span><br><br>
+		<div style=\"float: left; width: 158px;\">
+			<script type=\"text/javascript\" src=\"res/js/jquery-1.6.1.min.js\"></script>
+			<script type=\"text/javascript\" src=\"res/js/jquery.qrcode.min.js\"></script>
+			<div id=\"qrcode\"></div>
+			<script>
+				jQuery('#qrcode').qrcode(\"".$global['googl']."\");
+			</script>
+		</div>
+
+
+		<div style=\"float: left;\">
+			<br><br>
+			Short URL to this page : <br><br>
+			<b><input type=\"text\" value=\"".$global['googl']."\"></b></input><br>
+		</div>
+
+		<div style=\"clear:both;\"></div>
 
 		<div class=\"shr-bookmarks shr-bookmarks-expand shr-bookmarks-center\">
 			<ul class=\"socials\">
 				<li class=\"shr-blogger\">
 					<a href=\"http://www.blogger.com/blog_this.pyra?t&amp;u=".$global['googl']."&amp;n=".$global['full_name']."&amp;pli=1\" rel=\"nofollow\" class=\"external\" title=\"Blog this on Blogger\">&nbsp;</a>
 				</li>
-	";
-	/* hiding RSS for now........
-				<li class="shr-comfeed">
-					<a href="http://g.miernicki.com/?p=115&amp;feed=comments-rss2" rel="nofollow" class="external" title="Subscribe to the comments for this post?">&nbsp;</a>
-				</li>
-	*/
-	echo "
 				<li class=\"shr-delicious\">
 					<a href=\"http://delicious.com/post?url=".$global['googl']."&amp;title=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Share this on del.icio.us\">&nbsp;</a>
 				</li>
@@ -1561,21 +1571,9 @@ function shn_eap_edit() {
 				<li class=\"shr-twitter\">
 					<a href=\"http://twitter.com/home?status=".$global['full_name']."+-+".$global['googl']."&amp;source=PL\" rel=\"nofollow\" class=\"external\" title=\"Tweet This!\">&nbsp;</a>
 				</li>
-		</ul>
-		<div style=\"clear:both;\"></div>
+			</ul>
+			<div style=\"clear:both;\"></div>
 		</div>
-		<br>
-		Short URL to this page: <br>
-		<b><input type=\"text\" value=\"".$global['googl']."\"></b><br>
-		<br>
-		<span>Send this page to a mobile device:</span><br><br>
-		<script type=\"text/javascript\" src=\"res/js/jquery-1.6.1.min.js\"></script>
-		<script type=\"text/javascript\" src=\"res/js/jquery.qrcode.min.js\"></script>
-		<div id=\"qrcode\"></div>
-		<script>
-			jQuery('#qrcode').qrcode(\"".$global['googl']."\");
-		</script>
-		<br>
 		</fieldset>
 		</form>
 		</div>
@@ -1591,7 +1589,7 @@ function shn_eap_edit() {
 		<div class=\"form-container\">
 		<form method=\"post\" id=\"notesPerson\" name=\"notesPerson\" action=\"index.php?mod=eap&act=addNote".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
 		<fieldset id=\"editNotes\">
-		<legend><span class=\"notesText\">Notes</span></legend>
+		<legend><span class=\"notesText\">User Comments and External Notes</span></legend>
 	";
 
 	$q  = "
@@ -1609,19 +1607,91 @@ function shn_eap_edit() {
 		if($global['privateEdit'] || (isset($_SESSION['user_p_uuid']) && ($_SESSION['user_p_uuid'] == $row['note_written_by_p_uuid']))) {
 			$delete = "&nbsp;&nbsp;&nbsp;<a style=\"color: red;\" href=\"index.php?mod=eap&act=deleteNote&noteId=".$row['note_id'].$debugParam."&uuid=".base64_encode($global['uuid'])."\">DELETE</a>";
 		}
+
+		$timezone = new DateTimeZone( "UTC" );
+		$date = new DateTime();
+		$date->setTimezone( $timezone );
+
+		$date->setTimestamp(strtotime($row['when']));
+		$udate =  $date->format('Y-m-d');
+		$utime =  $date->format('g:i T');
+
+		$noteUrl = makeBaseUrl()."note.".$row['note_id'];
+		$noteUrl = str_replace("https://", "", $noteUrl);
+		$noteUrl = str_replace("http://", "", $noteUrl);
+
 		echo "
-			<i><b>".$row['full_name']." at ".$row['when']." commented...</b></i>".$delete."
-			<div>".$row['note']."</div>
+			<p class=\"triangle-obtuse\">
+				".$row['note']."<br>
+				<span class=\"noteFooter\">".$noteUrl."</span>
+			</p>
+			<div style=\"height: 25px;\">Posted by <b>".$row['full_name']."</b> on ".$udate." at ".$utime."</div>
 			<br>
 			<br>
 		";
 	}
 
+
+	// EXTERNAL PFIF NOTES
+	$global['db']->EXECUTE("set names 'utf8'");
+	$q = "
+		SELECT note_record_id, entry_date, author_name, found,
+		REPLACE(status, '_', ' ') as status, last_known_location, text
+		FROM pfif_note
+		WHERE p_uuid = '".$global['uuid']."'
+		ORDER BY entry_date DESC;
+	";
+	$result = $global['db']->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+
+
+		$timezone = new DateTimeZone( "UTC" );
+		$date = new DateTime();
+		$date->setTimezone( $timezone );
+
+		$date->setTimestamp(strtotime($result->fields["entry_date"]));
+		$udate =  $date->format('Y-m-d');
+		$utime =  $date->format('g:i T');
+
+		echo "
+			<p class=\"triangle-obtuse\">
+				".$result->fields["text"]."<br>
+		";
+
+		if($result->fields["found"] == true) {
+			echo "<br>Status: <b>FOUND</b><br>";
+		}
+		if(trim($result->fields["last_known_location"]) != "") {
+			echo "<br>Last Known Location: <b>".$result->fields["last_known_location"]."</b><br>";
+		}
+
+		echo "
+				<span class=\"noteFooter\">".$result->fields["note_record_id"]."</span>
+			</p>
+			<div style=\"height: 25px;\">Posted by <b>".$result->fields["author_name"]."</b> on ".$udate." at ".$utime."</div>
+			<br>
+			<br>
+		";
+
+		/*
+		'note_id'=>$result->fields["note_record_id"],
+		'date'=>$result->fields["entry_date"],
+		'author'=>$result->fields["author_name"],
+		'found'=>$result->fields["found"],
+		'status'=>$result->fields["status"],
+		'lastSeen'=>$result->fields["last_known_location"],
+		'text'=>$result->fields["text"]
+		*/
+		$result->MoveNext();
+	}
+	// EXTERNAL PFIF END
+
+
 	// if user is allowed to add notes... show the tool for this
 	if($global['addNote']) {
 		echo "
-			<b>Add a note of your own...</b><br>
 			<br>
+			<b>Add your own comment...</b><br>
 			<center>
 				<textarea name=\"addNote\" id=\"addNote\" style=\"width: 80%; \" rows=\"5\" tabindex=\"".++$shn_tabindex."\" ></textarea><br>
 				<input type=\"submit\" value=\"Save Note\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
@@ -1631,6 +1701,7 @@ function shn_eap_edit() {
 	// if user is not allowed to add notes, tell them
 	} else {
 		echo "
+			<br>
 			<br>
 			<b>If you would like to leave a note, you must first login. If you don't have an account, then first <a href=\"index.php?act=signup\">sign up for one.</a></b>
 		";
