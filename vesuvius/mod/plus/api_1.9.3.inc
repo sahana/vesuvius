@@ -176,6 +176,36 @@ function shn_plus_registerAll($namespace) {
 		"Changes a user password from old to new."
 	);
 
+	shn_plus_registerOne($server, 'resetUserPassword',
+		array(
+			'in' => array(
+				'username'    => 'xsd:string'
+			),
+			'out' => array(
+				'sent'         => 'xsd:boolean',
+				'errorCode'    => 'xsd:integer',
+				'errorMessage' => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Initiates the password reset procedure."
+	);
+
+	shn_plus_registerOne($server, 'forgotUsername',
+		array(
+			'in' => array(
+				'email'    => 'xsd:string'
+			),
+			'out' => array(
+				'sent'         => 'xsd:boolean',
+				'errorCode'    => 'xsd:integer',
+				'errorMessage' => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Sends an email to the user with their username."
+	);
+
 	shn_plus_registerOne($server, 'getSessionTimeout',
 		array(
 			'in' => array(),
@@ -188,9 +218,6 @@ function shn_plus_registerAll($namespace) {
 		$namespace,
 		"Returns the number of seconds a user session should last (for apps like ReUnite/TriagePic)"
 	);
-
-
-
 }
 
 
@@ -611,6 +638,44 @@ function changeUserPassword($username, $oldPassword, $newPassword) {
 			'changed'      => (boolean)false,
 			'errorCode'    => (int)9999,
 			'errorMessage' => (string)$eCodes[9999]
+		);
+	}
+}
+
+
+
+// Initiates the password reset procedure.
+function resetUserPassword($username) {
+	shn_plus_logAccess("resetUserPassword");
+
+	global $global;
+	$success = false;
+
+	$q = "
+		SELECT c.contact_value
+		FROM users u, contact c
+		WHERE u.user_name = '".mysql_real_escape_string($username)."'
+		AND u.p_uuid = c.p_uuid
+		AND u.status = 'active';
+	";
+	$result = $global['db']->Execute($q);
+	if($result != null && !$result->EOF) {
+		$success = true;
+		shn_plus_resetEmail($username, $result->fields["contact_value"]);
+	}
+
+	if($success) {
+		return array(
+			'sent'         => (boolean)true,
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	} else {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'sent'      => (boolean)false,
+			'errorCode'    => (int)10,
+			'errorMessage' => (string)$eCodes[10]
 		);
 	}
 }

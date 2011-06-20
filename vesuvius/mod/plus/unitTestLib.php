@@ -259,6 +259,24 @@ function changeUserPassword($username, $oldPassword, $newPassword) {
 }
 
 
+
+function resetUserPassword($username) {
+	global $sites;
+	echo "<tr><td class=\"func\">resetUserPassword(username)</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('resetUserPassword', array('username'=>$username));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
+
 function getSessionTimeout() {
 	global $sites;
 	echo "<tr><td class=\"func\">getSessionTimeout()</td>";

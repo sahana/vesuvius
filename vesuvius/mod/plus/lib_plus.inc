@@ -153,9 +153,77 @@ function shn_plus_emailNewUser($username) {
 
 
 
+function shn_plus_activateUser($username) {
+	global $global;
+		$q = "
+		UPDATE  users
+		SET
+			status =  'active',
+			confirmation = NULL
+		WHERE user_name = '".mysql_real_escape_string($username)."';
+	";
+	$r = $global['db']->Execute($q);
+}
+
+
+
+/**
+ * Updates confirmation code and sends email with link to reset password.
+ */
+function shn_plus_resetEmail($username, $email) {
+	global $global;
+	$confirmation = md5(uniqid(rand(), true));
+
+	$q = "
+		UPDATE users
+		SET confirmation =  '".$confirmation."'
+		WHERE user_name = '".mysql_real_escape_string($username)."';
+	";
+	$res = $global['db']->Execute($q);
+
+	// Email the link with confirmation to reset a password
+	$link = makeBaseUrl()."index.php?register&reset=".$confirmation."&username=".$username;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+	$p = new pop();
+	$subject  = "Request to reset the password of your PL user account";
+	$bodyHTML =
+		"Dear User,<br><br>Someone (possibly not you) has initiated a request to reset the password for your PL user account. If you feel this was in error or you did not initiate this request yourself, you may safely ignore this email as nothing will change. However, if you did initiate this request and would like to reset your password, you must visit the following link to have it reset:<br><br><a href=\"".$link."\">".$link."</a><br><br>Once this has been done, another email will be sent to you with a temporary password. From there, you can login and change your password to someting of your choosing.<br><br><b>- People Locator</b>";
+	$bodyAlt =
+		"Dear User,\n\nSomeone (possibly not you) has initiated a request to reset the password for your PL user account. If you feel this was in error or you did not initiate this request yourself, you may safely ignore this email as nothing will change. However, if you did initiate this request and would like to reset your password, you must visit the following link to have it reset:\n\n".$link."\n\nOnce this has been done, another email will be sent to you with a temporary password. From there, you can login and change your password to someting of your choosing.\n\n- People Locator";
+	$p->sendMessage($email, $username, $subject, $bodyHTML, $bodyAlt);
+}
 
 
 
 
+function shn_plus_resetPasswordAndEmail($username) {
+	global $global;
+	require_once($global['approot']."/inc/lib_security/lib_auth.inc");
+	$newPassword = md5(uniqid(rand(), true));
+	$newPassword = substr($newPassword, rand(0,7), 12)."Z";
+	shn_change_password_simple($username, $newPassword);
 
+	$q = "
+		SELECT *
+		FROM users u, contact c
+		WHERE u.p_uuid = c.p_uuid
+		AND u.user_name = '".mysql_real_escape_string($username)."';
+	";
+	$res = $global['db']->Execute($q);
+	if(($res == null) || ($res->EOF)) {
+		return false;
+	} else {
+		// Email the new password to the user
+		$link1 = makeBaseUrl()."login";
+		$link2 = makeBaseUrl()."index.php?mod=pref&act=ch_passwd";
+		require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+		$p = new pop();
+		$subject  = "New password for your PL user account.";
+		$bodyHTML =
+			"Dear User,<br><br>Your password has successfully been updated and is now set to:<br><b>".$newPassword."</b><br><br>You may now login with it here:<br><a href=\"".$link1."\">".$link1."</a><br><br>Also, you may change your password by visiting this link (after logging in):<br><a href=\"".$link2."\">".$link2."</a><br><br><b>- People Locator</b>";
+		$bodyAlt =
+			"Dear User,\n\nYour password has successfully been updated and is now set to:\n".$newPassword."\n\nYou may now login with it here:\n".$link1."\n\nAlso, you may change your password by visiting this link (after logging in):\n".$link2."\n\n- People Locator";
+		$p->sendMessage($res->fields["contact_value"], $username, $subject, $bodyHTML, $bodyAlt);
+	}
+}
 
