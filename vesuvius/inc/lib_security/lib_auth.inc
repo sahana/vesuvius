@@ -642,7 +642,7 @@ function shn_change_password_simple($username = null, $newPassword) {
 	$q = "
 		SELECT *
 		FROM users
-		WHERE user_name = '".$username."';
+		WHERE user_name = '".mysql_real_escape_string($username)."';
 	";
 	$res = $global['db']->Execute($q);
 	if($res->EOF) {
@@ -657,7 +657,7 @@ function shn_change_password_simple($username = null, $newPassword) {
 	$q = "
 		UPDATE users
 		SET password = '".$passwordDigest."', changed_timestamp = ".$time."
-		WHERE user_name = '".$username."';
+		WHERE user_name = '".mysql_real_escape_string($username)."';
 	";
 	$res = $global['db']->Execute($q);
 	return true;

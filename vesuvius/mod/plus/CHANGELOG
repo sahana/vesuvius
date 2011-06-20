@@ -1,6 +1,10 @@
 Changes in v1.9.3
 -----------------
 + getSessionTimeout
++ registerUser
++ changeUserPassword
++ resetUserPassword
++ forgotUsername
 
 Changes in v1.9.2
 -----------------
