@@ -159,6 +159,23 @@ function shn_plus_registerAll($namespace) {
 		"Creates a new inactive (pending confirmation) user in the system with the supplied characteristics and credentials."
 	);
 
+	shn_plus_registerOne($server, 'changeUserPassword',
+		array(
+			'in' => array(
+				'username'    => 'xsd:string',
+				'oldPassword' => 'xsd:string',
+				'newPassword' => 'xsd:string'
+			),
+			'out' => array(
+				'changed'      => 'xsd:boolean',
+				'errorCode'    => 'xsd:integer',
+				'errorMessage' => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Changes a user password from old to new."
+	);
+
 	shn_plus_registerOne($server, 'getSessionTimeout',
 		array(
 			'in' => array(),
@@ -543,6 +560,55 @@ function registerUser($username, $emailAddress, $password, $givenName, $familyNa
 		$eCodes = unserialize(ERRORCODES);
 		return array(
 			'registered'   => (boolean)false,
+			'errorCode'    => (int)9999,
+			'errorMessage' => (string)$eCodes[9999]
+		);
+	}
+}
+
+
+
+// Changes the password from old to new.
+function changeUserPassword($username, $oldPassword, $newPassword) {
+	shn_plus_logAccess("changeUserPassword");
+
+	global $global;
+	require_once($global['approot']."/inc/lib_security/lib_auth.inc");
+	$success = false;
+
+	// check if new password matches policy
+	if(shn_check_password_matches_policy($newPassword, $username) !== true) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'changed'      => (boolean)false,
+			'errorCode'    => (int)9,
+			'errorMessage' => (string)$eCodes[9]
+		);
+	}
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $oldPassword);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'changed'      => (boolean)false,
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+	}
+
+	$success = shn_change_password_simple($username, $newPassword);
+
+	if($success) {
+		return array(
+			'changed'      => (boolean)true,
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	} else {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'changed'      => (boolean)false,
 			'errorCode'    => (int)9999,
 			'errorMessage' => (string)$eCodes[9999]
 		);

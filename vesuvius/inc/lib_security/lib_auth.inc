@@ -636,6 +636,35 @@ function shn_force_change_password($user=null,$new_pwd,$p_uuid=null) {
 
 
 
+function shn_change_password_simple($username = null, $newPassword) {
+	global $global;
+	date_default_timezone_set('America/New_York');
+	$q = "
+		SELECT *
+		FROM users
+		WHERE user_name = '".$username."';
+	";
+	$res = $global['db']->Execute($q);
+	if($res->EOF) {
+		return false;
+	} else {
+		$salt = $res->fields["salt"];
+	}
+	$time = time();
+	$newPwd = substr($newPassword, 0, 4) . $salt . substr($newPassword, 4);
+	$passwordDigest = md5(trim($newPwd));
+
+	$q = "
+		UPDATE users
+		SET password = '".$passwordDigest."', changed_timestamp = ".$time."
+		WHERE user_name = '".$username."';
+	";
+	$res = $global['db']->Execute($q);
+	return true;
+}
+
+
+
 /******** form processing ****/
 function shn_auth_add_user_cr(){
 	global $global;

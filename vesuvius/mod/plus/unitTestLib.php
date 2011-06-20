@@ -243,6 +243,22 @@ function registerUser($username, $emailAddress, $password, $givenName, $familyNa
 
 
 
+function changeUserPassword($username, $oldPassword, $newPassword) {
+	global $sites;
+	echo "<tr><td class=\"func\">changeUserPassword(username, oldPassword, newPassword)</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('changeUserPassword', array('username'=>$username, 'oldPassword'=>$oldPassword, 'newPassword'=>$newPassword));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
 function getSessionTimeout() {
 	global $sites;
 	echo "<tr><td class=\"func\">getSessionTimeout()</td>";
