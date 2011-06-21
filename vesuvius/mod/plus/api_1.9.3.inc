@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0615
+ * @lastModified 2011.0621
  */
 
 global $api_version;
@@ -238,6 +238,22 @@ function shn_plus_registerAll($namespace) {
 		),
 		$namespace,
 		"Used to determine user account status without authenticating."
+	);
+
+	shn_plus_registerOne($server, 'getUserGroup',
+		array(
+			'in' => array(
+				'username'     => 'xsd:string'
+			),
+			'out' => array(
+				'group_id'     => 'xsd:integer',
+				'group_name'   => 'xsd:string',
+				'errorCode'    => 'xsd:integer',
+				'errorMessage' => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Shows which group a user is part of without authenticating."
 	);
 
 	shn_plus_registerOne($server, 'getSessionTimeout',
@@ -832,10 +848,49 @@ function getUserStatus($username) {
 	} else {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'pending'      => (boolean)$pending,
-			'active'       => (boolean)$active,
-			'locked'       => (boolean)$locked,
-			'banned'       => (boolean)$banned,
+			'pending'      => null,
+			'active'       => null,
+			'locked'       => null,
+			'banned'       => null,
+			'errorCode'    => (int)12,
+			'errorMessage' => (string)$eCodes[12]
+		);
+	}
+}
+
+
+
+// Used to determine user account status without authenticating
+function getUserGroup($username) {
+	shn_plus_logAccess("getUserGroup");
+
+	global $global;
+	$success = false;
+
+	$q = "
+		SELECT *
+		FROM users u, sys_user_groups g, sys_user_to_group x
+		WHERE u.user_name = '".mysql_real_escape_string($username)."'
+		AND x.p_uuid = u.p_uuid
+		AND g.group_id = x.group_id;
+	";
+	$result = $global['db']->Execute($q);
+
+	if($result != null && !$result->EOF) {
+		$success = true;
+	}
+	if($success) {
+		return array(
+			'group_id'     => (integer)$result->fields["group_id"],
+			'group_name'   => (string)$result->fields["group_name"],
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	} else {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'group_id'     => null,
+			'group_name'   => null,
 			'errorCode'    => (int)12,
 			'errorMessage' => (string)$eCodes[12]
 		);

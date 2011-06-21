@@ -1,12 +1,12 @@
 /**
  * @name         PL User Services
- * @version      1.9.2
+ * @version      1.9.3
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0606
+ * @lastModified 2011.0621
  */
 
 
@@ -32,6 +32,6 @@ CREATE TABLE `plus_report_log` (
 
 
 INSERT INTO rez_pages (rez_page_id, rez_menu_title, rez_page_title, rez_menu_order, rez_content, rez_description, rez_timestamp, rez_visibility) VALUES
+(-6, 'Password Reset.', 'Password Reset.', 8, '<div><br></div><div>Your password has been successfully reset and the new password emailed to you.</div>', 'Password Reset.', '2011-06-14 13:09:49', 'Hidden'),
 (-5, 'Account activated.', 'Account activated.', 7, '<div><br></div><div>Your account has been successfully activated. You may now <a href="index.php?mod=pref&amp;act=loginForm" title="login" target="">login to the site</a> to begin using it.</div>', 'Account activated.', '2011-06-14 13:09:49', 'Hidden'),
-(-4, 'Account already active.', 'Account already active.', 6, '<div><br></div><div>This confirmation link is no longer valid. The account attached to it is already active.</div>', 'Account already active.', '2011-06-14 13:06:55', 'Hidden'),
-(-3, 'Invalid confirmation request.', 'Invalid confirmation request.', 5, '<div><br></div><div>Your attempted registration confirmation was unsuccessful. It appears you attempted to confirm an invalid user or used an invalid confirmation code.</div>', 'Invalid confirmation request.', '2011-06-14 13:06:20', 'Hidden');
+(-4, 'Account already active.', 'Account already active.', 6, '<div><br></div><div>This confirmation link is no longer valid. The account attached to it is already active.</div>', 'Account already active.', '2011-06-14 13:06:55', 'Hidden');
