@@ -21,8 +21,9 @@ if(!isset($_GET['api'])) {
 		"archiveStageGreg" => "http://archivestage.nlm.nih.gov/~miernickig/sahanaDev/www/index.php?wsdl".$api
 	);
 
-	$user = "testDontDelete";
-	$pass = "dontDelete99";
+	$user  = "testDontDelete";
+	$pass  = "dontDelete99";
+	$email = "testCase@email.com";
 
 	init2();
 
@@ -38,6 +39,8 @@ if(!isset($_GET['api'])) {
 	registerUser("testCaseUser", "testCase@email.com", "testPassword99", "testCaseGiven", "testCaseFamily");
 	changeUserPassword($user, $pass, $pass);
 	resetUserPassword($user);
+	forgotUsername($email);
+	checkUserAuth($user, $pass);
 
 	echo "</table><br><h2>Note: deprecated functions are not listed/tested.</h2></body>";
 }
