@@ -222,6 +222,24 @@ function shn_plus_registerAll($namespace) {
 		"Used to verify a username / password combination are valid."
 	);
 
+	shn_plus_registerOne($server, 'getUserStatus',
+		array(
+			'in' => array(
+				'username'     => 'xsd:string'
+			),
+			'out' => array(
+				'pending'      => 'xsd:boolean',
+				'active'       => 'xsd:boolean',
+				'locked'       => 'xsd:boolean',
+				'banned'       => 'xsd:boolean',
+				'errorCode'    => 'xsd:integer',
+				'errorMessage' => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Used to determine user account status without authenticating."
+	);
+
 	shn_plus_registerOne($server, 'getSessionTimeout',
 		array(
 			'in' => array(),
@@ -762,6 +780,64 @@ function checkUserAuth($username, $password) {
 			'valid'        => (boolean)false,
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
+		);
+	}
+}
+
+
+
+// Used to determine user account status without authenticating
+function getUserStatus($username) {
+	shn_plus_logAccess("getUserStatus");
+
+	global $global;
+	$success = false;
+	$pending = false;
+	$active  = false;
+	$locked  = false;
+	$banned  = false;
+
+	$q = "
+		SELECT status
+		FROM users
+		WHERE user_name = '".mysql_real_escape_string($username)."';
+	";
+	$result = $global['db']->Execute($q);
+
+	if($result != null && !$result->EOF) {
+		$success = true;
+
+		if($result->fields["status"] == "active") {
+			$active = true;
+
+		} elseif($result->fields["status"] == "pending") {
+			$pending = true;
+
+		} elseif($result->fields["status"] == "locked") {
+			$locked = true;
+
+		} elseif($result->fields["status"] == "banned") {
+			$banned = true;
+		}
+	}
+	if($success) {
+		return array(
+			'pending'      => (boolean)$pending,
+			'active'       => (boolean)$active,
+			'locked'       => (boolean)$locked,
+			'banned'       => (boolean)$banned,
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	} else {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'pending'      => (boolean)$pending,
+			'active'       => (boolean)$active,
+			'locked'       => (boolean)$locked,
+			'banned'       => (boolean)$banned,
+			'errorCode'    => (int)12,
+			'errorMessage' => (string)$eCodes[12]
 		);
 	}
 }

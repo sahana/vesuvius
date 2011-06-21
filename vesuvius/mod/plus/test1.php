@@ -23,6 +23,6 @@ $client = new nusoap_client($wsdl);
 //$result = $client->call('changeUserPassword', array('username'=>$user, 'oldPassword'=>$pass, 'newPassword'=>$pass));
 //$result = $client->call('resetUserPassword', array('username'=>"testCaseUser9"));
 //$result = $client->call('forgotUsername', array('email'=>"testCase@email.com"));
-$result = $client->call('checkUserAuth', array('username'=>$user, 'password'=>$pass));
+$result = $client->call('getUserStatus', array('username'=>$user));
 
 echo "<pre>".print_r($result, true)."</pre>";

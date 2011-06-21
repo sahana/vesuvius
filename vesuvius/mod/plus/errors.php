@@ -32,6 +32,7 @@ define("ERRORCODES", serialize(array(
 	9    => "Password does not meet the following criteria: 1. The minimum length of the password is 8 characters. 2. The maximum length of the password is 16 characters. 3. Must have at least one uppercase character. 4. Must have at least one lowercase character. 5. Must have at least one numeral (0-9). 6. The password cannot contain your username.",
 	10   => "User does not exist or user's account is not active.",
 	11   => "Email address is not associated with any user account.",
+	12   => "Username does not exist.",
 	100  => "No hospital registered with this id.",
 	200  => "sessionTimeout value missing from database.",
 	9999 => "Unknown error.",
