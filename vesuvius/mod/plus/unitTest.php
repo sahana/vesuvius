@@ -1,4 +1,15 @@
 <?
+/**
+ * @name         PL User Services
+ * @version      1.9.3
+ * @package      plus
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0621
+ */
+
 // INTERNAL PLUS TESTER //
 
 // load nusoap client library
@@ -42,6 +53,7 @@ if(!isset($_GET['api'])) {
 	forgotUsername($email);
 	checkUserAuth($user, $pass);
 	getUserStatus($user);
+	getUserGroup($user);
 
 	echo "</table><br><h2>Note: deprecated functions are not listed/tested.</h2></body>";
 }

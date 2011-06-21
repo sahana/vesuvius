@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0614
+ * @lastModified 2011.0621
  */
 
 $user = "testDontDelete";
@@ -23,6 +23,6 @@ $client = new nusoap_client($wsdl);
 //$result = $client->call('changeUserPassword', array('username'=>$user, 'oldPassword'=>$pass, 'newPassword'=>$pass));
 //$result = $client->call('resetUserPassword', array('username'=>"testCaseUser9"));
 //$result = $client->call('forgotUsername', array('email'=>"testCase@email.com"));
-$result = $client->call('getUserStatus', array('username'=>$user));
+$result = $client->call('getUserGroup', array('username'=>$user));
 
 echo "<pre>".print_r($result, true)."</pre>";
