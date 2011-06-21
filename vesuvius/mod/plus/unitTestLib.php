@@ -277,6 +277,40 @@ function resetUserPassword($username) {
 
 
 
+function forgotUsername($email) {
+	global $sites;
+	echo "<tr><td class=\"func\">forgotUsername(email)</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('forgotUsername', array('email'=>$email));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
+
+function checkUserAuth($username, $password) {
+	global $sites;
+	echo "<tr><td class=\"func\">checkUserAuth(username, password)</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('checkUserAuth', array('username'=>$username, 'password'=>$password));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
+
 function getSessionTimeout() {
 	global $sites;
 	echo "<tr><td class=\"func\">getSessionTimeout()</td>";

@@ -5,6 +5,7 @@ Changes in v1.9.3
 + changeUserPassword
 + resetUserPassword
 + forgotUsername
++ checkUserAuth
 
 Changes in v1.9.2
 -----------------

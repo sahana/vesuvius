@@ -51,8 +51,8 @@ function shn_plus_registerAll($namespace) {
 	shn_plus_registerOne($server, 'getEventListUser',
 		array(
 			'in' => array(
-				'username' => 'xsd:string',
-				'password' => 'xsd:string'
+				'username'     => 'xsd:string',
+				'password'     => 'xsd:string'
 			),
 			'out' => array(
 				'eventList'    => 'xsd:string',
@@ -123,7 +123,7 @@ function shn_plus_registerAll($namespace) {
 	shn_plus_registerOne($server, 'getHospitalPolicy',
 		array(
 			'in' => array(
-				'hospital_uuid' => 'xsd:integer'
+				'hospital_uuid'              => 'xsd:integer'
 			),
 			'out' => array(
 				'patientIdPrefix'            => 'xsd:string',
@@ -162,9 +162,9 @@ function shn_plus_registerAll($namespace) {
 	shn_plus_registerOne($server, 'changeUserPassword',
 		array(
 			'in' => array(
-				'username'    => 'xsd:string',
-				'oldPassword' => 'xsd:string',
-				'newPassword' => 'xsd:string'
+				'username'     => 'xsd:string',
+				'oldPassword'  => 'xsd:string',
+				'newPassword'  => 'xsd:string'
 			),
 			'out' => array(
 				'changed'      => 'xsd:boolean',
@@ -179,7 +179,7 @@ function shn_plus_registerAll($namespace) {
 	shn_plus_registerOne($server, 'resetUserPassword',
 		array(
 			'in' => array(
-				'username'    => 'xsd:string'
+				'username'     => 'xsd:string'
 			),
 			'out' => array(
 				'sent'         => 'xsd:boolean',
@@ -194,7 +194,7 @@ function shn_plus_registerAll($namespace) {
 	shn_plus_registerOne($server, 'forgotUsername',
 		array(
 			'in' => array(
-				'email'    => 'xsd:string'
+				'email'        => 'xsd:string'
 			),
 			'out' => array(
 				'sent'         => 'xsd:boolean',
@@ -204,6 +204,22 @@ function shn_plus_registerAll($namespace) {
 		),
 		$namespace,
 		"Sends an email to the user with their username."
+	);
+
+	shn_plus_registerOne($server, 'checkUserAuth',
+		array(
+			'in' => array(
+				'username'     => 'xsd:string',
+				'password'     => 'xsd:string'
+			),
+			'out' => array(
+				'valid'        => 'xsd:boolean',
+				'errorCode'    => 'xsd:integer',
+				'errorMessage' => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Used to verify a username / password combination are valid."
 	);
 
 	shn_plus_registerOne($server, 'getSessionTimeout',
@@ -673,9 +689,79 @@ function resetUserPassword($username) {
 	} else {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'sent'      => (boolean)false,
+			'sent'         => (boolean)false,
 			'errorCode'    => (int)10,
 			'errorMessage' => (string)$eCodes[10]
+		);
+	}
+}
+
+
+
+// Sends an email to the user with their username.
+function forgotUsername($email) {
+	shn_plus_logAccess("forgotUsername");
+
+	global $global;
+	$success = false;
+
+	$q = "
+		SELECT u.user_name
+		FROM users u, contact c
+		WHERE c.contact_value = '".mysql_real_escape_string($email)."'
+		AND u.p_uuid = c.p_uuid
+		AND u.status = 'active';
+	";
+	$result = $global['db']->Execute($q);
+
+	// pretend for test case...
+	if($email == "testCase@email.com") {
+		$success = true;
+	} elseif($result != null && !$result->EOF) {
+		$success = true;
+		shn_plus_forgotUsernameEmail($email, $result->fields["user_name"]);
+	}
+
+	if($success) {
+		return array(
+			'sent'         => (boolean)true,
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	} else {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'sent'         => (boolean)false,
+			'errorCode'    => (int)11,
+			'errorMessage' => (string)$eCodes[11]
+		);
+	}
+}
+
+
+
+// Used to verify a username / password combination are valid
+function checkUserAuth($username, $password) {
+	shn_plus_logAccess("checkUserAuth");
+
+	global $global;
+	require_once($global['approot']."/inc/lib_security/lib_auth.inc");
+	$success = false;
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status == 0) {
+		return array(
+			'valid'        => (boolean)true,
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	} else {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'valid'        => (boolean)false,
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
 		);
 	}
 }

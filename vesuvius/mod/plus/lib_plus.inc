@@ -227,3 +227,26 @@ function shn_plus_resetPasswordAndEmail($username) {
 	}
 }
 
+
+
+function shn_plus_forgotUsernameEmail($email, $username) {
+	global $global;
+
+	// Email the username to the user
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+	$p = new pop();
+	$subject  = "Email Reminder of your username for your PL account";
+	$bodyHTML =
+		"Dear User,<br><br>Someone (possibly not you) has requested to be reminded of the username associated with their account on PL.<br><br>The username assoicated with this email address is:<br><b>".$username."</b><br><br>This should help you to login to the site if you had forgotten your username. If you did not request this email, please disregard it.<br><br><b>- People Locator</b><br>";
+	$bodyAlt =
+		"Dear User,\n\nSomeone (possibly not you) has requested to be reminded of the username associated with their account on PL.\n\nThe username assoicated with this email address is:\n".$username."\n\nThis should help you to login to the site if you had forgotten your username. If you did not request this email, please disregard it.\n\n- People Locator\n";
+	$p->sendMessage($email, $username, $subject, $bodyHTML, $bodyAlt);
+}
+
+
+
+
+
+
+
+
