@@ -41,6 +41,7 @@ if(!isset($_GET['api'])) {
 	resetUserPassword($user);
 	forgotUsername($email);
 	checkUserAuth($user, $pass);
+	getUserStatus($user);
 
 	echo "</table><br><h2>Note: deprecated functions are not listed/tested.</h2></body>";
 }
