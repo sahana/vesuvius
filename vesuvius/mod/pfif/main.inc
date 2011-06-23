@@ -23,6 +23,7 @@ function shn_pfif_menu() {
 			<li><a href=\"index.php?mod=pfif\">World</a></li>
 			<li><a href=\"index.php?mod=pfif&act=galaxy\">Galaxy</a></li>
 			<li><a href=\"index.php?mod=pfif&act=universe\">Universe</a></li>
+			<li><a href=\"index.php?mod=pfif&act=streams\">Stream Tests</a></li>
 		</ul>
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
 	";
@@ -64,3 +65,23 @@ function shn_pfif_universe() {
 	shn_pfif_menu();
 	echo "hello universe!";
 }
+
+
+
+/**
+ * stream tests...
+ * @access public
+ * @return void
+ */
+function shn_pfif_streams() {
+	global $global;
+	shn_pfif_menu();
+	echo '
+		<a href="index.php?mod=pfif&stream=xml&act=atomTest">atom feed test</a><br>
+		<a href="index.php?mod=pfif&stream=xml&act=rss2Test">rss2 feed test</a><br>
+	';
+}
+
+
+
+
