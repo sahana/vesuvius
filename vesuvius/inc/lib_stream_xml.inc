@@ -16,16 +16,17 @@
 
 function shn_stream_init($emit_xml_declaration = false) {
 	$file = 'download.xml';
-	if(isset($_GET['filename']))
+	if(isset($_GET['filename'])) {
 		$file = $_GET['filename'];
-	//todo need a way to pass header;
-
+		//todo need a way to pass header;
+	}
 	header("Content-type: text/xml");
 	if(isset($_GET['download'])) {
 		header("Content-Disposition: attachment; filename=$file");
 	}
-	if ($emit_xml_declaration) {
-		echo "<?xml version=\"1.0\" ?>\n";
+	if($emit_xml_declaration) {
+		echo '<'.'?xml version="1.0" encoding="UTF-8" ?'.'>
+';
 	}
 	shn_stream_display_error();
 }

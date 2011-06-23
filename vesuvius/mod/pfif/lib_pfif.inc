@@ -11,5 +11,8 @@
  * @lastModified 2011.0622
  */
 
+// pfif module library
+global $global;
+require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
-// place for all require_once's and stuff the module uses...
+
