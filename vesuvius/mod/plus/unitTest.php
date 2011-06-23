@@ -19,6 +19,8 @@ require_once("conf.inc");
 
 global $sites;
 global $conf;
+global $count;
+$count = 0;
 init();
 if(!isset($_GET['api'])) {
 	showEntry();
@@ -28,8 +30,8 @@ if(!isset($_GET['api'])) {
 	$sites = array(
 		"PL"               => "https://pl.nlm.nih.gov/?wsdl".$api,
 		"PLstage"          => "https://plstage.nlm.nih.gov/?wsdl".$api,
-		"PLstageGreg"      => "http://plstage.nlm.nih.gov/~miernickig/sahanaDev/www/index.php?wsdl".$api,
-		"archiveStageGreg" => "http://archivestage.nlm.nih.gov/~miernickig/sahanaDev/www/index.php?wsdl".$api
+		"devGreg"      => "http://plstage.nlm.nih.gov/~miernickig/sahanaDev/www/index.php?wsdl".$api,
+		//"archiveStageGreg" => "http://archivestage.nlm.nih.gov/~miernickig/sahanaDev/www/index.php?wsdl".$api
 	);
 
 	$user  = "testDontDelete";

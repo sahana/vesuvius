@@ -74,7 +74,7 @@ function display_submit_message($type = 'warning', $msg = 'please note the follo
 /**
  * If you want to display the errors call this function.
  */
-function display_errors($error_title=null,$return=false,$clean_errors=true) {
+function display_errors($error_title = null, $return = false, $clean_errors = true) {
 	global $global;
 	$mod = $global['module'];
 	$act = $global['action'];
@@ -85,7 +85,7 @@ function display_errors($error_title=null,$return=false,$clean_errors=true) {
 
 	if(strtolower($stream)=='html') {
 		if (null == $error_title) {
-			$error_title = _t('Oops. There are a few errors :');
+			$error_title = _t('Oops! There are a few errors :');
 		}
 
 		// return if there are no errors
@@ -103,12 +103,13 @@ function display_errors($error_title=null,$return=false,$clean_errors=true) {
 		$output .= "</div>";
 
 		//Clean Errors
-		if($clean_errors)
-		clean_errors();
+		if($clean_errors) {
+			clean_errors();
+		}
 
-		if($return)
-		return $output;
-		else{
+		if($return) {
+			return $output;
+		} else {
 			echo $output;
 			return 1;
 		}
@@ -123,33 +124,11 @@ function display_errors($error_title=null,$return=false,$clean_errors=true) {
 			$generic_display_function = "_shn_".$stream."_display_errors";
 			$generic_display_function();
 		}
-        //Clean Errors
-        if($clean_errors)
-        clean_errors();
-        // return output is not valid for other streams.
+		//Clean Errors
+		if($clean_errors) {
+			clean_errors();
+		}
 	}
-	/*
-	 * if(strtolower($stream)=='image'){
-
-	 }else if(strtolower($stream)=='soap'){
-
-	 }else if(strtolower($stream)=='ajax'){
-
-	 }else if(strtolower($stream)=='text'){
-
-	 $custom_display_function = "_shn_".$stream."_".$mod."_".$act."__disp_error";
-	 if(function_exists($custom_display_function)){
-	 $custom_display_function();
-	 }else{
-	 // call generic display errors
-	 shn_text_display_errors();
-	 }
-
-	 }else if(strtolower($stream)=='xst'){
-
-	 }
-	 *
-	 */
 }
 
 

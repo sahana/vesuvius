@@ -82,7 +82,6 @@ class lpfPatient {
 	public function insertPersonXMLv12() {
 		global $global;
 		$this->figureOutIncidentId();
-		$this->insertImages();
 
 		// insert person
 		$q1 = "
@@ -113,6 +112,8 @@ class lpfPatient {
 			VALUES ('".$this->uuid."','".$this->emailSubject."','".$this->emailFrom."','".$this->emailDate."',NOW());
 		";
 		$res = $global['db']->Execute($q7);
+
+		$this->insertImages();
 	}
 
 
@@ -120,7 +121,6 @@ class lpfPatient {
 	public function insertPersonXMLv16() {
 		global $global;
 		$this->figureOutIncidentId();
-		$this->insertImages();
 
 		// insert person
 		$q1 = "
@@ -152,6 +152,8 @@ class lpfPatient {
 			VALUES ('".$this->uuid."','".$this->emailSubject."','".$this->emailFrom."','".$this->emailDate."',NOW());
 		";
 		$res = $global['db']->Execute($q7);
+
+		$this->insertImages();
 	}
 
 
@@ -164,9 +166,6 @@ class lpfPatient {
 		$name = new nameParser($this->emailSubject);
 		$this->givenName  = $name->getFirstName();
 		$this->familyName = $name->getLastName();
-
-
-		$this->insertImages();
 
 		// insert person
 		$q1 = "
@@ -206,6 +205,8 @@ class lpfPatient {
 			VALUES ('".$this->uuid."', '1');
 		";
 		$res = $global['db']->Execute($q7);
+
+		$this->insertImages();
 	}
 
 
