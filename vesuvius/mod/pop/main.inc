@@ -25,10 +25,6 @@ function shn_pop_first() {
 	echo "
 		<h2><a href=\"index.php?mod=pop&amp;act=configuration\">Configure Outbound Email Settings</a></h2>
 		<h2><a href=\"index.php?mod=pop&amp;act=outlog\">View Outbound Email Log</a></h2><br>
-		<script>
-			c = document.getElementById('content');
-			c.style.marginRight = '0px';
-		</script>
 	";
 }
 

@@ -16,22 +16,12 @@
 
 
 function shn_stream_init() {
-	//for install hack
-	$my_approot = realpath(dirname(__FILE__)) . '/../';
-	if (!file_exists($my_approot . 'conf/sahana.conf')) {
-		if(!isset($_SESSION)) {
-			session_start();
-		}
-	}
-	//install hack ends
 }
 
 
 
 function shn_text_check_perms() {
 	return ALLOWED;
-	//skip authentication at this step since , authentication is performed at the last step. i.e at method
-	// invocation level. otherwise cannot let WSDL be visible to any one and still protect the methods.
 }
 
 
@@ -39,10 +29,10 @@ function shn_text_check_perms() {
 function _shn_text_display_errors() {
 	global $global;
 	if (count($global['submit_errors']) > 0) {
-		echo "There were a few errors....\r\n";
+		echo "Uhoh.. There were a few errors!<br><br>";
 		$i = 1;
 		foreach ($global['submit_errors'] as $err) {
-			echo $i . ". " . $err . "\r\n";
+			echo "#".$i." ".$err."<br>";
 			$i++;
 		}
 	}

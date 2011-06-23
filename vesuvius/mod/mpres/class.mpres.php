@@ -193,7 +193,7 @@ class mpres {
 					} else {
 						$this->person->insertPersonXML($this->XMLversion);
 						$this->messages .= "LPF XML email found and person(".$this->person->uuid.") inserted.\n";
-						$this->replySuccess($this->person->uuid);
+						$this->replySuccess($this->person->uuid, $this->person->shortName);
 					}
 
 				// this is not a TriagePic or ReUnite email, so we will act that it contains a victim's name/status in the subject line
@@ -201,7 +201,7 @@ class mpres {
 					$this->person->incident_id = $this->incident_id;
 					$this->person->insertPerson();
 					$this->messages .= "Normal email found and person(".$this->person->uuid.") inserted.\n";
-					$this->replySuccess($this->person->uuid);
+					$this->replySuccess($this->person->uuid, $this->person->shortName);
 				}
 
 				// delete the message from the inbox
@@ -240,7 +240,7 @@ class mpres {
 
 
 
-	private function replySuccess($uuid) {
+	private function replySuccess($uuid, $name) {
 		global $global;
 		$p = new pop();
 

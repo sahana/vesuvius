@@ -149,15 +149,14 @@ function shn_main_front_controller() {
 
 	// are we straming anything else?
 	if(isset($_REQUEST['stream'])) {
-		$stream = $_REQUEST['stream'];
+		$stream = "_".$_REQUEST['stream'];
 	} else {
 		$stream = null;
 	}
 
 	// check if the appropriate stream library exists
-	if(array_key_exists('stream', $_REQUEST) && file_exists($global['approot'].'/inc/lib_stream_'.$stream.'.inc')) {
-		require_once($global['approot'].'/inc/lib_stream_'.$stream.'.inc');
-		$stream_ = $stream.'_'; // for convenience
+	if(array_key_exists('stream', $_REQUEST) && file_exists($global['approot'].'/inc/lib_stream'.$stream.'.inc')) {
+		require_once($global['approot'].'/inc/lib_stream'.$stream.'.inc');
 
 	// else revert to the html stream
 	} else {
@@ -165,7 +164,7 @@ function shn_main_front_controller() {
 			add_error(_t('The stream requested is not valid.'));
 		}
 		require_once($global['approot']."/inc/lib_stream_html.inc");
-		$stream_ = null; // the default is html
+		$stream = null;
 	}
 
 	// Redirect the module based on the action performed
@@ -173,28 +172,34 @@ function shn_main_front_controller() {
 	if(preg_match('/^adm/',$action)) {
 		$global['effective_module'] = $module = 'admin';
 		$global['effective_action'] = $action = 'modadmin';
-	} // the orignal module and action is stored in $global
+	}
 
 	// fixes the security vulnerability associated with null characters in the $module string
 	$module = str_replace("\0", "", $module);
+
+
+	// load stream file if exists...
+	$module_stream_file = $global['approot'].'mod/'.$module.'/stream.inc';
+	if(file_exists($module_stream_file)) {
+		include_once($module_stream_file);
+	}
 
 	// identify the correct module file based on action and module
 	$module_file = $global['approot'].'mod/'.$module.'/main.inc';
 
 	// check if module exists (modules main.inc)
 	if(file_exists($module_file)) {
-		include($module_file);
+		include_once($module_file);
 	} else {
 		// default to the home page if the module main does not exist
-		add_error(_t('The requested module is not installed in Sahana'));
+		add_error(_t('The requested module is not installed in Vesuvius'));
 		$module = 'home';
 		$action = 'default';
-		include($global['approot'].'mod/home/main.inc');
+		include_once($global['approot'].'mod/home/main.inc');
 	}
 
-	// identify the name of the module function based on the action,
-	// stream and module
-	$module_function = 'shn_'.$stream_.$module.'_'.$action;
+	// identify the name of the module function based on the action, stream and module
+	$module_function = 'shn'.$stream.'_'.$module.'_'.$action;
 
 	// if function does not exist re-direct
 	if(!function_exists($module_function)) {
@@ -205,7 +210,7 @@ function shn_main_front_controller() {
 		if(!function_exists($module_function)) {
 
 			// display the error on the relevant stream
-			if( null == $stream_ ) {
+			if($stream == null) {
 				add_error(_t('The action requested is not available'));
 				$module_function = 'shn_'.$module.'_default';
 			} else {
@@ -222,7 +227,7 @@ function shn_main_front_controller() {
 	// initialize stream based on selected steam POST value this includes the inclusion of various sections in XHTML including the HTTP header,content header, menubar, login
 	shn_stream_init();
 
-	if($stream_ == null) {
+	if($stream == null) {
 
 		if((($global['action'] == 'signup_cr') || ($global['action'] == 'signup') || ($global['action'] == 'forgotPassword') || ($global['action'] == 'loginForm')) && ($global['module'] = 'pref')) {
 			if(shn_acl_is_signup_enabled()) {
@@ -254,7 +259,7 @@ function shn_main_front_controller() {
 		$res = array_search($module, $allowed_mods, false);
 
 		// hack for messaging module receive function
-		$res = ($stream='text'&$action='receive_message')?true:$res;
+		$res = ($stream='text' & $action = 'receive_message') ? true : $res;
 		if(false !== $res) {
 			if(shn_acl_check_perms($module, $module_function) == ALLOWED) {
 				$module_function();
@@ -265,11 +270,8 @@ function shn_main_front_controller() {
 			add_error(shn_error_get_restricted_access_message());
 		}
 	}
-
 	// close up the stream. In HTML send the footer
 	shn_stream_close();
-
-
 }
 
 
