@@ -1,0 +1,150 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-02 14:12-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../mod/pref/main.inc:515
+msgid "Cancel"
+msgstr ""
+
+#: ../mod/pref/main.inc:516
+msgid "Save"
+msgstr ""
+
+#: ../mod/mpr/main.inc:251
+msgid "Edit Missing Person Entry"
+msgstr ""
+
+#: ../mod/mpr/main.inc:255
+#, php-format
+msgid "Are you sure you want to delete tracker %s from tracker list"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:569
+msgid "Yes"
+msgstr ""
+
+#: ../mod/mpr/edit.inc:570
+msgid "No"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:76
+msgid "General Configuration"
+msgstr ""
+
+#: ../mod/mpr/admin.inc:267
+msgid "Field was successfully deleted."
+msgstr ""
+
+#: ../mod/mpr/admin.inc:299
+msgid " was successfully added."
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:38
+msgid "Setp 1 : "
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:38
+msgid ""
+"First of all please give file and directory permissions to sahana/res folder"
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:39
+msgid "Setp 2 : "
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:39
+msgid ""
+"When you press the 'Enable Localization' button then you enter a "
+"localization mode, afterwards when you right click on any word phrase in the "
+"user interface you'll get a prompt box into which you can type the required "
+"translation and press OK"
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:40
+msgid "Step 3 : "
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:40
+msgid ""
+"When you finish translation, please go to Administration->Language/Locale-"
+">Update Translation"
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:41
+msgid "Step 4 : "
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:41
+msgid "Finally press update button"
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:42
+msgid "Step 5 : "
+msgstr ""
+
+#: ../mod/admin/lc_ui_translate.inc:42
+msgid ""
+"Afterwards go to Administration->Language/Locale->setLocale and set the "
+"particular locale"
+msgstr ""
+
+#: ../mod/admin/lc_add_new_language.inc:45
+msgid ""
+"Cannot write to file, please give file and directory permissions to sahana/"
+"res folder"
+msgstr ""
+
+#: ../mod/admin/main.inc:263
+msgid "User Locking is enabled now."
+msgstr ""
+
+#: ../mod/admin/main.inc:266
+msgid "User Locking is disabled now."
+msgstr ""
+
+#: ../mod/admin/main.inc:376
+msgid "sahana/res folder is not writable!"
+msgstr ""
+
+#: ../mod/admin/acl.inc:395
+#, php-format
+msgid "Configure ACL for "
+msgstr ""
+
+#: ../mod/admin/lc_db.inc:22
+msgid ""
+"There are database fields which require translation, please put table name "
+"and column name in the following fields which require translation. Finally "
+"that table field values are added to sahana.po file and user can translate "
+"those values."
+msgstr ""
+
+#: ../inc/lib_image.inc:595 ../inc/lib_image.inc:650
+msgid "Invalid Image Type Please try again"
+msgstr ""
+
+#: ../inc/lib_location.inc:814
+msgid ""
+"This location name is already in the database. Do you want to add anyway?  "
+"&nbsp&nbsp&nbsp<b><a href='#' onclick='_shn_loc_val_name();'>Add anyway</a></"
+"b> or else you can change the \"Location Name\" textbox and submit the form "
+"again."
+msgstr ""
+
+#: ../inc/lib_misc.inc:186
+msgid "Whitespace is not a valid input."
+msgstr ""
