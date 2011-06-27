@@ -4,16 +4,16 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 2011:0617 Leif
 --------------
 
-ALTER TABLE `contact` DROP INDEX `opt_contact_type`
-ALTER TABLE `contact` DROP PRIMARY KEY
-ALTER TABLE `contact` CHANGE `pgoc_uuid` `p_uuid` VARCHAR(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
-ALTER TABLE `contact` ADD PRIMARY KEY (`p_uuid`, `opt_contact_type`)
-ALTER TABLE `contact` ADD INDEX  (`p_uuid`)
-ALTER TABLE `contact` ADD FOREIGN KEY (`p_uuid`) REFERENCES `pl`.`person_uuid`(`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE
-ALTER TABLE `image` DROP INDEX `image_id`
-ALTER TABLE `image` CHANGE `x_uuid` `p_uuid` VARCHAR(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
-ALTER TABLE `image` ADD UNIQUE  (`p_uuid`)
-ALTER TABLE `image` ADD FOREIGN KEY (`p_uuid`) REFERENCES `pl`.`person_uuid`(`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE
+ALTER TABLE `contact` DROP INDEX `opt_contact_type` ;
+ALTER TABLE `contact` DROP PRIMARY KEY ;
+ALTER TABLE `contact` CHANGE `pgoc_uuid` `p_uuid` VARCHAR(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+ALTER TABLE `contact` ADD PRIMARY KEY (`p_uuid`, `opt_contact_type`) ;
+ALTER TABLE `contact` ADD INDEX  (`p_uuid`) ;
+ALTER TABLE `contact` ADD FOREIGN KEY (`p_uuid`) REFERENCES `pl`.`person_uuid`(`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE ;
+ALTER TABLE `image` DROP INDEX `image_id` ;
+ALTER TABLE `image` CHANGE `x_uuid` `p_uuid` VARCHAR(128) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+ALTER TABLE `image` ADD UNIQUE  (`p_uuid`) ;
+ALTER TABLE `image` ADD FOREIGN KEY (`p_uuid`) REFERENCES `pl`.`person_uuid`(`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE ;
 
 Replace delete_reported_person() procedure with:
 
