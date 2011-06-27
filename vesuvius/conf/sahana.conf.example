@@ -32,9 +32,6 @@ $conf['enable_monitor_sql'] = false;
 # Default locale
 $conf['locale'] = "en_US";
 
-# Whether to enable multiple language support
-$conf['enable_locale'] = false;
-
 // The Default Module/Action performed when a user first visits the site (w/o an event)
 $conf['default_module'] = 'home';
 $conf['default_action'] = 'default';
@@ -52,6 +49,9 @@ $conf['pwd_has_numbers']     = true;
 $conf['pwd_has_spchars']     = false;
 $conf['pwd_has_username']    = true;
 $conf['pwd_no_change_limit'] = true;
+
+# Whether to enable multiple language support
+$conf['enable_locale'] = false;
 
 # Turn on Web Services via PLUS module?
 $conf['enable_plus_web_services'] = true;

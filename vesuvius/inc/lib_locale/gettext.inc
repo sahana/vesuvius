@@ -57,6 +57,8 @@ function _get_reader($domain=null, $category=5, $enable_cache=true) {
 		// get the current locale
 		$locale = _setlocale(LC_MESSAGES, 0);
 		$p = isset($text_domains[$domain]->path) ? $text_domains[$domain]->path : './';
+		//echo 'Test Domain = '.$text_domains[$domain]->path.'|||||';
+		//$p = '/home/prabath/public_html/sahana-cvs/inc/lib_locale/locale/';
 		$path = $p . "$locale/". $LC_CATEGORIES[$category] ."/$domain.mo";
 		if (file_exists($path)) {
 			$input = new FileReader($path);
