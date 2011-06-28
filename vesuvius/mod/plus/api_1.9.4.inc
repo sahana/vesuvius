@@ -272,6 +272,81 @@ function shn_plus_registerAll($namespace) {
 	// SEARCH API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 	// SEARCH API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
+	shn_plus_registerOne($server, 'search',
+		array(
+			'in' => array(
+				'eventShortname'       => 'xsd:string',
+				'searchTerm'           => 'xsd:string',
+				'filterStatusMissing'  => 'xsd:boolean',
+				'filterStatusAlive'    => 'xsd:boolean',
+				'filterStatusInjured'  => 'xsd:boolean',
+				'filterStatusDeceased' => 'xsd:boolean',
+				'filterStatusUnknown'  => 'xsd:boolean',
+				'filterStatusFound'    => 'xsd:boolean',
+				'filterGenderComplex'  => 'xsd:boolean',
+				'filterGenderMale'     => 'xsd:boolean',
+				'filterGenderFemale'   => 'xsd:boolean',
+				'filterGenderUnknown'  => 'xsd:boolean',
+				'filterAgeChild'       => 'xsd:boolean',
+				'filterAgeAdult'       => 'xsd:boolean',
+				'filterAgeUnknown'     => 'xsd:boolean',
+				'filterHospitalSH'     => 'xsd:boolean',
+				'filterHospitalNNMCC'  => 'xsd:boolean',
+				'filterHospitalOther'  => 'xsd:boolean',
+				'pageStart'            => 'xsd:integer',
+				'perPage'              => 'xsd:integer',
+				'sortBy'               => 'xsd:string',
+				'mode'                 => 'xsd:boolean'
+			),
+			'out' => array(
+				'resultSet'    => 'xsd:string',
+				'recordsFound' => 'xsd:integer',
+				'errorCode'    => 'xsd:integer',
+				'errorMessage' => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Performs a search across a specific event with filters, paging, and sort options."
+	);
+
+	shn_plus_registerOne($server, 'searchWithAuth',
+		array(
+			'in' => array(
+				'eventShortname'       => 'xsd:string',
+				'searchTerm'           => 'xsd:string',
+				'filterStatusMissing'  => 'xsd:boolean',
+				'filterStatusAlive'    => 'xsd:boolean',
+				'filterStatusInjured'  => 'xsd:boolean',
+				'filterStatusDeceased' => 'xsd:boolean',
+				'filterStatusUnknown'  => 'xsd:boolean',
+				'filterStatusFound'    => 'xsd:boolean',
+				'filterGenderComplex'  => 'xsd:boolean',
+				'filterGenderMale'     => 'xsd:boolean',
+				'filterGenderFemale'   => 'xsd:boolean',
+				'filterGenderUnknown'  => 'xsd:boolean',
+				'filterAgeChild'       => 'xsd:boolean',
+				'filterAgeAdult'       => 'xsd:boolean',
+				'filterAgeUnknown'     => 'xsd:boolean',
+				'filterHospitalSH'     => 'xsd:boolean',
+				'filterHospitalNNMCC'  => 'xsd:boolean',
+				'filterHospitalOther'  => 'xsd:boolean',
+				'pageStart'            => 'xsd:integer',
+				'perPage'              => 'xsd:integer',
+				'sortBy'               => 'xsd:string',
+				'mode'                 => 'xsd:boolean',
+				'username'             => 'xsd:string',
+				'password'             => 'xsd:string'
+			),
+			'out' => array(
+				'resultSet'    => 'xsd:string',
+				'recordsFound' => 'xsd:integer',
+				'errorCode'    => 'xsd:integer',
+				'errorMessage' => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Performs a search across a specific event with filters, paging, and sort options with authentication."
+	);
 
 	// REPORTING API DECLARATIONS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 	// REPORTING API DECLARATIONS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
@@ -969,6 +1044,95 @@ function getSessionTimeout() {
 // SEARCH API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // SEARCH API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // SEARCH API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+
+/*
+'out' => array(
+	'resultSet'    => 'xsd:string',
+	'recordsFound' => 'xsd:integer',
+	'errorCode'    => 'xsd:integer',
+	'errorMessage' => 'xsd:string'
+)
+*/
+
+// performs a search across a specific event with filters, paging, and sort options
+function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatusAlive, $filterStatusInjured, $filterStatusDeceased, $filterStatusUnknown, $filterStatusFound, $filterGenderComplex, $filterGenderMale, $filterGenderFemale, $filterGenderUnknown, $filterAgeChild, $filterAgeAdult, $filterAgeUnknown, $filterHospitalSH, $filterHospitalNNMCC, $filterHospitalOther, $pageStart, $perPage, $sortBy, $mode) {
+
+	shn_plus_logAccess("search");
+	global $global;
+	global $conf;
+	$error = false;
+
+	if($conf['enable_solr_for_search'] == true) {
+		$mode = "solr";
+	} else {
+		$mode = "sql";
+	}
+
+$ = ($) ? 'true' : 'false';
+
+$filterStatusMissing, $filterStatusAlive, $filterStatusInjured, $filterStatusDeceased, $filterStatusUnknown, $filterStatusFound, $filterGenderComplex, $filterGenderMale, $filterGenderFemale, $filterGenderUnknown, $filterAgeChild, $filterAgeAdult, $filterAgeUnknown, $filterHospitalSH, $filterHospitalNNMCC, $filterHospitalOther, $pageStart, $perPage, $sortBy, $mode
+
+	$sStatus
+	$sGender
+	$sAge
+	$sHospital
+	$sPageControls
+
+	require_once($global['approot']."/mod/inw/SearchDB.php");
+	$timeElsapsed = 0;
+	$search = new SearchDB($mode, $eventShortname, $searchTerm, $sStatus, $sGender, $sAge, $sHospital, $sPageControls);
+	$timeStart = microtime(true);
+	$search->executeSearch();
+	$timeElapsed = microtime(true) - $timeStart;
+	
+	
+	if ( count($search->results) > 0 ) {
+		$global["xajax_res"]->addScript("Globals.resultSet = " . json_encode($search->results));
+		//$global["xajax_res"]->addAssign("jsonHolder", "value", json_encode($search->results));  
+		$global["xajax_res"]->addAssign("SOLRFacets", "value", json_encode($search->SOLRfacetResults));  
+		$global["xajax_res"]->addAssign("recordsFound", "innerHTML", $search->numRowsFound);
+		$global["xajax_res"]->addAssign("totalRecordsSQL", "innerHTML", $search->allCount);
+		$global["xajax_res"]->addAssign("totalRecordsSOLR", "innerHTML", $search->allCount);
+		$global["xajax_res"]->addAssign("timeElapsedSQL", "innerHTML", substr($timeElapsed, 0, 5));
+		$global["xajax_res"]->addAssign("timeElapsedSOLR", "innerHTML", substr($timeElapsed, 0, 5));
+		if ( $mode == "solr" )
+			$global["xajax_res"]->addScript("Globals.timeElapsed = " . $timeElapsed . "; Globals.totalResults = " . $search->numRowsFound . "; Globals.totalRecords = " . $search->allCount . "; handleUuidListResponse();");
+		else 
+			$global["xajax_res"]->addScript("Globals.timeElapsed = " . $timeElapsed . "; handleUuidListResponse();");
+	}
+	else {
+		$global["xajax_res"]->addAssign("jsonHolder", "value", "");
+		$global["xajax_res"]->addAssign("SOLRFacets", "value", json_encode($search->SOLRfacetResults));  
+		//$global["xajax_res"]->addScript("recordsFound", "innerHTML", "0");  //ugh... i hate xajax...
+		$global["xajax_res"]->addScript("Globals.totalResults = 0; $('#recordsFound').html('0');");
+		$global["xajax_res"]->addAssign("totalRecordsSQL", "innerHTML", $search->allCount);
+		$global["xajax_res"]->addAssign("totalRecordsSOLR", "innerHTML", $search->allCount);
+		if ( $mode == "solr" )
+			$global["xajax_res"]->addScript("Globals.totalRecords = " . $search->allCount . ";");
+		$global["xajax_res"]->addScript("$('#scrollingContent').html('');showFacets();$('#pager').hide();$('#perPageWrapper').hide()");
+		$global["xajax_res"]->addAssign("scrolling_content", "innerHTML", "<br /><span style='color:red'>No matches for '" . $searchTerm . "'. Please broaden your search criteria and try again.</span>");
+		//$global["xajax_res"]->addAssign("scrolling_content", "innerHTML", $searchTerm);
+	}
+	return $global["xajax_res"]->getXML();
+
+
+
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'timeout'      => null,
+			'errorCode'    => (int)200,
+			'errorMessage' => (string)$eCodes[200]
+		);
+	} else {
+		return array(
+			'timeout'      => (int)$timeout,
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	}
+}
+
 
 
 
