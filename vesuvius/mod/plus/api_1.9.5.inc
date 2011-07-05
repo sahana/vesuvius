@@ -1,7 +1,7 @@
 <?
 /**
  * @name         PL User Services
- * @version      1.9.4
+ * @version      1.9.5
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
@@ -11,7 +11,7 @@
  */
 
 global $api_version;
-$api_version = "1.9.4";
+$api_version = "1.9.5";
 
 // This function is called by the Document/Literal SOAP server upon initalization to register all the api services from this module's api.
 function shn_plus_registerAll($namespace) {
@@ -353,6 +353,41 @@ function shn_plus_registerAll($namespace) {
 	// REPORTING API DECLARATIONS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 	// REPORTING API DECLARATIONS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
+	shn_plus_registerOne($server, 'reportPesonViaLegacyTriagePic',
+		array(
+			'in' => array(
+				'personXML'    => 'xsd:string',
+				'username'     => 'xsd:string',
+				'password'     => 'xsd:string'
+			),
+			'out' => array(
+				'success '     => 'xsd:boolean',
+				'url'          => 'xsd:string',
+				'errorCode'    => 'xsd:integer',
+				'errorMessage' => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Report a new person using the LPF v1.3 XML format."
+	);
+
+	shn_plus_registerOne($server, 'reportPesonViaLPFXML',
+		array(
+			'in' => array(
+				'personXML'    => 'xsd:string',
+				'username'     => 'xsd:string',
+				'password'     => 'xsd:string'
+			),
+			'out' => array(
+				'success '     => 'xsd:boolean',
+				'url'          => 'xsd:string',
+				'errorCode'    => 'xsd:integer',
+				'errorMessage' => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Report a new person using the LPF v1.4+ XML format."
+	);
 }
 
 

@@ -89,6 +89,10 @@ class SearchDB
 		$this->searchMode = $searchMode;
 		
 		if ( $searchMode == "sql" ) {
+			// make sql mode sort by updated as default.
+			if ( $this->sortBy == "" )
+				$this->sortBy = "updated desc";
+
 			$this->sortBy = str_replace("+", " ", $this->sortBy);
 			$this->buildFromClause();
 			$this->buildWhereClause();
@@ -119,7 +123,7 @@ class SearchDB
 		$this->pageStart = $tempArray[0];
 		$this->perPage   = $tempArray[1];
 		$this->sortBy    = $tempArray[2];
-		$this->mode      = $tempArray[3];
+		$this->mode      = $tempArray[3];  // true = handsfree
 	}
 	
 	private function setGenderFilters($sGender) {
@@ -162,18 +166,16 @@ class SearchDB
 		$this->statusString = "";
 		if ($this->missing == "true")
 			$this->statusString .= "mis;";
-		
 		if ($this->alive == "true") 
 			$this->statusString .= "ali;";
-		
 		if ($this->injured == "true") 
 			$this->statusString .= "inj;";
-		
 		if ($this->deceased == "true")
 			$this->statusString .= "dec;";
-		
 		if ($this->unknown == "true") 
 			$this->statusString .= "unk;";	
+		if ($this->found == "true") 
+			$this->statusString .= "fnd;";			
 
         $this->genderString = "";
 		if ($this->male == "true")
@@ -242,16 +244,16 @@ class SearchDB
 		
 		//echo $proc;
 		$mysqli = new mysqli( $conf["db_host"], $conf["db_user"], $conf["db_pass"], $conf["db_name"], $conf["db_port"] ); 
-		if ( $this->mode != "true" ) {
+
+		if ( $this->mode != "true" || $this->perPage == "-1") {
 			$this->pageStart = 0;
 			$this->perPage = 2000;
 		}
 		
 		$proc = "CALL PLSearch('$this->searchTerm', '$this->statusString', '$this->genderString', '$this->ageString', '$this->hospitalString', '$this->incident', '$this->sortBy', $this->pageStart, $this->perPage)";
-		echo $proc;
+		//echo $proc;
 		$res = $mysqli->multi_query( "$proc; SELECT @allCount;" ); 
 
-		//print_r($res);
 		if( $res ) {
 			$results = 0;
 			$c = 0;
@@ -299,7 +301,7 @@ class SearchDB
 			mysql_free_result($result);
 			break;
 		}
-		echo $this->allCount;
+		//echo $this->allCount;
 	}
 
 	public function getLastUpdate() {
@@ -559,12 +561,13 @@ class SearchDB
 
 // testing
 //   $search = new SearchDB("sql", "sendai2011", "Mike", "true;true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "0;25;last_updated;true");
-//   $search->executeSearch();
+//  $search->executeSearch();
+//   echo "<br />";
 //   echo count($search->results);
   
-    //$search2 = new SearchDB("sql", "sendai2011", "Mike", "true;true;true;true;true;true", "true;true;true", "true;true;true", "true;true;true", "25;25;updated desc;true");
-    //$search2->executeSearch();
-  // echo count($search2->results);
+ //  $search2 = new SearchDB("solr", "sendai2011", "Mi*");
+ //   $search2->executeSearch();
+ //  echo count($search2->results);
  // $search->getLastUpdateSOLR();
 	
 // echo json_encode($search->results);

@@ -1,6 +1,10 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
+2011:0701 Merwan
+----------------
+SOLR config moved to sahana source tree!
+
 2011:0615 Greg
 --------------
 image.x_uuid renamed to image.p_uuid in database ~ codebase updated to reflect this change
