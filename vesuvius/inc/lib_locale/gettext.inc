@@ -57,8 +57,6 @@ function _get_reader($domain=null, $category=5, $enable_cache=true) {
 		// get the current locale
 		$locale = _setlocale(LC_MESSAGES, 0);
 		$p = isset($text_domains[$domain]->path) ? $text_domains[$domain]->path : './';
-		//echo 'Test Domain = '.$text_domains[$domain]->path.'|||||';
-		//$p = '/home/prabath/public_html/sahana-cvs/inc/lib_locale/locale/';
 		$path = $p . "$locale/". $LC_CATEGORIES[$category] ."/$domain.mo";
 		if (file_exists($path)) {
 			$input = new FileReader($path);
@@ -185,10 +183,17 @@ function _gettext($msgid) {
 	return _encode($l10n->translate($msgid));
 }
 /**
+ * Function to handle contexts
+ */
+function _pgettext($msgid) {
+	list($context,$msgid) = split("|", $msgid, 2);
+	_gettext($context."\004".$msgid);
+}
+/**
  * Alias for gettext.
  */
 function __($msgid) {
-	return _gettext($msgid);
+	return _pgettext($msgid);
 }
 /**
  * Plural version of gettext.
