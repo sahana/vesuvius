@@ -25,7 +25,6 @@ require("../../inc/lib_image.inc");
 
 require("pfif.inc");
 require_once $global['approot'] . 'mod/mpr/pfif_util.inc.php';
-require_once $global['approot'] . 'mod/mpr/pfifconf.inc.php';
 require_once $global['approot'] . 'mod/mpr/pfif_repository.inc';
 require_once $global['approot'] . 'mod/mpr/pfif_croninit.inc';
 
@@ -73,7 +72,7 @@ foreach ($export_queue as $service_name => $service) {
    $req_params = $repos->get_request_params();
    $min_entry_date = $req_params['min_entry_date'];
    $skip = $req_params['skip'];
-   $pfif_uri = $service_uri . '&key=' . $service['auth_key'];
+   $pfif_uri = $service_uri . '&key=' . $service['key'];
    $p = new Pfif();
    $p->setPfifConf($pfif_conf, $service_name);
    //print_r($pfif_conf);
@@ -100,8 +99,8 @@ foreach ($export_queue as $service_name => $service) {
       print "Logged $written of $charstowrite characters to crontest.xml\n";
    
       //$post_status = $p->postDbToService('LPFp-46833',$service_name); // TESTING
-      //$post_status = "TESTING: record(s) not uploaded";
-      $post_status = $p->postToService('xml',$xml,$service_name);
+      $post_status = "TESTING: record(s) not uploaded";
+      //$post_status = $p->postToService('xml',$xml,$service_name);
       // TODO: Adjust count depending on post_status.
       $_SESSION['pfif_info']['pfif_person_count'] = $loaded;
       update_harvest_log($repos, $req_params, 'completed');

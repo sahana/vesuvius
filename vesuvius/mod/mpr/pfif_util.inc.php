@@ -17,18 +17,10 @@ require_once('webimage.inc');
 
 define("PFIF_NS_PREFIX","pfif");
 define("PFIF_1_2_NAMESPACE","http://zesty.ca/pfif/1.2");
+define("PFIF_1_3_NAMESPACE","http://zesty.ca/pfif/1.3");
 define("PFIF_V_1_1" , "1.1");
 define("PFIF_V_1_2" , "1.2");
-
-define("PFIF_1_2_OPEN_TAG", '<pfif1.2>');
-define("PFIF_1_2_CLOSE_TAG" , "</pfif1.2>");
-define("PFIF_1_2_AGE" , "age");
-define("PFIF_1_2_DOB" , "date_of_birth");
-define("PFIF_1_2_SEX" , "sex");
-define("PFIF_1_2_VER" , "ver");
-define ("PFIF_1_2_PID" , "person");
-define ("PFIF_1_2_LPID" , "duplicates");
-define ("PFIF_1_2_STS" , "status");
+define("PFIF_V_1_3" , "1.3");
 
 define("PFIF_NOTE_CONTAINER_ID" , "pl.nlm.nih.gov/note.container");
 define ("MISSING_NODE_TAGNAME", "empty_child");
@@ -233,16 +225,15 @@ function shn_map_status_from_pfif($status, $found, $old_status) {
 }
 
 /**
- * Maps gender, if given, to PFIF sex  element.
+ * Maps gender, if given, to PFIF sex element.
  *
  * @param personRecord  resultset from db for person of interest
  * @param person        Person instance containing original imported PFIF person record.
  *
  */
 function shn_map_gender_to_pfif($personRecord, $source_person) {
-    $gender_map = array('unk'=>'', 'mal'=>'male', 'fml'=>'female'); // PFIF 1.2 defines an 'oth)er' category, but it is not  clear what that means.
-                                                                    // The spec states that if gender is unknown it should be omitted.
-    // TODO: factor in PFIF record
+    $gender_map = array('mal'=>'male', 'fml'=>'female', 'cpx'=>'other'); // PFIF defines an 'oth)er' category, but it is not clear what that means.
+                                                                         // The spec states that if gender is unknown it should be omitted.
     $g = '';
     if (!empty($personRecord['opt_gender'])) {
        $g = $gender_map[$personRecord['opt_gender']];
@@ -252,8 +243,8 @@ function shn_map_gender_to_pfif($personRecord, $source_person) {
 }
 
 function shn_map_gender_from_pfif($pfif_sex) {
-    $gender_map = array('male'=>'mal','female'=>'fml','other'=>'unk'); //// PFIF 1.2 defines an 'oth)er' category, but it is not clear what that means, so we map to unkown, which means indeterminate or otherwise unreportable as male or female. The spec states that if gender is unknown it should be omitted.
-
+    $gender_map = array('male'=>'mal','female'=>'fml','other'=>'cpx'); // PFIF defines an 'oth)er' category, but it is not clear what that means. 
+                                                                       // It does not mean unknown, however. So we map it to complex.
     return $gender_map[$pfif_sex];
 }
 

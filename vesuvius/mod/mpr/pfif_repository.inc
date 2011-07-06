@@ -12,7 +12,7 @@
  */
 
 
-require_once("../../inc/handler_db.inc");
+require_once($global['approot'].'inc/handler_db.inc');
 require_once("pfif_harvest_person_log.inc");
 require_once("pfif_harvest_note_log.inc");
 require_once("pfif_export_log.inc");
@@ -20,6 +20,7 @@ require_once("pfif_util.inc.php");
 class Pfif_Repository {
     public $id;
     public $name;
+    public $incident_id;
     public $base_url;
     public $resource_type;
     public $role;

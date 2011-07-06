@@ -1,7 +1,7 @@
 <?php
 // TODO: Need to add validate() method to be called by save() and update()
 
-require_once("../../inc/handler_db.inc");
+require_once($global['approot'].'inc/handler_db.inc');
 define("LOG_DATE_FORMAT","Y-m-d H:i:s");
 abstract class Pfif_Log {
     public $log_index = null;
@@ -81,7 +81,8 @@ abstract class Pfif_Log {
             } else if (empty($this->last_entry)) {
                 // No new items so repeat old log entries.
                 //print " updating log with previous entries\n";
-                $this->last_entry = $req_params['min_entry_date'];
+                // Convert back to local time.
+                $this->last_entry = local_date($req_params['min_entry_date']);
                 $this->last_count = $req_params['skip'];
             }
             $this->update_counts($log_info);

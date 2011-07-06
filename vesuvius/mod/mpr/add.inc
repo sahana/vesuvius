@@ -658,7 +658,7 @@ function shn_mpr_addmp_confirm() {
 
 
 /**
- * This function commits the given Missing person's data to the databsae.
+ * This function commits the given Missing person's data to the database.
  * @access public
  * @return void
  */
@@ -683,6 +683,9 @@ function shn_mpr_addperson_commit() {
 	$insert_array['p_uuid'] = $_SESSION['mpr_add']['entry']['p_uuid'];
 	if(isset($_SESSION['mpr_add']['entry']['incident_id'])){
 		$insert_array['incident_id'] = $_SESSION['mpr_add']['entry']['incident_id'];
+	}
+	if(isset($_SESSION['mpr_add']['entry']['expiry_date'])){
+		$insert_array['expiry_date'] = $_SESSION['mpr_add']['entry']['expiry_date'];
 	}
 	if(isset($_SESSION['mpr_add']['entry']['full_name'])){
 		$insert_array['full_name'] = $_SESSION['mpr_add']['entry']['full_name'];
@@ -750,7 +753,8 @@ function shn_mpr_addperson_commit() {
 
 	if(isset($_SESSION['mpr_add']['entry']['zip'])) {
 		$insert_array['postcode'] = $_SESSION['mpr_add']['entry']['zip'];
-	        shn_db_insert($insert_array,'location_details', $audit_flag, 'poc_uuid');
+                // ljn - Is this being used?
+	        //shn_db_insert($insert_array,'location_details', $audit_flag, 'poc_uuid');
 	}
 	$insert_array = null; // reset array
 
@@ -909,10 +913,11 @@ function shn_mpr_addmp_insert_reporter($p_uuid) {
 
 	//Person uuid table
 	$insert_array['p_uuid'] = $rep_uuid;
+	if(isset($_SESSION['mpr_add']['report_person']['incident_id'])){
+		$insert_array['incident_id'] = $_SESSION['mpr_add']['report_person']['incident_id'];
+	}
 	if(isset($_SESSION['mpr_add']['report_person']['rep_full_name'])){
 		$insert_array['full_name'] = $_SESSION['mpr_add']['report_person']['rep_full_name'];
-		// Insert into Phonetic words
-		//shn_db_insert_phonetic($_SESSION['mpr_add']['report_person']['rep_full_name'],$insert_array['p_uuid']);
 	}
 	shn_db_insert($insert_array, 'person_uuid', $audit_flag, 'p_uuid');
 	$insert_array = null; // reset array
