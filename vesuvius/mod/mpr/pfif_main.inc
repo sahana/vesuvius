@@ -13,7 +13,6 @@
 
 
 // TODO: chc 3/8/2010 : may need additional imports when made into a separate module.
-include_once $global['approot'] . 'mod/mpr/pfifconf.inc.php';
 
 /**
  * Manage PFIF Import sessions
@@ -164,13 +163,13 @@ function shn_mpr_export(){
 }
 // The next two functions should be moved to API.inc in order for them to be publicly discoverable
 /**
- * Export from Sahana to PFIF XLM document.
+ * Export from Sahana to PFIF XML document.
  *
  */
 function shn_xml_mpr_pfif_export(){
 	//status could be 'missing' , 'injured' , 'deceased' , 'alive','unknown' (TODO: add 'found = fou')
 	$status = $_GET['status'];
-	$version = isset($_GET['ver']) ? $_GET['ver'] : '1.2';
+	$version = isset($_GET['ver']) ? $_GET['ver'] : '1.3';
 	$since = isset($_GET['since']) ? $_GET['since'] : null;
 
 	include_once 'pfif.inc';

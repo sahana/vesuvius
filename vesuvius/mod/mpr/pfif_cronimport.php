@@ -28,7 +28,6 @@ require_once("../../inc/lib_image.inc");
 require_once("../../inc/lib_locale/gettext.inc");
 require_once("pfif.inc");
 require_once $global['approot'] . 'mod/mpr/pfif_util.inc.php';
-require_once $global['approot'] . 'mod/mpr/pfifconf.inc.php'; // TODO: Replace this with pfif_repository
 require_once $global['approot'] . 'mod/mpr/pfif_repository.inc';
 require_once $global['approot'] . 'mod/mpr/pfif_croninit.inc';
 require_once $global['approot'] . 'mod/mpr/conf.inc';
@@ -93,7 +92,7 @@ $sched_time = time();
 $import_repos = array();
 foreach ($repositories as $r) {
    if ($r->is_ready_for_harvest($sched_time)) {
-      add_pfif_service($r);             // initializes pfif_conf
+      add_pfif_service($r);             // initializes pfif_conf global
       $import_repos[$r->id] = $r;
       //var_dump("importing from repository",$r);
    }
@@ -106,18 +105,16 @@ $import_queue = $pfif_conf['services'];
 
 foreach ($import_queue as $service_name => $service) {
    $repos = $import_repos[$pfif_conf['map'][$service_name]];
-   $incident_conf = $pfif_conf['service_to_incident'][$service_name];
-   $pfif_conf['disaster_id'] = $incident_conf['disaster_id'];
-   //var_dump("repository", $repos, "conf", $incident_conf);
+   //var_dump("repository", $repos);
 
    $service_uri = $service['feed_url'];
    $req_params = $repos->get_request_params();
    $pfif_uri = $service_uri .
            '?min_entry_date=' . $req_params['min_entry_date'] .
            '&max_results=' . $service['max_results'] .
-           '&key=' . $service['auth_key'] .
+           '&key=' . $service['key'] .
            '&skip=' . $req_params['skip'] .
-           '&version=1.2';
+           '&version=' . $service['version'];
    $p = new Pfif();
    $p->setPfifConf($pfif_conf, $service_name);
    //print_r($pfif_conf);
@@ -129,18 +126,17 @@ foreach ($import_queue as $service_name => $service) {
       } else {
          $loaded = $p->loadNotesFromXML($pfif_uri);
       }
-      if ($loaded) {
-         // TODO: Keep this?
-         //shn_db_use($incident_conf['db_name'], $incident_conf['db_host']);
+      if ($loaded > 0) {
          if ($is_scheduled) { // Output to database for production
             if ($is_person) {
-               $loaded = $p->storePersonsInDatabase();
+               $stored = $p->storePersonsInDatabase();
             } else {
-               $loaded = $p->storeNotesInDatabase();
+               $stored = $p->storeNotesInDatabase();
             }
-            print "Import " . ($loaded ? "stored" : "store failed") . "\n";
-         } else { // Output to file for test/debug
-            $xml = $p->storeInXML();
+            print "Import " . ($stored ? "stored" : "store failed") . "\n";
+         } else { 
+            // Output to file for test/debug. (This leverages export functionality.)
+            $xml = $p->storeInXML(false); // false=debug
             //print $xml;
             $logfile_name = 'crontest_' . $service_name . '.xml';
             $fh = fopen($logfile_name, 'a+');
@@ -149,9 +145,14 @@ foreach ($import_queue as $service_name => $service) {
             fclose($fh);
             print "wrote $written of $charstowrite characters to $logfile_name\n";
          }
+         // Note: For tests, only last_entry_date is saved. (No skip, etc.)
          update_harvest_log($repos, $req_params, 'completed');
       } else {
-         print "Import failed from repository $service_name\n";
+         if ($loaded == -1) {
+            print "Import failed from repository $service_name\n";
+         } else {
+            print "0 records for import from repository $service_name\n";
+         }
          update_harvest_log($repos, $req_params, 'error');
       }
       unset($p);

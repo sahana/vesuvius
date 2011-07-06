@@ -37,7 +37,7 @@ class Pfif_Person {
 	public $sex;
 	public $date_of_birth;
 	public $age;
-	public $other;
+	public $other;	
 }
 
 class Pfif_Note {
@@ -54,7 +54,7 @@ class Pfif_Note {
 	public $email_of_found_person;
 	public $phone_of_found_person;
 	public $last_known_location;
-	public $text;
+	public $text;	
 }
 
 class Pfif {
@@ -72,7 +72,7 @@ class Pfif {
    public function setPfifConf($config_array, $service_name) {
       $this->pfif_conf = $config_array;
       $this->setSourceReposId($config_array['map'][$service_name]);
-      $incident_id = $config_array['service_to_incident'][$service_name]['incident_id'];
+      $incident_id = $config_array['service_to_incident'][$service_name];
       if (!empty($incident_id)) {
          $_SESSION['user_pref_ims_incident_id'] = $incident_id;
       }
@@ -121,7 +121,7 @@ class Pfif {
       } else {
          // Return notes for this person_record_id.
          $notes = array();
-         foreach($this->noteArray as $note) {
+         foreach($this->noteArray as $note) { 
             if ($note->person_record_id == $person_record_id) {
                $notes[] = $note;
             }
@@ -134,7 +134,7 @@ class Pfif {
       if (!empty($value)) {
          //$child = $this->dom_pfif->createElement($property, $value);
          $child = $this->dom_pfif->createElement($property);
-         // FIXME: createTextNode escapes the text; use alternate approach above if
+         // FIXME: createTextNode escapes the text; use alternate approach above if 
          // this is not what we want.
          $text = $this->dom_pfif->createTextNode($value);
          $child->appendChild($text);
@@ -186,8 +186,9 @@ class Pfif {
 
    /**
     *  Returns a PFIF-compliant XML document containing person and note records in this PFIF instance.
+    *  Used primarily for export, but also used for debugging import.
     */
-   public function storeInXML() {
+   public function storeInXML($export=true) {
       global $first_entry_date, $last_entry_date, $last_entry_count;
 
       $this->check_init();
@@ -200,72 +201,103 @@ class Pfif {
       $dom_pfif->setAttribute('xsi:schemaLocation', "$ns $ns/pfif-1.3.xsd");
       $this->dom_pfif->appendChild($dom_pfif);
 
-      $pfif_persons = $this->getPersons();
-      $this->reset_log_dates($pfif_persons[0]->entry_date);
-      foreach ($pfif_persons as $person) {
-         // Update last_entry_count
-         $this->update_log_dates($person->entry_date);
-         $personElement = $this->dom_pfif->createElement('pfif:person');
-         $this->createXmlElement($personElement, 'pfif:person_record_id', $person->person_record_id);
-         $this->createXmlElement($personElement, 'pfif:entry_date', utc_date($person->entry_date));
-         $this->createXmlElement($personElement, 'pfif:expiry_date', utc_date($person->expiry_date));
-         // FIXME: if empty, see if name can be parsed from author_email (or should this be done in loadFrom DB?) : chc 2/25/2010
-         $this->createXmlElement($personElement, 'pfif:author_name', $person->author_name);
-         // TODO: Condition output of email and phone on author's consent.
-         // $this->createXmlElement($personElement, 'pfif:author_email' , $person->author_email);
-         // $this->createXmlElement($personElement, 'pfif:author_phone' , $person->author_phone);
-         $this->createXmlElement($personElement, 'pfif:source_name', $person->source_name);
-         $this->createXmlElement($personElement, 'pfif:source_date', utc_date($person->source_date));
-         $this->createXmlElement($personElement, 'pfif:source_url', $person->source_url);
-         $this->createXmlElement($personElement, 'pfif:full_name', $person->full_name);
-         $this->createXmlElement($personElement, 'pfif:first_name', $person->first_name);
-         $this->createXmlElement($personElement, 'pfif:last_name', $person->last_name);
-         $this->createXmlElement($personElement, 'pfif:sex', $person->sex);
-         $this->createXmlElement($personElement, 'pfif:age', $person->age);
-         $this->createXmlElement($personElement, 'pfif:date_of_birth', $person->date_of_birth);
-         $this->createXmlElement($personElement, 'pfif:home_street', $person->home_street);
-         $this->createXmlElement($personElement, 'pfif:home_neighborhood', $person->home_neighborhood);
-         $this->createXmlElement($personElement, 'pfif:home_city', $person->home_city);
-         $this->createXmlElement($personElement, 'pfif:home_state', $person->home_state);
-         $this->createXmlElement($personElement, 'pfif:home_country', $person->home_country);
-         $this->createXmlElement($personElement, 'pfif:home_postal_code', $person->home_postal_code);
-         $this->createXmlElement($personElement, 'pfif:photo_url', $person->photo_url);
-         $this->createXmlElement($personElement, 'pfif:other', $person->other);
-
-         // Embed all notes associated with this person.
-         $pfif_notes = $this->getNotes($person->person_record_id);
-         foreach ($pfif_notes as $note) {
-            $noteElement = $this->dom_pfif->createElement('pfif:note');
-            $this->createXmlElement($noteElement, 'pfif:note_record_id', $note->note_record_id);
-            $this->createXmlElement($noteElement, 'pfif:person_record_id', $note->person_record_id);
-            $this->createXmlElement($noteElement, 'pfif:linked_person_record_id', $note->linked_person_record_id);
-            $this->createXmlElement($noteElement, 'pfif:entry_date', utc_date($note->entry_date));
-            $this->createXmlElement($noteElement, 'pfif:author_name', $note->author_name);
-            // A policy decision is required in order to allow these to be emitted without the author's consent,
-            // or a software/db mechanism is needed to allow the author to provide consent.
-            // $this->createXmlElement($noteElement, 'pfif:author_email' , $note->author_email);
-            // $this->createXmlElement($noteElement, 'pfif:author_phone' , $note->author_phone);
-            $this->createXmlElement($noteElement, 'pfif:source_date', utc_date($note->source_date));
-            $this->createXmlElement($noteElement, 'pfif:found', $note->found);
-            $this->createXmlElement($noteElement, 'pfif:status', $note->status);
-            $this->createXmlElement($noteElement, 'pfif:last_known_location', $note->last_known_location);
-            // These should only be emitted to trusted parties.
-            // $this->createXmlElement($noteElement, 'pfif:email_of_found_person' , $note->email_of_found_person);
-            // $this->createXmlElement($noteElement, 'pfif:phone_of_found_person' , $note->phone_of_found_person);
-            $this->createXmlElement($noteElement, 'pfif:text', $note->text);
-            $personElement->appendChild($noteElement);
-
+      if ($export) {
+         // Serialize persons and embed notes.
+         $pfif_persons = $this->getPersons();
+         $this->reset_log_dates($pfif_persons[0]->entry_date);
+         foreach ($pfif_persons as $person) {
+            $personElement = $this->createPersonElement($person);
+            // Embed all notes associated with this person.
+            $pfif_notes = $this->getNotes($person->person_record_id);
+            foreach ($pfif_notes as $note) {
+               $noteElement = $this->createNoteElement($note);
+               $personElement->appendChild($noteElement);
+            }
+            $this->dom_pfif->firstChild->appendChild($personElement);
+            unset($note);
          }
-         $this->dom_pfif->firstChild->appendChild($personElement);
-         unset($note);
+         unset($person);
+      } else {
+         // For debugging serialize everything. (Either persons or notes should be empty.)
+         $pfif_persons = $this->getPersons();
+         if (count($pfif_persons) != 0) {
+            $this->reset_log_dates($pfif_persons[0]->entry_date);
+            foreach ($pfif_persons as $person) {
+               $personElement = $this->createPersonElement($person);
+               $this->dom_pfif->firstChild->appendChild($personElement);
+            }
+            unset($person);
+         }
+         $pfif_notes = $this->getNotes();
+         if (count($pfif_notes) != 0) {
+            $this->reset_log_dates($pfif_notes[0]->entry_date);
+            foreach ($pfif_notes as $note) {
+               $noteElement = $this->createNoteElement($note);
+               $this->dom_pfif->firstChild->appendChild($noteElement);
+            }
+            unset($note);
+         }
       }
-      unset($person);
 
       // Update status info
       //var_dump("first/last/count:end", $first_entry_date, $last_entry_date, $last_entry_count);
       $this->save_log_dates();
       // print $this->dom_pfif->saveXML();
       return $this->dom_pfif->saveXML();
+   }
+
+   private function createPersonElement($person) { 
+      // Update last_entry_count
+      $this->update_log_dates($person->entry_date);
+      $personElement = $this->dom_pfif->createElement('pfif:person');
+      $this->createXmlElement($personElement, 'pfif:person_record_id', $person->person_record_id);
+      $this->createXmlElement($personElement, 'pfif:entry_date', utc_date($person->entry_date));
+      $this->createXmlElement($personElement, 'pfif:expiry_date', utc_date($person->expiry_date));
+      // FIXME: if empty, see if name can be parsed from author_email (or should this be done in loadFrom DB?) : chc 2/25/2010
+      $this->createXmlElement($personElement, 'pfif:author_name', $person->author_name); 
+      // TODO: Condition output of email and phone on author's consent.
+      // $this->createXmlElement($personElement, 'pfif:author_email' , $person->author_email);
+      // $this->createXmlElement($personElement, 'pfif:author_phone' , $person->author_phone);
+      $this->createXmlElement($personElement, 'pfif:source_name', $person->source_name);
+      $this->createXmlElement($personElement, 'pfif:source_date', utc_date($person->source_date));
+      $this->createXmlElement($personElement, 'pfif:source_url', $person->source_url);
+      $this->createXmlElement($personElement, 'pfif:full_name', $person->full_name);
+      $this->createXmlElement($personElement, 'pfif:first_name', $person->first_name);
+      $this->createXmlElement($personElement, 'pfif:last_name', $person->last_name);
+      $this->createXmlElement($personElement, 'pfif:sex', $person->sex);
+      $this->createXmlElement($personElement, 'pfif:age', $person->age); 
+      $this->createXmlElement($personElement, 'pfif:date_of_birth', $person->date_of_birth);
+      $this->createXmlElement($personElement, 'pfif:home_street', $person->home_street);
+      $this->createXmlElement($personElement, 'pfif:home_neighborhood', $person->home_neighborhood);
+      $this->createXmlElement($personElement, 'pfif:home_city', $person->home_city);
+      $this->createXmlElement($personElement, 'pfif:home_state', $person->home_state);
+      $this->createXmlElement($personElement, 'pfif:home_country', $person->home_country);
+      $this->createXmlElement($personElement, 'pfif:home_postal_code', $person->home_postal_code);
+      $this->createXmlElement($personElement, 'pfif:photo_url', $person->photo_url);
+      $this->createXmlElement($personElement, 'pfif:other', $person->other);
+      return $personElement;
+   }
+
+   private function createNoteElement($note) { 
+      $noteElement = $this->dom_pfif->createElement('pfif:note');
+      $this->createXmlElement($noteElement, 'pfif:note_record_id', $note->note_record_id);
+      $this->createXmlElement($noteElement, 'pfif:person_record_id', $note->person_record_id);
+      $this->createXmlElement($noteElement, 'pfif:linked_person_record_id', $note->linked_person_record_id);
+      $this->createXmlElement($noteElement, 'pfif:entry_date', utc_date($note->entry_date));
+      $this->createXmlElement($noteElement, 'pfif:author_name', $note->author_name);
+      // A policy decision is required in order to allow these to be emitted without the author's consent,
+      // or a software/db mechanism is needed to allow the author to provide consent.
+      // $this->createXmlElement($noteElement, 'pfif:author_email' , $note->author_email);
+      // $this->createXmlElement($noteElement, 'pfif:author_phone' , $note->author_phone);
+      $this->createXmlElement($noteElement, 'pfif:source_date', utc_date($note->source_date));
+      $this->createXmlElement($noteElement, 'pfif:found', $note->found);
+      $this->createXmlElement($noteElement, 'pfif:status', $note->status);
+      $this->createXmlElement($noteElement, 'pfif:last_known_location', $note->last_known_location);
+      // These should only be emitted to trusted parties.
+      // $this->createXmlElement($noteElement, 'pfif:email_of_found_person' , $note->email_of_found_person);
+      // $this->createXmlElement($noteElement, 'pfif:phone_of_found_person' , $note->phone_of_found_person);
+      $this->createXmlElement($noteElement, 'pfif:text', $note->text);
+      return $noteElement;
    }
 
    // TODO: may need to add logic to support services other than Google.
@@ -370,7 +402,7 @@ class Pfif {
     }
 
 
-   // Load PFIF XML data into Pfif_Person classe.
+   // Load PFIF XML data into Pfif_Person class.
    public function loadPersonsFromXML($capxml) {
       $this->dom_pfif = new DOMDocument('1.0', 'utf-8');
       if (isset($capxml)) {
@@ -381,16 +413,20 @@ class Pfif {
             //print "loading from string ...\n";
             $lst = $this->dom_pfif->loadXML($capxml); // load from string
          }
-         //print "loadXML status = ".($lst ? "TRUE" : "FALSE")." for\n$capxml\n";
+         print "load status = ".($lst ? "TRUE" : "FALSE")."\n";
+         if (!$lst) {
+            // Warning about server error.
+            return -1;
+         }
       }
 
-      // FIXME: this is a workaround for errors resulting from empty elements. Need to rework the interface between
+      // FIXME: this is a workaround for errors resulting from empty elements. Need to rework the interface between 
       // process_persons/process_notes and getValueFromXmlElementTag to eliminate this.
       set_dummy_node_list($this->dom_pfif);
 
-      $ns = $this->dom_pfif->documentElement->lookupnamespaceURI(PFIF_NS_PREFIX); // 'http://zesty.ca/pfif/1.2';
+      $ns = $this->dom_pfif->documentElement->lookupnamespaceURI(PFIF_NS_PREFIX); // 'http://zesty.ca/pfif/1.3';
       // DEBUG: print('loadPersonsFromXML: ns='.$ns.'\n');
-      $this->setVersion(($ns == PFIF_1_2_NAMESPACE) ? PFIF_V_1_2 : PFIF_V_1_1);
+      $this->setVersion(($ns == PFIF_1_2_NAMESPACE) ? PFIF_V_1_2 : PFIF_V_1_3);
 
       $persons = $this->dom_pfif->getElementsByTagNameNS($ns , 'person');
       // $dump = var_export($persons, true);
@@ -399,9 +435,9 @@ class Pfif {
          $this->process_persons($persons, $ns);
       }
 
-      return ($persons->length == 0)? false : true;
+      return $persons->length;
    }
-   // Load PFIF XML data into Pfif_Note classe.
+   // Load PFIF XML data into Pfif_Note class.
    public function loadNotesFromXML($capxml) {
       $this->dom_pfif = new DOMDocument('1.0', 'utf-8');
       if (isset($capxml)) {
@@ -412,36 +448,41 @@ class Pfif {
             //print "loading from string ...\n";
             $lst = $this->dom_pfif->loadXML($capxml); // load from string
          }
-         //print "loadXML status = ".($lst ? "TRUE" : "FALSE")." for\n$capxml\n";
+         print "load status = ".($lst ? "TRUE" : "FALSE")."\n";
+         if (!$lst) {
+            // We got a transient warning about some kind of server error.
+            return -1;
+         }
       }
 
-      // FIXME: this is a workaround for errors resulting from empty elements. Need to rework the interface between
+      // FIXME: this is a workaround for errors resulting from empty elements. Need to rework the interface between 
       // process_persons/process_notes and getValueFromXmlElementTag to eliminate this.
       set_dummy_node_list($this->dom_pfif);
 
-      $ns = $this->dom_pfif->documentElement->lookupnamespaceURI(PFIF_NS_PREFIX); // 'http://zesty.ca/pfif/1.2';
+      $ns = $this->dom_pfif->documentElement->lookupnamespaceURI(PFIF_NS_PREFIX); // 'http://zesty.ca/pfif/1.3';
       // DEBUG: print('loadNotesFromXML: ns='.$ns.'\n');
-      $this->setVersion(($ns == PFIF_1_2_NAMESPACE) ? PFIF_V_1_2 : PFIF_V_1_1);
+      $this->setVersion(($ns == PFIF_1_2_NAMESPACE) ? PFIF_V_1_2 : PFIF_V_1_3);
 
       $notes = $this->dom_pfif->getElementsByTagNameNS($ns , 'note');
       if ($notes->length > 0) {
          $this->process_notes($notes, $ns);
       }
 
-      return ($notes->length == 0)? false : true;
+      return $notes->length;
    }
 
    // Extract DOM person data into pif_person.
    // Drop any embedded notes on the floor and process them as a separate feed.
-   private function process_persons($persons, $ns) {
+   private function process_persons($persons, $ns) { 
       // Get source version
-      $ns = $this->dom_pfif->documentElement->lookupnamespaceURI(PFIF_NS_PREFIX); // 'http://zesty.ca/pfif/1.2';
+      $ns = $this->dom_pfif->documentElement->lookupnamespaceURI(PFIF_NS_PREFIX); // 'http://zesty.ca/pfif/1.3';
 
       foreach ($persons as $person) {
          $pfif_person = new Pfif_Person();
          $pfif_person->person_record_id = $this->getValueFromXmlElementTag($person, 'person_record_id', $ns)->item(0)->nodeValue;
          // error_log("processing person:".$pfif_person->person_record_id);
          $pfif_person->entry_date = local_date($this->getValueFromXmlElementTag($person, 'entry_date', $ns)->item(0)->nodeValue);
+         $pfif_person->expiry_date = local_date($this->getValueFromXmlElementTag($person, 'expiry_date', $ns)->item(0)->nodeValue);
          $pfif_person->author_name = $this->getValueFromXmlElementTag($person, 'author_name', $ns)->item(0)->nodeValue;
          $pfif_person->author_email = $this->getValueFromXmlElementTag($person, 'author_email', $ns)->item(0)->nodeValue;
          $pfif_person->author_phone = $this->getValueFromXmlElementTag($person, 'author_phone', $ns)->item(0)->nodeValue;
@@ -493,7 +534,7 @@ class Pfif {
       unset($note);
    }
 
-   // chc  3/8/2010 : only try nonNs if ns fails.
+   // chc  3/8/2010 : only try nonNs if ns fails. 
    private function getValueFromXmlElementTag($elementNode, $elementName, $ns) {
       global $dummy_node_list;
 
@@ -520,8 +561,9 @@ class Pfif {
       return $return_value;
    }
 
-   // Store person (no notes) in database. PFIF 1.3 allows for persons to be reimported when expiration
-   // date changes. Specification states they'll also have a new source_date and entry_date.
+   // Store person in database and update with any existing notes. PFIF 1.3 allows for persons to be reimported
+   // when expiration date changes or other data is corrected. They should be given a new source_date and
+   // entry_date.
    public function storePersonsInDatabase() {
       global $conf, $global, $failed_images, $first_entry_date, $last_entry_date, $last_entry_count;
 
@@ -548,35 +590,19 @@ class Pfif {
          $lookup = $this->checkForReportedPerson($person->person_record_id);
          //var_dump('lookup returns:',$lookup);
          if (count($lookup) > 0) {
-            // This is a duplicate person. Check for expiry_date update.
-            if (strtotime($person->source_date) != strtotime($lookup['source_date'])) {
-               var_dump('Old and new source dates not equal:',$lookup['source_date'],$person->source_date);
-               $source_date = local_time($person->source_date);
-               $entry_date = strftime("%Y-%m-%d %H:%M:%S")
-               $expiry_date = local_time($person->$expiry_date);
-               $p_uuid = $lookup['p_uuid'];
-               // Update existing person with changed expiration date.
-               $sql = "UPDATE person_uuid SET source_date='$source_date', entry_date='$entry_date',expiry_date='$expiry_date'".
-                      " WHERE p_uuid='$p_uuid'";
-               $st = $global['db']->Execute($sql);
-               if($st === false) {
-                  $errchk = $global['db']->ErrorMsg();
-                  error_log("Error updating expiry_date in person_uuid: ".$errchk);
-                  $_SESSION['pfif_info']['person_insert_errors'] += 1;
-               }
-               $sql = "UPDATE pfif_person SET source_date='$source_date', entry_date='$entry_date',expiry_date='$expiry_date'".
-                      " WHERE p_uuid='$p_uuid'";
-               if($st === false) {
-                  $errchk = $global['db']->ErrorMsg();
-                  error_log("Error updating expiry_date in pfif_person: ".$errchk);
-                  $_SESSION['pfif_info']['person_insert_errors'] += 1;
-               }
+            // This is a duplicate person. PFIF says to have it replace the existing person if its 
+            // source_date is more recent. 
+            if (strtotime($person->source_date) > strtotime($lookup['creation_time'])) {
+               /*
+               var_dump('Old and new source dates:',$person->person_record_id,
+                        $lookup['creation_time'],$person->source_date);
+               */
+               $this->deleteReportedPerson($person->person_record_id);
             } else {
-               // This is an exact duplicate for some reason, so flag it.
+               // This is an unexpected duplicate, so just flag it.
                $_SESSION['pfif_info']['person_insert_errors'] += 1;
+               continue;
             }
-            // All done with this person.
-            continue;
          }
 
          // Map PFIF content into session mpr_add arrays
@@ -584,6 +610,7 @@ class Pfif {
 
          // Save to mpr tables
          try {
+            // Save to Sahana tables.
             shn_mpr_addperson_commit();
             $errchk = $global['db']->ErrorMsg();
             if (!empty($errchk)) {
@@ -607,6 +634,9 @@ class Pfif {
             $_SESSION['pfif_info']['person_insert_errors'] += 1;
             return false;
          }
+
+         // Update with any notes.
+         $this->_pfif_update_person_from_notes($person->person_record_id);
       }
       unset($person);
       //var_dump("first/last/count at end: ", $first_entry_date, $last_entry_date, $last_entry_count);
@@ -642,7 +672,7 @@ class Pfif {
       foreach ($pfif_notes as $note) {
          // Update last_entry_count.
          $this->update_log_dates($note->entry_date);
-
+     
          // Save to pfif_note table.
          try {
              $this->shn_mpr_addpfifnote_commit($note); // DB error reported in method
@@ -652,9 +682,15 @@ class Pfif {
              error_log('shn_mod_mpr_pfif.storeInDatabase:' . $e->getMessage());
              // Interrupt further processing of this note.
              continue;
+         } 
+         // Update Sahana tables with dynamic data if the person exists.
+         $lookup = $this->checkForReportedPerson($note->person_record_id);
+         //var_dump('lookup returns:',$lookup);
+         if (count($lookup) > 0) {
+            // Can't rely on notes coming in in source date order. (Only entry date order is assured.)
+            // So for each note, reprocess all existing notes for the associated person. 
+            $this->_pfif_update_person_from_notes($note->person_record_id);
          }
-      // Sahana tables with dynamic data are now updated by a cron task.
-      // So nothing more to do.
       }
       unset($note);
       //var_dump("first/last/count at end: ", $first_entry_date, $last_entry_date, $last_entry_count);
@@ -668,13 +704,59 @@ class Pfif {
       return true;
    }
 
+   // Update Sahana tables with relevant information from this person's notes (if any).
+   // NOTE: Person may not exist yet, so we have to do the same thing when we insert a person.
+   // TODO: Can probably move these into a pfif_helper script.
+   private function _pfif_update_person_from_notes($p_uuid) {
+      global $global;
+      // Get all notes for this person.
+      $sql = "SELECT pn.source_date,pn.status,pn.found,pn.last_known_location".
+           " FROM pfif_note pn WHERE pn.p_uuid = '".$p_uuid."' ORDER BY pn.source_date";
+      $note_result = $global['db']->Execute($sql);
+      if ($note_result === false) {
+         $errchk = $global['db']->ErrorMsg();
+         die("Error getting later notes: ".$errchk);
+      }
+      // Initialize to least specificity.
+      $old_status = 'unk'; 
+      while ($note_row = $note_result->FetchRow()) {
+         // Update last_seen if present.
+         if (!empty($note_row['last_known_location'])) {
+            $last_known_location = mysql_real_escape_string($note_row['last_known_location']);
+         } else {
+            $last_known_location = '';
+         }
+         // Determine PFIF mapping.
+         $status = $note_row['status'];
+         $found = $note_row['found'];
+         $mapped_status = shn_map_status_from_pfif($status, $found, $old_status);
+         $old_status = $mapped_status;
+         // Update last_updated.
+         $source_date = $note_row['source_date'];
+         // Only update last known location if not empty.
+         if (!empty($last_known_location)) {
+            $sql = "UPDATE person_status ps,person_details pd SET".
+                " ps.last_updated='".$source_date."',ps.opt_status='".$mapped_status."',pd.last_seen='".$last_known_location."'".
+                " WHERE ps.p_uuid='".$p_uuid."' AND ps.p_uuid = pd.p_uuid";
+         } else {
+            $sql = "UPDATE person_status ps,person_details pd SET".
+                " ps.last_updated='".$source_date."',ps.opt_status='".$mapped_status."'".
+                " WHERE ps.p_uuid='".$p_uuid."' AND ps.p_uuid = pd.p_uuid";
+         }
+         //print $sql."\n";
+         $ret = $global['db']->Execute($sql);
+         if($ret === false) {
+            $errchk = $global['db']->ErrorMsg();
+            die("Error performing update: ".$errchk);
+         }
+      }
+   }
+
    // TODO: Can probably move these into a pfif_helper script.
    private function _pfif_prepare_person_insert($person) {
       $_SESSION['mpr_add']['entry']['p_uuid'] = $person->person_record_id;
-      if (!empty($person->expiry_date)) {
-         $_SESSION['mpr_add']['report_person']['expiry_date'] = $person->expiry_date;
-      }
 
+      $_SESSION['mpr_add']['report_person']['incident_id'] = $_SESSION['user_pref_ims_incident_id'];
       if (!empty($person->author_name)) {
          $_SESSION['mpr_add']['report_person']['rep_full_name'] = $person->author_name;
       }
@@ -686,10 +768,25 @@ class Pfif {
       }
 
       //Static identifying information
+      if (empty($person->full_name)) {
+        // LPF searches are on full_name so we need something here.
+        $full_name = $person->first_name.' '.$person->last_name;
+        if ($full_name != ' ') {
+           $_SESSION['mpr_add']['entry']['full_name'] = $full_name; 
+        }
+      } else {
+         $_SESSION['mpr_add']['entry']['full_name'] = $person->full_name;
+      }
+      if (!empty($person->first_name)) {
+         $_SESSION['mpr_add']['entry']['given_name'] = $person->first_name;
+      }
+      if (!empty($person->last_name)) {
+         $_SESSION['mpr_add']['entry']['family_name'] = $person->last_name;
+      }
       $_SESSION['mpr_add']['entry']['incident_id'] = $_SESSION['user_pref_ims_incident_id'];
-      $_SESSION['mpr_add']['entry']['full_name'] = $person->full_name;
-      $_SESSION['mpr_add']['entry']['given_name'] = $person->first_name;
-      $_SESSION['mpr_add']['entry']['family_name'] = $person->last_name;
+      if (!empty($person->expiry_date)) {
+         $_SESSION['mpr_add']['entry']['expiry_date'] = $person->expiry_date;
+      }
       // TODO: are these next two used?
       $_SESSION['mpr_add']['entry']['loc_select_3'] = $person->home_city;
       $_SESSION['mpr_add']['entry']['loc_select_2'] = $person->home_state;
@@ -732,13 +829,9 @@ class Pfif {
       // Set status to unknown.
       $_SESSION['mpr_add']['entry']['opt_status'] = 'unk';
       // Set creation_time and last_updated.
-      // Since last_updated is key to getting cron-scheduled updates from notes, and since
-      // sometimes a note has already arrived with exactly the same time, make last_updated
-      // one second earlier than creation time.
       if (!empty($person->source_date)) {
          $_SESSION['mpr_add']['entry']['creation_time'] = $person->source_date;
-         $earlier = date('Y-m-d H:i:s', strtotime($person->source_date)-1);
-         $_SESSION['mpr_add']['entry']['last_updated'] = $earlier;
+         $_SESSION['mpr_add']['entry']['last_updated'] = $person->source_date;
       } else {
          // Pick an arbitrary early date.
          $_SESSION['mpr_add']['entry']['creation_time'] = '2000-01-01 00:00:00';
@@ -775,14 +868,14 @@ class Pfif {
          $person->entry_date = $personRecord['creation_time'];
          $person->expiry_date = $sourcePfif ? $sourcePfif->expiry_date : $personRecord['expiry_date'];
 
-         $reporter = $this->getReportedPerson($personRecord['reporter']);
+         $reporter = $this->getReportedPerson($personRecord['reporter']); 
          if (count($reporter) > 0) {
             // error_log("reporter_record is set!");
             $personRecord['reporter_record'] = $reporter;
             $person->author_name = $personRecord['reporter_record']['full_name'];
             $person->author_email = $personRecord['reporter_record']['email'];
             $person->author_phone = $personRecord['reporter_record']['phone'];
-         }
+         } 
 
          // Spec defines source_ info is for home repository. Use local info only for our own records.
          $person->source_name = $sourcePfif ? $sourcePfif->source_name : $pfifDomain;
@@ -792,12 +885,12 @@ class Pfif {
          $person->full_name = $sourcePfif ? $sourcePfif->full_name : $personRecord['full_name'];
          $person->first_name = $sourcePfif ? $sourcePfif->first_name : $personRecord['first_name'];
          $person->last_name = $sourcePfif ? $sourcePfif->last_name : $personRecord['last_name'];
-
+         
          // Note: For when no source PFIF, we could try to parse $personRecord['address'] better.
-         $person->home_city = $sourcePfif ? $sourcePfif->home_city : '';
-         $person->home_state = $sourcePfif ? $sourcePfif->home_state : '';
+         $person->home_city = $sourcePfif ? $sourcePfif->home_city : ''; 
+         $person->home_state = $sourcePfif ? $sourcePfif->home_state : ''; 
          $person->home_neighborhood = $sourcePfif ? $sourcePfif->home_neighborhood : '';
-         $person->home_street = $sourcePfif ? $sourcePfif->home_street : $personRecord['address'];
+         $person->home_street = $sourcePfif ? $sourcePfif->home_street : $personRecord['address']; 
          $person->home_country = $sourcePfif ? $sourcePfif->home_country : '';
          $person->home_postal_code = $sourcePfif ? $sourcePfif->home_postal_code : $personRecord['zip'];
 
@@ -816,7 +909,7 @@ class Pfif {
          } else {
             $person->sex = shn_map_gender_to_pfif($personRecord, $sourcePfif);
          }
-
+         
          // Use the PFIF age if it exists since we only have to copy it.
          if ($sourcePfif) {
             $person->age = $sourcePfif->age;
@@ -832,10 +925,10 @@ class Pfif {
                $details['height'] = 'height: ' . $personRecord['height'];
             }
             if (!empty($personRecord['weight'])) {
-               $details['weight'] = 'weight: ' . $personRecord['weight'];
+               $details['weight'] = 'weight: ' . $personRecord['weight']; 
             }
             if (!empty($personRecord['opt_eye_color'])) {
-               $details['eye_color'] = 'eye color: ' . shn_get_field_opt($personRecord['opt_eye_color'], 'opt_eye_color');
+               $details['eye_color'] = 'eye color: ' . shn_get_field_opt($personRecord['opt_eye_color'], 'opt_eye_color'); 
             }
             if (!empty($personRecord['opt_skin_color'])) {
                $details['skin_color'] = 'skin color: ' . shn_get_field_opt($personRecord['opt_skin_color'], 'opt_skin_color');
@@ -855,7 +948,7 @@ class Pfif {
                   $person->other .= $detail . ', ';
                }
                $person->other = substr($person->other, 0, -2);
-            }
+            } 
          }
          $this->setPerson($person);
          $notes = $this->getPfifNotes($person->person_record_id);
@@ -887,7 +980,8 @@ class Pfif {
             $whereSql .= ( $whereSql == null ? '' : ' AND ') . $whereElement;
          }
          $whereSql = $whereSql != null ? ' WHERE ' . $whereSql : '';
-         $large_num = 1e12;
+         //$large_num = 1e12;
+         $large_num = 700000;
          $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,$large_num";
       }
 
@@ -900,9 +994,9 @@ class Pfif {
 
    private function getMprAddedRecords($whereSql) {
       global $global;
-      $sql = "SELECT a.p_uuid , a.full_name, a.family_name, a.given_name, a.l10n_name, a.expiry_date, e.birth_date as dob, e.opt_gender, e.years_old, e.minAge, e.maxAge,
+      $sql = "SELECT a.p_uuid , a.full_name, a.family_name, a.given_name, a.l10n_name, a.expiry_date, e.birth_date as dob, e.opt_gender, e.years_old, e.minAge, e.maxAge, 
             f.comments as physical_comments, f.height, f.weight, f.opt_eye_color, f.opt_skin_color, f.opt_hair_color, f.injuries, g.contact_value as phone, h.contact_value as mobile, i.contact_value as email,
-            j.contact_value AS address, k.contact_value AS zip, e.last_seen, e.last_clothing, e.other_comments, pr.rep_uuid as reporter,
+            j.contact_value AS address, k.contact_value AS zip, e.last_seen, e.last_clothing, e.other_comments, pr.rep_uuid as reporter, 
             ps.status_id, ps.last_updated, ps.creation_time, ps.opt_status as `status`, im.url as image_url
 		FROM person_uuid a
 		LEFT OUTER JOIN person_details e ON e.p_uuid = a.p_uuid
@@ -913,12 +1007,12 @@ class Pfif {
         AND h.opt_contact_type = 'cmob'
 		LEFT OUTER JOIN contact i ON i.p_uuid = a.p_uuid
         AND i.opt_contact_type = 'email'
-		LEFT OUTER JOIN contact j ON j.p_uuid = a.p_uuid
+		LEFT OUTER JOIN contact j ON j.p_uuid = a.p_uuid 
         AND j.opt_contact_type = 'home'
-		LEFT OUTER JOIN contact k ON k.p_uuid = a.p_uuid
+		LEFT OUTER JOIN contact k ON k.p_uuid = a.p_uuid 
         AND k.opt_contact_type = 'zip'
         LEFT OUTER JOIN image im ON a.p_uuid = im.p_uuid
-        LEFT OUTER JOIN person_status ps ON ps.p_uuid = a.p_uuid
+        LEFT OUTER JOIN person_status ps ON ps.p_uuid = a.p_uuid        
         LEFT OUTER JOIN person_to_report pr ON pr.p_uuid = a.p_uuid
         $whereSql ";
 
@@ -932,7 +1026,7 @@ class Pfif {
 
    private function checkForReportedPerson($p_uuid) {
       global $global;
-      $sql = "SELECT p_uuid,source_date,entry_date,expiry_date FROM person_uuid WHERE p_uuid = '$p_uuid'";
+      $sql = "SELECT creation_time FROM person_status WHERE p_uuid = '$p_uuid'";
       $array = $global['db']->GetRow($sql);
       return $array;
    }
@@ -955,6 +1049,39 @@ class Pfif {
       //print $sql;
       $array = $global['db']->GetRow($sql);
       return $array;
+   }
+
+   // Deletes reported person. Removes image files and all relevant DB entries, including 
+   // reporter. (Does not delete the the reporter if he/she is registered with PL.)
+   private function deleteReportedPerson($p_uuid) {
+      global $global;
+      $webroot =  $global['approot'] . "www/";
+      // Delete any associated images.
+      $sql = "SELECT url, url_thumb FROM image WHERE p_uuid = '$p_uuid'";
+      $image_result = $global['db']->GetRow($sql);
+      if($image_result === false) {
+         $errchk = $global['db']->ErrorMsg();
+         error_log("Error getting images for this person: ".$errchk);
+      } else if (count($image_result) > 0) {
+         // There is an image so delete it and its thumbnail.
+         $file = $webroot . $image_result['url'];
+         if (!unlink($file)) {
+            error_log("Unable to delete $file.");
+         }
+         $thumb = $webroot . $image_result['url_thumb'];
+         if ($thumb != $file) {
+            if (!unlink($thumb)) {
+               error_log("Unable to delete $thumb.");
+            }
+         }
+      }
+      // Delete the person in question.
+      $sql = "CALL delete_reported_person('$p_uuid', 0)";  //Don't delete Notes
+      $st = $global['db']->Execute($sql);
+      if ($st === false) {
+         $errchk = $global['db']->ErrorMsg();
+         error_log("Error deleting '$p_uuid': $errchk");
+      }
    }
 
    /**
@@ -985,7 +1112,12 @@ class Pfif {
       if (!empty($person->source_name)) {
          $insert_array['source_name'] = $person->source_name;
       }
-      $insert_array['source_date'] = $person->source_date;
+      // If source date is missing, use entry date. 
+      if (!empty($person->source_date)) {
+         $insert_array['source_date'] = $person->source_date;
+      } else {
+         $insert_array['source_date'] = $person->entry_date;
+      }
       $insert_array['source_url'] = $person->source_url;
       if (!empty($person->full_name)) {
          $insert_array['full_name'] = $person->full_name;
@@ -1033,7 +1165,7 @@ class Pfif {
       $errchk = $global['db']->ErrorMsg();
       if (!empty($errchk)) {
          error_log("Error saving pfif_person for " . $person->person_record_id . ": " . $errchk);
-      }
+      } 
       $insert_array = null;
       return true;
    }
@@ -1064,7 +1196,12 @@ class Pfif {
       if (!empty($note->author_phone)) {
          $insert_array['author_phone'] = $note->author_phone;
       }
-      $insert_array['source_date'] = $note->source_date;
+      // If source date is missing, use entry date. 
+      if (!empty($note->source_date)) {
+         $insert_array['source_date'] = $note->source_date;
+      } else {
+         $insert_array['source_date'] = $note->entry_date;
+      }
       if (!empty($note->found)) {
          $insert_array['found'] = $note->found;
       }
