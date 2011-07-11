@@ -253,7 +253,6 @@ class Pfif {
       $this->createXmlElement($personElement, 'pfif:person_record_id', $person->person_record_id);
       $this->createXmlElement($personElement, 'pfif:entry_date', utc_date($person->entry_date));
       $this->createXmlElement($personElement, 'pfif:expiry_date', utc_date($person->expiry_date));
-      // FIXME: if empty, see if name can be parsed from author_email (or should this be done in loadFrom DB?) : chc 2/25/2010
       $this->createXmlElement($personElement, 'pfif:author_name', $person->author_name); 
       // TODO: Condition output of email and phone on author's consent.
       // $this->createXmlElement($personElement, 'pfif:author_email' , $person->author_email);
@@ -506,6 +505,15 @@ class Pfif {
          $pfif_person->date_of_birth = $this->getValueFromXmlElementTag($person, 'date_of_birth', $ns)->item(0)->nodeValue;
          $pfif_person->sex = $this->getValueFromXmlElementTag($person, 'sex', $ns)->item(0)->nodeValue;
          // error_log("Static informaton done ...");
+         // If empty record without expiration date, expire it. (JIRA PL-183)
+         if (empty($pfif_person->expiry_date) 
+             && empty($pfif_person->full_name) 
+             && empty($pfif_person->first_name) 
+             && empty($pfif_person->last_name) 
+             && empty($pfif_person->other) 
+             && empty($pfif_person->photo_url)) {
+           $pfif_person->expiry_date = strftime("%Y-%m-%d %H:%M:%S");
+         }
          $this->setPerson($pfif_person);
       }
       unset($person);
@@ -1096,7 +1104,7 @@ class Pfif {
       $insert_array['p_uuid'] = $person->person_record_id;
       $insert_array['source_version'] = $this->getVersion();
       $insert_array['source_repository_id'] = $this->getSourceReposId();
-      $insert_array['entry_date'] = strftime("%Y-%m-%d %H:%M:%S ");
+      $insert_array['entry_date'] = strftime("%Y-%m-%d %H:%M:%S");
       if (!empty($person->expiry_date)) {
          $insert_array['expiry_date'] = $person->expiry_date;
       }
