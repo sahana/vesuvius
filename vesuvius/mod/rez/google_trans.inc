@@ -20,7 +20,7 @@ include_once ($global['approot'].'/inc/lib_errors.inc');
 function shn_getLocale() {
 	global $global;
 	if ( isset($_SESSION['locale']) ) {
-		return $_SESSION['locale'];
+		//return $_SESSION['locale'];
 	}
 	$contents = file_get_contents($global['approot'].'/res/locale/locale');
 	$locale = substr($contents, 0, 2);
