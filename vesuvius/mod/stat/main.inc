@@ -3,7 +3,7 @@
  * @name         Statistics
  * @version      0.1
  * @package      stat
- * @author       Lan Le <lale@mail.nih.gov>
+ * @author       Lan Ngoc Le <lale@mail.nih.gov>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
