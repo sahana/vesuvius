@@ -186,14 +186,20 @@ function _gettext($msgid) {
  * Function to handle contexts
  */
 function _pgettext($msgid) {
-	list($context,$msgid) = split("|", $msgid, 2);
-	_gettext($msgid);
+	list($context,$msgidn) = explode("|", $msgid, 2);
+	if ( empty($msgidn) ) {
+		return _gettext($msgid);
+	}
+	else {
+		return _gettext($msgidn);
+	}
 }
 /**
  * Alias for gettext.
  */
 function __($msgid) {
 	return _pgettext($msgid);
+	//return _gettext($msgid);
 }
 /**
  * Plural version of gettext.
