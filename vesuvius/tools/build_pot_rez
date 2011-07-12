@@ -1,1 +1,0 @@
-xgettext -L PHP -f ../mod/rez/cache_rez.inc --from-code=UTF-8 -o rez.pot

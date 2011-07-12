@@ -187,7 +187,7 @@ function _gettext($msgid) {
  */
 function _pgettext($msgid) {
 	list($context,$msgid) = split("|", $msgid, 2);
-	_gettext($context."\004".$msgid);
+	_gettext($msgid);
 }
 /**
  * Alias for gettext.

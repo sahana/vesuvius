@@ -1,64 +1,64 @@
-# English (United Kingdom) translation for vesuvius
-# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
-# This file is distributed under the same license as the vesuvius package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#: ../mod/pref/ims_config.inc:47 ../mod/rap/main.inc:446
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: vesuvius\n"
-"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-07-06 19:32-0400\n"
-"PO-Revision-Date: 2011-07-06 23:47+0000\n"
-"Last-Translator: Greg Miernicki <Unknown>\n"
-"Language-Team: English (United Kingdom) <en_GB@li.org>\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-07-11 20:20-0400\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-07 06:15+0000\n"
-"X-Generator: Launchpad (build 13168)\n"
 
 #: ../www/theme/vesuvius/header.php:59 ../www/theme/vesuvius/header.php:75
 #: ../www/theme/lpf3/header.php:62 ../www/theme/lpf3/header.php:78
 msgid "People Locator"
-msgstr "People Locator"
+msgstr ""
 
 #: ../www/theme/vesuvius/header.php:60 ../www/theme/lpf3/header.php:63
 msgid "for the "
-msgstr "for the "
+msgstr ""
 
 #: ../www/theme/vesuvius/header.php:61 ../www/theme/lpf3/header.php:64
 msgid "of"
-msgstr "of"
+msgstr ""
 
 #: ../www/theme/vesuvius/header.php:62 ../www/theme/vesuvius/header.php:76
 #: ../www/theme/lpf3/header.php:65 ../www/theme/lpf3/header.php:79
 msgid "U.S. National Library of Medicine"
-msgstr "U.S. National Library of Medicine"
+msgstr ""
 
 #: ../www/theme/vesuvius/header.php:63 ../www/theme/vesuvius/header.php:77
 #: ../www/theme/lpf3/header.php:66 ../www/theme/lpf3/header.php:80
 msgid "Lister Hill National Center for Biomedical Communications"
-msgstr "Lister Hill National Center for Biomedical Communications"
+msgstr ""
 
 #: ../www/index.php:164
 msgid "The stream requested is not valid."
-msgstr "The stream requested is not valid."
+msgstr ""
 
 #: ../www/index.php:195
 msgid "The requested module is not installed in Vesuvius"
-msgstr "The requested module is not installed in Vesuvius"
+msgstr ""
 
 #: ../www/index.php:214
 msgid "The action requested is not available"
-msgstr "The action requested is not available"
+msgstr ""
 
 #: ../www/index.php:218
 msgid "This action does not support the stream type."
-msgstr "This action does not support the stream type."
+msgstr ""
 
 #: ../mod/tp/conf.inc:14
 msgid "TriagePic"
-msgstr "TriagePic"
+msgstr ""
 
 #: ../mod/cam/conf.inc:16
 msgid "Cam Test"
@@ -90,6 +90,10 @@ msgstr ""
 
 #: ../mod/pfif/conf.inc:15
 msgid "PFIF Admin"
+msgstr ""
+
+#: ../mod/stat/conf.inc:15
+msgid "Statistics"
 msgstr ""
 
 #: ../mod/pref/ims_main.inc:71
@@ -163,8 +167,7 @@ msgid "Please select an item from 'Select Incident' box"
 msgstr ""
 
 #: ../mod/pref/main.inc:124 ../mod/pref/main.inc:437 ../mod/pref/main.inc:444
-msgid ""
-"Please provide the text in the image correctly to prove you are human."
+msgid "Please provide the text in the image correctly to prove you are human."
 msgstr ""
 
 #: ../mod/pref/main.inc:365 ../mod/pref/main.inc:425
@@ -707,8 +710,7 @@ msgid "Upload Selected Records"
 msgstr ""
 
 #: ../mod/mpr/add.inc:54
-msgid ""
-"Please do a search and check whether the person has already been added."
+msgid "Please do a search and check whether the person has already been added."
 msgstr ""
 
 #: ../mod/mpr/add.inc:74 ../mod/rap/main.inc:187
@@ -718,11 +720,11 @@ msgstr ""
 #: ../mod/mpr/add.inc:75
 msgid ""
 "<span class=\"publicText\">Public</span> information that, if you provide, "
-"you agree can be exposed to the general public. <span "
-"class=\"privateText\">Private</span> information in this report will not be "
-"generally released.  It may be shared with other family members and friends "
-"you designate, emergency responders, medical providers, clergy/councilors, "
-"law enforcement, and authorized displaced-person agencies."
+"you agree can be exposed to the general public. <span class=\"privateText"
+"\">Private</span> information in this report will not be generally "
+"released.  It may be shared with other family members and friends you "
+"designate, emergency responders, medical providers, clergy/councilors, law "
+"enforcement, and authorized displaced-person agencies."
 msgstr ""
 
 #: ../mod/mpr/add.inc:80
@@ -795,8 +797,8 @@ msgstr ""
 
 #: ../mod/mpr/add.inc:110
 msgid ""
-"Location where the person most likely encountered the disaster <span "
-"class=\"publicText\">Public</span>"
+"Location where the person most likely encountered the disaster <span class="
+"\"publicText\">Public</span>"
 msgstr ""
 
 #: ../mod/mpr/add.inc:111
@@ -1159,8 +1161,7 @@ msgid "Edit missing person"
 msgstr ""
 
 #: ../mod/mpr/home.inc:97
-msgid ""
-"Update the details of missing person entered to the database previously"
+msgid "Update the details of missing person entered to the database previously"
 msgstr ""
 
 #: ../mod/mpr/home.inc:98
@@ -1341,8 +1342,8 @@ msgstr ""
 #: ../mod/rap/main.inc:188
 msgid ""
 "<span class=\"publicText\">Public</span> Denotes information that, if "
-"provided, can be exposed to the general public.<br><br><span "
-"class=\"privateText\">Private</span> Denotes information that will not be "
+"provided, can be exposed to the general public.<br><br><span class="
+"\"privateText\">Private</span> Denotes information that will not be "
 "available to the public. <br><br>Private information may be made available "
 "to or shared with other family members and friends you designate, emergency "
 "responders, medical providers, clergy/councilors, law enforcement, or "
@@ -1809,8 +1810,7 @@ msgid "Cannot write to file "
 msgstr ""
 
 #: ../mod/admin/lc_translate.inc:183
-msgid ""
-"New strings merge sucessfully, please press 'Load Existing List' button"
+msgid "New strings merge sucessfully, please press 'Load Existing List' button"
 msgstr ""
 
 #: ../mod/admin/lc_translate.inc:201
@@ -1916,8 +1916,8 @@ msgstr ""
 #: ../mod/admin/lc_add_new_language.inc:45
 #: ../mod/admin/lc_add_new_language.inc:76
 msgid ""
-"Cannot write to file, please give file and directory permissions to "
-"sahana/res folder"
+"Cannot write to file, please give file and directory permissions to sahana/"
+"res folder"
 msgstr ""
 
 #: ../mod/admin/lc_add_new_language.inc:49
@@ -2358,8 +2358,8 @@ msgstr ""
 
 #: ../inc/lib_security/lib_auth.inc:1093
 msgctxt ""
-"The password should have at least one special character. eg. !,@.#$%\\^&\\"
-"*/?`~+="
+"The password should have at least one special character. eg. !,@.#$%\\^&\\*/?"
+"`~+="
 msgid ":;-\"'"
 msgstr ""
 
@@ -2787,9 +2787,9 @@ msgstr ""
 #: ../inc/lib_location.inc:814
 msgid ""
 "This location name is already in the database. Do you want to add anyway?  "
-"&nbsp&nbsp&nbsp<b><a href='#' onclick='_shn_loc_val_name();'>Add "
-"anyway</a></b> or else you can change the \"Location Name\" textbox and "
-"submit the form again."
+"&nbsp&nbsp&nbsp<b><a href='#' onclick='_shn_loc_val_name();'>Add anyway</a></"
+"b> or else you can change the \"Location Name\" textbox and submit the form "
+"again."
 msgstr ""
 
 #: ../inc/lib_location.inc:1004
@@ -2801,8 +2801,8 @@ msgid ""
 "this case all the districts in 'Sri lanka' appear . From those select a "
 "district which will populate the village list in the next select box. So "
 "select 'dehiwala' and you have done it! please note that the levels can be "
-"customized, therefore it does not need to be ''->'district'->'village' "
-",always. Its configurable from the 'administration' section."
+"customized, therefore it does not need to be ''->'district'->'village' ,"
+"always. Its configurable from the 'administration' section."
 msgstr ""
 
 #: ../inc/lib_location.inc:1093
