@@ -14,7 +14,7 @@ $user = "testDontDelete";
 $pass = "dontDelete99";
 
 require_once("../../3rd/nusoap/lib/nusoap.php");
-$wsdl = "https://plstage.nlm.nih.gov/~miernickig/sahanaDev/www/index.php?wsdl&api=1.9.4";
+$wsdl = "https://plstage.nlm.nih.gov/~miernickig/sahanaDev/www/index.php?wsdl&api=1.9.5";
 //$wsdl = "http://localhost/vesuvius-trunk/vesuvius/www/index.php?wsdl&api=1.9.4";
 //$wsdl = "https://pl.nlm.nih.gov/?wsdl";
 $client = new nusoap_client($wsdl);
@@ -25,7 +25,9 @@ $client = new nusoap_client($wsdl);
 //$result = $client->call('resetUserPassword', array('username'=>"testCaseUser9"));
 //$result = $client->call('forgotUsername', array('email'=>"testCase@email.com"));
 
+$result = $client->call('reportPersonViaLPFXML', array('personXML'=>null, 'eventShortName'=>null, 'username'=>null, 'password'=>null));
 
+/*
 $result = $client->call('searchWithAuth', array(
 	'eventShortname'=>'test',
 	'searchTerm'=>'t',
@@ -52,6 +54,8 @@ $result = $client->call('searchWithAuth', array(
 	'username'=>'testDontDelete',
 	'password'=>'dontDelete99'
 ));
+*/
+
 
 echo "<pre>".print_r($result, true)."</pre>";
 
