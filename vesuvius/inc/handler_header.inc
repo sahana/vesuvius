@@ -22,12 +22,12 @@ if (file_exists($global['approot']."www/theme/".$conf['theme']."/header.php")) {
 } else { ?>
 	<div id="header" class="clearfix">
 		<h1><?php echo _t("Sahana FOSS Disaster Management System")?></h1>
-		<?php
-		if(file_exists($global['approot'].'conf/sahana.conf')) {
-			shn_db_get_incident_select();
-			//_shn_lc_lang_list();
+	<?
+		// show language selection if necessary...
+		if(isset($conf['enable_locale']) && $conf['enable_locale'] == true) {
+			_shn_lc_lang_list();
 		}
-		?>
+	?>
 	</div>
 	<?php
 }
