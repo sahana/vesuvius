@@ -26,6 +26,9 @@ find .. -name "*.sql" -exec cat {} \; | perl getfopts.pl > field_options
 # add the field_options script to the file list
 echo ./field_options >> filelist.txt
 
-#different xgettext calls for different contexts
+# different xgettext calls for different contexts
 xgettext -L PHP --from-code=UTF-8 --keyword=_t:1g -f filelist.txt -o sahana.pot
 
+# clean up
+mv sahana.pot locale
+rm field_options filelist.txt
