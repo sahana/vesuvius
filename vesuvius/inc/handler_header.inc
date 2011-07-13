@@ -25,7 +25,7 @@ if (file_exists($global['approot']."www/theme/".$conf['theme']."/header.php")) {
 		<?php
 		if(file_exists($global['approot'].'conf/sahana.conf')) {
 			shn_db_get_incident_select();
-			_shn_lc_lang_list();
+			//_shn_lc_lang_list();
 		}
 		?>
 	</div>

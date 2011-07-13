@@ -399,7 +399,7 @@ div#footer hr {display: none;}
 	background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgba(130,169,224,0.1)), color-stop(80%, rgba(114,153,208,1)), to(rgba(98,137,192,1)));
 }
 #disasterList, #locale { height: 20px; border: 1px solid #6289b0; }
-#locale { display: none; }
+#language { position: absolute; top: 134px; right: 10px; z-index: 9999; color: white; }
 
 a.help, a:link.help {  text-decoration: none; }
 a:hover.help { text-decoration: underline; }
