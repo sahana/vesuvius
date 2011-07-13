@@ -368,7 +368,7 @@ function shn_plus_registerAll($namespace) {
 			)
 		),
 		$namespace,
-		"Report a new person using the LPF v1.3 XML format."
+		"Report a new person using the LPF v1.2 XML format."
 	);
 
 	shn_plus_registerOne($server, 'reportPesonViaLPFXML',
@@ -1278,7 +1278,7 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 			)
 		),
 		$namespace,
-		"Report a new person using the LPF v1.3 XML format."
+		"Report a new person using the LPF v1.2 XML format."
 	);
 
 	shn_plus_registerOne($server, 'reportPesonViaLPFXML',

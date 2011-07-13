@@ -1,6 +1,30 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+2011:0713 Leif
+--------------
+
+ALTER TABLE `pfif_repository` DROP `params`
+
+ALTER TABLE `pfif_repository` ADD `auth_key` VARCHAR( 16 ) NULL AFTER 
+`base_url`
+
+ALTER TABLE `pfif_repository` CHANGE `sched_interval_minutes` 
+`sched_interval_minutes` INT( 11 ) NOT NULL DEFAULT '0'
+
+ALTER TABLE `pfif_repository` CHANGE `granularity` `granularity` VARCHAR( 
+20 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 
+'YYYY-MM-DDThh:mm:ssZ'
+
+ALTER TABLE `pfif_repository` CHANGE `deleted_record` `deleted_record` 
+VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 
+'no'
+
+ALTER TABLE `pfif_repository` CHANGE `log_granularity` `log_granularity` 
+VARCHAR( 20 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 
+'24:00:00'
+
+
 2011:0704 Leif
 --------------
 
