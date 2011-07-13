@@ -8,8 +8,8 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @license      http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.713
  *
  * @todo         Enable Caching
  * @todo         Database Connection Nice Error handling
@@ -22,7 +22,7 @@ global $global;
 //Include the ADOdb Library
 require_once($global['approot'].'3rd/adodb/adodb.inc.php');
 
-//Make the connection to $global['db']
+// Make the connection to $global['db']
 $global['db'] = NewADOConnection($conf['db_engine']);
 $_host_port = $conf['db_host'].(isset($conf['db_port'])?':'.$conf['db_port']:'');
 $global['db']->Connect($_host_port,$conf['db_user'],$conf['db_pass'],$conf['db_name']);
@@ -117,13 +117,6 @@ function shn_db_insert($arr, $table, $audit=true, $primary_field='') {
 		if( $primary_field != '' ) {
 			$p_uuid = $arr[$primary_field];
 		}
-
-		//if primary field is not given the look get the primary key
-		//@TODO
-
-		//if the $_SESSION['user_id'] is not set, $u_uuid =
-		//$conf['guest_id']
-
 		if (isset($_SESSION['user_id'])) {
 			$u_uuid = $_SESSION['user_id'];
 		} else {
@@ -178,29 +171,27 @@ function shn_db_insert($arr, $table, $audit=true, $primary_field='') {
  * @access public
  * @return void
  */
-function shn_db_insert_phonetic($name,$pgl_uuid) {
+function shn_db_insert_phonetic($name, $p_uuid) {
 	global $global;
 	//split the name
-	$keywords = preg_split("/[\s]+/",$name);
+	$keywords = preg_split("/[\s]+/", $name);
 	foreach($keywords as $keyword){
 		$arr['encode1'] = soundex($keyword);
 		$arr['encode2'] = metaphone($keyword);
-		$arr['pgl_uuid'] = $pgl_uuid;
+		$arr['p_uuid'] = $p_uuid;
 
 		//ignore if all the fields are there
-		//@todo: clean
-		if(! $global['db']->GetOne("SELECT * FROM phonetic_word WHERE encode1='{$arr['encode1']}' AND encode2='{$arr['encode2']}' AND pgl_uuid='{$arr['pgl_uuid']}'") ) {
-			shn_db_insert($arr,'phonetic_word', true, 'pgl_uuid');
+		if(! $global['db']->GetOne("SELECT * FROM phonetic_word WHERE encode1='{$arr['encode1']}' AND encode2='{$arr['encode2']}' AND p_uuid='{$arr['p_uuid']}'") ) {
+			shn_db_insert($arr,'phonetic_word', true, 'p_uuid');
 		}
-
-		//clear arr just incase ;-)
+		//clear arr just in case ;-)
 		$arr = null;
 	}
 }
 
 
 
-function shn_db_config_update($module,$conf_key,$value) {
+function shn_db_config_update($module, $conf_key, $value) {
 	global $global;
 
 	$arr['module_id'] = $module;
@@ -227,92 +218,3 @@ function shn_db_get_config($module,$conf_key) {
 }
 
 
-
-function shn_db_get_incident_select() {
-	global $global;
-	?>
-	<form method="post" action="index.php?mod=home&amp;act=incident_set" id='incident_changer' class="head" >
-	<label><?php echo _t("Incident") ?></label>
-	<select name="incident_id" onchange="changeIncident(this.value);" >
-	<?php
-	$sql_level1 = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";
-	$result_leve1 = $global['db']->Execute($sql_level1);
-	while($myresult_level1 = $result_leve1->FetchRow()){
-	?>
-		<option value="<?php echo $myresult_level1['incident_id'];?>" <?php echo ($_SESSION['user_pref_ims_incident_id']==$myresult_level1['incident_id']?'selected="selected"':'');?> ><?php echo $myresult_level1['name'];?></option>
-	<?php
-		$sql_level2 = "SELECT incident_id, name FROM incident WHERE parent_id = '{$myresult_level1['incident_id']}'";
-		$result_leve2 = $global['db']->Execute($sql_level2);
-		while($myresult_level2 = $result_leve2->FetchRow() ){
-	?>
-			<option value="<?php echo $myresult_level2['incident_id'];?>"  <?php echo ($_SESSION['user_pref_ims_incident_id']==$myresult_level2['incident_id']?'selected="selected"':'');?>  >&nbsp;&nbsp;&#8211;&nbsp;<?php echo $myresult_level2['name'];?></option>
-	<?php
-			$sql_level3 = "SELECT incident_id, name FROM incident WHERE parent_id = '{$myresult_level2['incident_id']}'";
-			$result_level3 = $global['db']->Execute($sql_level3);
-			while($myresult_level3 = $result_level3->FetchRow() ){
-	?>
-				<option value="<?php echo $myresult_level3['incident_id'];?>"  <?php echo ($_SESSION['user_pref_ims_incident_id']==$myresult_level3['incident_id']?'selected="selected"':'');?>  >&nbsp;&nbsp;&nbsp;&nbsp;&#8211;&nbsp;<?php echo $myresult_level3['name'];?></option>
-	<?php
-			}
-		}
-
-	}
-	?>
-	</select>
-	<br/>
-	</form>
-	<?php
-}
-
-
-
-function shn_db_get_incident_list() {
-	global $global;
-
-	$sql = "SELECT name FROM incident a inner JOIN user_preference b ON a.incident_id = b.value WHERE b.p_uuid = '{$_SESSION['user_id']}' AND b.pref_key = 'incident_id' ";
-
-	$result = $global['db']->GetAll($sql);
-	/*
-	?>
-	<select name="sel_incident">
-	<?php
-		$sql_all = "SELECT incident_id, parent_id, name FROM incident WHERE parent_id is NULL";
-		$result_all = $global['db']->Execute($sql_all);
-		while($my_disasters = $global['db']->FetchRow($result_all)){
-
-		}
-	?>
-	</select>
-	*/
-	?>
-	<div id="incident_name">
-	<strong><?php echo $result[0]['name'];?> </strong>
-	</div>
-	<?php
-}
-
-
-
-function shn_db_get_all_incidents($incident_id) {
-	global $global;
-
-	$return = array($incident_id);
-	$sql = "SELECT incident_id FROM incident WHERE parent_id = '$incident_id'";
-	$result = $global['db']->GetAll($sql);
-	if($result) {
-		foreach($result as $result_id){
-			$return[] = $result_id['incident_id'];
-		}
-		$global['db']->Execute("CREATE TEMPORARY TABLE tmp_incident (incident_id BIGINT)");
-		$global['db']->Execute("INSERT INTO tmp_incident SELECT incident_id FROM incident WHERE parent_id = '$incident_id'");
-		$result_child = $global['db']->GetAll("SELECT a.incident_id FROM incident a INNER JOIN tmp_incident b ON a.parent_id = b.incident_id");
-		$global['db']->Execute("DROP TABLE tmp_incident");
-
-		if($result_child){
-			foreach($result_child as $result_id){
-				$return[] = $result_id['incident_id'];
-			}
-		}
-	}
-	return $return;
-}

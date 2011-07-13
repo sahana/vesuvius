@@ -12,7 +12,6 @@
  */
 
 global $global;
-require("class.imageAttachment.php");
 require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
 class lpfPatient {
