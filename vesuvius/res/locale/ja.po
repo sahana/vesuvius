@@ -1,4 +1,4 @@
-# English (United Kingdom) translation for vesuvius
+# Japanese translation for vesuvius
 # Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
 # This file is distributed under the same license as the vesuvius package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: vesuvius\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-13 13:23-0400\n"
-"PO-Revision-Date: 2011-07-13 22:52+0000\n"
+"PO-Revision-Date: 2011-07-13 22:51+0000\n"
 "Last-Translator: Greg Miernicki <Unknown>\n"
-"Language-Team: English (United Kingdom) <en_GB@li.org>\n"
+"Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,187 +20,186 @@ msgstr ""
 #: ../www/theme/vesuvius/header.php:59 ../www/theme/vesuvius/header.php:75
 #: ../www/theme/lpf3/header.php:62 ../www/theme/lpf3/header.php:78
 msgid "People Locator"
-msgstr "**ENGLISH UK** PEOPLE LOCATOR **ENGLISH UK**"
+msgstr "**JAPANESE** PEOPLE LOCATOR **JAPANESE**"
 
 #: ../www/theme/vesuvius/header.php:60 ../www/theme/lpf3/header.php:63
 msgid "for the "
-msgstr "for the "
+msgstr ""
 
 #: ../www/theme/vesuvius/header.php:61 ../www/theme/lpf3/header.php:64
 msgid "of"
-msgstr "of"
+msgstr ""
 
 #: ../www/theme/vesuvius/header.php:62 ../www/theme/vesuvius/header.php:76
 #: ../www/theme/lpf3/header.php:65 ../www/theme/lpf3/header.php:79
 msgid "U.S. National Library of Medicine"
-msgstr "U.S. National Library of Medicine"
+msgstr ""
 
 #: ../www/theme/vesuvius/header.php:63 ../www/theme/vesuvius/header.php:77
 #: ../www/theme/lpf3/header.php:66 ../www/theme/lpf3/header.php:80
 msgid "Lister Hill National Center for Biomedical Communications"
-msgstr "Lister Hill National Center for Biomedical Communications"
+msgstr ""
 
 #: ../www/index.php:164
 msgid "The stream requested is not valid."
-msgstr "The stream requested is not valid."
+msgstr ""
 
 #: ../www/index.php:195
 msgid "The requested module is not installed in Vesuvius"
-msgstr "The requested module is not installed in Vesuvius"
+msgstr ""
 
 #: ../www/index.php:214
 msgid "The action requested is not available"
-msgstr "The action requested is not available"
+msgstr ""
 
 #: ../www/index.php:218
 msgid "This action does not support the stream type."
-msgstr "This action does not support the stream type."
+msgstr ""
 
 #: ../mod/tp/conf.inc:14
 msgid "TriagePic"
-msgstr "TriagePic"
+msgstr ""
 
 #: ../mod/cam/conf.inc:16
 msgid "Cam Test"
-msgstr "Cam Test"
+msgstr ""
 
 #: ../mod/dap/conf.inc:14
 msgid "Delete a Person"
-msgstr "Delete a Person"
+msgstr ""
 
 #: ../mod/em/conf.inc:15
 msgid "Event Manager"
-msgstr "Event Manager"
+msgstr ""
 
 #: ../mod/plus/conf.inc:14
 msgid "Web Services"
-msgstr "Web Services"
+msgstr ""
 
 #: ../mod/home/conf.inc:14
 msgid "Home"
-msgstr "Home"
+msgstr ""
 
 #: ../mod/mpres/conf.inc:18
 msgid "MPR Email Service"
-msgstr "MPR Email Service"
+msgstr ""
 
 #: ../mod/int/conf.inc:14
 msgid "Internal Resources"
-msgstr "Internal Resources"
+msgstr ""
 
 #: ../mod/pfif/conf.inc:15
 msgid "PFIF Admin"
-msgstr "PFIF Admin"
+msgstr ""
 
 #: ../mod/stat/conf.inc:15
 msgid "Statistics"
-msgstr "Statistics"
+msgstr ""
 
 #: ../mod/pref/ims_main.inc:71
 msgid "Old password cannot be empty!"
-msgstr "Old password cannot be empty!"
+msgstr ""
 
 #: ../mod/pref/ims_main.inc:79
 msgid "New password cannot be empty!"
-msgstr "New password cannot be empty!"
+msgstr ""
 
 #: ../mod/pref/ims_main.inc:87
 msgid "You left the confirm password field blank."
-msgstr "You left the confirm password field blank."
+msgstr ""
 
 #: ../mod/pref/ims_main.inc:95
 msgid "Your new password did not match when you retyped it."
-msgstr "Your new password did not match when you retyped it."
+msgstr ""
 
 #: ../mod/pref/ims_main.inc:120
 msgid "You cannot change the password more than once in one day"
-msgstr "You cannot change the password more than once in one day"
+msgstr ""
 
 #: ../mod/pref/ims_main.inc:151
 msgid "You cannot choose one of the recent four passwords"
-msgstr "You cannot choose one of the recent four passwords"
+msgstr ""
 
 #: ../mod/pref/ims_main.inc:165
 msgid " Succesfully changed Password "
-msgstr " Succesfully changed Password "
+msgstr ""
 
 #: ../mod/pref/ims_menu.inc:24
 msgid "Change My Password"
-msgstr "Change My Password"
+msgstr ""
 
 #: ../mod/pref/ims_menu.inc:25
 msgid "Edit My Personal Details"
-msgstr "Edit My Personal Details"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:42
 msgid "Change default incident"
-msgstr "Change default incident"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:55
 msgid "Default Incident"
-msgstr "Default Incident"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:58
 msgid "Incident Type"
-msgstr "Incident Type"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:59
 msgid "Select Incident"
-msgstr "Select Incident"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:63 ../mod/mpr/admin.inc:168
 #: ../mod/mpr/admin.inc:355 ../mod/mpr/admin.inc:378
 #: ../mod/admin/lc_ui_translate_update.inc:26
 msgid "Update"
-msgstr "Update"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:75 ../mod/mpr/add.inc:179
 msgid "You have not completed the form"
-msgstr "You have not completed the form"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:80
 msgid "Please Select the incident type"
-msgstr "Please Select the incident type"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:85
 msgid "Please select an item from 'Select Incident' box"
-msgstr "Please select an item from 'Select Incident' box"
+msgstr ""
 
 #: ../mod/pref/main.inc:124 ../mod/pref/main.inc:437 ../mod/pref/main.inc:444
 msgid ""
 "Please provide the text in the image correctly to prove you are human."
 msgstr ""
-"Please provide the text in the image correctly to prove you are human."
 
 #: ../mod/pref/main.inc:365 ../mod/pref/main.inc:425
 #: ../mod/mpr/pfif_main.inc:119 ../mod/admin/location.inc:447
 #: ../mod/admin/location.inc:493 ../inc/lib_security/auth_form.inc:85
 msgid "Submit"
-msgstr "Submit"
+msgstr ""
 
 #: ../mod/pref/main.inc:508
 msgid "Enable/Disable OCR XForm"
-msgstr "Enable/Disable OCR XForm"
+msgstr ""
 
 #: ../mod/pref/main.inc:510
 msgid "Enable or disable the OCR friendly form generation."
-msgstr "Enable or disable the OCR friendly form generation."
+msgstr ""
 
 #: ../mod/pref/main.inc:513
 msgid "Enabled"
-msgstr "Enabled"
+msgstr ""
 
 #: ../mod/pref/main.inc:513
 msgid "Disabled"
-msgstr "Disabled"
+msgstr ""
 
 #: ../mod/pref/main.inc:513
 msgid "OCR friendly XForm : "
-msgstr "OCR friendly XForm : "
+msgstr ""
 
 #: ../mod/pref/main.inc:515 ../inc/lib_form.inc:831
 msgid "Cancel"
-msgstr "Cancel"
+msgstr ""
 
 #: ../mod/pref/main.inc:516 ../mod/admin/location.inc:107
 #: ../mod/admin/location.inc:155 ../mod/admin/location.inc:301
@@ -208,368 +207,368 @@ msgstr "Cancel"
 #: ../inc/lib_security/acl_form.inc:148 ../inc/lib_security/acl_form.inc:327
 #: ../inc/lib_security/acl_form.inc:399
 msgid "Save"
-msgstr "Save"
+msgstr ""
 
 #: ../mod/pref/main.inc:529 ../mod/pref/main.inc:538
 msgid "Your preference was successfully saved."
-msgstr "Your preference was successfully saved."
+msgstr ""
 
 #: ../mod/pref/main.inc:532 ../mod/pref/main.inc:541
 msgid "An error occured while saving your preference."
-msgstr "An error occured while saving your preference."
+msgstr ""
 
 #: ../mod/pref/conf.inc:15
 msgid "My Settings"
-msgstr "My Settings"
+msgstr ""
 
 #: ../mod/inw/main.inc:252 ../mod/inw/conf.inc:15 ../mod/mpr/main.inc:56
 msgid "Search for a Person"
-msgstr "Search for a Person"
+msgstr ""
 
 #: ../mod/mpr/view.inc:24 ../mod/mpr/search.inc:300
 msgid "Details"
-msgstr "Details"
+msgstr ""
 
 #: ../mod/mpr/view.inc:31 ../mod/mpr/edit.inc:149 ../mod/mpr/edit.inc:403
 #: ../mod/mpr/add.inc:78 ../mod/mpr/add.inc:474 ../mod/mpr/search.inc:66
 #: ../mod/mpr/search.inc:67
 msgid "Identity"
-msgstr "Identity"
+msgstr ""
 
 #: ../mod/mpr/view.inc:35 ../mod/mpr/edit.inc:150 ../mod/mpr/edit.inc:407
 #: ../mod/mpr/add.inc:478
 msgid "Identity Card Number"
-msgstr "Identity Card Number"
+msgstr ""
 
 #: ../mod/mpr/view.inc:38 ../mod/mpr/edit.inc:151 ../mod/mpr/edit.inc:410
 #: ../mod/mpr/add.inc:81 ../mod/mpr/add.inc:481 ../mod/mpr/search.inc:69
 msgid "Passport Number"
-msgstr "Passport Number"
+msgstr ""
 
 #: ../mod/mpr/view.inc:41 ../mod/mpr/edit.inc:152 ../mod/mpr/edit.inc:413
 #: ../mod/mpr/add.inc:484 ../mod/mpr/search.inc:70
 msgid "Driving License"
-msgstr "Driving License"
+msgstr ""
 
 #: ../mod/mpr/view.inc:50 ../mod/mpr/edit.inc:154 ../mod/mpr/edit.inc:421
 #: ../mod/mpr/add.inc:85 ../mod/mpr/add.inc:494 ../mod/mpr/search.inc:78
 msgid "Basic Details"
-msgstr "Basic Details"
+msgstr ""
 
 #: ../mod/mpr/view.inc:54 ../mod/mpr/edit.inc:156 ../mod/mpr/edit.inc:425
 #: ../mod/mpr/add.inc:498 ../mod/mpr/search.inc:74
 #: ../inc/lib_security/acl_form.inc:421
 msgid "Full Name"
-msgstr "Full Name"
+msgstr ""
 
 #: ../mod/mpr/view.inc:57 ../mod/mpr/edit.inc:157 ../mod/mpr/edit.inc:428
 #: ../mod/mpr/add.inc:88 ../mod/mpr/add.inc:501 ../mod/mpr/search.inc:75
 #: ../mod/rap/main.inc:210
 msgid "Family Name"
-msgstr "Family Name"
+msgstr ""
 
 #: ../mod/mpr/view.inc:60 ../mod/mpr/edit.inc:158 ../mod/mpr/edit.inc:431
 #: ../mod/mpr/add.inc:89 ../mod/mpr/add.inc:504 ../mod/mpr/search.inc:76
 msgid "Local Name"
-msgstr "Local Name"
+msgstr ""
 
 #: ../mod/mpr/view.inc:63 ../mod/mpr/edit.inc:159 ../mod/mpr/edit.inc:434
 #: ../mod/mpr/add.inc:90 ../mod/mpr/add.inc:507
 msgid "Date of Birth"
-msgstr "Date of Birth"
+msgstr ""
 
 #: ../mod/mpr/view.inc:66 ../mod/mpr/edit.inc:161 ../mod/mpr/edit.inc:437
 #: ../mod/mpr/add.inc:510
 msgid "Age Group"
-msgstr "Age Group"
+msgstr ""
 
 #: ../mod/mpr/view.inc:69 ../mod/mpr/edit.inc:162 ../mod/mpr/edit.inc:440
 #: ../mod/mpr/add.inc:92 ../mod/mpr/add.inc:513 ../mod/rap/main.inc:214
 msgid "Gender"
-msgstr "Gender"
+msgstr ""
 
 #: ../mod/mpr/view.inc:72 ../mod/mpr/edit.inc:163 ../mod/mpr/edit.inc:443
 #: ../mod/mpr/add.inc:93 ../mod/mpr/add.inc:516
 msgid "Marital Status"
-msgstr "Marital Status"
+msgstr ""
 
 #: ../mod/mpr/view.inc:75 ../mod/mpr/edit.inc:164 ../mod/mpr/edit.inc:446
 #: ../mod/mpr/add.inc:94 ../mod/mpr/add.inc:519 ../mod/rap/main.inc:215
 msgid "Religion"
-msgstr "Religion"
+msgstr ""
 
 #: ../mod/mpr/view.inc:78 ../mod/mpr/edit.inc:165 ../mod/mpr/edit.inc:449
 #: ../mod/mpr/add.inc:95 ../mod/mpr/add.inc:522 ../mod/rap/main.inc:216
 msgid "Race"
-msgstr "Race"
+msgstr ""
 
 #: ../mod/mpr/view.inc:86 ../mod/mpr/edit.inc:192 ../mod/mpr/edit.inc:457
 #: ../mod/mpr/add.inc:115 ../mod/mpr/add.inc:531
 msgid "Physical Details"
-msgstr "Physical Details"
+msgstr ""
 
 #: ../mod/mpr/view.inc:90 ../mod/mpr/edit.inc:193 ../mod/mpr/edit.inc:461
 #: ../mod/mpr/add.inc:535 ../mod/mpr/search.inc:317
 msgid "Eye Colour"
-msgstr "Eye Colour"
+msgstr ""
 
 #: ../mod/mpr/view.inc:93 ../mod/mpr/edit.inc:194 ../mod/mpr/edit.inc:464
 #: ../mod/mpr/add.inc:538 ../mod/mpr/search.inc:317
 msgid "Skin Colour"
-msgstr "Skin Colour"
+msgstr ""
 
 #: ../mod/mpr/view.inc:96 ../mod/mpr/edit.inc:195 ../mod/mpr/edit.inc:467
 #: ../mod/mpr/add.inc:541 ../mod/mpr/search.inc:317
 msgid "Hair Colour"
-msgstr "Hair Colour"
+msgstr ""
 
 #: ../mod/mpr/view.inc:99 ../mod/mpr/edit.inc:196 ../mod/mpr/edit.inc:470
 #: ../mod/mpr/add.inc:544 ../mod/mpr/search.inc:317 ../mod/rap/main.inc:232
 msgid "Height"
-msgstr "Height"
+msgstr ""
 
 #: ../mod/mpr/view.inc:102 ../mod/mpr/edit.inc:197 ../mod/mpr/edit.inc:473
 #: ../mod/mpr/add.inc:547 ../mod/mpr/search.inc:317 ../mod/rap/main.inc:233
 msgid "Weight"
-msgstr "Weight"
+msgstr ""
 
 #: ../mod/mpr/view.inc:105 ../mod/mpr/view.inc:147 ../mod/mpr/edit.inc:198
 #: ../mod/mpr/edit.inc:204 ../mod/mpr/edit.inc:476 ../mod/mpr/edit.inc:541
 #: ../mod/mpr/add.inc:550 ../mod/mpr/add.inc:618 ../mod/mpr/search.inc:325
 msgid "Comments"
-msgstr "Comments"
+msgstr ""
 
 #: ../mod/mpr/view.inc:113 ../mod/mpr/edit.inc:172 ../mod/mpr/edit.inc:490
 #: ../mod/mpr/add.inc:564
 msgid "Contact Details"
-msgstr "Contact Details"
+msgstr ""
 
 #: ../mod/mpr/view.inc:117 ../mod/mpr/edit.inc:173 ../mod/mpr/edit.inc:493
 #: ../mod/mpr/add.inc:104 ../mod/mpr/add.inc:317 ../mod/mpr/add.inc:567
 #: ../mod/mpr/add.inc:636
 msgid "Address"
-msgstr "Address"
+msgstr ""
 
 #: ../mod/mpr/view.inc:120 ../mod/mpr/edit.inc:174 ../mod/mpr/edit.inc:514
 #: ../mod/mpr/add.inc:589
 msgid "Postal Code"
-msgstr "Postal Code"
+msgstr ""
 
 #: ../mod/mpr/view.inc:123 ../mod/mpr/edit.inc:175 ../mod/mpr/edit.inc:517
 #: ../mod/mpr/add.inc:592
 msgid "Home Phone"
-msgstr "Home Phone"
+msgstr ""
 
 #: ../mod/mpr/view.inc:126 ../mod/mpr/edit.inc:176 ../mod/mpr/edit.inc:520
 #: ../mod/mpr/add.inc:595
 msgid "Mobile"
-msgstr "Mobile"
+msgstr ""
 
 #: ../mod/mpr/view.inc:132 ../mod/mpr/edit.inc:200 ../mod/mpr/edit.inc:527
 #: ../mod/mpr/add.inc:132 ../mod/mpr/add.inc:603
 msgid "Other Details"
-msgstr "Other Details"
+msgstr ""
 
 #: ../mod/mpr/view.inc:138 ../mod/mpr/edit.inc:201 ../mod/mpr/edit.inc:532
 #: ../mod/mpr/add.inc:133 ../mod/mpr/add.inc:609
 msgid "Blood Type"
-msgstr "Blood Type"
+msgstr ""
 
 #: ../mod/mpr/view.inc:141 ../mod/mpr/edit.inc:202 ../mod/mpr/edit.inc:535
 #: ../mod/mpr/add.inc:612 ../mod/mpr/search.inc:325
 msgid "Last Seen"
-msgstr "Last Seen"
+msgstr ""
 
 #: ../mod/mpr/view.inc:144 ../mod/mpr/edit.inc:203 ../mod/mpr/edit.inc:538
 #: ../mod/mpr/add.inc:615 ../mod/mpr/search.inc:325
 msgid "Last Clothing"
-msgstr "Last Clothing"
+msgstr ""
 
 #: ../mod/mpr/view.inc:154
 msgid "People that are tracking"
-msgstr "People that are tracking"
+msgstr ""
 
 #: ../mod/mpr/view.inc:156 ../mod/mpr/edit.inc:813 ../mod/mpr/search.inc:321
 #: ../mod/mpr/search.inc:384
 msgid "View"
-msgstr "View"
+msgstr ""
 
 #: ../mod/mpr/view.inc:162
 msgid "Click to edit"
-msgstr "Click to edit"
+msgstr ""
 
 #: ../mod/mpr/view.inc:163 ../mod/mpr/search.inc:393 ../inc/lib_form.inc:834
 msgid "Back"
-msgstr "Back"
+msgstr ""
 
 #: ../mod/mpr/report.inc:52 ../mod/mpr/report.inc:85 ../mod/mpr/report.inc:118
 #: ../mod/mpr/report.inc:151
 msgid "List of Missing People"
-msgstr "List of Missing People"
+msgstr ""
 
 #: ../mod/mpr/report.inc:53 ../mod/mpr/report.inc:86 ../mod/mpr/report.inc:119
 #: ../mod/mpr/report.inc:152
 msgid "This is the list of missing people"
-msgstr "This is the list of missing people"
+msgstr ""
 
 #: ../mod/mpr/report.inc:185 ../mod/mpr/report.inc:218
 #: ../mod/mpr/report.inc:250 ../mod/mpr/report.inc:282
 msgid "List of Found People"
-msgstr "List of Found People"
+msgstr ""
 
 #: ../mod/mpr/report.inc:186 ../mod/mpr/report.inc:219
 #: ../mod/mpr/report.inc:251 ../mod/mpr/report.inc:283
 msgid "This is the list of found people"
-msgstr "This is the list of found people"
+msgstr ""
 
 #: ../mod/mpr/main.inc:54 ../mod/mpr/admin.inc:31 ../mod/mpr/conf.inc:17
 msgid "Missing Person Registry"
-msgstr "Missing Person Registry"
+msgstr ""
 
 #: ../mod/mpr/main.inc:55
 msgid "MPR Home"
-msgstr "MPR Home"
+msgstr ""
 
 #: ../mod/mpr/main.inc:57
 msgid "Report a Missing Person"
-msgstr "Report a Missing Person"
+msgstr ""
 
 #: ../mod/mpr/main.inc:58
 msgid "Edit a Missing Person"
-msgstr "Edit a Missing Person"
+msgstr ""
 
 #: ../mod/mpr/main.inc:59
 msgid "Report a Found Person"
-msgstr "Report a Found Person"
+msgstr ""
 
 #: ../mod/mpr/main.inc:60
 msgid "List Missing People"
-msgstr "List Missing People"
+msgstr ""
 
 #: ../mod/mpr/main.inc:61
 msgid "List Found People"
-msgstr "List Found People"
+msgstr ""
 
 #: ../mod/mpr/main.inc:65
 msgid "PFIF"
-msgstr "PFIF"
+msgstr ""
 
 #: ../mod/mpr/main.inc:66 ../mod/admin/lc_upload.inc:27
 msgid "Import"
-msgstr "Import"
+msgstr ""
 
 #: ../mod/mpr/main.inc:67
 msgid "Export"
-msgstr "Export"
+msgstr ""
 
 #: ../mod/mpr/main.inc:173 ../mod/mpr/main.inc:182 ../mod/mpr/main.inc:197
 #: ../mod/mpr/main.inc:208 ../mod/mpr/main.inc:241 ../mod/mpr/main.inc:251
 #: ../mod/mpr/main.inc:269
 msgid "Edit Missing Person Entry"
-msgstr "Edit Missing Person Entry"
+msgstr ""
 
 #: ../mod/mpr/main.inc:200 ../mod/mpr/main.inc:229 ../mod/mpr/main.inc:321
 #: ../mod/mpr/main.inc:336 ../mod/mpr/main.inc:360
 msgid "Add a tracker to"
-msgstr "Add a tracker to"
+msgstr ""
 
 #: ../mod/mpr/main.inc:255
 #, php-format
 msgid "Are you sure you want to delete tracker %s from tracker list"
-msgstr "Are you sure you want to delete tracker %s from tracker list"
+msgstr ""
 
 #: ../mod/mpr/main.inc:271
 msgid "Edit Found Person Entry"
-msgstr "Edit Found Person Entry"
+msgstr ""
 
 #: ../mod/mpr/main.inc:288
 msgid "View Person"
-msgstr "View Person"
+msgstr ""
 
 #: ../mod/mpr/main.inc:389 ../mod/mpr/main.inc:400 ../mod/mpr/main.inc:439
 #: ../mod/mpr/main.inc:450
 msgid "Person Registry : Reporting a "
-msgstr "Person Registry : Reporting a "
+msgstr ""
 
 #: ../mod/mpr/main.inc:393
 msgid "Person Registry : Person Details"
-msgstr "Person Registry : Person Details"
+msgstr ""
 
 #: ../mod/mpr/main.inc:408 ../mod/mpr/main.inc:434
 msgid "The missing person have been added"
-msgstr "The missing person have been added"
+msgstr ""
 
 #: ../mod/mpr/main.inc:418
 msgid "Please Select the person who is reporting"
-msgstr "Please Select the person who is reporting"
+msgstr ""
 
 #: ../mod/mpr/mpr_lib.inc:36 ../mod/mpr/mpr_lib.inc:53
 #: ../mod/mpr/mpr_lib.inc:93
 msgid "Height : "
-msgstr "Height : "
+msgstr ""
 
 #: ../mod/mpr/mpr_lib.inc:37 ../mod/mpr/mpr_lib.inc:54
 #: ../mod/mpr/mpr_lib.inc:94
 msgid "Weight : "
-msgstr "Weight : "
+msgstr ""
 
 #: ../mod/mpr/mpr_lib.inc:38 ../mod/mpr/mpr_lib.inc:55
 #: ../mod/mpr/mpr_lib.inc:95
 msgid "Eye Colour : "
-msgstr "Eye Colour : "
+msgstr ""
 
 #: ../mod/mpr/mpr_lib.inc:39 ../mod/mpr/mpr_lib.inc:56
 #: ../mod/mpr/mpr_lib.inc:96
 msgid "Skin Colour : "
-msgstr "Skin Colour : "
+msgstr ""
 
 #: ../mod/mpr/mpr_lib.inc:40 ../mod/mpr/mpr_lib.inc:57
 #: ../mod/mpr/mpr_lib.inc:97
 msgid "Hair Colour : "
-msgstr "Hair Colour : "
+msgstr ""
 
 #: ../mod/mpr/mpr_lib.inc:41 ../mod/mpr/mpr_lib.inc:58
 #: ../mod/mpr/mpr_lib.inc:98
 msgid "Last Seen : "
-msgstr "Last Seen : "
+msgstr ""
 
 #: ../mod/mpr/mpr_lib.inc:42 ../mod/mpr/mpr_lib.inc:59
 #: ../mod/mpr/mpr_lib.inc:99
 msgid "Last Clothing : "
-msgstr "Last Clothing : "
+msgstr ""
 
 #: ../mod/mpr/mpr_lib.inc:43 ../mod/mpr/mpr_lib.inc:60
 #: ../mod/mpr/mpr_lib.inc:100
 msgid "Comments : "
-msgstr "Comments : "
+msgstr ""
 
 #: ../mod/mpr/mpr_lib.inc:45 ../mod/mpr/mpr_lib.inc:62
 #: ../mod/mpr/search.inc:330
 msgid "Assign to more incidents"
-msgstr "Assign to more incidents"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:146 ../mod/mpr/add.inc:58 ../mod/mpr/add.inc:67
 #: ../mod/mpr/search.inc:377
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:147
 msgid "Change the status"
-msgstr "Change the status"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:155
 msgid "Please enter any of the following details on the person"
-msgstr "Please enter any of the following details on the person"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:167 ../mod/mpr/edit.inc:319
 msgid "Replace Current Picture"
-msgstr "Replace Current Picture"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:170 ../mod/mpr/edit.inc:322 ../mod/mpr/add.inc:98
 #: ../mod/mpr/add.inc:100 ../mod/mpr/add.inc:398 ../mod/mpr/add.inc:399
 #: ../mod/mpr/images.inc:23
 msgid "Upload Picture"
-msgstr "Upload Picture"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:206 ../mod/mpr/edit.inc:323 ../mod/mpr/edit.inc:822
 #: ../mod/mpr/add.inc:139 ../mod/mpr/add.inc:323 ../mod/mpr/add.inc:401
@@ -577,42 +576,42 @@ msgstr "Upload Picture"
 #: ../mod/mpr/images.inc:25 ../mod/admin/location.inc:62
 #: ../inc/lib_paging.inc:182 ../inc/lib_paging.inc:296 ../inc/lib_form.inc:837
 msgid "Next"
-msgstr "Next"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:232 ../mod/mpr/add.inc:172
 msgid "Height should be a value in centimeters(cm)"
-msgstr "Height should be a value in centimeters(cm)"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:239 ../mod/mpr/add.inc:185
 msgid "Please enter the full name of the missing person"
-msgstr "Please enter the full name of the missing person"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:264
 msgid "Invalid image type.Please try again!"
-msgstr "Invalid image type.Please try again!"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:350 ../mod/mpr/add.inc:198 ../mod/mpr/add.inc:425
 #: ../mod/rap/main.inc:367
 msgid "Invalid image type please try again"
-msgstr "Invalid image type please try again"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:392 ../mod/mpr/search.inc:299
 msgid "Person"
-msgstr "Person"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:548
 msgid "Reporting People"
-msgstr "Reporting People"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:554 ../mod/mpr/search.inc:375
 msgid "Picture"
-msgstr "Picture"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:555 ../mod/mpr/edit.inc:805 ../mod/mpr/add.inc:299
 #: ../mod/mpr/add.inc:630 ../mod/mpr/search.inc:40 ../mod/mpr/search.inc:72
 #: ../mod/mpr/search.inc:73 ../mod/mpr/search.inc:376
 msgid "Name"
-msgstr "Name"
+msgstr ""
 
 #: ../mod/mpr/edit.inc:556 ../mod/mpr/edit.inc:806
 msgid "Relationship"
