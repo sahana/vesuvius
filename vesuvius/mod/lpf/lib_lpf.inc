@@ -8,8 +8,375 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0713
+ * @lastModified 2011.0714
  */
+
+
+/** ******************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+********************************************************************************************************************************************************************
+*
+* @class        personImage
+* @version      2.0
+* @author       Greg Miernicki <g@miernicki.com>
+*
+********************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************/
+
+class personImage {
+
+	public $p_uuid;            // p_uuid
+	public $mimeType;          // image_type
+	public $height;            // image_height
+	public $width;             // image_width
+	public $created;           // created (timestamp)
+	public $category;          // category (person)
+	public $url;               // url
+	public $url_thumb;         // url_thumb
+	public $filename;          //
+	public $filenameOriginal;  // original_filename
+	public $fileContentBase64; //
+	public $fileContent;       //
+	public $cropX;             // crop_x
+	public $cropY;             // crop_y
+	public $cropW;             // crop_w
+	public $cropH;             // crop_h
+	public $fullSizePath;      // full_path
+	public $thumbnailPath;     //
+
+	// Constructor
+	public function __construct($p_uuid, $mimeType, $fileContentBase64) {
+		if($mimeType == "image/png") {
+			$fileExtension = ".png";
+		} else if($mimeType == "image/gif") {
+			$fileExtension = ".gif";
+		} else {
+			$fileExtension = ".jpg";
+		}
+		$this->p_uuid            = "'".$p_uuid."'";
+		$this->mimeType          = "'".$mimeType."'";
+		$this->height            = 0;
+		$this->width             = 0;
+		$this->created           = "'".date("Y-m-d : H:i:s", time())."'"; // 2037-12-31 23:59:59
+		$this->category          = "'person'";
+		$this->filenameOriginal  = "NULL";
+		$this->cropX             = "NULL";
+		$this->cropY             = "NULL";
+		$this->cropW             = "NULL";
+		$this->cropH             = "NULL";
+
+		$this->filename          = str_replace("/", "_", $this->p_uuid)."__".(string)rand(1000000, 9999999);
+		$this->fileContentBase64 = $fileContentBase64;
+		$this->fileContent       = base64_decode($this->fileContentBase64);
+		$this->fullSizePath      = $global['approot']."www/tmp/plus_cache/".$this->filename.$fileExtension;
+		$this->thumbnailPath     = $global['approot']."www/tmp/plus_cache/".$this->filename."__thumb".$fileExtension;
+		$this->url               = "tmp/plus_cache/".$this->filename.$fileExtension;
+		$this->url_thumb         = "tmp/plus_cache/".$this->filename."__thumb".$fileExtension;
+	}
+
+
+	// Destructor
+	public function __destruct() {
+		$this->p_uuid            = NULL;
+		$this->mimeType          = NULL;
+		$this->height            = NULL;
+		$this->width             = NULL;
+		$this->created           = NULL;
+		$this->category          = NULL;
+		$this->url               = NULL;
+		$this->url_thumb         = NULL;
+		$this->filename          = NULL;
+		$this->filenameOriginal  = NULL;
+		$this->fileContentBase64 = NULL;
+		$this->fileContent       = NULL;
+		$this->cropX             = NULL;
+		$this->cropY             = NULL;
+		$this->cropW             = NULL;
+		$this->cropH             = NULL;
+		$this->fullSizePath      = NULL;
+		$this->thumbnailPath     = NULL;
+	}
+
+	// save the current image
+	public function save() {
+		global $global;
+		require_once($global['approot']."inc/lib_image.inc");
+
+		file_put_contents($this->fullSizePath, $this->fileContent);
+		shn_image_resize_height($fullSizePath, $this->thumbnailPath, 320); // save a 320px wide thumbnail
+
+		// make the files world writeable for other applications
+		chmod($fullSizePath,  0777);
+		chmod($thumbnailPath, 0777);
+
+		$info = getimagesize($fullSizePath);
+		$this->width  = $info[0];
+		$this->height = $info[1];
+
+		$q = "
+			INSERT INTO image (
+				p_uuid,
+				image_type,
+				image_height,
+				image_width,
+				created,
+				category,
+				url,
+				url_thumb,
+				original_filename,
+				cropX,
+				cropY,
+				cropW,
+				cropH,
+				full_path )
+			VALUES (
+				".$this->p_uuid.",
+				".$this->mimeType.",
+				".$this->height.",
+				".$this->width.",
+				".$this->created.",
+				".$this->category.",
+				".$this->url.",
+				".$this->url_thumb.",
+				".$this->original_filename."
+				".$this->cropX.",
+				".$this->cropY.",
+				".$this->cropW.",
+				".$this->cropH.",
+				".$this->fullPath." );
+		";
+		$res = $global['db']->Execute($q);
+	}
+
+	// Debug
+	public function debug() {
+		echo "\np_uuid >>>>>>>>>>>>> ".$this->." <<";
+		echo "\nmimeType >>>>>>>>>>> ".$this->." <<";
+		echo "\nheight >>>>>>>>>>>>> ".$this->." <<";
+		echo "\nwidth >>>>>>>>>>>>>> ".$this->." <<";
+		echo "\ncreated >>>>>>>>>>>> ".$this->." <<";
+		echo "\ncategory >>>>>>>>>>> ".$this->." <<";
+		echo "\nurl >>>>>>>>>>>>>>>> ".$this->." <<";
+		echo "\nurl_thumb >>>>>>>>>> ".$this->." <<";
+		echo "\nfilename >>>>>>>>>>> ".$this->." <<";
+		echo "\nfilenameOriginal >>> ".$this->." <<";
+		//echo "\nfileContent >>>>>>>> ".$this->." <<";
+		echo "\nfileContentBase64 >> ".$this->." <<";
+		echo "\ncropX >>>>>>>>>>>>>> ".$this->." <<";
+		echo "\ncropY >>>>>>>>>>>>>> ".$this->." <<";
+		echo "\ncropW >>>>>>>>>>>>>> ".$this->." <<";
+		echo "\ncropH >>>>>>>>>>>>>> ".$this->." <<";
+		echo "\nfullPath >>>>>>>>>>> ".$this->." <<\n";
+	}
+}
+
+
+
+/** ******************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+********************************************************************************************************************************************************************
+*
+* @class        personXML
+* @version      1.0
+* @author       Greg Miernicki <g@miernicki.com>
+*
+********************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************/
+
+class personXML {
+
+	public $theString; // object is initialized as a string first then parsed
+
+	public $uuid;
+
+	public $givenName;
+	public $familyName;
+	public $gender;
+
+	// sql strings w/ wrapped quotations
+	public $age;
+	public $maxAge;
+	public $minAge;
+
+	public $comments;
+	public $sahanaStatus;
+	public $hospitalId;
+	public $peds;
+
+	public $images;
+
+	public $incident_id;
+	public $shortName;
+	public $longName;
+
+	public $emailSubject;
+	public $emailDate;
+	public $emailFrom;
+
+	public $clientDate;
+
+
+	/**
+	* Constructor:
+	*/
+	public function	__construct() {
+		$this->uuid = shn_create_uuid();
+		$this->incident_id = 0; // default
+	}
+
+
+
+	/**
+	* Destructor
+	*/
+	public function __destruct() {}
+
+
+
+	public function insertPersonXML($version) {
+		if($version == 1.2) {
+			$this->insertPersonXMLv12();
+		} else if($version == 1.6) {
+			$this->insertPersonXMLv16();
+		}
+	}
+
+
+
+	public function insertPersonXMLv12() {
+		global $global;
+		$this->figureOutIncidentId();
+
+		// insert person
+		$q1 = "
+			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
+			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', ".$this->hospitalId.");
+		";
+		$res = $global['db']->Execute($q1);
+
+
+		// insert person's status
+		$q4 = "
+			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
+			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', '".$this->clientDate."', TRUE, CURRENT_TIMESTAMP);
+		";
+		$res = $global['db']->Execute($q4);
+
+
+		// insert person's details
+		$q5 = "
+			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old, minAge, maxAge)
+			VALUES ('".$this->uuid."', NULL, ".$this->gender.", ".$this->age.", ".$this->minAge.", ".$this->maxAge.");
+		";
+		$res = $global['db']->Execute($q5);
+
+		// insert into mpres_log
+		$q7 = "
+			INSERT INTO mpres_log (p_uuid, email_subject, email_from, email_date, update_time)
+			VALUES ('".$this->uuid."','".$this->emailSubject."','".$this->emailFrom."','".$this->emailDate."',NOW());
+		";
+		$res = $global['db']->Execute($q7);
+
+		$this->insertImages();
+	}
+
+
+
+	public function insertPersonXMLv16() {
+		global $global;
+		$this->figureOutIncidentId();
+
+		// insert person
+		$q1 = "
+			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
+			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', ".$this->hospitalId.");
+		";
+		$res = $global['db']->Execute($q1);
+
+
+		// insert person's status
+		$q4 = "
+			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
+			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);
+		";
+		$res = $global['db']->Execute($q4);
+
+
+		// insert person's details
+		$q5 = "
+			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old, last_seen, last_clothing, other_comments)
+			VALUES ('".$this->uuid."', NULL, ".$this->gender.", '".$this->age."', NULL, NULL, '".$this->comments."');
+		";
+		$res = $global['db']->Execute($q5);
+
+
+		// insert into mpres_log
+		$q7 = "
+			INSERT INTO mpres_log (p_uuid, email_subject, email_from, email_date, update_time)
+			VALUES ('".$this->uuid."','".$this->emailSubject."','".$this->emailFrom."','".$this->emailDate."',NOW());
+		";
+		$res = $global['db']->Execute($q7);
+
+		$this->insertImages();
+	}
+
+
+
+	public function insertPerson() {
+		global $global;
+
+		$this->extractStatusFromSubject();
+
+		$name = new nameParser($this->emailSubject);
+		$this->givenName  = $name->getFirstName();
+		$this->familyName = $name->getLastName();
+
+		// insert person
+		$q1 = "
+			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
+			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', NULL);
+		";
+		$res = $global['db']->Execute($q1);
+
+
+		// insert person's status
+		$q4 = "
+			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
+			VALUES ( '".$this->uuid."', '".$this->sahanaStatus."', CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);
+		";
+		$res = $global['db']->Execute($q4);
+
+
+		// insert into mpres_log
+		$q5 = "
+			INSERT INTO mpres_log (p_uuid, email_subject, email_from, email_date, update_time)
+			VALUES ('".$this->uuid."','".$this->emailSubject."','".$this->emailFrom."','".$this->emailDate."',NOW());
+		";
+		$res = $global['db']->Execute($q5);
+
+
+		// insert person's details
+		$q6 = "
+			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old, last_seen, last_clothing, other_comments)
+			VALUES ('".$this->uuid."', NULL, NULL, NULL, NULL, NULL, NULL);
+		";
+		$res = $global['db']->Execute($q6);
+
+
+		// insert person who reported link to root cuz we dont really know who reported them
+		$q7 = "
+			INSERT INTO person_to_report (p_uuid, rep_uuid)
+			VALUES ('".$this->uuid."', '1');
+		";
+		$res = $global['db']->Execute($q7);
+
+		$this->insertImages();
+	}
+}
+
+
 
 
 /** ******************************************************************************************************************************************************************
@@ -616,73 +983,6 @@ class nameParser {
 	}
 }
 
-
-/** ******************************************************************************************************************************************************************
-*********************************************************************************************************************************************************************
-********************************************************************************************************************************************************************
-*
-* @class        imageAttachment
-* @version      1.0
-* @author       Greg Miernicki <g@miernicki.com>
-*
-********************************************************************************************************************************************************************
-*********************************************************************************************************************************************************************
-**********************************************************************************************************************************************************************/
-
-class imageAttachment {
-
-	/**
-	* todo descriptions
-	* @var	string
-	* var boolean,array
-	*/
-
-	public $filename;
-	public $fileContent;
-	public $height;
-	public $width;
-	public $type;
-	public $url;
-	public $url_thumb;
-	public $original_filename;
-
-	// Constructor
-	public function __construct($filename, $fileContent, $height, $width, $type, $url, $url_thumb, $original_filename) {
-		$this->filename          = $filename;
-		$this->fileContent       = $fileContent;
-		$this->height            = $height;
-		$this->width             = $width;
-		$this->type              = $type;
-		$this->url               = $url;
-		$this->url_thumb         = $url_thumb;
-		$this->original_filename = $original_filename;
-	}
-
-
-	// Destructor
-	public function __destruct() {
-		$this->filename          = NULL;
-		$this->fileContent       = NULL;
-		$this->height            = NULL;
-		$this->width             = NULL;
-		$this->type              = NULL;
-		$this->url               = NULL;
-		$this->url_thumb         = NULL;
-		$this->original_filename = NULL;
-	}
-
-
-	// Debug
-	public function debug() {
-		echo "\nfilename>>".$this->filename."<<";
-		echo "\nheight>>".$this->height."<<";
-		echo "\nwidth>>".$this->width."<<";
-		echo "\ntype>>".$this->type."<<";
-		echo "\nurl>>".$this->url."<<";
-		echo "\nurl_thumb>>".$this->url_thumb."<<";
-		echo "\noriginal_filename>>".$this->original_filename."<<\n";
-	}
-}
 
 
 

@@ -1,6 +1,13 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+2011:0714 Leif
+--------------
+
+ALTER TABLE `pfif_repository` ADD `subdomain` VARCHAR( 32 ) NULL DEFAULT 
+NULL AFTER `base_url`
+
+
 2011:0713 Leif
 --------------
 
