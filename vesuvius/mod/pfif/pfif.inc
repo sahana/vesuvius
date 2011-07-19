@@ -351,20 +351,22 @@ class Pfif {
    }
 
     function postGoogleItem($service_config, $item, $item_type='data') {
-        // DEBUG:  print "PFIF Configuration:<pre>";print_r($service_config);print "</pre>";
-        $service_uri = $service_config['post_url'];
+       // DEBUG:  print "PFIF Configuration:<pre>";print_r($service_config);print "</pre>";
+       $service_uri = $service_config['post_url'];
 
-        // TODO: may need to add logic to support services other than Google.
-        $auth_key = $service_config['auth_key'];
-        $pfif_uri = $service_uri."?key=".$auth_key;
-        // $posted = "Posted PFIF from <br/>".htmlentities($xml)."<br/> to $pfif_uri<br/>Status returned:<br/>";
-        /*
+       // TODO: may need to add logic to support services other than Google.
+       // If subdomain specified, there is no key.
+       $subdomain = empty($service_config['subdomain'])? '' : '?subdomain='.$service_config['subdomain'];
+       $auth_key = empty($service_config['auth_key'])? '' : '?key='.$service_config['auth_key'];
+       $pfif_uri = $service_uri.$auth_key.$subdomain."&key=japan";
+       // $posted = "Posted PFIF from <br/>".htmlentities($xml)."<br/> to $pfif_uri<br/>Status returned:<br/>";
+       /*
                         * TODO: Can xml string be POSTed or do we HAVE to use CURL ?
                         * curl -X POST -H 'Content-type: application/xml' --data-binary @your_file.xml \
-    http://haiticrisis.appspot.com/api/write?key=your_auth_key
+      http://haiticrisis.appspot.com/api/write?key=your_auth_key
                         * @see http://haiticrisis.appspot.com/developers for response details
                         */
-     $ch = curl_init();    /* Create a CURL handle. */
+      $ch = curl_init();    /* Create a CURL handle. */
       print "cURL init ".($ch ? "true" : "false")."\n";
       /* Set cURL options. */
       $status = $ch ? curl_setopt($ch, CURLOPT_URL, $pfif_uri) : false;
@@ -542,7 +544,6 @@ class Pfif {
       unset($note);
    }
 
-   // chc  3/8/2010 : only try nonNs if ns fails. 
    private function getValueFromXmlElementTag($elementNode, $elementName, $ns) {
       global $dummy_node_list;
 
@@ -584,7 +585,6 @@ class Pfif {
       $pfif_persons = $this->getPersons();
       $this->reset_log_dates($pfif_persons[0]->entry_date);
 
-      //error_log("conf check:" . $conf['mod_mpr_upload_pic_handler']);
       //var_dump("first/last/count at start: ", $first_entry_date, $last_entry_date, $last_entry_count);
       foreach ($pfif_persons as $person) {
          unset($_SESSION['mpr_add']['entry']);
@@ -601,10 +601,8 @@ class Pfif {
             // This is a duplicate person. PFIF says to have it replace the existing person if its 
             // source_date is more recent. 
             if (strtotime($person->source_date) > strtotime($lookup['creation_time'])) {
-               /*
-               var_dump('Old and new source dates:',$person->person_record_id,
-                        $lookup['creation_time'],$person->source_date);
-               */
+               //var_dump('Old and new source dates:',$person->person_record_id,
+               //    $lookup['creation_time'],$person->source_date);
                $this->deleteReportedPerson($person->person_record_id);
             } else {
                // This is an unexpected duplicate, so just flag it.
@@ -812,10 +810,7 @@ class Pfif {
       if (!empty($person->home_postal_code)) {
          $_SESSION['mpr_add']['entry']['zip'] = $person->home_postal_code;
       }
-      fetch_image($person->photo_url,
-              $person->source_name,
-              $person->person_record_id,
-              $person->source_url); // Populates [mpr][entry][image]
+      fetch_image($person->photo_url, $person->person_record_id); // Populates [mpr][entry][image]
 
       $age_info = shn_map_age_from_pfif($person->date_of_birth,
                                         $person->age,
@@ -982,6 +977,7 @@ class Pfif {
          $where = array();
          $where[] = " ps.isvictim = '1' ";
          $where[] = " ps.last_updated >= '$since_entry_date' ";
+         $where[] = " a.expiry_date > now() ";
          $where[] = " a.incident_id = " . $_SESSION['user_pref_ims_incident_id'];
 
          foreach ($where as $whereElement) {
@@ -1002,9 +998,9 @@ class Pfif {
 
    private function getMprAddedRecords($whereSql) {
       global $global;
-      $sql = "SELECT a.p_uuid , a.full_name, a.family_name, a.given_name, a.l10n_name, a.expiry_date, e.birth_date as dob, e.opt_gender, e.years_old, e.minAge, e.maxAge, 
-            f.comments as physical_comments, f.height, f.weight, f.opt_eye_color, f.opt_skin_color, f.opt_hair_color, f.injuries, g.contact_value as phone, h.contact_value as mobile, i.contact_value as email,
-            j.contact_value AS address, k.contact_value AS zip, e.last_seen, e.last_clothing, e.other_comments, pr.rep_uuid as reporter, 
+      $sql = "SELECT a.p_uuid , a.full_name, a.family_name, a.given_name, a.expiry_date, e.birth_date as dob, e.opt_gender, e.years_old, e.minAge, e.maxAge, 
+            f.comments as physical_comments, f.height, f.weight, f.opt_eye_color, f.opt_skin_color, f.opt_hair_color, g.contact_value as phone, h.contact_value as mobile, i.contact_value as email,
+            j.contact_value AS address, k.contact_value AS zip, e.last_seen, e.other_comments, pr.rep_uuid as reporter, 
             ps.status_id, ps.last_updated, ps.creation_time, ps.opt_status as `status`, im.url as image_url
 		FROM person_uuid a
 		LEFT OUTER JOIN person_details e ON e.p_uuid = a.p_uuid
@@ -1041,7 +1037,7 @@ class Pfif {
 
    private function getReportedPerson($p_uuid) {
       global $global;
-      $sql = "SELECT a.p_uuid , a.full_name, a.family_name, a.l10n_name, e.birth_date AS dob, f.comments AS physical_comments,
+      $sql = "SELECT a.p_uuid , a.full_name, a.family_name, e.birth_date AS dob, f.comments AS physical_comments,
               f.height, f.weight, g.contact_value AS phone, h.contact_value AS mobile, i.contact_value AS email
 		FROM person_uuid a
 		LEFT OUTER JOIN person_details e ON e.p_uuid = a.p_uuid
@@ -1094,11 +1090,11 @@ class Pfif {
 
    /**
     * Stores imported PFIF person records in PFIF tables.
-    * TODO: Store internally generated PFIF records in PFIF tables?
     */
     private function shn_mpr_addpfifperson_commit(Pfif_Person $person) {
       global $global;
-      $audit_flag = defined(MPR_ADD_AUDIT_ENABLED) ? MPR_ADD_AUDIT_ENABLED : false;
+      $audit_flag = false;
+
       // Gather $person fields for pfif_person table
       $insert_array = array();
       $insert_array['p_uuid'] = $person->person_record_id;
@@ -1180,11 +1176,11 @@ class Pfif {
 
     /**
     * Stores all imported PFIF note records in PFIF tables.
-    * TODO: Store internally generated PFIF records in PFIF tables?
     */
     private function shn_mpr_addpfifnote_commit(Pfif_Note $note) {
       global $global;
-      $audit_flag = defined(MPR_ADD_AUDIT_ENABLED) ? MPR_ADD_AUDIT_ENABLED : false;
+      $audit_flag = false;
+
       // Gather note fields for pfif_note table.
       $insert_array = array();
       $insert_array['note_record_id'] = $note->note_record_id;
@@ -1245,7 +1241,6 @@ class Pfif {
    //private function getSourcePfif($person) {
    public function getSourcePfif($person) {
       global $global;
-      // print "<pre>".var_export($person,'true')."</pre/>";
       $pfif_person = false; // The return variable
 
       $sql = "SELECT * FROM pfif_person WHERE p_uuid = '" . $person['p_uuid'] . "'";

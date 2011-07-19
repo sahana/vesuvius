@@ -100,8 +100,8 @@ class lpfPatient {
 
 		// insert person's details
 		$q5 = "
-			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old, minAge, maxAge)
-			VALUES ('".$this->uuid."', NULL, ".$this->gender.", ".$this->age.", ".$this->minAge.", ".$this->maxAge.");
+			INSERT INTO person_details (p_uuid, opt_gender, years_old, minAge, maxAge)
+			VALUES ('".$this->uuid."', ".$this->gender.", ".$this->age.", ".$this->minAge.", ".$this->maxAge.");
 		";
 		$res = $global['db']->Execute($q5);
 
@@ -124,7 +124,7 @@ class lpfPatient {
 		// insert person
 		$q1 = "
 			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
-			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', ".$this->hospitalId.");
+			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', 0);
 		";
 		$res = $global['db']->Execute($q1);
 
@@ -139,8 +139,8 @@ class lpfPatient {
 
 		// insert person's details
 		$q5 = "
-			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old, last_seen, last_clothing, other_comments)
-			VALUES ('".$this->uuid."', NULL, ".$this->gender.", '".$this->age."', NULL, NULL, '".$this->comments."');
+			INSERT INTO person_details (p_uuid, opt_gender, years_old, last_seen, last_clothing, other_comments)
+			VALUES ('".$this->uuid."', ".$this->gender.", '".$this->age."', NULL, NULL, '".$this->comments."');
 		";
 		$res = $global['db']->Execute($q5);
 
@@ -192,8 +192,8 @@ class lpfPatient {
 
 		// insert person's details
 		$q6 = "
-			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old, last_seen, last_clothing, other_comments)
-			VALUES ('".$this->uuid."', NULL, NULL, NULL, NULL, NULL, NULL);
+			INSERT INTO person_details (p_uuid, opt_gender, years_old, last_seen, last_clothing, other_comments)
+			VALUES ('".$this->uuid."', NULL, NULL, NULL, NULL, NULL);
 		";
 		$res = $global['db']->Execute($q6);
 

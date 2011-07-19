@@ -14,7 +14,7 @@
 
 
 /**
- * Shows the Description of the field_option, when given the vaule
+ * Shows the Description of the field_option, when given the value
  *
  * @todo Need to move this to a library.
  * @param mixed $value

@@ -24,6 +24,7 @@
 *********************************************************************************************************************************************************************
 **********************************************************************************************************************************************************************/
 
+/*
 class personImage {
 
 	public $p_uuid;            // p_uuid
@@ -170,7 +171,7 @@ class personImage {
 		echo "\nfullPath >>>>>>>>>>> ".$this->." <<\n";
 	}
 }
-
+*/
 
 
 /** ******************************************************************************************************************************************************************
@@ -185,9 +186,11 @@ class personImage {
 *********************************************************************************************************************************************************************
 **********************************************************************************************************************************************************************/
 
+/*
+
 class personXML {
 
-	public $theString; // object is initialized as a string first then parsed
+	public $theString; // object is initialized as a string first, then parsed into an array
 
 	public $uuid;
 
@@ -218,9 +221,7 @@ class personXML {
 	public $clientDate;
 
 
-	/**
-	* Constructor:
-	*/
+	// Constructor:
 	public function	__construct() {
 		$this->uuid = shn_create_uuid();
 		$this->incident_id = 0; // default
@@ -228,9 +229,7 @@ class personXML {
 
 
 
-	/**
-	* Destructor
-	*/
+	// Destructor
 	public function __destruct() {}
 
 
@@ -374,9 +373,157 @@ class personXML {
 
 		$this->insertImages();
 	}
+
+
+
+
+
+
+
+	public function parse() {
+		$a = xml2array($this->theString);
+
+		// Identify ReUnite XML's
+		if(isset($a['lpfContent'])) {
+			$this->person->shortName    = strtolower($a['lpfContent']['person']['eventShortName']);
+			$this->person->givenName    = $a['lpfContent']['person']['firstName'];
+			$this->person->familyName   = $a['lpfContent']['person']['familyName'];
+			$this->person->gender       = substr(strtolower($a['lpfContent']['person']['gender']), 0, 3);
+			$this->person->age          = $a['lpfContent']['person']['estimatedAgeInYears'];
+			$this->person->sahanaStatus = substr(strtolower($a['lpfContent']['person']['status']['healthStatus']), 0, 3);
+			$this->person->comments     = $a['lpfContent']['person']['notes'];
+			$this->XMLversion           = 1.6;
+
+		// LPF v1.2 XML from TriagePic
+		} else if(isset($a['EDXLDistribution'])) {
+
+			// old method from mpres 1.0
+			$this->distributionId          = $a['EDXLDistribution']['distributionID']['#text'];
+			$this->sendId                  = $a['EDXLDistribution']['senderID']['#text'];
+			$this->dateTimeSent            = $a['EDXLDistribution']['dateTimeSent']['#text'];
+			$this->distributionStatus      = $a['EDXLDistribution']['distributionStatus']['#text'];
+			$this->distributionType        = $a['EDXLDistribution']['distributionType']['#text'];
+			$this->combinedConfidentiality = $a['EDXLDistribution']['combinedConfidentiality']['#text'];
+			$this->keyword                 = $a['EDXLDistribution']['keyword']['value']; // array, index starting at 0, containing subarrays of keywords (#text)
+			$this->targetArea              = $a['EDXLDistribution']['targetArea']['circle']['#text'];
+			$this->contentDescription      = $a['EDXLDistribution']['contentObject']['contentDescription']['#text'];
+			$this->version                 = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['version']['#text'];
+			$this->login                   = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['login']['username']['#text'];
+			$this->personId                = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['personId']['#text'];
+			$this->eventName               = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventName']['#text'];
+			$this->eventLongName           = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventLongName']['#text'];
+			$this->orgName                 = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgName']['#text'];
+			$this->orgId                   = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgId']['#text'];
+			$this->lastName                = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName']['#text'];
+			$this->firstName               = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName']['#text'];
+			$this->gender                  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['gender']['#text'];
+			$this->genderEnum              = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['genderEnum']['#text'];
+			$this->genderEnumDesc          = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['genderEnumDesc']['#text'];
+			$this->peds                    = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['peds']['#text'];
+			$this->pedsEnum                = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['pedsEnum']['#text'];
+			$this->pedsEnumDesc            = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['pedsEnumDesc']['#text'];
+			$this->triageCategory          = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['triageCategory']['#text'];
+			$this->triageCategoryEnum      = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['triageCategoryEnum']['#text'];
+			$this->triageCategoryEnumDesc  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['triageCategoryEnumDesc']['#text'];
+			$this->lpfFileXmlString        = $xmlString;
+			$this->lpfArray                = $a;
+
+
+			$this->person->shortName   = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventName'];
+			$this->person->longName    = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventLongName'];
+
+			// fix missing last name
+			if(isset($a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName']) &&
+				trim((string)$a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName']) != "") {
+				$this->person->familyName = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName'];
+			} else {
+				$this->person->familyName = "unknown";
+			}
+			if(is_array($this->person->familyName)) {
+				$this->person->familyName = "unknown";
+			}
+
+			// fix missing first name
+			if(isset($a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName']) &&
+				trim((string)$a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName']) != "") {
+				$this->person->givenName  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName'];
+			} else {
+				$this->person->givenName  = "unknown";
+			}
+			if(is_array($this->person->givenName)) {
+				$this->person->givenName = "unknown";
+			}
+
+			// <dateTimeSent>2011-03-28T07:52:17Z</dateTimeSent>
+			$date = $a['EDXLDistribution']['dateTimeSent'];
+			$date = str_replace("T", " ", $date);
+			$date = str_replace("Z", "", $date);
+			$this->person->clientDate = $date;
+
+			// fix org
+			if(trim($a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgName']) == "National Naval Medical Center") {
+				$this->person->hospitalId = "'2'";
+			} else if(trim($a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgName']) == "Suburban Hospital") {
+				$this->person->hospitalId = "'1'";
+			} else {
+				$this->person->hospitalId = "NULL";
+			}
+
+			$this->person->age = null;
+
+			$this->person->gender = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['gender'];
+
+			if($this->person->gender == "M") {
+				$this->person->gender = "'mal'";
+
+			} elseif($this->person->gender == "'F'") {
+				$this->person->gender = "'fml'";
+
+			} elseif($this->person->gender == "C") {
+				$this->person->gender = "'cpx'";
+
+			} else {
+				$this->person->gender = "NULL";
+			}
+
+
+			$this->person->peds = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['peds'];
+
+			if($this->person->peds == "Y") {
+				$this->person->age = "'17'";
+				$this->person->minAge = "'0'";
+				$this->person->maxAge = "'17'";
+			} elseif($this->person->peds == "N") {
+				$this->person->age = "'18'";
+				$this->person->minAge = "'18'";
+				$this->person->maxAge = "'150'";
+			} elseif($this->person->peds == "Y,N") {
+				$this->person->age = "'18'";
+				$this->person->minAge = "'0'";
+				$this->person->maxAge = "'150'";
+			} else {
+				$this->person->age = "null";
+				$this->person->minAge = "'0'";
+				$this->person->maxAge = "'17'";
+			}
+
+
+			$b = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['triageCategory'];
+			if(($b == "Green") || ($b == "BH Green")) {
+				$this->person->sahanaStatus = "ali";
+			} elseif(($b == "Yellow") || ($b == "Red") || ($b == "Gray")) {
+				$this->person->sahanaStatus = "inj";
+			} elseif($b == "Black") {
+				$this->person->sahanaStatus = "dec";
+			} else {
+				$this->person->sahanaStatus = "ali";
+			}
+			$this->XMLversion = 1.2;
+		}
+	}
 }
 
-
+*/
 
 
 /** ******************************************************************************************************************************************************************

@@ -4,13 +4,13 @@
  * @version      1.5
  * @package      mpr
  * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @author       Leif Neve <lneve at aqulient dor com>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  * @lastModified 2011.0307
  */
-
 
 require_once($global['approot'].'inc/handler_db.inc');
 require_once("pfif_harvest_person_log.inc");
@@ -22,11 +22,12 @@ class Pfif_Repository {
     public $name;
     public $incident_id;
     public $base_url;
+    public $subdomain;
+    public $auth_key;
     public $resource_type;
     public $role;
     public $granularity;
     public $deleted_record;
-    public $params;
     public $sched_interval_minutes;
     public $log_granularity;
     public $first_entry;

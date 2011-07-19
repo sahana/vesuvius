@@ -87,6 +87,8 @@ function shn_rez_default() {
 		// hack to download the google doc for the PLUS documentation
 		if($_GET['page_id'] == "-45") {
 
+
+/*
 			// create a new cURL resource
 			$ch = curl_init();
 
@@ -126,6 +128,10 @@ function shn_rez_default() {
 					}
 				</style>
 			";
+*/
+			echo "<iframe width=\"1100\" height=\"600\" src=\"https://docs.google.com/document/pub?id=17pApAVZvg4g93sjZOY3Rp8-MfSu8wSRMycUca3LXNJc&amp;embedded=true\"></iframe>";
+
+
 		} else {
 
 			// get page info
