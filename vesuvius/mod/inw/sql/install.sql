@@ -26,7 +26,7 @@ LOWER(`pu`.`full_name`) AS `full_name`,
 `i`.`url_thumb` AS `url_thumb`,
 (case when (`h`.`hospital_uuid` = -(1)) then NULL else `h`.`icon_url` end) AS `icon_url`,
 `inc`.`shortname` AS `shortname`,
-(CASE WHEN `h`.`short_name` NOT IN ('sh', 'nnmc') OR `h`.`short_name` IS NULL THEN 'public' ELSE `h`.`short_name` END) AS `hospital`,
+(CASE WHEN `pu`.`hospital_uuid` NOT IN (1, 2, 3) OR `pu`.`hospital_uuid` IS NULL THEN 'public' ELSE LOWER(`h`.`short_name`) END) AS `hospital`,
 `pd`.`other_comments` AS `comments`,
 `pd`.`last_seen` AS `last_seen` 
 from `person_uuid` `pu` join `person_status` `ps` on (`pu`.`p_uuid` = `ps`.`p_uuid` and `ps`.`isvictim` = 1 and (`pu`.`expiry_date` > NOW() OR `pu`.`expiry_date` IS NULL))

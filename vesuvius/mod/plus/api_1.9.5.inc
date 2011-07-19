@@ -353,11 +353,12 @@ function shn_plus_registerAll($namespace) {
 	// REPORTING API DECLARATIONS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 	// REPORTING API DECLARATIONS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
-	shn_plus_registerOne($server, 'reportPersonViaLegacyTriagePic',
+	shn_plus_registerOne($server, 'reportPerson',
 		array(
 			'in' => array(
 				'personXML'      => 'xsd:string',
 				'eventShortName' => 'xsd:string',
+				'xmlFormat'      => 'xsd:string',
 				'username'       => 'xsd:string',
 				'password'       => 'xsd:string'
 			),
@@ -370,25 +371,6 @@ function shn_plus_registerAll($namespace) {
 		),
 		$namespace,
 		"Report a new person using the LPF v1.2 XML format."
-	);
-
-	shn_plus_registerOne($server, 'reportPersonViaLPFXML',
-		array(
-			'in' => array(
-				'personXML'      => 'xsd:string',
-				'eventShortName' => 'xsd:string',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'success '       => 'xsd:boolean',
-				'url'            => 'xsd:string',
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Report a new person using the LPF v1.4+ XML format."
 	);
 }
 
@@ -1265,72 +1247,10 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 // REPORTING API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // REPORTING API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
-// Report a new person using the LPF v1.2 XML format.
-function reportPersonViaLegacyTriagePic($personXML, $eventShortName, $username, $password) {
+// Report a new person
+function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $password) {
 
-	shn_plus_logAccess("reportPesonViaLegacyTriagePic");
-	global $global;
-	global $conf;
-	$url = "";
-	$error = true; // !!!!!!!!!!!!
-
-
-/*
-	// check auth, if fails, return w/ error code/message
-	$status = shn_plus_checkCredz($username, $password);
-	if($status != 0) {
-		$error = true;
-		$ecode = $status;
-	} else {
-		// check if the user is a member of a group that has access to the event in question
-		$q = "
-			SELECT *
-			FROM incident i, users u, sys_user_groups s, sys_user_to_group t
-			WHERE (i.private_group = s.group_id
-			AND s.group_id = t.group_id
-			AND t.p_uuid = u.p_uuid
-			AND u.user_name = '".mysql_real_escape_string($username)."'
-			AND i.shortname = '".mysql_real_escape_string($eventShortname)."')
-			OR (i.private_group is null
-			AND i.shortname = '".mysql_real_escape_string($eventShortname)."');
-		";
-		$result = $global['db']->Execute($q);
-		if($result == null || $result->EOF) {
-			$error = true;
-			$ecode = 300;
-		}
-	}
-*/
-
-
-////////////////////////
-
-	$ecode = 9999; // !!!!!!!!!111111111111111
-
-	if($error) {
-		$eCodes = unserialize(ERRORCODES);
-		return array(
-			'success'      => (boolean)false,
-			'url'          => null,
-			'errorCode'    => (int)$ecode,
-			'errorMessage' => (string)$eCodes[$ecode]
-		);
-	} else {
-		return array(
-			'success'      => (boolean)true,
-			'recordsFound' => (string)$url,
-			'errorCode'    => (int)0,
-			'errorMessage' => null
-		);
-	}
-}
-
-
-
-// Report a new person using the LPF v1.4+ XML format.
-function reportPersonViaLPFXML($personXML, $eventShortName, $username, $password) {
-
-	shn_plus_logAccess("reportPesonViaLPFXML");
+	shn_plus_logAccess("reportPeson");
 	global $global;
 	global $conf;
 	$url = "";

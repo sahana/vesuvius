@@ -417,7 +417,7 @@ class SearchDB
 		$temp["complex"] = $this->SOLRfacetResults->{"opt_gender:cpx"};
 		$temp["otherGender"] = $this->SOLRfacetResults->{"opt_gender:unk"};
 		
-		$temp["suburban"] = $this->SOLRfacetResults->{"hospital:sh"};
+		$temp["suburban"] = $this->SOLRfacetResults->{"hospital:suburban"};
 		$temp["nnmc"] = $this->SOLRfacetResults->{"hospital:nnmc"};
 		$temp["otherHospital"] = $this->SOLRfacetResults->{"hospital:public"};
 		
@@ -473,7 +473,7 @@ class SearchDB
                                     . "&facet.query=ageGroup:youth&facet.query=ageGroup:adult&facet.query=ageGroup:unknown"
                                     . "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk&facet.query=opt_status:fnd"
                                     . "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:unk&facet.query=opt_gender:cpx"
-                                    . "&facet.query=hospital:sh&facet.query=hospital:nnmc&facet.query=hospital:public";
+                                    . "&facet.query=hospital:suburban&facet.query=hospital:nnmc&facet.query=hospital:public";
 							
 
 								
@@ -532,7 +532,7 @@ class SearchDB
 		// hospital filters
 		$this->SOLRfq .= ")&fq=hospital:(*:*";
 		if ( $this->suburban != "true" )
-			$this->SOLRfq .= " -sh ";
+			$this->SOLRfq .= " -suburban ";
 		if ( $this->nnmc != "true" )
 			$this->SOLRfq .= " -nnmc ";
 		if ( $this->otherHosp != "true" )

@@ -2,7 +2,7 @@
 -- Delete a reported person and all related data and optionally also Notes.
 -- Optional Note deletion needed since some deletions are simply for correcting erroneous data in the person record
 -- and are NOT an attempt to expunge data.
--- Does not delete locally registered user data. 
+-- Does not delete locally registered user. 
 --
 
 CREATE PROCEDURE delete_reported_person(IN id VARCHAR(128),IN deleteNotes BOOLEAN)

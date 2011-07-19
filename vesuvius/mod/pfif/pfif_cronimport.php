@@ -30,9 +30,7 @@ require_once("pfif.inc");
 require_once $global['approot'] . 'mod/mpr/pfif_util.inc.php';
 require_once $global['approot'] . 'mod/mpr/pfif_repository.inc';
 require_once $global['approot'] . 'mod/mpr/pfif_croninit.inc';
-require_once $global['approot'] . 'mod/mpr/conf.inc';
 require_once $global['approot'] . 'mod/mpr/add.inc';
-require_once $global['approot'] . 'mod/mpr/edit.inc';
 
 /**
  * Switch database in order to support multiple DB instances.
@@ -107,12 +105,11 @@ foreach ($import_queue as $service_name => $service) {
    $repos = $import_repos[$pfif_conf['map'][$service_name]];
    //var_dump("repository", $repos);
 
-   $service_uri = $service['feed_url'];
    $req_params = $repos->get_request_params();
-   $pfif_uri = $service_uri .
+   $pfif_uri = $service['feed_url'] .
            '?min_entry_date=' . $req_params['min_entry_date'] .
            '&max_results=' . $service['max_results'] .
-           '&key=' . $service['key'] .
+           '&key=' . $service['auth_key'] .
            '&skip=' . $req_params['skip'] .
            '&version=' . $service['version'];
    $p = new Pfif();

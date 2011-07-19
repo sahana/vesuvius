@@ -68,11 +68,12 @@ foreach ($export_queue as $service_name => $service) {
    $incident_conf = $pfif_conf['service_to_incident'][$service_name];
    //var_dump("repository", $repos, "conf", $incident_conf);
 
-   $service_uri = $service['post_url'];
    $req_params = $repos->get_request_params();
    $min_entry_date = $req_params['min_entry_date'];
    $skip = $req_params['skip'];
-   $pfif_uri = $service_uri . '&key=' . $service['key'];
+   $subdomain = empty($service['subdomain'])? '' : '?subdomain='.$service['subdomain'];
+   $auth_key = empty($service['auth_key'])? '' : '?key='.$service['auth_key'];
+   $pfif_uri = $service['post_url'].$auth_key.$subdomain;
    $p = new Pfif();
    $p->setPfifConf($pfif_conf, $service_name);
    //print_r($pfif_conf);
@@ -99,8 +100,8 @@ foreach ($export_queue as $service_name => $service) {
       print "Logged $written of $charstowrite characters to crontest.xml\n";
    
       //$post_status = $p->postDbToService('LPFp-46833',$service_name); // TESTING
-      $post_status = "TESTING: record(s) not uploaded";
-      //$post_status = $p->postToService('xml',$xml,$service_name);
+      //$post_status = "TESTING: record(s) not uploaded";
+      $post_status = $p->postToService('xml',$xml,$service_name);
       // TODO: Adjust count depending on post_status.
       $_SESSION['pfif_info']['pfif_person_count'] = $loaded;
       update_harvest_log($repos, $req_params, 'completed');

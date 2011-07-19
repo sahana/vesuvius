@@ -105,7 +105,6 @@ function inw_hasNextPage($mode, $incident, $searchTerm, $sStatus, $sGender, $sAg
 		   $aGender = gender imploded
 		   $aAge = age imploded
 	 TODO: this needs to be reorganized as it's kind of a mess right now (blame xajax)
-		   Also, needs to account for age ranges (how? good question).
  */
  function inw_getData($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital, $sPageControls ) {
 	global $global;
