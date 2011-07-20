@@ -104,7 +104,7 @@ function shn_db_update($arr,$table, $key) {
  * @access public
  * @return void
  */
-function shn_db_insert($arr, $table, $audit=true, $primary_field='') {
+function shn_db_insert($arr, $table, $audit=false, $primary_field='') {
 	global $global;
 	global $conf;
 	$keys = "";

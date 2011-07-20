@@ -9,6 +9,7 @@
 * @link         TBD
 */
 $failed_images = null;
+include_once($global['approot']."/inc/lib_uuid.inc");
 include_once('tools.inc');
 include_once('pfif_util.inc.php');
 class Pfif_Person {
@@ -576,8 +577,6 @@ class Pfif {
    public function storePersonsInDatabase() {
       global $conf, $global, $failed_images, $first_entry_date, $last_entry_date, $last_entry_count;
 
-      include_once 'add.inc';
-
       $failed_images = array();
       $_SESSION['pfif_info']['images_in'] = 0;
       $_SESSION['pfif_info']['images_retried'] = 0;
@@ -594,7 +593,7 @@ class Pfif {
          // Update last_entry_count.
          $this->update_log_dates($person->entry_date);
 
-         // The shn_* routines don't throw exceptions. So check for duplicate.
+         // Check for duplicate.
          $lookup = $this->checkForReportedPerson($person->person_record_id);
          //var_dump('lookup returns:',$lookup);
          if (count($lookup) > 0) {
@@ -611,16 +610,16 @@ class Pfif {
             }
          }
 
-         // Map PFIF content into session mpr_add arrays
+         // Map PFIF content into session mpr_add array
          $this->_pfif_prepare_person_insert($person);
 
-         // Save to mpr tables
+         // Save to tables
          try {
             // Save to Sahana tables.
-            shn_mpr_addperson_commit();
+            $this->shn_pfif_addperson_commit($person);
             $errchk = $global['db']->ErrorMsg();
             if (!empty($errchk)) {
-               error_log("shn_mod_mpr_pfif.storeInDatabase: shn_mpr_addperson_commit failed for "
+               error_log("shn_mod_pfif.storeInDatabase: shn_pfif_addperson_commit failed for "
                          . $person->person_record_id . ":" . $errchk);
                $_SESSION['pfif_info']['person_insert_errors'] += 1;
                // Interrupt further processing of this person.
@@ -628,15 +627,15 @@ class Pfif {
             } else {
                // Save to pfif_person table.
                try {
-                  $this->shn_mpr_addpfifperson_commit($person); // DB error reported in method
+                  $this->shn_pfif_addpfifperson_commit($person); // DB error reported in method
                } catch (Exception $e) {
                   print $e->getMessage();
-                  error_log('shn_mod_mpr_pfif.storeInDatabase:' . $e->getMessage());
+                  error_log('shn_mod_pfif.storeInDatabase:' . $e->getMessage());
                }
             }
          } catch (Exception $e) {
             print $e->getMessage();
-            error_log('shn_mod_mpr_pfif.storeInDatabase:' . $e->getMessage());
+            error_log('shn_mod_pfif.storeInDatabase:' . $e->getMessage());
             $_SESSION['pfif_info']['person_insert_errors'] += 1;
             return false;
          }
@@ -666,10 +665,6 @@ class Pfif {
    public function storeNotesInDatabase() {
       global $conf, $global, $first_entry_date, $last_entry_date, $last_entry_count;
 
-      // TODO: A lot of these legacy routines are incorrectly written to expect thrown exceptions or error codes
-      // which don't exist. Need to do an audit all these.
-      include_once 'add.inc';
-
       $_SESSION['pfif_info']['note_insert_errors'] = 0;
       $pfif_notes = $this->getNotes();
       $this->reset_log_dates($pfif_notes[0]->entry_date);
@@ -681,11 +676,11 @@ class Pfif {
      
          // Save to pfif_note table.
          try {
-             $this->shn_mpr_addpfifnote_commit($note); // DB error reported in method
+             $this->shn_pfif_addpfifnote_commit($note); // DB error reported in method
          } catch (Exception $e) {
              print $e->getMessage();
              $_SESSION['pfif_info']['note_insert_errors'] += 1;
-             error_log('shn_mod_mpr_pfif.storeInDatabase:' . $e->getMessage());
+             error_log('shn_mod_pfif.storeNotesInDatabase:' . $e->getMessage());
              // Interrupt further processing of this note.
              continue;
          } 
@@ -758,98 +753,163 @@ class Pfif {
       }
    }
 
-   // TODO: Can probably move these into a pfif_helper script.
-   private function _pfif_prepare_person_insert($person) {
-      $_SESSION['mpr_add']['entry']['p_uuid'] = $person->person_record_id;
-
-      $_SESSION['mpr_add']['report_person']['incident_id'] = $_SESSION['user_pref_ims_incident_id'];
-      if (!empty($person->author_name)) {
-         $_SESSION['mpr_add']['report_person']['rep_full_name'] = $person->author_name;
-      }
-      if (!empty($person->author_email)) {
-         $_SESSION['mpr_add']['report_person']['rep_email'] = $person->author_email;
-      }
-      if (!empty($person->author_phone)) {
-         $_SESSION['mpr_add']['report_person']['rep_phone'] = $person->author_phone;
-      }
-
-      //Static identifying information
-      if (empty($person->full_name)) {
-        // LPF searches are on full_name so we need something here.
+   private function shn_pfif_addperson_commit($person) {
+      // person_uuid table
+      $insert_array['p_uuid'] = $person->person_record_id;
+      if (!empty($person->full_name)) {
+         $insert_array['full_name'] = $person->full_name;
+      } else {
+        // Try to cobble something together. PL searches on this.
         $full_name = $person->first_name.' '.$person->last_name;
         if ($full_name != ' ') {
-           $_SESSION['mpr_add']['entry']['full_name'] = $full_name; 
+           $insert_array['full_name'] = $full_name; 
         }
-      } else {
-         $_SESSION['mpr_add']['entry']['full_name'] = $person->full_name;
       }
       if (!empty($person->first_name)) {
-         $_SESSION['mpr_add']['entry']['given_name'] = $person->first_name;
+         $insert_array['given_name'] = $person->first_name;
       }
       if (!empty($person->last_name)) {
-         $_SESSION['mpr_add']['entry']['family_name'] = $person->last_name;
+         $insert_array['family_name'] = $person->last_name;
       }
-      $_SESSION['mpr_add']['entry']['incident_id'] = $_SESSION['user_pref_ims_incident_id'];
+      $insert_array['incident_id'] = $_SESSION['user_pref_ims_incident_id'];
       if (!empty($person->expiry_date)) {
-         $_SESSION['mpr_add']['entry']['expiry_date'] = $person->expiry_date;
+         $insert_array['expiry_date'] = $person->expiry_date;
       }
-      // TODO: are these next two used?
-      $_SESSION['mpr_add']['entry']['loc_select_3'] = $person->home_city;
-      $_SESSION['mpr_add']['entry']['loc_select_2'] = $person->home_state;
-      // TODO: PFIF also may have home_country and home_neighborhood?
-      $_SESSION['mpr_add']['entry']['address'] = '';
+      shn_db_insert($insert_array,'person_uuid');
+      $insert_array = null; // reset array
+
+      // contact table
+      $insert_array['p_uuid'] = $person->person_record_id;
+      // TODO: PFIF also may have home_country and home_neighborhood.
+      $address = '';
       if (!empty($person->home_street)) {
-         $_SESSION['mpr_add']['entry']['address'] = $person->home_street . ", ";
+         $address = $person->home_street . ", ";
       }
       if (!empty($person->home_city)) {
-         $_SESSION['mpr_add']['entry']['address'] .= $person->home_city . ", ";
+         $address .= $person->home_city . ", ";
       }
       if (!empty($person->home_state)) {
-         $_SESSION['mpr_add']['entry']['address'] .= $person->home_state;
+         $address .= $person->home_state;
       }
+      if(!empty($address)) {
+         $insert_array['contact_value'] = $address;
+         $insert_array['opt_contact_type'] = 'home';
+         shn_db_insert($insert_array,'contact');
+      }
+      $insert_array = null; // reset array
+      $insert_array['p_uuid'] = $person->person_record_id;
       if (!empty($person->home_postal_code)) {
-         $_SESSION['mpr_add']['entry']['zip'] = $person->home_postal_code;
+         $insert_array['contact_value'] = $person->home_postal_code;
+         $insert_array['opt_contact_type'] = 'zip';
+         shn_db_insert($insert_array,'contact');
       }
-      fetch_image($person->photo_url, $person->person_record_id); // Populates [mpr][entry][image]
+      $insert_array=null; // reset array
 
+      //person_details table
+      $insert_array['p_uuid'] = $person->person_record_id;
       $age_info = shn_map_age_from_pfif($person->date_of_birth,
                                         $person->age,
                                         $person->source_date);
+      if (!empty($age_info['date_of_birth'])) {
+         $insert_array['birth_date'] = $age_info['date_of_birth'];
+      }
       if (!empty($age_info['years_old'])) {
-         $_SESSION['mpr_add']['entry']['years_old'] = $age_info['years_old'];
+         $insert_array['years_old'] = $age_info['years_old'];
       } else {
          if (!empty($age_info['minAge'])) {
-            $_SESSION['mpr_add']['entry']['minAge'] = $age_info['minAge'];
+            $insert_array['minAge'] = $age_info['minAge'];
          }
          if (!empty($age_info['maxAge'])) {
-            $_SESSION['mpr_add']['entry']['maxAge'] = $age_info['maxAge'];
+            $insert_array['maxAge'] = $age_info['maxAge'];
          }
       }
-      if (!empty($age_info['date_of_birth'])) {
-         $_SESSION['mpr_add']['entry']['dob'] = $age_info['date_of_birth'];
-      }
-      $_SESSION['mpr_add']['entry']['opt_gender'] = shn_map_gender_from_pfif($person->sex);
-      // Set status to unknown.
-      $_SESSION['mpr_add']['entry']['opt_status'] = 'unk';
-      // Set creation_time and last_updated.
-      if (!empty($person->source_date)) {
-         $_SESSION['mpr_add']['entry']['creation_time'] = $person->source_date;
-         $_SESSION['mpr_add']['entry']['last_updated'] = $person->source_date;
-      } else {
-         // Pick an arbitrary early date.
-         $_SESSION['mpr_add']['entry']['creation_time'] = '2000-01-01 00:00:00';
-         $_SESSION['mpr_add']['entry']['last_updated'] = '2000-01-01 00:00:00';
-      }
+      $insert_array['opt_gender'] = shn_map_gender_from_pfif($person->sex);
       // Save "other" field to person details comments.
       if (!empty($person->other)) {
-         $_SESSION['mpr_add']['entry']['other_comments'] = $person->other;
+         $insert_array['other_comments'] = $person->other;
       }
+      shn_db_insert($insert_array,'person_details');
+      $insert_array = null; // reset array
+
+      // person_status table
+      $insert_array['p_uuid'] = $person->person_record_id;
+      $insert_array['opt_status'] = 'unk'; //default
+      // Set creation_time and last_updated.
+      if (!empty($person->source_date)) {
+         $insert_array['creation_time'] = $person->source_date;
+         $insert_array['last_updated'] = $person->source_date;
+      } else {
+         // Pick an arbitrary early date.
+         $insert_array['creation_time'] = '2000-01-01 00:00:00';
+         $insert_array['last_updated'] = '2000-01-01 00:00:00';
+      }
+      $insert_array['isvictim'] = 'TRUE';
+      shn_db_insert($insert_array,'person_status');
+      $insert_array = null; // reset array
+
+      // image table
+      // Fetch image.
+      $image_info = fetch_image($person->photo_url, $person->person_record_id);
+      // Save image info.
+      if (!empty($image_info)){
+          shn_image_to_db($person->person_record_id,
+               $image_info['image_type'],
+               $image_info['image_height'],
+               $image_info['image_width'],
+               $image_info['url'],
+               $image_info['url_thumb'],
+               $image_info['original_filename'],
+               '','person');
+          $errchk = $global['db']->ErrorMsg();
+          if (!empty($errchk)) {
+              error_log("Error saving image info:".$errchk);
+          }
+      }
+
+      //Save reporter information
+      $rep_uuid = shn_create_uuid('p');
+
+      //person_uuid table
+      $insert_array['p_uuid'] = $rep_uuid;
+      $insert_array['incident_id'] = $_SESSION['user_pref_ims_incident_id'];
+      if (!empty($person->author_name)) {
+         $insert_array['full_name'] = $person->author_name;
+      }
+      shn_db_insert($insert_array,'person_uuid');
+      $insert_array = null; // reset array
+
+      //person_status table
+      $insert_array['p_uuid'] = $rep_uuid;
+      $insert_array['opt_status'] = 'ali';
+      $insert_array['isvictim'] = 'FALSE';
+      shn_db_insert($insert_array,'person_status');
+      $insert_array = null; // reset array
+
+      //contact table
+      $insert_array['p_uuid'] = $rep_uuid;
+      if (!empty($person->author_phone)) {
+              $insert_array['contact_value'] = $person->author_phone;
+              $insert_array['opt_contact_type'] = 'curr';
+              shn_db_insert($insert_array,'contact');
+      }
+      $insert_array = null; // reset array
+
+      $insert_array['p_uuid'] = $rep_uuid;
+      if (!empty($person->author_email)) {
+              $insert_array['contact_value'] = $person->author_email;
+              $insert_array['opt_contact_type'] = 'email';
+              shn_db_insert($insert_array,'contact');
+      }
+      $insert_array = null; // reset array
+
+      $insert_array['p_uuid'] = $person->person_record_id;
+      $insert_array['rep_uuid'] = $rep_uuid;
+      shn_db_insert($insert_array,'person_to_report');
    }
 
    // Load from database based either on person ID (for testing) or last export date.
    public function loadFromDatabase($id, $since_entry_date, $skip) {
       global $conf, $global;
-      include_once $global['approot'] . "/inc/lib_uuid.inc";
 
       $this->check_init();
       $baseUuid = $conf['base_uuid'];
@@ -1091,9 +1151,8 @@ class Pfif {
    /**
     * Stores imported PFIF person records in PFIF tables.
     */
-    private function shn_mpr_addpfifperson_commit(Pfif_Person $person) {
+    private function shn_pfif_addpfifperson_commit(Pfif_Person $person) {
       global $global;
-      $audit_flag = false;
 
       // Gather $person fields for pfif_person table
       $insert_array = array();
@@ -1165,7 +1224,7 @@ class Pfif {
       if (!empty($person->other)) {
          $insert_array['other'] = $person->other;
       }
-      shn_db_insert($insert_array, 'pfif_person', $audit_flag, 'p_uuid');
+      shn_db_insert($insert_array, 'pfif_person');
       $errchk = $global['db']->ErrorMsg();
       if (!empty($errchk)) {
          error_log("Error saving pfif_person for " . $person->person_record_id . ": " . $errchk);
@@ -1177,9 +1236,8 @@ class Pfif {
     /**
     * Stores all imported PFIF note records in PFIF tables.
     */
-    private function shn_mpr_addpfifnote_commit(Pfif_Note $note) {
+    private function shn_pfif_addpfifnote_commit(Pfif_Note $note) {
       global $global;
-      $audit_flag = false;
 
       // Gather note fields for pfif_note table.
       $insert_array = array();
@@ -1224,7 +1282,7 @@ class Pfif {
       if (!empty($note->text)) {
          $insert_array['text'] = $note->text;
       }
-      shn_db_insert($insert_array, 'pfif_note', $audit_flag, 'note_record_id');
+      shn_db_insert($insert_array, 'pfif_note');
       $errchk = $global['db']->ErrorMsg();
       if (!empty($errchk)) {
          error_log("Error saving pfif_note " . $note->note_record_id . ": " .  $errchk);
@@ -1238,8 +1296,7 @@ class Pfif {
     /**
      * Gets the source PFIF person
      */
-   //private function getSourcePfif($person) {
-   public function getSourcePfif($person) {
+   private function getSourcePfif($person) {
       global $global;
       $pfif_person = false; // The return variable
 
