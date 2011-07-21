@@ -12,6 +12,14 @@
 
 // INTERNAL PLUS TESTER //
 
+$user  = "testDontDelete";
+$pass  = "dontDelete99";
+$email = "testCase@email.com";
+$eventShortName = "test";
+$personXML = "";
+$xmlFormat = "TRIAGEPIC";
+$number = 2;
+
 // load nusoap client library
 require_once("../../3rd/nusoap/lib/nusoap.php");
 require_once("unitTestLib.php");
@@ -28,16 +36,10 @@ if(!isset($_GET['api'])) {
 	$api = "&api=".$_GET['api'];
 
 	$sites = array(
-		"PL"               => "https://pl.nlm.nih.gov/?wsdl".$api,
-		"PLstage"          => "https://plstage.nlm.nih.gov/?wsdl".$api,
-		"devGreg"      => "http://plstage.nlm.nih.gov/~miernickig/sahanaDev/www/index.php?wsdl".$api,
-		//"archiveStageGreg" => "http://archivestage.nlm.nih.gov/~miernickig/sahanaDev/www/index.php?wsdl".$api
+		"PL"      => "https://pl.nlm.nih.gov/?wsdl".$api,
+		"PLstage" => "https://plstage.nlm.nih.gov/?wsdl".$api,
+		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/sahanaDev/www/index.php?wsdl".$api,
 	);
-
-	$user  = "testDontDelete";
-	$pass  = "dontDelete99";
-	$email = "testCase@email.com";
-
 	init2();
 
 	// perform tests...
@@ -57,7 +59,12 @@ if(!isset($_GET['api'])) {
 	getUserStatus($user);
 	getUserGroup($user);
 	search("test", "t");
-	searchWithAuth("test", "t", "testDontDelete", "dontDelete99");
+	searchWithAuth("test", "t", $user, $pass);
+	reportPerson($personXML, $eventShortName, $xmlFormat, $user, $pass);
+	createPersonUuid($user, $pass);
+	createPersonUuidBatch($number, $user, $pass);
+	createNoteUuid($user, $pass);
+	createNoteUuidBatch($number, $user, $pass);
 
 	echo "</table><br><h2>Note: deprecated functions are not listed/tested.</h2></body>";
 }

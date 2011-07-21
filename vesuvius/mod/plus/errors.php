@@ -35,6 +35,7 @@ define("ERRORCODES", serialize(array(
 	12   => "Username does not exist.",
 	100  => "No hospital registered with this id.",
 	200  => "sessionTimeout value missing from database.",
+	201  => "Invalid number of uuid’s requested, value must be between 2 and 100.",
 	300  => "Insufficient privileges to access data in this event.",
 	301  => "Authentication required to access this non-public event.",
 	302  => "Event does not exist with this shortname.",

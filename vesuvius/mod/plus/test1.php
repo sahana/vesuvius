@@ -25,7 +25,12 @@ $client = new nusoap_client($wsdl);
 //$result = $client->call('resetUserPassword', array('username'=>"testCaseUser9"));
 //$result = $client->call('forgotUsername', array('email'=>"testCase@email.com"));
 
-$result = $client->call('reportPersonViaLPFXML', array('personXML'=>null, 'eventShortName'=>null, 'username'=>null, 'password'=>null));
+//$result = $client->call('reportPerson', array('personXML'=>null, 'eventShortName'=>null, 'xmlFormat'=>'TRIAGEPIC', 'username'=>null, 'password'=>null));
+//$result = $client->call('createPersonUuid', array('username'=>'testDontDelete', 'password'=>'dontDelete99'));
+//$result = $client->call('createPersonUuidBatch', array('number'=>5, 'username'=>'testDontDelete', 'password'=>'dontDelete99'));
+
+//$result = $client->call('createNoteUuid', array('username'=>'testDontDelete', 'password'=>'dontDelete99'));
+$result = $client->call('createNoteUuidBatch', array('number'=>3, 'username'=>'testDontDelete', 'password'=>'dontDelete99'));
 
 /*
 $result = $client->call('searchWithAuth', array(

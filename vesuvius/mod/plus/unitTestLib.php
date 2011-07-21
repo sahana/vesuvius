@@ -495,14 +495,90 @@ function searchWithAuth($shortname, $searchTerm, $username, $password) {
 ////// PLUS UNIT TEST REPORTING FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+function reportPerson($personXML, $eventShortName, $xmlFormat, $user, $pass) {
+ 	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">reportPerson</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('reportPerson', array('personXML'=>$personXML, 'eventShortName'=>$eventShortName, 'xmlFormat'=>$xmlFormat, 'username'=>$user, 'password'=>$pass));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
 
 
+function createPersonUuid($user, $pass) {
+ 	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">createPersonUuid</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('createPersonUuid', array('username'=>$user, 'password'=>$pass));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
 
 
+function createPersonUuidBatch($number, $user, $pass) {
+ 	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">createPersonUuidBatch</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('createPersonUuidBatch', array('number'=>$number, 'username'=>$user, 'password'=>$pass));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
 
+function createNoteUuid($user, $pass) {
+ 	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">createNoteUuid</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('createNoteUuid', array('username'=>$user, 'password'=>$pass));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
 
-
-
-
-
+function createNoteUuidBatch($number, $user, $pass) {
+ 	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">createNoteUuidBatch</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('createPersonUuidBatch', array('number'=>$number, 'username'=>$user, 'password'=>$pass));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
 
