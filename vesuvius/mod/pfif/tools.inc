@@ -1,8 +1,8 @@
 <?php
 /**
- * @name         Missing Person Registry
+ * @name         Person Finder Interchange Format
  * @version      1.5
- * @package      mpr
+ * @package      pfif
  * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
@@ -10,8 +10,6 @@
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  * @lastModified 2011.0307
  */
-
-
 
 /**
  * Shows the Description of the field_option, when given the value

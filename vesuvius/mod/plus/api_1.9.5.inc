@@ -372,6 +372,76 @@ function shn_plus_registerAll($namespace) {
 		$namespace,
 		"Report a new person using the LPF v1.2 XML format."
 	);
+
+	shn_plus_registerOne($server, 'createPersonUuid',
+		array(
+			'in' => array(
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'success '       => 'xsd:boolean',
+				'uuid'           => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Reserves a uuid in the system so that an app can cache it for later use in reporting."
+	);
+
+	shn_plus_registerOne($server, 'createPersonUuidBatch',
+		array(
+			'in' => array(
+				'number'         => 'xsd:integer',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'success '       => 'xsd:boolean',
+				'uuid'           => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Reserves a number of uuids in the system so that an app can cache them for later use in reporting."
+	);
+
+	shn_plus_registerOne($server, 'createNoteUuid',
+		array(
+			'in' => array(
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'success '       => 'xsd:boolean',
+				'uuid'           => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Reserves a note uuid in the system so that an app can cache it for later use in reporting."
+	);
+
+	shn_plus_registerOne($server, 'createNoteUuidBatch',
+		array(
+			'in' => array(
+				'number'         => 'xsd:integer',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'success '       => 'xsd:boolean',
+				'uuid'           => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Reserves a number of note uuids in the system so that an app can cache them for later use in reporting."
+	);
 }
 
 
@@ -1309,18 +1379,165 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 
 
 
+// Reserves a uuid in the system so that an app can cache it for later use in reporting.
+function createPersonUuid($username, $password) {
+	global $global;
+	require_once $global['approot'].'/inc/lib_uuid.inc';
+
+	shn_plus_logAccess("createPersonUuid");
+	global $global;
+	$list = array();
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'success'      => (boolean)false,
+			'uuid'         => null,
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+
+	}
+	$uuid = shn_create_uuid("p");
+	return array(
+		'success'      => (boolean)true,
+		'uuid'         => (string)$uuid,
+		'errorCode'    => (int)0,
+		'errorMessage' => null
+	);
+}
 
 
 
 
+// Reserves a number of uuids in the system so that an app can cache them for later use in reporting.
+function createPersonUuidBatch($number, $username, $password) {
+	global $global;
+	require_once $global['approot'].'/inc/lib_uuid.inc';
+
+	shn_plus_logAccess("createPersonUuidBatch");
+	global $global;
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'success'      => (boolean)false,
+			'uuids'        => null,
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+	}
+
+	$uuids = array();
+	$count = 0;
+	$max = 100; // maximum number of uuid's to request
+	if ($number > 1 && $number <= $max) {
+		for ($i = 0; $i < $number; $i++) {
+			$uuid = shn_create_uuid("p");
+			$uuids[] = array('uuid'.$i => $uuid);
+		}
+	} else {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'success'      => (boolean)false,
+			'uuids'        => null,
+			'errorCode'    => (int)201,
+			'errorMessage' => (string)$eCodes[201]
+		);
+	}
+
+	return array(
+		'success'      => (boolean)true,
+		'uuid'         => (string)json_encode($uuids),
+		'errorCode'    => (int)0,
+		'errorMessage' => null
+	);
+}
 
 
 
 
+// Reserves a note uuid in the system so that an app can cache it for later use in reporting.
+function createNoteUuid($username, $password) {
+	global $global;
+	require_once $global['approot'].'/inc/lib_uuid.inc';
+
+	shn_plus_logAccess("createNotenUuid");
+	global $global;
+	$list = array();
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'success'      => (boolean)false,
+			'uuid'         => null,
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+
+	}
+	$uuid = shn_create_uuid("pfn");
+	return array(
+		'success'      => (boolean)true,
+		'uuid'         => (string)$uuid,
+		'errorCode'    => (int)0,
+		'errorMessage' => null
+	);
+}
 
 
 
+// Reserves a number of note uuids in the system so that an app can cache them for later use in reporting.
+function createNoteUuidBatch($number, $username, $password) {
+	global $global;
+	require_once $global['approot'].'/inc/lib_uuid.inc';
 
+	shn_plus_logAccess("createNoteUuidBatch");
+	global $global;
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'success'      => (boolean)false,
+			'uuids'        => null,
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+	}
+
+	$uuids = array();
+	$count = 0;
+	$max = 100; // maximum number of uuid's to request
+	if ($number > 1 && $number <= $max) {
+		for ($i = 0; $i < $number; $i++) {
+			$uuid = shn_create_uuid("pfn");
+			$uuids[] = array('uuid'.$i => $uuid);
+		}
+	} else {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'success'      => (boolean)false,
+			'uuids'        => null,
+			'errorCode'    => (int)201,
+			'errorMessage' => (string)$eCodes[201]
+		);
+	}
+
+	return array(
+		'success'      => (boolean)true,
+		'uuid'         => (string)json_encode($uuids),
+		'errorCode'    => (int)0,
+		'errorMessage' => null
+	);
+}
 
 
 

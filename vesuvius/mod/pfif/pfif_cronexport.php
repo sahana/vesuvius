@@ -4,7 +4,8 @@
  * @package     pfif
  * @version      1.1
  * @author       Carl H. Cornwell <ccornwell@mail.nih.gov>
- * LastModified: 2010:0308:1402
+ * @author       Leif Neve <lneve@mail.nih.gov>
+ * LastModified: 2011:0719
  * License:      LGPL
  * @link         TBD
  */
@@ -13,20 +14,16 @@ error_reporting(E_ALL ^ E_NOTICE); // E_NOTICE);
 // print "Configuring error display  ...\n";
 ini_set("display_errors", "stdout");
 
-// cron job task for for mpr_pfif export
+// cron job task for for pfif export
 // set approot since we don't know it yet
 $global['approot'] = getcwd() . "/../../";
 
-require("../../conf/sahana.conf");
-require("../../3rd/adodb/adodb.inc.php");
-require("../../inc/handler_db.inc");
-require("../../inc/lib_uuid.inc");
-require("../../inc/lib_image.inc");
-
-require("pfif.inc");
-require_once $global['approot'] . 'mod/mpr/pfif_util.inc.php';
-require_once $global['approot'] . 'mod/mpr/pfif_repository.inc';
-require_once $global['approot'] . 'mod/mpr/pfif_croninit.inc';
+require_once("../../conf/sahana.conf");
+require_once("../../3rd/adodb/adodb.inc.php");
+require_once("../../inc/handler_db.inc");
+require_once("pfif.inc");
+require_once("pfif_repository.inc");
+require_once("pfif_croninit.inc");
 
 /**
  *  Log harvest end

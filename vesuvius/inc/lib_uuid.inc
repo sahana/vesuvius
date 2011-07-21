@@ -42,17 +42,30 @@ function shn_generate_uuid($width) {
  * @return void
  */
  /**
- *@ Edited by H. Iroshan on 2009/06/29 <iroshanmail@gmail.com>
+ *@ Edited by H. Iroshan on 2009/06/29
  *@ Add uuid to amp module
  *
- *@ Edited by Greg Miernicki on 2010-0303 <g@miernicki.com>
+ *@ Edited by Greg Miernicki on 2010-0303
  *@ Changed person prefix from p- to person. to go along with PFIF
+ *
+ *@ Edited by Greg Miernicki on 2011-0720
+ *@ Added note generation capability
  *
  */
 function shn_create_uuid($type='person') {
 	global $conf;
 
 	switch ($type){
+		case 'person':
+		case 'p' :
+			$gen_id = 'person.'._shn_gen_id('person');
+			break;
+
+		case 'pfif_note':
+		case 'pfn' :
+			$gen_id = 'note.'._shn_gen_id('pfif_note');
+			break;
+
 		case 'media':
 			$gen_id='media-'._shn_gen_id('media');
 			break;
@@ -67,11 +80,6 @@ function shn_create_uuid($type='person') {
 
 		case 'victim_group':
 			$gen_id='gr-'._shn_gen_id('victim_group');
-			break;
-
-		case 'person':
-		case 'p' :
-			$gen_id = 'person.'._shn_gen_id('person');
 			break;
 
 		case 'org':
@@ -204,21 +212,19 @@ function shn_create_uuid($type='person') {
  * @access protected
  * @return void
  */
-function _shn_gen_id($type='person') {
+function _shn_gen_id($type = 'person') {
 	global $global;
 	global $conf;
-
 	if($conf['db_engine'] == 'mysql'){
-		if(isset($conf['storage_engine']) && $conf['storage_engine']!='' && strlen(trim($conf['storage_engine']))>0){
+		if(isset($conf['storage_engine']) && $conf['storage_engine'] != '' && strlen(trim($conf['storage_engine'])) > 0) {
 			$engine = $conf['storage_engine'];
 			$global['db']->Execute("set storage_engine ='{$engine}'");
 		}
 	}
-	$tables=$global['db']->MetaTables("TABLE",false,false);
-	$type.="_seq";
-	if(array_search($type,$tables)==false){
-		$global['db']->CreateSequence($type,1);
+	$tables = $global['db']->MetaTables("TABLE", false, false);
+	$type .= "_seq";
+	if(array_search($type, $tables) == false) {
+		$global['db']->CreateSequence($type, 1);
 	}
-
 	return $global['db']->GenID($type);
 }

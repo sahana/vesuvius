@@ -16,17 +16,149 @@
 *********************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************
 *
-* @class        personImage
-* @version      2.0
+* @class        personEdxlOne
+* @version      1.0
 * @author       Greg Miernicki <g@miernicki.com>
 *
 ********************************************************************************************************************************************************************
 *********************************************************************************************************************************************************************
 **********************************************************************************************************************************************************************/
 
-/*
+class personEdxlOne {
+
+	public $tag_id;   // tag_id
+
+
+	// Constructor
+	public function __construct($image_id) {
+		$this->tag_id   = null;
+		$this->image_id = "'".$image_id."'";
+		$this->tag_x    = "NULL";
+		$this->tag_y    = "NULL";
+		$this->tag_w    = "NULL";
+		$this->tag_h    = "NULL";
+		$this->tag_text = "NULL";
+
+	}
+
+
+	// Destructor
+	public function __destruct() {
+	}
+
+
+	// save the image tag
+	public function save() {
+		global $global;
+		$q = "
+			INSERT INTO image_tag (
+				image_id,
+				tag_x,
+				tag_y,
+				tag_w,
+				tag_h,
+				tag_text )
+			VALUES (
+				".$this->image_id.",
+				".$this->tag_x.",
+				".$this->tag_y.",
+				".$this->tag_w.",
+				".$this->tag_h.",
+				".$this->tag_text." );
+		";
+		$res = $global['db']->Execute($q);
+	}
+}
+
+
+
+/** ******************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+********************************************************************************************************************************************************************
+*
+* @class        personImageTag
+* @version      1.0
+* @author       Greg Miernicki <g@miernicki.com>
+*
+********************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************/
+
+class personImageTag {
+
+	public $tag_id;   // tag_id
+	public $image_id; // image_id
+	public $tag_x;    // tag_x
+	public $tag_y;    // tag_y
+	public $tag_w;    // tag_w
+	public $tag_h;    // tag_h
+	public $tag_text; // tag_text
+
+	// Constructor
+	public function __construct($image_id) {
+		$this->tag_id   = null;
+		$this->image_id = "'".$image_id."'";
+		$this->tag_x    = "NULL";
+		$this->tag_y    = "NULL";
+		$this->tag_w    = "NULL";
+		$this->tag_h    = "NULL";
+		$this->tag_text = "NULL";
+
+	}
+
+
+	// Destructor
+	public function __destruct() {
+		$this->tag_id   = null;
+		$this->image_id = null;
+		$this->tag_x    = null;
+		$this->tag_y    = null;
+		$this->tag_w    = null;
+		$this->tag_h    = null;
+		$this->tag_text = null;
+	}
+
+
+	// save the image tag
+	public function save() {
+		global $global;
+		$q = "
+			INSERT INTO image_tag (
+				image_id,
+				tag_x,
+				tag_y,
+				tag_w,
+				tag_h,
+				tag_text )
+			VALUES (
+				".$this->image_id.",
+				".$this->tag_x.",
+				".$this->tag_y.",
+				".$this->tag_w.",
+				".$this->tag_h.",
+				".$this->tag_text." );
+		";
+		$res = $global['db']->Execute($q);
+		$this->tag_id = $global['db']->Insert_ID('image_tag', 'tag_id');
+	}
+}
+
+
+/** ******************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+********************************************************************************************************************************************************************
+*
+* @class        personImage
+* @version      1.0
+* @author       Greg Miernicki <g@miernicki.com>
+*
+********************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************/
+
 class personImage {
 
+	public $image_id;          // image_id
 	public $p_uuid;            // p_uuid
 	public $mimeType;          // image_type
 	public $height;            // image_height
@@ -45,6 +177,7 @@ class personImage {
 	public $cropH;             // crop_h
 	public $fullSizePath;      // full_path
 	public $thumbnailPath;     //
+	public $tags;              //
 
 	// Constructor
 	public function __construct($p_uuid, $mimeType, $fileContentBase64) {
@@ -55,6 +188,7 @@ class personImage {
 		} else {
 			$fileExtension = ".jpg";
 		}
+		$this->image_id          = null;
 		$this->p_uuid            = "'".$p_uuid."'";
 		$this->mimeType          = "'".$mimeType."'";
 		$this->height            = 0;
@@ -74,29 +208,31 @@ class personImage {
 		$this->thumbnailPath     = $global['approot']."www/tmp/plus_cache/".$this->filename."__thumb".$fileExtension;
 		$this->url               = "tmp/plus_cache/".$this->filename.$fileExtension;
 		$this->url_thumb         = "tmp/plus_cache/".$this->filename."__thumb".$fileExtension;
+		$this->tags              = array();
 	}
 
 
 	// Destructor
 	public function __destruct() {
-		$this->p_uuid            = NULL;
-		$this->mimeType          = NULL;
-		$this->height            = NULL;
-		$this->width             = NULL;
-		$this->created           = NULL;
-		$this->category          = NULL;
-		$this->url               = NULL;
-		$this->url_thumb         = NULL;
-		$this->filename          = NULL;
-		$this->filenameOriginal  = NULL;
-		$this->fileContentBase64 = NULL;
-		$this->fileContent       = NULL;
-		$this->cropX             = NULL;
-		$this->cropY             = NULL;
-		$this->cropW             = NULL;
-		$this->cropH             = NULL;
-		$this->fullSizePath      = NULL;
-		$this->thumbnailPath     = NULL;
+		$this->image_id          = null;
+		$this->p_uuid            = null;
+		$this->mimeType          = null;
+		$this->height            = null;
+		$this->width             = null;
+		$this->created           = null;
+		$this->category          = null;
+		$this->url               = null;
+		$this->url_thumb         = null;
+		$this->filename          = null;
+		$this->filenameOriginal  = null;
+		$this->fileContentBase64 = null;
+		$this->fileContent       = null;
+		$this->cropX             = null;
+		$this->cropY             = null;
+		$this->cropW             = null;
+		$this->cropH             = null;
+		$this->fullSizePath      = null;
+		$this->thumbnailPath     = null;
 	}
 
 	// save the current image
@@ -148,37 +284,37 @@ class personImage {
 				".$this->fullPath." );
 		";
 		$res = $global['db']->Execute($q);
+		$this->image_id = $global['db']->Insert_ID('image', 'image_id');
 	}
 
 	// Debug
 	public function debug() {
-		echo "\np_uuid >>>>>>>>>>>>> ".$this->." <<";
-		echo "\nmimeType >>>>>>>>>>> ".$this->." <<";
-		echo "\nheight >>>>>>>>>>>>> ".$this->." <<";
-		echo "\nwidth >>>>>>>>>>>>>> ".$this->." <<";
-		echo "\ncreated >>>>>>>>>>>> ".$this->." <<";
-		echo "\ncategory >>>>>>>>>>> ".$this->." <<";
-		echo "\nurl >>>>>>>>>>>>>>>> ".$this->." <<";
-		echo "\nurl_thumb >>>>>>>>>> ".$this->." <<";
-		echo "\nfilename >>>>>>>>>>> ".$this->." <<";
-		echo "\nfilenameOriginal >>> ".$this->." <<";
-		//echo "\nfileContent >>>>>>>> ".$this->." <<";
-		echo "\nfileContentBase64 >> ".$this->." <<";
-		echo "\ncropX >>>>>>>>>>>>>> ".$this->." <<";
-		echo "\ncropY >>>>>>>>>>>>>> ".$this->." <<";
-		echo "\ncropW >>>>>>>>>>>>>> ".$this->." <<";
-		echo "\ncropH >>>>>>>>>>>>>> ".$this->." <<";
-		echo "\nfullPath >>>>>>>>>>> ".$this->." <<\n";
+		echo "\nimage_id >>>>>>>>>>> ".$this->image_id." <<";
+		echo "\np_uuid >>>>>>>>>>>>> ".$this->p_uuid." <<";
+		echo "\nmimeType >>>>>>>>>>> ".$this->mimeType." <<";
+		echo "\nheight >>>>>>>>>>>>> ".$this->height." <<";
+		echo "\nwidth >>>>>>>>>>>>>> ".$this->width." <<";
+		echo "\ncreated >>>>>>>>>>>> ".$this->created." <<";
+		echo "\ncategory >>>>>>>>>>> ".$this->category." <<";
+		echo "\nurl >>>>>>>>>>>>>>>> ".$this->url." <<";
+		echo "\nurl_thumb >>>>>>>>>> ".$this->url_thumb." <<";
+		echo "\nfilename >>>>>>>>>>> ".$this->filename." <<";
+		echo "\nfilenameOriginal >>> ".$this->filenameOriginal." <<";
+		echo "\ncropX >>>>>>>>>>>>>> ".$this->cropX." <<";
+		echo "\ncropY >>>>>>>>>>>>>> ".$this->cropY." <<";
+		echo "\ncropW >>>>>>>>>>>>>> ".$this->cropW." <<";
+		echo "\ncropH >>>>>>>>>>>>>> ".$this->cropH." <<";
+		echo "\nfullSizePath >>>>>>> ".$this->fullSizePath." <<";
+		echo "\nthumbnailPath >>>>>> ".$this->thumbnailPath." <<\n";
 	}
 }
-*/
 
 
 /** ******************************************************************************************************************************************************************
 *********************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************
 *
-* @class        personXML
+* @class        person
 * @version      1.0
 * @author       Greg Miernicki <g@miernicki.com>
 *
@@ -186,144 +322,128 @@ class personImage {
 *********************************************************************************************************************************************************************
 **********************************************************************************************************************************************************************/
 
-/*
+class person {
 
-class personXML {
-
+	// holds the XML/format if used to instantiate in this manner
 	public $theString; // object is initialized as a string first, then parsed into an array
+	public $xmlFormat; // enumerated constant denoting type of the XML being loaded ~ REUNITE, TRIAGEPIC
 
-	public $uuid;
+	// table person_uuid
+	public $p_uuid;
+	public $full_name;
+	public $family_name;
+	public $given_name;
+	public $incident_id;
+	public $hospital_uuid;
+	public $expiry_date;
 
-	public $givenName;
-	public $familyName;
-	public $gender;
+	// table person_status
+	public $opt_status;
+	public $last_updated;
+	public $isVictim;
+	public $creation_time;
 
-	// sql strings w/ wrapped quotations
-	public $age;
-	public $maxAge;
+	// table person_details
+	public $details_id;
+	public $birth_date;
+	public $opt_race;
+	public $opt_religion;
+	public $opt_gender;
+	public $years_old;
 	public $minAge;
+	public $maxAge;
+	public $last_seen;
+	public $last_clothing;
+	public $other_comments;
 
-	public $comments;
-	public $sahanaStatus;
-	public $hospitalId;
-	public $peds;
+	// table person_to_report
+	public $rep_uuid;
+	public $relation;
 
+	// table image
 	public $images;
 
-	public $incident_id;
-	public $shortName;
-	public $longName;
-
-	public $emailSubject;
-	public $emailDate;
-	public $emailFrom;
-
-	public $clientDate;
 
 
 	// Constructor:
 	public function	__construct() {
-		$this->uuid = shn_create_uuid();
-		$this->incident_id = 0; // default
+		$this->theString      = null;
+		$this->xmlFormat      = null;
+		$this->p_uuid         = null;
+		$this->full_name      = null;
+		$this->family_name    = null;
+		$this->given_name     = null;
+		$this->incident_id    = null;
+		$this->hospital_uuid  = null;
+		$this->expiry_date    = null;
+		$this->opt_status     = null;
+		$this->last_updated   = null;
+		$this->isVictim       = null;
+		$this->creation_time  = null;
+		$this->details_id     = null;
+		$this->birth_date     = null;
+		$this->opt_race       = null;
+		$this->opt_religion   = null;
+		$this->opt_gender     = null;
+		$this->years_old      = null;
+		$this->minAge         = null;
+		$this->maxAge         = null;
+		$this->last_seen      = null;
+		$this->last_clothing  = null;
+		$this->other_comments = null;
+		$this->rep_uuid       = null;
+		$this->relation       = null;
+		$this->images         = null;
 	}
 
 
 
 	// Destructor
-	public function __destruct() {}
-
-
-
-	public function insertPersonXML($version) {
-		if($version == 1.2) {
-			$this->insertPersonXMLv12();
-		} else if($version == 1.6) {
-			$this->insertPersonXMLv16();
-		}
+	public function __destruct() {
+		$this->theString      = null;
+		$this->xmlFormat      = null;
+		$this->p_uuid         = null;
+		$this->full_name      = null;
+		$this->family_name    = null;
+		$this->given_name     = null;
+		$this->incident_id    = null;
+		$this->hospital_uuid  = null;
+		$this->expiry_date    = null;
+		$this->opt_status     = null;
+		$this->last_updated   = null;
+		$this->isVictim       = null;
+		$this->creation_time  = null;
+		$this->details_id     = null;
+		$this->birth_date     = null;
+		$this->opt_race       = null;
+		$this->opt_religion   = null;
+		$this->opt_gender     = null;
+		$this->years_old      = null;
+		$this->minAge         = null;
+		$this->maxAge         = null;
+		$this->last_seen      = null;
+		$this->last_clothing  = null;
+		$this->other_comments = null;
+		$this->rep_uuid       = null;
+		$this->relation       = null;
+		$this->images         = null;
 	}
 
 
-
-	public function insertPersonXMLv12() {
+	public function save() {
 		global $global;
-		$this->figureOutIncidentId();
-
-		// insert person
-		$q1 = "
-			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
-			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', ".$this->hospitalId.");
-		";
-		$res = $global['db']->Execute($q1);
-
-
-		// insert person's status
-		$q4 = "
-			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
-			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', '".$this->clientDate."', TRUE, CURRENT_TIMESTAMP);
-		";
-		$res = $global['db']->Execute($q4);
-
-
-		// insert person's details
-		$q5 = "
-			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old, minAge, maxAge)
-			VALUES ('".$this->uuid."', NULL, ".$this->gender.", ".$this->age.", ".$this->minAge.", ".$this->maxAge.");
-		";
-		$res = $global['db']->Execute($q5);
-
-		// insert into mpres_log
-		$q7 = "
-			INSERT INTO mpres_log (p_uuid, email_subject, email_from, email_date, update_time)
-			VALUES ('".$this->uuid."','".$this->emailSubject."','".$this->emailFrom."','".$this->emailDate."',NOW());
-		";
-		$res = $global['db']->Execute($q7);
-
-		$this->insertImages();
-	}
+		// we use the pfif lib to create pfif notes in managing persons...
+		require_once($global['approot']."mod/pfif/pfif.inc");
 
 
 
-	public function insertPersonXMLv16() {
-		global $global;
-		$this->figureOutIncidentId();
-
-		// insert person
-		$q1 = "
-			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
-			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', ".$this->hospitalId.");
-		";
-		$res = $global['db']->Execute($q1);
-
-
-		// insert person's status
-		$q4 = "
-			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
-			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);
-		";
-		$res = $global['db']->Execute($q4);
-
-
-		// insert person's details
-		$q5 = "
-			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old, last_seen, last_clothing, other_comments)
-			VALUES ('".$this->uuid."', NULL, ".$this->gender.", '".$this->age."', NULL, NULL, '".$this->comments."');
-		";
-		$res = $global['db']->Execute($q5);
-
-
-		// insert into mpres_log
-		$q7 = "
-			INSERT INTO mpres_log (p_uuid, email_subject, email_from, email_date, update_time)
-			VALUES ('".$this->uuid."','".$this->emailSubject."','".$this->emailFrom."','".$this->emailDate."',NOW());
-		";
-		$res = $global['db']->Execute($q7);
-
-		$this->insertImages();
-	}
 
 
 
-	public function insertPerson() {
+
+
+//////////////////////////
+
 		global $global;
 
 		$this->extractStatusFromSubject();
@@ -358,8 +478,8 @@ class personXML {
 
 		// insert person's details
 		$q6 = "
-			INSERT INTO person_details (p_uuid, opt_age_group, opt_gender, years_old, last_seen, last_clothing, other_comments)
-			VALUES ('".$this->uuid."', NULL, NULL, NULL, NULL, NULL, NULL);
+			INSERT INTO person_details (p_uuid, opt_gender, years_old, last_seen, last_clothing, other_comments)
+			VALUES ('".$this->uuid."', NULL, NULL, NULL, NULL, NULL);
 		";
 		$res = $global['db']->Execute($q6);
 
@@ -372,15 +492,110 @@ class personXML {
 		$res = $global['db']->Execute($q7);
 
 		$this->insertImages();
+
+////////////////////
+
+
+		global $global;
+		$this->figureOutIncidentId();
+
+		// insert person
+		$q1 = "
+			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
+			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', ".$this->hospitalId.");
+		";
+		$res = $global['db']->Execute($q1);
+
+
+		// insert person's status
+		$q4 = "
+			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
+			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);
+		";
+		$res = $global['db']->Execute($q4);
+
+
+		// insert person's details
+		$q5 = "
+			INSERT INTO person_details (p_uuid, opt_gender, years_old, last_seen, last_clothing, other_comments)
+			VALUES ('".$this->uuid."', ".$this->gender.", '".$this->age."', NULL, NULL, '".$this->comments."');
+		";
+		$res = $global['db']->Execute($q5);
+
+
+		// insert into mpres_log
+		$q7 = "
+			INSERT INTO mpres_log (p_uuid, email_subject, email_from, email_date, update_time)
+			VALUES ('".$this->uuid."','".$this->emailSubject."','".$this->emailFrom."','".$this->emailDate."',NOW());
+		";
+		$res = $global['db']->Execute($q7);
+
+		$this->insertImages();
+
+////////////////
+
+		global $global;
+		$this->figureOutIncidentId();
+
+		// insert person
+		$q1 = "
+			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
+			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', ".$this->hospitalId.");
+		";
+		$res = $global['db']->Execute($q1);
+
+
+		// insert person's status
+		$q4 = "
+			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
+			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', '".$this->clientDate."', TRUE, CURRENT_TIMESTAMP);
+		";
+		$res = $global['db']->Execute($q4);
+
+
+		// insert person's details
+		$q5 = "
+			INSERT INTO person_details (p_uuid, opt_gender, years_old, minAge, maxAge)
+			VALUES ('".$this->uuid."', ".$this->gender.", ".$this->age.", ".$this->minAge.", ".$this->maxAge.");
+		";
+		$res = $global['db']->Execute($q5);
+
+		// insert into mpres_log
+		$q7 = "
+			INSERT INTO mpres_log (p_uuid, email_subject, email_from, email_date, update_time)
+			VALUES ('".$this->uuid."','".$this->emailSubject."','".$this->emailFrom."','".$this->emailDate."',NOW());
+		";
+		$res = $global['db']->Execute($q7);
+
+		$this->insertImages();
+
+///////////////
+
+
+
+
+
+	}
+
+
+	public function load() {
+		global $global;
+		// we use the pfif lib to create pfif notes in managing persons...
+		require_once($global['approot']."mod/pfif/pfif.inc");
+
+	}
+
+
+	public function edit() {
+		global $global;
+		// we use the pfif lib to create pfif notes in managing persons...
+		require_once($global['approot']."mod/pfif/pfif.inc");
+
 	}
 
 
 
-
-
-
-
-	public function parse() {
+	public function parseXml() {
 		$a = xml2array($this->theString);
 
 		// Identify ReUnite XML's
@@ -523,8 +738,6 @@ class personXML {
 	}
 }
 
-*/
-
 
 /** ******************************************************************************************************************************************************************
 *********************************************************************************************************************************************************************
@@ -616,7 +829,7 @@ class pop {
 		$this->startTime         = microtime(true);
 		$this->stopTime          = null;
 		$this->messageCount      = 0;
-		$this->currentAttachment = NULL;
+		$this->currentAttachment = null;
 		$this->mailboxOpen       = FALSE;
 		$this->delete_messages   = TRUE;
 		$this->sentStatus        = FALSE;
@@ -1716,7 +1929,5 @@ function makeBaseUrlMinusEventForHome() {
 	$link = str_replace("/index.php", "", $link);
 	return $link;
 }
-
-
 
 

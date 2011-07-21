@@ -682,12 +682,15 @@ function _shn_image_media_get($media_id) {
  * @return void
  */
 function shn_image_to_db($p_uuid,$image_type, $image_height, $image_width,$url=null,$thumbUrl=null,$original_filename=null,$replace_id=null,$category=null) {
-	global $global;
+   global $global;
 
-	$sql = "INSERT INTO image (p_uuid, image_type, image_height, image_width,url,url_thumb,original_filename,category)
-			VALUES ('$p_uuid','$image_type','$image_height','$image_width','$url','$thumbUrl','$original_filename','$category')";
-	$global['db']->Execute($sql);
-	// exit();
+   $sql = "INSERT INTO image (p_uuid, image_type, image_height, image_width,url,url_thumb,original_filename,category)
+		VALUES ('$p_uuid','$image_type','$image_height','$image_width','$url','$thumbUrl','$original_filename','$category')";
+   $global['db']->Execute($sql);
+   $msg = $global['db']->ErrorMsg();
+   if (!empty($msg)) {
+      throw new RuntimeException($msg);
+   }
 }
 
 /**

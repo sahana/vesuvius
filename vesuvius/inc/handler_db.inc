@@ -24,8 +24,8 @@ require_once($global['approot'].'3rd/adodb/adodb.inc.php');
 
 // Make the connection to $global['db']
 $global['db'] = NewADOConnection($conf['db_engine']);
-$_host_port = $conf['db_host'].(isset($conf['db_port'])?':'.$conf['db_port']:'');
-$global['db']->Connect($_host_port,$conf['db_user'],$conf['db_pass'],$conf['db_name']);
+$_host_port   = $conf['db_host'].(isset($conf['db_port']) ? ':'.$conf['db_port']:'');
+$global['db']->Connect($_host_port, $conf['db_user'], $conf['db_pass'], $conf['db_name']);
 
 
 
@@ -151,6 +151,10 @@ function shn_db_insert($arr, $table, $audit=false, $primary_field='') {
 	$sql .= "( $keys ) VALUES ( $values ) ";
 
 	$global['db']->Execute($sql);
+        $msg = $global['db']->ErrorMsg();
+        if (!empty($msg)) {
+            throw new RuntimeException($msg);
+        }
 
 	#var_dump($sql_audit);
 	if($audit) {

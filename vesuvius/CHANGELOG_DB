@@ -4,6 +4,32 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 2011:0718 Greg
 --------------
 
+
+ALTER TABLE `person_uuid`
+  DROP `l10n_name`,
+  DROP `custom_name`;
+
+ALTER TABLE  `person_status` DROP  `isReliefWorker` ;
+
+ALTER TABLE  `person_details` DROP  `opt_age_group` ;
+
+ALTER TABLE  `person_details` DROP  `next_kin_uuid` ;
+
+ALTER TABLE  `person_details` DROP  `relation` ;
+
+DELETE FROM field_options WHERE field_name = 'opt_country';
+
+ALTER TABLE  `person_details` DROP  `opt_country` ;
+
+ALTER TABLE  `person_details` DROP  `opt_marital_status` ;
+
+ALTER TABLE  `person_details` DROP  `occupation`;
+
+
+
+2011:0718 Greg
+--------------
+
 Added Glenn's EDXL table >>
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
