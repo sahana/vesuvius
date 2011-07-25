@@ -186,7 +186,9 @@ function _gettext($msgid) {
  * Function to handle contexts
  */
 function _pgettext($msgid) {
-	list($context,$msgidn) = explode("|", $msgid, 2);
+	if ( !strpos($msgid, "|") ) {
+		list($context,$msgidn) = explode("|", $msgid, 2);
+	}
 	if ( empty($msgidn) ) {
 		return _gettext($msgid);
 	}
