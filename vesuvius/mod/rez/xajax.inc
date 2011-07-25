@@ -13,6 +13,7 @@
 
 global $global;
 
+
 // create an array as it does not exist previosuly and will make warnings
 $global['xajax_functions'] = array();
 
@@ -344,6 +345,8 @@ function rez_perform_new() {
 	$q3 = "SELECT * from rez_pages order by rez_page_id desc;";
 	$res3 = $global['db']->Execute($q3);
 	$row3 = $res3->FetchRow();
+	
+	
 	return $row3['rez_page_id'];
 }
 
@@ -416,6 +419,7 @@ function rez_perform_delete($page_id, $confirm) {
 		//---- delete the page from db table
 		$q = "delete from rez_pages where rez_page_id = '".$page_id."';";
 		$res = $global['db']->Execute($q);
+		
 		$global['xajax_res']->addAppend('rezLog','innerHTML',"Page <b>#".$page_id."</b> deleted.<br>");
 	} else {
 		$global['xajax_res']->addAppend('rezLog','innerHTML',"Delete operation aborted.<br>");
@@ -426,6 +430,7 @@ function rez_perform_delete($page_id, $confirm) {
 	$global['xajax_res']->addAssign('rezMain','innerHTML',rez_show_pages(TRUE));
 	$global['xajax_res']->addAssign('rezMain','style.opacity','1.0');
 	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
+	
 	return $global['xajax_res']->getXML();
 }
 

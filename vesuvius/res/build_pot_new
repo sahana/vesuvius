@@ -12,6 +12,8 @@
 # Generates: - temporary files "filelist.txt" and "field_options"
 #            - sahana.pot
 
+#Cache REZ database table to file
+php -f cache_rez.inc
 
 # Enclose .php files into the file list
 find .. -name "*.php" | egrep -v "3rd/" > filelist.txt
