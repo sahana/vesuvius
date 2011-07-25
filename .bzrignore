@@ -2,8 +2,6 @@
 .svn
 vesuvius/conf/sahana.conf
 vesuvius/www/tmp
-vesuvius/mod/int
-vesuvius/mod/tp
 vesuvius/www/.htaccess
 .project
 .settings
