@@ -43,30 +43,41 @@ if(!isset($_GET['api'])) {
 	init2();
 
 	// perform tests...
-	version();
-	getEventList();
-	getEventListUser($user, $pass);
-	getGroupList();
-	getHospitalList();
-	getHospitalData("1");
-	getHospitalPolicy("1");
-	getSessionTimeout();
-	registerUser("testCaseUser", "testCase@email.com", "testPassword99", "testCaseGiven", "testCaseFamily");
-	changeUserPassword($user, $pass, $pass);
-	resetUserPassword($user);
-	forgotUsername($email);
-	checkUserAuth($user, $pass);
-	getUserStatus($user);
-	getUserGroup($user);
-	search("test", "t");
-	searchWithAuth("test", "t", $user, $pass);
-	reportPerson($personXML, $eventShortName, $xmlFormat, $user, $pass);
-	createPersonUuid($user, $pass);
-	createPersonUuidBatch($number, $user, $pass);
-	createNoteUuid($user, $pass);
-	createNoteUuidBatch($number, $user, $pass);
+	switch($_GET['api']) {
+		case '2.0.0':
 
-	echo "</table><br><h2>Note: deprecated functions are not listed/tested.</h2></body>";
+		case '1.9.6':
+
+		case '1.9.5':
+			reportPerson($personXML, $eventShortName, $xmlFormat, $user, $pass);
+			createPersonUuid($user, $pass);
+			createPersonUuidBatch($number, $user, $pass);
+			createNoteUuid($user, $pass);
+			createNoteUuidBatch($number, $user, $pass);
+		case '1.9.4':
+			search("test", "t");
+			searchWithAuth("test", "t", $user, $pass);
+		case '1.9.3':
+			getSessionTimeout();
+			registerUser("testCaseUser", "testCase@email.com", "testPassword99", "testCaseGiven", "testCaseFamily");
+			changeUserPassword($user, $pass, $pass);
+			resetUserPassword($user);
+			forgotUsername($email);
+			checkUserAuth($user, $pass);
+			getUserStatus($user);
+			getUserGroup($user);
+		case '1.9.2':
+			getEventList();
+			getEventListUser($user, $pass);
+			getGroupList();
+		case '1.9.1':
+			getHospitalList();
+			getHospitalData("1");
+			getHospitalPolicy("1");
+		case '1.9.0':
+			version();
+	}
+	echo "</table><h2>Note: deprecated functions are not listed/tested.</h2></body>";
 }
 
 

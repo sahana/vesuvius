@@ -667,31 +667,101 @@ function _shn_image_media_get($media_id) {
 	}
 }
 
+
+
 /**
  * shn_image_to_db
  *
+ * @param mixed $image_upload
+ * @param mixed $p_uuid
+ * @param mixed $replace_id
+ * @access public
+ * @return void
+ */
+function shn_image_to_db($image_upload,$p_uuid,$replace_id=null) {
+	global $global;
+
+	$info = getimagesize($image_upload['tmp_name']);
+	list(,$ext) = split("\/",$info['mime']);
+
+	$size = filesize($image_upload['tmp_name']);
+	$image = fread(fopen($image_upload['tmp_name'],"r"),$size);
+
+	$image = addslashes($image);
+	$image_type = $ext;
+	$image_height = $info[1];
+	$image_width = $info[0];
+
+	if($replace_id){
+		$sql = "UPDATE image SET
+                    image = '$image',
+                    image_type = '$image_type',
+                    image_height = '$image_height',
+                    image_width = '$image_width',
+                WHERE image_id = '$replace_id'";
+	}else{
+		$sql = "INSERT INTO image (p_uuid, image, image_type, image_height, image_width)
+                VALUES ('$p_uuid','$image','$image_type','$image_height','$image_width')";
+	}
+
+	$global['db']->Execute($sql);
+}
+
+
+
+/**
+ * shn_image_to_db_ex
+ *
+ * @param mixed $image
+ * @param mixed $p_uuid
+ * @param mixed $image_type
+ * @param mixed $image_height
+ * @param mixed $image_width
+ * @param mixed $replace_id
+ * @param mixed $category
+ * @access public
+ * @return void
+ */
+function shn_image_to_db_ex($p_uuid,$image,$image_type, $image_height, $image_width,$replace_id=null,$category=null) {
+    shn_image_to_db_url($p_uuid,$image,
+                        $image_type, $image_height, $image_width,
+                        null, $replace_id,$category);
+}
+
+/**
+ * shn_image_to_db_url
+ *
+ * @param mixed $image
  * @param mixed $p_uuid
  * @param mixed $image_type
  * @param mixed $image_height
  * @param mixed $image_width
  * @param string $url
- * @param string $thumbUrl
- * @param string $original_filename
+ * @param mixed $replace_id
  * @param mixed $category
  * @access public
  * @return void
  */
-function shn_image_to_db($p_uuid,$image_type, $image_height, $image_width,$url=null,$thumbUrl=null,$original_filename=null,$replace_id=null,$category=null) {
-   global $global;
-
-   $sql = "INSERT INTO image (p_uuid, image_type, image_height, image_width,url,url_thumb,original_filename,category)
-		VALUES ('$p_uuid','$image_type','$image_height','$image_width','$url','$thumbUrl','$original_filename','$category')";
-   $global['db']->Execute($sql);
-   $msg = $global['db']->ErrorMsg();
-   if (!empty($msg)) {
-      throw new RuntimeException($msg);
-   }
+function shn_image_to_db_url($p_uuid,$image,$image_type, $image_height, $image_width,$url=null,$replace_id=null,$category=null) {
+    shn_image_to_db_url2($p_uuid,$image,$image_type, $image_height, $image_width,$url,null,null,$replace_id,$category);
 }
+function shn_image_to_db_url2($p_uuid,$image,$image_type, $image_height, $image_width,$url=null,$thumbUrl=null,$original_filename=null,$replace_id=null,$category=null) {
+	global $global;
+
+	$image = addslashes($image);
+
+	if($replace_id){
+		$sql = "UPDATE image SET image = '$image', image_type = '$image_type', image_height = '$image_height', image_width = '$image_width',url = '$url',url_thumb = '$thumbUrl',original_filename='$original_filename'
+			WHERE image_id = '$replace_id'";
+	} else {
+		$sql = "INSERT INTO image (p_uuid, image, image_type, image_height, image_width,url,url_thumb,original_filename,category)
+			VALUES ('$p_uuid','$image','$image_type','$image_height','$image_width','$url','$thumbUrl','$original_filename','$category')";
+	}
+	$global['db']->Execute($sql);
+	// exit();
+}
+
+
 
 /**
  * Get the error description message for an image upload error.

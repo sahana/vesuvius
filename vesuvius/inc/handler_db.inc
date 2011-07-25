@@ -26,6 +26,7 @@ require_once($global['approot'].'3rd/adodb/adodb.inc.php');
 $global['db'] = NewADOConnection($conf['db_engine']);
 $_host_port   = $conf['db_host'].(isset($conf['db_port']) ? ':'.$conf['db_port']:'');
 $global['db']->Connect($_host_port, $conf['db_user'], $conf['db_pass'], $conf['db_name']);
+$global['db']->EXECUTE("set names 'utf8'");
 
 
 

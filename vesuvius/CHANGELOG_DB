@@ -1,6 +1,15 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+2011:0721 Greg
+--------------
+
+ALTER TABLE `person_to_report` DROP `relation`
+
+ALTER TABLE  `hospital` ADD  `legalese` TEXT NULL DEFAULT NULL COMMENT  'legalese',
+ADD  `legaleseAnon` TEXT NULL DEFAULT NULL COMMENT  'anonymized legalese';
+
+
 2011:0718 Greg
 --------------
 
