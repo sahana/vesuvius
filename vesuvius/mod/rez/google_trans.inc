@@ -20,11 +20,12 @@ include_once ($global['approot'].'/inc/lib_errors.inc');
 function shn_getLocale() {
 	global $global;
 	if ( isset($_SESSION['locale']) ) {
-		//return $_SESSION['locale'];
+		$locale = substr($_SESSION['locale'], 0, 2);
+		return $locale;
 	}
-	$contents = file_get_contents($global['approot'].'/res/locale/locale');
-	$locale = substr($contents, 0, 2);
-	return $locale;
+	/*$contents = file_get_contents($global['approot'].'/res/locale/locale');
+	$locale = substr($contents, 0, 2);*/
+	else return 'en';
 }
 /**
  * @param $text String String to be translated
@@ -39,18 +40,32 @@ function shn_google_translate($text) {
 	if ( $lang == 'en' ) {
 		return $text;
 	}
-	$lang = 'de';
 	//first, we have to check whether the current locale is supported by Google Translate API
 	$crl = curl_init();
 	/*curl_setopt($crl , CURLOPT_URL, 'https://www.googleapis.com/language/translate/v2/languages?key=AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM');
 	$langResult = json_decode(curl_exec($crl));*/
+<<<<<<< TREE
 
 
 
+=======
+>>>>>>> MERGE-SOURCE
 	//Since we're sending a GET request to Google Translate REST API, we need to make some characters URI-friendly
 	$text = urlencode($text);
+	/*$fields = array (
+				'key'	=>	'AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM',
+				'q'		=>	$text,
+				'source'=>	'en',
+				'target'=>	$lang 
+			);
+	$header = array ('X-HTTP-Method-Override: GET');*/
 	curl_setopt($crl , CURLOPT_URL, "https://www.googleapis.com/language/translate/v2?key=AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM&q={$text}&source=en&target={$lang}");
 	curl_setopt($crl, CURLOPT_RETURNTRANSFER, 1);
+	/*post request
+	 POST request needs to be sent with header change 
+	curl_setopt($crl, CURLOPT_POST, 1);
+	curl_setopt($crl, CURLOPT_POSTFIELDS, $fields);
+	curl_setopt($crl, CURLOPT_HTTPHEADER, $header); */
 	$result = curl_exec($crl);
 	$result = json_decode($result, true);
 
@@ -70,9 +85,15 @@ function shn_google_translate($text) {
     if (!is_array($result['data']['translations'])) {
         add_error('Translations array not returned properly');
     }
+<<<<<<< TREE
 
  	return $result['data']['translations'][0]['translatedText'];
 
+=======
+    
+ 	return urldecode($result['data']['translations'][0]['translatedText']);
+    
+>>>>>>> MERGE-SOURCE
     //Exception if final step fails
     add_error('Could not translate!');
 }
@@ -109,5 +130,9 @@ function shn_add_gtrans_attrib() {
  */
 function shn_google_translate_element($text) {
 	echo "<div id=\"google_translate_element\">".$text."</div>";
+<<<<<<< TREE
 
+}=======
+	
 }
+//GET URL: "https://www.googleapis.com/language/translate/v2?key=AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM&q={$text}&source=en&target={$lang}">>>>>>> MERGE-SOURCE

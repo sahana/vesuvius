@@ -33,6 +33,9 @@
  * second parameter in the constructor (e.g. whenusing very large MO files
  * that you don't want to keep in memory)
  */
+//include Google Translate functions
+global $global;
+include_once($global['approot'].'/mod/rez/google_trans.inc');
 class gettext_reader {
   //public:
    var $error = 0; // public variable that holds error code (0 if no error)
@@ -239,10 +242,11 @@ class gettext_reader {
    * @access public
    * @param string string to be translated
    * @return string translated string (or original, if not found)
+   * If string not found, default to shn_google_translate
    */
   function translate($string) {
     if ($this->short_circuit)
-      return $string;
+      return shn_google_translate($string);
     $this->load_tables();     
     
     if ($this->enable_cache) {
@@ -250,12 +254,12 @@ class gettext_reader {
       if (array_key_exists($string, $this->cache_translations))
         return $this->cache_translations[$string];
       else
-        return $string;
+        return shn_google_translate($string);
     } else {
       // Caching not enabled, try to find string
       $num = $this->find_string($string);
       if ($num == -1)
-        return $string;
+        return shn_google_translate($string);
       else
         return $this->get_translation_string($num);
     }
