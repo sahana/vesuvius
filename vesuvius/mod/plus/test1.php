@@ -14,7 +14,7 @@ $user = "testDontDelete";
 $pass = "dontDelete99";
 
 require_once("../../3rd/nusoap/lib/nusoap.php");
-$wsdl = "https://plstage.nlm.nih.gov/~miernickig/sahanaDev/www/index.php?wsdl&api=1.9.5";
+$wsdl = "https://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=1.9.5";
 //$wsdl = "http://localhost/vesuvius-trunk/vesuvius/www/index.php?wsdl&api=1.9.4";
 //$wsdl = "https://pl.nlm.nih.gov/?wsdl";
 $client = new nusoap_client($wsdl);

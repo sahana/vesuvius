@@ -1,0 +1,75 @@
+<lpfContent>
+<xmlSchemaVersion>1.4</xmlSchemaVersion>
+<UDID>c5b2734cb950f0f73284b469c5a0deb87845b400</UDID>
+<appName>ReUnite</appName>
+<version>2.01</version>
+	<person>
+		<personId>test-20101108-0004</personId>
+		<eventShortName>test</eventShortName>
+		<dateTimeSent>2010-11-08 15:25:56 GMT</dateTimeSent>
+		<firstName>Greg</firstName>
+		<familyName>miermicki</familyName>
+		<gender>Female</gender>
+		<genderEnum>Male, Female, Unknown</genderEnum>
+		<ageGroupDesc>>An age range set by user in the format: (minAge,MaxAge).</ageGroupDesc>
+		<ageGroup>
+			<minAge>1</minAge>
+			<maxAge>150</maxAge>
+		</ageGroup>
+		<estimatedAgeInYears>30</estimatedAgeInYears>
+		<status>
+			<healthStatusDesc>c>Must be 'Unknown' if locationStatus is 'Missing'</healthStatusDesc>
+			<healthStatus>Injured</healthStatus>
+			<healthStatusEnum>Alive and Well, Injured, Deceased, Unknown</healthStatusEnum>
+			<locationStatusDesc>>Where last seen if missing, current if known</locationStatusDesc>
+			<locationStatusDesc>Known</locationStatusDesc>
+			<locationStatusEnum>>Missing, Known</locationStatusEnum>
+		</status>
+		<location>
+			<street></street>
+			<region></region>
+			<city>wachington</city>
+			<postalCode></postalCode>
+			<country>United States</country>
+			<gps>38.9035N, 77.0231W</gps>
+		</location>
+		<photo>
+			<photoDesc>Size and location tags are given in pixels.</photoDesc>
+			<fileName>2010-11-08 15:25:56 GMT.jpg</fileName>
+			<orientationDesc>The EXIF orientation flag, also in the image file header.</orientationDesc>
+			<size>
+				<w>720</w>
+				<h>960</h>
+			</size>
+			<cropRect>
+				<x>0</x>
+				<y>0</y>
+				<w>0</w>
+				<h>0</h>
+			</cropRect>
+			<tagsDesc>Tag coordinates are relative to the iPhone screen</tagsDesc>
+			<tags>
+				<numberOfTags>1</numberOfTags>
+				<tag>
+					<x>104</x>
+					<y>127</y>
+					<w>100</w>
+					<h>104</h>
+					<text>Greg</text>
+				</tag>
+			</tags>
+		</photo>
+		<notes></notes>
+		<voiceNoteDesc>An optional sound file used to record more info. Length given in seconds.</voiceNoteDesc>
+		<voiceNote>
+			<fileName></fileName>
+			<length></length>
+			<format></format>
+			<sampleRate></sampleRate>
+			<numberOfChannels></numberOfChannels>
+			<speakerDesc>Field used to identify speaker in voice note. Choices are 'Person' -- i.e. the victim, 'Reporter' -- i.e. aid worker, 'Other'.</speakerDesc>
+			<speakerEnum>Person, Reporter, Other</speakerEnum>
+			<speaker></speaker>
+		</voiceNote>
+</person>
+</lpfContent>
