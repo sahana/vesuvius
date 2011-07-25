@@ -419,7 +419,7 @@ class Pfif {
             //print "loading from string ...\n";
             $lst = $this->dom_pfif->loadXML($capxml); // load from string
          }
-         print "load status = " . ($lst ? "TRUE" : "FALSE") . "\n";
+         //print "load status = " . ($lst ? "TRUE" : "FALSE") . "\n";
          if (!$lst) {
             // Warning about server error.
             return -1;
@@ -455,7 +455,7 @@ class Pfif {
             //print "loading from string ...\n";
             $lst = $this->dom_pfif->loadXML($capxml); // load from string
          }
-         print "load status = " . ($lst ? "TRUE" : "FALSE") . "\n";
+         //print "load status = " . ($lst ? "TRUE" : "FALSE") . "\n";
          if (!$lst) {
             // We got a transient warning about some kind of server error.
             return -1;
@@ -576,7 +576,7 @@ class Pfif {
       return $return_value;
    }
 
-   // Store person in database and update with any existing notes. PFIF 1.3 allows for persons to be reimported
+   // Store persons in database and update with any existing notes. PFIF 1.3 allows for persons to be reimported
    // when expiration date changes or other data is corrected. They should be given a new source_date and
    // entry_date.
    public function storePersonsInDatabase() {
@@ -618,8 +618,7 @@ class Pfif {
             error_log("shn_mod_pfif.storeInDatabase: shn_pfif_addperson_commit failed for "
                     . $person->person_record_id . ":" . $e->getMessage());
             $_SESSION['pfif_info']['person_insert_errors'] += 1;
-            // Interrupt further processing of this person.
-            continue;
+            continue;  // stop processing this person
          }
 
          // Save to pfif_person table.
@@ -640,15 +639,14 @@ class Pfif {
 
       if (!empty($failed_images)) {
          $_SESSION['pfif_info']['images_failed'] = count($failed_images);
-         // TODO: Implement retry for failed images.
-         print "The following photo_url were not retrieved:<br/>\n";
+         print "The following photos were not retrieved:\n";
          print_r($failed_images);
       }
 
       // Update number of persons actually processed.
       $_SESSION['pfif_info']['pfif_person_count'] = count($pfif_persons) - $_SESSION['pfif_info']['person_insert_errors'];
 
-      return true;
+      return $_SESSION['pfif_info']['pfif_person_count'];
    }
 
    public function storeNotesInDatabase() {
@@ -670,8 +668,7 @@ class Pfif {
             $_SESSION['pfif_info']['note_insert_errors'] += 1;
             error_log("shn_mod_pfif.storeNotesInDatabase: shn_pfif_addpfifnote_commit failed for"
                     . $note->note_record_id . ":" . $e->getMessage());
-            // Interrupt further processing of this note.
-            continue;
+            continue; // stop processing this note
          }
          // Update Sahana tables with dynamic data if the person exists.
          $lookup = $this->checkForReportedPerson($note->person_record_id);
@@ -690,7 +687,7 @@ class Pfif {
       // Update number of notes actually processed.
       $_SESSION['pfif_info']['pfif_note_count'] = count($pfif_notes) - $_SESSION['pfif_info']['note_insert_errors'];
 
-      return true;
+      return $_SESSION['pfif_info']['pfif_note_count'];
    }
 
    // Update Sahana tables with relevant information from this person's notes (if any).

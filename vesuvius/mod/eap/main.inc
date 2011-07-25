@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Edit A Person
- * @version      1.05
+ * @version      1.06
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0524
+ * @lastModified 2011.0725
  */
 
 require_once($global['approot']."/inc/lib_uuid.inc");
@@ -753,7 +753,7 @@ function shn_eap_edit() {
 
 	// LOAD PUBLIC DATA ///////////////////////////////////////////////////////////////////////////////
 
-	$gender = null;
+	$gender = $person_details['opt_gender'];
 	$skin = null;
 	$eye = null;
 	$hair = null;
@@ -793,7 +793,7 @@ function shn_eap_edit() {
 	";
 	$r   = $global['db']->Execute($q);
 	$row = $r->FetchRow();
-	$gender = $row['option_description'];
+	$genderEnum = $row['option_description'];
 
 	// map eyes
 	$q  = "
@@ -1226,7 +1226,7 @@ function shn_eap_edit() {
 
 		echo "
 			<label for=\"gender\">Gender</label>
-			<input type=\"text\" name=\"gender\" id=\"gender\" value=\"".$gender."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"gender\" id=\"gender\" value=\"".$genderEnum."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"eye_color\">Eye Color</label>

@@ -19,6 +19,7 @@ $wsdl = "https://plstage.nlm.nih.gov/~miernickig/sahanaDev/www/index.php?wsdl&ap
 //$wsdl = "https://pl.nlm.nih.gov/?wsdl";
 $client = new nusoap_client($wsdl);
 
+$result = $client->call('getHospitalLegalese', array('hospital_uuid'=>1));
 
 //$result = $client->call('registerUser', array('username'=>'testCaseUser', 'emailAddress'=>'testCase@email.com', 'password'=>'testPassword99', 'givenName'=>'testCaseGiven', 'familyName'=>'testCaseFamily'));
 //$result = $client->call('changeUserPassword', array('username'=>$user, 'oldPassword'=>$pass, 'newPassword'=>$pass));
@@ -30,7 +31,7 @@ $client = new nusoap_client($wsdl);
 //$result = $client->call('createPersonUuidBatch', array('number'=>5, 'username'=>'testDontDelete', 'password'=>'dontDelete99'));
 
 //$result = $client->call('createNoteUuid', array('username'=>'testDontDelete', 'password'=>'dontDelete99'));
-$result = $client->call('createNoteUuidBatch', array('number'=>3, 'username'=>'testDontDelete', 'password'=>'dontDelete99'));
+//$result = $client->call('createNoteUuidBatch', array('number'=>3, 'username'=>'testDontDelete', 'password'=>'dontDelete99'));
 
 /*
 $result = $client->call('searchWithAuth', array(

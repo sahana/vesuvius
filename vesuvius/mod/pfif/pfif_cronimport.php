@@ -119,13 +119,14 @@ foreach ($import_queue as $service_name => $service) {
          $loaded = $p->loadNotesFromXML($pfif_uri);
       }
       if ($loaded > 0) {
+         print "Loaded $loaded XML records. ";
          if ($is_scheduled) { // Output to database for production
             if ($is_person) {
                $stored = $p->storePersonsInDatabase();
             } else {
                $stored = $p->storeNotesInDatabase();
             }
-            print "Import " . ($stored ? "stored" : "store failed") . "\n";
+            print "Stored $stored records.\n";
          } else { 
             // Output to file for test/debug. (This leverages export functionality.)
             $xml = $p->storeInXML(false); // false=debug

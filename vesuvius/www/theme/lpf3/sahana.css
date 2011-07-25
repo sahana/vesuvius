@@ -355,9 +355,10 @@ div#footer {
 				rgba(98,137,192,1));
 	position: absolute;
 	bottom: 0px;
-	height: 163px;
+	/*height: 163px;*/
 	width: 100%;
 }
+
 #footerTable { padding: 0px; border: none; height: 100px; margin-top: 20px; width: 600px; }
 #footerTable td { padding: 0px; border: none; text-align: center; }
 #footerTable td img { padding: 8px;}
@@ -372,6 +373,12 @@ div#footer hr {display: none;}
 	color: #fff;
 	font-size: 9px;
 	text-shadow: rgba(0,0,0,0.7) 1px 1px 2px;
+}
+
+#notice:hover {
+	font-size: 14px;
+	color: #fff;
+	font-weight: bold;
 }
 
 

@@ -26,6 +26,13 @@
 
 class personEdxlOne {
 
+	public $de_id;
+	public $co_id;
+	public $content_descr;
+	public $incident_id;
+	public $incident_descr;
+	public $confidentiality;
+
 	public $tag_id;   // tag_id
 
 
@@ -38,7 +45,6 @@ class personEdxlOne {
 		$this->tag_w    = "NULL";
 		$this->tag_h    = "NULL";
 		$this->tag_text = "NULL";
-
 	}
 
 
