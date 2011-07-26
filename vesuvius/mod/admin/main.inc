@@ -17,24 +17,17 @@
 
 global $global;
 
-include_once $global['approot']."/inc/lib_errors.inc";
-include_once $global['approot']."/inc/lib_location.inc";
-include_once $global['approot']."/inc/lib_validate.inc";
-include_once "menu.inc";
-include_once "acl.inc";
-include_once "location.inc";
-include_once $global['approot']."inc/lib_security/auth_form.inc";
-include_once $global['approot']."inc/lib_security/lib_auth.inc";
-include_once $global['approot']."mod/admin/conf_admin.inc";
-
-// Module Management Console
-include_once $global['approot'] . '/inc/lib_xajax.inc';
-
-
+require_once($global['approot']."/inc/lib_errors.inc");
+require_once($global['approot']."/inc/lib_location.inc");
+require_once($global['approot']."/inc/lib_validate.inc");
+require_once($global['approot']."inc/lib_security/auth_form.inc");
+require_once($global['approot']."inc/lib_security/lib_auth.inc");
+require_once("acl.inc");
+require_once("location.inc");
 
 
 function shn_admin_field_option_config() {
-	include_once 'lib_fo_config.inc';
+	require_once('lib_fo_config.inc');
 	_shn_admin_field_option_config();
 }
 
@@ -46,39 +39,27 @@ function shn_admin_default() {
 		<li><a href="index.php?mod=admin&amp;act=snap_show">Snapshot Module ~ Database Backup and Restore</a></li><br>
 		<li><a href="index.php?mod=mpres&act=adm_configuration">MPR Email Service Settings</a></li><br>
 		<li><a href="index.php?mod=rez&act=adm_default">Resource Pages</a></li><br>
+		<br>
 		<li><a href="index.php?mod=admin&act=add_user&tabid=0">User Management</a></li><br>
+		<li><a href="index.php?mod=admin&act=acl_event_log">User Event Log</a></li><br>
 		<li><a href="index.php?mod=admin&act=acl_enable_mods">Module Access Control</a></li><br>
 		<br>
 		<li><a href="index.php?mod=admin&act=acl_enable_signup">Enable / Disable User Self Signup</a></li><br>
 		<li><a href="index.php?mod=admin&act=acl_enable_locking">Enable / Disable User Account Locking</a></li><br>
 		<br>
-		<li><a href="index.php?mod=admin&act=conf_list">Framework Configuration Variables</a></li><br>
-		<li><a href="index.php?mod=admin&act=field_option_config">Edit Field Options</a></li><br>
-		<br>
-		<li><a href="index.php?mod=admin&act=acl_event_log">User Event Log</a></li><br>
 		</ul>
 
 
 
 	';
 
-	/* not using location/language
-	echo '
-		<h2><a href="index.php?mod=mpr&act=adm_default"></a>Missing Person Registry</h2>
-		<h2><a href="index.php?mod=admin&amp;act=loc_lvl">Location Terminology</a></h2>
-		<h2><a href="index.php?mod=admin&amp;act=add_loc">Add New Location</a></h2>
-		<h2><a href="index.php?mod=admin&amp;act=view_loc">Modify Location</a></h2>
-		<h2><a href="index.php?mod=admin&amp;act=loc_range">Location Range</a></h2>
-		<h2><a href="index.php?mod=admin&amp;act=loc_start">Default Location</a></h2>
-		<h2><a href="index.php?mod=admin&act=acl_privacy">Data Classification</a></h2>
-		<h2><a href="index.php?mod=admin&act=lc_set">Set Default Language</a></h2>
-		<h2><a href="index.php?mod=admin&act=lc_add_new_lang">Add/Remove Language</a></h2>
-		<h2><a href="index.php?mod=admin&act=lc_trns">Language Translation</a></h2>
-		<h2><a href="index.php?mod=admin&act=lc_db">Database Translation</a></h2>
-		<h2><a href="index.php?mod=admin&act=lc_ui_trns">Interactive Translation</a></h2>
-		<h2><a href="index.php?mod=admin&act=lc_ui_trns_update">Update Translation</a></h2>
-	";
-	*/
+	// unused location stuff
+	//echo '<h2><a href="index.php?mod=admin&amp;act=loc_lvl">Location Terminology</a></h2>';
+	//echo '<h2><a href="index.php?mod=admin&amp;act=add_loc">Add New Location</a></h2>';
+	//echo '<h2><a href="index.php?mod=admin&amp;act=view_loc">Modify Location</a></h2>';
+	//echo '<h2><a href="index.php?mod=admin&amp;act=loc_range">Location Range</a></h2>';
+	//echo '<h2><a href="index.php?mod=admin&amp;act=loc_start">Default Location</a></h2>';
+
 }
 
 
@@ -152,7 +133,7 @@ function shn_admin_add_user($error = false) {
 
 function shn_admin_add_user_cr() {
 	$error = false; // i guess we should init this value here since its being used below?
-	include_once "errors.inc";
+	require_once("errors.inc");
 	if(shn_auth_add_user_cr() == true) {
 		shn_admin_add_user();
 		return;
@@ -185,7 +166,7 @@ function shn_admin_reset_pwd($error=false) {
 
 
 function shn_admin_reset_pwd_cr() {
-	include_once "errors.inc";
+	require_once("errors.inc");
 	$done = _shn_admin_reset_pwd_cr();
 	_shn_admin_acl_user_menu();
 	shn_auth_form_reset_pwd();
@@ -201,7 +182,7 @@ function shn_admin_ch_pwd($error=false) {
 
 
 function shn_admin_ch_pwd_cr() {
-	include_once "errors.inc";
+	require_once("errors.inc");
 	$error=_shn_admin_ch_pwd_cr();
 	echo "<div id=\"result_msg\">";
 	if($error) {
@@ -492,7 +473,7 @@ function shn_admin_lc_javascript() {
  * Inclusion of GIS admin menu functionality/actions
  */
 if(file_exists($global['approot'].'/inc/lib_gis/admin_acts.inc')) {
-	include_once $global['approot'].'/inc/lib_gis/admin_acts.inc';
+	require_once($global['approot'].'/inc/lib_gis/admin_acts.inc');
 }
 
 
@@ -503,7 +484,7 @@ if(file_exists($global['approot'].'/inc/lib_gis/admin_acts.inc')) {
  * @todo check availability of messaing module
  */
 if(file_exists($global['approot']."/mod/msg/adm_menu_actions.inc")) {
-	include_once $global['approot']."/mod/msg/adm_menu_actions.inc";
+	require_once($global['approot']."/mod/msg/adm_menu_actions.inc");
 }
 
 
@@ -514,7 +495,7 @@ if(file_exists($global['approot']."/mod/msg/adm_menu_actions.inc")) {
  * @edit: Greg Miernicki <miernickig@mail.nih.gov>
  */
 if(file_exists($global['approot']."/mod/snap/admin_menu_actions.inc")) {
-	include_once $global['approot']."/mod/snap/admin_menu_actions.inc";
+	require_once($global['approot']."/mod/snap/admin_menu_actions.inc");
 }
 
 

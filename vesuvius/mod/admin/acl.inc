@@ -15,11 +15,10 @@
 
 global $global;
 
-include_once $global['approot']. 'inc/lib_security/lib_auth.inc';
-include_once $global['approot'].'inc/lib_security/acl_form.inc';
-include_once $global['approot']."/inc/lib_errors.inc";
-include_once $global['approot']."/inc/lib_validate.inc";
-include_once "menu.inc";
+require_once($global['approot']."inc/lib_security/lib_auth.inc");
+require_once($global['approot']."inc/lib_security/acl_form.inc");
+require_once($global['approot']."inc/lib_errors.inc");
+require_once($global['approot']."inc/lib_validate.inc");
 
 
 function _shn_admin_acl_user() {
@@ -469,4 +468,34 @@ function _shn_admin_acl_enable_locking_on_lock_user() {
 
 
 
+
+function _shn_admin_acl_user_roles_menu($user_home=false) {
+	shn_tabmenu_open();
+	shn_tabmenu_item("add_user", _t("Add Users"), "admin");
+	shn_tabmenu_item("del_user", _t("Remove Users"), "admin");
+	shn_tabmenu_item("acl_user_edit_roles", _t("Edit Roles of a User"), "admin");
+	shn_tabmenu_item("reset_pwd", _t("Reset Password of a User"), "admin");
+	shn_tabmenu_item("acl_change_user_status", _t("Change User Status"), 'admin');
+	shn_tabmenu_close();
+}
+
+
+
+function _shn_admin_acl_user_menu() {
+	_shn_admin_acl_user_roles_menu();
+}
+
+
+
+function _shn_admin_acl_role_menu($module=null) {
+	?>
+	<div id="submenu_v">
+	<a href="index.php?mod=admin&amp;act=add_role"><?php echo _t("Add Role")?></a>
+	<a href="index.php?mod=admin&amp;act=del_role"><?php echo _t("Remove Role")?></a>
+	<a href="index.php?mod=admin&amp;act=acl_role_perms"><?php echo _t("Existing Role Permissions")?></a>
+	<a href="index.php?mod=admin&amp;act=acl_role_edit_perms"><?php echo _t("Modify Role Permissions")?></a>
+	</div>
+	<br>
+	<?php
+}
 
