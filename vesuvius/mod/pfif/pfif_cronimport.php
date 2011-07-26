@@ -28,21 +28,6 @@ require_once("pfif_repository.inc");
 require_once("pfif_croninit.inc");
 
 /**
- * Switch database in order to support multiple DB instances.
- * NOT USED CURRENTLY
- */
-function shn_db_use($db_name, $db_host=null) {
-   global $global, $conf;
-
-   if (empty($db_host))
-      $db_host = $conf['db_host'];
-   $global['db']->Close();
-   $global['db'] = NewADOConnection($conf['db_engine']);
-   $_host_port = $db_host . (isset($conf['db_port']) ? ':' . $conf['db_port'] : '');
-   $global['db']->Connect($_host_port, $conf['db_user'], $conf['db_pass'], $db_name);
-}
-
-/**
  *  Log harvest end
  */
 function update_harvest_log($r, $req_params, $status) {
@@ -67,12 +52,7 @@ $is_scheduled = ($argc > 2 && $argv[2] == "test") ? false : true;
 $mode = $is_scheduled ? "scheduled" : "test";
 
 print "\nStarting PFIF ".$argv[1]." import at ".strftime("%c")."\n";
-
-//print_r($_SERVER);
 print "Using db " . $global['db']->database . " in " . $mode . " mode\n";
-// Store Japanese correctly.
-$global['db']->Execute("SET NAMES 'utf8'");
-//print_r($conf);
 
 // Get all PFIF repository sources.
 $repositories = Pfif_Repository::find_source(($is_person)? 'person' : 'note');
@@ -82,12 +62,9 @@ if (!$repositories) {
 //var_dump("Found repositories for import", $repositories);
 
 $sched_time = time();
-$import_repos = array();
 foreach ($repositories as $r) {
    if ($r->is_ready_for_harvest($sched_time)) {
-      add_pfif_service($r);             // initializes pfif_conf global
-      $import_repos[$r->id] = $r;
-      //var_dump("importing from repository",$r);
+      add_pfif_service($r); //initialize pfif_conf
    }
 }
 unset($r);
@@ -97,7 +74,7 @@ $import_queue = $pfif_conf['services'];
 //print "Queued imports:\n".print_r($import_queue,true)."\n";
 
 foreach ($import_queue as $service_name => $service) {
-   $repos = $import_repos[$pfif_conf['map'][$service_name]];
+   $repos = $service['repository'];
    //var_dump("repository", $repos);
 
    $req_params = $repos->get_request_params();
@@ -108,7 +85,7 @@ foreach ($import_queue as $service_name => $service) {
            '&skip=' . $req_params['skip'] .
            '&version=' . $service['version'];
    $p = new Pfif();
-   $p->setPfifConf($pfif_conf, $service_name);
+   $p->setService($service_name, $service);
    //print_r($pfif_conf);
    try {
       $repos->start_harvest($mode, 'in');

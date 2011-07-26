@@ -10,9 +10,9 @@
  * @link         TBD
  */
 $failed_images = null;
-include_once($global['approot'] . "/inc/lib_uuid.inc");
-include_once('tools.inc');
-include_once('pfif_util.inc.php');
+include_once($global['approot'].'/inc/lib_uuid.inc');
+include_once($global['approot'].'/mod/pfif/tools.inc');
+include_once($global['approot'].'/mod/pfif/pfif_util.inc.php');
 
 class Pfif_Person {
 
@@ -67,22 +67,20 @@ class Pfif {
    public $personArray = array();
    public $noteArray = array();
    private $pfif_version = null;    // PFIF version
-   private $source_repos_id = null;  // source repository id
-   private $pfif_conf = array();
+   private $incident_id = null;
+   private $service = null;
+   private $service_name = null;
    private $dom_pfif;
 
    public function __construct() {
       
    }
 
-   // Set PFIF configuration.
-   public function setPfifConf($config_array, $service_name) {
-      $this->pfif_conf = $config_array;
-      $this->setSourceReposId($config_array['map'][$service_name]);
-      $incident_id = $config_array['service_to_incident'][$service_name];
-      if (!empty($incident_id)) {
-         $_SESSION['user_pref_ims_incident_id'] = $incident_id;
-      }
+   // Set service.
+   public function setService($service_name, $service) {
+      $this->service_name = $service_name;
+      $this->service = $service;
+      $this->incident_id = $service['incident_id'];
    }
 
    public function setVersion($v) {
@@ -93,12 +91,10 @@ class Pfif {
       return $this->pfif_version;
    }
 
-   public function setSourceReposId($id) {
-      $this->source_repos_id = $id;
-   }
-
    public function getSourceReposId() {
-      return $this->source_repos_id;
+      // Fixme: What to do with records loaded from XML?
+      if (!isset($this->service)) return 999;
+      return $this->service['repository']->id;
    }
 
    public function setPerson(Pfif_Person $person) {
@@ -149,10 +145,8 @@ class Pfif {
    }
 
    private function check_init() {
-      if (empty($this->pfif_conf)) {
-         throw new RuntimeException("PFIF Configuration not set");
-      } else if (empty($_SESSION['user_pref_ims_incident_id'])) {
-         throw new RuntimeException("No incident set in \$_SESSION['user_pref_ims_incident_id']");
+      if (empty($this->service)) {
+         throw new RuntimeException("PFIF service not set");
       }
 
       return true;
@@ -196,8 +190,6 @@ class Pfif {
     */
    public function storeInXML($export=true) {
       global $first_entry_date, $last_entry_date, $last_entry_count;
-
-      $this->check_init();
 
       $this->dom_pfif = new DomDocument('1.0', 'utf-8');
       $dom_pfif = $this->dom_pfif->createElement('pfif:pfif');
@@ -346,10 +338,9 @@ class Pfif {
          $loaded = $this->loadFromXML($filename);
          $xml = $loaded ? $this->storeInXML() : false;
       }
-      print "posting to service $service_name \n";
+      print "posting to service $this->service_name \n";
       if ($xml) {
-         $service_config = $this->pfif_conf['services'][$service_name];
-         $status = $this->postGoogleItem($service_config, $xml);
+         $status = $this->postGoogleItem($this->service, $xml);
       } else {
          $status = "<status:status>Error reading input from $source_type.</status:status>";
       }
@@ -408,13 +399,27 @@ class Pfif {
       return $result;
    }
 
+   // Convenience function: Load PFIF persons AND notes XML data into Pfif class.
+   // Returns total items (persons + notes) loaded or -1.
+   public function loadFromXML($capxml) {
+      $numPersons = $this->loadPersonsFromXML($capxml);
+      if ($numPersons < 0) return $numPersons;
+      $numNotes = $this->loadNotesFromXML($capxml);
+      if ($numNotes < 0) {
+         return $numNotes;
+      } else {
+         return $numPersons + $numNotes;
+      }
+   }
+      
    // Load PFIF XML data into Pfif_Person class.
    public function loadPersonsFromXML($capxml) {
       $this->dom_pfif = new DOMDocument('1.0', 'utf-8');
       if (isset($capxml)) {
          if (stripos($capxml, '<' . PFIF_NS_PREFIX . ':') === FALSE) {
-            // print "loading from file/url ...\n>".$capxml."<\n with length ".strlen($capxml)."\n";
+            //print "loading from file/url ...\n>".$capxml."<\n with length ".strlen($capxml)."\n";
             $lst = $this->dom_pfif->load($capxml); // load from file or URL
+            //print "loaded\n";
          } else {
             //print "loading from string ...\n";
             $lst = $this->dom_pfif->loadXML($capxml); // load from string
@@ -576,6 +581,17 @@ class Pfif {
       return $return_value;
    }
 
+   // Convenience function: Store persons AND notes in DB.
+   public function storeInDatabase($incident_id) {
+      $this->incident_id = $incident_id;
+      $results = array();
+      $numPersons = $this->storePersonsInDatabase();
+      $results['person'] = $numPersons;
+      $numNotes = $this->storeNotesInDatabase();
+      $results['note'] = $numNotes;
+      return $results;
+   }
+
    // Store persons in database and update with any existing notes. PFIF 1.3 allows for persons to be reimported
    // when expiration date changes or other data is corrected. They should be given a new source_date and
    // entry_date.
@@ -586,6 +602,7 @@ class Pfif {
       $_SESSION['pfif_info']['images_in'] = 0;
       $_SESSION['pfif_info']['images_retried'] = 0;
       $_SESSION['pfif_info']['images_failed'] = 0;
+      $_SESSION['pfif_info']['person_insert_errors'] = 0;
       $pfif_persons = $this->getPersons();
       $this->reset_log_dates($pfif_persons[0]->entry_date);
 
@@ -666,7 +683,7 @@ class Pfif {
             $this->shn_pfif_addpfifnote_commit($note);
          } catch (Exception $e) {
             $_SESSION['pfif_info']['note_insert_errors'] += 1;
-            error_log("shn_mod_pfif.storeNotesInDatabase: shn_pfif_addpfifnote_commit failed for"
+            error_log("shn_mod_pfif.storeNotesInDatabase: shn_pfif_addpfifnote_commit failed for "
                     . $note->note_record_id . ":" . $e->getMessage());
             continue; // stop processing this note
          }
@@ -755,7 +772,7 @@ class Pfif {
       if (!empty($person->last_name)) {
          $insert_array['family_name'] = $person->last_name;
       }
-      $insert_array['incident_id'] = $_SESSION['user_pref_ims_incident_id'];
+      $insert_array['incident_id'] = $this->incident_id;
       if (!empty($person->expiry_date)) {
          $insert_array['expiry_date'] = $person->expiry_date;
       }
@@ -838,7 +855,7 @@ class Pfif {
 
       //person_uuid table
       $insert_array['p_uuid'] = $rep_uuid;
-      $insert_array['incident_id'] = $_SESSION['user_pref_ims_incident_id'];
+      $insert_array['incident_id'] = $this->incident_id;
       if (!empty($person->author_name)) {
          $insert_array['full_name'] = $person->author_name;
       }
@@ -1003,7 +1020,7 @@ class Pfif {
          $where[] = " ps.isvictim = '1' ";
          $where[] = " ps.last_updated >= '$since_entry_date' ";
          $where[] = " a.expiry_date > now() ";
-         $where[] = " a.incident_id = " . $_SESSION['user_pref_ims_incident_id'];
+         $where[] = " a.incident_id = " . $this->incident_id;
 
          foreach ($where as $whereElement) {
             $whereSql .= ( $whereSql == null ? '' : ' AND ') . $whereElement;

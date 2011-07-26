@@ -36,8 +36,6 @@ function update_harvest_log($r, $req_params, $status) {
 }
 
 print "database = " . $conf['db_name'] . "\n";
-// Store Japanese correctly.
-$global['db']->Execute("SET NAMES 'utf8'");
 
 // Get all PFIF repository sources.
 $repositories = Pfif_Repository::find_sink();
@@ -51,7 +49,6 @@ $export_repos = array();
 foreach ($repositories as $r) {
    if ($r->is_ready_for_harvest($sched_time)) {
       add_pfif_service($r);             // initializes pfif_conf
-      $export_repos[$r->id] = $r;
       //var_dump("exporting to repository",$r);
    }
 }
@@ -61,10 +58,7 @@ $export_queue = $pfif_conf['services'];
 //print "Queued exports:\n".print_r($export_queue,true)."\n";
 
 foreach ($export_queue as $service_name => $service) {
-   $repos = $export_repos[$pfif_conf['map'][$service_name]];
-   $incident_conf = $pfif_conf['service_to_incident'][$service_name];
-   //var_dump("repository", $repos, "conf", $incident_conf);
-
+   $repos = $service['repository'];
    $req_params = $repos->get_request_params();
    $min_entry_date = $req_params['min_entry_date'];
    $skip = $req_params['skip'];
@@ -72,9 +66,7 @@ foreach ($export_queue as $service_name => $service) {
    $auth_key = empty($service['auth_key'])? '' : '?key='.$service['auth_key'];
    $pfif_uri = $service['post_url'].$auth_key.$subdomain;
    $p = new Pfif();
-   $p->setPfifConf($pfif_conf, $service_name);
-   //print_r($pfif_conf);
-   //print_r($export_params);
+   $p->setService($service);
 
    $repos->start_harvest('scheduled', 'out');
    print "\n\nExport started to $pfif_uri at " . $repos->get_log()->start_time . "\n";
