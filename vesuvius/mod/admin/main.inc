@@ -22,6 +22,7 @@ require_once($global['approot']."/inc/lib_location.inc");
 require_once($global['approot']."/inc/lib_validate.inc");
 require_once($global['approot']."inc/lib_security/auth_form.inc");
 require_once($global['approot']."inc/lib_security/lib_auth.inc");
+require_once($global['approot']."inc/lib_xajax.inc");
 require_once("acl.inc");
 require_once("location.inc");
 
