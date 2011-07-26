@@ -266,7 +266,7 @@ function fetch_image($photo_url, $person_record_id) {
          $result['original_filename'] = $photo_url;
 
          // Gen cache filename from id, ..
-         $filePath = "../../www" . PFIF_IMG_CACHE_DIR;
+         $filePath = '/pl'.PFIF_IMG_CACHE_DIR;
          $fileName = str_replace("/", "SLASH", $person_record_id) . "__" . rand(1000000000, 1999999999) . "." . $image->type;
          $localUrl = PFIF_IMG_CACHE_DIR . $fileName;
 
