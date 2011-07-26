@@ -45,22 +45,15 @@ function shn_int_default() {
 function shn_int_servers() {
 	global $global;
 	shn_int_headerz();
-	echo '
-		<h2>Internal Servers</h2>
-		<br>
-		<a href="http://130.14.52.20/">http://130.14.52.20/</a> points to archive.nlm.nih.gov<br>
-		<br>
-		<a href="http://130.14.109.50/">http://130.14.109.50/</a> points to whistler.nlm.nih.gov<br>
-		<br>
-		<a href="http://130.14.109.88/">http://130.14.109.88/</a> points to archivestage.nlm.nih.gov<br>
-		<br>
-		<a href="http://130.14.109.100/">http://130.14.109.100/</a> points to plstage.nlm.nih.gov<br>
-		<br>
-		<a href="http://130.14.109.150/">http://130.14.109.150/</a> points to imedlinestage.nlm.nih.gov<br>
-		<br>
-	';
-}
 
+	$q = "select * from rez_pages where rez_page_id = '34';";
+	$res = $global['db']->Execute($q);
+	if($row = $res->FetchRow() ){
+		echo $row['rez_content'];
+	} else {
+		echo "page not found.";
+	}
+}
 
 
 function shn_int_photos() {
