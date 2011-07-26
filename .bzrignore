@@ -1,5 +1,3 @@
-*.svn
-.svn
 vesuvius/conf/sahana.conf
 vesuvius/www/tmp
 vesuvius/www/.htaccess
