@@ -102,7 +102,7 @@ function snap_show_backups($internal = FALSE) {
 
 	//---- check read and write permissions on the backup folder
 	$dirHandle = opendir($dir);
-	$dirHandle2 = fopen($dir."emptyFile","w");
+	$dirHandle2 = fopen($dir."testFilePermissions","w");
 
 	//---- error on read permissions
 	if (!$dirHandle) {
@@ -120,6 +120,9 @@ function snap_show_backups($internal = FALSE) {
 		$permsError = FALSE;
 		fclose($dirHandle2);
 	}
+
+	// remove test file
+	unlink($dir."testFilePermissions");
 
 	//---- get backup file information
 	$data = array();
