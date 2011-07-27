@@ -38,7 +38,7 @@ if(!isset($_GET['api'])) {
 	$sites = array(
 		"PL"      => "https://pl.nlm.nih.gov/?wsdl".$api,
 		"PLstage" => "https://plstage.nlm.nih.gov/?wsdl".$api,
-		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/sahanaDev/www/index.php?wsdl".$api,
+		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
 	init2();
 
