@@ -57,7 +57,7 @@ session_update_activity();
 */
 function shn_session_start() {
 
-	// check if we should use an existing session
+	// check if we should use an existing session ~ these are initiated via the getSessionCookie web service
 	getForeignSessionId();
 
 	// start httponly cookies to prevent xss attacks
@@ -108,6 +108,8 @@ function getForeignSessionId() {
 			echo "(TRUE)";
 			return true;
 		}
+	} else {
+		echo "(DOUBLE FALSE)";
 	}
 }
 
