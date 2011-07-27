@@ -100,16 +100,12 @@ function getForeignSessionId() {
 		";
 		$r = $global['db']->Execute($q);
 		if(($r == null) || ($r->EOF)) {
-			echo "(FALSE)";
 			change_session_to_anonymous();
 			return false;
 		} else {
 			session_id($_GET['SESSION_ID']);
-			echo "(TRUE)";
 			return true;
 		}
-	} else {
-		echo "(DOUBLE FALSE)";
 	}
 }
 
