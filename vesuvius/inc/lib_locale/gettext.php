@@ -35,7 +35,7 @@
  */
 //include Google Translate functions
 global $global;
-include_once($global['approot'].'/mod/rez/google_trans.inc');
+include_once($global['approot'].'/res/google_trans.inc');
 class gettext_reader {
   //public:
    var $error = 0; // public variable that holds error code (0 if no error)

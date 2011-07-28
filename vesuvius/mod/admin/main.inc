@@ -38,7 +38,6 @@ function shn_admin_default() {
 	echo '
 		<ul>
 		<li><a href="index.php?mod=admin&amp;act=snap_show">Snapshot Module ~ Database Backup and Restore</a></li><br>
-		<li><a href="index.php?mod=mpres&act=adm_configuration">MPR Email Service Settings</a></li><br>
 		<li><a href="index.php?mod=rez&act=adm_default">Resource Pages</a></li><br>
 		<br>
 		<li><a href="index.php?mod=admin&act=add_user&tabid=0">User Management</a></li><br>

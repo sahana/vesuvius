@@ -14,12 +14,12 @@
 include_once ($global['approot'].'/inc/lib_menu.inc');
 include_once ($global['approot'].'/inc/lib_errors.inc');
 require_once ($global['approot'].'/inc/handler_db.inc');
-require_once ('google_trans.inc');
+require_once ($global['approot'].'/res/google_trans.inc');
 
 
 function shn_rez_header2() {
 	global $global;
-
+	
 	// if we are display a positive number page, show the menu
 	if($_GET['page_id'] > 0) {
 

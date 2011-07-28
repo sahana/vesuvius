@@ -37,14 +37,19 @@ function shn_google_translate($text) {
 	//get the language we need to translate to
 	$lang = shn_getLocale();
 	//if locale is same as original, return original
-	if ( $lang == 'en' ) {
+	if ( $lang == 'en' || $conf['enable_google_translate'] == 'false' ) {
 		return $text;
+	}
+	if ( $conf['gtranslate_api_key'] == '' ) {
+		$key = "AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM";
+	}
+	else {
+		$key = $conf['gtranslate_api_key'];
 	}
 	//first, we have to check whether the current locale is supported by Google Translate API
 	$crl = curl_init();
 	/*curl_setopt($crl , CURLOPT_URL, 'https://www.googleapis.com/language/translate/v2/languages?key=AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM');
 	$langResult = json_decode(curl_exec($crl));*/
-
 	//Since we're sending a GET request to Google Translate REST API, we need to make some characters URI-friendly
 	$text = urlencode($text);
 	/*$fields = array (
@@ -54,7 +59,7 @@ function shn_google_translate($text) {
 				'target'=>	$lang
 			);
 	$header = array ('X-HTTP-Method-Override: GET');*/
-	curl_setopt($crl , CURLOPT_URL, "https://www.googleapis.com/language/translate/v2?key=AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM&q={$text}&source=en&target={$lang}");
+	curl_setopt($crl , CURLOPT_URL, "https://www.googleapis.com/language/translate/v2?key={$key}&q={$text}&source=en&target={$lang}");
 	curl_setopt($crl, CURLOPT_RETURNTRANSFER, 1);
 	/*post request
 	 POST request needs to be sent with header change
@@ -80,7 +85,7 @@ function shn_google_translate($text) {
     if (!is_array($result['data']['translations'])) {
         add_error('Translations array not returned properly');
     }
- 	//return $result['data']['translations'][0]['translatedText'];
+
  	return urldecode($result['data']['translations'][0]['translatedText']);
 
     //Exception if final step fails
@@ -119,5 +124,6 @@ function shn_add_gtrans_attrib() {
  */
 function shn_google_translate_element($text) {
 	echo "<div id=\"google_translate_element\">".$text."</div>";
-}
 
+}
+//GET URL: "https://www.googleapis.com/language/translate/v2?key=AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM&q={$text}&source=en&target={$lang}"

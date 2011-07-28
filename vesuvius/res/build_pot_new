@@ -29,8 +29,8 @@ find .. -name "*.sql" -exec cat {} \; | perl getfopts.pl > field_options
 echo ./field_options >> filelist.txt
 
 # different xgettext calls for different contexts
-xgettext -L PHP --from-code=UTF-8 --keyword=_t:1g -f filelist.txt -o sahana.pot
+xgettext -L PHP --from-code=UTF-8 --keyword=_t:1g -f filelist.txt -o locale/sahana.pot
 
 # clean up
-mv sahana.pot locale
 rm field_options filelist.txt
+

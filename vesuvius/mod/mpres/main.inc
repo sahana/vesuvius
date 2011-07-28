@@ -1,25 +1,138 @@
 <?php
 /**
  * @name         MPR Email Service
- * @version      1.8
+ * @version      1.9
  * @package      mpres
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0422
+ * @lastModified 2011.0728
  */
+
+
+function shn_mpres_statusGood() {
+	global $global;
+	$q = "
+		SELECT Unix_Timestamp(last_executed)
+		FROM mpres_seq ;
+	";
+	$res = $global['db']->Execute($q);
+	$row = $res->FetchRow();
+	$lastExecutedU = $row['Unix_Timestamp(last_executed)'];
+
+	$delta = date("U") - $lastExecutedU;
+	if($delta < 120) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+function shn_mpres_header2() {
+	global $global;
+
+	echo "<ul>";
+
+	if(($_GET['act'] == "status") || ($_GET['act'] == "default")){
+		echo "<li>Service Status</li>";
+	} else {
+		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=mpres&act=status\">Service Status</a></li>";
+	}
+
+	if($_GET['act'] == "configuration") {
+		echo "<li>Configuration Options</li>";
+	} else {
+		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=mpres&act=configuration\">Configuration Options</a></li>";
+	}
+
+	echo "</ul><hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
+}
 
 
 /**
- * Default Admin function
- *
  * @access public
  * @return void
  */
-function shn_mpres_adm_default() {
-	 shn_mpres_adm_configuration();
+function shn_mpres_default() {
+	 shn_mpres_status();
+}
+
+
+/**
+ * Shows Cron Status as well as the last 100 emails entered...
+ * @access public
+ * @return void
+ */
+function shn_mpres_status() {
+	global $global;
+
+	shn_mpres_header2();
+
+	$q = "
+		SELECT *
+		FROM mpres_seq ;
+	";
+	$res = $global['db']->Execute($q);
+	$row = $res->FetchRow();
+	$lastExecuted = $row['last_executed'];
+
+	$q = "
+		SELECT Unix_Timestamp(last_executed)
+		FROM mpres_seq ;
+	";
+	$res = $global['db']->Execute($q);
+	$row = $res->FetchRow();
+	$lastExecutedU = $row['Unix_Timestamp(last_executed)'];
+
+	$delta = date("U") - $lastExecutedU;
+
+	echo "Cron Job last executed @ <b>".$lastExecuted."</b> or <b>".$delta." seconds</b> ago.<br>";
+
+	if($delta < 120) {
+		echo "Cron Status: <span style=\"color: green;\"><b>Nominal</b></span><br><br>";
+	} else {
+		echo "Cron Status: <span style=\"color: red;\"><b>FAILURE</b></span><br><br>";
+	}
+
+
+	echo "<div class=\"form-container\"><form><fieldset>";
+	echo "<legend>Last 10 Emails Received...</legend>";
+	echo "<table id=\"regLog\"><tr>
+		<td class=\"evener\"><b>Record Identifier / p_uuid</b></td>
+		<td class=\"evener\"><b>Email From</b></td>
+		<td class=\"evener\"><b>Email Subject</b></td>
+		<td class=\"evener\"><b>Time</b></td>
+	</tr>";
+	$q = "
+		SELECT *
+		FROM  `mpres_log`
+		ORDER BY  `mpres_log`.`update_time` DESC
+		LIMIT 0 , 10;
+	";
+	$res = $global['db']->Execute($q);
+	while($row = $res->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		echo "  <tr>
+				<td ".$odd."><a href=\"https://".$row['p_uuid']."\">".$row['p_uuid']."</a></td>
+				<td ".$odd.">".$row['email_from']."</td>
+				<td ".$odd.">".$row['email_subject']."</td>
+				<td ".$odd.">".$row['update_time']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=4 class=\"odder\">No MPRES Emails Received So Far!</td></tr>";
+	}
+	echo "</table>";
+	echo "</fieldset></form></div>";
+	echo "</div>";
 }
 
 
@@ -28,42 +141,17 @@ function shn_mpres_adm_default() {
  * @access public
  * @return void
  */
-function shn_mpres_adm_configuration() {
+function shn_mpres_configuration() {
 	global $global;
-	include_once $global['approot'].'/inc/lib_xajax.inc';
 
-	echo "<h2>MPR Email Service Settings</h2>";
+	shn_mpres_header2();
+
 	$posted = 0;
 	// if its a post ~ save configuration after we validate
 	if(isset($_POST['mpres_port'])) {
 		$posted = 1;
 		$errorCount = 0;
 
-		// ereg deprecated... so commented out below validation code until someone updates it with preg_match()
-		/*
-		$validIpAddressRegex = "^([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$";
-		$validHostnameRegex = "^([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$";
-		$validPortRegex = "^([1-9]|[1-9][0-9]|[1-9][0-9][0-9]|[1-9][0-9][0-9][0-9]|[1-5][0-9][0-9][0-9][0-9]|[6][0-5][0-4][0-9][0-9]|[6][5][5][0-3][0-5])$";
-		$validUsernameRegex = "^[\x20-\x2D\x2F-\x7E]+(\.[\x20-\x2D\x2F-\x7E]+)*$"; // @(([a-z0-9]([-a-z0-9]*[a-z0-9]+)?){1,63}\.)+[a-z0-9]{2,6}$";
-		$validAttachmentsRegex = "^([1-9]|1[0-9]|20)$";
-
-		if ( !ereg($validIpAddressRegex, $_POST['mpres_host']) && !ereg($validHostnameRegex, $_POST['mpres_host']) ) {
-			$errorCount++;
-			add_error("Please fill in a valid hostname or ip address for the mail server, <b>".$_POST['mpres_host']."</b> is not valid.");
-		}
-		if ( !ereg($validPortRegex, $_POST['mpres_port']) ) {
-			$errorCount++;
-			add_error("Please fill in a valid port for the mail server, (ie. 110 or 995) because <b>".$_POST['mpres_port']."</b> is not valid.");
-		}
-		if ( !ereg($validUsernameRegex, $_POST['mpres_username']) ) {
-			$errorCount++;
-			add_error("Please fill in the username for the email address,  (ie. bob@aol.com would be: bob) because <b>".$_POST['mpres_username']."</b> is not valid.");
-		}
-		if ( !ereg($validAttachmentsRegex, $_POST['mpres_attachments']) ) {
-			$errorCount++;
-			add_error("Please fill in a digit corresponding the the number of image attachments to parse out of emails (1-20), <b>".$_POST['mpres_attachments']."</b> is not valid.");
-		}
-		*/
 		if ( ($_POST['mpres_password'] == null) || ($_POST['mpres_password'] == "") ) {
 			$errorCount++;
 			add_error('Please fill in the password for the email address, it cannot be left blank.');
@@ -149,9 +237,9 @@ function shn_mpres_adm_configuration() {
 			$popimapOption = "IMAP";
 		}
 	}
-	shn_form_fopen("adm_configuration", null,array('req_message'=>true));
+	shn_form_fopen("configuration", null,array('req_message'=>true));
 		shn_form_fsopen("POP/IMAP server");
-			shn_form_text("Host or IP (ie. mail.google.com)","mpres_host",null,array("req"=>true,"value"=>$host)); // , "help"=>"testing help0"));
+			shn_form_text("Host or IP (ie. mail.google.com)","mpres_host",null,array("req"=>true,"value"=>$host));
 			shn_form_text("Port (ie. 110 or 993,995 for SSL)","mpres_port",null,array("req"=>true,"value"=>$port));
 			shn_form_radio(array("POP"=>"POP","IMAP"=>"IMAP"),"Use POP or IMAP protocol","mpres_popimap", null, array("value"=>$popimapOption));
 			shn_form_checkbox("Use SSL", "mpres_ssl", $text_opts = $sslText, $extra_opts = null);
@@ -159,7 +247,7 @@ function shn_mpres_adm_configuration() {
 
 		shn_form_fsopen("Email Account");
 			shn_form_text("Username","mpres_username",null,array("req"=>true,"value"=>$username));
-			shn_form_password("Password","mpres_password",null,array("req"=>true,"value"=>$password)); //, "help"=>"testing help"));
+			shn_form_password("Password","mpres_password",null,array("req"=>true,"value"=>$password));
 		shn_form_fsclose();
 
 		shn_form_fsopen("Attachments");
@@ -177,17 +265,6 @@ function shn_mpres_adm_configuration() {
 		shn_form_submit("Save Configuration Settings", "class=\"styleTehButton\"");
 	shn_form_fclose();
 	echo "<br><br>";
-}
-
-
-/**
- * This is the action we perform that will poll the email account and import data into MPR
- * @access public
- * @return void
- */
-function shn_mpres_import_data(){
-	echo "cool";
-	//mpres_lib_import_data();
 }
 
 

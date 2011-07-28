@@ -99,9 +99,13 @@ function getForeignSessionId() {
 			AND sess_key = '".mysql_real_escape_string($_GET['SESS_KEY'])."';
 		";
 		$r = $global['db']->Execute($q);
+
+		// invalid session attempt, log em out regardless...
 		if(($r == null) || ($r->EOF)) {
 			change_session_to_anonymous();
 			return false;
+
+		// valid session, log em in!
 		} else {
 			session_id($_GET['SESSION_ID']);
 			return true;

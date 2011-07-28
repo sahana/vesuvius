@@ -244,6 +244,25 @@ function getHospitalPolicy($uuid) {
 
 
 
+function getHospitalLegalese($uuid) {
+ 	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">getHospitalLegalese</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('getHospitalLegalese', array('hospital_uuid'=>$uuid));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
+
 ////// PLUS UNIT TEST ACCOUNT FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////// PLUS UNIT TEST ACCOUNT FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////// PLUS UNIT TEST ACCOUNT FUNCTIONS ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
