@@ -14,8 +14,8 @@
 /*
 remove below two lines when 1.9.1 is deprecated
 */
-define("UNDEFINED_HOSPITAL_CODE",            10);
-define("UNDEFINED_HOSPITAL_MSG",             "Undefined Hospital ~ No hospital registered with this id");
+define("UNDEFINED_HOSPITAL_CODE", 10);
+define("UNDEFINED_HOSPITAL_MSG",  "Undefined Hospital ~ No hospital registered with this id");
 
 
 // define error codes

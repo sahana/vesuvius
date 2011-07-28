@@ -1,6 +1,16 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+
+2011:0728 Greg
+--------------
+
+CREATE TABLE  `mpres_seq` (
+`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`last_executed` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT =  'stores status of mpres module';
+
+
 2011:0721 Greg
 --------------
 

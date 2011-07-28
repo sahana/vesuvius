@@ -79,7 +79,7 @@ if (file_exists($global['approot']."www/theme/".$global['theme']."/ie9.css")) { 
 	}
 ?>
 
-<script type="text/javascript" src="res/js/popup.js"></script>
+<script type="text/javascript" src="res/js/vesuvius.js"></script>
 <script type="text/javascript" src="index.php?stream=text&amp;mod=xst&amp;act=help"></script>
 
 <?php

@@ -1,7 +1,7 @@
 <?
 /**
  * @name         Menu Library
- * @version      1.0
+ * @version      1.3
  * @package      framework
  * @author       http://www.linux.lk/~chamindra
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
@@ -9,7 +9,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0728
  */
 
 
@@ -44,7 +44,6 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 		$class = '';
 	}
 
-
 	// UGLY HACK TO NOT SHOW USER PREFERENCES AS CURRENT MODULE WHEN VIEWING "PEOPLE IM TRACKING" OR VICE VERSA ~~~ sorry!!! ~greg
 	if(($desc == "My Settings") && ($global['action'] == "tracking")) {
 		$class = '';
@@ -63,13 +62,22 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 		$class = ' class=""';
 	}
 
+	// a 4th hack to show when the mpres cron daemon is dead!
+	if($desc == "MPR Email Service") {
+		require_once($global['approot'].'/mod/mpres/main.inc');
+		if(!shn_mpres_statusGood()) {
+			$class = ' class="currentMainMenuItemFailure"';
+		} else {
+			$class = ' class="currentMainMenuItemSuccess"';
+		}
+	}
+
 	// a 3rd hack to show the proper home linl (it doesn't have the shortname in the url)
 	if($desc == "Home") {
 		echo "<li ".$class."><a href=\"".makeBaseUrlMinusEvent()."\">".$desc."</a></li>";
 	} else {
 		echo "<li ".$class."><a href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a></li>";
 	}
-
 }
 
 

@@ -49,6 +49,7 @@ if(!isset($_GET['api'])) {
 		case '1.9.6':
 
 		case '1.9.5':
+			getHospitalLegalese("1");
 			reportPerson($personXML, $eventShortName, $xmlFormat, $user, $pass);
 			createPersonUuid($user, $pass);
 			createPersonUuidBatch($number, $user, $pass);

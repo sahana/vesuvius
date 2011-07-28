@@ -134,14 +134,28 @@ div#menuwrap ul li a { display: block; width: 190px; padding-left: 20px; }
 div#menuwrap ul li a:link {}
 div#menuwrap ul li a:visited {}
 div#menuwrap ul li a:hover {}
+
 div#menuwrap ul li.currentMainMenuItem a {
 	font-weight: bold;
-/*	background-color: rgba(130,169,224,0.2); */
-
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr='#dae5f6', endColorstr='#ffffff');
-	background:       -moz-linear-gradient(0deg, rgba(130,169,224,0.3), rgba(114,153,208,0.05) 65%, rgba(98,137,192,0));
-	background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgba(130,169,224,0.3)), color-stop(65%, rgba(114,153,208,0.05)), to(rgba(98,137,192,0)));
+	background:       -moz-linear-gradient(0deg, rgba(130,169,224,0.3), rgba(114,153,208,0.05) 65%, rgba(255, 255, 255, 0));
+	background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgba(130,169,224,0.3)), color-stop(65%, rgba(114,153,208,0.05)), to(rgba(255,255,255,0)));
 }
+
+div#menuwrap ul li.currentMainMenuItemFailure a {
+	font-weight: bold;
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr='#ff0000', endColorstr='#ffffff');
+	background:       -moz-linear-gradient(0deg, rgba(255, 0, 0, 0.3), rgba(255, 0, 0, 0.05) 55%, rgba(255,255,255,0));
+	background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgba(255, 0, 0 ,0.3)), color-stop(55%, rgba(255, 0, 0, 0.05)), to(rgba(255, 255, 255, 0)));
+}
+
+div#menuwrap ul li.currentMainMenuItemSuccess a {
+	font-weight: bold;
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr='#ff0000', endColorstr='#ffffff');
+	background:       -moz-linear-gradient(0deg, rgba(0, 255, 0, 0.3), rgba(0, 255, 0, 0.05) 65%, rgba(255, 255, 255, 0));
+	background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgba(0, 255, 0 ,0.3)), color-stop(55%, rgba(0, 255, 0, 0.05)), to(rgba(255, 255, 255, 0)));
+}
+
 div#menuwrap li.admin a {}
 
 div#modmenuwrap {
