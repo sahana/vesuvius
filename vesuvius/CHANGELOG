@@ -1,6 +1,13 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
+2011:0728 Greg
+--------------
+MPRES v1.9:
++ Promoted to full module from Admin Setting
++ Added Service Status page which show cron job status and last 10 emails received
++ MPR Email Service main menu item shows green/red status depending on service status to better alert Admins
+
 2011:0719 Leif
 --------------
 removed old MPR module

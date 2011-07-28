@@ -1,6 +1,10 @@
 Changes in v1.9.5
 -----------------
 + reportPerson
++ createPersonUuid
++ createPersonUuidBatch
++ createNoteUuid
++ createNoteUuidBatch
 
 Changes in v1.9.4
 -----------------
