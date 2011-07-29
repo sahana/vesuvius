@@ -24,6 +24,7 @@ function shn_int_headerz() {
 		<li><a href="index.php?mod=int&act=template">Sonya\'s Template</a></li>
 		<li><a href="index.php?mod=int&act=unit">PLUS Web Service Unit Tests</a></li>
 		<li><a href="index.php?mod=int&act=status">Tehseen\'s Status Report</a></li>
+		<li><a href="index.php?mod=int&act=lan">Lan\'s Statistics Report</a></li>
 		</ul>
 		<hr style="color: #fff; background-color: #fff; border-bottom: 1px solid #ddd; height: 0px;">
 		<br>
@@ -144,3 +145,20 @@ function shn_int_status() {
 		echo "page not found.";
 	}
 }
+
+
+function shn_int_lan() {
+	global $global;
+	shn_int_headerz();
+
+	$q = "select * from rez_pages where rez_page_id = '41';";
+	$res = $global['db']->Execute($q);
+	if($row = $res->FetchRow() ){
+		echo $row['rez_content'];
+	} else {
+		echo "page not found.";
+	}
+}
+
+
+
