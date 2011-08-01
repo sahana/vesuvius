@@ -1,13 +1,13 @@
 <?
 /**
  * @name         Resources
- * @version      1.2
+ * @version      1.4
  * @package      rez
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0801
  */
 
 
@@ -19,7 +19,7 @@ require_once ($global['approot'].'/res/google_trans.inc');
 
 function shn_rez_header2() {
 	global $global;
-	
+
 	// if we are display a positive number page, show the menu
 	if($_GET['page_id'] > 0) {
 

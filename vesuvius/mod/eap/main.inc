@@ -1578,9 +1578,6 @@ function shn_eap_edit() {
 		</form>
 		</div>
 	";
-
-	// old QR code generation from google >>
-	// <img id=\"tehQRimage\" height=\"200\" width=\"200\" class=\"qrImage\" src=\"https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=L|0&chl=".$global['googl']."\">
 	// SHARE END ///////////////////////////////////////////////////////////////////////////////////////
 
 
