@@ -42,8 +42,6 @@ require_once ($global['approot'].'inc/handler_db.inc');
 require_once($global['approot'].'inc/lib_security/lib_crypt.inc');
 require_once($global['approot'].'inc/handler_session.inc');
 //require_once($global['approot'].'inc/lib_security/handler_openid.inc'); // replacing openID lib soon....
-require_once($global['approot'].'inc/lib_security/lib_auth.inc');
-require_once($global['approot'].'inc/lib_security/constants.inc');
 require_once($global['approot'].'inc/lib_locale/handler_locale.inc');
 require_once($global['approot'].'inc/lib_exception.inc');
 require_once($global['approot'].'inc/lib_user_pref.inc');
@@ -109,12 +107,6 @@ function shn_main_defaults() {
 	$m = isset($conf['default_module']) ? $conf['default_module'] : "home";
 	$a = isset($conf['default_action']) ? $conf['default_action'] : "default";
 
-	// use different defaults when coming in with an event
-	if($short != "") {
-		$m = isset($conf['default_module_event']) ? $conf['default_module_event'] : "rez";
-		$a = isset($conf['default_action_event']) ? $conf['default_action_event'] : "default";
-	}
-
 	if(!$global['previous']) {
 		$global['action'] = !isset($_REQUEST['act']) ? $a : $_REQUEST['act'];
 		$global['module'] = !isset($_REQUEST['mod']) ? $m : $_REQUEST['mod'];
@@ -127,6 +119,7 @@ function shn_main_defaults() {
 function shn_main_front_controller() {
 	global $global;
 	global $conf;
+
 	$action = $global['action'];
 	$module = $global['module'];
 

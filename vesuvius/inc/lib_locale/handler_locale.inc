@@ -15,7 +15,7 @@
 
 
 
-require_once ("lib_locale.inc");
+require_once("lib_locale.inc");
 require_once("gettext.inc");
 
 // Set default locale
