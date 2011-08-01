@@ -2,7 +2,7 @@
 /**
  * @name         Internal
  * @version      1.1
- * @package      home
+ * @package      int
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
