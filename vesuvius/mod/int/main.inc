@@ -1,13 +1,13 @@
 <?
 /**
  * @name         Internal
- * @version      1.0
+ * @version      1.1
  * @package      home
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0609
+ * @lastModified 2011.0801
  */
 
 
@@ -15,18 +15,30 @@
 
 
 function shn_int_headerz() {
+	global $global;
+
+	echo "<ul>";
+
+	$q = "
+		SELECT *
+		FROM `rez_pages`
+		WHERE rez_visibility = 'INTERNAL';
+	";
+	$res = $global['db']->Execute($q);
+	while($row = $res->FetchRow() ){
+		if($row['rez_page_title'] == $row['rez_description']) {
+			$show = $row['rez_page_title'];
+		} else {
+			$show = $row['rez_page_title'] ." --- ".$row['rez_description'];
+		}
+
+		echo '<li><a href="index.php?mod=int&act=page&page_id='.$row['rez_page_id'].'">'.$show.'</a></li>';
+	}
+
 	echo '
-		<ul>
-		<li><a href="index.php?mod=int&act=servers">Internal Server List</a></li>
-		<li><a href="index.php?mod=int&act=photos">Photos</a></li>
-		<li><a href="index.php?mod=int&act=videos">Videos</a></li>
-		<li><a href="index.php?mod=int&act=links">Links</a></li>
-		<li><a href="index.php?mod=int&act=template">Sonya\'s Template</a></li>
-		<li><a href="index.php?mod=int&act=unit">PLUS Web Service Unit Tests</a></li>
-		<li><a href="index.php?mod=int&act=status">Tehseen\'s Status Report</a></li>
-		<li><a href="index.php?mod=int&act=lan">Lan\'s Statistics Report</a></li>
 		</ul>
-		<hr style="color: #fff; background-color: #fff; border-bottom: 1px solid #ddd; height: 0px;">
+		<br>
+		<hr style="height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; ">
 		<br>
 	';
 }
@@ -37,17 +49,21 @@ function shn_int_default() {
 	global $global;
 	shn_int_headerz();
 	echo '
-		<h2>Internal Resources for the Lost Person Finder Project</h2>
+		<h2>Internal Resources Pages (only viewable by Admins)</h2>
 	';
 }
 
 
 
-function shn_int_servers() {
+function shn_int_page() {
 	global $global;
 	shn_int_headerz();
 
-	$q = "select * from rez_pages where rez_page_id = '34';";
+	$q = "
+		select *
+		from rez_pages
+		where rez_page_id = '".$_GET['page_id']."';
+	";
 	$res = $global['db']->Execute($q);
 	if($row = $res->FetchRow() ){
 		echo $row['rez_content'];
@@ -56,109 +72,6 @@ function shn_int_servers() {
 	}
 }
 
-
-function shn_int_photos() {
-	global $global;
-	shn_int_headerz();
-
-	$q = "select * from rez_pages where rez_page_id = '35';";
-	$res = $global['db']->Execute($q);
-	if($row = $res->FetchRow() ){
-		echo $row['rez_content'];
-	} else {
-		echo "page not found.";
-	}
-}
-
-
-
-function shn_int_videos() {
-	global $global;
-	shn_int_headerz();
-
-	$q = "select * from rez_pages where rez_page_id = '36';";
-	$res = $global['db']->Execute($q);
-	if($row = $res->FetchRow() ){
-		echo $row['rez_content'];
-	} else {
-		echo "page not found.";
-	}
-}
-
-
-
-
-function shn_int_links() {
-	global $global;
-	shn_int_headerz();
-
-	$q = "select * from rez_pages where rez_page_id = '37';";
-	$res = $global['db']->Execute($q);
-	if($row = $res->FetchRow() ){
-		echo $row['rez_content'];
-	} else {
-		echo "page not found.";
-	}
-}
-
-
-
-function shn_int_template() {
-	global $global;
-	shn_int_headerz();
-
-	$q = "select * from rez_pages where rez_page_id = '38';";
-	$res = $global['db']->Execute($q);
-	if($row = $res->FetchRow() ){
-		echo $row['rez_content'];
-	} else {
-		echo "page not found.";
-	}
-}
-
-
-
-function shn_int_unit() {
-	global $global;
-	shn_int_headerz();
-
-	$q = "select * from rez_pages where rez_page_id = '39';";
-	$res = $global['db']->Execute($q);
-	if($row = $res->FetchRow() ){
-		echo $row['rez_content'];
-	} else {
-		echo "page not found.";
-	}
-}
-
-
-
-function shn_int_status() {
-	global $global;
-	shn_int_headerz();
-
-	$q = "select * from rez_pages where rez_page_id = '40';";
-	$res = $global['db']->Execute($q);
-	if($row = $res->FetchRow() ){
-		echo $row['rez_content'];
-	} else {
-		echo "page not found.";
-	}
-}
-
-
-function shn_int_lan() {
-	global $global;
-	shn_int_headerz();
-
-	$q = "select * from rez_pages where rez_page_id = '41';";
-	$res = $global['db']->Execute($q);
-	if($row = $res->FetchRow() ){
-		echo $row['rez_content'];
-	} else {
-		echo "page not found.";
-	}
-}
 
 
 
