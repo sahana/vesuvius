@@ -80,73 +80,29 @@ function shn_rez_header2() {
  */
 function shn_rez_default() {
 	global $global;
+
 	//initialize the Google Translate element JS
 	shn_google_translate_element_init();
+
 	// if page_id, then render that page from db
 	if(isset($_GET['page_id'])) {
 
-		// hack to download the google doc for the PLUS documentation
-		if($_GET['page_id'] == "-45") {
+		// get page info
+		$page_id = intval(mysql_real_escape_string($_GET['page_id']));
+		$q = "
+			select *
+			from rez_pages
+			where rez_page_id = '".$page_id."'
+			and rez_visibility <> 'INTERNAL';
+		";
+		$res = $global['db']->Execute($q);
 
-
-/*
-			// create a new cURL resource
-			$ch = curl_init();
-
-			// set URL and other appropriate options
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-			curl_setopt($ch, CURLOPT_PROXY, "130.14.55.36:3128");
-			curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, 1);
-			curl_setopt($ch, CURLOPT_URL, "https://docs.google.com/document/pub?id=17pApAVZvg4g93sjZOY3Rp8-MfSu8wSRMycUca3LXNJc");
-			curl_setopt($ch, CURLOPT_HEADER, false);
-
-			// grab URL and pass it to the browser
-			$out = curl_exec($ch);
-
-			// close cURL resource, and free up system resources
-			curl_close($ch);
-
-			// stylize...
-			$out = str_replace('<div id="header">PLUS</div>', '', $out);
-			echo $out."
-				<style>
-					#headerText {
-						display: none;
-					}
-
-					#header {
-						border-bottom: none;
-					}
-					#footer {
-						border-top: none;
-						border-bottom: none;
-						text-align: center;
-						margin-bottom: 50px;
-					}
-					#header, #footer {
-						background: none;
-					}
-				</style>
-			";
-*/
-			echo "<iframe width=\"1100\" height=\"600\" src=\"https://docs.google.com/document/pub?id=17pApAVZvg4g93sjZOY3Rp8-MfSu8wSRMycUca3LXNJc&amp;embedded=true\"></iframe>";
-
-
+		if ($row = $res->FetchRow() ){
+			shn_rez_header2();
+			echo shn_google_translate($row['rez_content']);
 		} else {
-
-			// get page info
-			$page_id = intval(mysql_real_escape_string($_GET['page_id']));
-			$q = "select * from rez_pages where rez_page_id = '".$page_id."';";
-			$res = $global['db']->Execute($q);
-
-			if ($row = $res->FetchRow() ){
-				shn_rez_header2();
-				echo shn_google_translate($row['rez_content']);
-			} else {
-				// page doesn't exist
-				echo "<h2>Error 404 ~ Page not found.</h2>";
-			}
+			// page doesn't exist
+			echo "<h2>Error 404 ~ Page not found.</h2>";
 		}
 
 	// if no page_id, then render the Resources homepage

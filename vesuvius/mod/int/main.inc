@@ -2,16 +2,13 @@
 /**
  * @name         Internal
  * @version      1.1
- * @package      home
+ * @package      int
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  * @lastModified 2011.0801
  */
-
-
-// This is not a real Sahana module, but a module built for hosting internal NLM Project information
 
 
 function shn_int_headerz() {
