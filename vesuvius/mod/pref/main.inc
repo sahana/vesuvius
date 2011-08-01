@@ -251,7 +251,17 @@ function shn_pref_forgotPassword() {
 
 			// reset password
 			$time = time();
-			$new_pass = mt_rand(123456789, 1234567890);
+
+			$p1a = rand(10e16, 10e20);
+			$p1b = base_convert($p1a, 10, 36);
+			$p1c = strtoupper($p1b);
+			$part1 = substr($p1c, 0, 8);
+
+			$p2a = rand(10e16, 10e20);
+			$p2b = base_convert($p2a, 10, 36);
+			$part2 = substr($p2b, 0, 8);
+
+			$new_pass = $part1.$part2;
 			$new_pwd = substr($new_pass, 0, 4).$salt.substr($new_pass, 4);
 			$password_digest = md5(trim($new_pwd));
 			$q3 = "
