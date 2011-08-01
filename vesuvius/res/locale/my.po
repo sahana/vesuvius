@@ -7,36 +7,36 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vesuvius\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-07-13 13:23-0400\n"
+"POT-Creation-Date: 2011-07-28 15:31-0400\n"
 "PO-Revision-Date: 2011-07-13 22:50+0000\n"
 "Last-Translator: Greg Miernicki <Unknown>\n"
 "Language-Team: Burmese <my@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-07-28 05:28+0000\n"
+"X-Launchpad-Export-Date: 2011-07-29 06:22+0000\n"
 "X-Generator: Launchpad (build 13405)\n"
 
-#: ../www/theme/vesuvius/header.php:59 ../www/theme/vesuvius/header.php:75
 #: ../www/theme/lpf3/header.php:62 ../www/theme/lpf3/header.php:78
+#: ../www/theme/vesuvius/header.php:59 ../www/theme/vesuvius/header.php:75
 msgid "People Locator"
 msgstr "**BURMESE** PEOPLE LOCATOR **BURMESE**"
 
-#: ../www/theme/vesuvius/header.php:60 ../www/theme/lpf3/header.php:63
+#: ../www/theme/lpf3/header.php:63 ../www/theme/vesuvius/header.php:60
 msgid "for the "
 msgstr ""
 
-#: ../www/theme/vesuvius/header.php:61 ../www/theme/lpf3/header.php:64
+#: ../www/theme/lpf3/header.php:64 ../www/theme/vesuvius/header.php:61
 msgid "of"
 msgstr ""
 
-#: ../www/theme/vesuvius/header.php:62 ../www/theme/vesuvius/header.php:76
 #: ../www/theme/lpf3/header.php:65 ../www/theme/lpf3/header.php:79
+#: ../www/theme/vesuvius/header.php:62 ../www/theme/vesuvius/header.php:76
 msgid "U.S. National Library of Medicine"
 msgstr ""
 
-#: ../www/theme/vesuvius/header.php:63 ../www/theme/vesuvius/header.php:77
 #: ../www/theme/lpf3/header.php:66 ../www/theme/lpf3/header.php:80
+#: ../www/theme/vesuvius/header.php:63 ../www/theme/vesuvius/header.php:77
 msgid "Lister Hill National Center for Biomedical Communications"
 msgstr ""
 
@@ -56,1397 +56,776 @@ msgstr ""
 msgid "This action does not support the stream type."
 msgstr ""
 
-#: ../mod/tp/conf.inc:14
-msgid "TriagePic"
+#: ../inc/lib_locale/lib_locale.inc:52
+msgid "Unknown error in updating configuration value."
 msgstr ""
 
-#: ../mod/cam/conf.inc:16
-msgid "Cam Test"
+#: ../inc/lib_security/acl_form.inc:41
+msgid "Disable Self Signup"
 msgstr ""
 
-#: ../mod/dap/conf.inc:14
-msgid "Delete a Person"
+#: ../inc/lib_security/acl_form.inc:44
+msgid "Enable Self Signup"
 msgstr ""
 
-#: ../mod/em/conf.inc:15
-msgid "Event Manager"
+#: ../inc/lib_security/acl_form.inc:70
+msgid "Disable Password Locking"
 msgstr ""
 
-#: ../mod/plus/conf.inc:14
-msgid "Web Services"
+#: ../inc/lib_security/acl_form.inc:73
+msgid "Enable Password Locking"
 msgstr ""
 
-#: ../mod/home/conf.inc:14
-msgid "Home"
+#: ../inc/lib_security/acl_form.inc:90
+msgid "Enable/Disable Modules"
 msgstr ""
 
-#: ../mod/mpres/conf.inc:18
-msgid "MPR Email Service"
-msgstr ""
-
-#: ../mod/int/conf.inc:14
-msgid "Internal Resources"
-msgstr ""
-
-#: ../mod/pfif/conf.inc:15
-msgid "PFIF Admin"
-msgstr ""
-
-#: ../mod/stat/conf.inc:15
-msgid "Statistics"
-msgstr ""
-
-#: ../mod/pref/ims_main.inc:71
-msgid "Old password cannot be empty!"
-msgstr ""
-
-#: ../mod/pref/ims_main.inc:79
-msgid "New password cannot be empty!"
-msgstr ""
-
-#: ../mod/pref/ims_main.inc:87
-msgid "You left the confirm password field blank."
-msgstr ""
-
-#: ../mod/pref/ims_main.inc:95
-msgid "Your new password did not match when you retyped it."
-msgstr ""
-
-#: ../mod/pref/ims_main.inc:120
-msgid "You cannot change the password more than once in one day"
-msgstr ""
-
-#: ../mod/pref/ims_main.inc:151
-msgid "You cannot choose one of the recent four passwords"
-msgstr ""
-
-#: ../mod/pref/ims_main.inc:165
-msgid " Succesfully changed Password "
-msgstr ""
-
-#: ../mod/pref/ims_menu.inc:24
-msgid "Change My Password"
-msgstr ""
-
-#: ../mod/pref/ims_menu.inc:25
-msgid "Edit My Personal Details"
-msgstr ""
-
-#: ../mod/pref/ims_config.inc:42
-msgid "Change default incident"
-msgstr ""
-
-#: ../mod/pref/ims_config.inc:55
-msgid "Default Incident"
-msgstr ""
-
-#: ../mod/pref/ims_config.inc:58
-msgid "Incident Type"
-msgstr ""
-
-#: ../mod/pref/ims_config.inc:59
-msgid "Select Incident"
-msgstr ""
-
-#: ../mod/pref/ims_config.inc:63 ../mod/mpr/admin.inc:168
-#: ../mod/mpr/admin.inc:355 ../mod/mpr/admin.inc:378
-#: ../mod/admin/lc_ui_translate_update.inc:26
-msgid "Update"
-msgstr ""
-
-#: ../mod/pref/ims_config.inc:75 ../mod/mpr/add.inc:179
-msgid "You have not completed the form"
-msgstr ""
-
-#: ../mod/pref/ims_config.inc:80
-msgid "Please Select the incident type"
-msgstr ""
-
-#: ../mod/pref/ims_config.inc:85
-msgid "Please select an item from 'Select Incident' box"
-msgstr ""
-
-#: ../mod/pref/main.inc:124 ../mod/pref/main.inc:437 ../mod/pref/main.inc:444
+#: ../inc/lib_security/acl_form.inc:92
 msgid ""
-"Please provide the text in the image correctly to prove you are human."
+"Rows are Modules, Columns are Roles, Intersection shows whether the module "
+"is enabled for that role or not"
 msgstr ""
 
-#: ../mod/pref/main.inc:365 ../mod/pref/main.inc:425
-#: ../mod/mpr/pfif_main.inc:119 ../mod/admin/location.inc:447
-#: ../mod/admin/location.inc:493 ../inc/lib_security/auth_form.inc:85
-msgid "Submit"
+#: ../inc/lib_security/acl_form.inc:97
+msgid "Role"
 msgstr ""
 
-#: ../mod/pref/main.inc:508
-msgid "Enable/Disable OCR XForm"
-msgstr ""
-
-#: ../mod/pref/main.inc:510
-msgid "Enable or disable the OCR friendly form generation."
-msgstr ""
-
-#: ../mod/pref/main.inc:513
-msgid "Enabled"
-msgstr ""
-
-#: ../mod/pref/main.inc:513
-msgid "Disabled"
-msgstr ""
-
-#: ../mod/pref/main.inc:513
-msgid "OCR friendly XForm : "
-msgstr ""
-
-#: ../mod/pref/main.inc:515 ../inc/lib_form.inc:831
-msgid "Cancel"
-msgstr ""
-
-#: ../mod/pref/main.inc:516 ../mod/admin/location.inc:107
-#: ../mod/admin/location.inc:155 ../mod/admin/location.inc:301
-#: ../mod/admin/location.inc:368 ../mod/admin/lc_translate.inc:231
 #: ../inc/lib_security/acl_form.inc:148 ../inc/lib_security/acl_form.inc:327
-#: ../inc/lib_security/acl_form.inc:399
+#: ../inc/lib_security/acl_form.inc:399 ../mod/admin/location.inc:107
+#: ../mod/admin/location.inc:155 ../mod/admin/location.inc:301
+#: ../mod/admin/location.inc:368 ../mod/pref/main.inc:516
 msgid "Save"
 msgstr ""
 
-#: ../mod/pref/main.inc:529 ../mod/pref/main.inc:538
-msgid "Your preference was successfully saved."
+#: ../inc/lib_security/acl_form.inc:237
+msgid "Select the Role you want to edit permissions of"
 msgstr ""
 
-#: ../mod/pref/main.inc:532 ../mod/pref/main.inc:541
-msgid "An error occured while saving your preference."
+#: ../inc/lib_security/acl_form.inc:243 ../inc/lib_security/auth_form.inc:76
+msgid "Select Role"
 msgstr ""
 
-#: ../mod/pref/conf.inc:15
-msgid "My Settings"
+#: ../inc/lib_security/acl_form.inc:244
+msgid "Roles"
 msgstr ""
 
-#: ../mod/inw/main.inc:252 ../mod/inw/conf.inc:15 ../mod/mpr/main.inc:56
-msgid "Search for a Person"
+#: ../inc/lib_security/acl_form.inc:246
+msgid "Continue"
 msgstr ""
 
-#: ../mod/mpr/view.inc:24 ../mod/mpr/search.inc:300
-msgid "Details"
+#: ../inc/lib_security/acl_form.inc:264
+msgid "Rows are Users ,Columns are the possible status values"
 msgstr ""
 
-#: ../mod/mpr/view.inc:31 ../mod/mpr/edit.inc:149 ../mod/mpr/edit.inc:403
-#: ../mod/mpr/add.inc:78 ../mod/mpr/add.inc:474 ../mod/mpr/search.inc:66
-#: ../mod/mpr/search.inc:67
-msgid "Identity"
+#: ../inc/lib_security/acl_form.inc:267
+msgid "<strong>Active</strong> - The user can login and perform operations."
 msgstr ""
 
-#: ../mod/mpr/view.inc:35 ../mod/mpr/edit.inc:150 ../mod/mpr/edit.inc:407
-#: ../mod/mpr/add.inc:478
-msgid "Identity Card Number"
+#: ../inc/lib_security/acl_form.inc:268
+msgid ""
+"<strong>Locked</strong> - The user is withheld from performing operations on "
+"the system temporarily."
 msgstr ""
 
-#: ../mod/mpr/view.inc:38 ../mod/mpr/edit.inc:151 ../mod/mpr/edit.inc:410
-#: ../mod/mpr/add.inc:81 ../mod/mpr/add.inc:481 ../mod/mpr/search.inc:69
-msgid "Passport Number"
+#: ../inc/lib_security/acl_form.inc:269
+msgid ""
+"<strong>Banned</strong> - The user is not allowed to perform any operation "
+"on the system permanently."
 msgstr ""
 
-#: ../mod/mpr/view.inc:41 ../mod/mpr/edit.inc:152 ../mod/mpr/edit.inc:413
-#: ../mod/mpr/add.inc:484 ../mod/mpr/search.inc:70
-msgid "Driving License"
+#: ../inc/lib_security/acl_form.inc:279
+msgid "User"
 msgstr ""
 
-#: ../mod/mpr/view.inc:50 ../mod/mpr/edit.inc:154 ../mod/mpr/edit.inc:421
-#: ../mod/mpr/add.inc:85 ../mod/mpr/add.inc:494 ../mod/mpr/search.inc:78
-msgid "Basic Details"
+#: ../inc/lib_security/acl_form.inc:280 ../inc/lib_security/acl_form.inc:352
+msgid "Active"
 msgstr ""
 
-#: ../mod/mpr/view.inc:54 ../mod/mpr/edit.inc:156 ../mod/mpr/edit.inc:425
-#: ../mod/mpr/add.inc:498 ../mod/mpr/search.inc:74
+#: ../inc/lib_security/acl_form.inc:281 ../inc/lib_security/acl_form.inc:353
+msgid "Locked"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:282 ../inc/lib_security/acl_form.inc:354
+msgid "Banned"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:291 ../inc/lib_security/acl_form.inc:363
+msgid ""
+"Password locking is disabled system wide. Locks will not take any effect "
+"until it is enabled."
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:292 ../inc/lib_security/acl_form.inc:364
+msgid "Click here to enable locking"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:342
+msgid ""
+"Rows are Locked Users, Columns are the possible status\n"
+"\tvalues"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:351
+msgid "Locked User"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:418
+msgid "Date"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:419
+msgid "Time"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:420
+msgid "User Name"
+msgstr ""
+
 #: ../inc/lib_security/acl_form.inc:421
 msgid "Full Name"
 msgstr ""
 
-#: ../mod/mpr/view.inc:57 ../mod/mpr/edit.inc:157 ../mod/mpr/edit.inc:428
-#: ../mod/mpr/add.inc:88 ../mod/mpr/add.inc:501 ../mod/mpr/search.inc:75
-#: ../mod/rap/main.inc:210
-msgid "Family Name"
+#: ../inc/lib_security/acl_form.inc:422
+msgid "Event Type"
 msgstr ""
 
-#: ../mod/mpr/view.inc:60 ../mod/mpr/edit.inc:158 ../mod/mpr/edit.inc:431
-#: ../mod/mpr/add.inc:89 ../mod/mpr/add.inc:504 ../mod/mpr/search.inc:76
-msgid "Local Name"
+#: ../inc/lib_security/acl_form.inc:423
+msgid "Event"
 msgstr ""
 
-#: ../mod/mpr/view.inc:63 ../mod/mpr/edit.inc:159 ../mod/mpr/edit.inc:434
-#: ../mod/mpr/add.inc:90 ../mod/mpr/add.inc:507
-msgid "Date of Birth"
+#: ../inc/lib_security/auth_form.inc:37 ../inc/lib_security/auth_form.inc:203
+msgid "Select User"
 msgstr ""
 
-#: ../mod/mpr/view.inc:66 ../mod/mpr/edit.inc:161 ../mod/mpr/edit.inc:437
-#: ../mod/mpr/add.inc:510
-msgid "Age Group"
+#: ../inc/lib_security/auth_form.inc:42
+msgid "Remove user"
 msgstr ""
 
-#: ../mod/mpr/view.inc:69 ../mod/mpr/edit.inc:162 ../mod/mpr/edit.inc:440
-#: ../mod/mpr/add.inc:92 ../mod/mpr/add.inc:513 ../mod/rap/main.inc:214
-msgid "Gender"
+#: ../inc/lib_security/auth_form.inc:66
+msgid "Account Details"
 msgstr ""
 
-#: ../mod/mpr/view.inc:72 ../mod/mpr/edit.inc:163 ../mod/mpr/edit.inc:443
-#: ../mod/mpr/add.inc:93 ../mod/mpr/add.inc:516
-msgid "Marital Status"
+#: ../inc/lib_security/auth_form.inc:82
+msgid "OpenID "
 msgstr ""
 
-#: ../mod/mpr/view.inc:75 ../mod/mpr/edit.inc:164 ../mod/mpr/edit.inc:446
-#: ../mod/mpr/add.inc:94 ../mod/mpr/add.inc:519 ../mod/rap/main.inc:215
-msgid "Religion"
+#: ../inc/lib_security/auth_form.inc:85 ../mod/admin/location.inc:447
+#: ../mod/admin/location.inc:493 ../mod/pfif/pfif_main.inc:119
+#: ../mod/pref/main.inc:365 ../mod/pref/main.inc:425
+msgid "Submit"
 msgstr ""
 
-#: ../mod/mpr/view.inc:78 ../mod/mpr/edit.inc:165 ../mod/mpr/edit.inc:449
-#: ../mod/mpr/add.inc:95 ../mod/mpr/add.inc:522 ../mod/rap/main.inc:216
-msgid "Race"
+#: ../inc/lib_security/auth_form.inc:113
+msgid "You new password must adhere to following rules:"
 msgstr ""
 
-#: ../mod/mpr/view.inc:86 ../mod/mpr/edit.inc:192 ../mod/mpr/edit.inc:457
-#: ../mod/mpr/add.inc:115 ../mod/mpr/add.inc:531
-msgid "Physical Details"
+#: ../inc/lib_security/auth_form.inc:120
+msgid "Fill in these required fields to change your password"
 msgstr ""
 
-#: ../mod/mpr/view.inc:90 ../mod/mpr/edit.inc:193 ../mod/mpr/edit.inc:461
-#: ../mod/mpr/add.inc:535 ../mod/mpr/search.inc:317
-msgid "Eye Colour"
+#: ../inc/lib_security/auth_form.inc:129
+msgid "Change Password"
 msgstr ""
 
-#: ../mod/mpr/view.inc:93 ../mod/mpr/edit.inc:194 ../mod/mpr/edit.inc:464
-#: ../mod/mpr/add.inc:538 ../mod/mpr/search.inc:317
-msgid "Skin Colour"
+#: ../inc/lib_security/auth_form.inc:146
+msgid "Old password cannot be empty"
 msgstr ""
 
-#: ../mod/mpr/view.inc:96 ../mod/mpr/edit.inc:195 ../mod/mpr/edit.inc:467
-#: ../mod/mpr/add.inc:541 ../mod/mpr/search.inc:317
-msgid "Hair Colour"
+#: ../inc/lib_security/auth_form.inc:152 ../inc/lib_security/auth_form.inc:232
+msgid "New password cannot be empty"
 msgstr ""
 
-#: ../mod/mpr/view.inc:99 ../mod/mpr/edit.inc:196 ../mod/mpr/edit.inc:470
-#: ../mod/mpr/add.inc:544 ../mod/mpr/search.inc:317 ../mod/rap/main.inc:232
-msgid "Height"
+#: ../inc/lib_security/auth_form.inc:158 ../inc/lib_security/auth_form.inc:239
+msgid "Confirm password cannot be empty"
 msgstr ""
 
-#: ../mod/mpr/view.inc:102 ../mod/mpr/edit.inc:197 ../mod/mpr/edit.inc:473
-#: ../mod/mpr/add.inc:547 ../mod/mpr/search.inc:317 ../mod/rap/main.inc:233
-msgid "Weight"
+#: ../inc/lib_security/auth_form.inc:164 ../inc/lib_security/auth_form.inc:246
+msgid "Password and Confirm Password should match"
 msgstr ""
 
-#: ../mod/mpr/view.inc:105 ../mod/mpr/view.inc:147 ../mod/mpr/edit.inc:198
-#: ../mod/mpr/edit.inc:204 ../mod/mpr/edit.inc:476 ../mod/mpr/edit.inc:541
-#: ../mod/mpr/add.inc:550 ../mod/mpr/add.inc:618 ../mod/mpr/search.inc:325
-msgid "Comments"
+#: ../inc/lib_security/auth_form.inc:206
+msgid "New Password"
 msgstr ""
 
-#: ../mod/mpr/view.inc:113 ../mod/mpr/edit.inc:172 ../mod/mpr/edit.inc:490
-#: ../mod/mpr/add.inc:564
-msgid "Contact Details"
+#: ../inc/lib_security/auth_form.inc:212
+msgid "Reset Password"
 msgstr ""
 
-#: ../mod/mpr/view.inc:117 ../mod/mpr/edit.inc:173 ../mod/mpr/edit.inc:493
-#: ../mod/mpr/add.inc:104 ../mod/mpr/add.inc:317 ../mod/mpr/add.inc:567
-#: ../mod/mpr/add.inc:636
-msgid "Address"
+#: ../inc/lib_security/auth_form.inc:257
+msgid "The Password was succesfully updated"
 msgstr ""
 
-#: ../mod/mpr/view.inc:120 ../mod/mpr/edit.inc:174 ../mod/mpr/edit.inc:514
-#: ../mod/mpr/add.inc:589
-msgid "Postal Code"
+#: ../inc/lib_security/lib_auth.inc:680
+msgid "First name is a required field. Please enter a value."
 msgstr ""
 
-#: ../mod/mpr/view.inc:123 ../mod/mpr/edit.inc:175 ../mod/mpr/edit.inc:517
-#: ../mod/mpr/add.inc:592
-msgid "Home Phone"
+#: ../inc/lib_security/lib_auth.inc:688
+msgid "Last name is a required field. Please enter a value."
 msgstr ""
 
-#: ../mod/mpr/view.inc:126 ../mod/mpr/edit.inc:176 ../mod/mpr/edit.inc:520
-#: ../mod/mpr/add.inc:595
-msgid "Mobile"
+#: ../inc/lib_security/lib_auth.inc:834
+msgid "User does not exist"
 msgstr ""
 
-#: ../mod/mpr/view.inc:132 ../mod/mpr/edit.inc:200 ../mod/mpr/edit.inc:527
-#: ../mod/mpr/add.inc:132 ../mod/mpr/add.inc:603
-msgid "Other Details"
+#: ../inc/lib_security/lib_auth.inc:836
+msgid "User was successfully removed"
 msgstr ""
 
-#: ../mod/mpr/view.inc:138 ../mod/mpr/edit.inc:201 ../mod/mpr/edit.inc:532
-#: ../mod/mpr/add.inc:133 ../mod/mpr/add.inc:609
-msgid "Blood Type"
+#: ../inc/lib_security/lib_auth.inc:1078
+#, php-format
+msgid "The minimum password length is %d"
 msgstr ""
 
-#: ../mod/mpr/view.inc:141 ../mod/mpr/edit.inc:202 ../mod/mpr/edit.inc:535
-#: ../mod/mpr/add.inc:612 ../mod/mpr/search.inc:325
-msgid "Last Seen"
+#: ../inc/lib_security/lib_auth.inc:1081
+#, php-format
+msgid "The maximum password length is %d."
 msgstr ""
 
-#: ../mod/mpr/view.inc:144 ../mod/mpr/edit.inc:203 ../mod/mpr/edit.inc:538
-#: ../mod/mpr/add.inc:615 ../mod/mpr/search.inc:325
-msgid "Last Clothing"
+#: ../inc/lib_security/lib_auth.inc:1084
+msgid "The password should have at least one uppercase character."
 msgstr ""
 
-#: ../mod/mpr/view.inc:154
-msgid "People that are tracking"
+#: ../inc/lib_security/lib_auth.inc:1087
+msgid "The password should have at least one lowercase character."
 msgstr ""
 
-#: ../mod/mpr/view.inc:156 ../mod/mpr/edit.inc:813 ../mod/mpr/search.inc:321
-#: ../mod/mpr/search.inc:384
-msgid "View"
+#: ../inc/lib_security/lib_auth.inc:1090
+msgid "The password should have at least one numeric character."
 msgstr ""
 
-#: ../mod/mpr/view.inc:162
-msgid "Click to edit"
+#: ../inc/lib_security/lib_auth.inc:1093
+msgctxt ""
+"The password should have at least one special character. eg. !,@.#$%\\^&\\"
+"*/?`~+="
+msgid ":;-\"'"
 msgstr ""
 
-#: ../mod/mpr/view.inc:163 ../mod/mpr/search.inc:393 ../inc/lib_form.inc:834
+#: ../inc/lib_security/lib_auth.inc:1096
+msgid "The username cannot be a part of the password."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1121
+#, php-format
+msgid "The minimum length of the password is %d characters."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1125
+#, php-format
+msgid "The maximum length of the password is %d characters."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1129
+msgid "Must have at least one uppercase character."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1133
+msgid "Must have at least one lowercase character."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1137
+msgid "Must have at least one numeral (0-9)."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1141
+msgctxt ""
+"Should have one or more of the following characters: '!@,.#$%\\^&\\*/?`~+="
+msgid ":;()-\"'[]{}<>' "
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1145
+msgid "The password cannot contain your username."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1158
+msgid "Please enter a valid Role name."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1174
+#, php-format
+msgid "The role '%s' was successfully added."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1179
+msgid ""
+"A role with the name you entered already exists. Please enter a different "
+"role name."
+msgstr ""
+
+#: ../inc/handler_footer.inc:25
+msgid "Sahana Home"
+msgstr ""
+
+#: ../inc/handler_footer.inc:25
+msgid "Sahana"
+msgstr ""
+
+#: ../inc/handler_footer.inc:26
+msgid "Sahana Wiki"
+msgstr ""
+
+#: ../inc/handler_footer.inc:26
+msgid "Wiki"
+msgstr ""
+
+#: ../inc/handler_footer.inc:27
+msgid "Chats"
+msgstr ""
+
+#: ../inc/handler_footer.inc:28
+msgid "Report a Bug"
+msgstr ""
+
+#: ../inc/handler_footer.inc:30
+msgid "OCR Form"
+msgstr ""
+
+#: ../inc/handler_footer.inc:30
+msgid "XForm"
+msgstr ""
+
+#: ../inc/handler_header.inc:24 ../inc/lib_errors.inc:217
+#: ../inc/lib_xhtml.inc:50
+msgid "Sahana FOSS Disaster Management System"
+msgstr ""
+
+#: ../inc/handler_mainmenu.inc:22
+msgid "Main Menu"
+msgstr ""
+
+#: ../inc/lib_errors.inc:88
+msgid "Oops! There are a few errors :"
+msgstr ""
+
+#: ../inc/lib_errors.inc:166
+msgid "You will need to login using your username and password."
+msgstr ""
+
+#: ../inc/lib_errors.inc:172 ../inc/lib_errors.inc:194
+msgid "Sorry, you do not have permisssion to access this section"
+msgstr ""
+
+#: ../inc/lib_errors.inc:176 ../inc/lib_errors.inc:198
+msgid "This could be because:"
+msgstr ""
+
+#: ../inc/lib_errors.inc:180 ../inc/lib_errors.inc:200
+msgid ""
+"You have not logged in or Anonymous access is not allowed to this section"
+msgstr ""
+
+#: ../inc/lib_errors.inc:181 ../inc/lib_errors.inc:201
+msgid "Your username has not been given permission to access this section"
+msgstr ""
+
+#: ../inc/lib_errors.inc:183 ../inc/lib_errors.inc:203
+msgid "To gain access to this section please contact the administrator"
+msgstr ""
+
+#: ../inc/lib_errors.inc:301
+msgid "The Sahana database is currently inaccesible"
+msgstr ""
+
+#: ../inc/lib_errors.inc:306
+msgid "The system is currently unavailable"
+msgstr ""
+
+#: ../inc/lib_errors.inc:329
+msgid "System Error"
+msgstr ""
+
+#: ../inc/lib_errors.inc:332
+msgid "For urgent assistance, please contact the system administrator below:"
+msgstr ""
+
+#: ../inc/lib_errors.inc:333
+msgid "Name: "
+msgstr ""
+
+#: ../inc/lib_form.inc:831 ../mod/pref/main.inc:515
+msgid "Cancel"
+msgstr ""
+
+#: ../inc/lib_form.inc:834
 msgid "Back"
 msgstr ""
 
-#: ../mod/mpr/report.inc:52 ../mod/mpr/report.inc:85 ../mod/mpr/report.inc:118
-#: ../mod/mpr/report.inc:151
-msgid "List of Missing People"
-msgstr ""
-
-#: ../mod/mpr/report.inc:53 ../mod/mpr/report.inc:86 ../mod/mpr/report.inc:119
-#: ../mod/mpr/report.inc:152
-msgid "This is the list of missing people"
-msgstr ""
-
-#: ../mod/mpr/report.inc:185 ../mod/mpr/report.inc:218
-#: ../mod/mpr/report.inc:250 ../mod/mpr/report.inc:282
-msgid "List of Found People"
-msgstr ""
-
-#: ../mod/mpr/report.inc:186 ../mod/mpr/report.inc:219
-#: ../mod/mpr/report.inc:251 ../mod/mpr/report.inc:283
-msgid "This is the list of found people"
-msgstr ""
-
-#: ../mod/mpr/main.inc:54 ../mod/mpr/admin.inc:31 ../mod/mpr/conf.inc:17
-msgid "Missing Person Registry"
-msgstr ""
-
-#: ../mod/mpr/main.inc:55
-msgid "MPR Home"
-msgstr ""
-
-#: ../mod/mpr/main.inc:57
-msgid "Report a Missing Person"
-msgstr ""
-
-#: ../mod/mpr/main.inc:58
-msgid "Edit a Missing Person"
-msgstr ""
-
-#: ../mod/mpr/main.inc:59
-msgid "Report a Found Person"
-msgstr ""
-
-#: ../mod/mpr/main.inc:60
-msgid "List Missing People"
-msgstr ""
-
-#: ../mod/mpr/main.inc:61
-msgid "List Found People"
-msgstr ""
-
-#: ../mod/mpr/main.inc:65
-msgid "PFIF"
-msgstr ""
-
-#: ../mod/mpr/main.inc:66 ../mod/admin/lc_upload.inc:27
-msgid "Import"
-msgstr ""
-
-#: ../mod/mpr/main.inc:67
-msgid "Export"
-msgstr ""
-
-#: ../mod/mpr/main.inc:173 ../mod/mpr/main.inc:182 ../mod/mpr/main.inc:197
-#: ../mod/mpr/main.inc:208 ../mod/mpr/main.inc:241 ../mod/mpr/main.inc:251
-#: ../mod/mpr/main.inc:269
-msgid "Edit Missing Person Entry"
-msgstr ""
-
-#: ../mod/mpr/main.inc:200 ../mod/mpr/main.inc:229 ../mod/mpr/main.inc:321
-#: ../mod/mpr/main.inc:336 ../mod/mpr/main.inc:360
-msgid "Add a tracker to"
-msgstr ""
-
-#: ../mod/mpr/main.inc:255
-#, php-format
-msgid "Are you sure you want to delete tracker %s from tracker list"
-msgstr ""
-
-#: ../mod/mpr/main.inc:271
-msgid "Edit Found Person Entry"
-msgstr ""
-
-#: ../mod/mpr/main.inc:288
-msgid "View Person"
-msgstr ""
-
-#: ../mod/mpr/main.inc:389 ../mod/mpr/main.inc:400 ../mod/mpr/main.inc:439
-#: ../mod/mpr/main.inc:450
-msgid "Person Registry : Reporting a "
-msgstr ""
-
-#: ../mod/mpr/main.inc:393
-msgid "Person Registry : Person Details"
-msgstr ""
-
-#: ../mod/mpr/main.inc:408 ../mod/mpr/main.inc:434
-msgid "The missing person have been added"
-msgstr ""
-
-#: ../mod/mpr/main.inc:418
-msgid "Please Select the person who is reporting"
-msgstr ""
-
-#: ../mod/mpr/mpr_lib.inc:36 ../mod/mpr/mpr_lib.inc:53
-#: ../mod/mpr/mpr_lib.inc:93
-msgid "Height : "
-msgstr ""
-
-#: ../mod/mpr/mpr_lib.inc:37 ../mod/mpr/mpr_lib.inc:54
-#: ../mod/mpr/mpr_lib.inc:94
-msgid "Weight : "
-msgstr ""
-
-#: ../mod/mpr/mpr_lib.inc:38 ../mod/mpr/mpr_lib.inc:55
-#: ../mod/mpr/mpr_lib.inc:95
-msgid "Eye Colour : "
-msgstr ""
-
-#: ../mod/mpr/mpr_lib.inc:39 ../mod/mpr/mpr_lib.inc:56
-#: ../mod/mpr/mpr_lib.inc:96
-msgid "Skin Colour : "
-msgstr ""
-
-#: ../mod/mpr/mpr_lib.inc:40 ../mod/mpr/mpr_lib.inc:57
-#: ../mod/mpr/mpr_lib.inc:97
-msgid "Hair Colour : "
-msgstr ""
-
-#: ../mod/mpr/mpr_lib.inc:41 ../mod/mpr/mpr_lib.inc:58
-#: ../mod/mpr/mpr_lib.inc:98
-msgid "Last Seen : "
-msgstr ""
-
-#: ../mod/mpr/mpr_lib.inc:42 ../mod/mpr/mpr_lib.inc:59
-#: ../mod/mpr/mpr_lib.inc:99
-msgid "Last Clothing : "
-msgstr ""
-
-#: ../mod/mpr/mpr_lib.inc:43 ../mod/mpr/mpr_lib.inc:60
-#: ../mod/mpr/mpr_lib.inc:100
-msgid "Comments : "
-msgstr ""
-
-#: ../mod/mpr/mpr_lib.inc:45 ../mod/mpr/mpr_lib.inc:62
-#: ../mod/mpr/search.inc:330
-msgid "Assign to more incidents"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:146 ../mod/mpr/add.inc:58 ../mod/mpr/add.inc:67
-#: ../mod/mpr/search.inc:377
-msgid "Status"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:147
-msgid "Change the status"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:155
-msgid "Please enter any of the following details on the person"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:167 ../mod/mpr/edit.inc:319
-msgid "Replace Current Picture"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:170 ../mod/mpr/edit.inc:322 ../mod/mpr/add.inc:98
-#: ../mod/mpr/add.inc:100 ../mod/mpr/add.inc:398 ../mod/mpr/add.inc:399
-#: ../mod/mpr/images.inc:23
-msgid "Upload Picture"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:206 ../mod/mpr/edit.inc:323 ../mod/mpr/edit.inc:822
-#: ../mod/mpr/add.inc:139 ../mod/mpr/add.inc:323 ../mod/mpr/add.inc:401
-#: ../mod/mpr/add.inc:654 ../mod/mpr/search.inc:80 ../mod/mpr/search.inc:276
-#: ../mod/mpr/images.inc:25 ../mod/admin/location.inc:62
-#: ../inc/lib_paging.inc:182 ../inc/lib_paging.inc:296 ../inc/lib_form.inc:837
+#: ../inc/lib_form.inc:837 ../inc/lib_paging.inc:182 ../inc/lib_paging.inc:296
+#: ../mod/admin/location.inc:62
 msgid "Next"
 msgstr ""
 
-#: ../mod/mpr/edit.inc:232 ../mod/mpr/add.inc:172
-msgid "Height should be a value in centimeters(cm)"
+#: ../inc/lib_form.inc:839
+msgid "Finish"
 msgstr ""
 
-#: ../mod/mpr/edit.inc:239 ../mod/mpr/add.inc:185
-msgid "Please enter the full name of the missing person"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:264
-msgid "Invalid image type.Please try again!"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:350 ../mod/mpr/add.inc:198 ../mod/mpr/add.inc:425
-#: ../mod/rap/main.inc:367
-msgid "Invalid image type please try again"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:392 ../mod/mpr/search.inc:299
-msgid "Person"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:548
-msgid "Reporting People"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:554 ../mod/mpr/search.inc:375
-msgid "Picture"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:555 ../mod/mpr/edit.inc:805 ../mod/mpr/add.inc:299
-#: ../mod/mpr/add.inc:630 ../mod/mpr/search.inc:40 ../mod/mpr/search.inc:72
-#: ../mod/mpr/search.inc:73 ../mod/mpr/search.inc:376
-msgid "Name"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:556 ../mod/mpr/edit.inc:806
-msgid "Relationship"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:567 ../inc/lib_form.inc:841
+#: ../inc/lib_form.inc:841
 msgid "Confirm"
 msgstr ""
 
-#: ../mod/mpr/edit.inc:568
-msgid "Is the information that you've entered correct?"
+#: ../inc/lib_form.inc:901
+msgid "Wysiwyg editor not configured correctly. Using Textarea instead."
 msgstr ""
 
-#: ../mod/mpr/edit.inc:569 ../mod/mpr/add.inc:258 ../mod/mpr/add.inc:273
-msgid "Yes"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:570 ../mod/mpr/add.inc:258 ../mod/mpr/add.inc:273
-msgid "No"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:801
-msgid "Current Trackers"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:807 ../mod/mpr/edit.inc:815
-#: ../mod/admin/location.inc:148 ../mod/admin/lib_fo_config.inc:82
-#: ../mod/admin/lc_add_new_language.inc:33 ../mod/admin/lc_db.inc:109
-msgid "Remove"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:816
-msgid "Click to remove the tracker"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:820 ../mod/mpr/search.inc:323
-msgid "Add Tracker"
-msgstr ""
-
-#: ../mod/mpr/edit.inc:820
-msgid "Add a tracker"
-msgstr ""
-
-#: ../mod/mpr/pfif_main.inc:27
-msgid "Please make sure that you are adding a PFIF xml file."
-msgstr ""
-
-#: ../mod/mpr/pfif_main.inc:28
-msgid "Import from PFIF xml"
-msgstr ""
-
-#: ../mod/mpr/pfif_main.inc:33
-msgid "Upload PFIF xml"
-msgstr ""
-
-#: ../mod/mpr/pfif_main.inc:34 ../mod/mpr/pfif_main.inc:115
-msgid "Upload"
-msgstr ""
-
-#: ../mod/mpr/pfif_main.inc:36
-msgid "Download from Google PFIF API"
-msgstr ""
-
-#: ../mod/mpr/pfif_main.inc:37 ../mod/mpr/pfif_main.inc:105
-#: ../mod/mpr/pfif_main.inc:118
-msgid "Enter person_record_id"
-msgstr ""
-
-#: ../mod/mpr/pfif_main.inc:38
-msgid "Download"
-msgstr ""
-
-#: ../mod/mpr/pfif_main.inc:104
-msgid "Show Selected Record"
-msgstr ""
-
-#: ../mod/mpr/pfif_main.inc:106
-msgid "Show"
-msgstr ""
-
-#: ../mod/mpr/pfif_main.inc:111
+#: ../inc/lib_form.inc:936
 msgid ""
-"EXPERIMENTAL: Add source, time range selection parameters to replace id in "
-"Upload Selected ... section"
+"A required file was not found. Failed to initialize Wysiwig Editor. Using "
+"Textarea instead."
 msgstr ""
 
-#: ../mod/mpr/pfif_main.inc:112
-msgid "Upload PFIF XML file"
+#: ../inc/lib_image.inc:442
+msgid "Image"
 msgstr ""
 
-#: ../mod/mpr/pfif_main.inc:114
-msgid "Source File"
+#: ../inc/lib_image.inc:443
+msgid "Not"
 msgstr ""
 
-#: ../mod/mpr/pfif_main.inc:117
-msgid "Upload Selected Records"
+#: ../inc/lib_image.inc:444
+msgid "Available"
 msgstr ""
 
-#: ../mod/mpr/add.inc:54
+#: ../inc/lib_image.inc:528 ../inc/lib_image.inc:559
+msgid "Image Not Available"
+msgstr ""
+
+#: ../inc/lib_image.inc:580
+msgid "Click to see the original size"
+msgstr ""
+
+#: ../inc/lib_image.inc:595 ../inc/lib_image.inc:650
+msgid "Invalid Image Type Please try again"
+msgstr ""
+
+#: ../inc/lib_image.inc:704
 msgid ""
-"Please do a search and check whether the person has already been added."
+"The uploaded file exceeds the upload_max_filesize directive in php.ini. (<"
 msgstr ""
 
-#: ../mod/mpr/add.inc:74 ../mod/rap/main.inc:187
-msgid "Information Privacy"
-msgstr ""
-
-#: ../mod/mpr/add.inc:75
+#: ../inc/lib_image.inc:706
 msgid ""
-"<span class=\"publicText\">Public</span> information that, if you provide, "
-"you agree can be exposed to the general public. <span "
-"class=\"privateText\">Private</span> information in this report will not be "
-"generally released.  It may be shared with other family members and friends "
-"you designate, emergency responders, medical providers, clergy/councilors, "
-"law enforcement, and authorized displaced-person agencies."
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form."
 msgstr ""
 
-#: ../mod/mpr/add.inc:80
-msgid "Social Security Number"
+#: ../inc/lib_image.inc:708
+msgid "The uploaded file was only partially uploaded."
 msgstr ""
 
-#: ../mod/mpr/add.inc:82
-msgid "Driver's License Number"
+#: ../inc/lib_image.inc:710
+msgid "No file was uploaded."
 msgstr ""
 
-#: ../mod/mpr/add.inc:86 ../mod/rap/main.inc:208
-msgid "Please enter any of the following details of the person:"
+#: ../inc/lib_image.inc:712
+msgid "Missing a temporary folder."
 msgstr ""
 
-#: ../mod/mpr/add.inc:87
-msgid "Full Name "
+#: ../inc/lib_image.inc:714
+msgid "Failed to write file to disk."
 msgstr ""
 
-#: ../mod/mpr/add.inc:88
-msgid "Also known as the surname.  Typically the last name or the first."
+#: ../inc/lib_image.inc:716
+msgid "File upload stopped by extension."
 msgstr ""
 
-#: ../mod/mpr/add.inc:89
+#: ../inc/lib_location.inc:108
+msgid "Organization Location"
+msgstr ""
+
+#: ../inc/lib_location.inc:661
 msgid ""
-"Nickname, alias, or (if the computer allows) full name in a non-Roman "
-"alphabet."
+"If you know any of the following, please select only one of them first , the "
+"selection will populate the set of Location select boxes "
 msgstr ""
 
-#: ../mod/mpr/add.inc:91 ../mod/rap/main.inc:211
-msgid "Age"
+#: ../inc/lib_location.inc:664
+msgid "* Camp/Shelter "
 msgstr ""
 
-#: ../mod/mpr/add.inc:99
+#: ../inc/lib_location.inc:668
+msgid "* an Inventory "
+msgstr ""
+
+#: ../inc/lib_location.inc:672
+msgid "* an Organization "
+msgstr ""
+
+#: ../inc/lib_location.inc:705
+msgid "Shelter/Camp"
+msgstr ""
+
+#: ../inc/lib_location.inc:713
+msgid "Select an Organization"
+msgstr ""
+
+#: ../inc/lib_location.inc:729
+msgid "Organizations"
+msgstr ""
+
+#: ../inc/lib_location.inc:814
 msgid ""
-"Select a photo that clearly shows the person’s face, and possibly suggests "
-"their build.  Ideally, show only one person in the photo; otherwise, tell us "
-"which person is the one missing in the “Other information that would help us "
-"to find this person” field below."
+"This location name is already in the database. Do you want to add anyway?  "
+"&nbsp&nbsp&nbsp<b><a href='#' onclick='_shn_loc_val_name();'>Add "
+"anyway</a></b> or else you can change the \"Location Name\" textbox and "
+"submit the form again."
 msgstr ""
 
-#: ../mod/mpr/add.inc:100
+#: ../inc/lib_location.inc:1004
 msgid ""
-"If the photo you intend to use comes from another web site (e.g., photo "
-"sharing, web email), you will often need to first make a temporary local "
-"copy of it to your local machine, which can then be uploaded to Sahana. "
-"Similarly, getting it directly from a USB flash drive, USB transfer cable "
-"from your camera, or memory stick (e.g., SD card from your camera or cell "
-"phone)."
+"Select the location based at.  This is hierarchical. For example think you "
+"are based  in the country 'Sri lanka' ,district 'Colombo' ,and village "
+"'dehiwala'.  start by selecting the country ,once you select country all the "
+"divisions of that country will populate the next select box.  therefore in "
+"this case all the districts in 'Sri lanka' appear . From those select a "
+"district which will populate the village list in the next select box. So "
+"select 'dehiwala' and you have done it! please note that the levels can be "
+"customized, therefore it does not need to be ''->'district'->'village' "
+",always. Its configurable from the 'administration' section."
 msgstr ""
 
-#: ../mod/mpr/add.inc:103
-msgid "Missing Person's Contact Information"
-msgstr ""
-
-#: ../mod/mpr/add.inc:104
-msgid "Your address can be specified to contact you"
-msgstr ""
-
-#: ../mod/mpr/add.inc:105
-msgid "Zip/Postal Code"
-msgstr ""
-
-#: ../mod/mpr/add.inc:106 ../mod/rap/main.inc:222
-msgid "Home Phone Number"
-msgstr ""
-
-#: ../mod/mpr/add.inc:107
-msgid "Cell/Mobile Phone Number"
-msgstr ""
-
-#: ../mod/mpr/add.inc:110
+#: ../inc/lib_location.inc:1093
 msgid ""
-"Location where the person most likely encountered the disaster <span "
-"class=\"publicText\">Public</span>"
+"Select the location based at.  This is hierarchical. For example think you "
+"are based  in the  'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  "
+"start by selecting the  ,once you select all the divisions of that country "
+"will populate the next select box.  therefore in this case all the districts "
+"in 'Sri lanka' appear . From those select a district which will populate the "
+"village list in the next select box. So select 'dehiwala' and you have done "
+"it! please note that the levels can be customized, therefore it does not "
+"need to be 'country'->'district'->'village' ,always. Its configurable from "
+"the 'administration' section."
 msgstr ""
 
-#: ../mod/mpr/add.inc:111
+#: ../inc/lib_location.inc:1154
 msgid ""
-"Choose 'County or Equivalent' first, this will auto-populate the second "
-"field 'Town or Neighborhood'. Next, choose a 'Town or Neighborhood' from the "
-"list.  A 'county equivalent' varies by state, but is typically a city."
+"Select the location based at.  This is hierarchical. For example think you "
+"are based  in the country 'Sri lanka' ,district 'Colombo' ,and village "
+"'dehiwala'.  start by selecting the country ,once you select country all the "
+"divisions of that country will populate the next select box.  therefore in "
+"this case all the districts in 'Sri lanka' appear . From those select a "
+"district which will populate the village list in the next select box. So "
+"select 'dehiwala' and you have done it! please note that the levels can be "
+"customized, therefore it does not need to be 'country'->'district'-"
+">'village', always. Its configurable from the 'administration' section."
 msgstr ""
 
-#: ../mod/mpr/add.inc:116 ../mod/rap/main.inc:228
-msgid "Eye Color"
+#: ../inc/lib_misc.inc:20
+msgid "Alert"
 msgstr ""
 
-#: ../mod/mpr/add.inc:117 ../mod/rap/main.inc:229
-msgid "Skin Color"
+#: ../inc/lib_misc.inc:186
+msgid "Whitespace is not a valid input."
 msgstr ""
 
-#: ../mod/mpr/add.inc:118 ../mod/rap/main.inc:230
-msgid "Hair Color"
+#: ../inc/lib_misc.inc:193
+msgid "The type already exists in the list"
 msgstr ""
 
-#: ../mod/mpr/add.inc:122
-msgid "Height (<i>in feet/inches</i>)"
+#: ../inc/lib_misc.inc:202
+msgid "The Type Exists,you just added it"
 msgstr ""
 
-#: ../mod/mpr/add.inc:123
-msgid "Weight (<i>in pounds</i>)"
+#: ../inc/lib_paging.inc:126 ../inc/lib_paging.inc:235
+msgid "No Records found "
 msgstr ""
 
-#: ../mod/mpr/add.inc:125
-msgid "Height (<i>in centimeters</i>)"
+#: ../inc/lib_paging.inc:142 ../inc/lib_paging.inc:266
+msgid "Page "
 msgstr ""
 
-#: ../mod/mpr/add.inc:126
-msgid "Weight (<i>in kilograms</i>)"
+#: ../inc/lib_paging.inc:149
+msgid "Go to Previous Page"
 msgstr ""
 
-#: ../mod/mpr/add.inc:129 ../mod/rap/main.inc:235
-msgid "Other Obvious Distinctive Features"
-msgstr ""
-
-#: ../mod/mpr/add.inc:134 ../mod/rap/main.inc:239
-msgid "Last Seen Location"
-msgstr ""
-
-#: ../mod/mpr/add.inc:135
-msgid "Clothing and Appearance when Last Seen"
-msgstr ""
-
-#: ../mod/mpr/add.inc:136
-msgid "Other Information to Help Locate this Person"
-msgstr ""
-
-#: ../mod/mpr/add.inc:249
-msgid ""
-"We are collecting the information on the person who is reporting the missing "
-"person due to the following reasons."
-msgstr ""
-
-#: ../mod/mpr/add.inc:251
-msgid "To inform back on finding the missing person"
-msgstr ""
-
-#: ../mod/mpr/add.inc:252
-msgid ""
-"In a situation where the person who is reporting also a victim of the "
-"disaster. The details given here would help to associate he/she with his/her "
-"relatives."
-msgstr ""
-
-#: ../mod/mpr/add.inc:256
-msgid "Details on Person who is reporting on missing person"
-msgstr ""
-
-#: ../mod/mpr/add.inc:257
-msgid "Reported Before"
-msgstr ""
-
-#: ../mod/mpr/add.inc:258
-msgid "Have you reported anyone? "
-msgstr ""
-
-#: ../mod/mpr/add.inc:273
-msgid "Are you a disaster victim too? "
-msgstr ""
-
-#: ../mod/mpr/add.inc:289
-msgid "If you are a victim, Please specify the status"
-msgstr ""
-
-#: ../mod/mpr/add.inc:296
-msgid "Details of the reporting person"
-msgstr ""
-
-#: ../mod/mpr/add.inc:298
-msgid ""
-"NOTE : If you have reported before, we will use the following information to "
-"perform a search to see you are in our database or not."
-msgstr ""
-
-#: ../mod/mpr/add.inc:316
-msgid "IMPORTANT : At least one of the following contact method is required"
-msgstr ""
-
-#: ../mod/mpr/add.inc:318 ../mod/mpr/add.inc:639
-msgid "Phone"
-msgstr ""
-
-#: ../mod/mpr/add.inc:319 ../mod/mpr/add.inc:642
-msgid "Email"
-msgstr ""
-
-#: ../mod/mpr/add.inc:348
-msgid "Please enter the full name of the reporting person"
-msgstr ""
-
-#: ../mod/mpr/add.inc:355
-msgid "Please enter a valid E-mail"
-msgstr ""
-
-#: ../mod/mpr/add.inc:369
-msgid "Please enter any contact method of the reporting person"
-msgstr ""
-
-#: ../mod/mpr/add.inc:396
-msgid ""
-"If you have a picture of the missing person, please upload the picture. So, "
-"that it will be easy for us to identify the person. <br />If you don't have "
-"a picture to upload just click the \"Next\" button."
-msgstr ""
-
-#: ../mod/mpr/add.inc:468
-msgid "Missing Person"
-msgstr ""
-
-#: ../mod/mpr/add.inc:625
-msgid "Reporting Person"
-msgstr ""
-
-#: ../mod/mpr/add.inc:633
-msgid "Relation"
-msgstr ""
-
-#: ../mod/mpr/add.inc:653
-msgid "Click on the \"Next\" Button to go back to the main screen."
-msgstr ""
-
-#: ../mod/mpr/admin.inc:32 ../mod/mpr/admin.inc:76
-msgid "General Configuration"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:34 ../mod/mpr/admin.inc:185
-msgid "Manage Age Groups"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:35 ../mod/mpr/admin.inc:193
-msgid "Manage Race"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:36 ../mod/mpr/admin.inc:201
-msgid "Manage Religion"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:37
-msgid "Manage Blood Group"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:38
-msgid "Manage Eye Colors"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:39
-msgid "Manage Hair Colors"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:40
-msgid "Manage Skin Colors"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:41 ../mod/mpr/admin.inc:240
-msgid "Manage Victim Status"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:74
-msgid "Updated"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:103
-msgid "Please enter the number of images per page!"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:106
-msgid "Please enter a number for the alternate homepage!"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:110
-msgid "Search limit should be a number!"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:120
-msgid "Configuration saved."
-msgstr ""
-
-#: ../mod/mpr/admin.inc:122
-msgid "Configuration not saved."
-msgstr ""
-
-#: ../mod/mpr/admin.inc:130 ../mod/mpr/search.inc:44
-msgid "Search"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:131
-msgid "Number of images per page"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:134
-msgid "Show missing/found updates on the MPR main page"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:139
-msgid "Show warning message before \"Reporting a Person\""
-msgstr ""
-
-#: ../mod/mpr/admin.inc:143
-msgid "Use English Metrics"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:147
-msgid "MPR Main Page"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:164
-msgid "Resources module not installed, using default homepage."
-msgstr ""
-
-#: ../mod/mpr/admin.inc:177
-msgid "Manage Search"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:209
-msgid "Manage Blood Groups"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:217
-msgid "Manage Eye Color"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:225
-msgid "Manage Hair Color"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:233
-msgid "Manage Skin Color"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:267
-msgid "Field was successfully deleted."
-msgstr ""
-
-#: ../mod/mpr/admin.inc:299
-msgid " was successfully added."
-msgstr ""
-
-#: ../mod/mpr/admin.inc:335
-msgid "Please  enter the code"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:338
-msgid "Please  enter the description"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:342
-msgid "Code already exists"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:347
-msgid "Unrecognized button_type "
-msgstr ""
-
-#: ../mod/mpr/admin.inc:361 ../mod/mpr/admin.inc:382
-msgid "Code"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:362 ../mod/mpr/admin.inc:383
-msgid "Description"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:363 ../mod/admin/location.inc:108
-msgid "Delete"
-msgstr ""
-
-#: ../mod/mpr/admin.inc:381
-msgid "Add New "
-msgstr ""
-
-#: ../mod/mpr/admin.inc:384
-msgid "AddNew"
-msgstr ""
-
-#: ../mod/mpr/home.inc:18
-msgid "Missing and Found Person Registry"
-msgstr ""
-
-#: ../mod/mpr/home.inc:79
-msgid ""
-"The Missing person registry is an online bulletin board of missing and found "
-"people. It captures information about the people missing and found, as well "
-"as information on the person seeking them, increasing the chancesof people "
-"finding each other. For example if two members of a family unit are looking "
-"for the head of the family, we can use this data to at least connect those "
-"two family members."
-msgstr ""
-
-#: ../mod/mpr/home.inc:84
-msgid "Features Include:"
-msgstr ""
-
-#: ../mod/mpr/home.inc:88
-msgid ""
-"Submitting information about the individual such as identification numbers, "
-"physical appearance, last seen location, status, etc"
-msgstr ""
-
-#: ../mod/mpr/home.inc:89
-msgid ""
-"'Sounds-like' name search allowing search even the spelling of the name is "
-"not known exactly"
-msgstr ""
-
-#: ../mod/mpr/home.inc:90
-msgid "Facilitate uploading of missing person's photograph"
-msgstr ""
-
-#: ../mod/mpr/home.inc:91
-msgid "Grouping by 'Family Unit' or other group category"
-msgstr ""
-
-#: ../mod/mpr/home.inc:93
-msgid "Description of Actions:"
-msgstr ""
-
-#: ../mod/mpr/home.inc:95
-msgid "Search for a person"
-msgstr ""
-
-#: ../mod/mpr/home.inc:95
-msgid "Search to see whether a lost person is registered in the system"
-msgstr ""
-
-#: ../mod/mpr/home.inc:96
-msgid "Report a missing person"
-msgstr ""
-
-#: ../mod/mpr/home.inc:96
-msgid "Report details about a missing person"
-msgstr ""
-
-#: ../mod/mpr/home.inc:97
-msgid "Edit missing person"
-msgstr ""
-
-#: ../mod/mpr/home.inc:97
-msgid ""
-"Update the details of missing person entered to the database previously"
-msgstr ""
-
-#: ../mod/mpr/home.inc:98
-msgid "Report a found person"
-msgstr ""
-
-#: ../mod/mpr/home.inc:98
-msgid "Report information if the displaced person is found"
-msgstr ""
-
-#: ../mod/mpr/home.inc:99
-msgid "List missing people"
-msgstr ""
-
-#: ../mod/mpr/home.inc:99
-msgid "List all information on missing persons available in the database"
-msgstr ""
-
-#: ../mod/mpr/home.inc:100
-msgid "List found people"
-msgstr ""
-
-#: ../mod/mpr/home.inc:100
-msgid "List all the information on people found"
-msgstr ""
-
-#: ../mod/mpr/home.inc:123
-msgid "Latest updates on Found People"
-msgstr ""
-
-#: ../mod/mpr/home.inc:128
-msgid "Latest updates on Missing People"
-msgstr ""
-
-#: ../mod/mpr/stream.inc:25
-msgid ""
-"Welcome to the Sahana FOSS Disaster Management System Sahana is an "
-"integrated set of pluggable, web based disaster management applications that "
-"pr ovide solutions to large-scale humanitarian problems in the aftermath of "
-"a disaster. These applications a nd problems they address are as follows:"
-msgstr ""
-
-#: ../mod/mpr/list_missing.inc:15
-msgid "Missing People"
-msgstr ""
-
-#: ../mod/mpr/search.inc:39
-msgid "Basic Search"
-msgstr ""
-
-#: ../mod/mpr/search.inc:41
-msgid "ID Card #"
-msgstr ""
-
-#: ../mod/mpr/search.inc:42
-msgid "All incidents"
-msgstr ""
-
-#: ../mod/mpr/search.inc:48
-msgid "Person Reports"
-msgstr ""
-
-#: ../mod/mpr/search.inc:65
-msgid "Advanced Search"
-msgstr ""
-
-#: ../mod/mpr/search.inc:68
-msgid "Identity Card"
-msgstr ""
-
-#: ../mod/mpr/search.inc:250 ../mod/mpr/search.inc:264
-msgid "Total"
-msgstr ""
-
-#: ../mod/mpr/search.inc:250 ../mod/mpr/search.inc:264
-msgid "Records were found"
-msgstr ""
-
-#: ../mod/mpr/search.inc:269
-msgid "First"
-msgstr ""
-
-#: ../mod/mpr/search.inc:269 ../mod/mpr/search.inc:271
-#: ../mod/mpr/search.inc:276 ../mod/mpr/search.inc:278
-msgid "Records"
-msgstr ""
-
-#: ../mod/mpr/search.inc:271 ../inc/lib_paging.inc:149
-#: ../inc/lib_paging.inc:271
+#: ../inc/lib_paging.inc:149 ../inc/lib_paging.inc:271
 msgid "Previous"
 msgstr ""
 
-#: ../mod/mpr/search.inc:278
-msgid "Last"
+#: ../inc/lib_paging.inc:151
+msgid "Go to First Page"
 msgstr ""
 
-#: ../mod/mpr/search.inc:301
-msgid "Associated People"
+#: ../inc/lib_paging.inc:151
+msgid "1"
 msgstr ""
 
-#: ../mod/mpr/search.inc:302
-msgid "Missing Details"
+#: ../inc/lib_paging.inc:169
+msgid "Go to Page No "
 msgstr ""
 
-#: ../mod/mpr/search.inc:303
-msgid "Actions"
+#: ../inc/lib_paging.inc:180
+msgid "Go to Last Page"
 msgstr ""
 
-#: ../mod/mpr/search.inc:304 ../mod/mpr/search.inc:333
-#: ../mod/mpr/search.inc:378 ../mod/mpr/search.inc:390
-msgid "Select"
+#: ../inc/lib_paging.inc:182
+msgid "Go to Next Page"
 msgstr ""
 
-#: ../mod/mpr/search.inc:312 ../mod/mpr/search.inc:314
-msgid "Edit"
+#: ../inc/lib_paging.inc:189 ../inc/lib_paging.inc:299
+msgid "Records per page"
 msgstr ""
 
-#: ../mod/mpr/search.inc:323
-msgid "Associate another person"
+#: ../inc/lib_validate.inc:72
+msgid "The postcode/zipcode must be 5 digits in length"
 msgstr ""
 
-#: ../mod/mpr/search.inc:329 ../mod/mpr/search.inc:388
-msgid "Change the status to Alive & Well"
+#: ../inc/lib_validate.inc:79 ../inc/lib_validate.inc:100
+msgid "The postcode must have 3 digits, a space, and then 2 digits"
 msgstr ""
 
-#: ../mod/mpr/search.inc:329 ../mod/mpr/search.inc:388
-msgid "Click to change to found"
+#: ../inc/lib_validate.inc:86
+msgid "The postcode must have 4 digits, a space, and then 2 letters"
 msgstr ""
 
-#: ../mod/mpr/search.inc:332 ../mod/mpr/audit.inc:15
-msgid "Audit"
+#: ../inc/lib_validate.inc:93
+msgid "The postcode must have 2 digits, a dash, and then 3 digits"
 msgstr ""
 
-#: ../mod/mpr/images.inc:22
-msgid "Add Another Picture"
-msgstr ""
-
-#: ../mod/mpr/audit.inc:49
-msgid "Date/Time"
-msgstr ""
-
-#: ../mod/mpr/audit.inc:50
-msgid "User Making Changes"
-msgstr ""
-
-#: ../mod/mpr/audit.inc:51
-msgid "Table Affected"
-msgstr ""
-
-#: ../mod/mpr/audit.inc:52
-msgid "Field Affected"
-msgstr ""
-
-#: ../mod/mpr/audit.inc:53
-msgid "Type of change"
-msgstr ""
-
-#: ../mod/mpr/audit.inc:54
-msgid "Previous Value"
-msgstr ""
-
-#: ../mod/mpr/audit.inc:55
-msgid "New Value"
-msgstr ""
-
-#: ../mod/mpr/audit.inc:61
-msgid "Inserted"
-msgstr ""
-
-#: ../mod/mpr/list_found.inc:15
-msgid "Found People"
-msgstr ""
-
-#: ../mod/eap/conf.inc:14
-msgid "Edit a Person"
-msgstr ""
-
-#: ../mod/rap/main.inc:188
+#: ../inc/lib_validate.inc:109
 msgid ""
-"<span class=\"publicText\">Public</span> Denotes information that, if "
-"provided, can be exposed to the general public.<br><br><span "
-"class=\"privateText\">Private</span> Denotes information that will not be "
-"available to the public. <br><br>Private information may be made available "
-"to or shared with other family members and friends you designate, emergency "
-"responders, medical providers, clergy/councilors, law enforcement, or "
-"authorized displaced-person agencies."
+"The postcode must begin with a string of the format\n"
+"\t\t\tA9, A99, AA9, AA99, AA9A, A9A, or AAA,\n"
+"\t\t\tand then be followed by a space and a string\n"
+"\t\t\tof the form 9AA.\n"
+"\t\t\tA is any letter and 9 is any number."
 msgstr ""
 
-#: ../mod/rap/main.inc:192
-msgid "Person's Status"
+#: ../inc/lib_validate.inc:136
+msgid "The "
 msgstr ""
 
-#: ../mod/rap/main.inc:207
-msgid "Basic Person Details"
-msgstr ""
-
-#: ../mod/rap/main.inc:209
-msgid "Given Name "
-msgstr ""
-
-#: ../mod/rap/main.inc:210
-msgid "The person's surname or last name."
-msgstr ""
-
-#: ../mod/rap/main.inc:211
+#: ../inc/lib_validate.inc:136
 msgid ""
-"The exact age for the person or a best guess (can be combined with the age "
-"range below if an exact number is not known)."
+" field must be 8 digits in length, with an optional 2 or 3 digit area code"
 msgstr ""
 
-#: ../mod/rap/main.inc:212
-msgid "Lower End of Age Range"
+#: ../inc/lib_validate.inc:187
+msgid "Date of birth should be less than or equal to current date"
 msgstr ""
 
-#: ../mod/rap/main.inc:212
-msgid ""
-"The lower limit for a person's age if an exact age is not known. (optional "
-"if exact age is known)"
+#: ../inc/lib_validate.inc:211
+msgid " is a required field, Please enter a value."
 msgstr ""
 
-#: ../mod/rap/main.inc:213
-msgid "Upper End of Age Range"
+#: ../inc/lib_validate.inc:220
+msgid " field should be valid (yyyy-mm-dd)"
 msgstr ""
 
-#: ../mod/rap/main.inc:213
-msgid ""
-"The upper limit for a person's age if an exact age is not known. (optional "
-"if exact age is known)"
+#: ../inc/lib_validate.inc:329
+msgid " is a required field, please enter a value."
 msgstr ""
 
-#: ../mod/rap/main.inc:219
-msgid "Person's Contact Information"
+#: ../inc/lib_validate.inc:363 ../inc/lib_validate.inc:372
+msgid "You have to select a value from the list box"
 msgstr ""
 
-#: ../mod/rap/main.inc:220
-msgid "Home Address"
+#: ../inc/lib_validate.inc:396
+msgid "User already exists"
 msgstr ""
 
-#: ../mod/rap/main.inc:220
-msgid "Please specify the address of the person you are reporting."
+#: ../mod/admin/acl.inc:29
+msgid "Welcome to Users= section"
 msgstr ""
 
-#: ../mod/rap/main.inc:221
-msgid "Home Zip Code"
+#: ../mod/admin/acl.inc:31 ../mod/admin/acl.inc:474
+msgid "Add Users"
 msgstr ""
 
-#: ../mod/rap/main.inc:223
-msgid "Mobile Phone Number"
+#: ../mod/admin/acl.inc:32 ../mod/admin/acl.inc:475
+msgid "Remove Users"
 msgstr ""
 
-#: ../mod/rap/main.inc:224
-msgid "Email Address"
+#: ../mod/admin/acl.inc:33
+msgid "Change your password if you are logged in"
 msgstr ""
 
-#: ../mod/rap/main.inc:227
-msgid "Person's Physical Details"
+#: ../mod/admin/acl.inc:34
+msgid "Edit Roles of User "
 msgstr ""
 
-#: ../mod/rap/main.inc:238
-msgid "Last Known Details"
+#: ../mod/admin/acl.inc:97
+msgid "The selection was not saved due to one or more errors."
 msgstr ""
 
-#: ../mod/rap/main.inc:240
-msgid "Last Seen Clothing/Appearance"
+#: ../mod/admin/acl.inc:99
+msgid "The changes were saved successfully."
 msgstr ""
 
-#: ../mod/rap/main.inc:241
-msgid "Other Comments"
+#: ../mod/admin/acl.inc:152
+msgid "Self-signup is enabled now"
 msgstr ""
 
-#: ../mod/rap/main.inc:278
-msgid ""
-"Please fill out the form with as much information as possible about the "
-"person you are reporting."
+#: ../mod/admin/acl.inc:155
+msgid "Self-signup is disabled now"
 msgstr ""
 
-#: ../mod/rap/main.inc:284
-msgid "Please enter the Given Name of the person you are reporting."
+#: ../mod/admin/acl.inc:253
+msgid "User roles were updated successfully."
 msgstr ""
 
-#: ../mod/rap/conf.inc:14
-msgid "Report a Person"
+#: ../mod/admin/acl.inc:306
+#, php-format
+msgid "Configure ACL user permissions for %s"
+msgstr ""
+
+#: ../mod/admin/acl.inc:342
+msgid "Users were succesfully added to Roles"
+msgstr ""
+
+#: ../mod/admin/acl.inc:352
+msgid "Configure ACL Role permissions"
+msgstr ""
+
+#: ../mod/admin/acl.inc:384 ../mod/admin/acl.inc:447
+msgid "Roles were succesfully given permission to action groups"
+msgstr ""
+
+#: ../mod/admin/acl.inc:394 ../mod/admin/acl.inc:412
+#, php-format
+msgid "Configure ACL for "
+msgstr ""
+
+#: ../mod/admin/acl.inc:464
+msgid "The selected user account(s) has been locked."
+msgstr ""
+
+#: ../mod/admin/acl.inc:464
+msgid "System wide locking has been enabled too."
+msgstr ""
+
+#: ../mod/admin/acl.inc:465
+msgid "Click here if you need to disable locking"
+msgstr ""
+
+#: ../mod/admin/acl.inc:476
+msgid "Edit Roles of a User"
+msgstr ""
+
+#: ../mod/admin/acl.inc:477
+msgid "Reset Password of a User"
+msgstr ""
+
+#: ../mod/admin/acl.inc:478
+msgid "Change User Status"
+msgstr ""
+
+#: ../mod/admin/acl.inc:493
+msgid "Add Role"
+msgstr ""
+
+#: ../mod/admin/acl.inc:494
+msgid "Remove Role"
+msgstr ""
+
+#: ../mod/admin/acl.inc:495
+msgid "Existing Role Permissions"
+msgstr ""
+
+#: ../mod/admin/acl.inc:496
+msgid "Modify Role Permissions"
+msgstr ""
+
+#: ../mod/admin/conf.inc:17
+msgid "Administration"
 msgstr ""
 
 #: ../mod/admin/location.inc:23
@@ -1509,6 +888,10 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
+#: ../mod/admin/location.inc:108
+msgid "Delete"
+msgstr ""
+
 #: ../mod/admin/location.inc:125
 msgid "Location Levels"
 msgstr ""
@@ -1525,12 +908,16 @@ msgstr ""
 msgid "New Level : "
 msgstr ""
 
-#: ../mod/admin/location.inc:141 ../mod/admin/lib_fo_config.inc:76
+#: ../mod/admin/location.inc:141
 msgid "Add"
 msgstr ""
 
 #: ../mod/admin/location.inc:143
 msgid "Remove Levels"
+msgstr ""
+
+#: ../mod/admin/location.inc:148
+msgid "Remove"
 msgstr ""
 
 #: ../mod/admin/location.inc:156
@@ -1659,643 +1046,727 @@ msgid ""
 "<b>Location Name, Description, ISO Code</b>)"
 msgstr ""
 
-#: ../mod/admin/lc_ui_translate.inc:22 ../mod/admin/lc_ui_translate.inc:35
-#: ../mod/admin/menu.inc:61
-msgid "Interactive Translation"
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:24
-#: ../mod/admin/lc_ui_translate_update.inc:25
-#: ../mod/admin/lc_add_new_module.inc:22 ../mod/admin/lc_upload.inc:24
-msgid "Please select language: "
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:25 ../mod/admin/main.inc:340
-#: ../mod/admin/lc_setlocale.inc:26
-msgid "Set Locale"
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:36
-msgid ""
-"This interface allows a user to translate Sahana into their mother tongue "
-"through the user interface. Please follow the instructions below."
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:38
-msgid "Setp 1 : "
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:38
-msgid ""
-"First of all please give file and directory permissions to sahana/res folder"
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:39
-msgid "Setp 2 : "
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:39
-msgid ""
-"When you press the 'Enable Localization' button then you enter a "
-"localization mode, afterwards when you right click on any word phrase in the "
-"user interface you'll get a prompt box into which you can type the required "
-"translation and press OK"
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:40
-msgid "Step 3 : "
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:40
-msgid ""
-"When you finish translation, please go to Administration->Language/Locale-"
-">Update Translation"
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:41
-msgid "Step 4 : "
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:41
-msgid "Finally press update button"
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:42
-msgid "Step 5 : "
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:42
-msgid ""
-"Afterwards go to Administration->Language/Locale->setLocale and set the "
-"particular locale"
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:48
-msgid "Enable Localization"
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:49
-msgid "Disable Localization"
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate.inc:88
-msgid "Sahana translation succesfully updated"
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate_update.inc:23 ../mod/admin/main.inc:359
-#: ../mod/admin/lc_add_new_module.inc:20
-msgid "User Interface Language Translation"
-msgstr ""
-
-#: ../mod/admin/lc_ui_translate_update.inc:42
-msgid "Translation updated succesfully."
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:29
-msgid "Sahana Localization Module"
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:30 ../mod/admin/main.inc:333
-#: ../mod/admin/menu.inc:59
-msgid "Language Translation"
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:31 ../mod/admin/lc_setlocale.inc:20
-msgid "Current language : "
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:38 ../mod/admin/lc_translate.inc:278
-msgid "Get New List"
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:46 ../mod/admin/lc_translate.inc:286
-msgid "Load Existing List"
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:54
-msgid "Merge New Strings"
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:63
-msgid "You can download the "
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:65
-msgid ""
-"file and do the translation offline, then paste the content of the file in "
-"the text area bellow and save it using save button."
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:100
-msgid "Failed to write to file "
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:102
-msgid "File saved successfully."
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:106 ../mod/admin/lc_translate.inc:154
-#: ../mod/admin/lc_translate.inc:157 ../mod/admin/lc_translate.inc:185
-msgid "Please make the path : "
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:106 ../mod/admin/lc_translate.inc:154
-#: ../mod/admin/lc_translate.inc:157 ../mod/admin/lc_translate.inc:185
-msgid " writable"
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:137
-msgid "Cannot open file "
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:141 ../mod/admin/lc_translate.inc:150
-msgid "Cannot write to file "
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:183
-msgid ""
-"New strings merge sucessfully, please press 'Load Existing List' button"
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:201
-msgid "Please create the file first"
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:205
-msgid "DB L10N Starts here"
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:219
-msgid "Failed to merge database localization values."
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:228
-msgid "Translation"
-msgstr ""
-
-#: ../mod/admin/lc_translate.inc:298
-msgid "Compile Messages"
-msgstr ""
-
-#: ../mod/admin/lib_fo_config.inc:26 ../mod/admin/lib_fo_config.inc:46
-msgid "Please select a field name"
-msgstr ""
-
-#: ../mod/admin/lib_fo_config.inc:30
-msgid "Please enter option description"
-msgstr ""
-
-#: ../mod/admin/lib_fo_config.inc:36
-msgid "Information successfully saved"
-msgstr ""
-
-#: ../mod/admin/lib_fo_config.inc:40 ../mod/admin/lib_fo_config.inc:58
-msgid ""
-"Can not add user information to the db! Please contact your Administrator."
-msgstr ""
-
-#: ../mod/admin/lib_fo_config.inc:50
-msgid "Please select option description"
-msgstr ""
-
-#: ../mod/admin/lib_fo_config.inc:55
-msgid "Information successfully deleted"
-msgstr ""
-
-#: ../mod/admin/lib_fo_config.inc:63
-msgid "Field Option Configuration"
-msgstr ""
-
-#: ../mod/admin/lib_fo_config.inc:67
-msgid "Select a Field Name"
-msgstr ""
-
-#: ../mod/admin/lib_fo_config.inc:74
-msgid "Add Option Description"
-msgstr ""
-
-#: ../mod/admin/lib_fo_config.inc:75
-msgid "Option Description"
-msgstr ""
-
-#: ../mod/admin/lib_fo_config.inc:79
-msgid "Remove Option Description"
-msgstr ""
-
-#: ../mod/admin/lib_fo_config.inc:81
-msgid "Existing Field Option(s)"
-msgstr ""
-
-#: ../mod/admin/lc_add_new_language.inc:20
-msgid "Add Language"
-msgstr ""
-
-#: ../mod/admin/lc_add_new_language.inc:21
-#: ../mod/admin/lc_add_new_language.inc:28
-msgid ""
-"NOTE : Please make sure file and directory permissions are given to to "
-"sahana/res folder"
-msgstr ""
-
-#: ../mod/admin/lc_add_new_language.inc:23
-msgid "Language Name : "
-msgstr ""
-
-#: ../mod/admin/lc_add_new_language.inc:24
-msgid "Language Folder Name : "
-msgstr ""
-
-#: ../mod/admin/lc_add_new_language.inc:26
-msgid "Add New"
-msgstr ""
-
-#: ../mod/admin/lc_add_new_language.inc:27
-msgid "Remove Language"
-msgstr ""
-
-#: ../mod/admin/lc_add_new_language.inc:31
-msgid "Language List : "
-msgstr ""
-
-#: ../mod/admin/lc_add_new_language.inc:45
-#: ../mod/admin/lc_add_new_language.inc:76
-msgid ""
-"Cannot write to file, please give file and directory permissions to "
-"sahana/res folder"
-msgstr ""
-
-#: ../mod/admin/lc_add_new_language.inc:49
-msgid " language add successfully"
-msgstr ""
-
-#: ../mod/admin/lc_add_new_language.inc:81
-msgid " language removed successfully"
-msgstr ""
-
-#: ../mod/admin/main.inc:263
+#: ../mod/admin/main.inc:245
 msgid "User Locking is enabled now."
 msgstr ""
 
-#: ../mod/admin/main.inc:266
+#: ../mod/admin/main.inc:248
 msgid "User Locking is disabled now."
 msgstr ""
 
-#: ../mod/admin/main.inc:347 ../mod/admin/menu.inc:60
+#: ../mod/admin/main.inc:315
+msgid "Language Translation"
+msgstr ""
+
+#: ../mod/admin/main.inc:322
+msgid "Set Locale"
+msgstr ""
+
+#: ../mod/admin/main.inc:329
 msgid "Database Translation"
 msgstr ""
 
-#: ../mod/admin/main.inc:376
+#: ../mod/admin/main.inc:341
+msgid "User Interface Language Translation"
+msgstr ""
+
+#: ../mod/admin/main.inc:358
 msgid "sahana/res folder is not writable!"
 msgstr ""
 
-#: ../mod/admin/main.inc:394 ../mod/admin/menu.inc:62
+#: ../mod/admin/main.inc:376
 msgid "Update Translation"
 msgstr ""
 
-#: ../mod/admin/main.inc:408 ../mod/admin/main.inc:421
+#: ../mod/admin/main.inc:390 ../mod/admin/main.inc:403
 msgid "Add/Remove language"
 msgstr ""
 
-#: ../mod/admin/main.inc:420
+#: ../mod/admin/main.inc:402
 msgid "Language Name and Folder Name cannot be blank"
 msgstr ""
 
-#: ../mod/admin/main.inc:434
+#: ../mod/admin/main.inc:416
 msgid "Add New Module"
 msgstr ""
 
-#: ../mod/admin/main.inc:486
+#: ../mod/admin/main.inc:468
 msgid "Location Hierarchy"
 msgstr ""
 
-#: ../mod/admin/lc_add_new_module.inc:23
-msgid "Merge"
+#: ../mod/eap/conf.inc:14
+msgid "Edit a Person"
 msgstr ""
 
-#: ../mod/admin/lc_add_new_module.inc:40 ../mod/admin/lc_add_new_module.inc:41
-msgid "New module translation merge succesfully"
+#: ../mod/em/conf.inc:15
+msgid "Event Manager"
 msgstr ""
 
-#: ../mod/admin/conf.inc:17
-msgid "Administration"
+#: ../mod/ha/conf.inc:15
+msgid "Hospital Administration"
 msgstr ""
 
-#: ../mod/admin/lc_setlocale.inc:23
-msgid "Select Locale"
+#: ../mod/ha/main.inc:38 ../mod/ha/main.inc:331
+msgctxt "HOSPITAL_VIEW"
+msgid "View/Edit Registered Hospitals"
 msgstr ""
 
-#: ../mod/admin/lc_setlocale.inc:38
-msgid "Current locale setting in the Database : "
+#: ../mod/ha/main.inc:39 ../mod/ha/main.inc:332
+msgctxt "HOSPITAL_VIEW"
+msgid "Add an additional Hospital to the sytem"
 msgstr ""
 
-#: ../mod/admin/lc_setlocale.inc:45
-msgid "The locale setting is not set in the Database"
+#: ../mod/ha/main.inc:49
+msgctxt "HOSPITAL_VIEW"
+msgid "All Hospitals"
 msgstr ""
 
-#: ../mod/admin/lc_setlocale.inc:47
-msgid "Please select a valid locale from the list"
+#: ../mod/ha/main.inc:51
+msgctxt "HOSPITAL_VIEW"
+msgid "PL Hospital ID"
 msgstr ""
 
-#: ../mod/admin/conf_admin.inc:166
-msgid "Config Variable"
+#: ../mod/ha/main.inc:52
+msgctxt "HOSPITAL_VIEW"
+msgid "Name"
 msgstr ""
 
-#: ../mod/admin/conf_admin.inc:166
-msgid "Current Value"
+#: ../mod/ha/main.inc:53
+msgctxt "HOSPITAL_VIEW"
+msgid "Shortname"
 msgstr ""
 
-#: ../mod/admin/conf_admin.inc:166
-msgid "Action"
+#: ../mod/ha/main.inc:54
+msgctxt "HOSPITAL_VIEW"
+msgid "Added"
 msgstr ""
 
-#: ../mod/admin/conf_admin.inc:255
-msgid "True"
+#: ../mod/ha/main.inc:55
+msgctxt "HOSPITAL_VIEW"
+msgid "Edit This Hospital"
 msgstr ""
 
-#: ../mod/admin/conf_admin.inc:260
-msgid "False"
+#: ../mod/ha/main.inc:93
+msgctxt "HOSPITAL_EDIT"
+msgid "Edit a Hospital"
 msgstr ""
 
-#: ../mod/admin/conf_admin.inc:342
-msgid "Change Config Value"
-msgstr ""
-
-#: ../mod/admin/conf_admin.inc:353
-msgid "Change value"
-msgstr ""
-
-#: ../mod/admin/acl.inc:30
-msgid "Welcome to Users= section"
-msgstr ""
-
-#: ../mod/admin/acl.inc:32 ../mod/admin/menu.inc:77
-msgid "Add Users"
-msgstr ""
-
-#: ../mod/admin/acl.inc:33 ../mod/admin/menu.inc:78
-msgid "Remove Users"
-msgstr ""
-
-#: ../mod/admin/acl.inc:34
-msgid "Change your password if you are logged in"
-msgstr ""
-
-#: ../mod/admin/acl.inc:35
-msgid "Edit Roles of User "
-msgstr ""
-
-#: ../mod/admin/acl.inc:98
-msgid "The selection was not saved due to one or more errors."
-msgstr ""
-
-#: ../mod/admin/acl.inc:100
-msgid "The changes were saved successfully."
-msgstr ""
-
-#: ../mod/admin/acl.inc:153
-msgid "Self-signup is enabled now"
-msgstr ""
-
-#: ../mod/admin/acl.inc:156
-msgid "Self-signup is disabled now"
-msgstr ""
-
-#: ../mod/admin/acl.inc:254
-msgid "User roles were updated successfully."
-msgstr ""
-
-#: ../mod/admin/acl.inc:307
-#, php-format
-msgid "Configure ACL user permissions for %s"
-msgstr ""
-
-#: ../mod/admin/acl.inc:343
-msgid "Users were succesfully added to Roles"
-msgstr ""
-
-#: ../mod/admin/acl.inc:353
-msgid "Configure ACL Role permissions"
-msgstr ""
-
-#: ../mod/admin/acl.inc:385 ../mod/admin/acl.inc:448
-msgid "Roles were succesfully given permission to action groups"
-msgstr ""
-
-#: ../mod/admin/acl.inc:395 ../mod/admin/acl.inc:413
-#, php-format
-msgid "Configure ACL for "
-msgstr ""
-
-#: ../mod/admin/acl.inc:465
-msgid "The selected user account(s) has been locked."
-msgstr ""
-
-#: ../mod/admin/acl.inc:465
-msgid "System wide locking has been enabled too."
-msgstr ""
-
-#: ../mod/admin/acl.inc:466
-msgid "Click here if you need to disable locking"
-msgstr ""
-
-#: ../mod/admin/lc_upload.inc:22
-msgid "File Selection"
-msgstr ""
-
-#: ../mod/admin/lc_upload.inc:25
-msgid "Upload Spread Sheet : "
-msgstr ""
-
-#: ../mod/admin/lc_db.inc:22
+#: ../mod/ha/main.inc:111
+msgctxt "HOSPITAL_EDIT"
 msgid ""
-"There are database fields which require translation, please put table name "
-"and column name in the following fields which require translation. Finally "
-"that table field values are added to sahana.po file and user can translate "
-"those values."
+"Key:</b><b class=\\\"red\\\"> * </b> - Fields tagged with a red "
+"asterisk(<span class=\\\"red\\\"> * </span>) are mandatory and must be "
+"filled in."
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:23
-msgid "Table / Field Names"
+#: ../mod/ha/main.inc:113
+msgctxt "HOSPITAL_EDIT"
+msgid "Edit"
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:25
-msgid "Add Entry"
+#: ../mod/ha/main.inc:118
+msgctxt "HOSPITAL_EDIT"
+msgid "Name"
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:42
-msgid "The Table name cannot be blank, please enter a valid Table name"
+#: ../mod/ha/main.inc:123
+msgctxt "HOSPITAL_EDIT"
+msgid "Short Name"
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:47
-msgid "The Field name cannot be blank, please enter a valid Field name"
+#: ../mod/ha/main.inc:128
+msgctxt "HOSPITAL_EDIT"
+msgid "Street Address 1"
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:55
-msgid "The is no table named "
+#: ../mod/ha/main.inc:133
+msgctxt "HOSPITAL_EDIT"
+msgid "Street Address 2"
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:64
-msgid "There is no field named "
+#: ../mod/ha/main.inc:138
+msgctxt "HOSPITAL_EDIT"
+msgid "City"
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:64
-msgid " in the table "
+#: ../mod/ha/main.inc:143
+msgctxt "HOSPITAL_EDIT"
+msgid "County"
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:76
-msgid "Database localization entry added successfully!"
+#: ../mod/ha/main.inc:148
+msgctxt "HOSPITAL_EDIT"
+msgid "Region (State)"
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:78
-msgid "The database localization entry already exists"
+#: ../mod/ha/main.inc:153
+msgctxt "HOSPITAL_EDIT"
+msgid "Postal Code"
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:94
-msgid "ID"
+#: ../mod/ha/main.inc:158
+msgctxt "HOSPITAL_EDIT"
+msgid "Country"
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:95
-msgid "Table Name"
+#: ../mod/ha/main.inc:163
+msgctxt "HOSPITAL_EDIT"
+msgid "Latitude"
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:96
-msgid "Field Name"
+#: ../mod/ha/main.inc:168
+msgctxt "HOSPITAL_EDIT"
+msgid "Longitude"
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:117
-msgid "There are no DB L10N entries at the moment"
+#: ../mod/ha/main.inc:173
+msgctxt "HOSPITAL_EDIT"
+msgid "Phone"
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:135
-msgid "DB L10N entry removed successfully"
+#: ../mod/ha/main.inc:178
+msgctxt "HOSPITAL_EDIT"
+msgid "Fax"
 msgstr ""
 
-#: ../mod/admin/lc_db.inc:137
-msgid "Error occurred while removing DB L10N entry"
+#: ../mod/ha/main.inc:183
+msgctxt "HOSPITAL_EDIT"
+msgid "Email"
 msgstr ""
 
-#: ../mod/admin/menu.inc:24
-msgid "Admin Home"
+#: ../mod/ha/main.inc:188
+msgctxt "HOSPITAL_EDIT"
+msgid "NPI"
 msgstr ""
 
-#: ../mod/admin/menu.inc:30
-msgid "Location Terminology"
+#: ../mod/ha/main.inc:193
+msgctxt "HOSPITAL_EDIT"
+msgid "Patient ID Prefix"
 msgstr ""
 
-#: ../mod/admin/menu.inc:31
-msgid "Add New Location"
+#: ../mod/ha/main.inc:204
+msgctxt "HOSPITAL_EDIT"
+msgid ""
+"<b>Note</b>: Deleting a Hospital is a permanent action and cannot be undone. "
+"In addition to this, deleting a Hospital will also remove the association of "
+"any persons there\n"
+"\t\t\t\tonce was to this organization.<br><br>"
 msgstr ""
 
-#: ../mod/admin/menu.inc:32
-msgid "Modify Location"
+#: ../mod/ha/main.inc:241 ../mod/ha/main.inc:447
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>name</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/menu.inc:33
-msgid "Location Range"
+#: ../mod/ha/main.inc:245 ../mod/ha/main.inc:451
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>short name</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/menu.inc:34
-msgid "Default Location"
+#: ../mod/ha/main.inc:249 ../mod/ha/main.inc:455
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>street address 1</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/menu.inc:40
-msgid "Module Configuration"
+#: ../mod/ha/main.inc:253 ../mod/ha/main.inc:459
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>city</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/menu.inc:46
-msgid "System Security"
+#: ../mod/ha/main.inc:257 ../mod/ha/main.inc:463
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>county</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/menu.inc:47
-msgid "User Management"
+#: ../mod/ha/main.inc:261 ../mod/ha/main.inc:467
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>region</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/menu.inc:48
-msgid "Module Access Control"
+#: ../mod/ha/main.inc:265 ../mod/ha/main.inc:471
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>postal code</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/menu.inc:49
-msgid "Data Classification"
+#: ../mod/ha/main.inc:269 ../mod/ha/main.inc:475
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>country</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/menu.inc:50
-msgid "Self Signup"
+#: ../mod/ha/main.inc:273 ../mod/ha/main.inc:479
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>latitude</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/menu.inc:51
-msgid "Event Log"
+#: ../mod/ha/main.inc:277 ../mod/ha/main.inc:483
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>longitude</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/menu.inc:52
-msgid "User Locking"
+#: ../mod/ha/main.inc:281 ../mod/ha/main.inc:487
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>patient id prefix</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/menu.inc:53
-msgid "Disable Security"
+#: ../mod/ha/main.inc:309 ../mod/ha/main.inc:529
+msgctxt "HOSPITAL_MESSAGE"
+msgid "Saved hospital information."
 msgstr ""
 
-#: ../mod/admin/menu.inc:56
-msgid "Language / Locale"
+#: ../mod/ha/main.inc:342
+msgctxt "HOSPITAL_ADD"
+msgid ""
+"Key:</b><b class=\\\"red\\\"> * </b> - Fields tagged with a red "
+"asterisk(<span class=\\\"red\\\"> * </span>) are mandatory and must be "
+"filled in."
 msgstr ""
 
-#: ../mod/admin/menu.inc:57
-msgid "Default Language"
+#: ../mod/ha/main.inc:347
+msgctxt "HOSPITAL_ADD"
+msgid "Name"
 msgstr ""
 
-#: ../mod/admin/menu.inc:58
-msgid "Add/Remove Language"
+#: ../mod/ha/main.inc:352
+msgctxt "HOSPITAL_ADD"
+msgid "Short Name"
 msgstr ""
 
-#: ../mod/admin/menu.inc:65
-msgid "Config Utils"
+#: ../mod/ha/main.inc:357
+msgctxt "HOSPITAL_ADD"
+msgid "Street Address 1"
 msgstr ""
 
-#: ../mod/admin/menu.inc:66
-msgid "Config Values"
+#: ../mod/ha/main.inc:362
+msgctxt "HOSPITAL_ADD"
+msgid "Street Address 2"
 msgstr ""
 
-#: ../mod/admin/menu.inc:67
-msgid "Check Security Policy validity"
+#: ../mod/ha/main.inc:367
+msgctxt "HOSPITAL_ADD"
+msgid "City"
 msgstr ""
 
-#: ../mod/admin/menu.inc:68
-msgid "Edit Field Options"
+#: ../mod/ha/main.inc:372
+msgctxt "HOSPITAL_ADD"
+msgid "County"
 msgstr ""
 
-#: ../mod/admin/menu.inc:79
-msgid "Edit Roles of a User"
+#: ../mod/ha/main.inc:377
+msgctxt "HOSPITAL_ADD"
+msgid "Region (State)"
 msgstr ""
 
-#: ../mod/admin/menu.inc:80
-msgid "Reset Password of a User"
+#: ../mod/ha/main.inc:382
+msgctxt "HOSPITAL_ADD"
+msgid "Postal Code"
 msgstr ""
 
-#: ../mod/admin/menu.inc:81
-msgid "Change User Status"
+#: ../mod/ha/main.inc:387
+msgctxt "HOSPITAL_ADD"
+msgid "Country"
 msgstr ""
 
-#: ../mod/admin/menu.inc:96
-msgid "Add Role"
+#: ../mod/ha/main.inc:392
+msgctxt "HOSPITAL_ADD"
+msgid "Latitude"
 msgstr ""
 
-#: ../mod/admin/menu.inc:97
-msgid "Remove Role"
+#: ../mod/ha/main.inc:397
+msgctxt "HOSPITAL_ADD"
+msgid "Longitude"
 msgstr ""
 
-#: ../mod/admin/menu.inc:98
-msgid "Existing Role Permissions"
+#: ../mod/ha/main.inc:402
+msgctxt "HOSPITAL_ADD"
+msgid "Phone"
 msgstr ""
 
-#: ../mod/admin/menu.inc:99
-msgid "Modify Role Permissions"
+#: ../mod/ha/main.inc:407
+msgctxt "HOSPITAL_ADD"
+msgid "Fax"
+msgstr ""
+
+#: ../mod/ha/main.inc:412
+msgctxt "HOSPITAL_ADD"
+msgid "Email"
+msgstr ""
+
+#: ../mod/ha/main.inc:417
+msgctxt "HOSPITAL_ADD"
+msgid "NPI"
+msgstr ""
+
+#: ../mod/ha/main.inc:422
+msgctxt "HOSPITAL_ADD"
+msgid "Patient ID Prefix"
+msgstr ""
+
+#: ../mod/home/conf.inc:14
+msgid "Home"
+msgstr ""
+
+#: ../mod/int/conf.inc:14
+msgid "Internal Resources"
+msgstr ""
+
+#: ../mod/inw/conf.inc:15 ../mod/inw/main.inc:252
+msgid "Search for a Person"
+msgstr ""
+
+#: ../mod/lpf/conf.inc:15
+msgid "LPF Library"
+msgstr ""
+
+#: ../mod/mpres/conf.inc:18
+msgid "MPR Email Service"
+msgstr ""
+
+#: ../mod/pfif/conf.inc:15
+msgid "PFIF Admin"
+msgstr ""
+
+#: ../mod/pfif/main.inc:118
+msgid "Import from PFIF xml to 'test' event"
+msgstr ""
+
+#: ../mod/pfif/main.inc:120 ../mod/pfif/pfif_main.inc:33
+msgid "Upload PFIF xml"
+msgstr ""
+
+#: ../mod/pfif/main.inc:121 ../mod/pfif/pfif_main.inc:34
+#: ../mod/pfif/pfif_main.inc:115
+msgid "Upload"
+msgstr ""
+
+#: ../mod/pfif/pfif_main.inc:27
+msgid "Please make sure that you are adding a PFIF xml file."
+msgstr ""
+
+#: ../mod/pfif/pfif_main.inc:28
+msgid "Import from PFIF xml"
+msgstr ""
+
+#: ../mod/pfif/pfif_main.inc:36
+msgid "Download from Google PFIF API"
+msgstr ""
+
+#: ../mod/pfif/pfif_main.inc:37 ../mod/pfif/pfif_main.inc:105
+#: ../mod/pfif/pfif_main.inc:118
+msgid "Enter person_record_id"
+msgstr ""
+
+#: ../mod/pfif/pfif_main.inc:38
+msgid "Download"
+msgstr ""
+
+#: ../mod/pfif/pfif_main.inc:104
+msgid "Show Selected Record"
+msgstr ""
+
+#: ../mod/pfif/pfif_main.inc:106
+msgid "Show"
+msgstr ""
+
+#: ../mod/pfif/pfif_main.inc:111
+msgid ""
+"EXPERIMENTAL: Add source, time range selection parameters to replace id in "
+"Upload Selected ... section"
+msgstr ""
+
+#: ../mod/pfif/pfif_main.inc:112
+msgid "Upload PFIF XML file"
+msgstr ""
+
+#: ../mod/pfif/pfif_main.inc:114
+msgid "Source File"
+msgstr ""
+
+#: ../mod/pfif/pfif_main.inc:117
+msgid "Upload Selected Records"
+msgstr ""
+
+#: ../mod/plus/conf.inc:14
+msgid "Web Services"
 msgstr ""
 
 #: ../mod/pop/conf.inc:14
 msgid "Outbound Email"
 msgstr ""
 
-#: ../mod/lpf/conf.inc:15
-msgid "LPF Library"
+#: ../mod/pref/conf.inc:15
+msgid "My Settings"
+msgstr ""
+
+#: ../mod/pref/ims_config.inc:42
+msgid "Change default incident"
+msgstr ""
+
+#: ../mod/pref/ims_config.inc:55
+msgid "Default Incident"
+msgstr ""
+
+#: ../mod/pref/ims_config.inc:58
+msgid "Incident Type"
+msgstr ""
+
+#: ../mod/pref/ims_config.inc:59
+msgid "Select Incident"
+msgstr ""
+
+#: ../mod/pref/ims_config.inc:63
+msgid "Update"
+msgstr ""
+
+#: ../mod/pref/ims_config.inc:75
+msgid "You have not completed the form"
+msgstr ""
+
+#: ../mod/pref/ims_config.inc:80
+msgid "Please Select the incident type"
+msgstr ""
+
+#: ../mod/pref/ims_config.inc:85
+msgid "Please select an item from 'Select Incident' box"
+msgstr ""
+
+#: ../mod/pref/ims_main.inc:71
+msgid "Old password cannot be empty!"
+msgstr ""
+
+#: ../mod/pref/ims_main.inc:79
+msgid "New password cannot be empty!"
+msgstr ""
+
+#: ../mod/pref/ims_main.inc:87
+msgid "You left the confirm password field blank."
+msgstr ""
+
+#: ../mod/pref/ims_main.inc:95
+msgid "Your new password did not match when you retyped it."
+msgstr ""
+
+#: ../mod/pref/ims_main.inc:120
+msgid "You cannot change the password more than once in one day"
+msgstr ""
+
+#: ../mod/pref/ims_main.inc:151
+msgid "You cannot choose one of the recent four passwords"
+msgstr ""
+
+#: ../mod/pref/ims_main.inc:165
+msgid " Succesfully changed Password "
+msgstr ""
+
+#: ../mod/pref/ims_menu.inc:24
+msgid "Change My Password"
+msgstr ""
+
+#: ../mod/pref/ims_menu.inc:25
+msgid "Edit My Personal Details"
+msgstr ""
+
+#: ../mod/pref/main.inc:124 ../mod/pref/main.inc:437 ../mod/pref/main.inc:444
+msgid ""
+"Please provide the text in the image correctly to prove you are human."
+msgstr ""
+
+#: ../mod/pref/main.inc:508
+msgid "Enable/Disable OCR XForm"
+msgstr ""
+
+#: ../mod/pref/main.inc:510
+msgid "Enable or disable the OCR friendly form generation."
+msgstr ""
+
+#: ../mod/pref/main.inc:513
+msgid "Enabled"
+msgstr ""
+
+#: ../mod/pref/main.inc:513
+msgid "Disabled"
+msgstr ""
+
+#: ../mod/pref/main.inc:513
+msgid "OCR friendly XForm : "
+msgstr ""
+
+#: ../mod/pref/main.inc:529 ../mod/pref/main.inc:538
+msgid "Your preference was successfully saved."
+msgstr ""
+
+#: ../mod/pref/main.inc:532 ../mod/pref/main.inc:541
+msgid "An error occured while saving your preference."
+msgstr ""
+
+#: ../mod/rap/conf.inc:14
+msgid "Report a Person"
+msgstr ""
+
+#: ../mod/rap/main.inc:187
+msgid "Information Privacy"
+msgstr ""
+
+#: ../mod/rap/main.inc:188
+msgid ""
+"<span class=\"publicText\">Public</span> Denotes information that, if "
+"provided, can be exposed to the general public.<br><br><span "
+"class=\"privateText\">Private</span> Denotes information that will not be "
+"available to the public. <br><br>Private information may be made available "
+"to or shared with other family members and friends you designate, emergency "
+"responders, medical providers, clergy/councilors, law enforcement, or "
+"authorized displaced-person agencies."
+msgstr ""
+
+#: ../mod/rap/main.inc:192
+msgid "Person's Status"
+msgstr ""
+
+#: ../mod/rap/main.inc:207
+msgid "Basic Person Details"
+msgstr ""
+
+#: ../mod/rap/main.inc:208
+msgid "Please enter any of the following details of the person:"
+msgstr ""
+
+#: ../mod/rap/main.inc:209
+msgid "Given Name "
+msgstr ""
+
+#: ../mod/rap/main.inc:210
+msgid "Family Name"
+msgstr ""
+
+#: ../mod/rap/main.inc:210
+msgid "The person's surname or last name."
+msgstr ""
+
+#: ../mod/rap/main.inc:211
+msgid "Age"
+msgstr ""
+
+#: ../mod/rap/main.inc:211
+msgid ""
+"The exact age for the person or a best guess (can be combined with the age "
+"range below if an exact number is not known)."
+msgstr ""
+
+#: ../mod/rap/main.inc:212
+msgid "Lower End of Age Range"
+msgstr ""
+
+#: ../mod/rap/main.inc:212
+msgid ""
+"The lower limit for a person's age if an exact age is not known. (optional "
+"if exact age is known)"
+msgstr ""
+
+#: ../mod/rap/main.inc:213
+msgid "Upper End of Age Range"
+msgstr ""
+
+#: ../mod/rap/main.inc:213
+msgid ""
+"The upper limit for a person's age if an exact age is not known. (optional "
+"if exact age is known)"
+msgstr ""
+
+#: ../mod/rap/main.inc:214
+msgid "Gender"
+msgstr ""
+
+#: ../mod/rap/main.inc:215
+msgid "Religion"
+msgstr ""
+
+#: ../mod/rap/main.inc:216
+msgid "Race"
+msgstr ""
+
+#: ../mod/rap/main.inc:219
+msgid "Person's Contact Information"
+msgstr ""
+
+#: ../mod/rap/main.inc:220
+msgid "Home Address"
+msgstr ""
+
+#: ../mod/rap/main.inc:220
+msgid "Please specify the address of the person you are reporting."
+msgstr ""
+
+#: ../mod/rap/main.inc:221
+msgid "Home Zip Code"
+msgstr ""
+
+#: ../mod/rap/main.inc:222
+msgid "Home Phone Number"
+msgstr ""
+
+#: ../mod/rap/main.inc:223
+msgid "Mobile Phone Number"
+msgstr ""
+
+#: ../mod/rap/main.inc:224
+msgid "Email Address"
+msgstr ""
+
+#: ../mod/rap/main.inc:227
+msgid "Person's Physical Details"
+msgstr ""
+
+#: ../mod/rap/main.inc:228
+msgid "Eye Color"
+msgstr ""
+
+#: ../mod/rap/main.inc:229
+msgid "Skin Color"
+msgstr ""
+
+#: ../mod/rap/main.inc:230
+msgid "Hair Color"
+msgstr ""
+
+#: ../mod/rap/main.inc:232
+msgid "Height"
+msgstr ""
+
+#: ../mod/rap/main.inc:233
+msgid "Weight"
+msgstr ""
+
+#: ../mod/rap/main.inc:235
+msgid "Other Obvious Distinctive Features"
+msgstr ""
+
+#: ../mod/rap/main.inc:238
+msgid "Last Known Details"
+msgstr ""
+
+#: ../mod/rap/main.inc:239
+msgid "Last Seen Location"
+msgstr ""
+
+#: ../mod/rap/main.inc:240
+msgid "Last Seen Clothing/Appearance"
+msgstr ""
+
+#: ../mod/rap/main.inc:241
+msgid "Other Comments"
+msgstr ""
+
+#: ../mod/rap/main.inc:278
+msgid ""
+"Please fill out the form with as much information as possible about the "
+"person you are reporting."
+msgstr ""
+
+#: ../mod/rap/main.inc:284
+msgid "Please enter the Given Name of the person you are reporting."
+msgstr ""
+
+#: ../mod/rap/main.inc:367
+msgid "Invalid image type please try again"
 msgstr ""
 
 #: ../mod/rez/admin.inc:35
@@ -2306,650 +1777,22 @@ msgstr ""
 msgid "Resources"
 msgstr ""
 
-#: ../mod/snap/admin_menu.inc:20
-msgid "Snapshot"
-msgstr ""
-
 #: ../mod/snap/admin_functions.inc:27
 msgid "Snapshot ~ Database Backup and Restore Module"
 msgstr ""
 
+#: ../mod/snap/admin_menu.inc:20
+msgid "Snapshot"
+msgstr ""
+
+#: ../mod/stat/conf.inc:15
+msgid "Statistics"
+msgstr ""
+
+#: ../mod/tp/conf.inc:14
+msgid "TriagePic"
+msgstr ""
+
 #: ../mod/xst/conf.inc:14
 msgid "Streamer"
-msgstr ""
-
-#: ../mod/ha/conf.inc:15
-msgid "Hospital Administration"
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:680
-msgid "First name is a required field. Please enter a value."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:688
-msgid "Last name is a required field. Please enter a value."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:834
-msgid "User does not exist"
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:836
-msgid "User was successfully removed"
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1078
-#, php-format
-msgid "The minimum password length is %d"
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1081
-#, php-format
-msgid "The maximum password length is %d."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1084
-msgid "The password should have at least one uppercase character."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1087
-msgid "The password should have at least one lowercase character."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1090
-msgid "The password should have at least one numeric character."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1093
-msgctxt ""
-"The password should have at least one special character. eg. !,@.#$%\\^&\\"
-"*/?`~+="
-msgid ":;-\"'"
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1096
-msgid "The username cannot be a part of the password."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1121
-#, php-format
-msgid "The minimum length of the password is %d characters."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1125
-#, php-format
-msgid "The maximum length of the password is %d characters."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1129
-msgid "Must have at least one uppercase character."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1133
-msgid "Must have at least one lowercase character."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1137
-msgid "Must have at least one numeral (0-9)."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1141
-msgctxt ""
-"Should have one or more of the following characters: '!@,.#$%\\^&\\*/?`~+="
-msgid ":;()-\"'[]{}<>' "
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1145
-msgid "The password cannot contain your username."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1158
-msgid "Please enter a valid Role name."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1174
-#, php-format
-msgid "The role '%s' was successfully added."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1179
-msgid ""
-"A role with the name you entered already exists. Please enter a different "
-"role name."
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:41
-msgid "Disable Self Signup"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:44
-msgid "Enable Self Signup"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:70
-msgid "Disable Password Locking"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:73
-msgid "Enable Password Locking"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:90
-msgid "Enable/Disable Modules"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:92
-msgid ""
-"Rows are Modules, Columns are Roles, Intersection shows whether the module "
-"is enabled for that role or not"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:97
-msgid "Role"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:237
-msgid "Select the Role you want to edit permissions of"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:243 ../inc/lib_security/auth_form.inc:76
-msgid "Select Role"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:244
-msgid "Roles"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:246
-msgid "Continue"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:264
-msgid "Rows are Users ,Columns are the possible status values"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:267
-msgid "<strong>Active</strong> - The user can login and perform operations."
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:268
-msgid ""
-"<strong>Locked</strong> - The user is withheld from performing operations on "
-"the system temporarily."
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:269
-msgid ""
-"<strong>Banned</strong> - The user is not allowed to perform any operation "
-"on the system permanently."
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:279
-msgid "User"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:280 ../inc/lib_security/acl_form.inc:352
-msgid "Active"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:281 ../inc/lib_security/acl_form.inc:353
-msgid "Locked"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:282 ../inc/lib_security/acl_form.inc:354
-msgid "Banned"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:291 ../inc/lib_security/acl_form.inc:363
-msgid ""
-"Password locking is disabled system wide. Locks will not take any effect "
-"until it is enabled."
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:292 ../inc/lib_security/acl_form.inc:364
-msgid "Click here to enable locking"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:342
-msgid ""
-"Rows are Locked Users, Columns are the possible status\n"
-"\tvalues"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:351
-msgid "Locked User"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:418
-msgid "Date"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:419
-msgid "Time"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:420
-msgid "User Name"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:422
-msgid "Event Type"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:423
-msgid "Event"
-msgstr ""
-
-#: ../inc/lib_security/auth_form.inc:37 ../inc/lib_security/auth_form.inc:203
-msgid "Select User"
-msgstr ""
-
-#: ../inc/lib_security/auth_form.inc:42
-msgid "Remove user"
-msgstr ""
-
-#: ../inc/lib_security/auth_form.inc:66
-msgid "Account Details"
-msgstr ""
-
-#: ../inc/lib_security/auth_form.inc:82
-msgid "OpenID "
-msgstr ""
-
-#: ../inc/lib_security/auth_form.inc:113
-msgid "You new password must adhere to following rules:"
-msgstr ""
-
-#: ../inc/lib_security/auth_form.inc:120
-msgid "Fill in these required fields to change your password"
-msgstr ""
-
-#: ../inc/lib_security/auth_form.inc:129
-msgid "Change Password"
-msgstr ""
-
-#: ../inc/lib_security/auth_form.inc:146
-msgid "Old password cannot be empty"
-msgstr ""
-
-#: ../inc/lib_security/auth_form.inc:152 ../inc/lib_security/auth_form.inc:232
-msgid "New password cannot be empty"
-msgstr ""
-
-#: ../inc/lib_security/auth_form.inc:158 ../inc/lib_security/auth_form.inc:239
-msgid "Confirm password cannot be empty"
-msgstr ""
-
-#: ../inc/lib_security/auth_form.inc:164 ../inc/lib_security/auth_form.inc:246
-msgid "Password and Confirm Password should match"
-msgstr ""
-
-#: ../inc/lib_security/auth_form.inc:206
-msgid "New Password"
-msgstr ""
-
-#: ../inc/lib_security/auth_form.inc:212
-msgid "Reset Password"
-msgstr ""
-
-#: ../inc/lib_security/auth_form.inc:257
-msgid "The Password was succesfully updated"
-msgstr ""
-
-#: ../inc/lib_locale/lib_locale.inc:52
-msgid "Unknown error in updating configuration value."
-msgstr ""
-
-#: ../inc/lib_image.inc:442
-msgid "Image"
-msgstr ""
-
-#: ../inc/lib_image.inc:443
-msgid "Not"
-msgstr ""
-
-#: ../inc/lib_image.inc:444
-msgid "Available"
-msgstr ""
-
-#: ../inc/lib_image.inc:528 ../inc/lib_image.inc:559
-msgid "Image Not Available"
-msgstr ""
-
-#: ../inc/lib_image.inc:580
-msgid "Click to see the original size"
-msgstr ""
-
-#: ../inc/lib_image.inc:595 ../inc/lib_image.inc:650
-msgid "Invalid Image Type Please try again"
-msgstr ""
-
-#: ../inc/lib_image.inc:774
-msgid ""
-"The uploaded file exceeds the upload_max_filesize directive in php.ini. (<"
-msgstr ""
-
-#: ../inc/lib_image.inc:776
-msgid ""
-"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
-"the HTML form."
-msgstr ""
-
-#: ../inc/lib_image.inc:778
-msgid "The uploaded file was only partially uploaded."
-msgstr ""
-
-#: ../inc/lib_image.inc:780
-msgid "No file was uploaded."
-msgstr ""
-
-#: ../inc/lib_image.inc:782
-msgid "Missing a temporary folder."
-msgstr ""
-
-#: ../inc/lib_image.inc:784
-msgid "Failed to write file to disk."
-msgstr ""
-
-#: ../inc/lib_image.inc:786
-msgid "File upload stopped by extension."
-msgstr ""
-
-#: ../inc/lib_validate.inc:72
-msgid "The postcode/zipcode must be 5 digits in length"
-msgstr ""
-
-#: ../inc/lib_validate.inc:79 ../inc/lib_validate.inc:100
-msgid "The postcode must have 3 digits, a space, and then 2 digits"
-msgstr ""
-
-#: ../inc/lib_validate.inc:86
-msgid "The postcode must have 4 digits, a space, and then 2 letters"
-msgstr ""
-
-#: ../inc/lib_validate.inc:93
-msgid "The postcode must have 2 digits, a dash, and then 3 digits"
-msgstr ""
-
-#: ../inc/lib_validate.inc:109
-msgid ""
-"The postcode must begin with a string of the format\n"
-"\t\t\tA9, A99, AA9, AA99, AA9A, A9A, or AAA,\n"
-"\t\t\tand then be followed by a space and a string\n"
-"\t\t\tof the form 9AA.\n"
-"\t\t\tA is any letter and 9 is any number."
-msgstr ""
-
-#: ../inc/lib_validate.inc:136
-msgid "The "
-msgstr ""
-
-#: ../inc/lib_validate.inc:136
-msgid ""
-" field must be 8 digits in length, with an optional 2 or 3 digit area code"
-msgstr ""
-
-#: ../inc/lib_validate.inc:187
-msgid "Date of birth should be less than or equal to current date"
-msgstr ""
-
-#: ../inc/lib_validate.inc:211
-msgid " is a required field, Please enter a value."
-msgstr ""
-
-#: ../inc/lib_validate.inc:220
-msgid " field should be valid (yyyy-mm-dd)"
-msgstr ""
-
-#: ../inc/lib_validate.inc:329
-msgid " is a required field, please enter a value."
-msgstr ""
-
-#: ../inc/lib_validate.inc:363 ../inc/lib_validate.inc:372
-msgid "You have to select a value from the list box"
-msgstr ""
-
-#: ../inc/lib_validate.inc:396
-msgid "User already exists"
-msgstr ""
-
-#: ../inc/lib_xhtml.inc:50 ../inc/handler_header.inc:24
-#: ../inc/lib_errors.inc:217
-msgid "Sahana FOSS Disaster Management System"
-msgstr ""
-
-#: ../inc/lib_paging.inc:126 ../inc/lib_paging.inc:235
-msgid "No Records found "
-msgstr ""
-
-#: ../inc/lib_paging.inc:142 ../inc/lib_paging.inc:266
-msgid "Page "
-msgstr ""
-
-#: ../inc/lib_paging.inc:149
-msgid "Go to Previous Page"
-msgstr ""
-
-#: ../inc/lib_paging.inc:151
-msgid "Go to First Page"
-msgstr ""
-
-#: ../inc/lib_paging.inc:151
-msgid "1"
-msgstr ""
-
-#: ../inc/lib_paging.inc:169
-msgid "Go to Page No "
-msgstr ""
-
-#: ../inc/lib_paging.inc:180
-msgid "Go to Last Page"
-msgstr ""
-
-#: ../inc/lib_paging.inc:182
-msgid "Go to Next Page"
-msgstr ""
-
-#: ../inc/lib_paging.inc:189 ../inc/lib_paging.inc:299
-msgid "Records per page"
-msgstr ""
-
-#: ../inc/lib_location.inc:108
-msgid "Organization Location"
-msgstr ""
-
-#: ../inc/lib_location.inc:661
-msgid ""
-"If you know any of the following, please select only one of them first , the "
-"selection will populate the set of Location select boxes "
-msgstr ""
-
-#: ../inc/lib_location.inc:664
-msgid "* Camp/Shelter "
-msgstr ""
-
-#: ../inc/lib_location.inc:668
-msgid "* an Inventory "
-msgstr ""
-
-#: ../inc/lib_location.inc:672
-msgid "* an Organization "
-msgstr ""
-
-#: ../inc/lib_location.inc:705
-msgid "Shelter/Camp"
-msgstr ""
-
-#: ../inc/lib_location.inc:713
-msgid "Select an Organization"
-msgstr ""
-
-#: ../inc/lib_location.inc:729
-msgid "Organizations"
-msgstr ""
-
-#: ../inc/lib_location.inc:814
-msgid ""
-"This location name is already in the database. Do you want to add anyway?  "
-"&nbsp&nbsp&nbsp<b><a href='#' onclick='_shn_loc_val_name();'>Add "
-"anyway</a></b> or else you can change the \"Location Name\" textbox and "
-"submit the form again."
-msgstr ""
-
-#: ../inc/lib_location.inc:1004
-msgid ""
-"Select the location based at.  This is hierarchical. For example think you "
-"are based  in the country 'Sri lanka' ,district 'Colombo' ,and village "
-"'dehiwala'.  start by selecting the country ,once you select country all the "
-"divisions of that country will populate the next select box.  therefore in "
-"this case all the districts in 'Sri lanka' appear . From those select a "
-"district which will populate the village list in the next select box. So "
-"select 'dehiwala' and you have done it! please note that the levels can be "
-"customized, therefore it does not need to be ''->'district'->'village' "
-",always. Its configurable from the 'administration' section."
-msgstr ""
-
-#: ../inc/lib_location.inc:1093
-msgid ""
-"Select the location based at.  This is hierarchical. For example think you "
-"are based  in the  'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  "
-"start by selecting the  ,once you select all the divisions of that country "
-"will populate the next select box.  therefore in this case all the districts "
-"in 'Sri lanka' appear . From those select a district which will populate the "
-"village list in the next select box. So select 'dehiwala' and you have done "
-"it! please note that the levels can be customized, therefore it does not "
-"need to be 'country'->'district'->'village' ,always. Its configurable from "
-"the 'administration' section."
-msgstr ""
-
-#: ../inc/lib_location.inc:1154
-msgid ""
-"Select the location based at.  This is hierarchical. For example think you "
-"are based  in the country 'Sri lanka' ,district 'Colombo' ,and village "
-"'dehiwala'.  start by selecting the country ,once you select country all the "
-"divisions of that country will populate the next select box.  therefore in "
-"this case all the districts in 'Sri lanka' appear . From those select a "
-"district which will populate the village list in the next select box. So "
-"select 'dehiwala' and you have done it! please note that the levels can be "
-"customized, therefore it does not need to be 'country'->'district'-"
-">'village', always. Its configurable from the 'administration' section."
-msgstr ""
-
-#: ../inc/handler_mainmenu.inc:22
-msgid "Main Menu"
-msgstr ""
-
-#: ../inc/lib_misc.inc:20
-msgid "Alert"
-msgstr ""
-
-#: ../inc/lib_misc.inc:186
-msgid "Whitespace is not a valid input."
-msgstr ""
-
-#: ../inc/lib_misc.inc:193
-msgid "The type already exists in the list"
-msgstr ""
-
-#: ../inc/lib_misc.inc:202
-msgid "The Type Exists,you just added it"
-msgstr ""
-
-#: ../inc/handler_db.inc:235
-msgid "Incident"
-msgstr ""
-
-#: ../inc/lib_form.inc:839
-msgid "Finish"
-msgstr ""
-
-#: ../inc/lib_form.inc:901
-msgid "Wysiwyg editor not configured correctly. Using Textarea instead."
-msgstr ""
-
-#: ../inc/lib_form.inc:936
-msgid ""
-"A required file was not found. Failed to initialize Wysiwig Editor. Using "
-"Textarea instead."
-msgstr ""
-
-#: ../inc/handler_footer.inc:25
-msgid "Sahana Home"
-msgstr ""
-
-#: ../inc/handler_footer.inc:25
-msgid "Sahana"
-msgstr ""
-
-#: ../inc/handler_footer.inc:26
-msgid "Sahana Wiki"
-msgstr ""
-
-#: ../inc/handler_footer.inc:26
-msgid "Wiki"
-msgstr ""
-
-#: ../inc/handler_footer.inc:27
-msgid "Chats"
-msgstr ""
-
-#: ../inc/handler_footer.inc:28
-msgid "Report a Bug"
-msgstr ""
-
-#: ../inc/handler_footer.inc:30
-msgid "OCR Form"
-msgstr ""
-
-#: ../inc/handler_footer.inc:30
-msgid "XForm"
-msgstr ""
-
-#: ../inc/lib_errors.inc:88
-msgid "Oops! There are a few errors :"
-msgstr ""
-
-#: ../inc/lib_errors.inc:166
-msgid "You will need to login using your username and password."
-msgstr ""
-
-#: ../inc/lib_errors.inc:172 ../inc/lib_errors.inc:194
-msgid "Sorry, you do not have permisssion to access this section"
-msgstr ""
-
-#: ../inc/lib_errors.inc:176 ../inc/lib_errors.inc:198
-msgid "This could be because:"
-msgstr ""
-
-#: ../inc/lib_errors.inc:180 ../inc/lib_errors.inc:200
-msgid ""
-"You have not logged in or Anonymous access is not allowed to this section"
-msgstr ""
-
-#: ../inc/lib_errors.inc:181 ../inc/lib_errors.inc:201
-msgid "Your username has not been given permission to access this section"
-msgstr ""
-
-#: ../inc/lib_errors.inc:183 ../inc/lib_errors.inc:203
-msgid "To gain access to this section please contact the administrator"
-msgstr ""
-
-#: ../inc/lib_errors.inc:301
-msgid "The Sahana database is currently inaccesible"
-msgstr ""
-
-#: ../inc/lib_errors.inc:306
-msgid "The system is currently unavailable"
-msgstr ""
-
-#: ../inc/lib_errors.inc:329
-msgid "System Error"
-msgstr ""
-
-#: ../inc/lib_errors.inc:332
-msgid "For urgent assistance, please contact the system administrator below:"
-msgstr ""
-
-#: ../inc/lib_errors.inc:333
-msgid "Name: "
 msgstr ""
