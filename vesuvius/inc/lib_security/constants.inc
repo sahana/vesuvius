@@ -9,7 +9,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0324
+ * @lastModified 2011.0801
  */
 
 
@@ -29,10 +29,3 @@ define("ORGADMIN",       5);
 define("VOLCOORDINATOR", 6);
 define("CAMPADMIN",      7);
 define("ADMINUSER",      1);
-
-define("PWDPOLICY", "
-	<h4>Password must adhere to following rules:</h4>
-	1. Minimum length is 8.<br />
-	2. At least one letter in the expression.<br />
-	3. At least one character is numeric or special.<br />
-");

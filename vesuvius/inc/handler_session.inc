@@ -27,18 +27,20 @@ $user_data = shn_authenticate_user();
 
 switch($user_data["result"]) {
 	case LOGGEDIN:
-		$global["module"] = isset($conf['default_module']) ? $conf['default_module'] : "home";
-		$global["action"] = isset($conf['default_action']) ? $conf['default_action'] : "default";
-		$global['previous'] = false;
+		$global['module']   = isset($conf['default_module']) ? $conf['default_module'] : "home";
+		$global['action']   = isset($conf['default_action']) ? $conf['default_action'] : "default";
+		$global['previous'] = true;
 		shn_session_change($user_data);
 		break;
 	case LOGGEDOUT:
 		shn_session_end($user_data);
 		header("Location: ".makeBaseUrlMinusEvent());
+		break;
 	case LOGINFAILED:
-		$global["module"]= "pref";
-		$global["action"]= "loginForm";
-		$global['previous']= false;
+		$global['module']   = "pref";
+		$global['action']   = "loginForm";
+		$global['previous'] = true;
+		break;
 	default:
 		break;
 }
@@ -148,8 +150,13 @@ function session_update_activity(){
 	$db      = $global['db'];
 	$time    = time();
 	$sess_id = session_id();
-	$sql     = "update sessions set inactive_expiry={$time} where session_id='{$sess_id}'";
-	$res     = $db->Execute($sql);
+
+	$q = "
+		update sessions
+		set inactive_expiry = {$time}
+		where session_id = '{$sess_id}';
+	";
+	$res = $db->Execute($q);
 	return $res;
 }
 

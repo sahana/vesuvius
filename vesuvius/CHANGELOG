@@ -1,6 +1,12 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
+2011:0801 Greg
+--------------
+LOGIN Failure goes back to login screen
+INT 1.1, all pages now come from mod rez (no need to hand code them into int source code)
+REZ 1.4, "external pages" gone ~ INTERNAL pages added to handle INT pages (also, INT pages are not publicly viewable any longer)
+
 2011:0728 Greg
 --------------
 MPRES v1.9:
