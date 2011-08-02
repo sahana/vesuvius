@@ -223,7 +223,7 @@ function shn_pref_tracking() {
 		$count++;
 	}
 	if($count == 0) {
-		echo "<tr><td class=\"noBorderLeft\" colspan=2>Not following any persons.</td></tr>";
+		echo "<tr><td class=\"noBorderLeft\" colspan=3>Not following any persons.</td></tr>";
 	}
 	echo "</table>";
 	echo "</fieldset>";
