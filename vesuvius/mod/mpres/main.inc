@@ -68,6 +68,7 @@ function shn_mpres_default() {
  */
 function shn_mpres_status() {
 	global $global;
+	$count = 0;
 
 	shn_mpres_header2();
 
