@@ -66,9 +66,9 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 	if($desc == "MPR Email Service") {
 		require_once($global['approot'].'/mod/mpres/main.inc');
 		if(!shn_mpres_statusGood()) {
-			$class = ' class="currentMainMenuItemFailure"';
+			$desc .= " <span style=\"color: red;\"><b>●</b></span>";
 		} else {
-			$class = ' class="currentMainMenuItemSuccess"';
+			$desc .= " <span style=\"color: green;\"><b>●</b></span>";
 		}
 	}
 
