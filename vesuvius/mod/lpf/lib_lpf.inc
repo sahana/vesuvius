@@ -1,7 +1,7 @@
 <?php
 /**
  * @name         LPF Library
- * @version      0.6
+ * @version      0.9
  * @package      lpf
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
@@ -26,55 +26,187 @@
 
 class personEdxlOne {
 
+	// edxl_co_header
 	public $de_id;
 	public $co_id;
-	public $content_descr;
-	public $incident_id;
-	public $incident_descr;
+	public $content_descr;  // content description
+	public $incident_id;    // event id
+	public $incident_descr; // incident description
 	public $confidentiality;
 
-	public $tag_id;   // tag_id
+	// edxl_co_lpf
+	public $p_uuid;
+	public $schema_version;
+	public $login_machine;
+	public $login_account;
+	public $person_id;
+	public $event_name;
+	public $event_long_name;
+	public $org_name;
+	public $org_id;
+	public $last_name;
+	public $first_name;
+	public $gender;
+	public $peds;
+	public $triage_category;
 
+	// edxl_de_header
+	public $when_sent;
+	public $sender_id;     // Email, phone num, etc. Not always URI, URN, URL
+	public $distr_id;      // Distribution ID. Sender may or may not choose to vary.
+	public $distr_status;
+	public $distr_type;    // Not included: types for sensor grids
+	public $combined_conf; // Combined confidentiality of all content objects
+	public $language;
+	public $when_here;     // Received or sent from here. [local]
+	public $inboud;        // BOOLEAN [local]
 
 	// Constructor
-	public function __construct($image_id) {
-		$this->tag_id   = null;
-		$this->image_id = "'".$image_id."'";
-		$this->tag_x    = "NULL";
-		$this->tag_y    = "NULL";
-		$this->tag_w    = "NULL";
-		$this->tag_h    = "NULL";
-		$this->tag_text = "NULL";
+	public function __construct() {
+		// init db
+		global $global;
+		$this->db = $global['db'];
+
+		// edxl_co_header
+		$this->de_id           = null;
+		$this->co_id           = null;
+		$this->content_descr   = null; // content description
+		$this->incident_id     = null; // event id
+		$this->incident_descr  = null; // incident description
+		$this->confidentiality = null;
+
+		// edxl_co_lpf
+		$this->p_uuid          = null;
+		$this->schema_version  = null;
+		$this->login_machine   = null;
+		$this->login_account   = null;
+		$this->person_id       = null;
+		$this->event_name      = null;
+		$this->event_long_name = null;
+		$this->org_name        = null;
+		$this->org_id          = null;
+		$this->last_name       = null;
+		$this->first_name      = null;
+		$this->gender          = null;
+		$this->peds            = null;
+		$this->triage_category = null;
+
+		// edxl_de_header
+		$this->when_sent       = null;
+		$this->sender_id       = null; // Email, phone num, etc. Not always URI, URN, URL
+		$this->distr_id        = null; // Distribution ID. Sender may or may not choose to vary.
+		$this->distr_status    = null;
+		$this->distr_type      = null; // Not included: types for sensor grids
+		$this->combined_conf   = null; // Combined confidentiality of all content objects
+		$this->language        = null;
+		$this->when_here       = null; // Received or sent from here. [local]
+		$this->inboud          = null; // BOOLEAN [local]
 	}
 
 
 	// Destructor
 	public function __destruct() {
+		$this->de_id           = null;
+		$this->co_id           = null;
+		$this->content_descr   = null;
+		$this->incident_id     = null;
+		$this->incident_descr  = null;
+		$this->confidentiality = null;
+		$this->p_uuid          = null;
+		$this->schema_version  = null;
+		$this->login_machine   = null;
+		$this->login_account   = null;
+		$this->person_id       = null;
+		$this->event_name      = null;
+		$this->event_long_name = null;
+		$this->org_name        = null;
+		$this->org_id          = null;
+		$this->last_name       = null;
+		$this->first_name      = null;
+		$this->gender          = null;
+		$this->peds            = null;
+		$this->triage_category = null;
+		$this->when_sent       = null;
+		$this->sender_id       = null;
+		$this->distr_id        = null;
+		$this->distr_status    = null;
+		$this->distr_type      = null;
+		$this->combined_conf   = null;
+		$this->language        = null;
+		$this->when_here       = null;
+		$this->inboud          = null;
+		$q = "UNLOCK TABLES;";
+		$result = $this->db->Execute($q);
+	}
+
+	// initializes some values for a new instance (instead of when we load a previous instance)
+	public function init() {
+		// lock tables to hold new indexes for this session
+		$q = "LOCK table edxl_de_header write;";
+		$res = $this->db->Execute($q);
+
+		$q = "LOCK table edxl_co_header write;";
+		$res = $this->db->Execute($q);
+
+		$q = "SHOW TABLE STATUS LIKE 'edxl_de_header'";
+		$result = $this->db->Execute($q);
+		$this->de_id = $result->fields['Auto_increment'];
+
+		$q = "SHOW TABLE STATUS LIKE 'edxl_co_header'";
+		$result = $this->db->Execute($q);
+		$this->co_id = $result->fields['Auto_increment'];
 	}
 
 
 	// save the image tag
-	public function save() {
-		global $global;
+	public function insert() {
 		$q = "
-			INSERT INTO image_tag (
-				image_id,
-				tag_x,
-				tag_y,
-				tag_w,
-				tag_h,
-				tag_text )
+			INSERT INTO edxl_de_header (
+				de_id,
+				when_sent,
+				sender_id,
+				distr_id,
+				distr_status,
+				distr_type,
+				combined_conf,
+				language,
+				when_here,
+				inbound )
 			VALUES (
-				".$this->image_id.",
-				".$this->tag_x.",
-				".$this->tag_y.",
-				".$this->tag_w.",
-				".$this->tag_h.",
-				".$this->tag_text." );
+				".$this->de_id.",
+				".$this->when_sent.",
+				".$this->sender_id.",
+				".$this->distr_id.",
+				".$this->distr_status.",
+				".$this->distr_type.",
+				".$this->combined_conf.",
+				".$this->language.",
+				".$this->when_here.",
+				".$this->inbound." );
 		";
-		$res = $global['db']->Execute($q);
+		$res = $this->db->Execute($q);
+
+		$q = "
+			INSERT INTO edxl_co_header (
+				de_id,
+				co_id,
+				content_descr,
+				incident_id,
+				incident_descr,
+				confidentiality )
+			VALUES (
+				".$this->de_id.",
+				".$this->co_id.",
+				".$this->content_descr.",
+				".$this->incident_id.",
+				".$this->incident_descr.",
+				".$this->confifentiality." );
+		";
+		$res = $this->db->Execute($q);
 	}
 }
+
+
 
 
 

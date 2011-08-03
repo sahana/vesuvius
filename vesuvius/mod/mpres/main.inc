@@ -133,7 +133,6 @@ function shn_mpres_status() {
 	}
 	echo "</table>";
 	echo "</fieldset></form></div>";
-	echo "</div>";
 }
 
 

@@ -355,7 +355,7 @@ div#footer {
 				rgba(98,137,192,1));
 	position: absolute;
 	bottom: 0px;
-	/*height: 163px;*/
+	height: 163px;
 	width: 100%;
 }
 
@@ -376,22 +376,8 @@ div#footer hr {display: none;}
 }
 
 #notice:hover {
-	font-size: 14px;
-	color: #fff;
-	font-weight: bold;
+	cursor: pointer;
 }
-
-
-#build {
-	/*
-	position: absolute;
-	right: 1px;
-	bottom: 1px;
-	font-size: 9px;
-	color: white;
-	*/
-}
-
 
 #blueBack {
 	/*background-color: rgba(130, 169, 228, 1);*/
