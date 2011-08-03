@@ -143,11 +143,12 @@ class personEdxlOne {
 	public function init() {
 		// lock tables to hold new indexes for this session
 		$q = "LOCK table edxl_de_header write;";
-		$res = $this->db->Execute($q);
+		$result = $this->db->Execute($q);
 
 		$q = "LOCK table edxl_co_header write;";
-		$res = $this->db->Execute($q);
+		$result = $this->db->Execute($q);
 
+		// get index values
 		$q = "SHOW TABLE STATUS LIKE 'edxl_de_header'";
 		$result = $this->db->Execute($q);
 		$this->de_id = $result->fields['Auto_increment'];
@@ -184,7 +185,7 @@ class personEdxlOne {
 				".$this->when_here.",
 				".$this->inbound." );
 		";
-		$res = $this->db->Execute($q);
+		$result = $this->db->Execute($q);
 
 		$q = "
 			INSERT INTO edxl_co_header (
@@ -202,7 +203,34 @@ class personEdxlOne {
 				".$this->incident_descr.",
 				".$this->confifentiality." );
 		";
-		$res = $this->db->Execute($q);
+		$result = $this->db->Execute($q);
+
+		$q = "
+			INSERT INTO edxl_co_lpf (
+				co_id,
+				p_uuid,
+				schema_version,
+				login_machine,
+				login_account,
+				person_id,
+				event_name,
+				event_long_name,
+				org_name,
+				org_id,
+				last_name,
+				first_name,
+				gender,
+				peds,
+				triage_category )
+			VALUES (
+				".$this->de_id.",
+				".$this->co_id.",
+				".$this->content_descr.",
+				".$this->incident_id.",
+				".$this->incident_descr.",
+				".$this->confifentiality." );
+		";
+		$result = $this->db->Execute($q);
 	}
 }
 
@@ -234,6 +262,11 @@ class personImageTag {
 
 	// Constructor
 	public function __construct($image_id) {
+		// init db
+		global $global;
+		$this->db = $global['db'];
+
+		// init values
 		$this->tag_id   = null;
 		$this->image_id = "'".$image_id."'";
 		$this->tag_x    = "NULL";
@@ -241,7 +274,6 @@ class personImageTag {
 		$this->tag_w    = "NULL";
 		$this->tag_h    = "NULL";
 		$this->tag_text = "NULL";
-
 	}
 
 
@@ -254,14 +286,27 @@ class personImageTag {
 		$this->tag_w    = null;
 		$this->tag_h    = null;
 		$this->tag_text = null;
+		$q = "UNLOCK TABLES;";
+		$result = $this->db->Execute($q);
 	}
 
+	// initializes some values for a new instance (instead of when we load a previous instance)
+	public function init() {
+		// lock tables to hold new indexes for this session
+		$q = "LOCK table image_tag write;";
+		$result = $this->db->Execute($q);
+
+		// get index value
+		$q = "SHOW TABLE STATUS LIKE 'image_tag'";
+		$result = $this->db->Execute($q);
+		$this->tag_id = $result->fields['Auto_increment'];
+	}
 
 	// save the image tag
-	public function save() {
-		global $global;
+	public function insert() {
 		$q = "
 			INSERT INTO image_tag (
+				tag_id,
 				image_id,
 				tag_x,
 				tag_y,
@@ -269,6 +314,7 @@ class personImageTag {
 				tag_h,
 				tag_text )
 			VALUES (
+				".$this->tag_id.",
 				".$this->image_id.",
 				".$this->tag_x.",
 				".$this->tag_y.",
@@ -276,8 +322,7 @@ class personImageTag {
 				".$this->tag_h.",
 				".$this->tag_text." );
 		";
-		$res = $global['db']->Execute($q);
-		$this->tag_id = $global['db']->Insert_ID('image_tag', 'tag_id');
+		$result = $this->db->Execute($q);
 	}
 }
 
