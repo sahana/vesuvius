@@ -187,12 +187,10 @@ function _gettext($msgid) {
  */
 function _pgettext($msgid) {
 	if ( !strpos($msgid, "|") ) {
-		list($context,$msgidn) = explode("|", $msgid, 2);
-	}
-	if ( empty($msgidn) ) {
 		return _gettext($msgid);
 	}
 	else {
+		list($context,$msgidn) = explode("|", $msgid, 2);
 		return _gettext($msgidn);
 	}
 }
