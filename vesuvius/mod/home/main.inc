@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0405
+ * @lastModified 2011.0729
  */
 
 
@@ -120,6 +120,13 @@ function showList() {
 	global $events;
 	require_once ($global['approot'].'mod/lpf/lib_lpf.inc');
 
+        // preserve the module if we were redirected here (because this is an event-specific
+        // module without an event context)
+        if (isset($_GET['mod'])) {
+           $nextMod = $_GET['mod'];
+        } else {
+           $nextMod = "inw";  //default
+        }
 	foreach($events as $row) {
 		if(trim($row['description']) == "") {
 			$descript = "";
@@ -138,19 +145,19 @@ function showList() {
 		if($row['spacer'] == 0) {
 			echo "
 				<span style=\"color: red;\"><span style=\"text-shadow: 1px 1px 1px #000;\">▶</span></span>&nbsp;
-				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=inw&act=default\">".$row['name']."</a>".$descript."<br>
+				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['name']."</a>".$descript."<br>
 			";
 		} else if($row['spacer'] == 1) {
 			echo "
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				<span style=\"color: orange;\"><span style=\"text-shadow: 1px 1px 1px #000;\">▶</span></span>&nbsp;
-				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=inw&act=default\">".$row['name']."</a>".$descript."<br>
+				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['name']."</a>".$descript."<br>
 			";
 		} else if($row['spacer'] == 2) {
 			echo "
 				&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 				<span style=\"color: yellow;\"><span style=\"text-shadow: 1px 1px 1px #000;\">▶</span></span>&nbsp;
-				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=inw&act=default\">".$row['name']."</a>".$descript."<br>
+				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['name']."</a>".$descript."<br>
 			";
 		}
 

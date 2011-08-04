@@ -18,6 +18,7 @@
  *
  * @edited Carl Cornwell <ccornwell@mail.nih.gov> Fix typos - change res to $res in shn_form_opt_select
  *                                                          - add php to <?if in shn_form_checkbox
+ * @edited Leif Neve <lneve@mail.nih.gov> Added optional stream param to shn_form_fopen
  */
 
 
@@ -76,7 +77,7 @@ function shn_form_extra_opts($extra_opts) {
  * @access public
  * @return void
  */
-function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>true)) {
+function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>true), $stream=null) {
 	global $global;
 	global $shn_form_id;
 	global $shn_tab_enabled;
@@ -84,6 +85,12 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
 	if(null == $mod) {
 		$mod = $global['module'];
 	}
+
+	if ($stream != null) {
+		$stream_param = "&stream=$stream";
+	} else {
+		$stream_param = "";
+        }
 
 	static $idno=0; // generate a form id if the id is not set
 	if(!isset($form_opts['id'])) {
@@ -105,6 +112,7 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
 	} else {
 		$anchor = '';
 	}
+
 
 	// default some values that occassionally never get set
 	if(!isset($form_opts['enctype'])) {
@@ -131,7 +139,7 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
 	}
 
 	echo "
-		<form method=\"post\" action=\"index.php?mod=".$mod."&amp;act=".$act.$anchor."\" id=\"".$form_opts['id']."\" ".$form_opts['enctype']." name=\"".$form_opts['id']."\">
+		<form method=\"post\" action=\"index.php?mod=".$mod."&amp;act=".$act.$stream_param.$anchor."\" id=\"".$form_opts['id']."\" ".$form_opts['enctype']." name=\"".$form_opts['id']."\">
 	";
 
 	//print the tab position div

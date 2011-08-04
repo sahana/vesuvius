@@ -35,7 +35,7 @@ function update_harvest_log($r, $req_params, $status) {
    $r->end_harvest($status, $req_params, $pfif_info);
 }
 
-print "database = " . $conf['db_name'] . "\n";
+print "database = " . $conf['db_name'];
 
 // Get all PFIF repository sources.
 $repositories = Pfif_Repository::find_sink();
@@ -64,39 +64,44 @@ foreach ($export_queue as $service_name => $service) {
    $skip = $req_params['skip'];
    $subdomain = empty($service['subdomain'])? '' : '?subdomain='.$service['subdomain'];
    $auth_key = empty($service['auth_key'])? '' : '?key='.$service['auth_key'];
-   $pfif_uri = $service['post_url'].$auth_key.$subdomain;
+   $pfif_uri = $service['post_url'].$auth_key;
+   $at_subdomain = " at subdomain $subdomain ";
    $p = new Pfif();
-   $p->setService($service);
+   $p->setService($service_name,$service);
 
    $repos->start_harvest('scheduled', 'out');
-   print "\n\nExport started to $pfif_uri at " . $repos->get_log()->start_time . "\n";
-   if (true) {
-      $local_date = local_date($min_entry_date);
-      $loaded = $p->loadFromDatabase('', $local_date, $skip);
-      print "load for post to $service_name for records after $local_date " . ($loaded ? "suceeded with $loaded records" : "failed") . "\n";
-   } else {
-      $id = 'pl.nlm.nih.gov/person.10505'; // e.g. 'japan.person-finder.appspot.com/person.4440739'
-      $loaded = $p->loadFromDatabase($id);
-      print "load $id" . ($loaded ? " suceeded with $loaded records" : " failed") . "\n";
-   }
+   print "\n\nExport started to ".$service['post_url']." at ".$repos->get_log()->start_time . "\n";
+   $local_date = local_date($min_entry_date);
+   $loaded = $p->loadFromDatabase($local_date, null, $skip);
+   print "load for post to $service_name for records after $local_date " . 
+         (($loaded != -1) ? "suceeded with $loaded records" : "failed") . "\n";
 
-   if ($loaded && $loaded > 0) {
-      $xml = $p->storeInXML(); 
-      $fh = fopen('crontest.xml', 'w');
-      $charstowrite = strlen($xml);
-      $written = fwrite($fh, $xml, $charstowrite);
-      fclose($fh);
-      print "Logged $written of $charstowrite characters to crontest.xml\n";
+   if ($loaded > 0) {
+      // Export only original records after min_entry_date
+      $xml = $p->storeInXML(false, true, $local_date);
+      if ($xml != null) {
+         $fh = fopen('crontest.xml', 'w');
+         $charstowrite = strlen($xml);
+         $written = fwrite($fh, $xml, $charstowrite);
+         fclose($fh);
+         //print "Logged $written of $charstowrite characters to crontest.xml\n";
    
-      //$post_status = $p->postDbToService('LPFp-46833',$service_name); // TESTING
-      //$post_status = "TESTING: record(s) not uploaded";
-      $post_status = $p->postToService('xml',$xml,$service_name);
-      // TODO: Adjust count depending on post_status.
-      $_SESSION['pfif_info']['pfif_person_count'] = $loaded;
-      update_harvest_log($repos, $req_params, 'completed');
-      print "Post status:\n $post_status \n";
+         $post_status = $p->postToService('xml', $xml, $service_name);
+         // TODO: Adjust count depending on post_status.
+         $_SESSION['pfif_info']['pfif_person_count'] = $loaded;
+         update_harvest_log($repos, $req_params, 'completed');
+         print "Post status:\n $post_status \n";
+      } else {
+         update_harvest_log($repos, $req_params, 'completed');
+         print "Export complete: no records to upload\n";
+      }
    } else {
-      update_harvest_log($repos, $req_params, 'error');
-      print "Export failed: no records to upload\n";
+      if ($loaded==-1) {
+         update_harvest_log($repos, $req_params, 'error');
+         print "Export failed: no records to upload\n";
+      } else {
+         update_harvest_log($repos, $req_params, 'completed');
+         print "Export completed: no records to upload\n";
+      }
    }
 }

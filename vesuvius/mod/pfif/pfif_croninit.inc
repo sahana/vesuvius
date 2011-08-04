@@ -37,7 +37,7 @@ function add_pfif_service($repository) {
        $pfif_conf['services'][$service_name]['max_results'] = '200';
    } else if ($repository->role == 'sink') {
        // TODO: Change this to req_url.
-       $pfif_conf['services'][$service_name]['post_url'] = $repository->base_url.'api/write';
+       $pfif_conf['services'][$service_name]['post_url'] = $repository->base_url.'/api/write';
    } else {
        // ERROR: invalid role
    }

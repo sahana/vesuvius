@@ -25,19 +25,19 @@ include_once 'pfif.inc';
 
 
 function shn_pfif_menu() {
-	echo "
-		<ul>
-                        <!--
-			<li><a href=\"index.php?mod=pfif\">World</a></li>
-			<li><a href=\"index.php?mod=pfif&act=galaxy\">Galaxy</a></li>
-			<li><a href=\"index.php?mod=pfif&act=universe\">Universe</a></li>
-			<li><a href=\"index.php?mod=pfif&act=streams\">Stream Tests</a></li>
-                        -->
-			<li><a href=\"index.php?mod=pfif&act=import\">Import Actions</a></li>
-			<li><a href=\"index.php?mod=pfif&act=import\">Export Actions</a></li>
-		</ul>
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-	";
+	echo "<ul>";
+        if (isset($_GET['act']) && $_GET['act'] == "import") {
+	   echo "<li><b>Import Actions</b></li>";
+        } else { 
+	   echo "<li><a href=\"index.php?mod=pfif&act=import\">Import Actions</a></li>";
+        }
+        if (isset($_GET['act']) && $_GET['act'] == "export") {
+	   echo "<li><b>Export Actions</b></li>";
+        } else { 
+	   echo "<li><a href=\"index.php?mod=pfif&act=export\">Export Actions</a></li>";
+        }
+	echo "</ul>";
+	echo "<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
 }
 
 
@@ -107,23 +107,18 @@ function shn_pfif_import() {
     // var_dump('$_FILES' , $_FILES);
     // Get shortname from _GET variable.
     $short = mysql_real_escape_string($_GET['shortname']);
-    //$short = 'test';
     // Get incident id.
     $sql = "SELECT incident_id from incident where shortname='$short'";
     $res = $global['db']->GetRow($sql);
     $incident_id = $res['incident_id'];
     if (!isset( $_POST['upload'])) {
-        shn_form_fopen("import",null,array('enctype'=>'enctype="multipart/form-data"','req_message' => false));
+        shn_form_fopen("import",null,null,array('enctype'=>'enctype="multipart/form-data"','req_message' => false));
         //add_warning(_t('Please make sure that you are adding a PFIF xml file.'));
-        shn_form_fsopen(_t('Import from PFIF xml to \'test\' event'));
+        shn_form_fsopen(_t('Import from PFIF xml to \''.$short.'\' event'));
         shn_form_hidden(array('upload'=>'upload'));
         shn_form_upload(_t('Upload PFIF xml'),'xml',array('max_file_size'=>'128M'));
         shn_form_submit(_t('Upload'));
         shn_form_fsclose();
-        //shn_form_fsopen(_t('Download from Google PFIF API'));
-        //shn_form_text(_t('Enter person_record_id'),'pfif_id');
-        //shn_form_submit(_t('Download'));
-        //shn_form_fsclose();
         shn_form_fclose();
     } else {
         // Validate
@@ -165,5 +160,70 @@ function shn_pfif_import() {
              }
         }
 
+    }
+}
+
+
+/**
+ * Manage PFIF Export sessions
+ *
+ */
+function shn_pfif_export() {
+    global $global;
+
+    shn_pfif_menu();
+
+    // If there is no post, render the form to upload.
+    // var_dump('$_POST' , $_POST);
+    // Get shortname from _GET variable.
+    $short = mysql_real_escape_string($_GET['shortname']);
+    // Get incident id.
+    $sql = "SELECT incident_id from incident where shortname='$short'";
+    $res = $global['db']->GetRow($sql);
+    $incident_id = $res['incident_id'];
+    if(!isset( $_POST['since'])){
+        shn_form_fopen("export",null,array('req_message' => false),"xml");
+        shn_form_fsopen(_t('Export from \''.$short.'\' event to PFIF xml'));
+        $extra_opts['br'] = false;
+        shn_form_text(_t('Start date'),'since','',$extra_opts);
+        echo "&nbsp;&nbsp;(e.g. 2011-08-01)<br><div class='brake'></div>";
+        shn_form_text(_t('End date'),'before');
+        shn_form_checkbox(_t('PL records only'),'original');
+        shn_form_hidden(array('filename'=>'export.xml','download'=>'download'));
+        shn_form_submit(_t('Submit'));
+        shn_form_fsclose();
+        shn_form_fclose();
+    }
+}
+
+/**
+ * Stream PFIF xml.
+ * @access public
+ * @return string
+ */
+function shn_xml_pfif_export() {
+    global $global;
+
+    // Get shortname from _GET variable.
+    $short = mysql_real_escape_string($_GET['shortname']);
+    // Get incident id.
+    $sql = "SELECT incident_id from incident where shortname='$short'";
+    $res = $global['db']->GetRow($sql);
+    $incident_id = $res['incident_id'];
+    $pfif = new Pfif();
+    $pfif->setIncidentId($incident_id);
+    $original = isset($_POST['original']) ? true : false;
+    $pfif->loadFromDatabase($_POST['since'], $_POST['before']);
+    if ($original) {
+       // Export only original records. Resupply date constraints.
+       $xml = $pfif->storeInXML(false, $original, $since, $before);
+    } else {
+       $xml = $pfif->storeInXML();
+    }
+    if ($xml != null) {
+       shn_stream_init(false);
+       print $xml;
+    } else {
+       echo "<pfif>No records to export!</pfif>";
     }
 }
