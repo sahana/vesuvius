@@ -83,6 +83,11 @@ class Pfif {
       $this->incident_id = $service['incident_id'];
    }
 
+   // Set incident ID.
+   public function setIncidentId($incident_id) {
+      $this->incident_id = $incident_id;
+   }
+
    public function setVersion($v) {
       $this->pfif_version = $v;
    }
@@ -185,11 +190,13 @@ class Pfif {
    }
 
    /**
-    *  Returns a PFIF-compliant XML document containing person and note records in this PFIF instance.
-    *  Used primarily for export, but also used for debugging import.
+    *  Returns a PFIF-compliant XML document containing person and note records loaded into this PFIF instance.
+    *  Used primarily for export, but also used for debugging import. Filtering on dates has already occurred at 
+    *  search time. If only original records (i.e. from PL) are desired, the original date constraints should 
+    *  be resupplied.
     */
-   public function storeInXML($export=true) {
-      global $first_entry_date, $last_entry_date, $last_entry_count;
+   public function storeInXML($embed=true, $original=false, $since_entry_date=null, $before=null) {
+      global $first_entry_date, $last_entry_date, $last_entry_count, $conf;
 
       $this->dom_pfif = new DomDocument('1.0', 'utf-8');
       $dom_pfif = $this->dom_pfif->createElement('pfif:pfif');
@@ -199,24 +206,42 @@ class Pfif {
       $dom_pfif->setAttribute('xsi:schemaLocation', "$ns $ns/pfif-1.3.xsd");
       $this->dom_pfif->appendChild($dom_pfif);
 
-      if ($export) {
-         // Serialize persons and embed notes.
+      // Handle empty dates.
+      $start = empty($since_entry_date)? 0 : strtotime($since_entry_date);
+      $end = empty($before)? strtotime('2036') : strtotime($before);
+
+      if ($original) {
+         // Do original records only. Non-embedded format.
          $pfif_persons = $this->getPersons();
-         $this->reset_log_dates($pfif_persons[0]->entry_date);
-         foreach ($pfif_persons as $person) {
-            $personElement = $this->createPersonElement($person);
-            // Embed all notes associated with this person.
-            $pfif_notes = $this->getNotes($person->person_record_id);
-            foreach ($pfif_notes as $note) {
-               $noteElement = $this->createNoteElement($note);
-               $personElement->appendChild($noteElement);
+         if (count($pfif_persons) != 0) {
+            $this->reset_log_dates($pfif_persons[0]->entry_date);
+            foreach ($pfif_persons as $person) {
+               // Is this an original record meeting the date constraint?
+               if ((strtotime($person->source_date) > $start) && 
+                   (strtotime($person->source_date) < $end) && 
+                   (strncmp($person->person_record_id, $conf['base_uuid'], strlen($conf['base_uuid']))==0)) {
+                  $personElement = $this->createPersonElement($person);
+                  $this->dom_pfif->firstChild->appendChild($personElement);
+               }
             }
-            $this->dom_pfif->firstChild->appendChild($personElement);
+            unset($person);
+         }
+         $pfif_notes = $this->getNotes();
+         if (count($pfif_notes) != 0) {
+            $this->reset_log_dates($pfif_notes[0]->entry_date);
+            foreach ($pfif_notes as $note) {
+               // Is this an original record meeting the date constraint?
+               if ((strtotime($note->source_date) > $start) && 
+                   (strtotime($note->source_date) < $end) && 
+                   (strncmp($note->note_record_id, $conf['base_uuid'], strlen($conf['base_uuid']))==0)) {
+                  $noteElement = $this->createNoteElement($note);
+                  $this->dom_pfif->firstChild->appendChild($noteElement);
+               }
+            }
             unset($note);
          }
-         unset($person);
-      } else {
-         // For debugging serialize everything. (Either persons or notes should be empty.)
+      } else if (!embed) {
+         // Serialize persons and notes separately.
          $pfif_persons = $this->getPersons();
          if (count($pfif_persons) != 0) {
             $this->reset_log_dates($pfif_persons[0]->entry_date);
@@ -235,13 +260,34 @@ class Pfif {
             }
             unset($note);
          }
+      } else {
+         // Serialize persons and embed notes.
+         // No need to appy filters since at least date ones were already applied during search.
+         $pfif_persons = $this->getPersons();
+         $this->reset_log_dates($pfif_persons[0]->entry_date);
+         foreach ($pfif_persons as $person) {
+            $personElement = $this->createPersonElement($person);
+            // Embed all notes associated with this person.
+            $pfif_notes = $this->getNotes($person->person_record_id);
+            foreach ($pfif_notes as $note) {
+               $noteElement = $this->createNoteElement($note);
+               $personElement->appendChild($noteElement);
+            }
+            $this->dom_pfif->firstChild->appendChild($personElement);
+            unset($note);
+         }
+         unset($person);
       }
 
       // Update status info
       //var_dump("first/last/count:end", $first_entry_date, $last_entry_date, $last_entry_count);
       $this->save_log_dates();
-      // print $this->dom_pfif->saveXML();
-      return $this->dom_pfif->saveXML();
+      //print $this->dom_pfif->saveXML();
+      if ($this->dom_pfif->firstChild->hasChildNodes()) {
+         return $this->dom_pfif->saveXML();
+      } else {
+         return null;
+      }
    }
 
    private function createPersonElement($person) {
@@ -338,7 +384,7 @@ class Pfif {
          $loaded = $this->loadFromXML($filename);
          $xml = $loaded ? $this->storeInXML() : false;
       }
-      print "posting to service $this->service_name \n";
+      //print "posting to service $this->service_name \n";
       if ($xml) {
          $status = $this->postGoogleItem($this->service, $xml);
       } else {
@@ -352,10 +398,16 @@ class Pfif {
       $service_uri = $service_config['post_url'];
 
       // TODO: may need to add logic to support services other than Google.
-      // If subdomain specified, there is no key.
       $subdomain = empty($service_config['subdomain']) ? '' : '?subdomain=' . $service_config['subdomain'];
-      $auth_key = empty($service_config['auth_key']) ? '' : '?key=' . $service_config['auth_key'];
-      $pfif_uri = $service_uri . $auth_key . $subdomain . "&key=japan";
+      $auth_key = empty($service_config['auth_key']) ? '' : 'key=' . $service_config['auth_key'];
+      if (!empty($auth_key)) {
+         if (empty($subdomain)) {
+            $auth_key = '?'.$auth_key;
+         } else {
+            $auth_key = '&'.$auth_key;
+         }
+      }
+      $pfif_uri = $service_uri.$subdomain.$auth_key;
       // $posted = "Posted PFIF from <br/>".htmlentities($xml)."<br/> to $pfif_uri<br/>Status returned:<br/>";
       /*
        * TODO: Can xml string be POSTed or do we HAVE to use CURL ?
@@ -364,27 +416,27 @@ class Pfif {
        * @see http://haiticrisis.appspot.com/developers for response details
        */
       $ch = curl_init();    /* Create a CURL handle. */
-      print "cURL init " . ($ch ? "true" : "false") . "\n";
+      //print "cURL init " . ($ch ? "true" : "false") . "\n";
       /* Set cURL options. */
       $status = $ch ? curl_setopt($ch, CURLOPT_URL, $pfif_uri) : false;
       print "URL $pfif_uri set " . ($status ? "true" : "false") . "\n";
 
       $status &= $status ? curl_setopt($ch, CURLOPT_POST, true) : false;
-      print "POST set " . ($status ? "true" : "false") . "\n";
+      //print "POST set " . ($status ? "true" : "false") . "\n";
 
       $status &= $status ? curl_setopt($ch, CURLOPT_RETURNTRANSFER, true) : false;
-      print "RETURNTRANSFER set " . ($status ? "true" : "false") . "\n";
+      //print "RETURNTRANSFER set " . ($status ? "true" : "false") . "\n";
 
       $status &= $status ? curl_setopt($ch, CURLOPT_FAILONERROR, true) : false;
-      print "FAILONERROR set " . ($status ? "true" : "false") . "\n";
+      //print "FAILONERROR set " . ($status ? "true" : "false") . "\n";
 
       $status &= $status ? curl_setopt($ch, CURLOPT_HTTPHEADER, array(
                   'Content-Type: application/xml'
               )) : false;
-      print "HTTPHEADER set " . ($status ? "true" : "false") . "\n";
+      //print "HTTPHEADER set " . ($status ? "true" : "false") . "\n";
 
       $status &= $status ? curl_setopt($ch, CURLOPT_POSTFIELDS, $item) : false; // TODO: if item_type= 'file' use @ syntax
-      print "POSTFIELDS set " . ($status ? "true" : "false") . "\n";
+      //print "POSTFIELDS set " . ($status ? "true" : "false") . "\n";
 
       //$status=false; //debug-skip exec
 
@@ -822,6 +874,7 @@ class Pfif {
       }
       $insert_array['opt_gender'] = shn_map_gender_from_pfif($person->sex);
       // Save "other" field to person details comments.
+      // TODO: Shouldn't have to do this once notes are in place for all records.
       if (!empty($person->other)) {
          $insert_array['other_comments'] = $person->other;
       }
@@ -889,17 +942,16 @@ class Pfif {
       shn_db_insert($insert_array, 'person_to_report');
    }
 
-   // Load from database based either on person ID (for testing) or last export date.
-   public function loadFromDatabase($id, $since_entry_date, $skip) {
+   // Load from database based on last date.
+   public function loadFromDatabase($since_entry_date=null, $before=null, $skip=0) {
       global $conf, $global;
 
-      $this->check_init();
       $baseUuid = $conf['base_uuid'];
       $pfifDomain = substr($baseUuid, 0, -1);  // omit trailing "/"
       $baseUrl = "https://" . $pfifDomain;
 
       // Get person records based on filters.
-      $personRecords = $this->getPersonFromDb($status, $since_entry_date, $skip);
+      $personRecords = $this->getPersonFromDb($since_entry_date, $before, $skip);
       $record_count = count($personRecords);
 
       foreach ($personRecords as $personRecord) {
@@ -928,14 +980,16 @@ class Pfif {
          $person->source_url = $sourcePfif ? $sourcePfif->source_url : 'https://' . $personRecord['p_uuid'];
 
          $person->full_name = $sourcePfif ? $sourcePfif->full_name : $personRecord['full_name'];
-         $person->first_name = $sourcePfif ? $sourcePfif->first_name : $personRecord['first_name'];
-         $person->last_name = $sourcePfif ? $sourcePfif->last_name : $personRecord['last_name'];
+         $person->first_name = $sourcePfif ? $sourcePfif->first_name : $personRecord['given_name'];
+         $person->last_name = $sourcePfif ? $sourcePfif->last_name : $personRecord['family_name'];
 
          // Note: For when no source PFIF, we could try to parse $personRecord['address'] better.
          $person->home_city = $sourcePfif ? $sourcePfif->home_city : '';
          $person->home_state = $sourcePfif ? $sourcePfif->home_state : '';
          $person->home_neighborhood = $sourcePfif ? $sourcePfif->home_neighborhood : '';
-         $person->home_street = $sourcePfif ? $sourcePfif->home_street : $personRecord['address'];
+         // PL uses a textarea, so might be newlines present. Google PF will reject if so.
+         $newline = array("\r\n", "\r", "\n");
+         $person->home_street = $sourcePfif ? $sourcePfif->home_street : str_replace($newline, ' ', $personRecord['address']);
          $person->home_country = $sourcePfif ? $sourcePfif->home_country : '';
          $person->home_postal_code = $sourcePfif ? $sourcePfif->home_postal_code : $personRecord['zip'];
 
@@ -982,11 +1036,12 @@ class Pfif {
                $details['hair_color'] = 'hair color: ' . shn_get_field_opt($personRecord['opt_hair_color'], 'opt_hair_color');
             }
             if (!empty($personRecord['physical_comments'])) {
-               $details['physical_comments'] = 'other physical: ' . $personRecord['physical_comments'];
+               $details['physical_comments'] = 'other: ' . $personRecord['physical_comments'];
             }
-            if (!empty($personRecord['other_comments'])) {
-               $details['other_comments'] = 'other: ' . $personRecord['other_comments'];
-            }
+            // TODO: This information should be in the person's first note.text field.
+            //if (!empty($personRecord['other_comments'])) {
+               //$details['other_comments'] = 'other: ' . $personRecord['other_comments'];
+            //}
             if (count($details) > 0) {
                $person->other = "description: ";
                foreach ($details as $detail) {
@@ -1000,73 +1055,69 @@ class Pfif {
          $this->setNotes($notes);
       }
       unset($personRecord);
-      if ($personRecords != false && $record_count > 0) {
+      if ($personRecords !== false && $record_count >= 0) {
          return $record_count;
       } else {
-         return false;
+         return -1;
       }
    }
 
-   // Use specified person_record_id (for testing) or threshhold date and
-   // number of records to skip.
-   private function getPersonFromDb($id, $since_entry_date, $skip) {
+   // Use threshhold date and number of records to skip.
+   private function getPersonFromDb($since_entry_date, $before, $skip) {
       global $global;
 
       $whereSql = '';
-      if (!empty($id)) {
-         $whereSql = " WHERE ps.isvictim = '1' AND ps.p_uuid = '$id'";
-      } else {
-         $where = array();
-         $where[] = " ps.isvictim = '1' ";
+      $where = array();
+      $where[] = " ps.isvictim = '1' ";
+      if (!empty($since_entry_date)) {
          $where[] = " ps.last_updated >= '$since_entry_date' ";
-         $where[] = " a.expiry_date > now() ";
-         $where[] = " a.incident_id = " . $this->incident_id;
-
-         foreach ($where as $whereElement) {
-            $whereSql .= ( $whereSql == null ? '' : ' AND ') . $whereElement;
-         }
-         $whereSql = $whereSql != null ? ' WHERE ' . $whereSql : '';
-         //$large_num = 1e12;
-         $large_num = 700000;
-         $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,$large_num";
       }
+      if (!empty($before)) {
+         $where[] = " ps.last_updated <= '$before' ";
+      }
+      $where[] = " (a.expiry_date IS NULL OR a.expiry_date > now()) ";
+      $where[] = " a.incident_id = " . $this->incident_id;
+
+      foreach ($where as $whereElement) {
+         $whereSql .= ( $whereSql == null ? '' : ' AND ') . $whereElement;
+      }
+      $whereSql = $whereSql != null ? ' WHERE ' . $whereSql : '';
+      //$large_num = 1e12;
+      $large_num = 700000;
+      $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,$large_num";
 
       // DEBUG:
-      error_log("calling getMprAddedRecords(" . $whereSql . ")");
+      //error_log("calling getMprAddedRecords(" . $whereSql . ")");
       $array2 = $this->getMprAddedRecords($whereSql);
-      print "got " . count($array2) . " records\n";
+      //print "got " . count($array2) . " records\n";
       return $array2;
    }
 
    private function getMprAddedRecords($whereSql) {
       global $global;
-      $sql = "SELECT a.p_uuid , a.full_name, a.family_name, a.given_name, a.expiry_date, e.birth_date as dob, e.opt_gender, e.years_old, e.minAge, e.maxAge, 
-            f.comments as physical_comments, f.height, f.weight, f.opt_eye_color, f.opt_skin_color, f.opt_hair_color, g.contact_value as phone, h.contact_value as mobile, i.contact_value as email,
-            j.contact_value AS address, k.contact_value AS zip, e.last_seen, e.other_comments, pr.rep_uuid as reporter, 
-            ps.status_id, ps.last_updated, ps.creation_time, ps.opt_status as `status`, im.url as image_url
-		FROM person_uuid a
-		LEFT OUTER JOIN person_details e ON e.p_uuid = a.p_uuid
-		LEFT OUTER JOIN person_physical f ON f.p_uuid = a.p_uuid
-		LEFT OUTER JOIN contact g ON g.p_uuid = a.p_uuid
-        AND g.opt_contact_type = 'curr'
-		LEFT OUTER JOIN contact h ON h.p_uuid = a.p_uuid
-        AND h.opt_contact_type = 'cmob'
-		LEFT OUTER JOIN contact i ON i.p_uuid = a.p_uuid
-        AND i.opt_contact_type = 'email'
-		LEFT OUTER JOIN contact j ON j.p_uuid = a.p_uuid 
-        AND j.opt_contact_type = 'home'
-		LEFT OUTER JOIN contact k ON k.p_uuid = a.p_uuid 
-        AND k.opt_contact_type = 'zip'
-        LEFT OUTER JOIN image im ON a.p_uuid = im.p_uuid
-        LEFT OUTER JOIN person_status ps ON ps.p_uuid = a.p_uuid        
-        LEFT OUTER JOIN person_to_report pr ON pr.p_uuid = a.p_uuid
-        $whereSql ";
-
+      $sql = "SELECT a.p_uuid , a.full_name, a.family_name, a.given_name, a.expiry_date, e.birth_date as dob,
+              e.opt_gender, e.years_old, e.minAge, e.maxAge, f.comments as physical_comments, f.height, f.weight,
+              f.opt_eye_color, f.opt_skin_color, f.opt_hair_color, g.contact_value as phone, h.contact_value as mobile, 
+              i.contact_value as email, j.contact_value AS address, k.contact_value AS zip, e.last_seen,
+              e.other_comments, pr.rep_uuid as reporter, ps.status_id, ps.last_updated, ps.creation_time, 
+              ps.opt_status as `status`, im.url as image_url
+	      FROM person_uuid a
+	      LEFT OUTER JOIN person_details e ON e.p_uuid = a.p_uuid
+	      LEFT OUTER JOIN person_physical f ON f.p_uuid = a.p_uuid
+	      LEFT OUTER JOIN contact g ON g.p_uuid = a.p_uuid AND g.opt_contact_type = 'curr'
+	      LEFT OUTER JOIN contact h ON h.p_uuid = a.p_uuid AND h.opt_contact_type = 'cmob'
+	      LEFT OUTER JOIN contact i ON i.p_uuid = a.p_uuid AND i.opt_contact_type = 'email'
+	      LEFT OUTER JOIN contact j ON j.p_uuid = a.p_uuid AND j.opt_contact_type = 'home'
+	      LEFT OUTER JOIN contact k ON k.p_uuid = a.p_uuid AND k.opt_contact_type = 'zip'
+              LEFT OUTER JOIN image im ON a.p_uuid = im.p_uuid
+              LEFT OUTER JOIN person_status ps ON ps.p_uuid = a.p_uuid        
+              LEFT OUTER JOIN person_to_report pr ON pr.p_uuid = a.p_uuid
+              $whereSql ";
       // DEBUG:  error_log("getMprAddedRecords: ".$sql);
       // print "callinb db ...\n";
       $array = $global['db']->GetAll($sql);
       // print "returning ...\n";
-      // var_dump($array);
+      //var_dump('person_record', $array);
       return $array;
    }
 

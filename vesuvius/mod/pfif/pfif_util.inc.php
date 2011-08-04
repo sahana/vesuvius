@@ -199,7 +199,7 @@ function shn_map_age_to_pfif($personRecord) {
    if (!empty($personRecord['years_old'])) {
       $age = $personRecord['years_old'];   // perhaps from mpres
    } else if (!empty($personRecord['minAge']) && !empty($personRecord['maxAge'])) {
-      $age = $personRecord['minAge'] . '-' . $personRecord['minAge'];
+      $age = $personRecord['minAge'] . '-' . $personRecord['maxAge'];
    }
    return $age;
 }

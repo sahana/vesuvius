@@ -106,7 +106,7 @@ foreach ($import_queue as $service_name => $service) {
             print "Stored $stored records.\n";
          } else { 
             // Output to file for test/debug. (This leverages export functionality.)
-            $xml = $p->storeInXML(false); // false=debug
+            $xml = $p->storeInXML(false); // non-embedded format
             //print $xml;
             $logfile_name = 'crontest_' . $service_name . '.xml';
             $fh = fopen($logfile_name, 'a+');
