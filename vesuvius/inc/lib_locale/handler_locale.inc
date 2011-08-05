@@ -13,8 +13,6 @@
  * @lastModified 2011.0308
  */
 
-
-
 require_once("lib_locale.inc");
 require_once("gettext.inc");
 
@@ -31,10 +29,8 @@ if(isset($_COOKIE['locale'])) {
 }
 
 // get the new locale id
-if(isset($_POST['locale'])) {
+if(isset($_REQUEST['locale'])) {
 	$getlocale = $_POST['locale'];
-} else if(isset($_GET['locale'])) {
-	$getlocale = $_GET['locale'];
 } else {
 	$getlocale = null;
 }
