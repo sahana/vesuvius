@@ -49,7 +49,7 @@ function _shn_lc_setdblc($locale) {
 				VALUES('admin', 'locale', '$locale');
 			";
 		}
-		$global['db']->Execute($sql);
+		$global['db']->Execute($q);
 
 		if (!$global['db']->ErrorNo()) {
 			print $global['db']->ErrorMsg();
