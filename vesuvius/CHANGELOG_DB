@@ -1,6 +1,11 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+2011:0805 Leif
+--------------
+
+ALTER TABLE `person_status` DROP `isvictim` 
+
 2011:0804 Leif
 --------------
 
