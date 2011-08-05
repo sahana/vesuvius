@@ -22,8 +22,8 @@ require_once("../../conf/sahana.conf");
 require_once("../../3rd/adodb/adodb.inc.php");
 require_once("../../inc/handler_db.inc");
 require_once("pfif.inc");
-require_once("pfif_repository.inc");
-require_once("pfif_croninit.inc");
+require_once("repository.inc");
+require_once("croninit.inc");
 
 /**
  *  Log harvest end

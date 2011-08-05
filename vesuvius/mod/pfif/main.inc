@@ -23,7 +23,6 @@ include_once $global['approot'] . '/inc/lib_image.inc';
 include_once 'lib_pfif.inc';
 include_once 'pfif.inc';
 
-
 function shn_pfif_menu() {
 	echo "<ul>";
         if (isset($_GET['act']) && $_GET['act'] == "import") {
