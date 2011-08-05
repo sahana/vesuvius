@@ -81,11 +81,11 @@ if (file_exists($global['approot']."www/theme/".$global['theme']."/ie9.css")) { 
 <link rel="icon" type="image/png" href="favicon.png">
 
 <?php
-/*
+
 	if(isset($conf['enable_locale']) && $conf['enable_locale'] == true) {
 		echo "<script type=\"text/javascript\" src=\"res/js/locale.js\"></script>";
 	}
-*/
+
 ?>
 
 <script type="text/javascript" src="res/js/vesuvius.js"></script>
