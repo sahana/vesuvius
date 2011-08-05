@@ -12,7 +12,7 @@
 $failed_images = null;
 include_once($global['approot'].'/inc/lib_uuid.inc');
 include_once($global['approot'].'/mod/pfif/tools.inc');
-include_once($global['approot'].'/mod/pfif/pfif_util.inc.php');
+include_once($global['approot'].'/mod/pfif/util.inc');
 
 class Pfif_Person {
 
@@ -892,7 +892,6 @@ class Pfif {
          $insert_array['creation_time'] = '2000-01-01 00:00:00';
          $insert_array['last_updated'] = '2000-01-01 00:00:00';
       }
-      $insert_array['isvictim'] = 'TRUE';
       shn_db_insert($insert_array, 'person_status');
       $insert_array = null; // reset array
       // image table
@@ -914,12 +913,6 @@ class Pfif {
       }
       shn_db_insert($insert_array, 'person_uuid');
       $insert_array = null; // reset array
-      //person_status table
-      $insert_array['p_uuid'] = $rep_uuid;
-      $insert_array['opt_status'] = 'ali';
-      $insert_array['isvictim'] = 'FALSE';
-      shn_db_insert($insert_array, 'person_status');
-      $insert_array = null; // reset array
       //contact table
       $insert_array['p_uuid'] = $rep_uuid;
       if (!empty($person->author_phone)) {
@@ -928,7 +921,6 @@ class Pfif {
          shn_db_insert($insert_array, 'contact');
       }
       $insert_array = null; // reset array
-
       $insert_array['p_uuid'] = $rep_uuid;
       if (!empty($person->author_email)) {
          $insert_array['contact_value'] = $person->author_email;
@@ -936,7 +928,7 @@ class Pfif {
          shn_db_insert($insert_array, 'contact');
       }
       $insert_array = null; // reset array
-
+      // person_to_report table
       $insert_array['p_uuid'] = $person->person_record_id;
       $insert_array['rep_uuid'] = $rep_uuid;
       shn_db_insert($insert_array, 'person_to_report');
@@ -1068,7 +1060,6 @@ class Pfif {
 
       $whereSql = '';
       $where = array();
-      $where[] = " ps.isvictim = '1' ";
       if (!empty($since_entry_date)) {
          $where[] = " ps.last_updated >= '$since_entry_date' ";
       }

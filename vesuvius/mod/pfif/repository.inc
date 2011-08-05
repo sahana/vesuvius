@@ -13,10 +13,10 @@
  */
 
 require_once($global['approot'].'inc/handler_db.inc');
-require_once("pfif_harvest_person_log.inc");
-require_once("pfif_harvest_note_log.inc");
-require_once("pfif_export_log.inc");
-require_once("pfif_util.inc.php");
+require_once("harvest_person_log.inc");
+require_once("harvest_note_log.inc");
+require_once("export_log.inc");
+require_once("util.inc");
 class Pfif_Repository {
     public $id;
     public $name;

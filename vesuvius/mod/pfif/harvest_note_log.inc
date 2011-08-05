@@ -1,5 +1,5 @@
 <?php
-require_once("pfif_log.inc");
+require_once("log.inc");
 
 class Pfif_Harvest_Note_Log extends Pfif_Log {
     const MY_LOG_TABLE = "pfif_harvest_note_log";
