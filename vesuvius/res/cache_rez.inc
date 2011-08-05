@@ -25,6 +25,7 @@ if ( !$stringFile ) {
 $q = "
 		select *
 		from rez_pages
+		where rez_visibility = 'Public'
 		order by rez_menu_order asc;
 	";
 $res = $global['db']->Execute($q);

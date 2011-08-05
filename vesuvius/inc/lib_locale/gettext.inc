@@ -1,9 +1,9 @@
 <?php
 /*
    Copyright (c) 2005 Steven Armstrong <sa at c-area dot ch>
-   
+
    Drop in replacement for native gettext.
-   
+
    This file is part of PHP-gettext.
 
    PHP-gettext is free software; you can redistribute it and/or modify
@@ -119,9 +119,9 @@ function _encode($text) {
 function _setlocale($category, $locale) {
     global $CURRENTLOCALE, $EMULATEGETTEXT;
     if ($locale === 0) { // use === to differentiate between string "0"
-        if ($CURRENTLOCALE != '') 
+        if ($CURRENTLOCALE != '')
             return $CURRENTLOCALE;
-        else 
+        else
             // obey LANG variable, maybe extend to support all of LC_* vars
             // even if we tried to read locale without setting it first
             return _setlocale($category, $CURRENTLOCALE);
@@ -184,12 +184,17 @@ function _gettext($msgid) {
 }
 /**
  * Function to handle contexts
+ * @author Ramindu Deshapriya
  */
 function _pgettext($msgid) {
+	//Check whether the pipe symbol is included in the msgid (Context is available)
 	if ( !strpos($msgid, "|") ) {
+		//echo "here0";
 		return _gettext($msgid);
 	}
 	else {
+		//echo "here1";
+		//if context is available, split it and pass off the msgid to gettext
 		list($context,$msgidn) = explode("|", $msgid, 2);
 		return _gettext($msgidn);
 	}
@@ -300,7 +305,7 @@ function T_dcngettext($domain, $single, $plural, $number, $category) {
 // Wrappers used as a drop in replacement for the standard gettext functions
 
 if (!function_exists('gettext')) {
-		
+
 	function bindtextdomain($domain, $path) {
 		return _bindtextdomain($domain, $path);
 	}

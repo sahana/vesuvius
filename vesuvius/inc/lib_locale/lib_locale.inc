@@ -24,31 +24,39 @@ include_once $global['approot']."/inc/lib_form.inc";
  */
 function _shn_lc_setdblc($locale) {
 	global $global;
-	$sql = "SELECT * FROM config WHERE module_id = 'admin' AND confkey = 'locale'";
-	$res = $global['db']->Execute($sql);
-	if($res){
+	$q = "
+		SELECT *
+		FROM config
+		WHERE module_id = 'admin'
+		AND confkey = 'locale';
+	";
+	$res = $global['db']->Execute($q);
+	if($res) {
 		$res->MoveFirst();
-		// check if previous value exists.
-		if(!$res->EOF){
-			// update value
-			$sql = "UPDATE config SET value = '$locale' " .
-              "WHERE module_id = 'admin' " .
-              "AND confkey = 'locale'";
-		}else{
-			// insert value
-			$sql = "INSERT INTO config (module_id,confkey,value)" .
-		   "VALUES('admin', 'locale', '$locale')";
-		}
 
+		// check if previous value exists.
+		if(!$res->EOF) {
+			// update value
+			$q = "
+				UPDATE config SET value = '$locale'
+				WHERE module_id = 'admin'
+				AND confkey = 'locale';
+			";
+		} else {
+			// insert value
+			$q = "
+				INSERT INTO config (module_id,confkey,value)
+				VALUES('admin', 'locale', '$locale');
+			";
+		}
 		$global['db']->Execute($sql);
 
-		if (!$global['db']->ErrorNo())
-		{
+		if (!$global['db']->ErrorNo()) {
 			print $global['db']->ErrorMsg();
 			return false;
 		}
 		return true;
-	}else{
+	} else {
 		add_error(_t("Unknown error in updating configuration value."));
 		return false;
 	}
@@ -65,23 +73,19 @@ function _shn_lc_setdblc($locale) {
 function _shn_lc_getdblc() {
 	global $global;
 
-	$sql = "SELECT value FROM config " .
-			"WHERE module_id = 'admin' " .
-			"AND confkey = 'locale'";
+	$q = "
+		SELECT value FROM config
+		WHERE module_id = 'admin'
+		AND confkey = 'locale';
+	";
+	$rs = $global['db']->Execute($q);
 
-	$rs = $global['db']->Execute($sql);
-
-	if(!$rs)
-	{
+	if(!$rs) {
 		print "Error : " . $global['db']->ErrorMsg();
 		return false;
-	}
-	else if(1>$rs->RecordCount())
-	{
+	} else if(1 > $rs->RecordCount()) {
 		return false;
-	}
-	else
-	{
+	} else {
 		$rs = $rs->getArray();
 		return $rs[0][0];
 	}
@@ -149,10 +153,14 @@ function _shn_lc_lang_list($mode = 1) {
 		$mod = "";
 	}
 
-	echo "<div id=\"language\"><form method=\"post\" action=\"index.php?mod=".$mod."&amp;act=lc_set\" id=\"language_form\">";
-	shn_form_hidden(array('seq'=>'set_locale'));
-	shn_form_select($lc_list, "Language", "locale", 'onchange="submit(this);"', array('value'=>"$locale"));
-	echo "</form></div>";
+	echo '
+		<div id="language">
+			<form method="post" action="index.php?mod='.$mod.'&amp;act='.$global['action'].'" id="language_form">';
+			shn_form_hidden(array('seq'=>'set_locale'));
+			shn_form_select($lc_list, "Language", "locale", 'onchange="submit(this);"', array('value'=>"$locale"));
+	echo '
+			</form>
+		</div>';
 }
 
 
@@ -164,10 +172,9 @@ function _shn_lc_get_dbpo() {
 	foreach ($list as $str=>$comments) {
 		$string = $str;
 		$comment = $comments['table'] . "/" . $comments['field'] . ", ";
-
 		$db_po_str .= "#: $comment\n" .
-                         "msgid \"$string\"\n" .
-                         "msgstr \"\"\n\n";
+			"msgid \"$string\"\n" .
+			"msgstr \"\"\n\n";
 	}
 	return $db_po_str;
 }
@@ -176,14 +183,17 @@ function _shn_lc_get_dbpo() {
 
 function _shn_lc_is_dbl10n_tbl_empty() {
 	global $global;
-	$sql = "SELECT tablename,fieldname FROM  lc_fields";
-	$rs = $global['db']->Execute($sql);
+	$q = "
+		SELECT tablename, fieldname
+		FROM  lc_fields;
+	";
+	$rs = $global['db']->Execute($q);
 
 	if(!$rs) {
-		print "Error : " . $global['db']->ErrorMsg();
+		print "Error : ".$global['db']->ErrorMsg();
 		return null;
 	} else if($rs->RecordCount()==0) {
-		//No records
+		// No records
 		return true;
 	}
 	return false;
@@ -193,15 +203,17 @@ function _shn_lc_is_dbl10n_tbl_empty() {
 
 function _shn_lc_get_db_strlist() {
 	global $global;
-
 	$str_list = array();
-	$sql = "SELECT tablename,fieldname FROM  lc_fields";
-	$rs = $global['db']->Execute($sql);
+	$q = "
+		SELECT tablename, fieldname
+		FROM  lc_fields;
+	";
+	$rs = $global['db']->Execute($q);
 
 	if(!$rs) {
 		print "Error : " . $global['db']->ErrorMsg();
 		return false;
-	} else if(1>$rs->RecordCount()) {
+	} else if(1 > $rs->RecordCount()) {
 		print ">>>>>>>>>>>no db lc";
 		return false;
 	} else {
@@ -227,10 +239,12 @@ function _shn_lc_get_db_strlist() {
 
 function _shn_lc_get_db_tblstrings($table, $field) {
 	global $global;
-
 	$str_list = '';
-	$sql = "SELECT DISTINCT($field) FROM $table";
-	$rs = $global['db']->Execute($sql);
+	$q = "
+		SELECT DISTINCT(".$field.")
+		FROM ".$table.";
+	";
+	$rs = $global['db']->Execute($q);
 
 	if(!$rs) {
 		return array();
