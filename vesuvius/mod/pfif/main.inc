@@ -23,7 +23,6 @@ include_once $global['approot'] . '/inc/lib_image.inc';
 include_once 'lib_pfif.inc';
 include_once 'pfif.inc';
 
-
 function shn_pfif_menu() {
 	echo "<ul>";
         if (isset($_GET['act']) && $_GET['act'] == "import") {
@@ -188,7 +187,7 @@ function shn_pfif_export() {
         shn_form_text(_t('Start date'),'since','',$extra_opts);
         echo "&nbsp;&nbsp;(e.g. 2011-08-01)<br><div class='brake'></div>";
         shn_form_text(_t('End date'),'before');
-        shn_form_checkbox(_t('PL records only'),'original');
+        shn_form_checkbox(_t('Records originating in PL only'),'original');
         shn_form_hidden(array('filename'=>'export.xml','download'=>'download'));
         shn_form_submit(_t('Submit'));
         shn_form_fsclose();

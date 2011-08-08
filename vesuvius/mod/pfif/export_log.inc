@@ -12,7 +12,7 @@
  * @lastModified 2011.0720
  */
 
-require_once("pfif_log.inc");
+require_once("log.inc");
 
 class Pfif_Export_Log extends Pfif_Log {
     const MY_LOG_TABLE = "pfif_export_log";
