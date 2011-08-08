@@ -1,0 +1,94 @@
+SAHANA AGASTI 2.0 MAYON
+Emergency Management Software
+
+LICENSING AND COPYRIGHT INFORMATION
+
+Updated: 2011-02-14
+
+The following information is subject to change. For the most up to date
+information about the Sahana Software Foundation's licenses and agreements,
+please visit
+http://wiki.sahanafoundation.org/doku.php/foundation:start#licenses_and_agreements
+
+
+DISTRIBUTION
+============
+Sahana Agasti is licensed under the GNU Lesser General Public License (LGPL).
+For detailed information please refer to http://www.gnu.org/licenses/lgpl.txt
+
+
+CONTRIBUTOR LICENSE AGREEMENT
+=============================
+The Sahana Software Foundation (SSF) requires a Contributor License Agreement
+(CLA) to be signed and returned by all Members, PMC members and Committers and
+requests them of anyone contributing their intellectual property (code or design
+requirements or ideas) to Sahana projects. This serves to protect everyone's
+rights and ensures SSF can legally and publicly redistribute Sahana's code. The
+purpose of this agreement is to clearly define the terms under which
+intellectual property has been contributed to the SSF and thereby allow us to
+defend the project should there be a legal dispute regarding the software at
+some future time. SSF committees will be responsible for ensuring that all code
+contributions come from only those who have signed a CLA before merging code
+into the trunk. (So if you don't sign and return a CLA, your code contributions
+will not become a part of the main development branch of Sahana nor will it be
+included in any releases from the Sahana Software Foundation).
+
+To obtain a copy of the Contributor License Agreement please visit
+http://wiki.sahanafoundation.org/doku.php/foundation:start#licenses_and_agreements
+
+
+DOCUMENTATION
+=============
+All documentation included with Sahana software and/or included in the Sahana
+wiki is subject to a Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+Unported License. For full details refer to
+http://creativecommons.org/licenses/by-nc-sa/3.0/
+
+
+PLUGIN LICENSING
+================
+Plugins associated with Agasti 2.0 maintain their own licensing; however,
+significant plugins are listed here for reference:
+
+--------
+DokuWiki
+--------
+DokuWiki is licensed under the GNU General Public License (GPL). For detailed
+information please refer to http://www.gnu.org/licenses/gpl-2.0.html.
+
+---------
+jQuery UI
+---------
+Copyright (c) 2011 Paul Bakaus, http://jqueryui.com/
+
+This software consists of voluntary contributions made by many
+individuals (AUTHORS.txt, http://jqueryui.com/about) For exact
+contribution history, see the revision history and logs, available
+at http://jquery-ui.googlecode.com/svn/
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+----------------
+PHP Excel Reader
+----------------
+PHP Excel Reader is available under the MIT License:
+http://code.google.com/p/php-excel-reader/
+
+
