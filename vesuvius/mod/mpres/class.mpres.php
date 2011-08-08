@@ -255,6 +255,13 @@ class mpres {
 						FROM incident
 						WHERE shortname = '".$this->person->shortName."';
 					";
+					if(trim($this->person->shortName) ==  "" || $this->person->shortName == null) {
+						$q = "
+							SELECT *
+							FROM incident
+							WHERE incident_id = '".$this->incident_id."';
+						";
+					}
 					$res = $global['db']->Execute($q);
 					$row = $res->FetchRow();
 					$closed = $row['closed'];
