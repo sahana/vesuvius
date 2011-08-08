@@ -16,4 +16,5 @@ $conf['mod_pref_name']         = _t("My Settings");
 $conf['mod_pref_menuorder']    = 70;
 $conf['mod_pref_dependencies'] = "";
 $conf['mod_pref_version']      = 1.0;
+$conf['mod_pref_hide_in_menu'] = true;
 
