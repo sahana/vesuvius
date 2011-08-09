@@ -757,17 +757,32 @@ function shn_rap_commitPerson($saveImage = false) {
 		$w     = $_REQUEST['w'];
 		$h     = $_REQUEST['h'];
 
-		$crop_x = $x1 / $ratio;
-		$crop_y = $y1 / $ratio;
-		$crop_w = $w  / $ratio;
-		$crop_h = $h  / $ratio;
+		$tag_x = $x1 / $ratio;
+		$tag_y = $y1 / $ratio;
+		$tag_w = $w  / $ratio;
+		$tag_h = $h  / $ratio;
 
 
 		$q18 = "
-			INSERT INTO image (p_uuid, image_type, image_height, image_width, url, url_thumb, crop_x, crop_y, crop_w, crop_h, full_path)
-			VALUES ('".$uuid."', '".$image_type."', '".$image_height."', '".$image_width."', '".$url."', '".$url_thumb."', '".$crop_x."', '".$crop_y."', '".$crop_w."', '".$crop_h."', '".$full_path."');
+			INSERT INTO image (p_uuid, image_type, image_height, image_width, url, url_thumb, full_path)
+			VALUES ('".$uuid."', '".$image_type."', '".$image_height."', '".$image_width."', '".$url."', '".$url_thumb."', '".$full_path."');
 		";
 		$res = $global['db']->Execute($q18);
+
+		// get the id of the last inserted item
+		$q19 = "
+			select *
+			from image
+			order by image_id DESC limit 1;
+		";
+		$res = $global['db']->Execute($q19);
+		$image_id = $res->fields['image_id'];
+
+		$q20 = "
+			INSERT INTO image_tag (image_id, tag_x, tag_y, tag_w, tag_h, tag_text)
+			VALUES ('".$image_id."', '".$tag_x."', '".$tag_y."', '".$tag_w."', '".$tag_h."', '".$tag_text."');
+		";
+		$res = $global['db']->Execute($q20);
 	}
 
 
