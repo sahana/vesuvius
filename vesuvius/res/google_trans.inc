@@ -52,7 +52,7 @@ function shn_google_translate($text) {
 
 	// if locale is same as original, return original
 	if($lang == 'en' || $conf['google_translate_enable'] == false) {
-		return "YOOOOOOO!".$text;
+		return $text;
 	}
 	if($conf['google_translate_api_key'] == '') {
 		// generic key from Ramindu
