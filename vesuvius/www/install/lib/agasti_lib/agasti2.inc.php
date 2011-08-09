@@ -364,6 +364,8 @@ class Agasti{
 
     function dbParams($db_params)
     {
+       global $INS_CONFIG;
+       $filePath=$INS_CONFIG['rootpath'].'/conf/config.php';
        if($db_params['hostname']!=''){
             $arguments = $this->getConfigArray();
             $arguments['db_name']=$db_params['dbname'];
@@ -376,7 +378,7 @@ class Agasti{
 
 
             $configFile=new ConfigurationFileTask();
-            $configFile->execute($arguments);
+            $configFile->execute($arguments,$filePath);
        }
         
 
@@ -384,6 +386,7 @@ class Agasti{
 
     function systemParams($system_params){
         global $INS_CONFIG;
+        $filePath=$INS_CONFIG['rootpath'].'/conf/config.php';
         if($system_params['base_uuid']!=''){
             $arguments = $this->getConfigArray();
             $arguments['db_name']=$this->getConfig('DB_DATABASE','agasti23');
@@ -408,7 +411,7 @@ class Agasti{
             $arguments['enable_plus_web_services']=$system_params['enable_plus_web_services'];
 
             $configFile=new ConfigurationFileTask();
-            $configFile->execute($arguments);
+            $configFile->execute($arguments,$filePath);
         }
         
 
@@ -529,7 +532,8 @@ class Agasti{
 
     function getCurrent()
   {
-    $filename = 'config.php';
+    global $INS_CONFIG;
+    $filename = $INS_CONFIG['rootpath'].'/conf/config.php';
 
     if (file_exists($filename)) {
       $config = Config::loadFile($filename);
@@ -736,15 +740,15 @@ class Agasti{
 }
 
 class ConfigurationFileTask extends Config{
-    function execute($arguments = array())
+    function execute($arguments = array(),$filename)
     {
         if (null !== $options['app'])
         {
-          $file = $INS_CONFIG['rootpath'].'/conf/config.php';
+          $file = $filename;
         }
         else
         {
-          $file = 'config.php';
+          $file = $filename;
         }
         $config = file_exists($file) ? Config::loadFile($file) : array();
 
