@@ -749,7 +749,6 @@ function shn_rap_commitPerson($saveImage = false) {
 		$image_width  = mysql_real_escape_string($_REQUEST['width']);
 		$url          = mysql_real_escape_string($_REQUEST['wwwPath']);
 		$url_thumb    = mysql_real_escape_string($_REQUEST['thumbPath']);
-		$full_path    = mysql_real_escape_string($_REQUEST['realPath']);
 
 		$ratio = $_REQUEST['ratio'];
 		$x1    = $_REQUEST['x1'];
@@ -764,8 +763,8 @@ function shn_rap_commitPerson($saveImage = false) {
 
 
 		$q18 = "
-			INSERT INTO image (p_uuid, image_type, image_height, image_width, url, url_thumb, full_path)
-			VALUES ('".$uuid."', '".$image_type."', '".$image_height."', '".$image_width."', '".$url."', '".$url_thumb."', '".$full_path."');
+			INSERT INTO image (p_uuid, image_type, image_height, image_width, url, url_thumb)
+			VALUES ('".$uuid."', '".$image_type."', '".$image_height."', '".$image_width."', '".$url."', '".$url_thumb."');
 		";
 		$res = $global['db']->Execute($q18);
 

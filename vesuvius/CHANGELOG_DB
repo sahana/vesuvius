@@ -1,10 +1,22 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+2011:0809 Greg
+--------------
+
+ALTER TABLE `image`
+  DROP `crop_x`,
+  DROP `crop_y`,
+  DROP `crop_w`,
+  DROP `crop_h`,
+  DROP `category`;
+
+
 2011:0805 Leif
 --------------
 
-ALTER TABLE `person_status` DROP `isvictim` 
+ALTER TABLE `person_status` DROP `isvictim`
+
 
 2011:0804 Leif
 --------------
