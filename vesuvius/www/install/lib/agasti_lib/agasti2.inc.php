@@ -540,7 +540,7 @@ class Agasti{
     } else {
       $install_flag = false;
     }
-    $filename = '.htaccess';
+    $filename = $INS_CONFIG['rootpath'].'/www/.htaccess';
     if (file_exists($filename)) {
       $htaccess = Htaccess::loadFile($filename);
     } else {
@@ -601,6 +601,7 @@ class Agasti{
 
   function appSaveSetup($htaccess)
   {
+    global $INS_CONFIG;
     $file = $INS_CONFIG['rootpath'].'/www/.htaccess';
 
     try {
