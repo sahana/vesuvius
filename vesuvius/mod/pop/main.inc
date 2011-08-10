@@ -16,16 +16,28 @@
  * @return void
  */
 function shn_pop_default() {
-	shn_pop_configuration();
+	shn_pop_outlog();
 }
 
 
-
 function shn_pop_first() {
-	echo "
-		<h2><a href=\"index.php?mod=pop&amp;act=configuration\">Configure Outbound Email Settings</a></h2>
-		<h2><a href=\"index.php?mod=pop&amp;act=outlog\">View Outbound Email Log</a></h2><br>
-	";
+	global $global;
+
+	echo "<ul>";
+
+	if(($_GET['act'] == "outlog") || ($_GET['act'] == "default")){
+		echo "<li>Outbound Email Log</li>";
+	} else {
+		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=pop&act=outlog\">Outblound Email Log</a></li>";
+	}
+
+	if($_GET['act'] == "configuration") {
+		echo "<li>Configuration Options</li>";
+	} else {
+		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=pop&act=configuration\">Configuration Options</a></li>";
+	}
+
+	echo "</ul><hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
 }
 
 
@@ -39,16 +51,33 @@ function shn_pop_outlog() {
 	global $global;
 	shn_pop_first();
 
+	if(isset($_GET['pagenum'])) {
+		$startPoint = (int)$_GET['pagenum']*100;
+		$endPoint = $startPoint + 99;
+		$msg = "showing messages ".($startPoint+1)." to ".($endPoint+1);
+	} else {
+		$startPoint = 0;
+		$msg = "showing last 100 messages";
+	}
+
+	if((int)$_GET['pagenum'] > 0) {
+		$previous = "<a href=\"index.php?mod=pop&act=outlog&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
+	} else {
+		$previous = "◄";
+	}
+
+	$next = "<a href=\"index.php?mod=pop&act=outlog&pagenum=".($_GET['pagenum']+1)."\">►</a>";
+
 	$query  = "
 		SELECT *
 		FROM pop_outlog
 		ORDER BY time_sent DESC
-		LIMIT 100;
+		LIMIT ".$startPoint.", 100;
 	";
 	$result = $global['db']->Execute($query);
 	$count = 0;
 	echo "<div class=\"form-container\"><form><fieldset>";
-	echo "<legend>Last 100 Outbound Emails Sent</legend>";
+	echo "<legend>Outbound Emails Log (".$msg.") ".$previous." ".$next."</legend>";
 	echo "<table id=\"regLog\"><tr>
 		<td class=\"evener\"><b>Sent By Module</b></td>
 		<td class=\"evener\"><b>Time Sent</b></td>
