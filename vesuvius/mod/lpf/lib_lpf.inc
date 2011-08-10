@@ -1380,7 +1380,7 @@ class pop {
 		$this->messages .= $sendStatus;
 
 		// log that we sent out an email ....
-		$mod = isset($global['module']) ? $global['module'] : "cron";
+		$mod = isset($global['module']) ? $global['module'] : "mpres";
 
 		$q = "INSERT INTO pop_outlog
 			(`mod_accessed`, `time_sent`, `send_status`, `error_message`, `email_subject`, `email_from`, `email_recipients`)
