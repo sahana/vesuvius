@@ -12,6 +12,14 @@
  */
 
 
+// Enumerated Types...
+global $global;
+$global['enumTriageStatusTags'] = array('Green', 'BH Green', 'Yellow', 'Red', 'Gray', 'Black');
+$global['enumGenders']          = array('M', 'F', 'U', 'C');
+$global['enumDistrStatus']      = array('Actual', 'Exercise', 'System', 'Test');
+$global['enumDistrType']        = array('Ack', 'Cancel', 'Dispatch', 'Error', 'Report', 'Request', 'Response', 'Update');
+
+
 /** ******************************************************************************************************************************************************************
 *********************************************************************************************************************************************************************
 ********************************************************************************************************************************************************************
@@ -34,6 +42,13 @@ class personEdxlOne {
 	public $incident_descr; // incident description
 	public $confidentiality;
 
+	private $sql_de_id;
+	private $sql_co_id;
+	private $sql_content_descr;
+	private $sql_incident_id;
+	private $sql_incident_descr;
+	private $sql_confidentiality;
+
 	// edxl_co_lpf
 	public $p_uuid;
 	public $schema_version;
@@ -50,6 +65,21 @@ class personEdxlOne {
 	public $peds;
 	public $triage_category;
 
+	private $sql_p_uuid;
+	private $sql_schema_version;
+	private $sql_login_machine;
+	private $sql_login_account;
+	private $sql_person_id;
+	private $sql_event_name;
+	private $sql_event_long_name;
+	private $sql_org_name;
+	private $sql_org_id;
+	private $sql_last_name;
+	private $sql_first_name;
+	private $sql_gender;
+	private $sql_peds;
+	private $sql_triage_category;
+
 	// edxl_de_header
 	public $when_sent;
 	public $sender_id;     // Email, phone num, etc. Not always URI, URN, URL
@@ -59,7 +89,17 @@ class personEdxlOne {
 	public $combined_conf; // Combined confidentiality of all content objects
 	public $language;
 	public $when_here;     // Received or sent from here. [local]
-	public $inboud;        // BOOLEAN [local]
+	public $inbound;        // BOOLEAN [local]
+
+	private $sql_when_sent;
+	private $sql_sender_id;
+	private $sql_distr_id;
+	private $sql_distr_status;
+	private $sql_distr_type;
+	private $sql_combined_conf;
+	private $sql_language;
+	private $sql_when_here;
+	private $sql_inbound;
 
 	// Constructor
 	public function __construct() {
@@ -67,15 +107,12 @@ class personEdxlOne {
 		global $global;
 		$this->db = $global['db'];
 
-		// edxl_co_header
 		$this->de_id           = null;
 		$this->co_id           = null;
-		$this->content_descr   = null; // content description
-		$this->incident_id     = null; // event id
-		$this->incident_descr  = null; // incident description
+		$this->content_descr   = null;
+		$this->incident_id     = null;
+		$this->incident_descr  = null;
 		$this->confidentiality = null;
-
-		// edxl_co_lpf
 		$this->p_uuid          = null;
 		$this->schema_version  = null;
 		$this->login_machine   = null;
@@ -90,17 +127,45 @@ class personEdxlOne {
 		$this->gender          = null;
 		$this->peds            = null;
 		$this->triage_category = null;
-
-		// edxl_de_header
 		$this->when_sent       = null;
-		$this->sender_id       = null; // Email, phone num, etc. Not always URI, URN, URL
-		$this->distr_id        = null; // Distribution ID. Sender may or may not choose to vary.
+		$this->sender_id       = null;
+		$this->distr_id        = null;
 		$this->distr_status    = null;
-		$this->distr_type      = null; // Not included: types for sensor grids
-		$this->combined_conf   = null; // Combined confidentiality of all content objects
+		$this->distr_type      = null;
+		$this->combined_conf   = null;
 		$this->language        = null;
-		$this->when_here       = null; // Received or sent from here. [local]
-		$this->inboud          = null; // BOOLEAN [local]
+		$this->when_here       = null;
+		$this->inbound         = null;
+
+		$this->sql_de_id           = null;
+		$this->sql_co_id           = null;
+		$this->sql_content_descr   = null;
+		$this->sql_incident_id     = null;
+		$this->sql_incident_descr  = null;
+		$this->sql_confidentiality = null;
+		$this->sql_p_uuid          = null;
+		$this->sql_schema_version  = null;
+		$this->sql_login_machine   = null;
+		$this->sql_login_account   = null;
+		$this->sql_person_id       = null;
+		$this->sql_event_name      = null;
+		$this->sql_event_long_name = null;
+		$this->sql_org_name        = null;
+		$this->sql_org_id          = null;
+		$this->sql_last_name       = null;
+		$this->sql_first_name      = null;
+		$this->sql_gender          = null;
+		$this->sql_peds            = null;
+		$this->sql_triage_category = null;
+		$this->sql_when_sent       = null;
+		$this->sql_sender_id       = null;
+		$this->sql_distr_id        = null;
+		$this->sql_distr_status    = null;
+		$this->sql_distr_type      = null;
+		$this->sql_combined_conf   = null;
+		$this->sql_language        = null;
+		$this->sql_when_here       = null;
+		$this->sql_inbound         = null;
 	}
 
 
@@ -134,7 +199,38 @@ class personEdxlOne {
 		$this->combined_conf   = null;
 		$this->language        = null;
 		$this->when_here       = null;
-		$this->inboud          = null;
+		$this->inbound         = null;
+
+		$this->sql_de_id           = null;
+		$this->sql_co_id           = null;
+		$this->sql_content_descr   = null;
+		$this->sql_incident_id     = null;
+		$this->sql_incident_descr  = null;
+		$this->sql_confidentiality = null;
+		$this->sql_p_uuid          = null;
+		$this->sql_schema_version  = null;
+		$this->sql_login_machine   = null;
+		$this->sql_login_account   = null;
+		$this->sql_person_id       = null;
+		$this->sql_event_name      = null;
+		$this->sql_event_long_name = null;
+		$this->sql_org_name        = null;
+		$this->sql_org_id          = null;
+		$this->sql_last_name       = null;
+		$this->sql_first_name      = null;
+		$this->sql_gender          = null;
+		$this->sql_peds            = null;
+		$this->sql_triage_category = null;
+		$this->sql_when_sent       = null;
+		$this->sql_sender_id       = null;
+		$this->sql_distr_id        = null;
+		$this->sql_distr_status    = null;
+		$this->sql_distr_type      = null;
+		$this->sql_combined_conf   = null;
+		$this->sql_language        = null;
+		$this->sql_when_here       = null;
+		$this->sql_inbound         = null;
+
 		$q = "UNLOCK TABLES;";
 		$result = $this->db->Execute($q);
 	}
@@ -159,8 +255,66 @@ class personEdxlOne {
 	}
 
 
+	// synchronize SQL value strings with public attributes
+	private function sync() {
+		global $global;
+
+		// sanity checks
+
+		// check gender
+		if(!in_array($this->gender, $global['enumGenders'])) {
+			$this->gender = null;
+		}
+		// check triage category
+		if(!in_array($this->triage_category, $global['enumTriageStatusTags'])) {
+			$this->triage_category = null;
+		}
+		// check distr status
+		if(!in_array($this->distr_status, $global['enumDistrStatus'])) {
+			$this->distr_status = null;
+		}
+		// check distr type
+		if(!in_array($this->distr_type, $global['enumDistrType'])) {
+			$this->distr_type = null;
+		}
+
+		// build SQL value strings
+
+		$this->sql_de_id           = ($this->de_id           == null) ? "NULL" : (int)$this->de_id;
+		$this->sql_co_id           = ($this->co_id           == null) ? "NULL" : (int)$this->co_id;
+		$this->sql_content_descr   = ($this->content_descr   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->content_descr)."'";
+		$this->sql_incident_id     = ($this->incident_id     == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->incident_id)."'";
+		$this->sql_incident_descr  = ($this->content_descr   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->content_descr)."'";
+		$this->sql_confidentiality = ($this->confidentiality == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->confidentiality)."'";
+		$this->sql_p_uuid          = ($this->p_uuid          == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
+		$this->sql_schema_version  = ($this->schema_version  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->schema_version)."'";
+		$this->sql_login_machine   = ($this->login_machine   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->login_machine)."'";
+		$this->sql_login_account   = ($this->login_account   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->login_account)."'";
+		$this->sql_person_id       = ($this->person_id       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->person_id)."'";
+		$this->sql_event_name      = ($this->event_name      == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->event_name)."'";
+		$this->sql_event_long_name = ($this->event_long_name == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->event_long_name)."'";
+		$this->sql_org_name        = ($this->org_name        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->org_name)."'";
+		$this->sql_org_id          = ($this->org_id          == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->org_id)."'";
+		$this->sql_last_name       = ($this->last_name       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_name)."'";
+		$this->sql_first_name      = ($this->first_name      == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->first_name)."'";
+		$this->sql_gender          = ($this->gender          == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->gender)."'";
+		$this->sql_peds            = ($this->peds            == null) ? "NULL" : (int)$this->peds;
+		$this->sql_triage_category = ($this->triage_category == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->triage_category)."'";
+		$this->sql_when_sent       = ($this->when_sent       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->when_sent)."'";
+		$this->sql_sender_id       = ($this->sender_id       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->sender_id)."'";
+		$this->sql_distr_id        = ($this->distr_id        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->distr_id)."'";
+		$this->sql_distr_status    = ($this->distr_status    == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->distr_status)."'";
+		$this->sql_distr_type      = ($this->distr_type      == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->distr_type)."'";
+		$this->sql_combined_conf   = ($this->combined_conf   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->combined_conf)."'";
+		$this->sql_language        = ($this->language        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->language)."'";
+		$this->sql_when_here       = ($this->when_here       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->when_here)."'";
+		$this->sql_inbound         = ($this->inbound         == null) ? "NULL" : (int)$this->inbound;
+	}
+
+
 	// save the image tag
 	public function insert() {
+		$this->sync();
 		$q = "
 			INSERT INTO edxl_de_header (
 				de_id,
@@ -174,16 +328,16 @@ class personEdxlOne {
 				when_here,
 				inbound )
 			VALUES (
-				".$this->de_id.",
-				".$this->when_sent.",
-				".$this->sender_id.",
-				".$this->distr_id.",
-				".$this->distr_status.",
-				".$this->distr_type.",
-				".$this->combined_conf.",
-				".$this->language.",
-				".$this->when_here.",
-				".$this->inbound." );
+				".$this->sql_de_id.",
+				".$this->sql_when_sent.",
+				".$this->sql_sender_id.",
+				".$this->sql_distr_id.",
+				".$this->sql_distr_status.",
+				".$this->sql_distr_type.",
+				".$this->sql_combined_conf.",
+				".$this->sql_language.",
+				".$this->sql_when_here.",
+				".$this->sql_inbound." );
 		";
 		$result = $this->db->Execute($q);
 
@@ -196,12 +350,12 @@ class personEdxlOne {
 				incident_descr,
 				confidentiality )
 			VALUES (
-				".$this->de_id.",
-				".$this->co_id.",
-				".$this->content_descr.",
-				".$this->incident_id.",
-				".$this->incident_descr.",
-				".$this->confifentiality." );
+				".$this->sql_de_id.",
+				".$this->sql_co_id.",
+				".$this->sql_content_descr.",
+				".$this->sql_incident_id.",
+				".$this->sql_incident_descr.",
+				".$this->sql_confifentiality." );
 		";
 		$result = $this->db->Execute($q);
 
@@ -223,12 +377,12 @@ class personEdxlOne {
 				peds,
 				triage_category )
 			VALUES (
-				".$this->de_id.",
-				".$this->co_id.",
-				".$this->content_descr.",
-				".$this->incident_id.",
-				".$this->incident_descr.",
-				".$this->confifentiality." );
+				".$this->sql_de_id.",
+				".$this->sql_co_id.",
+				".$this->sql_content_descr.",
+				".$this->sql_incident_id.",
+				".$this->sql_incident_descr.",
+				".$this->sql_confifentiality." );
 		";
 		$result = $this->db->Execute($q);
 	}
@@ -252,13 +406,21 @@ class personEdxlOne {
 
 class personImageTag {
 
-	public $tag_id;   // tag_id
-	public $image_id; // image_id
-	public $tag_x;    // tag_x
-	public $tag_y;    // tag_y
-	public $tag_w;    // tag_w
-	public $tag_h;    // tag_h
-	public $tag_text; // tag_text
+	public $tag_id;
+	public $image_id;
+	public $tag_x;
+	public $tag_y;
+	public $tag_w;
+	public $tag_h;
+	public $tag_text;
+
+	private $sql_tag_id;
+	private $sql_image_id;
+	private $sql_tag_x;
+	private $sql_tag_y;
+	private $sql_tag_w;
+	private $sql_tag_h;
+	private $sql_tag_text;
 
 	// Constructor
 	public function __construct($image_id) {
@@ -268,12 +430,20 @@ class personImageTag {
 
 		// init values
 		$this->tag_id   = null;
-		$this->image_id = "'".$image_id."'";
-		$this->tag_x    = "NULL";
-		$this->tag_y    = "NULL";
-		$this->tag_w    = "NULL";
-		$this->tag_h    = "NULL";
-		$this->tag_text = "NULL";
+		$this->image_id = null;
+		$this->tag_x    = null;
+		$this->tag_y    = null;
+		$this->tag_w    = null;
+		$this->tag_h    = null;
+		$this->tag_text = null;
+
+		$this->sql_tag_id   = null;
+		$this->sql_image_id = null;
+		$this->sql_tag_x    = null;
+		$this->sql_tag_y    = null;
+		$this->sql_tag_w    = null;
+		$this->sql_tag_h    = null;
+		$this->sql_tag_text = null;
 	}
 
 
@@ -286,9 +456,19 @@ class personImageTag {
 		$this->tag_w    = null;
 		$this->tag_h    = null;
 		$this->tag_text = null;
+
+		$this->sql_tag_id   = null;
+		$this->sql_image_id = null;
+		$this->sql_tag_x    = null;
+		$this->sql_tag_y    = null;
+		$this->sql_tag_w    = null;
+		$this->sql_tag_h    = null;
+		$this->sql_tag_text = null;
+
 		$q = "UNLOCK TABLES;";
 		$result = $this->db->Execute($q);
 	}
+
 
 	// initializes some values for a new instance (instead of when we load a previous instance)
 	public function init() {
@@ -302,8 +482,26 @@ class personImageTag {
 		$this->tag_id = $result->fields['Auto_increment'];
 	}
 
+
+	// synchronize SQL value strings with public attributes
+	private function sync() {
+		global $global;
+
+		// build SQL value strings
+
+		$this->sql_tag_id   = ($this->tag_id   == null) ? "NULL" : (int)$this->tag_id;
+		$this->sql_image_id = ($this->image_id == null) ? "NULL" : (int)$this->image_id;
+		$this->sql_tag_x    = ($this->tag_x    == null) ? "NULL" : (int)$this->tag_x;
+		$this->sql_tag_y    = ($this->tag_y    == null) ? "NULL" : (int)$this->tag_y;
+		$this->sql_tag_w    = ($this->tag_w    == null) ? "NULL" : (int)$this->tag_w;
+		$this->sql_tag_h    = ($this->tag_h    == null) ? "NULL" : (int)$this->tag_h;
+		$this->sql_tag_text = ($this->tag_text == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->tag_text)."'";
+	}
+
+
 	// save the image tag
 	public function insert() {
+		$this->sync();
 		$q = "
 			INSERT INTO image_tag (
 				tag_id,
@@ -314,13 +512,13 @@ class personImageTag {
 				tag_h,
 				tag_text )
 			VALUES (
-				".$this->tag_id.",
-				".$this->image_id.",
-				".$this->tag_x.",
-				".$this->tag_y.",
-				".$this->tag_w.",
-				".$this->tag_h.",
-				".$this->tag_text." );
+				".$this->sql_tag_id.",
+				".$this->sql_image_id.",
+				".$this->sql_tag_x.",
+				".$this->sql_tag_y.",
+				".$this->sql_tag_w.",
+				".$this->sql_tag_h.",
+				".$this->sql_tag_text." );
 		";
 		$result = $this->db->Execute($q);
 	}
@@ -341,154 +539,206 @@ class personImageTag {
 
 class personImage {
 
-	public $image_id;          // image_id
-	public $p_uuid;            // p_uuid
-	public $mimeType;          // image_type
-	public $height;            // image_height
-	public $width;             // image_width
-	public $created;           // created (timestamp)
-	public $category;          // category (person)
-	public $url;               // url
-	public $url_thumb;         // url_thumb
-	public $filename;          //
-	public $filenameOriginal;  // original_filename
-	public $fileContentBase64; //
-	public $fileContent;       //
-	public $cropX;             // crop_x
-	public $cropY;             // crop_y
-	public $cropW;             // crop_w
-	public $cropH;             // crop_h
-	public $fullSizePath;      // full_path
-	public $thumbnailPath;     //
-	public $tags;              //
+	public $image_id;
+	public $p_uuid;
+	public $image_type;
+	public $image_height;
+	public $image_width;
+	public $created;
+	public $url;
+	public $url_thumb;
+	public $original_filename;
+
+	private $sql_image_id;
+	private $sql_p_uuid;
+	private $sql_image_type;
+	private $sql_image_height;
+	private $sql_image_width;
+	private $sql_created;
+	private $sql_url;
+	private $sql_url_thumb;
+	private $sql_original_filename;
+
+	// extra image info
+	public  $fileContentBase64;
+	public  $fileContent;
+	private $tags;
+
 
 	// Constructor
-	public function __construct($p_uuid, $mimeType, $fileContentBase64) {
-		if($mimeType == "image/png") {
-			$fileExtension = ".png";
-		} else if($mimeType == "image/gif") {
-			$fileExtension = ".gif";
-		} else {
-			$fileExtension = ".jpg";
-		}
-		$this->image_id          = null;
-		$this->p_uuid            = "'".$p_uuid."'";
-		$this->mimeType          = "'".$mimeType."'";
-		$this->height            = 0;
-		$this->width             = 0;
-		$this->created           = "'".date("Y-m-d : H:i:s", time())."'"; // 2037-12-31 23:59:59
-		$this->category          = "'person'";
-		$this->filenameOriginal  = "NULL";
-		$this->cropX             = "NULL";
-		$this->cropY             = "NULL";
-		$this->cropW             = "NULL";
-		$this->cropH             = "NULL";
+	public function __construct() {
+		// init db
+		global $global;
+		$this->db = $global['db'];
 
-		$this->filename          = str_replace("/", "_", $this->p_uuid)."__".(string)rand(1000000, 9999999);
-		$this->fileContentBase64 = $fileContentBase64;
-		$this->fileContent       = base64_decode($this->fileContentBase64);
-		$this->fullSizePath      = $global['approot']."www/tmp/plus_cache/".$this->filename.$fileExtension;
-		$this->thumbnailPath     = $global['approot']."www/tmp/plus_cache/".$this->filename."__thumb".$fileExtension;
-		$this->url               = "tmp/plus_cache/".$this->filename.$fileExtension;
-		$this->url_thumb         = "tmp/plus_cache/".$this->filename."__thumb".$fileExtension;
-		$this->tags              = array();
+		$this->image_id              = null;
+		$this->p_uuid                = null;
+		$this->image_type            = null;
+		$this->image_height          = null;
+		$this->image_width           = null;
+		$this->created               = null;
+		$this->url                   = null;
+		$this->url_thumb             = null;
+		$this->original_filename     = null;
+		$this->sql_image_id          = null;
+		$this->sql_p_uuid            = null;
+		$this->sql_image_type        = null;
+		$this->sql_image_height      = null;
+		$this->sql_image_width       = null;
+		$this->sql_created           = null;
+		$this->sql_url               = null;
+		$this->sql_url_thumb         = null;
+		$this->sql_original_filename = null;
+		$this->fileContentBase64     = null;
+		$this->fileContent           = null;
+		$this->fullSizePath          = null;
+		$this->thumbnailPath         = null;
+		$this->tags                  = null;
 	}
 
 
 	// Destructor
 	public function __destruct() {
-		$this->image_id          = null;
-		$this->p_uuid            = null;
-		$this->mimeType          = null;
-		$this->height            = null;
-		$this->width             = null;
-		$this->created           = null;
-		$this->category          = null;
-		$this->url               = null;
-		$this->url_thumb         = null;
-		$this->filename          = null;
-		$this->filenameOriginal  = null;
-		$this->fileContentBase64 = null;
-		$this->fileContent       = null;
-		$this->cropX             = null;
-		$this->cropY             = null;
-		$this->cropW             = null;
-		$this->cropH             = null;
-		$this->fullSizePath      = null;
-		$this->thumbnailPath     = null;
+		$this->image_id              = null;
+		$this->p_uuid                = null;
+		$this->image_type            = null;
+		$this->image_height          = null;
+		$this->image_width           = null;
+		$this->created               = null;
+		$this->url                   = null;
+		$this->url_thumb             = null;
+		$this->original_filename     = null;
+		$this->sql_image_id          = null;
+		$this->sql_p_uuid            = null;
+		$this->sql_image_type        = null;
+		$this->sql_image_height      = null;
+		$this->sql_image_width       = null;
+		$this->sql_created           = null;
+		$this->sql_url               = null;
+		$this->sql_url_thumb         = null;
+		$this->sql_original_filename = null;
+		$this->fileContentBase64     = null;
+		$this->fileContent           = null;
+		$this->fullSizePath          = null;
+		$this->thumbnailPath         = null;
+		$this->tags                  = null;
+
+		$q = "UNLOCK TABLES;";
+		$result = $this->db->Execute($q);
 	}
 
-	// save the current image
-	public function save() {
+	// initializes some values for a new instance (instead of when we load a previous instance)
+	public function init() {
+		// lock tables to hold new indexes for this session
+		$q = "LOCK TABLE image write;";
+		$result = $this->db->Execute($q);
+
+		// get index values
+		$q = "SHOW TABLE STATUS LIKE 'image'";
+		$result = $this->db->Execute($q);
+		$this->image_id = $result->fields['Auto_increment'];
+	}
+
+
+	// synchronize SQL value strings with public attributes
+	private function sync() {
+		global $global;
+
+		// build SQL strings from values
+
+		$this->sql_image_id          = ($this->image_id          == null) ? "NULL" : (int)$this->image_id;
+		$this->sql_p_uuid            = ($this->p_uuid            == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
+		$this->sql_image_type        = ($this->image_type        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->image_type)."'";
+		$this->sql_image_height      = ($this->image_height      == null) ? "NULL" : (int)$this->image_height;
+		$this->sql_image_width       = ($this->image_width       == null) ? "NULL" : (int)$this->image_width;
+		$this->sql_created           = ($this->created           == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->created)."'";
+		$this->sql_url               = ($this->url               == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url)."'";
+		$this->sql_url_thumb         = ($this->url_thumb         == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_thumb)."'";
+		$this->sql_original_filename = ($this->original_filename == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->original_filename)."'";
+	}
+
+
+	public function decode() {
+		$this->fileContent = base64_decode($this->fileContentBase64);
+	}
+
+
+	private function write() {
 		global $global;
 		require_once($global['approot']."inc/lib_image.inc");
 
-		file_put_contents($this->fullSizePath, $this->fileContent);
-		shn_image_resize_height($fullSizePath, $this->thumbnailPath, 320); // save a 320px wide thumbnail
+		// base64 to hex
+		$this->decode();
 
-		// make the files world writeable for other applications
-		chmod($fullSizePath,  0777);
-		chmod($thumbnailPath, 0777);
+		// generate path and filename portion
+		$a = explode("/", $this->p_uuid);
+		$filename = $a[1]; // take the person.123456 out of the pl.nlm.nih.gov/person.123456 uuid
+		$filename = $filename."_".$this->image_id."_"; // filename now like person.123456_112233_
+		$path = $global['approot']."www/tmp/plus_cache/".$filename; // path is now like /opt/pl/www/tmp/plus_cache/person.123456_112233_
 
-		$info = getimagesize($fullSizePath);
-		$this->width  = $info[0];
-		$this->height = $info[1];
+		// save original like /opt/pl/www/tmp/plus_cache/person.123456_112233_original
+		file_put_contents($path."original", $this->fileContent);
 
+		// get information from original file
+		$info = getimagesize($path."original");
+		$this->image_width  = $info[0];
+		$this->image_height = $info[1];
+		list(,$mime) = explode("/",$info['mime']);
+		$mime = strtolower($mime);
+		$this->image_type = $mime;
+		if(stripos($mime,"png") !== FALSE) {
+			$ext = ".png";
+		} elseif(stripos($mime,"gif") !== FALSE) {
+			$ext = ".gif";
+		} else {
+			$ext = ".jpg";
+		}
+
+		// save full size resampled image like /opt/pl/www/tmp/plus_cache/person.123456_112233_full.ext
+		shn_image_resize($path."original", $path."full".$ext, $this->image_width, $this->image_height);
+
+		// save thumb resampled image (320px height) like /opt/pl/www/tmp/plus_cache/person.123456_112233_thumb.ext
+		shn_image_resize_height($path."original", $path."thumb".$ext, 320);
+
+		// update URLs
+		$this->url       = "tmp/plus_cache/".$filename."full".$ext;
+		$this->url_thumb = "tmp/plus_cache/".$filename."thumb".$ext;
+
+		// make the files world writeable for other users/applications and to handle deletes
+		chmod($path."original",   0777);
+		chmod($path."full".$ext,  0777);
+		chmod($path."thumb".$ext, 0777);
+	}
+
+
+	// save the image tag
+	public function insert() {
+		// save image to disk
+		$this->write();
+
+		// db insert
+		$this->sync();
 		$q = "
 			INSERT INTO image (
+				image_id
 				p_uuid,
 				image_type,
 				image_height,
 				image_width,
-				created,
-				category,
 				url,
 				url_thumb,
-				original_filename,
-				cropX,
-				cropY,
-				cropW,
-				cropH,
-				full_path )
+				original_filename )
 			VALUES (
-				".$this->p_uuid.",
-				".$this->mimeType.",
-				".$this->height.",
-				".$this->width.",
-				".$this->created.",
-				".$this->category.",
+				".$this->sql_image_id.",
+				".$this->sql_p_uuid.",
+				".$this->sql_image_type.",
+				".$this->sql_height.",
+				".$this->sql_width.",
 				".$this->url.",
 				".$this->url_thumb.",
-				".$this->original_filename."
-				".$this->cropX.",
-				".$this->cropY.",
-				".$this->cropW.",
-				".$this->cropH.",
-				".$this->fullPath." );
+				".$this->original_filename." );
 		";
-		$res = $global['db']->Execute($q);
-		$this->image_id = $global['db']->Insert_ID('image', 'image_id');
-	}
-
-	// Debug
-	public function debug() {
-		echo "\nimage_id >>>>>>>>>>> ".$this->image_id." <<";
-		echo "\np_uuid >>>>>>>>>>>>> ".$this->p_uuid." <<";
-		echo "\nmimeType >>>>>>>>>>> ".$this->mimeType." <<";
-		echo "\nheight >>>>>>>>>>>>> ".$this->height." <<";
-		echo "\nwidth >>>>>>>>>>>>>> ".$this->width." <<";
-		echo "\ncreated >>>>>>>>>>>> ".$this->created." <<";
-		echo "\ncategory >>>>>>>>>>> ".$this->category." <<";
-		echo "\nurl >>>>>>>>>>>>>>>> ".$this->url." <<";
-		echo "\nurl_thumb >>>>>>>>>> ".$this->url_thumb." <<";
-		echo "\nfilename >>>>>>>>>>> ".$this->filename." <<";
-		echo "\nfilenameOriginal >>> ".$this->filenameOriginal." <<";
-		echo "\ncropX >>>>>>>>>>>>>> ".$this->cropX." <<";
-		echo "\ncropY >>>>>>>>>>>>>> ".$this->cropY." <<";
-		echo "\ncropW >>>>>>>>>>>>>> ".$this->cropW." <<";
-		echo "\ncropH >>>>>>>>>>>>>> ".$this->cropH." <<";
-		echo "\nfullSizePath >>>>>>> ".$this->fullSizePath." <<";
-		echo "\nthumbnailPath >>>>>> ".$this->thumbnailPath." <<\n";
+		$result = $this->db->Execute($q);
 	}
 }
 
@@ -523,11 +773,9 @@ class person {
 	// table person_status
 	public $opt_status;
 	public $last_updated;
-	public $isVictim;
 	public $creation_time;
 
 	// table person_details
-	public $details_id;
 	public $birth_date;
 	public $opt_race;
 	public $opt_religion;
@@ -543,15 +791,39 @@ class person {
 	public $rep_uuid;
 	public $relation;
 
-	// table image
+	// person's images
 	public $images;
 
+	// sql strings of the objetct's attributes
+	private $sql_p_uuid;
+	private $sql_full_name;
+	private $sql_family_name;
+	private $sql_given_name;
+	private $sql_incident_id;
+	private $sql_hospital_uuid;
+	private $sql_expiry_date;
+	private $sql_opt_status;
+	private $sql_last_updated;
+	private $sql_creation_time;
+	private $sql_birth_date;
+	private $sql_opt_race;
+	private $sql_opt_religion;
+	private $sql_opt_gender;
+	private $sql_years_old;
+	private $sql_minAge;
+	private $sql_maxAge;
+	private $sql_last_seen;
+	private $sql_last_clothing;
+	private $sql_other_comments;
+	private $sql_rep_uuid;
+	private $sql_relation;
 
 
 	// Constructor:
 	public function	__construct() {
 		$this->theString      = null;
 		$this->xmlFormat      = null;
+
 		$this->p_uuid         = null;
 		$this->full_name      = null;
 		$this->family_name    = null;
@@ -561,9 +833,7 @@ class person {
 		$this->expiry_date    = null;
 		$this->opt_status     = null;
 		$this->last_updated   = null;
-		$this->isVictim       = null;
 		$this->creation_time  = null;
-		$this->details_id     = null;
 		$this->birth_date     = null;
 		$this->opt_race       = null;
 		$this->opt_religion   = null;
@@ -576,7 +846,31 @@ class person {
 		$this->other_comments = null;
 		$this->rep_uuid       = null;
 		$this->relation       = null;
+
 		$this->images         = null;
+
+		$this->sql_p_uuid         = null;
+		$this->sql_full_name      = null;
+		$this->sql_family_name    = null;
+		$this->sql_given_name     = null;
+		$this->sql_incident_id    = null;
+		$this->sql_hospital_uuid  = null;
+		$this->sql_expiry_date    = null;
+		$this->sql_opt_status     = null;
+		$this->sql_last_updated   = null;
+		$this->sql_creation_time  = null;
+		$this->sql_birth_date     = null;
+		$this->sql_opt_race       = null;
+		$this->sql_opt_religion   = null;
+		$this->sql_opt_gender     = null;
+		$this->sql_years_old      = null;
+		$this->sql_minAge         = null;
+		$this->sql_maxAge         = null;
+		$this->sql_last_seen      = null;
+		$this->sql_last_clothing  = null;
+		$this->sql_other_comments = null;
+		$this->sql_rep_uuid       = null;
+		$this->sql_relation       = null;
 	}
 
 
@@ -585,6 +879,7 @@ class person {
 	public function __destruct() {
 		$this->theString      = null;
 		$this->xmlFormat      = null;
+
 		$this->p_uuid         = null;
 		$this->full_name      = null;
 		$this->family_name    = null;
@@ -594,9 +889,7 @@ class person {
 		$this->expiry_date    = null;
 		$this->opt_status     = null;
 		$this->last_updated   = null;
-		$this->isVictim       = null;
 		$this->creation_time  = null;
-		$this->details_id     = null;
 		$this->birth_date     = null;
 		$this->opt_race       = null;
 		$this->opt_religion   = null;
@@ -609,173 +902,157 @@ class person {
 		$this->other_comments = null;
 		$this->rep_uuid       = null;
 		$this->relation       = null;
+
 		$this->images         = null;
+
+		$this->sql_p_uuid         = null;
+		$this->sql_full_name      = null;
+		$this->sql_family_name    = null;
+		$this->sql_given_name     = null;
+		$this->sql_incident_id    = null;
+		$this->sql_hospital_uuid  = null;
+		$this->sql_expiry_date    = null;
+		$this->sql_opt_status     = null;
+		$this->sql_last_updated   = null;
+		$this->sql_creation_time  = null;
+		$this->sql_birth_date     = null;
+		$this->sql_opt_race       = null;
+		$this->sql_opt_religion   = null;
+		$this->sql_opt_gender     = null;
+		$this->sql_years_old      = null;
+		$this->sql_minAge         = null;
+		$this->sql_maxAge         = null;
+		$this->sql_last_seen      = null;
+		$this->sql_last_clothing  = null;
+		$this->sql_other_comments = null;
+		$this->sql_rep_uuid       = null;
+		$this->sql_relation       = null;
 	}
 
 
-	public function save() {
+	// initializes some values for a new instance (instead of when we load a previous instance)
+	public function init() {
+		require_once($global['approot']."inc/lib_uuid.inc");
+		$this->p_uuid = shn_create_uuid();
+	}
+
+
+	// synchronize SQL value strings with public attributes
+	private function sync() {
+		global $global;
+
+		// build SQL value strings
+
+		$this->sql_p_uuid         = ($this->p_uuid         == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
+		$this->sql_full_name      = ($this->full_name      == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->full_name)."'";
+		$this->sql_family_name    = ($this->family_name    == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->family_name)."'";
+		$this->sql_given_name     = ($this->given_name     == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->given_name)."'";
+		$this->sql_incident_id    = ($this->incident_id    == null) ? "NULL" : (int)$this->incident_id;
+		$this->sql_hospital_uuid  = ($this->hospital_uuid  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->hospital_uuid)."'";
+		$this->sql_expiry_date    = ($this->expiry_date    == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->expiry_date)."'";
+
+		$this->sql_opt_status     = ($this->opt_status     == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_status)."'";
+		$this->sql_last_updated   = ($this->last_updated   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_updated)."'";
+		$this->sql_creation_time  = ($this->creation_time  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->creation_time)."'";
+
+		$this->sql_birth_date     = ($this->birth_date     == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->birth_date)."'";
+		$this->sql_opt_race       = ($this->opt_race       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_race)."'";
+		$this->sql_opt_religion   = ($this->opt_religion   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_religion)."'";
+		$this->sql_opt_gender     = ($this->opt_gender     == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_gender)."'";
+		$this->sql_years_old      = ($this->years_old      == null) ? "NULL" : (int)$this->years_old;
+		$this->sql_minAge         = ($this->minAge         == null) ? "NULL" : (int)$this->minAge;
+		$this->sql_maxAge         = ($this->maxAge         == null) ? "NULL" : (int)$this->maxAge;
+		$this->sql_last_seen      = ($this->last_seen      == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_seen)."'";
+		$this->sql_last_clothing  = ($this->last_clothing  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_clothing)."'";
+		$this->sql_other_comments = ($this->other_comments == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->other_comments)."'";
+
+		$this->sql_rep_uuid       = ($this->rep_uuid       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->rep_uuid)."'";
+		$this->sql_relation       = ($this->relation       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->relation)."'";
+	}
+
+
+	// save the image tag
+	public function insert() {
+		$this->sync();
+		$q = "
+			INSERT INTO person_uuid (
+				p_uuid,
+				full_name,
+				family_name,
+				given_name,
+				incident_id,
+				hospital_uuid,
+				expiry_date )
+			VALUES (
+				".$this->sql_p_uuid.",
+				".$this->sql_full_name.",
+				".$this->sql_family_name.",
+				".$this->sql_given_name.",
+				".$this->sql_incident_id.",
+				".$this->sql_hospital_uuid.",
+				".$this->sql_expiry_date." );
+		";
+		$result = $this->db->Execute($q);
+
+		$q = "
+			INSERT INTO person_status (
+				p_uuid,
+				opt_status,
+				last_updated,
+				creation_time )
+			VALUES (
+				".$this->sql_p_uuid.",
+				".$this->sql_opt_status.",
+				".$this->sql_last_updated.",
+				".$this->sql_creation_time." );
+		";
+		$result = $this->db->Execute($q);
+
+		$q = "
+			INSERT INTO person_details (
+				p_uuid,
+				birth_date,
+				opt_race,
+				opt_religion,
+				opt_gender,
+				years_old,
+				minAge,
+				maxAge,
+				last_seen,
+				last_clothing,
+				other_comments )
+			VALUES (
+				".$this->sql_p_uuid.",
+				".$this->sql_birth_date.",
+				".$this->sql_opt_race.",
+				".$this->sql_opt_religion.",
+				".$this->sql_opt_gender.",
+				".$this->sql_years_old.",
+				".$this->sql_minAge.",
+				".$this->sql_maxAge.",
+				".$this->sql_last_seen.",
+				".$this->sql_last_clothing.",
+				".$this->sql_other_comments." );
+		";
+		$result = $this->db->Execute($q);
+
+
+		// insert into plus_log
+		$q = "
+			INSERT INTO plus_log (p_uuid)
+			VALUES ('".$this->p_uuid."');
+		";
+		$result = $this->db->Execute($q);
+
+		//$this->insertImages();
+	}
+
+
+	public function makePfifNote() {
 		global $global;
 		// we use the pfif lib to create pfif notes in managing persons...
 		require_once($global['approot']."mod/pfif/pfif.inc");
-
-
-
-
-
-
-
-
-//////////////////////////
-
-		global $global;
-
-		$this->extractStatusFromSubject();
-
-		$name = new nameParser($this->emailSubject);
-		$this->givenName  = $name->getFirstName();
-		$this->familyName = $name->getLastName();
-
-		// insert person
-		$q1 = "
-			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
-			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', NULL);
-		";
-		$res = $global['db']->Execute($q1);
-
-
-		// insert person's status
-		$q4 = "
-			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
-			VALUES ( '".$this->uuid."', '".$this->sahanaStatus."', CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);
-		";
-		$res = $global['db']->Execute($q4);
-
-
-		// insert into mpres_log
-		$q5 = "
-			INSERT INTO mpres_log (p_uuid, email_subject, email_from, email_date, update_time)
-			VALUES ('".$this->uuid."','".$this->emailSubject."','".$this->emailFrom."','".$this->emailDate."',NOW());
-		";
-		$res = $global['db']->Execute($q5);
-
-
-		// insert person's details
-		$q6 = "
-			INSERT INTO person_details (p_uuid, opt_gender, years_old, last_seen, last_clothing, other_comments)
-			VALUES ('".$this->uuid."', NULL, NULL, NULL, NULL, NULL);
-		";
-		$res = $global['db']->Execute($q6);
-
-
-		// insert person who reported link to root cuz we dont really know who reported them
-		$q7 = "
-			INSERT INTO person_to_report (p_uuid, rep_uuid)
-			VALUES ('".$this->uuid."', '1');
-		";
-		$res = $global['db']->Execute($q7);
-
-		$this->insertImages();
-
-////////////////////
-
-
-		global $global;
-		$this->figureOutIncidentId();
-
-		// insert person
-		$q1 = "
-			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
-			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', ".$this->hospitalId.");
-		";
-		$res = $global['db']->Execute($q1);
-
-
-		// insert person's status
-		$q4 = "
-			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
-			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);
-		";
-		$res = $global['db']->Execute($q4);
-
-
-		// insert person's details
-		$q5 = "
-			INSERT INTO person_details (p_uuid, opt_gender, years_old, last_seen, last_clothing, other_comments)
-			VALUES ('".$this->uuid."', ".$this->gender.", '".$this->age."', NULL, NULL, '".$this->comments."');
-		";
-		$res = $global['db']->Execute($q5);
-
-
-		// insert into mpres_log
-		$q7 = "
-			INSERT INTO mpres_log (p_uuid, email_subject, email_from, email_date, update_time)
-			VALUES ('".$this->uuid."','".$this->emailSubject."','".$this->emailFrom."','".$this->emailDate."',NOW());
-		";
-		$res = $global['db']->Execute($q7);
-
-		$this->insertImages();
-
-////////////////
-
-		global $global;
-		$this->figureOutIncidentId();
-
-		// insert person
-		$q1 = "
-			INSERT INTO person_uuid (p_uuid, full_name, family_name, given_name, incident_id, hospital_uuid)
-			VALUES ('".$this->uuid."', '".$this->givenName." ".$this->familyName."', '".$this->familyName."', '".$this->givenName."', '".$this->incident_id."', ".$this->hospitalId.");
-		";
-		$res = $global['db']->Execute($q1);
-
-
-		// insert person's status
-		$q4 = "
-			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
-			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', '".$this->clientDate."', TRUE, CURRENT_TIMESTAMP);
-		";
-		$res = $global['db']->Execute($q4);
-
-
-		// insert person's details
-		$q5 = "
-			INSERT INTO person_details (p_uuid, opt_gender, years_old, minAge, maxAge)
-			VALUES ('".$this->uuid."', ".$this->gender.", ".$this->age.", ".$this->minAge.", ".$this->maxAge.");
-		";
-		$res = $global['db']->Execute($q5);
-
-		// insert into mpres_log
-		$q7 = "
-			INSERT INTO mpres_log (p_uuid, email_subject, email_from, email_date, update_time)
-			VALUES ('".$this->uuid."','".$this->emailSubject."','".$this->emailFrom."','".$this->emailDate."',NOW());
-		";
-		$res = $global['db']->Execute($q7);
-
-		$this->insertImages();
-
-///////////////
-
-
-
-
-
 	}
-
-
-	public function load() {
-		global $global;
-		// we use the pfif lib to create pfif notes in managing persons...
-		require_once($global['approot']."mod/pfif/pfif.inc");
-
-	}
-
-
-	public function edit() {
-		global $global;
-		// we use the pfif lib to create pfif notes in managing persons...
-		require_once($global['approot']."mod/pfif/pfif.inc");
-
-	}
-
 
 
 	public function parseXml() {

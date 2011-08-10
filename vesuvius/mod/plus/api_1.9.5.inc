@@ -1382,10 +1382,8 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 	global $global;
 	global $conf;
 	$url = "";
-	$error = true; // !!!!!!!!!!!!
+	$error = false;
 
-
-/*
 	// check auth, if fails, return w/ error code/message
 	$status = shn_plus_checkCredz($username, $password);
 	if($status != 0) {
@@ -1407,15 +1405,16 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 		$result = $global['db']->Execute($q);
 		if($result == null || $result->EOF) {
 			$error = true;
-			$ecode = 300;
+			$ecode = 300; //////////////////////////////////////////////////////// CORRECTS?!#@!$
 		}
+
+		// no errors, we must have permission to report to this event for the given user
+
+		$p = new person();
+		$p->init();
+		$p->theString = $personXML;
+		$p->xmlFormat = $xmlFormat;
 	}
-*/
-
-
-////////////////////////
-
-	$ecode = 9999; // !!!!!!!!!!!!!!!!!1111111111
 
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
