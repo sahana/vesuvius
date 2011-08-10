@@ -1383,7 +1383,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 	global $conf;
 	$url = "";
 	$error = false;
-
+/*
 	// check auth, if fails, return w/ error code/message
 	$status = shn_plus_checkCredz($username, $password);
 	if($status != 0) {
@@ -1415,7 +1415,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 		$p->theString = $personXML;
 		$p->xmlFormat = $xmlFormat;
 	}
-
+*/
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
