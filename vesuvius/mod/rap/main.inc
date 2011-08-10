@@ -347,84 +347,53 @@ function shn_rap_cropPic() {
 		$userfile_tmp  = $_FILES["picture"]["tmp_name"];
 		$userfile_size = $_FILES["picture"]["size"];
 
-
-		$error         = "";
-		/*
-		if (($file_ext!="jpg") && ($userfile_size > $max_file)) {
-			$error= "ONLY jpeg images under 1MB are accepted for upload";
+		$info = getimagesize($_FILES['picture']['tmp_name']);
+		//check the image type
+		if (!$info) {
+			add_error(_t("Invalid image type please try again"));
+			$error = true;
 		}
+
+		$width  = $info[0];
+		$height = $info[1];
+		$mime   = $info['mime'];
+
+		if($width > 500) {
+			$ratio = 500 / $width;
+			$useWidth = 500;
+			$useHeight = $height * $ratio;
 		} else {
-			$error= "Select a jpeg image for upload";
+			$ratio = 1.0;
+			$useWidth = $width;
+			$useHeight = $height;
 		}
-		*/
 
-		// Everything is ok!
-		if(strlen($error) == 0) {
+		$extR = explode("/", $info['mime']);
+		$ext = $extR[1];
+		$cwd = getcwd();
 
-			$info = getimagesize($_FILES['picture']['tmp_name']);
-			//check the image type
-			if (!$info) {
-				add_error(_t("Invalid image type please try again"));
-				$error = true;
-			}
+		$date = date("Ymd_His_");
 
-			$width  = $info[0];
-			$height = $info[1];
-			$mime   = $info['mime'];
+		$filename             = basename($_FILES["picture"]["name"]);
+		$filename             = str_replace(" ", "+", $filename);
+		$file_ext             = substr($filename, strrpos($filename, ".") + 1);
+		$large_image_location = $cwd."/tmp/rap_cache/".$date.$filename;
+		$thumb_image_location = $cwd."/tmp/rap_cache/".$date."thumb_".$filename;
+		$imgPath              =             "tmp/rap_cache/".$date.$filename;
+		$thumbPath            =             "tmp/rap_cache/".$date."thumb_".$filename;
 
-			if($width > 500) {
-				$ratio = 500 / $width;
-				$useWidth = 500;
-				$useHeight = $height * $ratio;
-			} else {
-				$ratio = 1.0;
-				$useWidth = $width;
-				$useHeight = $height;
-			}
+		move_uploaded_file($userfile_tmp, $large_image_location);
+		chmod ($large_image_location, 0777);
 
-			$extR = explode("/", $info['mime']);
-			$ext = $extR[1];
-			$cwd = getcwd();
-
-			$date = date("Ymd_His_");
-
-			$filename             = basename($_FILES["picture"]["name"]);
-			$filename             = str_replace(" ", "+", $filename);
-			$file_ext             = substr($filename, strrpos($filename, ".") + 1);
-			$large_image_location = $cwd."/tmp/rap_cache/".$date.$filename;
-			$thumb_image_location = $cwd."/tmp/rap_cache/".$date."thumb_".$filename;
-			$imgPath              =             "tmp/rap_cache/".$date.$filename;
-			$thumbPath            =             "tmp/rap_cache/".$date."thumb_".$filename;
-
-/*
-			$uploadfile = $upload_dir .'orgnl_'.$_SESSION['rap']['entry']['p_uuid'].$ext;
-			$desc_path  = $upload_dir .'thumb_'.$_SESSION['rap']['entry']['p_uuid'].$ext;
-			move_uploaded_file($_FILES['picture']['tmp_name'], $uploadfile);
-*/
-
-			move_uploaded_file($userfile_tmp, $large_image_location);
-			chmod ($large_image_location, 0777);
-
-
-			// make thumb 100X100 or some thing like that ;-)
-			//shn_image_resize($uploadfile, $desc_path, 100, 100);
-
-			require_once("../inc/lib_image.inc");
-			shn_image_resize_height($imgPath, $thumbPath, 320);
-			chmod ($thumbPath, 0777);
-
-
-
-
+		require_once("../inc/lib_image.inc");
+		shn_image_resize_height($imgPath, $thumbPath, 320);
+		chmod ($thumbPath, 0777);
 
 		?>
-
 		<script type="text/javascript" src="res/js/jquery-1.4.4.min.js"></script>
 		<script type="text/javascript" src="res/js/jquery.imgareaselect.pack.js"></script>
 
-
 		<h1>Crop the Image</h1>
-
 		<ul>
 			<li>Click and drag to draw a box around the important part of the image.</li>
 			<li>You may then resize the rectangular selection grid to refine your rectangular selection area.</li>
@@ -554,13 +523,9 @@ function shn_rap_cropPic() {
 		<div style="clear: both; height: 50px;"></div>
 
 		<?php
-				shn_form_fsclose();
-				shn_form_submit("Finish and Save this Person", "class=\"styleTehButton\"");
-			shn_form_fclose();
-		}
-
-
-
+		shn_form_fsclose();
+		shn_form_submit("Finish and Save this Person", "class=\"styleTehButton\"");
+		shn_form_fclose();
 	}
 }
 

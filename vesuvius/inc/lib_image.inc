@@ -16,9 +16,7 @@
 
 
 /**
- * This function can resize a given image and save it to the given
- * location.
- *
+ * This function resizes a given image and saves it to a destination.
  * @param mixed $src_path
  * @param mixed $desc_path
  * @param mixed $width

@@ -9,7 +9,8 @@ ALTER TABLE `image`
   DROP `crop_y`,
   DROP `crop_w`,
   DROP `crop_h`,
-  DROP `category`;
+  DROP `category`
+  DROP `full_path`;
 
 
 2011:0805 Leif
