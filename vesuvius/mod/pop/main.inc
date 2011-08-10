@@ -53,10 +53,11 @@ function shn_pop_outlog() {
 
 	if(isset($_GET['pagenum'])) {
 		$startPoint = (int)$_GET['pagenum']*100;
-		$endPoint = $startPoint + 99;
-		$msg = "showing messages ".($startPoint+1)." to ".($endPoint+1);
+		$endPoint = $startPoint + 100;
+		$msg = "showing messages ".($startPoint+1)." to ".$endPoint;
 	} else {
 		$startPoint = 0;
+		$endPoint = $startPoint + 100;
 		$msg = "showing last 100 messages";
 	}
 
@@ -66,7 +67,20 @@ function shn_pop_outlog() {
 		$previous = "◄";
 	}
 
-	$next = "<a href=\"index.php?mod=pop&act=outlog&pagenum=".($_GET['pagenum']+1)."\">►</a>";
+	$q = "
+		SELECT count(*)
+		FROM `pop_outlog`;
+	";
+	$result = $global['db']->Execute($q);
+	$row = $result->FetchRow();
+	$totalCount = $row['count(*)'];
+
+	if($endPoint < $totalCount) {
+		$next = "<a href=\"index.php?mod=pop&act=outlog&pagenum=".($_GET['pagenum']+1)."\">►</a>";
+	} else {
+		$next = "►";
+		$msg = "showing messages ".($startPoint+1)." to ".$totalCount;
+	}
 
 	$query  = "
 		SELECT *
@@ -77,7 +91,7 @@ function shn_pop_outlog() {
 	$result = $global['db']->Execute($query);
 	$count = 0;
 	echo "<div class=\"form-container\"><form><fieldset>";
-	echo "<legend>Outbound Emails Log (".$msg.") ".$previous." ".$next."</legend>";
+	echo "<legend>Outbound Email Log (".$msg.") ".$previous." ".$next."</legend>";
 	echo "<table id=\"regLog\"><tr>
 		<td class=\"evener\"><b>Sent By Module</b></td>
 		<td class=\"evener\"><b>Time Sent</b></td>
