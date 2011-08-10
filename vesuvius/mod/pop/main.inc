@@ -11,10 +11,25 @@
  */
 
 
-/**
- * @access public
- * @return void
- */
+function shn_pop_statusGood() {
+	global $global;
+	$q = "
+		SELECT *
+		FROM `pop_outlog`
+		ORDER BY `pop_outlog`.`time_sent` DESC LIMIT 1;
+	";
+	$result = $global['db']->Execute($q);
+	$row = $result->FetchRow();
+	$pass = $row['send_status'];
+
+	if($pass == "SUCCESS") {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
 function shn_pop_default() {
 	shn_pop_outlog();
 }
@@ -106,10 +121,17 @@ function shn_pop_outlog() {
 		} else {
 			$odd = "class=\"evener\"";
 		}
+
+		if((string)trim($row['send_status']) != "SUCCESS") {
+			$ss = "<span style=\"color: red; font-weight: bold;\">".$row['send_status']."</span>";
+		} else {
+			$ss = "<span style=\"color: green; font-weight: bold;\">".$row['send_status']."</span>";
+		}
+
 		echo "  <tr>
 			<td ".$odd.">".$row['mod_accessed']."</td>
 			<td ".$odd.">".$row['time_sent']."</td>
-			<td ".$odd.">".$row['send_status']."</td>
+			<td ".$odd.">".$ss."</td>
 			<td ".$odd.">".$row['error_message']."</td>
 			<td ".$odd.">".$row['email_subject']."</td>
 			<td ".$odd.">".$row['email_recipients']."</td>
