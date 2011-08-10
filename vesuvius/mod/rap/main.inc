@@ -381,6 +381,7 @@ function shn_rap_cropPic() {
 		$thumb_image_location = $cwd."/tmp/rap_cache/".$date."thumb_".$filename;
 		$imgPath              =             "tmp/rap_cache/".$date.$filename;
 		$thumbPath            =             "tmp/rap_cache/".$date."thumb_".$filename;
+		$original_filename    = $filename;
 
 		move_uploaded_file($userfile_tmp, $large_image_location);
 		chmod ($large_image_location, 0777);
@@ -411,6 +412,7 @@ function shn_rap_cropPic() {
 				shn_form_hidden(array('mime'=>$mime));
 				shn_form_hidden(array('wwwPath'=>$imgPath));
 				shn_form_hidden(array('thumbPath'=>$thumbPath));
+				shn_form_hidden(array('original_filename'=>$original_filename));
 				shn_form_hidden(array('realPath'=>$large_image_location));
 				shn_form_fsopen(_t(''));
 		?>
@@ -714,6 +716,7 @@ function shn_rap_commitPerson($saveImage = false) {
 		$image_width  = mysql_real_escape_string($_REQUEST['width']);
 		$url          = mysql_real_escape_string($_REQUEST['wwwPath']);
 		$url_thumb    = mysql_real_escape_string($_REQUEST['thumbPath']);
+		$original_filename = mysql_real_escape_string($_REQUEST['original_filename']);
 
 		$ratio = $_REQUEST['ratio'];
 		$x1    = $_REQUEST['x1'];
@@ -728,8 +731,8 @@ function shn_rap_commitPerson($saveImage = false) {
 
 
 		$q18 = "
-			INSERT INTO image (p_uuid, image_type, image_height, image_width, url, url_thumb)
-			VALUES ('".$uuid."', '".$image_type."', '".$image_height."', '".$image_width."', '".$url."', '".$url_thumb."');
+			INSERT INTO image (p_uuid, image_type, image_height, image_width, url, url_thumb, original_filename)
+			VALUES ('".$uuid."', '".$image_type."', '".$image_height."', '".$image_width."', '".$url."', '".$url_thumb."', '".$original_filename."');
 		";
 		$res = $global['db']->Execute($q18);
 
