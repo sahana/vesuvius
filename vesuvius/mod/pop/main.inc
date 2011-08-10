@@ -22,7 +22,7 @@ function shn_pop_statusGood() {
 	$row = $result->FetchRow();
 	$pass = $row['send_status'];
 
-	if($pass == "SUCCESS") {
+	if((string)trim($pass) == "SUCCESS") {
 		return true;
 	} else {
 		return false;
