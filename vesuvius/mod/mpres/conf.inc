@@ -15,7 +15,7 @@
 /**
  * Gives the nice name of the module
  */
-$conf['mod_mpres_name'] = _t("MPR Email Service");
+$conf['mod_mpres_name'] = _t("Inbound Email");
 
 /**
  * Gives the priority order in the main menu when listed
