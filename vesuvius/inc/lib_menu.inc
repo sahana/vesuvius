@@ -63,7 +63,7 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 	}
 
 	// a 4th hack to show when the mpres cron daemon is dead!
-	if($desc == "MPR Email Service") {
+	if($desc == "Inbound Email") {
 		require_once($global['approot'].'/mod/mpres/main.inc');
 		if(!shn_mpres_statusGood()) {
 			$desc .= " <span style=\"color: red;\"><b>●</b></span>";
