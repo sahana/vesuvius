@@ -106,7 +106,7 @@ function shn_pop_outlog() {
 	$result = $global['db']->Execute($query);
 	$count = 0;
 	echo "<div class=\"form-container\"><form><fieldset>";
-	echo "<legend>Outbound Email Log (".$msg." of ".$totalCount.") ".$previous." ".$next."</legend>";
+	echo "<legend>Outbound Email Log (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
 	echo "<table id=\"regLog\"><tr>
 		<td class=\"evener\"><b>Sent By Module</b></td>
 		<td class=\"evener\"><b>Time Sent</b></td>

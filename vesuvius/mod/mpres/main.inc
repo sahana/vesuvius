@@ -136,7 +136,7 @@ function shn_mpres_status() {
 	}
 
 	echo "<div class=\"form-container\"><form><fieldset>";
-	echo "<legend>Emails Received (".$msg." of ".$totalCount.") ".$previous." ".$next."</legend>";
+	echo "<legend>Emails Received (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
 	echo "<table id=\"regLog\"><tr>
 		<td class=\"evener\"><b>Record Identifier / p_uuid</b></td>
 		<td class=\"evener\"><b>Email From</b></td>
