@@ -181,62 +181,6 @@ function _shn_lc_get_dbpo() {
 
 
 
-function _shn_lc_is_dbl10n_tbl_empty() {
-	global $global;
-	$q = "
-		SELECT tablename, fieldname
-		FROM  lc_fields;
-	";
-	$rs = $global['db']->Execute($q);
-
-	if(!$rs) {
-		print "Error : ".$global['db']->ErrorMsg();
-		return null;
-	} else if($rs->RecordCount()==0) {
-		// No records
-		return true;
-	}
-	return false;
-}
-
-
-
-function _shn_lc_get_db_strlist() {
-	global $global;
-	$str_list = array();
-	$q = "
-		SELECT tablename, fieldname
-		FROM  lc_fields;
-	";
-	$rs = $global['db']->Execute($q);
-
-	if(!$rs) {
-		print "Error : " . $global['db']->ErrorMsg();
-		return false;
-	} else if(1 > $rs->RecordCount()) {
-		print ">>>>>>>>>>>no db lc";
-		return false;
-	} else {
-		$rs = $rs->getArray();
-		foreach ($rs as $r)
-		{
-			$strs = _shn_lc_get_db_tblstrings($r[0],$r[1]);
-			foreach ($strs as $str)
-			{
-				// avoid duplicates coming from multiple tables
-				// using the key as the index.
-				$str_list["$str"] = array(
-                                    'table' => $r[0],
-                                    'field' => $r[1]
-				);
-			}
-		}
-	}
-	return $str_list;
-}
-
-
-
 function _shn_lc_get_db_tblstrings($table, $field) {
 	global $global;
 	$str_list = '';
