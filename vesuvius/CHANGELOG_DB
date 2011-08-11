@@ -4,8 +4,10 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 2011:0810 Greg
 --------------
 
-DROP TABLE `location`;
-DROP TABLE `location_details`;
+DROP TABLE `location` ;
+DROP TABLE `location_details` ;
+DROP TABLE `lc_fields` ;
+DROP TABLE `loc_seq_seq`;
 
 
 2011:0809 Greg
