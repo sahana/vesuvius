@@ -1000,6 +1000,8 @@ class person {
 		";
 		$result = $this->db->Execute($q);
 
+echo "\n\n".$q."\n\n";
+
 		$q = "
 			INSERT INTO person_status (
 				p_uuid,
@@ -1013,6 +1015,8 @@ class person {
 				".$this->sql_creation_time." );
 		";
 		$result = $this->db->Execute($q);
+
+echo "\n\n".$q."\n\n";
 
 		$q = "
 			INSERT INTO person_details (
@@ -1042,13 +1046,16 @@ class person {
 		";
 		$result = $this->db->Execute($q);
 
+echo "\n\n".$q."\n\n";
 
 		// insert into plus_log
 		$q = "
-			INSERT INTO plus_log (p_uuid)
+			INSERT INTO plus_report_log (p_uuid)
 			VALUES ('".$this->p_uuid."');
 		";
 		$result = $this->db->Execute($q);
+
+echo "\n\n".$q."\n\n";
 
 		//$this->insertImages();
 	}
