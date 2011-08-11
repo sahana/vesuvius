@@ -18,7 +18,7 @@ $global['enumTriageStatusTags'] = array('Green', 'BH Green', 'Yellow', 'Red', 'G
 $global['enumGenders']          = array('M', 'F', 'U', 'C');
 $global['enumDistrStatus']      = array('Actual', 'Exercise', 'System', 'Test');
 $global['enumDistrType']        = array('Ack', 'Cancel', 'Dispatch', 'Error', 'Report', 'Request', 'Response', 'Update');
-$global['enumXmlFormats']       = array('REUNITE'. 'TRIAGEPIC');
+$global['enumXmlFormats']       = array('REUNITE2', 'TRIAGEPIC');
 
 
 /** ******************************************************************************************************************************************************************
@@ -822,6 +822,10 @@ class person {
 
 	// Constructor:
 	public function	__construct() {
+		// init db
+		global $global;
+		$this->db = $global['db'];
+
 		$this->theString      = null;
 		$this->xmlFormat      = null;
 
@@ -933,6 +937,7 @@ class person {
 
 	// initializes some values for a new instance (instead of when we load a previous instance)
 	public function init() {
+		global $global;
 		require_once($global['approot']."inc/lib_uuid.inc");
 		$this->p_uuid = shn_create_uuid();
 	}
@@ -1057,24 +1062,34 @@ class person {
 
 
 	public function parseXml() {
-		$this->xmlFormat      = null;
+		global $global;
 
+		// is this a supported XML type?
+		if(!in_array((string)trim($this->xmlFormat), $global['enumXmlFormats'])) {
+			return 500;
+		}
 
 		$a = xml2array($this->theString);
 
-		// Identify ReUnite XML's
-		if(isset($a['lpfContent'])) {
-			$this->person->shortName    = strtolower($a['lpfContent']['person']['eventShortName']);
-			$this->person->givenName    = $a['lpfContent']['person']['firstName'];
-			$this->person->familyName   = $a['lpfContent']['person']['familyName'];
-			$this->person->gender       = substr(strtolower($a['lpfContent']['person']['gender']), 0, 3);
-			$this->person->age          = $a['lpfContent']['person']['estimatedAgeInYears'];
-			$this->person->sahanaStatus = substr(strtolower($a['lpfContent']['person']['status']['healthStatus']), 0, 3);
-			$this->person->comments     = $a['lpfContent']['person']['notes'];
-			$this->XMLversion           = 1.6;
+		// parse ReUnite XML
+		if($this->xmlFormat == "REUNITE2") {
+			$this->given_name     = $a['person']['givenName'];
+			$this->family_name    = $a['person']['familyName'];
+			$this->full_name      = $this->given_name." ".$this->family_name;
+			$this->incident_id    = $a['person']['eventId'];
+			$this->expiry_date    = $a['person']['expiryDate'];
+			$this->opt_status     = $a['person']['status'];
+			$this->last_updated   = $a['person']['dateTimeSent'];
+			$this->creation_time  = $a['person']['dateTimeSent'];
+			$this->opt_gender     = $a['person']['gender'];
+			$this->years_old      = $a['person']['estimatedAge'];
+			$this->minAge         = $a['person']['ageGroup']['minAge'];
+			$this->maxAge         = $a['person']['ageGroup']['maxAge'];
+			$this->other_comments = $a['person']['notes'];
+			$this->rep_uuid       = 1;
 
-		// LPF v1.2 XML from TriagePic
-		} else if(isset($a['EDXLDistribution'])) {
+		// parse ReUnite XML
+		} elseif($this->xmlFormat == "TRIAGEPIC") {
 
 			// old method from mpres 1.0
 			$this->distributionId          = $a['EDXLDistribution']['distributionID']['#text'];

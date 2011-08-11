@@ -1,6 +1,13 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+2011:0810 Greg
+--------------
+
+DROP TABLE `location`;
+DROP TABLE `location_details`;
+
+
 2011:0809 Greg
 --------------
 

@@ -14,6 +14,7 @@
 ini_set( "display_errors", "stdout");
 error_reporting(E_ALL);
 
+global $global;
 
 // set approot since we don't know it yet
 $global['approot'] = getcwd()."/../../";
@@ -26,15 +27,14 @@ require_once("../../inc/handler_db.inc");
 require_once("../../inc/lib_uuid.inc");
 require_once("../../inc/lib_image.inc");
 
-echo "ok\n";
-
 $p = new person();
 $p->init();
 
 $p->theString = file_get_contents('referenceXML_RU.xml');;
-$p->xmlFormat = "REUNITE";
+$p->xmlFormat = "REUNITE2";
 
 //$p->theString = file_get_contents('referenceXML_TP1.xml');;
 //$p->xmlFormat = "TRIAGEPIC";
 
 $p->parseXml();
+$p->insert();
