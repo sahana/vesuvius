@@ -8,7 +8,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0714
+ * @lastModified 2011.0810
  */
 
 
@@ -18,6 +18,7 @@ $global['enumTriageStatusTags'] = array('Green', 'BH Green', 'Yellow', 'Red', 'G
 $global['enumGenders']          = array('M', 'F', 'U', 'C');
 $global['enumDistrStatus']      = array('Actual', 'Exercise', 'System', 'Test');
 $global['enumDistrType']        = array('Ack', 'Cancel', 'Dispatch', 'Error', 'Report', 'Request', 'Response', 'Update');
+$global['enumXmlFormats']       = array('REUNITE'. 'TRIAGEPIC');
 
 
 /** ******************************************************************************************************************************************************************
@@ -1056,6 +1057,9 @@ class person {
 
 
 	public function parseXml() {
+		$this->xmlFormat      = null;
+
+
 		$a = xml2array($this->theString);
 
 		// Identify ReUnite XML's
@@ -1380,7 +1384,7 @@ class pop {
 		$this->messages .= $sendStatus;
 
 		// log that we sent out an email ....
-		$mod = isset($global['module']) ? $global['module'] : "mpres";
+		$mod = isset($global['module']) ? $global['module'] : "cron";
 
 		$q = "INSERT INTO pop_outlog
 			(`mod_accessed`, `time_sent`, `send_status`, `error_message`, `email_subject`, `email_from`, `email_recipients`)
