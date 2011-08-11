@@ -126,6 +126,8 @@ function _shn_lc_setcookielc($locale) {
 
 function _shn_lc_setsessionlc($locale) {
 	$_SESSION["locale"] = $locale;
+	global $CURRENTLOCALE;
+	$CURRENTLOCALE = $locale;
 }
 
 

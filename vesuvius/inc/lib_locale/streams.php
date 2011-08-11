@@ -103,6 +103,7 @@ class FileReader {
   }
 
   function read($bytes) {
+  	$data = NULL;
     if ($bytes) {
       fseek($this->_fd, $this->_pos);
 
