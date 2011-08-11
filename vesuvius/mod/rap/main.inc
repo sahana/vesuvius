@@ -7,13 +7,11 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0408
+ * @lastModified 2011.0810
  */
 
 
-include_once($global['approot']."/inc/lib_uuid.inc");
-include_once($global['approot']."/inc/lib_location.inc");
-
+require_once($global['approot']."/inc/lib_uuid.inc");
 
 
 /**
