@@ -1,0 +1,57 @@
+<person>
+	<xmlFormat>REUNITE3</xmlFormat>
+	<p_uuid>pl.nlm.nih.gov/person.9999</p_uuid>
+	<dateTimeSent>2011-08-08 16:20:00 UTC</dateTimeSent>
+	<expiryDate>2012-08-08 16:20:00 UTC</expiryDate>
+	<eventId>1</eventId>
+	<givenName>Greg</givenName>
+	<familyName>Miernicki</familyName>
+	<gender>M</gender>
+	<genderEnum>M, F, U, C</genderEnum>
+	<genderEnumDesc>Male; Female; Unknown; Complex(M/F)</genderEnumDesc>
+	<minAge>30</minAge>
+	<maxAge>40</maxAge>
+	<estimatedAge>35</estimatedAge>
+	<status>ali</status>
+	<statusEnum>ali, mis, inj, dec, unk, fnd</statusEnum>
+	<statusEnumDesc>Alive, Missing, Injured, Deceased, Unknown, Found</statusEnumDesc>
+	<location>
+		<street1>123 Street St.</street1>
+		<street2>Apartment 911</street2>
+		<neighborhood></neighborhood>
+		<city>Bethesda</city>
+		<region>Maryland</region>
+		<postalCode>20814</postalCode>
+		<country>United States</country>
+		<gps>38.9035N, 77.0231W</gps>
+	</location>
+	<photos>
+		<photo>
+
+<data>iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sICxcpJUV3dNUAAAAZdEVYdENvbW1lbnQAQ3JlYXRlZCB3aXRoIEdJTVBXgQ4XAAAEtUlEQVR42u2byUt6XRjHn2uZaRloEZFDNNpolBiURdG2ViFEYFBR/4GroF0Lo4W0q3XbNg1QUhTSsLDJIqOEyLCSKFIir9chn3f38oPfsfd1Lq9fOJsvF+95PveMzzlSiIjAYnGA5coCyALIAsgCYLVyU/WiYDAIVqsVLBYLWK1WcDgc8PDwAG63G2iaBoZhgMvlAo/HA5FIBKWlpSCVSqGurg6amppArVaDQqEAiqISWzFMor6+vnBjYwNHR0dRJBIhAMRVSkpKcGJiAtfW1tDn8yWkjkkBEAqFcHFxEWtqauIOOlIpKChAnU6Hl5eXPwuA2WzG5ubmpAVOKgMDA7i/v59eAKFQCGdmZpDD4aQ0+D9LLErIIOj3+2F4eBhWV1e/n3I4HOjs7ASNRgMqlQoqKytBJpNBYWEh8Pl8CAQC4PV64eXlBe7v7+H6+hoODw/h4OAA3t/fkzM6x/vlGYbB/v7+b79MVVUVGo1GfH19jekdwWAQd3Z2cHJyEgUCQUJbQFwAwuEwjoyMRKyQUChEo9GIwWAwYWOM2+1Gg8GAYrE4/QDm5+cjBt/S0oJ2uz1pU6zH40G9Xo85OTnpAXB1dYU8Ho8YvFqtRrfbjanQ6enpv7NOSgH09fURg5fL5TH39Vjl9XpxbGwsdQA2NzeJwVMUhUdHR/ibFBOA3t5eIoCpqSn8baKizQne3NxAQ0PDXz6Xy4W7uzuQyWSZvR1eXl4m+lqt9tcFHxOAjY0Noq/T6X5lPiCqLvD8/AwSieQvXyAQgNvthry8vMxuARaLhehrNJpfGXzUAM7Ozoi+Wq1mR07w9vaW6Dc1NbEDgNPpJPqVlZXsAPD09ET0y8rK2AHg4+OD6BcXF7MDgM/nI/r5+fm/FkBU6wAOhwOkx8PhcMLy9fH+TrSn/VG1gEhzfTAYZEcX4PP5RJ9hGHYAEAqFRD9pGdufBoC0DwAAcLlc7AAQabt7f3+fyDT9/yppAaBQKIi+zWZjRwtob28n+sfHx+xYBzw+PhK7QTryAZHWC0ldB0ilUuLOj6Zp2N7ezvwuAAAwODhI9CPlCn+8YjkRAkJKPDc3Fx0OR+ry+Qk6II3pXECj0RBfPj4+zg4A6+vrEU+GzGZz5gP4rhVIJBJ0uVyZD8BqtSKXyyVWoq2tDd/e3jIbACLi7OxsxIrU19ejzWbLbADhcBiHhoYiVkYgEODc3Bz6/f6EBm+z2X4GAEREmqaxu7v72ztCcrkcDQZDXGMDwzC4tbWFg4ODSFFUwgBEfTpMEk3TMDQ0BCaT6T+Xrx0dHdDT0wMqlQqqq6tBKpVCUVER5Ofnw9fXF3i9Xvj8/IS3tzew2+1gt9vh+PgYdnd3wev1JjwllrB7goFAAPV6/bdfJ5lFoVDg3t5e+m+KmkwmrK2tTVngZWVluLCwEPM4k5S7wn6/H41GI8rl8qQFrlQqcWlpCWma/nmXpf+8PruysoJarRYLCwvjCpiiKGxtbcXp6Wk8Pz9P3xWZWMUwDJycnIDFYoGLiwtwOBzgdDrB4/EATdMQCAQgLy8P+Hw+iMViKC8vh4qKCmhsbASlUgldXV0gFovTmxDJRGX/M5QFkAWQBZAFkAXAYv0DGDpu6A9Y2ZQAAAAASUVORK5CYII=</data>
+
+			<dataDesc>Base64 encoded file data</dataDesc>
+			<tags>
+				<tag>
+					<x>16</x>
+					<y>16</y>
+					<w>32</w>
+					<h>32</h>
+					<text>the letter G</text>
+				</tag>
+			</tags>
+		</photo>
+	</photos>
+	<note></note>
+	<voiceNote>
+		<length></length>
+		<format></format>
+		<sampleRate></sampleRate>
+		<numberOfChannels></numberOfChannels>
+		<speaker></speaker>
+		<speakerEnum>Person, Reporter, Other</speakerEnum>
+		<speakerEnumDesc>Used to identify speaker ie. 'Reporter' or 'Other'.</speakerEnumDesc>
+		<data></data>
+		<dataDesc>Base64 encoded file data</dataDesc>
+	</voiceNote>
+</person>

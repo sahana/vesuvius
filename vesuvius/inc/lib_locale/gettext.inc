@@ -1,9 +1,9 @@
 <?php
 /*
    Copyright (c) 2005 Steven Armstrong <sa at c-area dot ch>
-   
+
    Drop in replacement for native gettext.
-   
+
    This file is part of PHP-gettext.
 
    PHP-gettext is free software; you can redistribute it and/or modify
@@ -52,22 +52,26 @@ $CURRENTLOCALE = '';
  */
 function _get_reader($domain=null, $category=5, $enable_cache=true) {
 	global $text_domains, $default_domain, $LC_CATEGORIES;
-	if (!isset($domain)) $domain = $default_domain;
+	if (!isset($domain)) {
+		$domain = $default_domain;
+	}
 	if (!isset($text_domains[$domain]->l10n)) {
 		// get the current locale
 		$locale = _setlocale(LC_MESSAGES, 0);
 		$p = isset($text_domains[$domain]->path) ? $text_domains[$domain]->path : './';
-		$path = $p . "$locale/". $LC_CATEGORIES[$category] ."/$domain.mo";
+		//$path = $p . "$locale/". $LC_CATEGORIES[$category] ."/$domain.mo";
+		$path = $p . "$locale.mo";
 		if (file_exists($path)) {
 			$input = new FileReader($path);
-		}
-		else {
+		} else {
 			$input = null;
 		}
 		$text_domains[$domain]->l10n = new gettext_reader($input, $enable_cache);
 	}
 	return $text_domains[$domain]->l10n;
 }
+
+
 
 /**
  * Returns whether we are using our emulated gettext API or PHP built-in one.
@@ -77,6 +81,8 @@ function locale_emulation() {
     return $EMULATEGETTEXT;
 }
 
+
+
 /**
  * Checks if the current locale is supported on this system.
  */
@@ -85,14 +91,20 @@ function _check_locale() {
     return !$EMULATEGETTEXT;
 }
 
+
+
 /**
  * Get the codeset for the given domain.
  */
 function _get_codeset($domain=null) {
 	global $text_domains, $default_domain, $LC_CATEGORIES;
-	if (!isset($domain)) $domain = $default_domain;
+	if (!isset($domain)) {
+		$domain = $default_domain;
+	}
 	return (isset($text_domains[$domain]->codeset))? $text_domains[$domain]->codeset : ini_get('mbstring.internal_encoding');
 }
+
+
 
 /**
  * Convert the given string to the encoding set by bind_textdomain_codeset.
@@ -102,8 +114,7 @@ function _encode($text) {
 	$target_encoding = _get_codeset();
 	if ($source_encoding != $target_encoding) {
 		return mb_convert_encoding($text, $target_encoding, $source_encoding);
-	}
-	else {
+	} else {
 		return $text;
 	}
 }
@@ -119,9 +130,9 @@ function _encode($text) {
 function _setlocale($category, $locale) {
     global $CURRENTLOCALE, $EMULATEGETTEXT;
     if ($locale === 0) { // use === to differentiate between string "0"
-        if ($CURRENTLOCALE != '') 
+        if ($CURRENTLOCALE != '')
             return $CURRENTLOCALE;
-        else 
+        else
             // obey LANG variable, maybe extend to support all of LC_* vars
             // even if we tried to read locale without setting it first
             return _setlocale($category, $CURRENTLOCALE);
@@ -143,6 +154,8 @@ function _setlocale($category, $locale) {
     }
 }
 
+
+
 /**
  * Sets the path for a domain.
  */
@@ -158,6 +171,8 @@ function _bindtextdomain($domain, $path) {
 	$text_domains[$domain]->path = $path;
 }
 
+
+
 /**
  * Specify the character encoding in which the messages from the DOMAIN message catalog will be returned.
  */
@@ -165,6 +180,8 @@ function _bind_textdomain_codeset($domain, $codeset) {
 	global $text_domains;
 	$text_domains[$domain]->codeset = $codeset;
 }
+
+
 
 /**
  * Sets the default domain.
@@ -174,26 +191,37 @@ function _textdomain($domain) {
 	$default_domain = $domain;
 }
 
+
+
 /**
  * Lookup a message in the current domain.
  */
 function _gettext($msgid) {
 	$l10n = _get_reader();
+
 	//return $l10n->translate($msgid);
 	return _encode($l10n->translate($msgid));
 }
+
+
+
 /**
  * Function to handle contexts
+ * @author Ramindu Deshapriya
  */
 function _pgettext($msgid) {
-	if ( !strpos($msgid, "|") ) {
+	//Check whether the pipe symbol is included in the msgid (Context is available)
+	if(!strpos($msgid, "|")) {
 		return _gettext($msgid);
-	}
-	else {
+	} else {
+		//if context is available, split it and pass off the msgid to gettext
 		list($context,$msgidn) = explode("|", $msgid, 2);
 		return _gettext($msgidn);
 	}
 }
+
+
+
 /**
  * Alias for gettext.
  */
@@ -201,6 +229,9 @@ function __($msgid) {
 	return _pgettext($msgid);
 	//return _gettext($msgid);
 }
+
+
+
 /**
  * Plural version of gettext.
  */
@@ -210,6 +241,8 @@ function _ngettext($single, $plural, $number) {
 	return _encode($l10n->ngettext($single, $plural, $number));
 }
 
+
+
 /**
  * Override the current domain.
  */
@@ -218,6 +251,9 @@ function _dgettext($domain, $msgid) {
 	//return $l10n->translate($msgid);
 	return _encode($l10n->translate($msgid));
 }
+
+
+
 /**
  * Plural version of dgettext.
  */
@@ -227,6 +263,8 @@ function _dngettext($domain, $single, $plural, $number) {
 	return _encode($l10n->ngettext($single, $plural, $number));
 }
 
+
+
 /**
  * Overrides the domain and category for a single lookup.
  */
@@ -235,6 +273,9 @@ function _dcgettext($domain, $msgid, $category) {
 	//return $l10n->translate($msgid);
 	return _encode($l10n->translate($msgid));
 }
+
+
+
 /**
  * Plural version of dcgettext.
  */
@@ -253,43 +294,72 @@ function T_setlocale($category, $locale) {
     return _setlocale($category, $locale);
 }
 
+
+
 function T_bindtextdomain($domain, $path) {
 	if (_check_locale()) return bindtextdomain($domain, $path);
 	else return _bindtextdomain($domain, $path);
 }
+
+
+
 function T_bind_textdomain_codeset($domain, $codeset) {
     // bind_textdomain_codeset is available only in PHP 4.2.0+
 	if (_check_locale() and function_exists('bind_textdomain_codeset')) return bind_textdomain_codeset($domain, $codeset);
 	else return _bind_textdomain_codeset($domain, $codeset);
 }
+
+
+
 function T_textdomain($domain) {
 	if (_check_locale()) return textdomain($domain);
 	else return _textdomain($domain);
 }
+
+
+
 function T_gettext($msgid) {
 	if (_check_locale()) return gettext($msgid);
 	else return _gettext($msgid);
 }
+
+
+
 function _t($msgid) {
 	if (_check_locale()) return _($msgid);
 	return __($msgid);
 }
+
+
+
 function T_ngettext($single, $plural, $number) {
 	if (_check_locale()) return ngettext($single, $plural, $number);
 	else return _ngettext($single, $plural, $number);
 }
+
+
+
 function T_dgettext($domain, $msgid) {
 	if (_check_locale()) return dgettext($domain, $msgid);
 	else return _dgettext($domain, $msgid);
 }
+
+
+
 function T_dngettext($domain, $single, $plural, $number) {
 	if (_check_locale()) return dngettext($domain, $single, $plural, $number);
 	else return _dngettext($domain, $single, $plural, $number);
 }
+
+
+
 function T_dcgettext($domain, $msgid, $category) {
 	if (_check_locale()) return dcgettext($domain, $msgid, $category);
 	else return _dcgettext($domain, $msgid, $category);
 }
+
+
+
 function T_dcngettext($domain, $single, $plural, $number, $category) {
 	if (_check_locale()) return dcngettext($domain, $single, $plural, $number, $category);
 	else return _dcngettext($domain, $single, $plural, $number, $category);
@@ -300,7 +370,7 @@ function T_dcngettext($domain, $single, $plural, $number, $category) {
 // Wrappers used as a drop in replacement for the standard gettext functions
 
 if (!function_exists('gettext')) {
-		
+
 	function bindtextdomain($domain, $path) {
 		return _bindtextdomain($domain, $path);
 	}

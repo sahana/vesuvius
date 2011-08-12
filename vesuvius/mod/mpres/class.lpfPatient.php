@@ -92,8 +92,8 @@ class lpfPatient {
 
 		// insert person's status
 		$q4 = "
-			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
-			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', '".$this->clientDate."', TRUE, CURRENT_TIMESTAMP);
+			INSERT INTO person_status (p_uuid, opt_status, last_updated, creation_time)
+			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', '".$this->clientDate."', CURRENT_TIMESTAMP);
 		";
 		$res = $global['db']->Execute($q4);
 
@@ -131,8 +131,8 @@ class lpfPatient {
 
 		// insert person's status
 		$q4 = "
-			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
-			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);
+			INSERT INTO person_status (p_uuid, opt_status, last_updated, creation_time)
+			VALUES ('".$this->uuid."', '".$this->sahanaStatus."', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 		";
 		$res = $global['db']->Execute($q4);
 
@@ -176,8 +176,8 @@ class lpfPatient {
 
 		// insert person's status
 		$q4 = "
-			INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
-			VALUES ( '".$this->uuid."', '".$this->sahanaStatus."', CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);
+			INSERT INTO person_status (p_uuid, opt_status, last_updated, creation_time)
+			VALUES ( '".$this->uuid."', '".$this->sahanaStatus."', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 		";
 		$res = $global['db']->Execute($q4);
 
@@ -215,9 +215,9 @@ class lpfPatient {
 		// insert a person's images
 		for ($i=0; $i < sizeof($this->images); $i++) {
 			$q = "
-				INSERT INTO image (p_uuid, image_type, image_height, image_width, created, category, url, url_thumb, original_filename)
+				INSERT INTO image (p_uuid, image_type, image_height, image_width, created, url, url_thumb, original_filename)
 				VALUES ('".$this->uuid."', '".$this->images[$i]->type."', '".$this->images[$i]->height."', '".$this->images[$i]->width."', CURRENT_TIMESTAMP, ".
-				"'person', '".$this->images[$i]->url."', '".$this->images[$i]->url_thumb."', '".$this->images[$i]->original_filename."');
+				"'".$this->images[$i]->url."', '".$this->images[$i]->url_thumb."', '".$this->images[$i]->original_filename."');
 			";
 			$res = $global['db']->Execute($q);
 		}

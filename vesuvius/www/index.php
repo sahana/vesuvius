@@ -17,9 +17,6 @@ $global['approot']  = realpath(dirname(__FILE__)).'/../';
 $global['previous'] = false;
 $global["setup"]    = false;
 
-// uncomment line below to use the internal error handler
-//shn_main_error();
-
 // uncomment line below to initialize the debugger
 shn_main_debugger();
 
@@ -317,22 +314,6 @@ function shn_main_checkEventPermissions() {
 			}
 		}
 	}
-}
-
-
-
-// sahana internal error handling
-function shn_main_error() {
-	// Include error handling routines
-	require_once($global['approot'].'inc/handler_error.inc');
-	require_once($global['approot'].'inc/lib_exception.inc');
-
-	// handle error reporting seperately and set our own error handler
-	error_reporting(0);
-	set_error_handler('shn_sahana_error_handler');
-
-	//add default exception handler
-	set_exception_handler('shn_sahana_exception_handler');
 }
 
 

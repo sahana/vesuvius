@@ -52,20 +52,23 @@ function add_information($information) {
 function display_submit_message($type = 'warning', $msg = 'please note the following:') {
 	global $global;
 	$container = 'submit_'.$type.'s';
+
 	// return if there are no errors
-	if (count($global[$container]) == 0 ) return;
-	?>
-	<div class="<?php echo $type?> message">
-	<p><em><?php echo $msg?></em></p>
-	<ul>
-	<?php
-	foreach ($global[$container] as $i){
+	if (count($global[$container]) == 0 ) {
+		return;
+	}
+	echo '
+		<div class="'.$type.' message">
+			<p><em>'.$msg.'</em></p>
+			<ul>
+	';
+	foreach($global[$container] as $i) {
 		echo '<li>'.$i.'<br></li>';
 	}
-	?>
-	</ul>
-	</div>
-	<?php
+	echo '
+			</ul>
+		</div>
+	';
 	$global[$container] = null;
 }
 
@@ -97,7 +100,7 @@ function display_errors($error_title = null, $return = false, $clean_errors = tr
 
 		$output .= "<ul>";
 		foreach ($global['submit_errors'] as $error){
-			$output .= "<li>"._t($error).'<br/></li>';
+			$output .= "<li>".$error.'<br/></li>';
 		}
 		$output .= "</ul>";
 		$output .= "</div>";
@@ -152,10 +155,11 @@ function clean_errors() {
 
 function is_errors() {
 	global $global;
-	if(empty($global['submit_errors']))
-	return false;
-	else
-	return true;
+	if(empty($global['submit_errors'])) {
+		return false;
+	} else {
+		return true;
+	}
 }
 
 
@@ -207,7 +211,7 @@ function shn_error_get_restricted_access_message() {
 }
 
 
-
+/*
 function shn_error_dummy_header() {
 	global $global;
 	?>
@@ -235,7 +239,7 @@ function shn_error_dummy_footer() {
 	</html>
 	<?php
 }
-
+*/
 
 
 /**
@@ -249,6 +253,7 @@ function shn_error_dummy_footer() {
  * @access public
  * @return void
  */
+/*
 function shn_sahana_error_handler($errno, $errmsg, $filename, $linenum, $vars) {
 	global $global;
 
@@ -274,7 +279,7 @@ function shn_sahana_error_handler($errno, $errmsg, $filename, $linenum, $vars) {
 		default:                   // Ignore other errors
 	}
 }
-
+*/
 
 
 /**
@@ -289,7 +294,7 @@ function shn_sahana_error_handler($errno, $errmsg, $filename, $linenum, $vars) {
  * @access public
  * @return void
  */
-
+/*
 function shn_error_analyze_and_display_help($errno, $errmsg, $filename, $linenum, $vars) {
 	global $global;
 	global $conf;
@@ -343,5 +348,5 @@ function shn_error_analyze_and_display_help($errno, $errmsg, $filename, $linenum
 	}
 	exit(0);
 }
-
+*/
 

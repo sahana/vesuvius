@@ -7,13 +7,11 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0408
+ * @lastModified 2011.0810
  */
 
 
-include_once($global['approot']."/inc/lib_uuid.inc");
-include_once($global['approot']."/inc/lib_location.inc");
-
+require_once($global['approot']."/inc/lib_uuid.inc");
 
 
 /**
@@ -347,84 +345,54 @@ function shn_rap_cropPic() {
 		$userfile_tmp  = $_FILES["picture"]["tmp_name"];
 		$userfile_size = $_FILES["picture"]["size"];
 
-
-		$error         = "";
-		/*
-		if (($file_ext!="jpg") && ($userfile_size > $max_file)) {
-			$error= "ONLY jpeg images under 1MB are accepted for upload";
+		$info = getimagesize($_FILES['picture']['tmp_name']);
+		//check the image type
+		if (!$info) {
+			add_error(_t("Invalid image type please try again"));
+			$error = true;
 		}
+
+		$width  = $info[0];
+		$height = $info[1];
+		$mime   = $info['mime'];
+
+		if($width > 500) {
+			$ratio = 500 / $width;
+			$useWidth = 500;
+			$useHeight = $height * $ratio;
 		} else {
-			$error= "Select a jpeg image for upload";
+			$ratio = 1.0;
+			$useWidth = $width;
+			$useHeight = $height;
 		}
-		*/
 
-		// Everything is ok!
-		if(strlen($error) == 0) {
+		$extR = explode("/", $info['mime']);
+		$ext = $extR[1];
+		$cwd = getcwd();
 
-			$info = getimagesize($_FILES['picture']['tmp_name']);
-			//check the image type
-			if (!$info) {
-				add_error(_t("Invalid image type please try again"));
-				$error = true;
-			}
+		$date = date("Ymd_His_");
 
-			$width  = $info[0];
-			$height = $info[1];
-			$mime   = $info['mime'];
+		$filename             = basename($_FILES["picture"]["name"]);
+		$filename             = str_replace(" ", "+", $filename);
+		$file_ext             = substr($filename, strrpos($filename, ".") + 1);
+		$large_image_location = $cwd."/tmp/rap_cache/".$date.$filename;
+		$thumb_image_location = $cwd."/tmp/rap_cache/".$date."thumb_".$filename;
+		$imgPath              =             "tmp/rap_cache/".$date.$filename;
+		$thumbPath            =             "tmp/rap_cache/".$date."thumb_".$filename;
+		$original_filename    = $filename;
 
-			if($width > 500) {
-				$ratio = 500 / $width;
-				$useWidth = 500;
-				$useHeight = $height * $ratio;
-			} else {
-				$ratio = 1.0;
-				$useWidth = $width;
-				$useHeight = $height;
-			}
+		move_uploaded_file($userfile_tmp, $large_image_location);
+		chmod ($large_image_location, 0777);
 
-			$extR = explode("/", $info['mime']);
-			$ext = $extR[1];
-			$cwd = getcwd();
-
-			$date = date("Ymd_His_");
-
-			$filename             = basename($_FILES["picture"]["name"]);
-			$filename             = str_replace(" ", "+", $filename);
-			$file_ext             = substr($filename, strrpos($filename, ".") + 1);
-			$large_image_location = $cwd."/tmp/rap_cache/".$date.$filename;
-			$thumb_image_location = $cwd."/tmp/rap_cache/".$date."thumb_".$filename;
-			$imgPath              =             "tmp/rap_cache/".$date.$filename;
-			$thumbPath            =             "tmp/rap_cache/".$date."thumb_".$filename;
-
-/*
-			$uploadfile = $upload_dir .'orgnl_'.$_SESSION['rap']['entry']['p_uuid'].$ext;
-			$desc_path  = $upload_dir .'thumb_'.$_SESSION['rap']['entry']['p_uuid'].$ext;
-			move_uploaded_file($_FILES['picture']['tmp_name'], $uploadfile);
-*/
-
-			move_uploaded_file($userfile_tmp, $large_image_location);
-			chmod ($large_image_location, 0777);
-
-
-			// make thumb 100X100 or some thing like that ;-)
-			//shn_image_resize($uploadfile, $desc_path, 100, 100);
-
-			require_once("../inc/lib_image.inc");
-			shn_image_resize_height($imgPath, $thumbPath, 320);
-			chmod ($thumbPath, 0777);
-
-
-
-
+		require_once("../inc/lib_image.inc");
+		shn_image_resize_height($imgPath, $thumbPath, 320);
+		chmod ($thumbPath, 0777);
 
 		?>
-
 		<script type="text/javascript" src="res/js/jquery-1.4.4.min.js"></script>
 		<script type="text/javascript" src="res/js/jquery.imgareaselect.pack.js"></script>
 
-
 		<h1>Crop the Image</h1>
-
 		<ul>
 			<li>Click and drag to draw a box around the important part of the image.</li>
 			<li>You may then resize the rectangular selection grid to refine your rectangular selection area.</li>
@@ -442,6 +410,7 @@ function shn_rap_cropPic() {
 				shn_form_hidden(array('mime'=>$mime));
 				shn_form_hidden(array('wwwPath'=>$imgPath));
 				shn_form_hidden(array('thumbPath'=>$thumbPath));
+				shn_form_hidden(array('original_filename'=>$original_filename));
 				shn_form_hidden(array('realPath'=>$large_image_location));
 				shn_form_fsopen(_t(''));
 		?>
@@ -554,13 +523,9 @@ function shn_rap_cropPic() {
 		<div style="clear: both; height: 50px;"></div>
 
 		<?php
-				shn_form_fsclose();
-				shn_form_submit("Finish and Save this Person", "class=\"styleTehButton\"");
-			shn_form_fclose();
-		}
-
-
-
+		shn_form_fsclose();
+		shn_form_submit("Finish and Save this Person", "class=\"styleTehButton\"");
+		shn_form_fclose();
 	}
 }
 
@@ -668,8 +633,8 @@ function shn_rap_commitPerson($saveImage = false) {
 
 	// insert person's status
 	$q5 = "
-		INSERT INTO person_status (p_uuid, opt_status, last_updated, isvictim, creation_time)
-		VALUES ( '".$uuid."', ".$status.", CURRENT_TIMESTAMP, TRUE, CURRENT_TIMESTAMP);
+		INSERT INTO person_status (p_uuid, opt_status, last_updated, creation_time)
+		VALUES ( '".$uuid."', ".$status.", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 	";
 	$res = $global['db']->Execute($q5);
 
@@ -749,7 +714,7 @@ function shn_rap_commitPerson($saveImage = false) {
 		$image_width  = mysql_real_escape_string($_REQUEST['width']);
 		$url          = mysql_real_escape_string($_REQUEST['wwwPath']);
 		$url_thumb    = mysql_real_escape_string($_REQUEST['thumbPath']);
-		$full_path    = mysql_real_escape_string($_REQUEST['realPath']);
+		$original_filename = mysql_real_escape_string($_REQUEST['original_filename']);
 
 		$ratio = $_REQUEST['ratio'];
 		$x1    = $_REQUEST['x1'];
@@ -757,17 +722,32 @@ function shn_rap_commitPerson($saveImage = false) {
 		$w     = $_REQUEST['w'];
 		$h     = $_REQUEST['h'];
 
-		$crop_x = $x1 / $ratio;
-		$crop_y = $y1 / $ratio;
-		$crop_w = $w  / $ratio;
-		$crop_h = $h  / $ratio;
+		$tag_x = $x1 / $ratio;
+		$tag_y = $y1 / $ratio;
+		$tag_w = $w  / $ratio;
+		$tag_h = $h  / $ratio;
 
 
 		$q18 = "
-			INSERT INTO image (p_uuid, image_type, image_height, image_width, url, url_thumb, crop_x, crop_y, crop_w, crop_h, full_path)
-			VALUES ('".$uuid."', '".$image_type."', '".$image_height."', '".$image_width."', '".$url."', '".$url_thumb."', '".$crop_x."', '".$crop_y."', '".$crop_w."', '".$crop_h."', '".$full_path."');
+			INSERT INTO image (p_uuid, image_type, image_height, image_width, url, url_thumb, original_filename)
+			VALUES ('".$uuid."', '".$image_type."', '".$image_height."', '".$image_width."', '".$url."', '".$url_thumb."', '".$original_filename."');
 		";
 		$res = $global['db']->Execute($q18);
+
+		// get the id of the last inserted item
+		$q19 = "
+			select *
+			from image
+			order by image_id DESC limit 1;
+		";
+		$res = $global['db']->Execute($q19);
+		$image_id = $res->fields['image_id'];
+
+		$q20 = "
+			INSERT INTO image_tag (image_id, tag_x, tag_y, tag_w, tag_h, tag_text)
+			VALUES ('".$image_id."', '".$tag_x."', '".$tag_y."', '".$tag_w."', '".$tag_h."', '".$tag_text."');
+		";
+		$res = $global['db']->Execute($q20);
 	}
 
 

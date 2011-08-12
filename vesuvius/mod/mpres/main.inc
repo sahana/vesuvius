@@ -99,8 +99,44 @@ function shn_mpres_status() {
 	}
 
 
+
+
+	// figure out log traversal navigation....
+
+
+	if(isset($_GET['pagenum'])) {
+		$startPoint = (int)$_GET['pagenum']*100;
+		$endPoint = $startPoint + 100;
+		$msg = "showing emails ".($startPoint+1)." to ".$endPoint;
+	} else {
+		$startPoint = 0;
+		$endPoint = $startPoint + 100;
+		$msg = "showing last 100";
+	}
+
+	if((int)$_GET['pagenum'] > 0) {
+		$previous = "<a href=\"index.php?mod=mpres&act=status&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
+	} else {
+		$previous = "◄";
+	}
+
+	$q = "
+		SELECT count(*)
+		FROM `mpres_log`;
+	";
+	$result = $global['db']->Execute($q);
+	$row = $result->FetchRow();
+	$totalCount = $row['count(*)'];
+
+	if($endPoint < $totalCount) {
+		$next = "<a href=\"index.php?mod=mpres&act=status&pagenum=".($_GET['pagenum']+1)."\">►</a>";
+	} else {
+		$next = "►";
+		$msg = "showing emails ".($startPoint+1)." to ".$totalCount;
+	}
+
 	echo "<div class=\"form-container\"><form><fieldset>";
-	echo "<legend>Last 10 Emails Received...</legend>";
+	echo "<legend>Emails Received (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
 	echo "<table id=\"regLog\"><tr>
 		<td class=\"evener\"><b>Record Identifier / p_uuid</b></td>
 		<td class=\"evener\"><b>Email From</b></td>
@@ -111,7 +147,7 @@ function shn_mpres_status() {
 		SELECT *
 		FROM  `mpres_log`
 		ORDER BY  `mpres_log`.`update_time` DESC
-		LIMIT 0 , 10;
+		LIMIT ".$startPoint.", 100;
 	";
 	$res = $global['db']->Execute($q);
 	while($row = $res->FetchRow()) {

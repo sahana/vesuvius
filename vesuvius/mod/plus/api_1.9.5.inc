@@ -1378,14 +1378,12 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 // Report a new person
 function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $password) {
 
-	shn_plus_logAccess("reportPeson");
+	shn_plus_logAccess("reportPerson");
 	global $global;
 	global $conf;
 	$url = "";
-	$error = true; // !!!!!!!!!!!!
+	$error = false;
 
-
-/*
 	// check auth, if fails, return w/ error code/message
 	$status = shn_plus_checkCredz($username, $password);
 	if($status != 0) {
@@ -1400,22 +1398,43 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 			AND s.group_id = t.group_id
 			AND t.p_uuid = u.p_uuid
 			AND u.user_name = '".mysql_real_escape_string($username)."'
-			AND i.shortname = '".mysql_real_escape_string($eventShortname)."')
+			AND i.shortname = '".mysql_real_escape_string($eventShortName)."')
 			OR (i.private_group is null
-			AND i.shortname = '".mysql_real_escape_string($eventShortname)."');
+			AND i.shortname = '".mysql_real_escape_string($eventShortName)."');
 		";
 		$result = $global['db']->Execute($q);
 		if($result == null || $result->EOF) {
 			$error = true;
 			$ecode = 300;
 		}
+
+		// figure out the p_uuid of the user who is reporting
+		if(!$error) {
+			$q = "
+				SELECT *
+				FROM users
+				WHERE user_name = '".$username."';
+			";
+			$result = $global['db']->Execute($q);
+			$rep_uuid = $result->fields["p_uuid"];
+		}
+
+		// no errors, we must have permission to report to this event for the given user
+
+		if(!$error) {
+			$p = new person();
+			$p->init();
+			$p->theString = $personXML;
+			$p->xmlFormat = $xmlFormat;
+			$ecode = $p->parseXml();
+			$p->rep_uuid = $rep_uuid;
+			if($ecode == 0) {
+				$p->insert();
+			} else {
+				$error = true;
+			}
+		}
 	}
-*/
-
-
-////////////////////////
-
-	$ecode = 9999; // !!!!!!!!!!!!!!!!!1111111111
 
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
@@ -1428,7 +1447,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 	} else {
 		return array(
 			'success'      => (boolean)true,
-			'recordsFound' => (string)$url,
+			'url'          => (string)$p->p_uuid,
 			'errorCode'    => (int)0,
 			'errorMessage' => null
 		);

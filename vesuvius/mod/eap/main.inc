@@ -12,7 +12,6 @@
  */
 
 require_once($global['approot']."/inc/lib_uuid.inc");
-require_once($global['approot']."/inc/lib_location.inc");
 require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 $revisionQ = array();
 global $global;

@@ -63,9 +63,19 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 	}
 
 	// a 4th hack to show when the mpres cron daemon is dead!
-	if($desc == "MPR Email Service") {
+	if($desc == "Inbound Email") {
 		require_once($global['approot'].'/mod/mpres/main.inc');
 		if(!shn_mpres_statusGood()) {
+			$desc .= " <span style=\"color: red;\"><b>●</b></span>";
+		} else {
+			$desc .= " <span style=\"color: green;\"><b>●</b></span>";
+		}
+	}
+
+	// a 5th hack to show when the pop email is erroring!
+	if($desc == "Outbound Email") {
+		require_once($global['approot'].'/mod/pop/main.inc');
+		if(!shn_pop_statusGood()) {
 			$desc .= " <span style=\"color: red;\"><b>●</b></span>";
 		} else {
 			$desc .= " <span style=\"color: green;\"><b>●</b></span>";
