@@ -39,5 +39,6 @@ define("ERRORCODES", serialize(array(
 	300  => "Insufficient privileges to access data in this event.",
 	301  => "Authentication required to access this non-public event.",
 	302  => "Event does not exist with this shortname.",
+	400  => "Invalid enumeration.",
 	9999 => "Unknown error.",
 )));

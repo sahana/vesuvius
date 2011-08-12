@@ -18,7 +18,7 @@ $global['enumTriageStatusTags'] = array('Green', 'BH Green', 'Yellow', 'Red', 'G
 $global['enumGenders']          = array('M', 'F', 'U', 'C');
 $global['enumDistrStatus']      = array('Actual', 'Exercise', 'System', 'Test');
 $global['enumDistrType']        = array('Ack', 'Cancel', 'Dispatch', 'Error', 'Report', 'Request', 'Response', 'Update');
-$global['enumXmlFormats']       = array('REUNITE2', 'TRIAGEPIC');
+$global['enumXmlFormats']       = array('REUNITE3', 'TRIAGEPIC1');
 
 
 /** ******************************************************************************************************************************************************************
@@ -424,7 +424,7 @@ class personImageTag {
 	private $sql_tag_text;
 
 	// Constructor
-	public function __construct($image_id) {
+	public function __construct() {
 		// init db
 		global $global;
 		$this->db = $global['db'];
@@ -475,7 +475,7 @@ class personImageTag {
 	public function init() {
 		// lock tables to hold new indexes for this session
 		$q = "LOCK table image_tag write;";
-		$result = $this->db->Execute($q);
+		//$result = $this->db->Execute($q);
 
 		// get index value
 		$q = "SHOW TABLE STATUS LIKE 'image_tag'";
@@ -561,9 +561,9 @@ class personImage {
 	private $sql_original_filename;
 
 	// extra image info
-	public  $fileContentBase64;
-	public  $fileContent;
-	private $tags;
+	public $fileContentBase64;
+	public $fileContent;
+	public $tags;
 
 
 	// Constructor
@@ -594,7 +594,7 @@ class personImage {
 		$this->fileContent           = null;
 		$this->fullSizePath          = null;
 		$this->thumbnailPath         = null;
-		$this->tags                  = null;
+		$this->tags                  = array();
 	}
 
 
@@ -632,7 +632,7 @@ class personImage {
 	public function init() {
 		// lock tables to hold new indexes for this session
 		$q = "LOCK TABLE image write;";
-		$result = $this->db->Execute($q);
+		//$result = $this->db->Execute($q);
 
 		// get index values
 		$q = "SHOW TABLE STATUS LIKE 'image'";
@@ -721,7 +721,7 @@ class personImage {
 		$this->sync();
 		$q = "
 			INSERT INTO image (
-				image_id
+				image_id,
 				p_uuid,
 				image_type,
 				image_height,
@@ -730,16 +730,24 @@ class personImage {
 				url_thumb,
 				original_filename )
 			VALUES (
-				".$this->sql_image_id.",
+				'".$this->sql_image_id."',
 				".$this->sql_p_uuid.",
 				".$this->sql_image_type.",
-				".$this->sql_height.",
-				".$this->sql_width.",
-				".$this->url.",
-				".$this->url_thumb.",
-				".$this->original_filename." );
+				'".$this->sql_image_height."',
+				'".$this->sql_image_width."',
+				".$this->sql_url.",
+				".$this->sql_url_thumb.",
+				".$this->sql_original_filename." );
 		";
 		$result = $this->db->Execute($q);
+		$this->insertImageTags();
+	}
+
+
+	private function insertImageTags() {
+		foreach($this->tags as $tag) {
+			$tag->insert();
+		}
 	}
 }
 
@@ -852,7 +860,7 @@ class person {
 		$this->rep_uuid       = null;
 		$this->relation       = null;
 
-		$this->images         = null;
+		$this->images         = array();
 
 		$this->sql_p_uuid         = null;
 		$this->sql_full_name      = null;
@@ -1000,8 +1008,6 @@ class person {
 		";
 		$result = $this->db->Execute($q);
 
-echo "\n\n".$q."\n\n";
-
 		$q = "
 			INSERT INTO person_status (
 				p_uuid,
@@ -1015,8 +1021,6 @@ echo "\n\n".$q."\n\n";
 				".$this->sql_creation_time." );
 		";
 		$result = $this->db->Execute($q);
-
-echo "\n\n".$q."\n\n";
 
 		$q = "
 			INSERT INTO person_details (
@@ -1046,8 +1050,6 @@ echo "\n\n".$q."\n\n";
 		";
 		$result = $this->db->Execute($q);
 
-echo "\n\n".$q."\n\n";
-
 		// insert into plus_log
 		$q = "
 			INSERT INTO plus_report_log (p_uuid)
@@ -1055,9 +1057,14 @@ echo "\n\n".$q."\n\n";
 		";
 		$result = $this->db->Execute($q);
 
-echo "\n\n".$q."\n\n";
+		$this->insertImages();
+	}
 
-		//$this->insertImages();
+
+	private function insertImages() {
+		foreach($this->images as $image) {
+			$image->insert();
+		}
 	}
 
 
@@ -1078,8 +1085,9 @@ echo "\n\n".$q."\n\n";
 
 		$a = xml2array($this->theString);
 
-		// parse ReUnite XML
-		if($this->xmlFormat == "REUNITE2") {
+		// parse REUNITE3 XML
+		if($this->xmlFormat == "REUNITE3") {
+			//$this->p_uuid         = $a['person']['p_uuid'];
 			$this->given_name     = $a['person']['givenName'];
 			$this->family_name    = $a['person']['familyName'];
 			$this->full_name      = $this->given_name." ".$this->family_name;
@@ -1090,12 +1098,32 @@ echo "\n\n".$q."\n\n";
 			$this->creation_time  = $a['person']['dateTimeSent'];
 			$this->opt_gender     = $a['person']['gender'];
 			$this->years_old      = $a['person']['estimatedAge'];
-			$this->minAge         = $a['person']['ageGroup']['minAge'];
-			$this->maxAge         = $a['person']['ageGroup']['maxAge'];
-			$this->other_comments = $a['person']['notes'];
-			$this->rep_uuid       = 1;
+			$this->minAge         = $a['person']['minAge'];
+			$this->maxAge         = $a['person']['maxAge'];
+			$this->other_comments = $a['person']['note'];
 
-		// parse ReUnite XML
+			foreach($a['person']['photos'] as $photo) {
+				if(trim($photo['data']) != "") {
+					$i = new personImage();
+					$i->init();
+					$i->p_uuid = $this->p_uuid;
+					$i->fileContentBase64 = $photo['data'];
+					foreach($photo['tags'] as $tag) {
+						$t = new personImageTag();
+						$t->init();
+						$t->image_id = $i->image_id;
+						$t->tag_x    = $tag['x'];
+						$t->tag_y    = $tag['y'];
+						$t->tag_w    = $tag['w'];
+						$t->tag_h    = $tag['h'];
+						$t->tag_text = $tag['text'];
+						$i->tags[] = $t;
+					}
+					$this->images[] = $i;
+				}
+			}
+
+		// parse TRIAGEPIC1 XML
 		} elseif($this->xmlFormat == "TRIAGEPIC") {
 
 			// old method from mpres 1.0

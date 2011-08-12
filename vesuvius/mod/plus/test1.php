@@ -19,7 +19,7 @@ $wsdl = "https://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php
 //$wsdl = "https://pl.nlm.nih.gov/?wsdl";
 $client = new nusoap_client($wsdl);
 
-$result = $client->call('getHospitalLegalese', array('hospital_uuid'=>1));
+//$result = $client->call('getHospitalLegalese', array('hospital_uuid'=>1));
 
 //$result = $client->call('registerUser', array('username'=>'testCaseUser', 'emailAddress'=>'testCase@email.com', 'password'=>'testPassword99', 'givenName'=>'testCaseGiven', 'familyName'=>'testCaseFamily'));
 //$result = $client->call('changeUserPassword', array('username'=>$user, 'oldPassword'=>$pass, 'newPassword'=>$pass));
@@ -61,6 +61,9 @@ $result = $client->call('searchWithAuth', array(
 	'password'=>'dontDelete99'
 ));
 */
+
+$x = file_get_contents("referenceXML_RU.xml");
+$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
 
 
 echo "<pre>".print_r($result, true)."</pre>";

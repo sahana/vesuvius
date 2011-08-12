@@ -31,7 +31,7 @@ $p = new person();
 $p->init();
 
 $p->theString = file_get_contents('referenceXML_RU.xml');;
-$p->xmlFormat = "REUNITE2";
+$p->xmlFormat = "REUNITE3";
 
 //$p->theString = file_get_contents('referenceXML_TP1.xml');;
 //$p->xmlFormat = "TRIAGEPIC";

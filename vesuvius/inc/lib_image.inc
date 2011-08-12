@@ -51,21 +51,25 @@ function shn_image_resize($src_path, $desc_path, $width, $height) {
 		// bitmap
 		$func =  "imagecreatefromwbmp";
 		$func2 = "imagewbmp";
+		$quality = null;
 
 	}else if(stripos($mime,"png")!==FALSE){
 		// png
 		$func = "imagecreatefrompng";
 		$func2 = "imagepng";
+		$quality = 9;
 
 	}else if(stripos($mime,"jpeg")!==FALSE){
 		// jpeg and pjpeg
 		$func = "imagecreatefromjpeg";
 		$func2 = "imagejpeg";
+		$quality = 100;
 
 	}else if(stripos($mime,"gif")!==FALSE){
 		// gif
 		$func = "imagecreatefromgif";
 		$func2 = "imagegif";
+		$quality = null;
 	}
 
 	$image = NULL;
@@ -79,7 +83,7 @@ function shn_image_resize($src_path, $desc_path, $width, $height) {
 
 	imagecopyresampled($imageNew, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
 
-	$func2($imageNew,$desc_path,100);
+	$func2($imageNew, $desc_path, $quality);
 }
 
 
@@ -123,7 +127,7 @@ function shn_image_resize_height($src_path, $desc_path, $height) {
 		// png
 		$func = "imagecreatefrompng";
 		$func2 = "imagepng";
-		$quality = 0;
+		$quality = 9;
 
 	}else if(stripos($mime,"jpeg")!==FALSE){
 		// jpeg and pjpeg
