@@ -11,7 +11,7 @@
 	<genderEnumDesc>Male; Female; Unknown; Complex(M/F)</genderEnumDesc>
 	<minAge>30</minAge>
 	<maxAge>40</maxAge>
-	<estimatedAge>30</estimatedAge>
+	<estimatedAge>35</estimatedAge>
 	<status>ali</status>
 	<statusEnum>ali, mis, inj, dec, unk, fnd</statusEnum>
 	<statusEnumDesc>Alive, Missing, Injured, Deceased, Unknown, Found</statusEnumDesc>
