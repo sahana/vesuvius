@@ -300,3 +300,31 @@ function fetch_image($photo_url, $person_record_id) {
    }
    return $result;
 }
+
+/*
+ * libxml error handling (from PHP website).
+ *
+ * Commented some stuff out below that's not relevant for us.
+ * Also some stuff that doesn't seem to make sense.
+ */
+function display_xml_error($error)
+{
+    $return = "";
+
+    switch ($error->level) {
+        case LIBXML_ERR_WARNING:
+            $return .= "Warning $error->code: ";
+            break;
+         case LIBXML_ERR_ERROR:
+            $return .= "Error $error->code: ";
+            break;
+        case LIBXML_ERR_FATAL:
+            $return .= "Fatal Error $error->code: ";
+            break;
+    }
+
+    $return .= trim($error->message) .
+               "\n  Line: $error->line";
+
+    return "$return\n\n--------------------------------------------\n\n";
+}

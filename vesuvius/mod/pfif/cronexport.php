@@ -78,7 +78,7 @@ foreach ($export_queue as $service_name => $service) {
 
    if ($loaded > 0) {
       // Export only original records after min_entry_date
-      $xml = $p->storeInXML(false, true, $local_date);
+      $xml = $p->storeInXML(false, true);
       if ($xml != null) {
          $fh = fopen('crontest.xml', 'w');
          $charstowrite = strlen($xml);
@@ -96,7 +96,7 @@ foreach ($export_queue as $service_name => $service) {
          print "Export complete: no records to upload\n";
       }
    } else {
-      if ($loaded==-1) {
+      if ($loaded == -1) {
          update_harvest_log($repos, $req_params, 'error');
          print "Export failed: no records to upload\n";
       } else {

@@ -119,7 +119,7 @@ foreach ($import_queue as $service_name => $service) {
          update_harvest_log($repos, $req_params, 'completed');
       } else {
          if ($loaded == -1) {
-            print "Import failed from repository $service_name\n";
+            error_log("Import failed from repository $service_name\n");
          } else {
             print "0 records for import from repository $service_name\n";
          }
