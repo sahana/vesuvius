@@ -512,7 +512,7 @@ function check_file_permissions($path, $requiredPerms)
   // TODO: just use is_readable/is_writeable instead? -UA.
   clearstatcache();
   $current = substr(sprintf('%o', fileperms($path)), -4);
-  $ret = (($current >= $perm) ? 2 : 0);
+  $ret = (($current >= $requiredPerms) ? 2 : 0);
 
   $result = array(
     'name' => $path,
