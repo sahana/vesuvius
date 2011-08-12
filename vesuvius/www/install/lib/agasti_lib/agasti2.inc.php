@@ -618,18 +618,74 @@ class Agasti{
   
   function doInstall($sys_params){
       global $INS_CONFIG;
-      $sqlFile=$INS_CONFIG['rootpath'].'/backups/vesuviusStarterDb_v091.sql';
+      $direcotrypath=$INS_CONFIG['rootpath'].'/backups/';
+      $sqlFile=$INS_CONFIG['rootpath'].'/backups/'.self::getLatestSQLFile($direcotrypath);
       $installed[]=self::createDirectories();
-      $sqlResult=self::executeSQLFile($sqlFile);
-      if($sqlResult=="successfully"){
-          $installed[]="Successfully executed sql file";
+      if(file_exists($sqlFile)){
+          $sqlResult=self::executeSQLFile($sqlFile);
+      }else{
+          $sqlResult="MySQL file couldnot be found";
       }
-      else{
-          $installed[]="Error in executing sql file.";
-      }
-
-      return implode('<br>', $installed[0]);
       
+//      if($sqlResult=="successfully"){
+//          $installed[]="Successfully executed sql file";
+//      }
+//      else{
+          $installed[]=$sqlResult;
+//      }
+
+      return implode('<br>', $installed);
+      
+  }
+
+  function getLatestSQLFile($directorypath){
+    global $INS_CONFIG;
+    $files="";
+    $fileCount=0;
+    $sqlFiles="";
+    $fileversion="";
+    $filePath=$directorypath;
+    $dir = opendir($filePath);
+    while ($file = readdir($dir)) {
+      if (eregi("\.sql",$file)) {
+        $files[] = $file;
+        $fileCount++;
+      }
+    }
+    if ($fileCount > 0) {
+        foreach ($files as $value) {
+              $position=strpos($value, "_");
+              if(!($position==false)){
+                  $sqlFiles[]=$value;
+              }
+
+          }
+
+          if(count($sqlFiles)==0){
+          return "SQL file couldn't be found";
+          }
+          elseif(count($sqlFiles)==1){
+              return "vesuviusStarterDb_v".$sqlFiles[0].".sql";
+          }
+          else{
+              $maximumVal="";
+              foreach($sqlFiles as $value){
+                  $filenameParts=explode("_", $value);
+                  $versionPart=explode(".",$filenameParts[1]);
+                  $fileversion[]=substr(trim($versionPart[0]),1);
+              }
+              $maximumVal=$fileversion[0];
+              foreach ($fileversion as $value) {
+                        if($value>$maximumVal)
+                            $maximumVal=$value;
+              }
+              return "vesuviusStarterDb_v".$maximumVal.".sql";
+
+          }
+    }
+    else{
+        return "There are no .sql files in the given directory.";
+    }
   }
 
   function createDirectories(){
