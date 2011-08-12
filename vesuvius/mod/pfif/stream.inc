@@ -90,7 +90,7 @@ function shn_xml_pfif_rss2Test() {
 
 
 /**
- * stream some atom 1.0...
+ * Stream some atom 1.0...
  * @access public
  * @return string
  */
@@ -113,7 +113,7 @@ function shn_xml_pfif_atomTest() {
 	$TestFeed->setChannelElement('updated', date(DATE_ATOM , time()));
 	$TestFeed->setChannelElement('author', array('name'=>'Anis uddin Ahmad'));
 
-	//Adding a feed. Genarally this protion will be in a loop and add all feeds.
+	//Adding a feed item. Generally this portion will be in a loop and add all feeds.
 
 	//Create an empty FeedItem
 	$newItem = $TestFeed->createNewItem();
@@ -132,6 +132,3 @@ function shn_xml_pfif_atomTest() {
 	//OK. Everything is done. Now genarate the feed.
 	$TestFeed->genarateFeed();
 }
-
-
-
