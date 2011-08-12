@@ -15,11 +15,11 @@
 /**
  * Gives the nice name of the module
  */
-$conf['mod_mpres_name'] = _t("MPR Email Service");
+$conf['mod_mpres_name'] = _t("Inbound Email");
 
 /**
  * Gives the priority order in the main menu when listed
  */
-$conf['mod_mpres_menuorder']    = 89;
+$conf['mod_mpres_menuorder']    = 88;
 $conf['mod_mpres_dependencies'] = "mpr(1.0)";
 $conf['mod_mpres_version']      = 1.6;
