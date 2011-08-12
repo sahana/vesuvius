@@ -1,4 +1,4 @@
-# English (United Kingdom) translation for vesuvius
+# Japanese translation for vesuvius
 # Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
 # This file is distributed under the same license as the vesuvius package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
@@ -8,53 +8,53 @@ msgstr ""
 "Project-Id-Version: vesuvius\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-07-28 15:31-0400\n"
-"PO-Revision-Date: 2011-07-13 22:52+0000\n"
+"PO-Revision-Date: 2011-07-13 22:51+0000\n"
 "Last-Translator: Greg Miernicki <Unknown>\n"
-"Language-Team: English (United Kingdom) <en_GB@li.org>\n"
+"Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-12 05:16+0000\n"
+"X-Launchpad-Export-Date: 2011-08-12 05:15+0000\n"
 "X-Generator: Launchpad (build 13662)\n"
 
 #: ../www/theme/lpf3/header.php:62 ../www/theme/lpf3/header.php:78
 #: ../www/theme/vesuvius/header.php:59 ../www/theme/vesuvius/header.php:75
 msgid "People Locator"
-msgstr "**ENGLISH UK** PEOPLE LOCATOR **ENGLISH UK**"
+msgstr "**JAPANESE** PEOPLE LOCATOR **JAPANESE**"
 
 #: ../www/theme/lpf3/header.php:63 ../www/theme/vesuvius/header.php:60
 msgid "for the "
-msgstr "for the "
+msgstr ""
 
 #: ../www/theme/lpf3/header.php:64 ../www/theme/vesuvius/header.php:61
 msgid "of"
-msgstr "of"
+msgstr ""
 
 #: ../www/theme/lpf3/header.php:65 ../www/theme/lpf3/header.php:79
 #: ../www/theme/vesuvius/header.php:62 ../www/theme/vesuvius/header.php:76
 msgid "U.S. National Library of Medicine"
-msgstr "U.S. National Library of Medicine"
+msgstr ""
 
 #: ../www/theme/lpf3/header.php:66 ../www/theme/lpf3/header.php:80
 #: ../www/theme/vesuvius/header.php:63 ../www/theme/vesuvius/header.php:77
 msgid "Lister Hill National Center for Biomedical Communications"
-msgstr "Lister Hill National Center for Biomedical Communications"
+msgstr ""
 
 #: ../www/index.php:164
 msgid "The stream requested is not valid."
-msgstr "The stream requested is not valid."
+msgstr ""
 
 #: ../www/index.php:195
 msgid "The requested module is not installed in Vesuvius"
-msgstr "The requested module is not installed in Vesuvius"
+msgstr ""
 
 #: ../www/index.php:214
 msgid "The action requested is not available"
-msgstr "The action requested is not available"
+msgstr ""
 
 #: ../www/index.php:218
 msgid "This action does not support the stream type."
-msgstr "This action does not support the stream type."
+msgstr ""
 
 #: ../inc/lib_locale/lib_locale.inc:52
 msgid "Unknown error in updating configuration value."
@@ -95,7 +95,7 @@ msgstr ""
 #: ../mod/admin/location.inc:155 ../mod/admin/location.inc:301
 #: ../mod/admin/location.inc:368 ../mod/pref/main.inc:516
 msgid "Save"
-msgstr "Save"
+msgstr ""
 
 #: ../inc/lib_security/acl_form.inc:237
 msgid "Select the Role you want to edit permissions of"
@@ -183,7 +183,7 @@ msgstr ""
 
 #: ../inc/lib_security/acl_form.inc:421
 msgid "Full Name"
-msgstr "Full Name"
+msgstr ""
 
 #: ../inc/lib_security/acl_form.inc:422
 msgid "Event Type"
@@ -213,7 +213,7 @@ msgstr ""
 #: ../mod/admin/location.inc:493 ../mod/pfif/pfif_main.inc:119
 #: ../mod/pref/main.inc:365 ../mod/pref/main.inc:425
 msgid "Submit"
-msgstr "Submit"
+msgstr ""
 
 #: ../inc/lib_security/auth_form.inc:113
 msgid "You new password must adhere to following rules:"
@@ -443,16 +443,16 @@ msgstr ""
 
 #: ../inc/lib_form.inc:831 ../mod/pref/main.inc:515
 msgid "Cancel"
-msgstr "Cancel"
+msgstr ""
 
 #: ../inc/lib_form.inc:834
 msgid "Back"
-msgstr "Back"
+msgstr ""
 
 #: ../inc/lib_form.inc:837 ../inc/lib_paging.inc:182 ../inc/lib_paging.inc:296
 #: ../mod/admin/location.inc:62
 msgid "Next"
-msgstr "Next"
+msgstr ""
 
 #: ../inc/lib_form.inc:839
 msgid "Finish"
@@ -1100,7 +1100,7 @@ msgstr ""
 
 #: ../mod/em/conf.inc:15
 msgid "Event Manager"
-msgstr "Event Manager"
+msgstr ""
 
 #: ../mod/ha/conf.inc:15
 msgid "Hospital Administration"
@@ -1403,15 +1403,15 @@ msgstr ""
 
 #: ../mod/home/conf.inc:14
 msgid "Home"
-msgstr "Home"
+msgstr ""
 
 #: ../mod/int/conf.inc:14
 msgid "Internal Resources"
-msgstr "Internal Resources"
+msgstr ""
 
 #: ../mod/inw/conf.inc:15 ../mod/inw/main.inc:252
 msgid "Search for a Person"
-msgstr "Search for a Person"
+msgstr ""
 
 #: ../mod/lpf/conf.inc:15
 msgid "LPF Library"
@@ -1419,11 +1419,11 @@ msgstr ""
 
 #: ../mod/mpres/conf.inc:18
 msgid "MPR Email Service"
-msgstr "MPR Email Service"
+msgstr ""
 
 #: ../mod/pfif/conf.inc:15
 msgid "PFIF Admin"
-msgstr "PFIF Admin"
+msgstr ""
 
 #: ../mod/pfif/main.inc:118
 msgid "Import from PFIF xml to 'test' event"
@@ -1487,7 +1487,7 @@ msgstr ""
 
 #: ../mod/plus/conf.inc:14
 msgid "Web Services"
-msgstr "Web Services"
+msgstr ""
 
 #: ../mod/pop/conf.inc:14
 msgid "Outbound Email"
@@ -1495,109 +1495,108 @@ msgstr ""
 
 #: ../mod/pref/conf.inc:15
 msgid "My Settings"
-msgstr "My Settings"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:42
 msgid "Change default incident"
-msgstr "Change default incident"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:55
 msgid "Default Incident"
-msgstr "Default Incident"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:58
 msgid "Incident Type"
-msgstr "Incident Type"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:59
 msgid "Select Incident"
-msgstr "Select Incident"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:63
 msgid "Update"
-msgstr "Update"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:75
 msgid "You have not completed the form"
-msgstr "You have not completed the form"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:80
 msgid "Please Select the incident type"
-msgstr "Please Select the incident type"
+msgstr ""
 
 #: ../mod/pref/ims_config.inc:85
 msgid "Please select an item from 'Select Incident' box"
-msgstr "Please select an item from 'Select Incident' box"
+msgstr ""
 
 #: ../mod/pref/ims_main.inc:71
 msgid "Old password cannot be empty!"
-msgstr "Old password cannot be empty!"
+msgstr ""
 
 #: ../mod/pref/ims_main.inc:79
 msgid "New password cannot be empty!"
-msgstr "New password cannot be empty!"
+msgstr ""
 
 #: ../mod/pref/ims_main.inc:87
 msgid "You left the confirm password field blank."
-msgstr "You left the confirm password field blank."
+msgstr ""
 
 #: ../mod/pref/ims_main.inc:95
 msgid "Your new password did not match when you retyped it."
-msgstr "Your new password did not match when you retyped it."
+msgstr ""
 
 #: ../mod/pref/ims_main.inc:120
 msgid "You cannot change the password more than once in one day"
-msgstr "You cannot change the password more than once in one day"
+msgstr ""
 
 #: ../mod/pref/ims_main.inc:151
 msgid "You cannot choose one of the recent four passwords"
-msgstr "You cannot choose one of the recent four passwords"
+msgstr ""
 
 #: ../mod/pref/ims_main.inc:165
 msgid " Succesfully changed Password "
-msgstr " Succesfully changed Password "
+msgstr ""
 
 #: ../mod/pref/ims_menu.inc:24
 msgid "Change My Password"
-msgstr "Change My Password"
+msgstr ""
 
 #: ../mod/pref/ims_menu.inc:25
 msgid "Edit My Personal Details"
-msgstr "Edit My Personal Details"
+msgstr ""
 
 #: ../mod/pref/main.inc:124 ../mod/pref/main.inc:437 ../mod/pref/main.inc:444
 msgid ""
 "Please provide the text in the image correctly to prove you are human."
 msgstr ""
-"Please provide the text in the image correctly to prove you are human."
 
 #: ../mod/pref/main.inc:508
 msgid "Enable/Disable OCR XForm"
-msgstr "Enable/Disable OCR XForm"
+msgstr ""
 
 #: ../mod/pref/main.inc:510
 msgid "Enable or disable the OCR friendly form generation."
-msgstr "Enable or disable the OCR friendly form generation."
+msgstr ""
 
 #: ../mod/pref/main.inc:513
 msgid "Enabled"
-msgstr "Enabled"
+msgstr ""
 
 #: ../mod/pref/main.inc:513
 msgid "Disabled"
-msgstr "Disabled"
+msgstr ""
 
 #: ../mod/pref/main.inc:513
 msgid "OCR friendly XForm : "
-msgstr "OCR friendly XForm : "
+msgstr ""
 
 #: ../mod/pref/main.inc:529 ../mod/pref/main.inc:538
 msgid "Your preference was successfully saved."
-msgstr "Your preference was successfully saved."
+msgstr ""
 
 #: ../mod/pref/main.inc:532 ../mod/pref/main.inc:541
 msgid "An error occured while saving your preference."
-msgstr "An error occured while saving your preference."
+msgstr ""
 
 #: ../mod/rap/conf.inc:14
 msgid "Report a Person"
@@ -1636,7 +1635,7 @@ msgstr ""
 
 #: ../mod/rap/main.inc:210
 msgid "Family Name"
-msgstr "Family Name"
+msgstr ""
 
 #: ../mod/rap/main.inc:210
 msgid "The person's surname or last name."
@@ -1674,15 +1673,15 @@ msgstr ""
 
 #: ../mod/rap/main.inc:214
 msgid "Gender"
-msgstr "Gender"
+msgstr ""
 
 #: ../mod/rap/main.inc:215
 msgid "Religion"
-msgstr "Religion"
+msgstr ""
 
 #: ../mod/rap/main.inc:216
 msgid "Race"
-msgstr "Race"
+msgstr ""
 
 #: ../mod/rap/main.inc:219
 msgid "Person's Contact Information"
@@ -1730,11 +1729,11 @@ msgstr ""
 
 #: ../mod/rap/main.inc:232
 msgid "Height"
-msgstr "Height"
+msgstr ""
 
 #: ../mod/rap/main.inc:233
 msgid "Weight"
-msgstr "Weight"
+msgstr ""
 
 #: ../mod/rap/main.inc:235
 msgid "Other Obvious Distinctive Features"
@@ -1768,7 +1767,7 @@ msgstr ""
 
 #: ../mod/rap/main.inc:367
 msgid "Invalid image type please try again"
-msgstr "Invalid image type please try again"
+msgstr ""
 
 #: ../mod/rez/admin.inc:35
 msgid "Resources ~ Page Administration"
@@ -1788,11 +1787,11 @@ msgstr ""
 
 #: ../mod/stat/conf.inc:15
 msgid "Statistics"
-msgstr "Statistics"
+msgstr ""
 
 #: ../mod/tp/conf.inc:14
 msgid "TriagePic"
-msgstr "TriagePic"
+msgstr ""
 
 #: ../mod/xst/conf.inc:14
 msgid "Streamer"
