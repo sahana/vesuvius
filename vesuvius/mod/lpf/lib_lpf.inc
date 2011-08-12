@@ -985,7 +985,7 @@ class person {
 	}
 
 
-	// save the image tag
+	// save the person
 	public function insert() {
 		$this->sync();
 		$q = "
@@ -1052,8 +1052,8 @@ class person {
 
 		// insert into plus_log
 		$q = "
-			INSERT INTO plus_report_log (p_uuid)
-			VALUES ('".$this->p_uuid."');
+			INSERT INTO plus_report_log (p_uuid, enum)
+			VALUES ('".$this->p_uuid."', '".$this->xmlFormat."');
 		";
 		$result = $this->db->Execute($q);
 

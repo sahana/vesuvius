@@ -1,6 +1,12 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+2011:0811 Greg
+--------------
+
+ALTER TABLE  `plus_report_log` ADD  `enum` VARCHAR( 16 ) NULL DEFAULT NULL ;
+
+
 2011:0810 Greg
 --------------
 
@@ -18,8 +24,22 @@ ALTER TABLE `image`
   DROP `crop_y`,
   DROP `crop_w`,
   DROP `crop_h`,
-  DROP `category`
+  DROP `category`,
   DROP `full_path`;
+
+
+
+
+
+
+
+/// ABOVE NOT IN PRODUCTION YET /////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
 
 
 2011:0805 Leif
