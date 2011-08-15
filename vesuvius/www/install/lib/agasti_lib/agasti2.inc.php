@@ -69,6 +69,8 @@ class Agasti{
          */
         $final_result = true;
         $requirementArray=array();
+	$requirementArray[$this->INS_CONFIG['rootpath'].'/www/']='0777';
+	$requirementArray[$this->INS_CONFIG['rootpath'].'/conf/']='0777';
         $requirementArray[$this->INS_CONFIG['rootpath'].'/www/install/']='0777';
         $requirementArray[$this->INS_CONFIG['rootpath'].'/www/install/css/']='0775';
 
@@ -176,8 +178,7 @@ class Agasti{
                          value="' . $this->getConfig('DB_PASSWORD', 'root') . '" />
                 </li>
                 <input id="init_schema" type="hidden" name="init_schema" checked="checked" />
-                <li><span class="fail">this will drop your current database.</span></li>
-              </ul>
+                </ul>
             </fieldset>';
     $results = 'The database is created manually.  First, the Agasti Installer will test your
       configuration settings before continuing.  Enter your database settings and click "Test Connection". <br /><br/>'
@@ -364,7 +365,7 @@ class Agasti{
 
     function dbParams($db_params)
     {
-       global $INS_CONFIG;
+	global $INS_CONFIG;
        $filePath=$INS_CONFIG['rootpath'].'/conf/config.php';
        if($db_params['hostname']!=''){
             $arguments = $this->getConfigArray();
@@ -386,7 +387,6 @@ class Agasti{
 
     function systemParams($system_params){
         global $INS_CONFIG;
-        $filePath=$INS_CONFIG['rootpath'].'/conf/config.php';
         if($system_params['base_uuid']!=''){
             $arguments = $this->getConfigArray();
             $arguments['db_name']=$this->getConfig('DB_DATABASE','agasti23');
@@ -411,7 +411,7 @@ class Agasti{
             $arguments['enable_plus_web_services']=$system_params['enable_plus_web_services'];
 
             $configFile=new ConfigurationFileTask();
-            $configFile->execute($arguments,$filePath);
+            $configFile->execute($arguments);
         }
         
 
@@ -620,7 +620,10 @@ class Agasti{
       global $INS_CONFIG;
       $direcotrypath=$INS_CONFIG['rootpath'].'/backups/';
       $sqlFile=$INS_CONFIG['rootpath'].'/backups/'.self::getLatestSQLFile($direcotrypath);
-      $installed[]=self::createDirectories();
+      $result=self::createDirectories();
+      foreach ($result as $value) {
+          $installed[]=$value;
+      }
       if(file_exists($sqlFile)){
           $sqlResult=self::executeSQLFile($sqlFile);
       }else{
@@ -714,8 +717,8 @@ class Agasti{
               $installed[]=self::createSubdirectories($rap_cachedir);
           }
       }
-      $URIdir=$INS_CONFIG['rootpath'].'3rd/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/URI';
-      $installed[]=self::createSubdirectories($URIdir);
+//      $URIdir=$INS_CONFIG['rootpath'].'3rd/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/URI';
+//      $installed[]=self::createSubdirectories($URIdir);
 
 
 
@@ -738,60 +741,25 @@ class Agasti{
 
   function executeSQLFile($fileName){
       global $INS_CONFIG;
-
-      $connectionResult=mysql_connect($INS_CONFIG['DB_SERVER'].":".$INS_CONFIG['DB_PORT'],$INS_CONFIG['DB_USER'],$INS_CONFIG['DB_PASSWORD']);
-      if(!$connectionResult){
-          return "Error in connecting to the database.".mysql_error();
+      $mysqli = new mysqli($INS_CONFIG['DB_SERVER'], $INS_CONFIG['DB_USER'], $INS_CONFIG['DB_PASSWORD'], $INS_CONFIG['DB_DATABASE']);
+      if (mysqli_connect_errno()){
+        return "Connect failed: %s\n".mysqli_connect_error();
       }
       else{
-          $selectDatabase=mysql_select_db($INS_CONFIG['DB_DATABASE']);
-          if(!$selectDatabase){
-              return "Error in selecting the database".mysql_error();
-          }
-          else{
-              for($i=0;$i<2;$i++){
-                 $file_content=file($fileName);
-               $sqlLine='';
-               $state=0;
-               foreach($file_content as $sql_line){
-                   if(trim($sql_line) != "" && strpos($sql_line, "--") === false){
-
-                   for($i=0;$i<strlen($sql_line);$i++){
-                       if($sql_line[$i]=='/' && $sql_line[$i+1]=='*'){
-                           $state++;
-                       }
-                       if($sql_line[$i]=='*'&& $sql_line[$i+1]=='/' && ($state%2)==1){
-                           $state++;
-                       }
-
-                   }
-                   $sqlline='';
-                   if($state==0){
-                       if(strpos($sql_line, ";")==true){
-                           $sqlline=trim($sql_line);
-                           $sqlLine.=substr($sqlline, 0,-1);
-                           $executeResult=mysql_query($sqlLine);
-//                           if(!$executeResult){
-//                               //return mysql_error();
-//                           }
-                            $sqlLine='';
-                       }
-                       else{
-                           $sqlLine.=$sql_line;
-                       }
-                   }
-
-
-                   if($state%2==0){
-                       $state=0;
-                   }
-
-                }
-               }
-              }
-               return "successful";
-          }
-      }
+            $file_content = file($fileName);
+            $sqlLine='';
+            foreach($file_content as $sql_line){
+                $sqlLine.=$sql_line;
+            }
+            $queryresult=mysqli_multi_query($mysqli, $sqlLine);
+            if(!$queryresult){
+                return "Error in executing the MySQL file.";
+            }
+            else{
+                mysqli_close($mysqli);
+                return "Successfully executed the MySQL file.";
+            }
+        }
   }
 
 }
