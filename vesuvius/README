@@ -1,7 +1,9 @@
-Before running the install.php file in the browser you have to do the following things.
+Before running the install.php file in the browser you have to do the following things. These are essential to do before running the installer.
 
 1. Go to vesuvius root directory using command line.
 
 2. Then in the command prompt run 'chmod -R 777 www' and press enter.
+
+3.Then in the command prompt run 'chmod -R 777 conf' and press enter.
 
 Then try to run the install.php file that is in the www directory. It will run successfully.
