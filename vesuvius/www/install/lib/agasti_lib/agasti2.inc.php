@@ -619,6 +619,8 @@ class Agasti{
   function doInstall($sys_params){
       global $INS_CONFIG;
       $direcotrypath=$INS_CONFIG['rootpath'].'/backups/';
+      $wwwdirectory=$INS_CONFIG['rootpath'].'/www/';
+      $confdirectory=$INS_CONFIG['rootpath'].'/conf/';
       $sqlFile=$INS_CONFIG['rootpath'].'/backups/'.self::getLatestSQLFile($direcotrypath);
       $result=self::createDirectories();
       foreach ($result as $value) {
@@ -628,6 +630,16 @@ class Agasti{
           $sqlResult=self::executeSQLFile($sqlFile);
       }else{
           $sqlResult="MySQL file couldnot be found";
+      }
+      if(substr(sprintf('%o', fileperms($wwwdirectory)), -4)=="0777"){
+          if(!chmod($wwwdirectory,0755)){
+              $installed[]="Error in changing permissions of the ".$wwwdirectory.". You have to manually change the permissions to 0755";
+          }
+      }
+      if(substr(sprintf('%o', fileperms($confdirectory)), -4)=="0777"){
+          if(!chmod($confdirectory,0755)){
+              $installed[]="Error in changing permissions of the ".$confdirectory.". You have to manually change the permissions to 0755";
+          }
       }
       
 //      if($sqlResult=="successfully"){
