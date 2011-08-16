@@ -8,7 +8,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0803
+ * @lastModified 2011.0816
  */
 
 
@@ -40,41 +40,8 @@ $legalese = "Notice: Submission of information is voluntary. All submitted infor
 		</td>
 		</tr>
 	</table>
-	<div id="notice" onclick="alert('<?php echo $legalese; ?>');"><?php echo $legalese; ?>
-	<?php
-		// show build & version
-
-		global $global;
-		$revision_file = $global['approot']."/www/theme/lpf3/version";
-		$time_file     = $global['approot']."/www/theme/lpf3/time";
-
-		// only show the rev/build info on stage/production ~ not dev as version/time dont exist there or in svn
-		if(file_exists($revision_file) && file_exists($time_file)) {
-			// open file with the revision number in the first line
-			$handle = fopen($revision_file, "r");
-
-			// read first line. TODO: check if it's not empty, etc.
-			$version = fgets($handle);
-
-			// open file to read timestamp
-			$handle2 = fopen($time_file, "r");
-
-			// extract time
-			$time = fgets($handle2);
-
-			// print generated link
-			echo "version: <b>r".$version."</b> &nbsp; Build Time: <b>".$time."</b>";
-		}
-	?>
-	</div>
+	<div id="notice" onclick="alert('<?php echo $legalese; ?>');"><?php echo $legalese; ?></div>
 	</center>
-	<?php
-		//echo "<br><pre>".print_r($_REQUEST, true)."</pre>";
-		//echo "<pre>".print_r($_SERVER, true)."</pre>";
-		//echo "<br><pre>".print_r($global, true)."</pre>";
-		//echo "<br><pre>".print_r($_SESSION, true)."</pre>";
-		//echo "<br><pre>".print_r($conf, true)."</pre>";
-	?>
 </div>
 <?php
 
