@@ -196,7 +196,7 @@ function shn_pfif_export() {
 }
 
 /**
- * Stream PFIF xml.
+ * Stream PFIF in raw xml format.
  * @access public
  * @return string
  */
@@ -214,8 +214,41 @@ function shn_xml_pfif_export() {
     $original = isset($_POST['original']) ? true : false;
     $pfif->loadFromDatabase($_POST['since'], $_POST['before']);
     if ($original) {
-       // Export only original records. Resupply date constraints.
-       $xml = $pfif->storeInXML(false, $original, $since, $before);
+       // Export only original records. 
+       $xml = $pfif->storeInXML(false, $original);
+    } else {
+       $xml = $pfif->storeInXML();
+    }
+    if ($xml != null) {
+       shn_stream_init(false);
+       print $xml;
+    } else {
+       echo "<pfif>No records to export!</pfif>";
+    }
+}
+
+/**
+ * Stream PFIF in raw xml format.
+ * @access public
+ * @return string
+ */
+function shn_xml_pfif_feed() {
+    global $global;
+
+    // Get shortname from _GET variable.
+    $short = mysql_real_escape_string($_GET['shortname']);
+    // Get incident id.
+    $sql = "SELECT incident_id from incident where shortname='$short'";
+    $res = $global['db']->GetRow($sql);
+    $incident_id = $res['incident_id'];
+    $pfif = new Pfif();
+    $pfif->setIncidentId($incident_id);
+    // Fixme: For now, show all records.
+    $original = isset($_GET['original']) ? true : false;
+    $pfif->loadFromDatabase(-1);
+    if ($original) {
+       // Export only original records. 
+       $xml = $pfif->storeInXML(false, $original);
     } else {
        $xml = $pfif->storeInXML();
     }

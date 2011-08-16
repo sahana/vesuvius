@@ -71,6 +71,7 @@ class Pfif {
    private $service = null;
    private $service_name = null;
    private $dom_pfif;
+   private $loadFilters = array();
 
    public function __construct() {
       
@@ -191,11 +192,10 @@ class Pfif {
 
    /**
     *  Returns a PFIF-compliant XML document containing person and note records loaded into this PFIF instance.
-    *  Used primarily for export, but also used for debugging import. Filtering on dates has already occurred at 
-    *  search time. If only original records (i.e. from PL) are desired, the original date constraints should 
-    *  be resupplied.
+    *  Used primarily for export, but also used for debugging import. If filtering on dates has already occurred at 
+    *  search time, but if only original records are desired now, reuse the original date constraints for refiltering.
     */
-   public function storeInXML($embed=true, $original=false, $since_entry_date=null, $before=null) {
+   public function storeInXML($embed=true, $original=false) {
       global $first_entry_date, $last_entry_date, $last_entry_count, $conf;
 
       $this->dom_pfif = new DomDocument('1.0', 'utf-8');
@@ -206,11 +206,11 @@ class Pfif {
       $dom_pfif->setAttribute('xsi:schemaLocation', "$ns $ns/pfif-1.3.xsd");
       $this->dom_pfif->appendChild($dom_pfif);
 
-      // Handle empty dates.
-      $start = empty($since_entry_date)? 0 : strtotime($since_entry_date);
-      $end = empty($before)? strtotime('2036') : strtotime($before);
-
       if ($original) {
+         // Reuse original date constraints, if any, for filtering the original records. Handle empty dates.
+         $start = (empty($this->loadFilters['since']))? 0 : strtotime($this->loadFilters['since']);
+         $end = (empty($this->loadFilters['before']))? strtotime('2036') : strtotime($this->loadFilters['before']);
+
          // Do original records only. Non-embedded format.
          $pfif_persons = $this->getPersons();
          if (count($pfif_persons) != 0) {
@@ -463,14 +463,14 @@ class Pfif {
          return $numPersons + $numNotes;
       }
    }
-      
+
    // Load PFIF XML data into Pfif_Person class.
    public function loadPersonsFromXML($capxml) {
       $this->dom_pfif = new DOMDocument('1.0', 'utf-8');
       if (isset($capxml)) {
          if (stripos($capxml, '<' . PFIF_NS_PREFIX . ':') === FALSE) {
             //print "loading from file/url ...\n>".$capxml."<\n with length ".strlen($capxml)."\n";
-            $lst = $this->dom_pfif->load($capxml); // load from file or URL
+            $lst = @$this->dom_pfif->load($capxml); // load from file or URL
             //print "loaded\n";
          } else {
             //print "loading from string ...\n";
@@ -667,17 +667,9 @@ class Pfif {
          $lookup = $this->checkForReportedPerson($person->person_record_id);
          //var_dump('lookup returns:',$lookup);
          if (count($lookup) > 0) {
-            // This is a duplicate person. PFIF says to have it replace the existing person if its 
-            // source_date is more recent. 
-            if (strtotime($person->source_date) > strtotime($lookup['creation_time'])) {
-               //var_dump('Old and new source dates:',$person->person_record_id,
-               //    $lookup['creation_time'],$person->source_date);
-               $this->deleteReportedPerson($person->person_record_id);
-            } else {
-               // This is an unexpected duplicate, so just flag it.
-               $_SESSION['pfif_info']['person_insert_errors'] += 1;
-               continue;
-            }
+            // Delete duplicate person. (PFIF says it should have a new source date, but
+            // in practice Google let's you write any old duplicate persons to PF.)
+            $this->deleteReportedPerson($person->person_record_id);
          }
 
          // Save to Sahana tables.
@@ -934,9 +926,14 @@ class Pfif {
       shn_db_insert($insert_array, 'person_to_report');
    }
 
-   // Load from database based on last date.
+   // Load from database based on optional date window and number of records to skip.
+   // For now, if since_entry_date == -1  then this is a feed.
    public function loadFromDatabase($since_entry_date=null, $before=null, $skip=0) {
       global $conf, $global;
+
+      // Save filters since they may be needed at XML generation time.
+      $this->loadFilters['since'] = $since_entry_date;
+      $this->loadFilters['before'] = $before;
 
       $baseUuid = $conf['base_uuid'];
       $pfifDomain = substr($baseUuid, 0, -1);  // omit trailing "/"
@@ -1060,7 +1057,7 @@ class Pfif {
 
       $whereSql = '';
       $where = array();
-      if (!empty($since_entry_date)) {
+      if (!empty($since_entry_date)  && $since_entry_date != -1) {
          $where[] = " ps.last_updated >= '$since_entry_date' ";
       }
       if (!empty($before)) {
@@ -1075,13 +1072,18 @@ class Pfif {
       $whereSql = $whereSql != null ? ' WHERE ' . $whereSql : '';
       //$large_num = 1e12;
       $large_num = 700000;
-      $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,$large_num";
+      if ($since_entry_date == -1) {
+         // This is a feed: Return recent records in reverse chronological order.
+         $whereSql .= " ORDER BY ps.status_id DESC LIMIT 10";
+      } else {
+         $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,$large_num";
+      }
 
       // DEBUG:
-      //error_log("calling getMprAddedRecords(" . $whereSql . ")");
-      $array2 = $this->getMprAddedRecords($whereSql);
-      //print "got " . count($array2) . " records\n";
-      return $array2;
+      //print "calling getMprAddedRecords(" . $whereSql . ")";
+      $array = $this->getMprAddedRecords($whereSql);
+      //print "got " . count($array) . " records\n";
+      return $array;
    }
 
    private function getMprAddedRecords($whereSql) {
@@ -1104,11 +1106,12 @@ class Pfif {
               LEFT OUTER JOIN person_status ps ON ps.p_uuid = a.p_uuid        
               LEFT OUTER JOIN person_to_report pr ON pr.p_uuid = a.p_uuid
               $whereSql ";
-      // DEBUG:  error_log("getMprAddedRecords: ".$sql);
-      // print "callinb db ...\n";
       $array = $global['db']->GetAll($sql);
-      // print "returning ...\n";
-      //var_dump('person_record', $array);
+      if ($array === false) {
+         $errchk = $global['db']->ErrorMsg();
+         // error_log("getMprAddedRecords: ".$sql);
+         error_log("Error in getMprAddedRecords: " . $errchk);
+      }
       return $array;
    }
 
