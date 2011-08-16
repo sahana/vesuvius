@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Hospital Administration
- * @version      0.1
+ * @version      0.2
  * @package      ha
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0307
+ * @lastModified 2011.0816
  */
 
 
@@ -24,6 +24,26 @@ function shn_ha_default() {
 
 
 
+function shn_ha_first() {
+	global $global;
+
+	echo "<ul>";
+
+	if(($_GET['act'] == "log") || ($_GET['act'] == "default")){
+		echo "<li>"._t('HOSPITAL_VIEW|All Hospitals')."</li>";
+	} else {
+		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=ha&act=log\">"._t('HOSPITAL_VIEW|All Hospitals')."</a></li>";
+	}
+
+	if($_GET['act'] == "add") {
+		echo "<li>"._t('HOSPITAL_VIEW|Add a New Hospital')."</li>";
+	} else {
+		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=ha&act=add\">"._t('HOSPITAL_VIEW|Add a New Hospital')."</a></li>";
+	}
+
+	echo "</ul><hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
+}
+
 
 /**
  * Show all hospital registrations.
@@ -33,11 +53,9 @@ function shn_ha_default() {
  */
 function shn_ha_log() {
 	global $global;
+	shn_ha_first();
 	echo "<div id=\"home\">";
-	echo "
-		<h2><b><i>>> "._t('HOSPITAL_VIEW|View/Edit Registered Hospitals')."</i></b></h2>
-		<h2><a href=\"index.php?mod=ha&act=add\"><b>"._t('HOSPITAL_VIEW|Add an additional Hospital to the sytem')."</b></a></h2>
-	";
+
 	$query  = "
 		SELECT *
 		FROM hospital
@@ -84,6 +102,9 @@ function shn_ha_log() {
  */
 function shn_ha_edit($uu = null) {
 	global $global;
+
+	shn_ha_first();
+
 	if($uu != null) {
 		$uuid = $uu;
 	} else {
@@ -326,11 +347,9 @@ function shn_ha_save() {
 function shn_ha_add() {
 	global $global;
 
+	shn_ha_first();
+
 	echo "<div id=\"home\">";
-	echo "
-		<h2><a href=\"index.php?mod=ha&act=log\"><b>"._t('HOSPITAL_VIEW|View/Edit Registered Hospitals')."</b></a></h2>
-		<h2><b><i>>>"._t('HOSPITAL_VIEW|Add an additional Hospital to the sytem')."</i></b></h2>
-	";
 	echo "
 		<script>
 			function saveNewHospital() {
