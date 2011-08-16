@@ -695,21 +695,26 @@ class Agasti{
       global $INS_CONFIG;
       $tmpdir=$INS_CONFIG['rootpath'].'/www/tmp';
       $tmpdirresult=mkdir($tmpdir, 0777,true);
-      if(!$tmpdirresult){
-          $installed[]="Error in creating the tmp directory. You have to create the directories and sub directories manually.";
+      $bcapscachedir=$INS_CONFIG['rootpath'].'/www/tmp/bcaps_cache';
+      $int_cachedir=$INS_CONFIG['rootpath'].'/www/tmp/int_cache';
+      $mpres_cachedir=$INS_CONFIG['rootpath'].'/www/tmp/pfif_cache';
+      $plus_cachedir=$INS_CONFIG['rootpath'].'/www/tmp/plus_cache';
+      $rap_cachedir=$INS_CONFIG['rootpath'].'/www/tmp/rap_cache';
+      $URIdir=$INS_CONFIG['rootpath'].'3rd/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/URI';
+      if(file_exists($tmpdir) && substr(sprintf('%o', fileperms($tmpdir)), -4)=="0777"){
+          $installed[]="The tmp directory is already created and have set the file permissions accordingly.";
+          $installed[]=self::createSubdirectories($bcapscachedir);
+          $installed[]=self::createSubdirectories($int_cachedir);
+          $installed[]=self::createSubdirectories($mpres_cachedir);
+          $installed[]=self::createSubdirectories($plus_cachedir);
+          $installed[]=self::createSubdirectories($rap_cachedir);
       }
-      else{
-          $installed[]="Successfully created the tmp directory";
+      else if(file_exists($tmpdir) && substr(sprintf('%o', fileperms($tmpdir)), -4)!="0777"){
           if(!chmod($tmpdir,0777)){
-              $installed[]="Error in setting the permissions. You have to manually set the permissions and create the subdirectories";
+              $installed[]="The tmp directory has already been created and error in setting the file permissions. You have to set it manually.";
           }
           else{
-              $installed[]="successfully set the permissions to tmp directory";
-              $bcapscachedir=$INS_CONFIG['rootpath'].'/www/tmp/bcaps_cache';
-              $int_cachedir=$INS_CONFIG['rootpath'].'/www/tmp/int_cache';
-              $mpres_cachedir=$INS_CONFIG['rootpath'].'/www/tmp/pfif_cache';
-              $plus_cachedir=$INS_CONFIG['rootpath'].'/www/tmp/plus_cache';
-              $rap_cachedir=$INS_CONFIG['rootpath'].'/www/tmp/rap_cache';
+              $installed[]="The tmp directory has already been created and successfully set the file permissions.";
               $installed[]=self::createSubdirectories($bcapscachedir);
               $installed[]=self::createSubdirectories($int_cachedir);
               $installed[]=self::createSubdirectories($mpres_cachedir);
@@ -717,8 +722,28 @@ class Agasti{
               $installed[]=self::createSubdirectories($rap_cachedir);
           }
       }
-//      $URIdir=$INS_CONFIG['rootpath'].'3rd/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/URI';
-//      $installed[]=self::createSubdirectories($URIdir);
+      else{
+          $tmpdirresult=mkdir($tmpdir, 0777,true);
+          if(!$tmpdirresult){
+              $installed[]="Error in creating the tmp directory. You have to create the directories and sub directories manually.";
+          }
+          else{
+              $installed[]="Successfully created the tmp directory";
+              if(!chmod($tmpdir,0777)){
+                  $installed[]="Error in setting the permissions. You have to manually set the permissions and create the subdirectories";
+              }
+              else{
+                  $installed[]="successfully set the permissions to tmp directory";
+                  $installed[]=self::createSubdirectories($bcapscachedir);
+                  $installed[]=self::createSubdirectories($int_cachedir);
+                  $installed[]=self::createSubdirectories($mpres_cachedir);
+                  $installed[]=self::createSubdirectories($plus_cachedir);
+                  $installed[]=self::createSubdirectories($rap_cachedir);
+              }
+          }
+      }
+
+      $installed[]=self::createSubdirectories($URIdir);
 
 
 
@@ -726,15 +751,28 @@ class Agasti{
   }
 
   function createSubdirectories($dir){
-      if(!mkdir($dir, 0777,true)){
-          return "Error in creating the ".$dir.". You have to manually create it and set permissions.";
+      if(file_exists($dir) && substr(sprintf('%o', fileperms($dir)), -4)=="0777"){
+          return $dir." directory has already been created and set the permissions.";
       }
-      else{
+      else if(file_exists($tmpdir) && substr(sprintf('%o', fileperms($tmpdir)), -4)!="0777"){
           if(!chmod($dir,0777)){
-              return "Successfully created the ".$dir.". But error in setting permissions. You have to manually set permissions";
+              return $dir." directory has already been created and error in setting the permissions. You have to manually set it.";
           }
           else{
-              return "Successfully created and set the permissions to the ".$dir;
+              return $dir." directory has already been created and successfully set the permissions.";
+          }
+      }
+      else{
+          if(!mkdir($dir, 0777,true)){
+              return "Error in creating the ".$dir.". You have to manually create it and set permissions.";
+          }
+          else{
+              if(!chmod($dir,0777)){
+                  return "Successfully created the ".$dir.". But error in setting permissions. You have to manually set permissions";
+              }
+              else{
+                  return "Successfully created and set the permissions to the ".$dir;
+              }
           }
       }
   }
