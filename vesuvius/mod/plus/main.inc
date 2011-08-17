@@ -289,7 +289,7 @@ function shn_plus_stat() {
 	$count = 0;
 
 	echo "
-		<div class=\"form-container\" style=\"width: 270px; float: left;  margin-right: 5px;\">
+		<div class=\"form-container\" style=\"width: 220px; float: left;  margin-right: 5px;\">
 			<form>
 				<fieldset>
 					<legend>Hits by API Function</legend>
@@ -335,7 +335,7 @@ function shn_plus_stat() {
 	$count = 0;
 
 	echo "
-		<div class=\"form-container\" style=\"width: 270px; float: left; margin-right: 5px;\">
+		<div class=\"form-container\" style=\"width: 200px; float: left; margin-right: 5px;\">
 			<form>
 				<fieldset>
 					<legend>Hits by API Version</legend>
@@ -380,7 +380,7 @@ function shn_plus_stat() {
 	$count = 0;
 
 	echo "
-		<div class=\"form-container\" style=\"width: 270px; float: left; margin-right: 5px;\">
+		<div class=\"form-container\" style=\"width: 200px; float: left; margin-right: 5px;\">
 			<form>
 				<fieldset>
 					<legend>Hits by IP Address</legend>
@@ -425,7 +425,7 @@ function shn_plus_stat() {
 	$count = 0;
 
 	echo "
-		<div class=\"form-container\" style=\"width: 270px; float: left; margin-right: 5px;\">
+		<div class=\"form-container\" style=\"width: 200px; float: left; margin-right: 5px;\">
 			<form>
 				<fieldset>
 					<legend>Hits by Application</legend>
@@ -442,7 +442,7 @@ function shn_plus_stat() {
 			$odd = "class=\"evener\"";
 		}
 		if(trim($row['application']) == "") {
-			$app = "TriagePic";
+			$app = "TriagePic and others";
 		} else {
 			$app = $row['application'];
 		}
