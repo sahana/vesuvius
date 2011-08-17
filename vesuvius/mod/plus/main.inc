@@ -441,8 +441,13 @@ function shn_plus_stat() {
 		} else {
 			$odd = "class=\"evener\"";
 		}
+		if(trim($row['application']) == "") {
+			$app = "TriagePic";
+		} else {
+			$app = $row['application'];
+		}
 		echo "  <tr>
-				<td ".$odd.">".$row['application']."</td>
+				<td ".$odd.">".$app."</td>
 				<td ".$odd.">".$row['count(*)']."</td>
 			</tr>";
 		$count++;
