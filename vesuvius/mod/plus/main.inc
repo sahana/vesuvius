@@ -34,9 +34,9 @@ function shn_plus_header2() {
 	}
 
 	if($global['action'] == "stat") {
-		echo "<li>Statistical Breakdown</li>";
+		echo "<li>Access Statistics</li>";
 	} else {
-		echo "<li><a href=\"index.php?mod=plus&act=stat\">Statistical Breakdown</a></li>";
+		echo "<li><a href=\"index.php?mod=plus&act=stat\">Access Statistics</a></li>";
 	}
 
 	if($global['action'] == "settings") {
@@ -254,11 +254,11 @@ function shn_plus_settings() {
 	}
 
 	shn_form_fopen("settings", null,array('req_message'=>true));
-		shn_form_fsopen("Settings for PLUS");
+		shn_form_fsopen("Client Settings");
 		?>
 		<table id="popSettings">
 		<tr>
-			<td class="odd">Session Timeout (in seconds)</td>
+			<td class="odd">Client Session Timeout (currently used in ReUnite) [in seconds]</td>
 			<td class="odd"><input type="text" name="timeout" id="timeout" value="<?php echo $timeout; ?>" tabindex="1"  /><span class='req'>*</span></td>
 		</tr>
 		</table>
@@ -289,7 +289,7 @@ function shn_plus_stat() {
 	$count = 0;
 
 	echo "
-		<div class=\"form-container\" style=\"width: 300px; float: left;  margin-right: 5px;\">
+		<div class=\"form-container\" style=\"width: 270px; float: left;  margin-right: 5px;\">
 			<form>
 				<fieldset>
 					<legend>Hits by API Function</legend>
@@ -335,7 +335,7 @@ function shn_plus_stat() {
 	$count = 0;
 
 	echo "
-		<div class=\"form-container\" style=\"width: 300px; float: left; margin-right: 5px;\">
+		<div class=\"form-container\" style=\"width: 270px; float: left; margin-right: 5px;\">
 			<form>
 				<fieldset>
 					<legend>Hits by API Version</legend>
@@ -380,7 +380,7 @@ function shn_plus_stat() {
 	$count = 0;
 
 	echo "
-		<div class=\"form-container\" style=\"width: 300px; float: left; margin-right: 5px;\">
+		<div class=\"form-container\" style=\"width: 270px; float: left; margin-right: 5px;\">
 			<form>
 				<fieldset>
 					<legend>Hits by IP Address</legend>
@@ -425,7 +425,7 @@ function shn_plus_stat() {
 	$count = 0;
 
 	echo "
-		<div class=\"form-container\" style=\"width: 300px; float: left; margin-right: 5px;\">
+		<div class=\"form-container\" style=\"width: 270px; float: left; margin-right: 5px;\">
 			<form>
 				<fieldset>
 					<legend>Hits by Application</legend>

@@ -35,7 +35,6 @@ if(isset($_GET['api']) && file_exists($global['approot']."/mod/plus/api_".$_GET[
 	require_once("api_".$conf['mod_plus_latest_api'].".inc");
 	$versionString = "";
 	$global['apiVersion'] = $conf['mod_plus_latest_api'];
-
 }
 
 // fix broken apache servers that don't default to index.php
@@ -55,9 +54,10 @@ $server->wsdl->schemaTargetNamespace = $ns;
 
 shn_plus_registerAll($ns);
 
-//if in safe mode, raw post data not set:
+// if in safe mode, raw post data not set:
 if(!isset($HTTP_RAW_POST_DATA)) {
 	$HTTP_RAW_POST_DATA = implode("\r\n", file('php://input'));
 }
 
 $server->service($HTTP_RAW_POST_DATA);
+
