@@ -33,6 +33,12 @@ function shn_plus_header2() {
 		echo "<li><a href=\"index.php?mod=plus&act=rawLog\">Raw Access Log</a></li>";
 	}
 
+	if($global['action'] == "stat") {
+		echo "<li>Statistical Breakdown</li>";
+	} else {
+		echo "<li><a href=\"index.php?mod=plus&act=stat\">Statistical Breakdown</a></li>";
+	}
+
 	if($global['action'] == "settings") {
 		echo "<li>Client Settings</li>";
 	} else {
@@ -262,6 +268,203 @@ function shn_plus_settings() {
 		shn_form_fsclose();
 	shn_form_fclose();
 }
+
+
+
+function shn_plus_stat() {
+	global $global;
+	shn_plus_header2();
+
+	echo "<div id=\"home\">";
+
+	// by api call /////////////////////////////////////////////////////////////////////////////////
+
+	$q  = "
+		SELECT `call`, count(*)
+		FROM `plus_access_log`
+		group by `call`
+		order by count(*) desc;
+	";
+	$result = $global['db']->Execute($q);
+	$count = 0;
+
+	echo "
+		<div class=\"form-container\" style=\"width: 300px; float: left;  margin-right: 5px;\">
+			<form>
+				<fieldset>
+					<legend>Hits by API Function</legend>
+					<table id=\"regLog\">
+						<tr>
+							<td class=\"evener\"><b>Function</b></td>
+							<td class=\"evener\"><b>Hits</b></td>
+						</tr>
+	";
+	while($row = $result->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		echo "  <tr>
+				<td ".$odd.">".$row['call']."</td>
+				<td ".$odd.">".$row['count(*)']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
+	}
+	echo "
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	";
+
+
+
+	// by api version /////////////////////////////////////////////////////////////////////////////////
+
+	$q  = "
+		SELECT `api_version`, count(*)
+		FROM `plus_access_log`
+		group by `api_version`
+		order by count(*) desc;
+	";
+	$result = $global['db']->Execute($q);
+	$count = 0;
+
+	echo "
+		<div class=\"form-container\" style=\"width: 300px; float: left; margin-right: 5px;\">
+			<form>
+				<fieldset>
+					<legend>Hits by API Version</legend>
+					<table id=\"regLog\">
+						<tr>
+							<td class=\"evener\"><b>Version</b></td>
+							<td class=\"evener\"><b>Hits</b></td>
+						</tr>
+	";
+	while($row = $result->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		echo "  <tr>
+				<td ".$odd.">".$row['api_version']."</td>
+				<td ".$odd.">".$row['count(*)']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
+	}
+	echo "
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	";
+
+
+	// by ip /////////////////////////////////////////////////////////////////////////////////
+
+	$q  = "
+		SELECT `ip`, count(*)
+		FROM `plus_access_log`
+		group by `ip`
+		order by count(*) desc;
+	";
+	$result = $global['db']->Execute($q);
+	$count = 0;
+
+	echo "
+		<div class=\"form-container\" style=\"width: 300px; float: left; margin-right: 5px;\">
+			<form>
+				<fieldset>
+					<legend>Hits by IP Address</legend>
+					<table id=\"regLog\">
+						<tr>
+							<td class=\"evener\"><b>IP Address</b></td>
+							<td class=\"evener\"><b>Hits</b></td>
+						</tr>
+	";
+	while($row = $result->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		echo "  <tr>
+				<td ".$odd.">".$row['ip']."</td>
+				<td ".$odd.">".$row['count(*)']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
+	}
+	echo "
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	";
+
+
+	// by application /////////////////////////////////////////////////////////////////////////////////
+
+	$q  = "
+		SELECT `application`, count(*)
+		FROM `plus_access_log`
+		group by `application`
+		order by count(*) desc;
+	";
+	$result = $global['db']->Execute($q);
+	$count = 0;
+
+	echo "
+		<div class=\"form-container\" style=\"width: 300px; float: left; margin-right: 5px;\">
+			<form>
+				<fieldset>
+					<legend>Hits by Application</legend>
+					<table id=\"regLog\">
+						<tr>
+							<td class=\"evener\"><b>Application</b></td>
+							<td class=\"evener\"><b>Hits</b></td>
+						</tr>
+	";
+	while($row = $result->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		echo "  <tr>
+				<td ".$odd.">".$row['application']."</td>
+				<td ".$odd.">".$row['count(*)']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
+	}
+	echo "
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	";
+
+
+
+
+	echo "</div>";
+}
+
+
+
 
 
 
