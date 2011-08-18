@@ -366,7 +366,7 @@ class Agasti{
     {
 	global $INS_CONFIG;
        $filePath=$INS_CONFIG['rootpath'].'/conf/config.php';
-       if($db_params['hostname']!=''){
+       //if($db_params['hostname']!=''){
             $arguments = $this->getConfigArray();
             $arguments['db_name']=$db_params['dbname'];
             $arguments['db_host']=$db_params['hostname'];
@@ -379,7 +379,7 @@ class Agasti{
 
             $configFile=new ConfigurationFileTask();
             $configFile->execute($arguments,$filePath);
-       }
+       //}
         
 
     }
@@ -489,7 +489,7 @@ class Agasti{
 
     function CheckConnection($db_config)
   {
-
+	if($db_config['hostname']!=''){
       try {
         $this->dbParams($db_config);
         $serverlink=mysql_connect($db_config['hostname'].":".$db_config['dbport'], $db_config['username'], $db_config['password']);
@@ -507,6 +507,10 @@ class Agasti{
       } catch (Exception $e) {
         $result = $e->getMessage();
       }
+	}
+	else{
+		$result="Invalid database configurations.";
+	}
 
     return $result;
   }
