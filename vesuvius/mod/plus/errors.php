@@ -40,5 +40,7 @@ define("ERRORCODES", serialize(array(
 	301  => "Authentication required to access this non-public event.",
 	302  => "Event does not exist with this shortname.",
 	400  => "Invalid enumeration.",
+	401  => "Duplicate person report ~ p_uuid collision.",
+	402  => "Invalid p_uuid ~ out of range.",
 	9999 => "Unknown error.",
 )));
