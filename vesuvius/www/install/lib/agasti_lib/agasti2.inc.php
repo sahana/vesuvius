@@ -536,13 +536,17 @@ class Agasti{
     $filename = $INS_CONFIG['rootpath'].'/conf/config.php';
 
     if (file_exists($filename)) {
-      $config = Config::loadFile($filename);
+      //$config = Config::loadFile($filename);
+	$configins=new Config();
+	$config=$configins->loadFile($filename);
     } else {
       $install_flag = false;
     }
     $filename = $INS_CONFIG['rootpath'].'/www/.htaccess';
     if (file_exists($filename)) {
-      $htaccess = Htaccess::loadFile($filename);
+      //$htaccess = Htaccess::loadFile($filename);
+	$htaccessins=new Htaccess();
+	$htaccess =$htaccessins->loadFile($filename);
     } else {
       $install_flag = true;
       $existing_auth_method = "bypass";
@@ -605,7 +609,8 @@ class Agasti{
     $file = $INS_CONFIG['rootpath'].'/www/.htaccess';
 
     try {
-      file_put_contents($file, Htaccess::dump($htaccess));
+	$htaccessins=new Htaccess();
+      file_put_contents($file, $htaccessins->dump($htaccess));
     } catch (Exception $e) {
       echo "hey, something went wrong:" . $e->getMessage();
       return false;
