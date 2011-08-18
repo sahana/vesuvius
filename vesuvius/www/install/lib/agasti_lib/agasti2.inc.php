@@ -72,7 +72,7 @@ class Agasti{
 	$requirementArray[$this->INS_CONFIG['rootpath'].'/www/']='0777';
 	$requirementArray[$this->INS_CONFIG['rootpath'].'/conf/']='0777';
         $requirementArray[$this->INS_CONFIG['rootpath'].'/www/install/']='0777';
-        $requirementArray[$this->INS_CONFIG['rootpath'].'/www/install/css/']='0775';
+        $requirementArray[$this->INS_CONFIG['rootpath'].'/backups/']='0775';
 
         $reqs = check_php_requirements($requirementArray);
         foreach ($reqs as $req) {
@@ -148,7 +148,7 @@ class Agasti{
                 <li>
                   <label>Storage Engine:</label>
                   <select name="storage_engine" class="inputGray" size="1">
-                  <option value="innodb" '.$this->getSelected('DB_STORAGE_ENGINE','innodb','innodb').'>InnoDBL</option>
+                  <option value="innodb" '.$this->getSelected('DB_STORAGE_ENGINE','innodb','innodb').'>InnoDB</option>
                   <option value="myisam" '.$this->getSelected('DB_STORAGE_ENGINE','innodb','myisam').'>MyIsam</option>
                   </select>
                 </li>
@@ -180,7 +180,7 @@ class Agasti{
                 <input id="init_schema" type="hidden" name="init_schema" checked="checked" />
                 </ul>
             </fieldset>';
-    $results = 'The database is created manually.  First, the Agasti Installer will test your
+    $results = 'The database is created manually.  First, the Vesuvius Installer will test your
       configuration settings before continuing.  Enter your database settings and click "Test Connection". <br /><br/>'
         . $instruct . $table . $retry;
 
@@ -249,8 +249,7 @@ class Agasti{
                   </select>
                 </li>
                 <input id="init_schema" type="hidden" name="init_schema" checked="checked" />
-                <li><span class="fail">this will drop your current database.</span></li>
-              </ul>
+                </ul>
             </fieldset>
             <fieldset>
               <legend>Password Policy:</legend>
