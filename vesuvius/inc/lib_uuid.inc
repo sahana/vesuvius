@@ -35,6 +35,31 @@ function shn_generate_uuid($width) {
 
 
 /**
+ * @access public
+ * @return void
+ */
+function shn_is_p_uuid_valid($p_uuid) {
+	global $global;
+	$q = "
+		SELECT *
+		FROM person_seq;
+	";
+	$result = $global['db']->Execute($q);
+	$id = $result->fields["id"];
+
+	$e = explode("person.", $p_uuid);
+	$num = (int)$e[1];
+
+	if($num > $id) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+
+
+/**
  * shn_create_uuid
  *
  * @param string $type

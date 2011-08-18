@@ -946,8 +946,6 @@ class person {
 	// initializes some values for a new instance (instead of when we load a previous instance)
 	public function init() {
 		global $global;
-		require_once($global['approot']."inc/lib_uuid.inc");
-		$this->p_uuid = shn_create_uuid();
 	}
 
 
@@ -1077,17 +1075,18 @@ class person {
 
 	public function parseXml() {
 		global $global;
+		require_once($global['approot']."inc/lib_uuid.inc");
 
 		// is this a supported XML type?
 		if(!in_array((string)trim($this->xmlFormat), $global['enumXmlFormats'])) {
-			return 500;
+			return (int)400;
 		}
 
 		$a = xml2array($this->theString);
 
 		// parse REUNITE3 XML
 		if($this->xmlFormat == "REUNITE3") {
-			//$this->p_uuid         = $a['person']['p_uuid'];
+			$this->p_uuid         = $a['person']['p_uuid'];
 			$this->given_name     = $a['person']['givenName'];
 			$this->family_name    = $a['person']['familyName'];
 			$this->full_name      = $this->given_name." ".$this->family_name;
@@ -1123,8 +1122,43 @@ class person {
 				}
 			}
 
+			// check for p_uuid collision with already present data, return 401 error if p_uuid already exists
+			$q = "
+				SELECT count(*)
+				FROM person_uuid
+				WHERE p_uuid = '".mysql_real_escape_string((string)$this->p_uuid)."';
+			";
+			$result = $this->db->Execute($q);
+			if((int)$result->fields['count(*)'] > 0 ) {
+				return (int)401;
+			}
+
+			// check if reported p_uuid is valid (in range of sequence) ~ 402 error if not
+			if(!shn_is_p_uuid_valid($this->p_uuid)) {
+				return (int)402;
+			}
+
+
 		// parse TRIAGEPIC1 XML
-		} elseif($this->xmlFormat == "TRIAGEPIC") {
+		} elseif($this->xmlFormat == "TRIAGEPIC1") {
+
+			//$this->p_uuid         = shn_create_uuid();
+			$this->family_name    = $a['EDXLDistribution']['contentObject']['xmlContent']['lpfContent']['person']['lastName'];
+			$this->given_name     = $a['EDXLDistribution']['contentObject']['xmlContent']['lpfContent']['person']['firstName'];
+
+/*
+			$this->full_name      = $this->given_name." ".$this->family_name;
+			$this->incident_id    = $a['person']['eventId'];
+			$this->expiry_date    = $a['person']['expiryDate'];
+			$this->opt_status     = $a['person']['status'];
+			$this->last_updated   = $a['person']['dateTimeSent'];
+			$this->creation_time  = $a['person']['dateTimeSent'];
+			$this->opt_gender     = $a['person']['gender'];
+			$this->years_old      = $a['person']['estimatedAge'];
+			$this->minAge         = $a['person']['minAge'];
+			$this->maxAge         = $a['person']['maxAge'];
+			$this->other_comments = $a['person']['note'];
+
 
 			// old method from mpres 1.0
 			$this->distributionId          = $a['EDXLDistribution']['distributionID']['#text'];
@@ -1136,15 +1170,14 @@ class person {
 			$this->keyword                 = $a['EDXLDistribution']['keyword']['value']; // array, index starting at 0, containing subarrays of keywords (#text)
 			$this->targetArea              = $a['EDXLDistribution']['targetArea']['circle']['#text'];
 			$this->contentDescription      = $a['EDXLDistribution']['contentObject']['contentDescription']['#text'];
-			$this->version                 = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['version']['#text'];
+			$this->version                 = $a['EDXLDistribution']['contentObject']['xmlContent']['lpfContent']['version']['#text'];
 			$this->login                   = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['login']['username']['#text'];
 			$this->personId                = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['personId']['#text'];
 			$this->eventName               = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventName']['#text'];
 			$this->eventLongName           = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventLongName']['#text'];
 			$this->orgName                 = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgName']['#text'];
 			$this->orgId                   = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgId']['#text'];
-			$this->lastName                = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName']['#text'];
-			$this->firstName               = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName']['#text'];
+
 			$this->gender                  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['gender']['#text'];
 			$this->genderEnum              = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['genderEnum']['#text'];
 			$this->genderEnumDesc          = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['genderEnumDesc']['#text'];
@@ -1248,6 +1281,10 @@ class person {
 				$this->person->sahanaStatus = "ali";
 			}
 			$this->XMLversion = 1.2;
+
+*/
+
+
 		}
 	}
 }
@@ -2237,7 +2274,7 @@ function isEmailValid($email) {
 * Original Author: lz_speedy@web.de
 * Original Source: http://goo.gl/7WRp
 */
-function xml2array($xml, $get_attributes = 1, $priority = 'tag') {
+function xml2array($xml, $get_attributes = 1, $priority = 'tag', $type = "open") {
 	$contents = "";
 	if (!function_exists('xml_parser_create')) {
 		return array ();
@@ -2251,8 +2288,13 @@ function xml2array($xml, $get_attributes = 1, $priority = 'tag') {
 	xml_parse_into_struct($parser, trim($contents), $xml_values);
 	xml_parser_free($parser);
 	if (!$xml_values) {
+		echo "fuck.";
 		return; //Hmm...
 	}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//echo print_r($xml_values, true);
+
 	$xml_array = array ();
 	$parents = array ();
 	$opened_tags = array ();
@@ -2281,6 +2323,7 @@ function xml2array($xml, $get_attributes = 1, $priority = 'tag') {
 			}
 		}
 		if ($type == "open") {
+echo "here!";
 			$parent[$level -1] = & $current;
 			if (!is_array($current) or (!in_array($tag, array_keys($current)))) {
 				$current[$tag] = $result;
@@ -2293,6 +2336,7 @@ function xml2array($xml, $get_attributes = 1, $priority = 'tag') {
 				if (isset ($current[$tag][0])) {
 					$current[$tag][$repeated_tag_index[$tag . '_' . $level]] = $result;
 					$repeated_tag_index[$tag . '_' . $level]++;
+echo "here!";
 				} else {
 					$current[$tag] = array (
 						$current[$tag],
