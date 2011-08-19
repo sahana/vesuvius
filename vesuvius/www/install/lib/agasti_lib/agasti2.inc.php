@@ -417,33 +417,34 @@ class Agasti{
     }
 
     function getConfigArray($db_params){
-        $config=array();
-        $config['base_uuid']="pl.nlm.nih.gov/";
-        $config['theme']="vesuvius";
-        $config['db_name']="";
-        $config['db_host']="";
-        $config['db_port']="";
-        $config['db_user']="";
-        $config['db_pass']="";
-        $config['db_engine']="";
-        $config['storage_engine']="";
-        $config['dbal_lib_name']="adodb";
-        $config['enable_monitor_sql']='false';
-        $config['locale']="en_US";
-        $config['default_module']='rez';
-        $config['default_action']='landing';
-        $config['pwd_min_chars']=8;
-        $config['pwd_max_chars']=16;
-        $config['pwd_has_uppercase']='true';
-        $config['pwd_has_lowercase']='true';
-        $config['pwd_has_numbers']='true';
-        $config['pwd_has_spchars']='false';
-        $config['pwd_has_username']='true';
-        $config['pwd_no_change_limit']='true';
-        $config['enable_locale']='false';
-        $config['enable_plus_web_services']='true';
-        $config['enable_solr_for_search']='false';
-
+        $config=array(
+            $config['base_uuid']=>"pl.nlm.nih.gov/",
+            $config['theme']=>"vesuvius",
+            $config['db_name']=>"",
+            $config['db_host']=>"",
+            $config['db_port']=>"",
+            $config['db_user']=>"",
+            $config['db_pass']=>"",
+            $config['db_engine']=>"",
+            $config['storage_engine']=>"",
+            $config['dbal_lib_name']=>"adodb",
+            $config['enable_monitor_sql']=>'false',
+            $config['locale']=>"en_US",
+            $config['default_module']=>'rez',
+            $config['default_action']=>'landing',
+            $config['pwd_min_chars']=>8,
+            $config['pwd_max_chars']=>16,
+            $config['pwd_has_uppercase']=>'true',
+            $config['pwd_has_lowercase']=>'true',
+            $config['pwd_has_numbers']=>'true',
+            $config['pwd_has_spchars']=>'false',
+            $config['pwd_has_username']=>'true',
+            $config['pwd_no_change_limit']=>'true',
+            $config['enable_locale']=>'false',
+            $config['enable_plus_web_services']=>'true',
+            $config['enable_solr_for_search']=>'false'
+        );
+      
         return $config;
     }
 
