@@ -416,7 +416,7 @@ class Agasti{
 
     }
 
-    function getConfigArray($db_params){
+    function getConfigArray(){
         $config=array(
             'base_uuid'=>"pl.nlm.nih.gov/",
             'theme'=>"vesuvius",
