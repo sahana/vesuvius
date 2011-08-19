@@ -20,15 +20,13 @@
    along with PHP-gettext; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-*/
-/*
-LC_CTYPE		0
-LC_NUMERIC	1
-LC_TIME			2
-LC_COLLATE	3
-LC_MONETARY	4
-LC_MESSAGES	5
-LC_ALL			6
+LC_CTYPE    0
+LC_NUMERIC  1
+LC_TIME     2
+LC_COLLATE  3
+LC_MONETARY 4
+LC_MESSAGES 5
+LC_ALL      6
 */
 
 require('streams.php');
