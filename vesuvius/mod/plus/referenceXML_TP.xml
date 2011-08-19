@@ -38,8 +38,8 @@
 						<orgName>NLM (testing)</orgName>
 						<orgId>1234567890</orgId>
 					</organization>
-					<lastName>...</lastName>
-					<firstName>...</firstName>
+					<lastName>Miernicki</lastName>
+					<firstName>Greg</firstName>
 					<gender>U</gender>
 					<genderEnum>M, F, U, C</genderEnum>
 					<genderEnumDesc>Male; Female; Unknown; Complex(M/F)</genderEnumDesc>

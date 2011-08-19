@@ -1,6 +1,27 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+2011:0818 Greg
+--------------
+
+CREATE TABLE  `image_seq` (
+`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  'stores next id in sequence for the image table'
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+
+CREATE TABLE  `image_tag_seq` (
+`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  'stores next id in sequence for the image_tag table'
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+
+ALSO SET DEFAULT VALUES!
+
+ALTER TABLE  `image` ADD INDEX  `image_id` (  `image_id` ,  `p_uuid` );
+
+ALTER TABLE  `image` DROP INDEX  `p_uuid` ,
+ADD INDEX  `p_uuid` (  `p_uuid` );
+
+
 2011:0811 Greg
 --------------
 
