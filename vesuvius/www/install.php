@@ -14,6 +14,7 @@
  *
  * Copyright of the Sahana Software Foundation, sahanafoundation.org
  */
+$install_flag=true;
 require_once(dirname(__FILE__).'/install/install.inc.php');
 
 
