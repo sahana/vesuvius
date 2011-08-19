@@ -6,7 +6,9 @@
  *
  * primarily called from install.inc.php
  */
-
+define("S_B","S_B");
+define("S_M","S_M");
+define("S_K","S_K");
 function get_request($name, $def=NULL)
 {
   if(isset($_REQUEST[$name]))
