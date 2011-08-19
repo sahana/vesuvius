@@ -18,6 +18,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+define("SPACE", " ");
 function check_php_version()
 {
   $required = '5.2.12';
