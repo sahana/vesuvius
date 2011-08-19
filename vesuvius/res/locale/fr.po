@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vesuvius\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-07-28 15:31-0400\n"
+"POT-Creation-Date: 2011-08-18 10:56-0400\n"
 "PO-Revision-Date: 2011-07-13 22:50+0000\n"
 "Last-Translator: Greg Miernicki <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-18 05:25+0000\n"
+"X-Launchpad-Export-Date: 2011-08-19 05:15+0000\n"
 "X-Generator: Launchpad (build 13697)\n"
 
 #: ../www/theme/lpf3/header.php:62 ../www/theme/lpf3/header.php:78
@@ -40,23 +40,23 @@ msgstr ""
 msgid "Lister Hill National Center for Biomedical Communications"
 msgstr ""
 
-#: ../www/index.php:164
+#: ../www/index.php:154
 msgid "The stream requested is not valid."
 msgstr ""
 
-#: ../www/index.php:195
+#: ../www/index.php:185
 msgid "The requested module is not installed in Vesuvius"
 msgstr ""
 
-#: ../www/index.php:214
+#: ../www/index.php:204
 msgid "The action requested is not available"
 msgstr ""
 
-#: ../www/index.php:218
+#: ../www/index.php:208
 msgid "This action does not support the stream type."
 msgstr ""
 
-#: ../inc/lib_locale/lib_locale.inc:52
+#: ../inc/lib_locale/lib_locale.inc:60
 msgid "Unknown error in updating configuration value."
 msgstr ""
 
@@ -91,9 +91,7 @@ msgid "Role"
 msgstr ""
 
 #: ../inc/lib_security/acl_form.inc:148 ../inc/lib_security/acl_form.inc:327
-#: ../inc/lib_security/acl_form.inc:399 ../mod/admin/location.inc:107
-#: ../mod/admin/location.inc:155 ../mod/admin/location.inc:301
-#: ../mod/admin/location.inc:368 ../mod/pref/main.inc:516
+#: ../inc/lib_security/acl_form.inc:399 ../mod/pref/main.inc:526
 msgid "Save"
 msgstr ""
 
@@ -209,9 +207,8 @@ msgstr ""
 msgid "OpenID "
 msgstr ""
 
-#: ../inc/lib_security/auth_form.inc:85 ../mod/admin/location.inc:447
-#: ../mod/admin/location.inc:493 ../mod/pfif/pfif_main.inc:119
-#: ../mod/pref/main.inc:365 ../mod/pref/main.inc:425
+#: ../inc/lib_security/auth_form.inc:85 ../mod/pfif/main.inc:192
+#: ../mod/pref/main.inc:375 ../mod/pref/main.inc:435
 msgid "Submit"
 msgstr ""
 
@@ -255,97 +252,97 @@ msgstr ""
 msgid "The Password was succesfully updated"
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:680
+#: ../inc/lib_security/lib_auth.inc:691
 msgid "First name is a required field. Please enter a value."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:688
+#: ../inc/lib_security/lib_auth.inc:699
 msgid "Last name is a required field. Please enter a value."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:834
+#: ../inc/lib_security/lib_auth.inc:845
 msgid "User does not exist"
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:836
+#: ../inc/lib_security/lib_auth.inc:847
 msgid "User was successfully removed"
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1078
+#: ../inc/lib_security/lib_auth.inc:1089
 #, php-format
 msgid "The minimum password length is %d"
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1081
+#: ../inc/lib_security/lib_auth.inc:1092
 #, php-format
 msgid "The maximum password length is %d."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1084
+#: ../inc/lib_security/lib_auth.inc:1095
 msgid "The password should have at least one uppercase character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1087
+#: ../inc/lib_security/lib_auth.inc:1098
 msgid "The password should have at least one lowercase character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1090
+#: ../inc/lib_security/lib_auth.inc:1101
 msgid "The password should have at least one numeric character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1093
+#: ../inc/lib_security/lib_auth.inc:1104
 msgctxt ""
 "The password should have at least one special character. eg. !,@.#$%\\^&\\"
 "*/?`~+="
 msgid ":;-\"'"
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1096
+#: ../inc/lib_security/lib_auth.inc:1107
 msgid "The username cannot be a part of the password."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1121
+#: ../inc/lib_security/lib_auth.inc:1132
 #, php-format
 msgid "The minimum length of the password is %d characters."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1125
+#: ../inc/lib_security/lib_auth.inc:1136
 #, php-format
 msgid "The maximum length of the password is %d characters."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1129
+#: ../inc/lib_security/lib_auth.inc:1140
 msgid "Must have at least one uppercase character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1133
+#: ../inc/lib_security/lib_auth.inc:1144
 msgid "Must have at least one lowercase character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1137
+#: ../inc/lib_security/lib_auth.inc:1148
 msgid "Must have at least one numeral (0-9)."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1141
+#: ../inc/lib_security/lib_auth.inc:1152
 msgctxt ""
 "Should have one or more of the following characters: '!@,.#$%\\^&\\*/?`~+="
 msgid ":;()-\"'[]{}<>' "
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1145
+#: ../inc/lib_security/lib_auth.inc:1156
 msgid "The password cannot contain your username."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1158
+#: ../inc/lib_security/lib_auth.inc:1169
 msgid "Please enter a valid Role name."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1174
+#: ../inc/lib_security/lib_auth.inc:1185
 #, php-format
 msgid "The role '%s' was successfully added."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1179
+#: ../inc/lib_security/lib_auth.inc:1190
 msgid ""
 "A role with the name you entered already exists. Please enter a different "
 "role name."
@@ -383,8 +380,7 @@ msgstr ""
 msgid "XForm"
 msgstr ""
 
-#: ../inc/handler_header.inc:24 ../inc/lib_errors.inc:217
-#: ../inc/lib_xhtml.inc:50
+#: ../inc/handler_header.inc:24 ../inc/lib_xhtml.inc:50
 msgid "Sahana FOSS Disaster Management System"
 msgstr ""
 
@@ -392,220 +388,118 @@ msgstr ""
 msgid "Main Menu"
 msgstr ""
 
-#: ../inc/lib_errors.inc:88
+#: ../inc/lib_errors.inc:91
 msgid "Oops! There are a few errors :"
 msgstr ""
 
-#: ../inc/lib_errors.inc:166
+#: ../inc/lib_errors.inc:170
 msgid "You will need to login using your username and password."
 msgstr ""
 
-#: ../inc/lib_errors.inc:172 ../inc/lib_errors.inc:194
+#: ../inc/lib_errors.inc:176 ../inc/lib_errors.inc:198
 msgid "Sorry, you do not have permisssion to access this section"
 msgstr ""
 
-#: ../inc/lib_errors.inc:176 ../inc/lib_errors.inc:198
+#: ../inc/lib_errors.inc:180 ../inc/lib_errors.inc:202
 msgid "This could be because:"
 msgstr ""
 
-#: ../inc/lib_errors.inc:180 ../inc/lib_errors.inc:200
+#: ../inc/lib_errors.inc:184 ../inc/lib_errors.inc:204
 msgid ""
 "You have not logged in or Anonymous access is not allowed to this section"
 msgstr ""
 
-#: ../inc/lib_errors.inc:181 ../inc/lib_errors.inc:201
+#: ../inc/lib_errors.inc:185 ../inc/lib_errors.inc:205
 msgid "Your username has not been given permission to access this section"
 msgstr ""
 
-#: ../inc/lib_errors.inc:183 ../inc/lib_errors.inc:203
+#: ../inc/lib_errors.inc:187 ../inc/lib_errors.inc:207
 msgid "To gain access to this section please contact the administrator"
 msgstr ""
 
-#: ../inc/lib_errors.inc:301
-msgid "The Sahana database is currently inaccesible"
-msgstr ""
-
-#: ../inc/lib_errors.inc:306
-msgid "The system is currently unavailable"
-msgstr ""
-
-#: ../inc/lib_errors.inc:329
-msgid "System Error"
-msgstr ""
-
-#: ../inc/lib_errors.inc:332
-msgid "For urgent assistance, please contact the system administrator below:"
-msgstr ""
-
-#: ../inc/lib_errors.inc:333
-msgid "Name: "
-msgstr ""
-
-#: ../inc/lib_form.inc:831 ../mod/pref/main.inc:515
+#: ../inc/lib_form.inc:839 ../mod/pref/main.inc:525
 msgid "Cancel"
 msgstr ""
 
-#: ../inc/lib_form.inc:834
+#: ../inc/lib_form.inc:842
 msgid "Back"
 msgstr ""
 
-#: ../inc/lib_form.inc:837 ../inc/lib_paging.inc:182 ../inc/lib_paging.inc:296
-#: ../mod/admin/location.inc:62
+#: ../inc/lib_form.inc:845 ../inc/lib_paging.inc:182 ../inc/lib_paging.inc:296
 msgid "Next"
 msgstr ""
 
-#: ../inc/lib_form.inc:839
+#: ../inc/lib_form.inc:847
 msgid "Finish"
 msgstr ""
 
-#: ../inc/lib_form.inc:841
+#: ../inc/lib_form.inc:849
 msgid "Confirm"
 msgstr ""
 
-#: ../inc/lib_form.inc:901
+#: ../inc/lib_form.inc:909
 msgid "Wysiwyg editor not configured correctly. Using Textarea instead."
 msgstr ""
 
-#: ../inc/lib_form.inc:936
+#: ../inc/lib_form.inc:944
 msgid ""
 "A required file was not found. Failed to initialize Wysiwig Editor. Using "
 "Textarea instead."
 msgstr ""
 
-#: ../inc/lib_image.inc:442
+#: ../inc/lib_image.inc:440
 msgid "Image"
 msgstr ""
 
-#: ../inc/lib_image.inc:443
+#: ../inc/lib_image.inc:441
 msgid "Not"
 msgstr ""
 
-#: ../inc/lib_image.inc:444
+#: ../inc/lib_image.inc:442
 msgid "Available"
 msgstr ""
 
-#: ../inc/lib_image.inc:528 ../inc/lib_image.inc:559
+#: ../inc/lib_image.inc:526 ../inc/lib_image.inc:557
 msgid "Image Not Available"
 msgstr ""
 
-#: ../inc/lib_image.inc:580
+#: ../inc/lib_image.inc:578
 msgid "Click to see the original size"
 msgstr ""
 
-#: ../inc/lib_image.inc:595 ../inc/lib_image.inc:650
+#: ../inc/lib_image.inc:593 ../inc/lib_image.inc:648
 msgid "Invalid Image Type Please try again"
 msgstr ""
 
-#: ../inc/lib_image.inc:704
+#: ../inc/lib_image.inc:701
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini. (<"
 msgstr ""
 
-#: ../inc/lib_image.inc:706
+#: ../inc/lib_image.inc:703
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form."
 msgstr ""
 
-#: ../inc/lib_image.inc:708
+#: ../inc/lib_image.inc:705
 msgid "The uploaded file was only partially uploaded."
 msgstr ""
 
-#: ../inc/lib_image.inc:710
+#: ../inc/lib_image.inc:707
 msgid "No file was uploaded."
 msgstr ""
 
-#: ../inc/lib_image.inc:712
+#: ../inc/lib_image.inc:709
 msgid "Missing a temporary folder."
 msgstr ""
 
-#: ../inc/lib_image.inc:714
+#: ../inc/lib_image.inc:711
 msgid "Failed to write file to disk."
 msgstr ""
 
-#: ../inc/lib_image.inc:716
+#: ../inc/lib_image.inc:713
 msgid "File upload stopped by extension."
-msgstr ""
-
-#: ../inc/lib_location.inc:108
-msgid "Organization Location"
-msgstr ""
-
-#: ../inc/lib_location.inc:661
-msgid ""
-"If you know any of the following, please select only one of them first , the "
-"selection will populate the set of Location select boxes "
-msgstr ""
-
-#: ../inc/lib_location.inc:664
-msgid "* Camp/Shelter "
-msgstr ""
-
-#: ../inc/lib_location.inc:668
-msgid "* an Inventory "
-msgstr ""
-
-#: ../inc/lib_location.inc:672
-msgid "* an Organization "
-msgstr ""
-
-#: ../inc/lib_location.inc:705
-msgid "Shelter/Camp"
-msgstr ""
-
-#: ../inc/lib_location.inc:713
-msgid "Select an Organization"
-msgstr ""
-
-#: ../inc/lib_location.inc:729
-msgid "Organizations"
-msgstr ""
-
-#: ../inc/lib_location.inc:814
-msgid ""
-"This location name is already in the database. Do you want to add anyway?  "
-"&nbsp&nbsp&nbsp<b><a href='#' onclick='_shn_loc_val_name();'>Add "
-"anyway</a></b> or else you can change the \"Location Name\" textbox and "
-"submit the form again."
-msgstr ""
-
-#: ../inc/lib_location.inc:1004
-msgid ""
-"Select the location based at.  This is hierarchical. For example think you "
-"are based  in the country 'Sri lanka' ,district 'Colombo' ,and village "
-"'dehiwala'.  start by selecting the country ,once you select country all the "
-"divisions of that country will populate the next select box.  therefore in "
-"this case all the districts in 'Sri lanka' appear . From those select a "
-"district which will populate the village list in the next select box. So "
-"select 'dehiwala' and you have done it! please note that the levels can be "
-"customized, therefore it does not need to be ''->'district'->'village' "
-",always. Its configurable from the 'administration' section."
-msgstr ""
-
-#: ../inc/lib_location.inc:1093
-msgid ""
-"Select the location based at.  This is hierarchical. For example think you "
-"are based  in the  'Sri lanka' ,district 'Colombo' ,and village 'dehiwala'.  "
-"start by selecting the  ,once you select all the divisions of that country "
-"will populate the next select box.  therefore in this case all the districts "
-"in 'Sri lanka' appear . From those select a district which will populate the "
-"village list in the next select box. So select 'dehiwala' and you have done "
-"it! please note that the levels can be customized, therefore it does not "
-"need to be 'country'->'district'->'village' ,always. Its configurable from "
-"the 'administration' section."
-msgstr ""
-
-#: ../inc/lib_location.inc:1154
-msgid ""
-"Select the location based at.  This is hierarchical. For example think you "
-"are based  in the country 'Sri lanka' ,district 'Colombo' ,and village "
-"'dehiwala'.  start by selecting the country ,once you select country all the "
-"divisions of that country will populate the next select box.  therefore in "
-"this case all the districts in 'Sri lanka' appear . From those select a "
-"district which will populate the village list in the next select box. So "
-"select 'dehiwala' and you have done it! please note that the levels can be "
-"customized, therefore it does not need to be 'country'->'district'-"
-">'village', always. Its configurable from the 'administration' section."
 msgstr ""
 
 #: ../inc/lib_misc.inc:20
@@ -828,270 +722,12 @@ msgstr ""
 msgid "Administration"
 msgstr ""
 
-#: ../mod/admin/location.inc:23
-msgid "First select the location to Edit & Delete"
-msgstr ""
-
-#: ../mod/admin/location.inc:36
-msgid "Select location and then select the level(province,district,ect),"
-msgstr ""
-
-#: ../mod/admin/location.inc:37
-msgid " the selected location field at the end of the form will be updated"
-msgstr ""
-
-#: ../mod/admin/location.inc:44
-msgid "Location"
-msgstr ""
-
-#: ../mod/admin/location.inc:50
-msgid "Location Level"
-msgstr ""
-
-#: ../mod/admin/location.inc:54
-msgid "Selected Location for Edit/Delete"
-msgstr ""
-
-#: ../mod/admin/location.inc:55
-msgid "All Locations"
-msgstr ""
-
-#: ../mod/admin/location.inc:57
-msgid "location"
-msgstr ""
-
-#: ../mod/admin/location.inc:82
-msgid "Edit Location"
-msgstr ""
-
-#: ../mod/admin/location.inc:83
-msgid "Fields marked with * are required (entry is compulsory)"
-msgstr ""
-
-#: ../mod/admin/location.inc:92
-msgid "Location Details"
-msgstr ""
-
-#: ../mod/admin/location.inc:95 ../mod/admin/location.inc:437
-msgid "Location Name : "
-msgstr ""
-
-#: ../mod/admin/location.inc:98 ../mod/admin/location.inc:439
-msgid "Description : "
-msgstr ""
-
-#: ../mod/admin/location.inc:100 ../mod/admin/location.inc:440
-msgid "ISO code : "
-msgstr ""
-
-#: ../mod/admin/location.inc:106
-msgid "Close"
-msgstr ""
-
-#: ../mod/admin/location.inc:108
-msgid "Delete"
-msgstr ""
-
-#: ../mod/admin/location.inc:125
-msgid "Location Levels"
-msgstr ""
-
-#: ../mod/admin/location.inc:126
-msgid "The Location you add will be added after the remaining ones"
-msgstr ""
-
-#: ../mod/admin/location.inc:137
-msgid "Add New Level Information"
-msgstr ""
-
-#: ../mod/admin/location.inc:138
-msgid "New Level : "
-msgstr ""
-
-#: ../mod/admin/location.inc:141
-msgid "Add"
-msgstr ""
-
-#: ../mod/admin/location.inc:143
-msgid "Remove Levels"
-msgstr ""
-
-#: ../mod/admin/location.inc:148
-msgid "Remove"
-msgstr ""
-
-#: ../mod/admin/location.inc:156
-msgid "Reset"
-msgstr ""
-
-#: ../mod/admin/location.inc:244
-msgid "Location levels were modified successfully."
-msgstr ""
-
-#: ../mod/admin/location.inc:247
-msgid "The ending level is set to \""
-msgstr ""
-
-#: ../mod/admin/location.inc:247 ../mod/admin/location.inc:250
-msgid ""
-"\". You may need to change it for the location level modification to take "
-"effect."
-msgstr ""
-
-#: ../mod/admin/location.inc:247
-msgid "Click Here to change the ending level"
-msgstr ""
-
-#: ../mod/admin/location.inc:250
-msgid "The starting level is set to \""
-msgstr ""
-
-#: ../mod/admin/location.inc:250
-msgid "Click Here to change the starting level"
-msgstr ""
-
-#: ../mod/admin/location.inc:253
-msgid "Location level modification failed."
-msgstr ""
-
-#: ../mod/admin/location.inc:257
-msgid "The value "
-msgstr ""
-
-#: ../mod/admin/location.inc:257
-msgid " is duplicating."
-msgstr ""
-
-#: ../mod/admin/location.inc:286
-msgid "Set the Location Range"
-msgstr ""
-
-#: ../mod/admin/location.inc:287
-msgid ""
-"In a Disaster,all the location levels might not be important ,set the range "
-"here"
-msgstr ""
-
-#: ../mod/admin/location.inc:296
-msgid "Set Starting Level"
-msgstr ""
-
-#: ../mod/admin/location.inc:297
-msgid "Set End Level"
-msgstr ""
-
-#: ../mod/admin/location.inc:320
-msgid "Starting level should be a level above the ending level."
-msgstr ""
-
-#: ../mod/admin/location.inc:339
-msgid "Starting and ending levels were updated successfully."
-msgstr ""
-
-#: ../mod/admin/location.inc:350
-msgid "Set the Starting Location"
-msgstr ""
-
-#: ../mod/admin/location.inc:351
-msgid ""
-"When a Disaster happens,typically only organizations,people located in a "
-"certain region get involved. Therefore when you select a location its a "
-"waste of time to select from all the locations. Hence ,for example If you "
-"know the country ,specify it here in this form,and you will only see sub-"
-"divisions of that country. Furthermore ,if the Disaster is confined to a "
-"much smaller geographical area, select the appropriate location to start "
-"with."
-msgstr ""
-
-#: ../mod/admin/location.inc:359
-msgid "Select the Location"
-msgstr ""
-
-#: ../mod/admin/location.inc:411
-msgid "Add Locations"
-msgstr ""
-
-#: ../mod/admin/location.inc:425
-msgid "Now Select the parent Location"
-msgstr ""
-
-#: ../mod/admin/location.inc:427
-msgid ""
-"Select the parent or super region (e.g. country, state, etc) of the location "
-"you have typed above. If no parent region is given, the location being added "
-"will become a top most region (usually country)"
-msgstr ""
-
-#: ../mod/admin/location.inc:435
-msgid "New Location Details"
-msgstr ""
-
-#: ../mod/admin/location.inc:460
-msgid "Batch Add Locations"
-msgstr ""
-
-#: ../mod/admin/location.inc:467
-msgid "Batch Import"
-msgstr ""
-
-#: ../mod/admin/location.inc:486
-msgid ""
-"Select the parent location. If no parent region is selected, imported "
-"locations will become parent regions"
-msgstr ""
-
-#: ../mod/admin/location.inc:489
-msgid ""
-"Locations List (.csv file with one entry per line and each line to contain: "
-"<b>Location Name, Description, ISO Code</b>)"
-msgstr ""
-
-#: ../mod/admin/main.inc:245
+#: ../mod/admin/main.inc:200
 msgid "User Locking is enabled now."
 msgstr ""
 
-#: ../mod/admin/main.inc:248
+#: ../mod/admin/main.inc:203
 msgid "User Locking is disabled now."
-msgstr ""
-
-#: ../mod/admin/main.inc:315
-msgid "Language Translation"
-msgstr ""
-
-#: ../mod/admin/main.inc:322
-msgid "Set Locale"
-msgstr ""
-
-#: ../mod/admin/main.inc:329
-msgid "Database Translation"
-msgstr ""
-
-#: ../mod/admin/main.inc:341
-msgid "User Interface Language Translation"
-msgstr ""
-
-#: ../mod/admin/main.inc:358
-msgid "sahana/res folder is not writable!"
-msgstr ""
-
-#: ../mod/admin/main.inc:376
-msgid "Update Translation"
-msgstr ""
-
-#: ../mod/admin/main.inc:390 ../mod/admin/main.inc:403
-msgid "Add/Remove language"
-msgstr ""
-
-#: ../mod/admin/main.inc:402
-msgid "Language Name and Folder Name cannot be blank"
-msgstr ""
-
-#: ../mod/admin/main.inc:416
-msgid "Add New Module"
-msgstr ""
-
-#: ../mod/admin/main.inc:468
-msgid "Location Hierarchy"
 msgstr ""
 
 #: ../mod/eap/conf.inc:14
@@ -1102,56 +738,51 @@ msgstr ""
 msgid "Event Manager"
 msgstr ""
 
-#: ../mod/ha/conf.inc:15
+#: ../mod/ha/conf.inc:14
 msgid "Hospital Administration"
 msgstr ""
 
-#: ../mod/ha/main.inc:38 ../mod/ha/main.inc:331
-msgctxt "HOSPITAL_VIEW"
-msgid "View/Edit Registered Hospitals"
-msgstr ""
-
-#: ../mod/ha/main.inc:39 ../mod/ha/main.inc:332
-msgctxt "HOSPITAL_VIEW"
-msgid "Add an additional Hospital to the sytem"
-msgstr ""
-
-#: ../mod/ha/main.inc:49
+#: ../mod/ha/main.inc:33 ../mod/ha/main.inc:35 ../mod/ha/main.inc:67
 msgctxt "HOSPITAL_VIEW"
 msgid "All Hospitals"
 msgstr ""
 
-#: ../mod/ha/main.inc:51
+#: ../mod/ha/main.inc:39 ../mod/ha/main.inc:41
+msgctxt "HOSPITAL_VIEW"
+msgid "Add a New Hospital"
+msgstr ""
+
+#: ../mod/ha/main.inc:69
 msgctxt "HOSPITAL_VIEW"
 msgid "PL Hospital ID"
 msgstr ""
 
-#: ../mod/ha/main.inc:52
+#: ../mod/ha/main.inc:70
 msgctxt "HOSPITAL_VIEW"
 msgid "Name"
 msgstr ""
 
-#: ../mod/ha/main.inc:53
+#: ../mod/ha/main.inc:71
 msgctxt "HOSPITAL_VIEW"
 msgid "Shortname"
 msgstr ""
 
-#: ../mod/ha/main.inc:54
+#: ../mod/ha/main.inc:72
 msgctxt "HOSPITAL_VIEW"
 msgid "Added"
 msgstr ""
 
-#: ../mod/ha/main.inc:55
+#: ../mod/ha/main.inc:73
 msgctxt "HOSPITAL_VIEW"
 msgid "Edit This Hospital"
 msgstr ""
 
-#: ../mod/ha/main.inc:93
+#: ../mod/ha/main.inc:114
 msgctxt "HOSPITAL_EDIT"
 msgid "Edit a Hospital"
 msgstr ""
 
-#: ../mod/ha/main.inc:111
+#: ../mod/ha/main.inc:132
 msgctxt "HOSPITAL_EDIT"
 msgid ""
 "Key:</b><b class=\\\"red\\\"> * </b> - Fields tagged with a red "
@@ -1159,92 +790,92 @@ msgid ""
 "filled in."
 msgstr ""
 
-#: ../mod/ha/main.inc:113
+#: ../mod/ha/main.inc:134
 msgctxt "HOSPITAL_EDIT"
 msgid "Edit"
 msgstr ""
 
-#: ../mod/ha/main.inc:118
+#: ../mod/ha/main.inc:139
 msgctxt "HOSPITAL_EDIT"
 msgid "Name"
 msgstr ""
 
-#: ../mod/ha/main.inc:123
+#: ../mod/ha/main.inc:144
 msgctxt "HOSPITAL_EDIT"
 msgid "Short Name"
 msgstr ""
 
-#: ../mod/ha/main.inc:128
+#: ../mod/ha/main.inc:149
 msgctxt "HOSPITAL_EDIT"
 msgid "Street Address 1"
 msgstr ""
 
-#: ../mod/ha/main.inc:133
+#: ../mod/ha/main.inc:154
 msgctxt "HOSPITAL_EDIT"
 msgid "Street Address 2"
 msgstr ""
 
-#: ../mod/ha/main.inc:138
+#: ../mod/ha/main.inc:159
 msgctxt "HOSPITAL_EDIT"
 msgid "City"
 msgstr ""
 
-#: ../mod/ha/main.inc:143
+#: ../mod/ha/main.inc:164
 msgctxt "HOSPITAL_EDIT"
 msgid "County"
 msgstr ""
 
-#: ../mod/ha/main.inc:148
+#: ../mod/ha/main.inc:169
 msgctxt "HOSPITAL_EDIT"
 msgid "Region (State)"
 msgstr ""
 
-#: ../mod/ha/main.inc:153
+#: ../mod/ha/main.inc:174
 msgctxt "HOSPITAL_EDIT"
 msgid "Postal Code"
 msgstr ""
 
-#: ../mod/ha/main.inc:158
+#: ../mod/ha/main.inc:179
 msgctxt "HOSPITAL_EDIT"
 msgid "Country"
 msgstr ""
 
-#: ../mod/ha/main.inc:163
+#: ../mod/ha/main.inc:184
 msgctxt "HOSPITAL_EDIT"
 msgid "Latitude"
 msgstr ""
 
-#: ../mod/ha/main.inc:168
+#: ../mod/ha/main.inc:189
 msgctxt "HOSPITAL_EDIT"
 msgid "Longitude"
 msgstr ""
 
-#: ../mod/ha/main.inc:173
+#: ../mod/ha/main.inc:194
 msgctxt "HOSPITAL_EDIT"
 msgid "Phone"
 msgstr ""
 
-#: ../mod/ha/main.inc:178
+#: ../mod/ha/main.inc:199
 msgctxt "HOSPITAL_EDIT"
 msgid "Fax"
 msgstr ""
 
-#: ../mod/ha/main.inc:183
+#: ../mod/ha/main.inc:204
 msgctxt "HOSPITAL_EDIT"
 msgid "Email"
 msgstr ""
 
-#: ../mod/ha/main.inc:188
+#: ../mod/ha/main.inc:209
 msgctxt "HOSPITAL_EDIT"
 msgid "NPI"
 msgstr ""
 
-#: ../mod/ha/main.inc:193
+#: ../mod/ha/main.inc:214
 msgctxt "HOSPITAL_EDIT"
 msgid "Patient ID Prefix"
 msgstr ""
 
-#: ../mod/ha/main.inc:204
+#: ../mod/ha/main.inc:225
 msgctxt "HOSPITAL_EDIT"
 msgid ""
 "<b>Note</b>: Deleting a Hospital is a permanent action and cannot be undone. "
@@ -1253,67 +884,67 @@ msgid ""
 "\t\t\t\tonce was to this organization.<br><br>"
 msgstr ""
 
-#: ../mod/ha/main.inc:241 ../mod/ha/main.inc:447
+#: ../mod/ha/main.inc:262 ../mod/ha/main.inc:466
 msgctxt "HOSPITAL_ERROR"
 msgid "Hospital <b>name</b> may not be empty."
 msgstr ""
 
-#: ../mod/ha/main.inc:245 ../mod/ha/main.inc:451
+#: ../mod/ha/main.inc:266 ../mod/ha/main.inc:470
 msgctxt "HOSPITAL_ERROR"
 msgid "Hospital <b>short name</b> may not be empty."
 msgstr ""
 
-#: ../mod/ha/main.inc:249 ../mod/ha/main.inc:455
+#: ../mod/ha/main.inc:270 ../mod/ha/main.inc:474
 msgctxt "HOSPITAL_ERROR"
 msgid "Hospital <b>street address 1</b> may not be empty."
 msgstr ""
 
-#: ../mod/ha/main.inc:253 ../mod/ha/main.inc:459
+#: ../mod/ha/main.inc:274 ../mod/ha/main.inc:478
 msgctxt "HOSPITAL_ERROR"
 msgid "Hospital <b>city</b> may not be empty."
 msgstr ""
 
-#: ../mod/ha/main.inc:257 ../mod/ha/main.inc:463
+#: ../mod/ha/main.inc:278 ../mod/ha/main.inc:482
 msgctxt "HOSPITAL_ERROR"
 msgid "Hospital <b>county</b> may not be empty."
 msgstr ""
 
-#: ../mod/ha/main.inc:261 ../mod/ha/main.inc:467
+#: ../mod/ha/main.inc:282 ../mod/ha/main.inc:486
 msgctxt "HOSPITAL_ERROR"
 msgid "Hospital <b>region</b> may not be empty."
 msgstr ""
 
-#: ../mod/ha/main.inc:265 ../mod/ha/main.inc:471
+#: ../mod/ha/main.inc:286 ../mod/ha/main.inc:490
 msgctxt "HOSPITAL_ERROR"
 msgid "Hospital <b>postal code</b> may not be empty."
 msgstr ""
 
-#: ../mod/ha/main.inc:269 ../mod/ha/main.inc:475
+#: ../mod/ha/main.inc:290 ../mod/ha/main.inc:494
 msgctxt "HOSPITAL_ERROR"
 msgid "Hospital <b>country</b> may not be empty."
 msgstr ""
 
-#: ../mod/ha/main.inc:273 ../mod/ha/main.inc:479
+#: ../mod/ha/main.inc:294 ../mod/ha/main.inc:498
 msgctxt "HOSPITAL_ERROR"
 msgid "Hospital <b>latitude</b> may not be empty."
 msgstr ""
 
-#: ../mod/ha/main.inc:277 ../mod/ha/main.inc:483
+#: ../mod/ha/main.inc:298 ../mod/ha/main.inc:502
 msgctxt "HOSPITAL_ERROR"
 msgid "Hospital <b>longitude</b> may not be empty."
 msgstr ""
 
-#: ../mod/ha/main.inc:281 ../mod/ha/main.inc:487
+#: ../mod/ha/main.inc:302 ../mod/ha/main.inc:506
 msgctxt "HOSPITAL_ERROR"
 msgid "Hospital <b>patient id prefix</b> may not be empty."
 msgstr ""
 
-#: ../mod/ha/main.inc:309 ../mod/ha/main.inc:529
+#: ../mod/ha/main.inc:330 ../mod/ha/main.inc:548
 msgctxt "HOSPITAL_MESSAGE"
 msgid "Saved hospital information."
 msgstr ""
 
-#: ../mod/ha/main.inc:342
+#: ../mod/ha/main.inc:361
 msgctxt "HOSPITAL_ADD"
 msgid ""
 "Key:</b><b class=\\\"red\\\"> * </b> - Fields tagged with a red "
@@ -1321,82 +952,82 @@ msgid ""
 "filled in."
 msgstr ""
 
-#: ../mod/ha/main.inc:347
+#: ../mod/ha/main.inc:366
 msgctxt "HOSPITAL_ADD"
 msgid "Name"
 msgstr ""
 
-#: ../mod/ha/main.inc:352
+#: ../mod/ha/main.inc:371
 msgctxt "HOSPITAL_ADD"
 msgid "Short Name"
 msgstr ""
 
-#: ../mod/ha/main.inc:357
+#: ../mod/ha/main.inc:376
 msgctxt "HOSPITAL_ADD"
 msgid "Street Address 1"
 msgstr ""
 
-#: ../mod/ha/main.inc:362
+#: ../mod/ha/main.inc:381
 msgctxt "HOSPITAL_ADD"
 msgid "Street Address 2"
 msgstr ""
 
-#: ../mod/ha/main.inc:367
+#: ../mod/ha/main.inc:386
 msgctxt "HOSPITAL_ADD"
 msgid "City"
 msgstr ""
 
-#: ../mod/ha/main.inc:372
+#: ../mod/ha/main.inc:391
 msgctxt "HOSPITAL_ADD"
 msgid "County"
 msgstr ""
 
-#: ../mod/ha/main.inc:377
+#: ../mod/ha/main.inc:396
 msgctxt "HOSPITAL_ADD"
 msgid "Region (State)"
 msgstr ""
 
-#: ../mod/ha/main.inc:382
+#: ../mod/ha/main.inc:401
 msgctxt "HOSPITAL_ADD"
 msgid "Postal Code"
 msgstr ""
 
-#: ../mod/ha/main.inc:387
+#: ../mod/ha/main.inc:406
 msgctxt "HOSPITAL_ADD"
 msgid "Country"
 msgstr ""
 
-#: ../mod/ha/main.inc:392
+#: ../mod/ha/main.inc:411
 msgctxt "HOSPITAL_ADD"
 msgid "Latitude"
 msgstr ""
 
-#: ../mod/ha/main.inc:397
+#: ../mod/ha/main.inc:416
 msgctxt "HOSPITAL_ADD"
 msgid "Longitude"
 msgstr ""
 
-#: ../mod/ha/main.inc:402
+#: ../mod/ha/main.inc:421
 msgctxt "HOSPITAL_ADD"
 msgid "Phone"
 msgstr ""
 
-#: ../mod/ha/main.inc:407
+#: ../mod/ha/main.inc:426
 msgctxt "HOSPITAL_ADD"
 msgid "Fax"
 msgstr ""
 
-#: ../mod/ha/main.inc:412
+#: ../mod/ha/main.inc:431
 msgctxt "HOSPITAL_ADD"
 msgid "Email"
 msgstr ""
 
-#: ../mod/ha/main.inc:417
+#: ../mod/ha/main.inc:436
 msgctxt "HOSPITAL_ADD"
 msgid "NPI"
 msgstr ""
 
-#: ../mod/ha/main.inc:422
+#: ../mod/ha/main.inc:441
 msgctxt "HOSPITAL_ADD"
 msgid "Patient ID Prefix"
 msgstr ""
@@ -1418,71 +1049,39 @@ msgid "LPF Library"
 msgstr ""
 
 #: ../mod/mpres/conf.inc:18
-msgid "MPR Email Service"
+msgid "Inbound Email"
 msgstr ""
 
 #: ../mod/pfif/conf.inc:15
-msgid "PFIF Admin"
+msgid "PFIF"
+msgstr ""
+
+#: ../mod/pfif/main.inc:116
+msgid "Import from PFIF xml to '"
 msgstr ""
 
 #: ../mod/pfif/main.inc:118
-msgid "Import from PFIF xml to 'test' event"
-msgstr ""
-
-#: ../mod/pfif/main.inc:120 ../mod/pfif/pfif_main.inc:33
 msgid "Upload PFIF xml"
 msgstr ""
 
-#: ../mod/pfif/main.inc:121 ../mod/pfif/pfif_main.inc:34
-#: ../mod/pfif/pfif_main.inc:115
+#: ../mod/pfif/main.inc:119
 msgid "Upload"
 msgstr ""
 
-#: ../mod/pfif/pfif_main.inc:27
-msgid "Please make sure that you are adding a PFIF xml file."
+#: ../mod/pfif/main.inc:185
+msgid "Export from '"
 msgstr ""
 
-#: ../mod/pfif/pfif_main.inc:28
-msgid "Import from PFIF xml"
+#: ../mod/pfif/main.inc:187
+msgid "Start date"
 msgstr ""
 
-#: ../mod/pfif/pfif_main.inc:36
-msgid "Download from Google PFIF API"
+#: ../mod/pfif/main.inc:189
+msgid "End date"
 msgstr ""
 
-#: ../mod/pfif/pfif_main.inc:37 ../mod/pfif/pfif_main.inc:105
-#: ../mod/pfif/pfif_main.inc:118
-msgid "Enter person_record_id"
-msgstr ""
-
-#: ../mod/pfif/pfif_main.inc:38
-msgid "Download"
-msgstr ""
-
-#: ../mod/pfif/pfif_main.inc:104
-msgid "Show Selected Record"
-msgstr ""
-
-#: ../mod/pfif/pfif_main.inc:106
-msgid "Show"
-msgstr ""
-
-#: ../mod/pfif/pfif_main.inc:111
-msgid ""
-"EXPERIMENTAL: Add source, time range selection parameters to replace id in "
-"Upload Selected ... section"
-msgstr ""
-
-#: ../mod/pfif/pfif_main.inc:112
-msgid "Upload PFIF XML file"
-msgstr ""
-
-#: ../mod/pfif/pfif_main.inc:114
-msgid "Source File"
-msgstr ""
-
-#: ../mod/pfif/pfif_main.inc:117
-msgid "Upload Selected Records"
+#: ../mod/pfif/main.inc:190
+msgid "Records originating in PL only"
 msgstr ""
 
 #: ../mod/plus/conf.inc:14
@@ -1565,36 +1164,36 @@ msgstr ""
 msgid "Edit My Personal Details"
 msgstr ""
 
-#: ../mod/pref/main.inc:124 ../mod/pref/main.inc:437 ../mod/pref/main.inc:444
+#: ../mod/pref/main.inc:124 ../mod/pref/main.inc:447 ../mod/pref/main.inc:454
 msgid ""
 "Please provide the text in the image correctly to prove you are human."
 msgstr ""
 
-#: ../mod/pref/main.inc:508
+#: ../mod/pref/main.inc:518
 msgid "Enable/Disable OCR XForm"
 msgstr ""
 
-#: ../mod/pref/main.inc:510
+#: ../mod/pref/main.inc:520
 msgid "Enable or disable the OCR friendly form generation."
 msgstr ""
 
-#: ../mod/pref/main.inc:513
+#: ../mod/pref/main.inc:523
 msgid "Enabled"
 msgstr ""
 
-#: ../mod/pref/main.inc:513
+#: ../mod/pref/main.inc:523
 msgid "Disabled"
 msgstr ""
 
-#: ../mod/pref/main.inc:513
+#: ../mod/pref/main.inc:523
 msgid "OCR friendly XForm : "
 msgstr ""
 
-#: ../mod/pref/main.inc:529 ../mod/pref/main.inc:538
+#: ../mod/pref/main.inc:539 ../mod/pref/main.inc:548
 msgid "Your preference was successfully saved."
 msgstr ""
 
-#: ../mod/pref/main.inc:532 ../mod/pref/main.inc:541
+#: ../mod/pref/main.inc:542 ../mod/pref/main.inc:551
 msgid "An error occured while saving your preference."
 msgstr ""
 
@@ -1602,11 +1201,11 @@ msgstr ""
 msgid "Report a Person"
 msgstr ""
 
-#: ../mod/rap/main.inc:187
+#: ../mod/rap/main.inc:185
 msgid "Information Privacy"
 msgstr ""
 
-#: ../mod/rap/main.inc:188
+#: ../mod/rap/main.inc:186
 msgid ""
 "<span class=\"publicText\">Public</span> Denotes information that, if "
 "provided, can be exposed to the general public.<br><br><span "
@@ -1617,155 +1216,155 @@ msgid ""
 "authorized displaced-person agencies."
 msgstr ""
 
-#: ../mod/rap/main.inc:192
+#: ../mod/rap/main.inc:190
 msgid "Person's Status"
 msgstr ""
 
-#: ../mod/rap/main.inc:207
+#: ../mod/rap/main.inc:205
 msgid "Basic Person Details"
 msgstr ""
 
-#: ../mod/rap/main.inc:208
+#: ../mod/rap/main.inc:206
 msgid "Please enter any of the following details of the person:"
 msgstr ""
 
-#: ../mod/rap/main.inc:209
+#: ../mod/rap/main.inc:207
 msgid "Given Name "
 msgstr ""
 
-#: ../mod/rap/main.inc:210
+#: ../mod/rap/main.inc:208
 msgid "Family Name"
 msgstr ""
 
-#: ../mod/rap/main.inc:210
+#: ../mod/rap/main.inc:208
 msgid "The person's surname or last name."
 msgstr ""
 
-#: ../mod/rap/main.inc:211
+#: ../mod/rap/main.inc:209
 msgid "Age"
 msgstr ""
 
-#: ../mod/rap/main.inc:211
+#: ../mod/rap/main.inc:209
 msgid ""
 "The exact age for the person or a best guess (can be combined with the age "
 "range below if an exact number is not known)."
 msgstr ""
 
-#: ../mod/rap/main.inc:212
+#: ../mod/rap/main.inc:210
 msgid "Lower End of Age Range"
 msgstr ""
 
-#: ../mod/rap/main.inc:212
+#: ../mod/rap/main.inc:210
 msgid ""
 "The lower limit for a person's age if an exact age is not known. (optional "
 "if exact age is known)"
 msgstr ""
 
-#: ../mod/rap/main.inc:213
+#: ../mod/rap/main.inc:211
 msgid "Upper End of Age Range"
 msgstr ""
 
-#: ../mod/rap/main.inc:213
+#: ../mod/rap/main.inc:211
 msgid ""
 "The upper limit for a person's age if an exact age is not known. (optional "
 "if exact age is known)"
 msgstr ""
 
-#: ../mod/rap/main.inc:214
+#: ../mod/rap/main.inc:212
 msgid "Gender"
 msgstr ""
 
-#: ../mod/rap/main.inc:215
+#: ../mod/rap/main.inc:213
 msgid "Religion"
 msgstr ""
 
-#: ../mod/rap/main.inc:216
+#: ../mod/rap/main.inc:214
 msgid "Race"
 msgstr ""
 
-#: ../mod/rap/main.inc:219
+#: ../mod/rap/main.inc:217
 msgid "Person's Contact Information"
 msgstr ""
 
-#: ../mod/rap/main.inc:220
+#: ../mod/rap/main.inc:218
 msgid "Home Address"
 msgstr ""
 
-#: ../mod/rap/main.inc:220
+#: ../mod/rap/main.inc:218
 msgid "Please specify the address of the person you are reporting."
 msgstr ""
 
-#: ../mod/rap/main.inc:221
+#: ../mod/rap/main.inc:219
 msgid "Home Zip Code"
 msgstr ""
 
-#: ../mod/rap/main.inc:222
+#: ../mod/rap/main.inc:220
 msgid "Home Phone Number"
 msgstr ""
 
-#: ../mod/rap/main.inc:223
+#: ../mod/rap/main.inc:221
 msgid "Mobile Phone Number"
 msgstr ""
 
-#: ../mod/rap/main.inc:224
+#: ../mod/rap/main.inc:222
 msgid "Email Address"
 msgstr ""
 
-#: ../mod/rap/main.inc:227
+#: ../mod/rap/main.inc:225
 msgid "Person's Physical Details"
 msgstr ""
 
-#: ../mod/rap/main.inc:228
+#: ../mod/rap/main.inc:226
 msgid "Eye Color"
 msgstr ""
 
-#: ../mod/rap/main.inc:229
+#: ../mod/rap/main.inc:227
 msgid "Skin Color"
 msgstr ""
 
-#: ../mod/rap/main.inc:230
+#: ../mod/rap/main.inc:228
 msgid "Hair Color"
 msgstr ""
 
-#: ../mod/rap/main.inc:232
+#: ../mod/rap/main.inc:230
 msgid "Height"
 msgstr ""
 
-#: ../mod/rap/main.inc:233
+#: ../mod/rap/main.inc:231
 msgid "Weight"
 msgstr ""
 
-#: ../mod/rap/main.inc:235
+#: ../mod/rap/main.inc:233
 msgid "Other Obvious Distinctive Features"
 msgstr ""
 
-#: ../mod/rap/main.inc:238
+#: ../mod/rap/main.inc:236
 msgid "Last Known Details"
 msgstr ""
 
-#: ../mod/rap/main.inc:239
+#: ../mod/rap/main.inc:237
 msgid "Last Seen Location"
 msgstr ""
 
-#: ../mod/rap/main.inc:240
+#: ../mod/rap/main.inc:238
 msgid "Last Seen Clothing/Appearance"
 msgstr ""
 
-#: ../mod/rap/main.inc:241
+#: ../mod/rap/main.inc:239
 msgid "Other Comments"
 msgstr ""
 
-#: ../mod/rap/main.inc:278
+#: ../mod/rap/main.inc:276
 msgid ""
 "Please fill out the form with as much information as possible about the "
 "person you are reporting."
 msgstr ""
 
-#: ../mod/rap/main.inc:284
+#: ../mod/rap/main.inc:282
 msgid "Please enter the Given Name of the person you are reporting."
 msgstr ""
 
-#: ../mod/rap/main.inc:367
+#: ../mod/rap/main.inc:351
 msgid "Invalid image type please try again"
 msgstr ""
 
