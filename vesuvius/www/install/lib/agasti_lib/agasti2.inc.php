@@ -386,6 +386,7 @@ class Agasti{
 
     function systemParams($system_params){
         global $INS_CONFIG;
+	$filePath=$INS_CONFIG['rootpath'].'/conf/config.php';
         if($system_params['base_uuid']!=''){
             $arguments = $this->getConfigArray();
             $arguments['db_name']=$this->getConfig('DB_DATABASE','agasti23');
@@ -410,7 +411,7 @@ class Agasti{
             $arguments['enable_plus_web_services']=$system_params['enable_plus_web_services'];
 
             $configFile=new ConfigurationFileTask();
-            $configFile->execute($arguments);
+            $configFile->execute($arguments,$filePath);
         }
         
 
@@ -630,7 +631,9 @@ class Agasti{
       $direcotrypath=$INS_CONFIG['rootpath'].'/backups/';
       $wwwdirectory=$INS_CONFIG['rootpath'].'/www/';
       $confdirectory=$INS_CONFIG['rootpath'].'/conf/';
-      $sqlFile=$INS_CONFIG['rootpath'].'/backups/'.self::getLatestSQLFile($direcotrypath);
+      if(file_exists($direcotrypath)){
+          $sqlFile=$INS_CONFIG['rootpath'].'/backups/'.self::getLatestSQLFile($direcotrypath);
+      }
       $result=self::createDirectories();
       foreach ($result as $value) {
           $installed[]=$value;
@@ -638,18 +641,30 @@ class Agasti{
       if(file_exists($sqlFile)){
           $sqlResult=self::executeSQLFile($sqlFile);
       }else{
-          $sqlResult="MySQL file couldnot be found";
+          $sqlResult="MySQL file couldn't be found";
       }
-      if(substr(sprintf('%o', fileperms($wwwdirectory)), -4)=="0777"){
-          if(!chmod($wwwdirectory,0755)){
-              $installed[]="Error in changing permissions of the ".$wwwdirectory.". You have to manually change the permissions to 0755";
+      if(file_exists($wwwdirectory)){
+          if(substr(sprintf('%o', fileperms($wwwdirectory)), -4)=="0777"){
+              if(!chmod($wwwdirectory,0755)){
+                  $installed[]="Error in changing permissions of the ".$wwwdirectory.". You have to manually change the permissions to 0755";
+              }
           }
       }
-      if(substr(sprintf('%o', fileperms($confdirectory)), -4)=="0777"){
-          if(!chmod($confdirectory,0755)){
-              $installed[]="Error in changing permissions of the ".$confdirectory.". You have to manually change the permissions to 0755";
+      else{
+          $installed[]=$wwwdirectory." doesn't exists.";
+      }
+
+      if(file_exists($confdirectory)){
+          if(substr(sprintf('%o', fileperms($confdirectory)), -4)=="0777"){
+              if(!chmod($confdirectory,0755)){
+                  $installed[]="Error in changing permissions of the ".$confdirectory.". You have to manually change the permissions to 0755";
+              }
           }
       }
+      else{
+          $installed[]=$confdirectory." doesn't exists.";
+      }
+      
       
 //      if($sqlResult=="successfully"){
 //          $installed[]="Successfully executed sql file";
