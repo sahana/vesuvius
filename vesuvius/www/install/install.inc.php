@@ -335,9 +335,9 @@ class appInstall extends Agasti
       }
     }
 
-    $foo = $this->getStep();
-    $zoo = $_REQUEST['next'][$this->getStep()];
-    $poo = $_REQUEST['problem'];
+    //$foo = $this->getStep();
+    //$zoo = $_REQUEST['next'][$this->getStep()];
+    //$poo = $_REQUEST['problem'];
 
     if ($this->getStep() == 2 && isset($_REQUEST['next'][$this->getStep()]) && !isset($_REQUEST['problem'])) {
       $this->dbParams($db_params);
