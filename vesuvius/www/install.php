@@ -85,7 +85,7 @@ unset($_POST);
   <body>
     <div id="header">
       <h1>
-        Application Installer
+        Vesuvius Installer
       </h1>
     </div>
     <div id="wrapper">
