@@ -25,7 +25,7 @@ class Htaccess
 {
     function dump($fileArray){
 
-        $fileContent;
+        $fileContent="";
         foreach ($fileArray as $key => $value) {
             if(!is_array($fileArray[$key])){
                 $fileContent.=$key." ".$value."\n";
