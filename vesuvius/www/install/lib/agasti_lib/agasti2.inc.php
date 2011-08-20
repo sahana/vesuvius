@@ -841,14 +841,9 @@ class Agasti{
 class ConfigurationFileTask extends Config{
     function execute($arguments = array(),$filename)
     {
-        if (null !== $options['app'])
-        {
+        
           $file = $filename;
-        }
-        else
-        {
-          $file = $filename;
-        }
+        
         $config = file_exists($file) ? Config::loadFile($file) : array();
 
         $config=$arguments;
