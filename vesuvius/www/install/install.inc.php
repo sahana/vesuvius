@@ -327,13 +327,41 @@ class appInstall extends Agasti
         'dbname'=>"",
         'username' => "",
         'password' => "");
-	$db_engine="";
-      	$storage_engine="";
-      	$db_host="";
-      	$db_port="";
-      	$db_name="";
-      	$db_user="";
-      	$db_pass="";
+      $system_params=array(
+            'base_uuid'=>"",
+            'theme'=>"",
+            'enable_locale'=>"",
+            'locale'=>"",
+            'enable_plus_web_services'=>"",
+            'pwd_min_chars'=>"",
+            'pwd_max_chars'=>"",
+            'pwd_has_uppercase'=>"",
+            'pwd_has_lowercase'=>"",
+            'pwd_has_numbers'=>"",
+            'pwd_has_spchars'=>"",
+            'pwd_has_username'=>"",
+            'pwd_no_change_limit'=>""
+        );
+      $db_engine="";
+      $storage_engine="";
+      $db_host="";
+      $db_port="";
+      $db_name="";
+      $db_user="";
+      $db_pass="";
+      $base_uuid="";
+      $theme="";
+      $enable_locale="";
+      $locale="";
+      $enable_plus_web_services="";
+      $pwd_min_chars="";
+      $pwd_max_chars="";
+      $pwd_has_uppercase="";
+      $pwd_has_lowercase="";
+      $pwd_has_numbers="";
+      $pwd_has_spchars="";
+      $pwd_has_username="";
+      $pwd_no_change_limit="";
 
       if (isset($_REQUEST['back'][$this->getStep()])){
         $this->DoBack();
@@ -384,14 +412,14 @@ class appInstall extends Agasti
       if(isset ($_POST['db_pass'])){
           $db_pass=$_POST['db_pass'];
       }
-      $db_params = array(
-        'dbengine'=>$db_engine,
-        'storageengine'=>$storage_engine,
-        'hostname'=>$db_host,
-        'dbport'=>$db_port,
-        'dbname'=>$db_name,
-        'username' => $db_user,
-        'password' => $db_pass);
+      $db_params['dbengine']=$db_engine;
+      $db_params['storageengine']=$storage_engine;
+      $db_params['hostname']=$db_host;
+      $db_params['dbport']=$db_port;
+      $db_params['dbname']=$db_name;
+      $db_params['username'] = $db_user;
+      $db_params['password'] = $db_pass;
+
       $this->setConfig('DB_ENGINE',$db_engine);
       $this->setConfig('DB_STORAGE_ENGINE',$storage_engine);
       $this->setConfig('DB_SERVER', $db_host);//
@@ -449,34 +477,73 @@ class appInstall extends Agasti
 
     if ($this->getStep() == 4){
         $current = $this->getCurrent();
-        $sysparams=array(
-            'base_uuid'=>$_POST['base_uuid'],
-            'theme'=>$_POST['theme'],
-            'enable_locale'=>$_POST['enable_locale'],
-            'locale'=>$_POST['locale'],
-            'enable_plus_web_services'=>$_POST['enable_plus_web_services'],
-            'pwd_min_chars'=>$_POST['pwd_min_chars'],
-            'pwd_max_chars'=>$_POST['pwd_max_chars'],
-            'pwd_has_uppercase'=>$_POST['pwd_has_uppercase'],
-            'pwd_has_lowercase'=>$_POST['pwd_has_lowercase'],
-            'pwd_has_numbers'=>$_POST['pwd_has_numbers'],
-            'pwd_has_spchars'=>$_POST['pwd_has_spchars'],
-            'pwd_has_username'=>$_POST['pwd_has_username'],
-            'pwd_no_change_limit'=>$_POST['pwd_no_change_limit']
-        );
-        $this->setConfig('BASE_UUID', $_POST['base_uuid']);
-        $this->setConfig('THEME', $_POST['theme']);
-        $this->setConfig('ENABLE_LOCALE', $_POST['enable_locale']);
-        $this->setConfig('LOCALE', $_POST['locale']);
-        $this->setConfig('ENABLE_PLUS_WEB_SERVICES', $_POST['enable_plus_web_services']);
-        $this->setConfig('PASSWORD_MIN_CHARS', $_POST['pwd_min_chars']);
-        $this->setConfig('PASSWORD_MAX_CHARS', $_POST['pwd_max_chars']);
-        $this->setConfig('PWD_HAS_UPPERCASE', $_POST['pwd_has_uppercase']);
-        $this->setConfig('PWD_HAS_LOWERCASE', $_POST['pwd_has_lowercase']);
-        $this->setConfig('PWD_HAS_NUMBERS', $_POST['pwd_has_numbers']);
-        $this->setConfig('PWD_HAS_SPCHARS', $_POST['pwd_has_spchars']);
-        $this->setConfig('PWD_HAS_USERNAME', $_POST['pwd_has_username']);
-        $this->setConfig('PWD_NO_CHANGE_LIMIT', $_POST['pwd_no_change_limit']);
+	if(isset ($_POST['base_uuid'])){
+            $base_uuid=$_POST['base_uuid'];
+        }
+        if(isset ($_POST['theme'])){
+            $theme=$_POST['theme'];
+        }
+        if(isset ($_POST['enable_locale'])){
+            $enable_locale=$_POST['enable_locale'];
+        }
+        if(isset ($_POST['locale'])){
+            $locale=$_POST['locale'];
+        }
+        if(isset ($_POST['enable_plus_web_services'])){
+            $enable_plus_web_services=$_POST['enable_plus_web_services'];
+        }
+        if(isset ($_POST['pwd_min_chars'])){
+            $pwd_min_chars=$_POST['pwd_min_chars'];
+        }
+        if(isset ($_POST['pwd_max_chars'])){
+            $pwd_max_chars=$_POST['pwd_max_chars'];
+        }
+        if(isset ($_POST['pwd_has_uppercase'])){
+            $pwd_has_uppercase=$_POST['pwd_has_uppercase'];
+        }
+        if(isset ($_POST['pwd_has_lowercase'])){
+            $pwd_has_lowercase=$_POST['pwd_has_lowercase'];
+        }
+        if(isset ($_POST['pwd_has_numbers'])){
+            $pwd_has_numbers=$_POST['pwd_has_numbers'];
+        }
+        if(isset ($_POST['pwd_has_spchars'])){
+            $pwd_has_spchars=$_POST['pwd_has_spchars'];
+        }
+        if(isset ($_POST['pwd_has_username'])){
+            $pwd_has_username=$_POST['pwd_has_username'];
+        }
+        if(isset ($_POST['pwd_no_change_limit'])){
+            $pwd_no_change_limit=$_POST['pwd_no_change_limit'];
+        }
+        
+	$system_params['base_uuid']=$base_uuid;
+        $system_params['theme']=$theme;
+        $system_params['enable_locale']=$enable_locale;
+        $system_params['locale']=$locale;
+        $system_params['enable_plus_web_services']=$enable_plus_web_services;
+        $system_params['pwd_min_chars']=$pwd_min_chars;
+        $system_params['pwd_max_chars']=$pwd_max_chars;
+        $system_params['pwd_has_uppercase']=$pwd_has_uppercase;
+        $system_params['pwd_has_lowercase']=$pwd_has_lowercase;
+        $system_params['pwd_has_numbers']=$pwd_has_numbers;
+        $system_params['pwd_has_spchars']=$pwd_has_spchars;
+        $system_params['pwd_has_username']=$pwd_has_username;
+        $system_params['pwd_no_change_limit']=$pwd_no_change_limit;
+
+        $this->setConfig('BASE_UUID', $base_uuid);
+        $this->setConfig('THEME', $theme);
+        $this->setConfig('ENABLE_LOCALE', $enable_locale);
+        $this->setConfig('LOCALE', $locale);
+        $this->setConfig('ENABLE_PLUS_WEB_SERVICES', $enable_plus_web_services);
+        $this->setConfig('PASSWORD_MIN_CHARS', $pwd_min_chars);
+        $this->setConfig('PASSWORD_MAX_CHARS', $pwd_max_chars);
+        $this->setConfig('PWD_HAS_UPPERCASE', $pwd_has_uppercase);
+        $this->setConfig('PWD_HAS_LOWERCASE', $pwd_has_lowercase);
+        $this->setConfig('PWD_HAS_NUMBERS', $pwd_has_numbers);
+        $this->setConfig('PWD_HAS_SPCHARS', $pwd_has_spchars);
+        $this->setConfig('PWD_HAS_USERNAME', $pwd_has_username);
+        $this->setConfig('PWD_NO_CHANGE_LIMIT', $pwd_no_change_limit);
 
         $htaccess = $this->getHtAccessArray();
 
@@ -485,7 +552,7 @@ class appInstall extends Agasti
         unset($_REQUEST['next']);
 
       } else {
-        $paramcheck = $this->checkSystemParameters($sysparams);
+        $paramcheck = $this->checkSystemParameters($system_params);
         if ($paramcheck == 'good') {
           $this->SAVE_SUCCESS = true;
         } else {
