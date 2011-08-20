@@ -319,6 +319,15 @@ class appInstall extends Agasti
   }
 
   function VesuviusEventHandler(){
+	$db_params = array(
+        'dbengine'=>"",
+        'storageengine'=>"",
+        'hostname'=>"",
+        'dbport'=>"",
+        'dbname'=>"",
+        'username' => "",
+        'password' => "");
+
       if (isset($_REQUEST['back'][$this->getStep()])){
         $this->DoBack();
       //echo "Doing the back step";
