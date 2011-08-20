@@ -555,32 +555,33 @@ class Agasti{
     } else {
       $install_flag = true;
       $existing_auth_method = "bypass";
+	$htaccess=array();
     }
 
 
 
     try {
       $this->setConfig('config', $config);
-      $this->setConfig('DB_ENGINE',  self::obtainParameter($config,db_engine));
-      $this->setConfig('DB_STORAGE_ENGINE',self::obtainParameter($config,storage_engine));
-      $this->setConfig('DB_SERVER', self::obtainParameter($config,db_host));
-      $this->setConfig('DB_DATABASE', self::obtainParameter($config,db_name));
-      $this->setConfig('DB_PORT',self::obtainParameter($config,db_port));
-      $this->setConfig('DB_USER', self::obtainParameter($config,db_user));
-      $this->setConfig('DB_PASSWORD', self::obtainParameter($config,db_pass));
-      $this->setConfig('BASE_UUID',self::obtainParameter($config,base_uuid));
-      $this->setConfig('THEME',self::obtainParameter($config,theme));
-      $this->setConfig('ENABLE_LOCALE',self::obtainParameter($config,enable_locale));
-      $this->setConfig('LOCALE',self::obtainParameter($config,locale));
-      $this->setConfig('ENABLE_PLUS_WEB_SERVICES',self::obtainParameter($config,enable_plus_web_services));
+      $this->setConfig('DB_ENGINE',  self::obtainParameter($config,'db_engine'));
+      $this->setConfig('DB_STORAGE_ENGINE',self::obtainParameter($config,'storage_engine'));
+      $this->setConfig('DB_SERVER', self::obtainParameter($config,'db_host'));
+      $this->setConfig('DB_DATABASE', self::obtainParameter($config,'db_name'));
+      $this->setConfig('DB_PORT',self::obtainParameter($config,'db_port'));
+      $this->setConfig('DB_USER', self::obtainParameter($config,'db_user'));
+      $this->setConfig('DB_PASSWORD', self::obtainParameter($config,'db_pass'));
+      $this->setConfig('BASE_UUID',self::obtainParameter($config,'base_uuid'));
+      $this->setConfig('THEME',self::obtainParameter($config,'theme'));
+      $this->setConfig('ENABLE_LOCALE',self::obtainParameter($config,'enable_locale'));
+      $this->setConfig('LOCALE',self::obtainParameter($config,'locale'));
+      $this->setConfig('ENABLE_PLUS_WEB_SERVICES',self::obtainParameter($config,'enable_plus_web_services'));
       $this->setConfig('PASSWORD_MIN_CHARS',intval($config['pwd_min_chars']));
       $this->setConfig('PASSWORD_MAX_CHARS',intval($config['pwd_max_chars']));
-      $this->setConfig('PWD_HAS_UPPERCASE',self::obtainParameter($config,pwd_has_uppercase));
-      $this->setConfig('PWD_HAS_LOWERCASE',self::obtainParameter($config,pwd_has_lowercase));
-      $this->setConfig('PWD_HAS_NUMBERS',self::obtainParameter($config,pwd_has_numbers));
-      $this->setConfig('PWD_HAS_SPCHARS',self::obtainParameter($config,pwd_has_spchars));
-      $this->setConfig('PWD_HAS_USERNAME',self::obtainParameter($config,pwd_has_username));
-      $this->setConfig('PWD_NO_CHANGE_LIMIT',self::obtainParameter($config,pwd_no_change_limit));
+      $this->setConfig('PWD_HAS_UPPERCASE',self::obtainParameter($config,'pwd_has_uppercase'));
+      $this->setConfig('PWD_HAS_LOWERCASE',self::obtainParameter($config,'pwd_has_lowercase'));
+      $this->setConfig('PWD_HAS_NUMBERS',self::obtainParameter($config,'pwd_has_numbers'));
+      $this->setConfig('PWD_HAS_SPCHARS',self::obtainParameter($config,'pwd_has_spchars'));
+      $this->setConfig('PWD_HAS_USERNAME',self::obtainParameter($config,'pwd_has_username'));
+      $this->setConfig('PWD_NO_CHANGE_LIMIT',self::obtainParameter($config,'pwd_no_change_limit'));
       $this->setConfig('htaccess', $htaccess);
       
     } catch (Exception $e) {

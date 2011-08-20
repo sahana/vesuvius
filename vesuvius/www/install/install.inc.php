@@ -327,6 +327,13 @@ class appInstall extends Agasti
         'dbname'=>"",
         'username' => "",
         'password' => "");
+	$db_engine="";
+      	$storage_engine="";
+      	$db_host="";
+      	$db_port="";
+      	$db_name="";
+      	$db_user="";
+      	$db_pass="";
 
       if (isset($_REQUEST['back'][$this->getStep()])){
         $this->DoBack();
@@ -356,21 +363,42 @@ class appInstall extends Agasti
     if ($this->getStep() == 3) {
 //on our first pass, these values won't exist (or if someone has returned with no POST
       $current = $this->getCurrent();
+      if(isset ($_POST['db_engine'])){
+          $db_engine=$_POST['db_engine'];
+      }
+      if(isset ($_POST['storage_engine'])){
+          $storage_engine=$_POST['storage_engine'];
+      }
+      if(isset ($_POST['db_host'])){
+          $db_host=$_POST['db_host'];
+      }
+      if(isset ($_POST['db_port'])){
+          $db_port=$_POST['db_port'];
+      }
+      if(isset ($_POST['db_name'])){
+          $db_name=$_POST['db_name'];
+      }
+      if(isset ($_POST['db_user'])){
+          $db_user=$_POST['db_user'];
+      }
+      if(isset ($_POST['db_pass'])){
+          $db_pass=$_POST['db_pass'];
+      }
       $db_params = array(
-        'dbengine'=>$_POST['db_engine'],
-        'storageengine'=>$_POST['storage_engine'],
-        'hostname'=>$_POST['db_host'],
-        'dbport'=>$_POST['db_port'],
-        'dbname'=>$_POST['db_name'],
-        'username' => $_POST['db_user'],
-        'password' => $_POST['db_pass']);
-      $this->setConfig('DB_ENGINE',$_POST['db_engine']);
-      $this->setConfig('DB_STORAGE_ENGINE',$_POST['storage_engine']);
-      $this->setConfig('DB_SERVER', $_POST['db_host']);//
-      $this->setConfig('DB_PORT',$_POST['db_port'] );//
-      $this->setConfig('DB_DATABASE', $_POST['db_name']);//
-      $this->setConfig('DB_USER', $_POST['db_user']);//
-      $this->setConfig('DB_PASSWORD', $_POST['db_pass']);//
+        'dbengine'=>$db_engine,
+        'storageengine'=>$storage_engine,
+        'hostname'=>$db_host,
+        'dbport'=>$db_port,
+        'dbname'=>$db_name,
+        'username' => $db_user,
+        'password' => $db_pass);
+      $this->setConfig('DB_ENGINE',$db_engine);
+      $this->setConfig('DB_STORAGE_ENGINE',$storage_engine);
+      $this->setConfig('DB_SERVER', $db_host);//
+      $this->setConfig('DB_PORT',$db_port );//
+      $this->setConfig('DB_DATABASE', $db_name);//
+      $this->setConfig('DB_USER', $db_user);//
+      $this->setConfig('DB_PASSWORD', $db_pass);//
       //$this->setConfig('ADMIN_NAME', $_POST['admin_name']);
       //$this->setConfig('ADMIN_EMAIL', $_POST['admin_email']);
       $htaccess = $this->getHtAccessArray();
