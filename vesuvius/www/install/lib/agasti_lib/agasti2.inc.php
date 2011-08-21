@@ -69,10 +69,11 @@ class Agasti{
          */
         $final_result = true;
         $requirementArray=array();
-	$requirementArray[$this->INS_CONFIG['rootpath'].'/www/']='0777';
-	$requirementArray[$this->INS_CONFIG['rootpath'].'/conf/']='0777';
+		$requirementArray[$this->INS_CONFIG['rootpath'].'/www/']='0777';
+		$requirementArray[$this->INS_CONFIG['rootpath'].'/conf/']='0777';
         $requirementArray[$this->INS_CONFIG['rootpath'].'/www/install/']='0777';
         $requirementArray[$this->INS_CONFIG['rootpath'].'/backups/']='0775';
+		$requirementArray[$this->INS_CONFIG['rootpath'].'/3rd/']='0777';
 
         $reqs = check_php_requirements($requirementArray);
         foreach ($reqs as $req) {
