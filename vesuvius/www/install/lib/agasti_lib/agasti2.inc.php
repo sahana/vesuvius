@@ -652,7 +652,7 @@ class Agasti{
           }
       }
       else{
-          $installed[]=$wwwdirectory." doesn't exists.";
+          $installed[]=$wwwdirectory." doesn't exists to change permissions.";
       }
 
       if(file_exists($confdirectory)){
@@ -663,7 +663,7 @@ class Agasti{
           }
       }
       else{
-          $installed[]=$confdirectory." doesn't exists.";
+          $installed[]=$confdirectory." doesn't exists to change permissions.";
       }
       
       
@@ -680,6 +680,7 @@ class Agasti{
 
   function getLatestSQLFile($directorypath){
     global $INS_CONFIG;
+	$pattern='/^.*\.(sql)$/i';
     $files="";
     $fileCount=0;
     $sqlFiles="";
@@ -687,7 +688,7 @@ class Agasti{
     $filePath=$directorypath;
     $dir = opendir($filePath);
     while ($file = readdir($dir)) {
-      if (eregi("\.sql",$file)) {
+      if (preg_match($pattern,$file)) {
         $files[] = $file;
         $fileCount++;
       }
@@ -737,7 +738,7 @@ class Agasti{
       $mpres_cachedir=$INS_CONFIG['rootpath'].'/www/tmp/pfif_cache';
       $plus_cachedir=$INS_CONFIG['rootpath'].'/www/tmp/plus_cache';
       $rap_cachedir=$INS_CONFIG['rootpath'].'/www/tmp/rap_cache';
-      $URIdir=$INS_CONFIG['rootpath'].'3rd/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/URI';
+      $URIdir=$INS_CONFIG['rootpath'].'/3rd/htmlpurifier/library/HTMLPurifier/DefinitionCache/Serializer/URI';
       if(file_exists($tmpdir) && substr(sprintf('%o', fileperms($tmpdir)), -4)=="0777"){
           $installed[]="The tmp directory is already created and have set the file permissions accordingly.";
           $installed[]=self::createSubdirectories($bcapscachedir);
@@ -791,7 +792,7 @@ class Agasti{
       if(file_exists($dir) && substr(sprintf('%o', fileperms($dir)), -4)=="0777"){
           return $dir." directory has already been created and set the permissions.";
       }
-      else if(file_exists($tmpdir) && substr(sprintf('%o', fileperms($tmpdir)), -4)!="0777"){
+      else if(file_exists($dir) && substr(sprintf('%o', fileperms($dir)), -4)!="0777"){
           if(!chmod($dir,0777)){
               return $dir." directory has already been created and error in setting the permissions. You have to manually set it.";
           }
