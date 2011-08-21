@@ -366,7 +366,7 @@ class Agasti{
     function dbParams($db_params)
     {
 	global $INS_CONFIG;
-       $filePath=$INS_CONFIG['rootpath'].'/conf/config.php';
+       $filePath=$INS_CONFIG['rootpath'].'/conf/sahana.conf';
        //if($db_params['hostname']!=''){
             $arguments = $this->getConfigArray();
             $arguments['db_name']=$db_params['dbname'];
@@ -387,7 +387,7 @@ class Agasti{
 
     function systemParams($system_params){
         global $INS_CONFIG;
-	$filePath=$INS_CONFIG['rootpath'].'/conf/config.php';
+	$filePath=$INS_CONFIG['rootpath'].'/conf/sahana.conf';
         if($system_params['base_uuid']!=''){
             $arguments = $this->getConfigArray();
             $arguments['db_name']=$this->getConfig('DB_DATABASE','agasti23');
@@ -539,7 +539,7 @@ class Agasti{
     function getCurrent()
   {
     global $INS_CONFIG;
-    $filename = $INS_CONFIG['rootpath'].'/conf/config.php';
+    $filename = $INS_CONFIG['rootpath'].'/conf/sahana.conf';
 
     if (file_exists($filename)) {
       //$config = Config::loadFile($filename);
