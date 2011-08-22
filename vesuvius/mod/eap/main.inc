@@ -659,18 +659,21 @@ function shn_eap_edit() {
 	$row = $r->FetchRow();
 	$num = $row['COUNT(*)'];
 
+	$imagesFull  = array();
+	$imagesThumb = array();
+
 	// we has images
 	if($num > 0) {
 		$q  = "
 			SELECT *
 			FROM image
-			WHERE p_uuid = '".$global['uuid']."'
-			LIMIT 1;
+			WHERE p_uuid = '".$global['uuid']."';
 		";
-		$r        = $global['db']->Execute($q);
-		$row      = $r->FetchRow();
-		$imageUrl = $row['url'];
-		$thumbUrl = $row['url_thumb'];
+		$r   = $global['db']->Execute($q);
+		while ($row = $r->FetchRow()) {
+			$imagesFull[]  = $row['url'];
+			$imagesThumb[] = $row['url_thumb'];
+		}
 
 	// we doesnt has images
 	} else {
@@ -728,21 +731,29 @@ function shn_eap_edit() {
 			$imageUrl = $unknown;
 			$thumbUrl = $unknown;
 		}
+		$imagesFull  = $imageUrl;
+		$imagesThumb = $thumbUrl;
 	}
-	$global['full_thumb_url'] = makeBaseUrl().$thumbUrl;
+	//$global['full_thumb_url'] = makeBaseUrl().$thumbUrl;
 
 	echo "
 		<div class=\"form-container\">
 			<form>
 				<fieldset id=\"editImages\">
 					<legend>Images</legend>
-					<a href=\"".$imageUrl."\" target=\"_blank\">
-						<div style=\"background-color: #fff; padding: 5px; border: 1px solid #777; float: left; text-align: center;\">
-							<img height=\"150\" src=\"".$thumbUrl."\">
+	";
+	for($i = 0; $i < $num; $i++) {
+		echo "
+					<a href=\"".$imagesFull[$i]."\" target=\"_blank\">
+						<div style=\"background-color: #fff; padding: 5px; border: 1px solid #777; float: left; text-align: center; margin-right: 10px;\">
+							<img height=\"150\" src=\"".$imagesThumb[$i]."\">
 							<div style=\"clear:both;\"></div>
 							zoom
 						</div>
 					</a>
+		";
+	}
+	echo "
 				</fieldset>
 			</form>
 		</div>

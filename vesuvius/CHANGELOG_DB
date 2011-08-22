@@ -1,6 +1,23 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+2011:0822 Greg
+--------------
+ALTER TABLE  `edxl_co_header` CHANGE  `co_id`  `co_id` INT( 11 ) NOT NULL ;
+ALTER TABLE  `edxl_de_header` CHANGE  `de_id`  `de_id` INT( 11 ) NOT NULL ;
+
+CREATE TABLE  `edxl_de_header_seq` (
+`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  'stores next id in sequence for the edxl_de_header table'
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE  `edxl_co_header_seq` (
+`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  'stores next id in sequence for the edxl_co_header table'
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+********************************
+** ALSO SET DEFAULT VALUES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1111111111111111111111
+********************************
+
 2011:0818 Greg
 --------------
 
@@ -13,8 +30,9 @@ CREATE TABLE  `image_tag_seq` (
 `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  'stores next id in sequence for the image_tag table'
 ) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-
-ALSO SET DEFAULT VALUES!
+********************************
+** ALSO SET DEFAULT VALUES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1111111111111111111111
+********************************
 
 ALTER TABLE  `image` ADD INDEX  `image_id` (  `image_id` ,  `p_uuid` );
 
