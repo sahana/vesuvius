@@ -1383,6 +1383,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 	global $conf;
 	$url = "";
 	$error = false;
+	$ecode = null;
 
 	// check auth, if fails, return w/ error code/message
 	$status = shn_plus_checkCredz($username, $password);
@@ -1421,6 +1422,8 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 
 		// no errors, we must have permission to report to this event for the given user
 
+		$a = null;
+
 		if(!$error) {
 			$p = new person();
 			$p->init();
@@ -1433,23 +1436,24 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 			} else {
 				$error = true;
 			}
+			$a = $p->a;
 		}
 	}
 
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'success'      => (boolean)false,
-			'url'          => null,
+			'success'      => false,
+			'url'          => (string)$p->p_uuid,
 			'errorCode'    => (int)$ecode,
 			'errorMessage' => (string)$eCodes[$ecode]
 		);
 	} else {
 		return array(
-			'success'      => (boolean)true,
+			'success'      => true,
 			'url'          => (string)$p->p_uuid,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => $a
 		);
 	}
 }

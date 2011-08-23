@@ -31,6 +31,7 @@ $p = new person();
 $p->init();
 
 $p->theString = file_get_contents('referenceXML_RU.xml');
+//$p->theString = file_get_contents('RU.xml');
 $p->xmlFormat = "REUNITE3";
 
 //$p->theString = file_get_contents('referenceXML_TP.xml');
@@ -38,6 +39,8 @@ $p->xmlFormat = "REUNITE3";
 
 $p->parseXml();
 $p->insert();
+
+echo "\n\n".$p->p_uuid."\n\n";
 
 
 

@@ -400,7 +400,7 @@ class personEdxl {
 				".$this->sql_content_descr.",
 				".$this->sql_incident_id.",
 				".$this->sql_incident_descr.",
-				".$this->sql_confifentiality." );
+				".$this->sql_confidentiality." );
 		";
 		$result = $this->db->Execute($q);
 
@@ -422,12 +422,21 @@ class personEdxl {
 				peds,
 				triage_category )
 			VALUES (
-				".$this->sql_de_id.",
 				".$this->sql_co_id.",
-				".$this->sql_content_descr.",
-				".$this->sql_incident_id.",
-				".$this->sql_incident_descr.",
-				".$this->sql_confifentiality." );
+				".$this->sql_p_uuid.",
+				".$this->sql_schema_version.",
+				".$this->sql_login_machine.",
+				".$this->sql_login_account.",
+				".$this->sql_person_id.",
+				".$this->sql_event_name.",
+				".$this->sql_event_long_name.",
+				".$this->sql_org_name.",
+				".$this->sql_org_id.",
+				".$this->sql_last_name.",
+				".$this->sql_first_name.",
+				".$this->sql_gender.",
+				".$this->sql_peds.",
+				".$this->sql_triage_category." );
 		";
 		$result = $this->db->Execute($q);
 	}
@@ -857,6 +866,7 @@ class person {
 	// holds the XML/format if used to instantiate in this manner
 	public $theString; // object is initialized as a string first, then parsed into an array
 	public $xmlFormat; // enumerated constant denoting type of the XML being loaded ~ REUNITE, TRIAGEPIC
+	public $a; // holds the array of the parsed xml
 
 	// table person_uuid
 	public $p_uuid;
@@ -927,6 +937,7 @@ class person {
 
 		$this->theString      = null;
 		$this->xmlFormat      = null;
+		$this->a              = null;
 
 		$this->p_uuid         = null;
 		$this->full_name      = null;
@@ -984,6 +995,7 @@ class person {
 	public function __destruct() {
 		$this->theString      = null;
 		$this->xmlFormat      = null;
+		$this->a              = null;
 
 		$this->p_uuid         = null;
 		$this->full_name      = null;
@@ -1198,8 +1210,15 @@ class person {
 		}
 
 		//$a = xml2array($this->theString);
-		$aa = new XMLParser($this->theString);
-		$a = $aa->getOutput();
+		$aa = new XMLParser();
+		$aa->rawXML = $this->theString;
+		$aa->parse();
+
+		if($aa->getError()) {
+			return (int)403; // error code for failed to parse xml
+		}
+
+		$a = $aa->getArray();
 
 		// parse REUNITE3 XML
 		if($this->xmlFormat == "REUNITE3") {
@@ -1255,6 +1274,8 @@ class person {
 				return (int)402;
 			}
 
+			// no errors
+			return 0;
 
 		// parse TRIAGEPIC1 XML
 		} elseif($this->xmlFormat == "TRIAGEPIC1") {
@@ -1335,8 +1356,8 @@ class person {
 			$this->edxl->confidentiality = $a['EDXLDistribution'][0]['confidentiality'];
 			$this->edxl->p_uuid          = $this->p_uuid;
 			$this->edxl->schema_version  = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['version'];
-			$this->edxl->login_machine   = null;
-			$this->edxl->login_account   = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['login'];
+			$this->edxl->login_machine   = 1; //null; HACK! cant be null
+			$this->edxl->login_account   = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['login']['username'];
 			$this->edxl->person_id       = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['personId'];
 			$this->edxl->event_name      = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['eventName'];
 			$this->edxl->event_long_name = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['eventLongName'];
@@ -1355,7 +1376,9 @@ class person {
 			$this->edxl->combined_conf   = $a['EDXLDistribution']['combinedConfidentiality'];
 			$this->edxl->language        = null;
 			$this->edxl->when_here       = $this->creation_time;
-			$this->edxl->inbound         = null;
+			$this->edxl->inbound         = 1; //null; HACK! cant be null
+
+			return 0;
 		}
 	}
 }
@@ -2299,7 +2322,7 @@ class goo_gl{
 class XMLParser  {
 
 	// raw xml
-	private $rawXML;
+	public $rawXML;
 
 	// xml parser
 	private $parser = null;
@@ -2313,23 +2336,29 @@ class XMLParser  {
 
 	// return data
 	private $output = array();
-	private $status;
+	private $errorMessage;
 
-	public function XMLParser($xml){
-		$this->rawXML = $xml;
+	// true if an error was encountered
+	private $error;
+
+
+	public function __construct() {
+		$this->error = false;
+		$this->rawXML = null;
 		$this->parser = xml_parser_create();
-		return $this->parse();
 	}
 
-	private function parse(){
+
+	public function parse(){
 
 		$parser = $this->parser;
 
 		xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, 0); // Dont mess with my cAsE sEtTings
 		xml_parser_set_option($parser, XML_OPTION_SKIP_WHITE, 1);     // Dont bother with empty info
 		if(!xml_parse_into_struct($parser, $this->rawXML, $this->valueArray, $this->keyArray)) {
-			$this->status = 'error: '.xml_error_string(xml_get_error_code($parser)).' at line '.xml_get_current_line_number($parser);
-			return false;
+			$this->errorMessage = 'error: '.xml_error_string(xml_get_error_code($parser)).' at line '.xml_get_current_line_number($parser);
+			$this->error = true;
+			return;
 		}
 		xml_parser_free($parser);
 
@@ -2375,7 +2404,7 @@ class XMLParser  {
 			$increment++;
 		}
 		$this->status = 'success: xml was parsed';
-		return true;
+		return;
 	}
 
 
@@ -2414,13 +2443,18 @@ class XMLParser  {
 	}
 
 
-	public function getOutput(){
+	public function getArray(){
 		return $this->output;
 	}
 
 
-	public function getStatus(){
-		return $this->status;
+	public function getError(){
+		return $this->error;
+	}
+
+
+	public function getErrorMessage(){
+		return $this->errorMessage;
 	}
 }
 

@@ -1,6 +1,6 @@
 <EDXLDistribution xmlns="urn:oasis:names:tc:emergency:EDXL:DE:1.0">
 	<distributionID>NPI 1234567890 2011-06-28T00:04:52Z</distributionID>
-	<senderID></senderID>
+	<senderID>test@org.org</senderID>
 	<dateTimeSent>2011-06-28T00:04:52Z</dateTimeSent>
 	<distributionStatus>Exercise</distributionStatus>
 	<distributionType>Report</distributionType>
