@@ -42,5 +42,6 @@ define("ERRORCODES", serialize(array(
 	400  => "Invalid enumeration.",
 	401  => "Duplicate person report ~ p_uuid collision.",
 	402  => "Invalid p_uuid ~ out of range.",
+	403  => "Error parsing XML.",
 	9999 => "Unknown error.",
 )));
