@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      1.9.4
+ * @version      1.9.5
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0705
+ * @lastModified 2011.0823
  */
 
 // INTERNAL PLUS TESTER //

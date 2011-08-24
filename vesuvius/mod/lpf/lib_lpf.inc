@@ -8,7 +8,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0810
+ * @lastModified 2011.0823
  */
 
 
@@ -102,6 +102,12 @@ class personEdxl {
 	private $sql_when_here;
 	private $sql_inbound;
 
+	// edxl_co_photos
+	public $mimeTypes;
+	public $uris;
+	public $contentDatas;
+
+
 	// Constructor
 	public function __construct() {
 		// init db
@@ -137,6 +143,10 @@ class personEdxl {
 		$this->language        = null;
 		$this->when_here       = null;
 		$this->inbound         = null;
+
+		$this->mimeTypes    = array();
+		$this->uris         = array();
+		$this->contentDatas = array();
 
 		$this->sql_de_id           = null;
 		$this->sql_co_id           = null;
@@ -201,6 +211,10 @@ class personEdxl {
 		$this->language        = null;
 		$this->when_here       = null;
 		$this->inbound         = null;
+
+		$this->mimeTypes    = null;
+		$this->uris         = null;
+		$this->contentDatas = null;
 
 		$this->sql_de_id           = null;
 		$this->sql_co_id           = null;
@@ -439,6 +453,24 @@ class personEdxl {
 				".$this->sql_triage_category." );
 		";
 		$result = $this->db->Execute($q);
+
+		for($i = 0; $i < sizeof($this->contentDatas); $i++) {
+			$q = "
+				INSERT INTO edxl_co_photos (
+					co_id,
+					p_uuid,
+					mimeType,
+					uri,
+					contentData )
+				VALUES (
+					".$this->sql_co_id.",
+					".$this->sql_p_uuid.",
+					'".mysql_real_escape_string($this->mimeTypes[$i])."',
+					'".mysql_real_escape_string($this->uris[$i])."',
+					'".mysql_real_escape_string($this->contentDatas[$i])."' );
+			";
+			$result = $this->db->Execute($q);
+		}
 	}
 }
 
@@ -770,7 +802,7 @@ class personImage {
 
 		// generate path and filename portion
 		$a = explode("/", $this->p_uuid);
-		$filename = $a[1]; // take the person.123456 out of the pl.nlm.nih.gov/person.123456 uuid
+		$filename = $a[0]."_".$a[1]; // make pl.nlm.nih.gov/person.123456 into pl.nlm.nih.gov_person.123456
 		$filename = $filename."_".$this->image_id."_"; // filename now like person.123456_112233_
 		$path = $global['approot']."www/tmp/plus_cache/".$filename; // path is now like /opt/pl/www/tmp/plus_cache/person.123456_112233_
 
@@ -1275,7 +1307,7 @@ class person {
 			}
 
 			// no errors
-			return 0;
+			return (int)0;
 
 		// parse TRIAGEPIC1 XML
 		} elseif($this->xmlFormat == "TRIAGEPIC1") {
@@ -1311,14 +1343,13 @@ class person {
 			}
 
 			// <dateTimeSent>2011-03-28T07:52:17Z</dateTimeSent>
-			$datetime = $a['EDXLDistribution']['dateTimeSent'];
-			$datetime = str_replace("T", " ", $date);
-			$datetime = str_replace("Z", "", $date);
-			$timezone = new DateTimeZone("UTC");
-			$datetime2 = new DateTime();
-			$datetime2->setTimezone($timezone);
+			$datetime      = $a['EDXLDistribution']['dateTimeSent'];
+			$timezoneUTC   = new DateTimeZone("UTC");
+			$timezoneLocal = new DateTimeZone(date_default_timezone_get());
+			$datetime2     = new DateTime();
+			$datetime2->setTimezone($timezoneUTC);
 			$datetime2->setTimestamp(strtotime($datetime));
-			$datetime2->setTimezone(date_default_timezone_get());
+			$datetime2->setTimezone($timezoneLocal);
 			$this->last_updated  = $datetime2->format('Y-m-d H:i:s');
 			$this->creation_time = $datetime2->format('Y-m-d H:i:s');
 
@@ -1356,7 +1387,7 @@ class person {
 			$this->edxl->confidentiality = $a['EDXLDistribution'][0]['confidentiality'];
 			$this->edxl->p_uuid          = $this->p_uuid;
 			$this->edxl->schema_version  = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['version'];
-			$this->edxl->login_machine   = 1; //null; HACK! cant be null
+			$this->edxl->login_machine   = "n/a"; //null; HACK! cant be null
 			$this->edxl->login_account   = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['login']['username'];
 			$this->edxl->person_id       = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['personId'];
 			$this->edxl->event_name      = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['eventName'];
@@ -1378,7 +1409,35 @@ class person {
 			$this->edxl->when_here       = $this->creation_time;
 			$this->edxl->inbound         = 1; //null; HACK! cant be null
 
-			return 0;
+
+			// parse all images
+			for($n = 0; $n < sizeof($a['EDXLDistribution']); $n++) {
+				if(isset($a['EDXLDistribution'][$n]['nonXMLContent']) && $a['EDXLDistribution'][$n]['nonXMLContent'] != null) {
+					//echo "\n\n".var_export($a['EDXLDistribution'][$n]['nonXMLContent'], true)."\n\n";
+					$imageNode = $a['EDXLDistribution'][$n]['nonXMLContent'];
+
+					// create sahana image
+					if(trim($imageNode['contentData']) != "") {
+						$i = new personImage();
+						$i->init();
+						$i->p_uuid = $this->p_uuid;
+						$i->fileContentBase64 = $imageNode['contentData'];
+						$this->images[] = $i;
+					}
+
+					// create edxl image
+					$this->edxl->mimeTypes[]    = $imageNode['mimeType'];
+					$this->edxl->uris[]         = $imageNode['uri'];
+					$this->edxl->contentDatas[] = $imageNode['contentData'];
+				}
+			}
+
+			// exit with success
+			return (int)0;
+
+		// how did we get here?
+		} else {
+			return (int)9999;
 		}
 	}
 }

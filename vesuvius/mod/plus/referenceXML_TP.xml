@@ -1,7 +1,7 @@
 <EDXLDistribution xmlns="urn:oasis:names:tc:emergency:EDXL:DE:1.0">
-	<distributionID>NPI 1234567890 2011-06-28T00:04:52Z</distributionID>
+	<distributionID>NPI 1234567890 2011-08-08T16:20:00Z</distributionID>
 	<senderID>test@org.org</senderID>
-	<dateTimeSent>2011-06-28T00:04:52Z</dateTimeSent>
+	<dateTimeSent>2011-08-08T16:20:00Z</dateTimeSent>
 	<distributionStatus>Exercise</distributionStatus>
 	<distributionType>Report</distributionType>
 	<combinedConfidentiality>UNCLASSIFIED AND NOT SENSITIVE</combinedConfidentiality>
@@ -38,8 +38,8 @@
 						<orgName>NLM (testing)</orgName>
 						<orgId>1234567890</orgId>
 					</organization>
-					<lastName>Miernicki</lastName>
-					<firstName>Greg</firstName>
+					<lastName>DontDelete</lastName>
+					<firstName>Test</firstName>
 					<gender>U</gender>
 					<genderEnum>M, F, U, C</genderEnum>
 					<genderEnumDesc>Male; Female; Unknown; Complex(M/F)</genderEnumDesc>
