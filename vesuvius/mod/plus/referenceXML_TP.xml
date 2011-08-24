@@ -38,8 +38,8 @@
 						<orgName>NLM (testing)</orgName>
 						<orgId>1234567890</orgId>
 					</organization>
-					<lastName>DontDelete</lastName>
-					<firstName>Test</firstName>
+					<lastName>WebServices</lastName>
+					<firstName>TestFrom</firstName>
 					<gender>U</gender>
 					<genderEnum>M, F, U, C</genderEnum>
 					<genderEnumDesc>Male; Female; Unknown; Complex(M/F)</genderEnumDesc>
