@@ -1095,7 +1095,7 @@ class person {
 		if($this->opt_gender == "M") {
 			$this->opt_gender = "mal";
 		} elseif($this->opt_gender == "F") {
-			$this->opt_gender = "'fml'";
+			$this->opt_gender = "fml";
 		} elseif($this->opt_gender == "C") {
 			$this->opt_gender = "cpx";
 		} elseif($this->opt_gender == "U") {
