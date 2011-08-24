@@ -2,7 +2,19 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
 
-// ALL BELOW CHANGES ARE IN PRODUCTION //
+///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
+
+
+
+2011:0824 Greg
+--------------
+
+ALTER TABLE  `edxl_co_photos` ADD  `image_id` INT( 20 ) NULL DEFAULT NULL COMMENT  'reference to the image.image_id field' ;
+
+ALTER TABLE  `edxl_co_header` ADD  `p_uuid` VARCHAR( 128 ) NULL DEFAULT NULL COMMENT  'ties the contentObject to a person' AFTER  `co_id` ,
+ADD  `type` ENUM(  'lpf',  'tep',  'pix' ) NULL DEFAULT NULL COMMENT  'defines the type of the contentObject' AFTER  `p_uuid` ;
+
+ALTER TABLE  `edxl_co_photos` ADD PRIMARY KEY (  `co_id` ,  `p_uuid` ) ;
 
 
 2011:0823 Greg
