@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      1.9.4
+ * @version      1.9.5
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0705
+ * @lastModified 2011.0823
  */
 
 function init() {
@@ -521,7 +521,8 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $user, $pass) {
 	echo "<tr><td>".$count."</td><td class=\"func\">reportPerson</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
-		$result = $client->call('reportPerson', array('personXML'=>$personXML, 'eventShortName'=>$eventShortName, 'xmlFormat'=>$xmlFormat, 'username'=>$user, 'password'=>$pass));
+		$x = file_get_contents("referenceXML_TP.xml");
+		$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {

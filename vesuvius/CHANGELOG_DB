@@ -1,6 +1,12 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+2011:0823 Greg
+--------------
+
+ALTER TABLE edxl_co_photos DROP PRIMARY KEY` ;
+
+
 2011:0822 Greg
 --------------
 ALTER TABLE  `edxl_co_header` CHANGE  `co_id`  `co_id` INT( 11 ) NOT NULL ;

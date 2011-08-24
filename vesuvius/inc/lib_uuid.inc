@@ -1,7 +1,7 @@
 <?
 /**
  * @name         UUID Library
- * @version      1.0
+ * @version      1.1
  * @package      framework
  * @author       Janaka Wickramasinghe <janaka@opensource.lk>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
@@ -9,7 +9,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0823
  */
 
 
