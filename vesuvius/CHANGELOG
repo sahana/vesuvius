@@ -1,6 +1,57 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
+2011:0823 Greg
+--------------
+
++ mod/pref - people I'm tracking cleaned up ALOT
+
++ mod/ha - ui cleanup
+
+- mod/admin ripped and torn up (aka cleaned up of all old legacy code)
+
++ mod/pop ~  renamed outbound email and has a traversable log page and status indicator
++ mod/mpres ~  renamed inbound email and has a traversable log page and cron status monitor
+
+
+PLUS 1.9.5
++ new api version
++ new GUI module
++ raw access log
++ report person log
++ access statistics
++ reportPerson (TRIAGEPIC1, REUNITE3) compatibility
+
+PLUS SPECIFI CHANGES:
+
+Changes in v1.9.5
++ reportPerson
++ createPersonUuid
++ createPersonUuidBatch
++ createNoteUuid
++ createNoteUuidBatch
+
+Changes in v1.9.4
++ search
++ searchWithAuth
+
+Changes in v1.9.3
++ registerUser
++ changeUserPassword
++ resetUserPassword
++ forgotUsername
++ checkUserAuth
++ getUserStatus
++ getUserGroup
++ getSessionTimeout
+
+Changes in v1.9.2
+- getIncidentList (deprecated and removed)
++ getEventList
++ getEventListUser
++ getGroupList
+
+
 2011:0801 Greg
 --------------
 LOGIN Failure goes back to login screen

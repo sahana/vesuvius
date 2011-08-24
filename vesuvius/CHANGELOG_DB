@@ -1,6 +1,10 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+
+// ALL BELOW CHANGES ARE IN PRODUCTION //
+
+
 2011:0823 Greg
 --------------
 
@@ -20,9 +24,6 @@ CREATE TABLE  `edxl_co_header_seq` (
 `id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  'stores next id in sequence for the edxl_co_header table'
 ) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
 
-********************************
-** ALSO SET DEFAULT VALUES!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1111111111111111111111
-********************************
 
 2011:0818 Greg
 --------------
