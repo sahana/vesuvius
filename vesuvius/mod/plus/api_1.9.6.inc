@@ -1426,10 +1426,10 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 		if(!$error) {
 			$p = new person();
 			$p->init();
+			$p->rep_uuid  = $rep_uuid;
 			$p->theString = $personXML;
 			$p->xmlFormat = $xmlFormat;
 			$ecode = $p->parseXml();
-			$p->rep_uuid = $rep_uuid;
 			if($ecode == 0) {
 				$p->insert();
 			} else {

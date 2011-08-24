@@ -37,7 +37,7 @@ class personEdxl {
 
 	// edxl_co_header
 	public $de_id;
-	public $co_id;
+	public $co_id;          // co_id is for the person (onle and
 	public $content_descr;  // content description
 	public $incident_id;    // event id
 	public $incident_descr; // incident description
@@ -52,6 +52,7 @@ class personEdxl {
 
 	// edxl_co_lpf
 	public $p_uuid;
+	public $type;
 	public $schema_version;
 	public $login_machine;
 	public $login_account;
@@ -67,6 +68,7 @@ class personEdxl {
 	public $triage_category;
 
 	private $sql_p_uuid;
+	private $sql_type;
 	private $sql_schema_version;
 	private $sql_login_machine;
 	private $sql_login_account;
@@ -106,6 +108,8 @@ class personEdxl {
 	public $mimeTypes;
 	public $uris;
 	public $contentDatas;
+	public $image_ids;
+	public $image_co_ids;
 
 
 	// Constructor
@@ -121,6 +125,7 @@ class personEdxl {
 		$this->incident_descr  = null;
 		$this->confidentiality = null;
 		$this->p_uuid          = null;
+		$this->type            = null;
 		$this->schema_version  = null;
 		$this->login_machine   = null;
 		$this->login_account   = null;
@@ -147,6 +152,8 @@ class personEdxl {
 		$this->mimeTypes    = array();
 		$this->uris         = array();
 		$this->contentDatas = array();
+		$this->image_ids    = array();
+		$this->image_co_ids = array();
 
 		$this->sql_de_id           = null;
 		$this->sql_co_id           = null;
@@ -155,6 +162,7 @@ class personEdxl {
 		$this->sql_incident_descr  = null;
 		$this->sql_confidentiality = null;
 		$this->sql_p_uuid          = null;
+		$this->sql_type            = null;
 		$this->sql_schema_version  = null;
 		$this->sql_login_machine   = null;
 		$this->sql_login_account   = null;
@@ -189,6 +197,7 @@ class personEdxl {
 		$this->incident_descr  = null;
 		$this->confidentiality = null;
 		$this->p_uuid          = null;
+		$this->type            = null;
 		$this->schema_version  = null;
 		$this->login_machine   = null;
 		$this->login_account   = null;
@@ -215,6 +224,8 @@ class personEdxl {
 		$this->mimeTypes    = null;
 		$this->uris         = null;
 		$this->contentDatas = null;
+		$this->image_ids    = null;
+		$this->image_co_ids = null;
 
 		$this->sql_de_id           = null;
 		$this->sql_co_id           = null;
@@ -223,6 +234,7 @@ class personEdxl {
 		$this->sql_incident_descr  = null;
 		$this->sql_confidentiality = null;
 		$this->sql_p_uuid          = null;
+		$this->sql_type            = null;
 		$this->sql_schema_version  = null;
 		$this->sql_login_machine   = null;
 		$this->sql_login_account   = null;
@@ -272,6 +284,12 @@ class personEdxl {
 
 		// update sequences
 
+		$this->co_id = $this->getNew_co_id();
+		$this->de_id = $this->getNew_de_id();
+	}
+
+
+	public function getNew_co_id() {
 		$q = "
 			DELETE FROM `edxl_co_header_seq`
 			WHERE `id` like '%';
@@ -289,9 +307,11 @@ class personEdxl {
 			FROM  `edxl_co_header_seq`
 		";
 		$result = $this->db->Execute($q);
-		$this->co_id = $result->fields['id'];
+		return $result->fields['id'];
+	}
 
 
+	public function getNew_de_id() {
 		$q = "
 			DELETE FROM `edxl_de_header_seq`
 			WHERE `id` like '%';
@@ -309,8 +329,7 @@ class personEdxl {
 			FROM  `edxl_de_header_seq`
 		";
 		$result = $this->db->Execute($q);
-		$this->de_id = $result->fields['id'];
-
+		return $result->fields['id'];
 	}
 
 
@@ -346,6 +365,7 @@ class personEdxl {
 		$this->sql_incident_descr  = ($this->content_descr   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->content_descr)."'";
 		$this->sql_confidentiality = ($this->confidentiality == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->confidentiality)."'";
 		$this->sql_p_uuid          = ($this->p_uuid          == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
+		$this->sql_type            = ($this->type            == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->type)."'";
 		$this->sql_schema_version  = ($this->schema_version  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->schema_version)."'";
 		$this->sql_login_machine   = ($this->login_machine   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->login_machine)."'";
 		$this->sql_login_account   = ($this->login_account   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->login_account)."'";
@@ -404,6 +424,8 @@ class personEdxl {
 			INSERT INTO edxl_co_header (
 				de_id,
 				co_id,
+				p_uuid,
+				type,
 				content_descr,
 				incident_id,
 				incident_descr,
@@ -411,6 +433,8 @@ class personEdxl {
 			VALUES (
 				".$this->sql_de_id.",
 				".$this->sql_co_id.",
+				".$this->sql_p_uuid.",
+				".$this->sql_type.",
 				".$this->sql_content_descr.",
 				".$this->sql_incident_id.",
 				".$this->sql_incident_descr.",
@@ -461,13 +485,15 @@ class personEdxl {
 					p_uuid,
 					mimeType,
 					uri,
-					contentData )
+					contentData,
+					image_id )
 				VALUES (
-					".$this->sql_co_id.",
+					'".mysql_real_escape_string($this->image_co_ids[$i])."',
 					".$this->sql_p_uuid.",
 					'".mysql_real_escape_string($this->mimeTypes[$i])."',
 					'".mysql_real_escape_string($this->uris[$i])."',
-					'".mysql_real_escape_string($this->contentDatas[$i])."' );
+					'".mysql_real_escape_string($this->contentDatas[$i])."',
+					'".mysql_real_escape_string($this->image_ids[$i])."' );
 			";
 			$result = $this->db->Execute($q);
 		}
@@ -1208,6 +1234,7 @@ class person {
 
 		$this->insertImages();
 		$this->insertEdxl();
+		$this->makePfifNote();
 	}
 
 
@@ -1227,8 +1254,62 @@ class person {
 
 	public function makePfifNote() {
 		global $global;
-		// we use the pfif lib to create pfif notes in managing persons...
+		require_once($global['approot']."inc/lib_uuid.inc");
 		require_once($global['approot']."mod/pfif/pfif.inc");
+
+		$p = new Pfif();
+
+		$n = new Pfif_Note();
+		$n->note_record_id          = shn_create_uuid('pfif_note');
+		$n->person_record_id        = $this->p_uuid;
+		$n->linked_person_record_id = null;
+		$n->entry_date              = $this->creation_time;
+		$n->author_phone            = null;
+		$n->source_date             = $this->creation_time;
+		$n->status                  = "is_note_author";
+		$n->email_of_found_person   = null;
+		$n->phone_of_found_person   = null;
+		$n->last_known_location     = $this->last_seen;
+		$n->text                    = $this->other_comments;
+
+		// find author name and email...
+		$q = "
+			SELECT *
+			FROM contact c, person_uuid p
+			WHERE p.p_uuid = c.p_uuid
+			AND c.opt_contact_type = 'email'
+			AND p.p_uuid = '".$this->rep_uuid."';
+		";
+		$result = $this->db->Execute($q);
+		if($result != NULL && !$result->EOF) {
+			$n->author_name  = $result->fields['full_name'];
+			$n->author_email = $result->fields['contact_value'];
+		} else {
+			$n->author_name  = null;
+			$n->author_email = null;
+		}
+
+		// figure out this person's pfif status...
+		if($this->opt_status == "fnd") {
+			$n->found = "true";
+		} else {
+			$n->found = null;
+		}
+
+		// found the index (if it exists) for the pfif repo associated with this event
+		$q = "
+			SELECT *
+			FROM  `pfif_repository`
+			WHERE `incident_id` = '".$this->incident_id."';
+		";
+		$result = $this->db->Execute($q);
+
+		// if a pfif repo is associated with this event (incident_id) then generate note, else do nothing...
+		if($result != NULL && !$result->EOF) {
+			$p->setSourceReposId($result->fields['id']);
+			$p->setNote($n);
+			$p->storeInDatabase($this->incident_id);
+		}
 	}
 
 
@@ -1408,6 +1489,7 @@ class person {
 			$this->edxl->language        = null;
 			$this->edxl->when_here       = $this->creation_time;
 			$this->edxl->inbound         = 1; //null; HACK! cant be null
+			$this->edxl->type            = "lpf";
 
 
 			// parse all images
@@ -1422,6 +1504,7 @@ class person {
 						$i->init();
 						$i->p_uuid = $this->p_uuid;
 						$i->fileContentBase64 = $imageNode['contentData'];
+						$i->original_filename = $imageNode['uri'];
 						$this->images[] = $i;
 					}
 
@@ -1429,6 +1512,8 @@ class person {
 					$this->edxl->mimeTypes[]    = $imageNode['mimeType'];
 					$this->edxl->uris[]         = $imageNode['uri'];
 					$this->edxl->contentDatas[] = $imageNode['contentData'];
+					$this->edxl->image_ids[]    = $i->image_id;
+					$this->edxl->image_co_ids[] = $this->edxl->getNew_co_id();
 				}
 			}
 

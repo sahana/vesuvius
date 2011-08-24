@@ -74,7 +74,7 @@ class Pfif {
    private $loadFilters = array();
 
    public function __construct() {
-      
+
    }
 
    // Set service.
@@ -95,6 +95,10 @@ class Pfif {
 
    public function getVersion() {
       return $this->pfif_version;
+   }
+
+   public function setSourceReposId($id) {
+      $this->service['repository']->id = $id;
    }
 
    public function getSourceReposId() {
@@ -142,7 +146,7 @@ class Pfif {
       if (!empty($value)) {
          //$child = $this->dom_pfif->createElement($property, $value);
          $child = $this->dom_pfif->createElement($property);
-         // FIXME: createTextNode escapes the text; use alternate approach above if 
+         // FIXME: createTextNode escapes the text; use alternate approach above if
          // this is not what we want.
          $text = $this->dom_pfif->createTextNode($value);
          $child->appendChild($text);
@@ -192,7 +196,7 @@ class Pfif {
 
    /**
     *  Returns a PFIF-compliant XML document containing person and note records loaded into this PFIF instance.
-    *  Used primarily for export, but also used for debugging import. If filtering on dates has already occurred at 
+    *  Used primarily for export, but also used for debugging import. If filtering on dates has already occurred at
     *  search time, but if only original records are desired now, reuse the original date constraints for refiltering.
     */
    public function storeInXML($embed=true, $original=false) {
@@ -217,8 +221,8 @@ class Pfif {
             $this->reset_log_dates($pfif_persons[0]->entry_date);
             foreach ($pfif_persons as $person) {
                // Is this an original record meeting the date constraint?
-               if ((strtotime($person->source_date) > $start) && 
-                   (strtotime($person->source_date) < $end) && 
+               if ((strtotime($person->source_date) > $start) &&
+                   (strtotime($person->source_date) < $end) &&
                    (strncmp($person->person_record_id, $conf['base_uuid'], strlen($conf['base_uuid']))==0)) {
                   $personElement = $this->createPersonElement($person);
                   $this->dom_pfif->firstChild->appendChild($personElement);
@@ -231,8 +235,8 @@ class Pfif {
             $this->reset_log_dates($pfif_notes[0]->entry_date);
             foreach ($pfif_notes as $note) {
                // Is this an original record meeting the date constraint?
-               if ((strtotime($note->source_date) > $start) && 
-                   (strtotime($note->source_date) < $end) && 
+               if ((strtotime($note->source_date) > $start) &&
+                   (strtotime($note->source_date) < $end) &&
                    (strncmp($note->note_record_id, $conf['base_uuid'], strlen($conf['base_uuid']))==0)) {
                   $noteElement = $this->createNoteElement($note);
                   $this->dom_pfif->firstChild->appendChild($noteElement);
@@ -483,7 +487,7 @@ class Pfif {
          }
       }
 
-      // FIXME: this is a workaround for errors resulting from empty elements. Need to rework the interface between 
+      // FIXME: this is a workaround for errors resulting from empty elements. Need to rework the interface between
       // process_persons/process_notes and getValueFromXmlElementTag to eliminate this.
       set_dummy_node_list($this->dom_pfif);
 
@@ -519,7 +523,7 @@ class Pfif {
          }
       }
 
-      // FIXME: this is a workaround for errors resulting from empty elements. Need to rework the interface between 
+      // FIXME: this is a workaround for errors resulting from empty elements. Need to rework the interface between
       // process_persons/process_notes and getValueFromXmlElementTag to eliminate this.
       set_dummy_node_list($this->dom_pfif);
 
@@ -736,7 +740,7 @@ class Pfif {
          //var_dump('lookup returns:',$lookup);
          if (count($lookup) > 0) {
             // Can't rely on notes coming in in source date order. (Only entry date order is assured.)
-            // So for each note, reprocess all existing notes for the associated person. 
+            // So for each note, reprocess all existing notes for the associated person.
             $this->_pfif_update_person_from_notes($note->person_record_id);
          }
       }
@@ -1090,9 +1094,9 @@ class Pfif {
       global $global;
       $sql = "SELECT a.p_uuid , a.full_name, a.family_name, a.given_name, a.expiry_date, e.birth_date as dob,
               e.opt_gender, e.years_old, e.minAge, e.maxAge, f.comments as physical_comments, f.height, f.weight,
-              f.opt_eye_color, f.opt_skin_color, f.opt_hair_color, g.contact_value as phone, h.contact_value as mobile, 
+              f.opt_eye_color, f.opt_skin_color, f.opt_hair_color, g.contact_value as phone, h.contact_value as mobile,
               i.contact_value as email, j.contact_value AS address, k.contact_value AS zip, e.last_seen,
-              e.other_comments, pr.rep_uuid as reporter, ps.status_id, ps.last_updated, ps.creation_time, 
+              e.other_comments, pr.rep_uuid as reporter, ps.status_id, ps.last_updated, ps.creation_time,
               ps.opt_status as `status`, im.url as image_url
 	      FROM person_uuid a
 	      LEFT OUTER JOIN person_details e ON e.p_uuid = a.p_uuid
@@ -1103,7 +1107,7 @@ class Pfif {
 	      LEFT OUTER JOIN contact j ON j.p_uuid = a.p_uuid AND j.opt_contact_type = 'home'
 	      LEFT OUTER JOIN contact k ON k.p_uuid = a.p_uuid AND k.opt_contact_type = 'zip'
               LEFT OUTER JOIN image im ON a.p_uuid = im.p_uuid
-              LEFT OUTER JOIN person_status ps ON ps.p_uuid = a.p_uuid        
+              LEFT OUTER JOIN person_status ps ON ps.p_uuid = a.p_uuid
               LEFT OUTER JOIN person_to_report pr ON pr.p_uuid = a.p_uuid
               $whereSql ";
       $array = $global['db']->GetAll($sql);
@@ -1142,7 +1146,7 @@ class Pfif {
       return $array;
    }
 
-   // Deletes reported person. Removes image files and all relevant DB entries, including 
+   // Deletes reported person. Removes image files and all relevant DB entries, including
    // reporter. (Does not delete the the reporter if he/she is registered with PL.)
    private function deleteReportedPerson($p_uuid) {
       global $global;
@@ -1200,7 +1204,7 @@ class Pfif {
       if (!empty($person->source_name)) {
          $insert_array['source_name'] = $person->source_name;
       }
-      // If source date is missing, use entry date. 
+      // If source date is missing, use entry date.
       if (!empty($person->source_date)) {
          $insert_array['source_date'] = $person->source_date;
       } else {
@@ -1275,7 +1279,7 @@ class Pfif {
       if (!empty($note->author_phone)) {
          $insert_array['author_phone'] = $note->author_phone;
       }
-      // If source date is missing, use entry date. 
+      // If source date is missing, use entry date.
       if (!empty($note->source_date)) {
          $insert_array['source_date'] = $note->source_date;
       } else {
