@@ -1,6 +1,6 @@
 <person>
 	<xmlFormat>REUNITE3</xmlFormat>
-	<p_uuid>pl.nlm.nih.gov/person.2998869</p_uuid>
+	<p_uuid>pl.nlm.nih.gov/person.2998778</p_uuid>
 	<dateTimeSent>2011-08-08 16:20:00 UTC</dateTimeSent>
 	<expiryDate>2012-08-08 16:20:00 UTC</expiryDate>
 	<eventId>1</eventId>
@@ -66,14 +66,16 @@
 	</photos>
 	<note></note>
 	<voiceNote>
-		<length></length>
-		<format></format>
-		<sampleRate></sampleRate>
-		<numberOfChannels></numberOfChannels>
-		<speaker></speaker>
+		<length>10</length>
+		<format>MPEG4AAC</format>
+		<sampleRate>22050</sampleRate>
+		<numberOfChannels>2</numberOfChannels>
+		<speaker>Other</speaker>
 		<speakerEnum>Person, Reporter, Other</speakerEnum>
-		<speakerEnumDesc>Used to identify speaker ie. 'Reporter' or 'Other'.</speakerEnumDesc>
-		<data></data>
+		<speakerEnumDesc>Used to identify speaker.</speakerEnumDesc>
+
+<data>iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABGdBTUEAALGPC/xhBQAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9sICxYbKjl6VwIAAAAIdEVYdENvbW1lbnQA9syWvwAAAvZJREFUeNrt282LlVUcB/CPo+OMY1hqkC9JuugFB1EkhUhEFCw0aeHare7ChdSiXdCq/0BRQUEQrU1uo8BUUBS1rDRCBqcXFBW0wfHt6uKcxSw8d7xzn3nmufc8XzgM/OaBc77f8zvv30uNGjVq1KiRLaaVVE8vVmFt/LsUb2EuBtCPx3iIu7iJYVzDFZzDVTzrJHF7sBWHcCc2vp1yC/uxLQpWWUzHLvxZAOlU+R+HsaJq5Nfjl0kk/qJyAuuq0Otf4WnJ5MeWCWFGAeT7cBSfjvNdA2dwCudxHTdiOj/ATMzGG1iG5fgw9u68qo73PvwwTs/8hd14vY1O2oR9GCk6A9pdQo80adC9SHxGgXW+hi9wuwoC7GlC/jLensS6X8U3eDJVAgxiNEH+bOypMrB6zKpTKn5MkB9qY6xPFAM4WGaFHyfIN/BBDueHnxIC7M2B/HsJ8o+wpBMJ9bT4/Y5E/Hjc1HQ9LiUyYEsO5BclyI/EbaxuHwJrE/FTcQ7oegFWJ+LnOjmtWxHg3UT8Si4CpJa567kIsDgR/y8XAeYk4rdzEWBWIj7ayQK08i7QSHzfU+Bx9FmJfFrOgNRa35vLEHiQiPfnIsD9RHxeLgL8nYgvzEWA1HF3WcGT8suUKRHgaiI+mEsGXEjE18gEb1boPmDKXod+TVS8tVMFaPVO8EQiviOXYTCYUP6xYHnp+iEAPycqP5CLAJ9Ivwytz0GAZlkwjAU5CLAyng5f1IgLmN/tAsCXTRryu2Bx6WoBpuHbJo0ZweeTsElarkI2mVk4qblHaEiwtbQzN/ThI3wfJ9vCBCjiZDWA72IDx0vbs1Gw84J5aljwEo0KVrvZeEUwWbwTyxpsjP8rg8+E0Ct4dhqmxiP4BzZUYae4WTA4l0X8X3ymYo+zMwV73NAkEr+EndJX9ZXAdGzHMeE+sR3CDVzE14LdvtClrAz0433hiX2l8HuBJYKdbiBmzSPh5vkO/okZ9JvgOTwd4zVq1KhRo0aNGoXhObWj54wHOSbHAAAAAElFTkSuQmCC</data>
+
 		<dataDesc>Base64 encoded file data</dataDesc>
 	</voiceNote>
 </person>
