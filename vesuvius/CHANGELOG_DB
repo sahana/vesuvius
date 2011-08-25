@@ -16,6 +16,8 @@ ADD  `type` ENUM(  'lpf',  'tep',  'pix' ) NULL DEFAULT NULL COMMENT  'defines t
 
 ALTER TABLE  `edxl_co_photos` ADD PRIMARY KEY (  `co_id` ,  `p_uuid` ) ;
 
+ALTER TABLE  `edxl_co_header` DROP INDEX  `de_id` , ADD INDEX  `de_id` (  `de_id` ) ;
+
 
 2011:0823 Greg
 --------------

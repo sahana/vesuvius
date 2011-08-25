@@ -496,6 +496,28 @@ class personEdxl {
 					'".mysql_real_escape_string($this->image_ids[$i])."' );
 			";
 			$result = $this->db->Execute($q);
+
+			$q = "
+				INSERT INTO edxl_co_header (
+					de_id,
+					co_id,
+					p_uuid,
+					type,
+					content_descr,
+					incident_id,
+					incident_descr,
+					confidentiality )
+				VALUES (
+					".$this->sql_de_id.",
+					'".mysql_real_escape_string($this->image_co_ids[$i])."',
+					".$this->sql_p_uuid.",
+					'pix',
+					".$this->sql_content_descr.",
+					".$this->sql_incident_id.",
+					".$this->sql_incident_descr.",
+					".$this->sql_confidentiality." );
+			";
+			$result = $this->db->Execute($q);
 		}
 	}
 }
