@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         LPF Library
- * @version      0.9
+ * @version      23
  * @package      lpf
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0823
+ * @lastModified 2011.0825
  */
 
 
@@ -19,6 +19,215 @@ $global['enumGenders']          = array('M', 'F', 'U', 'C');
 $global['enumDistrStatus']      = array('Actual', 'Exercise', 'System', 'Test');
 $global['enumDistrType']        = array('Ack', 'Cancel', 'Dispatch', 'Error', 'Report', 'Request', 'Response', 'Update');
 $global['enumXmlFormats']       = array('REUNITE3', 'TRIAGEPIC1');
+
+
+
+/** ******************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+********************************************************************************************************************************************************************
+*
+* @class        voiceNote
+* @version      1.0
+* @author       Greg Miernicki <g@miernicki.com>
+*
+********************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************/
+
+class voiceNote {
+
+	public $voice_id;
+	public $p_uuid;
+	public $length;
+	public $format;
+	public $sample_rate;
+	public $channels;
+	public $speaker;
+	public $url_original;
+	public $url_resampled;
+
+	private $sql_voice_id;
+	private $sql_p_uuid;
+	private $sql_length;
+	private $sql_format;
+	private $sql_sample_rate;
+	private $sql_channels;
+	private $sql_speaker;
+	private $sql_url_original;
+	private $sql_url_resampled;
+
+	public $dataBase64;
+	public $data;
+
+
+	// Constructor
+	public function __construct() {
+		// init db
+		global $global;
+		$this->db = $global['db'];
+
+		// init values
+		$this->voice_note_id = null;
+		$this->p_uuid        = null;
+		$this->length        = null;
+		$this->format        = null;
+		$this->sample_rate   = null;
+		$this->channels      = null;
+		$this->speaker       = null;
+		$this->url_original  = null;
+		$this->url_resampled = null;
+
+		$this->sql_voice_note_id = null;
+		$this->sql_p_uuid        = null;
+		$this->sql_length        = null;
+		$this->sql_format        = null;
+		$this->sql_sample_rate   = null;
+		$this->sql_channels      = null;
+		$this->sql_speaker       = null;
+		$this->sql_url_original  = null;
+		$this->sql_url_resampled = null;
+
+		$this->dataBase64 = null;
+		$this->data       = null;
+	}
+
+
+	// Destructor
+	public function __destruct() {
+		$this->voice_note_id = null;
+		$this->p_uuid        = null;
+		$this->length        = null;
+		$this->format        = null;
+		$this->sample_rate   = null;
+		$this->channels      = null;
+		$this->speaker       = null;
+		$this->url_original  = null;
+		$this->url_resampled = null;
+
+		$this->sql_voice_note_id = null;
+		$this->sql_p_uuid        = null;
+		$this->sql_length        = null;
+		$this->sql_format        = null;
+		$this->sql_sample_rate   = null;
+		$this->sql_channels      = null;
+		$this->sql_speaker       = null;
+		$this->sql_url_original  = null;
+		$this->sql_url_resampled = null;
+
+		$this->dataBase64 = null;
+		$this->data       = null;
+
+		// make sure tables are safe :)
+		$q = "UNLOCK TABLES;";
+		$result = $this->db->Execute($q);
+	}
+
+
+	// initializes some values for a new instance (instead of when we load a previous instance)
+	public function init() {
+		// update sequence
+		$q = "
+			DELETE FROM `voice_note_seq`
+			WHERE `id` like '%';
+		";
+		$result = $this->db->Execute($q);
+
+		$q = "
+			INSERT INTO  `voice_note_seq` (`id`)
+			VALUES (NULL);
+		";
+		$result = $this->db->Execute($q);
+
+		// get new index value
+		$q = "
+			SELECT *
+			FROM  `voice_note_seq`
+		";
+		$result = $this->db->Execute($q);
+		$this->voice_note_id = $result->fields['id'];
+	}
+
+
+	// synchronize SQL value strings with public attributes
+	private function sync() {
+		global $global;
+
+		// build SQL value strings
+
+		$this->sql_voice_note_id = ($this->voice_note_id == null) ? "NULL" : (int)$this->voice_note_id;
+		$this->sql_p_uuid        = ($this->p_uuid        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
+		$this->sql_length        = ($this->length        == null) ? "NULL" : (int)$this->length;
+		$this->sql_format        = ($this->format        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->format)."'";
+		$this->sql_sample_rate   = ($this->sample_rate   == null) ? "NULL" : (int)$this->sample_rate;
+		$this->sql_channels      = ($this->channels      == null) ? "NULL" : (int)$this->channels;
+		$this->sql_speaker       = ($this->speaker       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->speaker)."'";
+		$this->sql_url_original  = ($this->url_original  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_original)."'";
+		$this->sql_url_resampled = ($this->url_resampled == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_resampled)."'";
+	}
+
+
+	private function decode() {
+		$this->data = base64_decode($this->dataBase64);
+	}
+
+
+	private function write() {
+		global $global;
+
+		// base64 to hex
+		$this->decode();
+
+		// generate path and filename portion
+		$a = explode("/", $this->p_uuid);
+		$filename = $a[0]."_".$a[1]; // make pl.nlm.nih.gov/person.123456 into pl.nlm.nih.gov_person.123456
+		$filename = $filename."_vn".$this->voice_note_id."_"; // filename now like pl.nlm.nih.gov_person.123456_vn112233_
+		$path = $global['approot']."www/tmp/plus_cache/".$filename; // path is now like /opt/pl/www/tmp/plus_cache/pl.nlm.nih.gov_person.123456_vn112233_
+
+		// save original like /opt/pl/www/tmp/plus_cache/pl.nlm.nih.gov_person.123456_vn112233_original
+		file_put_contents($path."original", $this->data);
+		chmod($path."original", 0777);
+		$this->url_original  = "tmp/plus_cache/".$filename."original";
+
+		// FIX ME! Add MP3 or WAV support as the resampled file
+		// for now, save the original unresampled to act as the resampled only if it is an MPEG4AAC file
+		if($this->format == "MPEG4AAC") {
+			file_put_contents($path."resampled.m4a", $this->data);
+			chmod($path."resampled.m4a", 0777);
+			$this->url_resampled = "tmp/plus_cache/".$filename."resampled.m4a";
+		}
+	}
+
+
+	// save the voice note
+	public function insert() {
+		$this->write();
+		$this->sync();
+		$q = "
+			INSERT INTO voice_note (
+				voice_note_id,
+				p_uuid,
+				length,
+				format,
+				sample_rate,
+				channels,
+				speaker,
+				url_original,
+				url_resampled )
+			VALUES (
+				".$this->sql_voice_note_id.",
+				".$this->sql_p_uuid.",
+				".$this->sql_length.",
+				".$this->sql_format.",
+				".$this->sql_sample_rate.",
+				".$this->sql_channels.",
+				".$this->sql_speaker.",
+				".$this->sql_url_original.",
+				".$this->sql_url_resampled." );
+		";
+		$result = $this->db->Execute($q);
+	}
+}
+
 
 
 /** ******************************************************************************************************************************************************************
@@ -258,6 +467,7 @@ class personEdxl {
 		$this->sql_when_here       = null;
 		$this->sql_inbound         = null;
 
+		// make sure tables are safe :)
 		$q = "UNLOCK TABLES;";
 		$result = $this->db->Execute($q);
 	}
@@ -599,6 +809,7 @@ class personImageTag {
 		$this->sql_tag_h    = null;
 		$this->sql_tag_text = null;
 
+		// make sure tables are safe :)
 		$q = "UNLOCK TABLES;";
 		$result = $this->db->Execute($q);
 	}
@@ -778,6 +989,7 @@ class personImage {
 		$this->thumbnailPath         = null;
 		$this->tags                  = null;
 
+		// make sure tables are safe :)
 		$q = "UNLOCK TABLES;";
 		$result = $this->db->Execute($q);
 	}
@@ -984,6 +1196,9 @@ class person {
 	// person's edxl components
 	public $edxl;
 
+	// person's voice_note
+	public $voice_note;
+
 	// sql strings of the objetct's attributes
 	private $sql_p_uuid;
 	private $sql_full_name;
@@ -1044,6 +1259,7 @@ class person {
 
 		$this->images         = array();
 		$this->edxl           = null;
+		$this->voice_note     = null;
 
 		$this->sql_p_uuid         = null;
 		$this->sql_full_name      = null;
@@ -1102,6 +1318,7 @@ class person {
 
 		$this->images         = null;
 		$this->edxl           = null;
+		$this->voice_note     = null;
 
 		$this->sql_p_uuid         = null;
 		$this->sql_full_name      = null;
@@ -1257,6 +1474,14 @@ class person {
 		$this->insertImages();
 		$this->insertEdxl();
 		$this->makePfifNote();
+		$this->insertVoiceNote();
+	}
+
+
+	private function insertVoiceNote() {
+		if($this->voice_note != null) {
+			$this->voice_note->insert();
+		}
 	}
 
 
@@ -1391,6 +1616,20 @@ class person {
 					}
 					$this->images[] = $i;
 				}
+			}
+
+			// if there is actual voicenote data, save process it...
+			if(trim($a['person']['voiceNote']['data']) != "") {
+				$v = new voiceNote();
+				$v->init();
+				$v->p_uuid      = $this->p_uuid;
+				$v->dataBase64  = $a['person']['voiceNote']['data'];
+				$v->length      = $a['person']['voiceNote']['length'];
+				$v->format      = $a['person']['voiceNote']['format'];
+				$v->sample_rate = $a['person']['voiceNote']['sampleRate'];
+				$v->channels    = $a['person']['voiceNote']['numberOfChannels'];
+				$v->speaker     = $a['person']['voiceNote']['speaker'];
+				$this->voice_note = $v;
 			}
 
 			// check for p_uuid collision with already present data, return 401 error if p_uuid already exists
@@ -2563,6 +2802,9 @@ class XMLParser  {
 				} else {
 					// else send in tag
 					array_push($stack,  $val['tag']);
+				}
+				if(!isset($val['value'])) {
+					$val['value'] = null;
 				}
 				$this->setArrayValue($this->output, $stack, $val['value']);
 				array_pop($stack);

@@ -2,6 +2,22 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
 
+
+CREATE TABLE  `voice_note_seq` (
+`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  'stores next id in sequence for the voice_note table'
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci ;
+
+ALTER TABLE  `voice_note` CHANGE  `voicenote_id`  `voice_note_id` BIGINT( 20 ) NOT NULL ;
+ALTER TABLE  `voice_note` DROP  `original_filename` ;
+ALTER TABLE  `voice_note` DROP  `data` ;
+ALTER TABLE  `voice_note` CHANGE  `length`  `length` INT( 16 ) NULL DEFAULT NULL ;
+ALTER TABLE  `voice_note` CHANGE  `sample_rate`  `sample_rate` INT( 16 ) NULL DEFAULT NULL ;
+ALTER TABLE  `voice_note` CHANGE  `speaker`  `speaker` ENUM(  'Person',  'Reporter',  'Other' ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT  'Used to identify speaker.' ;
+ALTER TABLE  `voice_note` CHANGE  `url`  `url_original` VARCHAR( 1024 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT  'url of the original audio' ;
+ALTER TABLE  `voice_note` ADD  `url_resampled` VARCHAR( 1024 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT  'url of the resampled audio' ;
+ALTER TABLE  `voice_note` CHANGE  `p_uuid`  `p_uuid` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+
+
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
 
 
