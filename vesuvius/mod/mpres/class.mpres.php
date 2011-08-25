@@ -285,7 +285,7 @@ class mpres {
 					$this->person->incident_id = $this->incident_id;
 					$this->person->insertPerson();
 					$this->messages .= "Normal email found and person(".$this->person->uuid.") inserted.\n";
-					$this->replySuccess($this->person->uuid, $this->person->shortName);
+					$this->replySuccess($this->person->uuid, "");
 				}
 
 				// delete the message from the inbox
@@ -324,13 +324,19 @@ class mpres {
 
 
 
-	private function replySuccess($uuid, $name) {
+	private function replySuccess($uuid, $name="") {
 		global $global;
 		$p = new pop();
 
+		if($name == "") {
+			$event = "";
+		} else {
+			$event = " for event (".$name.")";
+		}
+
 		$subject  = "[AUTO-REPLY]: People Locator Record Submission SUCCESS";
 		$bodyHTML = "
-			Thank you for the person record you submitted for event(".$name."). It has been added to our registry and will show up in search results in a few minutes.<br>
+			Thank you for the person record you submitted".$event.". It has been added to our registry and will show up in search results in a few minutes.<br>
 			<br>
 			You can always view the record (and updates) of this person at the following url:<br>
 			<a href=\"https://".$uuid."\">https://".$uuid."</a><br>
@@ -340,7 +346,7 @@ class mpres {
 			<br>
 		";
 		$bodyAlt = "
-			Thank you for the person record you submitted for event(".$name."). It has been added to our registry and will show up in search results in a few minutes.\n
+			Thank you for the person record you submitted".$event.". It has been added to our registry and will show up in search results in a few minutes.\n
 			\n
 			You can always view the record (and updates) of this person at the following url:\n
 			https://".$uuid."</a>\n
