@@ -243,7 +243,8 @@ class lpfPatient {
 
 
 	public function extractStatusFromSubject() {
-		$s = strtolower($this->emailSubject);
+		$this->emailSubject = strtolower($this->emailSubject);
+		$s = $this->emailSubject;
 		$needle   = array();
 		$status   = array();
 
