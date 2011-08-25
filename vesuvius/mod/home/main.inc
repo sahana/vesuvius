@@ -128,11 +128,6 @@ function showList() {
            $nextMod = "inw";  //default
         }
 	foreach($events as $row) {
-		if(trim($row['description']) == "") {
-			$descript = "";
-		} else {
-			$descript = " - ".$row['description'];
-		}
 
 		echo "<span style=\"line-height: 160%; font-size: 120%;\">";
 
@@ -145,19 +140,19 @@ function showList() {
 		if($row['spacer'] == 0) {
 			echo "
 				<span style=\"color: red;\"><span style=\"text-shadow: 1px 1px 1px #000;\">▶</span></span>&nbsp;
-				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['description']."</a>".$descript."<br>
+				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['name']."</a>".$descript."<br>
 			";
 		} else if($row['spacer'] == 1) {
 			echo "
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				<span style=\"color: orange;\"><span style=\"text-shadow: 1px 1px 1px #000;\">▶</span></span>&nbsp;
-				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['description']."</a>".$descript."<br>
+				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['name']."</a>".$descript."<br>
 			";
 		} else if($row['spacer'] == 2) {
 			echo "
 				&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 				<span style=\"color: yellow;\"><span style=\"text-shadow: 1px 1px 1px #000;\">▶</span></span>&nbsp;
-				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['description']."</a>".$descript."<br>
+				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['name']."</a>".$descript."<br>
 			";
 		}
 
