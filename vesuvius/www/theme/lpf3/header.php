@@ -50,7 +50,7 @@ if(isset($_GET['shortname'])) {
 	// if the event shortname is valid....
 	if (!empty($arr)) {
 		foreach($arr as $row) {
-			$long = $row['name'];
+			$long = $row['description'];
 			$date = $row['date'];
 		}
 		// fix date
