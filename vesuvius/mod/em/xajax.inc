@@ -977,7 +977,7 @@ function em_perform_edit($incident_id) {
         // generate options for PFIF data sync with Google
                 $checkedSync = $rowpfif['sched_interval_minutes'] == "0" ? "" : "CHECKED";
 		$pfif = "
-			PF repository: <input type=\"text\" id=\"pfifUrl\" name=\"pfifUrl\" size=\"40\" value=\"".htmlspecialchars($rowpfif['base_url'])."\">(e.g. https://japan.person-finder.appspot.com/)<br> 
+			PF repository: <input type=\"text\" id=\"pfifUrl\" name=\"pfifUrl\" size=\"40\" value=\"".htmlspecialchars($rowpfif['base_url'])."\">(e.g. https://japan.person-finder.appspot.com/)<br>
 			PF key: <input type=\"text\" id=\"pfifKey\" name=\"pfifKey\" value=\"".htmlspecialchars($rowpfif['auth_key'])."\">&nbsp;&nbsp;
                         Keep PL and PF synchronized? <input type=\"checkbox\" id=\"pfifSync\" name=\"pfifSync\" value=\"1\" ".$checkedSync.">
 		";
@@ -1042,8 +1042,8 @@ function em_perform_edit($incident_id) {
 
 
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" style=\"\">Description</td>
-		<td class=\"mainRowOdd emFirstWhite\" style=\"\"><textarea id=\"eventDescription\" rows=4 cols=60 />".$row['description']."</textarea></td>
+		<td class=\"mainRowOdd emLastWhite\" style=\"\">Title Line 2 (appears under People Locator)<br>ie. <b>for the Joplin Tornado</b></td>
+		<td class=\"mainRowOdd emFirstWhite\" style=\"\"><textarea id=\"eventDescription\" rows=1 cols=60 />".$row['description']."</textarea></td>
 	<tr>
 
 	<tr>
@@ -1076,7 +1076,7 @@ function em_perform_edit($incident_id) {
 		<td class=\"mainRowOdd emLastWhite\" style=\"\">Event Status</td>
 		<td class=\"mainRowOdd emFirstWhite\" style=\"\">".$closed."</td>
 	<tr>
- 
+
         <tr>
 		<td class=\"mainRowEven emFirst emLast\" style=\"\">PFIF Settings for Google PF</td>
 		<td class=\"mainRowEven emFirst emLast\" style=\"\">".$pfif."</td>
