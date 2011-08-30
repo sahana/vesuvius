@@ -56,9 +56,6 @@ class WebImage {
 
    private function _init($url) {
       // Check the URL to be sure it exists and is for a supported image type
-      // DEBUG: use this URL for testing
-      // $url = "http://i.cdn.turner.com/ireport/sm/prod/2010/01/15/WE00384916/1197397/DSC00099jpg-1197397_md.jpg";
-      // $url = "http://c1.ac-images.myspacecdn.com/images01/111/l_3937467042731d45c610322d623f6b38.jpg";
       // Fetch the image
       $image_data = false;
       $image_info = @getimagesize($url);
@@ -73,11 +70,12 @@ class WebImage {
       if ($is_valid_type) {
          // FIXME (chc 1/31/2010):: Use shn_image_resize_height to rescale oversize images on import
          $image_data = file_get_contents($url, FILE_BINARY);
+         if ($image_data === false) {
+            error_log('_init.file_get_contents failed for: ' . $url);
+         }
       }
-      // error_log('image_data:'.var_export($image_data,true);
       // Set the image type and size.
       if ($image_data !== false) {
-         //error_log("Got image data");
          $this->url = $url; //$saveFile;
          $this->image = $image_data; // null;
          $this->width = $image_info[0];
