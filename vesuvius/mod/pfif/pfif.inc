@@ -102,8 +102,7 @@ class Pfif {
    }
 
    public function getSourceReposId() {
-      // Fixme: What to do with records loaded from XML?
-      if (!isset($this->service)) return 999;
+      if (!isset($this->service)) return null;
       return $this->service['repository']->id;
    }
 
@@ -1187,7 +1186,9 @@ class Pfif {
       $insert_array = array();
       $insert_array['p_uuid'] = $person->person_record_id;
       $insert_array['source_version'] = $this->getVersion();
-      $insert_array['source_repository_id'] = $this->getSourceReposId();
+      if ($this->getSourceReposId() != null) {
+         $insert_array['source_repository_id'] = $this->getSourceReposId();
+      }
       $insert_array['entry_date'] = strftime("%Y-%m-%d %H:%M:%S");
       if (!empty($person->expiry_date)) {
          $insert_array['expiry_date'] = $person->expiry_date;
@@ -1265,7 +1266,9 @@ class Pfif {
       $insert_array['note_record_id'] = $note->note_record_id;
       $insert_array['p_uuid'] = $note->person_record_id;
       $insert_array['source_version'] = $this->getVersion();
-      $insert_array['source_repository_id'] = $this->getSourceReposId();
+      if ($this->getSourceReposId() != null) {
+         $insert_array['source_repository_id'] = $this->getSourceReposId();
+      }
       if (!empty($note->linked_person_record_id)) {
          $insert_array['linked_person_record_id'] = $note->linked_person_record_id;
       }

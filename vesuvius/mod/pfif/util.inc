@@ -67,36 +67,20 @@ function local_date($d) {
 }
 
 /**
- * Map Sahana MPR status values to PFIF found (1.1) or status  (1.2) values
- * PFIF 1.1 defines only found = {true, false}. PFIF 1.2 uses status as defined below (with corresponding Sahana
- * value in parens):
-  information_sought ('unk')
-  The author of the note is seeking information on the person in question.
-  is_note_author ('ali', AND isvictim = 0)
-  The author of the note is the person in question.
-  believed_alive ('ali')
-  The author of the note has received information that the person in question is alive.
-  believed_missing ('mis')
-  The author of the note has reason to believe that the person in question is still missing.
-  believed_dead ('dec')
-  The author of the note has received information that the person in question is dead.
-
-  @see shn_map_status_from_pfif
+ * Map sahana opt_status value to PFIF value.
+ * @see shn_map_status_from_pfif
  */
-function shn_map_status_to_pfif($status, $isvictim, $ver='1.2') {
+function shn_map_status_to_pfif($status) {
    $status_map =
-           array('unk' => array('1.1' => 'false', '1.2' => 'information_sought'),
-               'fnd' => array('1.1' => 'true', '1.2' => 'information_sought'),
-               'ali' => array('1.1' => 'true', '1.2' => 'believed_alive'),
-               'mis' => array('1.1' => 'false', '1.2' => 'believed_missing'),
-               'dec' => array('1.1' => 'true', '1.2' => 'believed_dead'));
+           array('unk' => 'information_sought',
+               'fnd' => 'believed_alive',
+               'inj' => 'believed_alive',
+               'ali' => 'believed_alive',
+               'mis' => 'believed_missing',
+               'dec' => 'believed_dead');
 
-   $value = '';
-   if ($ver == '1.2' && !($isvictim == '1') && $status == 'ali') {
-      $value = 'is_note_author';
-   } else {
-      $value = $status_map[$status][$ver];
-   }
+   $value = 'information_sought'; //default
+   $value = $status_map[$status];
    return $value;
 }
 
@@ -276,7 +260,6 @@ function fetch_image($photo_url, $person_record_id) {
          fclose($handle);
 
          if ($status) { // write succeeded
-            // error_log("fetch_image:wrote file ".$filePath."/".$fileName);
             $result['url'] = $localUrl;
 
             // Create thumbnail if image height exceeds threshold
@@ -292,39 +275,10 @@ function fetch_image($photo_url, $person_record_id) {
          }
          $_SESSION['pfif_info']['images_in'] += 1;
       } else {
-         error_log("fetch_image:GET image failed for " . $person_record_id . " from " . $photo_url);
          $failed_images[] = array('p_uuid' => $person_record_id, 'url' => $photo_url);
       }
    } else {
       // error_log("no photo for ".$person->person_record_id);
    }
    return $result;
-}
-
-/*
- * libxml error handling (from PHP website).
- *
- * Commented some stuff out below that's not relevant for us.
- * Also some stuff that doesn't seem to make sense.
- */
-function display_xml_error($error)
-{
-    $return = "";
-
-    switch ($error->level) {
-        case LIBXML_ERR_WARNING:
-            $return .= "Warning $error->code: ";
-            break;
-         case LIBXML_ERR_ERROR:
-            $return .= "Error $error->code: ";
-            break;
-        case LIBXML_ERR_FATAL:
-            $return .= "Fatal Error $error->code: ";
-            break;
-    }
-
-    $return .= trim($error->message) .
-               "\n  Line: $error->line";
-
-    return "$return\n\n--------------------------------------------\n\n";
 }
