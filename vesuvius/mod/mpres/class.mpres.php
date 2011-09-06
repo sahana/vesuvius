@@ -328,7 +328,7 @@ class mpres {
 		global $global;
 		$p = new pop();
 
-		if($name == "") {
+		if(trim($name) == "") {
 			$event = "";
 		} else {
 			$event = " for event (".$name.")";
