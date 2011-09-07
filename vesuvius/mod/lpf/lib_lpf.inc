@@ -1364,7 +1364,7 @@ class person {
 		} elseif($this->opt_gender == "C") {
 			$this->opt_gender = "cpx";
 		} elseif($this->opt_gender == "U") {
-			$this->opt_gender = "unk";
+			$this->opt_gender = null;
 		} else {
 			$this->opt_gender = null;
 		}

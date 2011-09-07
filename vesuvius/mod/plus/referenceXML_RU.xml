@@ -1,12 +1,12 @@
 <person>
 	<xmlFormat>REUNITE3</xmlFormat>
-	<p_uuid>pl.nlm.nih.gov/person.2998769</p_uuid>
+	<p_uuid>pl.nlm.nih.gov/person.2998765</p_uuid>
 	<dateTimeSent>2011-08-08 16:20:00 UTC</dateTimeSent>
 	<expiryDate>2012-08-08 16:20:00 UTC</expiryDate>
 	<eventId>1</eventId>
 	<givenName>Greggg</givenName>
 	<familyName>Miernicki</familyName>
-	<gender>M</gender>
+	<gender>U</gender>
 	<genderEnum>M, F, U, C</genderEnum>
 	<genderEnumDesc>Male; Female; Unknown; Complex(M/F)</genderEnumDesc>
 	<minAge>30</minAge>
