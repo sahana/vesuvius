@@ -796,14 +796,18 @@ function shn_eap_edit() {
 		";
 		$r   = $global['db']->Execute($q);
 		$row = $r->FetchRow();
-		$url = $row['url_resampled'];
+		$url_mp3 = $row['url_resampled_mp3'];
+		$url_ogg = $row['url_resampled_ogg'];
 		echo "
 			<div class=\"form-container\">
 				<form>
 					<fieldset id=\"editImages\">
 						<legend>Voice Note</legend>
 						<audio controls preload=\"auto\" autobuffer>
-							<source src=\"".$url."\" />
+							<source src=\"".$url_mp3."\" type=\"audio/mp3\" />
+							<source src=\"".$url_ogg."\" type=\"audio/ogg\" />
+							<br>Your browser doesn't support the HTML5 audio tag.<br>
+							<a href=\"".$url_mp3."\">Click here to download the media instead.</a>
 						</audio>
 					</fieldset>
 				</form>

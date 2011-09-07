@@ -43,11 +43,11 @@ function shn_google_translate($text) {
 	global $global;
 	global $conf;
 
-	// get the language we need to translate to
-	if ( strpos($text, "|") != false ) {
+	// removing context filter, contexts are filtered out before they come here
+	/*if ( strpos($text, "|") != false ) {
 		list($context,$msgid) = explode("|", $text);
 		$text = $msgid;
-	}
+	}*/
 	$lang = shn_getLocale();
 
 	// if locale is same as original, return original
