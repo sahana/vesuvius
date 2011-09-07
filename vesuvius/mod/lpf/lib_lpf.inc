@@ -44,7 +44,8 @@ class voiceNote {
 	public $channels;
 	public $speaker;
 	public $url_original;
-	public $url_resampled;
+	public $url_resampled_mp3;
+	public $url_resampled_ogg;
 
 	private $sql_voice_id;
 	private $sql_p_uuid;
@@ -54,7 +55,8 @@ class voiceNote {
 	private $sql_channels;
 	private $sql_speaker;
 	private $sql_url_original;
-	private $sql_url_resampled;
+	private $sql_url_resampled_mp3;
+	private $sql_url_resampled_ogg;
 
 	public $dataBase64;
 	public $data;
@@ -67,25 +69,27 @@ class voiceNote {
 		$this->db = $global['db'];
 
 		// init values
-		$this->voice_note_id = null;
-		$this->p_uuid        = null;
-		$this->length        = null;
-		$this->format        = null;
-		$this->sample_rate   = null;
-		$this->channels      = null;
-		$this->speaker       = null;
-		$this->url_original  = null;
-		$this->url_resampled = null;
+		$this->voice_note_id     = null;
+		$this->p_uuid            = null;
+		$this->length            = null;
+		$this->format            = null;
+		$this->sample_rate       = null;
+		$this->channels          = null;
+		$this->speaker           = null;
+		$this->url_original      = null;
+		$this->url_resampled_mp3 = null;
+		$this->url_resampled_ogg = null;
 
-		$this->sql_voice_note_id = null;
-		$this->sql_p_uuid        = null;
-		$this->sql_length        = null;
-		$this->sql_format        = null;
-		$this->sql_sample_rate   = null;
-		$this->sql_channels      = null;
-		$this->sql_speaker       = null;
-		$this->sql_url_original  = null;
-		$this->sql_url_resampled = null;
+		$this->sql_voice_note_id     = null;
+		$this->sql_p_uuid            = null;
+		$this->sql_length            = null;
+		$this->sql_format            = null;
+		$this->sql_sample_rate       = null;
+		$this->sql_channels          = null;
+		$this->sql_speaker           = null;
+		$this->sql_url_original      = null;
+		$this->sql_url_resampled_mp3 = null;
+		$this->sql_url_resampled_ogg = null;
 
 		$this->dataBase64 = null;
 		$this->data       = null;
@@ -94,25 +98,27 @@ class voiceNote {
 
 	// Destructor
 	public function __destruct() {
-		$this->voice_note_id = null;
-		$this->p_uuid        = null;
-		$this->length        = null;
-		$this->format        = null;
-		$this->sample_rate   = null;
-		$this->channels      = null;
-		$this->speaker       = null;
-		$this->url_original  = null;
-		$this->url_resampled = null;
+		$this->voice_note_id     = null;
+		$this->p_uuid            = null;
+		$this->length            = null;
+		$this->format            = null;
+		$this->sample_rate       = null;
+		$this->channels          = null;
+		$this->speaker           = null;
+		$this->url_original      = null;
+		$this->url_resampled_mp3 = null;
+		$this->url_resampled_ogg = null;
 
-		$this->sql_voice_note_id = null;
-		$this->sql_p_uuid        = null;
-		$this->sql_length        = null;
-		$this->sql_format        = null;
-		$this->sql_sample_rate   = null;
-		$this->sql_channels      = null;
-		$this->sql_speaker       = null;
-		$this->sql_url_original  = null;
-		$this->sql_url_resampled = null;
+		$this->sql_voice_note_id     = null;
+		$this->sql_p_uuid            = null;
+		$this->sql_length            = null;
+		$this->sql_format            = null;
+		$this->sql_sample_rate       = null;
+		$this->sql_channels          = null;
+		$this->sql_speaker           = null;
+		$this->sql_url_original      = null;
+		$this->sql_url_resampled_mp3 = null;
+		$this->sql_url_resampled_ogg = null;
 
 		$this->dataBase64 = null;
 		$this->data       = null;
@@ -154,15 +160,16 @@ class voiceNote {
 
 		// build SQL value strings
 
-		$this->sql_voice_note_id = ($this->voice_note_id == null) ? "NULL" : (int)$this->voice_note_id;
-		$this->sql_p_uuid        = ($this->p_uuid        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
-		$this->sql_length        = ($this->length        == null) ? "NULL" : (int)$this->length;
-		$this->sql_format        = ($this->format        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->format)."'";
-		$this->sql_sample_rate   = ($this->sample_rate   == null) ? "NULL" : (int)$this->sample_rate;
-		$this->sql_channels      = ($this->channels      == null) ? "NULL" : (int)$this->channels;
-		$this->sql_speaker       = ($this->speaker       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->speaker)."'";
-		$this->sql_url_original  = ($this->url_original  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_original)."'";
-		$this->sql_url_resampled = ($this->url_resampled == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_resampled)."'";
+		$this->sql_voice_note_id     = ($this->voice_note_id == null) ? "NULL" : (int)$this->voice_note_id;
+		$this->sql_p_uuid            = ($this->p_uuid        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
+		$this->sql_length            = ($this->length        == null) ? "NULL" : (int)$this->length;
+		$this->sql_format            = ($this->format        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->format)."'";
+		$this->sql_sample_rate       = ($this->sample_rate   == null) ? "NULL" : (int)$this->sample_rate;
+		$this->sql_channels          = ($this->channels      == null) ? "NULL" : (int)$this->channels;
+		$this->sql_speaker           = ($this->speaker       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->speaker)."'";
+		$this->sql_url_original      = ($this->url_original  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_original)."'";
+		$this->sql_url_resampled_mp3 = ($this->url_resampled_mp3 == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_resampled_mp3)."'";
+		$this->sql_url_resampled_ogg = ($this->url_resampled_ogg == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_resampled_ogg)."'";
 	}
 
 
@@ -188,13 +195,13 @@ class voiceNote {
 		chmod($path."original", 0777);
 		$this->url_original  = "tmp/plus_cache/".$filename."original";
 
-		// FIX ME! Add MP3 or WAV support as the resampled file
-		// for now, save the original unresampled to act as the resampled only if it is an MPEG4AAC file
-		if($this->format == "MPEG4AAC") {
-			file_put_contents($path."resampled.m4a", $this->data);
-			chmod($path."resampled.m4a", 0777);
-			$this->url_resampled = "tmp/plus_cache/".$filename."resampled.m4a";
-		}
+		// use ffmpeg to resample the file to wav for html5 audio (supported in all browsers)
+		shell_exec("ffmpeg -i ".$path."original ".$path."resampled.mp3 ;");
+		shell_exec("ffmpeg -i ".$path."original ".$path."resampled.ogg ;");
+		chmod($path."resampled.mp3", 0777);
+		chmod($path."resampled.ogg", 0777);
+		$this->url_resampled_mp3 = "tmp/plus_cache/".$filename."resampled.mp3";
+		$this->url_resampled_ogg = "tmp/plus_cache/".$filename."resampled.ogg";
 	}
 
 
@@ -212,7 +219,8 @@ class voiceNote {
 				channels,
 				speaker,
 				url_original,
-				url_resampled )
+				url_resampled_mp3,
+				url_resampled_ogg )
 			VALUES (
 				".$this->sql_voice_note_id.",
 				".$this->sql_p_uuid.",
@@ -222,7 +230,8 @@ class voiceNote {
 				".$this->sql_channels.",
 				".$this->sql_speaker.",
 				".$this->sql_url_original.",
-				".$this->sql_url_resampled." );
+				".$this->sql_url_resampled_mp3.",
+				".$this->sql_url_resampled_ogg." );
 		";
 		$result = $this->db->Execute($q);
 	}
@@ -1657,13 +1666,26 @@ class person {
 			$this->edxl = new personEdxl();
 			$this->edxl->init();
 
+			// when we have more than 1 contentObject, they are renamed to 0...x
+			if(isset($a['EDXLDistribution'][0])) {
+				$ix = 0;
+
+			// when there is only 1 contentObject, we go by name
+			} elseif(isset($a['EDXLDistribution']['contentObject'])) {
+				$ix = "contentObject";
+
+			// all else, we fail and quit
+			} else {
+				return (int)403; // error code for failed to parse xml
+			}
+
 			$this->p_uuid      = shn_create_uuid();
-			$this->family_name = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['lastName'];
-			$this->given_name  = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['firstName'];
+			$this->family_name = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['lastName'];
+			$this->given_name  = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['firstName'];
 			$this->full_name   = $this->given_name." ".$this->family_name;
 
 
-			$eventName = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['eventName'];
+			$eventName = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['eventName'];
 			$q = "
 				SELECT *
 				FROM incident
@@ -1673,7 +1695,7 @@ class person {
 			$this->incident_id = $result->fields["incident_id"];
 
 
-			$b = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['triageCategory'];
+			$b = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['triageCategory'];
 			if(($b == "Green") || ($b == "BH Green")) {
 				$this->opt_status = "ali";
 			} elseif(($b == "Yellow") || ($b == "Red") || ($b == "Gray")) {
@@ -1695,9 +1717,9 @@ class person {
 			$this->last_updated  = $datetime2->format('Y-m-d H:i:s');
 			$this->creation_time = $datetime2->format('Y-m-d H:i:s');
 
-			$this->opt_gender = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['gender'];
+			$this->opt_gender = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['gender'];
 
-			$peds = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['peds'];
+			$peds = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['peds'];
 
 			if($peds == "Y") {
 				$this->minAge = 0;
@@ -1710,10 +1732,10 @@ class person {
 				$this->maxAge = 150;
 			}
 
-			$this->other_comments = $a['EDXLDistribution'][0]['contentDescription'];
+			$this->other_comments = $a['EDXLDistribution'][$ix]['contentDescription'];
 
 
-			$orgId  = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['organization']['orgId'];
+			$orgId  = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['organization']['orgId'];
 			$q = "
 				SELECT *
 				FROM hospital
@@ -1723,24 +1745,24 @@ class person {
 			$this->hospital_uuid = $result->fields["hospital_uuid"];
 			$this->last_seen     = $result->fields["name"]." Hospital";
 
-			$this->edxl->content_descr   = $a['EDXLDistribution'][0]['contentDescription'];
-			$this->edxl->incident_id     = $a['EDXLDistribution'][0]['incidentID'];
-			$this->edxl->incident_descr  = $a['EDXLDistribution'][0]['incidentDescription'];
-			$this->edxl->confidentiality = $a['EDXLDistribution'][0]['confidentiality'];
+			$this->edxl->content_descr   = $a['EDXLDistribution'][$ix]['contentDescription'];
+			$this->edxl->incident_id     = $a['EDXLDistribution'][$ix]['incidentID'];
+			$this->edxl->incident_descr  = $a['EDXLDistribution'][$ix]['incidentDescription'];
+			$this->edxl->confidentiality = $a['EDXLDistribution'][$ix]['confidentiality'];
 			$this->edxl->p_uuid          = $this->p_uuid;
-			$this->edxl->schema_version  = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['version'];
+			$this->edxl->schema_version  = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['version'];
 			$this->edxl->login_machine   = "n/a"; //null; HACK! cant be null
-			$this->edxl->login_account   = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['login']['username'];
-			$this->edxl->person_id       = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['personId'];
-			$this->edxl->event_name      = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['eventName'];
-			$this->edxl->event_long_name = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['eventLongName'];
-			$this->edxl->org_name        = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['organization']['orgName'];
-			$this->edxl->org_id          = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['organization']['orgId'];
-			$this->edxl->last_name       = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['lastName'];
-			$this->edxl->first_name      = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['firstName'];
-			$this->edxl->gender          = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['gender'];
-			$this->edxl->peds            = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['peds'];
-			$this->edxl->triage_category = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['triageCategory'];
+			$this->edxl->login_account   = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['login']['username'];
+			$this->edxl->person_id       = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['personId'];
+			$this->edxl->event_name      = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['eventName'];
+			$this->edxl->event_long_name = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['eventLongName'];
+			$this->edxl->org_name        = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['organization']['orgName'];
+			$this->edxl->org_id          = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['organization']['orgId'];
+			$this->edxl->last_name       = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['lastName'];
+			$this->edxl->first_name      = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['firstName'];
+			$this->edxl->gender          = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['gender'];
+			$this->edxl->peds            = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['peds'];
+			$this->edxl->triage_category = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['triageCategory'];
 			$this->edxl->when_sent       = $this->creation_time;
 			$this->edxl->sender_id       = $a['EDXLDistribution']['senderID'];
 			$this->edxl->distr_id        = $a['EDXLDistribution']['distributionID'];
@@ -1751,7 +1773,6 @@ class person {
 			$this->edxl->when_here       = $this->creation_time;
 			$this->edxl->inbound         = 1; //null; HACK! cant be null
 			$this->edxl->type            = "lpf";
-
 
 			// parse all images
 			for($n = 0; $n < sizeof($a['EDXLDistribution']); $n++) {
