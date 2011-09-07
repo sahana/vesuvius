@@ -611,9 +611,6 @@ function shn_eap_edit() {
 	$person_details = $r->FetchRow();
 
 	// fix empty full names..
-	if(trim($full_name) == "") {
-		$full_name = "&nbsp;";
-	}
 	$full_name = htmlspecialchars(mb_convert_case($full_name, MB_CASE_TITLE, "UTF-8"));
 	echo "
 		<div class=\"form-container\">
@@ -643,11 +640,11 @@ function shn_eap_edit() {
 		if($row = $r->FetchRow()) {
 			$url = $row['source_url'];
 		} else {
-			$url = "&nbsp;";
+			$url = "";
 		}
 		// fix bad data
 		if($url == "NULL" || $url == "null") {
-			$url = "&nbsp;";
+			$url = "";
 		}
 		echo "
 			<label for=\"opt_status\"><b>Origin ID</b> </label>
@@ -684,7 +681,7 @@ function shn_eap_edit() {
 		$row = $r->FetchRow();
 		$did = $row['distr_id'];
 	} else {
-		$did = "&nbsp;";
+		$did = "";
 	}
 	echo "
 		<label for=\"opt_status\"><b>Mass Casualty ID</b> </label>
