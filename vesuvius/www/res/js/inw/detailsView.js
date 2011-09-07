@@ -59,7 +59,12 @@ var DetailsView =
 			$("<div></div>").css("background-color", "#" + person.tagColor)
 							.addClass("status")
 							.html(person.statusSahanaFull);
-
+		
+		var edxl_id = $("<div></div>").css("float", "right")
+									  .append("<div style='clear:both'></div>")
+									  .html(person.mass_casualty_id);
+		
+		statusTab.append(edxl_id);
 	
 		var name = $("<div></div>").addClass("stubName").html(person.name);
 		
