@@ -1629,7 +1629,7 @@ function shn_eap_edit() {
 			<a class=\"addthis_button_google_plusone\" g:plusone:size=\"medium\"></a>
 			<a class=\"addthis_counter addthis_pill_style\"></a>
 			</div>
-			<script type=\"text/javascript\" src=\"http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e66a6fa46524fa8\"></script>
+			<script type=\"text/javascript\" src=\"https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e66a6fa46524fa8\"></script>
 		</div>
 		</fieldset>
 		</form>
