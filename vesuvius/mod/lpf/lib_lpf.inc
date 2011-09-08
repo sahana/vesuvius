@@ -1445,6 +1445,8 @@ class person {
 		";
 		$result = $this->db->Execute($q);
 
+echo $q; //."\n\n".var_export($this)."\n\n";
+
 		$q = "
 			INSERT INTO person_details (
 				p_uuid,
@@ -1512,6 +1514,7 @@ class person {
 		global $global;
 		require_once($global['approot']."inc/lib_uuid.inc");
 		require_once($global['approot']."mod/pfif/pfif.inc");
+		require_once($global['approot']."mod/pfif/util.inc");
 
 		$p = new Pfif();
 
@@ -1519,16 +1522,16 @@ class person {
 		$n->note_record_id          = shn_create_uuid('pfif_note');
 		$n->person_record_id        = $this->p_uuid;
 		$n->linked_person_record_id = null;
-
-		$n->source_date             = $this->creation_time;
+		$n->source_date             = $this->last_updated; //$this->creation_time;
 		$n->entry_date              = $this->last_updated;
-
 		$n->author_phone            = null;
-		$n->status                  = "is_note_author";
 		$n->email_of_found_person   = null;
 		$n->phone_of_found_person   = null;
 		$n->last_known_location     = $this->last_seen;
 		$n->text                    = $this->other_comments;
+
+		// figure out the person's pfif status
+		$n->status = shn_map_status_to_pfif($this->opt_status);
 
 		// find author name and email...
 		$q = "
@@ -1554,7 +1557,7 @@ class person {
 			$n->found = null;
 		}
 
-		// found the index (if it exists) for the pfif repo associated with this event
+		// find the index (if it exists) for the pfif repo associated with this event
 		$q = "
 			SELECT *
 			FROM  `pfif_repository`
