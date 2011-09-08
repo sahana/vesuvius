@@ -9,7 +9,7 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 
 ALTER TABLE  `voice_note` CHANGE  `url_resampled`  `url_resampled_mp3` VARCHAR( 1024 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT  'url of the resampled audio in mp3 format' ;
 ALTER TABLE  `voice_note` ADD  `url_resampled_ogg` VARCHAR( 1024 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT  'url of the resampled audio in ogg format' ;
-
+ALTER TABLE `person_status` DROP INDEX  `p_uuid` , ADD INDEX  `p_uuid` (  `p_uuid` );
 
 2011:0825 Greg
 --------------
