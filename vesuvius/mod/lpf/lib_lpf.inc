@@ -1445,8 +1445,6 @@ class person {
 		";
 		$result = $this->db->Execute($q);
 
-echo $q; //."\n\n".var_export($this)."\n\n";
-
 		$q = "
 			INSERT INTO person_details (
 				p_uuid,
@@ -1531,7 +1529,7 @@ echo $q; //."\n\n".var_export($this)."\n\n";
 		$n->text                    = $this->other_comments;
 
 		// figure out the person's pfif status
-		$n->status = shn_map_status_to_pfif($this->opt_status);
+		$n->status = shn_map_status_to_pfif($this->opt_status, null, null);
 
 		// find author name and email...
 		$q = "
