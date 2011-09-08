@@ -1519,9 +1519,11 @@ class person {
 		$n->note_record_id          = shn_create_uuid('pfif_note');
 		$n->person_record_id        = $this->p_uuid;
 		$n->linked_person_record_id = null;
-		$n->entry_date              = $this->creation_time;
-		$n->author_phone            = null;
+
 		$n->source_date             = $this->creation_time;
+		$n->entry_date              = $this->last_updated;
+
+		$n->author_phone            = null;
 		$n->status                  = "is_note_author";
 		$n->email_of_found_person   = null;
 		$n->phone_of_found_person   = null;
@@ -1598,7 +1600,7 @@ class person {
 			$this->incident_id    = $a['person']['eventId'];
 			$this->expiry_date    = $a['person']['expiryDate'];
 			$this->opt_status     = $a['person']['status'];
-			$this->last_updated   = $a['person']['dateTimeSent'];
+			$this->last_updated   = date('Y-m-d H:i:s');
 			$this->creation_time  = $a['person']['dateTimeSent'];
 			$this->opt_gender     = $a['person']['gender'];
 			$this->years_old      = $a['person']['estimatedAge'];
@@ -1706,6 +1708,8 @@ class person {
 				$this->opt_status = "unk";
 			}
 
+			$this->last_updated = date('Y-m-d H:i:s');
+
 			// <dateTimeSent>2011-03-28T07:52:17Z</dateTimeSent>
 			$datetime      = $a['EDXLDistribution']['dateTimeSent'];
 			$timezoneUTC   = new DateTimeZone("UTC");
@@ -1714,7 +1718,6 @@ class person {
 			$datetime2->setTimezone($timezoneUTC);
 			$datetime2->setTimestamp(strtotime($datetime));
 			$datetime2->setTimezone($timezoneLocal);
-			$this->last_updated  = $datetime2->format('Y-m-d H:i:s');
 			$this->creation_time = $datetime2->format('Y-m-d H:i:s');
 
 			$this->opt_gender = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['gender'];
@@ -1763,7 +1766,7 @@ class person {
 			$this->edxl->gender          = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['gender'];
 			$this->edxl->peds            = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['peds'];
 			$this->edxl->triage_category = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['triageCategory'];
-			$this->edxl->when_sent       = $this->creation_time;
+			$this->edxl->when_sent       = $this->last_updated;
 			$this->edxl->sender_id       = $a['EDXLDistribution']['senderID'];
 			$this->edxl->distr_id        = $a['EDXLDistribution']['distributionID'];
 			$this->edxl->distr_status    = $a['EDXLDistribution']['distributionStatus'];
@@ -1777,7 +1780,6 @@ class person {
 			// parse all images
 			for($n = 0; $n < sizeof($a['EDXLDistribution']); $n++) {
 				if(isset($a['EDXLDistribution'][$n]['nonXMLContent']) && $a['EDXLDistribution'][$n]['nonXMLContent'] != null) {
-					//echo "\n\n".var_export($a['EDXLDistribution'][$n]['nonXMLContent'], true)."\n\n";
 					$imageNode = $a['EDXLDistribution'][$n]['nonXMLContent'];
 
 					// create sahana image
