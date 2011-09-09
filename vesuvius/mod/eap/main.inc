@@ -1710,11 +1710,18 @@ function shn_eap_edit() {
 
 		echo "
 			<p class=\"triangle-obtuse\">
-				".$result->fields["text"]."<br>
+				<b>".$result->fields["text"]."</b><br>
 		";
 
+		if($result->fields["status"] == null) {
+			$status = "unknown";
+		} else {
+			$status = $result->fields["status"];
+		}
+		echo "<br>Status: <b>".$status."</b><br>";
+
 		if($result->fields["found"] == true) {
-			echo "<br>Status: <b>FOUND</b><br>";
+			echo "<br><b>FOUND</b><br>";
 		}
 		if(trim($result->fields["last_known_location"]) != "") {
 			echo "<br>Last Known Location: <b>".$result->fields["last_known_location"]."</b><br>";
