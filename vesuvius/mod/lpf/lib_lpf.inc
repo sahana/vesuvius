@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         LPF Library
- * @version      23
+ * @version      24
  * @package      lpf
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0825
+ * @lastModified 2011.0909
  */
 
 
@@ -19,7 +19,6 @@ $global['enumGenders']          = array('M', 'F', 'U', 'C');
 $global['enumDistrStatus']      = array('Actual', 'Exercise', 'System', 'Test');
 $global['enumDistrType']        = array('Ack', 'Cancel', 'Dispatch', 'Error', 'Report', 'Request', 'Response', 'Update');
 $global['enumXmlFormats']       = array('REUNITE3', 'TRIAGEPIC1');
-
 
 
 /** ******************************************************************************************************************************************************************
@@ -1572,6 +1571,40 @@ class person {
 	}
 
 
+	public function isEventOpen() {
+		// find if this event is open/closed
+		$q = "
+			SELECT *
+			FROM incident
+			WHERE incident_id = '".$this->incident_id."';
+		";
+		$result = $this->db->Execute($q);
+		if($result != NULL && !$result->EOF) {
+			$row = $result->FetchRow();
+		} else {
+			return false;
+		}
+		if($row['closed'] != 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+
+	public function addImage($fileContentBase64, $filename) {
+		// create sahana image
+		if(trim($fileContentBase64) != "") {
+			$i = new personImage();
+			$i->init();
+			$i->p_uuid = $this->p_uuid;
+			$i->fileContentBase64 = $fileContentBase64;
+			$i->original_filename = $filename;
+			$this->images[] = $i;
+		}
+	}
+
+
 	public function parseXml() {
 		global $global;
 		require_once($global['approot']."inc/lib_uuid.inc");
@@ -1660,8 +1693,29 @@ class person {
 				return (int)402;
 			}
 
+			// check if the event is closed to reporting...
+			if(!$this->isEventOpen()) {
+				return (int)405;
+			}
+
 			// no errors
 			return (int)0;
+
+		// parse REUNITE2 XML
+		} elseif($this->xmlFormat == "REUNITE2") {
+
+			/*
+						$this->person->shortName    = strtolower($a['lpfContent']['person']['eventShortName']);
+						$this->person->givenName    = $a['lpfContent']['person']['firstName'];
+						$this->person->familyName   = $a['lpfContent']['person']['familyName'];
+						$this->person->gender       = substr(strtolower($a['lpfContent']['person']['gender']), 0, 3);
+						$this->person->age          = $a['lpfContent']['person']['estimatedAgeInYears'];
+						$this->person->sahanaStatus = substr(strtolower($a['lpfContent']['person']['status']['healthStatus']), 0, 3);
+						$this->person->comments     = $a['lpfContent']['person']['notes'];
+						$this->XMLversion           = 1.6;
+			*/
+			return (int)9999; // don't want to have to parse this shit... will if we have to...
+
 
 		// parse TRIAGEPIC1 XML
 		} elseif($this->xmlFormat == "TRIAGEPIC1") {
@@ -1800,6 +1854,121 @@ class person {
 					$this->edxl->image_ids[]    = $i->image_id;
 					$this->edxl->image_co_ids[] = $this->edxl->getNew_co_id();
 				}
+			}
+
+			// check if the event is closed to reporting...
+			if(!$this->isEventOpen()) {
+				return (int)405;
+			}
+
+			// exit with success
+			return (int)0;
+
+		// parse MPRES1 XML
+		} elseif($this->xmlFormat == "MPRES1") {
+
+			$this->edxl = new personEdxl();
+			$this->edxl->init();
+
+			$this->p_uuid      = shn_create_uuid();
+			$this->family_name = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName'];
+			$this->given_name  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName'];
+			$this->full_name   = $this->given_name." ".$this->family_name;
+
+
+			$eventName = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventName'];
+			$q = "
+				SELECT *
+				FROM incident
+				WHERE shortname = '".mysql_real_escape_string((string)$eventName)."';
+			";
+			$result = $this->db->Execute($q);
+			$this->incident_id = $result->fields["incident_id"];
+
+
+			$b = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['triageCategory'];
+			if(($b == "Green") || ($b == "BH Green")) {
+				$this->opt_status = "ali";
+			} elseif(($b == "Yellow") || ($b == "Red") || ($b == "Gray")) {
+				$this->opt_status = "inj";
+			} elseif($b == "Black") {
+				$this->opt_status = "dec";
+			} else {
+				$this->opt_status = "unk";
+			}
+
+			$this->last_updated = date('Y-m-d H:i:s');
+
+			// <dateTimeSent>2011-03-28T07:52:17Z</dateTimeSent>
+			$datetime      = $a['EDXLDistribution']['dateTimeSent'];
+			$timezoneUTC   = new DateTimeZone("UTC");
+			$timezoneLocal = new DateTimeZone(date_default_timezone_get());
+			$datetime2     = new DateTime();
+			$datetime2->setTimezone($timezoneUTC);
+			$datetime2->setTimestamp(strtotime($datetime));
+			$datetime2->setTimezone($timezoneLocal);
+			$this->creation_time = $datetime2->format('Y-m-d H:i:s');
+
+			$this->opt_gender = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['gender'];
+
+			$peds = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['peds'];
+
+			if($peds == "Y") {
+				$this->minAge = 0;
+				$this->maxAge = 17;
+			} elseif($peds == "N") {
+				$this->minAge = 18;
+				$this->maxAge = 150;
+			} elseif($peds == "Y,N") {
+				$this->minAge = 0;
+				$this->maxAge = 150;
+			}
+
+			$this->other_comments = $a['EDXLDistribution']['contentObject']['contentDescription'];
+
+
+			$orgId  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgId'];
+			$q = "
+				SELECT *
+				FROM hospital
+				WHERE npi = '".mysql_real_escape_string((string)$orgId)."';
+			";
+			$result = $this->db->Execute($q);
+			$this->hospital_uuid = $result->fields["hospital_uuid"];
+			$this->last_seen     = $result->fields["name"]." Hospital";
+
+			$this->edxl->content_descr   = $a['EDXLDistribution']['contentObject']['contentDescription'];
+			$this->edxl->incident_id     = $a['EDXLDistribution']['contentObject']['incidentID'];
+			$this->edxl->incident_descr  = $a['EDXLDistribution']['contentObject']['incidentDescription'];
+			$this->edxl->confidentiality = $a['EDXLDistribution']['contentObject']['confidentiality'];
+			$this->edxl->p_uuid          = $this->p_uuid;
+			$this->edxl->schema_version  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['version'];
+			$this->edxl->login_machine   = "n/a"; //null; HACK! cant be null
+			$this->edxl->login_account   = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['login']['username'];
+			$this->edxl->person_id       = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['personId'];
+			$this->edxl->event_name      = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventName'];
+			$this->edxl->event_long_name = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventLongName'];
+			$this->edxl->org_name        = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgName'];
+			$this->edxl->org_id          = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgId'];
+			$this->edxl->last_name       = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName'];
+			$this->edxl->first_name      = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName'];
+			$this->edxl->gender          = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['gender'];
+			$this->edxl->peds            = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['peds'];
+			$this->edxl->triage_category = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['triageCategory'];
+			$this->edxl->when_sent       = $this->last_updated;
+			$this->edxl->sender_id       = $a['EDXLDistribution']['senderID'];
+			$this->edxl->distr_id        = $a['EDXLDistribution']['distributionID'];
+			$this->edxl->distr_status    = $a['EDXLDistribution']['distributionStatus'];
+			$this->edxl->distr_type      = $a['EDXLDistribution']['distributionType'];
+			$this->edxl->combined_conf   = $a['EDXLDistribution']['combinedConfidentiality'];
+			$this->edxl->language        = null;
+			$this->edxl->when_here       = $this->creation_time;
+			$this->edxl->inbound         = 1; //null; HACK! cant be null
+			$this->edxl->type            = "lpf";
+
+			// check if the event is closed to reporting...
+			if(!$this->isEventOpen()) {
+				return (int)405;
 			}
 
 			// exit with success
