@@ -1,7 +1,20 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
+
+2011:0909 Greg
+--------------
+
+CREATE TABLE  `mpres_messages` (
+	`ix` INT( 32 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  'the index',
+	`when` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT  'when the script was last executed',
+	`messages` TEXT NULL DEFAULT NULL COMMENT  'the message log from the execution'
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT =  'stores the message log from mpres module' ;
+
+ALTER TABLE  `mpres_seq` ADD  `last_message` VARCHAR( 1024 ) NULL DEFAULT NULL ;
+ALTER TABLE  `mpres_seq` CHANGE  `last_message`  `last_message` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;
 
 
 2011:0907 Greg

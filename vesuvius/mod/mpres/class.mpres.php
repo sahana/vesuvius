@@ -22,9 +22,7 @@ class mpres {
 	private $ssl;
 	private $username;
 	private $password;
-	private $attachments;
 	private $incident_id;
-	private $delete_messages;
 	private $serverString;
 	private $mailbox;
 	private $mailboxHeader;
@@ -42,14 +40,19 @@ class mpres {
 	private $email;
 	private $XMLversion;
 	private $ecode;
-
-	public  $messages; // execution message queue
-	public  $startTime; // timestamp of when an object of this type is instantiated
-	public  $stopTime; // filled by the spit() method when called
+	private $overview;
+	private $size;
+	private $messages;  // execution message log
+	private $startTime; // timestamp of when an object of this type is instantiated
+	private $stopTime;  // filled by the spit() method when called... represents end time
 
 
 	// constructor
 	public function	__construct() {
+		// init db
+		global $global;
+		$this->db = $global['db'];
+
 		// get configuration settings
 		$this->host                 = shn_db_get_config("mpres","host");
 		$this->port                 = shn_db_get_config("mpres","port");
@@ -57,15 +60,13 @@ class mpres {
 		$this->ssl                  = shn_db_get_config("mpres","ssl");
 		$this->username             = shn_db_get_config("mpres","username");
 		$this->password             = shn_db_get_config("mpres","password");
-		$this->attachments          = shn_db_get_config("mpres","attachments");
 		$this->incident_id          = shn_db_get_config("mpres","incident_id");
-		$this->delete_messages      = shn_db_get_config("mpres","delete_messages");
 		$this->serverString         = null;
 		$this->mailbox              = null;
 		$this->mailboxHeader        = null;
 		$this->mailboxOpen          = null;
 		$this->messageCount         = 0;
-		$this->messages             = "\n----------------------------------------------\nscriptExecutedAtTime >> ".date("Ymd:Gis.u")."\n";
+		$this->messages             = "";
 		$this->currentMessage       = null;
 		$this->currentAttachments   = null;
 		$this->currentMessageHasXML = null;
@@ -80,29 +81,22 @@ class mpres {
 		$this->email                = null;
 		$this->XMLversion           = null;
 		$this->ecode                = null;
-		$this->openMailbox();
+		$this->overview             = null;
+		$this->size                 = null;
+		$this->go();
 	}
-
 
 
 	// destructor
 	public function __destruct() {
-		if ($this->mailboxOpen) {
-			// purge and close inbox
-			if ($this->delete_messages) {
-				imap_expunge($this->mailbox);
-			}
-			imap_close($this->mailbox);
-		}
+		$this->closeMailbox();
 		$this->host                 = null;
 		$this->port                 = null;
 		$this->popimap              = null;
 		$this->ssl                  = null;
 		$this->username             = null;
 		$this->password             = null;
-		$this->attachments          = null;
 		$this->incident_id          = null;
-		$this->delete_messages      = null;
 		$this->serverString         = null;
 		$this->mailbox              = null;
 		$this->mailboxHeader        = null;
@@ -123,11 +117,110 @@ class mpres {
 		$this->email                = null;
 		$this->XMLversion           = null;
 		$this->ecode                = null;
+		$this->overview             = null;
+		$this->size                 = null;
 	}
 
 
-	// as function name implies :)
-	public function openMailbox() {
+	private function go() {
+		$this->openMailbox();
+		if($this->mailboxOpen == true) {
+			$this->messageCount = $this->mailboxHeader->Nmsgs;
+			if($this->messageCount == 0) {
+				$this->messages .= "Inbox is empty.<br>";
+			} else {
+				$this->messages .= "Number of messages in inbox: ". $this->messageCount ."<br>";
+				$this->loopInbox();
+			}
+		}
+		$this->updateSequence();
+	}
+
+
+	// traverse the inbox for appropriate messages
+	private function loopInbox() {
+
+		// download all message information from inbox
+		$this->overview = imap_fetch_overview($this->mailbox,"1:".$this->messageCount,0);
+		$this->size = sizeof($this->overview);
+
+		// loop through each message
+		for($i = $this->size-1; $i >= 0; $i--) {
+
+			$this->person = null; // clear out the last person...
+			$this->person = new person();
+			$this->person->init();
+			$this->ecode = 0;
+
+			// retrieve current message's data
+			$this->currentMessage       = $this->overview[$i];
+			$this->currentSubject       = $this->currentMessage->subject;
+			$this->currentDate          = $this->currentMessage->date;
+			$this->currentFrom          = $this->currentMessage->from;
+			$this->currentAttachments   = null; // reset from last person
+			$this->currentAttachments   = array();
+			$this->currentMessageHasXML = false;
+			$this->senderAddress        = $this->overview[$i]->from;
+			$this->fixDate();           // reformat the date for our purposes
+			$this->fixFrom();           // strip extra characters from the from field
+			$this->fixAddress();        // fix email address of excess characters
+			$this->getAttachmentsAndParseXML($i);  // grab all attachments
+
+			// email has XML attachment....
+			if ($this->currentMessageHasXML) {
+
+				// catch all parsing errors...
+				if($this->ecode != 0) {
+					$this->messages .= "LPF XML email found but failed during parsing with error code: ".$this->ecode.".<br>";
+					$this->replyError("Your person record was successfully received, but we failed to parse the XML. Please report this to lpfsupport@mail.nih.gov");
+
+				// event is closed... error
+				} elseif(!$this->person->isEventOpen()) {
+					$this->messages .= "LPF XML email found however, the event being reported to is closed, so the person was not inserted.<br>";
+					$this->replyError("Your person record was successfully received, but the event you are reporting to is closed so the record was not inserted.");
+
+				// insert!
+				} else {
+					$this->person->insert();
+					$this->mpresLog();
+					$this->messages .= "LPF XML email found and person <a href=\"https://".$this->person->p_uuid."\">".$this->person->p_uuid."</a> inserted.<br>";
+					$this->replySuccess($this->person->p_uuid, $this->person->incident_id);
+				}
+
+			// unstructured email... attempt to parse subject
+			} else {
+				$this->person->incident_id = $this->incident_id;
+				if(!$this->person->isEventOpen()) {
+					$this->messages .= "Unstructured email found, however the event being reported to is closed, so the person was not inserted.<br>";
+					$this->replyError("We are not accepting email reports at this time. Sorry, but your person was not inserted into our system.");
+				} else {
+					$this->person->createUUID();
+					$this->extractStatusFromSubject();
+					$name = new nameParser($this->currentSubject);
+					$this->person->given_name    = $name->getFirstName();
+					$this->person->family_name   = $name->getLastName();
+					$this->person->full_name     = $this->person->given_name." ".$this->person->family_name;
+					$this->person->last_updated  = date('Y-m-d H:i:s');
+					$this->person->creation_time = date('Y-m-d H:i:s');
+					$this->person->author_name   = $this->currentFrom;
+					$this->person->author_email  = $this->currentFrom;
+					$this->person->insert();
+					$this->mpresLog();
+					$this->messages .= "Unstructured email found and person <a href=\"https://".$this->person->p_uuid."\">".$this->person->p_uuid."</a> inserted.<br>";
+					$this->replySuccess($this->person->p_uuid, $this->person->incident_id);
+				}
+			}
+
+			// delete the message from the inbox
+			imap_delete($this->mailbox, $i+1);
+			$this->messages .= "Message #".$i." deleted.<br>";
+		}
+	}
+
+
+	// open the mailbox
+	private function openMailbox() {
+
 		// build pop/imap settings string
 		$sslOption = "";
 		if ($this->ssl=="1") {
@@ -137,112 +230,69 @@ class mpres {
 		if ($this->popimap == "POP") {
 			$protocol = "pop3";
 		}
+
 		// example server string = "{mail.nih.gov:995/pop3/ssl/novalidate-cert}";
 		$this->serverString = "{". $this->host .":". $this->port ."/". $protocol . $sslOption ."}";
 		$this->mailbox = imap_open($this->serverString, $this->username, $this->password);
+
 		if ($this->mailboxHeader = imap_check($this->mailbox)) {
-			$this->mailboxOpen = TRUE;
-			$this->messages .= "Mailbox opened successfully.\n";
+			$this->mailboxOpen = true;
+			$this->messages .= "Mailbox opened successfully.<br>";
 		} else {
-			$this->mailboxOpen = FALSE;
-			$this->messages .= "Mailbox failed to open.\n";
+			$this->mailboxOpen = false;
+			$this->messages .= "Mailbox failed to open.<br>";
 		}
 	}
 
 
-	// traverse the inbox for appropriate messages
-	public function loopInbox() {
-		global $global;
+	// purge and close inbox
+	private function closeMailbox() {
 
-		// update sequence
+		if ($this->mailboxOpen) {
+			imap_expunge($this->mailbox);
+			imap_close($this->mailbox);
+		}
+	}
+
+
+	// update sequence
+	private function updateSequence() {
+
+		// figure out script execution time
+		$this->stopTime = microtime(true);
+		$totalTime = $this->stopTime - $this->startTime;
+		$this->messages .= "Script executed in ".$totalTime." seconds.<br>";
+
 		$q = "
 			DELETE FROM `mpres_seq`
 			WHERE `id` like '%';
 		";
-		$res = $global['db']->Execute($q);
+		$res = $this->db->Execute($q);
 
 		$q = "
-			INSERT INTO  `mpres_seq` (`id`, `last_executed`)
-			VALUES (NULL, CURRENT_TIMESTAMP);
+			INSERT INTO  `mpres_seq` (`id`, `last_executed`, `last_message`)
+			VALUES (NULL, CURRENT_TIMESTAMP, '".mysql_real_escape_string($this->messages)."');
 		";
-		$res = $global['db']->Execute($q);
+		$res = $this->db->Execute($q);
 
-
-		// check mailbox status
-		if($this->mailboxOpen == false) {
-			$this->messages .= "Can't loop inbox as it's not open!\n";
-		} else {
-			$this->messageCount = $this->mailboxHeader->Nmsgs;
-		}
-		if($this->messageCount == 0) {
-			$this->messages .= "Not looping inbox, its empty!\n";
-		} else {
-			$this->messages .= "Number of messages in inbox: ". $this->messageCount ."\n";
-
-			// download all message information from inbox
-			$overview = imap_fetch_overview($this->mailbox,"1:".$this->messageCount,0);
-			$size = sizeof($overview);
-
-			// loop through each message
-			for($i = $size-1; $i >= 0; $i--) {
-
-				$this->person = null; // reset from last person/email...
-				$this->person = new person();
-				$this->person->init();
-				$this->ecode = 0;
-
-				// retrieve current message's data
-				$this->currentMessage       = $overview[$i];
-				$this->currentSubject       = $this->currentMessage->subject;
-				$this->currentDate          = $this->currentMessage->date;
-				$this->currentFrom          = $this->currentMessage->from;
-				$this->currentAttachments   = null; // reset from last person
-				$this->currentAttachments   = array();
-				$this->currentMessageHasXML = false;
-				$this->senderAddress        = $overview[$i]->from;
-				$this->fixDate();           // reformat the date for our purposes
-				$this->fixFrom();           // strip extra characters from the from field
-				$this->fixAddress();        // fix email address of excess characters
-				$this->getAttachmentsAndParseXML($i);  // grab all attachments
-
-				// email has XML attachment....
-				if ($this->currentMessageHasXML) {
-
-					// catch all parsing errors...
-					if($this->ecode != 0) {
-						$this->messages .= "LPF XML email found but failed during parsing with error code: ".$this->ecode.".\n";
-
-					// event is closed... error
-					} elseif(!$this->person->isEventOpen()) {
-						$this->messages .= "LPF XML email found however, the event being reported to is closed, so the person was not inserted.\n";
-						$this->replyError($this->person->shortName);
-
-					// insert!
-					} else {
-						$this->person->insert();
-						$this->messages .= "LPF XML email found and person(".$this->person->p_uuid.") inserted.\n";
-						$this->replySuccess($this->person->p_uuid, ""); // FIX event name...
-					}
-
-				// unstructured email... attempt to parse subject
-				} else {
-					$this->person->incident_id = $this->incident_id;
-					if(!$this->person->isEventOpen()) {
-						$this->messages .= "Unstructured email found, however the event being reported to is closed, so the person was not inserted.\n";
-						$this->replyError($this->person->shortName);
-					} else {
-						$this->person->insert();
-						$this->messages .= "Normal email found and person(".$this->person->p_uuid.") inserted.\n";
-						$this->replySuccess($this->person->p_uuid, ""); // FIX event name...
-					}
-				}
-
-				// delete the message from the inbox
-				imap_delete($this->mailbox, $i+1);
-				$this->messages .= "Message #".$i." deleted.\n";
-			}
-		}
+		$q = "
+			INSERT INTO  `mpres_messages` (`messages`)
+			VALUES ('".mysql_real_escape_string($this->messages)."');
+		";
+		$res = $this->db->Execute($q);
 	}
+
+
+	// save entry in the log
+	private function mpresLog() {
+		// insert into mpres_log
+		$q = "
+			INSERT INTO mpres_log (p_uuid, email_subject, email_from, email_date, update_time)
+			VALUES ('".$this->person->p_uuid."','".$this->currentSubject."','".$this->currentFrom."','".$this->currentDate."',NOW());
+		";
+		$res = $this->db->Execute($q);
+	}
+
 
 
 	// algorithmically find the attachments in this email...
@@ -309,25 +359,43 @@ class mpres {
 
 				// add the image to our current person...
 				if ($this->currentAttachments[$i]['is_image']) {
+					$this->messages .= "found image attachment: ".$f."<br>";
+					$this->person->createUUID(); // make sure we have a uuid already...
 					$this->person->addImage(base64_encode($this->currentAttachments[$i]['attachment']), $f);
 				}
 
 				// handle the XML LPF attachment
 				if ($this->currentAttachments[$i]['is_xml']) {
-					$this->messages .= "found XML attachment>>(".$f.")\n";
+					$this->messages .= "found XML attachment: ".$f."<br>";
 					$a = xml2array($this->currentAttachments[$i]['attachment']);
 
-					// LPF v1.5/1.6 XML from Re-Unite
-					if(isset($a['lpfContent'])) {
+					// New ReUnite XML Format (from ReUnite 2.5+)
+					if(isset($a['person'])) {
+						$this->person->theString = $this->currentAttachments[$i]['attachment'];
+						$this->person->xmlFormat = "REUNITE3";
+						$this->messages .= "attempting to parse XML attachment as REUNITE3 format<br>";
+						$this->ecode = $this->person->parseXml();
+
+					// Old ReUnite XML Format (Reunite 1.0-2.1)
+					} elseif(isset($a['lpfContent'])) {
 						$this->person->theString = $this->currentAttachments[$i]['attachment'];
 						$this->person->xmlFormat = "REUNITE2";
-						$this->ecode = $p->parseXml();
+						$this->messages .= "attempting to parse XML attachment as REUNITE2 format<br>";
+						$this->ecode = $this->person->parseXml();
 
-					// LPF v1.2 XML from TriagePic
-					} else if(isset($a['EDXLDistribution'])) {
+					// Old LPF v1.2 XML from TriagePic
+					} elseif(isset($a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent'])) {
 						$this->person->theString = $this->currentAttachments[$i]['attachment'];
-						$this->person->xmlFormat = "MPRES1";
-						$this->ecode = $p->parseXml();
+						$this->person->xmlFormat = "TRIAGEPIC0";
+						$this->messages .= "attempting to parse XML attachment as TRIAGEPIC0 format<br>";
+						$this->ecode = $this->person->parseXml();
+
+					// Try the new LPF 1.3 Format
+					} else {
+						$this->person->theString = $this->currentAttachments[$i]['attachment'];
+						$this->person->xmlFormat = "TRIAGEPIC1";
+						$this->messages .= "attempting to parse XML attachment as TRIAGEPIC1 format<br>";
+						$this->ecode = $this->person->parseXml();
 					}
 				}
 			}
@@ -337,7 +405,8 @@ class mpres {
 
 	// starts out like: "triune@gmail.com" <triune@gmail.com>
 	// so turn it into: triune@gmail.com
-	public function fixAddress() {
+	private function fixAddress() {
+
 		$e = explode("<", (string)$this->senderAddress);
 		$e = explode(">", $e[1]);
 		$this->senderAddress = $e[0];
@@ -346,6 +415,7 @@ class mpres {
 
 	// split into elements and reformat the date to our preferred format YYYYMMDD_HHMMSS (php ~ Ymd_Gis)
 	private function fixDate() {
+
 		list($dayName,$day,$month,$year,$time,$zone) = explode(" ",$this->currentMessage->date);
 		list($hour,$minute,$second) = explode(":",$time);
 		$month = $this->fixMonth($month);
@@ -359,6 +429,7 @@ class mpres {
 
 	// change 3 letter month abbreviation into decimal month
 	private function fixMonth($month) {
+
 		switch ($month) {
 			case "Jan": $month = "01"; break;
 			case "Feb": $month = "02"; break;
@@ -384,45 +455,45 @@ class mpres {
 
 
 	// send email with error message...
-	private function replyError($name) {
-		global $global;
-		$p = new pop();
+	private function replyError($error) {
 
 		$subject  = "[AUTO-REPLY]: People Locator Record Submission FAILURE";
 		$bodyHTML = "
-			Thank you for the person record you submitted for event(".$name."). However, the event you attempted to assign this person to is closed. Therefore your submission has been rejected.<br>
+			".$error."<br>
 			<br>
 			<br>
 			<b>- People Locator</b><br>
 			<br>
 		";
 		$bodyAlt = "
-			Thank you for the person record you submitted for event(".$name."). However, the event you attempted to assign this person to is closed. Therefore your submission has been rejected.\n
+			".$error."\n
 			\n
 			\n
 			- People Locator\n
 			\n
 		";
+		$p = new pop();
 		$p->sendMessage($this->senderAddress, "", $subject, $bodyHTML, $bodyAlt);
 	}
 
 
 	// email sender with success message
-	private function replySuccess($uuid, $name="") {
-		global $global;
-		$p = new pop();
+	private function replySuccess($uuid, $id) {
 
-		if(trim($name) == "") {
-			$event = "";
-		} else {
-			$event = " for event (".$name.")";
-		}
+		// figure out the event name
+		$q = "
+			SELECT *
+			FROM incident
+			WHERE incident_id = '".mysql_real_escape_string((int)$id)."';
+		";
+		$result = $this->db->Execute($q);
+		$event = $result->fields['description'];
 
 		$subject  = "[AUTO-REPLY]: People Locator Record Submission SUCCESS";
 		$bodyHTML = "
-			Thank you for the person record you submitted".$event.". It has been added to our registry and will show up in search results in a few minutes.<br>
+			We received the person record you submitted ".$event.". It has been added to our registry and will show up in search results in a few minutes.<br>
 			<br>
-			You can always view the record (and updates) of this person at the following url:<br>
+			You can always view the record for this person (and updates) at the following url:<br>
 			<a href=\"https://".$uuid."\">https://".$uuid."</a><br>
 			<br>
 			<br>
@@ -430,25 +501,203 @@ class mpres {
 			<br>
 		";
 		$bodyAlt = "
-			Thank you for the person record you submitted".$event.". It has been added to our registry and will show up in search results in a few minutes.\n
+			We received the person record you submitted ".$event.". It has been added to our registry and will show up in search results in a few minutes.\n
 			\n
-			You can always view the record (and updates) of this person at the following url:\n
+			You can always view the record for this person (and updates) at the following url:\n
 			https://".$uuid."</a>\n
 			\n
 			\n
 			- People Locator\n
 			\n
 		";
+		$p = new pop();
 		$p->sendMessage($this->senderAddress, "", $subject, $bodyHTML, $bodyAlt);
 	}
 
 
-	// prints the message log...
-	public function spit() {
-		$this->stopTime = microtime(true);
-		$totalTime = $this->stopTime - $this->startTime;
-		$this->messages .= "scriptExecutedIn >> ".$totalTime." seconds.\n";
-		echo $this->messages;
+	// try to determine the status of the person by looking for certain strings in the subject
+	private function extractStatusFromSubject() {
+
+		$this->currentSubject = strtolower($this->currentSubject);
+		$s = $this->currentSubject;
+		$needle   = array();
+		$status   = array();
+
+		// clean extraneous characters
+		$s = str_replace("`", " ", $s);
+		$s = str_replace("~", " ", $s);
+		$s = str_replace("!", " ", $s);
+		$s = str_replace("@", " ", $s);
+		$s = str_replace("#", " ", $s);
+		$s = str_replace("$", " ", $s);
+		$s = str_replace("%", " ", $s);
+		$s = str_replace("^", " ", $s);
+		$s = str_replace("&", " ", $s);
+		$s = str_replace("*", " ", $s);
+		$s = str_replace("(", " ", $s);
+		$s = str_replace(")", " ", $s);
+		$s = str_replace("-", " ", $s);
+		$s = str_replace("_", " ", $s);
+		$s = str_replace("+", " ", $s);
+		$s = str_replace("=", " ", $s);
+		$s = str_replace("{", " ", $s);
+		$s = str_replace("}", " ", $s);
+		$s = str_replace("[", " ", $s);
+		$s = str_replace("]", " ", $s);
+		$s = str_replace("|", " ", $s);
+		$s = str_replace("\\"," ", $s);
+		$s = str_replace(":", " ", $s);
+		$s = str_replace(";", " ", $s);
+		$s = str_replace("'", " ", $s);
+		$s = str_replace("\""," ", $s);
+		$s = str_replace(".", " ", $s);
+		$s = str_replace("<", " ", $s);
+		$s = str_replace(">", " ", $s);
+		$s = str_replace("?", " ", $s);
+		$s = str_replace("/", " ", $s);
+
+		// vocabulary of english/french/spanish status words and their corresponding sahana status code
+		$needle[] = '/missing/';
+		$status[] = 'mis';
+
+		$needle[] = '/lost/';
+		$status[] = 'mis';
+
+		$needle[] = '/looking for/';
+		$status[] = 'mis';
+
+		$needle[] = '/found/';
+		$status[] = 'fnd';
+
+		$needle[] = '/find/';
+		$status[] = 'mis';
+
+		$needle[] = '/disparu/';
+		$status[] = 'mis';
+
+		$needle[] = '/perdu/';
+		$status[] = 'mis';
+
+		$needle[] = '/a la recherche de/';
+		$status[] = 'mis';
+
+		$needle[] = '/trouver/';
+		$status[] = 'mis';
+
+		$needle[] = '/moun yap chache/';
+		$status[] = 'mis';
+
+		$needle[] = '/injured/';
+		$status[] = 'inj';
+
+		$needle[] = '/hurt/';
+		$status[] = 'inj';
+
+		$needle[] = '/wounded/';
+		$status[] = 'inj';
+
+		$needle[] = '/sick/';
+		$status[] = 'inj';
+
+		$needle[] = '/treated/';
+		$status[] = 'inj';
+
+		$needle[] = '/recovering/';
+		$status[] = 'inj';
+
+		$needle[] = '/blesse/';
+		$status[] = 'inj';
+
+		$needle[] = '/mal en point/';
+		$status[] = 'inj';
+
+		$needle[] = '/malade/';
+		$status[] = 'inj';
+
+		$needle[] = '/soigne/';
+		$status[] = 'inj';
+
+		$needle[] = '/convalecent/';
+		$status[] = 'inj';
+
+		$needle[] = '/deceased/';
+		$status[] = 'dec';
+
+		$needle[] = '/dead/';
+		$status[] = 'dec';
+
+		$needle[] = '/died/';
+		$status[] = 'dec';
+
+		$needle[] = '/buried/';
+		$status[] = 'dec';
+
+		$needle[] = '/decede/';
+		$status[] = 'dec';
+
+		$needle[] = '/mort/';
+		$status[] = 'dec';
+
+		$needle[] = '/inhume/';
+		$status[] = 'dec';
+
+		$needle[] = '/mouri/';
+		$status[] = 'dec';
+
+		$needle[] = '/alive & well/';
+		$status[] = 'ali';
+
+		$needle[] = '/alive and well/';
+		$status[] = 'ali';
+
+		$needle[] = '/alive/';
+		$status[] = 'ali';
+
+		$needle[] = '/well/';
+		$status[] = 'ali';
+
+		$needle[] = '/okay/';
+		$status[] = 'ali';
+
+		$needle[] = '/recovered/';
+		$status[] = 'ali';
+
+		$needle[] = '/en vie/';
+		$status[] = 'ali';
+
+		$needle[] = '/en bonne sante/';
+		$status[] = 'ali';
+
+		$needle[] = '/gueri/';
+		$status[] = 'ali';
+
+		$needle[] = '/bien prtant/';
+		$status[] = 'ali';
+
+		$needle[] = '/vivant ak anfom/';
+		$status[] = 'ali';
+
+		$needle[] = '/vivant/';
+		$status[] = 'ali';
+
+		$needle[] = '/anfom/';
+		$status[] = 'ali';
+
+		for ($i=0; $i < count($needle); $i++) {
+			if(preg_match($needle[$i], $s) > 0) {
+
+				// assign status
+				$this->person->opt_status = $status[$i];
+
+				// remove the status from the email subject
+				$this->currentSubject = preg_replace($needle[$i], "", $this->currentSubject);
+			}
+		}
+
+		// if we haven't figured out the status yet, set it to unknown
+		if($this->person->opt_status == null) {
+			$this->person->opt_status = "unk";
+		}
 	}
 	// end class
 }

@@ -25,6 +25,5 @@ require_once("../../inc/lib_image.inc");
 require_once("../../mod/lpf/lib_lpf.inc");
 require_once("class.mpres.php");
 
+// instantiating the instance performs full execution
 $m = new mpres();
-$m->loopInbox();
-echo $m->spit();

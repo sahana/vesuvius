@@ -42,6 +42,12 @@ function shn_mpres_header2() {
 		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=mpres&act=status\">Service Status</a></li>";
 	}
 
+	if(($_GET['act'] == "person_log")){
+		echo "<li>Reported Person Log</li>";
+	} else {
+		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=mpres&act=person_log\">Reported Person Log</a></li>";
+	}
+
 	if($_GET['act'] == "configuration") {
 		echo "<li>Configuration Options</li>";
 	} else {
@@ -90,19 +96,104 @@ function shn_mpres_status() {
 
 	$delta = date("U") - $lastExecutedU;
 
-	echo "Cron Job last executed @ <b>".$lastExecuted."</b> or <b>".$delta." seconds</b> ago.<br>";
-
 	if($delta < 120) {
-		echo "Cron Status: <span style=\"color: green;\"><b>Nominal</b></span><br><br>";
+		$statusMsg = "Cron Status: <span style=\"color: green;\"><b>Nominal</b></span>";
 	} else {
-		echo "Cron Status: <span style=\"color: red;\"><b>FAILURE</b></span><br><br>";
+		$statusMsg = "Cron Status: <span style=\"color: red;\"><b>FAILURE</b></span>";
 	}
 
-
-
+	echo '
+		<div class="form-container">
+			<form>
+				<fieldset>
+					<legend>Daemon Status</legend>
+					Cron Job last executed @ <b>'.$lastExecuted.'</b> or <b>'.$delta.' seconds</b> ago.<br>
+					'.$statusMsg.'
+				</fieldset>
+			</form>
+		</div>
+	';
 
 	// figure out log traversal navigation....
 
+	if(isset($_GET['pagenum'])) {
+		$startPoint = (int)$_GET['pagenum']*100;
+		$endPoint = $startPoint + 100;
+		$msg = "showing executions ".($startPoint+1)." to ".$endPoint;
+	} else {
+		$startPoint = 0;
+		$endPoint = $startPoint + 100;
+		$msg = "showing last 100";
+	}
+
+	if(isset($_GET['pagenum']) && (int)$_GET['pagenum'] > 0) {
+		$previous = "<a href=\"index.php?mod=mpres&act=status&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
+	} else {
+		$previous = "◄";
+		$_GET['pagenum'] = 0;
+	}
+
+	$q = "
+		SELECT count(*)
+		FROM `mpres_messages`;
+	";
+	$result = $global['db']->Execute($q);
+	$row = $result->FetchRow();
+	$totalCount = $row['count(*)'];
+
+	if($endPoint < $totalCount) {
+		$next = "<a href=\"index.php?mod=mpres&act=status&pagenum=".($_GET['pagenum']+1)."\">►</a>";
+	} else {
+		$next = "►";
+		$msg = "showing executions ".($startPoint+1)." to ".$totalCount;
+	}
+
+	echo "<div class=\"form-container\"><form><fieldset>";
+	echo "<legend>Script Execution Messages (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
+	echo "<table id=\"regLog\"><tr>
+		<td class=\"evener\"><b>Execution Time</b></td>
+		<td class=\"evener\"><b>Messages</b></td>
+	</tr>";
+	$q = "
+		SELECT *
+		FROM  `mpres_messages`
+		ORDER BY  `when` DESC
+		LIMIT ".$startPoint.", 100;
+	";
+	$res = $global['db']->Execute($q);
+	while($row = $res->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		echo "  <tr>
+				<td ".$odd.">".$row['when']."</td>
+				<td ".$odd.">".$row['messages']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=2 class=\"odder\">No script executions so far!</td></tr>";
+	}
+	echo "</table>";
+	echo "</fieldset></form></div>";
+}
+
+
+
+/**
+ * Shows Cron Status as well as the last 100 emails entered...
+ * @access public
+ * @return void
+ */
+function shn_mpres_person_log() {
+	global $global;
+	$count = 0;
+
+	shn_mpres_header2();
+
+	// figure out log traversal navigation....
 
 	if(isset($_GET['pagenum'])) {
 		$startPoint = (int)$_GET['pagenum']*100;
@@ -114,8 +205,8 @@ function shn_mpres_status() {
 		$msg = "showing last 100";
 	}
 
-	if((int)$_GET['pagenum'] > 0) {
-		$previous = "<a href=\"index.php?mod=mpres&act=status&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
+	if(isset($_GET['pagenum']) && (int)$_GET['pagenum'] > 0) {
+		$previous = "<a href=\"index.php?mod=mpres&act=person_log&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
 	} else {
 		$previous = "◄";
 	}
@@ -129,7 +220,7 @@ function shn_mpres_status() {
 	$totalCount = $row['count(*)'];
 
 	if($endPoint < $totalCount) {
-		$next = "<a href=\"index.php?mod=mpres&act=status&pagenum=".($_GET['pagenum']+1)."\">►</a>";
+		$next = "<a href=\"index.php?mod=mpres&act=person_log&pagenum=".($_GET['pagenum']+1)."\">►</a>";
 	} else {
 		$next = "►";
 		$msg = "showing emails ".($startPoint+1)." to ".$totalCount;
@@ -165,11 +256,13 @@ function shn_mpres_status() {
 		$count++;
 	}
 	if($count==0) {
-		echo "<tr><td colspan=4 class=\"odder\">No MPRES Emails Received So Far!</td></tr>";
+		echo "<tr><td colspan=4 class=\"odder\">No emails received so far!</td></tr>";
 	}
 	echo "</table>";
 	echo "</fieldset></form></div>";
 }
+
+
 
 
 /**
@@ -199,11 +292,6 @@ function shn_mpres_configuration() {
 			} else {
 				$ssl = 0;
 			}
-			if (isset($_POST['mpres_delete_messages'])) {
-				$delete_messages = 1;
-			} else {
-				$delete_messages = 0;
-			}
 			if ( isset($_POST['mpres_popimap']) && $_POST['mpres_popimap'] == "POP") {
 				$popimap = "POP";
 			} else {
@@ -216,9 +304,7 @@ function shn_mpres_configuration() {
 			shn_db_config_update("mpres","ssl",            $ssl);
 			shn_db_config_update("mpres","username",       $_POST['mpres_username']);
 			shn_db_config_update("mpres","password",       $_POST['mpres_password']);
-			shn_db_config_update("mpres","attachments",    $_POST['mpres_attachments']);
 			shn_db_config_update("mpres","incident_id",    $_POST['mpres_incident_id']);
-			shn_db_config_update("mpres","delete_messages",$delete_messages);
 		} else {
 			add_warning('Errors were encountered, configuration not saved.');
 		}
@@ -229,17 +315,11 @@ function shn_mpres_configuration() {
 		$port        = $_POST['mpres_port'];
 		$username    = $_POST['mpres_username'];
 		$password    = $_POST['mpres_password'];
-		$attachments = $_POST['mpres_attachments'];
 		$incident_id = $_POST['mpres_incident_id'];
 		if (isset($_POST['mpres_ssl'])) {
 			$sslText = "CHECKED";
 		} else {
 			$sslText = "";
-		}
-		if (isset($_POST['mpres_delete_messages'])) {
-			$deleteMessagesText = "CHECKED";
-		} else {
-			$deleteMessagesText = "";
 		}
 		if (isset($_POST['mpres_popimap']) && $_POST['mpres_popimap'] == "POP") {
 			$popimapOption = "POP";
@@ -254,18 +334,11 @@ function shn_mpres_configuration() {
 		$ssl             = shn_db_get_config("mpres","ssl");
 		$username        = shn_db_get_config("mpres","username");
 		$password        = shn_db_get_config("mpres","password");
-		$attachments     = shn_db_get_config("mpres","attachments");
 		$incident_id     = shn_db_get_config("mpres","incident_id");
-		$delete_messages = shn_db_get_config("mpres","delete_messages");
 		if ($ssl=="1") {
 			$sslText = "CHECKED";
 		} else {
 			$sslText = "";
-		}
-		if ($delete_messages=="1") {
-			$deleteMessagesText = "CHECKED";
-		} else {
-			$deleteMessagesText = "";
 		}
 		if ( $popimap == "POP") {
 			$popimapOption = "POP";
@@ -274,30 +347,22 @@ function shn_mpres_configuration() {
 		}
 	}
 	shn_form_fopen("configuration", null,array('req_message'=>true));
-		shn_form_fsopen("POP/IMAP server");
+		shn_form_fsopen("POP / IMAP Settings");
 			shn_form_text("Host or IP (ie. mail.google.com)","mpres_host",null,array("req"=>true,"value"=>$host));
 			shn_form_text("Port (ie. 110 or 993,995 for SSL)","mpres_port",null,array("req"=>true,"value"=>$port));
 			shn_form_radio(array("POP"=>"POP","IMAP"=>"IMAP"),"Use POP or IMAP protocol","mpres_popimap", null, array("value"=>$popimapOption));
 			shn_form_checkbox("Use SSL", "mpres_ssl", $text_opts = $sslText, $extra_opts = null);
 		shn_form_fsclose();
 
-		shn_form_fsopen("Email Account");
+		shn_form_fsopen("Email Account Credentials");
 			shn_form_text("Username","mpres_username",null,array("req"=>true,"value"=>$username));
-			shn_form_password("Password","mpres_password",null,array("req"=>true,"value"=>$password));
+			shn_form_text("Password","mpres_password",null,array("req"=>true,"value"=>$password));
 		shn_form_fsclose();
 
-		shn_form_fsopen("Attachments");
-			shn_form_text("Number of image attachments to allow in each email (1-20)","mpres_attachments",null,array("req"=>true,"value"=>$attachments));
-		shn_form_fsclose();
-
-		shn_form_fsopen("Event");
+		shn_form_fsopen("Default Event");
 			shn_mpres_incident_select($incident_id);
 		shn_form_fsclose();
-
-		shn_form_fsopen("Inbox Options");
-			shn_form_checkbox("Delete Emails After Download", "mpres_delete_messages", $text_opts = $deleteMessagesText, $extra_opts = null);
-		shn_form_fsclose();
-
+		echo "<br>";
 		shn_form_submit("Save Configuration Settings", "class=\"styleTehButton\"");
 	shn_form_fclose();
 	echo "<br><br>";
@@ -310,7 +375,7 @@ function shn_mpres_configuration() {
  */
 function shn_mpres_incident_select($incident_id){
 	global $global;
-	?> <label for="mpres_incident">The event chosen here will be assigned to all persons reported using unstructured emails.</label><select name="mpres_incident_id"><?php
+	?> <label for="mpres_incident">The event selected here will be used for persons reported using unstructured emails.</label><select name="mpres_incident_id"><?php
 	$query1 = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";
 	$result1 = $global['db']->Execute($query1);
 	while($row1 = $result1->FetchRow()){
