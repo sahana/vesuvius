@@ -1,3 +1,4 @@
-# See Jira ticket PL-59 for why the "Kerberos" kludge below is necessary.
+# setup this script to run with cron to automate the ingesting of email person reports...
+
 cd /opt/pl/mod/mpres/ ;
-/usr/bin/php crontask.php | grep -v Kerberos >> /pl/tmp/mpres.log 2>> /pl/tmp/mpres.err ;
+/usr/bin/php crontask.php > /dev/null 2>&1 ;

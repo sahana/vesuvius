@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         LPF Library
- * @version      23
+ * @version      24
  * @package      lpf
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0825
+ * @lastModified 2011.0909
  */
 
 
@@ -18,8 +18,7 @@ $global['enumTriageStatusTags'] = array('Green', 'BH Green', 'Yellow', 'Red', 'G
 $global['enumGenders']          = array('M', 'F', 'U', 'C');
 $global['enumDistrStatus']      = array('Actual', 'Exercise', 'System', 'Test');
 $global['enumDistrType']        = array('Ack', 'Cancel', 'Dispatch', 'Error', 'Report', 'Request', 'Response', 'Update');
-$global['enumXmlFormats']       = array('REUNITE3', 'TRIAGEPIC1');
-
+$global['enumXmlFormats']       = array('REUNITE3', 'TRIAGEPIC1', 'TRIAGEPIC0', 'REUNITE2');
 
 
 /** ******************************************************************************************************************************************************************
@@ -44,7 +43,8 @@ class voiceNote {
 	public $channels;
 	public $speaker;
 	public $url_original;
-	public $url_resampled;
+	public $url_resampled_mp3;
+	public $url_resampled_ogg;
 
 	private $sql_voice_id;
 	private $sql_p_uuid;
@@ -54,7 +54,8 @@ class voiceNote {
 	private $sql_channels;
 	private $sql_speaker;
 	private $sql_url_original;
-	private $sql_url_resampled;
+	private $sql_url_resampled_mp3;
+	private $sql_url_resampled_ogg;
 
 	public $dataBase64;
 	public $data;
@@ -67,25 +68,27 @@ class voiceNote {
 		$this->db = $global['db'];
 
 		// init values
-		$this->voice_note_id = null;
-		$this->p_uuid        = null;
-		$this->length        = null;
-		$this->format        = null;
-		$this->sample_rate   = null;
-		$this->channels      = null;
-		$this->speaker       = null;
-		$this->url_original  = null;
-		$this->url_resampled = null;
+		$this->voice_note_id     = null;
+		$this->p_uuid            = null;
+		$this->length            = null;
+		$this->format            = null;
+		$this->sample_rate       = null;
+		$this->channels          = null;
+		$this->speaker           = null;
+		$this->url_original      = null;
+		$this->url_resampled_mp3 = null;
+		$this->url_resampled_ogg = null;
 
-		$this->sql_voice_note_id = null;
-		$this->sql_p_uuid        = null;
-		$this->sql_length        = null;
-		$this->sql_format        = null;
-		$this->sql_sample_rate   = null;
-		$this->sql_channels      = null;
-		$this->sql_speaker       = null;
-		$this->sql_url_original  = null;
-		$this->sql_url_resampled = null;
+		$this->sql_voice_note_id     = null;
+		$this->sql_p_uuid            = null;
+		$this->sql_length            = null;
+		$this->sql_format            = null;
+		$this->sql_sample_rate       = null;
+		$this->sql_channels          = null;
+		$this->sql_speaker           = null;
+		$this->sql_url_original      = null;
+		$this->sql_url_resampled_mp3 = null;
+		$this->sql_url_resampled_ogg = null;
 
 		$this->dataBase64 = null;
 		$this->data       = null;
@@ -94,25 +97,27 @@ class voiceNote {
 
 	// Destructor
 	public function __destruct() {
-		$this->voice_note_id = null;
-		$this->p_uuid        = null;
-		$this->length        = null;
-		$this->format        = null;
-		$this->sample_rate   = null;
-		$this->channels      = null;
-		$this->speaker       = null;
-		$this->url_original  = null;
-		$this->url_resampled = null;
+		$this->voice_note_id     = null;
+		$this->p_uuid            = null;
+		$this->length            = null;
+		$this->format            = null;
+		$this->sample_rate       = null;
+		$this->channels          = null;
+		$this->speaker           = null;
+		$this->url_original      = null;
+		$this->url_resampled_mp3 = null;
+		$this->url_resampled_ogg = null;
 
-		$this->sql_voice_note_id = null;
-		$this->sql_p_uuid        = null;
-		$this->sql_length        = null;
-		$this->sql_format        = null;
-		$this->sql_sample_rate   = null;
-		$this->sql_channels      = null;
-		$this->sql_speaker       = null;
-		$this->sql_url_original  = null;
-		$this->sql_url_resampled = null;
+		$this->sql_voice_note_id     = null;
+		$this->sql_p_uuid            = null;
+		$this->sql_length            = null;
+		$this->sql_format            = null;
+		$this->sql_sample_rate       = null;
+		$this->sql_channels          = null;
+		$this->sql_speaker           = null;
+		$this->sql_url_original      = null;
+		$this->sql_url_resampled_mp3 = null;
+		$this->sql_url_resampled_ogg = null;
 
 		$this->dataBase64 = null;
 		$this->data       = null;
@@ -154,15 +159,16 @@ class voiceNote {
 
 		// build SQL value strings
 
-		$this->sql_voice_note_id = ($this->voice_note_id == null) ? "NULL" : (int)$this->voice_note_id;
-		$this->sql_p_uuid        = ($this->p_uuid        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
-		$this->sql_length        = ($this->length        == null) ? "NULL" : (int)$this->length;
-		$this->sql_format        = ($this->format        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->format)."'";
-		$this->sql_sample_rate   = ($this->sample_rate   == null) ? "NULL" : (int)$this->sample_rate;
-		$this->sql_channels      = ($this->channels      == null) ? "NULL" : (int)$this->channels;
-		$this->sql_speaker       = ($this->speaker       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->speaker)."'";
-		$this->sql_url_original  = ($this->url_original  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_original)."'";
-		$this->sql_url_resampled = ($this->url_resampled == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_resampled)."'";
+		$this->sql_voice_note_id     = ($this->voice_note_id == null) ? "NULL" : (int)$this->voice_note_id;
+		$this->sql_p_uuid            = ($this->p_uuid        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
+		$this->sql_length            = ($this->length        == null) ? "NULL" : (int)$this->length;
+		$this->sql_format            = ($this->format        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->format)."'";
+		$this->sql_sample_rate       = ($this->sample_rate   == null) ? "NULL" : (int)$this->sample_rate;
+		$this->sql_channels          = ($this->channels      == null) ? "NULL" : (int)$this->channels;
+		$this->sql_speaker           = ($this->speaker       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->speaker)."'";
+		$this->sql_url_original      = ($this->url_original  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_original)."'";
+		$this->sql_url_resampled_mp3 = ($this->url_resampled_mp3 == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_resampled_mp3)."'";
+		$this->sql_url_resampled_ogg = ($this->url_resampled_ogg == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_resampled_ogg)."'";
 	}
 
 
@@ -188,13 +194,13 @@ class voiceNote {
 		chmod($path."original", 0777);
 		$this->url_original  = "tmp/plus_cache/".$filename."original";
 
-		// FIX ME! Add MP3 or WAV support as the resampled file
-		// for now, save the original unresampled to act as the resampled only if it is an MPEG4AAC file
-		if($this->format == "MPEG4AAC") {
-			file_put_contents($path."resampled.m4a", $this->data);
-			chmod($path."resampled.m4a", 0777);
-			$this->url_resampled = "tmp/plus_cache/".$filename."resampled.m4a";
-		}
+		// use ffmpeg to resample the file to wav for html5 audio (supported in all browsers)
+		shell_exec("ffmpeg -i ".$path."original ".$path."resampled.mp3 ;");
+		shell_exec("ffmpeg -i ".$path."original ".$path."resampled.ogg ;");
+		chmod($path."resampled.mp3", 0777);
+		chmod($path."resampled.ogg", 0777);
+		$this->url_resampled_mp3 = "tmp/plus_cache/".$filename."resampled.mp3";
+		$this->url_resampled_ogg = "tmp/plus_cache/".$filename."resampled.ogg";
 	}
 
 
@@ -212,7 +218,8 @@ class voiceNote {
 				channels,
 				speaker,
 				url_original,
-				url_resampled )
+				url_resampled_mp3,
+				url_resampled_ogg )
 			VALUES (
 				".$this->sql_voice_note_id.",
 				".$this->sql_p_uuid.",
@@ -222,7 +229,8 @@ class voiceNote {
 				".$this->sql_channels.",
 				".$this->sql_speaker.",
 				".$this->sql_url_original.",
-				".$this->sql_url_resampled." );
+				".$this->sql_url_resampled_mp3.",
+				".$this->sql_url_resampled_ogg." );
 		";
 		$result = $this->db->Execute($q);
 	}
@@ -1062,6 +1070,7 @@ class personImage {
 
 		// generate path and filename portion
 		$a = explode("/", $this->p_uuid);
+
 		$filename = $a[0]."_".$a[1]; // make pl.nlm.nih.gov/person.123456 into pl.nlm.nih.gov_person.123456
 		$filename = $filename."_".$this->image_id."_"; // filename now like person.123456_112233_
 		$path = $global['approot']."www/tmp/plus_cache/".$filename; // path is now like /opt/pl/www/tmp/plus_cache/person.123456_112233_
@@ -1101,8 +1110,9 @@ class personImage {
 	}
 
 
-	// save the image tag
+	// save the image
 	public function insert() {
+
 		// save image to disk
 		$this->write();
 
@@ -1128,6 +1138,7 @@ class personImage {
 				".$this->sql_url_thumb.",
 				".$this->sql_original_filename." );
 		";
+
 		$result = $this->db->Execute($q);
 		$this->insertImageTags();
 	}
@@ -1223,6 +1234,10 @@ class person {
 	private $sql_rep_uuid;
 	private $sql_relation;
 
+	// used for when we recieve emails from mpres to make a pfif_note
+	public $author_name;
+	public $author_email;
+
 
 	// Constructor:
 	public function	__construct() {
@@ -1283,6 +1298,9 @@ class person {
 		$this->sql_other_comments = null;
 		$this->sql_rep_uuid       = null;
 		$this->sql_relation       = null;
+
+		$this->author_name        = null;
+		$this->author_email       = null;
 	}
 
 
@@ -1342,6 +1360,9 @@ class person {
 		$this->sql_other_comments = null;
 		$this->sql_rep_uuid       = null;
 		$this->sql_relation       = null;
+
+		$this->author_name        = null;
+		$this->author_email       = null;
 	}
 
 
@@ -1364,7 +1385,7 @@ class person {
 		} elseif($this->opt_gender == "C") {
 			$this->opt_gender = "cpx";
 		} elseif($this->opt_gender == "U") {
-			$this->opt_gender = "unk";
+			$this->opt_gender = null;
 		} else {
 			$this->opt_gender = null;
 		}
@@ -1503,6 +1524,7 @@ class person {
 		global $global;
 		require_once($global['approot']."inc/lib_uuid.inc");
 		require_once($global['approot']."mod/pfif/pfif.inc");
+		require_once($global['approot']."mod/pfif/util.inc");
 
 		$p = new Pfif();
 
@@ -1510,14 +1532,16 @@ class person {
 		$n->note_record_id          = shn_create_uuid('pfif_note');
 		$n->person_record_id        = $this->p_uuid;
 		$n->linked_person_record_id = null;
-		$n->entry_date              = $this->creation_time;
+		$n->source_date             = $this->last_updated; //$this->creation_time;
+		$n->entry_date              = $this->last_updated;
 		$n->author_phone            = null;
-		$n->source_date             = $this->creation_time;
-		$n->status                  = "is_note_author";
 		$n->email_of_found_person   = null;
 		$n->phone_of_found_person   = null;
 		$n->last_known_location     = $this->last_seen;
 		$n->text                    = $this->other_comments;
+
+		// figure out the person's pfif status
+		$n->status = shn_map_status_to_pfif($this->opt_status, null, null);
 
 		// find author name and email...
 		$q = "
@@ -1531,6 +1555,9 @@ class person {
 		if($result != NULL && !$result->EOF) {
 			$n->author_name  = $result->fields['full_name'];
 			$n->author_email = $result->fields['contact_value'];
+		} elseif($this->author_name != null) {
+			$n->author_name  = $this->author_name;
+			$n->author_email = $this->author_email;
 		} else {
 			$n->author_name  = null;
 			$n->author_email = null;
@@ -1543,7 +1570,7 @@ class person {
 			$n->found = null;
 		}
 
-		// found the index (if it exists) for the pfif repo associated with this event
+		// find the index (if it exists) for the pfif repo associated with this event
 		$q = "
 			SELECT *
 			FROM  `pfif_repository`
@@ -1556,6 +1583,47 @@ class person {
 			$p->setSourceReposId($result->fields['id']);
 			$p->setNote($n);
 			$p->storeInDatabase($this->incident_id);
+		}
+	}
+
+
+	public function isEventOpen() {
+		// find if this event is open/closed
+		$q = "
+			SELECT *
+			FROM incident
+			WHERE incident_id = '".$this->incident_id."';
+		";
+		$result = $this->db->Execute($q);
+		if($result != NULL && !$result->EOF) {
+			$row = $result->FetchRow();
+		} else {
+			return false;
+		}
+		if($row['closed'] != 0) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+
+	public function addImage($fileContentBase64, $filename) {
+		// create sahana image
+		if(trim($fileContentBase64) != "") {
+			$i = new personImage();
+			$i->init();
+			$i->p_uuid = $this->p_uuid;
+			$i->fileContentBase64 = $fileContentBase64;
+			$i->original_filename = $filename;
+			$this->images[] = $i;
+		}
+	}
+
+
+	public function createUUID() {
+		if($this->p_uuid == null || $this->p_uuid == "") {
+			$this->p_uuid = shn_create_uuid();
 		}
 	}
 
@@ -1589,7 +1657,7 @@ class person {
 			$this->incident_id    = $a['person']['eventId'];
 			$this->expiry_date    = $a['person']['expiryDate'];
 			$this->opt_status     = $a['person']['status'];
-			$this->last_updated   = $a['person']['dateTimeSent'];
+			$this->last_updated   = date('Y-m-d H:i:s');
 			$this->creation_time  = $a['person']['dateTimeSent'];
 			$this->opt_gender     = $a['person']['gender'];
 			$this->years_old      = $a['person']['estimatedAge'];
@@ -1648,8 +1716,55 @@ class person {
 				return (int)402;
 			}
 
+			// check if the event is closed to reporting...
+			if(!$this->isEventOpen()) {
+				return (int)405;
+			}
+
 			// no errors
 			return (int)0;
+
+
+		// parse REUNITE2 XML
+		} elseif($this->xmlFormat == "REUNITE2") {
+
+			// figure out the incident_id
+			$shortName = strtolower($a['lpfContent']['person']['eventShortName']);
+			$q = "
+				SELECT *
+				FROM incident
+				WHERE shortname = '".mysql_real_escape_string((string)$shortName)."';
+			";
+
+			$result = $this->db->Execute($q);
+			if($result != NULL && !$result->EOF) {
+				$this->incident_id = $result->fields['incident_id'];
+			} else {
+				return (int)406;
+			}
+
+			// extract other xml data
+			$this->createUUID();
+			$this->given_name     = $a['lpfContent']['person']['firstName'];
+			$this->family_name    = $a['lpfContent']['person']['familyName'];
+			$this->full_name      = $this->given_name." ".$this->family_name;
+			$this->opt_status     = substr(strtolower($a['lpfContent']['person']['status']['healthStatus']), 0, 3);
+			$this->last_updated   = date('Y-m-d H:i:s');
+			$this->creation_time  = $a['lpfContent']['person']['dateTimeSent'];
+			$this->opt_gender     = substr(strtolower($a['lpfContent']['person']['gender']), 0, 3);
+			$this->years_old      = $a['lpfContent']['person']['estimatedAgeInYears'];
+			$this->minAge         = $a['lpfContent']['person']['ageGroup']['minAge'];
+			$this->maxAge         = $a['lpfContent']['person']['ageGroup']['maxAge'];
+			$this->other_comments = $a['lpfContent']['person']['notes'];
+
+			// check if the event is closed to reporting...
+			if(!$this->isEventOpen()) {
+				return (int)405;
+			}
+
+			// no errors
+			return (int)0;
+
 
 		// parse TRIAGEPIC1 XML
 		} elseif($this->xmlFormat == "TRIAGEPIC1") {
@@ -1657,13 +1772,26 @@ class person {
 			$this->edxl = new personEdxl();
 			$this->edxl->init();
 
-			$this->p_uuid      = shn_create_uuid();
-			$this->family_name = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['lastName'];
-			$this->given_name  = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['firstName'];
+			// when we have more than 1 contentObject, they are renamed to 0...x
+			if(isset($a['EDXLDistribution'][0])) {
+				$ix = 0;
+
+			// when there is only 1 contentObject, we go by name
+			} elseif(isset($a['EDXLDistribution']['contentObject'])) {
+				$ix = "contentObject";
+
+			// all else, we fail and quit
+			} else {
+				return (int)403; // error code for failed to parse xml
+			}
+
+			$this->createUUID();
+			$this->family_name = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['lastName'];
+			$this->given_name  = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['firstName'];
 			$this->full_name   = $this->given_name." ".$this->family_name;
 
 
-			$eventName = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['eventName'];
+			$eventName = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['eventName'];
 			$q = "
 				SELECT *
 				FROM incident
@@ -1673,7 +1801,7 @@ class person {
 			$this->incident_id = $result->fields["incident_id"];
 
 
-			$b = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['triageCategory'];
+			$b = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['triageCategory'];
 			if(($b == "Green") || ($b == "BH Green")) {
 				$this->opt_status = "ali";
 			} elseif(($b == "Yellow") || ($b == "Red") || ($b == "Gray")) {
@@ -1684,6 +1812,8 @@ class person {
 				$this->opt_status = "unk";
 			}
 
+			$this->last_updated = date('Y-m-d H:i:s');
+
 			// <dateTimeSent>2011-03-28T07:52:17Z</dateTimeSent>
 			$datetime      = $a['EDXLDistribution']['dateTimeSent'];
 			$timezoneUTC   = new DateTimeZone("UTC");
@@ -1692,12 +1822,11 @@ class person {
 			$datetime2->setTimezone($timezoneUTC);
 			$datetime2->setTimestamp(strtotime($datetime));
 			$datetime2->setTimezone($timezoneLocal);
-			$this->last_updated  = $datetime2->format('Y-m-d H:i:s');
 			$this->creation_time = $datetime2->format('Y-m-d H:i:s');
 
-			$this->opt_gender = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['gender'];
+			$this->opt_gender = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['gender'];
 
-			$peds = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['peds'];
+			$peds = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['peds'];
 
 			if($peds == "Y") {
 				$this->minAge = 0;
@@ -1710,10 +1839,10 @@ class person {
 				$this->maxAge = 150;
 			}
 
-			$this->other_comments = $a['EDXLDistribution'][0]['contentDescription'];
+			$this->other_comments = $a['EDXLDistribution'][$ix]['contentDescription'];
 
 
-			$orgId  = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['organization']['orgId'];
+			$orgId  = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['organization']['orgId'];
 			$q = "
 				SELECT *
 				FROM hospital
@@ -1723,25 +1852,25 @@ class person {
 			$this->hospital_uuid = $result->fields["hospital_uuid"];
 			$this->last_seen     = $result->fields["name"]." Hospital";
 
-			$this->edxl->content_descr   = $a['EDXLDistribution'][0]['contentDescription'];
-			$this->edxl->incident_id     = $a['EDXLDistribution'][0]['incidentID'];
-			$this->edxl->incident_descr  = $a['EDXLDistribution'][0]['incidentDescription'];
-			$this->edxl->confidentiality = $a['EDXLDistribution'][0]['confidentiality'];
+			$this->edxl->content_descr   = $a['EDXLDistribution'][$ix]['contentDescription'];
+			$this->edxl->incident_id     = $a['EDXLDistribution'][$ix]['incidentID'];
+			$this->edxl->incident_descr  = $a['EDXLDistribution'][$ix]['incidentDescription'];
+			$this->edxl->confidentiality = $a['EDXLDistribution'][$ix]['confidentiality'];
 			$this->edxl->p_uuid          = $this->p_uuid;
-			$this->edxl->schema_version  = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['version'];
+			$this->edxl->schema_version  = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['version'];
 			$this->edxl->login_machine   = "n/a"; //null; HACK! cant be null
-			$this->edxl->login_account   = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['login']['username'];
-			$this->edxl->person_id       = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['personId'];
-			$this->edxl->event_name      = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['eventName'];
-			$this->edxl->event_long_name = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['eventLongName'];
-			$this->edxl->org_name        = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['organization']['orgName'];
-			$this->edxl->org_id          = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['organization']['orgId'];
-			$this->edxl->last_name       = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['lastName'];
-			$this->edxl->first_name      = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['firstName'];
-			$this->edxl->gender          = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['gender'];
-			$this->edxl->peds            = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['peds'];
-			$this->edxl->triage_category = $a['EDXLDistribution'][0]['xmlContent']['lpfContent']['person']['triageCategory'];
-			$this->edxl->when_sent       = $this->creation_time;
+			$this->edxl->login_account   = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['login']['username'];
+			$this->edxl->person_id       = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['personId'];
+			$this->edxl->event_name      = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['eventName'];
+			$this->edxl->event_long_name = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['eventLongName'];
+			$this->edxl->org_name        = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['organization']['orgName'];
+			$this->edxl->org_id          = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['organization']['orgId'];
+			$this->edxl->last_name       = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['lastName'];
+			$this->edxl->first_name      = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['firstName'];
+			$this->edxl->gender          = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['gender'];
+			$this->edxl->peds            = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['peds'];
+			$this->edxl->triage_category = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['triageCategory'];
+			$this->edxl->when_sent       = $this->last_updated;
 			$this->edxl->sender_id       = $a['EDXLDistribution']['senderID'];
 			$this->edxl->distr_id        = $a['EDXLDistribution']['distributionID'];
 			$this->edxl->distr_status    = $a['EDXLDistribution']['distributionStatus'];
@@ -1752,11 +1881,9 @@ class person {
 			$this->edxl->inbound         = 1; //null; HACK! cant be null
 			$this->edxl->type            = "lpf";
 
-
 			// parse all images
 			for($n = 0; $n < sizeof($a['EDXLDistribution']); $n++) {
 				if(isset($a['EDXLDistribution'][$n]['nonXMLContent']) && $a['EDXLDistribution'][$n]['nonXMLContent'] != null) {
-					//echo "\n\n".var_export($a['EDXLDistribution'][$n]['nonXMLContent'], true)."\n\n";
 					$imageNode = $a['EDXLDistribution'][$n]['nonXMLContent'];
 
 					// create sahana image
@@ -1776,6 +1903,118 @@ class person {
 					$this->edxl->image_ids[]    = $i->image_id;
 					$this->edxl->image_co_ids[] = $this->edxl->getNew_co_id();
 				}
+			}
+
+			// check if the event is closed to reporting...
+			if(!$this->isEventOpen()) {
+				return (int)405;
+			}
+
+			// exit with success
+			return (int)0;
+
+		// parse TRIAGEPIC0 XML
+		} elseif($this->xmlFormat == "TRIAGEPIC0") {
+
+			$this->edxl = new personEdxl();
+			$this->edxl->init();
+
+			$this->createUUID();
+			$this->family_name = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName'];
+			$this->given_name  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName'];
+			$this->full_name   = $this->given_name." ".$this->family_name;
+
+
+			$eventName = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventName'];
+			$q = "
+				SELECT *
+				FROM incident
+				WHERE shortname = '".mysql_real_escape_string((string)$eventName)."';
+			";
+			$result = $this->db->Execute($q);
+			$this->incident_id = $result->fields["incident_id"];
+
+
+			$b = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['triageCategory'];
+			if(($b == "Green") || ($b == "BH Green")) {
+				$this->opt_status = "ali";
+			} elseif(($b == "Yellow") || ($b == "Red") || ($b == "Gray")) {
+				$this->opt_status = "inj";
+			} elseif($b == "Black") {
+				$this->opt_status = "dec";
+			} else {
+				$this->opt_status = "unk";
+			}
+
+			$this->last_updated = date('Y-m-d H:i:s');
+
+			// <dateTimeSent>2011-03-28T07:52:17Z</dateTimeSent>
+			$datetime      = $a['EDXLDistribution']['dateTimeSent'];
+			$timezoneUTC   = new DateTimeZone("UTC");
+			$timezoneLocal = new DateTimeZone(date_default_timezone_get());
+			$datetime2     = new DateTime();
+			$datetime2->setTimezone($timezoneUTC);
+			$datetime2->setTimestamp(strtotime($datetime));
+			$datetime2->setTimezone($timezoneLocal);
+			$this->creation_time = $datetime2->format('Y-m-d H:i:s');
+
+			$this->opt_gender = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['gender'];
+
+			$peds = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['peds'];
+
+			if($peds == "Y") {
+				$this->minAge = 0;
+				$this->maxAge = 17;
+			} elseif($peds == "N") {
+				$this->minAge = 18;
+				$this->maxAge = 150;
+			} elseif($peds == "Y,N") {
+				$this->minAge = 0;
+				$this->maxAge = 150;
+			}
+
+			$this->other_comments = $a['EDXLDistribution']['contentObject']['contentDescription'];
+
+
+			$orgId  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgId'];
+			$q = "
+				SELECT *
+				FROM hospital
+				WHERE npi = '".mysql_real_escape_string((string)$orgId)."';
+			";
+			$result = $this->db->Execute($q);
+			$this->hospital_uuid = $result->fields["hospital_uuid"];
+			$this->last_seen     = $result->fields["name"]." Hospital";
+
+			$this->edxl->content_descr   = $a['EDXLDistribution']['contentObject']['contentDescription'];
+			$this->edxl->p_uuid          = $this->p_uuid;
+			$this->edxl->schema_version  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['version'];
+			$this->edxl->login_machine   = "n/a"; //null; HACK! cant be null
+			$this->edxl->login_account   = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['login']['username'];
+			$this->edxl->person_id       = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['personId'];
+			$this->edxl->event_name      = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventName'];
+			$this->edxl->event_long_name = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventLongName'];
+			$this->edxl->org_name        = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgName'];
+			$this->edxl->org_id          = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['organization']['orgId'];
+			$this->edxl->last_name       = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName'];
+			$this->edxl->first_name      = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName'];
+			$this->edxl->gender          = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['gender'];
+			$this->edxl->peds            = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['peds'];
+			$this->edxl->triage_category = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['triageCategory'];
+			$this->edxl->when_sent       = $this->last_updated;
+			$this->edxl->sender_id       = $a['EDXLDistribution']['senderID'];
+			$this->edxl->distr_id        = $a['EDXLDistribution']['distributionID'];
+			$this->edxl->distr_status    = $a['EDXLDistribution']['distributionStatus'];
+			$this->edxl->distr_type      = $a['EDXLDistribution']['distributionType'];
+			$this->edxl->combined_conf   = $a['EDXLDistribution']['combinedConfidentiality'];
+			$this->edxl->language        = null;
+			$this->edxl->when_here       = $this->creation_time;
+			$this->edxl->inbound         = 1; //null; HACK! cant be null
+			$this->edxl->type            = "lpf";
+
+			// check if the event is closed to reporting...
+			if(!$this->isEventOpen()) {
+				return (int)405;
 			}
 
 			// exit with success

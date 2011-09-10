@@ -19,7 +19,7 @@
 			<valueListUrn>...</valueListUrn>
 			<value>...</value>
 		</contentKeyword>
-		<incidentID>...</incidentID>
+		<incidentID>1</incidentID>
 		<incidentDescription>...</incidentDescription>
 		<originatorRole>...</originatorRole>
 		<consumerRole>...</consumerRole>

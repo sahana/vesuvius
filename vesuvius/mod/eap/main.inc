@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Edit A Person
- * @version      1.06
+ * @version      1.7
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0725
+ * @lastModified 2011.0906
  */
 
 require_once($global['approot']."/inc/lib_uuid.inc");
@@ -530,12 +530,33 @@ function shn_eap_edit() {
 	// if the person record is assigned to a private event and the user does not have permission to view it...
 	if(!$global['permissionToView']) {
 		echo "
-			<h2>Error #21</h2>
+			<h2>Error</h2>
 			You do not have permission to view this record.
 		";
 		return;
 	}
 
+	// check if the person record exists.,,
+	$q  = "
+		SELECT COUNT(*)
+		FROM person_uuid
+		WHERE p_uuid = '".$global['uuid']."';
+	";
+	$r   = $global['db']->Execute($q);
+	$row = $r->FetchRow();
+	$num = $row['COUNT(*)'];
+
+	// we has images
+	if($num != 1) {
+		echo "
+			<h2>Error</h2>
+			No such record exists.
+		";
+		return;
+	}
+
+
+	// make goo.gl short url
 	$googl = new goo_gl(makePageUrl());
 	$global['googl'] = $googl->result();
 
@@ -589,6 +610,7 @@ function shn_eap_edit() {
 	$r        = $global['db']->Execute($q);
 	$person_details = $r->FetchRow();
 
+	// fix empty full names..
 	$full_name = htmlspecialchars(mb_convert_case($full_name, MB_CASE_TITLE, "UTF-8"));
 	echo "
 		<div class=\"form-container\">
@@ -618,11 +640,11 @@ function shn_eap_edit() {
 		if($row = $r->FetchRow()) {
 			$url = $row['source_url'];
 		} else {
-			$url = "&nbsp;";
+			$url = "";
 		}
 		// fix bad data
 		if($url == "NULL" || $url == "null") {
-			$url = "&nbsp;";
+			$url = "";
 		}
 		echo "
 			<label for=\"opt_status\"><b>Origin ID</b> </label>
@@ -632,6 +654,41 @@ function shn_eap_edit() {
 			<div class=\"fakeTextBox\"><a href=\"".$url."\">".$url."</a></div>
 		";
 	}
+
+
+	// show the mass casualty ID
+	$q  = "
+		SELECT count(*)
+		FROM edxl_de_header d, edxl_co_header c
+		WHERE c.de_id = d.de_id
+		AND c.p_uuid = '".$global['uuid']."'
+		AND c.type = 'lpf';
+	";
+	$r   = $global['db']->Execute($q);
+	$row = $r->FetchRow();
+	$num = $row['count(*)'];
+
+	// we has images
+	if($num == 1) {
+		$q  = "
+			SELECT *
+			FROM edxl_de_header d, edxl_co_header c
+			WHERE c.de_id = d.de_id
+			AND c.p_uuid = '".$global['uuid']."'
+			AND c.type = 'lpf';
+		";
+		$r   = $global['db']->Execute($q);
+		$row = $r->FetchRow();
+		$did = $row['distr_id'];
+	} else {
+		$did = "";
+	}
+	echo "
+		<label for=\"opt_status\"><b>Mass Casualty ID</b> </label>
+		<div class=\"fakeTextBox\">".$did."</div>
+		<br>
+	";
+
 
 	echo "
 				</fieldset>
@@ -675,94 +732,105 @@ function shn_eap_edit() {
 			$imagesThumb[] = $row['url_thumb'];
 		}
 
-	// we doesnt has images
-	} else {
-		$sex = $person_details['opt_gender'];
-		$old = $person_details['years_old'];
-		$min = $person_details['minAge'];
-		$max = $person_details['maxAge'];
-
-		if(($sex != "mal") && ($sex != "fml")) {
-			$imageUrl = $unknown;
-			$thumbUrl = $unknown;
-		} else if($sex == "mal") {
-			if($old != null) {
-				if($old > 17) {
-					$imageUrl = $man;
-					$thumbUrl = $man;
-				} else {
-					$imageUrl = $boy;
-					$thumbUrl = $boy;
-				}
-			} else if($min != null) {
-				if($min > 17) {
-					$imageUrl = $man;
-					$thumbUrl = $man;
-				} else {
-					$imageUrl = $boy;
-					$thumbUrl = $boy;
-				}
-			} else {
-				$imageUrl = $man;
-				$thumbUrl = $man;
-			}
-		} else if($sex == "fml") {
-			if($old != null) {
-				if($old > 17) {
-					$imageUrl = $woman;
-					$thumbUrl = $woman;
-				} else {
-					$imageUrl = $girl;
-					$thumbUrl = $girl;
-				}
-			} else if($min != null) {
-				if($min > 17) {
-					$imageUrl = $woman;
-					$thumbUrl = $woman;
-				} else {
-					$imageUrl = $girl;
-					$thumbUrl = $girl;
-				}
-			} else {
-				$imageUrl = $man;
-				$thumbUrl = $man;
-			}
-		} else {
-			$imageUrl = $unknown;
-			$thumbUrl = $unknown;
-		}
-		$imagesFull  = $imageUrl;
-		$imagesThumb = $thumbUrl;
-	}
-	//$global['full_thumb_url'] = makeBaseUrl().$thumbUrl;
-
-	echo "
-		<div class=\"form-container\">
-			<form>
-				<fieldset id=\"editImages\">
-					<legend>Images</legend>
-	";
-	for($i = 0; $i < $num; $i++) {
 		echo "
-					<a href=\"".$imagesFull[$i]."\" target=\"_blank\">
-						<div style=\"background-color: #fff; padding: 5px; border: 1px solid #777; float: left; text-align: center; margin-right: 10px;\">
-							<img height=\"150\" src=\"".$imagesThumb[$i]."\">
-							<div style=\"clear:both;\"></div>
-							zoom
-						</div>
-					</a>
+			<div class=\"form-container\">
+				<form>
+					<fieldset id=\"editImages\">
+						<legend>Images</legend>
+		";
+
+		// show all images
+		for($i = 0; $i < $num; $i++) {
+			echo "
+						<a href=\"".$imagesFull[$i]."\" target=\"_blank\">
+							<div style=\"background-color: #fff; padding: 5px; border: 1px solid #777; float: left; text-align: center; margin-right: 10px;\">
+								<img height=\"150\" src=\"".$imagesThumb[$i]."\">
+								<div style=\"clear:both;\"></div>
+								zoom
+							</div>
+						</a>
+			";
+		}
+		echo "
+					</fieldset>
+				</form>
+			</div>
+		";
+
+
+	// no images
+	} else {
+		echo "
+			<div class=\"form-container\">
+				<form>
+					<fieldset id=\"editImages\">
+						<legend>Images</legend>
+						No Images.
+					</fieldset>
+				</form>
+			</div>
 		";
 	}
-	echo "
-				</fieldset>
-			</form>
-		</div>
-	";
 	// IMAGES END /////////////////////////////////////////////////////////////////////////////////////
 
 
-	// LOAD PUBLIC DATA ///////////////////////////////////////////////////////////////////////////////
+	// VOICENOTE BEGIN ////////////////////////////////////////////////////////////////////////////////
 
+	// figure out if the person have a voicenote
+
+	$q  = "
+		SELECT COUNT(*)
+		FROM voice_note
+		WHERE p_uuid = '".$global['uuid']."';
+	";
+	$r   = $global['db']->Execute($q);
+	$row = $r->FetchRow();
+	$num = $row['COUNT(*)'];
+
+	// we have voicenote
+	if($num > 0) {
+		$q  = "
+			SELECT *
+			FROM voice_note
+			WHERE p_uuid = '".$global['uuid']."';
+		";
+		$r   = $global['db']->Execute($q);
+		$row = $r->FetchRow();
+		$url_mp3 = $row['url_resampled_mp3'];
+		$url_ogg = $row['url_resampled_ogg'];
+		echo "
+			<div class=\"form-container\">
+				<form>
+					<fieldset id=\"editImages\">
+						<legend>Voice Note</legend>
+						<audio controls preload=\"auto\" autobuffer>
+							<source src=\"".$url_mp3."\" type=\"audio/mp3\" />
+							<source src=\"".$url_ogg."\" type=\"audio/ogg\" />
+							<br>Your browser doesn't support the HTML5 audio tag.<br>
+							<a href=\"".$url_mp3."\">Click here to download the media instead.</a>
+						</audio>
+					</fieldset>
+				</form>
+			</div>
+		";
+
+	// no voice note
+	} else {
+		echo "
+			<div class=\"form-container\">
+				<form>
+					<fieldset id=\"editImages\">
+						<legend>Voice Note</legend>
+						No voice note.
+					</fieldset>
+				</form>
+			</div>
+		";
+	}
+	// VOICENOTE END //////////////////////////////////////////////////////////////////////////////////
+
+
+	// LOAD PUBLIC DATA ///////////////////////////////////////////////////////////////////////////////
 	$gender = $person_details['opt_gender'];
 	$skin = null;
 	$eye = null;
@@ -791,6 +859,12 @@ function shn_eap_edit() {
 	// check for not sets
 	if(!isset($person_status['opt_status'])) {
 		$person_status['opt_status'] = "unk";
+	}
+	if(!isset($person_status['creation_time'])) {
+		$person_status['creation_time'] = null;
+	}
+	if(!isset($person_status['last_updated'])) {
+		$person_status['last_updated'] = null;
 	}
 
 	// map field_options to real values
@@ -1549,40 +1623,14 @@ function shn_eap_edit() {
 
 		<div style=\"clear:both;\"></div>
 
-		<div class=\"shr-bookmarks shr-bookmarks-expand shr-bookmarks-center\">
-			<ul class=\"socials\">
-				<li class=\"shr-blogger\">
-					<a href=\"http://www.blogger.com/blog_this.pyra?t&amp;u=".$global['googl']."&amp;n=".$global['full_name']."&amp;pli=1\" rel=\"nofollow\" class=\"external\" title=\"Blog this on Blogger\">&nbsp;</a>
-				</li>
-				<li class=\"shr-delicious\">
-					<a href=\"http://delicious.com/post?url=".$global['googl']."&amp;title=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Share this on del.icio.us\">&nbsp;</a>
-				</li>
-				<li class=\"shr-digg\">
-					<a href=\"http://digg.com/submit?phase=2&amp;url=".$global['googl']."&amp;title=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Digg this!\">&nbsp;</a>
-				</li>
-				<li class=\"shr-facebook\">
-					<a href=\"http://www.facebook.com/share.php?v=4&amp;src=bm&amp;u=".$global['googl']."&amp;t=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Share this on Facebook\" onclick=\"window.open(this.href,'sharer','toolbar=0,status=0,width=626,height=436'); return false;\">&nbsp;</a>
-				</li>
-				<li class=\"shr-googlebookmarks\">
-					<a href=\"http://www.google.com/bookmarks/mark?op=add&amp;bkmk=".$global['googl']."&amp;title=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Add this to Google Bookmarks\">&nbsp;</a>
-				</li>
-				<li class=\"shr-googlebuzz\">
-					<a href=\"http://www.google.com/buzz/post?url=".$global['googl']."&amp;imageurl=".$global['full_thumb_url']."\" rel=\"nofollow\" class=\"external\" title=\"Post on Google Buzz\">&nbsp;</a>
-				</li>
-				<li class=\"shr-myspace\">
-					<a href=\"http://www.myspace.com/Modules/PostTo/Pages/?u=".$global['googl']."&amp;t=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Post this to MySpace\">&nbsp;</a>
-				</li>
-				<li class=\"shr-reddit\">
-					<a href=\"http://reddit.com/submit?url=".$global['googl']."&amp;title=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Share this on Reddit\">&nbsp;</a>
-				</li>
-				<li class=\"shr-stumbleupon\">
-					<a href=\"http://www.stumbleupon.com/submit?url=".$global['googl']."&amp;title=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Share it on StumbleUpon\">&nbsp;</a>
-				</li>
-				<li class=\"shr-twitter\">
-					<a href=\"http://twitter.com/home?status=".$global['full_name']."+-+".$global['googl']."&amp;source=PL\" rel=\"nofollow\" class=\"external\" title=\"Tweet This!\">&nbsp;</a>
-				</li>
-			</ul>
-			<div style=\"clear:both;\"></div>
+		<div style=\"margin: 15px 15px 0px 15px; border-top: 1px solid orange; padding-top: 15px;\">
+			<div class=\"addthis_toolbox addthis_default_style\">
+			<a class=\"addthis_button_facebook_like\" fb:like:layout=\"button_count\"></a>
+			<a class=\"addthis_button_tweet\"></a>
+			<a class=\"addthis_button_google_plusone\" g:plusone:size=\"medium\"></a>
+			<a class=\"addthis_counter addthis_pill_style\"></a>
+			</div>
+			<script type=\"text/javascript\" src=\"https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e66a6fa46524fa8\"></script>
 		</div>
 		</fieldset>
 		</form>
@@ -1662,11 +1710,18 @@ function shn_eap_edit() {
 
 		echo "
 			<p class=\"triangle-obtuse\">
-				".$result->fields["text"]."<br>
+				<b>".$result->fields["text"]."</b><br>
 		";
 
+		if($result->fields["status"] == null) {
+			$status = "unknown";
+		} else {
+			$status = $result->fields["status"];
+		}
+		echo "<br>Status: <b>".$status."</b><br>";
+
 		if($result->fields["found"] == true) {
-			echo "<br>Status: <b>FOUND</b><br>";
+			echo "<br><b>FOUND</b><br>";
 		}
 		if(trim($result->fields["last_known_location"]) != "") {
 			echo "<br>Last Known Location: <b>".$result->fields["last_known_location"]."</b><br>";

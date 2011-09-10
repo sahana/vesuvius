@@ -76,10 +76,11 @@ function shn_pop_outlog() {
 		$msg = "showing last 100 messages";
 	}
 
-	if((int)$_GET['pagenum'] > 0) {
+	if(isset($_GET['pagenum']) && (int)$_GET['pagenum'] > 0) {
 		$previous = "<a href=\"index.php?mod=pop&act=outlog&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
 	} else {
 		$previous = "◄";
+		$_GET['pagenum'] = 0;
 	}
 
 	$q = "

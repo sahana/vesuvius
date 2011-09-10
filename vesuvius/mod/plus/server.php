@@ -45,7 +45,7 @@ if(($_SERVER['HTTP_HOST'] == "archivestage.nlm.nih.gov") || ($_SERVER['HTTP_HOST
 
 // init vars
 $serviceName = "plusWebServices";
-$ns          = "urn:".$serviceName;
+$ns          = null; // "urn:".$serviceName; //disabled...do we really need it?
 $endpoint    = makeBaseUrl().$fix."?wsdl".$versionString;
 
 $server = new nusoap_server;

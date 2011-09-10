@@ -166,7 +166,7 @@ function shn_map_gender_to_pfif($personRecord, $source_person) {
 }
 
 function shn_map_gender_from_pfif($pfif_sex) {
-   $gender_map = array('male' => 'mal', 'female' => 'fml', 'other' => 'cpx'); // PFIF defines an 'oth)er' category, but it is not clear what that means. 
+   $gender_map = array('male' => 'mal', 'female' => 'fml', 'other' => 'cpx'); // PFIF defines an 'oth)er' category, but it is not clear what that means.
    // It does not mean unknown, however. So we map it to complex.
    return $gender_map[$pfif_sex];
 }

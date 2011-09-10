@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Hospital Administration
- * @version      0.2
+ * @version      0.3
  * @package      ha
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0816
+ * @lastModified 2011.0907
  */
 
 
@@ -133,90 +133,90 @@ function shn_ha_edit($uu = null) {
 	echo "<div class=\"form-container\"><form method=\"post\" id=\"editHospital\" name=\"editHospital\" action=\"index.php?mod=ha&act=save&uuid=".$uuid."\"><fieldset>";
 	echo "<legend>"._t('HOSPITAL_EDIT|Edit')."</legend>";
 	echo "<table id=\"regLog\">
-		<tr><td style=\"width: 250px;\"  class=\"odder\"><b>UUID</b></td><td class=\"odder\">".$row['hospital_uuid']."</td></tr>
+		<tr><td style=\"width: 50%; text-align: right;\"  class=\"odder\"><b>UUID</b></td><td class=\"odder\">".$row['hospital_uuid']."</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|Name')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|Name')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=60 class=\"hospitalInput\" id=\"name\" name=\"name\" value=\"".$row['name']."\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|Short Name')."</b></td><td class=\"odder\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|Short Name')."</b></td><td class=\"odder\">
 			<input size=30 maxlength=30 class=\"hospitalInput\" id=\"short_name\" name=\"short_name\" value=\"".$row['short_name']."\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|Street Address 1')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|Street Address 1')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=120 class=\"hospitalInput\" id=\"street1\" name=\"street1\" value=\"".$row['street1']."\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|Street Address 2')."</b></td><td class=\"odder\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|Street Address 2')."</b></td><td class=\"odder\">
 			<input size=30 maxlength=120 class=\"hospitalInput\" id=\"street2\" name=\"street2\" value=\"".$row['street2']."\">
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|City')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|City')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=60 class=\"hospitalInput\" id=\"city\" name=\"city\" value=\"".$row['city']."\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|County')."</b></td><td class=\"odder\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|County')."</b></td><td class=\"odder\">
 			<input size=30 maxlength=60 class=\"hospitalInput\" id=\"county\" name=\"county\" value=\"".$row['county']."\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|Region (State)')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|Region (State)')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=60 class=\"hospitalInput\" id=\"region\" name=\"region\" value=\"".$row['region']."\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|Postal Code')."</b></td><td class=\"odder\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|Postal Code')."</b></td><td class=\"odder\">
 			<input size=30 maxlength=16 class=\"hospitalInput\" id=\"postal_code\" name=\"postal_code\" value=\"".$row['postal_code']."\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|Country')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|Country')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=32 class=\"hospitalInput\" id=\"country\" name=\"country\" value=\"".$row['country']."\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|Latitude')."</b></td><td class=\"odder\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|Latitude')."</b></td><td class=\"odder\">
 			<input size=30 maxlength=30 class=\"hospitalInput\" id=\"latitude\" name=\"latitude\" value=\"".$row['latitude']."\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|Longitude')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|Longitude')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=30 class=\"hospitalInput\" id=\"longitude\" name=\"longitude\" value=\"".$row['longitude']."\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|Phone')."</b></td><td class=\"odder\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|Phone')."</b></td><td class=\"odder\">
 			<input size=30 maxlength=16 class=\"hospitalInput\" id=\"phone\" name=\"phone\" value=\"".$row['phone']."\">
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|Fax')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|Fax')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=16 class=\"hospitalInput\" id=\"fax\" name=\"fax\" value=\"".$row['fax']."\">
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|Email')."</b></td><td class=\"odder\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|Email')."</b></td><td class=\"odder\">
 			<input size=30 maxlength=64 class=\"hospitalInput\" id=\"email\" name=\"email\" value=\"".$row['email']."\">
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|NPI')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_EDIT|NPI')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=32 class=\"hospitalInput\" id=\"npi\" name=\"npi\" value=\"".$row['npi']."\">
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|Patient ID Prefix')."</b></td><td class=\"odder\">
-			<input size=30 maxlength=32 class=\"hospitalInput\" id=\"patient_id_prefix\" name=\"patient_id_prefix\" value=\"".$row['patient_id_prefix']."\"><span class=\"req\">*</span>
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_EDIT|Patient ID Prefix')."</b></td><td class=\"odder\">
+			<input size=30 maxlength=32 class=\"hospitalInput\" id=\"patient_id_prefix\" name=\"patient_id_prefix\" value=\"".$row['patient_id_prefix']."\">
 		</td></tr>
 
 		<tr>
-			<td style=\"width: 250px;\" class=\"evener\">&nbsp;</td>
+			<td style=\"width: 50%; text-align: right;\" class=\"evener\">&nbsp;</td>
 			<td class=\"evener\"><input class=\"styleTehButton\" id=\"saveButton\" type=\"button\" value=\"Save\" onclick=\"saveHospital();\"><br><br><br><br></td>
 		</tr>
 
@@ -241,8 +241,11 @@ function shn_ha_edit($uu = null) {
 function shn_ha_delete() {
 	global $global;
 	$uuid = $_GET['uuid'];
-	$q1 = "DELETE FROM hospital WHERE hospital_uuid = '".mysql_real_escape_string($uuid)."';";
-	$r1 = $global['db']->Execute($q1);
+	$q = "
+		DELETE FROM hospital
+		WHERE hospital_uuid = '".mysql_real_escape_string($uuid)."';
+	";
+	$r = $global['db']->Execute($q);
 	add_confirmation("Hospital deleted.");
 	shn_ha_log();
 }
@@ -253,8 +256,6 @@ function shn_ha_delete() {
  * Save any changes to the hospital
  */
 function shn_ha_save() {
-
-	//echo "<pre>".print_r($_POST, true)."</pre>";
 
 	$error = false;
 	if(trim($_POST['name']) == "") {
@@ -296,10 +297,6 @@ function shn_ha_save() {
 	if(trim($_POST['longitude']) == "") {
 		$error = true;
 		add_error(_t("HOSPITAL_ERROR|Hospital <b>longitude</b> may not be empty."));
-	}
-	if(trim($_POST['patient_id_prefix']) == "") {
-		$error = true;
-		add_error(_t("HOSPITAL_ERROR|Hospital <b>patient id prefix</b> may not be empty."));
 	}
 
 	if(!$error) {
@@ -363,87 +360,87 @@ function shn_ha_add() {
 	echo "<legend>New</legend>";
 	echo "<table id=\"regLog\">
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|Name')."</b></td><td class=\"evener\">
-			<input size=30 maxlength=60 class=\"hospitalInput\" id=\"name\" name=\"name\" value=\"\"><span class=\"req\">*</span>
-		</td></tr>
+		<tr>
+			<td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|Name')."</b></td>
+			<td style=\"width: 50%; text-align: left;\" class=\"evener\"><input size=30 maxlength=60 class=\"hospitalInput\" id=\"name\" name=\"name\" value=\"\"><span class=\"req\">*</span></td>
+		</tr>
+		<tr>
+			<td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|Short Name')."</b></td>
+			<td class=\"odder\"><input size=30 maxlength=30 class=\"hospitalInput\" id=\"short_name\" name=\"short_name\" value=\"\"><span class=\"req\">*</span></td>
+		</tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|Short Name')."</b></td><td class=\"odder\">
-			<input size=30 maxlength=30 class=\"hospitalInput\" id=\"short_name\" name=\"short_name\" value=\"\"><span class=\"req\">*</span>
-		</td></tr>
-
-
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|Street Address 1')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|Street Address 1')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=120 class=\"hospitalInput\" id=\"street1\" name=\"street1\" value=\"\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|Street Address 2')."</b></td><td class=\"odder\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|Street Address 2')."</b></td><td class=\"odder\">
 			<input size=30 maxlength=120 class=\"hospitalInput\" id=\"street2\" name=\"street2\" value=\"\">
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|City')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|City')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=60 class=\"hospitalInput\" id=\"city\" name=\"city\" value=\"\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|County')."</b></td><td class=\"odder\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|County')."</b></td><td class=\"odder\">
 			<input size=30 maxlength=60 class=\"hospitalInput\" id=\"county\" name=\"county\" value=\"\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|Region (State)')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|Region (State)')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=60 class=\"hospitalInput\" id=\"region\" name=\"region\" value=\"\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|Postal Code')."</b></td><td class=\"odder\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|Postal Code')."</b></td><td class=\"odder\">
 			<input size=30 maxlength=16 class=\"hospitalInput\" id=\"postal_code\" name=\"postal_code\" value=\"\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|Country')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|Country')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=32 class=\"hospitalInput\" id=\"country\" name=\"country\" value=\"\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|Latitude')."</b></td><td class=\"odder\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|Latitude')."</b></td><td class=\"odder\">
 			<input size=30 maxlength=30 class=\"hospitalInput\" id=\"latitude\" name=\"latitude\" value=\"\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|Longitude')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|Longitude')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=30 class=\"hospitalInput\" id=\"longitude\" name=\"longitude\" value=\"\"><span class=\"req\">*</span>
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|Phone')."</b></td><td class=\"odder\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|Phone')."</b></td><td class=\"odder\">
 			<input size=30 maxlength=16 class=\"hospitalInput\" id=\"phone\" name=\"phone\" value=\"\">
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|Fax')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|Fax')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=16 class=\"hospitalInput\" id=\"fax\" name=\"fax\" value=\"\">
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|Email')."</b></td><td class=\"odder\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|Email')."</b></td><td class=\"odder\">
 			<input size=30 maxlength=64 class=\"hospitalInput\" id=\"email\" name=\"email\" value=\"\">
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|NPI')."</b></td><td class=\"evener\">
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"evener\"><b>"._t('HOSPITAL_ADD|NPI')."</b></td><td class=\"evener\">
 			<input size=30 maxlength=32 class=\"hospitalInput\" id=\"npi\" name=\"npi\" value=\"\">
 		</td></tr>
 
 
-		<tr><td style=\"width: 250px;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|Patient ID Prefix')."</b></td><td class=\"odder\">
-			<input size=30 maxlength=32 class=\"hospitalInput\" id=\"patient_id_prefix\" name=\"patient_id_prefix\" value=\"\"><span class=\"req\">*</span>
+		<tr><td style=\"width: 50%; text-align: right;\" class=\"odder\"><b>"._t('HOSPITAL_ADD|Patient ID Prefix')."</b></td><td class=\"odder\">
+			<input size=30 maxlength=32 class=\"hospitalInput\" id=\"patient_id_prefix\" name=\"patient_id_prefix\" value=\"\">
 		</td></tr>
 
 		<tr>
-			<td style=\"width: 250px;\" class=\"evener\">&nbsp;</td>
+			<td style=\"width: 50%; text-align: right;\" class=\"evener\">&nbsp;</td>
 			<td class=\"evener\"><br><input class=\"styleTehButton\" id=\"saveButton\" type=\"button\" value=\"Save\" onclick=\"saveNewHospital();\"><br><br><br><br></td>
 		</tr>
 	</table>";

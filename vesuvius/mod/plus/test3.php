@@ -26,11 +26,12 @@ require_once("../../inc/lib_image.inc");
 $p = new person();
 $p->init();
 
-$p->theString = file_get_contents('referenceXML_RU.xml');
-$p->xmlFormat = "REUNITE3";
+//$p->theString = file_get_contents('referenceXML_RU.xml');
+//$p->xmlFormat = "REUNITE3";
 
-//$p->theString = file_get_contents('referenceXML_TP.xml');
-//$p->xmlFormat = "TRIAGEPIC1";
+//$p->theString = file_get_contents('TP.xml');
+$p->theString = file_get_contents('referenceXML_TP.xml');
+$p->xmlFormat = "TRIAGEPIC1";
 
 $p->parseXml();
 $p->insert();
