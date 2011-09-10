@@ -18,7 +18,7 @@ $global['enumTriageStatusTags'] = array('Green', 'BH Green', 'Yellow', 'Red', 'G
 $global['enumGenders']          = array('M', 'F', 'U', 'C');
 $global['enumDistrStatus']      = array('Actual', 'Exercise', 'System', 'Test');
 $global['enumDistrType']        = array('Ack', 'Cancel', 'Dispatch', 'Error', 'Report', 'Request', 'Response', 'Update');
-$global['enumXmlFormats']       = array('REUNITE3', 'TRIAGEPIC1');
+$global['enumXmlFormats']       = array('REUNITE3', 'TRIAGEPIC1', 'TRIAGEPIC0', 'REUNITE2');
 
 
 /** ******************************************************************************************************************************************************************
@@ -1070,6 +1070,7 @@ class personImage {
 
 		// generate path and filename portion
 		$a = explode("/", $this->p_uuid);
+
 		$filename = $a[0]."_".$a[1]; // make pl.nlm.nih.gov/person.123456 into pl.nlm.nih.gov_person.123456
 		$filename = $filename."_".$this->image_id."_"; // filename now like person.123456_112233_
 		$path = $global['approot']."www/tmp/plus_cache/".$filename; // path is now like /opt/pl/www/tmp/plus_cache/person.123456_112233_
@@ -1109,8 +1110,9 @@ class personImage {
 	}
 
 
-	// save the image tag
+	// save the image
 	public function insert() {
+
 		// save image to disk
 		$this->write();
 
@@ -1136,6 +1138,7 @@ class personImage {
 				".$this->sql_url_thumb.",
 				".$this->sql_original_filename." );
 		";
+
 		$result = $this->db->Execute($q);
 		$this->insertImageTags();
 	}
@@ -1231,6 +1234,10 @@ class person {
 	private $sql_rep_uuid;
 	private $sql_relation;
 
+	// used for when we recieve emails from mpres to make a pfif_note
+	public $author_name;
+	public $author_email;
+
 
 	// Constructor:
 	public function	__construct() {
@@ -1291,6 +1298,9 @@ class person {
 		$this->sql_other_comments = null;
 		$this->sql_rep_uuid       = null;
 		$this->sql_relation       = null;
+
+		$this->author_name        = null;
+		$this->author_email       = null;
 	}
 
 
@@ -1350,6 +1360,9 @@ class person {
 		$this->sql_other_comments = null;
 		$this->sql_rep_uuid       = null;
 		$this->sql_relation       = null;
+
+		$this->author_name        = null;
+		$this->author_email       = null;
 	}
 
 
@@ -1542,6 +1555,9 @@ class person {
 		if($result != NULL && !$result->EOF) {
 			$n->author_name  = $result->fields['full_name'];
 			$n->author_email = $result->fields['contact_value'];
+		} elseif($this->author_name != null) {
+			$n->author_name  = $this->author_name;
+			$n->author_email = $this->author_email;
 		} else {
 			$n->author_name  = null;
 			$n->author_email = null;
@@ -1601,6 +1617,13 @@ class person {
 			$i->fileContentBase64 = $fileContentBase64;
 			$i->original_filename = $filename;
 			$this->images[] = $i;
+		}
+	}
+
+
+	public function createUUID() {
+		if($this->p_uuid == null || $this->p_uuid == "") {
+			$this->p_uuid = shn_create_uuid();
 		}
 	}
 
@@ -1701,20 +1724,46 @@ class person {
 			// no errors
 			return (int)0;
 
+
 		// parse REUNITE2 XML
 		} elseif($this->xmlFormat == "REUNITE2") {
 
-			/*
-						$this->person->shortName    = strtolower($a['lpfContent']['person']['eventShortName']);
-						$this->person->givenName    = $a['lpfContent']['person']['firstName'];
-						$this->person->familyName   = $a['lpfContent']['person']['familyName'];
-						$this->person->gender       = substr(strtolower($a['lpfContent']['person']['gender']), 0, 3);
-						$this->person->age          = $a['lpfContent']['person']['estimatedAgeInYears'];
-						$this->person->sahanaStatus = substr(strtolower($a['lpfContent']['person']['status']['healthStatus']), 0, 3);
-						$this->person->comments     = $a['lpfContent']['person']['notes'];
-						$this->XMLversion           = 1.6;
-			*/
-			return (int)9999; // don't want to have to parse this shit... will if we have to...
+			// figure out the incident_id
+			$shortName = strtolower($a['lpfContent']['person']['eventShortName']);
+			$q = "
+				SELECT *
+				FROM incident
+				WHERE shortname = '".mysql_real_escape_string((string)$shortName)."';
+			";
+
+			$result = $this->db->Execute($q);
+			if($result != NULL && !$result->EOF) {
+				$this->incident_id = $result->fields['incident_id'];
+			} else {
+				return (int)406;
+			}
+
+			// extract other xml data
+			$this->createUUID();
+			$this->given_name     = $a['lpfContent']['person']['firstName'];
+			$this->family_name    = $a['lpfContent']['person']['familyName'];
+			$this->full_name      = $this->given_name." ".$this->family_name;
+			$this->opt_status     = substr(strtolower($a['lpfContent']['person']['status']['healthStatus']), 0, 3);
+			$this->last_updated   = date('Y-m-d H:i:s');
+			$this->creation_time  = $a['lpfContent']['person']['dateTimeSent'];
+			$this->opt_gender     = substr(strtolower($a['lpfContent']['person']['gender']), 0, 3);
+			$this->years_old      = $a['lpfContent']['person']['estimatedAgeInYears'];
+			$this->minAge         = $a['lpfContent']['person']['ageGroup']['minAge'];
+			$this->maxAge         = $a['lpfContent']['person']['ageGroup']['maxAge'];
+			$this->other_comments = $a['lpfContent']['person']['notes'];
+
+			// check if the event is closed to reporting...
+			if(!$this->isEventOpen()) {
+				return (int)405;
+			}
+
+			// no errors
+			return (int)0;
 
 
 		// parse TRIAGEPIC1 XML
@@ -1736,7 +1785,7 @@ class person {
 				return (int)403; // error code for failed to parse xml
 			}
 
-			$this->p_uuid      = shn_create_uuid();
+			$this->createUUID();
 			$this->family_name = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['lastName'];
 			$this->given_name  = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['firstName'];
 			$this->full_name   = $this->given_name." ".$this->family_name;
@@ -1864,13 +1913,13 @@ class person {
 			// exit with success
 			return (int)0;
 
-		// parse MPRES1 XML
-		} elseif($this->xmlFormat == "MPRES1") {
+		// parse TRIAGEPIC0 XML
+		} elseif($this->xmlFormat == "TRIAGEPIC0") {
 
 			$this->edxl = new personEdxl();
 			$this->edxl->init();
 
-			$this->p_uuid      = shn_create_uuid();
+			$this->createUUID();
 			$this->family_name = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName'];
 			$this->given_name  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName'];
 			$this->full_name   = $this->given_name." ".$this->family_name;
@@ -1938,9 +1987,6 @@ class person {
 			$this->last_seen     = $result->fields["name"]." Hospital";
 
 			$this->edxl->content_descr   = $a['EDXLDistribution']['contentObject']['contentDescription'];
-			$this->edxl->incident_id     = $a['EDXLDistribution']['contentObject']['incidentID'];
-			$this->edxl->incident_descr  = $a['EDXLDistribution']['contentObject']['incidentDescription'];
-			$this->edxl->confidentiality = $a['EDXLDistribution']['contentObject']['confidentiality'];
 			$this->edxl->p_uuid          = $this->p_uuid;
 			$this->edxl->schema_version  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['version'];
 			$this->edxl->login_machine   = "n/a"; //null; HACK! cant be null
