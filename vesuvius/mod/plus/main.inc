@@ -68,10 +68,11 @@ function shn_plus_reportlog() {
 		$msg = "showing last 100";
 	}
 
-	if((int)$_GET['pagenum'] > 0) {
+	if(isset($_GET['pagenum']) && (int)$_GET['pagenum'] > 0) {
 		$previous = "<a href=\"index.php?mod=plus&act=reportlog&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
 	} else {
 		$previous = "◄";
+		$_GET['pagenum'] = 0;
 	}
 
 	$q = "
@@ -152,10 +153,11 @@ function shn_plus_rawLog() {
 		$msg = "showing last 100";
 	}
 
-	if((int)$_GET['pagenum'] > 0) {
+	if(isset($_GET['pagenum']) && (int)$_GET['pagenum'] > 0) {
 		$previous = "<a href=\"index.php?mod=plus&act=rawLog&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
 	} else {
 		$previous = "◄";
+		$_GET['pagenum'] = 0;
 	}
 
 	$q = "

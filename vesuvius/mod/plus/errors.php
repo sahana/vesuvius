@@ -43,5 +43,7 @@ define("ERRORCODES", serialize(array(
 	401  => "Duplicate person report ~ p_uuid collision.",
 	402  => "Invalid p_uuid ~ out of range.",
 	403  => "Error parsing XML.",
+	405  => "Event is closed to reporting.",
+	406  => "Invalid event.",
 	9999 => "Unknown error.",
 )));

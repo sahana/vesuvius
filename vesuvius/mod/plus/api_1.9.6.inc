@@ -307,7 +307,7 @@ function shn_plus_registerAll($namespace) {
 				'filterAgeAdult'       => 'xsd:boolean',
 				'filterAgeUnknown'     => 'xsd:boolean',
 				'filterHospitalSH'     => 'xsd:boolean',
-				'filterHospitalNNMCC'  => 'xsd:boolean',
+				'filterHospitalWRNMMC' => 'xsd:boolean',
 				'filterHospitalOther'  => 'xsd:boolean',
 				'pageStart'            => 'xsd:integer',
 				'perPage'              => 'xsd:integer',
@@ -345,7 +345,7 @@ function shn_plus_registerAll($namespace) {
 				'filterAgeAdult'       => 'xsd:boolean',
 				'filterAgeUnknown'     => 'xsd:boolean',
 				'filterHospitalSH'     => 'xsd:boolean',
-				'filterHospitalNNMCC'  => 'xsd:boolean',
+				'filterHospitalWRNMMC' => 'xsd:boolean',
 				'filterHospitalOther'  => 'xsd:boolean',
 				'pageStart'            => 'xsd:integer',
 				'perPage'              => 'xsd:integer',
@@ -1160,7 +1160,7 @@ function getSessionTimeout() {
 
 
 // performs a search across a specific PUBLIC event with filters, paging, and sort options
-function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatusAlive, $filterStatusInjured, $filterStatusDeceased, $filterStatusUnknown, $filterStatusFound, $filterGenderComplex, $filterGenderMale, $filterGenderFemale, $filterGenderUnknown, $filterAgeChild, $filterAgeAdult, $filterAgeUnknown, $filterHospitalSH, $filterHospitalNNMCC, $filterHospitalOther, $pageStart, $perPage, $sortBy = "last_updated", $mode) {
+function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatusAlive, $filterStatusInjured, $filterStatusDeceased, $filterStatusUnknown, $filterStatusFound, $filterGenderComplex, $filterGenderMale, $filterGenderFemale, $filterGenderUnknown, $filterAgeChild, $filterAgeAdult, $filterAgeUnknown, $filterHospitalSH, $filterHospitalWRNMMC, $filterHospitalOther, $pageStart, $perPage, $sortBy = "last_updated", $mode) {
 
 	shn_plus_logAccess("search");
 	global $global;
@@ -1215,13 +1215,13 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 		$filterAgeAdult       = ($filterAgeAdult)       ? 'true' : 'false';
 		$filterAgeUnknown     = ($filterAgeUnknown)     ? 'true' : 'false';
 		$filterHospitalSH     = ($filterHospitalSH)     ? 'true' : 'false';
-		$filterHospitalNNMCC  = ($filterHospitalNNMCC)  ? 'true' : 'false';
+		$filterHospitalWRNMMC = ($filterHospitalWRNMMC) ? 'true' : 'false';
 		$filterHospitalOther  = ($filterHospitalOther)  ? 'true' : 'false';
 
 		$sStatus       = $filterStatusMissing.";".$filterStatusAlive.";".$filterStatusInjured.";".$filterStatusDeceased.";".$filterStatusUnknown.";".$filterStatusFound;
 		$sGender       = $filterGenderComplex.";".$filterGenderMale.";".$filterGenderFemale.";".$filterGenderUnknown;
 		$sAge          = $filterAgeChild.";".$filterAgeAdult.";".$filterAgeUnknown;
-		$sHospital     = $filterHospitalSH.";".$filterHospitalNNMC.";".$filterHospitalOther;
+		$sHospital     = $filterHospitalSH.";".$filterHospitalWRNMMC.";".$filterHospitalOther;
 		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";".$mode;
 
 		require_once($global['approot']."/mod/inw/SearchDB.php");
@@ -1263,7 +1263,7 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 
 
 // Performs a search across a specific event with filters, paging, and sort options with authentication.
-function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $filterStatusAlive, $filterStatusInjured, $filterStatusDeceased, $filterStatusUnknown, $filterStatusFound, $filterGenderComplex, $filterGenderMale, $filterGenderFemale, $filterGenderUnknown, $filterAgeChild, $filterAgeAdult, $filterAgeUnknown, $filterHospitalSH, $filterHospitalNNMCC, $filterHospitalOther, $pageStart, $perPage, $sortBy = "last_updated", $mode, $username, $password) {
+function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $filterStatusAlive, $filterStatusInjured, $filterStatusDeceased, $filterStatusUnknown, $filterStatusFound, $filterGenderComplex, $filterGenderMale, $filterGenderFemale, $filterGenderUnknown, $filterAgeChild, $filterAgeAdult, $filterAgeUnknown, $filterHospitalSH, $filterHospitalWRNMMC, $filterHospitalOther, $pageStart, $perPage, $sortBy = "last_updated", $mode, $username, $password) {
 
 	shn_plus_logAccess("searchWithAuth");
 	global $global;
@@ -1322,13 +1322,13 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 		$filterAgeAdult       = ($filterAgeAdult)       ? 'true' : 'false';
 		$filterAgeUnknown     = ($filterAgeUnknown)     ? 'true' : 'false';
 		$filterHospitalSH     = ($filterHospitalSH)     ? 'true' : 'false';
-		$filterHospitalNNMCC  = ($filterHospitalNNMCC)  ? 'true' : 'false';
+		$filterHospitalWRNMMC = ($filterHospitalWRNMMC) ? 'true' : 'false';
 		$filterHospitalOther  = ($filterHospitalOther)  ? 'true' : 'false';
 
 		$sStatus       = $filterStatusMissing.";".$filterStatusAlive.";".$filterStatusInjured.";".$filterStatusDeceased.";".$filterStatusUnknown.";".$filterStatusFound;
 		$sGender       = $filterGenderComplex.";".$filterGenderMale.";".$filterGenderFemale.";".$filterGenderUnknown;
 		$sAge          = $filterAgeChild.";".$filterAgeAdult.";".$filterAgeUnknown;
-		$sHospital     = $filterHospitalSH.";".$filterHospitalNNMC.";".$filterHospitalOther;
+		$sHospital     = $filterHospitalSH.";".$filterHospitalWRNMMC.";".$filterHospitalOther;
 		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";".$mode;
 
 		require_once($global['approot']."/mod/inw/SearchDB.php");
