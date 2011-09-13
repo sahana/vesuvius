@@ -85,6 +85,7 @@ function shn_mpres_status() {
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 	$lastExecuted = $row['last_executed'];
+	$lastMessage  = $row['last_message'];
 
 	$q = "
 		SELECT Unix_Timestamp(last_executed)
@@ -108,7 +109,10 @@ function shn_mpres_status() {
 				<fieldset>
 					<legend>Daemon Status</legend>
 					Cron Job last executed @ <b>'.$lastExecuted.'</b> or <b>'.$delta.' seconds</b> ago.<br>
-					'.$statusMsg.'
+					'.$statusMsg.'<br>
+					<hr>
+					<b>Last Message:</b><br>
+					'.$lastMessage.'
 				</fieldset>
 			</form>
 		</div>
@@ -145,13 +149,13 @@ function shn_mpres_status() {
 		$next = "<a href=\"index.php?mod=mpres&act=status&pagenum=".($_GET['pagenum']+1)."\">►</a>";
 	} else {
 		$next = "►";
-		$msg = "showing executions ".($startPoint+1)." to ".$totalCount;
+		$msg = "showing ".($startPoint+1)." to ".$totalCount;
 	}
 
 	echo "<div class=\"form-container\"><form><fieldset>";
-	echo "<legend>Script Execution Messages (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
+	echo "<legend>Email Handling (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
 	echo "<table id=\"regLog\"><tr>
-		<td class=\"evener\"><b>Execution Time</b></td>
+		<td class=\"evener\"><b>Time</b></td>
 		<td class=\"evener\"><b>Messages</b></td>
 	</tr>";
 	$q = "
@@ -174,7 +178,7 @@ function shn_mpres_status() {
 		$count++;
 	}
 	if($count==0) {
-		echo "<tr><td colspan=2 class=\"odder\">No script executions so far!</td></tr>";
+		echo "<tr><td colspan=2 class=\"odder\">No emails so far!</td></tr>";
 	}
 	echo "</table>";
 	echo "</fieldset></form></div>";
