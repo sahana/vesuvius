@@ -1532,7 +1532,7 @@ class person {
 		$n->note_record_id          = shn_create_uuid('pfif_note');
 		$n->person_record_id        = $this->p_uuid;
 		$n->linked_person_record_id = null;
-		$n->source_date             = $this->last_updated; //$this->creation_time;
+		$n->source_date             = $this->last_updated; //$this->creation_time; // mishandled... so leave both as last_updated!
 		$n->entry_date              = $this->last_updated;
 		$n->author_phone            = null;
 		$n->email_of_found_person   = null;
@@ -1541,7 +1541,7 @@ class person {
 		$n->text                    = $this->other_comments;
 
 		// figure out the person's pfif status
-		$n->status = shn_map_status_to_pfif($this->opt_status, null, null);
+		$n->status = shn_map_status_to_pfif($this->opt_status);
 
 		// find author name and email...
 		$q = "
