@@ -40,6 +40,7 @@ class mpres {
 	private $email;
 	private $XMLversion;
 	private $ecode;
+	private $toggleActivity;
 	private $overview;
 	private $size;
 	private $messages;  // execution message log
@@ -81,6 +82,7 @@ class mpres {
 		$this->email                = null;
 		$this->XMLversion           = null;
 		$this->ecode                = null;
+		$this->toggleActivity       = false;
 		$this->overview             = null;
 		$this->size                 = null;
 		$this->go();
@@ -117,6 +119,7 @@ class mpres {
 		$this->email                = null;
 		$this->XMLversion           = null;
 		$this->ecode                = null;
+		$this->toggleActivity       = null;
 		$this->overview             = null;
 		$this->size                 = null;
 	}
@@ -151,6 +154,7 @@ class mpres {
 			$this->person = new person();
 			$this->person->init();
 			$this->ecode = 0;
+			$this->toggleActivity = true;
 
 			// retrieve current message's data
 			$this->currentMessage       = $this->overview[$i];
@@ -275,11 +279,14 @@ class mpres {
 		";
 		$res = $this->db->Execute($q);
 
-		$q = "
-			INSERT INTO  `mpres_messages` (`messages`)
-			VALUES ('".mysql_real_escape_string($this->messages)."');
-		";
-		$res = $this->db->Execute($q);
+		// only save messages if there is something going on, ie. there was at least one message in the inbox
+		if($this->toggleActivity) {
+			$q = "
+				INSERT INTO  `mpres_messages` (`messages`, `error_code`)
+				VALUES ('".mysql_real_escape_string($this->messages)."', '".$this->ecode."');
+			";
+			$res = $this->db->Execute($q);
+		}
 	}
 
 
