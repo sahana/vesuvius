@@ -153,7 +153,7 @@ function shn_mpres_status() {
 	}
 
 	echo "<div class=\"form-container\"><form><fieldset>";
-	echo "<legend>Email Handling (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
+	echo "<legend>Email Event Log (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
 	echo "<table id=\"regLog\"><tr>
 		<td class=\"evener\"><b>Time</b></td>
 		<td class=\"evener\"><b>Messages</b></td>
