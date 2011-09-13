@@ -102,8 +102,7 @@ class Pfif {
    }
 
    public function getSourceReposId() {
-      // Fixme: What to do with records loaded from XML?
-      if (!isset($this->service)) return 999;
+      if (!isset($this->service)) return null;
       return $this->service['repository']->id;
    }
 
@@ -218,8 +217,11 @@ class Pfif {
          // Do original records only. Non-embedded format.
          $pfif_persons = $this->getPersons();
          if (count($pfif_persons) != 0) {
+            // Logging needed since this is for automated exports.
             $this->reset_log_dates($pfif_persons[0]->entry_date);
             foreach ($pfif_persons as $person) {
+               // Snag last_updated for log since this indicates new information (could just be a Note).
+               $this->update_log_dates($person->entry_date);
                // Is this an original record meeting the date constraint?
                if ((strtotime($person->source_date) > $start) &&
                    (strtotime($person->source_date) < $end) &&
@@ -232,7 +234,6 @@ class Pfif {
          }
          $pfif_notes = $this->getNotes();
          if (count($pfif_notes) != 0) {
-            $this->reset_log_dates($pfif_notes[0]->entry_date);
             foreach ($pfif_notes as $note) {
                // Is this an original record meeting the date constraint?
                if ((strtotime($note->source_date) > $start) &&
@@ -244,11 +245,11 @@ class Pfif {
             }
             unset($note);
          }
+         $this->save_log_dates();
       } else if (!embed) {
          // Serialize persons and notes separately.
          $pfif_persons = $this->getPersons();
          if (count($pfif_persons) != 0) {
-            $this->reset_log_dates($pfif_persons[0]->entry_date);
             foreach ($pfif_persons as $person) {
                $personElement = $this->createPersonElement($person);
                $this->dom_pfif->firstChild->appendChild($personElement);
@@ -257,7 +258,6 @@ class Pfif {
          }
          $pfif_notes = $this->getNotes();
          if (count($pfif_notes) != 0) {
-            $this->reset_log_dates($pfif_notes[0]->entry_date);
             foreach ($pfif_notes as $note) {
                $noteElement = $this->createNoteElement($note);
                $this->dom_pfif->firstChild->appendChild($noteElement);
@@ -268,7 +268,6 @@ class Pfif {
          // Serialize persons and embed notes.
          // No need to appy filters since at least date ones were already applied during search.
          $pfif_persons = $this->getPersons();
-         $this->reset_log_dates($pfif_persons[0]->entry_date);
          foreach ($pfif_persons as $person) {
             $personElement = $this->createPersonElement($person);
             // Embed all notes associated with this person.
@@ -285,7 +284,6 @@ class Pfif {
 
       // Update status info
       //var_dump("first/last/count:end", $first_entry_date, $last_entry_date, $last_entry_count);
-      $this->save_log_dates();
       //print $this->dom_pfif->saveXML();
       if ($this->dom_pfif->firstChild->hasChildNodes()) {
          return $this->dom_pfif->saveXML();
@@ -295,8 +293,6 @@ class Pfif {
    }
 
    private function createPersonElement($person) {
-      // Update last_entry_count
-      $this->update_log_dates($person->entry_date);
       $personElement = $this->dom_pfif->createElement('pfif:person');
       $this->createXmlElement($personElement, 'pfif:person_record_id', $person->person_record_id);
       $this->createXmlElement($personElement, 'pfif:entry_date', utc_date($person->entry_date));
@@ -698,7 +694,7 @@ class Pfif {
          $this->_pfif_update_person_from_notes($person->person_record_id);
       }
       unset($person);
-      //var_dump("first/last/count at end: ", $first_entry_date, $last_entry_date, $last_entry_count);
+      var_dump("first/last/count at end: ", $first_entry_date, $last_entry_date, $last_entry_count);
       // Update status info
       $this->save_log_dates();
 
@@ -1074,6 +1070,7 @@ class Pfif {
          $whereSql .= ( $whereSql == null ? '' : ' AND ') . $whereElement;
       }
       $whereSql = $whereSql != null ? ' WHERE ' . $whereSql : '';
+      // FIXME: Dispense with hardcoded LIMIT.
       //$large_num = 1e12;
       $large_num = 700000;
       if ($since_entry_date == -1) {
@@ -1187,7 +1184,9 @@ class Pfif {
       $insert_array = array();
       $insert_array['p_uuid'] = $person->person_record_id;
       $insert_array['source_version'] = $this->getVersion();
-      $insert_array['source_repository_id'] = $this->getSourceReposId();
+      if ($this->getSourceReposId() != null) {
+         $insert_array['source_repository_id'] = $this->getSourceReposId();
+      }
       $insert_array['entry_date'] = strftime("%Y-%m-%d %H:%M:%S");
       if (!empty($person->expiry_date)) {
          $insert_array['expiry_date'] = $person->expiry_date;
@@ -1265,7 +1264,9 @@ class Pfif {
       $insert_array['note_record_id'] = $note->note_record_id;
       $insert_array['p_uuid'] = $note->person_record_id;
       $insert_array['source_version'] = $this->getVersion();
-      $insert_array['source_repository_id'] = $this->getSourceReposId();
+      if ($this->getSourceReposId() != null) {
+         $insert_array['source_repository_id'] = $this->getSourceReposId();
+      }
       if (!empty($note->linked_person_record_id)) {
          $insert_array['linked_person_record_id'] = $note->linked_person_record_id;
       }
