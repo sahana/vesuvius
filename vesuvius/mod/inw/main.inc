@@ -182,7 +182,7 @@ function shn_inw_default() {
 
 		</div>
 		<div id="detailsPane">
-			<div id="dt_eapLink" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">View/Edit Full Record</a></div>
+			<div id="dt_eapLink" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">See more information about this person (full record)</a></div>
 			<div id="close" onclick="Utils.closeDetail();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Close</a></div>
 			<div id="dt_print" onclick="Utils.printDetail();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Print</a></div>
 			<div id="dt_notesTab" onclick="Utils.showNotes();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Notes</a></div>
@@ -190,7 +190,7 @@ function shn_inw_default() {
 			<div id="dt_image" >
 				<!--span id="caption">caption here</span-->
 			</div>
-			
+
 			<div id="detailInfo" style="text-align:left;float:left;margin-top:5px;margin-left:20px; width:300px; position:relative; border: solid 0px #CCC;">
 				<!--label for="dt_uuid">ID</label>
 				<div id="dt_uuid" style="font-weight:normal;"></div-->
@@ -207,9 +207,9 @@ function shn_inw_default() {
 				<label for="dt_location">Last Known Location</label>
 				<div id="dt_location" style="font-weight:normal;"></div>
 				<label for="dt_comments">Comments</label>
-				<div id="dt_comments" style="font-weight: normal; height: 50px; overflow-y: auto;"></div>				
+				<div id="dt_comments" style="font-weight: normal; height: 50px; overflow-y: auto;"></div>
 				<!--label id="dt_notes_label" for="dt_notes" style="display:none;">Note Contents</label-->
-				<div id="dt_notes"></div>				
+				<div id="dt_notes"></div>
 			</div>
 			<div id="dt_hospitalIcon" ></div>
 			<div id="map_canvas" class="map">Loading...</div>

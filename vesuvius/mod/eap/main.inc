@@ -614,82 +614,20 @@ function shn_eap_edit() {
 
 	// fix empty full names..
 	$full_name = htmlspecialchars(mb_convert_case($full_name, MB_CASE_TITLE, "UTF-8"));
+
+
+	// show the full name
 	echo "
 		<div class=\"form-container\">
 			<form>
 				<fieldset id=\"editHeader\">
 					<legend>Person Record</legend>
+
 					<label for=\"opt_status\"><b>Full Name</b> </label>
-					<div class=\"fakeTextBox\">".$full_name."</div>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$full_name."\" size=\"50\" class=\"nonedit public\" READONLY>
 					<br>
 	";
 
-	// if the origin of the record is on this server, show a combined origin id / origin url
-	if(preg_match("+".$conf['base_uuid']."+", $global['uuid']) > 0) {
-		echo "
-			<label for=\"opt_status\"><b>Origin ID / Origin URL</b> </label>
-			<div class=\"fakeTextBox\"><a href=\"https://".$global['uuid']."\">".$global['uuid']."</a></div><br>
-		";
-
-	// record has foreign origin, so show separate url and uuid fields
-	} else {
-		$q = "
-			SELECT *
-			FROM pfif_person
-			WHERE p_uuid = '".$global['uuid']."';
-		";
-		$r = $global['db']->Execute($q);
-		if($row = $r->FetchRow()) {
-			$url = $row['source_url'];
-		} else {
-			$url = "";
-		}
-		// fix bad data
-		if($url == "NULL" || $url == "null") {
-			$url = "";
-		}
-		echo "
-			<label for=\"opt_status\"><b>Origin ID</b> </label>
-			<div class=\"fakeTextBox\">".$global['uuid']."</div>
-			<br>
-			<label for=\"opt_status\"><b>Origin URL</b> </label>
-			<div class=\"fakeTextBox\"><a href=\"".$url."\">".$url."</a></div>
-		";
-	}
-
-
-	// show the mass casualty ID
-	$q  = "
-		SELECT count(*)
-		FROM edxl_de_header d, edxl_co_header c
-		WHERE c.de_id = d.de_id
-		AND c.p_uuid = '".$global['uuid']."'
-		AND c.type = 'lpf';
-	";
-	$r   = $global['db']->Execute($q);
-	$row = $r->FetchRow();
-	$num = $row['count(*)'];
-
-	// we have a mass casualty id
-	if($num == 1) {
-		$q  = "
-			SELECT *
-			FROM edxl_de_header d, edxl_co_header c
-			WHERE c.de_id = d.de_id
-			AND c.p_uuid = '".$global['uuid']."'
-			AND c.type = 'lpf';
-		";
-		$r   = $global['db']->Execute($q);
-		$row = $r->FetchRow();
-		$did = $row['distr_id'];
-	} else {
-		$did = "";
-	}
-	echo "
-		<label for=\"opt_status\"><b>Mass Casualty ID</b> </label>
-		<div class=\"fakeTextBox\">".$did."</div>
-		<br>
-	";
 
 
 	// figure out the name (username) of the reporter
@@ -707,16 +645,15 @@ function shn_eap_edit() {
 		if($row['user_name'] == "mpres") {
 			$reporterName = $row['full_name'];
 		}
-	} else {
-		$reporterName = "";
+		echo "
+					<label for=\"opt_status\"><b>Reported by (username)</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$reporterName."\" size=\"50\" class=\"nonedit public\" READONLY>
+					<br>
+		";
 	}
-	echo "
-		<label for=\"opt_status\"><b>Reported by (username)</b> </label>
-		<div class=\"fakeTextBox\">".$reporterName."</div>
-		<br>
-	";
 
-	// figure out the report conduit
+
+	// show the reporting method if available
 	// check mpres
 	$q = "
 		SELECT *
@@ -750,7 +687,7 @@ function shn_eap_edit() {
 			$result = $global['db']->Execute($q);
 			if($result != NULL && !$result->EOF) {
 				$row = $result->FetchRow();
-				$appName = "PL";
+				$appName = "RAP";
 
 			// check pfif
 			} else {
@@ -768,13 +705,21 @@ function shn_eap_edit() {
 		}
 	}
 
-	if($appName == "TRIAGEPIC0" || $appName == "TRIAGEPIC1" || $appName == "TRIAGEPIC2") {
-		$appTitle = "TriagePic";
+	if($appName == "TRIAGEPIC0") {
+		$appTitle = "TriagePic (Format 0)";
+	} elseif($appName == "TRIAGEPIC1") {
+		$appTitle = "TriagePic (Format 1)";
+	} elseif($appName == "TRIAGEPIC2") {
+		$appTitle = "TriagePic (Format 2)";
 
-	} elseif($appName == "REUNITE2" || $appName == "REUNITE3" || $appName == "REUNITE4") {
-		$appTitle = "Reunite";
+	} elseif($appName == "REUNITE2") {
+		$appTitle = "Reunite (Format 2)";
+	} elseif($appName == "REUNITE3") {
+		$appTitle = "Reunite (Format 3)";
+	} elseif($appName == "REUNITE4") {
+		$appTitle = "Reunite (Format 4)";
 
-	} elseif($appName == "PL") {
+	} elseif($appName == "RAP") {
 		$appTitle = "People Locator (Report A Person)";
 
 	} elseif($appName == "PF") {
@@ -787,11 +732,94 @@ function shn_eap_edit() {
 		$appTitle = "";
 	}
 
-	echo "
-		<label for=\"opt_status\"><b>Reported via</b> </label>
-		<div class=\"fakeTextBox\">".$appTitle."</div>
-		<br>
+	if($appTitle != "") {
+		echo "
+					<label for=\"opt_status\"><b>Reported via</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$appTitle."\" size=\"50\" class=\"nonedit public\" READONLY>
+					<br>
+		";
+	}
+
+
+	// show the mass casualty ID if we have it
+	$q  = "
+		SELECT count(*)
+		FROM edxl_de_header d, edxl_co_header c
+		WHERE c.de_id = d.de_id
+		AND c.p_uuid = '".$global['uuid']."'
+		AND c.type = 'lpf';
 	";
+	$r   = $global['db']->Execute($q);
+	$row = $r->FetchRow();
+	$num = $row['count(*)'];
+
+	// we have a mass casualty id
+	if($num == 1) {
+		$q  = "
+			SELECT *
+			FROM edxl_de_header d, edxl_co_header c
+			WHERE c.de_id = d.de_id
+			AND c.p_uuid = '".$global['uuid']."'
+			AND c.type = 'lpf';
+		";
+		$r   = $global['db']->Execute($q);
+		$row = $r->FetchRow();
+		$did = $row['distr_id'];
+		echo "
+					<label for=\"opt_status\"><b>Mass Casualty ID</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$did."\" size=\"50\" class=\"nonedit public\" READONLY>
+					<br>
+		";
+	}
+
+
+
+
+	// if the origin of the record is on this server, show a combined origin id / origin url
+	if(preg_match("+".$conf['base_uuid']."+", $global['uuid']) > 0) {
+		echo "
+					<label for=\"opt_status\"><b>Origin ID</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"50\" class=\"nonedit public\" READONLY>
+					<br>
+
+					<label for=\"opt_status\"><b>Origin URL</b> </label>
+					<div class=\"originUrl\"><a href=\"https://".$global['uuid']."\">https://".$global['uuid']."</a></div>
+					<br>
+		";
+
+	// record has foreign origin, so show separate url and uuid fields
+	} else {
+		$q = "
+			SELECT *
+			FROM pfif_person
+			WHERE p_uuid = '".$global['uuid']."';
+		";
+		$r = $global['db']->Execute($q);
+		if($row = $r->FetchRow()) {
+			$url = $row['source_url'];
+		} else {
+			$url = "";
+		}
+		// fix bad data
+		if($url == "NULL" || $url == "null") {
+			$url = "";
+		}
+		echo "
+					<label for=\"opt_status\"><b>Origin ID</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"50\" class=\"nonedit public\" READONLY>
+					<br>
+
+					<label for=\"opt_status\"><b>Origin URL</b> </label>
+					<a href=\"".$url."\">".$url."</a>
+					<br>
+		";
+	}
+
+
+
+
+
+
 
 
 	echo "
