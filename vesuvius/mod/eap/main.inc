@@ -810,7 +810,7 @@ function shn_eap_edit() {
 					<br>
 
 					<label for=\"opt_status\"><b>Origin URL</b> </label>
-					<a href=\"".$url."\">".$url."</a>
+					<div class=\"originUrl\"><a href=\"".$url."\">".$url."</a></div>
 					<br>
 		";
 	}
