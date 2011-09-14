@@ -624,7 +624,7 @@ function shn_eap_edit() {
 					<legend>Person Record</legend>
 
 					<label for=\"opt_status\"><b>Full Name</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$full_name."\" size=\"50\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$full_name."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 	";
 
@@ -647,7 +647,7 @@ function shn_eap_edit() {
 		}
 		echo "
 					<label for=\"opt_status\"><b>Reported by (username)</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$reporterName."\" size=\"50\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$reporterName."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 		";
 	}
@@ -735,7 +735,7 @@ function shn_eap_edit() {
 	if($appTitle != "") {
 		echo "
 					<label for=\"opt_status\"><b>Reported via</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$appTitle."\" size=\"50\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$appTitle."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 		";
 	}
@@ -767,7 +767,7 @@ function shn_eap_edit() {
 		$did = $row['distr_id'];
 		echo "
 					<label for=\"opt_status\"><b>Mass Casualty ID</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$did."\" size=\"50\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$did."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 		";
 	}
@@ -779,7 +779,7 @@ function shn_eap_edit() {
 	if(preg_match("+".$conf['base_uuid']."+", $global['uuid']) > 0) {
 		echo "
 					<label for=\"opt_status\"><b>Origin ID</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"50\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 
 					<label for=\"opt_status\"><b>Origin URL</b> </label>
@@ -806,7 +806,7 @@ function shn_eap_edit() {
 		}
 		echo "
 					<label for=\"opt_status\"><b>Origin ID</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"50\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 
 					<label for=\"opt_status\"><b>Origin URL</b> </label>
@@ -814,12 +814,6 @@ function shn_eap_edit() {
 					<br>
 		";
 	}
-
-
-
-
-
-
 
 
 	echo "
