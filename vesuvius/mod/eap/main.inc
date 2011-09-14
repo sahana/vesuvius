@@ -768,12 +768,19 @@ function shn_eap_edit() {
 
 	if($appName == "TRIAGEPIC0" || $appName == "TRIAGEPIC1" || $appName == "TRIAGEPIC2") {
 		$appTitle = "TriagePic";
+
 	} elseif($appName == "REUNITE2" || $appName == "REUNITE3" || $appName == "REUNITE4") {
 		$appTitle = "Reunite";
+
 	} elseif($appName == "PL") {
 		$appTitle = "People Locator (Report A Person)";
+
 	} elseif($appName == "PF") {
 		$appTitle = "Google Person Finder";
+
+	} elseif($appName == "MPRES") {
+		$appTitle = "Unstructured Email";
+
 	} else {
 		$appTitle = "";
 	}
