@@ -260,8 +260,8 @@ function shn_plus_settings() {
 		?>
 		<table id="popSettings">
 		<tr>
-			<td class="odd">Client Session Timeout (currently used in ReUnite) [in seconds]</td>
-			<td class="odd"><input type="text" name="timeout" id="timeout" value="<?php echo $timeout; ?>" tabindex="1"  /><span class='req'>*</span></td>
+			<td class="odder">Client Session Timeout (currently used in ReUnite) [in seconds]</td>
+			<td class="odder"><input type="text" name="timeout" id="timeout" value="<?php echo $timeout; ?>" tabindex="1"  /><span class='req'>*</span></td>
 		</tr>
 		</table>
 		<br><br>

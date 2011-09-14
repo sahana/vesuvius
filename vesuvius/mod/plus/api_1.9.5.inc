@@ -1430,13 +1430,14 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 			$p->rep_uuid  = $rep_uuid;
 			$p->theString = $personXML;
 			$p->xmlFormat = $xmlFormat;
+			$p->setEvent($eventShortName);
 			$ecode = $p->parseXml();
 			if($ecode == 0) {
 				$p->insert();
+				$p->plusReportLog();
 			} else {
 				$error = true;
 			}
-			$a = $p->a;
 		}
 	}
 
@@ -1453,7 +1454,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 			'success'      => true,
 			'url'          => (string)$p->p_uuid,
 			'errorCode'    => (int)0,
-			'errorMessage' => $a
+			'errorMessage' => null
 		);
 	}
 }
