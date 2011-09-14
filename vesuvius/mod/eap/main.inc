@@ -536,11 +536,13 @@ function shn_eap_edit() {
 		return;
 	}
 
-	// check if the person record exists.,,
+	// check if the person record exists or has expired...
 	$q  = "
 		SELECT COUNT(*)
 		FROM person_uuid
-		WHERE p_uuid = '".$global['uuid']."';
+		WHERE p_uuid = '".$global['uuid']."'
+		AND (expiry_date > NOW()
+		OR expiry_date is null);
 	";
 	$r   = $global['db']->Execute($q);
 	$row = $r->FetchRow();
@@ -550,7 +552,7 @@ function shn_eap_edit() {
 	if($num != 1) {
 		echo "
 			<h2>Error</h2>
-			No such record exists.
+			This person's record does not exist or it has been deleted.
 		";
 		return;
 	}
