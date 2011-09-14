@@ -1485,10 +1485,9 @@ class person {
 		";
 		$result = $this->db->Execute($q);
 
-		// insert into plus_log
 		$q = "
-			INSERT INTO plus_report_log (p_uuid, enum)
-			VALUES ('".$this->p_uuid."', '".$this->xmlFormat."');
+			INSERT INTO  `person_to_report` (`p_uuid`, `rep_uuid`)
+			VALUES (".$this->sql_p_uuid.", ".$this->sql_rep_uuid.");
 		";
 		$result = $this->db->Execute($q);
 
@@ -1496,6 +1495,16 @@ class person {
 		$this->insertEdxl();
 		$this->makePfifNote();
 		$this->insertVoiceNote();
+	}
+
+
+	// insert into plus_log
+	public function plusReportLog() {
+		$q = "
+			INSERT INTO plus_report_log (p_uuid, enum)
+			VALUES ('".$this->p_uuid."', '".$this->xmlFormat."');
+		";
+		$result = $this->db->Execute($q);
 	}
 
 
@@ -1628,6 +1637,18 @@ class person {
 	}
 
 
+	// set the event id (which will be ignored by XML parser)
+	public function setEvent($eventShortName) {
+		$q = "
+			SELECT *
+			FROM `incident`
+			WHERE shortname = '".mysql_real_escape_string($eventShortName)."';
+		";
+		$result = $this->db->Execute($q);
+		$this->incident_id = $result->fields['incident_id'];
+	}
+
+
 	public function parseXml() {
 		global $global;
 		require_once($global['approot']."inc/lib_uuid.inc");
@@ -1654,7 +1675,6 @@ class person {
 			$this->given_name     = $a['person']['givenName'];
 			$this->family_name    = $a['person']['familyName'];
 			$this->full_name      = $this->given_name." ".$this->family_name;
-			$this->incident_id    = $a['person']['eventId'];
 			$this->expiry_date    = $a['person']['expiryDate'];
 			$this->opt_status     = $a['person']['status'];
 			$this->last_updated   = date('Y-m-d H:i:s');
@@ -1664,6 +1684,11 @@ class person {
 			$this->minAge         = $a['person']['minAge'];
 			$this->maxAge         = $a['person']['maxAge'];
 			$this->other_comments = $a['person']['note'];
+
+			// only update the incident_id if not already set
+			if($this->incident_id == null) {
+				$this->incident_id = $a['person']['eventId'];
+			}
 
 			foreach($a['person']['photos'] as $photo) {
 				if(trim($photo['data']) != "") {

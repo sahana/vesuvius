@@ -1416,7 +1416,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 				WHERE user_name = '".$username."';
 			";
 			$result = $global['db']->Execute($q);
-			$rep_uuid = $result->fields["p_uuid"];
+			$rep_uuid = $result->fields['p_uuid'];
 		}
 
 		// no errors, we must have permission to report to this event for the given user
@@ -1429,13 +1429,14 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 			$p->rep_uuid  = $rep_uuid;
 			$p->theString = $personXML;
 			$p->xmlFormat = $xmlFormat;
+			$p->setEvent($eventShortName);
 			$ecode = $p->parseXml();
 			if($ecode == 0) {
 				$p->insert();
+				$p->plusReportLog();
 			} else {
 				$error = true;
 			}
-			$a = $p->a;
 		}
 	}
 
@@ -1450,7 +1451,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 		return array(
 			'url'          => (string)$p->p_uuid,
 			'errorCode'    => (int)0,
-			'errorMessage' => $a
+			'errorMessage' => null
 		);
 	}
 }

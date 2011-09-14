@@ -59,10 +59,10 @@ $result = $client->call('searchWithAuth', array(
 */
 
 //$x = file_get_contents("RU.xml");
-//$x = file_get_contents("referenceXML_RU.xml");
+//$x = file_get_contents("reference_REUNITE3.xml");
 //$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
 
-$x = file_get_contents("referenceXML_TP.xml");
+$x = file_get_contents("reference_TRIAGEPIC1.xml");
 $result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
 
 echo "<pre>wsdl >> ".$wsdl."\n\n".var_export($result, true)."</pre>";
