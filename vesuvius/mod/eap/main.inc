@@ -13,9 +13,10 @@
 
 require_once($global['approot']."/inc/lib_uuid.inc");
 require_once($global['approot']."/mod/lpf/lib_lpf.inc");
-$revisionQ = array();
 global $global;
-$global['uuid'] = ""; // init
+global $revisionCount;
+$revisionCount = 0;
+$global['uuid'] = "";
 
 
 
@@ -274,19 +275,6 @@ function shn_eap_findRights() {
 
 
 /**
- * addEmailUpdates ~ Queues all updates
- *
- * @access public
- * @return void
- */
-function addEmailUpdates($table, $column, $name, $oldValue, $newValue) {
-	global $revisionQ;
-	$revisionQ[] = "The value for ".$name." has changed from <b>".$oldValue."</b> to <b>".$newValue."</b>";
-}
-
-
-
-/**
  * emailUpdates
  *
  * @access public
@@ -294,55 +282,45 @@ function addEmailUpdates($table, $column, $name, $oldValue, $newValue) {
  */
 function emailUpdates() {
 	global $global;
-	global $revisionQ;
+	global $revisionCount;
 
 	// only email if revisions...
-	if(count($revisionQ) > 0) {
+	if($revisionCount > 0) {
 
 		$p = new pop();
 		$subject  = "People Locator update for ".$global['full_name'];
 		$bodyHTML = "
-			Changes have been made to the Person Record of <b>".$global['full_name']."</b>.<br>
 			<br>
+			Changes have been made to the details of <b>".$global['full_name']."</b>.<br>
 		";
 		$bodyAlt = "
-			A change was made to the Person Record of ".$global['full_name'].".\n
 			\n
+			Changes have been made to the details of ".$global['full_name'].".\n
 		";
-
-		$i = 0;
-		while($i < count($revisionQ)) {
-			$bodyHTML .= $revisionQ[$i]."<br>";
-
-			// remove bold chars for alt email body
-			$revisionQ[$i] = str_replace("<b>", "", $revisionQ[$i]);
-			$revisionQ[$i] = str_replace("</b>", "", $revisionQ[$i]);
-
-			$bodyAlt .= $revisionQ[$i]."\n";
-			$i++;
-		}
 
 		$bodyHTML .= "
 			<br>
 			<br>
-			You can view the full record for this person here: <a href=\"".$global['googl']."\">".$global['googl']."</a><br>
+			You can view the page for this person here: <a href=\"".$global['googl']."\">".$global['googl']."</a> which includes the changes.<br>
+			<br>
+			<br>
+			<i>If you would like to unsubscribe from these email alerts, click the button to un-follow this person from the link provided above.</i><br>
 			<br>
 			<br>
 			<br>
-			<i>If you would like to unsubscribe from these email alerts, click the button to un-follow this person from the above mentioned link.</i><br>
-			<br>
-			<br>
+			- People Locator
 		";
 		$bodyAlt .= "
 			\n
 			\n
-			You can view the full record for this person here: ".$global['googl']."\n
+			You can view the page for this person here: ".$global['googl']."  which includes the changes.\n
+			\n
+			\n
+			If you would like to unsubscribe from these email alerts, click the button to un-follow this person from the link provided above.\n
 			\n
 			\n
 			\n
-			If you would like to unsubscribe from these email alerts, click the button to un-follow this person from the above mentioned link.\n
-			\n
-			\n
+			- People Locator
 		";
 
 		// email followers......
@@ -386,23 +364,25 @@ function emailUpdates() {
  */
 function saveRevision($table, $column, $name, $oldValue, $newValue) {
 	global $global;
+	global $revisionCount;
+	$revisionCount++;
 
 	// turn empty strings into NULL
 	if(trim($oldValue) == "") {
 		$old = "NULL";
 	} else {
-		$old = "'".mysql_real_escape_string($oldValue)."'";
+		$old = "'".(string)mysql_real_escape_string($oldValue)."'";
 	}
 	if(trim($newValue) == "") {
 		$new = "NULL";
 	} else {
-		$new = "'".mysql_real_escape_string($newValue)."'";
+		$new = "'".(string)mysql_real_escape_string($newValue)."'";
 	}
 
 	$q = "
-		UPDATE ".$table."
-		SET ".$column." = ".$new."
-		WHERE p_uuid    = '".$global['uuid']."';
+		INSERT INTO ".$table." (p_uuid, ".$column.")
+		VALUES ('".$global['uuid']."', ".$new.")
+		ON DUPLICATE KEY UPDATE ".$column." = ".$new." ;
 	";
 
 	// save the revision
@@ -423,9 +403,7 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
 	";
 	$r = $global['db']->Execute($q);
 
-	add_confirmation("Updated ".$name." from '".$oldValue."' to '".$newValue."'");
-
-	addEmailUpdates($table, $column, $name, $oldValue, $newValue);
+	add_confirmation("Changes saved.");
 }
 
 
@@ -438,6 +416,8 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
  */
 function saveContactRevision($type, $name, $oldValue, $newValue) {
 	global $global;
+	global $revisionCount;
+	$revisionCount++;
 
 	// turn empty strings into NULL
 	if(trim($oldValue) == "") {
@@ -485,9 +465,7 @@ function saveContactRevision($type, $name, $oldValue, $newValue) {
 	";
 	$r = $global['db']->Execute($q);
 
-	add_confirmation("Updated ".$name." from \"".$oldValue."\" to \"".$newValue."\"");
-
-	addEmailUpdates("contact", $type, $name, $oldValue, $newValue);
+	add_confirmation("Changes saved.");
 }
 
 
@@ -655,6 +633,7 @@ function shn_eap_edit() {
 
 	// show the reporting method if available
 	// check mpres
+	$appName = "";
 	$q = "
 		SELECT *
 		FROM mpres_log
@@ -1861,7 +1840,7 @@ function shn_eap_edit() {
 
 		<span>Send this page to a mobile device :</span><br><br>
 		<div style=\"float: left; width: 158px;\">
-			<script type=\"text/javascript\" src=\"res/js/jquery-1.6.1.min.js\"></script>
+			<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\"></script>
 			<script type=\"text/javascript\" src=\"res/js/jquery.qrcode.min.js\"></script>
 			<div id=\"qrcode\"></div>
 			<script>
@@ -1873,7 +1852,7 @@ function shn_eap_edit() {
 		<div style=\"float: left;\">
 			<br><br>
 			Short URL to this page : <br><br>
-			<b><input type=\"text\" value=\"".$global['googl']."\"></b></input><br>
+			<a href=\"".$global['googl']."\">".$global['googl']."</a><br>
 		</div>
 
 		<div style=\"clear:both;\"></div>
