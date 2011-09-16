@@ -1878,8 +1878,6 @@ class person {
 			$this->last_seen     = $result->fields["name"]." Hospital";
 
 			$this->edxl->content_descr   = $a['EDXLDistribution'][$ix]['contentDescription'];
-			$this->edxl->incident_id     = $a['EDXLDistribution'][$ix]['incidentID'];
-			$this->edxl->incident_descr  = $a['EDXLDistribution'][$ix]['incidentDescription'];
 			$this->edxl->confidentiality = $a['EDXLDistribution'][$ix]['confidentiality'];
 			$this->edxl->p_uuid          = $this->p_uuid;
 			$this->edxl->schema_version  = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['version'];
@@ -1908,7 +1906,8 @@ class person {
 
 			// parse all images
 			for($n = 0; $n < sizeof($a['EDXLDistribution']); $n++) {
-				if(isset($a['EDXLDistribution'][$n]['nonXMLContent']) && $a['EDXLDistribution'][$n]['nonXMLContent'] != null) {
+				if(isset($a['EDXLDistribution'][$n]['nonXmlContent']) && $a['EDXLDistribution'][$n]['nonXMLContent'] != null) {
+
 					$imageNode = $a['EDXLDistribution'][$n]['nonXMLContent'];
 
 					// create sahana image
