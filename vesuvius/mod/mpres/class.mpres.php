@@ -40,6 +40,7 @@ class mpres {
 	private $email;
 	private $XMLversion;
 	private $ecode;
+	private $toggleActivity;
 	private $overview;
 	private $size;
 	private $messages;  // execution message log
@@ -81,6 +82,7 @@ class mpres {
 		$this->email                = null;
 		$this->XMLversion           = null;
 		$this->ecode                = null;
+		$this->toggleActivity       = false;
 		$this->overview             = null;
 		$this->size                 = null;
 		$this->go();
@@ -117,6 +119,7 @@ class mpres {
 		$this->email                = null;
 		$this->XMLversion           = null;
 		$this->ecode                = null;
+		$this->toggleActivity       = null;
 		$this->overview             = null;
 		$this->size                 = null;
 	}
@@ -150,7 +153,9 @@ class mpres {
 			$this->person = null; // clear out the last person...
 			$this->person = new person();
 			$this->person->init();
+			$this->person->rep_uuid = 2;
 			$this->ecode = 0;
+			$this->toggleActivity = true;
 
 			// retrieve current message's data
 			$this->currentMessage       = $this->overview[$i];
@@ -204,6 +209,7 @@ class mpres {
 					$this->person->creation_time = date('Y-m-d H:i:s');
 					$this->person->author_name   = $this->currentFrom;
 					$this->person->author_email  = $this->currentFrom;
+					$this->person->xmlFormat     = "MPRES";
 					$this->person->insert();
 					$this->mpresLog();
 					$this->messages .= "Unstructured email found and person <a href=\"https://".$this->person->p_uuid."\">".$this->person->p_uuid."</a> inserted.<br>";
@@ -275,11 +281,14 @@ class mpres {
 		";
 		$res = $this->db->Execute($q);
 
-		$q = "
-			INSERT INTO  `mpres_messages` (`messages`)
-			VALUES ('".mysql_real_escape_string($this->messages)."');
-		";
-		$res = $this->db->Execute($q);
+		// only save messages if there is something going on, ie. there was at least one message in the inbox
+		if($this->toggleActivity) {
+			$q = "
+				INSERT INTO  `mpres_messages` (`messages`, `error_code`)
+				VALUES ('".mysql_real_escape_string($this->messages)."', '".$this->ecode."');
+			";
+			$res = $this->db->Execute($q);
+		}
 	}
 
 
@@ -287,8 +296,8 @@ class mpres {
 	private function mpresLog() {
 		// insert into mpres_log
 		$q = "
-			INSERT INTO mpres_log (p_uuid, email_subject, email_from, email_date, update_time)
-			VALUES ('".$this->person->p_uuid."','".$this->currentSubject."','".$this->currentFrom."','".$this->currentDate."',NOW());
+			INSERT INTO mpres_log (p_uuid, email_subject, email_from, email_date, update_time, xml_format)
+			VALUES ('".$this->person->p_uuid."', '".$this->currentSubject."', '".$this->currentFrom."', '".$this->currentDate."', NOW(), '".$this->person->xmlFormat."');
 		";
 		$res = $this->db->Execute($q);
 	}
