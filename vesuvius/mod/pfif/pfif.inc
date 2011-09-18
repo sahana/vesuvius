@@ -470,7 +470,7 @@ class Pfif {
       if (isset($capxml)) {
          if (stripos($capxml, '<' . PFIF_NS_PREFIX . ':') === FALSE) {
             //print "loading from file/url ...\n>".$capxml."<\n with length ".strlen($capxml)."\n";
-            $lst = @$this->dom_pfif->load($capxml); // load from file or URL
+            $lst = $this->dom_pfif->load($capxml); // load from file or URL
             //print "loaded\n";
          } else {
             //print "loading from string ...\n";
@@ -927,8 +927,9 @@ class Pfif {
    }
 
    // Load from database based on optional date window and number of records to skip.
-   // For now, if since_entry_date == -1  then this is a feed.
-   public function loadFromDatabase($since_entry_date=null, $before=null, $skip=0) {
+   // For now, if since_entry_date == -1  then this just returns the last 10 records.
+   // (Google does something similar if no params are supplied.)
+   public function loadFromDatabase($since_entry_date=null, $before=null, $max=0, $skip=0) {
       global $conf, $global;
 
       // Save filters since they may be needed at XML generation time.
@@ -940,7 +941,7 @@ class Pfif {
       $baseUrl = "https://" . $pfifDomain;
 
       // Get person records based on filters.
-      $personRecords = $this->getPersonFromDb($since_entry_date, $before, $skip);
+      $personRecords = $this->getPersonFromDb($since_entry_date, $before, $max, $skip);
       $record_count = count($personRecords);
 
       foreach ($personRecords as $personRecord) {
@@ -1052,7 +1053,7 @@ class Pfif {
    }
 
    // Use threshhold date and number of records to skip.
-   private function getPersonFromDb($since_entry_date, $before, $skip) {
+   private function getPersonFromDb($since_entry_date, $before, $max, $skip) {
       global $global;
 
       $whereSql = '';
@@ -1073,11 +1074,12 @@ class Pfif {
       // FIXME: Dispense with hardcoded LIMIT.
       //$large_num = 1e12;
       $large_num = 700000;
+      $max_num = ($max == 0)? $large_num : $max;
       if ($since_entry_date == -1) {
-         // This is a feed: Return recent records in reverse chronological order.
+         // This is a parameterless feed: Return 10 recent records in reverse chronological order.
          $whereSql .= " ORDER BY ps.status_id DESC LIMIT 10";
       } else {
-         $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,$large_num";
+         $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,$max_num";
       }
 
       // DEBUG:
