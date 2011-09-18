@@ -694,7 +694,7 @@ class Pfif {
          $this->_pfif_update_person_from_notes($person->person_record_id);
       }
       unset($person);
-      var_dump("first/last/count at end: ", $first_entry_date, $last_entry_date, $last_entry_count);
+      //var_dump("first/last/count at end: ", $first_entry_date, $last_entry_date, $last_entry_count);
       // Update status info
       $this->save_log_dates();
 

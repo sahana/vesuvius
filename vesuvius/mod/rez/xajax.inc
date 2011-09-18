@@ -36,7 +36,7 @@ function rez_append_log($message = "no message specified?") {
 	global $global;
 	$global['xajax_res']->addAppend('rezLog','innerHTML',$message);
 	//---- scroll the log to the bottom
-	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'logArea\'); e.scrollTop = e.scrollHeight+1000;', 500);");
+	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
 	return $global['xajax_res']->getXML();
 }
 
@@ -390,7 +390,7 @@ function rez_perform_edit($page_id, $clone = false) {
 <table class=\"mainTable\"><tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">Menu Title</td><td class=\"mainRowOdd\"><input name=\"menuTitle\" type=\"text\" id=\"menuTitle\" value=\"".$row['rez_menu_title']."\" size=\"64\" /></td></tr>
 <tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">Page Title</td><td class=\"mainRowEven\"><input name=\"pageTitle\" type=\"text\" id=\"pageTitle\" value=\"".$row['rez_page_title']."\" size=\"64\" /></td></tr>
 <tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">Page Description</td><td class=\"mainRowOdd\"><input name=\"pageDescription\" type=\"text\" id=\"pageDescription\" value=\"".$row['rez_description']."\" size=\"64\" /></td></tr></table>
-<div style=\"background-color: #fff;\"><textarea name=\"pageContent\" id=\"pageContent\" style=\"height: 300px; width: 100%;\">".$row['rez_content']."</textarea></div>
+<div class=\"wysiwyg\"><textarea name=\"pageContent\" id=\"pageContent\" style=\"height: 300px; width: 100%;\">".$row['rez_content']."</textarea></div>
 </form>";
 
 	$editControlHtml = '

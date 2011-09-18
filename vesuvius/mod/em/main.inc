@@ -54,7 +54,7 @@ function shn_em_default() {
 	}
 
 	echo "
-		<script type=\"text/javascript\" src=\"res/js/jquery-1.4.4.min.js\" ></script>
+		<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\" ></script>
 		<script type=\"text/javascript\" src=\"res/js/jquery-ui-autocomplete.min.js\" ></script>
 		<script type=\"text/javascript\" src=\"res/js/jquery-ui-datepicker.min.js\" ></script>
 	";

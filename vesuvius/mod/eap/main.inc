@@ -13,9 +13,10 @@
 
 require_once($global['approot']."/inc/lib_uuid.inc");
 require_once($global['approot']."/mod/lpf/lib_lpf.inc");
-$revisionQ = array();
 global $global;
-$global['uuid'] = ""; // init
+global $revisionCount;
+$revisionCount = 0;
+$global['uuid'] = "";
 
 
 
@@ -274,19 +275,6 @@ function shn_eap_findRights() {
 
 
 /**
- * addEmailUpdates ~ Queues all updates
- *
- * @access public
- * @return void
- */
-function addEmailUpdates($table, $column, $name, $oldValue, $newValue) {
-	global $revisionQ;
-	$revisionQ[] = "The value for ".$name." has changed from <b>".$oldValue."</b> to <b>".$newValue."</b>";
-}
-
-
-
-/**
  * emailUpdates
  *
  * @access public
@@ -294,55 +282,45 @@ function addEmailUpdates($table, $column, $name, $oldValue, $newValue) {
  */
 function emailUpdates() {
 	global $global;
-	global $revisionQ;
+	global $revisionCount;
 
 	// only email if revisions...
-	if(count($revisionQ) > 0) {
+	if($revisionCount > 0) {
 
 		$p = new pop();
 		$subject  = "People Locator update for ".$global['full_name'];
 		$bodyHTML = "
-			Changes have been made to the Person Record of <b>".$global['full_name']."</b>.<br>
 			<br>
+			Changes have been made to the details of <b>".$global['full_name']."</b>.<br>
 		";
 		$bodyAlt = "
-			A change was made to the Person Record of ".$global['full_name'].".\n
 			\n
+			Changes have been made to the details of ".$global['full_name'].".\n
 		";
-
-		$i = 0;
-		while($i < count($revisionQ)) {
-			$bodyHTML .= $revisionQ[$i]."<br>";
-
-			// remove bold chars for alt email body
-			$revisionQ[$i] = str_replace("<b>", "", $revisionQ[$i]);
-			$revisionQ[$i] = str_replace("</b>", "", $revisionQ[$i]);
-
-			$bodyAlt .= $revisionQ[$i]."\n";
-			$i++;
-		}
 
 		$bodyHTML .= "
 			<br>
 			<br>
-			You can view the full record for this person here: <a href=\"".$global['googl']."\">".$global['googl']."</a><br>
+			You can view the page for this person here: <a href=\"".$global['googl']."\">".$global['googl']."</a> which includes the changes.<br>
+			<br>
+			<br>
+			<i>If you would like to unsubscribe from these email alerts, click the button to un-follow this person from the link provided above.</i><br>
 			<br>
 			<br>
 			<br>
-			<i>If you would like to unsubscribe from these email alerts, click the button to un-follow this person from the above mentioned link.</i><br>
-			<br>
-			<br>
+			- People Locator
 		";
 		$bodyAlt .= "
 			\n
 			\n
-			You can view the full record for this person here: ".$global['googl']."\n
+			You can view the page for this person here: ".$global['googl']."  which includes the changes.\n
+			\n
+			\n
+			If you would like to unsubscribe from these email alerts, click the button to un-follow this person from the link provided above.\n
 			\n
 			\n
 			\n
-			If you would like to unsubscribe from these email alerts, click the button to un-follow this person from the above mentioned link.\n
-			\n
-			\n
+			- People Locator
 		";
 
 		// email followers......
@@ -386,23 +364,25 @@ function emailUpdates() {
  */
 function saveRevision($table, $column, $name, $oldValue, $newValue) {
 	global $global;
+	global $revisionCount;
+	$revisionCount++;
 
 	// turn empty strings into NULL
 	if(trim($oldValue) == "") {
 		$old = "NULL";
 	} else {
-		$old = "'".mysql_real_escape_string($oldValue)."'";
+		$old = "'".(string)mysql_real_escape_string($oldValue)."'";
 	}
 	if(trim($newValue) == "") {
 		$new = "NULL";
 	} else {
-		$new = "'".mysql_real_escape_string($newValue)."'";
+		$new = "'".(string)mysql_real_escape_string($newValue)."'";
 	}
 
 	$q = "
-		UPDATE ".$table."
-		SET ".$column." = ".$new."
-		WHERE p_uuid    = '".$global['uuid']."';
+		INSERT INTO ".$table." (p_uuid, ".$column.")
+		VALUES ('".$global['uuid']."', ".$new.")
+		ON DUPLICATE KEY UPDATE ".$column." = ".$new." ;
 	";
 
 	// save the revision
@@ -423,9 +403,7 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
 	";
 	$r = $global['db']->Execute($q);
 
-	add_confirmation("Updated ".$name." from '".$oldValue."' to '".$newValue."'");
-
-	addEmailUpdates($table, $column, $name, $oldValue, $newValue);
+	add_confirmation("Changes saved.");
 }
 
 
@@ -438,6 +416,8 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
  */
 function saveContactRevision($type, $name, $oldValue, $newValue) {
 	global $global;
+	global $revisionCount;
+	$revisionCount++;
 
 	// turn empty strings into NULL
 	if(trim($oldValue) == "") {
@@ -485,9 +465,7 @@ function saveContactRevision($type, $name, $oldValue, $newValue) {
 	";
 	$r = $global['db']->Execute($q);
 
-	add_confirmation("Updated ".$name." from \"".$oldValue."\" to \"".$newValue."\"");
-
-	addEmailUpdates("contact", $type, $name, $oldValue, $newValue);
+	add_confirmation("Changes saved.");
 }
 
 
@@ -536,11 +514,13 @@ function shn_eap_edit() {
 		return;
 	}
 
-	// check if the person record exists.,,
+	// check if the person record exists or has expired...
 	$q  = "
 		SELECT COUNT(*)
 		FROM person_uuid
-		WHERE p_uuid = '".$global['uuid']."';
+		WHERE p_uuid = '".$global['uuid']."'
+		AND (expiry_date > NOW()
+		OR expiry_date is null);
 	";
 	$r   = $global['db']->Execute($q);
 	$row = $r->FetchRow();
@@ -550,7 +530,7 @@ function shn_eap_edit() {
 	if($num != 1) {
 		echo "
 			<h2>Error</h2>
-			No such record exists.
+			This person's record does not exist or it has been deleted.
 		";
 		return;
 	}
@@ -612,21 +592,178 @@ function shn_eap_edit() {
 
 	// fix empty full names..
 	$full_name = htmlspecialchars(mb_convert_case($full_name, MB_CASE_TITLE, "UTF-8"));
+
+
+	// show the full name
 	echo "
 		<div class=\"form-container\">
 			<form>
 				<fieldset id=\"editHeader\">
 					<legend>Person Record</legend>
+
 					<label for=\"opt_status\"><b>Full Name</b> </label>
-					<div class=\"fakeTextBox\">".$full_name."</div>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$full_name."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 	";
+
+
+
+	// figure out the name (username) of the reporter
+	$q = "
+		SELECT *
+		FROM person_to_report r, person_uuid p, users u
+		WHERE r.p_uuid = '".$global['uuid']."'
+		AND p.p_uuid = r.rep_uuid
+		AND p.p_uuid = u.p_uuid;
+	";
+	$result = $global['db']->Execute($q);
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$reporterName = $row['full_name']." (".$row['user_name'].")";
+		if($row['user_name'] == "mpres") {
+			$reporterName = $row['full_name'];
+		}
+		echo "
+					<label for=\"opt_status\"><b>Reported by (username)</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$reporterName."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<br>
+		";
+	}
+
+
+	// show the reporting method if available
+	// check mpres
+	$appName = "";
+	$q = "
+		SELECT *
+		FROM mpres_log
+		WHERE p_uuid = '".$global['uuid']."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$appName = $row['xml_format'];
+
+	// check plus
+	} else {
+		$q = "
+			SELECT *
+			FROM plus_report_log
+			WHERE p_uuid = '".$global['uuid']."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result != NULL && !$result->EOF) {
+			$row = $result->FetchRow();
+			$appName = $row['enum'];
+
+		// check rap
+		} else {
+			$q = "
+				SELECT *
+				FROM rap_log
+				WHERE p_uuid = '".$global['uuid']."';
+			";
+			$result = $global['db']->Execute($q);
+			if($result != NULL && !$result->EOF) {
+				$row = $result->FetchRow();
+				$appName = "RAP";
+
+			// check pfif
+			} else {
+				$q = "
+					SELECT *
+					FROM pfif_person
+					WHERE p_uuid = '".$global['uuid']."';
+				";
+				$result = $global['db']->Execute($q);
+				if($result != NULL && !$result->EOF) {
+					$row = $result->FetchRow();
+					$appName = "PF";
+				}
+			}
+		}
+	}
+
+	if($appName == "TRIAGEPIC0") {
+		$appTitle = "TriagePic (Format 0)";
+	} elseif($appName == "TRIAGEPIC1") {
+		$appTitle = "TriagePic (Format 1)";
+	} elseif($appName == "TRIAGEPIC2") {
+		$appTitle = "TriagePic (Format 2)";
+
+	} elseif($appName == "REUNITE2") {
+		$appTitle = "Reunite (Format 2)";
+	} elseif($appName == "REUNITE3") {
+		$appTitle = "Reunite (Format 3)";
+	} elseif($appName == "REUNITE4") {
+		$appTitle = "Reunite (Format 4)";
+
+	} elseif($appName == "RAP") {
+		$appTitle = "People Locator (Report A Person)";
+
+	} elseif($appName == "PF") {
+		$appTitle = "Google Person Finder";
+
+	} elseif($appName == "MPRES") {
+		$appTitle = "Unstructured Email";
+
+	} else {
+		$appTitle = "";
+	}
+
+	if($appTitle != "") {
+		echo "
+					<label for=\"opt_status\"><b>Reported via</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$appTitle."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<br>
+		";
+	}
+
+
+	// show the mass casualty ID if we have it
+	$q  = "
+		SELECT count(*)
+		FROM edxl_de_header d, edxl_co_header c
+		WHERE c.de_id = d.de_id
+		AND c.p_uuid = '".$global['uuid']."'
+		AND c.type = 'lpf';
+	";
+	$r   = $global['db']->Execute($q);
+	$row = $r->FetchRow();
+	$num = $row['count(*)'];
+
+	// we have a mass casualty id
+	if($num == 1) {
+		$q  = "
+			SELECT *
+			FROM edxl_de_header d, edxl_co_header c
+			WHERE c.de_id = d.de_id
+			AND c.p_uuid = '".$global['uuid']."'
+			AND c.type = 'lpf';
+		";
+		$r   = $global['db']->Execute($q);
+		$row = $r->FetchRow();
+		$did = $row['distr_id'];
+		echo "
+					<label for=\"opt_status\"><b>Mass Casualty ID</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$did."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<br>
+		";
+	}
+
+
+
 
 	// if the origin of the record is on this server, show a combined origin id / origin url
 	if(preg_match("+".$conf['base_uuid']."+", $global['uuid']) > 0) {
 		echo "
-			<label for=\"opt_status\"><b>Origin ID / Origin URL</b> </label>
-			<div class=\"fakeTextBox\"><a href=\"https://".$global['uuid']."\">".$global['uuid']."</a></div><br>
+					<label for=\"opt_status\"><b>Origin ID</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<br>
+
+					<label for=\"opt_status\"><b>Origin URL</b> </label>
+					<div class=\"originUrl\"><a href=\"https://".$global['uuid']."\">https://".$global['uuid']."</a></div>
+					<br>
 		";
 
 	// record has foreign origin, so show separate url and uuid fields
@@ -647,47 +784,15 @@ function shn_eap_edit() {
 			$url = "";
 		}
 		echo "
-			<label for=\"opt_status\"><b>Origin ID</b> </label>
-			<div class=\"fakeTextBox\">".$global['uuid']."</div>
-			<br>
-			<label for=\"opt_status\"><b>Origin URL</b> </label>
-			<div class=\"fakeTextBox\"><a href=\"".$url."\">".$url."</a></div>
+					<label for=\"opt_status\"><b>Origin ID</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<br>
+
+					<label for=\"opt_status\"><b>Origin URL</b> </label>
+					<div class=\"originUrl\"><a href=\"".$url."\">".$url."</a></div>
+					<br>
 		";
 	}
-
-
-	// show the mass casualty ID
-	$q  = "
-		SELECT count(*)
-		FROM edxl_de_header d, edxl_co_header c
-		WHERE c.de_id = d.de_id
-		AND c.p_uuid = '".$global['uuid']."'
-		AND c.type = 'lpf';
-	";
-	$r   = $global['db']->Execute($q);
-	$row = $r->FetchRow();
-	$num = $row['count(*)'];
-
-	// we has images
-	if($num == 1) {
-		$q  = "
-			SELECT *
-			FROM edxl_de_header d, edxl_co_header c
-			WHERE c.de_id = d.de_id
-			AND c.p_uuid = '".$global['uuid']."'
-			AND c.type = 'lpf';
-		";
-		$r   = $global['db']->Execute($q);
-		$row = $r->FetchRow();
-		$did = $row['distr_id'];
-	} else {
-		$did = "";
-	}
-	echo "
-		<label for=\"opt_status\"><b>Mass Casualty ID</b> </label>
-		<div class=\"fakeTextBox\">".$did."</div>
-		<br>
-	";
 
 
 	echo "
@@ -1056,7 +1161,7 @@ function shn_eap_edit() {
 			<div class=\"form-container\">
 			<form method=\"post\" id=\"editPublic\" name=\"editPublic\" action=\"index.php?mod=eap&act=edit".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
 			<fieldset id=\"editPublic\">
-			<legend><span class=\"publicText\">View / Edit Public Information</span></legend>
+			<legend><span class=\"publicText\">Public Information</span></legend>
 
 			<label for=\"opt_status\"><b>Record Created</b> </label>
 			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$creation_time."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
@@ -1121,8 +1226,6 @@ function shn_eap_edit() {
 		$editGivenName  = htmlspecialchars(mb_convert_case($editGivenName,  MB_CASE_TITLE, "UTF-8"));
 		$editFamilyName = htmlspecialchars(mb_convert_case($editFamilyName, MB_CASE_TITLE, "UTF-8"));
 		echo "
-			<hr class=\"insideHrGreen\">
-
 			<label for=\"given_name\">Given Name </label>
 			<input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$editGivenName."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
@@ -1163,8 +1266,6 @@ function shn_eap_edit() {
 			<textarea name=\"comments\" id=\"comments\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editComments."</textarea>
 			<br>
 
-			<hr class=\"insideHrGreen\">
-
 			<label for=\"height\">Last Seen Location</label>
 			<textarea name=\"last_seen\" id=\"last_seen\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editLastSeen."</textarea>
 			<br>
@@ -1179,7 +1280,7 @@ function shn_eap_edit() {
 			<br>
 
 			<label for=\"height\">&nbsp;</label>
-			<input type=\"submit\" value=\"Save Changes to Public Information\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
+			<input type=\"submit\" value=\"Save\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
 
 			</fieldset>
 			</form></div>
@@ -1219,7 +1320,7 @@ function shn_eap_edit() {
 			<div class=\"form-container\">
 			<form>
 			<fieldset id=\"editPublic\">
-			<legend><span class=\"publicText\">Information</span></legend>
+			<legend><span class=\"publicText\">Public Information</span></legend>
 
 			<label for=\"opt_status\"><b>Record Created</b> </label>
 			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$creation_time."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
@@ -1270,8 +1371,6 @@ function shn_eap_edit() {
 		$person_uuid['given_name']  = htmlspecialchars(mb_convert_case($person_uuid['given_name'],  MB_CASE_TITLE, "UTF-8"));
 		$person_uuid['family_name'] = htmlspecialchars(mb_convert_case($person_uuid['family_name'], MB_CASE_TITLE, "UTF-8"));
 		echo "
-			<hr class=\"insideHrGreen\">
-
 			<label for=\"given_name\">Given Name </label>
 			<input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$person_uuid['given_name']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
@@ -1337,8 +1436,6 @@ function shn_eap_edit() {
 			<textarea name=\"comments\" id=\"comments\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_physical['comments']."</textarea>
 			<br>
 
-			<hr class=\"insideHrGreen\">
-
 			<label for=\"height\">Last Seen Location</label>
 			<textarea name=\"last_seen\" id=\"last_seen\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_details['last_seen']."</textarea>
 			<br>
@@ -1357,294 +1454,12 @@ function shn_eap_edit() {
 	// PUBLIC VIEW END ////////////////////////////////////////////////////////////////////////////////////
 
 
-	// LOAD PRIVATE DATA //////////////////////////////////////////////////////////////////////////////////
-	if($global['privateEdit']) {
-
-		$address = "";
-		$zip     = "";
-		$phone   = "";
-		$mobile  = "";
-		$email   = "";
-
-		$q  = "
-			SELECT *
-			FROM contact
-			WHERE p_uuid = '".$global['uuid']."';
-		";
-		$r   = $global['db']->Execute($q);
-		while ($row = $r->FetchRow()) {
-			$type  = $row['opt_contact_type'];
-			$value = $row['contact_value'];
-			if($type == "home") {
-				$address = $value;
-			} else if($type == "zip") {
-				$zip = $value;
-			} else if($type == "curr") {
-				$phone = $value;
-			} else if($type == "cmob") {
-				$mobile = $value;
-			} else if($type == "email") {
-				$email = $value;
-			}
-		}
-	// LOAD PRIVATE DATA END ///////////////////////////////////////////////////////////////////////////
-
-
-	// PRIVATE EDIT ////////////////////////////////////////////////////////////////////////////////////
-		if((count($_POST) > 0) && isset($_POST['opt_race'])) {
-			$editAddress    = trim($_POST['address']);
-			$editZip        = trim($_POST['zip']);
-			$editPhone      = trim($_POST['phone']);
-			$editCell       = trim($_POST['mobile']);
-			$editEmail      = trim($_POST['email']);
-			$editReligion   = trim($_POST['opt_religion']);
-			$editRace       = trim($_POST['opt_race']);
-
-			if($editAddress  == '') { $editAddress  = null; }
-			if($editZip      == '') { $editZip      = null; }
-			if($editPhone    == '') { $editPhone    = null; }
-			if($editCell     == '') { $editCell     = null; }
-			if($editEmail    == '') { $editEmail    = null; }
-			if($editReligion == '') { $editReligion = null; }
-			if($editRace     == '') { $editRace     = null; }
-
-			if($editAddress   != $address)                        { saveContactRevision("home",  "Address",  $address, $editAddress); }
-			if($editZip       != $zip)                            { saveContactRevision("zip",   "Zip Code", $zip,     $editZip);     }
-			if($editPhone     != $phone)                          { saveContactRevision("curr",  "Phone",    $phone,   $editPhone);   }
-			if($editCell      != $mobile)                         { saveContactRevision("cmob",  "Mobile",   $mobile,  $editCell);    }
-			if($editEmail     != $email)                          { saveContactRevision("email", "Email",    $email,   $editEmail)  ; }
-			if($editReligion  != $person_details['opt_religion']) { saveRevision("person_details", "opt_religion", "Religion",  $person_details['opt_religion'], $editReligion); }
-			if($editRace      != $person_details['opt_race'])     { saveRevision("person_details", "opt_race",     "Race",      $person_details['opt_race'],     $editRace);     }
-
-		} else {
-			$editAddress    = $address;
-			$editZip        = $zip;
-			$editPhone      = $phone;
-			$editCell       = $mobile;
-			$editEmail      = $email;
-			$editReligion   = $person_details['opt_religion'];
-			$editRace       = $person_details['opt_race'];
-		}
-
-		echo "
-			<div class=\"form-container\">
-			<form method=\"post\" id=\"editPrivateForm\" name=\"editPrivateForm\" action=\"index.php?mod=eap&act=edit".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
-			<fieldset id=\"editPrivate\">
-			<legend><span class=\"privateText\">View / Edit Private Information</span></legend>
-		";
-
-		//shn_form_textarea("Address",                  "address", null,       array('value'=>$editAddress, 'cols'=>70));
-
-		echo "
-			<label for=\"address\">Street Address</label>
-			<textarea name=\"address\" id=\"address\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editAddress."</textarea>
-			<br>
-		";
-
-		shn_form_text(    "Zip/Postal Code",          "zip",    'size="50"', array('value'=>$editZip  ));
-		shn_form_text(    "Home Phone Number",        "phone",  'size="50"', array('value'=>$editPhone));
-		shn_form_text(    "Cell/Mobile Phone Number", "mobile", 'size="50"', array('value'=>$editCell ));
-		shn_form_text(    "Email Address",            "email",  'size="50"', array('value'=>$editEmail));
-
-		shn_form_opt_select("opt_race", "Race ",         null, array('sort'=>'display_order, option_description ASC', 'value'=>$editRace    ));
-		shn_form_opt_select("opt_religion", "Religion ", null, array('sort'=>'display_order, option_description ASC', 'value'=>$editReligion));
-
-		echo "
-			<br>
-			<label for=\"height\">&nbsp;</label>
-			<input type=\"submit\" value=\"Save Changes to Private Information\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
-
-			</fieldset>
-			</form></div>
-		";
-	}
-	// PRIVATE EDIT END ////////////////////////////////////////////////////////////////////////////////
-
-
-	// REVISIONS START//////////////////////////////////////////////////////////////////////////////////
-	if($global['privateEdit']) {
-		echo "
-			<div class=\"form-container\">
-			<form id=\"editRevisionsForm\" name=\"editRevisionsForm\">
-			<fieldset id=\"editPrivate\">
-			<legend><span class=\"revisionsText\">Revisions to this Record</span></legend>
-		";
-
-		$out = "<table>
-			<tr>
-				<td style=\"text-align: left; border: none; font-weight: bold;\" class=\"odder\">Field Changed</td>
-				<td style=\"text-align: left; border: none; font-weight: bold;\" class=\"odder\">Old Value</td>
-				<td style=\"text-align: left; border: none; font-weight: bold;\" class=\"odder\">New Value</td>
-				<td style=\"text-align: left; border: none; font-weight: bold;\" class=\"odder\">Updated When</td>
-				<td style=\"text-align: left; border: none; font-weight: bold;\" class=\"odder\">Updated By</td>
-			</tr>
-		";
-
-		$q  = "
-			SELECT *
-			FROM person_updates u, person_uuid p
-			WHERE u.p_uuid = '".$global['uuid']."'
-			AND p.p_uuid = u.updated_by_p_uuid
-			ORDER BY update_time ASC;
-		";
-		$r  = $global['db']->Execute($q);
-		$count = 0;
-		while($row = $r->FetchRow()) {
-			if(($count % 2) == 0) {
-				$class = "evener";
-			} else {
-				$class = "odder";
-			}
-			$out .= "
-				<tr>
-					<td style=\"text-align: left; border: none;\" class=\"".$class."\">".$row['updated_table']." :: ".$row['updated_column']."</td>
-					<td style=\"text-align: left; border: none;\" class=\"".$class."\">".$row['old_value']."</td>
-					<td style=\"text-align: left; border: none;\" class=\"".$class."\">".$row['new_value']."</td>
-					<td style=\"text-align: left; border: none;\" class=\"".$class."\">".$row['update_time']."</td>
-					<td style=\"text-align: left; border: none;\" class=\"".$class."\">".$row['full_name']."</td>
-				</tr>
-			";
-			$count++;
-		}
-		$out .= "</table>";
-		if($count == 0) {
-			echo "<b>No revisions to this record.</b>";
-		} else {
-			echo $out;
-		}
-		echo "
-			</fieldset>
-			</form></div>
-		";
-	}
-	// REVISIONS END ////////////////////////////////////////////////////////////////////////////////
-
-
-
-	// FOLLOW //////////////////////////////////////////////////////////////////////////////////////////
-	if($global['startFollow'] && $global['role'] != "reporter") {
-
-		$q  = "
-			SELECT COUNT(*)
-			FROM person_followers
-			WHERE follower_p_uuid = '".$_SESSION['user_p_uuid']."'
-			AND p_uuid = '".$global['uuid']."';
-		";
-		$r  = $global['db']->Execute($q);
-		$row = $r->FetchRow();
-		$alreadyFollowing = (bool)$row['COUNT(*)']; // true if logged in user is already following the person
-
-		if(!$alreadyFollowing) {
-			echo "
-				<script>
-					function followPersonCall() {
-						var fP = document.getElementById('followPerson');
-						fP.submit();
-					}
-				</script>
-
-				<div class=\"form-container\">
-				<form method=\"post\" id=\"followPerson\" name=\"followPerson\" action=\"index.php?mod=eap&act=follow".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
-				<fieldset id=\"editFollow\">
-				<legend><span class=\"followText\">Follow</span></legend>
-				To receive email alerts when this record is updated with new information, you can elect to follow this person. You will only receive an email when the reporter or staff change any of the information in this person's record or when a user of the site leaves a note on this page.<br>
-				<br>
-				<input id=\"followButton\" class=\"styleTehButton\" type=\"button\" value=\"Click here to begin following this person's record via email\" onclick=\"followPersonCall();\"><br>
-				<br>
-				Be aware that at any time you may visit your <a href=\"index.php?mod=pref&act=default\">User Preferences</a> page to manage which people you are following.
-				</fieldset>
-				</form>
-				</div>
-			";
-		} else {
-			echo "
-				<script>
-					function unFollowPersonCall() {
-						var ufP = document.getElementById('unFollowPerson');
-						ufP.submit();
-					}
-				</script>
-				<div class=\"form-container\">
-				<form method=\"post\" id=\"unFollowPerson\" name=\"unFollowPerson\" action=\"index.php?mod=eap&act=unFollow".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
-				<fieldset id=\"editFollow\">
-				<legend><span class=\"followText\">Follow</span></legend>
-				To stop receiving email alerts when this record is updated with new information or notes, you can elect to unfollow this person.<br>
-				<br>
-				<input id=\"unFollowButton\" class=\"styleTehButton\" type=\"button\" value=\"Click here to STOP following this person's record via email\" onclick=\"unFollowPersonCall();\"><br>
-				<br>
-				</fieldset>
-				</form>
-				</div>
-			";
-		}
-	}
-
-	// if not allowed to follow, then we ask the user to first login/signup
-	if(!$global['startFollow'] && $global['role'] != "reporter") {
-		echo "
-			<div class=\"form-container\">
-			<form method=\"post\" id=\"followPerson\" name=\"followPerson\">
-			<fieldset id=\"editFollow\">
-			<legend><span class=\"followText\">Follow</span></legend>
-			To receive email alerts when this record is updated with new information, you can elect to follow this person. You will only receive an email when the reporter or staff change any of the information in this person's record or when a user of the site leaves a note on this page.<br>
-			<br>
-			<b>If you would like to follow this person, you must first login. If you don't have an account, then first <a href=\"index.php?act=signup\">sign up for one.</a></b>
-			</fieldset>
-			</form>
-			</div>
-		";
-	}
-	// FOLLOW END ///////////////////////////////////////////////////////////////////////////////
-
-
-	// SHARE ////////////////////////////////////////////////////////////////////////////////////
-	echo "
-		<div class=\"form-container\">
-		<form>
-		<fieldset id=\"editShare\">
-		<legend>Share</legend>
-
-		<span>Send this page to a mobile device :</span><br><br>
-		<div style=\"float: left; width: 158px;\">
-			<script type=\"text/javascript\" src=\"res/js/jquery-1.6.1.min.js\"></script>
-			<script type=\"text/javascript\" src=\"res/js/jquery.qrcode.min.js\"></script>
-			<div id=\"qrcode\"></div>
-			<script>
-				jQuery('#qrcode').qrcode(\"".$global['googl']."\");
-			</script>
-		</div>
-
-
-		<div style=\"float: left;\">
-			<br><br>
-			Short URL to this page : <br><br>
-			<b><input type=\"text\" value=\"".$global['googl']."\"></b></input><br>
-		</div>
-
-		<div style=\"clear:both;\"></div>
-
-		<div style=\"margin: 15px 15px 0px 15px; border-top: 1px solid orange; padding-top: 15px;\">
-			<div class=\"addthis_toolbox addthis_default_style\">
-			<a class=\"addthis_button_facebook_like\" fb:like:layout=\"button_count\"></a>
-			<a class=\"addthis_button_tweet\"></a>
-			<a class=\"addthis_button_google_plusone\" g:plusone:size=\"medium\"></a>
-			<a class=\"addthis_counter addthis_pill_style\"></a>
-			</div>
-			<script type=\"text/javascript\" src=\"https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e66a6fa46524fa8\"></script>
-		</div>
-		</fieldset>
-		</form>
-		</div>
-	";
-	// SHARE END ///////////////////////////////////////////////////////////////////////////////////////
-
-
-	// NOTES BEGIN /////////////////////////////////////////////////////////////////////////////////////
+	// NOTES BEGIN ////////////////////////////////////////////////////////////////////////////////////////
 	echo "
 		<div class=\"form-container\">
 		<form method=\"post\" id=\"notesPerson\" name=\"notesPerson\" action=\"index.php?mod=eap&act=addNote".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
 		<fieldset id=\"editNotes\">
-		<legend><span class=\"notesText\">User Comments and External Notes</span></legend>
+		<legend><span class=\"notesText\">Notes</span></legend>
 	";
 
 	$q  = "
@@ -1763,9 +1578,7 @@ function shn_eap_edit() {
 	// if user is not allowed to add notes, tell them
 	} else {
 		echo "
-			<br>
-			<br>
-			<b>If you would like to leave a note, you must first login. If you don't have an account, then first <a href=\"index.php?act=signup\">sign up for one.</a></b>
+			<b> &nbsp; To leave a note, you must first <a href=\"login\">login or register</a>.</b>
 		";
 	}
 
@@ -1776,7 +1589,288 @@ function shn_eap_edit() {
 		</fieldset>
 		</form></div>
 	";
-	// NOTES END ///////////////////////////////////////////////////////////////////////////////////////
+	// NOTES END //////////////////////////////////////////////////////////////////////////////////////////
+
+
+	// LOAD PRIVATE DATA //////////////////////////////////////////////////////////////////////////////////
+	if($global['privateEdit']) {
+
+		$address = "";
+		$zip     = "";
+		$phone   = "";
+		$mobile  = "";
+		$email   = "";
+
+		$q  = "
+			SELECT *
+			FROM contact
+			WHERE p_uuid = '".$global['uuid']."';
+		";
+		$r   = $global['db']->Execute($q);
+		while ($row = $r->FetchRow()) {
+			$type  = $row['opt_contact_type'];
+			$value = $row['contact_value'];
+			if($type == "home") {
+				$address = $value;
+			} else if($type == "zip") {
+				$zip = $value;
+			} else if($type == "curr") {
+				$phone = $value;
+			} else if($type == "cmob") {
+				$mobile = $value;
+			} else if($type == "email") {
+				$email = $value;
+			}
+		}
+	// LOAD PRIVATE DATA END ///////////////////////////////////////////////////////////////////////////
+
+
+	// PRIVATE EDIT ////////////////////////////////////////////////////////////////////////////////////
+		if((count($_POST) > 0) && isset($_POST['opt_race'])) {
+			$editAddress    = trim($_POST['address']);
+			$editZip        = trim($_POST['zip']);
+			$editPhone      = trim($_POST['phone']);
+			$editCell       = trim($_POST['mobile']);
+			$editEmail      = trim($_POST['email']);
+			$editReligion   = trim($_POST['opt_religion']);
+			$editRace       = trim($_POST['opt_race']);
+
+			if($editAddress  == '') { $editAddress  = null; }
+			if($editZip      == '') { $editZip      = null; }
+			if($editPhone    == '') { $editPhone    = null; }
+			if($editCell     == '') { $editCell     = null; }
+			if($editEmail    == '') { $editEmail    = null; }
+			if($editReligion == '') { $editReligion = null; }
+			if($editRace     == '') { $editRace     = null; }
+
+			if($editAddress   != $address)                        { saveContactRevision("home",  "Address",  $address, $editAddress); }
+			if($editZip       != $zip)                            { saveContactRevision("zip",   "Zip Code", $zip,     $editZip);     }
+			if($editPhone     != $phone)                          { saveContactRevision("curr",  "Phone",    $phone,   $editPhone);   }
+			if($editCell      != $mobile)                         { saveContactRevision("cmob",  "Mobile",   $mobile,  $editCell);    }
+			if($editEmail     != $email)                          { saveContactRevision("email", "Email",    $email,   $editEmail)  ; }
+			if($editReligion  != $person_details['opt_religion']) { saveRevision("person_details", "opt_religion", "Religion",  $person_details['opt_religion'], $editReligion); }
+			if($editRace      != $person_details['opt_race'])     { saveRevision("person_details", "opt_race",     "Race",      $person_details['opt_race'],     $editRace);     }
+
+		} else {
+			$editAddress    = $address;
+			$editZip        = $zip;
+			$editPhone      = $phone;
+			$editCell       = $mobile;
+			$editEmail      = $email;
+			$editReligion   = $person_details['opt_religion'];
+			$editRace       = $person_details['opt_race'];
+		}
+
+		echo "
+			<div class=\"form-container\">
+			<form method=\"post\" id=\"editPrivateForm\" name=\"editPrivateForm\" action=\"index.php?mod=eap&act=edit".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
+			<fieldset id=\"editPrivate\">
+			<legend><span class=\"privateText\">Private Information</span></legend>
+		";
+
+		//shn_form_textarea("Address",                  "address", null,       array('value'=>$editAddress, 'cols'=>70));
+
+		echo "
+			<label for=\"address\">Street Address</label>
+			<textarea name=\"address\" id=\"address\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editAddress."</textarea>
+			<br>
+		";
+
+		shn_form_text(    "Zip/Postal Code",          "zip",    'size="50"', array('value'=>$editZip  ));
+		shn_form_text(    "Home Phone Number",        "phone",  'size="50"', array('value'=>$editPhone));
+		shn_form_text(    "Cell/Mobile Phone Number", "mobile", 'size="50"', array('value'=>$editCell ));
+		shn_form_text(    "Email Address",            "email",  'size="50"', array('value'=>$editEmail));
+
+		shn_form_opt_select("opt_race", "Race ",         null, array('sort'=>'display_order, option_description ASC', 'value'=>$editRace    ));
+		shn_form_opt_select("opt_religion", "Religion ", null, array('sort'=>'display_order, option_description ASC', 'value'=>$editReligion));
+
+		echo "
+			<br>
+			<label for=\"height\">&nbsp;</label>
+			<input type=\"submit\" value=\"Save\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
+
+			</fieldset>
+			</form></div>
+		";
+	}
+	// PRIVATE EDIT END ////////////////////////////////////////////////////////////////////////////////
+
+
+	// REVISIONS START//////////////////////////////////////////////////////////////////////////////////
+	if($global['privateEdit']) {
+		echo "
+			<div class=\"form-container\">
+			<form id=\"editRevisionsForm\" name=\"editRevisionsForm\">
+			<fieldset id=\"editPrivate\">
+			<legend><span class=\"revisionsText\">Revisions to this Record</span></legend>
+		";
+
+		$out = "<table>
+			<tr>
+				<td style=\"text-align: left; border: none; font-weight: bold;\" class=\"odder\">Field Changed</td>
+				<td style=\"text-align: left; border: none; font-weight: bold;\" class=\"odder\">Old Value</td>
+				<td style=\"text-align: left; border: none; font-weight: bold;\" class=\"odder\">New Value</td>
+				<td style=\"text-align: left; border: none; font-weight: bold;\" class=\"odder\">Updated When</td>
+				<td style=\"text-align: left; border: none; font-weight: bold;\" class=\"odder\">Updated By</td>
+			</tr>
+		";
+
+		$q  = "
+			SELECT *
+			FROM person_updates u, person_uuid p
+			WHERE u.p_uuid = '".$global['uuid']."'
+			AND p.p_uuid = u.updated_by_p_uuid
+			ORDER BY update_time ASC;
+		";
+		$r  = $global['db']->Execute($q);
+		$count = 0;
+		while($row = $r->FetchRow()) {
+			if(($count % 2) == 0) {
+				$class = "evener";
+			} else {
+				$class = "odder";
+			}
+			$out .= "
+				<tr>
+					<td style=\"text-align: left; border: none;\" class=\"".$class."\">".$row['updated_table']." :: ".$row['updated_column']."</td>
+					<td style=\"text-align: left; border: none;\" class=\"".$class."\">".$row['old_value']."</td>
+					<td style=\"text-align: left; border: none;\" class=\"".$class."\">".$row['new_value']."</td>
+					<td style=\"text-align: left; border: none;\" class=\"".$class."\">".$row['update_time']."</td>
+					<td style=\"text-align: left; border: none;\" class=\"".$class."\">".$row['full_name']."</td>
+				</tr>
+			";
+			$count++;
+		}
+		$out .= "</table>";
+		if($count == 0) {
+			echo "<b>No revisions to this record.</b>";
+		} else {
+			echo $out;
+		}
+		echo "
+			</fieldset>
+			</form></div>
+		";
+	}
+	// REVISIONS END ///////////////////////////////////////////////////////////////////////////////////
+
+
+	// FOLLOW //////////////////////////////////////////////////////////////////////////////////////////
+	if($global['startFollow'] && $global['role'] != "reporter") {
+
+		$q  = "
+			SELECT COUNT(*)
+			FROM person_followers
+			WHERE follower_p_uuid = '".$_SESSION['user_p_uuid']."'
+			AND p_uuid = '".$global['uuid']."';
+		";
+		$r  = $global['db']->Execute($q);
+		$row = $r->FetchRow();
+		$alreadyFollowing = (bool)$row['COUNT(*)']; // true if logged in user is already following the person
+
+		if(!$alreadyFollowing) {
+			echo "
+				<script>
+					function followPersonCall() {
+						var fP = document.getElementById('followPerson');
+						fP.submit();
+					}
+				</script>
+
+				<div class=\"form-container\">
+				<form method=\"post\" id=\"followPerson\" name=\"followPerson\" action=\"index.php?mod=eap&act=follow".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
+				<fieldset id=\"editFollow\">
+				<legend><span class=\"followText\">Follow</span></legend>
+				To receive email alerts when this record is updated with new information, you can elect to follow this person. You will only receive an email when the reporter or staff change any of the information in this person's record or when a user of the site leaves a note on this page.<br>
+				<br>
+				<input id=\"followButton\" class=\"styleTehButton\" type=\"button\" value=\"Click here to begin following this person's record via email\" onclick=\"followPersonCall();\"><br>
+				<br>
+				Be aware that at any time you may visit your <a href=\"index.php?mod=pref&act=default\">User Preferences</a> page to manage which people you are following.
+				</fieldset>
+				</form>
+				</div>
+			";
+		} else {
+			echo "
+				<script>
+					function unFollowPersonCall() {
+						var ufP = document.getElementById('unFollowPerson');
+						ufP.submit();
+					}
+				</script>
+				<div class=\"form-container\">
+				<form method=\"post\" id=\"unFollowPerson\" name=\"unFollowPerson\" action=\"index.php?mod=eap&act=unFollow".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
+				<fieldset id=\"editFollow\">
+				<legend><span class=\"followText\">Follow</span></legend>
+				To stop receiving email alerts when this record is updated with new information or notes, you can elect to unfollow this person.<br>
+				<br>
+				<input id=\"unFollowButton\" class=\"styleTehButton\" type=\"button\" value=\"Click here to STOP following this person's record via email\" onclick=\"unFollowPersonCall();\"><br>
+				<br>
+				</fieldset>
+				</form>
+				</div>
+			";
+		}
+	}
+
+	// if not allowed to follow, then we ask the user to first login/signup
+	if(!$global['startFollow'] && $global['role'] != "reporter") {
+		echo "
+			<div class=\"form-container\">
+			<form method=\"post\" id=\"followPerson\" name=\"followPerson\">
+			<fieldset id=\"editFollow\">
+			<legend><span class=\"followText\">Follow</span></legend>
+			To receive email alerts when this record is updated with new information, you can elect to follow this person. You will only receive an email when the reporter or staff change any of the information in this person's record or when a user of the site leaves a note on this page.<br>
+			<br>
+			<b> &nbsp; To follow this person, you must first <a href=\"login\">login or register</a>.</b>
+			</fieldset>
+			</form>
+			</div>
+		";
+	}
+	// FOLLOW END ///////////////////////////////////////////////////////////////////////////////
+
+
+	// SHARE ////////////////////////////////////////////////////////////////////////////////////
+	echo "
+		<div class=\"form-container\">
+		<form>
+		<fieldset id=\"editShare\">
+		<legend>Share</legend>
+
+		<span>Send this page to a mobile device :</span><br><br>
+		<div style=\"float: left; width: 158px;\">
+			<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\"></script>
+			<script type=\"text/javascript\" src=\"res/js/jquery.qrcode.min.js\"></script>
+			<div id=\"qrcode\"></div>
+			<script>
+				jQuery('#qrcode').qrcode(\"".$global['googl']."\");
+			</script>
+		</div>
+
+
+		<div style=\"float: left;\">
+			<br><br>
+			Short URL to this page : <br><br>
+			<a href=\"".$global['googl']."\">".$global['googl']."</a><br>
+		</div>
+
+		<div style=\"clear:both;\"></div>
+
+		<div style=\"margin: 15px 15px 0px 15px; border-top: 1px solid #000; padding-top: 15px;\">
+			<div class=\"addthis_toolbox addthis_default_style\">
+			<a class=\"addthis_button_facebook_like\" fb:like:layout=\"button_count\"></a>
+			<a class=\"addthis_button_tweet\"></a>
+			<a class=\"addthis_button_google_plusone\" g:plusone:size=\"medium\"></a>
+			<a class=\"addthis_counter addthis_pill_style\"></a>
+			</div>
+			<script type=\"text/javascript\" src=\"https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e66a6fa46524fa8\"></script>
+		</div>
+		</fieldset>
+		</form>
+		</div>
+	";
+	// SHARE END ///////////////////////////////////////////////////////////////////////////////////////
 
 
 	// DEBUG ////////////////////////////////////////////////////////////////////////////////////

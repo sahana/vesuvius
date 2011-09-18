@@ -336,8 +336,10 @@ function em_show_events($internal = FALSE) {
 		// end incidents
 		////////////////////////////////////////////////////////////////////////////////////////////////////....................................
 
-		// spacer row
-		$htmlMain .= "<tr><td colspan=8>&nbsp;</td></tr>";
+		// spacer row except last row
+		if($i != $dcount) {
+			$htmlMain .= "<tr><td class=\"emTableSpacer\" colspan=8>&nbsp;</td></tr>";
+		}
 		$i++;
 		$eo = 0; // reset
 	}

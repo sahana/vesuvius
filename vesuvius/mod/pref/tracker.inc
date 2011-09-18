@@ -60,6 +60,14 @@ function shn_pref_tracking() {
 			$count++;
 		}
 
+		if($count == 0) {
+			echo "
+				<div class=\"form-container\"><form><fieldset>
+				<legend>People that I'm following or Reported for the current event.</legend>
+				<table id=\"repLog\">
+			";
+		}
+
 		// current event following
 		$q  = "
 			SELECT *

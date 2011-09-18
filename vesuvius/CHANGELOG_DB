@@ -1,8 +1,39 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+ALTER TABLE `hospital` CHANGE `hospital_uuid` `hospital_uuid` INT(32) NOT NULL AUTO_INCREMENT, CHANGE `name` `name` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `short_name` `short_name` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `street1` `street1` VARCHAR(120) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `street2` `street2` VARCHAR(120) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `city` `city` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `county` `county` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `region` `region` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `postal_code` `postal_code` VARCHAR(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `country` `country` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `latitude` `latitude` DOUBLE NULL, CHANGE `longitude` `longitude` DOUBLE NULL, CHANGE `phone` `phone` VARCHAR(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `fax` `fax` VARCHAR(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `email` `email` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `www` `www` VARCHAR(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `npi` `npi` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `patient_id_prefix` `patient_id_prefix` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `patient_id_suffix_variable` `patient_id_suffix_variable` TINYINT(1) NOT NULL DEFAULT '1', CHANGE `patient_id_suffix_fixed_length` `patient_id_suffix_fixed_length` INT(11) NOT NULL DEFAULT '0', CHANGE `creation_time` `creation_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, CHANGE `icon_url` `icon_url` VARCHAR(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `legalese` `legalese` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'legalese', CHANGE `legaleseAnon` `legaleseAnon` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'anonymized legalese' ;
+
+ALTER TABLE `hospital`
+ADD `photo_required` BOOLEAN NOT NULL DEFAULT '1' COMMENT 'Whether a photo is requred for incoming patients.',
+ADD `honor_no_photo_request` BOOLEAN NOT NULL DEFAULT '1' COMMENT 'Whether to honor requests no to save patient images.',
+ADD `photographer_name_required` BOOLEAN NOT NULL DEFAULT '0' COMMENT 'Whether to require if a photographer include his/her name.' ;
+
+ALTER TABLE  `hospital` CHANGE  `latitude`  `latitude` DOUBLE NOT NULL DEFAULT  '38.995523' ;
+ALTER TABLE  `hospital` CHANGE  `longitude`  `longitude` DOUBLE NOT NULL DEFAULT  '-77.096597' ;
+
+ALTER TABLE  `person_updates` CHANGE  `old_value`  `old_value` VARCHAR( 512 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+CHANGE  `new_value`  `new_value` VARCHAR( 512 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ;
+
 
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
+
+
+2011:0913 Greg
+--------------
+
+// added mpres user to associate anonymous submissions of persons to a source
+
+INSERT INTO  `person_uuid` (`p_uuid`, `full_name`, `family_name`, `given_name`, `incident_id`)
+VALUES ('2', 'Email System', 'System', 'Email', 0);
+
+INSERT INTO  `users` (`user_id` , `p_uuid` , `user_name` , `password` , `salt` , `changed_timestamp` , `status` , `confirmation` )
+VALUES ('2', '2', 'mpres', NULL , NULL , '0', NULL , NULL);
+
+INSERT INTO  `sys_user_to_group` (`group_id`, `p_uuid`)
+VALUES ('3', '2');
+
+ALTER TABLE  `mpres_log` ADD  `xml_format` VARCHAR( 16 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT  'MPRES (unstructured) or XML Format of Incoming Email' ;
+
 
 2011:0909 Greg
 --------------
@@ -15,7 +46,7 @@ CREATE TABLE  `mpres_messages` (
 
 ALTER TABLE  `mpres_seq` ADD  `last_message` VARCHAR( 1024 ) NULL DEFAULT NULL ;
 ALTER TABLE  `mpres_seq` CHANGE  `last_message`  `last_message` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;
-
+ALTER TABLE  `mpres_messages` ADD  `error_code` INT( 12 ) NULL DEFAULT NULL ;
 
 2011:0907 Greg
 --------------
