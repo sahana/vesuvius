@@ -723,10 +723,8 @@ function shn_eap_edit() {
 	// show the mass casualty ID if we have it
 	$q  = "
 		SELECT count(*)
-		FROM edxl_de_header d, edxl_co_header c
-		WHERE c.de_id = d.de_id
-		AND c.p_uuid = '".$global['uuid']."'
-		AND c.type = 'lpf';
+		FROM edxl_co_lpf
+		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r   = $global['db']->Execute($q);
 	$row = $r->FetchRow();
@@ -736,14 +734,12 @@ function shn_eap_edit() {
 	if($num == 1) {
 		$q  = "
 			SELECT *
-			FROM edxl_de_header d, edxl_co_header c
-			WHERE c.de_id = d.de_id
-			AND c.p_uuid = '".$global['uuid']."'
-			AND c.type = 'lpf';
+			FROM edxl_co_lpf
+			WHERE p_uuid = '".$global['uuid']."';
 		";
 		$r   = $global['db']->Execute($q);
 		$row = $r->FetchRow();
-		$did = $row['distr_id'];
+		$did = $row['person_id'];
 		echo "
 					<label for=\"opt_status\"><b>Mass Casualty ID</b> </label>
 					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$did."\" size=\"64\" class=\"nonedit public\" READONLY>
