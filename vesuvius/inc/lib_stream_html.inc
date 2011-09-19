@@ -93,7 +93,7 @@ function shn_stream_close() {
 
 	// display the errors first before the rest of the module output
 	display_errors();
-	display_submit_message('confirmation','Submission Successful');
+	display_submit_message('confirmation','&nbsp;');
 	display_submit_message('warning','Warning');
 	display_submit_message('information','Information');
 	if ($is_abort == false) {
