@@ -461,7 +461,7 @@ class SearchDB
 				    'comments' => isset($doc->comments) ? strip_tags(htmlspecialchars($doc->comments)) : null,
 					  'gender' => isset($doc->opt_gender) ? $doc->opt_gender : null,
 			    'hospitalIcon' => isset($doc->icon_url) ? $doc->icon_url : null,
-			'mass_casualty_id' => isset($doc->mass_casualty_id) ? $doc->mass_casualty_id : null)
+			'mass_casualty_id' => isset($doc->mass_casualty_id) ? $doc->mass_casualty_id : null);
 		}
 	}
 
