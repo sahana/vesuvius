@@ -28,21 +28,25 @@ LOWER(`pu`.`full_name`) AS `full_name`,
 `inc`.`shortname` AS `shortname`,
 (CASE WHEN `pu`.`hospital_uuid` NOT IN (1, 2, 3) OR `pu`.`hospital_uuid` IS NULL THEN 'public' ELSE LOWER(`h`.`short_name`) END) AS `hospital`,
 `pd`.`other_comments` AS `comments`,
-`pd`.`last_seen` AS `last_seen` 
-from `person_uuid` `pu` join `person_status` `ps` on (`pu`.`p_uuid` = `ps`.`p_uuid` and `ps`.`isvictim` = 1 and (`pu`.`expiry_date` > NOW() OR `pu`.`expiry_date` IS NULL))
+`pd`.`last_seen` AS `last_seen`,
+ecl.person_id AS mass_casualty_id
+from `person_uuid` `pu` join `person_status` `ps` on (`pu`.`p_uuid` = `ps`.`p_uuid` and (`pu`.`expiry_date` > NOW() OR `pu`.`expiry_date` IS NULL))
  left join `image` `i` on `pu`.`p_uuid` = `i`.`p_uuid`
  join `person_details` `pd` on `pu`.`p_uuid` = `pd`.`p_uuid`
  join `incident` `inc` on `inc`.`incident_id` = `pu`.`incident_id`
  left join `hospital` `h` on `h`.`hospital_uuid` = `pu`.`hospital_uuid`
- left join `person_updates` `upd` on `upd`.`p_uuid` = `pu`.`p_uuid`;
-
+ left join `person_updates` `upd` on `upd`.`p_uuid` = `pu`.`p_uuid`
+ left join `edxl_co_lpf` ecl on ecl.p_uuid = pu.p_uuid;
+ 
+ 
+ 
  --
  -- This stored procedure is the the SQL version of search.
  -- It's a very simple filtered search which can still be improved 
  -- at the cost of some performance which can be increased by increasing
  -- the minimum amount of characters required for the searchTerms variable.
  -- 
- 
+ -- to test it: call PLSearch('', 'ali;mis;', 'mal;fml;unk', 'child;adult;unknown', 'suburban;nnmc;other', 'joplin', 'full_name desc', 0, 25); 
 DELIMITER //
 DROP PROCEDURE IF EXISTS `PLSearch`//
 CREATE PROCEDURE `PLSearch`(
@@ -95,9 +99,10 @@ BEGIN
 				(CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)  AS `hospital`,
 				(CASE WHEN (`h`.`hospital_uuid` = -(1)) THEN NULL ELSE `h`.`icon_url` END) AS `icon_url`,
 				`pd`.last_seen,
-				`pd`.other_comments as comments
+				`pd`.other_comments as comments,
+				 ecl.person_id as mass_casualty_id
 			 FROM tmp_names tn
-             JOIN person_status ps  ON (tn.p_uuid = ps.p_uuid AND ps.isVictim = 1 and (`tn`.`expiry_date` > NOW() OR `tn`.`expiry_date` IS NULL) AND INSTR(?, 	(CASE WHEN ps.opt_status NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR ps.opt_status IS NULL THEN 'unk' ELSE  ps.opt_status END)))
+             JOIN person_status ps  ON (tn.p_uuid = ps.p_uuid and (`tn`.`expiry_date` > NOW() OR `tn`.`expiry_date` IS NULL) AND INSTR(?, 	(CASE WHEN ps.opt_status NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR ps.opt_status IS NULL THEN 'unk' ELSE  ps.opt_status END)))
              JOIN person_details pd ON (tn.p_uuid = pd.p_uuid AND INSTR(?, (CASE WHEN `opt_gender` NOT IN ('mal', 'fml') OR `opt_gender` IS NULL THEN 'unk' ELSE `opt_gender` END))
 															  AND INSTR(?, (CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NOT NULL THEN
 							(CASE WHEN `pd`.`years_old` < 18 THEN 'youth'
@@ -112,6 +117,8 @@ BEGIN
 			 JOIN hospital h        ON (tn.hospital_uuid = h.hospital_uuid AND INSTR(?, (CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)))
              LEFT 
 			 JOIN image i			ON (tn.p_uuid = i.p_uuid)
+			 LEFT 
+			 JOIN edxl_co_lpf ecl	ON tn.p_uuid = ecl.p_uuid
            ORDER BY ", sortBy, " LIMIT ?, ?;");
 		   
       PREPARE stmt FROM @sqlString;
@@ -125,8 +132,7 @@ BEGIN
       SET @perPage = perPage;
 
       SET NAMES utf8;
-      EXECUTE stmt USING @statusFilter, @genderFilter, @ageFilter, @hospitalFilter, 
-                                                        @pageStart, @perPage;
+      EXECUTE stmt USING @statusFilter, @genderFilter, @ageFilter, @hospitalFilter, @pageStart, @perPage;
 
       DEALLOCATE PREPARE stmt;
       DROP TABLE tmp_names;

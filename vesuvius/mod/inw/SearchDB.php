@@ -204,7 +204,7 @@ class SearchDB
 		if ( $this->suburban == "true" )
 			$this->hospitalString .= "suburban;";
 		if ( $this->nnmc == "true" )
-			$this->hospitalString .= "nnmc;";
+			$this->hospitalString .= "wrnmmc;";
 		if ( $this->otherHosp == "true" )
 			$this->hospitalString .= "other;";
 		
@@ -276,7 +276,8 @@ class SearchDB
 									'last_seen'=>htmlspecialchars($row["last_seen"]), 
 									'comments'=>htmlspecialchars(strip_tags($row["comments"])),
 									'gender' => $row["opt_gender"],
-									'hospitalIcon' => $row["icon_url"]);
+									'hospitalIcon' => $row["icon_url"],
+									'mass_casualty_id' => $row["mass_casualty_id"]);
 						}
 					/*} elseif ( $c == 1 ) { // rows found
 						while( $row = $result->fetch_row() )
@@ -348,7 +349,7 @@ class SearchDB
 								`i`.`image_height` AS `image_height`,
 								`i`.`image_width`  AS `image_width`,
 								`i`.`url_thumb`    AS `url_thumb`,
-								(CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)  AS `hospital`,
+								(CASE WHEN `h`.`short_name` NOT IN ('wrnmmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)  AS `hospital`,
 								(CASE WHEN (`h`.`hospital_uuid` = -(1)) THEN NULL ELSE `h`.`icon_url` END) AS `icon_url`,
 								`inc`.`shortname`  AS `shortname`
 						   FROM `person_uuid` `a`
@@ -418,7 +419,7 @@ class SearchDB
 		$temp["otherGender"] = $this->SOLRfacetResults->{"opt_gender:unk"};
 		
 		$temp["suburban"] = $this->SOLRfacetResults->{"hospital:suburban"};
-		$temp["nnmc"] = $this->SOLRfacetResults->{"hospital:nnmc"};
+		$temp["nnmc"] = $this->SOLRfacetResults->{"hospital:wrnmmc"};
 		$temp["otherHospital"] = $this->SOLRfacetResults->{"hospital:public"};
 		
 		$this->SOLRfacetResults = $temp;
@@ -459,7 +460,8 @@ class SearchDB
 				   'last_seen' => isset($doc->last_seen) ? htmlspecialchars($doc->last_seen) : null, 
 				    'comments' => isset($doc->comments) ? strip_tags(htmlspecialchars($doc->comments)) : null, 
 					  'gender' => isset($doc->opt_gender) ? $doc->opt_gender : null,
-			    'hospitalIcon' => isset($doc->icon_url) ? $doc->icon_url : null);
+			    'hospitalIcon' => isset($doc->icon_url) ? $doc->icon_url : null),
+			'mass_casualty_id' => isset($doc->mass_casualty_id) ? $doc->mass_casualty_id : null),
 		}
 	}
 	
@@ -473,7 +475,7 @@ class SearchDB
                                     . "&facet.query=ageGroup:youth&facet.query=ageGroup:adult&facet.query=ageGroup:unknown"
                                     . "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk&facet.query=opt_status:fnd"
                                     . "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:unk&facet.query=opt_gender:cpx"
-                                    . "&facet.query=hospital:suburban&facet.query=hospital:nnmc&facet.query=hospital:public";
+                                    . "&facet.query=hospital:suburban&facet.query=hospital:wrnmmc&facet.query=hospital:public";
 							
 
 								
@@ -534,7 +536,7 @@ class SearchDB
 		if ( $this->suburban != "true" )
 			$this->SOLRfq .= " -suburban ";
 		if ( $this->nnmc != "true" )
-			$this->SOLRfq .= " -nnmc ";
+			$this->SOLRfq .= " -wrnmmc ";
 		if ( $this->otherHosp != "true" )
 			$this->SOLRfq .= " -public";
 		
