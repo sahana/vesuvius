@@ -150,7 +150,9 @@ function em_show_events($internal = FALSE) {
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$defaultText."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$groupText."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$closedText."</td>
-				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: em_append_log('Editting Event #<b>".$disaster_id."</b> ...<br>'); em_perform_edit(".$disaster_id.");\">Edit</a></td>
+
+<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"javascript: em_append_log('Editting Event #<b>".$disaster_id."</b> ...<br>'); em_perform_edit(".$disaster_id.");\" value=\"Edit\"></td>
+
 			</tr>
 		";
 
