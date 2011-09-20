@@ -1162,6 +1162,12 @@ textarea#addNote:active {
 	border: none;
 }
 
+.tct {
+	color: #fff;
+	font-weight: bold;
+	text-shadow: rgba(0,0,0,1) 1px 1px 4px;
+}
+
 
 .apiKeyText {
 	font-size: 18px;
