@@ -5,6 +5,13 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
 
 
+2011:0920 Leif
+--------------
+
+ALTER TABLE  `pfif_note` CHANGE  `source_version`  `source_version` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '1.3',
+CHANGE  `source_repository_id`  `source_repository_id` INT( 11 ) NULL DEFAULT NULL ;
+
+
 2011:0919 Greg
 --------------
 
