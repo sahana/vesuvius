@@ -122,7 +122,7 @@ function shn_pfif_import() {
     } else {
         // Validate
         if (isset($_POST['pfif_id']) && !empty($_POST['pfif_id'])) {
-            // TODO: Need to restructure this to maximize reuse
+            // Note: This section left over from Carl and not used. Delete?
             $pfif = new Pfif();
             $loaded = $pfif->loadFromService($_POST['pfif_id']);
             // error_log( $pfif->storeInXML() );
@@ -181,6 +181,7 @@ function shn_pfif_export() {
     $res = $global['db']->GetRow($sql);
     $incident_id = $res['incident_id'];
     if(!isset( $_POST['since'])){
+        // Create a form that calls shn_xml_pfif_export() below.
         shn_form_fopen("export",null,array('req_message' => false),"xml");
         shn_form_fsopen(_t('Export from \''.$short.'\' event to PFIF xml'));
         $extra_opts['br'] = false;
@@ -196,7 +197,7 @@ function shn_pfif_export() {
 }
 
 /**
- * Stream PFIF in raw xml format.
+ * Stream PFIF in raw xml format.  (Used by above form.)
  * @access public
  * @return string
  */
@@ -228,7 +229,9 @@ function shn_xml_pfif_export() {
 }
 
 /**
- * Stream PFIF in raw xml format.
+ * Stream PFIF in raw xml format. 
+ * Used for URL-type feeds. Accepts Google-style params min_entry_date, max_results, and skip.
+ * Exports all records (not just original ones).
  * @access public
  * @return string
  */
@@ -243,15 +246,16 @@ function shn_xml_pfif_feed() {
     $incident_id = $res['incident_id'];
     $pfif = new Pfif();
     $pfif->setIncidentId($incident_id);
-    // Fixme: For now, show all records.
-    $original = isset($_GET['original']) ? true : false;
-    $pfif->loadFromDatabase(-1);
-    if ($original) {
-       // Export only original records. 
-       $xml = $pfif->storeInXML(false, $original);
+    if (isset($_GET['min_entry_date'])) {
+        $max_results = isset($_GET['max_results'])? $_GET['max_results'] : 0;
+        $skip = isset($_GET['skip'])? $_GET['skip'] : 0;
+       // If min_entry_date is set, request a parameterized feed.
+       $pfif->loadFromDatabase($_GET['min_entry_date'], null, $max_results, $skip);
     } else {
-       $xml = $pfif->storeInXML();
+       // Otherwise, just get the latest 10 records.
+       $pfif->loadFromDatabase(-1);
     }
+    $xml = $pfif->storeInXML();
     if ($xml != null) {
        shn_stream_init(false);
        print $xml;
