@@ -602,7 +602,7 @@ function shn_eap_edit() {
 					<legend>Person Record</legend>
 
 					<label for=\"opt_status\"><b>Full Name</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$full_name."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" value=\"".$full_name."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 	";
 
@@ -625,7 +625,7 @@ function shn_eap_edit() {
 		}
 		echo "
 					<label for=\"opt_status\"><b>Reported by (username)</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$reporterName."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" value=\"".$reporterName."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 		";
 	}
@@ -714,7 +714,7 @@ function shn_eap_edit() {
 	if($appTitle != "") {
 		echo "
 					<label for=\"opt_status\"><b>Reported via</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$appTitle."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" value=\"".$appTitle."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 		";
 	}
@@ -742,11 +742,25 @@ function shn_eap_edit() {
 		$did = $row['person_id'];
 		echo "
 					<label for=\"opt_status\"><b>Mass Casualty ID</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$did."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" value=\"".$did."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<br>
+		";
+
+		$tct = $row['triage_category'];
+		$tcc = $tct;
+		if($tct == "BH Green") {
+			$tcc = "palegreen";
+		} elseif($tct == "Gray") {
+			$tcc = "darkgrey";
+		} else if($tct == "Green") {
+			$tcc = "lime";
+		}
+		echo "
+					<label for=\"opt_status\"><b>Triage Category</b> </label>
+					<input type=\"text\" value=\"".$tct."\" size=\"64\" class=\"nonedit public tct\" style=\"background-color: ".$tcc.";\" READONLY>
 					<br>
 		";
 	}
-
 
 
 
@@ -754,7 +768,7 @@ function shn_eap_edit() {
 	if(preg_match("+".$conf['base_uuid']."+", $global['uuid']) > 0) {
 		echo "
 					<label for=\"opt_status\"><b>Origin ID</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 
 					<label for=\"opt_status\"><b>Origin URL</b> </label>
