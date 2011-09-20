@@ -1887,11 +1887,10 @@ class person {
 			$this->last_seen     = $result->fields["name"]." Hospital";
 
 			$this->edxl->content_descr   = $a['EDXLDistribution'][$ix]['contentDescription'];
-			$this->edxl->confidentiality = $a['EDXLDistribution'][$ix]['confidentiality'];
 			$this->edxl->p_uuid          = $this->p_uuid;
 			$this->edxl->schema_version  = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['version'];
 			$this->edxl->login_machine   = "n/a"; //null; HACK! cant be null
-			$this->edxl->login_account   = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['login']['username'];
+			$this->edxl->login_account   = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['login']['userName'];
 			$this->edxl->person_id       = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['personId'];
 			$this->edxl->event_name      = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['eventName'];
 			$this->edxl->event_long_name = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['eventLongName'];
