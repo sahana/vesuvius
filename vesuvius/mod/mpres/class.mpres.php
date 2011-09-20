@@ -15,6 +15,7 @@
 global $global;
 require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 
+
 class mpres {
 	private $host;
 	private $port;
@@ -142,6 +143,8 @@ class mpres {
 
 	// traverse the inbox for appropriate messages
 	private function loopInbox() {
+
+		global $global;
 
 		// download all message information from inbox
 		$this->overview = imap_fetch_overview($this->mailbox,"1:".$this->messageCount,0);

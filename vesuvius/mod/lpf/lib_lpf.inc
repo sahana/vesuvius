@@ -14,11 +14,14 @@
 
 // Enumerated Types...
 global $global;
-$global['enumTriageStatusTags'] = array('Green', 'BH Green', 'Yellow', 'Red', 'Gray', 'Black');
-$global['enumGenders']          = array('M', 'F', 'U', 'C');
-$global['enumDistrStatus']      = array('Actual', 'Exercise', 'System', 'Test');
-$global['enumDistrType']        = array('Ack', 'Cancel', 'Dispatch', 'Error', 'Report', 'Request', 'Response', 'Update');
-$global['enumXmlFormats']       = array('REUNITE3', 'TRIAGEPIC1', 'TRIAGEPIC0', 'REUNITE2');
+$global['enumTriageStatusTags']  = array('Green', 'BH Green', 'Yellow', 'Red', 'Gray', 'Black');
+$global['enumGenders']           = array('M', 'F', 'U', 'C');
+$global['enumDistrStatus']       = array('Actual', 'Exercise', 'System', 'Test');
+$global['enumDistrType']         = array('Ack', 'Cancel', 'Dispatch', 'Error', 'Report', 'Request', 'Response', 'Update');
+$global['enumXmlFormats']        = array('REUNITE3', 'TRIAGEPIC1', 'TRIAGEPIC0', 'REUNITE2');
+
+// whether to save the xml attachments for debug purposes
+$global['debugAndSaveXmlToFile'] = true;
 
 
 /** ******************************************************************************************************************************************************************
@@ -1651,6 +1654,13 @@ class person {
 	public function parseXml() {
 		global $global;
 		require_once($global['approot']."inc/lib_uuid.inc");
+
+		// save xml for debuggins?
+		if($global['debugAndSaveXmlToFile'] == true) {
+			$filename = "debugXML_".mt_rand();
+			$path = $global['approot']."www/tmp/plus_cache/".$filename.".xml";
+			file_put_contents($path, $this->theString);
+		}
 
 		// is this a supported XML type?
 		if(!in_array((string)trim($this->xmlFormat), $global['enumXmlFormats'])) {
