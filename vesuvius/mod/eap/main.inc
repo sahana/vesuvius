@@ -741,7 +741,7 @@ function shn_eap_edit() {
 		$row = $r->FetchRow();
 		$did = $row['person_id'];
 		echo "
-					<label for=\"opt_status\"><b>Mass Casualty ID</b> </label>
+					<label><b>Mass Casualty ID</b> </label>
 					<input type=\"text\" value=\"".$did."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 		";
@@ -756,7 +756,7 @@ function shn_eap_edit() {
 			$tcc = "lime";
 		}
 		echo "
-					<label for=\"opt_status\"><b>Triage Category</b> </label>
+					<label><b>Triage Category</b> </label>
 					<input type=\"text\" value=\"".$tct."\" size=\"64\" class=\"nonedit public tct\" style=\"background-color: ".$tcc.";\" READONLY>
 					<br>
 		";
@@ -767,11 +767,11 @@ function shn_eap_edit() {
 	// if the origin of the record is on this server, show a combined origin id / origin url
 	if(preg_match("+".$conf['base_uuid']."+", $global['uuid']) > 0) {
 		echo "
-					<label for=\"opt_status\"><b>Origin ID</b> </label>
+					<label><b>Origin ID</b> </label>
 					<input type=\"text\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 
-					<label for=\"opt_status\"><b>Origin URL</b> </label>
+					<label><b>Origin URL</b> </label>
 					<div class=\"originUrl\"><a href=\"https://".$global['uuid']."\">https://".$global['uuid']."</a></div>
 					<br>
 		";

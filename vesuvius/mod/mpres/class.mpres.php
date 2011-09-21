@@ -174,6 +174,9 @@ class mpres {
 			$this->fixAddress();        // fix email address of excess characters
 			$this->getAttachmentsAndParseXML($i);  // grab all attachments
 
+			$this->messages .= "From: ".$this->currentFrom."<br>";
+			$this->messages .= "Subject: ".$this->currentSubject."<br>";
+
 			// email has XML attachment....
 			if ($this->currentMessageHasXML) {
 
@@ -363,7 +366,7 @@ class mpres {
 					$this->currentAttachments[$i]['is_image'] = true;
 					$this->currentAttachments[$i]['type']     = "png";
 
-				} else if(strtolower(substr($f, -4)) == ".xml" || strtolower(substr($f, -4)) == ".lpf") {
+				} else if(strtolower(substr($f, -4)) == ".lp2" || strtolower(substr($f, -4)) == ".lpf" || strtolower(substr($f, -4)) == ".xml") { // update to tep later......
 					$this->currentAttachments[$i]['is_xml']   = true;
 					$this->currentAttachments[$i]['type']     = "xml";
 					$this->currentMessageHasXML               = true;
