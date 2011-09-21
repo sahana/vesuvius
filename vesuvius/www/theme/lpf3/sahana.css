@@ -94,6 +94,8 @@ input[type=text], input[type=password], textarea {
 	border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
 }
 
+.left { text-align: left !important; }
+
 .hide { display: none;  }
 
 .mini { font-size: 80%; }
@@ -1164,7 +1166,6 @@ textarea#addNote:active {
 
 .tct {
 	color: #fff;
-	font-weight: bold;
 	text-shadow: rgba(0,0,0,1) 1px 1px 4px;
 }
 

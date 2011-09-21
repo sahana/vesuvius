@@ -155,8 +155,8 @@ function shn_mpres_status() {
 	echo "<div class=\"form-container\"><form><fieldset>";
 	echo "<legend>Email Event Log (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
 	echo "<table id=\"regLog\"><tr>
-		<td class=\"evener\"><b>Time</b></td>
-		<td class=\"evener\"><b>Messages</b></td>
+		<td class=\"evener left\"><b>Time</b></td>
+		<td class=\"evener left\"><b>Messages</b></td>
 	</tr>";
 	$q = "
 		SELECT *
@@ -167,12 +167,12 @@ function shn_mpres_status() {
 	$res = $global['db']->Execute($q);
 	while($row = $res->FetchRow()) {
 		if(($count%2)==0) {
-			$odd = "class=\"odder\"";
+			$odd = "class=\"odder left\"";
 		} else {
-			$odd = "class=\"evener\"";
+			$odd = "class=\"evener left\"";
 		}
 		echo "  <tr>
-				<td ".$odd.">".$row['when']."</td>
+				<td ".$odd."> &nbsp; &nbsp; ".$row['when']."</td>
 				<td ".$odd.">".$row['messages']."</td>
 			</tr>";
 		$count++;
