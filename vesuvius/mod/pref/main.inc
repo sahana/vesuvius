@@ -58,10 +58,10 @@ function shn_pref_loginForm() {
 			</div>
 			<script>
 				function register() {
-					window.location = \'index.php?mod=pref&act=signup\';
+					window.location = \'register\';
 				}
 				function forgot() {
-					window.location = \'index.php?mod=pref&act=forgotPassword\';
+					window.location = \'forgot\';
 				}
 			</script>
 		';
@@ -95,7 +95,7 @@ function shn_pref_loginForm() {
 			<div id=\"loggedIn\">
 					<b>Currently logged in as :</b><br>
 					".$_SESSION['group_name']." / ".$_SESSION['user_name']."<br><br>
-					<span id=\"logoutLink\" class=\"styleTehButton\"><a href=\"index.php?act=logout\">Logout</a></span>
+					<span id=\"logoutLink\" class=\"styleTehButton\"><a href=\"logout\">Logout</a></span>
 			</div>
 		";
 	}

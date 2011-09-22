@@ -1372,6 +1372,7 @@ class person {
 	// initializes some values for a new instance (instead of when we load a previous instance)
 	public function init() {
 		global $global;
+		// not used yet...
 	}
 
 
@@ -1511,6 +1512,16 @@ class person {
 	}
 
 
+	// insert into rap_log
+	public function rapReportLog() {
+		$q = "
+			INSERT INTO rap_log (p_uuid)
+			VALUES ('".$this->p_uuid."');
+		";
+		$result = $this->db->Execute($q);
+	}
+
+
 	private function insertVoiceNote() {
 		if($this->voice_note != null) {
 			$this->voice_note->insert();
@@ -1554,13 +1565,14 @@ class person {
 			$n->note_record_id          = shn_create_uuid('pfif_note');
 			$n->person_record_id        = $this->p_uuid;
 			$n->linked_person_record_id = null;
-			$n->source_date             = $this->creation_time;
-			$n->entry_date              = $this->last_updated;
+			$n->source_date             = $this->last_updated; // since we are now creating the note,
+			$n->entry_date              = $this->last_updated; // we use the last_updated for both values
 			$n->author_phone            = null;
 			$n->email_of_found_person   = null;
 			$n->phone_of_found_person   = null;
 			$n->last_known_location     = $this->last_seen;
 			$n->text                    = $this->other_comments;
+			$n->found                   = null; // we have no way to know if the reporter had direction contact (hence we leave this null)
 
 			// figure out the person's pfif status
 			$n->status = shn_map_status_to_pfif($this->opt_status);
@@ -1585,12 +1597,6 @@ class person {
 				$n->author_email = null;
 			}
 
-			// figure out this person's pfif status...
-			if($this->opt_status == "fnd") {
-				$n->found = "true";
-			} else {
-				$n->found = null;
-			}
 			$p->setNote($n);
 			$p->setIncidentId($this->incident_id);
 			$p->storeNotesInDatabase();
@@ -1633,6 +1639,8 @@ class person {
 
 
 	public function createUUID() {
+		global $global;
+		require_once($global['approot']."inc/lib_uuid.inc");
 		if($this->p_uuid == null || $this->p_uuid == "") {
 			$this->p_uuid = shn_create_uuid();
 		}

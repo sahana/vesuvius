@@ -1,13 +1,13 @@
 /**
  * @name         Lost Person Finder Theme
- * @version      3.0
+ * @version      3.5
  * @package      lpf
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0921
  */
 
 
@@ -441,12 +441,15 @@ div#footer hr {display: none;}
 	height: 18px;
 	border-radius: 20px;
 	background-color: #f3f7fc;
-	border: 1px solid #e3e7fc;
+	border: 1px solid rgba(98,137,192,0.15);
 	/*
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr='#f3f7fc', endColorstr='#6289b0');
-	background:       -moz-linear-gradient(0deg, rgba(130,169,224,0.1), rgba(114,153,208,1) 80%, rgba(98,137,192,1));
-	background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgba(130,169,224,0.1)), color-stop(80%, rgba(114,153,208,1)), to(rgba(98,137,192,1)));
 	*/
+	background-image: -webkit-linear-gradient(top, rgba(98,137,192,0.1), rgba(98,137,192,0.01) 50%, rgba(98,137,192,0.1));
+	background-image:    -moz-linear-gradient(top, rgba(98,137,192,0.1), rgba(98,137,192,0.01) 50%, rgba(98,137,192,0.1));
+	background-image:     -ms-linear-gradient(top, rgba(98,137,192,0.1), rgba(98,137,192,0.01) 50%, rgba(98,137,192,0.1));
+	background-image:      -o-linear-gradient(top, rgba(98,137,192,0.1), rgba(98,137,192,0.01) 50%, rgba(98,137,192,0.1));
+	background-image:         linear-gradient(top, rgba(98,137,192,0.1), rgba(98,137,192,0.01) 50%, rgba(98,137,192,0.1));
 }
 #disasterList, #locale { height: 20px; border: 1px solid #6289b0; }
 #language { position: absolute; top: 134px; right: 50px; z-index: 9999; color: #039; }
