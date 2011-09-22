@@ -91,10 +91,8 @@ if(isChrome()) {
 	echo '
 		<script>
 			function runInstall() {
-				if(!chrome.app.isInstalled()) {
-					chrome.webstore.install();
-					window.domAutomationController.send(true);
-				}
+				chrome.webstore.install();
+				window.domAutomationController.send(true);
 			}
 		</script>
 		<div id="chromeWebStore">
