@@ -1,13 +1,13 @@
 /**
  * @name         Lost Person Finder Theme
- * @version      3.0
+ * @version      3.5
  * @package      lpf
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0921
  */
 
 
@@ -94,6 +94,8 @@ input[type=text], input[type=password], textarea {
 	border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
 }
 
+.left { text-align: left !important; }
+
 .hide { display: none;  }
 
 .mini { font-size: 80%; }
@@ -110,6 +112,14 @@ a:hover {
 a img {
 	border:none;
 }
+
+
+#chromeWebStore {
+	position: absolute;
+	top: 10px;
+	left: 50%;
+}
+
 
 /* hack for calander table on ie */
 table#scw { -moz-box-shadow: 0px 0px 20px rgba(0,0,0,0.5); box-shadow: 0px 0px 20px rgba(0,0,0,0.5); -webkit-box-shadow: 0px 0px 20px rgba(0,0,0,0.5); }
@@ -169,9 +179,7 @@ div#menuwrap ul li a:hover {}
 
 div#menuwrap ul li.currentMainMenuItem a {
 	font-weight: bold;
-	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr='#dae5f6', endColorstr='#ffffff');
-	background:       -moz-linear-gradient(0deg, rgba(130,169,224,0.3), rgba(114,153,208,0.05) 65%, rgba(255, 255, 255, 0));
-	background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgba(130,169,224,0.3)), color-stop(65%, rgba(114,153,208,0.05)), to(rgba(255,255,255,0)));
+	font-size: 105%;
 }
 
 div#menuwrap li.admin a {}
@@ -388,7 +396,17 @@ div#footer {
 	box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.05);
 }
 #footerTable td { padding: 10px; border: none; text-align: center; }
-#footerTable td img { padding: 8px;}
+#footerTable td a { color: white; }
+#footerTable td a:hover { color: white; text-decoration: underline; }
+#footerTable td img {
+	padding: 8px;
+}
+#footerTable td img:hover {
+	background:
+	-moz-radial-gradient(50% 50%, circle, rgba(255,255,255,0.75) 10px, rgba(255,255,255,0.01) 33px);
+	background:
+	-webkit-radial-gradient(50% 50%, circle, rgba(255,255,255,0.75) 10px, rgba(255,255,255,0.01) 33px);
+}
 #footerTable tr td {
 	color: #fff; text-shadow: rgba(0,0,0,0.7) 1px 1px 2px; font-size: 12px;
 }
@@ -408,6 +426,10 @@ div#footer hr {display: none;}
 }
 
 #notice:hover {
+	text-decoration: underline;
+}
+
+#notice:hover {
 	cursor: pointer;
 }
 
@@ -424,14 +446,21 @@ div#footer hr {display: none;}
 
 #blueBack {
 	margin: 0px 15px;
-	height: 20px;
+	height: 18px;
 	border-radius: 20px;
+	background-color: #f3f7fc;
+	border: 1px solid rgba(98,137,192,0.15);
+	/*
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr='#f3f7fc', endColorstr='#6289b0');
-	background:       -moz-linear-gradient(0deg, rgba(130,169,224,0.1), rgba(114,153,208,1) 80%, rgba(98,137,192,1));
-	background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgba(130,169,224,0.1)), color-stop(80%, rgba(114,153,208,1)), to(rgba(98,137,192,1)));
+	*/
+	background-image: -webkit-linear-gradient(top, rgba(98,137,192,0.1), rgba(98,137,192,0.01) 50%, rgba(98,137,192,0.1));
+	background-image:    -moz-linear-gradient(top, rgba(98,137,192,0.1), rgba(98,137,192,0.01) 50%, rgba(98,137,192,0.1));
+	background-image:     -ms-linear-gradient(top, rgba(98,137,192,0.1), rgba(98,137,192,0.01) 50%, rgba(98,137,192,0.1));
+	background-image:      -o-linear-gradient(top, rgba(98,137,192,0.1), rgba(98,137,192,0.01) 50%, rgba(98,137,192,0.1));
+	background-image:         linear-gradient(top, rgba(98,137,192,0.1), rgba(98,137,192,0.01) 50%, rgba(98,137,192,0.1));
 }
 #disasterList, #locale { height: 20px; border: 1px solid #6289b0; }
-#language { position: absolute; top: 134px; right: 50px; z-index: 9999; color: white; }
+#language { position: absolute; top: 134px; right: 50px; z-index: 9999; color: #039; }
 
 a.help, a:link.help {  text-decoration: none; }
 a:hover.help { text-decoration: underline; }
@@ -448,7 +477,7 @@ div.form-container p { margin: 0.5em 0 0 0; }
 div.form-container form p { margin: 0; }
 div.form-container form p.note { font-style: italic; margin-left: 18em; font-size: 80%; color: #666; }
 div.form-container form legend { font-weight: bold; color: #666; }
-div.form-container form fieldset { margin:0 0 10px 0; padding: 20px; border: #000 1px solid; background-color:#eee; -moz-border-radius: 5px; border-radius: 5px; -webkit-border-radius: 5px;}
+div.form-container form fieldset { margin:0 0 10px 0; padding: 20px; border: #039 1px solid; background-color: rgba(240,240,240,0.8); -moz-border-radius: 5px; border-radius: 5px; -webkit-border-radius: 5px;}
 div.form-container form fieldset div.brake { padding: 0.3em; }
 div.form-container form fieldset label{ position:relative; margin-right: 10px; padding-right: 10px; width: 15em; display: block; float: left; text-align: right;min-height:1em;top:0.25em;}
 div.form-container form fieldset label.errorfield,
@@ -1042,38 +1071,9 @@ input#picture {
 	border: none;
 }
 
-fieldset#editPublic {
-	border: 1px solid #000;
-}
-
-fieldset#editPrivate {
-	border: 1px solid #000;
-}
-
-fieldset#editFollow {
-	border: 1px solid #000;
-}
-
-fieldset#editImages {
-	border: 1px solid #000;
-}
-
-fieldset#editHeader {
-	border: 1px solid #000;
-}
-
-fieldset#editShare {
-	border: 1px solid #000;
-}
-
 div#qrcode canvas {
 	width: 128px;
 }
-
-fieldset#editNotes {
-	border: 1px solid #000;
-}
-
 
 fieldset legend {
 	font-size: 125%;
@@ -1143,11 +1143,6 @@ fieldset#editNotes div {
 	border-color: transparent #eee;
 }
 
-.publicText  { padding: 3px 10px 3px 10px; color: #000; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; background-color: #0f0;   opacity: 0.6; font-weight: bold; border: none;}
-.privateText { padding: 3px 10px 3px 10px; color: #fff; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; background-color: #00f;   opacity: 0.6; font-weight: bold; border: none;}
-.followText  { }
-
-
 .insideHr {
 	border: none;
 	border-top: 1px solid #e0ecff;
@@ -1178,6 +1173,11 @@ textarea#addNote:active {
 
 .nonedit {
 	border: none;
+}
+
+.tct {
+	color: #fff;
+	text-shadow: rgba(0,0,0,1) 1px 1px 4px;
 }
 
 

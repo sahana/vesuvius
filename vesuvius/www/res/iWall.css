@@ -100,16 +100,16 @@ input[type="checkbox"] {
 
 .stubText {
 	width: 210px;
-	float:left; 
-	margin: 5px 5px 5px 5px; 
+	float:left;
+	margin: 5px 5px 5px 5px;
 	font-weight:700;
 }
 
 .stubName { /* name */
 	overflow:hidden;
-	white-space: nowrap; 
+	white-space: nowrap;
 	width: 170px;
-	text-overflow: ellipsis; 
+	text-overflow: ellipsis;
 	margin-bottom: 3px;
 	*font-size: 13px !important;
 }
@@ -261,11 +261,12 @@ h1 {
 	width: 160px;
 	border: solid 1px #6289B0;
 	*font-size: 13px;
-	
+
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	padding: 10px;
+	background-color: #fff;
 }
 
 #selectSort { width: 90px; *font-size: 14px }
@@ -428,7 +429,7 @@ h1 {
 
 #dt_image {
 	float:left;
-	padding:0px 5px 5px 5px; 
+	padding:0px 5px 5px 5px;
 	border:solid 0px #CCC;
 	position:relative;
 	z-index:2;
@@ -459,11 +460,11 @@ h1 {
 
 
 #dt_notes {
-	font-weight: normal; 
-	height: 386px; 
-	overflow-y: auto; 
+	font-weight: normal;
+	height: 386px;
+	overflow-y: auto;
 	overflow-x: hidden;
-	display: none; 
+	display: none;
 	width: 465px !important;
 	border: dashed 1px #E0ECFF !important;
 	margin-left: -10px !important;
@@ -486,7 +487,7 @@ h1 {
 #detailInfo legend {
 	background-color: transparent !important;
 	padding-left: 0px !important;
-	
+
 
 }
 

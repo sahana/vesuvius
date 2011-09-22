@@ -1,6 +1,20 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+
+///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
+
+
+2011:0920 Leif
+--------------
+
+ALTER TABLE  `pfif_note` CHANGE  `source_version`  `source_version` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '1.3',
+CHANGE  `source_repository_id`  `source_repository_id` INT( 11 ) NULL DEFAULT NULL ;
+
+
+2011:0919 Greg
+--------------
+
 ALTER TABLE `hospital` CHANGE `hospital_uuid` `hospital_uuid` INT(32) NOT NULL AUTO_INCREMENT, CHANGE `name` `name` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `short_name` `short_name` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `street1` `street1` VARCHAR(120) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `street2` `street2` VARCHAR(120) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `city` `city` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `county` `county` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `region` `region` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `postal_code` `postal_code` VARCHAR(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `country` `country` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `latitude` `latitude` DOUBLE NULL, CHANGE `longitude` `longitude` DOUBLE NULL, CHANGE `phone` `phone` VARCHAR(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `fax` `fax` VARCHAR(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `email` `email` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `www` `www` VARCHAR(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `npi` `npi` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `patient_id_prefix` `patient_id_prefix` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `patient_id_suffix_variable` `patient_id_suffix_variable` TINYINT(1) NOT NULL DEFAULT '1', CHANGE `patient_id_suffix_fixed_length` `patient_id_suffix_fixed_length` INT(11) NOT NULL DEFAULT '0', CHANGE `creation_time` `creation_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, CHANGE `icon_url` `icon_url` VARCHAR(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `legalese` `legalese` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'legalese', CHANGE `legaleseAnon` `legaleseAnon` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'anonymized legalese' ;
 
 ALTER TABLE `hospital`
@@ -15,7 +29,145 @@ ALTER TABLE  `person_updates` CHANGE  `old_value`  `old_value` VARCHAR( 512 ) CH
 CHANGE  `new_value`  `new_value` VARCHAR( 512 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ;
 
 
-///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
+
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS `PLSearch`//
+CREATE PROCEDURE `PLSearch`(
+     IN searchTerms CHAR(255),
+	 IN statusFilter VARCHAR(100),
+	 IN genderFilter VARCHAR(100),
+	 IN ageFilter VARCHAR(100),
+	 IN hospitalFilter VARCHAR(100),
+	 IN incidentName VARCHAR(100),
+	 IN sortBy VARCHAR(100),
+	 IN pageStart INT,
+	 IN perPage INT
+)
+BEGIN
+
+	DROP TABLE IF EXISTS tmp_names;
+    IF searchTerms = '' THEN
+            CREATE TEMPORARY TABLE tmp_names AS (
+            SELECT SQL_NO_CACHE pu.*
+                FROM person_uuid pu
+                   JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
+                  LIMIT 5000
+         );
+
+    ELSE
+            CREATE TEMPORARY TABLE  tmp_names AS (
+            SELECT SQL_NO_CACHE pu.*
+                FROM person_uuid pu
+                   JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
+            WHERE full_name like CONCAT(searchTerms , '%')
+            LIMIT 5000
+            );
+     END IF;
+
+    SET @sqlString = CONCAT("SELECT  SQL_NO_CACHE `tn`.`p_uuid`       AS `p_uuid`,
+				`tn`.`full_name`    AS `full_name`,
+				`tn`.`given_name`   AS `given_name`,
+				`tn`.`family_name`  AS `family_name`,
+				(CASE WHEN `ps`.`opt_status` NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR `ps`.`opt_status` IS NULL THEN 'unk' ELSE `ps`.`opt_status` END) AS `opt_status`,
+
+				DATE_FORMAT(ps.last_updated, '%Y-%m-%d %k:%i:%s') as updated,
+
+				(CASE WHEN `pd`.`opt_gender` NOT IN ('mal', 'fml') OR `pd`.`opt_gender` IS NULL THEN 'unk' ELSE `pd`.`opt_gender` END) AS `opt_gender`,
+				`pd`.`years_old` as `years_old`,
+				`pd`.`minAge` as `minAge`,
+				`pd`.`maxAge` as `maxAge`,
+				`i`.`image_height` AS `image_height`,
+				`i`.`image_width`  AS `image_width`,
+				`i`.`url_thumb`    AS `url_thumb`,
+				(CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)  AS `hospital`,
+				(CASE WHEN (`h`.`hospital_uuid` = -(1)) THEN NULL ELSE `h`.`icon_url` END) AS `icon_url`,
+				`pd`.last_seen,
+				`pd`.other_comments as comments,
+				 ecl.person_id as mass_casualty_id
+			 FROM tmp_names tn
+             JOIN person_status ps  ON (tn.p_uuid = ps.p_uuid and (`tn`.`expiry_date` > NOW() OR `tn`.`expiry_date` IS NULL) AND INSTR(?, 	(CASE WHEN ps.opt_status NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR ps.opt_status IS NULL THEN 'unk' ELSE  ps.opt_status END)))
+             JOIN person_details pd ON (tn.p_uuid = pd.p_uuid AND INSTR(?, (CASE WHEN `opt_gender` NOT IN ('mal', 'fml') OR `opt_gender` IS NULL THEN 'unk' ELSE `opt_gender` END))
+															  AND INSTR(?, (CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NOT NULL THEN
+							(CASE WHEN `pd`.`years_old` < 18 THEN 'youth'
+								  WHEN `pd`.`years_old` >= 18 THEN 'adult' END)
+					 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL
+						  AND `pd`.`minAge` < 18 AND `pd`.`maxAge` >= 18 THEN 'both'
+					 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`minAge` >= 18 THEN 'adult'
+					 WHEN CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`maxAge` < 18 THEN 'youth'
+					 ELSE 'unknown'
+					 END)))
+			 LEFT
+			 JOIN hospital h        ON (tn.hospital_uuid = h.hospital_uuid AND INSTR(?, (CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)))
+             LEFT
+			 JOIN image i			ON (tn.p_uuid = i.p_uuid)
+			 LEFT
+			 JOIN edxl_co_lpf ecl	ON tn.p_uuid = ecl.p_uuid
+           ORDER BY ", sortBy, " LIMIT ?, ?;");
+
+      PREPARE stmt FROM @sqlString;
+
+      SET @statusFilter = statusFilter;
+      SET @genderFilter = genderFilter;
+      SET @ageFilter = ageFilter;
+      SET @hospitalFilter = hospitalFilter;
+
+      SET @pageStart = pageStart;
+      SET @perPage = perPage;
+
+      SET NAMES utf8;
+      EXECUTE stmt USING @statusFilter, @genderFilter, @ageFilter, @hospitalFilter, @pageStart, @perPage;
+
+      DEALLOCATE PREPARE stmt;
+      DROP TABLE tmp_names;
+
+
+
+END
+DELIMITER ;
+
+
+
+
+DROP VIEW IF EXISTS `person_search`;
+
+CREATE ALGORITHM=UNDEFINED VIEW `person_search`
+AS select `pu`.`p_uuid` AS `p_uuid`,
+LOWER(`pu`.`full_name`) AS `full_name`,
+`pu`.`given_name` AS `given_name`,
+`pu`.`family_name` AS `family_name`,
+(CASE WHEN `ps`.`opt_status` NOT IN ('ali', 'mis', 'inj', 'dec', 'unk', 'fnd') OR `ps`.`opt_status` IS NULL THEN 'unk' ELSE `ps`.`opt_status` END) AS `opt_status`,
+(CASE WHEN `ps`.`last_updated` < `upd`.`update_time` THEN `upd`.`update_time` ELSE `ps`.`last_updated` END) AS `updated`,
+(CASE WHEN `pd`.`opt_gender` NOT IN ('mal', 'fml') OR `pd`.`opt_gender` IS NULL THEN 'unk' ELSE `pd`.`opt_gender` END) AS `opt_gender`,
+(CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NULL THEN -1 ELSE `pd`.`years_old` END) AS `years_old`,
+(CASE WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NULL THEN -1 ELSE `pd`.`minAge` END) AS `minAge`,
+(CASE WHEN CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NULL THEN -1 ELSE `pd`.`maxAge` END) AS `maxAge`,
+(CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NOT NULL THEN
+			(CASE WHEN `pd`.`years_old` < 18 THEN 'youth'
+				  WHEN `pd`.`years_old` >= 18 THEN 'adult' END)
+	 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL
+	      AND `pd`.`minAge` < 18 AND `pd`.`maxAge` >= 18 THEN 'both'
+	 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`minAge` >= 18 THEN 'adult'
+	 WHEN CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`maxAge` < 18 THEN 'youth'
+	 ELSE 'unknown'
+	 END) AS ageGroup,
+`i`.`image_height` AS `image_height`,
+`i`.`image_width` AS `image_width`,
+`i`.`url_thumb` AS `url_thumb`,
+(case when (`h`.`hospital_uuid` = -(1)) then NULL else `h`.`icon_url` end) AS `icon_url`,
+`inc`.`shortname` AS `shortname`,
+(CASE WHEN `pu`.`hospital_uuid` NOT IN (1, 2, 3) OR `pu`.`hospital_uuid` IS NULL THEN 'public' ELSE LOWER(`h`.`short_name`) END) AS `hospital`,
+`pd`.`other_comments` AS `comments`,
+`pd`.`last_seen` AS `last_seen`,
+ecl.person_id AS mass_casualty_id
+from `person_uuid` `pu` join `person_status` `ps` on (`pu`.`p_uuid` = `ps`.`p_uuid` and (`pu`.`expiry_date` > NOW() OR `pu`.`expiry_date` IS NULL))
+ left join `image` `i` on `pu`.`p_uuid` = `i`.`p_uuid`
+ join `person_details` `pd` on `pu`.`p_uuid` = `pd`.`p_uuid`
+ join `incident` `inc` on `inc`.`incident_id` = `pu`.`incident_id`
+ left join `hospital` `h` on `h`.`hospital_uuid` = `pu`.`hospital_uuid`
+ left join `person_updates` `upd` on `upd`.`p_uuid` = `pu`.`p_uuid`
+ left join `edxl_co_lpf` ecl on ecl.p_uuid = pu.p_uuid;
+
 
 
 2011:0913 Greg

@@ -17,7 +17,7 @@ function shn_pref_tracking() {
 	$showAll = true;
 
 	// persons in the current event //////////////////////////////////////////////////////////
-	if($_GET['shortname'] != "") {
+	if(isset($_GET['shortname']) && $_GET['shortname'] != "") {
 		$showAll = false;
 
 		// current event reported
