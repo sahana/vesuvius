@@ -83,6 +83,8 @@ if(!$full) {
 }
 
 echo '
-	<a onclick="javascript: chrome.webstore.install()">Click here to install the People Locator web application in Google Chrome.</a>
-'
+	<div id="chromeWebStore">
+		<a onclick="javascript: chrome.webstore.install()">Click here to install the People Locator web application in Google Chrome.</a>
+	</div>
+';
 
