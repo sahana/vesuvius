@@ -667,9 +667,14 @@ class Pfif {
          $lookup = $this->checkForReportedPerson($person->person_record_id);
          //var_dump('lookup returns:',$lookup);
          if (count($lookup) > 0) {
-            // Delete duplicate person. (PFIF says it should have a new source date, but
-            // in practice Google let's you write any old duplicate persons to PF.)
-            $this->deleteReportedPerson($person->person_record_id);
+            // Replace duplicate person unless this is one of ours. (PFIF says it should have a 
+            // new source date, but in practice Google let's overwrites anything in PF.)
+            if (strncmp($person->person_record_id, $conf['base_uuid'], strlen($conf['base_uuid']))!=0) {
+               $this->deleteReportedPerson($person->person_record_id);
+            } else {
+               $_SESSION['pfif_info']['person_insert_errors'] += 1;
+               continue;
+            }
          }
 
          // Save to Sahana tables.
@@ -722,12 +727,22 @@ class Pfif {
          // Update last_entry_count.
          $this->update_log_dates($note->entry_date);
 
+         // Check for duplicates.
+         $lookup = $this->checkForReportedNote($note->note_record_id);
+         //var_dump('lookup returns:',$lookup);
+         if (count($lookup) > 0) {
+            // This skips Notes reported in PL. 
+            // TODO: Should other duplicates be passed through, so error can be reported at DB insert time?
+            $_SESSION['pfif_info']['note_insert_errors'] += 1;
+            continue; // stop processing this note
+         }
+
          // Save to pfif_note table.
          try {
             $this->shn_pfif_addpfifnote_commit($note);
          } catch (Exception $e) {
             $_SESSION['pfif_info']['note_insert_errors'] += 1;
-            error_log("shn_mod_pfif.storeNotesInDatabase: shn_pfif_addpfifnote_commit failed for "
+               error_log("shn_mod_pfif.storeNotesInDatabase: shn_pfif_addpfifnote_commit failed for "
                     . $note->note_record_id . ":" . $e->getMessage());
             continue; // stop processing this note
          }
@@ -866,7 +881,6 @@ class Pfif {
       }
       $insert_array['opt_gender'] = shn_map_gender_from_pfif($person->sex);
       // Save "other" field to person details comments.
-      // TODO: Shouldn't have to do this once notes are in place for all records.
       if (!empty($person->other)) {
          $insert_array['other_comments'] = $person->other;
       }
@@ -929,7 +943,7 @@ class Pfif {
    // Load from database based on optional date window and number of records to skip.
    // For now, if since_entry_date == -1  then this just returns the last 10 records.
    // (Google does something similar if no params are supplied.)
-   public function loadFromDatabase($since_entry_date=null, $before=null, $max=0, $skip=0) {
+   public function loadFromDatabase($since_entry_date=null, $before=null, $max_results=0, $skip=0) {
       global $conf, $global;
 
       // Save filters since they may be needed at XML generation time.
@@ -941,7 +955,7 @@ class Pfif {
       $baseUrl = "https://" . $pfifDomain;
 
       // Get person records based on filters.
-      $personRecords = $this->getPersonFromDb($since_entry_date, $before, $max, $skip);
+      $personRecords = $this->getPersonFromDb($since_entry_date, $before, $max_results, $skip);
       $record_count = count($personRecords);
 
       foreach ($personRecords as $personRecord) {
@@ -1026,12 +1040,11 @@ class Pfif {
                $details['hair_color'] = 'hair color: ' . shn_get_field_opt($personRecord['opt_hair_color'], 'opt_hair_color');
             }
             if (!empty($personRecord['physical_comments'])) {
-               $details['physical_comments'] = 'other: ' . $personRecord['physical_comments'];
+               $details['physical_comments'] = 'other features: ' . $personRecord['physical_comments'];
             }
-            // TODO: This information should be in the person's first note.text field.
-            //if (!empty($personRecord['other_comments'])) {
-               //$details['other_comments'] = 'other: ' . $personRecord['other_comments'];
-            //}
+            if (!empty($personRecord['other_comments'])) {
+               $details['other_comments'] = 'other comments: ' . $personRecord['other_comments'];
+            }
             if (count($details) > 0) {
                $person->other = "description: ";
                foreach ($details as $detail) {
@@ -1053,7 +1066,7 @@ class Pfif {
    }
 
    // Use threshhold date and number of records to skip.
-   private function getPersonFromDb($since_entry_date, $before, $max, $skip) {
+   private function getPersonFromDb($since_entry_date, $before, $max_results, $skip) {
       global $global;
 
       $whereSql = '';
@@ -1071,15 +1084,18 @@ class Pfif {
          $whereSql .= ( $whereSql == null ? '' : ' AND ') . $whereElement;
       }
       $whereSql = $whereSql != null ? ' WHERE ' . $whereSql : '';
-      // FIXME: Dispense with hardcoded LIMIT.
-      //$large_num = 1e12;
-      $large_num = 700000;
-      $max_num = ($max == 0)? $large_num : $max;
+      // Note: We currently use a non-zero max_results param to indicate a feed.
+      // Put a 200 record limit on max_results data feed.
+      $max = ($max_results > 200)? 200 : $max_results;
       if ($since_entry_date == -1) {
-         // This is a parameterless feed: Return 10 recent records in reverse chronological order.
+         // This is a parameterless feed: Return 10 most recent records in reverse chronological order.
          $whereSql .= " ORDER BY ps.status_id DESC LIMIT 10";
+      } else if ($max > 0) {
+         // This is a feed with parameters.
+         $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,$max";
       } else {
-         $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,$max_num";
+         // This is a cron or GUI export.
+         $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,1000000";
       }
 
       // DEBUG:
@@ -1121,6 +1137,13 @@ class Pfif {
    private function checkForReportedPerson($p_uuid) {
       global $global;
       $sql = "SELECT creation_time FROM person_status WHERE p_uuid = '$p_uuid'";
+      $array = $global['db']->GetRow($sql);
+      return $array;
+   }
+
+   private function checkForReportedNote($note_record_id) {
+      global $global;
+      $sql = "SELECT note_record_id FROM pfif_note WHERE note_record_id = '$note_record_id'";
       $array = $global['db']->GetRow($sql);
       return $array;
    }
