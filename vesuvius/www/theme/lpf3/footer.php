@@ -26,21 +26,21 @@ $legalese = "Notice: Submission of information is voluntary. All submitted infor
 			<a href="http://www.nlm.nih.gov"><img src="theme/lpf3/img/nlm.png"></a>
 			<a href="http://www.nih.gov"><img src="theme/lpf3/img/nih.png"></a>
 			<a href="http://www.hhs.gov"><img src="theme/lpf3/img/hhs.png"></a><br>
-			Developed and Hosted by the<br>
-			US National Library of Medicine
+			<a href="http://www.nlm.nih.gov">Developed and Hosted by the<br>
+			US National Library of Medicine</a>
 		</td>
 		<td>
 			<a href="http://www.bethesdahospitalsemergencypartnership.org/"><img src="theme/lpf3/img/bhepp.png"></a>
 			<a href="http://www.suburbanhospital.org/"><img src="theme/lpf3/img/suburban.png"></a>
 			<a href="http://www.bethesda.med.navy.mil/"><img src="theme/lpf3/img/nnmc.png"></a>
 			<a href="http://clinicalcenter.nih.gov/"><img src="theme/lpf3/img/clinicalcenter.png"></a><br>
-			Funded through the <br>
-			Bethesda Hospital Emergency Preparedness Partnership
+			<a href="http://www.bethesdahospitalsemergencypartnership.org/">Funded through the <br>
+			Bethesda Hospital Emergency Preparedness Partnership</a>
 		</td>
 		<td>
 			<a href="http://sahanafoundation.org"><img src="theme/lpf3/img/sahana.png"></a><br>
-			Powered by<br>
-			Sahana
+			<a href="http://sahanafoundation.org">Powered by<br>
+			Sahana</a>
 		</td>
 		</tr>
 	</table>

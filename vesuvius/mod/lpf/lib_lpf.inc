@@ -14,11 +14,14 @@
 
 // Enumerated Types...
 global $global;
-$global['enumTriageStatusTags'] = array('Green', 'BH Green', 'Yellow', 'Red', 'Gray', 'Black');
-$global['enumGenders']          = array('M', 'F', 'U', 'C');
-$global['enumDistrStatus']      = array('Actual', 'Exercise', 'System', 'Test');
-$global['enumDistrType']        = array('Ack', 'Cancel', 'Dispatch', 'Error', 'Report', 'Request', 'Response', 'Update');
-$global['enumXmlFormats']       = array('REUNITE3', 'TRIAGEPIC1', 'TRIAGEPIC0', 'REUNITE2');
+$global['enumTriageStatusTags']  = array('Green', 'BH Green', 'Yellow', 'Red', 'Gray', 'Black');
+$global['enumGenders']           = array('M', 'F', 'U', 'C');
+$global['enumDistrStatus']       = array('Actual', 'Exercise', 'System', 'Test');
+$global['enumDistrType']         = array('Ack', 'Cancel', 'Dispatch', 'Error', 'Report', 'Request', 'Response', 'Update');
+$global['enumXmlFormats']        = array('REUNITE3', 'TRIAGEPIC1', 'TRIAGEPIC0', 'REUNITE2');
+
+// whether to save the xml attachments for debug purposes
+$global['debugAndSaveXmlToFile'] = true;
 
 
 /** ******************************************************************************************************************************************************************
@@ -1369,6 +1372,7 @@ class person {
 	// initializes some values for a new instance (instead of when we load a previous instance)
 	public function init() {
 		global $global;
+		// not used yet...
 	}
 
 
@@ -1508,6 +1512,16 @@ class person {
 	}
 
 
+	// insert into rap_log
+	public function rapReportLog() {
+		$q = "
+			INSERT INTO rap_log (p_uuid)
+			VALUES ('".$this->p_uuid."');
+		";
+		$result = $this->db->Execute($q);
+	}
+
+
 	private function insertVoiceNote() {
 		if($this->voice_note != null) {
 			$this->voice_note->insert();
@@ -1535,63 +1549,57 @@ class person {
 		require_once($global['approot']."mod/pfif/pfif.inc");
 		require_once($global['approot']."mod/pfif/util.inc");
 
-		$p = new Pfif();
-
-		$n = new Pfif_Note();
-		$n->note_record_id          = shn_create_uuid('pfif_note');
-		$n->person_record_id        = $this->p_uuid;
-		$n->linked_person_record_id = null;
-		$n->source_date             = $this->last_updated; //$this->creation_time; // mishandled... so leave both as last_updated!
-		$n->entry_date              = $this->last_updated;
-		$n->author_phone            = null;
-		$n->email_of_found_person   = null;
-		$n->phone_of_found_person   = null;
-		$n->last_known_location     = $this->last_seen;
-		$n->text                    = $this->other_comments;
-
-		// figure out the person's pfif status
-		$n->status = shn_map_status_to_pfif($this->opt_status);
-
-		// find author name and email...
-		$q = "
-			SELECT *
-			FROM contact c, person_uuid p
-			WHERE p.p_uuid = c.p_uuid
-			AND c.opt_contact_type = 'email'
-			AND p.p_uuid = '".$this->rep_uuid."';
-		";
-		$result = $this->db->Execute($q);
-		if($result != NULL && !$result->EOF) {
-			$n->author_name  = $result->fields['full_name'];
-			$n->author_email = $result->fields['contact_value'];
-		} elseif($this->author_name != null) {
-			$n->author_name  = $this->author_name;
-			$n->author_email = $this->author_email;
-		} else {
-			$n->author_name  = null;
-			$n->author_email = null;
-		}
-
-		// figure out this person's pfif status...
-		if($this->opt_status == "fnd") {
-			$n->found = "true";
-		} else {
-			$n->found = null;
-		}
-
 		// find the index (if it exists) for the pfif repo associated with this event
+		// if a pfif repo is associated with this event then generate a note, else skip note generation
 		$q = "
 			SELECT *
 			FROM  `pfif_repository`
 			WHERE `incident_id` = '".$this->incident_id."';
 		";
 		$result = $this->db->Execute($q);
-
-		// if a pfif repo is associated with this event (incident_id) then generate note, else do nothing...
 		if($result != NULL && !$result->EOF) {
-			$p->setSourceReposId($result->fields['id']);
+
+			$p = new Pfif();
+
+			$n = new Pfif_Note();
+			$n->note_record_id          = shn_create_uuid('pfif_note');
+			$n->person_record_id        = $this->p_uuid;
+			$n->linked_person_record_id = null;
+			$n->source_date             = $this->last_updated; // since we are now creating the note,
+			$n->entry_date              = $this->last_updated; // we use the last_updated for both values
+			$n->author_phone            = null;
+			$n->email_of_found_person   = null;
+			$n->phone_of_found_person   = null;
+			$n->last_known_location     = $this->last_seen;
+			$n->text                    = $this->other_comments;
+			$n->found                   = null; // we have no way to know if the reporter had direction contact (hence we leave this null)
+
+			// figure out the person's pfif status
+			$n->status = shn_map_status_to_pfif($this->opt_status);
+
+			// find author name and email...
+			$q = "
+				SELECT *
+				FROM contact c, person_uuid p
+				WHERE p.p_uuid = c.p_uuid
+				AND c.opt_contact_type = 'email'
+				AND p.p_uuid = '".$this->rep_uuid."';
+			";
+			$result = $this->db->Execute($q);
+			if($result != NULL && !$result->EOF) {
+				$n->author_name  = $result->fields['full_name'];
+				$n->author_email = $result->fields['contact_value'];
+			} elseif($this->author_name != null) {
+				$n->author_name  = $this->author_name;
+				$n->author_email = $this->author_email;
+			} else {
+				$n->author_name  = null;
+				$n->author_email = null;
+			}
+
 			$p->setNote($n);
-			$p->storeInDatabase($this->incident_id);
+			$p->setIncidentId($this->incident_id);
+			$p->storeNotesInDatabase();
 		}
 	}
 
@@ -1631,6 +1639,8 @@ class person {
 
 
 	public function createUUID() {
+		global $global;
+		require_once($global['approot']."inc/lib_uuid.inc");
 		if($this->p_uuid == null || $this->p_uuid == "") {
 			$this->p_uuid = shn_create_uuid();
 		}
@@ -1652,6 +1662,13 @@ class person {
 	public function parseXml() {
 		global $global;
 		require_once($global['approot']."inc/lib_uuid.inc");
+
+		// save xml for debuggins?
+		if($global['debugAndSaveXmlToFile'] == true) {
+			$filename = "debugXML_".mt_rand();
+			$path = $global['approot']."www/tmp/plus_cache/".$filename.".xml";
+			file_put_contents($path, $this->theString);
+		}
 
 		// is this a supported XML type?
 		if(!in_array((string)trim($this->xmlFormat), $global['enumXmlFormats'])) {
@@ -1878,11 +1895,10 @@ class person {
 			$this->last_seen     = $result->fields["name"]." Hospital";
 
 			$this->edxl->content_descr   = $a['EDXLDistribution'][$ix]['contentDescription'];
-			$this->edxl->confidentiality = $a['EDXLDistribution'][$ix]['confidentiality'];
 			$this->edxl->p_uuid          = $this->p_uuid;
 			$this->edxl->schema_version  = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['version'];
 			$this->edxl->login_machine   = "n/a"; //null; HACK! cant be null
-			$this->edxl->login_account   = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['login']['username'];
+			$this->edxl->login_account   = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['login']['userName'];
 			$this->edxl->person_id       = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['personId'];
 			$this->edxl->event_name      = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['eventName'];
 			$this->edxl->event_long_name = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['eventLongName'];
@@ -1906,7 +1922,7 @@ class person {
 
 			// parse all images
 			for($n = 0; $n < sizeof($a['EDXLDistribution']); $n++) {
-				if(isset($a['EDXLDistribution'][$n]['nonXmlContent']) && $a['EDXLDistribution'][$n]['nonXMLContent'] != null) {
+				if(isset($a['EDXLDistribution'][$n]['nonXMLContent']) && $a['EDXLDistribution'][$n]['nonXMLContent'] != null) {
 
 					$imageNode = $a['EDXLDistribution'][$n]['nonXMLContent'];
 

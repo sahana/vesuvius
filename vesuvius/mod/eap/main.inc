@@ -602,7 +602,7 @@ function shn_eap_edit() {
 					<legend>Person Record</legend>
 
 					<label for=\"opt_status\"><b>Full Name</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$full_name."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" value=\"".$full_name."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 	";
 
@@ -625,7 +625,7 @@ function shn_eap_edit() {
 		}
 		echo "
 					<label for=\"opt_status\"><b>Reported by (username)</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$reporterName."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" value=\"".$reporterName."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 		";
 	}
@@ -714,7 +714,7 @@ function shn_eap_edit() {
 	if($appTitle != "") {
 		echo "
 					<label for=\"opt_status\"><b>Reported via</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$appTitle."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" value=\"".$appTitle."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 		";
 	}
@@ -723,10 +723,8 @@ function shn_eap_edit() {
 	// show the mass casualty ID if we have it
 	$q  = "
 		SELECT count(*)
-		FROM edxl_de_header d, edxl_co_header c
-		WHERE c.de_id = d.de_id
-		AND c.p_uuid = '".$global['uuid']."'
-		AND c.type = 'lpf';
+		FROM edxl_co_lpf
+		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r   = $global['db']->Execute($q);
 	$row = $r->FetchRow();
@@ -736,32 +734,44 @@ function shn_eap_edit() {
 	if($num == 1) {
 		$q  = "
 			SELECT *
-			FROM edxl_de_header d, edxl_co_header c
-			WHERE c.de_id = d.de_id
-			AND c.p_uuid = '".$global['uuid']."'
-			AND c.type = 'lpf';
+			FROM edxl_co_lpf
+			WHERE p_uuid = '".$global['uuid']."';
 		";
 		$r   = $global['db']->Execute($q);
 		$row = $r->FetchRow();
-		$did = $row['distr_id'];
+		$did = $row['person_id'];
 		echo "
-					<label for=\"opt_status\"><b>Mass Casualty ID</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$did."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<label><b>Mass Casualty ID</b> </label>
+					<input type=\"text\" value=\"".$did."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<br>
+		";
+
+		$tct = $row['triage_category'];
+		$tcc = $tct;
+		if($tct == "BH Green") {
+			$tcc = "palegreen";
+		} elseif($tct == "Gray") {
+			$tcc = "darkgrey";
+		} else if($tct == "Green") {
+			$tcc = "lime";
+		}
+		echo "
+					<label><b>Triage Category</b> </label>
+					<input type=\"text\" value=\"".$tct."\" size=\"64\" class=\"nonedit public tct\" style=\"background-color: ".$tcc.";\" READONLY>
 					<br>
 		";
 	}
 
 
 
-
 	// if the origin of the record is on this server, show a combined origin id / origin url
 	if(preg_match("+".$conf['base_uuid']."+", $global['uuid']) > 0) {
 		echo "
-					<label for=\"opt_status\"><b>Origin ID</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<label><b>Origin ID</b> </label>
+					<input type=\"text\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 
-					<label for=\"opt_status\"><b>Origin URL</b> </label>
+					<label><b>Origin URL</b> </label>
 					<div class=\"originUrl\"><a href=\"https://".$global['uuid']."\">https://".$global['uuid']."</a></div>
 					<br>
 		";

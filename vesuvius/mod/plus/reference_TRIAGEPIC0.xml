@@ -1,0 +1,49 @@
+<EDXLDistribution xmlns="urn:oasis:names:tc:emergency:EDXL:DE:1.0">
+	<distributionID>NPI 1234567890 2011-08-10T19:06:03Z</distributionID>
+	<senderID></senderID>
+	<dateTimeSent>2011-08-10T19:06:03Z</dateTimeSent>
+	<distributionStatus>Exercise</distributionStatus>
+	<distributionType>Report</distributionType>
+	<combinedConfidentiality>UNCLASSIFIED AND NOT SENSITIVE</combinedConfidentiality>
+	<keyword>
+		<valueListUrn>urn:oasis:names:tc:emergency:cap:1.1</valueListUrn>
+		<value>Health</value>
+		<value>Rescue</value>
+	</keyword>
+	<targetArea>
+		<circle>38.9992,-77.1024, 40.2</circle>
+	</targetArea>
+	<contentObject>
+		<contentDescription>LPF notification - disaster victim arrives at hospital triage station</contentDescription>
+		<xmlContent>
+			<embeddedXMLContent>
+				<lpfContent>
+					<version>1.2</version>
+					<login>
+						<username>NIH\aamgill</username>
+					</login>
+					<person>
+						<personId>8</personId>
+						<eventName>test</eventName>
+						<eventLongName>Test Exercise - TEST/DEMO/DRILL</eventLongName>
+						<organization>
+							<orgName>NLM (testing)</orgName>
+							<orgId>1234567890</orgId>
+						</organization>
+						<lastName>Smith</lastName>
+						<firstName>Jane</firstName>
+						<gender>F</gender>
+						<genderEnum>M, F, U, C</genderEnum>
+						<genderEnumDesc>Male; Female; Unknown; Complex(M/F)</genderEnumDesc>
+						<peds>N</peds>
+						<pedsEnum>Y,N</pedsEnum>
+						<pedsEnumDesc>Pediatric patient? Yes, No</pedsEnumDesc>
+						<triageCategory>Black</triageCategory>
+						<triageCategoryEnum>Green, BH Green, Yellow, Red, Gray, Black</triageCategoryEnum>
+						<triageCategoryEnumDesc>Treat eventually if needed; Treat for behavioral health; Treat soon; Treat immediately; Cannot be saved; Deceased</triageCategoryEnumDesc>
+					</person>
+				</lpfContent>
+			</embeddedXMLContent>
+		</xmlContent>
+	</contentObject>
+</EDXLDistribution>

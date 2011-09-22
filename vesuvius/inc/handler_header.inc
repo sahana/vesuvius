@@ -21,7 +21,7 @@ if (file_exists($global['approot']."www/theme/".$conf['theme']."/header.php")) {
 // Else, we will use the Sahana "Built-In" header ---//
 } else { ?>
 	<div id="header" class="clearfix">
-		<h1><?php echo _t("Sahana FOSS Disaster Management System")?></h1>
+		<h1><?php echo _t("Sahana Vesuvius")?></h1>
 	<?
 		// show language selection if necessary...
 		if(isset($conf['enable_locale']) && $conf['enable_locale'] == true) {

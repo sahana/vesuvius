@@ -82,5 +82,25 @@ if(!$full) {
 	';
 }
 
+/*
+function isChrome() {
+	return(stristr($_SERVER['HTTP_USER_AGENT'], "chrome"));
+}
+
+if(isChrome()) {
+	echo '
+		<script>
+			function runInstall() {
+				chrome.webstore.install();
+				//window.domAutomationController.send(true);
+			}
+		</script>
+		<div id="chromeWebStore">
+			<input class="styleTehButton" onclick="javascript: runInstall();" value="Add to Chrome" />
+		</div>
+	';
+}
+*/
+
 
 

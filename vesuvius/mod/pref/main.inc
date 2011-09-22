@@ -28,16 +28,18 @@ function shn_pref_loginForm() {
 
 	if ($_SESSION['logged_in'] != true ) {
 		echo '
-			<div class="form-container">
+			<div class="form-container" style="padding: auto;">
 				<form method="post" action="index.php?doLogin=1" id="form0" name="form0">
-				<fieldset id="noIdDefined">
+				<fieldset id="noIdDefined" style="width: 500px;">
 				<legend>Login</legend>
 				<label for="user_name">Username </label><input type="text" name="user_name" id="user_name" tabindex="1" autocomplete="off"><br>
 				<div class="brake"></div>
 				<label for="pswd">Password </label><input type="password" name="password" id="pswd" autocomplete="off" tabindex="2"><br>
 				<div class="brake"></div>
 				<br>
-				<label>&nbsp;</label><input type="submit" value="Login" class="styleTehButton" tabindex="3">
+				<div style="text-align: center;">
+					<input type="submit" value="Login" class="styleTehButton" tabindex="3">
+				</div>
 				</fieldset>
 				<br><br><br>
 				</form>
@@ -49,21 +51,17 @@ function shn_pref_loginForm() {
 
 
 		echo '
-			<div class="form-container">
-				<form>
-				<fieldset id="noIdDefined">
-				<legend>Register / Forgot</legend>
+			<div style="width: 500px; text-align: center;">
 				<input id="followButton" class="styleTehButton" type="button" value="Register as a new user" onclick="register();">
 				&nbsp; &nbsp; &nbsp; &nbsp;
 				<input id="followButton" class="styleTehButton" type="button" value="Forgot My Password" onclick="forgot();">
-				</form>
 			</div>
 			<script>
 				function register() {
-					window.location = \'index.php?mod=pref&act=signup\';
+					window.location = \'register\';
 				}
 				function forgot() {
-					window.location = \'index.php?mod=pref&act=forgotPassword\';
+					window.location = \'forgot\';
 				}
 			</script>
 		';
@@ -97,7 +95,7 @@ function shn_pref_loginForm() {
 			<div id=\"loggedIn\">
 					<b>Currently logged in as :</b><br>
 					".$_SESSION['group_name']." / ".$_SESSION['user_name']."<br><br>
-					<span id=\"logoutLink\" class=\"styleTehButton\"><a href=\"index.php?act=logout\">Logout</a></span>
+					<span id=\"logoutLink\" class=\"styleTehButton\"><a href=\"logout\">Logout</a></span>
 			</div>
 		";
 	}
