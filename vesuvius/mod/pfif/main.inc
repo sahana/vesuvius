@@ -26,14 +26,14 @@ include_once 'pfif.inc';
 function shn_pfif_menu() {
 	echo "<ul>";
         if (isset($_GET['act']) && $_GET['act'] == "import") {
-	   echo "<li><b>Import Actions</b></li>";
+	   echo "<li><b>Import</b></li>";
         } else { 
-	   echo "<li><a href=\"index.php?mod=pfif&act=import\">Import Actions</a></li>";
+	   echo "<li><a href=\"index.php?mod=pfif&act=import\">Import</a></li>";
         }
         if (isset($_GET['act']) && $_GET['act'] == "export") {
-	   echo "<li><b>Export Actions</b></li>";
+	   echo "<li><b>Export</b></li>";
         } else { 
-	   echo "<li><a href=\"index.php?mod=pfif&act=export\">Export Actions</a></li>";
+	   echo "<li><a href=\"index.php?mod=pfif&act=export\">Export</a></li>";
         }
 	echo "</ul>";
 	echo "<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
@@ -247,7 +247,8 @@ function shn_xml_pfif_feed() {
     $pfif = new Pfif();
     $pfif->setIncidentId($incident_id);
     if (isset($_GET['min_entry_date'])) {
-        $max_results = isset($_GET['max_results'])? $_GET['max_results'] : 0;
+        // Cap max_results at 200.
+        $max_results = isset($_GET['max_results'])? $_GET['max_results'] : 200;
         $skip = isset($_GET['skip'])? $_GET['skip'] : 0;
        // If min_entry_date is set, request a parameterized feed.
        $pfif->loadFromDatabase($_GET['min_entry_date'], null, $max_results, $skip);
