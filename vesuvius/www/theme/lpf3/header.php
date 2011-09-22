@@ -82,7 +82,7 @@ if(!$full) {
 	';
 }
 
-
+/*
 function isChrome() {
 	return(stristr($_SERVER['HTTP_USER_AGENT'], "chrome"));
 }
@@ -100,7 +100,7 @@ if(isChrome()) {
 		</div>
 	';
 }
-
+*/
 
 
 
