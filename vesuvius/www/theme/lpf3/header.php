@@ -83,11 +83,25 @@ if(!$full) {
 }
 
 
-echo '
-	<div id="chromeWebStore">
-		<a onclick="javascript: chrome.webstore.install()">Click here to install the People Locator web application in Google Chrome.</a>
-	</div>
-';
+function isChrome() {
+	return(stristr($_SERVER['HTTP_USER_AGENT'], "chrome"));
+}
+
+if(isChrome()) {
+	echo '
+		<script>
+			function runInstall() {
+				if(!chrome.app.isInstalled()) {
+					chrome.webstore.install();
+					window.domAutomationController.send(true);
+				}
+			}
+		</script>
+		<div id="chromeWebStore">
+			<input class="styleTehButton" onclick="javascript: runInstall()" value="Install PL in Chrome" />
+		</div>
+	';
+}
 
 
 
