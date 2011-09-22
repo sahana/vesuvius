@@ -92,11 +92,11 @@ if(isChrome()) {
 		<script>
 			function runInstall() {
 				chrome.webstore.install();
-				window.domAutomationController.send(true);
+				//window.domAutomationController.send(true);
 			}
 		</script>
 		<div id="chromeWebStore">
-			<input class="styleTehButton" onclick="javascript: runInstall()" value="Install PL in Chrome" />
+			<input class="styleTehButton" onclick="javascript: runInstall();" value="Install PL in Chrome" />
 		</div>
 	';
 }
