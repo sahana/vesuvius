@@ -96,7 +96,7 @@ if(isChrome()) {
 			}
 		</script>
 		<div id="chromeWebStore">
-			<input class="styleTehButton" onclick="javascript: runInstall();" value="Install PL in Chrome" />
+			<input class="styleTehButton" onclick="javascript: runInstall();" value="Add to Chrome" />
 		</div>
 	';
 }
