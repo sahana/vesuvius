@@ -138,7 +138,6 @@ function ha_delete(incident_id) {
 function ha_get_data() {
 	var r = new Object();
 	r.hospital_uuid                  = $("#hospital_uuid").val();
-	alert(r.hospital_uuid);
 	r.name                           = $("#name").val();
 	r.short_name                     = $("#short_name").val();
 	r.street1                        = $("#street1").val();
