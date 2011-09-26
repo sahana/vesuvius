@@ -14,13 +14,13 @@ $user = "testDontDelete";
 $pass = "dontDelete99";
 require_once("../../3rd/nusoap/lib/nusoap.php");
 
-//$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=1.9.8";
+$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=1.9.8";
 //$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=1.9.8";
-$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=1.9.8";
+//$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=1.9.8";
 
 $client = new nusoap_client($wsdl);
 
-$result = $client->call('getHospitalLegaleseTimestamps', array('hospital_uuid'=>131));
+$result = $client->call('getHospitalLegaleseTimestamps', array('hospital_uuid'=>1));
 //$result = $client->call('registerUser', array('username'=>'testCaseUser', 'emailAddress'=>'testCase@email.com', 'password'=>'testPassword99', 'givenName'=>'testCaseGiven', 'familyName'=>'testCaseFamily'));
 //$result = $client->call('changeUserPassword', array('username'=>$user, 'oldPassword'=>$pass, 'newPassword'=>$pass));
 //$result = $client->call('resetUserPassword', array('username'=>"testCaseUser9"));
