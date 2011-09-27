@@ -12,11 +12,10 @@
  */
 
 
-include_once ($global['approot'].'/inc/lib_menu.inc');
-include_once ($global['approot'].'/inc/lib_errors.inc');
-include_once ($global['approot'].'/inc/handler_db.inc');
-include_once ($global['approot'].'/inc/lib_xajax.inc');
-include_once ($global['approot'].'/mod/ha/xajax.inc');
+require_once($global['approot'].'/inc/lib_menu.inc');
+require_once($global['approot'].'/inc/handler_db.inc');
+require_once($global['approot'].'/inc/lib_xajax.inc');
+require_once($global['approot'].'/mod/ha/xajax.inc');
 
 shn_xajax_registerFunction('ha_append_log');
 shn_xajax_registerFunction('ha_prepend_log');
