@@ -2,7 +2,15 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
 
+
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
+
+
+2011:0926 Greg
+--------------
+
+ALTER TABLE  `hospital` ADD  `legaleseTimestamp` TIMESTAMP NULL DEFAULT NULL COMMENT  'when legalese was last updated' AFTER  `legaleseAnon` ,
+ADD  `legaleseAnonTimestamp` TIMESTAMP NULL DEFAULT NULL COMMENT  'when legaleseAnon was last updated' AFTER  `legaleseTimestamp` ;
 
 
 2011:0920 Leif

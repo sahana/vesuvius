@@ -11,7 +11,7 @@
  */
 
 global $api_version;
-$api_version = "1.9.6";
+$api_version = "1.9.7";
 
 // This function is called by the Document/Literal SOAP server upon initalization to register all the api services from this module's api.
 function shn_plus_registerAll($namespace) {
@@ -140,21 +140,6 @@ function shn_plus_registerAll($namespace) {
 		"Returns all policy data relavent to a particular hospital."
 	);
 
-	shn_plus_registerOne($server, 'getHospitalLegalese',
-		array(
-			'in' => array(
-				'hospital_uuid' => 'xsd:integer'
-			),
-			'out' => array(
-				'legalese'      => 'xsd:string',
-				'legaleseAnon'  => 'xsd:string',
-				'errorCode'     => 'xsd:integer',
-				'errorMessage'  => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Retrieve a particular hospital’s legalese clause as well as their anonymized legalese clause."
-	);
 
 	// ACCOUNT API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 	// ACCOUNT API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
@@ -758,45 +743,6 @@ function getHospitalPolicy($hospital_uuid) {
 	}
 	return $data;
 }
-
-
-
-// Retrieve a particular hospital’s legalese clause as well as their anonymized legalese clause.
-function getHospitalLegalese($hospital_uuid) {
-	shn_plus_logAccess("getHospitalLegalese");
-
-	global $global;
-	$error = true;
-
-	$q = "
-		SELECT *
-		FROM hospital
-		WHERE hospital_uuid = '".mysql_real_escape_string($hospital_uuid)."'
-		LIMIT 1;
-	";
-	$result = $global['db']->Execute($q);
-	while (!$result == NULL && !$result->EOF) {
-		$data = array(
-			'legalese'     => (string)$result->fields["legalese"],
-			'legaleseAnon' => (string)$result->fields["legaleseAnon"],
-			'errorCode'    => (int)0,
-			'errorMessage' => null
-		);
-		$result->MoveNext();
-		$error = false;
-	}
-	if($error) {
-		$eCodes = unserialize(ERRORCODES);
-		$data = array(
-			'legalese'     => null,
-			'legaleseAnon' => null,
-			'errorCode'    => (int)100,
-			'errorMessage' => (string)$eCodes[100]
-		);
-	}
-	return $data;
-}
-
 
 
 // ACCOUNT API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
