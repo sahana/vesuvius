@@ -34,6 +34,7 @@ $p->theString = file_get_contents('TP.xml');
 $p->xmlFormat = "TRIAGEPIC1";
 
 $p->parseXml();
+$p->rep_uuid = 1;
 $p->insert();
 
 echo "\n\n".$p->p_uuid."\n\n";

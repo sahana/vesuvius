@@ -139,10 +139,26 @@ div#container {
 	position:relative;
 }
 
+@font-face {
+	font-family: "Raleway";
+	font-style:  normal;
+	font-weight: 100;
+	src:local("Raleway Thin"),local("Raleway-Thin"),url("http://themes.googleusercontent.com/font?kit=RJMlAoFXXQEzZoMSUteGWKCWcynf_cDxXwCLxiixG1c") format("truetype");
+}
+
+#stuff {
+	font-family: "Raleway";
+	font-size: 55px;
+	padding-bottom: 10px;
+	margin-left: -5px;
+	margin-top: 10px;
+	letter-spacing: -0.04em;
+}
+
 div#header { height: 130px; font-family: arial; background-color: #fff;}
 div#headerText { position: absolute; top: 23px;  left: 250px; }
-div#headerText a {text-decoration: none; font-family: arial;}
-div#headerText h1 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 28px; font-weight: normal; font-family: arial; line-height: 30px; letter-spacing: 200%;}
+div#headerText a {text-decoration: none; font-family: "Raleway"; }
+div#headerText h1 { position: relative; text-align: left; color: #34689a; margin: 0; font-family: "Raleway"; font-size: 31px; letter-spacing: -0.04em; line-height: 31px; font-weight: normal;}
 div#headerText h2 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 23px; font-weight: normal; font-family: arial; line-height: 27px; }
 div#headerText h2 span { font-size: 18px; }
 div#headerText h3 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 16px; font-weight: normal; font-family: arial; line-height: 19px; }
