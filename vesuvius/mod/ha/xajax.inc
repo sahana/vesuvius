@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Hospital Administration
- * @version      2.0
+ * @version      2.1
  * @package      ha
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0915
+ * @lastModified 2011.0926
  */
 
 
@@ -111,7 +111,7 @@ function ha_show_hospitals($internal = FALSE) {
 		$htmlMain .= "
 			<tr>
 				<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$type.$name."</td>
-				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"javascript: ha_append_log('Editing Hospital...<br>'); ha_perform_edit(".$uuid.");\" value=\"Edit\"></td>
+				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"javascript: ha_append_log('Editing Hospital <b>#".$uuid." </b>...<br>'); ha_perform_edit(".$uuid.");\" value=\"Edit\"></td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$shortname."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$uuid."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$npi."</td>
@@ -183,6 +183,32 @@ function ha_perform_save($hospital_uuid, $rj) {
 	$suggest = false;
 	$log = "";
 
+	// figure out if either of the legaleses have changed:
+	$q = "
+		SELECT *
+		FROM hospital
+		WHERE hospital_uuid = ".$hospital_uuid.";
+	";
+	$result          = $global['db']->Execute($q);
+	$row             = $result->FetchRow();
+	$oldLegalese     = $row['legalese'];
+	$oldLegaleseAnon = $row['legaleseAnon'];
+	$updateClause    = "";
+
+	// if they have changed, add to the update clause to give them new timestamps
+	if($r['legalese'] != $oldLegalese) {
+		$updateClause .= "
+			legaleseTimestamp = NOW(),
+		";
+	}
+	if($r['legaleseAnon'] != $oldLegaleseAnon) {
+		$updateClause .= "
+			legaleseAnonTimestamp = NOW(),
+		";
+	}
+
+//error_log("\n\n\n".$r['hospital_uuid']."\n\n\n");
+
 	$hospital_uuid                  = (int)$r['hospital_uuid'];
 	$name                           = mysql_real_escape_string($r['name']);
 	$short_name                     = mysql_real_escape_string($r['short_name']);
@@ -238,6 +264,7 @@ function ha_perform_save($hospital_uuid, $rj) {
 			icon_url                       = '".$icon_url."',
 			legalese                       = '".$legalese."',
 			legaleseAnon                   = '".$legaleseAnon."',
+			".$updateClause."
 			photo_required                 = '".$photo_required."',
 			honor_no_photo_request         = '".$honor_no_photo_request."',
 			photographer_name_required     = '".$photographer_name_required."'
