@@ -343,19 +343,6 @@ class Pfif {
       return $noteElement;
    }
 
-   // TODO: may need to add logic to support services other than Google.
-   public function loadFromService($id, $service_name = 'googlehaiti') {
-      $this->check_init();
-
-      $service_uri = $this->pfif_conf['services'][$service_name]['read_url'];
-
-      $pfif_uri = $service_uri . "?id=" . $id;
-      // print "importing PFIF from $pfif_uri<br/>";
-
-      $loaded = $this->loadFromXML($pfif_uri);
-      return $loaded;
-   }
-
    public function postDbToService($id, $svc='google') {
       return $this->postToService('id', $id, $svc);
    }
@@ -663,12 +650,18 @@ class Pfif {
          // Update last_entry_count.
          $this->update_log_dates($person->entry_date);
 
+         // Skip original records. (Might be worthwhile for batch-loading test records, but we would
+         // need a way to generate unique record IDs.) 
+         if (strncmp($person->person_record_id, $conf['base_uuid'], strlen($conf['base_uuid']))==0) {
+            $_SESSION['pfif_info']['person_insert_errors'] += 1;
+            continue;
+         }
          // Check for duplicate.
          $lookup = $this->checkForReportedPerson($person->person_record_id);
          //var_dump('lookup returns:',$lookup);
          if (count($lookup) > 0) {
-            // Replace duplicate person unless this is one of ours. (PFIF says it should have a 
-            // new source date, but in practice Google let's overwrites anything in PF.)
+            // Replace duplicate person (PFIF says it should have a new source date, but in
+            // practice Google overwrites anything in PF.)
             if (strncmp($person->person_record_id, $conf['base_uuid'], strlen($conf['base_uuid']))!=0) {
                $this->deleteReportedPerson($person->person_record_id);
             } else {
@@ -1095,7 +1088,7 @@ class Pfif {
          $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,$max";
       } else {
          // This is a cron or GUI export.
-         $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,1000000";
+         $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,700000";
       }
 
       // DEBUG:
