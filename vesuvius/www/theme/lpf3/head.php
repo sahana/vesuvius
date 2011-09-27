@@ -42,7 +42,6 @@ header('Content-type: text/html; charset=UTF-8')
 <link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?php echo $global['theme'];?>/sahana.css" />
 <link rel="stylesheet" media="print" type="text/css" href="theme/<?php echo $global['theme'];?>/print.css" />
 <link rel="stylesheet" media="handheld" type="text/css" href="theme/<?php echo $global['theme'];?>/mobile.css" />
-<link href='http://fonts.googleapis.com/css?family=Raleway:100' rel='stylesheet' type='text/css'>
 <?
 //--- Provide Stylesheets to hack different versions of IEs' css ---//
 
