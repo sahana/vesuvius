@@ -128,6 +128,7 @@ class voiceNote {
 		// make sure tables are safe :)
 		$q = "UNLOCK TABLES;";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote unlock tables"); }
 	}
 
 
@@ -139,12 +140,14 @@ class voiceNote {
 			WHERE `id` like '%';
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote delete old sequence"); }
 
 		$q = "
 			INSERT INTO  `voice_note_seq` (`id`)
 			VALUES (NULL);
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote insert new sequence"); }
 
 		// get new index value
 		$q = "
@@ -152,6 +155,8 @@ class voiceNote {
 			FROM  `voice_note_seq`
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote get sequence"); }
+
 		$this->voice_note_id = $result->fields['id'];
 	}
 
@@ -236,6 +241,7 @@ class voiceNote {
 				".$this->sql_url_resampled_ogg." );
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote insert()"); }
 	}
 }
 
@@ -481,6 +487,7 @@ class personEdxl {
 		// make sure tables are safe :)
 		$q = "UNLOCK TABLES;";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl unlock tables"); }
 	}
 
 	// initializes some values for a new instance (instead of when we load a previous instance)
@@ -516,18 +523,21 @@ class personEdxl {
 			WHERE `id` like '%';
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl delete co sequence"); }
 
 		$q = "
 			INSERT INTO  `edxl_co_header_seq` (`id`)
 			VALUES (NULL);
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl insert co sequence"); }
 
 		$q = "
 			SELECT *
 			FROM  `edxl_co_header_seq`
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl get co sequence"); }
 		return $result->fields['id'];
 	}
 
@@ -538,18 +548,21 @@ class personEdxl {
 			WHERE `id` like '%';
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl delete de sequence"); }
 
 		$q = "
 			INSERT INTO  `edxl_de_header_seq` (`id`)
 			VALUES (NULL);
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl insert de sequence"); }
 
 		$q = "
 			SELECT *
 			FROM  `edxl_de_header_seq`
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl get de sequence"); }
 		return $result->fields['id'];
 	}
 
@@ -640,6 +653,7 @@ class personEdxl {
 				".$this->sql_inbound." );
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl de header insert"); }
 
 		$q = "
 			INSERT INTO edxl_co_header (
@@ -662,6 +676,7 @@ class personEdxl {
 				".$this->sql_confidentiality." );
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co header insert"); }
 
 		$q = "
 			INSERT INTO edxl_co_lpf (
@@ -698,6 +713,8 @@ class personEdxl {
 				".$this->sql_triage_category." );
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co lpf insert"); }
+
 
 		for($i = 0; $i < sizeof($this->contentDatas); $i++) {
 			$q = "
@@ -717,6 +734,7 @@ class personEdxl {
 					'".mysql_real_escape_string($this->image_ids[$i])."' );
 			";
 			$result = $this->db->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co photos insert"); }
 
 			$q = "
 				INSERT INTO edxl_co_header (
@@ -739,6 +757,7 @@ class personEdxl {
 					".$this->sql_confidentiality." );
 			";
 			$result = $this->db->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co header insert"); }
 		}
 	}
 }
@@ -823,6 +842,7 @@ class personImageTag {
 		// make sure tables are safe :)
 		$q = "UNLOCK TABLES;";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag unlock tables"); }
 	}
 
 
@@ -843,12 +863,14 @@ class personImageTag {
 			WHERE `id` like '%';
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag delete sequence"); }
 
 		$q = "
 			INSERT INTO  `image_tag_seq` (`id`)
 			VALUES (NULL);
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag insert sequence"); }
 
 		// get new index value
 		$q = "
@@ -856,6 +878,8 @@ class personImageTag {
 			FROM  `image_tag_seq`
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag get sequence"); }
+
 		$this->tag_id = $result->fields['id'];
 	}
 
@@ -898,6 +922,7 @@ class personImageTag {
 				".$this->sql_tag_text." );
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag insert"); }
 	}
 }
 
@@ -1003,6 +1028,7 @@ class personImage {
 		// make sure tables are safe :)
 		$q = "UNLOCK TABLES;";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage unlock"); }
 	}
 
 	// initializes some values for a new instance (instead of when we load a previous instance)
@@ -1024,12 +1050,14 @@ class personImage {
 			WHERE `id` like '%';
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage delete sequence"); }
 
 		$q = "
 			INSERT INTO  `image_seq` (`id`)
 			VALUES (NULL);
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage insert sequence"); }
 
 		// get new index value
 		$q = "
@@ -1037,6 +1065,8 @@ class personImage {
 			FROM  `image_seq`;
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage get sequence"); }
+
 		$this->image_id = $result->fields['id'];
 	}
 
@@ -1141,8 +1171,9 @@ class personImage {
 				".$this->sql_url_thumb.",
 				".$this->sql_original_filename." );
 		";
-
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage insert"); }
+
 		$this->insertImageTags();
 	}
 
@@ -1446,6 +1477,7 @@ class person {
 				".$this->sql_expiry_date." );
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_uuid insert"); }
 
 		$q = "
 			INSERT INTO person_status (
@@ -1460,6 +1492,7 @@ class person {
 				".$this->sql_creation_time." );
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_status insert"); }
 
 		$q = "
 			INSERT INTO person_details (
@@ -1488,12 +1521,14 @@ class person {
 				".$this->sql_other_comments." );
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_details insert"); }
 
 		$q = "
 			INSERT INTO  `person_to_report` (`p_uuid`, `rep_uuid`)
 			VALUES (".$this->sql_p_uuid.", ".$this->sql_rep_uuid.");
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_to_report insert"); }
 
 		$this->insertImages();
 		$this->insertEdxl();
@@ -1509,6 +1544,7 @@ class person {
 			VALUES ('".$this->p_uuid."', '".$this->xmlFormat."');
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person plus_report insert"); }
 	}
 
 
@@ -1519,6 +1555,7 @@ class person {
 			VALUES ('".$this->p_uuid."');
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person rap_log insert"); }
 	}
 
 
@@ -1557,6 +1594,8 @@ class person {
 			WHERE `incident_id` = '".$this->incident_id."';
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get pfif repo"); }
+
 		if($result != NULL && !$result->EOF) {
 
 			$p = new Pfif();
@@ -1586,6 +1625,8 @@ class person {
 				AND p.p_uuid = '".$this->rep_uuid."';
 			";
 			$result = $this->db->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get contact for pfif"); }
+
 			if($result != NULL && !$result->EOF) {
 				$n->author_name  = $result->fields['full_name'];
 				$n->author_email = $result->fields['contact_value'];
@@ -1612,6 +1653,8 @@ class person {
 			WHERE incident_id = '".$this->incident_id."';
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person check event open"); }
+
 		if($result != NULL && !$result->EOF) {
 			$row = $result->FetchRow();
 		} else {
@@ -1655,6 +1698,8 @@ class person {
 			WHERE shortname = '".mysql_real_escape_string($eventShortName)."';
 		";
 		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get incident"); }
+
 		$this->incident_id = $result->fields['incident_id'];
 	}
 
@@ -1749,6 +1794,8 @@ class person {
 				WHERE p_uuid = '".mysql_real_escape_string((string)$this->p_uuid)."';
 			";
 			$result = $this->db->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person check p_uuid collision"); }
+
 			if((int)$result->fields['count(*)'] > 0 ) {
 				return (int)401;
 			}
@@ -1779,6 +1826,8 @@ class person {
 			";
 
 			$result = $this->db->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get incident"); }
+
 			if($result != NULL && !$result->EOF) {
 				$this->incident_id = $result->fields['incident_id'];
 			} else {
@@ -1840,6 +1889,8 @@ class person {
 				WHERE shortname = '".mysql_real_escape_string((string)$eventName)."';
 			";
 			$result = $this->db->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get incident"); }
+
 			$this->incident_id = $result->fields["incident_id"];
 
 
@@ -1891,6 +1942,8 @@ class person {
 				WHERE npi = '".mysql_real_escape_string((string)$orgId)."';
 			";
 			$result = $this->db->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get hospital"); }
+
 			$this->hospital_uuid = $result->fields["hospital_uuid"];
 			$this->last_seen     = $result->fields["name"]." Hospital";
 
@@ -1972,6 +2025,8 @@ class person {
 				WHERE shortname = '".mysql_real_escape_string((string)$eventName)."';
 			";
 			$result = $this->db->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get incident"); }
+
 			$this->incident_id = $result->fields["incident_id"];
 
 
@@ -2023,6 +2078,8 @@ class person {
 				WHERE npi = '".mysql_real_escape_string((string)$orgId)."';
 			";
 			$result = $this->db->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get hospital"); }
+
 			$this->hospital_uuid = $result->fields["hospital_uuid"];
 			$this->last_seen     = $result->fields["name"]." Hospital";
 
@@ -2251,13 +2308,26 @@ class pop {
 		// log that we sent out an email ....
 		$mod = isset($global['module']) ? $global['module'] : "cron";
 
-		$q = "INSERT INTO pop_outlog
-			(`mod_accessed`, `time_sent`, `send_status`, `error_message`, `email_subject`, `email_from`, `email_recipients`)
-			VALUES
-			('".$mod."', CURRENT_TIMESTAMP, '".$sendStatus."', '".$messageLog."', '".$subject."', '".$this->smtp_reply_address."', '".$toEmail."');";
-
+		$q = "
+			INSERT INTO pop_outlog (
+				`mod_accessed`,
+				`time_sent`,
+				`send_status`,
+				`error_message`,
+				`email_subject`,
+				`email_from`,
+				`email_recipients` )
+			VALUES (
+				'".$mod."',
+				CURRENT_TIMESTAMP,
+				'".$sendStatus."',
+				'".$messageLog."',
+				'".$subject."',
+				'".$this->smtp_reply_address."',
+				'".$toEmail."' ) ;
+		";
 		$result = $global['db']->Execute($q);
-		//$this->messages .= "\n\n".$q."\n\n";
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "pop send message"); }
 	}
 
 
@@ -3150,6 +3220,33 @@ class XMLParser  {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // HELPER FUNCTIONS
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// logs all DAO errors to database...
+function daoErrorLog($file, $line, $method, $class, $function, $errorMessage, $other) {
+	// init db
+	global $global;
+	$db = $global['db'];
+	$q = "
+		INSERT INTO dao_error_log (
+			file,
+			line,
+			method,
+			class,
+			function,
+			error_message,
+			other )
+		VALUES (
+			'".mysql_real_escape_string((string)$file)."',
+			'".mysql_real_escape_string((string)$line)."',
+			'".mysql_real_escape_string((string)$method)."',
+			'".mysql_real_escape_string((string)$class)."',
+			'".mysql_real_escape_string((string)$function)."',
+			'".mysql_real_escape_string((string)$errorMessage)."',
+			'".mysql_real_escape_string((string)$other)."' );
+	";
+	$result = $db->Execute($q);
+}
 
 
 

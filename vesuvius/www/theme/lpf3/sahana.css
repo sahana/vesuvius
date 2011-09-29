@@ -141,8 +141,8 @@ div#container {
 
 div#header { height: 130px; font-family: arial; background-color: #fff;}
 div#headerText { position: absolute; top: 23px;  left: 250px; }
-div#headerText a {text-decoration: none; font-family: arial;}
-div#headerText h1 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 28px; font-weight: normal; font-family: arial; line-height: 30px; letter-spacing: 200%;}
+div#headerText a {text-decoration: none; font-family: arial; }
+div#headerText h1 { position: relative; text-align: left; color: #34689a; margin: 0; font-family: arial; font-size: 28px; line-height: 28px; font-weight: normal;}
 div#headerText h2 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 23px; font-weight: normal; font-family: arial; line-height: 27px; }
 div#headerText h2 span { font-size: 18px; }
 div#headerText h3 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 16px; font-weight: normal; font-family: arial; line-height: 19px; }

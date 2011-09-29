@@ -2,7 +2,6 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
 
-
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
 
 2011:0929 Leif
@@ -14,8 +13,25 @@ ALTER TABLE `pfif_export_log` ADD `note_count` INT NULL DEFAULT '0'
 2011:0926 Greg
 --------------
 
+ALTER TABLE  `hospital` CHANGE  `name`  `name` VARCHAR( 60 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'enter name here',
+CHANGE  `short_name`  `short_name` VARCHAR( 30 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  'shortname' ;
+
 ALTER TABLE  `hospital` ADD  `legaleseTimestamp` TIMESTAMP NULL DEFAULT NULL COMMENT  'when legalese was last updated' AFTER  `legaleseAnon` ,
 ADD  `legaleseAnonTimestamp` TIMESTAMP NULL DEFAULT NULL COMMENT  'when legaleseAnon was last updated' AFTER  `legaleseTimestamp` ;
+
+ALTER TABLE  `edxl_co_lpf` CHANGE  `last_name`  `last_name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ,
+CHANGE  `first_name`  `first_name` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;
+
+CREATE TABLE `dao_error_log` (
+`time` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
+`file` TEXT NULL DEFAULT NULL ,
+`line` TEXT NULL DEFAULT NULL ,
+`method` TEXT NULL DEFAULT NULL ,
+`class` TEXT NULL DEFAULT NULL ,
+`function` TEXT NULL DEFAULT NULL ,
+`error_message` TEXT NULL DEFAULT NULL ,
+`other` TEXT NULL DEFAULT NULL
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT =  'logs errors encountered in the DAO objects';
 
 
 2011:0920 Leif
