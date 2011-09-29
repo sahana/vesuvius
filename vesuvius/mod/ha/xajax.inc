@@ -207,8 +207,6 @@ function ha_perform_save($hospital_uuid, $rj) {
 		";
 	}
 
-//error_log("\n\n\n".$r['hospital_uuid']."\n\n\n");
-
 	$hospital_uuid                  = (int)$r['hospital_uuid'];
 	$name                           = mysql_real_escape_string($r['name']);
 	$short_name                     = mysql_real_escape_string($r['short_name']);

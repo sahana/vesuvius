@@ -2,8 +2,8 @@
 /**
  * @name         Sahana Agasti Main Controller
  * @version      1.0
- * @author       Chamindra de Silva <chamindra@opensource.lk>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @author       Chamindra de Silva <chamindra@opensource.lk>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
