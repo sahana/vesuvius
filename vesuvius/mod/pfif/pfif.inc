@@ -217,7 +217,7 @@ class Pfif {
          // Do original records only. Non-embedded format.
          $pfif_persons = $this->getPersons();
          if (count($pfif_persons) != 0) {
-            // Logging needed since this is for automated exports.
+            // Do log housekeeping since this may be an automated export (i.e. from cronexport.php).
             $this->reset_log_dates($pfif_persons[0]->entry_date);
             foreach ($pfif_persons as $person) {
                // Snag last_updated for log since this indicates new information (could just be a Note).
@@ -245,9 +245,15 @@ class Pfif {
             }
             unset($note);
          }
+         // Save person and note counts.
+         // Fixme: getElementsbyTagNameNS not working for some reason.
+         $persons = $this->dom_pfif->getElementsByTagName('pfif:person');
+         $notes = $this->dom_pfif->getElementsByTagName('pfif:note');
+         $_SESSION['pfif_info']['pfif_person_count'] = $persons->length;
+         $_SESSION['pfif_info']['pfif_note_count'] = $notes->length;
          $this->save_log_dates();
       } else if (!embed) {
-         // Serialize persons and notes separately.
+         // Serialize persons and notes separately. (Used for cronimport.php debug.)
          $pfif_persons = $this->getPersons();
          if (count($pfif_persons) != 0) {
             foreach ($pfif_persons as $person) {
@@ -282,9 +288,6 @@ class Pfif {
          unset($person);
       }
 
-      // Update status info
-      //var_dump("first/last/count:end", $first_entry_date, $last_entry_date, $last_entry_count);
-      //print $this->dom_pfif->saveXML();
       if ($this->dom_pfif->firstChild->hasChildNodes()) {
          return $this->dom_pfif->saveXML();
       } else {
@@ -362,10 +365,11 @@ class Pfif {
       $this->check_init();
 
       if ($source_type == 'id') {
+         // not used currently
          $persons = $this->loadFromDatabase('id?' . $id_or_filename);
          $xml = $this->storeInXML();
       } else if ($source_type == 'xml') {
-         // TBD: What has to be done with XML input ? Should we validate it?
+         // not used currently
          $xml = $source_data;
       } else {
          $loaded = $this->loadFromXML($filename);
@@ -1060,7 +1064,7 @@ class Pfif {
 
    // Use threshhold date and number of records to skip.
    private function getPersonFromDb($since_entry_date, $before, $max_results, $skip) {
-      global $global;
+      global $global, $conf;
 
       $whereSql = '';
       $where = array();
@@ -1398,5 +1402,4 @@ class Pfif {
       unset($rs);
       return $notes;
    }
-
 }
