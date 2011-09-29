@@ -167,12 +167,12 @@ function shn_pfif_export() {
 }
 
 /**
+ * Return system cron status.
  * Used for navigation menu status indicator.
  */
 function shn_pfif_statusGood() {
-   global $global;
+   global $global, $delta;
    $import_out = "/pl/tmp/pfif_logs/import.out";
-   $export_out = "/pl/tmp/pfif_logs/export.out";
    $import_err = "/pl/tmp/pfif_logs/import.err";
    $export_err = "/pl/tmp/pfif_logs/export.err";
 
@@ -191,27 +191,13 @@ function shn_pfif_statusGood() {
  *
  */
 function shn_pfif_status() {
-   global $global;
+   global $global, $delta;
 
    shn_pfif_menu();
 
-   $import_out = "/pl/tmp/pfif_logs/import.out";
-   $export_out = "/pl/tmp/pfif_logs/export.out";
-   $import_err = "/pl/tmp/pfif_logs/import.err";
-   $export_err = "/pl/tmp/pfif_logs/export.err";
-
    echo "<div id=\"home\">";
 
-   // Show system cron status.
-
-   // Check one of the output files to make sure it's getting updated. 
-   $lastExecutedU = filemtime($import_out);;
-   // Check for non-zero-size error file.
-   $errors = filesize($export_err)!=0 || filesize($import_err)!=0;
-
-   $delta = date("U") - $lastExecutedU;
-
-   if($delta < 120 && !$errors) {
+   if(shn_pfif_statusGood) {
       $statusMsg = "Cron Status: <span style=\"color: green;\"><b>Nominal</b></span>";
    } else {
       $statusMsg = "Cron Status: <span style=\"color: red;\"><b>FAILURE</b></span>";
@@ -228,25 +214,24 @@ function shn_pfif_status() {
         </div>
    ';
 
-   // Show status of exports/imports to Google PF repositories.
-   $q = "SELECT pr.base_url, pr.sched_interval_minutes, pr.first_entry, pr.last_entry, pr.total_persons, pr.total_notes, pr.resource_type, pr.role, i.shortname from pfif_repository pr, incident i where pr.name LIKE 'google%' AND pr.incident_id = i.incident_id ORDER BY pr.sched_interval_minutes DESC";
+   // Show status of imports from Google PF repositories.
+   $q = "SELECT pr.base_url, pr.sched_interval_minutes, pr.first_entry, pr.last_entry, pr.total_persons, pr.total_notes, pr.resource_type, i.shortname from pfif_repository pr, incident i WHERE role = 'source' AND pr.name LIKE 'google%' AND pr.incident_id = i.incident_id ORDER BY pr.sched_interval_minutes DESC, pr.base_url";
    $result = $global['db']->Execute($q);
    $count = 0;
    echo "
           <div class=\"form-container\">
                <form>
                     <fieldset>
-                         <legend>PFIF Service Progress<br></legend>
+                         <legend>PFIF Import Progress<br></legend>
                          <table id=\"regLog\">
                              <tr>
                                 <td class=\"evener\"><b>PFIF Repository</b></td>
                                 <td class=\"evener\"><b>PL Event</b></td>
-                                <td class=\"evener\"><b>Direction</b></td>
                                 <td class=\"evener\"><b>Record Type</b></td>
                                 <td class=\"evener\"><b>Status</b></td>
-                                <td class=\"evener\"><b>First Record</b></td>
-                                <td class=\"evener\"><b>Last Record</b></td>
-                                <td class=\"evener\"><b>Total Records</b></td>
+                                <td class=\"evener\"><b>First Processed Record</b></td>
+                                <td class=\"evener\"><b>Last Processed Record</b></td>
+                                <td class=\"evener\"><b>Total Imported Records</b></td>
                              </tr>
    ";
    while($row = $result->FetchRow()) {
@@ -263,7 +248,6 @@ function shn_pfif_status() {
             echo "  <tr>
                             <td ".$odd.">".substr_replace($row['base_url'], '', 0, 8)."</td>
                             <td ".$odd.">".$row['shortname']."</td>
-                            <td ".$odd.">".(($row['role']=='source')? 'import':'export')."</td>
                             <td ".$odd.">".$row['resource_type']."</td>
                             <td ".$odd.">".(($row['sched_interval_minutes']==0)? 'disabled':'active')."</td>
                             <td ".$odd.">".(($row['first_entry']=='')? '-':$row['first_entry'])."</td>
@@ -273,7 +257,54 @@ function shn_pfif_status() {
             $count++;
    }
    if($count==0) {
-            echo "<tr><td colspan=8 class=\"odder\">No repositories!</td></tr>";
+            echo "<tr><td colspan=7 class=\"odder\">No repositories!</td></tr>";
+   }
+   echo "
+                                    </table>
+                            </fieldset>
+                    </form>
+            </div>
+   ";
+
+   // Show status of exports to Google PF repositories.
+   $q = "SELECT pr.base_url, pr.sched_interval_minutes, pr.first_entry, pr.last_entry, pr.total_persons, pr.total_notes, i.shortname from pfif_repository pr, incident i WHERE role = 'sink' AND pr.name LIKE 'google%' AND pr.incident_id = i.incident_id ORDER BY pr.sched_interval_minutes DESC, pr.base_url";
+   $result = $global['db']->Execute($q);
+   $count = 0;
+   echo "
+          <div class=\"form-container\">
+               <form>
+                    <fieldset>
+                         <legend>PFIF Export Progress<br></legend>
+                         <table id=\"regLog\">
+                             <tr>
+                                <td class=\"evener\"><b>PFIF Repository</b></td>
+                                <td class=\"evener\"><b>PL Event</b></td>
+                                <td class=\"evener\"><b>Status</b></td>
+                                <td class=\"evener\"><b>First Processed Record</b></td>
+                                <td class=\"evener\"><b>Last Processed Record</b></td>
+                                <td class=\"evener\"><b>Total Exported Persons</b></td>
+                                <td class=\"evener\"><b>Total Exported Notes</b></td>
+                             </tr>
+   ";
+   while($row = $result->FetchRow()) {
+            if(($count%2)==0) {
+                    $odd = "class=\"odder\"";
+            } else {
+                    $odd = "class=\"evener\"";
+            }
+            echo "  <tr>
+                            <td ".$odd.">".substr_replace($row['base_url'], '', 0, 8)."</td>
+                            <td ".$odd.">".$row['shortname']."</td>
+                            <td ".$odd.">".(($row['sched_interval_minutes']==0)? 'disabled':'active')."</td>
+                            <td ".$odd.">".(($row['first_entry']=='')? '-':$row['first_entry'])."</td>
+                            <td ".$odd.">".(($row['last_entry']=='')? '-':$row['last_entry'])."</td>
+                            <td ".$odd.">".$row['total_persons']."</td>
+                            <td ".$odd.">".$row['total_notes']."</td>
+                    </tr>";
+            $count++;
+   }
+   if($count==0) {
+            echo "<tr><td colspan=7 class=\"odder\">No repositories!</td></tr>";
    }
    echo "
                                     </table>
