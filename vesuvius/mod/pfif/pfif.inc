@@ -743,13 +743,15 @@ class Pfif {
                     . $note->note_record_id . ":" . $e->getMessage());
             continue; // stop processing this note
          }
-         // Update Sahana tables with dynamic data if the person exists.
-         $lookup = $this->checkForReportedPerson($note->person_record_id);
-         //var_dump('lookup returns:',$lookup);
-         if (count($lookup) > 0) {
-            // Can't rely on notes coming in in source date order. (Only entry date order is assured.)
-            // So for each note, reprocess all existing notes for the associated person.
-            $this->_pfif_update_person_from_notes($note->person_record_id);
+         // Update Sahana tables with dynamic data if the person exists and this is not an original note.
+         if (strncmp($note->note_record_id, $conf['base_uuid'], strlen($conf['base_uuid']))!=0) {
+            $lookup = $this->checkForReportedPerson($note->person_record_id);
+            //var_dump('lookup returns:',$lookup);
+            if (count($lookup) > 0) {
+               // Can't rely on notes coming in in source date order. (Only entry date order is assured.)
+               // So for each note, reprocess all existing notes for the associated person.
+               $this->_pfif_update_person_from_notes($note->person_record_id);
+            }
          }
       }
       unset($note);
@@ -910,7 +912,7 @@ class Pfif {
 
       //person_uuid table
       $insert_array['p_uuid'] = $rep_uuid;
-      $insert_array['incident_id'] = $this->incident_id;
+      //$insert_array['incident_id'] = $this->incident_id; //reporters have null incident id
       if (!empty($person->author_name)) {
          $insert_array['full_name'] = $person->author_name;
       }
