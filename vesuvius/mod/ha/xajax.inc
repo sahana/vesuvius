@@ -80,12 +80,13 @@ function ha_show_hospitals($internal = FALSE) {
 		FROM hospital
 		ORDER BY hospital_uuid ASC;
 	";
-	$res = $global['db']->Execute($q);
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "show hospitals"); }
 
 	// find out how many hospitals we have and load them into an array
 	$hospitals = array();
 	$hcount = 0;
-	while($row = $res->FetchRow() ){
+	while($row = $result->FetchRow() ){
 		$hospitals[$hcount] = $row;
 		$hcount++;
 	}
@@ -190,6 +191,7 @@ function ha_perform_save($hospital_uuid, $rj) {
 		WHERE hospital_uuid = ".$hospital_uuid.";
 	";
 	$result          = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital save 1"); }
 	$row             = $result->FetchRow();
 	$oldLegalese     = $row['legalese'];
 	$oldLegaleseAnon = $row['legaleseAnon'];
@@ -268,7 +270,8 @@ function ha_perform_save($hospital_uuid, $rj) {
 			photographer_name_required     = '".$photographer_name_required."'
 		WHERE hospital_uuid       = '".$hospital_uuid."';
 	";
-	$res = $global['db']->Execute($q);
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital save 2"); }
 
 	$log .= "Hospital #<b>".$hospital_uuid."</b> <span style=\"color: green;\">Saved</span>.<b><br>";
 
@@ -296,7 +299,8 @@ function ha_perform_delete($hospital_uuid, $confirm) {
 			DELETE from hospital
 			WHERE hospital_uuid = '".$hospital_uuid."';
 		";
-		$res = $global['db']->Execute($q);
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital delete 1"); }
 		$global['xajax_res']->addAppend('rezLog', 'innerHTML', 'Hospital <b>#'.$hospital_uuid.'</b> <span style="color: red;">removed</span>.<br>');
 	} else {
 		$global['xajax_res']->addAppend('rezLog', 'innerHTML', "Remove operation aborted.<br>");
@@ -330,6 +334,7 @@ function ha_perform_new() {
 		VALUES ();
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital new 1"); }
 
 	// find id of newest hospital we just added
 	$q = "
@@ -339,6 +344,7 @@ function ha_perform_new() {
 		LIMIT 1;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital new 2"); }
 	$row = $result->FetchRow();
 	return $row['hospital_uuid'];
 }
@@ -365,6 +371,7 @@ function ha_perform_edit($hospital_uuid) {
 		WHERE hospital_uuid = ".$hospital_uuid.";
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital edit 1"); }
 	$row = $result->FetchRow();
 
 	// generate checkboxes
