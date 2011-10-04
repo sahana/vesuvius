@@ -48,13 +48,13 @@ function shn_rez_adm_default() {
 					rez_append_log('Closing editor...<br>');
 					area2.removeInstance('pageContent');
 					setTimeout('rez_show_pages();', 500);
-					window.rezPageSaved = false;
+					window.rezPageSaved = true;
 				}
 			} else {
 					rez_append_log('Closing editor...<br>');
 					area2.removeInstance('pageContent');
 					setTimeout('rez_show_pages();', 500);
-					window.rezPageSaved = false;
+					window.rezPageSaved = true;
 			}
 		}
 	</script>
