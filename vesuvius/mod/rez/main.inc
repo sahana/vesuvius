@@ -1,20 +1,21 @@
 <?
 /**
  * @name         Resources
- * @version      1.4
+ * @version      1.5
  * @package      rez
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0801
+ * @lastModified 2011.1004
  */
 
 
-include_once ($global['approot'].'/inc/lib_menu.inc');
-include_once ($global['approot'].'/inc/lib_errors.inc');
-require_once ($global['approot'].'/inc/handler_db.inc');
-require_once ($global['approot'].'/res/google_trans.inc');
+require_once($global['approot'].'/inc/lib_menu.inc');
+require_once($global['approot'].'/inc/lib_errors.inc');
+require_once($global['approot'].'/inc/handler_db.inc');
+require_once($global['approot'].'/res/google_trans.inc');
+require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
 
 function shn_rez_header2() {
@@ -24,29 +25,29 @@ function shn_rez_header2() {
 	if($_GET['page_id'] > 0) {
 
 		echo "<ul>";
-		// get page titles/descriptions
+		// get page info
 		$q = "
 			select *
 			from rez_pages
 			where rez_visibility = 'Public'
 			order by rez_menu_order asc;
 		";
-		$res = $global['db']->Execute($q);
-		if($res){
-			// build page descriptions
-			while($row = $res->FetchRow() ) {
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez pages header"); }
+		if($result){
+			// build page info
+			while($row = $result->FetchRow() ) {
 				if($row['rez_page_id'] == $_GET['page_id']) {
 					echo "
-						<li><b>".shn_google_translate($row['rez_page_title'])."</b></li>
+						<li><b>".shn_google_translate($row['rez_menu_title'])."</b></li>
 					";
 				} else {
 					echo "
 						<li>
-							<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=rez&act=default&page_id=".$row['rez_page_id']."\">".shn_google_translate($row['rez_page_title'])."</a>
+							<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=rez&act=default&page_id=".$row['rez_page_id']."\">".shn_google_translate($row['rez_menu_title'])."</a>
 						</li>
 					";
 				}
-				// $row['rez_description'] removed
 			}
 		}
 		echo "</ul>";
@@ -60,10 +61,11 @@ function shn_rez_header2() {
 			WHERE rez_page_id = '".mysql_real_escape_string($_GET['page_id'])."'
 			LIMIT 1;
 		";
-		$res = $global['db']->Execute($q);
-		if($res) {
-			while($row = $res->FetchRow() ) {
-				echo "<h2>".shn_google_translate($row['rez_page_title'])."</h2>";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez pages header"); }
+		if($result) {
+			while($row = $result->FetchRow() ) {
+				echo "<h2>".shn_google_translate($row['rez_menu_title'])."</h2>";
 			}
 		}
 	}
@@ -95,9 +97,10 @@ function shn_rez_default() {
 			where rez_page_id = '".$page_id."'
 			and rez_visibility <> 'INTERNAL';
 		";
-		$res = $global['db']->Execute($q);
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez pages default"); }
 
-		if ($row = $res->FetchRow() ){
+		if($row = $result->FetchRow() ){
 			shn_rez_header2();
 			echo shn_google_translate($row['rez_content']);
 		} else {
@@ -109,16 +112,22 @@ function shn_rez_default() {
 	} else {
 		echo "<ul id=\"rezMain\">";
 
-			// get page titles/descriptions
-			$q = "select * from rez_pages where rez_visibility = 'Public' order by rez_menu_order asc;";
-			$res = $global['db']->Execute($q);
-			if($res){
-				// build page descriptions
-				while($row = $res->FetchRow() ) {
+			// get page info
+			$q = "
+				select *
+				from rez_pages
+				where rez_visibility = 'Public'
+				order by rez_menu_order asc;
+			";
+			$result = $global['db']->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez pages default"); }
+			if($result){
+				// build page links
+				while($row = $result->FetchRow() ) {
 					echo "
 						<li>
 							<a class=\"rezLink\" href=\"index.php?mod=rez&act=default&page_id=".$row['rez_page_id']."\">
-							".shn_google_translate($row['rez_page_title'])."</a>
+							".shn_google_translate($row['rez_menu_title'])."</a>
 						</li>
 					";
 				}

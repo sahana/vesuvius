@@ -20,8 +20,9 @@ $wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?
 
 $client = new nusoap_client($wsdl);
 
-$result = $client->call('getEventListUser', array('username'=>$user, 'password'=>$pass));
-//$result = $client->call('getHospitalLegaleseTimestamps', array('hospital_uuid'=>1));
+//$result = $client->call('getEventListUser', array('username'=>$user, 'password'=>$pass));
+//$result = $client->call('getHospitalPolicy', array('hospital_uuid'=>1));
+$result = $client->call('getHospitalLegaleseTimestamps', array('hospital_uuid'=>1));
 //$result = $client->call('registerUser', array('username'=>'testCaseUser', 'emailAddress'=>'testCase@email.com', 'password'=>'testPassword99', 'givenName'=>'testCaseGiven', 'familyName'=>'testCaseFamily'));
 //$result = $client->call('changeUserPassword', array('username'=>$user, 'oldPassword'=>$pass, 'newPassword'=>$pass));
 //$result = $client->call('resetUserPassword', array('username'=>"testCaseUser9"));
@@ -48,7 +49,7 @@ $result = $client->call('searchWithAuth', array(
 	'filterAgeAdult'=>true,
 	'filterAgeUnknown'=>true,
 	'filterHospitalSH'=>true,
-	'filterHospitalNNMCC'=>true,
+	'filterHospitalWRNMMC'=>true,
 	'filterHospitalOther'=>true,
 	'pageStart'=>0,
 	'perPage'=>10,
@@ -64,7 +65,7 @@ $result = $client->call('searchWithAuth', array(
 //$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
 
 
-//$x = file_get_contents("TP.xml");
+$x = file_get_contents("TP.xml");
 //$x = file_get_contents("reference_TRIAGEPIC1.xml");
 //$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
 
