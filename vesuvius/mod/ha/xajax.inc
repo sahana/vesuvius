@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Hospital Administration
- * @version      2.1
+ * @version      2.2
  * @package      ha
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0926
+ * @lastModified 2011.1004
  */
 
 
@@ -508,7 +508,7 @@ function ha_perform_edit($hospital_uuid) {
 	</tr>
 	<tr>
 		<td class=\"mainRowOdd emLastWhite\" style=\"\">Icon URL</td>
-		<td class=\"mainRowOdd emFirstWhite\" style=\"\"><input id=\"icon_url\" type=\"text\" size=64 maxlength=128 value=\"".$row['icon_url']."\" /></td>
+		<td class=\"mainRowOdd emFirstWhite\" style=\"\"><textarea name=\"icon_url\" id=\"icon_url\" style=\"height: 30px; width: 90%;\">".$row['icon_url']."</textarea></td>
 	</tr>
 </table>
 	";
