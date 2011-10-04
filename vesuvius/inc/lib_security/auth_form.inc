@@ -116,7 +116,7 @@ function shn_auth_form_ch_pwd($error=false) {
 		}
 	}
 	?><br><?php
-	shn_form_fopen($act,$mod);
+	shn_form_fopen($act, $mod, null, null, "width: 600px;");
 	shn_form_fsopen(_t("Fill in these required fields to change your password"));
 	$extra_opts['req']=true;
 	shn_form_password("Old Password", "old_password", null, $extra_opts);

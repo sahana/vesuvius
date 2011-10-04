@@ -77,7 +77,7 @@ function shn_form_extra_opts($extra_opts) {
  * @access public
  * @return void
  */
-function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>true), $stream=null) {
+function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>true), $stream=null, $style="") {
 	global $global;
 	global $shn_form_id;
 	global $shn_tab_enabled;
@@ -139,7 +139,7 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
 	}
 
 	echo "
-		<form method=\"post\" action=\"index.php?mod=".$mod."&amp;act=".$act.$stream_param.$anchor."\" id=\"".$form_opts['id']."\" ".$form_opts['enctype']." name=\"".$form_opts['id']."\">
+		<form method=\"post\" action=\"index.php?mod=".$mod."&amp;act=".$act.$stream_param.$anchor."\" id=\"".$form_opts['id']."\" ".$form_opts['enctype']." name=\"".$form_opts['id']."\" style=\"".$style."\">
 	";
 
 	//print the tab position div
@@ -785,16 +785,20 @@ function shn_form_drawtab() {
 
 
 
-function shn_form_fopen_alt($act, $mod = null, $form_opts = array('req_message'=>true)) {
+function shn_form_fopen_alt($act, $mod = null, $form_opts = array('req_message'=>true), $style="") {
 	global $global;
-	if ( null == $mod ) {
+	if(null == $mod) {
 		$mod = $global['module'];
 	}
 	$form_id = $form_opts['id'];
 	if($form_opts['req_message']) {
-		?><p><b>Key:</b> Fields marked with <b>*</b> are required (entry is compulsory)</p><?php
+		echo "
+			<p><b>Key:</b> Fields marked with <b>*</b> are required (entry is compulsory)</p>
+		";
 	}
-	?><div id="<?php echo $form_id?>"><form method="POST" action="index.php?mod=<?php echo $mod?>&amp;act=<?php echo $act?>" id="formset" <?php echo $form_opts['enctype']?> name="<?php echo $form_opts['name']?>"><?php
+	echo '
+		<div id='.$form_id.'><form method="POST" action="index.php?mod='.$mod.'&amp;act='.$act.'" id="formset" '.$form_opts['enctype'].' name="'.$form_opts['name'].'" style="'.$style.'">
+	';
 }
 
 
