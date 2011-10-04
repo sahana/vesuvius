@@ -110,7 +110,7 @@ function ha_show_hospitals($internal = FALSE) {
 
 		$htmlMain .= "
 			<tr>
-				<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$type.$name."</td>
+				<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$type."<a href=\"#\" onclick=\"javascript: ha_append_log('Editing Hospital <b>#".$uuid." </b>...<br>'); ha_perform_edit(".$uuid.");\">".$name."<a/></td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"javascript: ha_append_log('Editing Hospital <b>#".$uuid." </b>...<br>'); ha_perform_edit(".$uuid.");\" value=\"Edit\"></td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$shortname."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$uuid."</td>
