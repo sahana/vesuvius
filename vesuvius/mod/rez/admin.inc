@@ -1,13 +1,13 @@
 <?
 /**
  * @name         Resources
- * @version      1.4
+ * @version      1.5
  * @package      rez
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0801
+ * @lastModified 2011.1004
  */
 
 
@@ -32,14 +32,14 @@ shn_xajax_registerFunction('rez_perform_change_visibility');
  */
 function shn_rez_adm_default() {
 	shn_xajax_printJavascript();
-	?><h2><?php echo _t('Resources ~ Page Administration'); ?></h2>
+	?><h2><?php echo _t('Help and Resource Page Administration'); ?></h2>
 	<div id="rezLog" class="logArea">Loading Pages...<br></div>
 	<div id="rezControl" class="controlArea">&nbsp;</div>
 	<div id="rezMain" class="mainArea">&nbsp;</div>
 	<script>
 		rez_show_message("Loading Pages...");
 		setTimeout("rez_show_pages();", 1500);
-		window.rezPageSaved = false;
+		window.rezPageSaved = true;
 
 		function checkSaved() {
 			if(!window.rezPageSaved) {

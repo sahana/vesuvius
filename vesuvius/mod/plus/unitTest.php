@@ -44,10 +44,13 @@ if(!isset($_GET['api'])) {
 
 	// perform tests...
 	switch($_GET['api']) {
+		case '1.9.9':
 		case '1.9.8':
 			getHospitalLegalese("1");
 			getHospitalLegaleseAnon("1");
 			getHospitalLegaleseTimestamps("1");
+		case '1.9.7':
+		case '1.9.6':
 		case '1.9.5':
 			reportPerson($personXML, $eventShortName, $xmlFormat, $user, $pass);
 			createPersonUuid($user, $pass);
