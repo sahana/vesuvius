@@ -515,8 +515,8 @@ function ha_perform_edit($hospital_uuid) {
 
 	// control HTML
 	$editControlHtml = '
-		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\'Canceling Changes...<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="Cancel Edit / Close">
-		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\'Saving Changes...<br>\'); setTimeout(\'ha_perform_save('.$hospital_uuid.', ha_get_data());\', 250);" value="Save Changes">
+		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\'Saving Changes...<br>\'); setTimeout(\'ha_perform_save('.$hospital_uuid.', ha_get_data());\', 250);" value="Save Changes and Close">
+		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\'Canceling Changes...<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="Cancel Editing and Close">
 	';
 
 	// if Admin... show delete button
