@@ -16,9 +16,7 @@
 
 
 /**
- * This function can resize a given image and save it to the given
- * location.
- *
+ * This function resizes a given image and saves it to a destination.
  * @param mixed $src_path
  * @param mixed $desc_path
  * @param mixed $width
@@ -53,21 +51,25 @@ function shn_image_resize($src_path, $desc_path, $width, $height) {
 		// bitmap
 		$func =  "imagecreatefromwbmp";
 		$func2 = "imagewbmp";
+		$quality = null;
 
 	}else if(stripos($mime,"png")!==FALSE){
 		// png
 		$func = "imagecreatefrompng";
 		$func2 = "imagepng";
+		$quality = 9;
 
 	}else if(stripos($mime,"jpeg")!==FALSE){
 		// jpeg and pjpeg
 		$func = "imagecreatefromjpeg";
 		$func2 = "imagejpeg";
+		$quality = 100;
 
 	}else if(stripos($mime,"gif")!==FALSE){
 		// gif
 		$func = "imagecreatefromgif";
 		$func2 = "imagegif";
+		$quality = null;
 	}
 
 	$image = NULL;
@@ -81,7 +83,7 @@ function shn_image_resize($src_path, $desc_path, $width, $height) {
 
 	imagecopyresampled($imageNew, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
 
-	$func2($imageNew,$desc_path,100);
+	$func2($imageNew, $desc_path, $quality);
 }
 
 
@@ -125,7 +127,7 @@ function shn_image_resize_height($src_path, $desc_path, $height) {
 		// png
 		$func = "imagecreatefrompng";
 		$func2 = "imagepng";
-		$quality = 0;
+		$quality = 9;
 
 	}else if(stripos($mime,"jpeg")!==FALSE){
 		// jpeg and pjpeg
@@ -413,7 +415,7 @@ function shn_image_resize_from_string($img, $width, $height) {
 
 
 
-function shn_show_image_stream($p_uuid, $thumbnail=true, $image=null, $session=false, $category=null, $width=null, $height=null) {
+function shn_show_image_stream($p_uuid, $thumbnail=true, $image=null, $session=false, $width=null, $height=null) {
 
 	// 2009:0707 updated this function to allow resizing as with the above function changes
 	// the two additional parameters: height, width if not specificed will be created upon the above function call
@@ -426,11 +428,7 @@ function shn_show_image_stream($p_uuid, $thumbnail=true, $image=null, $session=f
 	if ($session) {
 		shn_image_resize_from_string($image, $width, $height);
 	} else {
-		if (isset($category)) {
-			$sql = "SELECT image, image_type, image_height, image_width FROM image WHERE p_uuid = '$p_uuid' AND category = '$category'";
-		} else {
-			$sql = "SELECT image, image_type, image_height, image_width FROM image WHERE p_uuid = '$p_uuid' ";
-		}
+		$sql = "SELECT image, image_type, image_height, image_width FROM image WHERE p_uuid = '$p_uuid' ";
 		$arr = $global['db']->GetAll($sql);
 
 		if(!$arr or !$arr[0]['image']){
@@ -489,10 +487,10 @@ function shn_show_thumb_url($p_uuid,$stream_type,$mod=null,$act=null,$session=fa
 		}else{
 			//need to get the type
             if($act=='addvictim_img')
-			$sql = "SELECT image_type,image_height, image_width FROM image WHERE p_uuid = '$p_uuid' AND category ='dvr_person'";
+			$sql = "SELECT image_type,image_height, image_width FROM image WHERE p_uuid = '$p_uuid'";
 
 			elseif($act=='addfingerprint_img')
-			$sql = "SELECT image_type,image_height, image_width FROM image WHERE p_uuid = '$p_uuid' AND category ='finger_print'";
+			$sql = "SELECT image_type,image_height, image_width FROM image WHERE p_uuid = '$p_uuid'";
 
 			else
 			$sql = "SELECT image_type,image_height, image_width FROM image WHERE p_uuid = '$p_uuid'";
@@ -586,7 +584,7 @@ function shn_show_thumb_url($p_uuid,$stream_type,$mod=null,$act=null,$session=fa
 
 
 
-function shn_image_save_to_file($media,$rel_path="res/img/itag",$category="jpeg_maps",$p_uuid,$media_type=null) {
+function shn_image_save_to_file($media,$rel_path="res/img/itag",$p_uuid,$media_type=null) {
 	global $global;
 
 	$info = getimagesize($_FILES[$media]['tmp_name']);
@@ -616,9 +614,9 @@ function shn_image_save_to_file($media,$rel_path="res/img/itag",$category="jpeg_
 
 	move_uploaded_file($_FILES[$media]['tmp_name'], $uploadfile);
 	$db=$global['db'];
-	$q="delete from media where p_uuid='$p_uuid' and category='$category'";
+	$q="delete from media where p_uuid='$p_uuid'";
 	$res=$db->Execute($q);
-	$q="insert into media(media_id,p_uuid,url,media_type,media_height,media_width,category) values('$mediaId','$p_uuid','{$uploadfile}','$mime',$height_orig,$width_orig,'$category')";
+	$q="insert into media(media_id,p_uuid,url,media_type,media_height,media_width) values('$mediaId','$p_uuid','{$uploadfile}','$mime',$height_orig,$width_orig)";
 	$res=$db->Execute($q);
 	if ($res==false) {
 		return null;
@@ -667,101 +665,30 @@ function _shn_image_media_get($media_id) {
 	}
 }
 
-
-
 /**
  * shn_image_to_db
  *
- * @param mixed $image_upload
- * @param mixed $p_uuid
- * @param mixed $replace_id
- * @access public
- * @return void
- */
-function shn_image_to_db($image_upload,$p_uuid,$replace_id=null) {
-	global $global;
-
-	$info = getimagesize($image_upload['tmp_name']);
-	list(,$ext) = split("\/",$info['mime']);
-
-	$size = filesize($image_upload['tmp_name']);
-	$image = fread(fopen($image_upload['tmp_name'],"r"),$size);
-
-	$image = addslashes($image);
-	$image_type = $ext;
-	$image_height = $info[1];
-	$image_width = $info[0];
-
-	if($replace_id){
-		$sql = "UPDATE image SET
-                    image = '$image',
-                    image_type = '$image_type',
-                    image_height = '$image_height',
-                    image_width = '$image_width',
-                WHERE image_id = '$replace_id'";
-	}else{
-		$sql = "INSERT INTO image (p_uuid, image, image_type, image_height, image_width)
-                VALUES ('$p_uuid','$image','$image_type','$image_height','$image_width')";
-	}
-
-	$global['db']->Execute($sql);
-}
-
-
-
-/**
- * shn_image_to_db_ex
- *
- * @param mixed $image
- * @param mixed $p_uuid
- * @param mixed $image_type
- * @param mixed $image_height
- * @param mixed $image_width
- * @param mixed $replace_id
- * @param mixed $category
- * @access public
- * @return void
- */
-function shn_image_to_db_ex($p_uuid,$image,$image_type, $image_height, $image_width,$replace_id=null,$category=null) {
-    shn_image_to_db_url($p_uuid,$image,
-                        $image_type, $image_height, $image_width,
-                        null, $replace_id,$category);
-}
-
-/**
- * shn_image_to_db_url
- *
- * @param mixed $image
  * @param mixed $p_uuid
  * @param mixed $image_type
  * @param mixed $image_height
  * @param mixed $image_width
  * @param string $url
- * @param mixed $replace_id
- * @param mixed $category
+ * @param string $thumbUrl
+ * @param string $original_filename
  * @access public
  * @return void
  */
-function shn_image_to_db_url($p_uuid,$image,$image_type, $image_height, $image_width,$url=null,$replace_id=null,$category=null) {
-    shn_image_to_db_url2($p_uuid,$image,$image_type, $image_height, $image_width,$url,null,null,$replace_id,$category);
+function shn_image_to_db($p_uuid,$image_type, $image_height, $image_width,$url=null,$thumbUrl=null,$original_filename=null,$replace_id=null) {
+   global $global;
+
+   $sql = "INSERT INTO image (p_uuid, image_type, image_height, image_width,url,url_thumb,original_filename)
+		VALUES ('$p_uuid','$image_type','$image_height','$image_width','$url','$thumbUrl','$original_filename')";
+   $global['db']->Execute($sql);
+   $msg = $global['db']->ErrorMsg();
+   if (!empty($msg)) {
+      throw new RuntimeException($msg);
+   }
 }
-function shn_image_to_db_url2($p_uuid,$image,$image_type, $image_height, $image_width,$url=null,$thumbUrl=null,$original_filename=null,$replace_id=null,$category=null) {
-	global $global;
-
-	$image = addslashes($image);
-
-	if($replace_id){
-		$sql = "UPDATE image SET image = '$image', image_type = '$image_type', image_height = '$image_height', image_width = '$image_width',url = '$url',url_thumb = '$thumbUrl',original_filename='$original_filename'
-			WHERE image_id = '$replace_id'";
-	} else {
-		$sql = "INSERT INTO image (p_uuid, image, image_type, image_height, image_width,url,url_thumb,original_filename,category)
-			VALUES ('$p_uuid','$image','$image_type','$image_height','$image_width','$url','$thumbUrl','$original_filename','$category')";
-	}
-	$global['db']->Execute($sql);
-	// exit();
-}
-
-
 
 /**
  * Get the error description message for an image upload error.

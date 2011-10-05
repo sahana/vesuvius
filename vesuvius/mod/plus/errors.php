@@ -1,21 +1,21 @@
 <?
 /**
  * @name         PL User Services
- * @version      1.9.4
+ * @version      1.9.7
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0705
+ * @lastModified 2011.0920
  */
 
 
 /*
 remove below two lines when 1.9.1 is deprecated
 */
-define("UNDEFINED_HOSPITAL_CODE",            10);
-define("UNDEFINED_HOSPITAL_MSG",             "Undefined Hospital ~ No hospital registered with this id");
+define("UNDEFINED_HOSPITAL_CODE", 10);
+define("UNDEFINED_HOSPITAL_MSG",  "Undefined Hospital ~ No hospital registered with this id");
 
 
 // define error codes
@@ -35,8 +35,15 @@ define("ERRORCODES", serialize(array(
 	12   => "Username does not exist.",
 	100  => "No hospital registered with this id.",
 	200  => "sessionTimeout value missing from database.",
+	201  => "Invalid number of uuid’s requested, value must be between 2 and 100.",
 	300  => "Insufficient privileges to access data in this event.",
 	301  => "Authentication required to access this non-public event.",
 	302  => "Event does not exist with this shortname.",
+	400  => "Invalid enumeration.",
+	401  => "Duplicate person report ~ p_uuid collision.",
+	402  => "Invalid p_uuid ~ out of range.",
+	403  => "Error parsing XML.",
+	405  => "Event is closed to reporting.",
+	406  => "Invalid event.",
 	9999 => "Unknown error.",
 )));

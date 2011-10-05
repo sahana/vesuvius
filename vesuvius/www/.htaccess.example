@@ -14,7 +14,7 @@ RewriteEngine On
 RewriteBase /
 
 ##### for when Sahana is installed in a user homedir ie. http://domain.gov/~gmiernicki/sahanaDev/www/
-#RewriteBase /~gmiernicki/sahanaDev/www/
+#RewriteBase /~gmiernicki/vesuvius/vesuvius/www/
 
 ##### make mod_rewrite skip the subsequent 7 rules if the file or folder exists already
 RewriteCond %{REQUEST_FILENAME} -d [OR]

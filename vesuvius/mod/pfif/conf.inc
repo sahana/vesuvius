@@ -12,7 +12,7 @@
  */
 
 
-$conf['mod_pfif_name']         = _t("PFIF Admin");
+$conf['mod_pfif_name']         = _t("PFIF");
 $conf['mod_pfif_menuorder']    = 70;
 $conf['mod_pfif_version']      = 0.1;
 $conf['mod_pfif_dependencies'] = "";

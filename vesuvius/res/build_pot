@@ -1,8 +1,8 @@
 #!/bin/sh
 #
-# Shell Script (Bash) to generate the Sahana PO template
+# Shell Script (Bash) to generate the Sahana PO templates
 #
-# Author: dominic
+# Author: Ramindu Deshapriya/ Dominic
 #
 # Copy together with getfopts.pl into the Sahana installation path
 # and execute it there, use the resulting sahana.pot for translation
@@ -12,6 +12,8 @@
 # Generates: - temporary files "filelist.txt" and "field_options"
 #            - sahana.pot
 
+#Cache REZ database table to file
+php -f cache_rez.inc
 
 # Enclose .php files into the file list
 find .. -name "*.php" | egrep -v "3rd/" > filelist.txt
@@ -26,12 +28,9 @@ find .. -name "*.sql" -exec cat {} \; | perl getfopts.pl > field_options
 # add the field_options script to the file list
 echo ./field_options >> filelist.txt
 
-# Generate PO template
-xgettext -L PHP -f filelist.txt --from-code=UTF-8 -o sahana.pot
+# different xgettext calls for different contexts
+xgettext -L PHP --from-code=UTF-8 --keyword=_t:1g -f filelist.txt -o locale/sahana.pot
 
-# copy over the previous version
-#mv sahana.pot ../res/locale
+# clean up
+rm field_options filelist.txt
 
-# Remove file list and field_options script
-#rm -f filelist.txt
-#rm -f field_options

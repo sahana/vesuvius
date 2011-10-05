@@ -150,7 +150,9 @@ function em_show_events($internal = FALSE) {
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$defaultText."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$groupText."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$closedText."</td>
-				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: em_append_log('Editting Event #<b>".$disaster_id."</b> ...<br>'); em_perform_edit(".$disaster_id.");\">Edit</a></td>
+
+<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"javascript: em_append_log('Editting Event #<b>".$disaster_id."</b> ...<br>'); em_perform_edit(".$disaster_id.");\" value=\"Edit\"></td>
+
 			</tr>
 		";
 
@@ -336,8 +338,10 @@ function em_show_events($internal = FALSE) {
 		// end incidents
 		////////////////////////////////////////////////////////////////////////////////////////////////////....................................
 
-		// spacer row
-		$htmlMain .= "<tr><td colspan=8>&nbsp;</td></tr>";
+		// spacer row except last row
+		if($i != $dcount) {
+			$htmlMain .= "<tr><td class=\"emTableSpacer\" colspan=8>&nbsp;</td></tr>";
+		}
 		$i++;
 		$eo = 0; // reset
 	}
@@ -580,6 +584,9 @@ function em_perform_save($page_id, $rj) {
 	$description = mysql_real_escape_string($r['eventDescription']);
 	$externalReport = mysql_real_escape_string($r['externalReport']);
 	$date        = mysql_real_escape_string($r['eventDate']);
+        $pfifUrl     = mysql_real_escape_string($r['pfifUrl']);
+        $pfifKey     = mysql_real_escape_string($r['pfifKey']);
+        $pfifSync    = $r['pfifSync'];
 	$street      = mysql_real_escape_string($r['street']);
 	$latitude    = (double)$r['latitude'];
 	$longitude   = (double)$r['longitude'];
@@ -694,6 +701,18 @@ function em_perform_save($page_id, $rj) {
 	";
 	$res = $global['db']->Execute($q);
 
+        $pfifName = 'google'.$shortName;  // repository name = "google"+shortname
+        $q = "
+                UPDATE pfif_repository
+                SET
+                        name            = '".$pfifName."',
+                        base_url        = '".$pfifUrl."',
+                        auth_key        = '".$pfifKey."',
+                        sched_interval_minutes = '".$pfifSync."'
+                WHERE incident_id       = '".$eventId."' AND name LIKE 'google%';
+        ";
+        $res = $global['db']->Execute($q);
+
 	// update visibility and type of children events.......
 	if($passOnGenes) {
 		em_save_children($eventId, $group, $type);
@@ -774,6 +793,24 @@ function em_perform_new() {
 	";
 	$res2 = $global['db']->Execute($q2);
 	$row2 = $res2->FetchRow();
+
+        // insert new Google repositories for import/export
+	$q = "
+		INSERT INTO pfif_repository (name,role,resource_type,incident_id)
+		VALUES ('googlexxx','source','person',".$row2['incident_id'].");
+	";
+	$res = $global['db']->Execute($q);
+	$q = "
+		INSERT INTO pfif_repository (name,role,resource_type,incident_id)
+		VALUES ('googlexxx','source','note',".$row2['incident_id'].");
+	";
+	$res = $global['db']->Execute($q);
+	$q = "
+		INSERT INTO pfif_repository (name,role,resource_type,incident_id)
+		VALUES ('googlexxx','sink','both',".$row2['incident_id'].");
+	";
+	$res = $global['db']->Execute($q);
+
 	return $row2['incident_id'];
 }
 
@@ -804,6 +841,15 @@ function em_perform_edit($incident_id) {
 	";
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
+
+	// get Google repository info for this incident
+	$q = "
+		SELECT base_url,auth_key,sched_interval_minutes
+		FROM pfif_repository
+		WHERE incident_id = ".$incident_id." AND name LIKE 'google%' LIMIT 1;
+	";
+	$res = $global['db']->Execute($q);
+	$rowpfif = $res->FetchRow();
 
 	// generate some html for special inputs //////// onchange=\"changeEvent(this.value);\"
 
@@ -916,7 +962,7 @@ function em_perform_edit($incident_id) {
 
 	// generate default checkbox
 		$checked = $row['default'] == "1" ? "CHECKED" : "";
-		$default = "<input type=\"checkbox\" id=\"eventDefault\" id=\"eventDefault\" value=\"default\" ".$checked." >";
+		$default = "<input type=\"checkbox\" id=\"eventDefault\" name=\"eventDefault\" value=\"default\" ".$checked." >";
 	// end default
 
 
@@ -932,6 +978,14 @@ function em_perform_edit($incident_id) {
 		";
 	// end closed
 
+        // generate options for PFIF data sync with Google
+                $checkedSync = $rowpfif['sched_interval_minutes'] == "0" ? "" : "CHECKED";
+		$pfif = "
+			PF repository: <input type=\"text\" id=\"pfifUrl\" name=\"pfifUrl\" size=\"40\" value=\"".htmlspecialchars($rowpfif['base_url'])."\">(e.g. https://japan.person-finder.appspot.com/)<br>
+			PF key: <input type=\"text\" id=\"pfifKey\" name=\"pfifKey\" value=\"".htmlspecialchars($rowpfif['auth_key'])."\">&nbsp;&nbsp;
+                        Keep PL and PF synchronized? <input type=\"checkbox\" id=\"pfifSync\" name=\"pfifSync\" value=\"1\" ".$checkedSync.">
+		";
+        // end PFIF options
 
 	// generate visibility select box
 		// if no parent, then you can change these settings...
@@ -992,8 +1046,8 @@ function em_perform_edit($incident_id) {
 
 
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" style=\"\">Description</td>
-		<td class=\"mainRowOdd emFirstWhite\" style=\"\"><textarea id=\"eventDescription\" rows=4 cols=60 />".$row['description']."</textarea></td>
+		<td class=\"mainRowOdd emLastWhite\" style=\"\">Title Line 2 (appears under People Locator)<br>ie. <b>for the Joplin Tornado</b></td>
+		<td class=\"mainRowOdd emFirstWhite\" style=\"\"><textarea id=\"eventDescription\" rows=1 cols=60 />".$row['description']."</textarea></td>
 	<tr>
 
 	<tr>
@@ -1027,8 +1081,13 @@ function em_perform_edit($incident_id) {
 		<td class=\"mainRowOdd emFirstWhite\" style=\"\">".$closed."</td>
 	<tr>
 
+        <tr>
+		<td class=\"mainRowEven emFirst emLast\" style=\"\">PFIF Settings for Google PF</td>
+		<td class=\"mainRowEven emFirst emLast\" style=\"\">".$pfif."</td>
+        <tr>
+
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" style=\" border-bottom: none;\" colspan=2>
+		<td class=\"mainRowOdd\" style=\" border-bottom: none;\" colspan=2>
 			<label>Enter a Street Address: </label>
 			<input id=\"address\" type=\"text\" /> &nbsp; -OR- &nbsp; <input type=\"button\" style=\"position: relative; top: -2px;\" class=\"styleTehButton\" onclick=\"detect_load();\" value=\"Detect My Current Location\" />
 		</td>
@@ -1036,13 +1095,13 @@ function em_perform_edit($incident_id) {
 
 
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" style=\"border-top: none; border-bottom: none;  padding: 0px;\" colspan=2>
+		<td class=\"mainRowOdd emFirst emLast\" style=\"border-top: none; border-bottom: none;  padding: 0px;\" colspan=2>
 			<div id=\"mapCanvas\" style=\"width: 100%; height: 500px;\"></div>
 		</td>
 	</tr>
 
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" style=\" border-top: none;\" colspan=2>
+		<td class=\"mainRowOdd\" style=\" border-top: none;\" colspan=2>
 			<label>latitude: </label>
 				<input id=\"latitude\" type=\"text\"/ value=\"".$row['latitude']."\" readonly>
 			<label> &nbsp; longitude: </label>

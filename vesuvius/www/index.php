@@ -8,7 +8,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0627
+ * @lastModified 2011.0803
  */
 
 
@@ -16,9 +16,6 @@
 $global['approot']  = realpath(dirname(__FILE__)).'/../';
 $global['previous'] = false;
 $global["setup"]    = false;
-
-// uncomment line below to use the internal error handler
-//shn_main_error();
 
 // uncomment line below to initialize the debugger
 shn_main_debugger();
@@ -42,8 +39,6 @@ require_once ($global['approot'].'inc/handler_db.inc');
 require_once($global['approot'].'inc/lib_security/lib_crypt.inc');
 require_once($global['approot'].'inc/handler_session.inc');
 //require_once($global['approot'].'inc/lib_security/handler_openid.inc'); // replacing openID lib soon....
-require_once($global['approot'].'inc/lib_security/lib_auth.inc');
-require_once($global['approot'].'inc/lib_security/constants.inc');
 require_once($global['approot'].'inc/lib_locale/handler_locale.inc');
 require_once($global['approot'].'inc/lib_exception.inc');
 require_once($global['approot'].'inc/lib_user_pref.inc');
@@ -109,11 +104,11 @@ function shn_main_defaults() {
 	$m = isset($conf['default_module']) ? $conf['default_module'] : "home";
 	$a = isset($conf['default_action']) ? $conf['default_action'] : "default";
 
-	// use different defaults when coming in with an event
-	if($short != "") {
-		$m = isset($conf['default_module_event']) ? $conf['default_module_event'] : "rez";
-		$a = isset($conf['default_action_event']) ? $conf['default_action_event'] : "default";
-	}
+        // use different defaults when coming in with an event
+        if($short != "") {
+                $m = isset($conf['default_module_event']) ? $conf['default_module_event'] : "rez";
+                $a = isset($conf['default_action_event']) ? $conf['default_action_event'] : "default";
+        }
 
 	if(!$global['previous']) {
 		$global['action'] = !isset($_REQUEST['act']) ? $a : $_REQUEST['act'];
@@ -127,6 +122,7 @@ function shn_main_defaults() {
 function shn_main_front_controller() {
 	global $global;
 	global $conf;
+
 	$action = $global['action'];
 	$module = $global['module'];
 
@@ -287,8 +283,8 @@ function shn_main_checkEventPermissions() {
 		// check if visitor comes in with no shortname....
 		isset($_GET['shortname']) ? $short = $_GET['shortname'] : $short = "";
 
-		// these 2 modules are event dependent, so kick a user out if they try to access them without first choosing an event
-		if(($short == "") && (($global['module'] == "inw") || ($global['module'] == "rap"))) {
+		// these 3 modules are event dependent, so kick a user out if they try to access them without first choosing an event
+		if(($short == "") && (($global['module'] == "inw") || ($global['module'] == "rap") || ($global['module'] == "pfif"))) {
 			$global['module'] = $conf['default_module'];
 			$global['action'] = $conf['default_action'];
 
@@ -324,22 +320,6 @@ function shn_main_checkEventPermissions() {
 			}
 		}
 	}
-}
-
-
-
-// sahana internal error handling
-function shn_main_error() {
-	// Include error handling routines
-	require_once($global['approot'].'inc/handler_error.inc');
-	require_once($global['approot'].'inc/lib_exception.inc');
-
-	// handle error reporting seperately and set our own error handler
-	error_reporting(0);
-	set_error_handler('shn_sahana_error_handler');
-
-	//add default exception handler
-	set_exception_handler('shn_sahana_exception_handler');
 }
 
 

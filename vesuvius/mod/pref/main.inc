@@ -28,16 +28,18 @@ function shn_pref_loginForm() {
 
 	if ($_SESSION['logged_in'] != true ) {
 		echo '
-			<div class="form-container">
+			<div class="form-container" style="padding: auto;">
 				<form method="post" action="index.php?doLogin=1" id="form0" name="form0">
-				<fieldset id="noIdDefined">
+				<fieldset id="noIdDefined" style="width: 500px;">
 				<legend>Login</legend>
 				<label for="user_name">Username </label><input type="text" name="user_name" id="user_name" tabindex="1" autocomplete="off"><br>
 				<div class="brake"></div>
 				<label for="pswd">Password </label><input type="password" name="password" id="pswd" autocomplete="off" tabindex="2"><br>
 				<div class="brake"></div>
 				<br>
-				<label>&nbsp;</label><input type="submit" value="Login" class="styleTehButton" tabindex="3">
+				<div style="text-align: center;">
+					<input type="submit" value="Login" class="styleTehButton" tabindex="3">
+				</div>
 				</fieldset>
 				<br><br><br>
 				</form>
@@ -49,14 +51,10 @@ function shn_pref_loginForm() {
 
 
 		echo '
-			<div class="form-container">
-				<form>
-				<fieldset id="noIdDefined">
-				<legend>Register / Forgot</legend>
+			<div style="width: 500px; text-align: center;">
 				<input id="followButton" class="styleTehButton" type="button" value="Register as a new user" onclick="register();">
 				&nbsp; &nbsp; &nbsp; &nbsp;
 				<input id="followButton" class="styleTehButton" type="button" value="Forgot My Password" onclick="forgot();">
-				</form>
 			</div>
 			<script>
 				function register() {
@@ -251,7 +249,17 @@ function shn_pref_forgotPassword() {
 
 			// reset password
 			$time = time();
-			$new_pass = mt_rand(123456789, 1234567890);
+
+			$p1a = rand(10e16, 10e20);
+			$p1b = base_convert($p1a, 10, 36);
+			$p1c = strtoupper($p1b);
+			$part1 = substr($p1c, 0, 8);
+
+			$p2a = rand(10e16, 10e20);
+			$p2b = base_convert($p2a, 10, 36);
+			$part2 = substr($p2b, 0, 8);
+
+			$new_pass = $part1.$part2;
 			$new_pwd = substr($new_pass, 0, 4).$salt.substr($new_pass, 4);
 			$password_digest = md5(trim($new_pwd));
 			$q3 = "

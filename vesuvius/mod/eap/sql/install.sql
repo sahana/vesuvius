@@ -1,14 +1,15 @@
 /**
  * @name         Edit A Person
- * @version      1.05
+ * @version      1.7
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0524
+ * @lastModified 2011.0906
  */
+
 
 CREATE TABLE `person_updates` (
   `update_index`      int(32)      NOT NULL AUTO_INCREMENT PRIMARY KEY,

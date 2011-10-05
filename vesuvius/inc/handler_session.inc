@@ -27,18 +27,20 @@ $user_data = shn_authenticate_user();
 
 switch($user_data["result"]) {
 	case LOGGEDIN:
-		$global["module"] = isset($conf['default_module']) ? $conf['default_module'] : "home";
-		$global["action"] = isset($conf['default_action']) ? $conf['default_action'] : "default";
-		$global['previous'] = false;
+		$global['module']   = isset($conf['default_module']) ? $conf['default_module'] : "home";
+		$global['action']   = isset($conf['default_action']) ? $conf['default_action'] : "default";
+		$global['previous'] = true;
 		shn_session_change($user_data);
 		break;
 	case LOGGEDOUT:
 		shn_session_end($user_data);
 		header("Location: ".makeBaseUrlMinusEvent());
+		break;
 	case LOGINFAILED:
-		$global["module"]= "pref";
-		$global["action"]= "loginForm";
-		$global['previous']= false;
+		$global['module']   = "pref";
+		$global['action']   = "loginForm";
+		$global['previous'] = true;
+		break;
 	default:
 		break;
 }
@@ -56,21 +58,18 @@ session_update_activity();
 * @return void
 */
 function shn_session_start() {
+
+	// check if we should use an existing session ~ these are initiated via the getSessionCookie web service
+	getForeignSessionId();
+
 	// start httponly cookies to prevent xss attacks
-	session_set_cookie_params(0, "/", null, false, true);
+	session_set_cookie_params(0, "/", null, false, false);
 
 	// retrieves or starts a session
 	if(!isset($_SESSION)) {
 		session_start();
 	}
 
-	// We will always regenerate the key for anonymous users to avert them hijacking a previous session_id without passing through the login process
-	/*
-	// Since the guest user cant do much , no one would try to hijack their session, so let the attackers hijack this useless session
-	if (ANONYMOUS_USER == $_SESSION['user_id']){
-		return true;
-	}
-	*/
 
 	// We have to protect the session, so lets try to make it hard for session hijacking. The use of IPADDRESS to prevent session hijacking has
 	// been rejected by many many PHP experts, what they say is its relatively easy to spoof an IP,on the other hand many networks change the IP for every request e.g AOL with millions of users
@@ -88,6 +87,34 @@ function shn_session_start() {
 		change_session_to_anonymous();
 	}
 }
+
+
+
+function getForeignSessionId() {
+	global $global;
+
+	if(isset($_GET['SESSION_ID']) && isset($_GET['SESS_KEY'])) {
+		$q = "
+			SELECT *
+			FROM sessions
+			WHERE session_id = '".mysql_real_escape_string($_GET['SESSION_ID'])."'
+			AND sess_key = '".mysql_real_escape_string($_GET['SESS_KEY'])."';
+		";
+		$r = $global['db']->Execute($q);
+
+		// invalid session attempt, log em out regardless...
+		if(($r == null) || ($r->EOF)) {
+			change_session_to_anonymous();
+			return false;
+
+		// valid session, log em in!
+		} else {
+			session_id($_GET['SESSION_ID']);
+			return true;
+		}
+	}
+}
+
 
 
 
@@ -123,8 +150,13 @@ function session_update_activity(){
 	$db      = $global['db'];
 	$time    = time();
 	$sess_id = session_id();
-	$sql     = "update sessions set inactive_expiry={$time} where session_id='{$sess_id}'";
-	$res     = $db->Execute($sql);
+
+	$q = "
+		update sessions
+		set inactive_expiry = {$time}
+		where session_id = '{$sess_id}';
+	";
+	$res = $db->Execute($q);
 	return $res;
 }
 
