@@ -1,22 +1,22 @@
 <?php
 /**
  * @name         Edit A Person
- * @version      1.05
+ * @version      1.7
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0524
+ * @lastModified 2011.0906
  */
 
 require_once($global['approot']."/inc/lib_uuid.inc");
-require_once($global['approot']."/inc/lib_location.inc");
 require_once($global['approot']."/mod/lpf/lib_lpf.inc");
-$revisionQ = array();
 global $global;
-$global['uuid'] = ""; // init
+global $revisionCount;
+$revisionCount = 0;
+$global['uuid'] = "";
 
 
 
@@ -275,19 +275,6 @@ function shn_eap_findRights() {
 
 
 /**
- * addEmailUpdates ~ Queues all updates
- *
- * @access public
- * @return void
- */
-function addEmailUpdates($table, $column, $name, $oldValue, $newValue) {
-	global $revisionQ;
-	$revisionQ[] = "The value for ".$name." has changed from <b>".$oldValue."</b> to <b>".$newValue."</b>";
-}
-
-
-
-/**
  * emailUpdates
  *
  * @access public
@@ -295,55 +282,45 @@ function addEmailUpdates($table, $column, $name, $oldValue, $newValue) {
  */
 function emailUpdates() {
 	global $global;
-	global $revisionQ;
+	global $revisionCount;
 
 	// only email if revisions...
-	if(count($revisionQ) > 0) {
+	if($revisionCount > 0) {
 
 		$p = new pop();
 		$subject  = "People Locator update for ".$global['full_name'];
 		$bodyHTML = "
-			Changes have been made to the Person Record of <b>".$global['full_name']."</b>.<br>
 			<br>
+			Changes have been made to the details of <b>".$global['full_name']."</b>.<br>
 		";
 		$bodyAlt = "
-			A change was made to the Person Record of ".$global['full_name'].".\n
 			\n
+			Changes have been made to the details of ".$global['full_name'].".\n
 		";
-
-		$i = 0;
-		while($i < count($revisionQ)) {
-			$bodyHTML .= $revisionQ[$i]."<br>";
-
-			// remove bold chars for alt email body
-			$revisionQ[$i] = str_replace("<b>", "", $revisionQ[$i]);
-			$revisionQ[$i] = str_replace("</b>", "", $revisionQ[$i]);
-
-			$bodyAlt .= $revisionQ[$i]."\n";
-			$i++;
-		}
 
 		$bodyHTML .= "
 			<br>
 			<br>
-			You can view the full record for this person here: <a href=\"".$global['googl']."\">".$global['googl']."</a><br>
+			You can view the page for this person here: <a href=\"".$global['googl']."\">".$global['googl']."</a> which includes the changes.<br>
+			<br>
+			<br>
+			<i>If you would like to unsubscribe from these email alerts, click the button to un-follow this person from the link provided above.</i><br>
 			<br>
 			<br>
 			<br>
-			<i>If you would like to unsubscribe from these email alerts, click the button to un-follow this person from the above mentioned link.</i><br>
-			<br>
-			<br>
+			- People Locator
 		";
 		$bodyAlt .= "
 			\n
 			\n
-			You can view the full record for this person here: ".$global['googl']."\n
+			You can view the page for this person here: ".$global['googl']."  which includes the changes.\n
+			\n
+			\n
+			If you would like to unsubscribe from these email alerts, click the button to un-follow this person from the link provided above.\n
 			\n
 			\n
 			\n
-			If you would like to unsubscribe from these email alerts, click the button to un-follow this person from the above mentioned link.\n
-			\n
-			\n
+			- People Locator
 		";
 
 		// email followers......
@@ -387,23 +364,25 @@ function emailUpdates() {
  */
 function saveRevision($table, $column, $name, $oldValue, $newValue) {
 	global $global;
+	global $revisionCount;
+	$revisionCount++;
 
 	// turn empty strings into NULL
 	if(trim($oldValue) == "") {
 		$old = "NULL";
 	} else {
-		$old = "'".mysql_real_escape_string($oldValue)."'";
+		$old = "'".(string)mysql_real_escape_string($oldValue)."'";
 	}
 	if(trim($newValue) == "") {
 		$new = "NULL";
 	} else {
-		$new = "'".mysql_real_escape_string($newValue)."'";
+		$new = "'".(string)mysql_real_escape_string($newValue)."'";
 	}
 
 	$q = "
-		UPDATE ".$table."
-		SET ".$column." = ".$new."
-		WHERE p_uuid    = '".$global['uuid']."';
+		INSERT INTO ".$table." (p_uuid, ".$column.")
+		VALUES ('".$global['uuid']."', ".$new.")
+		ON DUPLICATE KEY UPDATE ".$column." = ".$new." ;
 	";
 
 	// save the revision
@@ -424,9 +403,7 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
 	";
 	$r = $global['db']->Execute($q);
 
-	add_confirmation("Updated ".$name." from '".$oldValue."' to '".$newValue."'");
-
-	addEmailUpdates($table, $column, $name, $oldValue, $newValue);
+	add_confirmation("Changes saved.");
 }
 
 
@@ -439,6 +416,8 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
  */
 function saveContactRevision($type, $name, $oldValue, $newValue) {
 	global $global;
+	global $revisionCount;
+	$revisionCount++;
 
 	// turn empty strings into NULL
 	if(trim($oldValue) == "") {
@@ -486,9 +465,7 @@ function saveContactRevision($type, $name, $oldValue, $newValue) {
 	";
 	$r = $global['db']->Execute($q);
 
-	add_confirmation("Updated ".$name." from \"".$oldValue."\" to \"".$newValue."\"");
-
-	addEmailUpdates("contact", $type, $name, $oldValue, $newValue);
+	add_confirmation("Changes saved.");
 }
 
 
@@ -531,12 +508,35 @@ function shn_eap_edit() {
 	// if the person record is assigned to a private event and the user does not have permission to view it...
 	if(!$global['permissionToView']) {
 		echo "
-			<h2>Error #21</h2>
+			<h2>Error</h2>
 			You do not have permission to view this record.
 		";
 		return;
 	}
 
+	// check if the person record exists or has expired...
+	$q  = "
+		SELECT COUNT(*)
+		FROM person_uuid
+		WHERE p_uuid = '".$global['uuid']."'
+		AND (expiry_date > NOW()
+		OR expiry_date is null);
+	";
+	$r   = $global['db']->Execute($q);
+	$row = $r->FetchRow();
+	$num = $row['COUNT(*)'];
+
+	// we has images
+	if($num != 1) {
+		echo "
+			<h2>Error</h2>
+			This person's record does not exist or it has been deleted.
+		";
+		return;
+	}
+
+
+	// make goo.gl short url
 	$googl = new goo_gl(makePageUrl());
 	$global['googl'] = $googl->result();
 
@@ -590,22 +590,176 @@ function shn_eap_edit() {
 	$r        = $global['db']->Execute($q);
 	$person_details = $r->FetchRow();
 
+	// fix empty full names..
 	$full_name = htmlspecialchars(mb_convert_case($full_name, MB_CASE_TITLE, "UTF-8"));
+
+
+	// show the full name
 	echo "
 		<div class=\"form-container\">
 			<form>
 				<fieldset id=\"editHeader\">
 					<legend>Person Record</legend>
+
 					<label for=\"opt_status\"><b>Full Name</b> </label>
-					<div class=\"fakeTextBox\">".$full_name."</div>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$full_name."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 	";
+
+
+
+	// figure out the name (username) of the reporter
+	$q = "
+		SELECT *
+		FROM person_to_report r, person_uuid p, users u
+		WHERE r.p_uuid = '".$global['uuid']."'
+		AND p.p_uuid = r.rep_uuid
+		AND p.p_uuid = u.p_uuid;
+	";
+	$result = $global['db']->Execute($q);
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$reporterName = $row['full_name']." (".$row['user_name'].")";
+		if($row['user_name'] == "mpres") {
+			$reporterName = $row['full_name'];
+		}
+		echo "
+					<label for=\"opt_status\"><b>Reported by (username)</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$reporterName."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<br>
+		";
+	}
+
+
+	// show the reporting method if available
+	// check mpres
+	$appName = "";
+	$q = "
+		SELECT *
+		FROM mpres_log
+		WHERE p_uuid = '".$global['uuid']."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$appName = $row['xml_format'];
+
+	// check plus
+	} else {
+		$q = "
+			SELECT *
+			FROM plus_report_log
+			WHERE p_uuid = '".$global['uuid']."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result != NULL && !$result->EOF) {
+			$row = $result->FetchRow();
+			$appName = $row['enum'];
+
+		// check rap
+		} else {
+			$q = "
+				SELECT *
+				FROM rap_log
+				WHERE p_uuid = '".$global['uuid']."';
+			";
+			$result = $global['db']->Execute($q);
+			if($result != NULL && !$result->EOF) {
+				$row = $result->FetchRow();
+				$appName = "RAP";
+
+			// check pfif
+			} else {
+				$q = "
+					SELECT *
+					FROM pfif_person
+					WHERE p_uuid = '".$global['uuid']."';
+				";
+				$result = $global['db']->Execute($q);
+				if($result != NULL && !$result->EOF) {
+					$row = $result->FetchRow();
+					$appName = "PF";
+				}
+			}
+		}
+	}
+
+	if($appName == "TRIAGEPIC0") {
+		$appTitle = "TriagePic (Format 0)";
+	} elseif($appName == "TRIAGEPIC1") {
+		$appTitle = "TriagePic (Format 1)";
+	} elseif($appName == "TRIAGEPIC2") {
+		$appTitle = "TriagePic (Format 2)";
+
+	} elseif($appName == "REUNITE2") {
+		$appTitle = "Reunite (Format 2)";
+	} elseif($appName == "REUNITE3") {
+		$appTitle = "Reunite (Format 3)";
+	} elseif($appName == "REUNITE4") {
+		$appTitle = "Reunite (Format 4)";
+
+	} elseif($appName == "RAP") {
+		$appTitle = "People Locator (Report A Person)";
+
+	} elseif($appName == "PF") {
+		$appTitle = "Google Person Finder";
+
+	} elseif($appName == "MPRES") {
+		$appTitle = "Unstructured Email";
+
+	} else {
+		$appTitle = "";
+	}
+
+	if($appTitle != "") {
+		echo "
+					<label for=\"opt_status\"><b>Reported via</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$appTitle."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<br>
+		";
+	}
+
+
+	// show the mass casualty ID if we have it
+	$q  = "
+		SELECT count(*)
+		FROM edxl_co_lpf
+		WHERE p_uuid = '".$global['uuid']."';
+	";
+	$r   = $global['db']->Execute($q);
+	$row = $r->FetchRow();
+	$num = $row['count(*)'];
+
+	// we have a mass casualty id
+	if($num == 1) {
+		$q  = "
+			SELECT *
+			FROM edxl_co_lpf
+			WHERE p_uuid = '".$global['uuid']."';
+		";
+		$r   = $global['db']->Execute($q);
+		$row = $r->FetchRow();
+		$did = $row['person_id'];
+		echo "
+					<label for=\"opt_status\"><b>Mass Casualty ID</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$did."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<br>
+		";
+	}
+
+
+
 
 	// if the origin of the record is on this server, show a combined origin id / origin url
 	if(preg_match("+".$conf['base_uuid']."+", $global['uuid']) > 0) {
 		echo "
-			<label for=\"opt_status\"><b>Origin ID / Origin URL</b> </label>
-			<div class=\"fakeTextBox\"><a href=\"https://".$global['uuid']."\">".$global['uuid']."</a></div><br>
+					<label for=\"opt_status\"><b>Origin ID</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<br>
+
+					<label for=\"opt_status\"><b>Origin URL</b> </label>
+					<div class=\"originUrl\"><a href=\"https://".$global['uuid']."\">https://".$global['uuid']."</a></div>
+					<br>
 		";
 
 	// record has foreign origin, so show separate url and uuid fields
@@ -619,20 +773,23 @@ function shn_eap_edit() {
 		if($row = $r->FetchRow()) {
 			$url = $row['source_url'];
 		} else {
-			$url = "&nbsp;";
+			$url = "";
 		}
 		// fix bad data
 		if($url == "NULL" || $url == "null") {
-			$url = "&nbsp;";
+			$url = "";
 		}
 		echo "
-			<label for=\"opt_status\"><b>Origin ID</b> </label>
-			<div class=\"fakeTextBox\">".$global['uuid']."</div>
-			<br>
-			<label for=\"opt_status\"><b>Origin URL</b> </label>
-			<div class=\"fakeTextBox\"><a href=\"".$url."\">".$url."</a></div>
+					<label for=\"opt_status\"><b>Origin ID</b> </label>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<br>
+
+					<label for=\"opt_status\"><b>Origin URL</b> </label>
+					<div class=\"originUrl\"><a href=\"".$url."\">".$url."</a></div>
+					<br>
 		";
 	}
+
 
 	echo "
 				</fieldset>
@@ -660,100 +817,122 @@ function shn_eap_edit() {
 	$row = $r->FetchRow();
 	$num = $row['COUNT(*)'];
 
+	$imagesFull  = array();
+	$imagesThumb = array();
+
 	// we has images
 	if($num > 0) {
 		$q  = "
 			SELECT *
 			FROM image
-			WHERE p_uuid = '".$global['uuid']."'
-			LIMIT 1;
+			WHERE p_uuid = '".$global['uuid']."';
 		";
-		$r        = $global['db']->Execute($q);
-		$row      = $r->FetchRow();
-		$imageUrl = $row['url'];
-		$thumbUrl = $row['url_thumb'];
-
-	// we doesnt has images
-	} else {
-		$sex = $person_details['opt_gender'];
-		$old = $person_details['years_old'];
-		$min = $person_details['minAge'];
-		$max = $person_details['maxAge'];
-
-		if(($sex != "mal") && ($sex != "fml")) {
-			$imageUrl = $unknown;
-			$thumbUrl = $unknown;
-		} else if($sex == "mal") {
-			if($old != null) {
-				if($old > 17) {
-					$imageUrl = $man;
-					$thumbUrl = $man;
-				} else {
-					$imageUrl = $boy;
-					$thumbUrl = $boy;
-				}
-			} else if($min != null) {
-				if($min > 17) {
-					$imageUrl = $man;
-					$thumbUrl = $man;
-				} else {
-					$imageUrl = $boy;
-					$thumbUrl = $boy;
-				}
-			} else {
-				$imageUrl = $man;
-				$thumbUrl = $man;
-			}
-		} else if($sex == "fml") {
-			if($old != null) {
-				if($old > 17) {
-					$imageUrl = $woman;
-					$thumbUrl = $woman;
-				} else {
-					$imageUrl = $girl;
-					$thumbUrl = $girl;
-				}
-			} else if($min != null) {
-				if($min > 17) {
-					$imageUrl = $woman;
-					$thumbUrl = $woman;
-				} else {
-					$imageUrl = $girl;
-					$thumbUrl = $girl;
-				}
-			} else {
-				$imageUrl = $man;
-				$thumbUrl = $man;
-			}
-		} else {
-			$imageUrl = $unknown;
-			$thumbUrl = $unknown;
+		$r   = $global['db']->Execute($q);
+		while ($row = $r->FetchRow()) {
+			$imagesFull[]  = $row['url'];
+			$imagesThumb[] = $row['url_thumb'];
 		}
-	}
-	$global['full_thumb_url'] = makeBaseUrl().$thumbUrl;
 
-	echo "
-		<div class=\"form-container\">
-			<form>
-				<fieldset id=\"editImages\">
-					<legend>Images</legend>
-					<a href=\"".$imageUrl."\" target=\"_blank\">
-						<div style=\"background-color: #fff; padding: 5px; border: 1px solid #777; float: left; text-align: center;\">
-							<img height=\"150\" src=\"".$thumbUrl."\">
-							<div style=\"clear:both;\"></div>
-							zoom
-						</div>
-					</a>
-				</fieldset>
-			</form>
-		</div>
-	";
+		echo "
+			<div class=\"form-container\">
+				<form>
+					<fieldset id=\"editImages\">
+						<legend>Images</legend>
+		";
+
+		// show all images
+		for($i = 0; $i < $num; $i++) {
+			echo "
+						<a href=\"".$imagesFull[$i]."\" target=\"_blank\">
+							<div style=\"background-color: #fff; padding: 5px; border: 1px solid #777; float: left; text-align: center; margin-right: 10px;\">
+								<img height=\"150\" src=\"".$imagesThumb[$i]."\">
+								<div style=\"clear:both;\"></div>
+								zoom
+							</div>
+						</a>
+			";
+		}
+		echo "
+					</fieldset>
+				</form>
+			</div>
+		";
+
+
+	// no images
+	} else {
+		echo "
+			<div class=\"form-container\">
+				<form>
+					<fieldset id=\"editImages\">
+						<legend>Images</legend>
+						No Images.
+					</fieldset>
+				</form>
+			</div>
+		";
+	}
 	// IMAGES END /////////////////////////////////////////////////////////////////////////////////////
 
 
-	// LOAD PUBLIC DATA ///////////////////////////////////////////////////////////////////////////////
+	// VOICENOTE BEGIN ////////////////////////////////////////////////////////////////////////////////
 
-	$gender = null;
+	// figure out if the person have a voicenote
+
+	$q  = "
+		SELECT COUNT(*)
+		FROM voice_note
+		WHERE p_uuid = '".$global['uuid']."';
+	";
+	$r   = $global['db']->Execute($q);
+	$row = $r->FetchRow();
+	$num = $row['COUNT(*)'];
+
+	// we have voicenote
+	if($num > 0) {
+		$q  = "
+			SELECT *
+			FROM voice_note
+			WHERE p_uuid = '".$global['uuid']."';
+		";
+		$r   = $global['db']->Execute($q);
+		$row = $r->FetchRow();
+		$url_mp3 = $row['url_resampled_mp3'];
+		$url_ogg = $row['url_resampled_ogg'];
+		echo "
+			<div class=\"form-container\">
+				<form>
+					<fieldset id=\"editImages\">
+						<legend>Voice Note</legend>
+						<audio controls preload=\"auto\" autobuffer>
+							<source src=\"".$url_mp3."\" type=\"audio/mp3\" />
+							<source src=\"".$url_ogg."\" type=\"audio/ogg\" />
+							<br>Your browser doesn't support the HTML5 audio tag.<br>
+							<a href=\"".$url_mp3."\">Click here to download the media instead.</a>
+						</audio>
+					</fieldset>
+				</form>
+			</div>
+		";
+
+	// no voice note
+	} else {
+		echo "
+			<div class=\"form-container\">
+				<form>
+					<fieldset id=\"editImages\">
+						<legend>Voice Note</legend>
+						No voice note.
+					</fieldset>
+				</form>
+			</div>
+		";
+	}
+	// VOICENOTE END //////////////////////////////////////////////////////////////////////////////////
+
+
+	// LOAD PUBLIC DATA ///////////////////////////////////////////////////////////////////////////////
+	$gender = $person_details['opt_gender'];
 	$skin = null;
 	$eye = null;
 	$hair = null;
@@ -782,6 +961,12 @@ function shn_eap_edit() {
 	if(!isset($person_status['opt_status'])) {
 		$person_status['opt_status'] = "unk";
 	}
+	if(!isset($person_status['creation_time'])) {
+		$person_status['creation_time'] = null;
+	}
+	if(!isset($person_status['last_updated'])) {
+		$person_status['last_updated'] = null;
+	}
 
 	// map field_options to real values
 	// map gender
@@ -793,7 +978,7 @@ function shn_eap_edit() {
 	";
 	$r   = $global['db']->Execute($q);
 	$row = $r->FetchRow();
-	$gender = $row['option_description'];
+	$genderEnum = $row['option_description'];
 
 	// map eyes
 	$q  = "
@@ -972,7 +1157,7 @@ function shn_eap_edit() {
 			<div class=\"form-container\">
 			<form method=\"post\" id=\"editPublic\" name=\"editPublic\" action=\"index.php?mod=eap&act=edit".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
 			<fieldset id=\"editPublic\">
-			<legend><span class=\"publicText\">View / Edit Public Information</span></legend>
+			<legend><span class=\"publicText\">Public Information</span></legend>
 
 			<label for=\"opt_status\"><b>Record Created</b> </label>
 			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$creation_time."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
@@ -1037,8 +1222,6 @@ function shn_eap_edit() {
 		$editGivenName  = htmlspecialchars(mb_convert_case($editGivenName,  MB_CASE_TITLE, "UTF-8"));
 		$editFamilyName = htmlspecialchars(mb_convert_case($editFamilyName, MB_CASE_TITLE, "UTF-8"));
 		echo "
-			<hr class=\"insideHrGreen\">
-
 			<label for=\"given_name\">Given Name </label>
 			<input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$editGivenName."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
@@ -1079,8 +1262,6 @@ function shn_eap_edit() {
 			<textarea name=\"comments\" id=\"comments\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editComments."</textarea>
 			<br>
 
-			<hr class=\"insideHrGreen\">
-
 			<label for=\"height\">Last Seen Location</label>
 			<textarea name=\"last_seen\" id=\"last_seen\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editLastSeen."</textarea>
 			<br>
@@ -1095,7 +1276,7 @@ function shn_eap_edit() {
 			<br>
 
 			<label for=\"height\">&nbsp;</label>
-			<input type=\"submit\" value=\"Save Changes to Public Information\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
+			<input type=\"submit\" value=\"Save\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
 
 			</fieldset>
 			</form></div>
@@ -1135,7 +1316,7 @@ function shn_eap_edit() {
 			<div class=\"form-container\">
 			<form>
 			<fieldset id=\"editPublic\">
-			<legend><span class=\"publicText\">Information</span></legend>
+			<legend><span class=\"publicText\">Public Information</span></legend>
 
 			<label for=\"opt_status\"><b>Record Created</b> </label>
 			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$creation_time."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
@@ -1186,8 +1367,6 @@ function shn_eap_edit() {
 		$person_uuid['given_name']  = htmlspecialchars(mb_convert_case($person_uuid['given_name'],  MB_CASE_TITLE, "UTF-8"));
 		$person_uuid['family_name'] = htmlspecialchars(mb_convert_case($person_uuid['family_name'], MB_CASE_TITLE, "UTF-8"));
 		echo "
-			<hr class=\"insideHrGreen\">
-
 			<label for=\"given_name\">Given Name </label>
 			<input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$person_uuid['given_name']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
@@ -1226,7 +1405,7 @@ function shn_eap_edit() {
 
 		echo "
 			<label for=\"gender\">Gender</label>
-			<input type=\"text\" name=\"gender\" id=\"gender\" value=\"".$gender."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"gender\" id=\"gender\" value=\"".$genderEnum."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"eye_color\">Eye Color</label>
@@ -1253,8 +1432,6 @@ function shn_eap_edit() {
 			<textarea name=\"comments\" id=\"comments\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_physical['comments']."</textarea>
 			<br>
 
-			<hr class=\"insideHrGreen\">
-
 			<label for=\"height\">Last Seen Location</label>
 			<textarea name=\"last_seen\" id=\"last_seen\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>".$person_details['last_seen']."</textarea>
 			<br>
@@ -1271,6 +1448,144 @@ function shn_eap_edit() {
 		";
 	}
 	// PUBLIC VIEW END ////////////////////////////////////////////////////////////////////////////////////
+
+
+	// NOTES BEGIN ////////////////////////////////////////////////////////////////////////////////////////
+	echo "
+		<div class=\"form-container\">
+		<form method=\"post\" id=\"notesPerson\" name=\"notesPerson\" action=\"index.php?mod=eap&act=addNote".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
+		<fieldset id=\"editNotes\">
+		<legend><span class=\"notesText\">Notes</span></legend>
+	";
+
+	$q  = "
+		SELECT *
+		FROM person_notes n, person_uuid p
+		WHERE n.note_written_by_p_uuid = p.p_uuid
+		AND note_about_p_uuid = '".$global['uuid']."'
+		ORDER BY n.when ASC;
+	";
+
+	$r  = $global['db']->Execute($q);
+
+	while($row = $r->FetchRow()) {
+		$delete = "";
+		if($global['privateEdit'] || (isset($_SESSION['user_p_uuid']) && ($_SESSION['user_p_uuid'] == $row['note_written_by_p_uuid']))) {
+			$delete = "&nbsp;&nbsp;&nbsp;<a style=\"color: red;\" href=\"index.php?mod=eap&act=deleteNote&noteId=".$row['note_id'].$debugParam."&uuid=".base64_encode($global['uuid'])."\">DELETE</a>";
+		}
+
+		$timezone = new DateTimeZone( "UTC" );
+		$date = new DateTime();
+		$date->setTimezone( $timezone );
+
+		$date->setTimestamp(strtotime($row['when']));
+		$udate =  $date->format('Y-m-d');
+		$utime =  $date->format('g:i T');
+
+		$noteUrl = makeBaseUrl()."note.".$row['note_id'];
+		$noteUrl = str_replace("https://", "", $noteUrl);
+		$noteUrl = str_replace("http://", "", $noteUrl);
+
+		echo "
+			<p class=\"triangle-obtuse\">
+				".$row['note']."<br>
+				<span class=\"noteFooter\">".$noteUrl."</span>
+			</p>
+			<div style=\"height: 25px;\">Posted by <b>".$row['full_name']."</b> on ".$udate." at ".$utime."</div>
+			<br>
+			<br>
+		";
+	}
+
+
+	// EXTERNAL PFIF NOTES
+	$global['db']->EXECUTE("set names 'utf8'");
+	$q = "
+		SELECT note_record_id, entry_date, author_name, found,
+		REPLACE(status, '_', ' ') as status, last_known_location, text
+		FROM pfif_note
+		WHERE p_uuid = '".$global['uuid']."'
+		ORDER BY entry_date DESC;
+	";
+	$result = $global['db']->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+
+
+		$timezone = new DateTimeZone( "UTC" );
+		$date = new DateTime();
+		$date->setTimezone( $timezone );
+
+		$date->setTimestamp(strtotime($result->fields["entry_date"]));
+		$udate =  $date->format('Y-m-d');
+		$utime =  $date->format('g:i T');
+
+		echo "
+			<p class=\"triangle-obtuse\">
+				<b>".$result->fields["text"]."</b><br>
+		";
+
+		if($result->fields["status"] == null) {
+			$status = "unknown";
+		} else {
+			$status = $result->fields["status"];
+		}
+		echo "<br>Status: <b>".$status."</b><br>";
+
+		if($result->fields["found"] == true) {
+			echo "<br><b>FOUND</b><br>";
+		}
+		if(trim($result->fields["last_known_location"]) != "") {
+			echo "<br>Last Known Location: <b>".$result->fields["last_known_location"]."</b><br>";
+		}
+
+		echo "
+				<span class=\"noteFooter\">".$result->fields["note_record_id"]."</span>
+			</p>
+			<div style=\"height: 25px;\">Posted by <b>".$result->fields["author_name"]."</b> on ".$udate." at ".$utime."</div>
+			<br>
+			<br>
+		";
+
+		/*
+		'note_id'=>$result->fields["note_record_id"],
+		'date'=>$result->fields["entry_date"],
+		'author'=>$result->fields["author_name"],
+		'found'=>$result->fields["found"],
+		'status'=>$result->fields["status"],
+		'lastSeen'=>$result->fields["last_known_location"],
+		'text'=>$result->fields["text"]
+		*/
+		$result->MoveNext();
+	}
+	// EXTERNAL PFIF END
+
+
+	// if user is allowed to add notes... show the tool for this
+	if($global['addNote']) {
+		echo "
+			<br>
+			<b>Add your own comment...</b><br>
+			<center>
+				<textarea name=\"addNote\" id=\"addNote\" style=\"width: 80%; \" rows=\"5\" tabindex=\"".++$shn_tabindex."\" ></textarea><br>
+				<input type=\"submit\" value=\"Save Note\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
+			</center>
+		";
+
+	// if user is not allowed to add notes, tell them
+	} else {
+		echo "
+			<b> &nbsp; To leave a note, you must first <a href=\"login\">login or register</a>.</b>
+		";
+	}
+
+	// close notes
+	echo "
+		<br>
+		<label for=\"height\">&nbsp;</label>
+		</fieldset>
+		</form></div>
+	";
+	// NOTES END //////////////////////////////////////////////////////////////////////////////////////////
 
 
 	// LOAD PRIVATE DATA //////////////////////////////////////////////////////////////////////////////////
@@ -1346,7 +1661,7 @@ function shn_eap_edit() {
 			<div class=\"form-container\">
 			<form method=\"post\" id=\"editPrivateForm\" name=\"editPrivateForm\" action=\"index.php?mod=eap&act=edit".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
 			<fieldset id=\"editPrivate\">
-			<legend><span class=\"privateText\">View / Edit Private Information</span></legend>
+			<legend><span class=\"privateText\">Private Information</span></legend>
 		";
 
 		//shn_form_textarea("Address",                  "address", null,       array('value'=>$editAddress, 'cols'=>70));
@@ -1368,7 +1683,7 @@ function shn_eap_edit() {
 		echo "
 			<br>
 			<label for=\"height\">&nbsp;</label>
-			<input type=\"submit\" value=\"Save Changes to Private Information\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
+			<input type=\"submit\" value=\"Save\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
 
 			</fieldset>
 			</form></div>
@@ -1433,8 +1748,7 @@ function shn_eap_edit() {
 			</form></div>
 		";
 	}
-	// REVISIONS END ////////////////////////////////////////////////////////////////////////////////
-
+	// REVISIONS END ///////////////////////////////////////////////////////////////////////////////////
 
 
 	// FOLLOW //////////////////////////////////////////////////////////////////////////////////////////
@@ -1504,7 +1818,7 @@ function shn_eap_edit() {
 			<legend><span class=\"followText\">Follow</span></legend>
 			To receive email alerts when this record is updated with new information, you can elect to follow this person. You will only receive an email when the reporter or staff change any of the information in this person's record or when a user of the site leaves a note on this page.<br>
 			<br>
-			<b>If you would like to follow this person, you must first login. If you don't have an account, then first <a href=\"index.php?act=signup\">sign up for one.</a></b>
+			<b> &nbsp; To follow this person, you must first <a href=\"login\">login or register</a>.</b>
 			</fieldset>
 			</form>
 			</div>
@@ -1522,7 +1836,7 @@ function shn_eap_edit() {
 
 		<span>Send this page to a mobile device :</span><br><br>
 		<div style=\"float: left; width: 158px;\">
-			<script type=\"text/javascript\" src=\"res/js/jquery-1.6.1.min.js\"></script>
+			<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\"></script>
 			<script type=\"text/javascript\" src=\"res/js/jquery.qrcode.min.js\"></script>
 			<div id=\"qrcode\"></div>
 			<script>
@@ -1534,187 +1848,25 @@ function shn_eap_edit() {
 		<div style=\"float: left;\">
 			<br><br>
 			Short URL to this page : <br><br>
-			<b><input type=\"text\" value=\"".$global['googl']."\"></b></input><br>
+			<a href=\"".$global['googl']."\">".$global['googl']."</a><br>
 		</div>
 
 		<div style=\"clear:both;\"></div>
 
-		<div class=\"shr-bookmarks shr-bookmarks-expand shr-bookmarks-center\">
-			<ul class=\"socials\">
-				<li class=\"shr-blogger\">
-					<a href=\"http://www.blogger.com/blog_this.pyra?t&amp;u=".$global['googl']."&amp;n=".$global['full_name']."&amp;pli=1\" rel=\"nofollow\" class=\"external\" title=\"Blog this on Blogger\">&nbsp;</a>
-				</li>
-				<li class=\"shr-delicious\">
-					<a href=\"http://delicious.com/post?url=".$global['googl']."&amp;title=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Share this on del.icio.us\">&nbsp;</a>
-				</li>
-				<li class=\"shr-digg\">
-					<a href=\"http://digg.com/submit?phase=2&amp;url=".$global['googl']."&amp;title=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Digg this!\">&nbsp;</a>
-				</li>
-				<li class=\"shr-facebook\">
-					<a href=\"http://www.facebook.com/share.php?v=4&amp;src=bm&amp;u=".$global['googl']."&amp;t=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Share this on Facebook\" onclick=\"window.open(this.href,'sharer','toolbar=0,status=0,width=626,height=436'); return false;\">&nbsp;</a>
-				</li>
-				<li class=\"shr-googlebookmarks\">
-					<a href=\"http://www.google.com/bookmarks/mark?op=add&amp;bkmk=".$global['googl']."&amp;title=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Add this to Google Bookmarks\">&nbsp;</a>
-				</li>
-				<li class=\"shr-googlebuzz\">
-					<a href=\"http://www.google.com/buzz/post?url=".$global['googl']."&amp;imageurl=".$global['full_thumb_url']."\" rel=\"nofollow\" class=\"external\" title=\"Post on Google Buzz\">&nbsp;</a>
-				</li>
-				<li class=\"shr-myspace\">
-					<a href=\"http://www.myspace.com/Modules/PostTo/Pages/?u=".$global['googl']."&amp;t=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Post this to MySpace\">&nbsp;</a>
-				</li>
-				<li class=\"shr-reddit\">
-					<a href=\"http://reddit.com/submit?url=".$global['googl']."&amp;title=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Share this on Reddit\">&nbsp;</a>
-				</li>
-				<li class=\"shr-stumbleupon\">
-					<a href=\"http://www.stumbleupon.com/submit?url=".$global['googl']."&amp;title=".$global['full_name']."\" rel=\"nofollow\" class=\"external\" title=\"Share it on StumbleUpon\">&nbsp;</a>
-				</li>
-				<li class=\"shr-twitter\">
-					<a href=\"http://twitter.com/home?status=".$global['full_name']."+-+".$global['googl']."&amp;source=PL\" rel=\"nofollow\" class=\"external\" title=\"Tweet This!\">&nbsp;</a>
-				</li>
-			</ul>
-			<div style=\"clear:both;\"></div>
+		<div style=\"margin: 15px 15px 0px 15px; border-top: 1px solid #000; padding-top: 15px;\">
+			<div class=\"addthis_toolbox addthis_default_style\">
+			<a class=\"addthis_button_facebook_like\" fb:like:layout=\"button_count\"></a>
+			<a class=\"addthis_button_tweet\"></a>
+			<a class=\"addthis_button_google_plusone\" g:plusone:size=\"medium\"></a>
+			<a class=\"addthis_counter addthis_pill_style\"></a>
+			</div>
+			<script type=\"text/javascript\" src=\"https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e66a6fa46524fa8\"></script>
 		</div>
 		</fieldset>
 		</form>
 		</div>
 	";
-
-	// old QR code generation from google >>
-	// <img id=\"tehQRimage\" height=\"200\" width=\"200\" class=\"qrImage\" src=\"https://chart.googleapis.com/chart?cht=qr&chs=200x200&chld=L|0&chl=".$global['googl']."\">
 	// SHARE END ///////////////////////////////////////////////////////////////////////////////////////
-
-
-	// NOTES BEGIN /////////////////////////////////////////////////////////////////////////////////////
-	echo "
-		<div class=\"form-container\">
-		<form method=\"post\" id=\"notesPerson\" name=\"notesPerson\" action=\"index.php?mod=eap&act=addNote".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
-		<fieldset id=\"editNotes\">
-		<legend><span class=\"notesText\">User Comments and External Notes</span></legend>
-	";
-
-	$q  = "
-		SELECT *
-		FROM person_notes n, person_uuid p
-		WHERE n.note_written_by_p_uuid = p.p_uuid
-		AND note_about_p_uuid = '".$global['uuid']."'
-		ORDER BY n.when ASC;
-	";
-
-	$r  = $global['db']->Execute($q);
-
-	while($row = $r->FetchRow()) {
-		$delete = "";
-		if($global['privateEdit'] || (isset($_SESSION['user_p_uuid']) && ($_SESSION['user_p_uuid'] == $row['note_written_by_p_uuid']))) {
-			$delete = "&nbsp;&nbsp;&nbsp;<a style=\"color: red;\" href=\"index.php?mod=eap&act=deleteNote&noteId=".$row['note_id'].$debugParam."&uuid=".base64_encode($global['uuid'])."\">DELETE</a>";
-		}
-
-		$timezone = new DateTimeZone( "UTC" );
-		$date = new DateTime();
-		$date->setTimezone( $timezone );
-
-		$date->setTimestamp(strtotime($row['when']));
-		$udate =  $date->format('Y-m-d');
-		$utime =  $date->format('g:i T');
-
-		$noteUrl = makeBaseUrl()."note.".$row['note_id'];
-		$noteUrl = str_replace("https://", "", $noteUrl);
-		$noteUrl = str_replace("http://", "", $noteUrl);
-
-		echo "
-			<p class=\"triangle-obtuse\">
-				".$row['note']."<br>
-				<span class=\"noteFooter\">".$noteUrl."</span>
-			</p>
-			<div style=\"height: 25px;\">Posted by <b>".$row['full_name']."</b> on ".$udate." at ".$utime."</div>
-			<br>
-			<br>
-		";
-	}
-
-
-	// EXTERNAL PFIF NOTES
-	$global['db']->EXECUTE("set names 'utf8'");
-	$q = "
-		SELECT note_record_id, entry_date, author_name, found,
-		REPLACE(status, '_', ' ') as status, last_known_location, text
-		FROM pfif_note
-		WHERE p_uuid = '".$global['uuid']."'
-		ORDER BY entry_date DESC;
-	";
-	$result = $global['db']->Execute($q);
-	while (!$result == NULL && !$result->EOF) {
-
-
-		$timezone = new DateTimeZone( "UTC" );
-		$date = new DateTime();
-		$date->setTimezone( $timezone );
-
-		$date->setTimestamp(strtotime($result->fields["entry_date"]));
-		$udate =  $date->format('Y-m-d');
-		$utime =  $date->format('g:i T');
-
-		echo "
-			<p class=\"triangle-obtuse\">
-				".$result->fields["text"]."<br>
-		";
-
-		if($result->fields["found"] == true) {
-			echo "<br>Status: <b>FOUND</b><br>";
-		}
-		if(trim($result->fields["last_known_location"]) != "") {
-			echo "<br>Last Known Location: <b>".$result->fields["last_known_location"]."</b><br>";
-		}
-
-		echo "
-				<span class=\"noteFooter\">".$result->fields["note_record_id"]."</span>
-			</p>
-			<div style=\"height: 25px;\">Posted by <b>".$result->fields["author_name"]."</b> on ".$udate." at ".$utime."</div>
-			<br>
-			<br>
-		";
-
-		/*
-		'note_id'=>$result->fields["note_record_id"],
-		'date'=>$result->fields["entry_date"],
-		'author'=>$result->fields["author_name"],
-		'found'=>$result->fields["found"],
-		'status'=>$result->fields["status"],
-		'lastSeen'=>$result->fields["last_known_location"],
-		'text'=>$result->fields["text"]
-		*/
-		$result->MoveNext();
-	}
-	// EXTERNAL PFIF END
-
-
-	// if user is allowed to add notes... show the tool for this
-	if($global['addNote']) {
-		echo "
-			<br>
-			<b>Add your own comment...</b><br>
-			<center>
-				<textarea name=\"addNote\" id=\"addNote\" style=\"width: 80%; \" rows=\"5\" tabindex=\"".++$shn_tabindex."\" ></textarea><br>
-				<input type=\"submit\" value=\"Save Note\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
-			</center>
-		";
-
-	// if user is not allowed to add notes, tell them
-	} else {
-		echo "
-			<br>
-			<br>
-			<b>If you would like to leave a note, you must first login. If you don't have an account, then first <a href=\"index.php?act=signup\">sign up for one.</a></b>
-		";
-	}
-
-	// close notes
-	echo "
-		<br>
-		<label for=\"height\">&nbsp;</label>
-		</fieldset>
-		</form></div>
-	";
-	// NOTES END ///////////////////////////////////////////////////////////////////////////////////////
 
 
 	// DEBUG ////////////////////////////////////////////////////////////////////////////////////

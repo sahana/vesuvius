@@ -17,6 +17,13 @@
 function shn_theme_head() {
 	global $global;
 	global $conf;
+
+	// check sanity
+	if(trim($global['theme']) == "") {
+		// use default
+		$global['theme'] = "lpf3";
+	}
+
 header('Content-type: text/html; charset=UTF-8')
 // output html head
 
@@ -31,16 +38,16 @@ header('Content-type: text/html; charset=UTF-8')
 <meta name="Licence Website" content="http://www.gnu.org/licenses/lgpl-2.1.txt" />
 <meta name="google-site-verification" content="Y2Ts00HnBQEr3M3KegrKRRAMVuQPejmqeqPKDsMGRGw" />
 
-<link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?php echo _t($global['theme']);?>/sahana.css" />
-<link rel="stylesheet" media="print" type="text/css" href="theme/<?php echo _t($global['theme']);?>/print.css" />
-<link rel="stylesheet" media="handheld" type="text/css" href="theme/<?php echo _t($global['theme']);?>/mobile.css" />
+<link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?php echo $global['theme'];?>/sahana.css" />
+<link rel="stylesheet" media="print" type="text/css" href="theme/<?php echo $global['theme'];?>/print.css" />
+<link rel="stylesheet" media="handheld" type="text/css" href="theme/<?php echo $global['theme'];?>/mobile.css" />
 <?
 //--- Provide Stylesheets to hack different versions of IEs' css ---//
 
 // IE6
 if (file_exists($global['approot']."www/theme/".$global['theme']."/ie6.css")) { ?>
 <!--[if IE 6]>
-<link rel="stylesheet" type="text/css" href="theme/<?php echo _t($global['theme']);?>/ie6.css" />
+<link rel="stylesheet" type="text/css" href="theme/<?php echo $global['theme'];?>/ie6.css" />
 <![endif]-->
 <?
 }
@@ -48,7 +55,7 @@ if (file_exists($global['approot']."www/theme/".$global['theme']."/ie6.css")) { 
 // IE7
 if (file_exists($global['approot']."www/theme/".$global['theme']."/ie7.css")) { ?>
 <!--[if IE 7]>
-<link rel="stylesheet" type="text/css" href="theme/<?php echo _t($global['theme']);?>/ie7.css" />
+<link rel="stylesheet" type="text/css" href="theme/<?php echo $global['theme'];?>/ie7.css" />
 <![endif]-->
 <?
 }
@@ -56,7 +63,7 @@ if (file_exists($global['approot']."www/theme/".$global['theme']."/ie7.css")) { 
 // IE8
 if (file_exists($global['approot']."www/theme/".$global['theme']."/ie8.css")) { ?>
 <!--[if IE 8]>
-<link rel="stylesheet" type="text/css" href="theme/<?php echo _t($global['theme']);?>/ie8.css" />
+<link rel="stylesheet" type="text/css" href="theme/<?php echo $global['theme'];?>/ie8.css" />
 <![endif]-->
 <?
 }
@@ -64,7 +71,7 @@ if (file_exists($global['approot']."www/theme/".$global['theme']."/ie8.css")) { 
 // IE9
 if (file_exists($global['approot']."www/theme/".$global['theme']."/ie9.css")) { ?>
 <!--[if IE 9]>
-<link rel="stylesheet" type="text/css" href="theme/<?php echo _t($global['theme']);?>/ie9.css" />
+<link rel="stylesheet" type="text/css" href="theme/<?php echo $global['theme'];?>/ie9.css" />
 <![endif]-->
 <?
 }
@@ -74,12 +81,14 @@ if (file_exists($global['approot']."www/theme/".$global['theme']."/ie9.css")) { 
 <link rel="icon" type="image/png" href="favicon.png">
 
 <?php
+
 	if(isset($conf['enable_locale']) && $conf['enable_locale'] == true) {
 		echo "<script type=\"text/javascript\" src=\"res/js/locale.js\"></script>";
 	}
+
 ?>
 
-<script type="text/javascript" src="res/js/popup.js"></script>
+<script type="text/javascript" src="res/js/vesuvius.js"></script>
 <script type="text/javascript" src="index.php?stream=text&amp;mod=xst&amp;act=help"></script>
 
 <?php

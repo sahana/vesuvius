@@ -1,17 +1,18 @@
 <?
 /**
  * @name         Resources
- * @version      1.2
+ * @version      1.4
  * @package      rez
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0801
  */
 
 
 global $global;
+
 
 // create an array as it does not exist previosuly and will make warnings
 $global['xajax_functions'] = array();
@@ -35,7 +36,7 @@ function rez_append_log($message = "no message specified?") {
 	global $global;
 	$global['xajax_res']->addAppend('rezLog','innerHTML',$message);
 	//---- scroll the log to the bottom
-	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'logArea\'); e.scrollTop = e.scrollHeight+1000;', 500);");
+	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
 	return $global['xajax_res']->getXML();
 }
 
@@ -102,7 +103,8 @@ function rez_show_pages($internal = FALSE) {
 		} else {
 			$evenOddClass = "mainRowOdd";
 		}
-		$htmlMain .= "<tr><td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$page_id."</td><td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$menu_title."</td><td style=\"text-align: center; width: 100px;\" class=\"".$evenOddClass."\"><b><select name=\"visibility\" onchange=\"javascript: rez_perform_change_visibility(".$page_id.", this.value);\"><option value=\"Public\" ".(($visibility == 'Public')?'SELECTED':'').">Public<option value=\"Hidden\" ".(($visibility == 'Hidden')?'SELECTED':'').">Hidden<option value=\"External Page\" ".(($visibility == 'External Page')?'SELECTED':'').">External Page</select></b></td>";
+		$int = ($visibility == 'INTERNAL') ? "<b>INTERNAL</b>" : "";
+		$htmlMain .= "<tr><td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$page_id."</td><td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$int." ".$menu_title."</td><td style=\"text-align: center; width: 100px;\" class=\"".$evenOddClass."\"><b><select name=\"visibility\" onchange=\"javascript: rez_perform_change_visibility(".$page_id.", this.value);\"><option value=\"Public\" ".(($visibility == 'Public')?'SELECTED':'').">Public<option value=\"Hidden\" ".(($visibility == 'Hidden')?'SELECTED':'').">Hidden<option value=\"INTERNAL\" ".(($visibility == 'INTERNAL')?'SELECTED':'').">INTERNAL</select></b></td>";
 
 		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: rez_perform_edit(".$page_id.");\">".$burl."edit24.png\" alt=\"Edit\">"."</a></td>";
 
@@ -145,7 +147,7 @@ function rez_show_pages($internal = FALSE) {
 	//
 	// SYSTEM PAGES
 	//
-	$htmlMain .= "<br><h2>System Pages</h2><table class=\"mainTable\"><tr><td style=\"padding-left: 8px; width: 40px; text-align: center;\" ><b>Page #</b></td><td style=\"padding-left: 8px;\" ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Menu Title</b></td><td style=\"text-align: center;\" ><b>Visibility</b></td><td style=\"text-align: center;\" ><b>Edit</b></td><td style=\"padding-left: 8px; width: 40px; text-align: center; width: 15em;\" ><b>Last Modified</b></td></tr>";
+	$htmlMain .= "<br><h2>System Pages</h2><table class=\"mainTable\"><tr><td style=\"padding-left: 8px; width: 40px; text-align: center;\" ><b>Page #</b></td><td style=\"padding-left: 8px;\" ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Menu Title</b></td><td style=\"text-align: center;\" ><b>Edit</b></td><td style=\"padding-left: 8px; width: 40px; text-align: center; width: 15em;\" ><b>Last Modified</b></td></tr>";
 
 	$q = "
 		select rez_page_id, rez_menu_title, rez_menu_order, rez_visibility, rez_timestamp
@@ -180,7 +182,7 @@ function rez_show_pages($internal = FALSE) {
 		} else {
 			$evenOddClass = "mainRowOdd";
 		}
-		$htmlMain .= "<tr><td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$page_id."</td><td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$menu_title."</td><td style=\"text-align: center; width: 100px;\" class=\"".$evenOddClass."\"><b><select name=\"visibility\" onchange=\"javascript: rez_perform_change_visibility(".$page_id.", this.value);\"><option value=\"Public\" ".(($visibility == 'Public')?'SELECTED':'').">Public<option value=\"Hidden\" ".(($visibility == 'Hidden')?'SELECTED':'').">Hidden<option value=\"External Page\" ".(($visibility == 'External Page')?'SELECTED':'').">External Page</select></b></td>";
+		$htmlMain .= "<tr><td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$page_id."</td><td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$menu_title."</td>";
 
 		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: rez_perform_edit(".$page_id.");\">".$burl."edit24.png\" alt=\"Edit\">"."</a></td>";
 		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\">".$timestamp."</td></tr>";
@@ -344,6 +346,8 @@ function rez_perform_new() {
 	$q3 = "SELECT * from rez_pages order by rez_page_id desc;";
 	$res3 = $global['db']->Execute($q3);
 	$row3 = $res3->FetchRow();
+
+
 	return $row3['rez_page_id'];
 }
 
@@ -386,12 +390,12 @@ function rez_perform_edit($page_id, $clone = false) {
 <table class=\"mainTable\"><tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">Menu Title</td><td class=\"mainRowOdd\"><input name=\"menuTitle\" type=\"text\" id=\"menuTitle\" value=\"".$row['rez_menu_title']."\" size=\"64\" /></td></tr>
 <tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">Page Title</td><td class=\"mainRowEven\"><input name=\"pageTitle\" type=\"text\" id=\"pageTitle\" value=\"".$row['rez_page_title']."\" size=\"64\" /></td></tr>
 <tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">Page Description</td><td class=\"mainRowOdd\"><input name=\"pageDescription\" type=\"text\" id=\"pageDescription\" value=\"".$row['rez_description']."\" size=\"64\" /></td></tr></table>
-<div style=\"background-color: #fff;\"><textarea name=\"pageContent\" id=\"pageContent\" style=\"height: 300px; width: 100%;\">".$row['rez_content']."</textarea></div>
+<div class=\"wysiwyg\"><textarea name=\"pageContent\" id=\"pageContent\" style=\"height: 300px; width: 100%;\">".$row['rez_content']."</textarea></div>
 </form>";
 
 	$editControlHtml = '
-		<input class="styleTehButton" type="button" onclick="javascript:  if (nicEditors.editors.length>0){nicEditors.findEditor(\'pageContent\').saveContent();} rez_perform_save('.$page_id.', xajax.getFormValues(\'editPageForm\'));" value="Save/Publish">
-		<input class="styleTehButton" type="button" onclick="javascript: rez_append_log(\'Closing editor...<br>\');  area2.removeInstance(\'pageContent\'); setTimeout(\'rez_show_pages();\', 500);" value="Close">
+		<input class="styleTehButton" type="button" onclick="javascript:  window.rezPageSaved = true; if(nicEditors.editors.length>0){nicEditors.findEditor(\'pageContent\').saveContent();} rez_perform_save('.$page_id.', xajax.getFormValues(\'editPageForm\'));" value="Save/Publish">
+		<input class="styleTehButton" type="button" onclick="checkSaved()" value="Close">
 		<span class="toggle">View as:
 		<input id="wysiwyg" class="styleTehButton" type="button" onclick="javascript: document.getElementById(\'wysiwyg\').disabled = true; document.getElementById(\'htmlcode\').disabled = false; area2 = new nicEditor({fullPanel : true}).panelInstance(\'pageContent\');" value="WYSIWYG">
 		<input id="htmlcode" class="styleTehButton" type="button" onclick="javascript: area2.removeInstance(\'pageContent\'); document.getElementById(\'wysiwyg\').disabled = false; document.getElementById(\'htmlcode\').disabled = true; nicEditors.editors = []; " value="HTML"></span>';
@@ -416,6 +420,7 @@ function rez_perform_delete($page_id, $confirm) {
 		//---- delete the page from db table
 		$q = "delete from rez_pages where rez_page_id = '".$page_id."';";
 		$res = $global['db']->Execute($q);
+
 		$global['xajax_res']->addAppend('rezLog','innerHTML',"Page <b>#".$page_id."</b> deleted.<br>");
 	} else {
 		$global['xajax_res']->addAppend('rezLog','innerHTML',"Delete operation aborted.<br>");
@@ -426,6 +431,7 @@ function rez_perform_delete($page_id, $confirm) {
 	$global['xajax_res']->addAssign('rezMain','innerHTML',rez_show_pages(TRUE));
 	$global['xajax_res']->addAssign('rezMain','style.opacity','1.0');
 	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
+
 	return $global['xajax_res']->getXML();
 }
 

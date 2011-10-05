@@ -11,6 +11,8 @@
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
  * @lastModified 2011.0308
+ *
+ * @edited Leif Neve <lneve@mail.nih.gov> Added check for $_POST in shn_stream_init
  */
 
 
@@ -19,9 +21,11 @@ function shn_stream_init($emit_xml_declaration = false) {
 	if(isset($_GET['filename'])) {
 		$file = $_GET['filename'];
 		//todo need a way to pass header;
+        } else if (isset($_POST['filename'])) {
+		$file = $_POST['filename'];
 	}
 	header("Content-type: text/xml");
-	if(isset($_GET['download'])) {
+	if(isset($_GET['download']) || isset($_POST['download'])) {
 		header("Content-Disposition: attachment; filename=$file");
 	}
 	if($emit_xml_declaration) {

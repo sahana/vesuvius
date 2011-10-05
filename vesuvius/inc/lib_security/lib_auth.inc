@@ -9,7 +9,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0408
+ * @lastModified 2011.0801
  */
 
 
@@ -64,12 +64,18 @@ function shn_auth_locked_user_list(){
 	global $global;
 	$db=$global['db'];
 
-	$q="select users.p_uuid,full_name,user_name,status from person_uuid,users where status='locked' and users.p_uuid=person_uuid.p_uuid and users.p_uuid <> 1  order by full_name";
-	$res=$db->Execute($q);
-	$users=array();
+	$q = "
+		select users.p_uuid,full_name,user_name,status
+		from person_uuid,users
+		where status='locked'
+		and users.p_uuid=person_uuid.p_uuid
+		and users.p_uuid <> 1
+		order by full_name;
+	";
+	$res = $db->Execute($q);
+	$users = array();
 
 	while(!$res->EOF){
-		//$name=$res->fields[2].".".$res->fields["full_name"];
 		$name=$res->fields["full_name"].":".$res->fields["user_name"];
 		$users[$res->fields["p_uuid"]]=array($name,$res->fields["status"]);
 		$res->MoveNext();
@@ -81,23 +87,28 @@ function shn_auth_locked_user_list(){
 
 
 function shn_auth_activate_user($pid=null,$uname=null){
-	if($pid==null){
-		if($uname==null){
-			return false;
-		}else{
-			$sql="update users set status='active'  where user_name='{$uname}'";
-		}
-	}else{
-		$sql="update users set status='active' where p_uuid='{$pid}'";
-
-	}
-
-	//echo $sql;
 	global $global;
 	$db=$global['db'];
-	$res=$db->Execute($sql);
-	return $res;
 
+	if($pid==null){
+		if($uname==null) {
+			return false;
+		} else {
+			$sql = "
+				update users
+				set status='active'
+				where user_name='{$uname}';
+			";
+		}
+	} else {
+		$sql = "
+			update users
+			set status='active'
+			where p_uuid='{$pid}';
+		";
+	}
+	$res = $db->Execute($sql);
+	return $res;
 }
 
 

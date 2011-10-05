@@ -1,13 +1,13 @@
 <?
 /**
  * @name         Resources
- * @version      1.2
+ * @version      1.4
  * @package      rez
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0801
  */
 
 
@@ -39,6 +39,24 @@ function shn_rez_adm_default() {
 	<script>
 		rez_show_message("Loading Pages...");
 		setTimeout("rez_show_pages();", 1500);
+		window.rezPageSaved = false;
+
+		function checkSaved() {
+			if(!window.rezPageSaved) {
+				var answer = confirm('Are you sure you want to close this document? It has not been saved.');
+				if(answer) {
+					rez_append_log('Closing editor...<br>');
+					area2.removeInstance('pageContent');
+					setTimeout('rez_show_pages();', 500);
+					window.rezPageSaved = false;
+				}
+			} else {
+					rez_append_log('Closing editor...<br>');
+					area2.removeInstance('pageContent');
+					setTimeout('rez_show_pages();', 500);
+					window.rezPageSaved = false;
+			}
+		}
 	</script>
 	<script type="text/javascript" src="res/nicedit/nicEdit.js"></script><?
 }

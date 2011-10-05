@@ -1,6 +1,790 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+
+///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
+
+
+2011:0920 Leif
+--------------
+
+ALTER TABLE  `pfif_note` CHANGE  `source_version`  `source_version` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT  '1.3',
+CHANGE  `source_repository_id`  `source_repository_id` INT( 11 ) NULL DEFAULT NULL ;
+
+
+2011:0919 Greg
+--------------
+
+ALTER TABLE `hospital` CHANGE `hospital_uuid` `hospital_uuid` INT(32) NOT NULL AUTO_INCREMENT, CHANGE `name` `name` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `short_name` `short_name` VARCHAR(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `street1` `street1` VARCHAR(120) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `street2` `street2` VARCHAR(120) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `city` `city` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `county` `county` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `region` `region` VARCHAR(60) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `postal_code` `postal_code` VARCHAR(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `country` `country` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `latitude` `latitude` DOUBLE NULL, CHANGE `longitude` `longitude` DOUBLE NULL, CHANGE `phone` `phone` VARCHAR(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `fax` `fax` VARCHAR(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `email` `email` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `www` `www` VARCHAR(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `npi` `npi` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `patient_id_prefix` `patient_id_prefix` VARCHAR(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL, CHANGE `patient_id_suffix_variable` `patient_id_suffix_variable` TINYINT(1) NOT NULL DEFAULT '1', CHANGE `patient_id_suffix_fixed_length` `patient_id_suffix_fixed_length` INT(11) NOT NULL DEFAULT '0', CHANGE `creation_time` `creation_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, CHANGE `icon_url` `icon_url` VARCHAR(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `legalese` `legalese` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'legalese', CHANGE `legaleseAnon` `legaleseAnon` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'anonymized legalese' ;
+
+ALTER TABLE `hospital`
+ADD `photo_required` BOOLEAN NOT NULL DEFAULT '1' COMMENT 'Whether a photo is requred for incoming patients.',
+ADD `honor_no_photo_request` BOOLEAN NOT NULL DEFAULT '1' COMMENT 'Whether to honor requests no to save patient images.',
+ADD `photographer_name_required` BOOLEAN NOT NULL DEFAULT '0' COMMENT 'Whether to require if a photographer include his/her name.' ;
+
+ALTER TABLE  `hospital` CHANGE  `latitude`  `latitude` DOUBLE NOT NULL DEFAULT  '38.995523' ;
+ALTER TABLE  `hospital` CHANGE  `longitude`  `longitude` DOUBLE NOT NULL DEFAULT  '-77.096597' ;
+
+ALTER TABLE  `person_updates` CHANGE  `old_value`  `old_value` VARCHAR( 512 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ,
+CHANGE  `new_value`  `new_value` VARCHAR( 512 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL ;
+
+
+
+
+DELIMITER //
+DROP PROCEDURE IF EXISTS `PLSearch`//
+CREATE PROCEDURE `PLSearch`(
+     IN searchTerms CHAR(255),
+	 IN statusFilter VARCHAR(100),
+	 IN genderFilter VARCHAR(100),
+	 IN ageFilter VARCHAR(100),
+	 IN hospitalFilter VARCHAR(100),
+	 IN incidentName VARCHAR(100),
+	 IN sortBy VARCHAR(100),
+	 IN pageStart INT,
+	 IN perPage INT
+)
+BEGIN
+
+	DROP TABLE IF EXISTS tmp_names;
+    IF searchTerms = '' THEN
+            CREATE TEMPORARY TABLE tmp_names AS (
+            SELECT SQL_NO_CACHE pu.*
+                FROM person_uuid pu
+                   JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
+                  LIMIT 5000
+         );
+
+    ELSE
+            CREATE TEMPORARY TABLE  tmp_names AS (
+            SELECT SQL_NO_CACHE pu.*
+                FROM person_uuid pu
+                   JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
+            WHERE full_name like CONCAT(searchTerms , '%')
+            LIMIT 5000
+            );
+     END IF;
+
+    SET @sqlString = CONCAT("SELECT  SQL_NO_CACHE `tn`.`p_uuid`       AS `p_uuid`,
+				`tn`.`full_name`    AS `full_name`,
+				`tn`.`given_name`   AS `given_name`,
+				`tn`.`family_name`  AS `family_name`,
+				(CASE WHEN `ps`.`opt_status` NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR `ps`.`opt_status` IS NULL THEN 'unk' ELSE `ps`.`opt_status` END) AS `opt_status`,
+
+				DATE_FORMAT(ps.last_updated, '%Y-%m-%d %k:%i:%s') as updated,
+
+				(CASE WHEN `pd`.`opt_gender` NOT IN ('mal', 'fml') OR `pd`.`opt_gender` IS NULL THEN 'unk' ELSE `pd`.`opt_gender` END) AS `opt_gender`,
+				`pd`.`years_old` as `years_old`,
+				`pd`.`minAge` as `minAge`,
+				`pd`.`maxAge` as `maxAge`,
+				`i`.`image_height` AS `image_height`,
+				`i`.`image_width`  AS `image_width`,
+				`i`.`url_thumb`    AS `url_thumb`,
+				(CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)  AS `hospital`,
+				(CASE WHEN (`h`.`hospital_uuid` = -(1)) THEN NULL ELSE `h`.`icon_url` END) AS `icon_url`,
+				`pd`.last_seen,
+				`pd`.other_comments as comments,
+				 ecl.person_id as mass_casualty_id
+			 FROM tmp_names tn
+             JOIN person_status ps  ON (tn.p_uuid = ps.p_uuid and (`tn`.`expiry_date` > NOW() OR `tn`.`expiry_date` IS NULL) AND INSTR(?, 	(CASE WHEN ps.opt_status NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR ps.opt_status IS NULL THEN 'unk' ELSE  ps.opt_status END)))
+             JOIN person_details pd ON (tn.p_uuid = pd.p_uuid AND INSTR(?, (CASE WHEN `opt_gender` NOT IN ('mal', 'fml') OR `opt_gender` IS NULL THEN 'unk' ELSE `opt_gender` END))
+															  AND INSTR(?, (CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NOT NULL THEN
+							(CASE WHEN `pd`.`years_old` < 18 THEN 'youth'
+								  WHEN `pd`.`years_old` >= 18 THEN 'adult' END)
+					 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL
+						  AND `pd`.`minAge` < 18 AND `pd`.`maxAge` >= 18 THEN 'both'
+					 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`minAge` >= 18 THEN 'adult'
+					 WHEN CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`maxAge` < 18 THEN 'youth'
+					 ELSE 'unknown'
+					 END)))
+			 LEFT
+			 JOIN hospital h        ON (tn.hospital_uuid = h.hospital_uuid AND INSTR(?, (CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)))
+             LEFT
+			 JOIN image i			ON (tn.p_uuid = i.p_uuid)
+			 LEFT
+			 JOIN edxl_co_lpf ecl	ON tn.p_uuid = ecl.p_uuid
+           ORDER BY ", sortBy, " LIMIT ?, ?;");
+
+      PREPARE stmt FROM @sqlString;
+
+      SET @statusFilter = statusFilter;
+      SET @genderFilter = genderFilter;
+      SET @ageFilter = ageFilter;
+      SET @hospitalFilter = hospitalFilter;
+
+      SET @pageStart = pageStart;
+      SET @perPage = perPage;
+
+      SET NAMES utf8;
+      EXECUTE stmt USING @statusFilter, @genderFilter, @ageFilter, @hospitalFilter, @pageStart, @perPage;
+
+      DEALLOCATE PREPARE stmt;
+      DROP TABLE tmp_names;
+
+
+
+END
+DELIMITER ;
+
+
+
+
+DROP VIEW IF EXISTS `person_search`;
+
+CREATE ALGORITHM=UNDEFINED VIEW `person_search`
+AS select `pu`.`p_uuid` AS `p_uuid`,
+LOWER(`pu`.`full_name`) AS `full_name`,
+`pu`.`given_name` AS `given_name`,
+`pu`.`family_name` AS `family_name`,
+(CASE WHEN `ps`.`opt_status` NOT IN ('ali', 'mis', 'inj', 'dec', 'unk', 'fnd') OR `ps`.`opt_status` IS NULL THEN 'unk' ELSE `ps`.`opt_status` END) AS `opt_status`,
+(CASE WHEN `ps`.`last_updated` < `upd`.`update_time` THEN `upd`.`update_time` ELSE `ps`.`last_updated` END) AS `updated`,
+(CASE WHEN `pd`.`opt_gender` NOT IN ('mal', 'fml') OR `pd`.`opt_gender` IS NULL THEN 'unk' ELSE `pd`.`opt_gender` END) AS `opt_gender`,
+(CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NULL THEN -1 ELSE `pd`.`years_old` END) AS `years_old`,
+(CASE WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NULL THEN -1 ELSE `pd`.`minAge` END) AS `minAge`,
+(CASE WHEN CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NULL THEN -1 ELSE `pd`.`maxAge` END) AS `maxAge`,
+(CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NOT NULL THEN
+			(CASE WHEN `pd`.`years_old` < 18 THEN 'youth'
+				  WHEN `pd`.`years_old` >= 18 THEN 'adult' END)
+	 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL
+	      AND `pd`.`minAge` < 18 AND `pd`.`maxAge` >= 18 THEN 'both'
+	 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`minAge` >= 18 THEN 'adult'
+	 WHEN CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`maxAge` < 18 THEN 'youth'
+	 ELSE 'unknown'
+	 END) AS ageGroup,
+`i`.`image_height` AS `image_height`,
+`i`.`image_width` AS `image_width`,
+`i`.`url_thumb` AS `url_thumb`,
+(case when (`h`.`hospital_uuid` = -(1)) then NULL else `h`.`icon_url` end) AS `icon_url`,
+`inc`.`shortname` AS `shortname`,
+(CASE WHEN `pu`.`hospital_uuid` NOT IN (1, 2, 3) OR `pu`.`hospital_uuid` IS NULL THEN 'public' ELSE LOWER(`h`.`short_name`) END) AS `hospital`,
+`pd`.`other_comments` AS `comments`,
+`pd`.`last_seen` AS `last_seen`,
+ecl.person_id AS mass_casualty_id
+from `person_uuid` `pu` join `person_status` `ps` on (`pu`.`p_uuid` = `ps`.`p_uuid` and (`pu`.`expiry_date` > NOW() OR `pu`.`expiry_date` IS NULL))
+ left join `image` `i` on `pu`.`p_uuid` = `i`.`p_uuid`
+ join `person_details` `pd` on `pu`.`p_uuid` = `pd`.`p_uuid`
+ join `incident` `inc` on `inc`.`incident_id` = `pu`.`incident_id`
+ left join `hospital` `h` on `h`.`hospital_uuid` = `pu`.`hospital_uuid`
+ left join `person_updates` `upd` on `upd`.`p_uuid` = `pu`.`p_uuid`
+ left join `edxl_co_lpf` ecl on ecl.p_uuid = pu.p_uuid;
+
+
+
+2011:0913 Greg
+--------------
+
+// added mpres user to associate anonymous submissions of persons to a source
+
+INSERT INTO  `person_uuid` (`p_uuid`, `full_name`, `family_name`, `given_name`, `incident_id`)
+VALUES ('2', 'Email System', 'System', 'Email', 0);
+
+INSERT INTO  `users` (`user_id` , `p_uuid` , `user_name` , `password` , `salt` , `changed_timestamp` , `status` , `confirmation` )
+VALUES ('2', '2', 'mpres', NULL , NULL , '0', NULL , NULL);
+
+INSERT INTO  `sys_user_to_group` (`group_id`, `p_uuid`)
+VALUES ('3', '2');
+
+ALTER TABLE  `mpres_log` ADD  `xml_format` VARCHAR( 16 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT  'MPRES (unstructured) or XML Format of Incoming Email' ;
+
+
+2011:0909 Greg
+--------------
+
+CREATE TABLE  `mpres_messages` (
+	`ix` INT( 32 ) NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  'the index',
+	`when` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT  'when the script was last executed',
+	`messages` TEXT NULL DEFAULT NULL COMMENT  'the message log from the execution'
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT =  'stores the message log from mpres module' ;
+
+ALTER TABLE  `mpres_seq` ADD  `last_message` VARCHAR( 1024 ) NULL DEFAULT NULL ;
+ALTER TABLE  `mpres_seq` CHANGE  `last_message`  `last_message` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;
+ALTER TABLE  `mpres_messages` ADD  `error_code` INT( 12 ) NULL DEFAULT NULL ;
+
+2011:0907 Greg
+--------------
+
+ALTER TABLE  `voice_note` CHANGE  `url_resampled`  `url_resampled_mp3` VARCHAR( 1024 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT  'url of the resampled audio in mp3 format' ;
+ALTER TABLE  `voice_note` ADD  `url_resampled_ogg` VARCHAR( 1024 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT  'url of the resampled audio in ogg format' ;
+ALTER TABLE `person_status` DROP INDEX  `p_uuid` , ADD INDEX  `p_uuid` (  `p_uuid` );
+
+2011:0825 Greg
+--------------
+
+CREATE TABLE  `voice_note_seq` (
+`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  'stores next id in sequence for the voice_note table'
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci ;
+
+ALTER TABLE  `voice_note` CHANGE  `voicenote_id`  `voice_note_id` BIGINT( 20 ) NOT NULL ;
+ALTER TABLE  `voice_note` DROP  `original_filename` ;
+ALTER TABLE  `voice_note` DROP  `data` ;
+ALTER TABLE  `voice_note` CHANGE  `length`  `length` INT( 16 ) NULL DEFAULT NULL ;
+ALTER TABLE  `voice_note` CHANGE  `sample_rate`  `sample_rate` INT( 16 ) NULL DEFAULT NULL ;
+ALTER TABLE  `voice_note` CHANGE  `speaker`  `speaker` ENUM(  'Person',  'Reporter',  'Other' ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT  'Used to identify speaker.' ;
+ALTER TABLE  `voice_note` CHANGE  `url`  `url_original` VARCHAR( 1024 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT  'url of the original audio' ;
+ALTER TABLE  `voice_note` ADD  `url_resampled` VARCHAR( 1024 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT  'url of the resampled audio' ;
+ALTER TABLE  `voice_note` CHANGE  `p_uuid`  `p_uuid` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+
+
+2011:0824 Greg
+--------------
+
+ALTER TABLE  `edxl_co_photos` ADD  `image_id` INT( 20 ) NULL DEFAULT NULL COMMENT  'reference to the image.image_id field' ;
+
+ALTER TABLE  `edxl_co_header` ADD  `p_uuid` VARCHAR( 128 ) NULL DEFAULT NULL COMMENT  'ties the contentObject to a person' AFTER  `co_id` ,
+ADD  `type` ENUM(  'lpf',  'tep',  'pix' ) NULL DEFAULT NULL COMMENT  'defines the type of the contentObject' AFTER  `p_uuid` ;
+
+ALTER TABLE  `edxl_co_photos` ADD PRIMARY KEY (  `co_id` ,  `p_uuid` ) ;
+
+ALTER TABLE  `edxl_co_header` DROP INDEX  `de_id` , ADD INDEX  `de_id` (  `de_id` ) ;
+
+
+2011:0823 Greg
+--------------
+
+ALTER TABLE edxl_co_photos DROP PRIMARY KEY ;
+
+
+2011:0822 Greg
+--------------
+ALTER TABLE  `edxl_co_header` CHANGE  `co_id`  `co_id` INT( 11 ) NOT NULL ;
+ALTER TABLE  `edxl_de_header` CHANGE  `de_id`  `de_id` INT( 11 ) NOT NULL ;
+
+CREATE TABLE  `edxl_de_header_seq` (
+`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  'stores next id in sequence for the edxl_de_header table'
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE  `edxl_co_header_seq` (
+`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  'stores next id in sequence for the edxl_co_header table'
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+
+2011:0818 Greg
+--------------
+
+CREATE TABLE  `image_seq` (
+`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  'stores next id in sequence for the image table'
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE  `image_tag_seq` (
+`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT  'stores next id in sequence for the image_tag table'
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+ALTER TABLE  `image` ADD INDEX  `image_id` (  `image_id` ,  `p_uuid` );
+
+ALTER TABLE  `image` DROP INDEX  `p_uuid` ,
+ADD INDEX  `p_uuid` (  `p_uuid` );
+
+
+2011:0811 Greg
+--------------
+
+ALTER TABLE  `plus_report_log` ADD  `enum` VARCHAR( 16 ) NULL DEFAULT NULL ;
+
+
+2011:0810 Greg
+--------------
+
+DROP TABLE `location` ;
+DROP TABLE `location_details` ;
+DROP TABLE `lc_fields` ;
+DROP TABLE `loc_seq_seq`;
+
+
+2011:0809 Greg
+--------------
+
+ALTER TABLE `image`
+  DROP `crop_x`,
+  DROP `crop_y`,
+  DROP `crop_w`,
+  DROP `crop_h`,
+  DROP `category`,
+  DROP `full_path`;
+
+
+2011:0805 Leif
+--------------
+
+ALTER TABLE `person_status` DROP `isvictim`
+
+
+2011:0804 Leif
+--------------
+
+- deleted all person_status records with isvictim=0
+- person_uuid.incident_id for all reporters changed to null
+- made one DB schema change to allow incident_id to be NULL:
+
+ALTER TABLE `person_uuid` CHANGE `incident_id` `incident_id` BIGINT(20)
+NULL DEFAULT NULL
+
+
+2011:0803 Greg
+--------------
+ALTER TABLE `edxl_de_header` CHANGE `de_id` `de_id` INT( 11 ) NOT NULL AUTO_INCREMENT ;
+ALTER TABLE  `edxl_co_header` CHANGE  `co_id`  `co_id` INT( 11 ) NOT NULL AUTO_INCREMENT ;
+
+
+2011:0728 Greg
+--------------
+
+CREATE TABLE  `mpres_seq` (
+`id` BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`last_executed` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT =  'stores status of mpres module';
+
+
+2011:0721 Greg
+--------------
+
+ALTER TABLE `person_to_report` DROP `relation`
+
+ALTER TABLE  `hospital` ADD  `legalese` TEXT NULL DEFAULT NULL COMMENT  'legalese',
+ADD  `legaleseAnon` TEXT NULL DEFAULT NULL COMMENT  'anonymized legalese';
+
+
+2011:0718 Greg
+--------------
+
+
+ALTER TABLE `person_uuid`
+  DROP `l10n_name`,
+  DROP `custom_name`;
+
+ALTER TABLE  `person_status` DROP  `isReliefWorker` ;
+
+ALTER TABLE  `person_details` DROP  `opt_age_group` ;
+
+ALTER TABLE  `person_details` DROP  `next_kin_uuid` ;
+
+ALTER TABLE  `person_details` DROP  `relation` ;
+
+DELETE FROM field_options WHERE field_name = 'opt_country';
+
+ALTER TABLE  `person_details` DROP  `opt_country` ;
+
+ALTER TABLE  `person_details` DROP  `opt_marital_status` ;
+
+ALTER TABLE  `person_details` DROP  `occupation`;
+
+
+
+2011:0718 Greg
+--------------
+
+Added Glenn's EDXL table >>
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edxl_co_header`
+--
+-- Creation: Apr 18, 2011 at 11:08 AM
+--
+
+CREATE TABLE `edxl_co_header` (
+  `de_id` int(11) NOT NULL,
+  `co_id` int(11) NOT NULL,
+  `content_descr` varchar(255) default NULL COMMENT 'Content description',
+  `incident_id` varchar(255) default NULL,
+  `incident_descr` varchar(255) default NULL COMMENT 'Incident description',
+  `confidentiality` varchar(255) default NULL,
+  PRIMARY KEY  (`co_id`),
+  UNIQUE KEY `de_id` (`de_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- RELATIONS FOR TABLE `edxl_co_header`:
+--   `de_id`
+--       `edxl_de_header` -> `de_id`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edxl_co_keywords`
+--
+-- Creation: Apr 15, 2011 at 04:54 PM
+--
+
+CREATE TABLE `edxl_co_keywords` (
+  `co_id` int(11) NOT NULL,
+  `keyword_num` int(11) NOT NULL,
+  `keyword_urn` varchar(255) NOT NULL,
+  `keyword` varchar(255) NOT NULL,
+  PRIMARY KEY  (`co_id`,`keyword_num`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- RELATIONS FOR TABLE `edxl_co_keywords`:
+--   `co_id`
+--       `edxl_co_header` -> `co_id`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edxl_co_lpf`
+--
+-- Creation: Apr 15, 2011 at 05:23 PM
+--
+
+CREATE TABLE `edxl_co_lpf` (
+  `co_id` int(11) NOT NULL,
+  `p_uuid` varchar(255) NOT NULL COMMENT 'Sahana person ID',
+  `schema_version` varchar(255) NOT NULL,
+  `login_machine` varchar(255) NOT NULL,
+  `login_account` varchar(255) NOT NULL,
+  `person_id` varchar(255) NOT NULL COMMENT 'Mass casualty patient ID',
+  `event_name` varchar(255) NOT NULL,
+  `event_long_name` varchar(255) NOT NULL,
+  `org_name` varchar(255) NOT NULL,
+  `org_id` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `gender` enum('M','F','U','C') NOT NULL,
+  `peds` tinyint(1) NOT NULL,
+  `triage_category` enum('Green','BH Green','Yellow','Red','Gray','Black') NOT NULL,
+  PRIMARY KEY  (`co_id`,`p_uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='LPF is an example of an "other xml" content object, e.g., ot';
+
+--
+-- RELATIONS FOR TABLE `edxl_co_lpf`:
+--   `co_id`
+--       `edxl_co_header` -> `co_id`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edxl_co_photos`
+--
+-- Creation: Jun 22, 2011 at 06:04 PM
+--
+
+CREATE TABLE `edxl_co_photos` (
+  `co_id` int(11) NOT NULL,
+  `p_uuid` varchar(255) NOT NULL COMMENT 'Sahana person ID',
+  `mimeType` varchar(255) NOT NULL COMMENT 'As in ''image/jpeg''',
+  `uri` varchar(255) NOT NULL COMMENT 'Photo filename = Mass casualty patient ID + zone + ''s#'' if secondary + optional caption after hypen',
+  `contentData` mediumtext character set ascii NOT NULL COMMENT 'Base-64 encoded image',
+  PRIMARY KEY  (`co_id`,`p_uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='LPF is an example of an "other xml" content object, e.g., ot';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edxl_co_roles`
+--
+-- Creation: Apr 15, 2011 at 05:00 PM
+--
+
+CREATE TABLE `edxl_co_roles` (
+  `co_id` int(11) NOT NULL,
+  `role_num` int(11) NOT NULL default '0',
+  `of_originator` tinyint(1) NOT NULL COMMENT '0 = false = of consumer',
+  `role_urn` varchar(255) NOT NULL,
+  `role` varchar(255) NOT NULL,
+  PRIMARY KEY  (`co_id`,`role_num`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- RELATIONS FOR TABLE `edxl_co_roles`:
+--   `co_id`
+--       `edxl_co_header` -> `co_id`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edxl_de_header`
+--
+-- Creation: Jun 07, 2011 at 06:12 PM
+--
+
+CREATE TABLE `edxl_de_header` (
+  `de_id` int(11) NOT NULL,
+  `when_sent` datetime NOT NULL,
+  `sender_id` varchar(255) NOT NULL COMMENT 'Email, phone num, etc.  Not always URI, URN, URL',
+  `distr_id` varchar(255) NOT NULL COMMENT 'Distribution ID.  Sender may or may not choose to vary.',
+  `distr_status` enum('Actual','Exercise','System','Test') NOT NULL,
+  `distr_type` enum('Ack','Cancel','Dispatch','Error','Report','Request','Response','Update') NOT NULL COMMENT 'Not included: types for sensor grids',
+  `combined_conf` varchar(255) NOT NULL COMMENT 'Combined confidentiality of all content objects',
+  `language` varchar(255) default NULL,
+  `when_here` datetime NOT NULL COMMENT 'Received or sent from here.  [local]',
+  `inbound` tinyint(1) NOT NULL default '1' COMMENT 'BOOLEAN [local]',
+  PRIMARY KEY  (`de_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Overall message base, defined by EDXL Distribution Element';
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edxl_de_keywords`
+--
+-- Creation: Apr 15, 2011 at 04:29 PM
+--
+
+CREATE TABLE `edxl_de_keywords` (
+  `de_id` int(11) NOT NULL,
+  `keyword_num` int(11) NOT NULL default '0',
+  `keyword_urn` varchar(255) NOT NULL,
+  `keyword` varchar(255) character set latin1 NOT NULL,
+  PRIMARY KEY  (`de_id`,`keyword_num`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- RELATIONS FOR TABLE `edxl_de_keywords`:
+--   `de_id`
+--       `edxl_de_header` -> `de_id`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edxl_de_prior_messages`
+--
+-- Creation: Apr 15, 2011 at 04:01 PM
+--
+
+CREATE TABLE `edxl_de_prior_messages` (
+  `de_id` int(11) NOT NULL,
+  `prior_msg_num` int(11) NOT NULL default '0',
+  `when_sent` datetime NOT NULL COMMENT 'external time',
+  `sender_id` varchar(255) NOT NULL COMMENT 'external ID',
+  `distr_id` varchar(255) NOT NULL COMMENT 'external distribution ID',
+  PRIMARY KEY  (`de_id`,`prior_msg_num`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- RELATIONS FOR TABLE `edxl_de_prior_messages`:
+--   `de_id`
+--       `edxl_de_header` -> `de_id`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edxl_de_roles`
+--
+-- Creation: Apr 15, 2011 at 04:28 PM
+--
+
+CREATE TABLE `edxl_de_roles` (
+  `de_id` int(11) NOT NULL,
+  `role_num` int(11) NOT NULL default '0',
+  `of_sender` tinyint(1) NOT NULL,
+  `role_urn` varchar(255) NOT NULL,
+  `role` varchar(255) NOT NULL,
+  PRIMARY KEY  (`de_id`,`role_num`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- RELATIONS FOR TABLE `edxl_de_roles`:
+--   `de_id`
+--       `edxl_de_header` -> `de_id`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edxl_de_target_addresses`
+--
+-- Creation: Apr 15, 2011 at 04:03 PM
+--
+
+CREATE TABLE `edxl_de_target_addresses` (
+  `de_id` int(11) NOT NULL,
+  `address_num` int(11) NOT NULL default '0',
+  `scheme` varchar(255) NOT NULL COMMENT 'Like "e-mail"',
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY  (`de_id`,`address_num`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- RELATIONS FOR TABLE `edxl_de_target_addresses`:
+--   `de_id`
+--       `edxl_de_header` -> `de_id`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edxl_de_target_circles`
+--
+-- Creation: Apr 15, 2011 at 04:23 PM
+--
+
+CREATE TABLE `edxl_de_target_circles` (
+  `de_id` int(11) NOT NULL,
+  `circle_num` int(11) NOT NULL default '0',
+  `latitude` float NOT NULL,
+  `longitude` float NOT NULL,
+  `radius_km` float NOT NULL,
+  PRIMARY KEY  (`de_id`,`circle_num`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- RELATIONS FOR TABLE `edxl_de_target_circles`:
+--   `de_id`
+--       `edxl_de_header` -> `de_id`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edxl_de_target_codes`
+--
+-- Creation: Apr 19, 2011 at 01:58 PM
+--
+
+CREATE TABLE `edxl_de_target_codes` (
+  `de_id` int(11) NOT NULL,
+  `codes_num` int(11) NOT NULL default '0',
+  `code_type` enum('country','subdivision','locCodeUN') default NULL COMMENT 'Respectively (1) ISO 3166-1 2-letter country code (2) ISO 3166-2 code: country + "-" + per-country 2-3 char code like state, e.g., "US-MD". (3) UN transport hub code: country + "-" + 2-3 char code (cap ASCII or 2-9), e.g., "US-BWI"',
+  `code` varchar(6) default NULL COMMENT 'See format examples for code_type field',
+  PRIMARY KEY  (`de_id`,`codes_num`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- RELATIONS FOR TABLE `edxl_de_target_codes`:
+--   `de_id`
+--       `edxl_de_header` -> `de_id`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `edxl_de_target_polygons`
+--
+-- Creation: Jun 07, 2011 at 05:51 PM
+--
+
+CREATE TABLE `edxl_de_target_polygons` (
+  `de_id` int(11) NOT NULL,
+  `poly_num` int(11) NOT NULL default '0',
+  `point_num` int(11) NOT NULL default '0' COMMENT 'Point within this polygon',
+  `latitude` float NOT NULL,
+  `longitude` float NOT NULL,
+  PRIMARY KEY  (`de_id`,`poly_num`,`point_num`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- RELATIONS FOR TABLE `edxl_de_target_polygons`:
+--   `de_id`
+--       `edxl_de_header` -> `de_id`
+--
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `edxl_co_header`
+--
+ALTER TABLE `edxl_co_header`
+  ADD CONSTRAINT `edxl_co_header_ibfk_1` FOREIGN KEY (`de_id`) REFERENCES `edxl_de_header` (`de_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `edxl_co_keywords`
+--
+ALTER TABLE `edxl_co_keywords`
+  ADD CONSTRAINT `edxl_co_keywords_ibfk_1` FOREIGN KEY (`co_id`) REFERENCES `edxl_co_header` (`co_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `edxl_co_lpf`
+--
+ALTER TABLE `edxl_co_lpf`
+  ADD CONSTRAINT `edxl_co_lpf_ibfk_1` FOREIGN KEY (`co_id`) REFERENCES `edxl_co_header` (`co_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `edxl_co_roles`
+--
+ALTER TABLE `edxl_co_roles`
+  ADD CONSTRAINT `edxl_co_roles_ibfk_1` FOREIGN KEY (`co_id`) REFERENCES `edxl_co_header` (`co_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `edxl_de_keywords`
+--
+ALTER TABLE `edxl_de_keywords`
+  ADD CONSTRAINT `edxl_de_keywords_ibfk_1` FOREIGN KEY (`de_id`) REFERENCES `edxl_de_header` (`de_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `edxl_de_prior_messages`
+--
+ALTER TABLE `edxl_de_prior_messages`
+  ADD CONSTRAINT `edxl_de_prior_messages_ibfk_1` FOREIGN KEY (`de_id`) REFERENCES `edxl_de_header` (`de_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `edxl_de_roles`
+--
+ALTER TABLE `edxl_de_roles`
+  ADD CONSTRAINT `edxl_de_roles_ibfk_1` FOREIGN KEY (`de_id`) REFERENCES `edxl_de_header` (`de_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `edxl_de_target_addresses`
+--
+ALTER TABLE `edxl_de_target_addresses`
+  ADD CONSTRAINT `edxl_de_target_addresses_ibfk_1` FOREIGN KEY (`de_id`) REFERENCES `edxl_de_header` (`de_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `edxl_de_target_circles`
+--
+ALTER TABLE `edxl_de_target_circles`
+  ADD CONSTRAINT `edxl_de_target_circles_ibfk_1` FOREIGN KEY (`de_id`) REFERENCES `edxl_de_header` (`de_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `edxl_de_target_codes`
+--
+ALTER TABLE `edxl_de_target_codes`
+  ADD CONSTRAINT `edxl_de_target_codes_ibfk_1` FOREIGN KEY (`de_id`) REFERENCES `edxl_de_header` (`de_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `edxl_de_target_polygons`
+--
+ALTER TABLE `edxl_de_target_polygons`
+  ADD CONSTRAINT `edxl_de_target_polygons_ibfk_1` FOREIGN KEY (`de_id`) REFERENCES `edxl_de_header` (`de_id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+2011:0714 Leif
+--------------
+
+ALTER TABLE `pfif_repository` ADD `subdomain` VARCHAR( 32 ) NULL DEFAULT
+NULL AFTER `base_url`
+
+
+2011:0713 Leif
+--------------
+
+ALTER TABLE `pfif_repository` DROP `params`
+
+ALTER TABLE `pfif_repository` ADD `auth_key` VARCHAR( 16 ) NULL AFTER
+`base_url`
+
+ALTER TABLE `pfif_repository` CHANGE `sched_interval_minutes`
+`sched_interval_minutes` INT( 11 ) NOT NULL DEFAULT '0'
+
+ALTER TABLE `pfif_repository` CHANGE `granularity` `granularity` VARCHAR(
+20 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT
+'YYYY-MM-DDThh:mm:ssZ'
+
+ALTER TABLE `pfif_repository` CHANGE `deleted_record` `deleted_record`
+VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT
+'no'
+
+ALTER TABLE `pfif_repository` CHANGE `log_granularity` `log_granularity`
+VARCHAR( 20 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT
+'24:00:00'
+
+
 2011:0704 Leif
 --------------
 
@@ -53,7 +837,7 @@ Replace delete_reported_person() procedure with:
 
 --
 -- Delete a reported person and all related data.
--- Does not delete locally registered user data. 
+-- Does not delete locally registered user data.
 --
 
 CREATE PROCEDURE delete_reported_person(IN id VARCHAR(128))
@@ -68,10 +852,10 @@ DELETE person_uuid.* FROM person_uuid WHERE p_uuid = id;
 -- Delete person from pfif_person
 DELETE pfif_person.* FROM pfif_person WHERE p_uuid = id;
 
--- Delete note from pfif_note 
+-- Delete note from pfif_note
 DELETE pfif_note.* FROM pfif_note WHERE p_uuid = id;
 
--- Set to null linked records in pfif_note 
+-- Set to null linked records in pfif_note
 UPDATE pfif_note SET linked_person_record_id = NULL WHERE linked_person_record_id = id;
 
 END
@@ -81,12 +865,12 @@ END
 --------------
 ALTER TABLE `hospital` CHANGE  `patient_id_suffix_variable`  `patient_id_suffix_variable` TINYINT( 1 ) NOT NULL DEFAULT  '1';
 
-2011:0615 Merwan 
+2011:0615 Merwan
 ----------------
--- 
+--
 -- This Query is used to load up SOLR's index -- preliminary filtering is done here.
 --
-CREATE ALGORITHM=UNDEFINED VIEW `person_search` 
+CREATE ALGORITHM=UNDEFINED VIEW `person_search`
 AS select `pu`.`p_uuid` AS `p_uuid`,
 LOWER(`pu`.`full_name`) AS `full_name`,
 `pu`.`given_name` AS `given_name`,
@@ -100,7 +884,7 @@ LOWER(`pu`.`full_name`) AS `full_name`,
 (CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NOT NULL THEN
 			(CASE WHEN `pd`.`years_old` < 18 THEN 'youth'
 				  WHEN `pd`.`years_old` >= 18 THEN 'adult' END)
-	 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL 
+	 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL
 	      AND `pd`.`minAge` < 18 AND `pd`.`maxAge` >= 18 THEN 'both'
 	 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`minAge` >= 18 THEN 'adult'
 	 WHEN CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`maxAge` < 18 THEN 'youth'
@@ -113,7 +897,7 @@ LOWER(`pu`.`full_name`) AS `full_name`,
 `inc`.`shortname` AS `shortname`,
 (CASE WHEN `h`.`short_name` NOT IN ('sh', 'nnmc') OR `h`.`short_name` IS NULL THEN 'public' ELSE `h`.`short_name` END) AS `hospital`,
 `pd`.`other_comments` AS `comments`,
-`pd`.`last_seen` AS `last_seen` 
+`pd`.`last_seen` AS `last_seen`
 from `person_uuid` `pu` join `person_status` `ps` on (`pu`.`p_uuid` = `ps`.`p_uuid` and `ps`.`isvictim` = 1 and (`pu`.`expiry_date` > NOW() OR `pu`.`expiry_date` IS NULL))
  left join `image` `i` on `pu`.`p_uuid` = `i`.`p_uuid`
  join `person_details` `pd` on `pu`.`p_uuid` = `pd`.`p_uuid`
@@ -123,11 +907,11 @@ from `person_uuid` `pu` join `person_status` `ps` on (`pu`.`p_uuid` = `ps`.`p_uu
 
  --
  -- This stored procedure is the the SQL version of search.
- -- It's a very simple filtered search which can still be improved 
+ -- It's a very simple filtered search which can still be improved
  -- at the cost of some performance which can be increased by increasing
  -- the minimum amount of characters required for the searchTerms variable.
- -- 
- 
+ --
+
 DELIMITER //
 DROP PROCEDURE IF EXISTS `PLSearch`//
 CREATE PROCEDURE `PLSearch`(
@@ -143,25 +927,25 @@ CREATE PROCEDURE `PLSearch`(
 )
 BEGIN
 
-	DROP TABLE IF EXISTS tmp_names; 
-    IF searchTerms = '' THEN 
+	DROP TABLE IF EXISTS tmp_names;
+    IF searchTerms = '' THEN
             CREATE TEMPORARY TABLE tmp_names AS (
             SELECT SQL_NO_CACHE pu.*
                 FROM person_uuid pu
                    JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
                   LIMIT 5000
          );
-    
+
     ELSE
             CREATE TEMPORARY TABLE  tmp_names AS (
             SELECT SQL_NO_CACHE pu.*
                 FROM person_uuid pu
                    JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
-            WHERE full_name like CONCAT(searchTerms , '%') 
+            WHERE full_name like CONCAT(searchTerms , '%')
             LIMIT 5000
             );
      END IF;
-    
+
     SET @sqlString = CONCAT("SELECT  SQL_NO_CACHE `tn`.`p_uuid`       AS `p_uuid`,
 				`tn`.`full_name`    AS `full_name`,
 				`tn`.`given_name`   AS `given_name`,
@@ -169,11 +953,11 @@ BEGIN
 				(CASE WHEN `ps`.`opt_status` NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR `ps`.`opt_status` IS NULL THEN 'unk' ELSE `ps`.`opt_status` END) AS `opt_status`,
 
 				DATE_FORMAT(ps.last_updated, '%Y-%m-%d %k:%i:%s') as updated,
-                  
+
 				(CASE WHEN `pd`.`opt_gender` NOT IN ('mal', 'fml') OR `pd`.`opt_gender` IS NULL THEN 'unk' ELSE `pd`.`opt_gender` END) AS `opt_gender`,
 				`pd`.`years_old` as `years_old`,
 				`pd`.`minAge` as `minAge`,
-				`pd`.`maxAge` as `maxAge`,				
+				`pd`.`maxAge` as `maxAge`,
 				`i`.`image_height` AS `image_height`,
 				`i`.`image_width`  AS `image_width`,
 				`i`.`url_thumb`    AS `url_thumb`,
@@ -187,18 +971,18 @@ BEGIN
 															  AND INSTR(?, (CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NOT NULL THEN
 							(CASE WHEN `pd`.`years_old` < 18 THEN 'youth'
 								  WHEN `pd`.`years_old` >= 18 THEN 'adult' END)
-					 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL 
+					 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL
 						  AND `pd`.`minAge` < 18 AND `pd`.`maxAge` >= 18 THEN 'both'
 					 WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`minAge` >= 18 THEN 'adult'
 					 WHEN CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`maxAge` < 18 THEN 'youth'
 					 ELSE 'unknown'
 					 END)))
-			 LEFT 
+			 LEFT
 			 JOIN hospital h        ON (tn.hospital_uuid = h.hospital_uuid AND INSTR(?, (CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)))
-             LEFT 
+             LEFT
 			 JOIN image i			ON (tn.p_uuid = i.p_uuid)
            ORDER BY ", sortBy, " LIMIT ?, ?;");
-		   
+
       PREPARE stmt FROM @sqlString;
 
       SET @statusFilter = statusFilter;
@@ -210,14 +994,14 @@ BEGIN
       SET @perPage = perPage;
 
       SET NAMES utf8;
-      EXECUTE stmt USING @statusFilter, @genderFilter, @ageFilter, @hospitalFilter, 
+      EXECUTE stmt USING @statusFilter, @genderFilter, @ageFilter, @hospitalFilter,
                                                         @pageStart, @perPage;
 
       DEALLOCATE PREPARE stmt;
       DROP TABLE tmp_names;
 
-   
-   
+
+
 END
 
 2011:0523 Leif
@@ -230,4 +1014,4 @@ Also, delete_person() procedure statement changed as follows:
   changed to
   UPDATE pfif_note SET linked_person_record_id = NULL WHERE linked_person_record_id = id;
 
-ALTER TABLE `pfif_repository` ADD `incident_id` BIGINT NULL DEFAULT NULL AFTER `name` 
+ALTER TABLE `pfif_repository` ADD `incident_id` BIGINT NULL DEFAULT NULL AFTER `name`

@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0705
+ * @lastModified 2011.0823
  */
 
 global $api_version;
@@ -135,6 +135,22 @@ function shn_plus_registerAll($namespace) {
 		),
 		$namespace,
 		"Returns all policy data relavent to a particular hospital."
+	);
+
+	shn_plus_registerOne($server, 'getHospitalLegalese',
+		array(
+			'in' => array(
+				'hospital_uuid' => 'xsd:integer'
+			),
+			'out' => array(
+				'legalese'      => 'xsd:string',
+				'legaleseAnon'  => 'xsd:string',
+				'errorCode'     => 'xsd:integer',
+				'errorMessage'  => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Retrieve a particular hospital’s legalese clause as well as their anonymized legalese clause."
 	);
 
 	// ACCOUNT API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
@@ -353,40 +369,94 @@ function shn_plus_registerAll($namespace) {
 	// REPORTING API DECLARATIONS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 	// REPORTING API DECLARATIONS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
-	shn_plus_registerOne($server, 'reportPesonViaLegacyTriagePic',
+	shn_plus_registerOne($server, 'reportPerson',
 		array(
 			'in' => array(
-				'personXML'    => 'xsd:string',
-				'username'     => 'xsd:string',
-				'password'     => 'xsd:string'
+				'personXML'      => 'xsd:string',
+				'eventShortName' => 'xsd:string',
+				'xmlFormat'      => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
 			),
 			'out' => array(
-				'success '     => 'xsd:boolean',
-				'url'          => 'xsd:string',
-				'errorCode'    => 'xsd:integer',
-				'errorMessage' => 'xsd:string'
+				'success '       => 'xsd:boolean',
+				'url'            => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
 			)
 		),
 		$namespace,
-		"Report a new person using the LPF v1.3 XML format."
+		"Report a new person using the LPF v1.2 XML format."
 	);
 
-	shn_plus_registerOne($server, 'reportPesonViaLPFXML',
+	shn_plus_registerOne($server, 'createPersonUuid',
 		array(
 			'in' => array(
-				'personXML'    => 'xsd:string',
-				'username'     => 'xsd:string',
-				'password'     => 'xsd:string'
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
 			),
 			'out' => array(
-				'success '     => 'xsd:boolean',
-				'url'          => 'xsd:string',
-				'errorCode'    => 'xsd:integer',
-				'errorMessage' => 'xsd:string'
+				'success '       => 'xsd:boolean',
+				'uuid'           => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
 			)
 		),
 		$namespace,
-		"Report a new person using the LPF v1.4+ XML format."
+		"Reserves a uuid in the system so that an app can cache it for later use in reporting."
+	);
+
+	shn_plus_registerOne($server, 'createPersonUuidBatch',
+		array(
+			'in' => array(
+				'number'         => 'xsd:integer',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'success '       => 'xsd:boolean',
+				'uuid'           => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Reserves a number of uuids in the system so that an app can cache them for later use in reporting."
+	);
+
+	shn_plus_registerOne($server, 'createNoteUuid',
+		array(
+			'in' => array(
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'success '       => 'xsd:boolean',
+				'uuid'           => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Reserves a note uuid in the system so that an app can cache it for later use in reporting."
+	);
+
+	shn_plus_registerOne($server, 'createNoteUuidBatch',
+		array(
+			'in' => array(
+				'number'         => 'xsd:integer',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'success '       => 'xsd:boolean',
+				'uuid'           => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Reserves a number of note uuids in the system so that an app can cache them for later use in reporting."
 	);
 }
 
@@ -671,12 +741,54 @@ function getHospitalPolicy($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
+			'patientIdPrefix'            => null,
+			'patientIdSuffixVariable'    => null,
+			'patientIdSuffixFixedLength' => null,
+			'errorCode'                  => (int)100,
+			'errorMessage'               => (string)$eCodes[100]
+		);
+	}
+	return $data;
+}
+
+
+
+// Retrieve a particular hospital’s legalese clause as well as their anonymized legalese clause.
+function getHospitalLegalese($hospital_uuid) {
+	shn_plus_logAccess("getHospitalLegalese");
+
+	global $global;
+	$error = true;
+
+	$q = "
+		SELECT *
+		FROM hospital
+		WHERE hospital_uuid = '".mysql_real_escape_string($hospital_uuid)."'
+		LIMIT 1;
+	";
+	$result = $global['db']->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$data = array(
+			'legalese'     => (string)$result->fields["legalese"],
+			'legaleseAnon' => (string)$result->fields["legaleseAnon"],
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+		$result->MoveNext();
+		$error = false;
+	}
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		$data = array(
+			'legalese'     => null,
+			'legaleseAnon' => null,
 			'errorCode'    => (int)100,
 			'errorMessage' => (string)$eCodes[100]
 		);
 	}
 	return $data;
 }
+
 
 
 // ACCOUNT API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
@@ -1262,86 +1374,252 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 // REPORTING API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // REPORTING API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // REPORTING API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-/*
-	shn_plus_registerOne($server, 'reportPesonViaLegacyTriagePic',
-		array(
-			'in' => array(
-				'personXML'    => 'xsd:string',
-				'username'     => 'xsd:string',
-				'password'     => 'xsd:string'
-			),
-			'out' => array(
-				'success '     => 'xsd:boolean',
-				'url'          => 'xsd:string',
-				'errorCode'    => 'xsd:integer',
-				'errorMessage' => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Report a new person using the LPF v1.3 XML format."
+
+// Report a new person
+function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $password) {
+
+	shn_plus_logAccess("reportPerson");
+	global $global;
+	global $conf;
+	$url = "";
+	$error = false;
+	$ecode = null;
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$error = true;
+		$ecode = $status;
+	} else {
+		// check if the user is a member of a group that has access to the event in question
+		$q = "
+			SELECT *
+			FROM incident i, users u, sys_user_groups s, sys_user_to_group t
+			WHERE (i.private_group = s.group_id
+			AND s.group_id = t.group_id
+			AND t.p_uuid = u.p_uuid
+			AND u.user_name = '".mysql_real_escape_string($username)."'
+			AND i.shortname = '".mysql_real_escape_string($eventShortName)."')
+			OR (i.private_group is null
+			AND i.shortname = '".mysql_real_escape_string($eventShortName)."');
+		";
+		$result = $global['db']->Execute($q);
+		if($result == null || $result->EOF) {
+			$error = true;
+			$ecode = 300;
+		}
+
+		// figure out the p_uuid of the user who is reporting
+		if(!$error) {
+			$q = "
+				SELECT *
+				FROM users
+				WHERE user_name = '".$username."';
+			";
+			$result = $global['db']->Execute($q);
+			$rep_uuid = $result->fields["p_uuid"];
+		}
+
+		// no errors, we must have permission to report to this event for the given user
+
+		$a = null;
+
+		if(!$error) {
+			$p = new person();
+			$p->init();
+			$p->rep_uuid  = $rep_uuid;
+			$p->theString = $personXML;
+			$p->xmlFormat = $xmlFormat;
+			$p->setEvent($eventShortName);
+			$ecode = $p->parseXml();
+			if($ecode == 0) {
+				$p->insert();
+				$p->plusReportLog();
+			} else {
+				$error = true;
+			}
+		}
+	}
+
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'success'      => false,
+			'url'          => (string)$p->p_uuid,
+			'errorCode'    => (int)$ecode,
+			'errorMessage' => (string)$eCodes[$ecode]
+		);
+	} else {
+		return array(
+			'success'      => true,
+			'url'          => (string)$p->p_uuid,
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	}
+}
+
+
+
+// Reserves a uuid in the system so that an app can cache it for later use in reporting.
+function createPersonUuid($username, $password) {
+	global $global;
+	require_once $global['approot'].'/inc/lib_uuid.inc';
+
+	shn_plus_logAccess("createPersonUuid");
+	global $global;
+	$list = array();
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'success'      => (boolean)false,
+			'uuid'         => null,
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+
+	}
+	$uuid = shn_create_uuid("p");
+	return array(
+		'success'      => (boolean)true,
+		'uuid'         => (string)$uuid,
+		'errorCode'    => (int)0,
+		'errorMessage' => null
 	);
+}
 
-	shn_plus_registerOne($server, 'reportPesonViaLPFXML',
-		array(
-			'in' => array(
-				'personXML'    => 'xsd:string',
-				'username'     => 'xsd:string',
-				'password'     => 'xsd:string'
-			),
-			'out' => array(
-				'success '     => 'xsd:boolean',
-				'url'          => 'xsd:string',
-				'errorCode'    => 'xsd:integer',
-				'errorMessage' => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Report a new person using the LPF v1.4+ XML format."
+
+
+
+// Reserves a number of uuids in the system so that an app can cache them for later use in reporting.
+function createPersonUuidBatch($number, $username, $password) {
+	global $global;
+	require_once $global['approot'].'/inc/lib_uuid.inc';
+
+	shn_plus_logAccess("createPersonUuidBatch");
+	global $global;
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'success'      => (boolean)false,
+			'uuids'        => null,
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+	}
+
+	$uuids = array();
+	$count = 0;
+	$max = 100; // maximum number of uuid's to request
+	if ($number > 1 && $number <= $max) {
+		for ($i = 0; $i < $number; $i++) {
+			$uuid = shn_create_uuid("p");
+			$uuids[] = array('uuid'.$i => $uuid);
+		}
+	} else {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'success'      => (boolean)false,
+			'uuids'        => null,
+			'errorCode'    => (int)201,
+			'errorMessage' => (string)$eCodes[201]
+		);
+	}
+
+	return array(
+		'success'      => (boolean)true,
+		'uuid'         => (string)json_encode($uuids),
+		'errorCode'    => (int)0,
+		'errorMessage' => null
 	);
-*/
+}
 
 
 
 
+// Reserves a note uuid in the system so that an app can cache it for later use in reporting.
+function createNoteUuid($username, $password) {
+	global $global;
+	require_once $global['approot'].'/inc/lib_uuid.inc';
+
+	shn_plus_logAccess("createNotenUuid");
+	global $global;
+	$list = array();
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'success'      => (boolean)false,
+			'uuid'         => null,
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+
+	}
+	$uuid = shn_create_uuid("pfn");
+	return array(
+		'success'      => (boolean)true,
+		'uuid'         => (string)$uuid,
+		'errorCode'    => (int)0,
+		'errorMessage' => null
+	);
+}
 
 
 
+// Reserves a number of note uuids in the system so that an app can cache them for later use in reporting.
+function createNoteUuidBatch($number, $username, $password) {
+	global $global;
+	require_once $global['approot'].'/inc/lib_uuid.inc';
 
+	shn_plus_logAccess("createNoteUuidBatch");
+	global $global;
 
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'success'      => (boolean)false,
+			'uuids'        => null,
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+	}
 
+	$uuids = array();
+	$count = 0;
+	$max = 100; // maximum number of uuid's to request
+	if ($number > 1 && $number <= $max) {
+		for ($i = 0; $i < $number; $i++) {
+			$uuid = shn_create_uuid("pfn");
+			$uuids[] = array('uuid'.$i => $uuid);
+		}
+	} else {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'success'      => (boolean)false,
+			'uuids'        => null,
+			'errorCode'    => (int)201,
+			'errorMessage' => (string)$eCodes[201]
+		);
+	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	return array(
+		'success'      => (boolean)true,
+		'uuid'         => (string)json_encode($uuids),
+		'errorCode'    => (int)0,
+		'errorMessage' => null
+	);
+}
 
 
 

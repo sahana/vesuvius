@@ -198,7 +198,6 @@ function showFacets() {
 }
 
 
-
 //
 // Person Class
 //
@@ -233,6 +232,8 @@ function Person() {
 			this.x            = -999999;
 			this.y            = -999999;
 			this.wipe         = false; 
+			
+			this.mass_casualty_id = args["mass_casualty_id"] || "N/A";
 			
 			if ( this.age > -1 ) 
 				this.displayAge = this.age;
