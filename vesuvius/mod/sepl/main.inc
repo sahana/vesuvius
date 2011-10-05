@@ -2,7 +2,7 @@
 /**
  * @name         Search+
  * @version      0.1
- * @package      search+
+ * @package      sepl
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
@@ -11,8 +11,22 @@
  */
 
 
-$conf['mod_search+_name']         = _t("Search+");
-$conf['mod_search+_menuorder']    = 200;
-$conf['mod_search+_dependencies'] = "";
-$conf['mod_search+_version']      = "0.1";
+// array of events used for generating the home page...
+$events = array();
+
+
+/**
+ * Displays a Landing Page
+ * @access public
+ * @return void
+ */
+function shn_sepl_default() {
+	global $global;
+	global $events;
+
+
+	echo "nothing yet.";
+}
+
+
 
