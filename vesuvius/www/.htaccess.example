@@ -19,7 +19,7 @@ RewriteBase /
 ##### make mod_rewrite skip the subsequent 7 rules if the file or folder exists already
 RewriteCond %{REQUEST_FILENAME} -d [OR]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule .* - [S=7]
+RewriteRule .* - [S=10]
 
 ##### matches /person.XXXXX for the person uuid's as urls
 RewriteRule ^(person.[0-9]+)$ index.php?mod=eap&act=modrewrite&val=$1
@@ -30,8 +30,17 @@ RewriteRule ^(about|ABOUT)$ index.php?mod=rez&act=default&page_id=-30 [L]
 ##### handle the about page via php
 RewriteRule ^(plus|PLUS)$ index.php?mod=rez&act=default&page_id=-45 [L]
 
-##### handle the login page via php
+##### handle login
 RewriteRule ^(login|LOGIN)$ index.php?mod=pref&act=loginForm [L]
+
+##### handle logout
+RewriteRule ^(logout|LOGOUT)$ index.php?act=logout [L]
+
+##### handle register
+RewriteRule ^(register|REGISTER)$ index.php?mod=pref&act=signup [L]
+
+##### handle forgot password
+RewriteRule ^(forgot|FORGOT)$ index.php?mod=pref&act=forgotPassword [L]
 
 ##### matches /shortname
 RewriteRule ^([^/][a-z0-9]+)$ index.php?shortname=$1
@@ -41,3 +50,5 @@ RewriteRule ^([^/][a-z0-9]+)/$ index.php?shortname=$1
 
 ##### matches /shortname/index.php?vars=params
 RewriteRule ^([^/][a-z0-9]+)/(.+)$ $2?shortname=$1 [QSA]
+
+

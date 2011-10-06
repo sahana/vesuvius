@@ -1,17 +1,17 @@
 <?
 /**
  * @name         PL User Services
- * @version      1.9.6
+ * @version      1.9.9
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0823
+ * @lastModified 2011.1003
  */
 
 global $api_version;
-$api_version = "1.9.6";
+$api_version = "1.9.9";
 
 // This function is called by the Document/Literal SOAP server upon initalization to register all the api services from this module's api.
 function shn_plus_registerAll($namespace) {
@@ -129,6 +129,9 @@ function shn_plus_registerAll($namespace) {
 				'patientIdPrefix'            => 'xsd:string',
 				'patientIdSuffixVariable'    => 'xsd:boolean',
 				'patientIdSuffixFixedLength' => 'xsd:integer',
+				'photoRequired'              => 'xsd:boolean',
+				'honorNoPhotoRequest'        => 'xsd:boolean',
+				'photographerNameRequired'   => 'xsd:boolean',
 				'errorCode'                  => 'xsd:integer',
 				'errorMessage'               => 'xsd:string'
 			)
@@ -137,6 +140,51 @@ function shn_plus_registerAll($namespace) {
 		"Returns all policy data relavent to a particular hospital."
 	);
 
+	shn_plus_registerOne($server, 'getHospitalLegalese',
+		array(
+			'in' => array(
+				'hospital_uuid' => 'xsd:integer'
+			),
+			'out' => array(
+				'legalese'      => 'xsd:string',
+				'errorCode'     => 'xsd:integer',
+				'errorMessage'  => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Retrieve a particular hospital’s legalese clause."
+	);
+
+	shn_plus_registerOne($server, 'getHospitalLegaleseAnon',
+		array(
+			'in' => array(
+				'hospital_uuid' => 'xsd:integer'
+			),
+			'out' => array(
+				'legaleseAnon'  => 'xsd:string',
+				'errorCode'     => 'xsd:integer',
+				'errorMessage'  => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Retrieve a particular hospital’s anonymous legalese clause."
+	);
+
+	shn_plus_registerOne($server, 'getHospitalLegaleseTimestamps',
+		array(
+			'in' => array(
+				'hospital_uuid' => 'xsd:integer'
+			),
+			'out' => array(
+				'legaleseTimestamp'     => 'xsd:string',
+				'legaleseAnonTimestamp' => 'xsd:string',
+				'errorCode'             => 'xsd:integer',
+				'errorMessage'          => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Retrieves information about when the legalese clauses were last updated for a particular hospital."
+	);
 
 	// ACCOUNT API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 	// ACCOUNT API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
@@ -494,7 +542,8 @@ function getEventList() {
 			'latitude'    => $result->fields["latitude"],
 			'longitude'   => $result->fields["longitude"],
 			'street'      => $result->fields["street"],
-			'group'       => $result->fields["private_group"]
+			'group'       => $result->fields["private_group"],
+			'closed'      => $result->fields["closed"],
 		);
 		$result->MoveNext();
 	}
@@ -560,7 +609,8 @@ function getEventListUser($username, $password) {
 			'latitude'    => $result->fields["latitude"],
 			'longitude'   => $result->fields["longitude"],
 			'street'      => $result->fields["street"],
-			'group'       => $result->fields["private_group"]
+			'group'       => $result->fields["private_group"],
+			'closed'      => $result->fields["closed"],
 		);
 		$result->MoveNext();
 	}
@@ -713,9 +763,12 @@ function getHospitalPolicy($hospital_uuid) {
 	$result = $global['db']->Execute($q);
 	while (!$result == NULL && !$result->EOF) {
 		$data = array(
-			'patientIdPrefix'            => (string)$result->fields["patient_id_prefix"],
-			'patientIdSuffixVariable'    => (boolean)$result->fields["patient_id_suffix_variable"],
-			'patientIdSuffixFixedLength' => (int)$result->fields["patient_id_suffix_fixed_length"],
+			'patientIdPrefix'            => (string)$result->fields['patient_id_prefix'],
+			'patientIdSuffixVariable'    => (boolean)$result->fields['patient_id_suffix_variable'],
+			'patientIdSuffixFixedLength' => (int)$result->fields['patient_id_suffix_fixed_length'],
+			'photoRequired'              => (boolean)$result->fields['photo_required'],
+			'honorNoPhotoRequest'        => (boolean)$result->fields['honor_no_photo_request'],
+			'photographerNameRequired'   => (boolean)$result->fields['photographer_name_required'],
 			'errorCode'                  => (int)0,
 			'errorMessage'               => null
 		);
@@ -728,8 +781,119 @@ function getHospitalPolicy($hospital_uuid) {
 			'patientIdPrefix'            => null,
 			'patientIdSuffixVariable'    => null,
 			'patientIdSuffixFixedLength' => null,
+			'photoRequired'              => null,
+			'honorNoPhotoRequest'        => null,
+			'photographerNameRequired'   => null,
 			'errorCode'                  => (int)100,
 			'errorMessage'               => (string)$eCodes[100]
+		);
+	}
+	return $data;
+}
+
+
+
+// Retrieve a particular hospital’s legalese clause.
+function getHospitalLegalese($hospital_uuid) {
+	shn_plus_logAccess("getHospitalLegalese");
+
+	global $global;
+	$error = true;
+
+	$q = "
+		SELECT *
+		FROM hospital
+		WHERE hospital_uuid = '".mysql_real_escape_string($hospital_uuid)."'
+		LIMIT 1;
+	";
+	$result = $global['db']->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$data = array(
+			'legalese'     => (string)$result->fields["legalese"],
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+		$result->MoveNext();
+		$error = false;
+	}
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		$data = array(
+			'legalese'     => null,
+			'errorCode'    => (int)100,
+			'errorMessage' => (string)$eCodes[100]
+		);
+	}
+	return $data;
+}
+
+
+// Retrieve a particular hospital’s anonymous legalese clause.
+function getHospitalLegaleseAnon($hospital_uuid) {
+	shn_plus_logAccess("getHospitalLegaleseAnon");
+
+	global $global;
+	$error = true;
+
+	$q = "
+		SELECT *
+		FROM hospital
+		WHERE hospital_uuid = '".mysql_real_escape_string($hospital_uuid)."'
+		LIMIT 1;
+	";
+	$result = $global['db']->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$data = array(
+			'legaleseAnon' => (string)$result->fields["legaleseAnon"],
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+		$result->MoveNext();
+		$error = false;
+	}
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		$data = array(
+			'legaleseAnon' => null,
+			'errorCode'    => (int)100,
+			'errorMessage' => (string)$eCodes[100]
+		);
+	}
+	return $data;
+}
+
+
+// Retrieves information about when the legalese clauses were last updated for a particular hospital.
+function getHospitalLegaleseTimestamps($hospital_uuid) {
+	shn_plus_logAccess("getHospitalLegaleseTimestamps");
+
+	global $global;
+	$error = true;
+
+	$q = "
+		SELECT *
+		FROM hospital
+		WHERE hospital_uuid = '".mysql_real_escape_string($hospital_uuid)."'
+		LIMIT 1;
+	";
+	$result = $global['db']->Execute($q);
+	while (!$result == NULL && !$result->EOF) {
+		$data = array(
+			'legaleseTimestamp'    => (string)$result->fields["legaleseTimestamp"],
+			'legaleseAnonTimestamp'=> (string)$result->fields["legaleseAnonTimestamp"],
+			'errorCode'            => (int)0,
+			'errorMessage'         => null
+		);
+		$result->MoveNext();
+		$error = false;
+	}
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		$data = array(
+			'legaleseTimestamp'    => null,
+			'legaleseAnonTimestamp'=> null,
+			'errorCode'    => (int)100,
+			'errorMessage' => (string)$eCodes[100]
 		);
 	}
 	return $data;

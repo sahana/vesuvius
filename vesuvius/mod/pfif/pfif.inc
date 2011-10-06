@@ -217,7 +217,7 @@ class Pfif {
          // Do original records only. Non-embedded format.
          $pfif_persons = $this->getPersons();
          if (count($pfif_persons) != 0) {
-            // Logging needed since this is for automated exports.
+            // Do log housekeeping since this may be an automated export (i.e. from cronexport.php).
             $this->reset_log_dates($pfif_persons[0]->entry_date);
             foreach ($pfif_persons as $person) {
                // Snag last_updated for log since this indicates new information (could just be a Note).
@@ -245,9 +245,15 @@ class Pfif {
             }
             unset($note);
          }
+         // Save person and note counts.
+         // Fixme: getElementsbyTagNameNS not working for some reason.
+         $persons = $this->dom_pfif->getElementsByTagName('pfif:person');
+         $notes = $this->dom_pfif->getElementsByTagName('pfif:note');
+         $_SESSION['pfif_info']['pfif_person_count'] = $persons->length;
+         $_SESSION['pfif_info']['pfif_note_count'] = $notes->length;
          $this->save_log_dates();
       } else if (!embed) {
-         // Serialize persons and notes separately.
+         // Serialize persons and notes separately. (Used for cronimport.php debug.)
          $pfif_persons = $this->getPersons();
          if (count($pfif_persons) != 0) {
             foreach ($pfif_persons as $person) {
@@ -282,9 +288,6 @@ class Pfif {
          unset($person);
       }
 
-      // Update status info
-      //var_dump("first/last/count:end", $first_entry_date, $last_entry_date, $last_entry_count);
-      //print $this->dom_pfif->saveXML();
       if ($this->dom_pfif->firstChild->hasChildNodes()) {
          return $this->dom_pfif->saveXML();
       } else {
@@ -343,19 +346,6 @@ class Pfif {
       return $noteElement;
    }
 
-   // TODO: may need to add logic to support services other than Google.
-   public function loadFromService($id, $service_name = 'googlehaiti') {
-      $this->check_init();
-
-      $service_uri = $this->pfif_conf['services'][$service_name]['read_url'];
-
-      $pfif_uri = $service_uri . "?id=" . $id;
-      // print "importing PFIF from $pfif_uri<br/>";
-
-      $loaded = $this->loadFromXML($pfif_uri);
-      return $loaded;
-   }
-
    public function postDbToService($id, $svc='google') {
       return $this->postToService('id', $id, $svc);
    }
@@ -375,10 +365,11 @@ class Pfif {
       $this->check_init();
 
       if ($source_type == 'id') {
+         // not used currently
          $persons = $this->loadFromDatabase('id?' . $id_or_filename);
          $xml = $this->storeInXML();
       } else if ($source_type == 'xml') {
-         // TBD: What has to be done with XML input ? Should we validate it?
+         // not used currently
          $xml = $source_data;
       } else {
          $loaded = $this->loadFromXML($filename);
@@ -663,13 +654,24 @@ class Pfif {
          // Update last_entry_count.
          $this->update_log_dates($person->entry_date);
 
+         // Skip original records. (Might be worthwhile for batch-loading test records, but we would
+         // need a way to generate unique record IDs.) 
+         if (strncmp($person->person_record_id, $conf['base_uuid'], strlen($conf['base_uuid']))==0) {
+            $_SESSION['pfif_info']['person_insert_errors'] += 1;
+            continue;
+         }
          // Check for duplicate.
          $lookup = $this->checkForReportedPerson($person->person_record_id);
          //var_dump('lookup returns:',$lookup);
          if (count($lookup) > 0) {
-            // Delete duplicate person. (PFIF says it should have a new source date, but
-            // in practice Google let's you write any old duplicate persons to PF.)
-            $this->deleteReportedPerson($person->person_record_id);
+            // Replace duplicate person (PFIF says it should have a new source date, but in
+            // practice Google overwrites anything in PF.)
+            if (strncmp($person->person_record_id, $conf['base_uuid'], strlen($conf['base_uuid']))!=0) {
+               $this->deleteReportedPerson($person->person_record_id);
+            } else {
+               $_SESSION['pfif_info']['person_insert_errors'] += 1;
+               continue;
+            }
          }
 
          // Save to Sahana tables.
@@ -722,22 +724,34 @@ class Pfif {
          // Update last_entry_count.
          $this->update_log_dates($note->entry_date);
 
+         // Check for duplicates.
+         $lookup = $this->checkForReportedNote($note->note_record_id);
+         //var_dump('lookup returns:',$lookup);
+         if (count($lookup) > 0) {
+            // This skips Notes reported in PL. 
+            // TODO: Should other duplicates be passed through, so error can be reported at DB insert time?
+            $_SESSION['pfif_info']['note_insert_errors'] += 1;
+            continue; // stop processing this note
+         }
+
          // Save to pfif_note table.
          try {
             $this->shn_pfif_addpfifnote_commit($note);
          } catch (Exception $e) {
             $_SESSION['pfif_info']['note_insert_errors'] += 1;
-            error_log("shn_mod_pfif.storeNotesInDatabase: shn_pfif_addpfifnote_commit failed for "
+               error_log("shn_mod_pfif.storeNotesInDatabase: shn_pfif_addpfifnote_commit failed for "
                     . $note->note_record_id . ":" . $e->getMessage());
             continue; // stop processing this note
          }
-         // Update Sahana tables with dynamic data if the person exists.
-         $lookup = $this->checkForReportedPerson($note->person_record_id);
-         //var_dump('lookup returns:',$lookup);
-         if (count($lookup) > 0) {
-            // Can't rely on notes coming in in source date order. (Only entry date order is assured.)
-            // So for each note, reprocess all existing notes for the associated person.
-            $this->_pfif_update_person_from_notes($note->person_record_id);
+         // Update Sahana tables with dynamic data if the person exists and this is not an original note.
+         if (strncmp($note->note_record_id, $conf['base_uuid'], strlen($conf['base_uuid']))!=0) {
+            $lookup = $this->checkForReportedPerson($note->person_record_id);
+            //var_dump('lookup returns:',$lookup);
+            if (count($lookup) > 0) {
+               // Can't rely on notes coming in in source date order. (Only entry date order is assured.)
+               // So for each note, reprocess all existing notes for the associated person.
+               $this->_pfif_update_person_from_notes($note->person_record_id);
+            }
          }
       }
       unset($note);
@@ -866,7 +880,6 @@ class Pfif {
       }
       $insert_array['opt_gender'] = shn_map_gender_from_pfif($person->sex);
       // Save "other" field to person details comments.
-      // TODO: Shouldn't have to do this once notes are in place for all records.
       if (!empty($person->other)) {
          $insert_array['other_comments'] = $person->other;
       }
@@ -899,7 +912,7 @@ class Pfif {
 
       //person_uuid table
       $insert_array['p_uuid'] = $rep_uuid;
-      $insert_array['incident_id'] = $this->incident_id;
+      //$insert_array['incident_id'] = $this->incident_id; //reporters have null incident id
       if (!empty($person->author_name)) {
          $insert_array['full_name'] = $person->author_name;
       }
@@ -929,7 +942,7 @@ class Pfif {
    // Load from database based on optional date window and number of records to skip.
    // For now, if since_entry_date == -1  then this just returns the last 10 records.
    // (Google does something similar if no params are supplied.)
-   public function loadFromDatabase($since_entry_date=null, $before=null, $max=0, $skip=0) {
+   public function loadFromDatabase($since_entry_date=null, $before=null, $max_results=0, $skip=0) {
       global $conf, $global;
 
       // Save filters since they may be needed at XML generation time.
@@ -941,7 +954,7 @@ class Pfif {
       $baseUrl = "https://" . $pfifDomain;
 
       // Get person records based on filters.
-      $personRecords = $this->getPersonFromDb($since_entry_date, $before, $max, $skip);
+      $personRecords = $this->getPersonFromDb($since_entry_date, $before, $max_results, $skip);
       $record_count = count($personRecords);
 
       foreach ($personRecords as $personRecord) {
@@ -1026,12 +1039,11 @@ class Pfif {
                $details['hair_color'] = 'hair color: ' . shn_get_field_opt($personRecord['opt_hair_color'], 'opt_hair_color');
             }
             if (!empty($personRecord['physical_comments'])) {
-               $details['physical_comments'] = 'other: ' . $personRecord['physical_comments'];
+               $details['physical_comments'] = 'other features: ' . $personRecord['physical_comments'];
             }
-            // TODO: This information should be in the person's first note.text field.
-            //if (!empty($personRecord['other_comments'])) {
-               //$details['other_comments'] = 'other: ' . $personRecord['other_comments'];
-            //}
+            if (!empty($personRecord['other_comments'])) {
+               $details['other_comments'] = 'other comments: ' . $personRecord['other_comments'];
+            }
             if (count($details) > 0) {
                $person->other = "description: ";
                foreach ($details as $detail) {
@@ -1053,8 +1065,8 @@ class Pfif {
    }
 
    // Use threshhold date and number of records to skip.
-   private function getPersonFromDb($since_entry_date, $before, $max, $skip) {
-      global $global;
+   private function getPersonFromDb($since_entry_date, $before, $max_results, $skip) {
+      global $global, $conf;
 
       $whereSql = '';
       $where = array();
@@ -1071,15 +1083,18 @@ class Pfif {
          $whereSql .= ( $whereSql == null ? '' : ' AND ') . $whereElement;
       }
       $whereSql = $whereSql != null ? ' WHERE ' . $whereSql : '';
-      // FIXME: Dispense with hardcoded LIMIT.
-      //$large_num = 1e12;
-      $large_num = 700000;
-      $max_num = ($max == 0)? $large_num : $max;
+      // Note: We currently use a non-zero max_results param to indicate a feed.
+      // Put a 200 record limit on max_results data feed.
+      $max = ($max_results > 200)? 200 : $max_results;
       if ($since_entry_date == -1) {
-         // This is a parameterless feed: Return 10 recent records in reverse chronological order.
+         // This is a parameterless feed: Return 10 most recent records in reverse chronological order.
          $whereSql .= " ORDER BY ps.status_id DESC LIMIT 10";
+      } else if ($max > 0) {
+         // This is a feed with parameters.
+         $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,$max";
       } else {
-         $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,$max_num";
+         // This is a cron or GUI export.
+         $whereSql .= " ORDER BY ps.status_id ASC LIMIT $skip,700000";
       }
 
       // DEBUG:
@@ -1121,6 +1136,13 @@ class Pfif {
    private function checkForReportedPerson($p_uuid) {
       global $global;
       $sql = "SELECT creation_time FROM person_status WHERE p_uuid = '$p_uuid'";
+      $array = $global['db']->GetRow($sql);
+      return $array;
+   }
+
+   private function checkForReportedNote($note_record_id) {
+      global $global;
+      $sql = "SELECT note_record_id FROM pfif_note WHERE note_record_id = '$note_record_id'";
       $array = $global['db']->GetRow($sql);
       return $array;
    }
@@ -1382,5 +1404,4 @@ class Pfif {
       unset($rs);
       return $notes;
    }
-
 }

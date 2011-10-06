@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      1.9.7
+ * @version      1.9.9
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0920
+ * @lastModified 2011.1003
  */
 
 
@@ -53,11 +53,17 @@ function shn_plus_logAccess($call="") {
 	$app    = $appver[0];
 	$ver    = $appver[1];
 	$ip     = $_SERVER['REMOTE_ADDR'];
-	$q1 = "
+	// skip these ip's from logging (internal testing servers)
+	if(
+		$ip == "130.14.109.100" ||
+		$ip == "130.14.109.88" ||
+		$ip == "130.14.109.50")
+		{return;}
+	$q = "
 		INSERT INTO plus_access_log (`access_time`, `application`, `version`, `ip`, `call`, `api_version`)
 		VALUES (CURRENT_TIMESTAMP, '".$app."', '".$ver."', '".$ip."', '".$call."', '".mysql_real_escape_string($global['apiVersion'])."');
 	";
-	$res = $global['db']->Execute($q1);
+	$result = $global['db']->Execute($q);
 }
 
 

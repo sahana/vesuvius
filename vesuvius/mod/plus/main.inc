@@ -1,15 +1,14 @@
 <?
 /**
  * @name         PL User Services
- * @version      1.9.7
+ * @version      1.9.9
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0920
+ * @lastModified 2011.1003
  */
-
 
 function shn_plus_default() {
 	shn_plus_reportlog();
@@ -335,7 +334,7 @@ function shn_plus_stat() {
 	$count = 0;
 
 	echo "
-		<div class=\"form-container\" style=\"width: 230px; float: left;  margin-right: 5px;\">
+		<div class=\"form-container\" style=\"width: 270px; float: left;  margin-right: 5px;\">
 			<form>
 				<fieldset>
 					<legend>Hits by API Function</legend>

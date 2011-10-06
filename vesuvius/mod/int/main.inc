@@ -1,13 +1,13 @@
 <?
 /**
  * @name         Internal
- * @version      1.1
+ * @version      1.2
  * @package      int
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0801
+ * @lastModified 2011.1004
  */
 
 
@@ -21,14 +21,10 @@ function shn_int_headerz() {
 		FROM `rez_pages`
 		WHERE rez_visibility = 'INTERNAL';
 	";
-	$res = $global['db']->Execute($q);
-	while($row = $res->FetchRow() ){
-		if($row['rez_page_title'] == $row['rez_description']) {
-			$show = $row['rez_page_title'];
-		} else {
-			$show = $row['rez_page_title'] ." --- ".$row['rez_description'];
-		}
-
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "int headerz"); }
+	while($row = $result->FetchRow() ){
+		$show = $row['rez_menu_title'];
 		echo '<li><a href="index.php?mod=int&act=page&page_id='.$row['rez_page_id'].'">'.$show.'</a></li>';
 	}
 
@@ -84,8 +80,9 @@ function shn_int_page() {
 		from rez_pages
 		where rez_page_id = '".$_GET['page_id']."';
 	";
-	$res = $global['db']->Execute($q);
-	if($row = $res->FetchRow() ){
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "int show page"); }
+	if($row = $result->FetchRow() ){
 		echo $row['rez_content'];
 	} else {
 		echo "page not found.";

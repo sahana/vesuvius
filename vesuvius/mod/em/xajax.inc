@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Event Manager
- * @version      1.3
+ * @version      1.4
  * @package      em
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0407
+ * @lastModified 2011.1004
  */
 
 global $global;
@@ -85,12 +85,13 @@ function em_show_events($internal = FALSE) {
 		WHERE i.parent_id is NULL
 		ORDER BY date desc;
 	";
-	$res = $global['db']->Execute($q);
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "show events 1"); }
 
 	// find out how many disasters we have
 	$disasters = array();
 	$dcount = 0;
-	while($row = $res->FetchRow() ){
+	while($row = $result->FetchRow() ){
 		$disasters[$dcount] = $row;
 		$dcount++;
 	}
@@ -144,14 +145,14 @@ function em_show_events($internal = FALSE) {
 		$htmlMain .= "
 			<tr>
 				<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$type."</td>
-				<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$longname."</td>
+				<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\"><a href=\"#\" onclick=\"em_append_log('Editting Event #<b>".$disaster_id."</b> ...<br>'); em_perform_edit(".$disaster_id.");\" value=\"Edit\">".$longname."</a></td>
 				<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$shortname."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$type2."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$defaultText."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$groupText."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$closedText."</td>
 
-<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"javascript: em_append_log('Editting Event #<b>".$disaster_id."</b> ...<br>'); em_perform_edit(".$disaster_id.");\" value=\"Edit\"></td>
+<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"em_append_log('Editting Event #<b>".$disaster_id."</b> ...<br>'); em_perform_edit(".$disaster_id.");\" value=\"Edit\"></td>
 
 			</tr>
 		";
@@ -170,12 +171,13 @@ function em_show_events($internal = FALSE) {
 			WHERE i.parent_id = ".$disaster_id."
 			ORDER BY date desc;
 		";
-		$res = $global['db']->Execute($q);
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "show events 2"); }
 
 		// find out how many incidents we have
 		$incidents = array();
 		$icount = 0;
-		while($row = $res->FetchRow() ){
+		while($row = $result->FetchRow() ){
 			$incidents[$icount] = $row;
 			$icount++;
 		}
@@ -256,12 +258,13 @@ function em_show_events($internal = FALSE) {
 				WHERE i.parent_id = ".$incident_id."
 				ORDER BY date desc;
 			";
-			$res = $global['db']->Execute($q);
+			$result = $global['db']->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "show events 3"); }
 
 			// find out how many events we have
 			$events = array();
 			$ecount = 0;
-			while($row = $res->FetchRow() ){
+			while($row = $result->FetchRow() ){
 				$events[$ecount] = $row;
 				$ecount++;
 			}
@@ -470,8 +473,9 @@ function em_find_root_parent($eventId) {
 		FROM `incident`
 		WHERE incident_id = '".$eventId."';
 	";
-	$res = $global['db']->Execute($q);
-	$row = $res->FetchRow();
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "find root parent 1"); }
+	$row = $result->FetchRow();
 	$parent = $row['parent_id'];
 
 	// event is a root event, return -1
@@ -485,8 +489,9 @@ function em_find_root_parent($eventId) {
 			FROM `incident`
 			WHERE incident_id = '".$parent."';
 		";
-		$res = $global['db']->Execute($q);
-		$row = $res->FetchRow();
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "find root parent 2"); }
+		$row = $result->FetchRow();
 		$grandParent = $row['parent_id'];
 
 		if($grandParent == null) {
@@ -507,8 +512,9 @@ function em_event_has_child($eventId) {
 		FROM `incident`
 		WHERE parent_id = '".$eventId."';
 	";
-	$res = $global['db']->Execute($q);
-	$row = $res->FetchRow();
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "has child 1"); }
+	$row = $result->FetchRow();
 	if($row['count(*)'] > 0) {
 		return true;
 	} else {
@@ -531,7 +537,8 @@ function em_save_children($eventId, $group, $type) {
 			private_group = ".$group."
 		WHERE parent_id       = '".$eventId."';
 	";
-	$res = $global['db']->Execute($q);
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "save children 1"); }
 
 
 	// get list of all children, recurse
@@ -540,8 +547,9 @@ function em_save_children($eventId, $group, $type) {
 		FROM incident
 		WHERE parent_id = '".$eventId."';
 	";
-	$res = $global['db']->Execute($q);
-	while($row = $res->FetchRow()) {
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "save children 2"); }
+	while($row = $result->FetchRow()) {
 		em_save_children($row['incident_id'], $group, $type);
 	}
 }
@@ -614,8 +622,9 @@ function em_perform_save($page_id, $rj) {
 			FROM `incident`
 			WHERE incident_id = '".$parentId."';
 		";
-		$res = $global['db']->Execute($q);
-		$row = $res->FetchRow();
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "save event 1"); }
+		$row = $result->FetchRow();
 		$visibilityDerived = $row['private_group'];
 		$typeDerived       = $row['type'];
 
@@ -651,8 +660,9 @@ function em_perform_save($page_id, $rj) {
 			SET `default` = NULL
 			WHERE `default` = '1';
 		";
-		$res = $global['db']->Execute($q);
-		$row = $res->FetchRow();
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "save event 2"); }
+		$row = $result->FetchRow();
 		$default = "'1'";
 	} else {
 		$default = "NULL";
@@ -699,7 +709,8 @@ function em_perform_save($page_id, $rj) {
 			external_report = '".$externalReport."'
 		WHERE incident_id       = '".$eventId."';
 	";
-	$res = $global['db']->Execute($q);
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "save event 3"); }
 
         $pfifName = 'google'.$shortName;  // repository name = "google"+shortname
         $q = "
@@ -711,7 +722,8 @@ function em_perform_save($page_id, $rj) {
                         sched_interval_minutes = '".$pfifSync."'
                 WHERE incident_id       = '".$eventId."' AND name LIKE 'google%';
         ";
-        $res = $global['db']->Execute($q);
+        $result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "save event 4"); }
 
 	// update visibility and type of children events.......
 	if($passOnGenes) {
@@ -746,7 +758,8 @@ function em_perform_delete($incident_id, $confirm) {
 			DELETE from incident
 			WHERE incident_id = '".$incident_id."';
 		";
-		$res = $global['db']->Execute($q);
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "delete 1"); }
 
 		$global['xajax_res']->addAppend('rezLog', 'innerHTML', 'Event <b>#'.$incident_id.'</b> <span style="color: red;">Deleted</span>.<br>');
 	} else {
@@ -782,7 +795,8 @@ function em_perform_new() {
 		VALUES
 			(null, null, 'new event', 'new', '".date("Y-m-d")."', 'TEST', '39', '-77.101', '".$group."', '0');
 	";
-	$res = $global['db']->Execute($q);
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 1"); }
 
 	// find id of newest incident we just created
 	$q2 = "
@@ -791,7 +805,8 @@ function em_perform_new() {
 		ORDER BY incident_id DESC
 		LIMIT 1;
 	";
-	$res2 = $global['db']->Execute($q2);
+	$result2 = $global['db']->Execute($q2);
+	if($result2 === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 2"); }
 	$row2 = $res2->FetchRow();
 
         // insert new Google repositories for import/export
@@ -799,17 +814,20 @@ function em_perform_new() {
 		INSERT INTO pfif_repository (name,role,resource_type,incident_id)
 		VALUES ('googlexxx','source','person',".$row2['incident_id'].");
 	";
-	$res = $global['db']->Execute($q);
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 3"); }
 	$q = "
 		INSERT INTO pfif_repository (name,role,resource_type,incident_id)
 		VALUES ('googlexxx','source','note',".$row2['incident_id'].");
 	";
-	$res = $global['db']->Execute($q);
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 4"); }
 	$q = "
 		INSERT INTO pfif_repository (name,role,resource_type,incident_id)
 		VALUES ('googlexxx','sink','both',".$row2['incident_id'].");
 	";
-	$res = $global['db']->Execute($q);
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 5"); }
 
 	return $row2['incident_id'];
 }
@@ -839,8 +857,9 @@ function em_perform_edit($incident_id) {
 		WHERE i.incident_id = ".$incident_id."
 		ORDER BY date desc;
 	";
-	$res = $global['db']->Execute($q);
-	$row = $res->FetchRow();
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit 1"); }
+	$row = $result->FetchRow();
 
 	// get Google repository info for this incident
 	$q = "
@@ -848,8 +867,9 @@ function em_perform_edit($incident_id) {
 		FROM pfif_repository
 		WHERE incident_id = ".$incident_id." AND name LIKE 'google%' LIMIT 1;
 	";
-	$res = $global['db']->Execute($q);
-	$rowpfif = $res->FetchRow();
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit 2"); }
+	$rowpfif = $result->FetchRow();
 
 	// generate some html for special inputs //////// onchange=\"changeEvent(this.value);\"
 
@@ -862,6 +882,7 @@ function em_perform_edit($incident_id) {
 			WHERE parent_id = '".$row['incident_id']."';
 		";
 		$resp = $global['db']->Execute($qp);
+		if($resp === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit 3"); }
 		$rowp = $resp->FetchRow();
 		$hasChildren = $rowp['COUNT(*)'] > 0 ? true : false;
 
@@ -877,6 +898,7 @@ function em_perform_edit($incident_id) {
 				ORDER BY date desc;
 			";
 			$resd = $global['db']->Execute($qd);
+			if($resd === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit 4"); }
 			$disasters = array();
 			$dcount = 0;
 			$disasters = array();
@@ -901,6 +923,7 @@ function em_perform_edit($incident_id) {
 						ORDER BY date desc;
 					";
 					$resi = $global['db']->Execute($qi);
+					if($resi === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit 5"); }
 					while($rowi = $resi->FetchRow()) {
 						$selected = $row['parent_id'] == $rowi['incident_id'] ? "SELECTED" : "";
 
@@ -999,6 +1022,7 @@ function em_perform_edit($incident_id) {
 				FROM  `sys_user_groups`;
 			";
 			$resg = $global['db']->Execute($qg);
+			if($resg === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit 6"); }
 			while($rowg = $resg->FetchRow()) {
 				if($row['private_group'] == $rowg['group_id']) {
 					$selected = "SELECTED";
@@ -1085,9 +1109,11 @@ function em_perform_edit($incident_id) {
 		<td class=\"mainRowEven emFirst emLast\" style=\"\">PFIF Settings for Google PF</td>
 		<td class=\"mainRowEven emFirst emLast\" style=\"\">".$pfif."</td>
         <tr>
-
+</table>
+<br>
+<table class=\"emTable\">
 	<tr>
-		<td class=\"mainRowOdd\" style=\" border-bottom: none;\" colspan=2>
+		<td class=\"mainRowEven\" style=\" border-bottom: none;\" colspan=2>
 			<label>Enter a Street Address: </label>
 			<input id=\"address\" type=\"text\" /> &nbsp; -OR- &nbsp; <input type=\"button\" style=\"position: relative; top: -2px;\" class=\"styleTehButton\" onclick=\"detect_load();\" value=\"Detect My Current Location\" />
 		</td>
@@ -1101,7 +1127,7 @@ function em_perform_edit($incident_id) {
 	</tr>
 
 	<tr>
-		<td class=\"mainRowOdd\" style=\" border-top: none;\" colspan=2>
+		<td class=\"mainRowEven\" style=\" border-top: none;\" colspan=2>
 			<label>latitude: </label>
 				<input id=\"latitude\" type=\"text\"/ value=\"".$row['latitude']."\" readonly>
 			<label> &nbsp; longitude: </label>
@@ -1113,8 +1139,8 @@ function em_perform_edit($incident_id) {
 
 	// control HTML
 	$editControlHtml = '
-		<input class="styleTehButton" type="button" onclick="javascript: em_append_log(\'Canceling Changes...<br>\'); setTimeout(\'em_show_events();\', 250);" value="Cancel Edit / Close">
-		<input class="styleTehButton" type="button" onclick="javascript: em_append_log(\'Saving Changes...<br>\'); setTimeout(\'em_perform_save('.$incident_id.', em_get_data());\', 250);" value="Save Changes">
+		<input class="styleTehButton" type="button" onclick="javascript: em_append_log(\'Saving Changes...<br>\'); setTimeout(\'em_perform_save('.$incident_id.', em_get_data());\', 250);" value="Save Changes and Close">
+		<input class="styleTehButton" type="button" onclick="javascript: em_append_log(\'Canceling Changes...<br>\'); setTimeout(\'em_show_events();\', 250);" value="Cancel Editing and Close">
 	';
 
 	// if Admin... show delete button

@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Hospital Administration
- * @version      2.0
+ * @version      2.2
  * @package      ha
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0915
+ * @lastModified 2011.1004
  */
 
 
@@ -80,12 +80,13 @@ function ha_show_hospitals($internal = FALSE) {
 		FROM hospital
 		ORDER BY hospital_uuid ASC;
 	";
-	$res = $global['db']->Execute($q);
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "show hospitals"); }
 
 	// find out how many hospitals we have and load them into an array
 	$hospitals = array();
 	$hcount = 0;
-	while($row = $res->FetchRow() ){
+	while($row = $result->FetchRow() ){
 		$hospitals[$hcount] = $row;
 		$hcount++;
 	}
@@ -110,8 +111,8 @@ function ha_show_hospitals($internal = FALSE) {
 
 		$htmlMain .= "
 			<tr>
-				<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$type.$name."</td>
-				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"javascript: ha_append_log('Editing Hospital...<br>'); ha_perform_edit(".$uuid.");\" value=\"Edit\"></td>
+				<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$type."<a href=\"#\" onclick=\"javascript: ha_append_log('Editing Hospital <b>#".$uuid." </b>...<br>'); ha_perform_edit(".$uuid.");\">".$name."<a/></td>
+				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"javascript: ha_append_log('Editing Hospital <b>#".$uuid." </b>...<br>'); ha_perform_edit(".$uuid.");\" value=\"Edit\"></td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$shortname."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$uuid."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$npi."</td>
@@ -183,6 +184,31 @@ function ha_perform_save($hospital_uuid, $rj) {
 	$suggest = false;
 	$log = "";
 
+	// figure out if either of the legaleses have changed:
+	$q = "
+		SELECT *
+		FROM hospital
+		WHERE hospital_uuid = ".$hospital_uuid.";
+	";
+	$result          = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital save 1"); }
+	$row             = $result->FetchRow();
+	$oldLegalese     = $row['legalese'];
+	$oldLegaleseAnon = $row['legaleseAnon'];
+	$updateClause    = "";
+
+	// if they have changed, add to the update clause to give them new timestamps
+	if($r['legalese'] != $oldLegalese) {
+		$updateClause .= "
+			legaleseTimestamp = NOW(),
+		";
+	}
+	if($r['legaleseAnon'] != $oldLegaleseAnon) {
+		$updateClause .= "
+			legaleseAnonTimestamp = NOW(),
+		";
+	}
+
 	$hospital_uuid                  = (int)$r['hospital_uuid'];
 	$name                           = mysql_real_escape_string($r['name']);
 	$short_name                     = mysql_real_escape_string($r['short_name']);
@@ -238,12 +264,14 @@ function ha_perform_save($hospital_uuid, $rj) {
 			icon_url                       = '".$icon_url."',
 			legalese                       = '".$legalese."',
 			legaleseAnon                   = '".$legaleseAnon."',
+			".$updateClause."
 			photo_required                 = '".$photo_required."',
 			honor_no_photo_request         = '".$honor_no_photo_request."',
 			photographer_name_required     = '".$photographer_name_required."'
 		WHERE hospital_uuid       = '".$hospital_uuid."';
 	";
-	$res = $global['db']->Execute($q);
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital save 2"); }
 
 	$log .= "Hospital #<b>".$hospital_uuid."</b> <span style=\"color: green;\">Saved</span>.<b><br>";
 
@@ -271,7 +299,8 @@ function ha_perform_delete($hospital_uuid, $confirm) {
 			DELETE from hospital
 			WHERE hospital_uuid = '".$hospital_uuid."';
 		";
-		$res = $global['db']->Execute($q);
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital delete 1"); }
 		$global['xajax_res']->addAppend('rezLog', 'innerHTML', 'Hospital <b>#'.$hospital_uuid.'</b> <span style="color: red;">removed</span>.<br>');
 	} else {
 		$global['xajax_res']->addAppend('rezLog', 'innerHTML', "Remove operation aborted.<br>");
@@ -305,6 +334,7 @@ function ha_perform_new() {
 		VALUES ();
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital new 1"); }
 
 	// find id of newest hospital we just added
 	$q = "
@@ -314,6 +344,7 @@ function ha_perform_new() {
 		LIMIT 1;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital new 2"); }
 	$row = $result->FetchRow();
 	return $row['hospital_uuid'];
 }
@@ -340,6 +371,7 @@ function ha_perform_edit($hospital_uuid) {
 		WHERE hospital_uuid = ".$hospital_uuid.";
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital edit 1"); }
 	$row = $result->FetchRow();
 
 	// generate checkboxes
@@ -483,15 +515,15 @@ function ha_perform_edit($hospital_uuid) {
 	</tr>
 	<tr>
 		<td class=\"mainRowOdd emLastWhite\" style=\"\">Icon URL</td>
-		<td class=\"mainRowOdd emFirstWhite\" style=\"\"><input id=\"icon_url\" type=\"text\" size=64 maxlength=128 value=\"".$row['icon_url']."\" /></td>
+		<td class=\"mainRowOdd emFirstWhite\" style=\"\"><textarea name=\"icon_url\" id=\"icon_url\" style=\"height: 30px; width: 90%;\">".$row['icon_url']."</textarea></td>
 	</tr>
 </table>
 	";
 
 	// control HTML
 	$editControlHtml = '
-		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\'Canceling Changes...<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="Cancel Edit / Close">
-		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\'Saving Changes...<br>\'); setTimeout(\'ha_perform_save('.$hospital_uuid.', ha_get_data());\', 250);" value="Save Changes">
+		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\'Saving Changes...<br>\'); setTimeout(\'ha_perform_save('.$hospital_uuid.', ha_get_data());\', 250);" value="Save Changes and Close">
+		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\'Canceling Changes...<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="Cancel Editing and Close">
 	';
 
 	// if Admin... show delete button

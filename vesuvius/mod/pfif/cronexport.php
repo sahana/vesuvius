@@ -87,8 +87,8 @@ foreach ($export_queue as $service_name => $service) {
          //print "Logged $written of $charstowrite characters to crontest.xml\n";
    
          $post_status = $p->postToService('xml', $xml, $service_name);
-         // TODO: Adjust count depending on post_status.
-         $_SESSION['pfif_info']['pfif_person_count'] = $loaded;
+         // person and note counts are in $_SESSION['pfif_info'].
+         // TODO: Adjust person and note counts depending on post_status.
          update_harvest_log($repos, $req_params, 'completed');
          print "Post status:\n $post_status \n";
       } else {

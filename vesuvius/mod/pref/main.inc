@@ -58,10 +58,10 @@ function shn_pref_loginForm() {
 			</div>
 			<script>
 				function register() {
-					window.location = \'index.php?mod=pref&act=signup\';
+					window.location = \'register\';
 				}
 				function forgot() {
-					window.location = \'index.php?mod=pref&act=forgotPassword\';
+					window.location = \'forgot\';
 				}
 			</script>
 		';
@@ -95,7 +95,7 @@ function shn_pref_loginForm() {
 			<div id=\"loggedIn\">
 					<b>Currently logged in as :</b><br>
 					".$_SESSION['group_name']." / ".$_SESSION['user_name']."<br><br>
-					<span id=\"logoutLink\" class=\"styleTehButton\"><a href=\"index.php?act=logout\">Logout</a></span>
+					<span id=\"logoutLink\" class=\"styleTehButton\"><a href=\"logout\">Logout</a></span>
 			</div>
 		";
 	}
@@ -485,6 +485,27 @@ while (false !== ($f = $d->read())) {
 
 
 
+function shn_pref_header2() {
+	global $global;
+	echo "<ul>";
+
+	if($global['action'] == "session" || $global['action'] == "default") {
+		echo "<li>Session Information</li>";
+	} else {
+		echo "<li><b><a href=\"index.php?mod=pref&act=session\">Session Information</a></b></li><br>";
+	}
+
+	if($global['action'] == "ch_passwd") {
+		echo "<li>Change My Password</li>";
+	} else {
+		echo "<li><b><a href=\"index.php?mod=pref&act=ch_passwd\">Change My Password</a></b></li><br>";
+	}
+
+	echo "</ul><hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
+}
+
+
+
 /**
  *
  * This function displays the home page of the User Preferences
@@ -493,14 +514,38 @@ while (false !== ($f = $d->read())) {
  * @return void
  */
 function shn_pref_default() {
+	global $global;
+	shn_pref_header2();
 	echo "<div id=\"home\">";
-	echo "
-		<ul>
-			<li><b><a href=\"index.php?mod=pref&act=ch_passwd\">Change My Password</a></b></li><br>
-		</ul>
-	";
+	echo '
+		<div id="rezMain" class="mainArea" style="opacity: 1; width: 300px;">
+			<table class="emTable">
+				<tbody>
+				<tr>
+					<td style="padding-left: 8px; text-align: left; font-weight: bold;" colspan=2 class="mainRowOdd">Currently Logged in as...</td>
+				</tr>
+				<tr>
+					<td style="padding-left: 8px; text-align: right;" class="mainRowEven">Username</td>
+					<td style="padding-left: 8px; text-align: left; font-weight: bold;" class="mainRowEven">'.$_SESSION['user'].'</td>
+				</tr>
+				<tr>
+					<td style="padding-left: 8px; text-align: right;" class="mainRowOdd">Full Name</td>
+					<td style="padding-left: 8px; text-align: left; font-weight: bold;" class="mainRowOdd">'.$_SESSION['full_name'].'</td>
+				</tr>
+				<tr>
+					<td style="padding-left: 8px; text-align: right;" class="mainRowEven">User Group</td>
+					<td style="padding-left: 8px; text-align: left; font-weight: bold;" class="mainRowEven">'.$_SESSION['group_name'].'</td>
+				</tr>
+				<tr>
+					<td style="padding-left: 8px; text-align: right;" class="mainRowOdd">Locale</td>
+					<td style="padding-left: 8px; text-align: left; font-weight: bold;" class="mainRowOdd">'.$_SESSION['locale'].'</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	';
 	echo "</div>";
-
+	//echo "<pre>".var_export($_SESSION, true)."</pre>";
 }
 
 
@@ -573,6 +618,26 @@ function shn_tools_clean_post(&$local_post) {
 		if($v != '')
 		$local_post[$k] = $v;
 	}
+}
+
+
+
+// debug info
+function globalvars(){
+    $result=array();
+    $skip=array('GLOBALS','_ENV','HTTP_ENV_VARS',
+                        '_POST','HTTP_POST_VARS','_GET',
+                        'HTTP_GET_VARS',
+                        '_COOKIE',
+                        'HTTP_COOKIE_VARS','_SERVER',
+                        'HTTP_SERVER_VARS',
+                        '_FILES','HTTP_POST_FILES',
+                        '_REQUEST','HTTP_SESSION_VARS',
+                        '_SESSION');
+    foreach($GLOBALS as $k=>$v)
+        if(!in_array($k,$skip))
+            $result[$k]=$v;
+    return $result;
 }
 
 

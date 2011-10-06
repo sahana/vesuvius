@@ -2,8 +2,8 @@
 /**
  * @name         Sahana Agasti Main Controller
  * @version      1.0
- * @author       Chamindra de Silva <chamindra@opensource.lk>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @author       Chamindra de Silva <chamindra@opensource.lk>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
@@ -284,7 +284,7 @@ function shn_main_checkEventPermissions() {
 		isset($_GET['shortname']) ? $short = $_GET['shortname'] : $short = "";
 
 		// these 3 modules are event dependent, so kick a user out if they try to access them without first choosing an event
-		if(($short == "") && (($global['module'] == "inw") || ($global['module'] == "rap") || ($global['module'] == "pfif"))) {
+		if(($short == "") && ($global['module'] == "inw" || $global['module'] == "rap" || $global['module'] == "report" || $global['module'] == "stat")) {
 			$global['module'] = $conf['default_module'];
 			$global['action'] = $conf['default_action'];
 

@@ -1,22 +1,21 @@
 <?php
 /**
  * @name         Hospital Administration
- * @version      2.0
+ * @version      2.2
  * @package      ha
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0915
+ * @lastModified 2011.1004
  */
 
 
-include_once ($global['approot'].'/inc/lib_menu.inc');
-include_once ($global['approot'].'/inc/lib_errors.inc');
-include_once ($global['approot'].'/inc/handler_db.inc');
-include_once ($global['approot'].'/inc/lib_xajax.inc');
-include_once ($global['approot'].'/mod/ha/xajax.inc');
+require_once($global['approot'].'/inc/lib_menu.inc');
+require_once($global['approot'].'/inc/handler_db.inc');
+require_once($global['approot'].'/inc/lib_xajax.inc');
+require_once($global['approot'].'/mod/ha/xajax.inc');
 
 shn_xajax_registerFunction('ha_append_log');
 shn_xajax_registerFunction('ha_prepend_log');
