@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Edit A Person
- * @version      1.7
+ * @version      1.8
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0906
+ * @lastModified 2011.1005
  */
 
 require_once($global['approot']."/inc/lib_uuid.inc");
@@ -17,7 +17,7 @@ global $global;
 global $revisionCount;
 $revisionCount = 0;
 $global['uuid'] = "";
-
+$global['makeStaticPfifNote'] = false;
 
 
 /**
@@ -46,6 +46,7 @@ function shn_eap_follow() {
 		AND p_uuid = '".$global['uuid']."';
 	";
 	$r0  = $global['db']->Execute($q0);
+	if($r0 === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit follow 1"); }
 	$row0 = $r0->FetchRow();
 	$alreadyFollowing = (bool)$row0['COUNT(*)']; // true if logged in user is already following the person
 
@@ -57,6 +58,7 @@ function shn_eap_follow() {
 				VALUES ('".$global['uuid']."','".$_SESSION['user_p_uuid']."');
 			";
 			$r = $global['db']->Execute($q);
+			if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit follow 2"); }
 		}
 	} else {
 		add_error("You are not allowed to follow this person... you must first login.");
@@ -84,6 +86,7 @@ function shn_eap_unFollow() {
 			AND `follower_p_uuid` = '".$_SESSION['user_p_uuid']."';
 		";
 		$r = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit unfollow 1"); }
 
 	} else {
 		add_error("You are not allowed to unfollow this person.");
@@ -118,6 +121,7 @@ function shn_eap_addNote() {
 				VALUES ('".$global['uuid']."', '".$_SESSION['user_p_uuid']."', '".$note."');
 			";
 			$r  = $global['db']->Execute($q);
+			if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit add note 1"); }
 			$row = $r->FetchRow();
 			add_confirmation("Your note has been added.");
 		} else {
@@ -150,6 +154,7 @@ function shn_eap_deleteNote() {
 			AND note_about_p_uuid = '".$global['uuid']."';
 		";
 		$r  = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edite delete note 1"); }
 		$row = $r->FetchRow();
 		add_confirmation("Note <b>#".$id."</b> has been deleted.");
 	} else {
@@ -189,6 +194,15 @@ function shn_eap_findRights() {
 		$global['uuid'] = mysql_real_escape_string($conf['base_uuid'].$_GET['val']);
 	} else {
 		$global['uuid'] = mysql_real_escape_string(base64_decode($_GET['uuid']));
+
+		/*
+		add_confirmation($global['uuid']." <> ".$conf['base_uuid']);
+		if(substr_count($global['uuid'], $conf['base_uuid']) > 0) {
+			add_confirmation("we here.");
+			$goto = str_replace($conf['base_uuid'], "", $global['uuid']);
+			//header("Location: ".$goto);
+		}
+		*/
 	}
 
 	// first and foremost, check if the user has permissions to view the record
@@ -199,6 +213,7 @@ function shn_eap_findRights() {
 		AND p.p_uuid = '".$global['uuid']."';
 	";
 	$r  = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit find rights 1"); }
 	$row = $r->FetchRow();
 	if((!isset($_SESSION['group_id']) || ($_SESSION['group_id'] != (int)$row['private_group'])) && $row['private_group'] != NULL) {
 		$global['permissionToView'] = false;
@@ -226,6 +241,7 @@ function shn_eap_findRights() {
 			AND r.p_uuid = '".$global['uuid']."';
 		";
 		$r  = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit find rights 2"); }
 		$row = $r->FetchRow();
 		$global['isReporter'] = (bool)$row['COUNT(*)'];
 
@@ -332,8 +348,9 @@ function emailUpdates() {
 			AND c.p_uuid = f.follower_p_uuid
 			AND c.opt_contact_type = 'email';
 		";
-
 		$r = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit email updates 1"); }
+
 		while($row = $r->FetchRow()) {
 			$p->sendMessage($row['contact_value'], $row['full_name'], $subject, $bodyHTML, $bodyAlt);
 		}
@@ -348,6 +365,8 @@ function emailUpdates() {
 			AND pp.p_uuid = p.rep_uuid;
 		";
 		$r = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit email updates 2"); }
+
 		while($row = $r->FetchRow()) {
 			$p->sendMessage($row['contact_value'], $row['full_name'], $subject, $bodyHTML, $bodyAlt);
 		}
@@ -365,6 +384,11 @@ function emailUpdates() {
 function saveRevision($table, $column, $name, $oldValue, $newValue) {
 	global $global;
 	global $revisionCount;
+
+	if($revisionCount == 0) {
+		add_confirmation("Changes saved.");
+	}
+
 	$revisionCount++;
 
 	// turn empty strings into NULL
@@ -379,14 +403,14 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
 		$new = "'".(string)mysql_real_escape_string($newValue)."'";
 	}
 
+	// save the revision
 	$q = "
 		INSERT INTO ".$table." (p_uuid, ".$column.")
 		VALUES ('".$global['uuid']."', ".$new.")
 		ON DUPLICATE KEY UPDATE ".$column." = ".$new." ;
 	";
-
-	// save the revision
 	$r = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit save revision 1"); }
 
 	// note the revision
 	$q = "
@@ -394,6 +418,7 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
 		VALUES ('".$global['uuid']."', '".$table."', '".$column."', ".$old.", ".$new.", '".$_SESSION['user_p_uuid']."');
 	";
 	$r = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit save revision 2"); }
 
 	// update timestamp
 	$q = "
@@ -402,8 +427,7 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
 		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r = $global['db']->Execute($q);
-
-	add_confirmation("Changes saved.");
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit save revision 3"); }
 }
 
 
@@ -417,6 +441,11 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
 function saveContactRevision($type, $name, $oldValue, $newValue) {
 	global $global;
 	global $revisionCount;
+
+	if($revisionCount == 0) {
+		add_confirmation("Changes saved.");
+	}
+
 	$revisionCount++;
 
 	// turn empty strings into NULL
@@ -440,6 +469,7 @@ function saveContactRevision($type, $name, $oldValue, $newValue) {
 		AND opt_contact_type = '".$type."';
 	";
 	$r = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit save contact revision 1"); }
 
 
 	// insert the new value
@@ -448,7 +478,7 @@ function saveContactRevision($type, $name, $oldValue, $newValue) {
 		VALUE ('".$global['uuid']."', '".$type."', '".mysql_real_escape_string($newValue)."');
 	";
 	$r = $global['db']->Execute($q);
-
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit save contact revision 2"); }
 
 	// note the revision
 	$q = "
@@ -456,6 +486,7 @@ function saveContactRevision($type, $name, $oldValue, $newValue) {
 		VALUES ('".$global['uuid']."', 'contact', 'contact_value', '".$type."<::>".$oldValue."', '".$type."<::>".$newValue."', '".$_SESSION['user_p_uuid']."');
 	";
 	$r = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit save contact revision 3"); }
 
 	// update timestamp
 	$q = "
@@ -464,8 +495,7 @@ function saveContactRevision($type, $name, $oldValue, $newValue) {
 		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r = $global['db']->Execute($q);
-
-	add_confirmation("Changes saved.");
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit save contact revision 4"); }
 }
 
 
@@ -479,15 +509,24 @@ function saveContactRevision($type, $name, $oldValue, $newValue) {
 function updateFullName($editGivenName, $editFamilyName) {
 	global $global;
 
+	$editGivenName   = htmlspecialchars(mb_convert_case($editGivenName,  MB_CASE_TITLE, "UTF-8"));
+	$editFamilyName  = htmlspecialchars(mb_convert_case($editFamilyName, MB_CASE_TITLE, "UTF-8"));
+
 	$q = "
 		UPDATE person_uuid
 		SET full_name = '".mysql_real_escape_string($editGivenName)." ".mysql_real_escape_string($editFamilyName)."'
 		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r = $global['db']->Execute($q);
-	add_warning("
-		Since you changed the person's name, the record will not reflect this until you revisit this page or
-		<a href=\"index.php?mod=eap&act=edit&uuid=".base64_encode($global['uuid'])."\">click here.</a>");
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit update full name 1"); }
+
+	// update the full name in the document as we already sent it out...
+	echo "
+		<script>
+			var n = document.getElementById('full_name');
+			n.value = '".$editGivenName." ".$editFamilyName."';
+		</script>
+	";
 }
 
 
@@ -516,15 +555,17 @@ function shn_eap_edit() {
 
 	// check if the person record exists or has expired...
 	$q  = "
-		SELECT COUNT(*)
+		SELECT COUNT(*), expiry_date
 		FROM person_uuid
 		WHERE p_uuid = '".$global['uuid']."'
 		AND (expiry_date > NOW()
 		OR expiry_date is null);
 	";
 	$r   = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 1"); }
 	$row = $r->FetchRow();
 	$num = $row['COUNT(*)'];
+	$isRap2 = $row['expiry_date'];
 
 	// we has images
 	if($num != 1) {
@@ -534,7 +575,6 @@ function shn_eap_edit() {
 		";
 		return;
 	}
-
 
 	// make goo.gl short url
 	$googl = new goo_gl(makePageUrl());
@@ -554,6 +594,7 @@ function shn_eap_edit() {
 		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r                   = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 2"); }
 	$row                 = $r->FetchRow();
 	$full_name           = $row['full_name'];
 	$person_incident     = array();
@@ -574,6 +615,7 @@ function shn_eap_edit() {
 			WHERE hospital_uuid = '".$hospital."';
 		";
 		$r = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 3"); }
 		$row = $r->FetchRow();
 		$person_to_hospital = array();
 		$person_to_hospital['hospital_uuid'] = $hospital;
@@ -587,12 +629,9 @@ function shn_eap_edit() {
 		FROM person_details
 		WHERE p_uuid = '".$global['uuid']."';
 	";
-	$r        = $global['db']->Execute($q);
+	$r = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 4"); }
 	$person_details = $r->FetchRow();
-
-	// fix empty full names..
-	$full_name = htmlspecialchars(mb_convert_case($full_name, MB_CASE_TITLE, "UTF-8"));
-
 
 	// show the full name
 	echo "
@@ -602,7 +641,7 @@ function shn_eap_edit() {
 					<legend>Person Record</legend>
 
 					<label for=\"opt_status\"><b>Full Name</b> </label>
-					<input type=\"text\" value=\"".$full_name."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" value=\"".$full_name."\" id=\"full_name\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 	";
 
@@ -617,14 +656,15 @@ function shn_eap_edit() {
 		AND p.p_uuid = u.p_uuid;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 5"); }
 	if($result != NULL && !$result->EOF) {
 		$row = $result->FetchRow();
-		$reporterName = $row['full_name']." (".$row['user_name'].")";
+		$reporterName = $row['full_name']." << ".$row['user_name']." >>";
 		if($row['user_name'] == "mpres") {
 			$reporterName = $row['full_name'];
 		}
 		echo "
-					<label for=\"opt_status\"><b>Reported by (username)</b> </label>
+					<label for=\"opt_status\"><b>Reported by << username >></b> </label>
 					<input type=\"text\" value=\"".$reporterName."\" size=\"64\" class=\"nonedit public\" READONLY>
 					<br>
 		";
@@ -640,6 +680,7 @@ function shn_eap_edit() {
 		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$result = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 6"); }
 	if($result != NULL && !$result->EOF) {
 		$row = $result->FetchRow();
 		$appName = $row['xml_format'];
@@ -652,6 +693,7 @@ function shn_eap_edit() {
 			WHERE p_uuid = '".$global['uuid']."';
 		";
 		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 7"); }
 		if($result != NULL && !$result->EOF) {
 			$row = $result->FetchRow();
 			$appName = $row['enum'];
@@ -664,6 +706,7 @@ function shn_eap_edit() {
 				WHERE p_uuid = '".$global['uuid']."';
 			";
 			$result = $global['db']->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 8"); }
 			if($result != NULL && !$result->EOF) {
 				$row = $result->FetchRow();
 				$appName = "RAP";
@@ -676,6 +719,7 @@ function shn_eap_edit() {
 					WHERE p_uuid = '".$global['uuid']."';
 				";
 				$result = $global['db']->Execute($q);
+				if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 9"); }
 				if($result != NULL && !$result->EOF) {
 					$row = $result->FetchRow();
 					$appName = "PF";
@@ -727,6 +771,7 @@ function shn_eap_edit() {
 		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r   = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 10"); }
 	$row = $r->FetchRow();
 	$num = $row['count(*)'];
 
@@ -738,6 +783,7 @@ function shn_eap_edit() {
 			WHERE p_uuid = '".$global['uuid']."';
 		";
 		$r   = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 11"); }
 		$row = $r->FetchRow();
 		$did = $row['person_id'];
 		echo "
@@ -784,6 +830,7 @@ function shn_eap_edit() {
 			WHERE p_uuid = '".$global['uuid']."';
 		";
 		$r = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 12"); }
 		if($row = $r->FetchRow()) {
 			$url = $row['source_url'];
 		} else {
@@ -828,6 +875,7 @@ function shn_eap_edit() {
 		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r   = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 13"); }
 	$row = $r->FetchRow();
 	$num = $row['COUNT(*)'];
 
@@ -842,6 +890,7 @@ function shn_eap_edit() {
 			WHERE p_uuid = '".$global['uuid']."';
 		";
 		$r   = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 14"); }
 		while ($row = $r->FetchRow()) {
 			$imagesFull[]  = $row['url'];
 			$imagesThumb[] = $row['url_thumb'];
@@ -899,6 +948,7 @@ function shn_eap_edit() {
 		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r   = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 15"); }
 	$row = $r->FetchRow();
 	$num = $row['COUNT(*)'];
 
@@ -910,6 +960,7 @@ function shn_eap_edit() {
 			WHERE p_uuid = '".$global['uuid']."';
 		";
 		$r   = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 16"); }
 		$row = $r->FetchRow();
 		$url_mp3 = $row['url_resampled_mp3'];
 		$url_ogg = $row['url_resampled_ogg'];
@@ -957,7 +1008,8 @@ function shn_eap_edit() {
 		FROM person_physical
 		WHERE p_uuid = '".$global['uuid']."';
 	";
-	$r               = $global['db']->Execute($q);
+	$r = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 17"); }
 	$person_physical = $r->FetchRow();
 
 	// load status
@@ -968,8 +1020,22 @@ function shn_eap_edit() {
 		AND f.field_name = 'opt_status'
 		AND s.opt_status = f.option_code;
 	";
-	$r              = $global['db']->Execute($q);
+	$r = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 18"); }
 	$person_status  = $r->FetchRow();
+
+	// check if this is the first save...
+	$q  = "
+		SELECT *
+		FROM person_status
+		WHERE p_uuid = '".$global['uuid']."';
+	";
+	$r = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 18b"); }
+	$checkcheck  = $r->FetchRow();
+	if($checkcheck['last_updated'] == null) {
+		$global['makeStaticPfifNote'] = true;
+	}
 
 	// check for not sets
 	if(!isset($person_status['opt_status'])) {
@@ -991,6 +1057,7 @@ function shn_eap_edit() {
 		AND field_name = 'opt_gender';
 	";
 	$r   = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 19"); }
 	$row = $r->FetchRow();
 	$genderEnum = $row['option_description'];
 
@@ -1002,6 +1069,7 @@ function shn_eap_edit() {
 		AND field_name = 'opt_eye_color';
 	";
 	$r   = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 20"); }
 	$row = $r->FetchRow();
 	$eye = $row['option_description'];
 
@@ -1013,6 +1081,7 @@ function shn_eap_edit() {
 		AND field_name = 'opt_skin_color';
 	";
 	$r   = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 21"); }
 	$row = $r->FetchRow();
 	$skin = $row['option_description'];
 
@@ -1024,6 +1093,7 @@ function shn_eap_edit() {
 		AND field_name = 'opt_hair_color';
 	";
 	$r   = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 22"); }
 	$row = $r->FetchRow();
 	$hair = $row['option_description'];
 	// LOAD PUBLIC DATA END ///////////////////////////////////////////////////////////////////////////
@@ -1112,6 +1182,7 @@ function shn_eap_edit() {
 				AND s.opt_status = f.option_code;
 			";
 			$r              = $global['db']->Execute($q);
+			if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 23"); }
 			$person_status  = $r->FetchRow();
 
 			// we use last updated in the case creation time is unavailable
@@ -1186,6 +1257,11 @@ function shn_eap_edit() {
 			<br>
 			<br>
 		";
+		// if the person was just reported via rap2 (they have no update time... so show new record msg)
+		if($last_updated == "---") {
+			add_confirmation("A new person record has been created. Please fill in as much information as you can about this person and then save the changes.");
+			$global['makeStaticPfifNote'] = false;
+		}
 
 
 		// generate status dropdown
@@ -1195,6 +1271,7 @@ function shn_eap_edit() {
 			WHERE field_name = 'opt_status';
 		";
 		$r = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 24"); }
 		$opt_status_array = array();
 		while(!$r->EOF) {
 			$opt_status_array[$r->fields['option_code']] = $r->fields['option_description'];
@@ -1209,6 +1286,7 @@ function shn_eap_edit() {
 			FROM hospital;
 		";
 		$r = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 25"); }
 		$hospital_array = array();
 		$hospital_array[null] = 'Unknown';
 		while(!$r->EOF) {
@@ -1224,6 +1302,7 @@ function shn_eap_edit() {
 			FROM incident;
 		";
 		$r = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 26"); }
 		$incident_array = array();
 		while(!$r->EOF) {
 			$incident_array[$r->fields['incident_id']] = $r->fields['name'];
@@ -1290,7 +1369,7 @@ function shn_eap_edit() {
 			<br>
 
 			<label for=\"height\">&nbsp;</label>
-			<input type=\"submit\" value=\"Save\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
+			<input type=\"submit\" value=\"Save Public Information\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
 
 			</fieldset>
 			</form></div>
@@ -1369,6 +1448,7 @@ function shn_eap_edit() {
 			WHERE incident_id = '".$person_incident['incident_id']."';
 		";
 		$r = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 27"); }
 		$row = $r->FetchRow();
 		$eventName = $row['name'];
 
@@ -1479,8 +1559,8 @@ function shn_eap_edit() {
 		AND note_about_p_uuid = '".$global['uuid']."'
 		ORDER BY n.when ASC;
 	";
-
 	$r  = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 28"); }
 
 	while($row = $r->FetchRow()) {
 		$delete = "";
@@ -1522,6 +1602,7 @@ function shn_eap_edit() {
 		ORDER BY entry_date DESC;
 	";
 	$result = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 29"); }
 	while (!$result == NULL && !$result->EOF) {
 
 
@@ -1617,6 +1698,7 @@ function shn_eap_edit() {
 			WHERE p_uuid = '".$global['uuid']."';
 		";
 		$r   = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 30"); }
 		while ($row = $r->FetchRow()) {
 			$type  = $row['opt_contact_type'];
 			$value = $row['contact_value'];
@@ -1675,7 +1757,7 @@ function shn_eap_edit() {
 			<div class=\"form-container\">
 			<form method=\"post\" id=\"editPrivateForm\" name=\"editPrivateForm\" action=\"index.php?mod=eap&act=edit".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
 			<fieldset id=\"editPrivate\">
-			<legend><span class=\"privateText\">Private Information</span></legend>
+			<legend><span class=\"privateText\">Private Contact Information (not visible to the public)</span></legend>
 		";
 
 		//shn_form_textarea("Address",                  "address", null,       array('value'=>$editAddress, 'cols'=>70));
@@ -1733,6 +1815,7 @@ function shn_eap_edit() {
 			ORDER BY update_time ASC;
 		";
 		$r  = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 31"); }
 		$count = 0;
 		while($row = $r->FetchRow()) {
 			if(($count % 2) == 0) {
@@ -1753,7 +1836,7 @@ function shn_eap_edit() {
 		}
 		$out .= "</table>";
 		if($count == 0) {
-			echo "<b>No revisions to this record.</b>";
+			echo "<b>This record has not been completed yet.</b>";
 		} else {
 			echo $out;
 		}
@@ -1775,6 +1858,7 @@ function shn_eap_edit() {
 			AND p_uuid = '".$global['uuid']."';
 		";
 		$r  = $global['db']->Execute($q);
+		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 32"); }
 		$row = $r->FetchRow();
 		$alreadyFollowing = (bool)$row['COUNT(*)']; // true if logged in user is already following the person
 
@@ -1911,7 +1995,59 @@ function shn_eap_edit() {
 	// DEBUG END //////////////////////////////////////////////////////////////////////////////////
 
 	emailUpdates();
+
+	// make pfif note on new records (for the first save)
+	if($global['makeStaticPfifNote'] == true) {
+
+		require_once($global['approot']."inc/lib_uuid.inc");
+		require_once($global['approot']."mod/pfif/pfif.inc");
+		require_once($global['approot']."mod/pfif/util.inc");
+
+		$p = new Pfif();
+
+		$n = new Pfif_Note();
+		$n->note_record_id          = shn_create_uuid('pfif_note');
+		$n->person_record_id        = $global['uuid'];
+		$n->linked_person_record_id = null;
+		$n->source_date             = $person_status['last_updated']; // since we are now creating the note,
+		$n->entry_date              = $person_status['last_updated']; // we use the last_updated for both values
+		$n->author_phone            = null;
+		$n->email_of_found_person   = null;
+		$n->phone_of_found_person   = null;
+		$n->last_known_location     = $person_details['last_seen'];
+		$n->text                    = $person_details['other_comments'];
+		$n->found                   = null; // we have no way to know if the reporter had direct contact (hence we leave this null)
+
+		// figure out the person's pfif status
+		$n->status = shn_map_status_to_pfif($person_status['opt_status']);
+
+		// find author name and email...
+		$q = "
+			SELECT *
+			FROM contact c, person_uuid p
+			WHERE p.p_uuid = c.p_uuid
+			AND c.opt_contact_type = 'email'
+			AND p.p_uuid = '".$_SESSION['user_p_uuid']."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "edit make static pfif note"); }
+
+		if($result != NULL && !$result->EOF) {
+			$n->author_name  = $result->fields['full_name'];
+			$n->author_email = $result->fields['contact_value'];
+		} else {
+			$n->author_name  = null;
+			$n->author_email = null;
+		}
+
+		$p->setNote($n);
+		$p->setIncidentId($person_incident['incident_id']);
+		$p->storeNotesInDatabase();
+
+		add_confirmation("PFIF note created.");
+	}
 }
+
 
 
 
