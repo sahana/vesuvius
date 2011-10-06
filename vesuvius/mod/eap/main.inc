@@ -1997,7 +1997,7 @@ function shn_eap_edit() {
 	emailUpdates();
 
 	// make pfif note on new records (for the first save)
-	if($global['makeStaticPfifNote'] == true && false) {
+	if($global['makeStaticPfifNote'] == true) {
 
 		require_once($global['approot']."inc/lib_uuid.inc");
 		require_once($global['approot']."mod/pfif/pfif.inc");
