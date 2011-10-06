@@ -11,7 +11,7 @@
  */
 
 
-$conf['mod_rap_name']         = _t("Report a Person");  // Defines the name of the module
+$conf['mod_rap_name']         = _t("Report a Person 1");  // Defines the name of the module
 $conf['mod_rap_menuorder']    = 10;                      // Defines this module's main menu priority
 $conf['mod_rap_dependencies'] = "pop(1.0)";
 $conf['mod_rap_version']      = 1.2;
