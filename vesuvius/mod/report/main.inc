@@ -82,12 +82,13 @@ function shn_report_default() {
 	$p->setEvent($_GET['shortname']);
 	$p->opt_status = "unk";
 	$p->creation_time = date('Y-m-d H:i:s');
+	$p->makePfifNote = false;
 	$p->insert();
 	$p->rapReportLog();
 
 	$p_uuid_a = explode("/", $p->p_uuid);
 	$p_uuid_portion = $p_uuid_a[1];
-	header("Location: ".$p_uuid_portion."?rap");
+	header("Location: ".$p_uuid_portion);
 }
 
 
