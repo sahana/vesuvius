@@ -90,7 +90,13 @@ function shn_report_default() {
 	$p_uuid_a = explode("/", $p->p_uuid);
 	$p_uuid_portion = $p_uuid_a[1];
 	header("Location: ".$p_uuid_portion);
-	echo '<a href="'.$p_uuid_portion.'">click here if not automatically directed...</a>';
+
+	// fall back redirect if header() fails for some reason
+	echo "
+		<script>
+			window.location = '".$p_uuid_portion."';
+		</script>
+	";
 }
 
 
