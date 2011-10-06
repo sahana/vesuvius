@@ -108,6 +108,46 @@ function shn_stat_menu() {
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
 		";
 		};
+		if($shortname=="colombia2011"){
+		echo "
+		<ul>					
+			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
+			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>				
+		</ul>
+		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
+		";
+		};
+		if($shortname=="test"){
+		echo "
+		<ul>					
+			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
+			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>				
+		</ul>
+		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
+		";
+		};
+		if($shortname=="testtp"){
+		echo "
+		<ul>					
+			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
+			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>				
+		</ul>
+		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
+		";
+		};
+		if($shortname=="lisbon"){
+		echo "
+		<ul>					
+			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
+			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>				
+		</ul>
+		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
+		";
+		};
 		if($shortname=="christchurch"){
 		echo "
 		<ul>					
