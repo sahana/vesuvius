@@ -1272,6 +1272,8 @@ class person {
 	public $author_name;
 	public $author_email;
 
+	// whether to make a static PFIF not upon insertion
+	public $makePfifNote;
 
 	// Constructor:
 	public function	__construct() {
@@ -1335,6 +1337,8 @@ class person {
 
 		$this->author_name        = null;
 		$this->author_email       = null;
+
+		$this->makePfifNote       = true;
 	}
 
 
@@ -1397,6 +1401,8 @@ class person {
 
 		$this->author_name        = null;
 		$this->author_email       = null;
+
+		$this->makePfifNote       = null;
 	}
 
 
@@ -1532,7 +1538,7 @@ class person {
 
 		$this->insertImages();
 		$this->insertEdxl();
-		$this->makePfifNote();
+		$this->makeStaticPfifNote();
 		$this->insertVoiceNote();
 	}
 
@@ -1580,7 +1586,12 @@ class person {
 	}
 
 
-	public function makePfifNote() {
+	public function makeStaticPfifNote() {
+		// only make the note when we are supposed to...
+		if(!$this->makePfifNote) {
+			return;
+		}
+
 		global $global;
 		require_once($global['approot']."inc/lib_uuid.inc");
 		require_once($global['approot']."mod/pfif/pfif.inc");
