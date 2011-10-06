@@ -18,18 +18,6 @@ function shn_report_default() {
 	global $global;
 	require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
-	// show the javascript that we use...
-	echo '
-		<script>
-			function register() {
-				window.location = \'register\';
-			}
-			function login() {
-				window.location = \'login\';
-			}
-		</script>
-	';
-
 	// check if event is closed...
 	$q = "
 		SELECT *
@@ -71,6 +59,14 @@ function shn_report_default() {
 			<input id="login" class="styleTehButton" type="button" value="Login" onclick="login();">
 			&nbsp; &nbsp; &nbsp; &nbsp;
 			<input id="register" class="styleTehButton" type="button" value="Register as a new user" onclick="register();">
+			<script>
+				function register() {
+					window.location = \'register\';
+				}
+				function login() {
+					window.location = \'login\';
+				}
+			</script>
 		';
 		return;
 	}
