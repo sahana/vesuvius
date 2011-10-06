@@ -15,6 +15,7 @@
 global $global;
 require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 
+
 class mpres {
 	private $host;
 	private $port;
@@ -143,6 +144,8 @@ class mpres {
 	// traverse the inbox for appropriate messages
 	private function loopInbox() {
 
+		global $global;
+
 		// download all message information from inbox
 		$this->overview = imap_fetch_overview($this->mailbox,"1:".$this->messageCount,0);
 		$this->size = sizeof($this->overview);
@@ -170,6 +173,9 @@ class mpres {
 			$this->fixFrom();           // strip extra characters from the from field
 			$this->fixAddress();        // fix email address of excess characters
 			$this->getAttachmentsAndParseXML($i);  // grab all attachments
+
+			$this->messages .= "From: ".$this->currentFrom."<br>";
+			$this->messages .= "Subject: ".$this->currentSubject."<br>";
 
 			// email has XML attachment....
 			if ($this->currentMessageHasXML) {
@@ -360,7 +366,7 @@ class mpres {
 					$this->currentAttachments[$i]['is_image'] = true;
 					$this->currentAttachments[$i]['type']     = "png";
 
-				} else if(strtolower(substr($f, -4)) == ".xml" || strtolower(substr($f, -4)) == ".lpf") {
+				} else if(strtolower(substr($f, -4)) == ".lp2" || strtolower(substr($f, -4)) == ".lpf" || strtolower(substr($f, -4)) == ".xml") { // update to tep later......
 					$this->currentAttachments[$i]['is_xml']   = true;
 					$this->currentAttachments[$i]['type']     = "xml";
 					$this->currentMessageHasXML               = true;

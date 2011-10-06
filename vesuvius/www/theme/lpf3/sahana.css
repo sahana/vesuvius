@@ -1,13 +1,13 @@
 /**
  * @name         Lost Person Finder Theme
- * @version      3.0
+ * @version      3.5
  * @package      lpf
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.0921
  */
 
 
@@ -94,6 +94,8 @@ input[type=text], input[type=password], textarea {
 	border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
 }
 
+.left { text-align: left !important; }
+
 .hide { display: none;  }
 
 .mini { font-size: 80%; }
@@ -110,6 +112,14 @@ a:hover {
 a img {
 	border:none;
 }
+
+
+#chromeWebStore {
+	position: absolute;
+	top: 10px;
+	left: 50%;
+}
+
 
 /* hack for calander table on ie */
 table#scw { -moz-box-shadow: 0px 0px 20px rgba(0,0,0,0.5); box-shadow: 0px 0px 20px rgba(0,0,0,0.5); -webkit-box-shadow: 0px 0px 20px rgba(0,0,0,0.5); }
@@ -131,8 +141,8 @@ div#container {
 
 div#header { height: 130px; font-family: arial; background-color: #fff;}
 div#headerText { position: absolute; top: 23px;  left: 250px; }
-div#headerText a {text-decoration: none; font-family: arial;}
-div#headerText h1 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 28px; font-weight: normal; font-family: arial; line-height: 30px; letter-spacing: 200%;}
+div#headerText a {text-decoration: none; font-family: arial; }
+div#headerText h1 { position: relative; text-align: left; color: #34689a; margin: 0; font-family: arial; font-size: 28px; line-height: 28px; font-weight: normal;}
 div#headerText h2 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 23px; font-weight: normal; font-family: arial; line-height: 27px; }
 div#headerText h2 span { font-size: 18px; }
 div#headerText h3 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 16px; font-weight: normal; font-family: arial; line-height: 19px; }
@@ -377,7 +387,7 @@ div#footer {
 	padding: 10px 30px 10px 30px;
 	border: none;
 	height: 120px;
-	width: 660px;
+	width: 680px;
 	margin-top: 20px;
 	background-color: rgba(255,255,255,0.1);
 	border-radius: 20px;
@@ -439,12 +449,15 @@ div#footer hr {display: none;}
 	height: 18px;
 	border-radius: 20px;
 	background-color: #f3f7fc;
-	border: 1px solid #e3e7fc;
+	border: 1px solid rgba(98,137,192,0.15);
 	/*
 	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startColorstr='#f3f7fc', endColorstr='#6289b0');
-	background:       -moz-linear-gradient(0deg, rgba(130,169,224,0.1), rgba(114,153,208,1) 80%, rgba(98,137,192,1));
-	background-image: -webkit-gradient(linear, 0% 0%, 100% 0%, from(rgba(130,169,224,0.1)), color-stop(80%, rgba(114,153,208,1)), to(rgba(98,137,192,1)));
 	*/
+	background-image: -webkit-linear-gradient(top, rgba(98,137,192,0.13), rgba(98,137,192,0.03) 50%, rgba(98,137,192,0.13));
+	background-image:    -moz-linear-gradient(top, rgba(98,137,192,0.13), rgba(98,137,192,0.03) 50%, rgba(98,137,192,0.13));
+	background-image:     -ms-linear-gradient(top, rgba(98,137,192,0.13), rgba(98,137,192,0.03) 50%, rgba(98,137,192,0.13));
+	background-image:      -o-linear-gradient(top, rgba(98,137,192,0.13), rgba(98,137,192,0.03) 50%, rgba(98,137,192,0.13));
+	background-image:         linear-gradient(top, rgba(98,137,192,0.13), rgba(98,137,192,0.03) 50%, rgba(98,137,192,0.13));
 }
 #disasterList, #locale { height: 20px; border: 1px solid #6289b0; }
 #language { position: absolute; top: 134px; right: 50px; z-index: 9999; color: #039; }
@@ -1160,6 +1173,11 @@ textarea#addNote:active {
 
 .nonedit {
 	border: none;
+}
+
+.tct {
+	color: #fff;
+	text-shadow: rgba(0,0,0,1) 1px 1px 4px;
 }
 
 

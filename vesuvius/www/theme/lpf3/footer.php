@@ -35,7 +35,7 @@ $legalese = "Notice: Submission of information is voluntary. All submitted infor
 			<a href="http://www.bethesda.med.navy.mil/"><img src="theme/lpf3/img/nnmc.png"></a>
 			<a href="http://clinicalcenter.nih.gov/"><img src="theme/lpf3/img/clinicalcenter.png"></a><br>
 			<a href="http://www.bethesdahospitalsemergencypartnership.org/">Funded through the <br>
-			Bethesda Hospital Emergency Preparedness Partnership</a>
+			Bethesda Hospitals' Emergency Preparedness Partnership</a>
 		</td>
 		<td>
 			<a href="http://sahanafoundation.org"><img src="theme/lpf3/img/sahana.png"></a><br>

@@ -1,19 +1,19 @@
 <?
 /**
- * @name         Resources
- * @version      1.5
- * @package      rez
+ * @name         Report (a person)
+ * @version      2.0
+ * @package      report
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1004
+ * @lastModified 2011.0921
  */
 
 
-$conf['mod_rez_name']         = _t("Help and Resources");
-$conf['mod_rez_menuorder']    = 20;
-$conf['mod_rez_dependencies'] = "";
-$conf['mod_rez_version']      = "1.5";
+$conf['mod_report_name']         = _t("Report a Person");
+$conf['mod_report_menuorder']    = 11;
+$conf['mod_report_version']      = 2.0;
+$conf['mod_report_dependencies'] = null;
 
-//$conf['mod_rez_hide_in_menu'] = true;
+

@@ -82,6 +82,16 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 		}
 	}
 
+	// YAH (yet another hack) to show when the import/export sync is erroring!
+	if($desc == "Import & Export") {
+		require_once($global['approot'].'/mod/pfif/main.inc');
+		if(!shn_pfif_statusGood()) {
+			$desc .= " <span style=\"color: red;\"><b>●</b></span>";
+		} else {
+			$desc .= " <span style=\"color: green;\"><b>●</b></span>";
+		}
+	}
+
 	// a 3rd hack to show the proper home linl (it doesn't have the shortname in the url)
 	if($desc == "Home") {
 		echo "<li ".$class."><a href=\"".makeBaseUrlMinusEvent()."\">".$desc."</a></li>";
