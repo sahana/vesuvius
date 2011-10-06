@@ -1587,7 +1587,7 @@ class person {
 
 
 	public function makeStaticPfifNote() {
-		// only make the note when we are supposed to...
+		// make the note unless we are explicitly asked not to...
 		if(!$this->makePfifNote) {
 			return;
 		}
@@ -1597,62 +1597,49 @@ class person {
 		require_once($global['approot']."mod/pfif/pfif.inc");
 		require_once($global['approot']."mod/pfif/util.inc");
 
-		// find the index (if it exists) for the pfif repo associated with this event
-		// if a pfif repo is associated with this event then generate a note, else skip note generation
+		$p = new Pfif();
+
+		$n = new Pfif_Note();
+		$n->note_record_id          = shn_create_uuid('pfif_note');
+		$n->person_record_id        = $this->p_uuid;
+		$n->linked_person_record_id = null;
+		$n->source_date             = $this->last_updated; // since we are now creating the note,
+		$n->entry_date              = $this->last_updated; // we use the last_updated for both values
+		$n->author_phone            = null;
+		$n->email_of_found_person   = null;
+		$n->phone_of_found_person   = null;
+		$n->last_known_location     = $this->last_seen;
+		$n->text                    = $this->other_comments;
+		$n->found                   = null; // we have no way to know if the reporter had direct contact (hence we leave this null)
+
+		// figure out the person's pfif status
+		$n->status = shn_map_status_to_pfif($this->opt_status);
+
+		// find author name and email...
 		$q = "
 			SELECT *
-			FROM  `pfif_repository`
-			WHERE `incident_id` = '".$this->incident_id."';
+			FROM contact c, person_uuid p
+			WHERE p.p_uuid = c.p_uuid
+			AND c.opt_contact_type = 'email'
+			AND p.p_uuid = '".$this->rep_uuid."';
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get pfif repo"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get contact for pfif note"); }
 
 		if($result != NULL && !$result->EOF) {
-
-			$p = new Pfif();
-
-			$n = new Pfif_Note();
-			$n->note_record_id          = shn_create_uuid('pfif_note');
-			$n->person_record_id        = $this->p_uuid;
-			$n->linked_person_record_id = null;
-			$n->source_date             = $this->last_updated; // since we are now creating the note,
-			$n->entry_date              = $this->last_updated; // we use the last_updated for both values
-			$n->author_phone            = null;
-			$n->email_of_found_person   = null;
-			$n->phone_of_found_person   = null;
-			$n->last_known_location     = $this->last_seen;
-			$n->text                    = $this->other_comments;
-			$n->found                   = null; // we have no way to know if the reporter had direction contact (hence we leave this null)
-
-			// figure out the person's pfif status
-			$n->status = shn_map_status_to_pfif($this->opt_status);
-
-			// find author name and email...
-			$q = "
-				SELECT *
-				FROM contact c, person_uuid p
-				WHERE p.p_uuid = c.p_uuid
-				AND c.opt_contact_type = 'email'
-				AND p.p_uuid = '".$this->rep_uuid."';
-			";
-			$result = $this->db->Execute($q);
-			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get contact for pfif"); }
-
-			if($result != NULL && !$result->EOF) {
-				$n->author_name  = $result->fields['full_name'];
-				$n->author_email = $result->fields['contact_value'];
-			} elseif($this->author_name != null) {
-				$n->author_name  = $this->author_name;
-				$n->author_email = $this->author_email;
-			} else {
-				$n->author_name  = null;
-				$n->author_email = null;
-			}
-
-			$p->setNote($n);
-			$p->setIncidentId($this->incident_id);
-			$p->storeNotesInDatabase();
+			$n->author_name  = $result->fields['full_name'];
+			$n->author_email = $result->fields['contact_value'];
+		} elseif($this->author_name != null) {
+			$n->author_name  = $this->author_name;
+			$n->author_email = $this->author_email;
+		} else {
+			$n->author_name  = null;
+			$n->author_email = null;
 		}
+
+		$p->setNote($n);
+		$p->setIncidentId($this->incident_id);
+		$p->storeNotesInDatabase();
 	}
 
 
