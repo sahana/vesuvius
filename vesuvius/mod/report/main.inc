@@ -37,6 +37,7 @@ function shn_report_default() {
 		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."';
 	";
 	$result   = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "report default 1"); }
 	$row      = $result->FetchRow();
 	$closed   = $row['closed'];
 	$external = $row['external_report'];
@@ -89,6 +90,7 @@ function shn_report_default() {
 	$p_uuid_a = explode("/", $p->p_uuid);
 	$p_uuid_portion = $p_uuid_a[1];
 	header("Location: ".$p_uuid_portion);
+	echo '<a href="'.$p_uuid_portion.'">click here if not automatically directed...</a>';
 }
 
 
