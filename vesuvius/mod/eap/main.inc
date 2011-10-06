@@ -2035,9 +2035,6 @@ function shn_eap_edit() {
 		if($result != NULL && !$result->EOF) {
 			$n->author_name  = $result->fields['full_name'];
 			$n->author_email = $result->fields['contact_value'];
-		} elseif($this->author_name != null) {
-			$n->author_name  = $this->author_name;
-			$n->author_email = $this->author_email;
 		} else {
 			$n->author_name  = null;
 			$n->author_email = null;
