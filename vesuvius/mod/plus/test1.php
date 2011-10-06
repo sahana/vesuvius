@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      1.9.9
+ * @version      2.0
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1003
+ * @lastModified 2011.1007
  */
 
 $user = "testDontDelete";
@@ -16,7 +16,7 @@ require_once("../../3rd/nusoap/lib/nusoap.php");
 
 //$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=1.9.8";
 //$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=1.9.8";
-$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=1.9.9";
+$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.0";
 
 $client = new nusoap_client($wsdl);
 
