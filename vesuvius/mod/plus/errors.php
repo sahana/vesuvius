@@ -45,5 +45,7 @@ define("ERRORCODES", serialize(array(
 	403  => "Error parsing XML.",
 	405  => "Event is closed to reporting.",
 	406  => "Invalid event.",
+	407  => "No record associated with this mass casualty ID exists.",
+	408  => "Insufficient permission to revise this record.",
 	9999 => "Unknown error.",
 )));
