@@ -80,6 +80,9 @@ function shn_report_default() {
 	$p->opt_status = "unk";
 	$p->creation_time = date('Y-m-d H:i:s');
 	$p->makePfifNote = false;
+	$p->full_name   = "";
+	$p->family_name = "";
+	$p->given_name  = "";
 	$p->insert();
 	$p->rapReportLog();
 
