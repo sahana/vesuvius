@@ -71,14 +71,33 @@ function shn_report_default() {
 		return;
 	}
 
+	// all good, so present them with a button to click that creates a stub person
+	echo '
+		<h2>Report a Person</h2>
+		<br>
+		You may wish to perform a <a href="index.php?mod=inw&act=default">quick search</a> before reporting. Otherwise,<br>
+		<br>
+		<br>
+		<input id="login" class="styleTehButton" type="button" value="Create a New Person Record" onclick="report();">
+		<script>
+			function report() {
+				window.location = \'index.php?mod=report&act=instantiate\';
+			}
+		</script>
+	';
+}
 
-	// haven't bailed out yet, so create a new empty person record
+
+
+// build the stub record and redirec to it...
+function shn_report_instantiate() {
 	$p = new person();
 	$p->createUUID();
 	$p->rep_uuid = $_SESSION['user_p_uuid'];
 	$p->setEvent($_GET['shortname']);
 	$p->opt_status = "unk";
 	$p->creation_time = date('Y-m-d H:i:s');
+	$p->last_updated  = date('Y-m-d H:i:s');
 	$p->makePfifNote = false;
 	$p->insert();
 	$p->rapReportLog();
