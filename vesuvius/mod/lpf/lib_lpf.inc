@@ -1435,7 +1435,10 @@ class person {
 
 		// we require a last name otherwise search breaks and the record is meaningless
 		if(trim($this->family_name) == "") {
-			$this->family_name = "unknown";
+			$this->family_name = "unspecified";
+		}
+		if(trim($this->given_name) == "") {
+			$this->given_name = "unspecified";
 		}
 
 		$this->full_name = $this->given_name." ".$this->family_name;
