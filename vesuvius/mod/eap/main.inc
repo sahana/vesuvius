@@ -1950,8 +1950,7 @@ function shn_eap_edit() {
 		</div>
 
 		<div style=\"clear:both;\"></div>
-	";
-/*
+
 		<div style=\"margin: 15px 15px 0px 15px; border-top: 1px solid #000; padding-top: 15px;\">
 			<div class=\"addthis_toolbox addthis_default_style\">
 			<a class=\"addthis_button_facebook_like\" fb:like:layout=\"button_count\"></a>
@@ -1965,7 +1964,6 @@ function shn_eap_edit() {
 		</form>
 		</div>
 	";
-*/
 	// SHARE END ///////////////////////////////////////////////////////////////////////////////////////
 
 
