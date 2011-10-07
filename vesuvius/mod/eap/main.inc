@@ -1258,7 +1258,7 @@ function shn_eap_edit() {
 			<br>
 		";
 		// if the person was just reported via rap2 (they have no update time... so show new record msg)
-		if($person_status['creation_time'] == $person_status['last_updated'] && $global['publicEdit'] == true;) {
+		if($person_status['creation_time'] == $person_status['last_updated'] && $global['publicEdit'] == true) {
 			add_confirmation("A new person record has been created. Please fill in as much information as you can about this person and then save the changes.");
 			$global['makeStaticPfifNote'] = false;
 		}
