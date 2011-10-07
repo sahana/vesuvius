@@ -1431,8 +1431,17 @@ class person {
 			$this->opt_gender = null;
 		}
 
-		// build SQL value strings
+		// sanity check name characteristics
+		$this->full_name = $this->given_name." ".$this->family_name;
 
+		// we have to have at least first or last name specified, otherwise search breaks and the record is meaningless
+		if(trim($this->full_name) == "") {
+			$this->given_name  = "---";
+			$this->family_name = "---";
+			$this->full_name   = "---";
+		}
+
+		// build SQL value strings
 		$this->sql_p_uuid         = ($this->p_uuid         == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
 		$this->sql_full_name      = ($this->full_name      == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->full_name)."'";
 		$this->sql_family_name    = ($this->family_name    == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->family_name)."'";
@@ -1734,7 +1743,6 @@ class person {
 			$this->p_uuid         = $a['person']['p_uuid'];
 			$this->given_name     = $a['person']['givenName'];
 			$this->family_name    = $a['person']['familyName'];
-			$this->full_name      = $this->given_name." ".$this->family_name;
 			$this->expiry_date    = $a['person']['expiryDate'];
 			$this->opt_status     = $a['person']['status'];
 			$this->last_updated   = date('Y-m-d H:i:s');
@@ -1836,7 +1844,6 @@ class person {
 			$this->createUUID();
 			$this->given_name     = $a['lpfContent']['person']['firstName'];
 			$this->family_name    = $a['lpfContent']['person']['familyName'];
-			$this->full_name      = $this->given_name." ".$this->family_name;
 			$this->opt_status     = substr(strtolower($a['lpfContent']['person']['status']['healthStatus']), 0, 3);
 			$this->last_updated   = date('Y-m-d H:i:s');
 			$this->creation_time  = $a['lpfContent']['person']['dateTimeSent'];
@@ -1877,8 +1884,6 @@ class person {
 			$this->createUUID();
 			$this->family_name = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['lastName'];
 			$this->given_name  = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['firstName'];
-			$this->full_name   = $this->given_name." ".$this->family_name;
-
 
 			$eventName = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['eventName'];
 			$q = "
@@ -2013,8 +2018,6 @@ class person {
 			$this->createUUID();
 			$this->family_name = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName'];
 			$this->given_name  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName'];
-			$this->full_name   = $this->given_name." ".$this->family_name;
-
 
 			$eventName = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventName'];
 			$q = "
