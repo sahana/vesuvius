@@ -1024,19 +1024,6 @@ function shn_eap_edit() {
 	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 18"); }
 	$person_status  = $r->FetchRow();
 
-	// check if this is the first save...
-	$q  = "
-		SELECT *
-		FROM person_status
-		WHERE p_uuid = '".$global['uuid']."';
-	";
-	$r = $global['db']->Execute($q);
-	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 18b"); }
-	$checkcheck  = $r->FetchRow();
-	if($checkcheck['last_updated'] == null) {
-		$global['makeStaticPfifNote'] = true;
-	}
-
 	// check for not sets
 	if(!isset($person_status['opt_status'])) {
 		$person_status['opt_status'] = "unk";
@@ -1104,6 +1091,19 @@ function shn_eap_edit() {
 
 		// edit...
 		if((count($_POST) > 0) && isset($_POST['given_name'])) {
+
+			// check if this is the first save...
+			$q  = "
+				SELECT *
+				FROM person_status
+				WHERE p_uuid = '".$global['uuid']."';
+			";
+			$r = $global['db']->Execute($q);
+			if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 18b"); }
+			$checkcheck  = $r->FetchRow();
+			if($checkcheck['last_updated'] == $checkcheck['creation_time']) {
+				$global['makeStaticPfifNote'] = true;
+			}
 
 			$editGivenName     = trim($_POST['given_name']);
 			$editFamilyName    = trim($_POST['family_name']);
@@ -1258,7 +1258,7 @@ function shn_eap_edit() {
 			<br>
 		";
 		// if the person was just reported via rap2 (they have no update time... so show new record msg)
-		if($last_updated == "---") {
+		if($person_status['creation_time'] == $person_status['last_updated']) {
 			add_confirmation("A new person record has been created. Please fill in as much information as you can about this person and then save the changes.");
 			$global['makeStaticPfifNote'] = false;
 		}
