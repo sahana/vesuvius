@@ -1432,14 +1432,13 @@ class person {
 		}
 
 		// sanity check name characteristics
-		$this->full_name = $this->given_name." ".$this->family_name;
 
-		// we have to have at least first or last name specified, otherwise search breaks and the record is meaningless
-		if(trim($this->full_name) == "") {
-			$this->given_name  = "---";
-			$this->family_name = "---";
-			$this->full_name   = "---";
+		// we require a last name otherwise search breaks and the record is meaningless
+		if(trim($this->family_name) == "") {
+			$this->family_name = "unknown";
 		}
+
+		$this->full_name = $this->given_name." ".$this->family_name;
 
 		// build SQL value strings
 		$this->sql_p_uuid         = ($this->p_uuid         == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
