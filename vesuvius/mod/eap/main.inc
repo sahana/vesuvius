@@ -548,7 +548,7 @@ function shn_eap_edit() {
 	if(!$global['permissionToView']) {
 		echo "
 			<h2>Error</h2>
-			You do not have permission to view this record.
+			You do not have permission to view this record or the record does not exist.
 		";
 		return;
 	}
