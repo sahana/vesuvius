@@ -11,7 +11,7 @@
  */
 
 
-$conf['mod_report_name']         = _t("Report a Person 2");
+$conf['mod_report_name']         = _t("Report a Person");
 $conf['mod_report_menuorder']    = 11;
 $conf['mod_report_version']      = 2.0;
 $conf['mod_report_dependencies'] = null;

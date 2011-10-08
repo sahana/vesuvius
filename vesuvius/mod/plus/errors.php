@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      1.9.8
+ * @version      2.0
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0926
+ * @lastModified 2011.1007
  */
 
 
@@ -45,5 +45,7 @@ define("ERRORCODES", serialize(array(
 	403  => "Error parsing XML.",
 	405  => "Event is closed to reporting.",
 	406  => "Invalid event.",
+	407  => "No record associated with this mass casualty ID exists.",
+	408  => "Insufficient permission to revise this record.",
 	9999 => "Unknown error.",
 )));

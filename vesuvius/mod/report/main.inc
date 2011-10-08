@@ -18,18 +18,6 @@ function shn_report_default() {
 	global $global;
 	require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
-	// show the javascript that we use...
-	echo '
-		<script>
-			function register() {
-				window.location = \'register\';
-			}
-			function login() {
-				window.location = \'login\';
-			}
-		</script>
-	';
-
 	// check if event is closed...
 	$q = "
 		SELECT *
@@ -37,6 +25,7 @@ function shn_report_default() {
 		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."';
 	";
 	$result   = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "report default 1"); }
 	$row      = $result->FetchRow();
 	$closed   = $row['closed'];
 	$external = $row['external_report'];
@@ -70,24 +59,60 @@ function shn_report_default() {
 			<input id="login" class="styleTehButton" type="button" value="Login" onclick="login();">
 			&nbsp; &nbsp; &nbsp; &nbsp;
 			<input id="register" class="styleTehButton" type="button" value="Register as a new user" onclick="register();">
+			<script>
+				function register() {
+					window.location = \'register\';
+				}
+				function login() {
+					window.location = \'login\';
+				}
+			</script>
 		';
 		return;
 	}
 
+	// all good, so present them with a button to click that creates a stub person
+	echo '
+		<h2>Report a Person</h2>
+		<br>
+		You may wish to perform a <a href="index.php?mod=inw&act=default">quick search</a> before reporting. Otherwise,<br>
+		<br>
+		<br>
+		<input id="login" class="styleTehButton" type="button" value="Create a New Person Record" onclick="report();">
+		<script>
+			function report() {
+				window.location = \'index.php?mod=report&act=instantiate\';
+			}
+		</script>
+	';
+}
 
-	// haven't bailed out yet, so create a new empty person record
+
+
+// build the stub record and redirec to it...
+function shn_report_instantiate() {
 	$p = new person();
 	$p->createUUID();
 	$p->rep_uuid = $_SESSION['user_p_uuid'];
 	$p->setEvent($_GET['shortname']);
 	$p->opt_status = "unk";
 	$p->creation_time = date('Y-m-d H:i:s');
+	$p->last_updated  = date('Y-m-d H:i:s');
+	$p->makePfifNote = false;
 	$p->insert();
 	$p->rapReportLog();
 
 	$p_uuid_a = explode("/", $p->p_uuid);
 	$p_uuid_portion = $p_uuid_a[1];
-	header("Location: ".$p_uuid_portion."?rap");
+	header("Location: ".$p_uuid_portion);
+
+	// fall back redirect if header() fails for some reason
+	echo "
+		<script>
+			window.location = '".$p_uuid_portion."';
+		</script>
+		<a href=\"".$p_uuid_portion."\">click here if not automatically redirectd...</a>
+	";
 }
 
 

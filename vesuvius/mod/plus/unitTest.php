@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      1.9.8
+ * @version      2.0
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0926
+ * @lastModified 2011.1007
  */
 
 // INTERNAL PLUS TESTER //
@@ -44,10 +44,13 @@ if(!isset($_GET['api'])) {
 
 	// perform tests...
 	switch($_GET['api']) {
+		case '1.9.9':
 		case '1.9.8':
 			getHospitalLegalese("1");
 			getHospitalLegaleseAnon("1");
 			getHospitalLegaleseTimestamps("1");
+		case '1.9.7':
+		case '1.9.6':
 		case '1.9.5':
 			reportPerson($personXML, $eventShortName, $xmlFormat, $user, $pass);
 			createPersonUuid($user, $pass);
