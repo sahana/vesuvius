@@ -108,8 +108,8 @@ function inw_hasNextPage($mode, $incident, $searchTerm, $sStatus, $sGender, $sAg
  */
  function inw_getData($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital, $sPageControls ) {
 	global $global;
-	global $conf; 
-	
+	global $conf;
+
 	$mode = strtolower($mode); // just making sure.
 	$timeElsapsed = 0;
 	$search = new SearchDB($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital, $sPageControls);

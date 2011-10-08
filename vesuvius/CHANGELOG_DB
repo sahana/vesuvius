@@ -1,8 +1,20 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
-
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
+
+2011:1004 Greg
+--------------
+
+ALTER TABLE `rez_pages`
+  DROP `rez_page_title`,
+  DROP `rez_description`;
+
+
+2011:0929 Leif
+--------------
+
+ALTER TABLE `pfif_export_log` ADD `note_count` INT NULL DEFAULT '0'
 
 
 2011:0926 Greg

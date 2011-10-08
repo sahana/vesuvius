@@ -1272,6 +1272,8 @@ class person {
 	public $author_name;
 	public $author_email;
 
+	// whether to make a static PFIF not upon insertion
+	public $makePfifNote;
 
 	// Constructor:
 	public function	__construct() {
@@ -1335,6 +1337,8 @@ class person {
 
 		$this->author_name        = null;
 		$this->author_email       = null;
+
+		$this->makePfifNote       = true;
 	}
 
 
@@ -1397,6 +1401,8 @@ class person {
 
 		$this->author_name        = null;
 		$this->author_email       = null;
+
+		$this->makePfifNote       = null;
 	}
 
 
@@ -1425,8 +1431,9 @@ class person {
 			$this->opt_gender = null;
 		}
 
-		// build SQL value strings
+		$this->full_name = $this->given_name." ".$this->family_name;
 
+		// build SQL value strings
 		$this->sql_p_uuid         = ($this->p_uuid         == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
 		$this->sql_full_name      = ($this->full_name      == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->full_name)."'";
 		$this->sql_family_name    = ($this->family_name    == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->family_name)."'";
@@ -1532,7 +1539,7 @@ class person {
 
 		$this->insertImages();
 		$this->insertEdxl();
-		$this->makePfifNote();
+		$this->makeStaticPfifNote();
 		$this->insertVoiceNote();
 	}
 
@@ -1580,68 +1587,60 @@ class person {
 	}
 
 
-	public function makePfifNote() {
+	public function makeStaticPfifNote() {
+		// make the note unless we are explicitly asked not to...
+		if(!$this->makePfifNote) {
+			return;
+		}
+
 		global $global;
 		require_once($global['approot']."inc/lib_uuid.inc");
 		require_once($global['approot']."mod/pfif/pfif.inc");
 		require_once($global['approot']."mod/pfif/util.inc");
 
-		// find the index (if it exists) for the pfif repo associated with this event
-		// if a pfif repo is associated with this event then generate a note, else skip note generation
+		$p = new Pfif();
+
+		$n = new Pfif_Note();
+		$n->note_record_id          = shn_create_uuid('pfif_note');
+		$n->person_record_id        = $this->p_uuid;
+		$n->linked_person_record_id = null;
+		$n->source_date             = $this->last_updated; // since we are now creating the note,
+		$n->entry_date              = $this->last_updated; // we use the last_updated for both values
+		$n->author_phone            = null;
+		$n->email_of_found_person   = null;
+		$n->phone_of_found_person   = null;
+		$n->last_known_location     = $this->last_seen;
+		$n->text                    = $this->other_comments;
+		$n->found                   = null; // we have no way to know if the reporter had direct contact (hence we leave this null)
+
+		// figure out the person's pfif status
+		$n->status = shn_map_status_to_pfif($this->opt_status);
+
+		// find author name and email...
 		$q = "
 			SELECT *
-			FROM  `pfif_repository`
-			WHERE `incident_id` = '".$this->incident_id."';
+			FROM contact c, person_uuid p
+			WHERE p.p_uuid = c.p_uuid
+			AND c.opt_contact_type = 'email'
+			AND p.p_uuid = '".$this->rep_uuid."';
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get pfif repo"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get contact for pfif note"); }
 
 		if($result != NULL && !$result->EOF) {
-
-			$p = new Pfif();
-
-			$n = new Pfif_Note();
-			$n->note_record_id          = shn_create_uuid('pfif_note');
-			$n->person_record_id        = $this->p_uuid;
-			$n->linked_person_record_id = null;
-			$n->source_date             = $this->last_updated; // since we are now creating the note,
-			$n->entry_date              = $this->last_updated; // we use the last_updated for both values
-			$n->author_phone            = null;
-			$n->email_of_found_person   = null;
-			$n->phone_of_found_person   = null;
-			$n->last_known_location     = $this->last_seen;
-			$n->text                    = $this->other_comments;
-			$n->found                   = null; // we have no way to know if the reporter had direction contact (hence we leave this null)
-
-			// figure out the person's pfif status
-			$n->status = shn_map_status_to_pfif($this->opt_status);
-
-			// find author name and email...
-			$q = "
-				SELECT *
-				FROM contact c, person_uuid p
-				WHERE p.p_uuid = c.p_uuid
-				AND c.opt_contact_type = 'email'
-				AND p.p_uuid = '".$this->rep_uuid."';
-			";
-			$result = $this->db->Execute($q);
-			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get contact for pfif"); }
-
-			if($result != NULL && !$result->EOF) {
-				$n->author_name  = $result->fields['full_name'];
-				$n->author_email = $result->fields['contact_value'];
-			} elseif($this->author_name != null) {
-				$n->author_name  = $this->author_name;
-				$n->author_email = $this->author_email;
-			} else {
-				$n->author_name  = null;
-				$n->author_email = null;
-			}
-
-			$p->setNote($n);
-			$p->setIncidentId($this->incident_id);
-			$p->storeNotesInDatabase();
+			$n->author_name  = $result->fields['full_name'];
+			$n->author_email = $result->fields['contact_value'];
+		} elseif($this->author_name != null) {
+			$n->author_name  = $this->author_name;
+			$n->author_email = $this->author_email;
+		} else {
+			$n->author_name  = null;
+			$n->author_email = null;
 		}
+
+		$p->setNote($n);
+		$p->setIncidentId($this->incident_id);
+		$p->storeNotesInDatabase();
 	}
 
 
@@ -1736,7 +1735,6 @@ class person {
 			$this->p_uuid         = $a['person']['p_uuid'];
 			$this->given_name     = $a['person']['givenName'];
 			$this->family_name    = $a['person']['familyName'];
-			$this->full_name      = $this->given_name." ".$this->family_name;
 			$this->expiry_date    = $a['person']['expiryDate'];
 			$this->opt_status     = $a['person']['status'];
 			$this->last_updated   = date('Y-m-d H:i:s');
@@ -1838,7 +1836,6 @@ class person {
 			$this->createUUID();
 			$this->given_name     = $a['lpfContent']['person']['firstName'];
 			$this->family_name    = $a['lpfContent']['person']['familyName'];
-			$this->full_name      = $this->given_name." ".$this->family_name;
 			$this->opt_status     = substr(strtolower($a['lpfContent']['person']['status']['healthStatus']), 0, 3);
 			$this->last_updated   = date('Y-m-d H:i:s');
 			$this->creation_time  = $a['lpfContent']['person']['dateTimeSent'];
@@ -1879,8 +1876,6 @@ class person {
 			$this->createUUID();
 			$this->family_name = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['lastName'];
 			$this->given_name  = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['firstName'];
-			$this->full_name   = $this->given_name." ".$this->family_name;
-
 
 			$eventName = $a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['eventName'];
 			$q = "
@@ -2015,8 +2010,6 @@ class person {
 			$this->createUUID();
 			$this->family_name = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['lastName'];
 			$this->given_name  = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['firstName'];
-			$this->full_name   = $this->given_name." ".$this->family_name;
-
 
 			$eventName = $a['EDXLDistribution']['contentObject']['xmlContent']['embeddedXMLContent']['lpfContent']['person']['eventName'];
 			$q = "

@@ -1,20 +1,20 @@
 <?
 /**
  * @name         Lost Person Finder Theme
- * @version      3.0
+ * @version      3.5
  * @package      lpf
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2011.1005
  */
 
 
 global $global;
 global $conf;
-require_once ($global['approot'].'mod/lpf/lib_lpf.inc');
+require_once($global['approot'].'mod/lpf/lib_lpf.inc');
 $full = false; // true when we show the full header...
 
 // show image
@@ -36,20 +36,23 @@ echo '</div>';
 
 // check if we have a shortname...
 if(isset($_GET['shortname'])) {
+
 	$date = "";
 	$short = mysql_real_escape_string($_GET['shortname']);
 	$long = "";
-	$sql = "
+	$q = "
 		SELECT *
 		FROM incident
 		WHERE `shortname` = '".$short."'
 		LIMIT 1;
 	";
-	$arr = $global['db']->GetAll($sql);
+	$arr = $global['db']->GetAll($q);
 
 	// if the event shortname is valid....
-	if (!empty($arr)) {
+	if(!empty($arr)) {
+
 		foreach($arr as $row) {
+
 			$long = $row['description'];
 			$date = $row['date'];
 		}
@@ -70,8 +73,9 @@ if(isset($_GET['shortname'])) {
 	}
 }
 
-
+// ok, show the short header
 if(!$full) {
+
 	echo '
 		<div id="headerText">
 			<h1>&nbsp;</h1>

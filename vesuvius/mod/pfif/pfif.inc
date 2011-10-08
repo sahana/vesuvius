@@ -217,7 +217,7 @@ class Pfif {
          // Do original records only. Non-embedded format.
          $pfif_persons = $this->getPersons();
          if (count($pfif_persons) != 0) {
-            // Logging needed since this is for automated exports.
+            // Do log housekeeping since this may be an automated export (i.e. from cronexport.php).
             $this->reset_log_dates($pfif_persons[0]->entry_date);
             foreach ($pfif_persons as $person) {
                // Snag last_updated for log since this indicates new information (could just be a Note).
@@ -245,9 +245,15 @@ class Pfif {
             }
             unset($note);
          }
+         // Save person and note counts.
+         // Fixme: getElementsbyTagNameNS not working for some reason.
+         $persons = $this->dom_pfif->getElementsByTagName('pfif:person');
+         $notes = $this->dom_pfif->getElementsByTagName('pfif:note');
+         $_SESSION['pfif_info']['pfif_person_count'] = $persons->length;
+         $_SESSION['pfif_info']['pfif_note_count'] = $notes->length;
          $this->save_log_dates();
       } else if (!embed) {
-         // Serialize persons and notes separately.
+         // Serialize persons and notes separately. (Used for cronimport.php debug.)
          $pfif_persons = $this->getPersons();
          if (count($pfif_persons) != 0) {
             foreach ($pfif_persons as $person) {
@@ -282,9 +288,6 @@ class Pfif {
          unset($person);
       }
 
-      // Update status info
-      //var_dump("first/last/count:end", $first_entry_date, $last_entry_date, $last_entry_count);
-      //print $this->dom_pfif->saveXML();
       if ($this->dom_pfif->firstChild->hasChildNodes()) {
          return $this->dom_pfif->saveXML();
       } else {
@@ -362,10 +365,11 @@ class Pfif {
       $this->check_init();
 
       if ($source_type == 'id') {
+         // not used currently
          $persons = $this->loadFromDatabase('id?' . $id_or_filename);
          $xml = $this->storeInXML();
       } else if ($source_type == 'xml') {
-         // TBD: What has to be done with XML input ? Should we validate it?
+         // not used currently
          $xml = $source_data;
       } else {
          $loaded = $this->loadFromXML($filename);
@@ -739,13 +743,15 @@ class Pfif {
                     . $note->note_record_id . ":" . $e->getMessage());
             continue; // stop processing this note
          }
-         // Update Sahana tables with dynamic data if the person exists.
-         $lookup = $this->checkForReportedPerson($note->person_record_id);
-         //var_dump('lookup returns:',$lookup);
-         if (count($lookup) > 0) {
-            // Can't rely on notes coming in in source date order. (Only entry date order is assured.)
-            // So for each note, reprocess all existing notes for the associated person.
-            $this->_pfif_update_person_from_notes($note->person_record_id);
+         // Update Sahana tables with dynamic data if the person exists and this is not an original note.
+         if (strncmp($note->note_record_id, $conf['base_uuid'], strlen($conf['base_uuid']))!=0) {
+            $lookup = $this->checkForReportedPerson($note->person_record_id);
+            //var_dump('lookup returns:',$lookup);
+            if (count($lookup) > 0) {
+               // Can't rely on notes coming in in source date order. (Only entry date order is assured.)
+               // So for each note, reprocess all existing notes for the associated person.
+               $this->_pfif_update_person_from_notes($note->person_record_id);
+            }
          }
       }
       unset($note);
@@ -906,7 +912,7 @@ class Pfif {
 
       //person_uuid table
       $insert_array['p_uuid'] = $rep_uuid;
-      $insert_array['incident_id'] = $this->incident_id;
+      //$insert_array['incident_id'] = $this->incident_id; //reporters have null incident id
       if (!empty($person->author_name)) {
          $insert_array['full_name'] = $person->author_name;
       }
@@ -1060,7 +1066,7 @@ class Pfif {
 
    // Use threshhold date and number of records to skip.
    private function getPersonFromDb($since_entry_date, $before, $max_results, $skip) {
-      global $global;
+      global $global, $conf;
 
       $whereSql = '';
       $where = array();
@@ -1398,5 +1404,4 @@ class Pfif {
       unset($rs);
       return $notes;
    }
-
 }
