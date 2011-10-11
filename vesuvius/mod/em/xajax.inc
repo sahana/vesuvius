@@ -807,7 +807,7 @@ function em_perform_new() {
 	";
 	$result2 = $global['db']->Execute($q2);
 	if($result2 === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 2"); }
-	$row2 = $res2->FetchRow();
+	$row2 = $result2->FetchRow();
 
         // insert new Google repositories for import/export
 	$q = "
