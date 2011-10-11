@@ -80,11 +80,11 @@ foreach ($export_queue as $service_name => $service) {
       // Export only original records after min_entry_date
       $xml = $p->storeInXML(false, true);
       if ($xml != null) {
-         $fh = fopen('crontest.xml', 'w');
+         $fh = fopen('cronpfif.xml', 'w');
          $charstowrite = strlen($xml);
          $written = fwrite($fh, $xml, $charstowrite);
          fclose($fh);
-         //print "Logged $written of $charstowrite characters to crontest.xml\n";
+         //print "Logged $written of $charstowrite characters to cronpfif.xml\n";
    
          $post_status = $p->postToService('xml', $xml, $service_name);
          // person and note counts are in $_SESSION['pfif_info'].
@@ -104,4 +104,5 @@ foreach ($export_queue as $service_name => $service) {
          print "Export completed: no records to upload\n";
       }
    }
+   unset($_SESSION['pfif_info']);
 }
