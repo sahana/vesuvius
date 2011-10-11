@@ -1252,13 +1252,15 @@ function shn_eap_edit() {
 		if($person_status['creation_time'] == $person_status['last_updated'] && $global['publicEdit'] == true) {
 			// check if the person was reported via rap2
 			$q = "
-				SELECT *
+				SELECT count(*)
 				FROM rap_log
 				WHERE p_uuid = '".$global['uuid']."';
 			";
 			$r = $global['db']->Execute($q);
 			if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 23b"); }
-			if($r != NULL && !$result->EOF) {
+			$row = $r->FetchRow();
+			$count = $row['count(*)'];
+			if($count > 0) {
 				add_confirmation("A new person record has been created. Please fill in as much information as you can about this person and then save the changes.");
 				$global['makeStaticPfifNote'] = false;
 			}
