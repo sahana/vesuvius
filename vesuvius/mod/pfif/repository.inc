@@ -158,6 +158,7 @@ class Pfif_Repository {
         $gran_secs = 3600*$gran['hour']+60*$gran['minute']+$gran['second'];
         //var_dump('log_start',$log_start,'end_time',$end_time,'log_granularity',$gran_secs);
         if (!$success) {
+            // Fixme: Not used currently.
             $end_status = 'error';
         } else if ($end_time - $log_start <= $gran_secs) {
             $end_status = 'paused';

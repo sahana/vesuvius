@@ -179,7 +179,6 @@ class Pfif {
       if ($entry_date == $last_entry_date) {
          $last_entry_count += 1;
       } else {
-         // Note: last_entry_date should always be greater than entry date.
          $last_entry_date = $entry_date;
          $last_entry_count = 1;
       }
@@ -220,7 +219,7 @@ class Pfif {
             // Do log housekeeping since this may be an automated export (i.e. from cronexport.php).
             $this->reset_log_dates($pfif_persons[0]->entry_date);
             foreach ($pfif_persons as $person) {
-               // Snag last_updated for log since this indicates new information (could just be a Note).
+               // Snag last_updated for log since this indicates new information (could be from a new Note).
                $this->update_log_dates($person->entry_date);
                // Is this an original record meeting the date constraint?
                if ((strtotime($person->source_date) > $start) &&
@@ -888,15 +887,15 @@ class Pfif {
       // person_status table
       $insert_array['p_uuid'] = $person->person_record_id;
       $insert_array['opt_status'] = 'unk'; //default
-      // Set creation_time and last_updated.
+      // Set creation_time.
       if (!empty($person->source_date)) {
          $insert_array['creation_time'] = $person->source_date;
-         $insert_array['last_updated'] = $person->source_date;
       } else {
          // Pick an arbitrary early date.
          $insert_array['creation_time'] = '2000-01-01 00:00:00';
-         $insert_array['last_updated'] = '2000-01-01 00:00:00';
       }
+      // Set last_updated.
+      $insert_array['last_updated'] = $person->entry_date;
       shn_db_insert($insert_array, 'person_status');
       $insert_array = null; // reset array
       // image table
@@ -965,7 +964,7 @@ class Pfif {
          $person = new Pfif_Person();
 
          $person->person_record_id = $personRecord['p_uuid'];
-         $person->entry_date = $personRecord['creation_time'];
+         $person->entry_date = $personRecord['last_updated'];
          $person->expiry_date = $sourcePfif ? $sourcePfif->expiry_date : $personRecord['expiry_date'];
 
          $reporter = $this->getReportedPerson($personRecord['reporter']);
