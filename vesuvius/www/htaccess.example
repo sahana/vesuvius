@@ -1,0 +1,53 @@
+##### Use PHP for all these filetypes
+AddType application/x-httpd-php .php .xml
+
+##### Use this page as the 404 document
+ErrorDocument 404 /index.php
+
+##### Disallow Directory Listings
+DirectoryIndex /index.php
+
+##### Turn on mod_rewrite to capture the shortname from a url and pass it on as a url parameter
+RewriteEngine On
+
+##### for when Sahana is installed on a virtual host at root level ie. http://domain.com/
+RewriteBase /
+
+##### for when Sahana is installed in a user homedir ie. http://domain.gov/~gmiernicki/sahanaDev/www/
+#RewriteBase /~gmiernicki/vesuvius/vesuvius/www/
+
+##### make mod_rewrite skip the subsequent 7 rules if the file or folder exists already
+RewriteCond %{REQUEST_FILENAME} -d [OR]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule .* - [S=10]
+
+##### matches /person.XXXXX for the person uuid's as urls
+RewriteRule ^(person.[0-9]+)$ index.php?mod=eap&act=modrewrite&val=$1
+
+##### handle the about page via php
+RewriteRule ^(about|ABOUT)$ index.php?mod=rez&act=default&page_id=-30 [L]
+
+##### handle the about page via php
+RewriteRule ^(plus|PLUS)$ index.php?mod=rez&act=default&page_id=-45 [L]
+
+##### handle login
+RewriteRule ^(login|LOGIN)$ index.php?mod=pref&act=loginForm [L]
+
+##### handle logout
+RewriteRule ^(logout|LOGOUT)$ index.php?act=logout [L]
+
+##### handle register
+RewriteRule ^(register|REGISTER)$ index.php?mod=pref&act=signup [L]
+
+##### handle forgot password
+RewriteRule ^(forgot|FORGOT)$ index.php?mod=pref&act=forgotPassword [L]
+
+##### matches /shortname
+RewriteRule ^([^/][a-z0-9]+)$ index.php?shortname=$1
+
+##### matches /shortname/
+RewriteRule ^([^/][a-z0-9]+)/$ index.php?shortname=$1
+
+##### matches /shortname/index.php?vars=params
+RewriteRule ^([^/][a-z0-9]+)/(.+)$ $2?shortname=$1 [QSA]
+
