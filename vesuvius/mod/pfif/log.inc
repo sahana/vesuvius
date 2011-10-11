@@ -85,6 +85,7 @@ abstract class Pfif_Log {
                 $this->last_entry = local_date($req_params['min_entry_date']);
                 $this->last_count = $req_params['skip'];
             }
+            //var_dump($this->last_entry);
             $this->update_counts($log_info);
         } else {
             /*  Calling stop when $this->status = 'completed' is a design error, as record should
