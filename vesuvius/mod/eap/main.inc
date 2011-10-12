@@ -2068,6 +2068,8 @@ function shn_eap_edit() {
 		$p->setNote($n);
 		$p->setIncidentId($person_incident['incident_id']);
 		$p->storeNotesInDatabase();
+
+		add_confirmation("Static PFIF Note Created!");
 	}
 }
 
