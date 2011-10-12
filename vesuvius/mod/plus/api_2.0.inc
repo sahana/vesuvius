@@ -508,12 +508,10 @@ function version() {
 	$e        = explode(".", $api_version);
 	$major    = $e[0];
 	$minor    = $e[1];
-	$revision = $e[2];
 
 	return array(
 		'versionMajor'    => (int)$major,
 		'versionMinor'    => (int)$minor,
-		'versionRevision' => (int)$revision,
 		'versionString'   => (string)$api_version
 	);
 }
@@ -1583,7 +1581,6 @@ function createPersonUuid($username, $password) {
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'success'      => (boolean)false,
 			'uuid'         => null,
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
@@ -1592,7 +1589,6 @@ function createPersonUuid($username, $password) {
 	}
 	$uuid = shn_create_uuid("p");
 	return array(
-		'success'      => (boolean)true,
 		'uuid'         => (string)$uuid,
 		'errorCode'    => (int)0,
 		'errorMessage' => null
@@ -1615,7 +1611,6 @@ function createPersonUuidBatch($number, $username, $password) {
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'success'      => (boolean)false,
 			'uuids'        => null,
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
@@ -1633,7 +1628,6 @@ function createPersonUuidBatch($number, $username, $password) {
 	} else {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'success'      => (boolean)false,
 			'uuids'        => null,
 			'errorCode'    => (int)201,
 			'errorMessage' => (string)$eCodes[201]
@@ -1641,7 +1635,6 @@ function createPersonUuidBatch($number, $username, $password) {
 	}
 
 	return array(
-		'success'      => (boolean)true,
 		'uuid'         => (string)json_encode($uuids),
 		'errorCode'    => (int)0,
 		'errorMessage' => null
@@ -1665,7 +1658,6 @@ function createNoteUuid($username, $password) {
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'success'      => (boolean)false,
 			'uuid'         => null,
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
@@ -1674,7 +1666,6 @@ function createNoteUuid($username, $password) {
 	}
 	$uuid = shn_create_uuid("pfn");
 	return array(
-		'success'      => (boolean)true,
 		'uuid'         => (string)$uuid,
 		'errorCode'    => (int)0,
 		'errorMessage' => null
@@ -1696,7 +1687,6 @@ function createNoteUuidBatch($number, $username, $password) {
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'success'      => (boolean)false,
 			'uuids'        => null,
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
@@ -1714,7 +1704,6 @@ function createNoteUuidBatch($number, $username, $password) {
 	} else {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'success'      => (boolean)false,
 			'uuids'        => null,
 			'errorCode'    => (int)201,
 			'errorMessage' => (string)$eCodes[201]
@@ -1722,7 +1711,6 @@ function createNoteUuidBatch($number, $username, $password) {
 	}
 
 	return array(
-		'success'      => (boolean)true,
 		'uuid'         => (string)json_encode($uuids),
 		'errorCode'    => (int)0,
 		'errorMessage' => null
