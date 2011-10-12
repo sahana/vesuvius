@@ -527,7 +527,9 @@ div.form-container div.buttonrow { margin-left: 180px; }
 .error p em { color:#C00; }
 
 .confirmation { border: #070 1px solid; background: url(img/dialog-confirmation.png) #E5FFE5 no-repeat 20px 20px; }
-.confirmation p em { color:#070; }
+.confirmation p em { color:#070;}
+
+.confirmation.message p { line-height: 10px; }
 
 .warning { border: #FC6 1px solid; background: url(img/dialog-warning.png) #FFC no-repeat 20px 20px; }
 .warning p em { color:#C00;  }
@@ -1174,6 +1176,13 @@ textarea#addNote:active {
 .nonedit {
 	border: none;
 }
+
+
+.nonedit2 {
+	border: none;
+	background-color: transparent;
+}
+
 
 .tct {
 	color: #fff;
