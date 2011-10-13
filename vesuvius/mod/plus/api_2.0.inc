@@ -490,8 +490,95 @@ function shn_plus_registerAll($namespace) {
 		$namespace,
 		"Reserves a number of note uuids in the system so that an app can cache them for later use in reporting."
 	);
-}
 
+	// Record Revision API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+	// Record Revision API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+
+	shn_plus_registerOne($server, 'revisePerson',
+		array(
+			'in' => array(
+				'personXML'      => 'xsd:string',
+				'uuid'           => 'xsd:string',
+				'xmlFormat'      => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Re-report a person using XML which will update a current record."
+	);
+
+	shn_plus_registerOne($server, 'expirePerson',
+		array(
+			'in' => array(
+				'uuid'           => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Owners, admins, and HSA can immediately expire a record, everyone else can submit an expiration request to a moderated queue."
+	);
+
+	shn_plus_registerOne($server, 'getUuidByMassCasualtyId',
+		array(
+			'in' => array(
+				'mcid'           => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'uuid'           => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"A simple lookup of the internal uuid of a person based on their mass casualty id (if it exists)."
+	);
+
+	shn_plus_registerOne($server, 'changeMassCasualtyId',
+		array(
+			'in' => array(
+				'newMcid'        => 'xsd:string',
+				'uuid'           => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Updates the mass casualty id of a person based on their uuid."
+	);
+
+	shn_plus_registerOne($server, 'hasRecordBeenRevised',
+		array(
+			'in' => array(
+				'uuid'           => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'revisionsMade'  => 'xsd:boolean',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"A simple lookup to determine if a record is still an original or has incurred revisions."
+	);
+}
 
 // GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
@@ -503,7 +590,7 @@ function shn_plus_registerAll($namespace) {
 // Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
 function version() {
 	global $api_version;
-	shn_plus_logAccess("version");
+	shn_plus_logAccess(__FUNCTION__);
 
 	$e        = explode(".", $api_version);
 	$major    = $e[0];
@@ -520,7 +607,7 @@ function version() {
 
 // Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
 function getEventList() {
-	shn_plus_logAccess("getEventList");
+	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 	$list = array();
 	$q = "
@@ -556,7 +643,7 @@ function getEventList() {
 
 // Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
 function getEventListUser($username, $password) {
-	shn_plus_logAccess("getEventListUser");
+	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 	$list = array();
 
@@ -623,7 +710,7 @@ function getEventListUser($username, $password) {
 
 // Returns an array of (group_id, group_name) listing all groups in the system.
 function getGroupList() {
-	shn_plus_logAccess("getGroupList");
+	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 	$list = array();
 	$q = "
@@ -650,7 +737,7 @@ function getGroupList() {
 
 // Returns an array of (hospital_uuid, name, shortname, latitude, longitude).
 function getHospitalList() {
-	shn_plus_logAccess("getHospitalList");
+	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 	$list = array();
 	$q = "
@@ -681,7 +768,7 @@ function getHospitalList() {
 
 // Returns all data relavent to a particular hospital
 function getHospitalData($hospital_uuid) {
-	shn_plus_logAccess("getHospitalData");
+	shn_plus_logAccess(__FUNCTION__);
 
 	global $global;
 	$error = true;
@@ -747,7 +834,7 @@ function getHospitalData($hospital_uuid) {
 
 // Returns all policy data relavent to a particular hospital
 function getHospitalPolicy($hospital_uuid) {
-	shn_plus_logAccess("getHospitalPolicy");
+	shn_plus_logAccess(__FUNCTION__);
 
 	global $global;
 	$error = true;
@@ -793,7 +880,7 @@ function getHospitalPolicy($hospital_uuid) {
 
 // Retrieve a particular hospital’s legalese clause.
 function getHospitalLegalese($hospital_uuid) {
-	shn_plus_logAccess("getHospitalLegalese");
+	shn_plus_logAccess(__FUNCTION__);
 
 	global $global;
 	$error = true;
@@ -828,7 +915,7 @@ function getHospitalLegalese($hospital_uuid) {
 
 // Retrieve a particular hospital’s anonymous legalese clause.
 function getHospitalLegaleseAnon($hospital_uuid) {
-	shn_plus_logAccess("getHospitalLegaleseAnon");
+	shn_plus_logAccess(__FUNCTION__);
 
 	global $global;
 	$error = true;
@@ -863,7 +950,7 @@ function getHospitalLegaleseAnon($hospital_uuid) {
 
 // Retrieves information about when the legalese clauses were last updated for a particular hospital.
 function getHospitalLegaleseTimestamps($hospital_uuid) {
-	shn_plus_logAccess("getHospitalLegaleseTimestamps");
+	shn_plus_logAccess(__FUNCTION__);
 
 	global $global;
 	$error = true;
@@ -908,7 +995,7 @@ function getHospitalLegaleseTimestamps($hospital_uuid) {
 
 // Creates a new inactive (pending confirmation) user in the system with the supplied characteristics and credentials.
 function registerUser($username, $emailAddress, $password, $givenName, $familyName) {
-	shn_plus_logAccess("registerUser");
+	shn_plus_logAccess(__FUNCTION__);
 
 	// special unit test case ~
 	// registerUser("testCaseUser", "testCase@email.com", "testCasePassword99", "testCaseGiven", "testCaseFamily");
@@ -987,7 +1074,7 @@ function registerUser($username, $emailAddress, $password, $givenName, $familyNa
 
 // Changes the password from old to new.
 function changeUserPassword($username, $oldPassword, $newPassword) {
-	shn_plus_logAccess("changeUserPassword");
+	shn_plus_logAccess(__FUNCTION__);
 
 	global $global;
 	require_once($global['approot']."/inc/lib_security/lib_auth.inc");
@@ -1036,7 +1123,7 @@ function changeUserPassword($username, $oldPassword, $newPassword) {
 
 // Initiates the password reset procedure.
 function resetUserPassword($username) {
-	shn_plus_logAccess("resetUserPassword");
+	shn_plus_logAccess(__FUNCTION__);
 
 	global $global;
 	$success = false;
@@ -1074,7 +1161,7 @@ function resetUserPassword($username) {
 
 // Sends an email to the user with their username.
 function forgotUsername($email) {
-	shn_plus_logAccess("forgotUsername");
+	shn_plus_logAccess(__FUNCTION__);
 
 	global $global;
 	$success = false;
@@ -1116,7 +1203,7 @@ function forgotUsername($email) {
 
 // Used to verify a username / password combination are valid
 function checkUserAuth($username, $password) {
-	shn_plus_logAccess("checkUserAuth");
+	shn_plus_logAccess(__FUNCTION__);
 
 	global $global;
 	require_once($global['approot']."/inc/lib_security/lib_auth.inc");
@@ -1144,7 +1231,7 @@ function checkUserAuth($username, $password) {
 
 // Used to determine user account status without authenticating
 function getUserStatus($username) {
-	shn_plus_logAccess("getUserStatus");
+	shn_plus_logAccess(__FUNCTION__);
 
 	global $global;
 	$success = false;
@@ -1202,7 +1289,7 @@ function getUserStatus($username) {
 
 // Used to determine user account status without authenticating
 function getUserGroup($username) {
-	shn_plus_logAccess("getUserGroup");
+	shn_plus_logAccess(__FUNCTION__);
 
 	global $global;
 	$success = false;
@@ -1241,7 +1328,7 @@ function getUserGroup($username) {
 
 // Returns the number of seconds a user session should last (for apps like ReUnite/TriagePic)
 function getSessionTimeout() {
-	shn_plus_logAccess("getSessionTimeout");
+	shn_plus_logAccess(__FUNCTION__);
 	$timeout = shn_db_get_config("plus", "timeout");
 	if($timeout == false) {
 		$eCodes = unserialize(ERRORCODES);
@@ -1271,7 +1358,7 @@ function getSessionTimeout() {
 // performs a search across a specific PUBLIC event with filters, paging, and sort options
 function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatusAlive, $filterStatusInjured, $filterStatusDeceased, $filterStatusUnknown, $filterStatusFound, $filterGenderComplex, $filterGenderMale, $filterGenderFemale, $filterGenderUnknown, $filterAgeChild, $filterAgeAdult, $filterAgeUnknown, $filterHospitalSH, $filterHospitalWRNMMC, $filterHospitalOther, $pageStart, $perPage, $sortBy = "last_updated", $mode) {
 
-	shn_plus_logAccess("search");
+	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 	global $conf;
 	$error = false;
@@ -1374,7 +1461,7 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 // Performs a search across a specific event with filters, paging, and sort options with authentication.
 function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $filterStatusAlive, $filterStatusInjured, $filterStatusDeceased, $filterStatusUnknown, $filterStatusFound, $filterGenderComplex, $filterGenderMale, $filterGenderFemale, $filterGenderUnknown, $filterAgeChild, $filterAgeAdult, $filterAgeUnknown, $filterHospitalSH, $filterHospitalWRNMMC, $filterHospitalOther, $pageStart, $perPage, $sortBy = "last_updated", $mode, $username, $password) {
 
-	shn_plus_logAccess("searchWithAuth");
+	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 	global $conf;
 	$error = false;
@@ -1486,7 +1573,7 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 // Report a new person
 function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $password) {
 
-	shn_plus_logAccess("reportPerson");
+	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 	global $conf;
 	$url = "";
@@ -1572,7 +1659,7 @@ function createPersonUuid($username, $password) {
 	global $global;
 	require_once $global['approot'].'/inc/lib_uuid.inc';
 
-	shn_plus_logAccess("createPersonUuid");
+	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 	$list = array();
 
@@ -1603,7 +1690,7 @@ function createPersonUuidBatch($number, $username, $password) {
 	global $global;
 	require_once $global['approot'].'/inc/lib_uuid.inc';
 
-	shn_plus_logAccess("createPersonUuidBatch");
+	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 
 	// check auth, if fails, return w/ error code/message
@@ -1649,7 +1736,7 @@ function createNoteUuid($username, $password) {
 	global $global;
 	require_once $global['approot'].'/inc/lib_uuid.inc';
 
-	shn_plus_logAccess("createNotenUuid");
+	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 	$list = array();
 
@@ -1679,7 +1766,7 @@ function createNoteUuidBatch($number, $username, $password) {
 	global $global;
 	require_once $global['approot'].'/inc/lib_uuid.inc';
 
-	shn_plus_logAccess("createNoteUuidBatch");
+	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 
 	// check auth, if fails, return w/ error code/message
@@ -1715,6 +1802,224 @@ function createNoteUuidBatch($number, $username, $password) {
 		'errorCode'    => (int)0,
 		'errorMessage' => null
 	);
+}
+
+
+
+
+
+// Record Revision API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// Record Revision API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// Record Revision API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// Record Revision API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// Record Revision API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+
+
+// Re-report a person using XML which will update a current record.
+function revisePerson($personXML, $uuid, $xmlFormat, $username, $password) {
+
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	global $conf;
+	$error = false;
+	$ecode = null;
+
+	// not yet implemented ~ stub
+	$error = true;
+	$ecode = 9998;
+
+
+/*
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$error = true;
+		$ecode = $status;
+	} else {
+		// check if the user is a member of a group that has access to the event in question
+		$q = "
+			SELECT *
+			FROM incident i, users u, sys_user_groups s, sys_user_to_group t
+			WHERE (i.private_group = s.group_id
+			AND s.group_id = t.group_id
+			AND t.p_uuid = u.p_uuid
+			AND u.user_name = '".mysql_real_escape_string($username)."'
+			AND i.shortname = '".mysql_real_escape_string($eventShortName)."')
+			OR (i.private_group is null
+			AND i.shortname = '".mysql_real_escape_string($eventShortName)."');
+		";
+		$result = $global['db']->Execute($q);
+		if($result == null || $result->EOF) {
+			$error = true;
+			$ecode = 300;
+		}
+
+		// figure out the p_uuid of the user who is reporting
+		if(!$error) {
+			$q = "
+				SELECT *
+				FROM users
+				WHERE user_name = '".$username."';
+			";
+			$result = $global['db']->Execute($q);
+			$rep_uuid = $result->fields['p_uuid'];
+		}
+
+		// no errors, we must have permission to report to this event for the given user
+
+		$a = null;
+
+		if(!$error) {
+			$p = new person();
+			$p->init();
+			$p->rep_uuid  = $rep_uuid;
+			$p->theString = $personXML;
+			$p->xmlFormat = $xmlFormat;
+			$p->setEvent($eventShortName);
+			$ecode = $p->parseXml();
+			if($ecode == 0) {
+				$p->insert();
+				$p->plusReportLog();
+			} else {
+				$error = true;
+			}
+		}
+	}
+*/
+
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'errorCode'    => (int)$ecode,
+			'errorMessage' => (string)$eCodes[$ecode]
+		);
+	} else {
+		return array(
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	}
+}
+
+
+
+// Owners, admins, and HSA can immediately expire a record, everyone else can submit an expiration request to a moderated queue.
+function expirePerson($uuid, $username, $password) {
+
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	global $conf;
+	$error = false;
+	$ecode = null;
+
+	// not yet implemented ~ stub
+	$error = true;
+	$ecode = 9998;
+
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'errorCode'    => (int)$ecode,
+			'errorMessage' => (string)$eCodes[$ecode]
+		);
+	} else {
+		return array(
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	}
+}
+
+
+
+// A simple lookup of the internal uuid of a person based on their mass casualty id (if it exists).
+function getUuidByMassCasualtyId($mcid, $username, $password) {
+
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	global $conf;
+	$error = false;
+	$ecode = null;
+	$uuid = "";
+
+	// not yet implemented ~ stub
+	$error = true;
+	$ecode = 9998;
+
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'uuid'         => null,
+			'errorCode'    => (int)$ecode,
+			'errorMessage' => (string)$eCodes[$ecode]
+		);
+	} else {
+		return array(
+			'uuid'         => (string)$uuid,
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	}
+}
+
+
+
+// Updates the mass casualty id of a person based on their uuid.
+function changeMassCasualtyId($newMcid, $uuid, $username, $password) {
+
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	global $conf;
+	$error = false;
+	$ecode = null;
+
+	// not yet implemented ~ stub
+	$error = true;
+	$ecode = 9998;
+
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'errorCode'    => (int)$ecode,
+			'errorMessage' => (string)$eCodes[$ecode]
+		);
+	} else {
+		return array(
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	}
+}
+
+
+
+// A simple lookup to determine if a record is still an original or has incurred revisions.
+function hasRecordBeenRevised($uuid, $username, $password) {
+
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	global $conf;
+	$error = false;
+	$ecode = null;
+
+	// not yet implemented ~ stub
+	$error = true;
+	$ecode = 9998;
+
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'revisionsMade' => null,
+			'errorCode'     => (int)$ecode,
+			'errorMessage'  => (string)$eCodes[$ecode]
+		);
+	} else {
+		return array(
+			'revisionsMade' => (boolean)$revised,
+			'errorCode'     => (int)0,
+			'errorMessage'  => null
+		);
+	}
 }
 
 
