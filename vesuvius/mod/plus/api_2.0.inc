@@ -520,6 +520,7 @@ function shn_plus_registerAll($namespace) {
 				'password'       => 'xsd:string'
 			),
 			'out' => array(
+				'queued'         => 'xsd:boolean',
 				'errorCode'      => 'xsd:integer',
 				'errorMessage'   => 'xsd:string'
 			)
@@ -1911,6 +1912,7 @@ function expirePerson($uuid, $username, $password) {
 	global $conf;
 	$error = false;
 	$ecode = null;
+	$queued = true;
 
 	// not yet implemented ~ stub
 	$error = true;
@@ -1919,11 +1921,13 @@ function expirePerson($uuid, $username, $password) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
+			'queued'       => null,
 			'errorCode'    => (int)$ecode,
 			'errorMessage' => (string)$eCodes[$ecode]
 		);
 	} else {
 		return array(
+			'queued'       => (boolean)$queued,
 			'errorCode'    => (int)0,
 			'errorMessage' => null
 		);
