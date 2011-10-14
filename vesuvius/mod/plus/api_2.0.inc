@@ -533,6 +533,7 @@ function shn_plus_registerAll($namespace) {
 		array(
 			'in' => array(
 				'mcid'           => 'xsd:string',
+				'shortname'      => 'xsd:string',
 				'username'       => 'xsd:string',
 				'password'       => 'xsd:string'
 			),
@@ -1937,18 +1938,33 @@ function expirePerson($uuid, $username, $password) {
 
 
 // A simple lookup of the internal uuid of a person based on their mass casualty id (if it exists).
-function getUuidByMassCasualtyId($mcid, $username, $password) {
+function getUuidByMassCasualtyId($mcid, $shortname, $username, $password) {
 
 	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 	global $conf;
-	$error = false;
-	$ecode = null;
+	$error = true;
+	$ecode = 407;
 	$uuid = "";
 
-	// not yet implemented ~ stub
-	$error = true;
-	$ecode = 9998;
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$error = true;
+		$ecode = $status;
+	} else {
+		$q = "
+			SELECT *
+			FROM `edxl_co_lpf`
+			where person_id = '".mysql_real_escape_string($mcid)."'
+			and event_name = '".mysql_real_escape_string($shortname)."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result != null && !$result->EOF) {
+			$error = false;
+			$uuid = $result->fields['p_uuid'];
+		}
+	}
 
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
