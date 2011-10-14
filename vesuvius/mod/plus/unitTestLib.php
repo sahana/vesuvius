@@ -697,8 +697,8 @@ function getUuidByMassCasualtyId($mcid, $user, $pass) {
 	echo "<tr><td>".$count."</td><td class=\"func\">getUuidByMassCasualtyId</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
-		$result = $client->call('getUuidByMassCasualtyId', array('mcid'=>$mcid, 'username'=>$user, 'password'=>$pass));
-		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+		$result = $client->call('getUuidByMassCasualtyId', array('mcid'=>$mcid, 'shortname'=>'test', 'username'=>$user, 'password'=>$pass));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 407)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
@@ -714,10 +714,10 @@ function changeMassCasualtyId($newMcid, $uuid, $user, $pass) {
  	global $sites;
 	global $count;
 	$count++;
-	echo "<tr><td>".$count."</td><td class=\"func\">getUuidByMassCasualtyId</td>";
+	echo "<tr><td>".$count."</td><td class=\"func\">changeMassCasualtyId</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
-		$result = $client->call('getUuidByMassCasualtyId', array('newMcid'=>$newMcid, 'uuid'=>$uuid, 'username'=>$user, 'password'=>$pass));
+		$result = $client->call('changeMassCasualtyId', array('newMcid'=>$newMcid, 'uuid'=>$uuid, 'username'=>$user, 'password'=>$pass));
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
