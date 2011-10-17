@@ -529,6 +529,39 @@ function shn_plus_registerAll($namespace) {
 		"Owners, admins, and HSA can immediately expire a record, everyone else can submit an expiration request to a moderated queue."
 	);
 
+	shn_plus_registerOne($server, 'getPersonExpiryDate',
+		array(
+			'in' => array(
+				'uuid'           => 'xsd:string',
+			),
+			'out' => array(
+				'expiryDate'     => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Get the datetime in UTC when a person record will expire."
+	);
+
+	shn_plus_registerOne($server, 'setPersonExpiryDate',
+		array(
+			'in' => array(
+				'uuid'           => 'xsd:string',
+				'expiryDate'     => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'queued'         => 'xsd:boolean',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue."
+	);
+
 	shn_plus_registerOne($server, 'getUuidByMassCasualtyId',
 		array(
 			'in' => array(
