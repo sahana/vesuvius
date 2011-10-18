@@ -34,15 +34,16 @@ function shn_stat_menu() {
 		if ($shortname=="new"){
 		echo "
 		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
-			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>			
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">Status by Hour at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=status\">Status Statistics for Capital Shield 2012</a></li>
+			<li><a href=\"index.php?mod=stat&act=gender\">Gender Statistics for Capital Shield 2012</a></li>
+			<li><a href=\"index.php?mod=stat&act=age\">Age Statistics for Capital Shield 2012</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour for Capital Shield 2012</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital for Capital Shield 2012</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status for Capital Shield 2012</a></li>	
+			<li><a href=\"index.php?mod=stat&act=arrival_byminute_status\">Arrival Rate by Minute Combined with Status for Capital Shield 2012</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender for Capital Shield 2012</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with Age for Capital Shield 2012</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">TriagePic Zone Status on Arrival for Capital Shield 2012</a></li>
 
 		</ul>
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
@@ -51,16 +52,16 @@ function shn_stat_menu() {
 		if ($shortname=="cmax2010"){
 		echo "
 		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
-			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byminute_status\">Arrival Rate by Minute Combined with Status</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">Status by Hour at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=status\">Status Statistics for $shortname</a></li>
+			<li><a href=\"index.php?mod=stat&act=gender\">Gender Statistics for $shortname</a></li>
+			<li><a href=\"index.php?mod=stat&act=age\">Age Statistics for $shortname</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour at Suburban Hospital for $shortname</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital for $shortname</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status for $shortname</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byminute_status\">Arrival Rate by Minute Combined with Status for $shortname</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender for $shortname</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with Age for $shortname</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">TriagePic Zone Status on Arrival for $shortname</a></li>
 
 		</ul>
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
@@ -69,7 +70,7 @@ function shn_stat_menu() {
 		if ($shortname=="sendai2011"){
 		echo "
 		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=status\">PL Status Statistics for $shortname</a></li>
 			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
 			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_bydate\">Arrival Rate by Date</a></li>
@@ -84,7 +85,7 @@ function shn_stat_menu() {
 		if ($shortname=="hepl"){
 		echo "
 		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=status\">PL Status Statistics for $shortname</a></li>
 			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
 			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_bydate\">Arrival by Date</a></li>
@@ -109,7 +110,7 @@ function shn_stat_menu() {
 		if($shortname=="colombia2011"){
 		echo "
 		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=status\">PL Status Statistics for $shortname</a></li>
 			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
 			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
 		</ul>
@@ -119,7 +120,7 @@ function shn_stat_menu() {
 		if($shortname=="test"){
 		echo "
 		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=status\">PL Status Statistics for $shortname</a></li>
 			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
 			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
 			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour at Suburban Hospital</a></li>
@@ -135,7 +136,7 @@ function shn_stat_menu() {
 		if($shortname=="testtp"){
 		echo "
 		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=status\">PL Status Statistics for $shortname</a></li>
 			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
 			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
 			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour at Suburban Hospital</a></li>
@@ -151,7 +152,7 @@ function shn_stat_menu() {
 		if($shortname=="lisbon"){
 		echo "
 		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=status\">PL Status Statistics for $shortname</a></li>
 			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
 			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
 		</ul>
@@ -161,7 +162,7 @@ function shn_stat_menu() {
 		if($shortname=="christchurch"){
 		echo "
 		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=status\">PL Status Statistics for $shortname</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_bydate\">Arrival Rate by Date</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_byhour\">Arrival Rate by Hour (zoomable)</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_bydate_status\">Arrival Rate by Date Combined with Status</a></li>
@@ -232,7 +233,7 @@ function shn_stat_status() {
 			echo "defaultSeriesType: 'column'\n" ;
 				echo "},\n" ;
 		echo "title: {\n" ;
-			echo "text: 'PL Status Statistics for $shortname'\n" ;
+			echo "text: 'Status Statistics for $shortname'\n" ;
 			
 			echo "},\n" ;
 		echo "subtitle: {\n" ;
@@ -347,7 +348,7 @@ function shn_stat_gender() {
 			echo "defaultSeriesType: 'column'\n" ;
 				echo "},\n" ;
 		echo "title: {\n" ;
-			echo "text: 'PL Gender Statistics for $shortname'\n" ;
+			echo "text: 'Gender Statistics for $shortname'\n" ;
 			echo "},\n" ;
 		echo "subtitle: {\n" ;
 			echo "text: ''\n" ;
@@ -492,7 +493,7 @@ function shn_stat_arrival_bydate() {
          echo "renderTo: 'container',\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Date for $shortname'\n" ;
+         echo "text: 'Arrival Rate by Date for $shortname'\n" ;
       echo "},\n" ;
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
@@ -622,7 +623,7 @@ function shn_stat_arrival_byhour() {
 		 echo "zoomType: 'x',\n";
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Hour for $shortname'\n" ;
+         echo "text: 'Arrival Rate by Hour for $shortname'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n";
          echo "text: document.ontouchstart === undefined ?\n";
@@ -906,7 +907,7 @@ function shn_stat_age() {
          echo "defaultSeriesType: 'column'\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Age Statistics for $shortname'\n" ;
+         echo "text: 'Age Statistics for $shortname'\n" ;
       echo "},\n" ;
       echo "subtitle: {\n" ;
          echo "text: ''\n" ;
@@ -1006,6 +1007,7 @@ function shn_stat_TP_sub_byhour() {
 	$q="SELECT when_sent as update_time, count(when_sent) as count_update_time FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id
+	WHERE c.event_name like '".$shortname."'
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 
@@ -1055,14 +1057,14 @@ function shn_stat_TP_sub_byhour() {
          echo "renderTo: 'container',\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Hour for $shortname'\n" ;
+         echo "text: 'Arrival Rate by Hour for $shortname'\n" ;
       echo "},\n" ;
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%I: %M %p',\n" ;
-            echo "minute: '%I: %M %p',\n" ;
-            echo "hour: '%I',\n" ;
+            echo "second: '%e. %b %I: %M %p',\n" ;
+            echo "minute: '%e. %b %I: %M %p',\n" ;
+            echo "hour: '%e. %b %I',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -1160,7 +1162,7 @@ function shn_stat_TP_nnmc_byhour() {
          echo "renderTo: 'container',\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Hour for $shortname'\n" ;
+         echo "text: 'Arrival Rate by Hour for $shortname'\n" ;
       echo "},\n" ;
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
@@ -1225,6 +1227,7 @@ function shn_stat_TP_sub_byminute() {
 	$q="SELECT when_sent as update_time, count(when_sent) as count_update_time FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id
+	WHERE c.event_name like '".$shortname."'
 	GROUP BY DATE( when_sent ) , HOUR(when_sent), MINUTE( when_sent )
 	ORDER BY DATE( when_sent ) , HOUR(when_sent), MINUTE( when_sent )";
 
@@ -1275,7 +1278,7 @@ function shn_stat_TP_sub_byminute() {
          echo "renderTo: 'container',\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Minute for $shortname'\n" ;
+         echo "text: 'Arrival Rate by Minute for $shortname'\n" ;
       echo "},\n" ;
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
@@ -1850,9 +1853,9 @@ echo "var chart = new Highcharts.Chart({\n" ;
         echo "defaultSeriesType: 'column'\n" ;
     echo "},\n" ;
 	echo "title: {\n" ;
-			echo "text: 'PL Status Count Hour for $shortname',\n" ;
+			echo "text: 'TriagePic Zone Status on Arrival for $shortname',\n" ;
 			echo "style: {\n" ;
-            echo "color: '#FF00FF',\n" ;
+            echo "color: '#000000',\n" ;
             echo "fontWeight: 'bold'\n" ;
 					echo "}\n" ;
 			echo "},\n" ;
@@ -2042,7 +2045,7 @@ function shn_stat_arrival_bydate_status() {
          echo "renderTo: 'container',\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Date for $shortname'\n" ;
+         echo "text: 'Arrival Rate by Date for $shortname'\n" ;
       echo "},\n" ;
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
@@ -2118,7 +2121,7 @@ echo "</script>\n";
 }
 /**************************
 * arrival_byhour_status
-* for cmax2010, sendai, hepl and christchurch only
+* for new, cmax2010, sendai, hepl and christchurch only
 **************************/
 function shn_stat_arrival_byhour_status() {
 	global $global;
@@ -2154,12 +2157,28 @@ function shn_stat_arrival_byhour_status() {
 	if($shortname=="cmax2010"){
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
-	JOIN edxl_co_lpf c ON c.co_id = b.co_id
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id	
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 	}
-	//need to add testevent and MSEL event
-	
+	//for new 
+	if($shortname=="new"){
+	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
+	JOIN edxl_co_header b ON b.de_id = a.de_id
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id 
+    WHERE c.event_name like '".$shortname."'
+	GROUP BY DATE( when_sent ) , HOUR(when_sent)
+	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
+	}
+	//for testtp 
+	if($shortname=="testtp"){
+	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
+	JOIN edxl_co_header b ON b.de_id = a.de_id
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id 
+    WHERE c.event_name like '".$shortname."'
+	GROUP BY DATE( when_sent ) , HOUR(when_sent)
+	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
+	}
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 
@@ -2244,7 +2263,7 @@ function shn_stat_arrival_byhour_status() {
 		echo "zoomType: 'x',\n";
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Hour for $shortname'\n" ;
+         echo "text: 'Arrival Rate by Hour Combined with Status for $shortname'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n";
          echo "text: document.ontouchstart === undefined ?\n";
@@ -2367,7 +2386,24 @@ function shn_stat_arrival_byminute_status() {
 	GROUP BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)";
 	}
-	//need to add testevent and MSEL event
+	//for new 
+	if($shortname=="new"){
+	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
+	JOIN edxl_co_header b ON b.de_id = a.de_id
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id
+	WHERE c.event_name like '".$shortname."'
+	GROUP BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)
+	ORDER BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)";
+	}
+	//for testtp
+	if($shortname=="testtp"){
+	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
+	JOIN edxl_co_header b ON b.de_id = a.de_id
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id
+	WHERE c.event_name like '".$shortname."'
+	GROUP BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)
+	ORDER BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)";
+	}
 	
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
@@ -2536,7 +2572,7 @@ echo "</script>\n";
 
 /**************************************************
 * arrival_byhour_gender
-* for sendai, hepl, cmax2010 and christchurch only
+* for new, sendai, hepl, cmax2010 and christchurch only
 ***************************************************/
 function shn_stat_arrival_byhour_gender() {
 	global $global;
@@ -2573,6 +2609,24 @@ function shn_stat_arrival_byhour_gender() {
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id
+	GROUP BY DATE( when_sent ) , HOUR(when_sent)
+	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
+	}
+	//for new
+	if($shortname=="new"){
+	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
+	JOIN edxl_co_header b ON b.de_id = a.de_id
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id
+	WHERE c.event_name like '".$shortname."'
+	GROUP BY DATE( when_sent ) , HOUR(when_sent)
+	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
+	}
+	//for ttp
+	if($shortname=="ttp"){
+	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
+	JOIN edxl_co_header b ON b.de_id = a.de_id
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id
+	WHERE c.event_name like '".$shortname."'
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 	}
@@ -2662,7 +2716,7 @@ function shn_stat_arrival_byhour_gender() {
 		echo "zoomType: 'x',\n";
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Hour for $shortname'\n" ;
+         echo "text: 'Arrival Rate by Hour Combined with Gender for $shortname'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n";
          echo "text: document.ontouchstart === undefined ?\n";
@@ -2761,6 +2815,24 @@ function shn_stat_arrival_byhour_age() {
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 	}
+	//for new
+	if($shortname=="new"){
+	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
+	JOIN edxl_co_header b ON b.de_id = a.de_id
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id
+	WHERE c.event_name like '".$shortname."'
+	GROUP BY DATE( when_sent ) , HOUR(when_sent)
+	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
+	}
+	//for ttp
+	if($shortname=="ttp"){
+	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
+	JOIN edxl_co_header b ON b.de_id = a.de_id
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id
+	WHERE c.event_name like '".$shortname."'
+	GROUP BY DATE( when_sent ) , HOUR(when_sent)
+	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
+	}
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 
@@ -2849,7 +2921,7 @@ function shn_stat_arrival_byhour_age() {
 		echo "zoomType: 'x',\n";
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Hour for $shortname'\n" ;
+         echo "text: 'Arrival Rate by Hour Combined with Age for $shortname'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n";
          echo "text: document.ontouchstart === undefined ?\n";
