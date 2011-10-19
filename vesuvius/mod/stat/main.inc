@@ -49,19 +49,37 @@ function shn_stat_menu() {
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
 		";
 		};
+		if ($shortname=="testttp"){
+		echo "
+		<ul>
+			<li><a href=\"index.php?mod=stat&act=status\">Status Statistics </a></li>
+			<li><a href=\"index.php?mod=stat&act=gender\">Gender Statistics </a></li>
+			<li><a href=\"index.php?mod=stat&act=age\">Age Statistics for Capital Shield 2012</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>	
+			<li><a href=\"index.php?mod=stat&act=arrival_byminute_status\">Arrival Rate by Minute Combined with Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with Age</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">TriagePic Zone Status on Arrival</a></li>
+
+		</ul>
+		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
+		";
+		};
 		if ($shortname=="cmax2010"){
 		echo "
 		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">Status Statistics for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=gender\">Gender Statistics for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=age\">Age Statistics for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour at Suburban Hospital for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byminute_status\">Arrival Rate by Minute Combined with Status for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with Age for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">TriagePic Zone Status on Arrival for $shortname</a></li>
+			<li><a href=\"index.php?mod=stat&act=status\">Status Statistics</a></li>
+			<li><a href=\"index.php?mod=stat&act=gender\">Gender Statistics</a></li>
+			<li><a href=\"index.php?mod=stat&act=age\">Age Statistics</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byminute_status\">Arrival Rate by Minute Combined with Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with Age</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">TriagePic Zone Status on Arrival</a></li>
 
 		</ul>
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
@@ -339,6 +357,8 @@ function shn_stat_gender() {
 	$shortname = $_GET['shortname'];
 	$json_opt_gender = implode("','",$json_opt_gender);
 	$json_count_gender = implode(",", $json_count_gender);
+	
+	
 	echo $json_count_gender;
 	echo "<script type=\"text/javascript\"> \n" ;
 	echo "\$(document).ready(function() {\n" ;
@@ -640,7 +660,7 @@ function shn_stat_arrival_byhour() {
             echo "day: '%b %e',\n" ;
             echo "week: '%b %e',\n" ;
             echo "month: '%b %e',\n" ;
-            echo "year: '%%b %e'\n" ;
+            echo "year: '%b %e'\n" ;
          echo "}\n" ;
      echo "},\n" ;
     echo "yAxis: {\n";
@@ -1062,9 +1082,9 @@ function shn_stat_TP_sub_byhour() {
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b %I: %M %p',\n" ;
-            echo "minute: '%e. %b %I: %M %p',\n" ;
-            echo "hour: '%e. %b %I',\n" ;
+            echo "second: '%e. %b',\n" ;
+            echo "minute: '%e. %b',\n" ;
+            echo "hour: '%e. %b',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -1079,7 +1099,7 @@ function shn_stat_TP_sub_byhour() {
      echo "tooltip: {\n";
 			echo "formatter: function() {\n";
 			echo "return '<strong>'+ this.series.name +'</strong>'+\n";
-			echo "Highcharts.dateFormat('%e. %b %Y, %I: %M: %S %p', this.x) +': '+ this.y +' people';\n";
+			echo "Highcharts.dateFormat('%e. %b %Y, %H: %M: %S', this.x) +': '+ this.y +' people';\n";
 								echo "}\n";
 							echo "},\n";
       echo "plotOptions: {\n" ;
@@ -1167,9 +1187,9 @@ function shn_stat_TP_nnmc_byhour() {
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%I: %M',\n" ;
-            echo "minute: '%I: %M',\n" ;
-            echo "hour: '%I',\n" ;
+            echo "second: '%%e. %b',\n" ;
+            echo "minute: '%e. %b',\n" ;
+            echo "hour: '%e. %b',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -1276,6 +1296,7 @@ function shn_stat_TP_sub_byminute() {
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
          echo "renderTo: 'container',\n" ;
+		 echo "defaultSeriesType: 'areaspline'";
       echo "},\n" ;
       echo "title: {\n" ;
          echo "text: 'Arrival Rate by Minute for $shortname'\n" ;
@@ -1283,9 +1304,9 @@ function shn_stat_TP_sub_byminute() {
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%I: %M %p',\n" ;
-            echo "minute: '%I: %M %p',\n" ;
-            echo "hour: '%I',\n" ;
+            echo "second: '%e. %b',\n" ;
+            echo "minute: '%e. %b',\n" ;
+            echo "hour: '%e. %b',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -1324,7 +1345,7 @@ function shn_stat_TP_sub_byminute() {
         echo "name: '". $shortname;
 		echo "'";
 		echo ",\n";
-		echo "type: 'area',";
+		echo "type: 'areaspline',";
 		echo "\n";
         echo "data: data\n" ;
         echo "}]\n" ;
