@@ -19,6 +19,9 @@ $eventShortName = "test";
 $personXML = "";
 $xmlFormat = "TRIAGEPIC";
 $number = 2;
+$uuid = "pl.nlm.nih.gov/person.0";
+$mcid = "0";
+$newMcid = "1";
 
 // load nusoap client library
 require_once("../../3rd/nusoap/lib/nusoap.php");
@@ -44,23 +47,24 @@ if(!isset($_GET['api'])) {
 
 	// perform tests...
 	switch($_GET['api']) {
+		case '2.0':
+			revisePerson($personXML, $uuid, $xmlFormat, $user, $pass);
+			expirePerson($uuid, $user, $pass);
+			getUuidByMassCasualtyId($mcid, $user, $pass);
+			changeMassCasualtyId($newMcid, $uuid, $user, $pass);
+			hasRecordBeenRevised($uuid, $user, $pass);
 		case '1.9.9':
-		case '1.9.8':
 			getHospitalLegalese("1");
 			getHospitalLegaleseAnon("1");
 			getHospitalLegaleseTimestamps("1");
-		case '1.9.7':
-		case '1.9.6':
 		case '1.9.5':
 			reportPerson($personXML, $eventShortName, $xmlFormat, $user, $pass);
 			createPersonUuid($user, $pass);
 			createPersonUuidBatch($number, $user, $pass);
 			createNoteUuid($user, $pass);
 			createNoteUuidBatch($number, $user, $pass);
-		case '1.9.4':
 			search("test", "t");
 			searchWithAuth("test", "t", $user, $pass);
-		case '1.9.3':
 			getSessionTimeout();
 			registerUser("testCaseUser", "testCase@email.com", "testPassword99", "testCaseGiven", "testCaseFamily");
 			changeUserPassword($user, $pass, $pass);
@@ -69,15 +73,12 @@ if(!isset($_GET['api'])) {
 			checkUserAuth($user, $pass);
 			getUserStatus($user);
 			getUserGroup($user);
-		case '1.9.2':
 			getEventList();
 			getEventListUser($user, $pass);
 			getGroupList();
-		case '1.9.1':
 			getHospitalList();
 			getHospitalData("1");
 			getHospitalPolicy("1");
-		case '1.9.0':
 			version();
 	}
 	echo "</table><h2>Note: deprecated functions are not listed/tested.</h2></body>";

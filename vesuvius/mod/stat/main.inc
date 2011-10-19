@@ -21,31 +21,28 @@ function shn_stat_menu() {
 		echo "
 		<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\"></script>
 		<script type=\"text/javascript\" src=\"res/js/stat/highcharts.src.js\"></script>
-		<script type=\"text/javascript\" src=\"res/js/stat/highcharts.js\"></script>
-		<script type=\"text/javascript\" src=\"res/js/stat/dark-green.js\"></script>
-		<script type=\"text/javascript\" src=\"res/js/stat/grid.js\"></script>
-		<script type=\"text/javascript\" src=\"res/js/stat/gray.js\"></script>
+		<script type=\"text/javascript\" src=\"res/js/stat/highcharts.js\"></script>			
 		<script type=\"text/javascript\" src=\"res/js/stat/excanvas.js\"></script>
-		<script type=\"text/javascript\" src=\"res/js/stat/exporting.js\"></script>
-		<script type=\"text/javascript\" src=\"res/js/stat/dark-blue.js\"></script>
+		<script type=\"text/javascript\" src=\"res/js/stat/exporting.js\"></script>		
 		";
+		
 		$shortname = $_GET['shortname'];
 		echo "People Statistics for $shortname:\n";
 		echo "\n";
 		echo "Please select from the links below for avalailable statistics:\n";
 
-		if ($shortname=="cmax2011"){
+		if ($shortname=="new"){
 		echo "
 		<ul>
 			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
 			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
 			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">TP-Arrival Rate by Hour at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">TP-Arrival Rate by Minute at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with with Status</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with with Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with with Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">TP-Status by Hour at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>			
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with Age</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">Status by Hour at Suburban Hospital</a></li>
 
 		</ul>
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
@@ -57,12 +54,13 @@ function shn_stat_menu() {
 			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
 			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
 			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">TP-Arrival Rate by Hour at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">TP-Arrival Rate by Minute at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with with Status</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with with Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with with Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">TP-Status by Hour at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byminute_status\">Arrival Rate by Minute Combined with Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with Age</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">Status by Hour at Suburban Hospital</a></li>
 
 		</ul>
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
@@ -124,6 +122,12 @@ function shn_stat_menu() {
 			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
 			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
 			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with with Age</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">Status by Hour at Suburban Hospital</a></li>
 		</ul>
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
 		";
@@ -134,6 +138,12 @@ function shn_stat_menu() {
 			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
 			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
 			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with with Age</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">Status by Hour at Suburban Hospital</a></li>
 		</ul>
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
 		";
@@ -182,10 +192,9 @@ function shn_stat_default() {
 function shn_stat_status() {
 	global $global;
 	shn_stat_menu();
-	echo "People Statistics for  ";
-	echo $_GET['shortname'];
-
 	$shortname = $_GET['shortname'];
+	echo "People Statistics for  ";
+	echo $_GET['shortname'];	
 	$q="SELECT DISTINCT d.option_description AS opt_status, count( opt_status ) AS count_opt_status
 	FROM person_status a
 	JOIN field_options d ON a.opt_status = d.option_code
@@ -207,11 +216,9 @@ function shn_stat_status() {
 		$count_opt_status[] = $row['count_opt_status'];
 		array_push($json_count_opt_status, $row['count_opt_status']);
 		}
-	while($row = $res->FetchRow());
-
-	//<div id="content" style=" height:100%;"></div>;
+	while($row = $res->FetchRow());	
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	$json_opt_status = implode("','",$json_opt_status);
@@ -221,11 +228,12 @@ function shn_stat_status() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
 		echo "chart: {";
-			echo "renderTo: 'content',\n" ;
+			echo "renderTo: 'container',\n" ;
 			echo "defaultSeriesType: 'column'\n" ;
 				echo "},\n" ;
 		echo "title: {\n" ;
-			echo "text: 'PL Status Statistics'\n" ;
+			echo "text: 'PL Status Statistics for $shortname'\n" ;
+			
 			echo "},\n" ;
 		echo "subtitle: {\n" ;
 			echo "text: ''\n" ;
@@ -247,17 +255,13 @@ function shn_stat_status() {
 				echo "},\n" ;
 		echo "legend: {\n" ;
 			echo "layout: 'vertical',\n" ;
-			echo "backgroundColor: '#FFFFFF',\n" ;
-			echo "align: 'left',\n" ;
-			echo "verticalAlign: 'top',\n" ;
-			echo "x: 0,\n" ;
-			echo "y: 50,\n" ;
+			echo "backgroundColor: '#FFFFFF',\n" ;			
             echo "},\n" ;
 		/*
 		echo "tooltip {\n" ;
 			echo "formatter: function() {\n" ;
             echo "return ''+\n" ;
-				echo "this.x +': '+ this.y +'';\n" ;
+				echo "this.x +': '+ this.y +' people';\n" ;
 								echo "}\n" ;
 				echo "},\n" ;
 		*/
@@ -328,7 +332,8 @@ function shn_stat_gender() {
 		}
 	while($row = $res->FetchRow());
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
+	
 	<?php
 	$shortname = $_GET['shortname'];
 	$json_opt_gender = implode("','",$json_opt_gender);
@@ -338,11 +343,11 @@ function shn_stat_gender() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
 		echo "chart: {";
-			echo "renderTo: 'content',\n" ;
+			echo "renderTo: 'container',\n" ;
 			echo "defaultSeriesType: 'column'\n" ;
 				echo "},\n" ;
 		echo "title: {\n" ;
-			echo "text: 'PL Gender Statistics'\n" ;
+			echo "text: 'PL Gender Statistics for $shortname'\n" ;
 			echo "},\n" ;
 		echo "subtitle: {\n" ;
 			echo "text: ''\n" ;
@@ -365,16 +370,12 @@ function shn_stat_gender() {
 		echo "legend: {\n" ;
 			echo "layout: 'vertical',\n" ;
 			echo "backgroundColor: '#FFFFFF',\n" ;
-			echo "align: 'left',\n" ;
-			echo "verticalAlign: 'top',\n" ;
-			echo "x: 0,\n" ;
-			echo "y: 50,\n" ;
             echo "},\n" ;
 
 		/*echo "tooltip {\n" ;
 			echo "formatter: function() {\n" ;
             echo "return ''+\n" ;
-				echo "this.x +': '+ this.y +'';\n" ;
+				echo "this.x +': '+ this.y +' people';\n" ;
 								echo "}\n" ;
 				echo "},\n" ;
 		*/
@@ -464,7 +465,7 @@ function shn_stat_arrival_bydate() {
 	echo json_encode($count_source_date);
 	echo json_encode($source_date);
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
@@ -488,17 +489,17 @@ function shn_stat_arrival_bydate() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'content',\n" ;
+         echo "renderTo: 'container',\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Date'\n" ;
+         echo "text: 'PL Arrival Rate by Date for $shortname'\n" ;
       echo "},\n" ;
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b',\n" ;
-            echo "minute: '%e. %b',\n" ;
-            echo "hour: '%e. %b',\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -538,7 +539,7 @@ echo "</script>\n" ;
 }
 /********************************************
 * Arrival Rate by Hour
-* For sendai2011, hepl and christchurch event
+* For cmax2011, sendai2011, hepl and christchurch event
 *********************************************/
 function shn_stat_arrival_byhour() {
 	global $global;
@@ -546,7 +547,9 @@ function shn_stat_arrival_byhour() {
 	echo "People Statistics for  ";
 	echo $_GET['shortname'];
 	$shortname = $_GET['shortname'];
+	
 	//for sendai2011, add 'a.source_date >'2011-01-01'' in the where filter
+	
 	if($shortname=="sendai2011") {
 	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
@@ -591,7 +594,7 @@ function shn_stat_arrival_byhour() {
 	echo json_encode($count_source_date);
 	echo json_encode($source_date);
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
@@ -615,11 +618,11 @@ function shn_stat_arrival_byhour() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'content',\n" ;
+         echo "renderTo: 'container',\n" ;
 		 echo "zoomType: 'x',\n";
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Hour'\n" ;
+         echo "text: 'PL Arrival Rate by Hour for $shortname'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n";
          echo "text: document.ontouchstart === undefined ?\n";
@@ -630,13 +633,13 @@ function shn_stat_arrival_byhour() {
          echo "type: 'datetime',\n" ;
 		 echo "maxZoom:  3600000,\n";
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b',\n" ;
-            echo "minute: '%e. %b',\n" ;
-            echo "hour: '%e. %b',\n" ;
-            echo "day: '%e. %b',\n" ;
-            echo "week: '%e. %b',\n" ;
-            echo "month: '%b \'%y',\n" ;
-            echo "year: '%Y'\n" ;
+            echo "second: '%I:%M %p',\n" ;
+            echo "minute: '%I:%M %p',\n" ;
+            echo "hour: '%I:%M %p',\n" ;
+            echo "day: '%b %e',\n" ;
+            echo "week: '%b %e',\n" ;
+            echo "month: '%b %e',\n" ;
+            echo "year: '%%b %e'\n" ;
          echo "}\n" ;
      echo "},\n" ;
     echo "yAxis: {\n";
@@ -737,9 +740,9 @@ global $global;
 	echo json_encode($expiry_date);
 	echo json_encode($count_puuid);
 
-	//<div id="content" style="width: 500 px; height: 300px; margin: 0 auto; background-image:url('ajax-loader2.gif');background-repeat:no-repeat;"></div>
+	//<div id="container" style="width: 500 px; height: 300px; margin: 0 auto; background-image:url('ajax-loader2.gif');background-repeat:no-repeat;"></div>
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	$json_count_puuid = implode("','",$json_count_puuid);
@@ -761,7 +764,7 @@ global $global;
 	echo "$(document).ready(function() {\n";
 		echo "chart = new Highcharts.Chart({\n";
 		echo "chart: {\n";
-			echo "renderTo: 'content',\n";
+			echo "renderTo: 'container',\n";
 			echo "zoomType: 'x'\n";
 				echo "},\n";
 		echo "title: {\n";
@@ -887,7 +890,7 @@ function shn_stat_age() {
 	while($row = $res->FetchRow());
 	// mysql_close($link);
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
@@ -903,7 +906,7 @@ function shn_stat_age() {
          echo "defaultSeriesType: 'column'\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Age Statistics'\n" ;
+         echo "text: 'PL Age Statistics for $shortname'\n" ;
       echo "},\n" ;
       echo "subtitle: {\n" ;
          echo "text: ''\n" ;
@@ -929,13 +932,8 @@ function shn_stat_age() {
       echo "},\n" ;
       echo "legend: {\n" ;
          echo "layout: 'vertical',\n" ;
-         echo "backgroundColor: '#FFFFFF',\n" ;
-         echo "align: 'left',\n" ;
-         echo "verticalAlign: 'top',\n" ;
-         echo "x: 0,\n" ;
-         echo "y: 50,\n" ;
-
-      echo "},\n" ;
+         echo "backgroundColor: '#FFFFFF',\n" ;      
+		 echo "},\n" ;
       echo "tooltip: {\n" ;
          echo "formatter: function() {\n" ;
             echo "return ''+\n" ;
@@ -993,7 +991,7 @@ function shn_stat_test() {
 	shn_stat_menu();
 	echo "test using php & js combined";
 	//include('test.php');
-	echo file_get_contents("test.php");
+	echo file_get_containers("test.php");
 }
 function shn_stat_TP_sub_byhour() {
 	global $global;
@@ -1032,7 +1030,7 @@ function shn_stat_TP_sub_byhour() {
 	echo json_encode($count_update_time);
 	echo json_encode($update_time);
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
@@ -1054,17 +1052,17 @@ function shn_stat_TP_sub_byhour() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'content',\n" ;
+         echo "renderTo: 'container',\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Hour'\n" ;
+         echo "text: 'PL Arrival Rate by Hour for $shortname'\n" ;
       echo "},\n" ;
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b %H %M',\n" ;
-            echo "minute: '%e. %b %H %M',\n" ;
-            echo "hour: '%e. %b %H',\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -1076,19 +1074,10 @@ function shn_stat_TP_sub_byhour() {
             echo "text: 'People Count'\n" ;
          echo "}\n" ;
      echo "},\n" ;
-     /*echo "tooltip: {\n" ;
-         echo "enabled: false,\n" ;
-         echo "formatter: function() {\n" ;
-            echo "return '<b>'+ this.series.name +'</b><br/>'+\n" ;
-               echo "this.x +': '+ this.y;\n" ;
-         echo "}\n" ;
-      echo "},\n" ;
-
-	*/
-	  echo "tooltip: {\n";
+     echo "tooltip: {\n";
 			echo "formatter: function() {\n";
 			echo "return '<strong>'+ this.series.name +'</strong>'+\n";
-			echo "Highcharts.dateFormat('%e. %b %Y, %H: %M: %S', this.x) +': '+ this.y +' people';\n";
+			echo "Highcharts.dateFormat('%e. %b %Y, %I: %M: %S %p', this.x) +': '+ this.y +' people';\n";
 								echo "}\n";
 							echo "},\n";
       echo "plotOptions: {\n" ;
@@ -1102,7 +1091,7 @@ function shn_stat_TP_sub_byhour() {
     echo "series: [{\n" ;
         echo "name: '". $shortname;
 		echo "',\n";
-		echo "type: 'areaspline',\n" ;
+		echo "type: 'area',\n" ;
          echo "data: data\n" ;
         echo "}]\n" ;
    echo "});\n" ;
@@ -1145,7 +1134,7 @@ function shn_stat_TP_nnmc_byhour() {
 	echo json_encode($update_time);
 
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
@@ -1168,17 +1157,17 @@ function shn_stat_TP_nnmc_byhour() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'content',\n" ;
+         echo "renderTo: 'container',\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Hour'\n" ;
+         echo "text: 'PL Arrival Rate by Hour for $shortname'\n" ;
       echo "},\n" ;
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b %H %M',\n" ;
-            echo "minute: '%e. %b %H %M',\n" ;
-            echo "hour: '%e. %b %H',\n" ;
+            echo "second: '%I: %M',\n" ;
+            echo "minute: '%I: %M',\n" ;
+            echo "hour: '%I',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -1218,7 +1207,7 @@ function shn_stat_TP_nnmc_byhour() {
 		echo "',";
 		//echo ",";
 		echo "\n";
-		echo "type: 'areaspline',";
+		echo "type: 'area',";
 		echo "\n";
         echo "data: data\n" ;
         echo "}]\n" ;
@@ -1260,7 +1249,7 @@ function shn_stat_TP_sub_byminute() {
 	echo json_encode($update_time);
 
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
@@ -1283,17 +1272,17 @@ function shn_stat_TP_sub_byminute() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'content',\n" ;
+         echo "renderTo: 'container',\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Minute'\n" ;
+         echo "text: 'PL Arrival Rate by Minute for $shortname'\n" ;
       echo "},\n" ;
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b',\n" ;
-            echo "minute: '%e. %b %H %M',\n" ;
-            echo "hour: '%e. %b %H',\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -1305,20 +1294,21 @@ function shn_stat_TP_sub_byminute() {
             echo "text: 'People Count'\n" ;
          echo "}\n" ;
      echo "},\n" ;
-     /*echo "tooltip: {\n" ;
+     /*
+	 echo "tooltip: {\n" ;
          echo "enabled: false,\n" ;
          echo "formatter: function() {\n" ;
             echo "return '<b>'+ this.series.name +'</b><br/>'+\n" ;
                echo "this.x +': '+ this.y;\n" ;
          echo "}\n" ;
-      echo "},\n" ;*/
+      echo "},\n" ;
+	  */
 	  echo "tooltip: {\n";
 			echo "formatter: function() {\n";
 			echo "return '<strong>'+ this.series.name +'</strong>'+\n";
 			echo "Highcharts.dateFormat('%e. %b %Y, %H: %M: %S', this.x) +': '+ this.y +' people';\n";
 								echo "}\n";
 							echo "},\n";
-
       echo "plotOptions: {\n" ;
          echo "area: {\n" ;
             echo "dataLabels: {\n" ;
@@ -1331,7 +1321,7 @@ function shn_stat_TP_sub_byminute() {
         echo "name: '". $shortname;
 		echo "'";
 		echo ",\n";
-		echo "type: 'areaspline',";
+		echo "type: 'area',";
 		echo "\n";
         echo "data: data\n" ;
         echo "}]\n" ;
@@ -1377,7 +1367,7 @@ function shn_stat_TP_sub_byminute() {
 	/* mysql_close($link); 	*/
 	/*echo "<script type="text/javascript">
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
@@ -1405,17 +1395,17 @@ function shn_stat_TP_sub_byminute() {
 	//$(document).ready(function() {
    echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'content',\n" ;
+         echo "renderTo: 'container',\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by hour'\n" ;
+         echo "text: 'PL Arrival Rate by Hour for $shortname'\n" ;
       echo "},\n" ;
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b',\n" ;
-            echo "minute: '%e. %b',\n" ;
-            echo "hour: '%e. %b',\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I: %M %p',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -1427,6 +1417,7 @@ function shn_stat_TP_sub_byminute() {
             echo "text: 'Expiry Date Count'\n" ;
          echo "}\n" ;
      echo "},\n" ;
+	 
      echo "tooltip: {\n" ;
          echo "enabled: false,\n" ;
          echo "formatter: function() {\n" ;
@@ -1442,6 +1433,8 @@ function shn_stat_TP_sub_byminute() {
             echo "enableMouseTracking: false\n" ;
          echo "}\n" ;
       echo "},\n" ;
+	  
+
       echo "series: [{\n" ;
          echo "name: 'Japan Earthquake and Tsunami',\n" ;
      echo "type: 'line',\n" ;
@@ -1787,7 +1780,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	echo json_encode($count_statusB);
 	echo json_encode($time_rangeB);
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	//to do
@@ -1857,14 +1850,14 @@ echo "var chart = new Highcharts.Chart({\n" ;
         echo "defaultSeriesType: 'column'\n" ;
     echo "},\n" ;
 	echo "title: {\n" ;
-			echo "text: 'PL Status per Hour',\n" ;
+			echo "text: 'PL Status Count Hour for $shortname',\n" ;
 			echo "style: {\n" ;
             echo "color: '#FF00FF',\n" ;
             echo "fontWeight: 'bold'\n" ;
 					echo "}\n" ;
 			echo "},\n" ;
 		echo "subtitle: {\n" ;
-			echo "text: 'Event: CMAX2010 at Suburban Hospital',\n" ;
+			echo " " ;
 			echo "style: {\n" ;
             echo "color: '#FF00FF',\n" ;
             echo "fontWeight: 'bold'\n" ;
@@ -2008,7 +2001,7 @@ function shn_stat_arrival_bydate_status() {
 	while($row = $res->FetchRow());
 
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
@@ -2046,17 +2039,17 @@ function shn_stat_arrival_bydate_status() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'content',\n" ;
+         echo "renderTo: 'container',\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Date'\n" ;
+         echo "text: 'PL Arrival Rate by Date for $shortname'\n" ;
       echo "},\n" ;
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b',\n" ;
-            echo "minute: '%e. %b',\n" ;
-            echo "hour: '%e. %b',\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -2125,7 +2118,7 @@ echo "</script>\n";
 }
 /**************************
 * arrival_byhour_status
-* for sendai, hepl and christchurch only
+* for cmax2010, sendai, hepl and christchurch only
 **************************/
 function shn_stat_arrival_byhour_status() {
 	global $global;
@@ -2165,6 +2158,8 @@ function shn_stat_arrival_byhour_status() {
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 	}
+	//need to add testevent and MSEL event
+	
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 
@@ -2207,7 +2202,7 @@ function shn_stat_arrival_byhour_status() {
 	while($row = $res->FetchRow());
 
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 600px; height: 600px; margin: 0 auto;"></div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
@@ -2245,11 +2240,11 @@ function shn_stat_arrival_byhour_status() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-        echo "renderTo: 'content',\n" ;
+        echo "renderTo: 'container',\n" ;
 		echo "zoomType: 'x',\n";
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Hour'\n" ;
+         echo "text: 'PL Arrival Rate by Hour for $shortname'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n";
          echo "text: document.ontouchstart === undefined ?\n";
@@ -2259,9 +2254,9 @@ function shn_stat_arrival_byhour_status() {
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b',\n" ;
-            echo "minute: '%e. %b',\n" ;
-            echo "hour: '%e. %b',\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -2329,6 +2324,216 @@ function shn_stat_arrival_byhour_status() {
 echo "})\n";
 echo "</script>\n";
 }
+
+/**************************
+* arrival_byminute_status
+* for cmax2010, sendai, hepl and christchurch only
+**************************/
+function shn_stat_arrival_byminute_status() {
+	global $global;
+	shn_stat_menu();
+	echo "People Statistics for  ";
+	echo $_GET['shortname'];
+	$shortname = $_GET['shortname'];
+	//for sendai2011, add 'a.source_date >'2011-01-01'' in the where filter
+	if($shortname=="sendai2011") {
+	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id
+	where (c.shortname like '".$shortname."' and a.source_date >'2011-01-01')
+	GROUP BY DATE(source_date), HOUR(source_date) order by DATE(source_date), HOUR(source_date)";
+	}
+	//for hepl
+	if($shortname=="hepl") {
+	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id
+	where (c.shortname like '".$shortname."' and a.source_date >'2010-01-11')
+	GROUP BY DATE(source_date), HOUR(source_date) order by DATE(source_date), HOUR(source_date)";
+	}
+	//for christchurch
+	if($shortname=="christchurch") {
+	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id
+	where (c.shortname like '".$shortname."' and a.source_date >'2011-02-20')
+	GROUP BY DATE(source_date), HOUR(source_date) order by DATE(source_date), HOUR(source_date)";
+	}
+	//for CMAX2010
+	if($shortname=="cmax2010"){
+	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
+	JOIN edxl_co_header b ON b.de_id = a.de_id
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id
+	GROUP BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)
+	ORDER BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)";
+	}
+	//need to add testevent and MSEL event
+	
+	$res = $global['db']->Execute($q);
+	$row = $res->FetchRow();
+
+	if($row === FALSE) {
+    	die(mysql_error());
+	}
+	$json_source_date = array();
+	$json_count_source_date = array();
+	do{
+		$source_date[] = (strtotime($row['source_date'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_source_date, $row['source_date']);
+		$count_source_date[] = $row['count_source_date'];
+		array_push($json_count_source_date, $row['count_source_date']);
+		}
+
+	while($row = $res->FetchRow());
+	echo json_encode($count_source_date);
+	echo json_encode($source_date);
+	//for status
+	$q1="SELECT DISTINCT d.option_description as opt_status, count( opt_status ) as count_opt_status FROM person_status a
+	join field_options d ON a.opt_status=d.option_code
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id where c.shortname like '".$shortname."'
+	GROUP BY opt_status";
+	$res = $global['db']->Execute($q1);
+	$row = $res->FetchRow();
+
+	if($row === FALSE) {
+    	die(mysql_error());
+	}
+	$json_opt_status = array();
+	$json_count_opt_status = array();
+	do{
+		$opt_status[] = $row['opt_status'];
+		array_push($json_opt_status, $row['opt_status']);
+		$count_opt_status[] = $row['count_opt_status'];
+		array_push($json_count_opt_status, $row['count_opt_status']);
+		}
+	while($row = $res->FetchRow());
+
+	?>
+	<div id="container" style="width: 600px; height: 600px; margin: 0 auto;"></div>;
+	<?php
+	$shortname = $_GET['shortname'];
+	echo "\n";
+	$json_source_date = implode("','",$json_source_date);
+	$json_count_source_date = implode(",", $json_count_source_date);
+	echo json_encode($source_date);
+	echo json_encode($count_source_date);
+	echo "\n";
+
+	$json_opt_status = implode("','",$json_opt_status);
+	$json_count_opt_status = implode(",", $json_count_opt_status);
+	echo json_encode($json_opt_status);
+	echo json_encode($json_count_opt_status);
+	echo "<script type=\"text/javascript\">\n";
+		echo "\n";
+		echo "var points = [$json_count_source_date],\n";
+		echo "dates = " .json_encode($source_date);
+		echo ",\n";
+		echo "i, data = [], chart;";
+		echo "\n";
+		echo "for(i=0; i<points.length; i++) {\n";
+			echo "data.push([dates[i], points[i]]);\n";
+			echo "}\n";
+		//status
+		echo "\n";
+		echo "var counts = [$json_count_opt_status],\n";
+		echo "names = " .json_encode($opt_status);
+		echo ",\n";
+		echo "j, data_status = [], chart;";
+		echo "\n";
+		echo "for(j=0; j<counts.length; j++) {\n";
+			echo "data_status.push([names[j], counts[j]]);\n";
+			echo "}\n";
+
+	echo "\$(document).ready(function() {\n" ;
+	echo "chart = new Highcharts.Chart({\n" ;
+      echo "chart: {\n" ;
+        echo "renderTo: 'container',\n" ;
+		echo "zoomType: 'x',\n";
+      echo "},\n" ;
+      echo "title: {\n" ;
+         echo "text: 'PL Arrival Rate by Hour for $shortname'\n" ;
+      echo "},\n" ;
+	  echo "subtitle: {\n";
+         echo "text: document.ontouchstart === undefined ?\n";
+            echo "'Click and drag in the plot area to zoom in' :\n";
+            echo "'Drag your finger over the plot to zoom in'\n";
+      echo "},\n";
+	  echo "xAxis: {\n" ;
+         echo "type: 'datetime',\n" ;
+         echo "dateTimeLabelFormats: {\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I',\n" ;
+            echo "day: '%e. %b',\n" ;
+            echo "week: '%e. %b',\n" ;
+            echo "month: '%b \'%y',\n" ;
+            echo "year: '%Y'\n" ;
+         echo "}\n" ;
+     echo "},\n" ;
+     echo "yAxis: {\n" ;
+         echo "title: {\n" ;
+            echo "text: 'People Count'\n" ;
+         echo "}\n" ;
+     echo "},\n" ;
+     echo "tooltip: {\n" ;
+         echo "enabled: false,\n" ;
+         echo "formatter: function() {\n" ;
+		 echo "line:{\n";
+            echo "return '<b>'+ this.series.name +'</b><br/>'+\n" ;
+               echo "this.x +': '+ this.y;\n" ;
+			echo "}\n";
+		echo "pie: {\n";
+			echo "return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %'\n";
+			echo "}\n";
+         echo "}\n" ;
+      echo "},\n" ;
+      echo "plotOptions: {\n" ;
+        echo "line: {\n" ;
+            echo "dataLabels: {\n" ;
+               echo "enabled: true\n" ;
+            echo "},\n" ;
+            echo "enableMouseTracking: false\n" ;
+			echo "},\n" ;
+		echo "pie: {\n" ;
+			echo "allowPointSelect: true,\n" ;
+				echo "cursor: 'pointer',\n" ;
+				echo "dataLabels: {\n" ;
+					echo "enabled: true,\n" ;
+					echo "formatter: function() {\n" ;
+                  echo "return '<b>'+ this.point.name +'</b><br/>'+\n" ;
+				echo "this.y;\n" ;
+               echo "}\n" ;
+            echo "}\n" ;
+         echo "}\n" ;
+      echo "},\n" ;
+
+     echo "series: [{\n" ;
+        echo "name: '". $shortname;
+		echo "'";
+		echo ",\n";
+		echo "type: 'line',\n" ;
+        echo "data: data\n" ;
+		echo "},\n";
+		echo "{\n";
+		echo "type: 'pie',\n";
+		echo "data: data_status,\n" ;
+		echo "center: [275, 150],\n";
+		echo "size: 150,\n";
+		echo "showInLegend: true,\n";
+		echo "showLegend: true,\n";
+		echo "dataLabels: {\n";
+        echo "enabled: true\n";
+		echo "}\n";
+
+      echo "}]\n";
+   echo "})\n";
+
+echo "})\n";
+echo "</script>\n";
+}
+
 /**************************************************
 * arrival_byhour_gender
 * for sendai, hepl, cmax2010 and christchurch only
@@ -2415,7 +2620,7 @@ function shn_stat_arrival_byhour_gender() {
 	while($row = $res->FetchRow());
 
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
@@ -2453,11 +2658,11 @@ function shn_stat_arrival_byhour_gender() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-        echo "renderTo: 'content',\n" ;
+        echo "renderTo: 'container',\n" ;
 		echo "zoomType: 'x',\n";
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Hour'\n" ;
+         echo "text: 'PL Arrival Rate by Hour for $shortname'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n";
          echo "text: document.ontouchstart === undefined ?\n";
@@ -2467,9 +2672,9 @@ function shn_stat_arrival_byhour_gender() {
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b',\n" ;
-            echo "minute: '%e. %b',\n" ;
-            echo "hour: '%e. %b',\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -2602,7 +2807,7 @@ function shn_stat_arrival_byhour_age() {
 	while($row = $res->FetchRow());
 
 	?>
-	<div id="content" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
@@ -2640,11 +2845,11 @@ function shn_stat_arrival_byhour_age() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-        echo "renderTo: 'content',\n" ;
+        echo "renderTo: 'container',\n" ;
 		echo "zoomType: 'x',\n";
       echo "},\n" ;
       echo "title: {\n" ;
-         echo "text: 'PL Arrival Rate by Hour'\n" ;
+         echo "text: 'PL Arrival Rate by Hour for $shortname'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n";
          echo "text: document.ontouchstart === undefined ?\n";
@@ -2654,9 +2859,9 @@ function shn_stat_arrival_byhour_age() {
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b',\n" ;
-            echo "minute: '%e. %b',\n" ;
-            echo "hour: '%e. %b',\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -2742,7 +2947,7 @@ function shn_stat_TP_random() {
 	$pagesArray = array("http://archivestage/~lale/vesuvius/vesuvius/www/cmax2010/index.php?mod=stat&act=status", "http://archivestage/~lale/vesuvius/vesuvius/www/cmax2010/index.php?mod=stat&act=gender","http://archivestage/~lale/vesuvius/vesuvius/www/cmax2010/index.php?mod=stat&act=age");
 	$randNum = rand(0, count($pagesArray)-1);
 	include($pagesArray[$randNum]);
-	echo "<div "content" onload="JavaScript:timedRefresh(15000);">";
+	echo "<div "container" onload="JavaScript:timedRefresh(15000);">";
 	echo "<div id="note" align="center" >";
 	echo "This page will refresh every 15 seconds. <br>";
 	echo "<a href="http://archivestage/~lale/vesuvius/vesuvius/www/index.php">Back to People Statistics Home</a>";
