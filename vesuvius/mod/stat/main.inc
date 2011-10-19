@@ -1047,7 +1047,6 @@ function shn_stat_TP_sub_byhour() {
 		$count_update_time[] = $row['count_update_time'];
 		array_push($json_count_update_time, $row['count_update_time']);
 		}
-
 	while($row = $res->FetchRow());
 	echo json_encode($count_update_time);
 	echo json_encode($update_time);
@@ -1075,6 +1074,7 @@ function shn_stat_TP_sub_byhour() {
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
          echo "renderTo: 'container',\n" ;
+		 echo "defaultSeriesType: 'areaspline'\n";
       echo "},\n" ;
       echo "title: {\n" ;
          echo "text: 'Arrival Rate by Hour for $shortname'\n" ;
@@ -1113,7 +1113,7 @@ function shn_stat_TP_sub_byhour() {
     echo "series: [{\n" ;
         echo "name: '". $shortname;
 		echo "',\n";
-		echo "type: 'area',\n" ;
+		echo "type: 'areaspline',\n" ;
          echo "data: data\n" ;
         echo "}]\n" ;
    echo "});\n" ;
@@ -1187,7 +1187,7 @@ function shn_stat_TP_nnmc_byhour() {
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%%e. %b',\n" ;
+            echo "second: '%e. %b',\n" ;
             echo "minute: '%e. %b',\n" ;
             echo "hour: '%e. %b',\n" ;
             echo "day: '%e. %b',\n" ;
@@ -1229,7 +1229,7 @@ function shn_stat_TP_nnmc_byhour() {
 		echo "',";
 		//echo ",";
 		echo "\n";
-		echo "type: 'area',";
+		echo "type: 'areaspline',";
 		echo "\n";
         echo "data: data\n" ;
         echo "}]\n" ;
@@ -1296,7 +1296,7 @@ function shn_stat_TP_sub_byminute() {
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
          echo "renderTo: 'container',\n" ;
-		 echo "defaultSeriesType: 'areaspline'";
+		 echo "defaultSeriesType: 'areaspline'\n";
       echo "},\n" ;
       echo "title: {\n" ;
          echo "text: 'Arrival Rate by Minute for $shortname'\n" ;
@@ -2187,7 +2187,7 @@ function shn_stat_arrival_byhour_status() {
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id 
-    WHERE c.event_name like '".$shortname."'
+    WHERE (c.event_name like '".$shortname."' and a.source_date like '2011-10-19')
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 	}
@@ -2294,10 +2294,10 @@ function shn_stat_arrival_byhour_status() {
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%I: %M %p',\n" ;
-            echo "minute: '%I: %M %p',\n" ;
-            echo "hour: '%I',\n" ;
-            echo "day: '%e. %b',\n" ;
+            echo "second: '%e. %b %I: %M %p',\n" ;
+            echo "minute: '%e. %b %I: %M %p',\n" ;
+            echo "hour: '%e. %b %I',\n" ;
+            echo "day: '%e. %b %e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
             echo "year: '%Y'\n" ;
@@ -2520,9 +2520,9 @@ function shn_stat_arrival_byminute_status() {
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%I: %M %p',\n" ;
-            echo "minute: '%I: %M %p',\n" ;
-            echo "hour: '%I',\n" ;
+            echo "second: '%e. %b %I: %M %p',\n" ;
+            echo "minute: '%e. %b %I: %M %p',\n" ;
+            echo "hour: '%e. %b %I',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -2747,9 +2747,9 @@ function shn_stat_arrival_byhour_gender() {
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%I: %M %p',\n" ;
-            echo "minute: '%I: %M %p',\n" ;
-            echo "hour: '%I',\n" ;
+            echo "second: '%e. %b %I: %M %p',\n" ;
+            echo "minute: '%e. %b %I: %M %p',\n" ;
+            echo "hour: '%e. %b %I',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -2952,9 +2952,9 @@ function shn_stat_arrival_byhour_age() {
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%I: %M %p',\n" ;
-            echo "minute: '%I: %M %p',\n" ;
-            echo "hour: '%I',\n" ;
+            echo "second: '%e. %b %I: %M %p',\n" ;
+            echo "minute: '%e. %b %I: %M %p',\n" ;
+            echo "hour: '%%e. %b I',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
