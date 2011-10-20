@@ -194,15 +194,6 @@ function shn_eap_findRights() {
 		$global['uuid'] = mysql_real_escape_string($conf['base_uuid'].$_GET['val']);
 	} else {
 		$global['uuid'] = mysql_real_escape_string(base64_decode($_GET['uuid']));
-
-		/*
-		add_confirmation($global['uuid']." <> ".$conf['base_uuid']);
-		if(substr_count($global['uuid'], $conf['base_uuid']) > 0) {
-			add_confirmation("we here.");
-			$goto = str_replace($conf['base_uuid'], "", $global['uuid']);
-			//header("Location: ".$goto);
-		}
-		*/
 	}
 
 	// first and foremost, check if the user has permissions to view the record
@@ -432,6 +423,22 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
 
 
 
+//  at a first save, make the record expire after 1 year... temp hack!
+function updateExpiryDate() {
+	global $global;
+	$e = (date("Y")+1) ."-".date("m-d G:i:s");
+	$q = "
+		UPDATE person_uuid
+		SET expiry_date = '".$e."'
+		WHERE p_uuid = '".$global['uuid']."';
+	";
+	$r = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit update expiry date"); }
+	return $e;
+}
+
+
+
 /**
  * saveContactRevision
  *
@@ -548,7 +555,7 @@ function shn_eap_edit() {
 	if(!$global['permissionToView']) {
 		echo "
 			<h2>Error</h2>
-			You do not have permission to view this record.
+			You do not have permission to view this record or the record does not exist.
 		";
 		return;
 	}
@@ -559,7 +566,8 @@ function shn_eap_edit() {
 		FROM person_uuid
 		WHERE p_uuid = '".$global['uuid']."'
 		AND (expiry_date > NOW()
-		OR expiry_date is null);
+		OR expiry_date is null
+		OR expiry_date = '0000-01-01 00:00:00');
 	";
 	$r   = $global['db']->Execute($q);
 	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 1"); }
@@ -641,7 +649,7 @@ function shn_eap_edit() {
 					<legend>Person Record</legend>
 
 					<label for=\"opt_status\"><b>Full Name</b> </label>
-					<input type=\"text\" value=\"".$full_name."\" id=\"full_name\" size=\"64\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" value=\"".$full_name."\" id=\"full_name\" size=\"64\" class=\"nonedit2 public\" READONLY>
 					<br>
 	";
 
@@ -659,13 +667,13 @@ function shn_eap_edit() {
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 5"); }
 	if($result != NULL && !$result->EOF) {
 		$row = $result->FetchRow();
-		$reporterName = $row['full_name']." << ".$row['user_name']." >>";
+		$reporterName = $row['full_name']." (".$row['user_name'].")";
 		if($row['user_name'] == "mpres") {
 			$reporterName = $row['full_name'];
 		}
 		echo "
-					<label for=\"opt_status\"><b>Reported by << username >></b> </label>
-					<input type=\"text\" value=\"".$reporterName."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<label for=\"opt_status\"><b>Reported by (username)</b> </label>
+					<input type=\"text\" value=\"".$reporterName."\" size=\"64\" class=\"nonedit2 public\" READONLY>
 					<br>
 		";
 	}
@@ -758,7 +766,7 @@ function shn_eap_edit() {
 	if($appTitle != "") {
 		echo "
 					<label for=\"opt_status\"><b>Reported via</b> </label>
-					<input type=\"text\" value=\"".$appTitle."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" value=\"".$appTitle."\" size=\"64\" class=\"nonedit2 public\" READONLY>
 					<br>
 		";
 	}
@@ -788,7 +796,7 @@ function shn_eap_edit() {
 		$did = $row['person_id'];
 		echo "
 					<label><b>Mass Casualty ID</b> </label>
-					<input type=\"text\" value=\"".$did."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" value=\"".$did."\" size=\"64\" class=\"nonedit2 public\" READONLY>
 					<br>
 		";
 
@@ -814,7 +822,7 @@ function shn_eap_edit() {
 	if(preg_match("+".$conf['base_uuid']."+", $global['uuid']) > 0) {
 		echo "
 					<label><b>Origin ID</b> </label>
-					<input type=\"text\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit2 public\" READONLY>
 					<br>
 
 					<label><b>Origin URL</b> </label>
@@ -842,7 +850,7 @@ function shn_eap_edit() {
 		}
 		echo "
 					<label for=\"opt_status\"><b>Origin ID</b> </label>
-					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit public\" READONLY>
+					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit2 public\" READONLY>
 					<br>
 
 					<label for=\"opt_status\"><b>Origin URL</b> </label>
@@ -1024,19 +1032,6 @@ function shn_eap_edit() {
 	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 18"); }
 	$person_status  = $r->FetchRow();
 
-	// check if this is the first save...
-	$q  = "
-		SELECT *
-		FROM person_status
-		WHERE p_uuid = '".$global['uuid']."';
-	";
-	$r = $global['db']->Execute($q);
-	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 18b"); }
-	$checkcheck  = $r->FetchRow();
-	if($checkcheck['last_updated'] == null) {
-		$global['makeStaticPfifNote'] = true;
-	}
-
 	// check for not sets
 	if(!isset($person_status['opt_status'])) {
 		$person_status['opt_status'] = "unk";
@@ -1104,6 +1099,20 @@ function shn_eap_edit() {
 
 		// edit...
 		if((count($_POST) > 0) && isset($_POST['given_name'])) {
+
+			// check if this is the first save...
+			$q  = "
+				SELECT *
+				FROM person_uuid
+				WHERE p_uuid = '".$global['uuid']."';
+			";
+			$r = $global['db']->Execute($q);
+			if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 18b"); }
+			$checkcheck  = $r->FetchRow();
+			if($checkcheck['expiry_date'] == "0000-01-01 00:00:00") {
+				$global['makeStaticPfifNote'] = true;
+				$person_uuid['expiry_date'] = updateExpiryDate();
+			}
 
 			$editGivenName     = trim($_POST['given_name']);
 			$editFamilyName    = trim($_POST['family_name']);
@@ -1234,7 +1243,7 @@ function shn_eap_edit() {
 
 		$date->setTimestamp(strtotime($person_uuid['expiry_date']));
 		$expiry_date =  $date->format('l, F j, Y g:i a T');
-		if($person_uuid['expiry_date'] == null) {
+		if($person_uuid['expiry_date'] == null || $person_uuid['expiry_date'] == "0000-01-01 00:00:00") {
 			$expiry_date = "---";
 		}
 
@@ -1245,22 +1254,34 @@ function shn_eap_edit() {
 			<legend><span class=\"publicText\">Public Information</span></legend>
 
 			<label for=\"opt_status\"><b>Record Created</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$creation_time."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$creation_time."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit2 public\" READONLY>
 			<br>
 
 			<label for=\"opt_status\"><b>Last Updated</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$last_updated."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$last_updated."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit2 public\" READONLY>
 			<br>
 
 			<label for=\"opt_status\"><b>Record Expires</b> </label>
-			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$expiry_date."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$expiry_date."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit2 public\" READONLY>
 			<br>
 			<br>
 		";
-		// if the person was just reported via rap2 (they have no update time... so show new record msg)
-		if($last_updated == "---") {
-			add_confirmation("A new person record has been created. Please fill in as much information as you can about this person and then save the changes.");
-			$global['makeStaticPfifNote'] = false;
+		// if the person was just reported via rap2, creation_time and last_updated are equal, so notify the user...
+		if($person_status['creation_time'] == $person_status['last_updated'] && $global['publicEdit'] == true) {
+			// check if the person was reported via rap2
+			$q = "
+				SELECT count(*)
+				FROM rap_log
+				WHERE p_uuid = '".$global['uuid']."';
+			";
+			$r = $global['db']->Execute($q);
+			if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 23b"); }
+			$row = $r->FetchRow();
+			$count = $row['count(*)'];
+			if($count > 0) {
+				add_confirmation("A new person record has been created. Please fill in as much information as you can about this person and then save the changes.");
+				$global['makeStaticPfifNote'] = false;
+			}
 		}
 
 
@@ -1956,7 +1977,11 @@ function shn_eap_edit() {
 			<a class=\"addthis_button_facebook_like\" fb:like:layout=\"button_count\"></a>
 			<a class=\"addthis_button_tweet\"></a>
 			<a class=\"addthis_button_google_plusone\" g:plusone:size=\"medium\"></a>
+	";
+/*
 			<a class=\"addthis_counter addthis_pill_style\"></a>
+*/
+	echo "
 			</div>
 			<script type=\"text/javascript\" src=\"https://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4e66a6fa46524fa8\"></script>
 		</div>
@@ -2044,7 +2069,7 @@ function shn_eap_edit() {
 		$p->setIncidentId($person_incident['incident_id']);
 		$p->storeNotesInDatabase();
 
-		add_confirmation("PFIF note created.");
+		add_confirmation("Static PFIF Note Created!");
 	}
 }
 

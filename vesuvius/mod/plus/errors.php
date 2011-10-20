@@ -11,13 +11,6 @@
  */
 
 
-/*
-remove below two lines when 1.9.1 is deprecated
-*/
-define("UNDEFINED_HOSPITAL_CODE", 10);
-define("UNDEFINED_HOSPITAL_MSG",  "Undefined Hospital ~ No hospital registered with this id");
-
-
 // define error codes
 define("ERRORCODES", serialize(array(
 	0    => "No error.",
@@ -45,5 +38,8 @@ define("ERRORCODES", serialize(array(
 	403  => "Error parsing XML.",
 	405  => "Event is closed to reporting.",
 	406  => "Invalid event.",
+	407  => "No record associated with this mass casualty ID exists.",
+	408  => "Insufficient permission to revise this record.",
+	9998 => "Function not yet implemented (stub).",
 	9999 => "Unknown error.",
 )));
