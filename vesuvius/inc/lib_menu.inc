@@ -85,8 +85,10 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 	// YAH (yet another hack) to show when the import/export sync is erroring!
 	if($desc == "Import & Export") {
 		require_once($global['approot'].'/mod/pfif/main.inc');
-		if(!shn_pfif_statusGood()) {
+		if(shn_pfif_status_code() == RED) {
 			$desc .= " <span style=\"color: red;\"><b>●</b></span>";
+		} else if (shn_pfif_status_code() == ORANGE) {
+			$desc .= " <span style=\"color: orange;\"><b>●</b></span>";
 		} else {
 			$desc .= " <span style=\"color: green;\"><b>●</b></span>";
 		}
