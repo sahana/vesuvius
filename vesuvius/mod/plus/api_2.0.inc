@@ -562,6 +562,23 @@ function shn_plus_registerAll($namespace) {
 		"Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue."
 	);
 
+	shn_plus_registerOne($server, 'setPersonExpiryDateOneYear',
+		array(
+			'in' => array(
+				'uuid'           => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'queued'         => 'xsd:boolean',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue. The expiry date in this case is updated to exactly one year from the time of the request."
+	);
+
 	shn_plus_registerOne($server, 'getUuidByMassCasualtyId',
 		array(
 			'in' => array(
