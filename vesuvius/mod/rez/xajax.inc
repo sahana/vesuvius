@@ -180,7 +180,7 @@ function rez_show_pages($internal = FALSE) {
 		} else {
 			$evenOddClass = "mainRowOdd";
 		}
-		$htmlMain .= "<tr><td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$page_id."</td><td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"#\" onclick=\"rez_perform_edit(".$page_id.");\">".$menu_title."</a></td>";
+		$htmlMain .= "<tr><td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".abs($page_id)."</td><td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"#\" onclick=\"rez_perform_edit(".$page_id.");\">".$menu_title."</a></td>";
 
 		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_edit(".$page_id.");\" value=\"Edit\"></td>";
 
@@ -425,10 +425,17 @@ function rez_perform_edit($page_id) {
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez edit 1"); }
 	$row = $result->FetchRow();
 
+	if((int)$row['rez_page_id'] < 0) {
+		$sistim = "SYSTEM";
+	} else {
+		$sistim = "";
+	}
+	$pageIdText = $sistim." ". abs($row['rez_page_id']);
+
 	$editMainHtml =
 "<form id=\"editPageForm\" name=\"editPageForm\">
 <table class=\"mainTable\">
-<tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">Page #</td><td class=\"mainRowOdd\"> &nbsp; ".$row['rez_page_id']."</td></tr>
+<tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">Page #</td><td class=\"mainRowOdd\"> &nbsp; <b>".$pageIdText."</b></td></tr>
 <tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">Menu/Page Title</td><td class=\"mainRowEven\"><input name=\"menuTitle\" type=\"text\" id=\"menuTitle\" value=\"".$row['rez_menu_title']."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td></tr>
 <tr><td class=\"mainRowEOdd\" style=\"text-align: center; text-weight: bold;\">Last Modified</td><td class=\"mainRowOdd\"> &nbsp; ".$row['rez_timestamp']."</td></tr>
 </table>
