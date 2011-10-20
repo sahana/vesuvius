@@ -5,6 +5,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 ini_set("display_errors", "stdout");
 
 // Delete all records for an incident. Requires an incident id.
+// Optional: Supply a p_uuid to delete through this record only.
 // 
 // set approot since we don't know it yet
 $global['approot'] = getcwd() . "/../";
@@ -19,20 +20,40 @@ require_once("../inc/lib_locale/gettext.inc");
  -----------------------------------------------------------------------------------------------------------------------
 */
 
-if ($argc < 2) {
-   die("Wrong number of arguments: Expecting an incident ID.\n");
+if ($argc < 2 || $argc > 3) {
+   die("Wrong number of arguments: Expecting an incident ID and optional max p_uuid.\n");
 }
 $incident_id = $argv[1];
+$max_p_uuid = $argv[2];
 
 print "Beginning cleanup at " . strftime("%c") . "\n";
 print "Using db " . $global['db']->database . "\n";
 $webroot = $global['approot'] . "www/";
 
-print "Prune of $incident_id has begun.\n";
+$limit_prune = (empty($max_p_uuid))? '':"up through record $max_p_uuid ";
+print "Prune of $incident_id ".$limit_prune."has begun.\n";
 
-// Delete all records for this incident.
-// Get all missing persons (but not their reporters).
-$sql = "SELECT pu.p_uuid FROM person_uuid pu WHERE pu.incident_id=$incident_id";
+// Person_status table provides strict chronological ordering. Fetch person_status.status_id for this p_uuid.
+if (!empty($max_p_uuid)) {
+   $sql = "SELECT status_id FROM person_status WHERE p_uuid = '".$max_p_uuid."'";
+   $result = $global['db']->GetRow($sql);
+   if ($result === false) {
+      $errchk = $global['db']->ErrorMsg();
+      die("Database error: ".$errchk."\n");
+   } else if (count($result) == 0) {
+      die("Incorrect person ID: '$max_p_uuid'!\n");
+   }
+}
+$status_id = $result['status_id'];
+
+// Do deletions.
+
+// Get all missing persons for this incident (but not their reporters).
+$status_check = empty($max_p_uuid)? '':"AND ps.status_id <= $status_id";
+$sql = "SELECT pu.p_uuid FROM person_uuid pu, person_status ps WHERE " . 
+       "pu.incident_id=$incident_id " .
+       "AND ps.p_uuid = pu.p_uuid " . 
+       $status_check;
 $p_uuids = $global['db']->GetCol($sql);
 if($p_uuids === false) {
    $errchk = $global['db']->ErrorMsg();
@@ -70,7 +91,7 @@ foreach ($p_uuids as $p_uuid) {
       //die("Error calling delete_pfif_person for this incident: ".$errchk);
       error_log("Error calling delete_person for this incident: ".$errchk);
    }
-   //print "Deleted '$p_uuid'\n";
+   print "Deleted '$p_uuid'\n";
 }
 print count($p_uuids)." persons deleted from incident $incident_id.\n";
 
