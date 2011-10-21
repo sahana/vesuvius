@@ -1,7 +1,7 @@
 <?php
 /**
  * @name         Statistics
- * @version      0.1
+ * @version      0.2
  * @package      stat
  * @author       Lan Ngoc Le <lale@mail.nih.gov>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
@@ -30,167 +30,27 @@ function shn_stat_menu() {
 		echo "People Statistics for $shortname:\n";
 		echo "\n";
 		echo "Please select from the links below for avalailable statistics:\n";
-
-		if ($shortname=="new"){
-		echo "
-		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">Status Statistics for Capital Shield 2012</a></li>
-			<li><a href=\"index.php?mod=stat&act=gender\">Gender Statistics for Capital Shield 2012</a></li>
-			<li><a href=\"index.php?mod=stat&act=age\">Age Statistics for Capital Shield 2012</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour for Capital Shield 2012</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital for Capital Shield 2012</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status for Capital Shield 2012</a></li>	
-			<li><a href=\"index.php?mod=stat&act=arrival_byminute_status\">Arrival Rate by Minute Combined with Status for Capital Shield 2012</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender for Capital Shield 2012</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with Age for Capital Shield 2012</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">TriagePic Zone Status on Arrival for Capital Shield 2012</a></li>
-
-		</ul>
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		";
-		};
-		if ($shortname=="testttp"){
-		echo "
-		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">Status Statistics </a></li>
-			<li><a href=\"index.php?mod=stat&act=gender\">Gender Statistics </a></li>
-			<li><a href=\"index.php?mod=stat&act=age\">Age Statistics for Capital Shield 2012</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>	
-			<li><a href=\"index.php?mod=stat&act=arrival_byminute_status\">Arrival Rate by Minute Combined with Status</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">TriagePic Zone Status on Arrival</a></li>
-
-		</ul>
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		";
-		};
-		if ($shortname=="cmax2010"){
+		
 		echo "
 		<ul>
 			<li><a href=\"index.php?mod=stat&act=status\">Status Statistics</a></li>
 			<li><a href=\"index.php?mod=stat&act=gender\">Gender Statistics</a></li>
 			<li><a href=\"index.php?mod=stat&act=age\">Age Statistics</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_bydate\">Arrival Rate by Date</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour\">Arrival Rate by Hour</a></li>	
+			<li><a href=\"index.php?mod=stat&act=arrival_byminute\">Arrival Rate by Minute</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">TriagePic Arrival Rate by Hour</a></li>
+			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">TriagePic Arrival Rate by Minute</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>	
 			<li><a href=\"index.php?mod=stat&act=arrival_byminute_status\">Arrival Rate by Minute Combined with Status</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with Age</a></li>
 			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">TriagePic Zone Status on Arrival</a></li>
-
 		</ul>
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		";
-		};
-		if ($shortname=="sendai2011"){
-		echo "
-		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">PL Status Statistics for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_bydate\">Arrival Rate by Date</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour\">Arrival Rate by Hour (zoomable)</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_bydate_status\">Arrival Rate by Date Combined with Status</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with with Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with with Status</a></li>
-		</ul>
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		";
-		};
-		if ($shortname=="hepl"){
-		echo "
-		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">PL Status Statistics for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_bydate\">Arrival by Date</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour\">Arrival by Hour (zoomable) </a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_bydate_status\">Arrival Rate by Date Combined with Status</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with with Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with with Status</a></li>
-		</ul>
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		";
-		};
-		if($shortname=="joplin"){
-		echo "
-		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">Status</a></li>
-			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
-		</ul>
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		";
-		};
-		if($shortname=="colombia2011"){
-		echo "
-		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">PL Status Statistics for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
-		</ul>
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		";
-		};
-		if($shortname=="test"){
-		echo "
-		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">PL Status Statistics for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with with Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">Status by Hour at Suburban Hospital</a></li>
-		</ul>
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		";
-		};
-		if($shortname=="testtp"){
-		echo "
-		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">PL Status Statistics for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">Arrival Rate by Hour at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">Arrival Rate by Minute at Suburban Hospital</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with with Age</a></li>
-			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">Status by Hour at Suburban Hospital</a></li>
-		</ul>
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		";
-		};
-		if($shortname=="lisbon"){
-		echo "
-		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">PL Status Statistics for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=gender\">Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=age\">Age</a></li>
-		</ul>
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		";
-		};
-		if($shortname=="christchurch"){
-		echo "
-		<ul>
-			<li><a href=\"index.php?mod=stat&act=status\">PL Status Statistics for $shortname</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_bydate\">Arrival Rate by Date</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour\">Arrival Rate by Hour (zoomable)</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_bydate_status\">Arrival Rate by Date Combined with Status</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_bydate_gender\">Arrival Rate by Date Combined with Gender</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour  Combined with with Gender</a></li>
-		</ul>
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		";
-		};
-		}
+		";		
+		}		
+		
 /**
  * the default module action...
  * @access public
@@ -198,10 +58,16 @@ function shn_stat_menu() {
  */
 function shn_stat_default() {
 	global $global;
-	shn_stat_menu();
-	//echo "People Statistics for  ";
-	//echo $_GET['shortname'];
+	shn_stat_menu();	
 }
+/************************
+* Disable a link function
+*************************/
+//function disableLink(e) {
+    //// cancels the event
+    //e.preventDefault();
+    //return false;
+//}
 
 /**********************
  * the status action...
@@ -246,78 +112,64 @@ function shn_stat_status() {
 	echo "<script type=\"text/javascript\">\n" ;
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
-		echo "chart: {";
-			echo "renderTo: 'container',\n" ;
-			echo "defaultSeriesType: 'column'\n" ;
-				echo "},\n" ;
-		echo "title: {\n" ;
-			echo "text: 'Status Statistics for $shortname'\n" ;
-			
-			echo "},\n" ;
-		echo "subtitle: {\n" ;
-			echo "text: ''\n" ;
-					echo "},\n" ;
-		echo "xAxis: {\n" ;
-			echo "categories: ['". $json_opt_status;
+      echo "chart: {\n" ;
+         echo "renderTo: 'container',\n" ;
+         echo "defaultSeriesType: 'column'\n" ;
+      echo "},\n" ;
+      echo "title: {\n" ;
+         echo "text: 'Status Statistics for $shortname'\n" ;
+      echo "},\n" ;
+      echo "subtitle: {\n" ;
+         echo "text: ''\n" ;
+      echo "},\n" ;
+      echo "xAxis: {\n" ;
+        echo "title: {\n" ;
+            echo "text: 'Status'\n" ;
+         echo "},\n" ;
+		echo "categories: ['". $json_opt_status;
 			echo "'], \n";
-			echo "style: {\n" ;
-                    echo "color: '#6D869F',\n" ;
-                    echo "fontWeight: 'bold'\n" ;
+      	echo "style: {\n" ;
+                              echo "color: '#6D869F',\n" ;
+                              echo "fontWeight: 'bold'\n" ;
                   echo "}\n" ;
-				echo "}\n" ;
-			echo ",\n" ;
-		echo "yAxis: {\n" ;
-			echo "min: 0,\n" ;
-			echo "title: {\n" ;
-				echo "text: 'People Count'\n" ;
-					echo "}\n" ;
-				echo "},\n" ;
-		echo "legend: {\n" ;
-			echo "layout: 'vertical',\n" ;
-			echo "backgroundColor: '#FFFFFF',\n" ;			
-            echo "},\n" ;
-		/*
-		echo "tooltip {\n" ;
-			echo "formatter: function() {\n" ;
+	echo "},\n" ;
+      echo "yAxis: {\n" ;
+         echo "min: 0,\n" ;
+         echo "title: {\n" ;
+            echo "text: 'People Count'\n" ;
+         echo "},\n" ;
+	echo "minPadding: 0.01,\n" ;
+        echo "maxPadding: 0.01\n" ;
+      echo "},\n" ;
+      echo "legend: {\n" ;
+         echo "layout: 'vertical',\n" ;
+         echo "backgroundColor: '#FFFFFF',\n" ;      
+		 echo "},\n" ;
+      echo "tooltip: {\n" ;
+         echo "formatter: function() {\n" ;
             echo "return ''+\n" ;
-				echo "this.x +': '+ this.y +' people';\n" ;
-								echo "}\n" ;
-				echo "},\n" ;
-		*/
-		echo " plotOptions: {\n" ;
-			echo "column: {\n" ;
-            echo "pointPadding: 0.2,\n" ;
+               //echo "this.x +': years old'+ this.y +'count';\n" ;
+			   echo "this.x + ': ' + this.y +'';\n" ;
+         echo "}\n" ;
+      echo "},\n" ;
+      echo "plotOptions: {\n" ;
+         echo "column: {\n" ;
+            echo "pointPadding: 0.1,\n" ;
             echo "borderWidth: 0\n" ;
-					echo "}\n" ;
-					echo "},\n" ;
-        echo "series: {\n" ;
-            echo "events: {\n" ;
-                echo " show: (function() {\n" ;
-                    echo "var chart = this.chart,\n" ;
-                    echo "series = chart.series,\n" ;
-                    echo "i = series.length,\n" ;
-                    echo "otherSeries;\n" ;
-                    echo "while(i--) {\n" ;
-                        echo "otherSeries = series[i];\n" ;
-                        echo " if (otherSeries != this && otherSeries.visible) {\n" ;
-                            echo "otherSeries.hide();\n" ;
-                              echo "}\n" ;
-							echo "}\n" ;
-						echo "})\n" ;
-                   echo "}\n" ;
-
-            echo "},\n" ;
-		echo "series: [{\n" ;
-			echo "name: '". $shortname;
-			echo "'";
-			echo ",\n";
-			echo "data: [". $json_count_opt_status;
-			echo "]";
-			echo "\n}]\n" ;
-			echo "});\n" ;
-	echo "});\n" ;
-	echo "</script>\n" ;
+         echo "}\n" ;
+      echo "},\n" ;
+	echo "series: [{\n" ;
+		echo "name: '". $shortname;
+		echo "'";
+		echo ",\n";
+		echo "data: [". $json_count_opt_status;
+		 echo "]";
+      	    echo "\n}]\n" ;
+         echo "});\n" ;
+   echo "});\n" ;
+echo "</script>\n" ;
 }
+
 /*******************
 * The gender action
 *******************/
@@ -358,81 +210,68 @@ function shn_stat_gender() {
 	$json_opt_gender = implode("','",$json_opt_gender);
 	$json_count_gender = implode(",", $json_count_gender);
 	
-	
 	echo $json_count_gender;
 	echo "<script type=\"text/javascript\"> \n" ;
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
-		echo "chart: {";
-			echo "renderTo: 'container',\n" ;
-			echo "defaultSeriesType: 'column'\n" ;
-				echo "},\n" ;
-		echo "title: {\n" ;
-			echo "text: 'Gender Statistics for $shortname'\n" ;
-			echo "},\n" ;
-		echo "subtitle: {\n" ;
-			echo "text: ''\n" ;
-					echo "},\n" ;
-		echo "xAxis: {\n" ;
-			echo "categories: ['". $json_opt_gender;
+      echo "chart: {\n" ;
+         echo "renderTo: 'container',\n" ;
+         echo "defaultSeriesType: 'column'\n" ;
+      echo "},\n" ;
+      echo "title: {\n" ;
+         echo "text: 'Gender Statistics for $shortname'\n" ;
+      echo "},\n" ;
+      echo "subtitle: {\n" ;
+         echo "text: ''\n" ;
+      echo "},\n" ;
+      echo "xAxis: {\n" ;
+        echo "title: {\n" ;
+            echo "text: 'Age Range'\n" ;
+         echo "},\n" ;
+		echo "categories: ['". $json_opt_gender;
 			echo "'], \n";
-			echo "style: {\n" ;
-                    echo "color: '#6D869F',\n" ;
-                    echo "fontWeight: 'bold'\n" ;
+      	echo "style: {\n" ;
+                              echo "color: '#6D869F',\n" ;
+                              echo "fontWeight: 'bold'\n" ;
                   echo "}\n" ;
-				echo "}\n" ;
-			echo ",\n" ;
-		echo "yAxis: {\n" ;
-			echo "min: 0,\n" ;
-			echo "title: {\n" ;
-				echo "text: 'People Count'\n" ;
-					echo "}\n" ;
-				echo "},\n" ;
-		echo "legend: {\n" ;
-			echo "layout: 'vertical',\n" ;
-			echo "backgroundColor: '#FFFFFF',\n" ;
-            echo "},\n" ;
-
-		/*echo "tooltip {\n" ;
-			echo "formatter: function() {\n" ;
+	echo "},\n" ;
+      echo "yAxis: {\n" ;
+         echo "min: 0,\n" ;
+         echo "title: {\n" ;
+            echo "text: 'People Count'\n" ;
+         echo "},\n" ;
+	echo "minPadding: 0.01,\n" ;
+        echo "maxPadding: 0.01\n" ;
+      echo "},\n" ;
+      echo "legend: {\n" ;
+         echo "layout: 'vertical',\n" ;
+         echo "backgroundColor: '#FFFFFF',\n" ;      
+		 echo "},\n" ;
+      echo "tooltip: {\n" ;
+         echo "formatter: function() {\n" ;
             echo "return ''+\n" ;
-				echo "this.x +': '+ this.y +' people';\n" ;
-								echo "}\n" ;
-				echo "},\n" ;
-		*/
-		echo " plotOptions: {\n" ;
-			echo "column: {\n" ;
-            echo "pointPadding: 0.2,\n" ;
+               //echo "this.x +': years old'+ this.y +'count';\n" ;
+			   echo "this.x + ': ' + this.y +'';\n" ;
+         echo "}\n" ;
+      echo "},\n" ;
+      echo "plotOptions: {\n" ;
+         echo "column: {\n" ;
+            echo "pointPadding: 0.1,\n" ;
             echo "borderWidth: 0\n" ;
-					echo "}\n" ;
-					echo "},\n" ;
-        echo "series: {\n" ;
-            echo "events: {\n" ;
-                echo " show: (function() {\n" ;
-                    echo "var chart = this.chart,\n" ;
-                    echo "series = chart.series,\n" ;
-                    echo "i = series.length,\n" ;
-                    echo "otherSeries;\n" ;
-                    echo "while(i--) {\n" ;
-                        echo "otherSeries = series[i];\n" ;
-                        echo " if (otherSeries != this && otherSeries.visible) {\n" ;
-                            echo "otherSeries.hide();\n" ;
-                              echo "}\n" ;
-							echo "}\n" ;
-						echo "})\n" ;
-                   echo "}\n" ;
-                echo "},\n" ;
-		echo "series: [{\n" ;
-			echo "name: '". $shortname;
-			echo "'";
-			echo ",\n";
-			echo "data: [". $json_count_gender;
-			echo "]";
-			echo "\n}]\n" ;
-			echo "});\n" ;
-	echo "});\n" ;
-	echo "</script>\n" ;
+         echo "}\n" ;
+      echo "},\n" ;
+	echo "series: [{\n" ;
+		echo "name: '". $shortname;
+		echo "'";
+		echo ",\n";
+		echo "data: [". $json_count_gender;
+		 echo "]";
+      	    echo "\n}]\n" ;
+         echo "});\n" ;
+   echo "});\n" ;
+echo "</script>\n" ;
 }
+
 /***********************************************************
 The report rate by date for sendai, christchurch & hepl only
 ***********************************************************/
@@ -560,7 +399,7 @@ echo "</script>\n" ;
 }
 /********************************************
 * Arrival Rate by Hour
-* For cmax2011, sendai2011, hepl and christchurch event
+* For sendai2011, hepl and christchurch event
 *********************************************/
 function shn_stat_arrival_byhour() {
 	global $global;
@@ -594,6 +433,7 @@ function shn_stat_arrival_byhour() {
 	where (c.shortname like '".$shortname."' and a.source_date >'2011-02-20')
 	GROUP BY DATE(source_date),HOUR(source_date) order by DATE(source_date),HOUR(source_date)";
 	}
+	
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 
@@ -717,7 +557,166 @@ function shn_stat_arrival_byhour() {
 echo "});\n" ;
 echo "</script>\n" ;
 }
+/********************************************
+* Arrival Rate by Hour
+* For sendai2011, hepl and christchurch event
+*********************************************/
+function shn_stat_arrival_byminute() {
+	global $global;
+	shn_stat_menu();
+	echo "People Statistics for  ";
+	echo $_GET['shortname'];
+	$shortname = $_GET['shortname'];
+	
+	//for sendai2011, add 'a.source_date >'2011-01-01'' in the where filter
+	
+	if($shortname=="sendai2011") {
+	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id
+	where (c.shortname like '".$shortname."' and a.source_date >'2011-01-01')
+	GROUP BY DATE(source_date), HOUR(source_date) order by DATE(source_date), HOUR(source_date), MINUTE(source_date)";
+	}
+	//for hepl
+	if($shortname=="hepl") {
+	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id
+	where (c.shortname like '".$shortname."' and a.source_date >'2010-01-11')
+	GROUP BY DATE(source_date),HOUR(source_date) order by DATE(source_date),HOUR(source_date),MINUTE(source_date)";
+	}
+	//for christchurch
+	if($shortname=="christchurch") {
+	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id
+	where (c.shortname like '".$shortname."' and a.source_date >'2011-02-20')
+	GROUP BY DATE(source_date),HOUR(source_date) order by DATE(source_date),HOUR(source_date),MINUTE(source_date)";
+	}
+	
+	$res = $global['db']->Execute($q);
+	$row = $res->FetchRow();
 
+	if($row === FALSE) {
+    	die(mysql_error());
+	}
+
+	$json_source_date = array();
+	$json_count_source_date = array();
+	do{
+		$source_date[] = (strtotime($row['source_date'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_source_date, $row['source_date']);
+		$count_source_date[] = $row['count_source_date'];
+		array_push($json_count_source_date, $row['count_source_date']);
+		}
+
+	while($row = $res->FetchRow());
+	echo json_encode($count_source_date);
+	echo json_encode($source_date);
+	?>
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
+	<?php
+	$shortname = $_GET['shortname'];
+	echo "\n";
+	$json_source_date = implode("','",$json_source_date);
+	$json_count_source_date = implode(",", $json_count_source_date);
+	echo json_encode($source_date);
+	echo json_encode($count_source_date);
+	echo "\n";
+
+	echo "<script type=\"text/javascript\">\n";
+		echo "\n";
+		echo "var points = [$json_count_source_date],\n";
+		echo "dates = " .json_encode($source_date);
+		echo ",\n";
+		echo "i, data = [], chart;";
+		echo "\n";
+		echo "for(i=0; i<points.length; i++) {\n";
+			echo "data.push([dates[i], points[i]]);\n";
+			echo "}\n";
+
+	echo "\$(document).ready(function() {\n" ;
+	echo "chart = new Highcharts.Chart({\n" ;
+      echo "chart: {\n" ;
+         echo "renderTo: 'container',\n" ;
+		 echo "zoomType: 'x',\n";
+      echo "},\n" ;
+      echo "title: {\n" ;
+         echo "text: 'Arrival Rate by Minute for $shortname'\n" ;
+      echo "},\n" ;
+	  echo "subtitle: {\n";
+         echo "text: document.ontouchstart === undefined ?\n";
+            echo "'Click and drag in the plot area to zoom in' :\n";
+            echo "'Drag your finger over the plot to zoom in'\n";
+      echo "},\n";
+      echo "xAxis: {\n" ;
+         echo "type: 'datetime',\n" ;
+		 echo "maxZoom:  3600000,\n";
+         echo "dateTimeLabelFormats: {\n" ;
+            echo "second: '%I:%M %p',\n" ;
+            echo "minute: '%I:%M %p',\n" ;
+            echo "hour: '%I:%M %p',\n" ;
+            echo "day: '%b %e',\n" ;
+            echo "week: '%b %e',\n" ;
+            echo "month: '%b %e',\n" ;
+            echo "year: '%b %e'\n" ;
+         echo "}\n" ;
+     echo "},\n" ;
+    echo "yAxis: {\n";
+			echo "title: {\n";
+            echo "text: 'Count of Persons Reported'\n";
+					echo "},\n";
+			echo "min: 0.6,\n";
+			echo "startOnTick: true,\n";
+			echo "showFirstLabel: true\n";
+				echo "},\n";
+		echo "tooltip: {\n";
+			echo "shared: true\n";
+				echo "},\n";
+		echo "legend: {\n";
+			echo "enabled: false\n";
+				echo "},\n";
+		echo "plotOptions: {\n";
+			echo "area: {\n";
+            echo "fillColor: {\n";
+               echo "linearGradient: [0, 0, 0, 300],\n";
+               echo "stops: [\n";
+                  echo "[0, Highcharts.getOptions().colors[1]],\n";
+                  echo "[1, 'rgba(2,0,0,0)']\n";
+               echo "]\n";
+            echo "},\n";
+
+            echo "lineWidth: 1,\n";
+            echo "marker: {\n";
+				echo "enabled: false,\n";
+				echo "states: {\n";
+					echo "hover: {\n";
+						echo "enabled: true,\n";
+						echo "radius: 1\n";
+							echo "}\n";
+						echo "}\n";
+					echo "},\n";
+            echo "shadow: false,\n";
+            echo "states: {\n";
+				echo "hover: {\n";
+					echo "lineWidth: 1\n";
+						echo "}\n";
+					echo "}\n";
+         echo "}\n";
+      echo "},\n";
+     echo "series: [{\n" ;
+        echo "name: '". $shortname;
+		echo "'";
+		echo ",\n";
+		echo "type: 'line',\n" ;
+         echo "data: data\n" ;
+
+        echo "}]\n" ;
+   echo "});\n" ;
+echo "});\n" ;
+echo "</script>\n" ;
+}
 /** The expiry rate for JP
 *** @access public
 *** @return void
@@ -1082,9 +1081,9 @@ function shn_stat_TP_sub_byhour() {
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b',\n" ;
-            echo "minute: '%e. %b',\n" ;
-            echo "hour: '%e. %b',\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I: %M %p',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -1304,9 +1303,9 @@ function shn_stat_TP_sub_byminute() {
       echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b',\n" ;
-            echo "minute: '%e. %b',\n" ;
-            echo "hour: '%e. %b',\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I: %M %p',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -2073,7 +2072,7 @@ function shn_stat_arrival_bydate_status() {
          echo "dateTimeLabelFormats: {\n" ;
             echo "second: '%I: %M %p',\n" ;
             echo "minute: '%I: %M %p',\n" ;
-            echo "hour: '%I',\n" ;
+            echo "hour: '%I: %M %p',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -2294,10 +2293,10 @@ function shn_stat_arrival_byhour_status() {
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b %I: %M %p',\n" ;
-            echo "minute: '%e. %b %I: %M %p',\n" ;
-            echo "hour: '%e. %b %I',\n" ;
-            echo "day: '%e. %b %e. %b',\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I: %M %p',\n" ;
+            echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
             echo "year: '%Y'\n" ;
@@ -2520,9 +2519,9 @@ function shn_stat_arrival_byminute_status() {
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b %I: %M %p',\n" ;
-            echo "minute: '%e. %b %I: %M %p',\n" ;
-            echo "hour: '%e. %b %I',\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I: %M %p',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -2747,9 +2746,9 @@ function shn_stat_arrival_byhour_gender() {
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b %I: %M %p',\n" ;
-            echo "minute: '%e. %b %I: %M %p',\n" ;
-            echo "hour: '%e. %b %I',\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I: %M %p',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
@@ -2952,9 +2951,9 @@ function shn_stat_arrival_byhour_age() {
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
          echo "dateTimeLabelFormats: {\n" ;
-            echo "second: '%e. %b %I: %M %p',\n" ;
-            echo "minute: '%e. %b %I: %M %p',\n" ;
-            echo "hour: '%%e. %b I',\n" ;
+            echo "second: '%I: %M %p',\n" ;
+            echo "minute: '%I: %M %p',\n" ;
+            echo "hour: '%I: %M %p',\n" ;
             echo "day: '%e. %b',\n" ;
             echo "week: '%e. %b',\n" ;
             echo "month: '%b \'%y',\n" ;
