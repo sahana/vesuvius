@@ -447,11 +447,11 @@ div#footer hr {display: none;}
 #blueBack {
 	margin: 0px;
 	height: 18px;
-	background-image: -webkit-linear-gradient(top, rgba(127,127,127,0.2), rgba(127,127,127,0));
-	background-image:    -moz-linear-gradient(top, rgba(127,127,127,0.2), rgba(127,127,127,0));
-	background-image:     -ms-linear-gradient(top, rgba(127,127,127,0.2), rgba(127,127,127,0));
-	background-image:      -o-linear-gradient(top, rgba(127,127,127,0.2), rgba(127,127,127,0));
-	background-image:         linear-gradient(top, rgba(127,127,127,0.2), rgba(127,127,127,0));
+	background-image: -webkit-linear-gradient(top, rgba(98,137,192,0.3), rgba(98,137,192,0));
+	background-image:    -moz-linear-gradient(top, rgba(98,137,192,0.3), rgba(98,137,192,0));
+	background-image:     -ms-linear-gradient(top, rgba(98,137,192,0.3), rgba(98,137,192,0));
+	background-image:      -o-linear-gradient(top, rgba(98,137,192,0.3), rgba(98,137,192,0));
+	background-image:         linear-gradient(top, rgba(98,137,192,0.3), rgba(98,137,192,0));
 	border-top: 1px solid #aaa;
 }
 #disasterList, #locale { height: 20px; border: 1px solid #6289b0; }
