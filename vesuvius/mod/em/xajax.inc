@@ -820,7 +820,7 @@ function em_perform_new() {
 			(".$newId.", null, null, 'new event ".$random."', 'x".$random."', '".date("Y-m-d")."', 'TEST', '39', '-77.101', '".$group."', '0');
 	";
 	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 4 (".$q.")"); }
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 4"); }
 
 
         // insert new Google repositories for import/export
