@@ -819,7 +819,7 @@ function em_perform_new() {
 			(".$newId.", null, null, 'new event', 'new', '".date("Y-m-d")."', 'TEST', '39', '-77.101', '".$group."', '0');
 	";
 	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 3b"); }
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 4"); }
 
 
         // insert new Google repositories for import/export
@@ -828,19 +828,19 @@ function em_perform_new() {
 		VALUES ('googlexxx','source','person',".$newId.");
 	";
 	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 3"); }
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 5"); }
 	$q = "
 		INSERT INTO pfif_repository (name,role,resource_type,incident_id)
 		VALUES ('googlexxx','source','note',".$newId.");
 	";
 	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 4"); }
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 6"); }
 	$q = "
 		INSERT INTO pfif_repository (name,role,resource_type,incident_id)
 		VALUES ('googlexxx','sink','both',".$newId.");
 	";
 	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 5"); }
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 7"); }
 
 	return $newId;
 }
