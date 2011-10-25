@@ -28,19 +28,19 @@ function shn_pfif_menu() {
         $text = "Import from PFIF File";
         if (isset($_GET['act']) && $_GET['act'] == "import") {
 	   echo "<li><b>$text</b></li>";
-        } else { 
+        } else {
 	   echo "<li><a href=\"index.php?mod=pfif&act=import\">$text</a></li>";
         }
         $text = "Export to PFIF File";
         if (isset($_GET['act']) && $_GET['act'] == "export") {
 	   echo "<li><b>$text</b></li>";
-        } else { 
+        } else {
 	   echo "<li><a href=\"index.php?mod=pfif&act=export\">$text</a></li>";
         }
         $text = "View PFIF Service Status";
         if (isset($_GET['act']) && $_GET['act'] == "status") {
 	   echo "<li><b>$text</b></li>";
-        } else { 
+        } else {
 	   echo "<li><a href=\"index.php?mod=pfif&act=status\">$text</a></li>";
         }
 	echo "</ul>";
@@ -158,15 +158,15 @@ function shn_pfif_export() {
     echo "<br><div class='brake'></div>";
     $extra_opts['br'] = false;
     shn_form_text(_t('Start date'),'since','',$extra_opts);
-    echo "<img src=\"res/datetimepicker/cal.gif\" 
-          onclick=\"javascript:NewCssCal('since','yyyyMMdd','arrow',true,24,true,'past')\" 
-          style=\"cursor:pointer\"/>"; 
+    echo "<img src=\"res/datetimepicker/cal.gif\"
+          onclick=\"javascript:NewCssCal('since','yyyyMMdd','arrow',true,24,true,'past')\"
+          style=\"cursor:pointer\"/>";
     echo "<br><div class='brake'></div>";
     $extra_opts['br'] = false;
     shn_form_text(_t('End date'),'before','',$extra_opts);
-    echo "<img src=\"res/datetimepicker/cal.gif\" 
-          onclick=\"javascript:NewCssCal('before','yyyyMMdd','arrow',true,24,true,'past')\" 
-          style=\"cursor:pointer\"/>"; 
+    echo "<img src=\"res/datetimepicker/cal.gif\"
+          onclick=\"javascript:NewCssCal('before','yyyyMMdd','arrow',true,24,true,'past')\"
+          style=\"cursor:pointer\"/>";
     echo "<br><div class='brake'></div>";
     shn_form_checkbox(_t('Records originating in PL only'),'original');
     shn_form_hidden(array('filename'=>'export.xml','download'=>'download'));
@@ -182,16 +182,22 @@ function shn_pfif_export() {
  */
 function shn_pfif_status_code() {
    global $global, $deltaOut;
-   define('RED', 0);
-   define('ORANGE', 1);
-   define('GREEN', 2);
+   if(!defined('RED')) {
+      define('RED', 0);
+   }
+   if(!defined('ORANGE')) {
+      define('ORANGE', 1);
+   }
+   if(!defined('GREEN')) {
+      define('GREEN', 2);
+   }
 
    $export_out = "/pl/tmp/pfif_logs/import.out";
    $import_out = "/pl/tmp/pfif_logs/import.out";
    $import_err = "/pl/tmp/pfif_logs/import.err";
    $export_err = "/pl/tmp/pfif_logs/export.err";
 
-   // Check both output files to make sure they are getting updated. 
+   // Check both output files to make sure they are getting updated.
    $lastImportOut = filemtime($import_out);
    $lastExportOut = filemtime($export_out);
    // we are interested in the number of seconds since the oldest timestamp.
@@ -202,7 +208,7 @@ function shn_pfif_status_code() {
    // Check for non-zero-size error file.
    $errors = filesize($export_err)!=0 || filesize($import_err)!=0;
 
-   // Check both error files to make sure they aren't recently updated. 
+   // Check both error files to make sure they aren't recently updated.
    // (If errors only occur intermittantly, we treat it as a warning.)
    $lastImportErr = filemtime($import_err);
    $lastExportErr = filemtime($export_err);
@@ -279,9 +285,9 @@ function shn_pfif_status() {
             } else {
                     $odd = "class=\"evener\"";
             }
-            if ($row['resource_type']=='person' || $row['resource_type']=='both') { 
+            if ($row['resource_type']=='person' || $row['resource_type']=='both') {
                $total = $row['total_persons'];
-            } else { 
+            } else {
                $total = $row['total_notes'];
             }
             echo "  <tr>
@@ -371,7 +377,7 @@ function shn_xml_pfif_export() {
     $original = isset($_POST['original']) ? true : false;
     $pfif->loadFromDatabase($_POST['since'], $_POST['before']);
     if ($original) {
-       // Export only original records. 
+       // Export only original records.
        $xml = $pfif->storeInXML(false, $original);
     } else {
        $xml = $pfif->storeInXML();
@@ -385,7 +391,7 @@ function shn_xml_pfif_export() {
 }
 
 /**
- * Stream PFIF in raw xml format. 
+ * Stream PFIF in raw xml format.
  * Used for URL-type feeds. Accepts Google-style params min_entry_date, max_results, and skip.
  * Exports all records (not just original ones).
  * @access public
