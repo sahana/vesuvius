@@ -3,6 +3,12 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
 
+2011:1025 Leif
+--------------
+
+ALTER TABLE `pl`.`person_status` DROP INDEX `p_uuid` ,
+ADD UNIQUE `p_uuid` ( `p_uuid` )
+
 2011:1025 Greg
 --------------
 
@@ -11,11 +17,6 @@ CREATE TABLE `incident_seq` (
   PRIMARY KEY  (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
-
-2011:1024 Leif
---------------
-
-ALTER TABLE  `person_status` DROP INDEX  `p_uuid` , ADD UNIQUE  `p_uuid` (  `p_uuid` ) ;
 
 2011:1004 Greg
 --------------

@@ -135,13 +135,12 @@ function inw_hasNextPage($mode, $incident, $searchTerm, $sStatus, $sGender, $sAg
 	else {
 		$global["xajax_res"]->addAssign("jsonHolder", "value", "");
 		$global["xajax_res"]->addAssign("SOLRFacets", "value", json_encode($search->SOLRfacetResults));
-		//$global["xajax_res"]->addScript("recordsFound", "innerHTML", "0");  //ugh... i hate xajax...
 		$global["xajax_res"]->addScript("Globals.totalResults = 0; $('#recordsFound').html('0');");
 		$global["xajax_res"]->addAssign("totalRecordsSQL", "innerHTML", $search->allCount);
 		$global["xajax_res"]->addAssign("totalRecordsSOLR", "innerHTML", $search->allCount);
 		if ( $mode == "solr" )
 			$global["xajax_res"]->addScript("Globals.totalRecords = " . $search->allCount . ";");
-		$global["xajax_res"]->addScript("$('#scrollingContent').html('');showFacets();$('#pager').hide();$('#perPageWrapper').hide()");
+		$global["xajax_res"]->addScript("showFacets();$('#pager').hide();$('#pager2').hide();$('#perPageWrapper').hide()");
 		$global["xajax_res"]->addAssign("scrolling_content", "innerHTML", "<br /><span style='color:red'>No matches for '" . $searchTerm . "'. Please broaden your search criteria and try again.</span>");
 		//$global["xajax_res"]->addAssign("scrolling_content", "innerHTML", $searchTerm);
 	}
