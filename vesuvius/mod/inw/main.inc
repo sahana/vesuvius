@@ -170,7 +170,6 @@ function shn_inw_default() {
 			</select>
 		</div>
 		<div id="pager" style="display:none;float:left;margin-right:25px;margin-top:5px;"></div>
-
 		<div style="clear:both;" id="beforeScrollingContent"></div> <!-- for IE -->
 		<div id="scrolling_content">
 			<ul>
@@ -181,6 +180,7 @@ function shn_inw_default() {
 			</ul>
 
 		</div>
+		<div id="pager2" style="display:none;float:left;margin-right:25px;margin-top:5px;"></div>
 		<div id="detailsPane">
 			<div id="dt_eapLink" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">See more information about this person (full record)</a></div>
 			<div id="close" onclick="Utils.closeDetail();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Close</a></div>
