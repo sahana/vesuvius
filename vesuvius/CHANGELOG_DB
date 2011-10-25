@@ -9,6 +9,14 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 ALTER TABLE `pl`.`person_status` DROP INDEX `p_uuid` ,
 ADD UNIQUE `p_uuid` ( `p_uuid` )
 
+2011:1025 Greg
+--------------
+
+CREATE TABLE `incident_seq` (
+  `id` bigint(20) NOT NULL auto_increment COMMENT 'stores next id in sequence for the incident table',
+  PRIMARY KEY  (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+
 
 2011:1004 Greg
 --------------
