@@ -39,7 +39,8 @@ $(document).ready(function start() {
 
     $("#content").css({ paddingRight: "15px", paddingTop: "10px" });
 	
-	$("#details").hide();
+        // obsolete? (maybe should be detailsPane anyway?)
+	//$("#details").hide();
 	
 	// add an event to monitor when the search box gains focus
 	var box = doc.getElementById("searchBox");
@@ -77,11 +78,23 @@ $(document).ready(function start() {
 });
 
 function searchSubset() {
+        if (Globals.displayMode) {
+                clearInterval(Globals.updaterId);
+        	searchSubset2();
+        	Globals.updaterId = setInterval("searchSubset2()", Globals.updaterTimer);
+        } else {
+                clearInterval(Globals.updaterId);
+        	searchSubset2();
+        }
+}
+
+function searchSubset2() {
 	Globals.searchTerms = $.trim($("#searchBox").attr("value"));
 	Globals.searchTerms = Globals.searchTerms == "Enter a name..." || Globals.searchTerms == "All" ? "" : Globals.searchTerms;
 	
 	if ( Globals.searchTerms.length < 2 && Globals.searchMode === "sql" ) {
 		alert("Please enter at least 2 characters of a name.");
+                clearInterval(Globals.updaterId);
 		return;
 	}
 	
@@ -120,14 +133,14 @@ function searchSubset() {
 	Globals.searchMode = $("#searchMode").val();
 	$("#updateAlerts, #updateAlerts2").hide();
 
-	inw_getData(Globals.searchMode, Globals.incident, Globals.searchTerms, sStatus, sGender,	sAge, sHospital, sPageControls);
+	inw_getData(Globals.searchMode, Globals.incident, Globals.searchTerms, sStatus, sGender, sAge, sHospital, sPageControls);
 	if ( Globals.searchMode == "sql" ) {
 		sPageControls = Globals.perPage * (Globals.currPage)  + ";" 
 				  + Globals.perPage + ";" 
 				  + Globals.sortedBy + ";" 
 				  +	Globals.displayMode;
 		if ( Globals.displayMode ) {
-			inw_hasNextPage(Globals.searchMode, Globals.incident, Globals.searchTerms, sStatus, sGender,	sAge, sHospital, sPageControls);
+			inw_hasNextPage(Globals.searchMode, Globals.incident, Globals.searchTerms, sStatus, sGender, sAge, sHospital, sPageControls);
 			inw_getAllCount(Globals.incident);
 		}
 		$("#sqlFoundLabel").show();
@@ -161,7 +174,8 @@ Object.size = function(obj) {
 };
 
 function handleUuidListResponse() {
-	var temp = [], freshUuids = [];
+        // obsolete?
+	//var temp = [], freshUuids = [];
 
 	$("#totalRecordsSOLR").html(Utils.addCommas($("#totalRecordsSOLR").html()));
 
@@ -177,8 +191,8 @@ function handleUuidListResponse() {
 }
 
 function showFacets() {
-	var tempGender = 0,
-		tempAge = 0;
+        // obsolete?
+	//var tempGender = 0, tempAge = 0;
 		
 	if ( Globals.searchMode == "solr" ) {
 		var facets = jQuery.parseJSON($("#SOLRFacets").val());
@@ -187,10 +201,11 @@ function showFacets() {
 			$("#" + facet).append($("<span></span>")
 						  .css("font-size", "8pt")
 						  .html(" - [" + Utils.addCommas(facets[facet]) + "]"));
-			if ( (facet == "male" || facet == "female") && parseInt(facets[facet]) > 0 )
-				tempGender++;
-			else if ( (facet == "child" || facet == "adult") && parseInt(facets[facet]) > 0 )
-				tempAge++;
+                        // obsolete?
+			//if ( (facet == "male" || facet == "female") && parseInt(facets[facet]) > 0 )
+				//tempGender++;
+			//else if ( (facet == "child" || facet == "adult") && parseInt(facets[facet]) > 0 )
+				//tempAge++;
 		}
 	} else {
 		$("#filtersWrapper").find("label > span").remove();
