@@ -51,7 +51,3 @@ var Globals = {
 	hasNextPage : false,
 	searchTerms : ""
 };
-
-
-
-
