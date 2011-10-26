@@ -810,8 +810,9 @@ function shn_eap_edit() {
 			$tcc = "lime";
 		}
 		echo "
-					<label><b>Triage Category</b> </label>
-					<input type=\"text\" value=\"".$tct."\" size=\"64\" class=\"nonedit public tct\" style=\"background-color: ".$tcc.";\" READONLY>
+					<label><b>Initial Triage Category</b> </label>
+					<input type=\"text\" value=\"\" class=\"nonedit public tct\" style=\"border: 1px solid #777; border-radius: 20px; -moz-border-radius: 20px; width: 2px; margin-left: 10px; background-color: ".$tcc.";\" READONLY>
+					<input type=\"text\" value=\"".$tct."\" size=\"8\" class=\"nonedit2 public\" style=\"padding-left: 0px; margin-left: 0px;\" READONLY>
 					<br>
 		";
 	}
