@@ -22,7 +22,10 @@ $client = new nusoap_client($wsdl);
 
 
 
-$result = $client->call('getUuidByMassCasualtyId', array('mcid'=>'91140', 'shortname'=>'test', 'username'=>$user, 'password'=>$pass));
+//$result = $client->call('getUuidByMassCasualtyId', array('mcid'=>'91140', 'shortname'=>'test', 'username'=>$user, 'password'=>$pass));
+
+//$result = $client->call('getPersonExpiryDate', array('uuid'=>'pl.nlm.nih.gov/person.4000579'));
+$result = $client->call('hasRecordBeenRevised', array('uuid'=>'pl.nlm.nih.gov/person.4000579', 'username'=>$user, 'password'=>$pass));
 
 //$result = $client->call('checkUserAuth', array('username'=>$user, 'password'=>$pass));
 //$result = $client->call('getEventListUser', array('username'=>$user, 'password'=>$pass));
@@ -70,8 +73,8 @@ $result = $client->call('searchWithAuth', array(
 //$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
 
 
-$x = file_get_contents("TP.xml");
-//$x = file_get_contents("reference_TRIAGEPIC1.xml");
+//$x = file_get_contents("TP.xml");
+$x = file_get_contents("reference_TRIAGEPIC1.xml");
 //$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
 
 echo "<pre>wsdl >> ".$wsdl."\n\n".var_export($result, true)."</pre>";
