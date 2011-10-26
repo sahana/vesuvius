@@ -15,13 +15,14 @@
 $user  = "testDontDelete";
 $pass  = "dontDelete99";
 $email = "testCase@email.com";
-$eventShortName = "test";
+$eventShortname = "test";
 $personXML = "";
 $xmlFormat = "TRIAGEPIC";
 $number = 2;
-$uuid = "pl.nlm.nih.gov/person.0";
+$uuid = "3";
 $mcid = "0";
 $newMcid = "1";
+$expiryDate = "2036-11-11 11:11:11";
 
 // load nusoap client library
 require_once("../../3rd/nusoap/lib/nusoap.php");
@@ -38,18 +39,27 @@ if(!isset($_GET['api'])) {
 } else {
 	$api = "&api=".$_GET['api'];
 
+/*
+	$sites = array(
+		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
+	);
+*/
 	$sites = array(
 		"PL"      => "https://pl.nlm.nih.gov/?wsdl".$api,
 		"PLstage" => "https://plstage.nlm.nih.gov/?wsdl".$api,
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
+
 	init2();
 
 	// perform tests...
 	switch($_GET['api']) {
 		case '2.0':
-			revisePerson($personXML, $uuid, $xmlFormat, $user, $pass);
+			reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $user, $pass);
 			expirePerson($uuid, $user, $pass);
+			getPersonExpiryDate($uuid);
+			setPersonExpiryDate($uuid, $expiryDate, $user, $pass);
+			setPersonExpiryDateOneYear($uuid, $user, $pass);
 			getUuidByMassCasualtyId($mcid, $user, $pass);
 			changeMassCasualtyId($newMcid, $uuid, $user, $pass);
 			hasRecordBeenRevised($uuid, $user, $pass);
@@ -58,7 +68,7 @@ if(!isset($_GET['api'])) {
 			getHospitalLegaleseAnon("1");
 			getHospitalLegaleseTimestamps("1");
 		case '1.9.5':
-			reportPerson($personXML, $eventShortName, $xmlFormat, $user, $pass);
+			reportPerson($personXML, $eventShortname, $xmlFormat, $user, $pass);
 			createPersonUuid($user, $pass);
 			createPersonUuidBatch($number, $user, $pass);
 			createNoteUuid($user, $pass);
