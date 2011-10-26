@@ -305,6 +305,14 @@ function shn_stat_arrival_bydate() {
 	where (c.shortname like '".$shortname."' and a.source_date >'2011-02-20')
 	GROUP BY DATE(source_date) order by DATE(source_date)";
 	}
+	//for turkey
+	if($shortname=="christchurch") {
+	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id
+	where (c.shortname like '".$shortname."' and a.source_date >'2011-10-22')
+	GROUP BY DATE(source_date) order by DATE(source_date)";
+	}
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 
@@ -433,7 +441,14 @@ function shn_stat_arrival_byhour() {
 	where (c.shortname like '".$shortname."' and a.source_date >'2011-02-20')
 	GROUP BY DATE(source_date),HOUR(source_date) order by DATE(source_date),HOUR(source_date)";
 	}
-	
+	//for christchurch
+	if($shortname=="turkey2011") {
+	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id
+	where (c.shortname like '".$shortname."' and a.source_date >'2011-10-22')
+	GROUP BY DATE(source_date),HOUR(source_date) order by DATE(source_date),HOUR(source_date)";
+	}
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 
@@ -593,7 +608,14 @@ function shn_stat_arrival_byminute() {
 	where (c.shortname like '".$shortname."' and a.source_date >'2011-02-20')
 	GROUP BY DATE(source_date),HOUR(source_date) order by DATE(source_date),HOUR(source_date),MINUTE(source_date)";
 	}
-	
+	//for turkey
+	if($shortname=="turkey2011") {
+	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id
+	where (c.shortname like '".$shortname."' and a.source_date >'2011-10-23')
+	GROUP BY DATE(source_date),HOUR(source_date) order by DATE(source_date),HOUR(source_date),MINUTE(source_date)";
+	}
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 
@@ -1974,6 +1996,14 @@ function shn_stat_arrival_bydate_status() {
 	where (c.shortname like '".$shortname."' and a.source_date >'2011-02-20')
 	GROUP BY DATE(source_date) order by DATE(source_date)";
 	}
+	//for turkey
+	if($shortname=="turkey2011") {
+	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id
+	where (c.shortname like '".$shortname."' and a.source_date >'2011-10-22')
+	GROUP BY DATE(source_date) order by DATE(source_date)";
+	}
 	//for CMAX2010
 	if($shortname=="cmax2010"){
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
@@ -2171,6 +2201,14 @@ function shn_stat_arrival_byhour_status() {
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	join incident c ON c.incident_id= b.incident_id
 	where (c.shortname like '".$shortname."' and a.source_date >'2011-02-20')
+	GROUP BY DATE(source_date), HOUR(source_date) order by DATE(source_date), HOUR(source_date)";
+	}
+	//for turkey
+	if($shortname=="turkey2011") {
+	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id
+	where (c.shortname like '".$shortname."' and a.source_date >'2011-10-22')
 	GROUP BY DATE(source_date), HOUR(source_date) order by DATE(source_date), HOUR(source_date)";
 	}
 	//for CMAX2010
@@ -2398,6 +2436,14 @@ function shn_stat_arrival_byminute_status() {
 	where (c.shortname like '".$shortname."' and a.source_date >'2011-02-20')
 	GROUP BY DATE(source_date), HOUR(source_date) order by DATE(source_date), HOUR(source_date)";
 	}
+	//for turkey
+	if($shortname=="turkey") {
+	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id
+	where (c.shortname like '".$shortname."' and a.source_date >'2011-10-22')
+	GROUP BY DATE(source_date), HOUR(source_date) order by DATE(source_date), HOUR(source_date)";
+	}
 	//for CMAX2010
 	if($shortname=="cmax2010"){
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
@@ -2618,6 +2664,14 @@ function shn_stat_arrival_byhour_gender() {
 	}
 	//for christchurch
 	if($shortname=="christchurch") {
+	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id
+	where (c.shortname like '".$shortname."' and a.source_date >'2011-02-20')
+	GROUP BY DATE(source_date), HOUR(source_date) order by DATE(source_date), HOUR(source_date)";
+	}
+	//for turkey
+	if($shortname=="turkey2011") {
 	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	join incident c ON c.incident_id= b.incident_id
