@@ -1,56 +1,53 @@
 <?php
 /**
  * @name         Statistics
- * @version      0.2
+ * @version      0.3
  * @package      stat
  * @author       Lan Ngoc Le <lale@mail.nih.gov>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0711
+ * @lastModified 2011.1027
  */
 
 
 global $global;
 global $conf;
-require_once($global['approot'].'/mod/stat/lib_stat.inc');
+require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
 function shn_stat_menu() {
 	global $global;
 		echo "
 		<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\"></script>
-		<script type=\"text/javascript\" src=\"res/js/stat/highcharts.src.js\"></script>
-		<script type=\"text/javascript\" src=\"res/js/stat/highcharts.js\"></script>			
-		<script type=\"text/javascript\" src=\"res/js/stat/excanvas.js\"></script>
-		<script type=\"text/javascript\" src=\"res/js/stat/exporting.js\"></script>		
+		<script type=\"text/javascript\" src=\"res/js/statpacked.js\"></script>
 		";
-		
+
 		$shortname = $_GET['shortname'];
 		echo "People Statistics for $shortname:\n";
 		echo "\n";
 		echo "Please select from the links below for avalailable statistics:\n";
-		
+
 		echo "
 		<ul>
 			<li><a href=\"index.php?mod=stat&act=status\">Status Statistics</a></li>
 			<li><a href=\"index.php?mod=stat&act=gender\">Gender Statistics</a></li>
 			<li><a href=\"index.php?mod=stat&act=age\">Age Statistics</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_bydate\">Arrival Rate by Date</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour\">Arrival Rate by Hour</a></li>	
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour\">Arrival Rate by Hour</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_byminute\">Arrival Rate by Minute</a></li>
 			<li><a href=\"index.php?mod=stat&act=TP_sub_byhour\">TriagePic Arrival Rate by Hour</a></li>
 			<li><a href=\"index.php?mod=stat&act=TP_sub_byminute\">TriagePic Arrival Rate by Minute</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>	
+			<li><a href=\"index.php?mod=stat&act=arrival_byhour_status\">Arrival Rate by Hour Combined with Status</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_byminute_status\">Arrival Rate by Minute Combined with Status</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_byhour_gender\">Arrival Rate by Hour Combined with Gender</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_byhour_age\">Arrival Rate by Hour Combined with Age</a></li>
 			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour\">TriagePic Zone Status on Arrival</a></li>
 		</ul>
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		";		
-		}		
-		
+		";
+		}
+
 /**
  * the default module action...
  * @access public
@@ -58,7 +55,7 @@ function shn_stat_menu() {
  */
 function shn_stat_default() {
 	global $global;
-	shn_stat_menu();	
+	shn_stat_menu();
 }
 /************************
 * Disable a link function
@@ -79,7 +76,7 @@ function shn_stat_status() {
 	shn_stat_menu();
 	$shortname = $_GET['shortname'];
 	echo "People Statistics for  ";
-	echo $_GET['shortname'];	
+	echo $_GET['shortname'];
 	$q="SELECT DISTINCT d.option_description AS opt_status, count( opt_status ) AS count_opt_status
 	FROM person_status a
 	JOIN field_options d ON a.opt_status = d.option_code
@@ -101,7 +98,7 @@ function shn_stat_status() {
 		$count_opt_status[] = $row['count_opt_status'];
 		array_push($json_count_opt_status, $row['count_opt_status']);
 		}
-	while($row = $res->FetchRow());	
+	while($row = $res->FetchRow());
 	?>
 	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
 	<?php
@@ -143,7 +140,7 @@ function shn_stat_status() {
       echo "},\n" ;
       echo "legend: {\n" ;
          echo "layout: 'vertical',\n" ;
-         echo "backgroundColor: '#FFFFFF',\n" ;      
+         echo "backgroundColor: '#FFFFFF',\n" ;
 		 echo "},\n" ;
       echo "tooltip: {\n" ;
          echo "formatter: function() {\n" ;
@@ -204,12 +201,12 @@ function shn_stat_gender() {
 	while($row = $res->FetchRow());
 	?>
 	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
-	
+
 	<?php
 	$shortname = $_GET['shortname'];
 	$json_opt_gender = implode("','",$json_opt_gender);
 	$json_count_gender = implode(",", $json_count_gender);
-	
+
 	echo $json_count_gender;
 	echo "<script type=\"text/javascript\"> \n" ;
 	echo "\$(document).ready(function() {\n" ;
@@ -245,7 +242,7 @@ function shn_stat_gender() {
       echo "},\n" ;
       echo "legend: {\n" ;
          echo "layout: 'vertical',\n" ;
-         echo "backgroundColor: '#FFFFFF',\n" ;      
+         echo "backgroundColor: '#FFFFFF',\n" ;
 		 echo "},\n" ;
       echo "tooltip: {\n" ;
          echo "formatter: function() {\n" ;
@@ -415,9 +412,9 @@ function shn_stat_arrival_byhour() {
 	echo "People Statistics for  ";
 	echo $_GET['shortname'];
 	$shortname = $_GET['shortname'];
-	
+
 	//for sendai2011, add 'a.source_date >'2011-01-01'' in the where filter
-	
+
 	if($shortname=="sendai2011") {
 	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
@@ -582,9 +579,9 @@ function shn_stat_arrival_byminute() {
 	echo "People Statistics for  ";
 	echo $_GET['shortname'];
 	$shortname = $_GET['shortname'];
-	
+
 	//for sendai2011, add 'a.source_date >'2011-01-01'' in the where filter
-	
+
 	if($shortname=="sendai2011") {
 	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
@@ -974,7 +971,7 @@ function shn_stat_age() {
       echo "},\n" ;
       echo "legend: {\n" ;
          echo "layout: 'vertical',\n" ;
-         echo "backgroundColor: '#FFFFFF',\n" ;      
+         echo "backgroundColor: '#FFFFFF',\n" ;
 		 echo "},\n" ;
       echo "tooltip: {\n" ;
          echo "formatter: function() {\n" ;
@@ -1462,7 +1459,7 @@ function shn_stat_TP_sub_byminute() {
             echo "text: 'Expiry Date Count'\n" ;
          echo "}\n" ;
      echo "},\n" ;
-	 
+
      echo "tooltip: {\n" ;
          echo "enabled: false,\n" ;
          echo "formatter: function() {\n" ;
@@ -1478,7 +1475,7 @@ function shn_stat_TP_sub_byminute() {
             echo "enableMouseTracking: false\n" ;
          echo "}\n" ;
       echo "},\n" ;
-	  
+
 
       echo "series: [{\n" ;
          echo "name: 'Japan Earthquake and Tsunami',\n" ;
@@ -2215,24 +2212,24 @@ function shn_stat_arrival_byhour_status() {
 	if($shortname=="cmax2010"){
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
-	JOIN edxl_co_lpf c ON c.co_id = b.co_id	
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 	}
-	//for new 
+	//for new
 	if($shortname=="new"){
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
-	JOIN edxl_co_lpf c ON c.co_id = b.co_id 
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id
     WHERE (c.event_name like '".$shortname."' and a.source_date like '2011-10-19')
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 	}
-	//for testtp 
+	//for testtp
 	if($shortname=="testtp"){
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
-	JOIN edxl_co_lpf c ON c.co_id = b.co_id 
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id
     WHERE c.event_name like '".$shortname."'
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
@@ -2452,7 +2449,7 @@ function shn_stat_arrival_byminute_status() {
 	GROUP BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)";
 	}
-	//for new 
+	//for new
 	if($shortname=="new"){
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
@@ -2470,7 +2467,7 @@ function shn_stat_arrival_byminute_status() {
 	GROUP BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)";
 	}
-	
+
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 
