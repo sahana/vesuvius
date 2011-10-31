@@ -40,6 +40,9 @@ define("ERRORCODES", serialize(array(
 	406  => "Invalid event.",
 	407  => "No record associated with this mass casualty ID exists.",
 	408  => "Insufficient permission to revise this record.",
+	410  => "No record available with the given uuid.",
+	411  => "Invalid start or limit value.",
+	412  => "Invalid or future unix timestamp.",
 	9998 => "Function not yet implemented (stub).",
 	9999 => "Unknown error.",
 )));
