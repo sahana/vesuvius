@@ -788,48 +788,62 @@ function em_perform_new() {
 
 	$group = $_SESSION['group_id'];
 
-	// insert a new incident
+	// find the new event index
 	$q = "
-		INSERT INTO incident
-			(parent_id, search_id, name, shortname, date, type, latitude, longitude, private_group, closed)
-		VALUES
-			(null, null, 'new event', 'new', '".date("Y-m-d")."', 'TEST', '39', '-77.101', '".$group."', '0');
+		DELETE FROM `incident_seq`
+		WHERE `id` like '%';
 	";
 	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 1"); }
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "new 1"); }
 
-	// find id of newest incident we just created
-	$q2 = "
-		SELECT *
-		FROM incident
-		ORDER BY incident_id DESC
-		LIMIT 1;
+	$q = "
+		INSERT INTO  `incident_seq` (`id`)
+		VALUES (NULL);
 	";
-	$result2 = $global['db']->Execute($q2);
-	if($result2 === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 2"); }
-	$row2 = $result2->FetchRow();
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "new 2"); }
+
+	$q = "
+		SELECT *
+		FROM  `incident_seq`
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "new 3"); }
+	$newId = $result->fields['id'];
+
+	// insert the new incident
+	$random = mt_rand();
+	$q = "
+		INSERT INTO incident
+			(incident_id, parent_id, search_id, name, shortname, date, type, latitude, longitude, private_group, closed)
+		VALUES
+			(".$newId.", null, null, 'new event ".$random."', 'x".$random."', '".date("Y-m-d")."', 'TEST', '39', '-77.101', '".$group."', '0');
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 4"); }
+
 
         // insert new Google repositories for import/export
 	$q = "
 		INSERT INTO pfif_repository (name,role,resource_type,incident_id)
-		VALUES ('googlexxx','source','person',".$row2['incident_id'].");
-	";
-	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 3"); }
-	$q = "
-		INSERT INTO pfif_repository (name,role,resource_type,incident_id)
-		VALUES ('googlexxx','source','note',".$row2['incident_id'].");
-	";
-	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 4"); }
-	$q = "
-		INSERT INTO pfif_repository (name,role,resource_type,incident_id)
-		VALUES ('googlexxx','sink','both',".$row2['incident_id'].");
+		VALUES ('googlexxx','source','person',".$newId.");
 	";
 	$result = $global['db']->Execute($q);
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 5"); }
+	$q = "
+		INSERT INTO pfif_repository (name,role,resource_type,incident_id)
+		VALUES ('googlexxx','source','note',".$newId.");
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 6"); }
+	$q = "
+		INSERT INTO pfif_repository (name,role,resource_type,incident_id)
+		VALUES ('googlexxx','sink','both',".$newId.");
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 7"); }
 
-	return $row2['incident_id'];
+	return $newId;
 }
 
 

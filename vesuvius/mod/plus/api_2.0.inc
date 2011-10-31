@@ -494,11 +494,12 @@ function shn_plus_registerAll($namespace) {
 	// Record Revision API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 	// Record Revision API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
-	shn_plus_registerOne($server, 'revisePerson',
+	shn_plus_registerOne($server, 'reReportPerson',
 		array(
 			'in' => array(
-				'personXML'      => 'xsd:string',
 				'uuid'           => 'xsd:string',
+				'personXML'      => 'xsd:string',
+				'eventShortname' => 'xsd:string',
 				'xmlFormat'      => 'xsd:string',
 				'username'       => 'xsd:string',
 				'password'       => 'xsd:string'
@@ -509,7 +510,7 @@ function shn_plus_registerAll($namespace) {
 			)
 		),
 		$namespace,
-		"Re-report a person using XML which will update a current record."
+		"Re-report a person using XML which will replace an existing record."
 	);
 
 	shn_plus_registerOne($server, 'expirePerson',
@@ -562,6 +563,23 @@ function shn_plus_registerAll($namespace) {
 		"Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue."
 	);
 
+	shn_plus_registerOne($server, 'setPersonExpiryDateOneYear',
+		array(
+			'in' => array(
+				'uuid'           => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'queued'         => 'xsd:boolean',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue. The expiry date in this case is updated to exactly one year from the time of the request."
+	);
+
 	shn_plus_registerOne($server, 'getUuidByMassCasualtyId',
 		array(
 			'in' => array(
@@ -605,7 +623,7 @@ function shn_plus_registerAll($namespace) {
 				'password'       => 'xsd:string'
 			),
 			'out' => array(
-				'revisionsMade'  => 'xsd:boolean',
+				'revisionsMade'  => 'xsd:integer',
 				'errorCode'      => 'xsd:integer',
 				'errorMessage'   => 'xsd:string'
 			)
@@ -651,6 +669,7 @@ function getEventList() {
 		ORDER BY `default` DESC, name ASC;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getEventList 1"); }
 	while (!$result == NULL && !$result->EOF) {
 		$list[] = array(
 			'incident_id' => $result->fields["incident_id"],
@@ -700,6 +719,7 @@ function getEventListUser($username, $password) {
 			WHERE user_name = '".mysql_real_escape_string($username)."';
 		";
 		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getEventListUser 1"); }
 		// we can assume, the row exists, since we passed auth check
 		$p_uuid = $result->fields["p_uuid"];
 	}
@@ -718,6 +738,7 @@ function getEventListUser($username, $password) {
 		);
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getEventListUser 2"); }
 	while (!$result == NULL && !$result->EOF) {
 		$list[] = array(
 			'incident_id' => $result->fields["incident_id"],
@@ -754,6 +775,7 @@ function getGroupList() {
 		ORDER BY group_id ASC;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getGroupList 1"); }
 	while (!$result == NULL && !$result->EOF) {
 		$list[] = array(
 			'group_id'  => $result->fields["group_id"],
@@ -781,6 +803,7 @@ function getHospitalList() {
 		ORDER BY `hospital_uuid` ASC;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getHospitalList 1"); }
 	while (!$result == NULL && !$result->EOF) {
 		$list[] = array(
 			'hospital_uuid' => $result->fields["hospital_uuid"],
@@ -815,6 +838,7 @@ function getHospitalData($hospital_uuid) {
 		LIMIT 1;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getHospitalData 1"); }
 	while (!$result == NULL && !$result->EOF) {
 		$data = array(
 			'name'          => (string)$result->fields["name"],
@@ -881,6 +905,7 @@ function getHospitalPolicy($hospital_uuid) {
 		LIMIT 1;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getHospitalPolicy 1"); }
 	while (!$result == NULL && !$result->EOF) {
 		$data = array(
 			'patientIdPrefix'            => (string)$result->fields['patient_id_prefix'],
@@ -927,6 +952,7 @@ function getHospitalLegalese($hospital_uuid) {
 		LIMIT 1;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getHospitalLegalese 1"); }
 	while (!$result == NULL && !$result->EOF) {
 		$data = array(
 			'legalese'     => (string)$result->fields["legalese"],
@@ -948,6 +974,7 @@ function getHospitalLegalese($hospital_uuid) {
 }
 
 
+
 // Retrieve a particular hospital’s anonymous legalese clause.
 function getHospitalLegaleseAnon($hospital_uuid) {
 	shn_plus_logAccess(__FUNCTION__);
@@ -962,6 +989,7 @@ function getHospitalLegaleseAnon($hospital_uuid) {
 		LIMIT 1;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getHospitalLegaleseAnon 1"); }
 	while (!$result == NULL && !$result->EOF) {
 		$data = array(
 			'legaleseAnon' => (string)$result->fields["legaleseAnon"],
@@ -983,6 +1011,7 @@ function getHospitalLegaleseAnon($hospital_uuid) {
 }
 
 
+
 // Retrieves information about when the legalese clauses were last updated for a particular hospital.
 function getHospitalLegaleseTimestamps($hospital_uuid) {
 	shn_plus_logAccess(__FUNCTION__);
@@ -997,6 +1026,7 @@ function getHospitalLegaleseTimestamps($hospital_uuid) {
 		LIMIT 1;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getHospitalLegaleseTimestamps 1"); }
 	while (!$result == NULL && !$result->EOF) {
 		$data = array(
 			'legaleseTimestamp'    => (string)$result->fields["legaleseTimestamp"],
@@ -1171,6 +1201,7 @@ function resetUserPassword($username) {
 		AND u.status = 'active';
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "resetUserPassword 1"); }
 	if($result != null && !$result->EOF) {
 		$success = true;
 		shn_plus_resetEmail($username, $result->fields["contact_value"]);
@@ -1209,6 +1240,7 @@ function forgotUsername($email) {
 		AND u.status = 'active';
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "forgotUsername 1"); }
 
 	// pretend for test case...
 	if($email == "testCase@email.com") {
@@ -1281,6 +1313,7 @@ function getUserStatus($username) {
 		WHERE user_name = '".mysql_real_escape_string($username)."';
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getUserStatus 1"); }
 
 	if($result != null && !$result->EOF) {
 		$success = true;
@@ -1337,6 +1370,7 @@ function getUserGroup($username) {
 		AND g.group_id = x.group_id;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getUserGroup 1"); }
 
 	if($result != null && !$result->EOF) {
 		$success = true;
@@ -1405,6 +1439,7 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 		WHERE shortname = '".mysql_real_escape_string($eventShortname)."';
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "search 1"); }
 	if($result != null && !$result->EOF) {
 
 		// check if the event is not public...
@@ -1520,6 +1555,7 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 			AND i.shortname = '".mysql_real_escape_string($eventShortname)."');
 		";
 		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "searchWithAuth 1"); }
 		if($result == null || $result->EOF) {
 			$error = true;
 			$ecode = 300;
@@ -1634,6 +1670,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 			AND i.shortname = '".mysql_real_escape_string($eventShortName)."');
 		";
 		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "reportPerson 1"); }
 		if($result == null || $result->EOF) {
 			$error = true;
 			$ecode = 300;
@@ -1647,6 +1684,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 				WHERE user_name = '".$username."';
 			";
 			$result = $global['db']->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "reportPerson 2"); }
 			$rep_uuid = $result->fields['p_uuid'];
 		}
 
@@ -1851,7 +1889,7 @@ function createNoteUuidBatch($number, $username, $password) {
 
 
 // Re-report a person using XML which will update a current record.
-function revisePerson($personXML, $uuid, $xmlFormat, $username, $password) {
+function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $username, $password) {
 
 	shn_plus_logAccess(__FUNCTION__);
 	global $global;
@@ -1970,6 +2008,109 @@ function expirePerson($uuid, $username, $password) {
 
 
 
+// Get the datetime in UTC when a person record will expire.
+function getPersonExpiryDate($uuid) {
+
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	global $conf;
+	$error = true;
+	$ecode = 410;
+
+	$q = "
+		SELECT *
+		FROM `person_uuid`
+		where p_uuid = '".mysql_real_escape_string($uuid)."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getPersonExpiryDate 1"); }
+	if($result != null && !$result->EOF) {
+		$error = false;
+		$expiryDate = $result->fields['expiry_date'];
+	}
+
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'expiryDate'   => null,
+			'errorCode'    => (int)$ecode,
+			'errorMessage' => (string)$eCodes[$ecode]
+		);
+	} else {
+		return array(
+			'expiryDate'   => (string)$expiryDate,
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	}
+}
+
+
+
+// Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue.
+function setPersonExpiryDate($uuid, $expiryDate, $username, $password) {
+
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	global $conf;
+	$error = true;
+	$ecode = 408;
+	$queued = false;
+
+	// not yet implemented ~ stub
+	$error = true;
+	$ecode = 9998;
+
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'queued'       => null,
+			'errorCode'    => (int)$ecode,
+			'errorMessage' => (string)$eCodes[$ecode]
+		);
+	} else {
+		return array(
+			'queued'       => (boolean)$queued,
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	}
+}
+
+
+
+// Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue. The expiry date in this case is updated to exactly one year from the time of the request.
+function setPersonExpiryDateOneYear($uuid, $username, $password) {
+
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	global $conf;
+	$error = true;
+	$ecode = 408;
+	$queued = false;
+
+	// not yet implemented ~ stub
+	$error = true;
+	$ecode = 9998;
+
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'queued'       => null,
+			'errorCode'    => (int)$ecode,
+			'errorMessage' => (string)$eCodes[$ecode]
+		);
+	} else {
+		return array(
+			'queued'       => (boolean)$queued,
+			'errorCode'    => (int)0,
+			'errorMessage' => null
+		);
+	}
+}
+
+
+
 // A simple lookup of the internal uuid of a person based on their mass casualty id (if it exists).
 function getUuidByMassCasualtyId($mcid, $shortname, $username, $password) {
 
@@ -1993,6 +2134,7 @@ function getUuidByMassCasualtyId($mcid, $shortname, $username, $password) {
 			and event_name = '".mysql_real_escape_string($shortname)."';
 		";
 		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getUuidByMassCasualtyId 1"); }
 		if($result != null && !$result->EOF) {
 			$error = false;
 			$uuid = $result->fields['p_uuid'];
@@ -2052,12 +2194,33 @@ function hasRecordBeenRevised($uuid, $username, $password) {
 	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 	global $conf;
-	$error = false;
-	$ecode = null;
-
-	// not yet implemented ~ stub
 	$error = true;
-	$ecode = 9998;
+	$ecode = 410;
+
+	$q = "
+		SELECT *
+		FROM `person_uuid`
+		where p_uuid = '".mysql_real_escape_string($uuid)."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hasRecordBeenRevised 1"); }
+	if($result != null && !$result->EOF) {
+		$error = false;
+		// person exists...so count revisions
+		$q = "
+			SELECT count(*)
+			FROM `person_updates`
+			where p_uuid = '".mysql_real_escape_string($uuid)."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hasRecordBeenRevised 2"); }
+		if($result != null && !$result->EOF) {
+			$revisionsMade = $result->fields['count(*)'];
+		} else {
+			$error = true;
+			$ecode = 9999;
+		}
+	}
 
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
@@ -2068,7 +2231,7 @@ function hasRecordBeenRevised($uuid, $username, $password) {
 		);
 	} else {
 		return array(
-			'revisionsMade' => (boolean)$revised,
+			'revisionsMade' => (int)$revisionsMade,
 			'errorCode'     => (int)0,
 			'errorMessage'  => null
 		);
@@ -2076,6 +2239,155 @@ function hasRecordBeenRevised($uuid, $username, $password) {
 }
 
 
+
+
+
+
+/*
+
+
+
+
+	shn_plus_registerOne($server, 'reReportPerson',
+		array(
+			'in' => array(
+				'uuid'           => 'xsd:string',
+				'personXML'      => 'xsd:string',
+				'eventShortname' => 'xsd:string',
+				'xmlFormat'      => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Re-report a person using XML which will replace an existing record."
+	);
+
+	shn_plus_registerOne($server, 'expirePerson',
+		array(
+			'in' => array(
+				'uuid'           => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'queued'         => 'xsd:boolean',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Owners, admins, and HSA can immediately expire a record, everyone else can submit an expiration request to a moderated queue."
+	);
+
+	shn_plus_registerOne($server, 'getPersonExpiryDate',
+		array(
+			'in' => array(
+				'uuid'           => 'xsd:string',
+			),
+			'out' => array(
+				'expiryDate'     => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Get the datetime in UTC when a person record will expire."
+	);
+
+	shn_plus_registerOne($server, 'setPersonExpiryDate',
+		array(
+			'in' => array(
+				'uuid'           => 'xsd:string',
+				'expiryDate'     => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'queued'         => 'xsd:boolean',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue."
+	);
+
+	shn_plus_registerOne($server, 'setPersonExpiryDateOneYear',
+		array(
+			'in' => array(
+				'uuid'           => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'queued'         => 'xsd:boolean',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue. The expiry date in this case is updated to exactly one year from the time of the request."
+	);
+
+	shn_plus_registerOne($server, 'getUuidByMassCasualtyId',
+		array(
+			'in' => array(
+				'mcid'           => 'xsd:string',
+				'shortname'      => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'uuid'           => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"A simple lookup of the internal uuid of a person based on their mass casualty id (if it exists)."
+	);
+
+	shn_plus_registerOne($server, 'changeMassCasualtyId',
+		array(
+			'in' => array(
+				'newMcid'        => 'xsd:string',
+				'uuid'           => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Updates the mass casualty id of a person based on their uuid."
+	);
+
+	shn_plus_registerOne($server, 'hasRecordBeenRevised',
+		array(
+			'in' => array(
+				'uuid'           => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'revisionsMade'  => 'xsd:integer',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"A simple lookup to determine if a record is still an original or has incurred revisions."
+	);
+
+
+*/
 
 
 

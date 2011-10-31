@@ -91,6 +91,7 @@ var DetailsView =
 	setPager : function() {
 
 		$("#pager").html("").css({display: "block"});
+		$("#pager2").html("").css({display: "block"});
 		$("#perPageWrapper").css({display: "block"});
 		$("#sortBy").css({display: "block"});
 		
@@ -133,5 +134,6 @@ var DetailsView =
 				
 			$("#recordsFound").html(Utils.addCommas($("#recordsFound").html()));
 		}
+                $("#pager2").append($("#pager").clone().contents());
 	}
 };

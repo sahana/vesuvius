@@ -21,9 +21,9 @@ function shn_plus_header2() {
 	echo "<ul>";
 
 	if($global['action'] == "reportlog" || $global['action'] == "default") {
-		echo "<li>People Reported</li>";
+		echo "<li>"._t('PLUS_MENU|People Reported')."</li>";
 	} else {
-		echo "<li><a href=\"index.php?mod=plus&act=reportlog\">People Reported</a></li>";
+		echo "<li><a href=\"index.php?mod=plus&act=reportlog\">"._t('PLUS_MENU|People Reported')."</a></li>";
 	}
 
 	if($global['action'] == "rawLog") {

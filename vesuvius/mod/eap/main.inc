@@ -810,8 +810,9 @@ function shn_eap_edit() {
 			$tcc = "lime";
 		}
 		echo "
-					<label><b>Triage Category</b> </label>
-					<input type=\"text\" value=\"".$tct."\" size=\"64\" class=\"nonedit public tct\" style=\"background-color: ".$tcc.";\" READONLY>
+					<label><b>Initial Triage Category</b> </label>
+					<input type=\"text\" value=\"\" class=\"nonedit public tct\" style=\"border: 1px solid #777; border-radius: 20px; -moz-border-radius: 20px; width: 2px; margin-left: 10px; background-color: ".$tcc.";\" READONLY>
+					<input type=\"text\" value=\"".$tct."\" size=\"8\" class=\"nonedit2 public\" style=\"padding-left: 0px; margin-left: 0px;\" READONLY>
 					<br>
 		";
 	}
@@ -1344,16 +1345,16 @@ function shn_eap_edit() {
 			<input type=\"text\" name=\"family_name\" id=\"family_name\" value=\"".$editFamilyName."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
-			<label for=\"age\">Age</label>
-			<input type=\"text\" name=\"age\" id=\"age\" value=\"".$editAge."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
+			<label for=\"age\">Age (Years Old)</label>
+			<input size=\"3\" type=\"number\" min=\"0\" max=\"150\" name=\"age\" id=\"age\" value=\"".$editAge."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
 			<label for=\"age_lower\">Lower Age Range</label>
-			<input type=\"text\" name=\"age_lower\" id=\"age_upper\" value=\"".$editMinAge."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
+			<input size=\"3\" type=\"number\" min=\"0\" max=\"150\" name=\"age_lower\" id=\"age_upper\" value=\"".$editMinAge."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
 			<label for=\"age_upper\">Upper Age Range</label>
-			<input type=\"text\" name=\"age_upper\" id=\"age_upper\" value=\"".$editMaxAge."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
+			<input size=\"3\" type=\"number\" min=\"0\" max=\"150\" name=\"age_upper\" id=\"age_upper\" value=\"".$editMaxAge."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 		";
 

@@ -28,19 +28,19 @@ function shn_pfif_menu() {
         $text = "Import from PFIF File";
         if (isset($_GET['act']) && $_GET['act'] == "import") {
 	   echo "<li><b>$text</b></li>";
-        } else { 
+        } else {
 	   echo "<li><a href=\"index.php?mod=pfif&act=import\">$text</a></li>";
         }
         $text = "Export to PFIF File";
         if (isset($_GET['act']) && $_GET['act'] == "export") {
 	   echo "<li><b>$text</b></li>";
-        } else { 
+        } else {
 	   echo "<li><a href=\"index.php?mod=pfif&act=export\">$text</a></li>";
         }
         $text = "View PFIF Service Status";
         if (isset($_GET['act']) && $_GET['act'] == "status") {
 	   echo "<li><b>$text</b></li>";
-        } else { 
+        } else {
 	   echo "<li><a href=\"index.php?mod=pfif&act=status\">$text</a></li>";
         }
 	echo "</ul>";
@@ -76,7 +76,7 @@ function shn_pfif_import() {
         shn_form_hidden(array('upload'=>'upload'));
         shn_form_upload(_t('PFIF filename'),'xml',array('max_file_size'=>'128M'));
         shn_pfif_incident_select("Import to this event");
-        echo "<br><div class='brake'></div>";
+        echo "<br><br><span style=\"margin-left: 200pt;\"></span>";
         shn_form_submit(_t('Upload'));
         shn_form_fsclose();
         shn_form_fclose();
@@ -147,6 +147,7 @@ function shn_pfif_incident_select($label){
  */
 function shn_pfif_export() {
     global $global;
+    echo "<script type=\"text/javascript\" src=\"res/datetimepicker/datetimepicker_css.js\"></script>";
 
     shn_pfif_menu();
 
@@ -157,10 +158,19 @@ function shn_pfif_export() {
     echo "<br><div class='brake'></div>";
     $extra_opts['br'] = false;
     shn_form_text(_t('Start date'),'since','',$extra_opts);
-    echo "&nbsp;&nbsp;(e.g. 2011-08-01)<br><div class='brake'></div>";
-    shn_form_text(_t('End date'),'before');
+    echo "<img src=\"res/datetimepicker/cal.gif\"
+          onclick=\"javascript:NewCssCal('since','yyyyMMdd','arrow',true,24,true,'past')\"
+          style=\"cursor:pointer\"/>";
+    echo "<br><div class='brake'></div>";
+    $extra_opts['br'] = false;
+    shn_form_text(_t('End date'),'before','',$extra_opts);
+    echo "<img src=\"res/datetimepicker/cal.gif\"
+          onclick=\"javascript:NewCssCal('before','yyyyMMdd','arrow',true,24,true,'past')\"
+          style=\"cursor:pointer\"/>";
+    echo "<br><div class='brake'></div>";
     shn_form_checkbox(_t('Records originating in PL only'),'original');
     shn_form_hidden(array('filename'=>'export.xml','download'=>'download'));
+    echo "<span style=\"margin-left: 200pt;\"></span>";
     shn_form_submit(_t('Submit'));
     shn_form_fsclose();
     shn_form_fclose();
@@ -170,20 +180,53 @@ function shn_pfif_export() {
  * Return system cron status.
  * Used for navigation menu status indicator.
  */
-function shn_pfif_statusGood() {
-   global $global, $delta;
+function shn_pfif_status_code() {
+   global $global, $deltaOut;
+   if(!defined('RED')) {
+      define('RED', 0);
+   }
+   if(!defined('ORANGE')) {
+      define('ORANGE', 1);
+   }
+   if(!defined('GREEN')) {
+      define('GREEN', 2);
+   }
+
+   $export_out = "/pl/tmp/pfif_logs/import.out";
    $import_out = "/pl/tmp/pfif_logs/import.out";
    $import_err = "/pl/tmp/pfif_logs/import.err";
    $export_err = "/pl/tmp/pfif_logs/export.err";
 
-   // Check one of the output files to make sure it's getting updated. 
-   $lastExecutedU = filemtime($import_out);;
+   // Check both output files to make sure they are getting updated.
+   $lastImportOut = filemtime($import_out);
+   $lastExportOut = filemtime($export_out);
+   // we are interested in the number of seconds since the oldest timestamp.
+   $deltaImportOut = date("U") - $lastImportOut;
+   $deltaExportOut = date("U") - $lastExportOut;
+   $deltaOut = ($deltaImportOut > $deltaExportOut)? $deltaImportOut:$deltaExportOut;
+
    // Check for non-zero-size error file.
    $errors = filesize($export_err)!=0 || filesize($import_err)!=0;
 
-   $delta = date("U") - $lastExecutedU;
+   // Check both error files to make sure they aren't recently updated.
+   // (If errors only occur intermittantly, we treat it as a warning.)
+   $lastImportErr = filemtime($import_err);
+   $lastExportErr = filemtime($export_err);
+   // we are interested in the number of seconds since the most recent timestamp.
+   $deltaImportErr = date("U") - $lastImportErr;
+   $deltaExportErr = date("U") - $lastExportErr;
+   $deltaErr = ($deltaImportErr < $deltaExportErr)? $deltaImportErr:$deltaExportErr;
 
-   return ($delta < 120 && !$errors);
+   if ($deltaOut < 120 && !$errors) {
+      // Recent output and no errors.
+      return GREEN;
+   } else if ($deltaOut > 120 || $deltaErr < 120) {
+      // Missing output or recent errors.
+      return RED;
+   } else {
+      // There are old errors.
+      return ORANGE;
+   }
 }
 
 /**
@@ -191,23 +234,25 @@ function shn_pfif_statusGood() {
  *
  */
 function shn_pfif_status() {
-   global $global, $delta;
+   global $global, $deltaOut;
 
    shn_pfif_menu();
 
    echo "<div id=\"home\">";
 
-   if(shn_pfif_statusGood) {
+   if(shn_pfif_status_code() == GREEN) {
       $statusMsg = "Cron Status: <span style=\"color: green;\"><b>Nominal</b></span>";
-   } else {
+   } else if (shn_pfif_status_code() == RED) {
       $statusMsg = "Cron Status: <span style=\"color: red;\"><b>FAILURE</b></span>";
+   } else {
+      $statusMsg = "Cron Status: <span style=\"color: orange;\"><b>Warning</b></span>";
    }
    echo '
         <div class="form-container">
              <form>
                   <fieldset>
                        <legend>Daemon Status</legend>
-                       Cron Job last executed <b>'.$delta.' seconds</b> ago.<br>
+                       Cron Job last successfully executed <b>'.$deltaOut.' seconds</b> ago.<br>
                        '.$statusMsg.'
                   </fieldset>
              </form>
@@ -240,9 +285,9 @@ function shn_pfif_status() {
             } else {
                     $odd = "class=\"evener\"";
             }
-            if ($row['resource_type']=='person' || $row['resource_type']=='both') { 
+            if ($row['resource_type']=='person' || $row['resource_type']=='both') {
                $total = $row['total_persons'];
-            } else { 
+            } else {
                $total = $row['total_notes'];
             }
             echo "  <tr>
@@ -332,7 +377,7 @@ function shn_xml_pfif_export() {
     $original = isset($_POST['original']) ? true : false;
     $pfif->loadFromDatabase($_POST['since'], $_POST['before']);
     if ($original) {
-       // Export only original records. 
+       // Export only original records.
        $xml = $pfif->storeInXML(false, $original);
     } else {
        $xml = $pfif->storeInXML();
@@ -346,7 +391,7 @@ function shn_xml_pfif_export() {
 }
 
 /**
- * Stream PFIF in raw xml format. 
+ * Stream PFIF in raw xml format.
  * Used for URL-type feeds. Accepts Google-style params min_entry_date, max_results, and skip.
  * Exports all records (not just original ones).
  * @access public
