@@ -681,8 +681,24 @@ function _shn_image_media_get($media_id) {
 function shn_image_to_db($p_uuid,$image_type, $image_height, $image_width,$url=null,$thumbUrl=null,$original_filename=null,$replace_id=null) {
    global $global;
 
-   $sql = "INSERT INTO image (p_uuid, image_type, image_height, image_width,url,url_thumb,original_filename)
-		VALUES ('$p_uuid','$image_type','$image_height','$image_width','$url','$thumbUrl','$original_filename')";
+   // Get image id from separate image sequence table.
+   $q = "INSERT INTO image_seq (id) VALUES (NULL)";
+   $global['db']->Execute($q);
+   $errchk = $global['db']->ErrorMsg();
+   if (!empty($errchk)) {
+      throw new RuntimeException($errchk);
+   }
+   $q = "SELECT LAST_INSERT_ID() FROM image_seq";
+   $result = $global['db']->Execute($q);
+   if ($result === false) {
+      $errchk = $global['db']->ErrorMsg();
+      throw new RuntimeException($errchk);
+   }
+
+   // Insert image info.
+   $image_id = $result->fields['id'];
+   $sql = "INSERT INTO image (image_id, p_uuid, image_type, image_height, image_width,url,url_thumb,original_filename)
+		VALUES ($image_id,'$p_uuid','$image_type','$image_height','$image_width','$url','$thumbUrl','$original_filename')";
    $global['db']->Execute($sql);
    $msg = $global['db']->ErrorMsg();
    if (!empty($msg)) {
