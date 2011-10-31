@@ -649,15 +649,15 @@ function createNoteUuidBatch($number, $user, $pass) {
 ////// PLUS UNIT TEST Revision FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////// PLUS UNIT TEST Revision FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-function revisePerson($personXML, $uuid, $xmlFormat, $user, $pass) {
+function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $user, $pass) {
 	global $sites;
 	global $count;
 	$count++;
-	echo "<tr><td>".$count."</td><td class=\"func\">revisePerson</td>";
+	echo "<tr><td>".$count."</td><td class=\"func\">reReportPerson</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
 		$x = file_get_contents("reference_TRIAGEPIC1.xml");
-		$result = $client->call('revisePerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
+		$result = $client->call('reReportPerson', array('uuid'=>$uuid, 'personXML'=>$x, 'eventShortname'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
@@ -688,6 +688,70 @@ function expirePerson($uuid, $user, $pass) {
 	}
 	echo "</tr>";
 }
+
+
+
+function getPersonExpiryDate($uuid) {
+	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">getPersonExpiryDate</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('getPersonExpiryDate', array('uuid'=>$uuid));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
+			echo "<td class=\"stub\"><blink>STUB</blink></td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
+
+function setPersonExpiryDate($uuid, $expiryDate, $user, $pass) {
+	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">setPersonExpiryDate</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('setPersonExpiryDate', array('uuid'=>$uuid, 'expiryDate'=>$expiryDate, 'user'=>$user, 'pass'=>$pass));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
+			echo "<td class=\"stub\"><blink>STUB</blink></td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
+
+function setPersonExpiryDateOneYear($uuid, $user, $pass) {
+	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">setPersonExpiryDateOneYear</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('setPersonExpiryDateOneYear', array('uuid'=>$uuid, 'user'=>$user, 'pass'=>$pass));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
+			echo "<td class=\"stub\"><blink>STUB</blink></td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
 
 
 function getUuidByMassCasualtyId($mcid, $user, $pass) {

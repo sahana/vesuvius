@@ -333,14 +333,14 @@ var Utils = {
 
 	printDetail : function() {
 		$("#loadingX").show();
-		$("#pager, #perPageWrapper, #printLink, #scrolling_content, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap, #disaster_selekta").hide();
+		$("#pager, #pager2, #perPageWrapper, #printLink, #scrolling_content, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap, #disaster_selekta").hide();
 
 		$("#printSheet").attr("href", "res/iWall_printIndividual.css");
 		setTimeout(function() {
 			window.print();
 
 		$("#loadingX").hide();
-		$("#pager, #perPageWrapper, #printLink, #scrolling_content, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap, #disaster_selekta").show();
+		$("#pager, #pager2, #perPageWrapper, #printLink, #scrolling_content, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap, #disaster_selekta").show();
 		}, 1000)
 
 
