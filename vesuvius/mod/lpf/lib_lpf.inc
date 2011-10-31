@@ -167,16 +167,16 @@ class voiceNote {
 
 		// build SQL value strings
 
-		$this->sql_voice_note_id     = ($this->voice_note_id == null) ? "NULL" : (int)$this->voice_note_id;
-		$this->sql_p_uuid            = ($this->p_uuid        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
-		$this->sql_length            = ($this->length        == null) ? "NULL" : (int)$this->length;
-		$this->sql_format            = ($this->format        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->format)."'";
-		$this->sql_sample_rate       = ($this->sample_rate   == null) ? "NULL" : (int)$this->sample_rate;
-		$this->sql_channels          = ($this->channels      == null) ? "NULL" : (int)$this->channels;
-		$this->sql_speaker           = ($this->speaker       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->speaker)."'";
-		$this->sql_url_original      = ($this->url_original  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_original)."'";
-		$this->sql_url_resampled_mp3 = ($this->url_resampled_mp3 == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_resampled_mp3)."'";
-		$this->sql_url_resampled_ogg = ($this->url_resampled_ogg == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_resampled_ogg)."'";
+		$this->sql_voice_note_id     = ($this->voice_note_id     === null) ? "NULL" : (int)$this->voice_note_id;
+		$this->sql_p_uuid            = ($this->p_uuid            === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
+		$this->sql_length            = ($this->length            === null) ? "NULL" : (int)$this->length;
+		$this->sql_format            = ($this->format            === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->format)."'";
+		$this->sql_sample_rate       = ($this->sample_rate       === null) ? "NULL" : (int)$this->sample_rate;
+		$this->sql_channels          = ($this->channels          === null) ? "NULL" : (int)$this->channels;
+		$this->sql_speaker           = ($this->speaker           === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->speaker)."'";
+		$this->sql_url_original      = ($this->url_original      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_original)."'";
+		$this->sql_url_resampled_mp3 = ($this->url_resampled_mp3 === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_resampled_mp3)."'";
+		$this->sql_url_resampled_ogg = ($this->url_resampled_ogg === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_resampled_ogg)."'";
 	}
 
 
@@ -592,36 +592,36 @@ class personEdxl {
 
 		// build SQL value strings
 
-		$this->sql_de_id           = ($this->de_id           == null) ? "NULL" : (int)$this->de_id;
-		$this->sql_co_id           = ($this->co_id           == null) ? "NULL" : (int)$this->co_id;
-		$this->sql_content_descr   = ($this->content_descr   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->content_descr)."'";
-		$this->sql_incident_id     = ($this->incident_id     == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->incident_id)."'";
-		$this->sql_incident_descr  = ($this->content_descr   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->content_descr)."'";
-		$this->sql_confidentiality = ($this->confidentiality == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->confidentiality)."'";
-		$this->sql_p_uuid          = ($this->p_uuid          == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
-		$this->sql_type            = ($this->type            == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->type)."'";
-		$this->sql_schema_version  = ($this->schema_version  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->schema_version)."'";
-		$this->sql_login_machine   = ($this->login_machine   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->login_machine)."'";
-		$this->sql_login_account   = ($this->login_account   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->login_account)."'";
-		$this->sql_person_id       = ($this->person_id       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->person_id)."'";
-		$this->sql_event_name      = ($this->event_name      == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->event_name)."'";
-		$this->sql_event_long_name = ($this->event_long_name == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->event_long_name)."'";
-		$this->sql_org_name        = ($this->org_name        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->org_name)."'";
-		$this->sql_org_id          = ($this->org_id          == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->org_id)."'";
-		$this->sql_last_name       = ($this->last_name       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_name)."'";
-		$this->sql_first_name      = ($this->first_name      == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->first_name)."'";
-		$this->sql_gender          = ($this->gender          == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->gender)."'";
-		$this->sql_peds            = ($this->peds            == null) ? "NULL" : (int)$this->peds;
-		$this->sql_triage_category = ($this->triage_category == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->triage_category)."'";
-		$this->sql_when_sent       = ($this->when_sent       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->when_sent)."'";
-		$this->sql_sender_id       = ($this->sender_id       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->sender_id)."'";
-		$this->sql_distr_id        = ($this->distr_id        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->distr_id)."'";
-		$this->sql_distr_status    = ($this->distr_status    == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->distr_status)."'";
-		$this->sql_distr_type      = ($this->distr_type      == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->distr_type)."'";
-		$this->sql_combined_conf   = ($this->combined_conf   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->combined_conf)."'";
-		$this->sql_language        = ($this->language        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->language)."'";
-		$this->sql_when_here       = ($this->when_here       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->when_here)."'";
-		$this->sql_inbound         = ($this->inbound         == null) ? "NULL" : (int)$this->inbound;
+		$this->sql_de_id           = ($this->de_id           === null) ? "NULL" : (int)$this->de_id;
+		$this->sql_co_id           = ($this->co_id           === null) ? "NULL" : (int)$this->co_id;
+		$this->sql_content_descr   = ($this->content_descr   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->content_descr)."'";
+		$this->sql_incident_id     = ($this->incident_id     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->incident_id)."'";
+		$this->sql_incident_descr  = ($this->content_descr   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->content_descr)."'";
+		$this->sql_confidentiality = ($this->confidentiality === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->confidentiality)."'";
+		$this->sql_p_uuid          = ($this->p_uuid          === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
+		$this->sql_type            = ($this->type            === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->type)."'";
+		$this->sql_schema_version  = ($this->schema_version  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->schema_version)."'";
+		$this->sql_login_machine   = ($this->login_machine   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->login_machine)."'";
+		$this->sql_login_account   = ($this->login_account   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->login_account)."'";
+		$this->sql_person_id       = ($this->person_id       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->person_id)."'";
+		$this->sql_event_name      = ($this->event_name      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->event_name)."'";
+		$this->sql_event_long_name = ($this->event_long_name === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->event_long_name)."'";
+		$this->sql_org_name        = ($this->org_name        === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->org_name)."'";
+		$this->sql_org_id          = ($this->org_id          === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->org_id)."'";
+		$this->sql_last_name       = ($this->last_name       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_name)."'";
+		$this->sql_first_name      = ($this->first_name      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->first_name)."'";
+		$this->sql_gender          = ($this->gender          === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->gender)."'";
+		$this->sql_peds            = ($this->peds            === null) ? "NULL" : (int)$this->peds;
+		$this->sql_triage_category = ($this->triage_category === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->triage_category)."'";
+		$this->sql_when_sent       = ($this->when_sent       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->when_sent)."'";
+		$this->sql_sender_id       = ($this->sender_id       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->sender_id)."'";
+		$this->sql_distr_id        = ($this->distr_id        === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->distr_id)."'";
+		$this->sql_distr_status    = ($this->distr_status    === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->distr_status)."'";
+		$this->sql_distr_type      = ($this->distr_type      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->distr_type)."'";
+		$this->sql_combined_conf   = ($this->combined_conf   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->combined_conf)."'";
+		$this->sql_language        = ($this->language        === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->language)."'";
+		$this->sql_when_here       = ($this->when_here       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->when_here)."'";
+		$this->sql_inbound         = ($this->inbound         === null) ? "NULL" : (int)$this->inbound;
 	}
 
 
@@ -890,13 +890,13 @@ class personImageTag {
 
 		// build SQL value strings
 
-		$this->sql_tag_id   = ($this->tag_id   == null) ? "NULL" : (int)$this->tag_id;
-		$this->sql_image_id = ($this->image_id == null) ? "NULL" : (int)$this->image_id;
-		$this->sql_tag_x    = ($this->tag_x    == null) ? "NULL" : (int)$this->tag_x;
-		$this->sql_tag_y    = ($this->tag_y    == null) ? "NULL" : (int)$this->tag_y;
-		$this->sql_tag_w    = ($this->tag_w    == null) ? "NULL" : (int)$this->tag_w;
-		$this->sql_tag_h    = ($this->tag_h    == null) ? "NULL" : (int)$this->tag_h;
-		$this->sql_tag_text = ($this->tag_text == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->tag_text)."'";
+		$this->sql_tag_id   = ($this->tag_id   === null) ? "NULL" : (int)$this->tag_id;
+		$this->sql_image_id = ($this->image_id === null) ? "NULL" : (int)$this->image_id;
+		$this->sql_tag_x    = ($this->tag_x    === null) ? "NULL" : (int)$this->tag_x;
+		$this->sql_tag_y    = ($this->tag_y    === null) ? "NULL" : (int)$this->tag_y;
+		$this->sql_tag_w    = ($this->tag_w    === null) ? "NULL" : (int)$this->tag_w;
+		$this->sql_tag_h    = ($this->tag_h    === null) ? "NULL" : (int)$this->tag_h;
+		$this->sql_tag_text = ($this->tag_text === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->tag_text)."'";
 	}
 
 
@@ -1077,15 +1077,15 @@ class personImage {
 
 		// build SQL strings from values
 
-		$this->sql_image_id          = ($this->image_id          == null) ? "NULL" : (int)$this->image_id;
-		$this->sql_p_uuid            = ($this->p_uuid            == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
-		$this->sql_image_type        = ($this->image_type        == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->image_type)."'";
-		$this->sql_image_height      = ($this->image_height      == null) ? "NULL" : (int)$this->image_height;
-		$this->sql_image_width       = ($this->image_width       == null) ? "NULL" : (int)$this->image_width;
-		$this->sql_created           = ($this->created           == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->created)."'";
-		$this->sql_url               = ($this->url               == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url)."'";
-		$this->sql_url_thumb         = ($this->url_thumb         == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_thumb)."'";
-		$this->sql_original_filename = ($this->original_filename == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->original_filename)."'";
+		$this->sql_image_id          = ($this->image_id          === null) ? "NULL" : (int)$this->image_id;
+		$this->sql_p_uuid            = ($this->p_uuid            === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
+		$this->sql_image_type        = ($this->image_type        === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->image_type)."'";
+		$this->sql_image_height      = ($this->image_height      === null) ? "NULL" : (int)$this->image_height;
+		$this->sql_image_width       = ($this->image_width       === null) ? "NULL" : (int)$this->image_width;
+		$this->sql_created           = ($this->created           === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->created)."'";
+		$this->sql_url               = ($this->url               === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url)."'";
+		$this->sql_url_thumb         = ($this->url_thumb         === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_thumb)."'";
+		$this->sql_original_filename = ($this->original_filename === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->original_filename)."'";
 	}
 
 
@@ -1434,31 +1434,31 @@ class person {
 		$this->full_name = $this->given_name." ".$this->family_name;
 
 		// build SQL value strings
-		$this->sql_p_uuid         = ($this->p_uuid         == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
-		$this->sql_full_name      = ($this->full_name      == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->full_name)."'";
-		$this->sql_family_name    = ($this->family_name    == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->family_name)."'";
-		$this->sql_given_name     = ($this->given_name     == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->given_name)."'";
-		$this->sql_incident_id    = ($this->incident_id    == null) ? "NULL" : (int)$this->incident_id;
-		$this->sql_hospital_uuid  = ($this->hospital_uuid  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->hospital_uuid)."'";
-		$this->sql_expiry_date    = ($this->expiry_date    == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->expiry_date)."'";
+		$this->sql_p_uuid         = ($this->p_uuid         === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
+		$this->sql_full_name      = ($this->full_name      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->full_name)."'";
+		$this->sql_family_name    = ($this->family_name    === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->family_name)."'";
+		$this->sql_given_name     = ($this->given_name     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->given_name)."'";
+		$this->sql_incident_id    = ($this->incident_id    === null) ? "NULL" : (int)$this->incident_id;
+		$this->sql_hospital_uuid  = ($this->hospital_uuid  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->hospital_uuid)."'";
+		$this->sql_expiry_date    = ($this->expiry_date    === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->expiry_date)."'";
 
-		$this->sql_opt_status     = ($this->opt_status     == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_status)."'";
-		$this->sql_last_updated   = ($this->last_updated   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_updated)."'";
-		$this->sql_creation_time  = ($this->creation_time  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->creation_time)."'";
+		$this->sql_opt_status     = ($this->opt_status     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_status)."'";
+		$this->sql_last_updated   = ($this->last_updated   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_updated)."'";
+		$this->sql_creation_time  = ($this->creation_time  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->creation_time)."'";
 
-		$this->sql_birth_date     = ($this->birth_date     == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->birth_date)."'";
-		$this->sql_opt_race       = ($this->opt_race       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_race)."'";
-		$this->sql_opt_religion   = ($this->opt_religion   == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_religion)."'";
-		$this->sql_opt_gender     = ($this->opt_gender     == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_gender)."'";
-		$this->sql_years_old      = ($this->years_old      == null) ? "NULL" : (int)$this->years_old;
-		$this->sql_minAge         = ($this->minAge         == null) ? "NULL" : (int)$this->minAge;
-		$this->sql_maxAge         = ($this->maxAge         == null) ? "NULL" : (int)$this->maxAge;
-		$this->sql_last_seen      = ($this->last_seen      == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_seen)."'";
-		$this->sql_last_clothing  = ($this->last_clothing  == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_clothing)."'";
-		$this->sql_other_comments = ($this->other_comments == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->other_comments)."'";
+		$this->sql_birth_date     = ($this->birth_date     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->birth_date)."'";
+		$this->sql_opt_race       = ($this->opt_race       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_race)."'";
+		$this->sql_opt_religion   = ($this->opt_religion   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_religion)."'";
+		$this->sql_opt_gender     = ($this->opt_gender     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_gender)."'";
+		$this->sql_years_old      = ($this->years_old      === null) ? "NULL" : (int)$this->years_old;
+		$this->sql_minAge         = ($this->minAge         === null) ? "NULL" : (int)$this->minAge;
+		$this->sql_maxAge         = ($this->maxAge         === null) ? "NULL" : (int)$this->maxAge;
+		$this->sql_last_seen      = ($this->last_seen      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_seen)."'";
+		$this->sql_last_clothing  = ($this->last_clothing  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_clothing)."'";
+		$this->sql_other_comments = ($this->other_comments === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->other_comments)."'";
 
-		$this->sql_rep_uuid       = ($this->rep_uuid       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->rep_uuid)."'";
-		$this->sql_relation       = ($this->relation       == null) ? "NULL" : "'".mysql_real_escape_string((string)$this->relation)."'";
+		$this->sql_rep_uuid       = ($this->rep_uuid       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->rep_uuid)."'";
+		$this->sql_relation       = ($this->relation       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->relation)."'";
 	}
 
 
@@ -1683,7 +1683,7 @@ class person {
 	public function createUUID() {
 		global $global;
 		require_once($global['approot']."inc/lib_uuid.inc");
-		if($this->p_uuid == null || $this->p_uuid == "") {
+		if($this->p_uuid === null || $this->p_uuid == "") {
 			$this->p_uuid = shn_create_uuid();
 		}
 	}
@@ -1746,7 +1746,7 @@ class person {
 			$this->other_comments = $a['person']['note'];
 
 			// only update the incident_id if not already set
-			if($this->incident_id == null) {
+			if($this->incident_id === null) {
 				$this->incident_id = $a['person']['eventId'];
 			}
 

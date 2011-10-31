@@ -527,6 +527,7 @@ function updateFullName($editGivenName, $editFamilyName) {
 	$r = $global['db']->Execute($q);
 	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit update full name 1"); }
 
+/*
 	// update the full name in the document as we already sent it out...
 	echo "
 		<script>
@@ -534,6 +535,7 @@ function updateFullName($editGivenName, $editFamilyName) {
 			n.value = '".$editGivenName." ".$editFamilyName."';
 		</script>
 	";
+*/
 }
 
 
@@ -647,10 +649,7 @@ function shn_eap_edit() {
 			<form>
 				<fieldset id=\"editHeader\">
 					<legend>Person Record</legend>
-
-					<label for=\"opt_status\"><b>Full Name</b> </label>
-					<input type=\"text\" value=\"".$full_name."\" id=\"full_name\" size=\"64\" class=\"nonedit2 public\" READONLY>
-					<br>
+					<div id=\"moveShitHere\">ok</div>
 	";
 
 
@@ -810,8 +809,9 @@ function shn_eap_edit() {
 			$tcc = "lime";
 		}
 		echo "
-					<label><b>Triage Category</b> </label>
-					<input type=\"text\" value=\"".$tct."\" size=\"64\" class=\"nonedit public tct\" style=\"background-color: ".$tcc.";\" READONLY>
+					<label><b>Initial Triage Category</b> </label>
+					<input type=\"text\" value=\"\" class=\"nonedit public tct\" style=\"border: 1px solid #777; border-radius: 20px; -moz-border-radius: 20px; width: 2px; margin-left: 10px; background-color: ".$tcc.";\" READONLY>
+					<input type=\"text\" value=\"".$tct."\" size=\"8\" class=\"nonedit2 public\" style=\"padding-left: 0px; margin-left: 0px;\" READONLY>
 					<br>
 		";
 	}
@@ -1336,13 +1336,10 @@ function shn_eap_edit() {
 		$editGivenName  = htmlspecialchars(mb_convert_case($editGivenName,  MB_CASE_TITLE, "UTF-8"));
 		$editFamilyName = htmlspecialchars(mb_convert_case($editFamilyName, MB_CASE_TITLE, "UTF-8"));
 		echo "
-			<label for=\"given_name\">Given Name </label>
-			<input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$editGivenName."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
-			<br>
-
-			<label for=\"given_name\">Family Name </label>
-			<input type=\"text\" name=\"family_name\" id=\"family_name\" value=\"".$editFamilyName."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
-			<br>
+			<script>
+				var shit = document.getElementById('moveShitHere');
+				shit.innerHTML = '<b><label for=\"given_name\">Given Name </label></b><input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$editGivenName."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\"><br><b><label for=\"given_name\">Family Name </label></b><input type=\"text\" name=\"family_name\" id=\"family_name\" value=\"".$editFamilyName."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\"><br>';
+			</script>
 
 			<label for=\"age\">Age (Years Old)</label>
 			<input size=\"3\" type=\"number\" min=\"0\" max=\"150\" name=\"age\" id=\"age\" value=\"".$editAge."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
@@ -1482,13 +1479,10 @@ function shn_eap_edit() {
 		$person_uuid['given_name']  = htmlspecialchars(mb_convert_case($person_uuid['given_name'],  MB_CASE_TITLE, "UTF-8"));
 		$person_uuid['family_name'] = htmlspecialchars(mb_convert_case($person_uuid['family_name'], MB_CASE_TITLE, "UTF-8"));
 		echo "
-			<label for=\"given_name\">Given Name </label>
-			<input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$person_uuid['given_name']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
-			<br>
-
-			<label for=\"given_name\">Family Name </label>
-			<input type=\"text\" name=\"family_name\" id=\"family_name\" value=\"".$person_uuid['family_name']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
-			<br>
+			<script>
+				var shit = document.getElementById('moveShitHere');
+				shit.innerHTML = '<b><label for=\"given_name\">Given Name </label></b><input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$person_uuid['given_name']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY><br><b><label for=\"given_name\">Family Name </label></b><input type=\"text\" name=\"family_name\" id=\"family_name\" value=\"".$person_uuid['family_name']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY><br>';
+			</script>
 
 			<label for=\"age\">Age</label>
 			<input type=\"text\" name=\"age\" id=\"age\" value=\"".$person_details['years_old']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
