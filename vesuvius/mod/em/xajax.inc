@@ -788,28 +788,9 @@ function em_perform_new() {
 
 	$group = $_SESSION['group_id'];
 
-	// find the new event index
-	$q = "
-		DELETE FROM `incident_seq`
-		WHERE `id` like '%';
-	";
-	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "new 1"); }
-
-	$q = "
-		INSERT INTO  `incident_seq` (`id`)
-		VALUES (NULL);
-	";
-	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "new 2"); }
-
-	$q = "
-		SELECT *
-		FROM  `incident_seq`
-	";
-	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "new 3"); }
-	$newId = $result->fields['id'];
+	// generate the new event index
+	require_once($global['approot']."/inc/lib_uuid.inc");
+	$newId = shn_create_uuid("incident");
 
 	// insert the new incident
 	$random = mt_rand();
