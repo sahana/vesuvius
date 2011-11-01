@@ -593,7 +593,6 @@ function em_perform_save($page_id, $rj) {
 	$externalReport = mysql_real_escape_string($r['externalReport']);
 	$date        = mysql_real_escape_string($r['eventDate']);
         $pfifUrl     = mysql_real_escape_string($r['pfifUrl']);
-        $pfifKey     = mysql_real_escape_string($r['pfifKey']);
         $pfifSync    = $r['pfifSync'];
 	$street      = mysql_real_escape_string($r['street']);
 	$latitude    = (double)$r['latitude'];
@@ -718,7 +717,6 @@ function em_perform_save($page_id, $rj) {
                 SET
                         name            = '".$pfifName."',
                         base_url        = '".$pfifUrl."',
-                        auth_key        = '".$pfifKey."',
                         sched_interval_minutes = '".$pfifSync."'
                 WHERE incident_id       = '".$eventId."' AND name LIKE 'google%';
         ";
@@ -858,7 +856,7 @@ function em_perform_edit($incident_id) {
 
 	// get Google repository info for this incident
 	$q = "
-		SELECT base_url,auth_key,sched_interval_minutes
+		SELECT base_url,sched_interval_minutes
 		FROM pfif_repository
 		WHERE incident_id = ".$incident_id." AND name LIKE 'google%' LIMIT 1;
 	";
@@ -999,9 +997,9 @@ function em_perform_edit($incident_id) {
         // generate options for PFIF data sync with Google
                 $checkedSync = $rowpfif['sched_interval_minutes'] == "0" ? "" : "CHECKED";
 		$pfif = "
-			PF repository: <input type=\"text\" id=\"pfifUrl\" name=\"pfifUrl\" size=\"40\" value=\"".htmlspecialchars($rowpfif['base_url'])."\">(e.g. https://japan.person-finder.appspot.com/)<br>
-			PF key: <input type=\"text\" id=\"pfifKey\" name=\"pfifKey\" value=\"".htmlspecialchars($rowpfif['auth_key'])."\">&nbsp;&nbsp;
-                        Keep PL and PF synchronized? <input type=\"checkbox\" id=\"pfifSync\" name=\"pfifSync\" value=\"1\" ".$checkedSync.">
+			PF repository: <input type=\"text\" id=\"pfifUrl\" name=\"pfifUrl\" size=\"48\" value=\"".htmlspecialchars($rowpfif['base_url'])."\">
+                        &nbsp;&nbsp;Keep PL and PF synchronized? <input type=\"checkbox\" id=\"pfifSync\" name=\"pfifSync\" value=\"1\" ".$checkedSync."><br>
+                        (e.g. https://turkey-2011.googlepersonfinder.appspot.com)
 		";
         // end PFIF options
 

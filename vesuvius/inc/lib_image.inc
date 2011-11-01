@@ -681,8 +681,10 @@ function _shn_image_media_get($media_id) {
 function shn_image_to_db($p_uuid,$image_type, $image_height, $image_width,$url=null,$thumbUrl=null,$original_filename=null,$replace_id=null) {
    global $global;
 
-   $sql = "INSERT INTO image (p_uuid, image_type, image_height, image_width,url,url_thumb,original_filename)
-		VALUES ('$p_uuid','$image_type','$image_height','$image_width','$url','$thumbUrl','$original_filename')";
+   // Insert image info.
+   $image_id = shn_create_uuid("image");
+   $sql = "INSERT INTO image (image_id, p_uuid, image_type, image_height, image_width,url,url_thumb,original_filename)
+		VALUES ($image_id,'$p_uuid','$image_type','$image_height','$image_width','$url','$thumbUrl','$original_filename')";
    $global['db']->Execute($sql);
    $msg = $global['db']->ErrorMsg();
    if (!empty($msg)) {
