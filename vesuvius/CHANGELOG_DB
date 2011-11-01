@@ -1,6 +1,21 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+2011:1026 Greg
+--------------
+
+CREATE TABLE  `expiry_queue` (
+	`index` INT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+	`p_uuid` VARCHAR(128) NULL DEFAULT NULL ,
+	`requested_by_user_id` INT( 16 ) NULL DEFAULT NULL ,
+	`requested_when` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
+	`queued` BOOLEAN NULL DEFAULT NULL COMMENT  'true when an expiration is requested',
+	`approved_by_user_id` INT( 16 ) NULL DEFAULT NULL ,
+	`approved_when` TIMESTAMP NULL DEFAULT NULL ,
+	`expired` BOOLEAN NULL DEFAULT NULL COMMENT  'true when a expiration is approved'
+) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT =  'person expiry request management queue and related information';
+
+
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
 
 2011:1025 Leif

@@ -390,7 +390,7 @@ function shn_main_plus_register() {
 	global $global;
 	require_once($global['approot'].'mod/plus/register.php');
 }
-
+"<pre>".print_r(get_defined_vars(), true)."</pre>"
 
 
 
