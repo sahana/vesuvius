@@ -688,7 +688,7 @@ function shn_image_to_db($p_uuid,$image_type, $image_height, $image_width,$url=n
    if (!empty($errchk)) {
       throw new RuntimeException($errchk);
    }
-   $q = "SELECT LAST_INSERT_ID() FROM image_seq";
+   $q = "SELECT LAST_INSERT_ID() AS id";
    $result = $global['db']->Execute($q);
    if ($result === false) {
       $errchk = $global['db']->ErrorMsg();
