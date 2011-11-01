@@ -21,6 +21,11 @@ CREATE TABLE  `expiry_queue` (
 2011:1025 Leif
 --------------
 
+ALTER TABLE `pfif_repository` CHANGE `auth_key` `auth_key` VARCHAR( 32 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT 'YMz6eKr-yEA3TXGp'
+
+2011:1025 Leif
+--------------
+
 ALTER TABLE `pl`.`person_status` DROP INDEX `p_uuid` ,
 ADD UNIQUE `p_uuid` ( `p_uuid` )
 

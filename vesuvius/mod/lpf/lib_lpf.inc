@@ -1,15 +1,16 @@
 <?php
 /**
  * @name         LPF Library
- * @version      24
+ * @version      25
  * @package      lpf
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0909
+ * @lastModified 2011.1027
  */
+
 
 
 // Enumerated Types...
@@ -22,6 +23,9 @@ $global['enumXmlFormats']        = array('REUNITE3', 'TRIAGEPIC1', 'TRIAGEPIC0',
 
 // whether to save the xml attachments for debug purposes
 $global['debugAndSaveXmlToFile'] = true;
+
+// load uuid library for generating id's
+require_once($global['approot']."/inc/lib_uuid.inc");
 
 
 /** ******************************************************************************************************************************************************************
@@ -134,30 +138,7 @@ class voiceNote {
 
 	// initializes some values for a new instance (instead of when we load a previous instance)
 	public function init() {
-		// update sequence
-		$q = "
-			DELETE FROM `voice_note_seq`
-			WHERE `id` like '%';
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote delete old sequence"); }
-
-		$q = "
-			INSERT INTO  `voice_note_seq` (`id`)
-			VALUES (NULL);
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote insert new sequence"); }
-
-		// get new index value
-		$q = "
-			SELECT *
-			FROM  `voice_note_seq`
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote get sequence"); }
-
-		$this->voice_note_id = $result->fields['id'];
+		$this->voice_note_id = shn_create_uuid("voice_note");
 	}
 
 
@@ -512,58 +493,8 @@ class personEdxl {
 
 		// update sequences
 
-		$this->co_id = $this->getNew_co_id();
-		$this->de_id = $this->getNew_de_id();
-	}
-
-
-	public function getNew_co_id() {
-		$q = "
-			DELETE FROM `edxl_co_header_seq`
-			WHERE `id` like '%';
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl delete co sequence"); }
-
-		$q = "
-			INSERT INTO  `edxl_co_header_seq` (`id`)
-			VALUES (NULL);
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl insert co sequence"); }
-
-		$q = "
-			SELECT *
-			FROM  `edxl_co_header_seq`
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl get co sequence"); }
-		return $result->fields['id'];
-	}
-
-
-	public function getNew_de_id() {
-		$q = "
-			DELETE FROM `edxl_de_header_seq`
-			WHERE `id` like '%';
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl delete de sequence"); }
-
-		$q = "
-			INSERT INTO  `edxl_de_header_seq` (`id`)
-			VALUES (NULL);
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl insert de sequence"); }
-
-		$q = "
-			SELECT *
-			FROM  `edxl_de_header_seq`
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl get de sequence"); }
-		return $result->fields['id'];
+		$this->co_id = shn_create_uuid("edxl_co_header");
+		$this->de_id = shn_create_uuid("edxl_de_header");
 	}
 
 
@@ -848,39 +779,7 @@ class personImageTag {
 
 	// initializes some values for a new instance (instead of when we load a previous instance)
 	public function init() {
-		// lock tables to hold new indexes for this session
-		//$q = "LOCK table image_tag write;";
-		//$result = $this->db->Execute($q);
-
-		// get index value
-		//$q = "SHOW TABLE STATUS LIKE 'image_tag'";
-		//$result = $this->db->Execute($q);
-		//$this->tag_id = $result->fields['Auto_increment'];
-
-		// update sequence
-		$q = "
-			DELETE FROM `image_tag_seq`
-			WHERE `id` like '%';
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag delete sequence"); }
-
-		$q = "
-			INSERT INTO  `image_tag_seq` (`id`)
-			VALUES (NULL);
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag insert sequence"); }
-
-		// get new index value
-		$q = "
-			SELECT *
-			FROM  `image_tag_seq`
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag get sequence"); }
-
-		$this->tag_id = $result->fields['id'];
+		$this->tag_id = shn_create_uuid("image_tag");
 	}
 
 
@@ -1033,41 +932,7 @@ class personImage {
 
 	// initializes some values for a new instance (instead of when we load a previous instance)
 	public function init() {
-		/*
-		// lock tables to hold new indexes for this session
-		$q = "LOCK TABLE image write;";
-		//$result = $this->db->Execute($q);
-
-		// get index values
-		$q = "SHOW TABLE STATUS LIKE 'image'";
-		$result = $this->db->Execute($q);
-		$this->image_id = $result->fields['Auto_increment'];
-		*/
-
-		// update sequence
-		$q = "
-			DELETE FROM `image_seq`
-			WHERE `id` like '%';
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage delete sequence"); }
-
-		$q = "
-			INSERT INTO  `image_seq` (`id`)
-			VALUES (NULL);
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage insert sequence"); }
-
-		// get new index value
-		$q = "
-			SELECT *
-			FROM  `image_seq`;
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage get sequence"); }
-
-		$this->image_id = $result->fields['id'];
+		$this->image_id = shn_create_uuid("image");
 	}
 
 
@@ -1681,10 +1546,8 @@ class person {
 
 
 	public function createUUID() {
-		global $global;
-		require_once($global['approot']."inc/lib_uuid.inc");
 		if($this->p_uuid === null || $this->p_uuid == "") {
-			$this->p_uuid = shn_create_uuid();
+			$this->p_uuid = shn_create_uuid("person");
 		}
 	}
 
@@ -1989,7 +1852,7 @@ class person {
 					$this->edxl->uris[]         = $imageNode['uri'];
 					$this->edxl->contentDatas[] = $imageNode['contentData'];
 					$this->edxl->image_ids[]    = $i->image_id;
-					$this->edxl->image_co_ids[] = $this->edxl->getNew_co_id();
+					$this->edxl->image_co_ids[] = shn_create_uuid("edxl_co_header");
 				}
 			}
 
