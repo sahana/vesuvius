@@ -151,7 +151,6 @@ function em_get_data() {
 	r.eventDate        = $("#eventDate").val();
 	r.eventId          = $("#eventId").val();
 	r.pfifUrl          = $("#pfifUrl").val();
-	r.pfifKey          = $("#pfifKey").val();
 	r.pfifSync         = $("#pfifSync:checked").val();
 	r.street           = $("#address").val();
 	r.eventClosed      = $("#eventClosed:checked").val();
