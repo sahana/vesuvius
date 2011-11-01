@@ -20,8 +20,6 @@ function shn_plus_header2() {
 	global $global;
 	echo "<ul>";
 
-echo "<pre>".print_r(get_defined_vars(), true)."</pre>";
-
 	if($global['action'] == "reportlog" || $global['action'] == "default") {
 		echo "<li>"._t('PLUS_MENU|People Reported')."</li>";
 	} else {
