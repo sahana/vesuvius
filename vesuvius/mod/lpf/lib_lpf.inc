@@ -1297,6 +1297,15 @@ class person {
 		}
 
 		$this->full_name = $this->given_name." ".$this->family_name;
+		if($this->given_name === null) {
+			$this->full_name = $this->family_name;
+		}
+		if($this->family_name === null) {
+			$this->full_name = $this->given_name;
+		}
+		if($this->given_name === null && $this->family_name === null) {
+			$this->full_name = null;
+		}
 
 		// build SQL value strings
 		$this->sql_p_uuid         = ($this->p_uuid         === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
