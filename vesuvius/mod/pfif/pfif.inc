@@ -663,13 +663,18 @@ class Pfif {
          $lookup = $this->checkForReportedPerson($person->person_record_id);
          //var_dump('lookup returns:',$lookup);
          if (count($lookup) > 0) {
-            // Replace duplicate person (PFIF says it should have a new source date, but in
-            // practice Google overwrites anything in PF.)
-            if (strncmp($person->person_record_id, $conf['base_uuid'], strlen($conf['base_uuid']))!=0) {
-               $this->deleteReportedPerson($person->person_record_id);
-            } else {
+            if (strtotime($person->expiry_date) == strtotime($person->source_date)) {
+               // When a record is expired, Google sends out a record to expunge person data. These
+               // records have a matching source and expiry date. Skip these records except to update
+               // the expiration date (since I suspect that in the case of user-deleted records
+               // we need the new expiration date).
+               shn_update_expiry_date($person);
                $_SESSION['pfif_info']['person_insert_errors'] += 1;
                continue;
+            } else {
+               // Replace duplicate person (PFIF says it should have a new source date, but in
+               // practice Google overwrites anything in PF.)
+               $this->deleteReportedPerson($person->person_record_id);
             }
          }
 
@@ -1402,5 +1407,27 @@ class Pfif {
       }
       unset($rs);
       return $notes;
+   }
+
+   /**
+    * Update the expiration date for a person.
+    */
+   private function shn_update_expiry_date(Pfif_Person $person) {
+      // Update expiration date in person_uuid.
+      $sql = "UPDATE person_uuid SET expiry_date='" . $person->expiry_date . "'" .
+             " WHERE p_uuid='".$person->person_record_id."'";
+      $ret = $global['db']->Execute($sql);
+      if ($ret === false) {
+         $errchk = $global['db']->ErrorMsg();
+         error_log("Error performing person_uuid update: " . $errchk);
+      }
+      // Update expiration date in pfif_person.
+      $sql = "UPDATE pfif_person SET expiry_date='" . $person->expiry_date . "'" .
+             " WHERE p_uuid='".$person->person_record_id."'";
+      $ret = $global['db']->Execute($sql);
+      if ($ret === false) {
+         $errchk = $global['db']->ErrorMsg();
+         error_log("Error performing pfif_person update: " . $errchk);
+      }
    }
 }
