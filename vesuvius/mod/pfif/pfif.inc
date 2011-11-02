@@ -1413,6 +1413,7 @@ class Pfif {
     * Update the expiration date for a person.
     */
    private function shn_update_expiry_date(Pfif_Person $person) {
+      global $global;
       // Update expiration date in person_uuid.
       $sql = "UPDATE person_uuid SET expiry_date='" . $person->expiry_date . "'" .
              " WHERE p_uuid='".$person->person_record_id."'";
