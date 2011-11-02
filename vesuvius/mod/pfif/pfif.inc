@@ -668,7 +668,7 @@ class Pfif {
                // records have a matching source and expiry date. Skip these records except to update
                // the expiration date (since I suspect that in the case of user-deleted records
                // we need the new expiration date).
-               shn_update_expiry_date($person);
+               $this->shn_update_expiry_date($person);
                $_SESSION['pfif_info']['person_insert_errors'] += 1;
                continue;
             } else {
