@@ -1563,7 +1563,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	//echo json_encode($time_rangeR);
 
 	//green
-	$queryG="SELECT count( triage_category ) AS count_statusG, '9-11 am' AS time_rangeG
+	$queryG="SELECT count( triage_category ) AS count_statusG, '9-10 am' AS time_rangeG
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '9'AND '9')
@@ -1581,12 +1581,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	SELECT count( triage_category ) AS count_statusR, '12-1 pm' AS time_rangeG
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
-	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '12'AND '12')
-	UNION
-	SELECT count( triage_category ) AS count_statusR, '12-1 pm' AS time_rangeG
-	FROM `edxl_co_lpf` a
-	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
-	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '12'AND '12')
+	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '12'AND '12')	
 	UNION
 	SELECT count( triage_category ) AS count_statusR, '1-2 pm' AS time_rangeG
 	FROM `edxl_co_lpf` a
