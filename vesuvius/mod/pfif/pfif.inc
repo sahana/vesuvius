@@ -668,7 +668,7 @@ class Pfif {
                // records have a matching source and expiry date. Skip these records except to update
                // the expiration date (since I suspect that in the case of user-deleted records
                // we need the new expiration date).
-               shn_update_expiry_date($person);
+               $this->shn_update_expiry_date($person);
                $_SESSION['pfif_info']['person_insert_errors'] += 1;
                continue;
             } else {
@@ -1413,6 +1413,7 @@ class Pfif {
     * Update the expiration date for a person.
     */
    private function shn_update_expiry_date(Pfif_Person $person) {
+      global $global;
       // Update expiration date in person_uuid.
       $sql = "UPDATE person_uuid SET expiry_date='" . $person->expiry_date . "'" .
              " WHERE p_uuid='".$person->person_record_id."'";
