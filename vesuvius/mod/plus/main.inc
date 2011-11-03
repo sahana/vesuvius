@@ -20,7 +20,7 @@ function shn_plus_header2() {
 	global $global;
 	echo "<ul>";
 
-echo "<pre>".print_r(get_defined_vars(), true)."</pre>";
+echo "<h1>TEST DEBUGGING INFO</h1><pre>".print_r(get_defined_vars(), true)."</pre><h1>END TEST DEBUG INFO</h1>";
 
 	if($global['action'] == "reportlog" || $global['action'] == "default") {
 		echo "<li>"._t('PLUS_MENU|People Reported')."</li>";
