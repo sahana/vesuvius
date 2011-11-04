@@ -645,6 +645,7 @@ class Pfif {
       $_SESSION['pfif_info']['images_retried'] = 0;
       $_SESSION['pfif_info']['images_failed'] = 0;
       $_SESSION['pfif_info']['person_insert_errors'] = 0;
+      $_SESSION['pfif_info']['person_insert_dups'] = 0;
       $pfif_persons = $this->getPersons();
       $this->reset_log_dates($pfif_persons[0]->entry_date);
 
@@ -663,13 +664,13 @@ class Pfif {
          $lookup = $this->checkForReportedPerson($person->person_record_id);
          //var_dump('lookup returns:',$lookup);
          if (count($lookup) > 0) {
+            $_SESSION['pfif_info']['person_insert_dups'] += 1;
             if (strtotime($person->expiry_date) == strtotime($person->source_date)) {
                // When a record is expired, Google sends out a record to expunge person data. These
                // records have a matching source and expiry date. Skip these records except to update
                // the expiration date (since I suspect that in the case of user-deleted records
                // we need the new expiration date).
                $this->shn_update_expiry_date($person);
-               $_SESSION['pfif_info']['person_insert_errors'] += 1;
                continue;
             } else {
                // Replace duplicate person (PFIF says it should have a new source date, but in
@@ -710,8 +711,9 @@ class Pfif {
          print_r($failed_images);
       }
 
-      // Update number of persons actually processed.
-      $_SESSION['pfif_info']['pfif_person_count'] = count($pfif_persons) - $_SESSION['pfif_info']['person_insert_errors'];
+      // Save number of new persons.
+      $_SESSION['pfif_info']['pfif_person_count'] = 
+         count($pfif_persons) - ($_SESSION['pfif_info']['person_insert_errors'] + $_SESSION['pfif_info']['person_insert_dups']);
 
       return $_SESSION['pfif_info']['pfif_person_count'];
    }
