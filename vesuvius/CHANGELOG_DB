@@ -1,6 +1,12 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+2011:1106 Leif
+--------------
+
+ALTER TABLE `image` CHANGE `image_id` `image_id` BIGINT( 20 ) NOT NULL 
+
+
 2011:1026 Greg
 --------------
 

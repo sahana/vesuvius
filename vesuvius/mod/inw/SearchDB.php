@@ -530,7 +530,6 @@ class SearchDB
 			$this->SOLRfq .= " -unknown";
 
 
-
 		// hospital filters
 		$this->SOLRfq .= ")&fq=hospital:(*:*";
 		if ( $this->suburban != "true" )
@@ -542,6 +541,12 @@ class SearchDB
 
 		//incident shortname filter (always applied)
 		$this->SOLRfq .= ")&fq=shortname:(" . $this->incident . ")";
+
+                // NULL full_name filter if searching for "unknown"
+                if ($this->searchTerm === "unknown") {
+                        $this->searchTerm = "*:*";
+		   	$this->SOLRfq .= "&fq=-full_name:[* TO *]";
+                }
 	}
 
 	private function getSOLRallCount() {
