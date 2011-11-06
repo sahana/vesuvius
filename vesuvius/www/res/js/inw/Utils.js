@@ -26,6 +26,14 @@ var Utils = {
 		searchSubset();
 	},
 
+        closePopup : function() {
+        	if ($("#detailsPane").is(":visible")) {
+                 	Utils.closeDetail();
+                } else {
+                 	Utils.closeHelp();
+                }
+        },
+
         showDetail : function(person) {
 
                 var doc = document;
@@ -389,7 +397,12 @@ var Utils = {
 
 		var doc = document;
 
-		$("#glass2").css({ height : $(document).height() }).show();
+                //pause the scroll
+                if ( !Globals.displayMode )
+                        ScrollView.pause();
+
+
+		$("#glass").css({ height : $(document).height() }).show();
 
 		$("#helpPane")
 		  .css({left: Math.round($(window).width()/2)-250+'px',
@@ -420,7 +433,11 @@ var Utils = {
 	closeHelp : function() {
 		var doc = document;
 
-		$("#glass2").hide();
+		//play the scroll
+		if ( !Globals.displayMode )
+			ScrollView.play();
+			
+		$("#glass").hide();
 		$("#helpPane").hide();
 		
 		document.location.hash = document.location.hash.replace("_help", "");
