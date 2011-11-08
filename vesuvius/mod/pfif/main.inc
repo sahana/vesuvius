@@ -25,6 +25,13 @@ include_once 'pfif.inc';
 
 function shn_pfif_menu() {
 	echo "<ul>";
+        $text = "View PFIF Service Status";
+        if ((isset($_GET['act']) && $_GET['act'] == "status")
+             || (isset($_GET['act']) && $_GET['act'] == "default")) {
+	   echo "<li><b>$text</b></li>";
+        } else {
+	   echo "<li><a href=\"index.php?mod=pfif&act=status\">$text</a></li>";
+        }
         $text = "Import from PFIF File";
         if (isset($_GET['act']) && $_GET['act'] == "import") {
 	   echo "<li><b>$text</b></li>";
@@ -37,14 +44,8 @@ function shn_pfif_menu() {
         } else {
 	   echo "<li><a href=\"index.php?mod=pfif&act=export\">$text</a></li>";
         }
-        $text = "View PFIF Service Status";
-        if (isset($_GET['act']) && $_GET['act'] == "status") {
-	   echo "<li><b>$text</b></li>";
-        } else {
-	   echo "<li><a href=\"index.php?mod=pfif&act=status\">$text</a></li>";
-        }
-	echo "</ul>";
 	echo "<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
+	echo "</ul>";
 }
 
 
@@ -55,7 +56,7 @@ function shn_pfif_menu() {
  */
 function shn_pfif_default() {
 	global $global;
-	shn_pfif_menu();
+	shn_pfif_status();
 }
 
 

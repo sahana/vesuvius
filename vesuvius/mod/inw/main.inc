@@ -141,7 +141,8 @@ function shn_inw_default() {
 				<input type="textbox" autocomplete="off" value="Enter a name..." id="searchBox" style="color: #CCC"/>
 				<div id="searchButtonWrapper" style="float:left">
 					<input type="submit" value="Search" id="buttonSearch" class="styleTehButton"/>
-					<input type="button" value="Clear"  id="buttonHelp" class="styleTehButton" onclick="Utils.help()"/>
+					<input type="button" value="Clear"  id="buttonClear" class="styleTehButton" onclick="Utils.clear()"/>
+					<input type="button" style="margin-left: 20px; display: none;" value="Help"  id="buttonHelp" class="styleTehButton" onclick="Utils.showHelp()"/>
 				</div>
 				<div style="clear:both;"></div>
 				<div style="float:left;font-size: .85em; display: none;margin-top: 2px;" id="foundLabel">
@@ -218,6 +219,17 @@ function shn_inw_default() {
 		<div id="exitFullScreen"></div>
 		<div id="exitFullScreenIpad" onclick="ScrollView.exitFullScreen()">Tap here to exit...</div>
 		<div id="glass" onclick="Utils.closeDetail();">&nbsp;</div>
+
+		<div id="helpPane">
+			<div id="close" onclick="Utils.closeHelp();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Close</a></div>
+			<div id="helpInfo" style="text-align:left;float:left;margin-top:35px;margin-left:20px; position:relative; border: solid 0px #CCC;">
+			</div>
+			<div style="clear:both;"></div>
+		</div>
+		<div id="glass2" onclick="Utils.closeHelp();">&nbsp;</div>
+
+		<input name="language" id="language" type="hidden" value="<? echo L; ?>">
+		<br />
 
 		<input name="language" id="language" type="hidden" value="<? echo L; ?>">
 		<br />

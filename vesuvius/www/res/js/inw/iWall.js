@@ -159,8 +159,9 @@ function searchSubset2() {
 	$("#menuwrap").append($("#searchOptions").css({marginTop: "10px", marginLeft: "5px"}).show());
 	if ( !$("#shortName").val().match(/cmax/) ) $("#hospital").hide();
 	$("#content").css({marginRight: "0px", paddingRight: "0px"});
-	
-	if ( Globals.initDone == 1 )
+        $("#buttonHelp").show();
+
+	if ( Globals.initDone == 1 ) 
 		$("#scrolling_content").html('<div id="loadingX" class="glass"><img src="res/img/loader.gif" /></div>').show(50);
 	
 }

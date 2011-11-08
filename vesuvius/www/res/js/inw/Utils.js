@@ -26,55 +26,56 @@ var Utils = {
 		searchSubset();
 	},
 
-	showDetail : function(person) {
+        showDetail : function(person) {
 
-		var doc = document;
+                var doc = document;
 
-		//pause the scroll
-		if ( !Globals.displayMode )
-			ScrollView.pause();
+                //pause the scroll
+                if ( !Globals.displayMode )
+                        ScrollView.pause();
 
-		$("#glass").css({ height : $(document).height() }).show();
+                $("#glass").css({ height : $(document).height() }).show();
 
-		$("#detailsPane")
-		  .css({left: Math.round($(window).width()/2)-400+'px',
-				 top: Math.round($(window).height()/2)-250 + Utils.realScrollTop() + 'px'
-				 })
-		  .show();
+                $("#detailsPane")
+                  .css({left: Math.round($(window).width()/2)-400+'px',
+                                 top: Math.round($(window).height()/2)-250 + Utils.realScrollTop() + 'px'
+                                 })
+                  .show();
 
-		$("#dt_uuid").html(person.uuid)
-		$("#dt_fullName").html(person.name || "N/A");
-		$("#dt_age").html(person.displayAge);
-		$("#dt_gender").html(person.gender || "N/A");
-		$("#dt_status").html(person.statusSahanaFull || "N/A");
-		$("#dt_statusSahanaUpdated").html(person.statusSahanaUpdated + " UTC" );
-		$("#dt_location").html(person.location || "N/A");
-		$("#dt_comments").html(person.comments || "N/A");
-		
-		inw_getNotes(person.uuid) 
-		$("#dt_notesTab > a").html("Notes");
-		
-		if ( $("#shortName").val() == "sendai2011" ) // obviously a hack.
-			$("#dt_eapLink > a").attr("href", "http://japan.person-finder.appspot.com/view?lang=en&id=" + person.uuid ).attr("target", "_new");
-		else 
-			$("#dt_eapLink > a").attr("href", "index.php?mod=eap&act=edit&uuid=" + person.encodedUUID);
-			
-		if ( person.hospitalIcon != "" )
-			$("#dt_hospitalIcon").html("<img src='" + person.hospitalIcon + "' />");
-		else
-			$("#dt_hospitalIcon").html("");
+                $("#dt_uuid").html(person.uuid)
+                $("#dt_fullName").html(person.name || "N/A");
+                $("#dt_age").html(person.displayAge);
+                $("#dt_gender").html(person.gender || "N/A");
+                $("#dt_status").html(person.statusSahanaFull || "N/A");
+                $("#dt_statusSahanaUpdated").html(person.statusSahanaUpdated + " UTC" );
+                $("#dt_location").html(person.location || "N/A");
+                $("#dt_comments").html(person.comments || "N/A");
 
-		$("#dt_image").html('<img style="position:relative;max-height:300px;max-width:300px" src="'+person.imageUrl+'">');
-		doc.location.hash += "_details";
-		Globals.pollerId = setInterval( 
-			function() { 
-				if ( doc.location.hash.indexOf("_details") === -1 ) { 
-					Utils.closeDetail()
-					clearInterval(Globals.pollerId);
-				}
-			}, 100);
-		// Utils.loadMap();
-	},
+                inw_getNotes(person.uuid)
+                $("#dt_notesTab > a").html("Notes");
+
+                if ( $("#shortName").val() == "sendai2011" ) // obviously a hack.
+                        $("#dt_eapLink > a").attr("href", "http://japan.person-finder.appspot.com/view?lang=en&id=" + person.uuid ).attr("target", "_new");
+                else
+                        $("#dt_eapLink > a").attr("href", "index.php?mod=eap&act=edit&uuid=" + person.encodedUUID);
+
+                if ( person.hospitalIcon != "" )
+                        $("#dt_hospitalIcon").html("<img src='" + person.hospitalIcon + "' />");
+                else
+                        $("#dt_hospitalIcon").html("");
+
+                $("#dt_image").html('<img style="position:relative;max-height:300px;max-width:300px" src="'+person.imageUrl+'">');
+                doc.location.hash += "_details";
+                Globals.pollerId = setInterval(
+                        function() {
+                                if ( doc.location.hash.indexOf("_details") === -1 ) {
+                                        Utils.closeDetail()
+                                        clearInterval(Globals.pollerId);
+                                }
+                        }, 100);
+                // Utils.loadMap();
+        },
+
 
 	closeDetail : function() {
 		var doc = document;
@@ -379,10 +380,49 @@ var Utils = {
 		return x1 + x2;
 	},
 	
-	help : function () { 
+	clear : function () { 
 		window.location.hash = "";
 		window.location.reload();
-	}
+	},
+
+	showHelp : function() {
+
+		var doc = document;
+
+		$("#glass2").css({ height : $(document).height() }).show();
+
+		$("#helpPane")
+		  .css({left: Math.round($(window).width()/2)-250+'px',
+				 top: Math.round($(window).height()/2)-250 + Utils.realScrollTop() + 'px'
+				 })
+		  .show();
+
+		$("#helpInfo").html("<h3>Search Help</h3>"+
+                  "<ul>"+     
+                  "<li>Enter \"unknown\" to search records without names.</li>"+
+                  "<li>Leave the box blank to browse all records.</li>"+
+                  "<li>Use * as a wildcard (for example: \"Cath*\" will find \"Catherine\").</li>"+
+                  "<li>Search is case-insensitive.</li>"+
+                  "</ul>"
+                );
+
+		
+		doc.location.hash += "_help";
+		Globals.pollerId = setInterval( 
+			function() { 
+				if ( doc.location.hash.indexOf("_help") === -1 ) { 
+					Utils.closeHelp()
+					clearInterval(Globals.pollerId);
+				}
+			}, 100);
+	},
+
+	closeHelp : function() {
+		var doc = document;
+
+		$("#glass2").hide();
+		$("#helpPane").hide();
+		
+		document.location.hash = document.location.hash.replace("_help", "");
+	},
 };
-
-
