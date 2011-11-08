@@ -11,6 +11,9 @@
  */
 
 
+global $global;
+require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
+
 /**
 * Registers one service from the API to the nusoap server
 */
@@ -63,6 +66,7 @@ function shn_plus_logAccess($call="") {
 		INSERT INTO plus_access_log (`access_time`, `application`, `version`, `ip`, `call`, `api_version`)
 		VALUES (CURRENT_TIMESTAMP, '".$app."', '".$ver."', '".$ip."', '".$call."', '".mysql_real_escape_string($global['apiVersion'])."');
 	";
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus log access ((".$q."))"); }
 	$result = $global['db']->Execute($q);
 }
 
@@ -92,6 +96,7 @@ function shn_plus_checkCredz($username, $password) {
 		WHERE user_name = '".mysql_real_escape_string($username)."';
 	";
 	$res = $global['db']->Execute($q);
+	if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus check credz ((".$q."))"); }
 	if(($res == null) || ($res->EOF)) {
 		return 1;
 	} else {
@@ -110,13 +115,62 @@ function shn_plus_checkCredz($username, $password) {
 			AND password = '".$password_digest."'
 			AND salt = '".$salt."';
 		";
-
 		$res2 = $global['db']->Execute($q2);
+		if($res2 === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus check credz 2 ((".$q2."))"); }
 		if(($res2 == null) || ($res2->EOF)) {
 			return 1;
 		} else {
 			return 0; // successfull auth'd
 		}
+	}
+}
+
+
+
+/**
+* Checks the credentials of a user to perform an expiration on a record (must be record owner, hsa, or admin)
+* @return boolean (true if allowed to expire record)
+*/
+function shn_plus_checkCredzExpiry($username, $uuid) {
+
+	global $global;
+
+	$q = "
+		SELECT *
+		FROM users u, sys_user_groups g, sys_user_to_group x
+		WHERE u.user_name = '".mysql_real_escape_string($username)."'
+		AND x.p_uuid = u.p_uuid
+		AND g.group_id = x.group_id
+		AND (
+			g.group_id = 1
+			OR g.group_id = 6
+		);
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus check credz expiry 1 ((".$q."))"); }
+
+	if(($result == null) || ($result->EOF)) {
+
+		// if not admin or hsa, check they are at least the record owner...
+		$q2 = "
+			SELECT *
+			FROM users u, person_to_report p
+			WHERE u.user_name = '".mysql_real_escape_string($username)."'
+			AND p.rep_uuid = u.p_uuid
+			AND p.p_uuid = '".mysql_real_escape_string($uuid)."';
+		";
+		$res2 = $global['db']->Execute($q2);
+		if($res2 === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus check credz expiry 2 ((".$q2."))"); }
+
+		if(($res2 == null) || ($res2->EOF)) {
+			return false;
+		} else {
+			return true; // they must have reported this person
+		}
+
+	} else {
+		// at least one row... they are an admin or hsa
+		return true;
 	}
 }
 
@@ -134,6 +188,8 @@ function shn_plus_emailNewUser($username) {
 		AND u.user_name = '".mysql_real_escape_string($username)."';
 	";
 	$res = $global['db']->Execute($q);
+	if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus email new user ((".$q."))"); }
+
 	if(($res == null) || ($res->EOF)) {
 		return false;
 	} else {
@@ -160,7 +216,7 @@ function shn_plus_emailNewUser($username) {
 
 function shn_plus_activateUser($username) {
 	global $global;
-		$q = "
+	$q = "
 		UPDATE  users
 		SET
 			status =  'active',
@@ -168,6 +224,7 @@ function shn_plus_activateUser($username) {
 		WHERE user_name = '".mysql_real_escape_string($username)."';
 	";
 	$r = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus activate user ((".$q."))"); }
 }
 
 
@@ -185,6 +242,7 @@ function shn_plus_resetEmail($username, $email) {
 		WHERE user_name = '".mysql_real_escape_string($username)."';
 	";
 	$res = $global['db']->Execute($q);
+	if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus reset email ((".$q."))"); }
 
 	// Email the link with confirmation to reset a password
 	$link = makeBaseUrl()."index.php?register&reset=".$confirmation."&username=".$username;
@@ -215,6 +273,8 @@ function shn_plus_resetPasswordAndEmail($username) {
 		AND u.user_name = '".mysql_real_escape_string($username)."';
 	";
 	$res = $global['db']->Execute($q);
+	if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus reset password and email ((".$q."))"); }
+
 	if(($res == null) || ($res->EOF)) {
 		return false;
 	} else {

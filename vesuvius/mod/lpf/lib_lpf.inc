@@ -132,7 +132,7 @@ class voiceNote {
 		// make sure tables are safe :)
 		$q = "UNLOCK TABLES;";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote unlock tables"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote unlock tables ((".$q."))"); }
 	}
 
 
@@ -222,7 +222,7 @@ class voiceNote {
 				".$this->sql_url_resampled_ogg." );
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote insert()"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote insert ((".$q."))"); }
 	}
 }
 
@@ -468,7 +468,7 @@ class personEdxl {
 		// make sure tables are safe :)
 		$q = "UNLOCK TABLES;";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl unlock tables"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl unlock tables ((".$q."))"); }
 	}
 
 	// initializes some values for a new instance (instead of when we load a previous instance)
@@ -584,7 +584,7 @@ class personEdxl {
 				".$this->sql_inbound." );
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl de header insert"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl de header insert ((".$q."))"); }
 
 		$q = "
 			INSERT INTO edxl_co_header (
@@ -607,7 +607,7 @@ class personEdxl {
 				".$this->sql_confidentiality." );
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co header insert"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co header insert ((".$q."))"); }
 
 		$q = "
 			INSERT INTO edxl_co_lpf (
@@ -644,7 +644,7 @@ class personEdxl {
 				".$this->sql_triage_category." );
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co lpf insert"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co lpf insert ((".$q."))"); }
 
 
 		for($i = 0; $i < sizeof($this->contentDatas); $i++) {
@@ -665,7 +665,7 @@ class personEdxl {
 					'".mysql_real_escape_string($this->image_ids[$i])."' );
 			";
 			$result = $this->db->Execute($q);
-			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co photos insert"); }
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co photos insert ((".$q."))"); }
 
 			$q = "
 				INSERT INTO edxl_co_header (
@@ -688,7 +688,7 @@ class personEdxl {
 					".$this->sql_confidentiality." );
 			";
 			$result = $this->db->Execute($q);
-			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co header insert"); }
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co header insert ((".$q."))"); }
 		}
 	}
 }
@@ -773,7 +773,7 @@ class personImageTag {
 		// make sure tables are safe :)
 		$q = "UNLOCK TABLES;";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag unlock tables"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag unlock tables ((".$q."))"); }
 	}
 
 
@@ -927,7 +927,7 @@ class personImage {
 		// make sure tables are safe :)
 		$q = "UNLOCK TABLES;";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage unlock"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage unlock ((".$q."))"); }
 	}
 
 	// initializes some values for a new instance (instead of when we load a previous instance)
@@ -1037,7 +1037,7 @@ class personImage {
 				".$this->sql_original_filename." );
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage insert"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage insert ((".$q."))"); }
 
 		$this->insertImageTags();
 	}
@@ -1140,6 +1140,9 @@ class person {
 	// whether to make a static PFIF not upon insertion
 	public $makePfifNote;
 
+	// if we encounter an error anywhere along the way, its value will be stored here ~ no error, value = 0
+	public $ecode;
+
 	// Constructor:
 	public function	__construct() {
 		// init db
@@ -1204,6 +1207,8 @@ class person {
 		$this->author_email       = null;
 
 		$this->makePfifNote       = true;
+
+		$this->ecode = 0;
 	}
 
 
@@ -1268,6 +1273,8 @@ class person {
 		$this->author_email       = null;
 
 		$this->makePfifNote       = null;
+
+		$this->ecode = null;
 	}
 
 
@@ -1275,6 +1282,92 @@ class person {
 	public function init() {
 		global $global;
 		// not used yet...
+	}
+
+
+	// loads the data from a person in the database
+	public function load() {
+		global $global;
+
+		$q = "
+			SELECT *
+			FROM person_uuid
+			WHERE p_uuid = '".mysql_real_escape_string((string)$this->p_uuid)."' ;
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person load person_uuid ((".$q."))"); }
+
+		if($result != NULL && !$result->EOF) {
+			$this->full_name     = $result->fields['full_name'];
+			$this->family_name   = $result->fields['family_name'];
+			$this->given_name    = $result->fields['given_name'];
+			$this->incident_id   = $result->fields['incident_id'];
+			$this->hospital_uuid = $result->fields['hospital_uuid'];
+			$this->expiry_date   = $result->fields['expiry_date'];
+		} else {
+			$this->ecode = 9000;
+		}
+
+
+		$q = "
+			SELECT *
+			FROM person_status
+			WHERE p_uuid = '".mysql_real_escape_string((string)$this->p_uuid)."' ;
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person load person_status ((".$q."))"); }
+
+		if($result != NULL && !$result->EOF) {
+			$this->opt_status    = $result->fields['opt_status'];
+			$this->last_updated  = $result->fields['last_updated'];
+			$this->creation_time = $result->fields['creation_time'];
+		} else {
+			$this->ecode = 9000;
+		}
+
+
+		$q = "
+			SELECT *
+			FROM person_details
+			WHERE p_uuid = '".mysql_real_escape_string((string)$this->p_uuid)."' ;
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person load person_details ((".$q."))"); }
+
+		if($result != NULL && !$result->EOF) {
+			$this->birth_date     = $result->fields['birth_date'];
+			$this->opt_race       = $result->fields['opt_race'];
+			$this->opt_religion   = $result->fields['opt_religion'];
+			$this->opt_gender     = $result->fields['opt_gender'];
+			$this->years_old      = $result->fields['years_old'];
+			$this->minAge         = $result->fields['minAge'];
+			$this->maxAge         = $result->fields['maxAge'];
+			$this->last_seen      = $result->fields['last_seen'];
+			$this->last_clothing  = $result->fields['last_clothing'];
+			$this->other_comments = $result->fields['other_comments'];
+		} else {
+			$this->ecode = 9000;
+		}
+
+
+		$q = "
+			SELECT *
+			FROM person_to_report
+			WHERE p_uuid = '".mysql_real_escape_string((string)$this->p_uuid)."' ;
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person load person_to_report ((".$q."))"); }
+
+		if($result != NULL && !$result->EOF) {
+			$this->rep_uuid = $result->fields['rep_uuid'];
+		} else {
+			$this->ecode = 9000;
+		}
+
+		//$this->loadImages();
+		//$this->loadEdxl();
+		//$this->loadPfif();
+		//$this->loadVoiceNote();
 	}
 
 
@@ -1358,7 +1451,7 @@ class person {
 				".$this->sql_expiry_date." );
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_uuid insert"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_uuid insert ((".$q."))"); }
 
 		$q = "
 			INSERT INTO person_status (
@@ -1373,7 +1466,7 @@ class person {
 				".$this->sql_creation_time." );
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_status insert"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_status insert ((".$q."))"); }
 
 		$q = "
 			INSERT INTO person_details (
@@ -1402,14 +1495,14 @@ class person {
 				".$this->sql_other_comments." );
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_details insert"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_details insert ((".$q."))"); }
 
 		$q = "
 			INSERT INTO  `person_to_report` (`p_uuid`, `rep_uuid`)
 			VALUES (".$this->sql_p_uuid.", ".$this->sql_rep_uuid.");
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_to_report insert"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_to_report insert ((".$q."))"); }
 
 		$this->insertImages();
 		$this->insertEdxl();
@@ -1425,7 +1518,7 @@ class person {
 			VALUES ('".$this->p_uuid."', '".$this->xmlFormat."');
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person plus_report insert"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person plus_report insert ((".$q."))"); }
 	}
 
 
@@ -1436,7 +1529,7 @@ class person {
 			VALUES ('".$this->p_uuid."');
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person rap_log insert"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person rap_log insert ((".$q."))"); }
 	}
 
 
@@ -1499,7 +1592,7 @@ class person {
 			AND p.p_uuid = '".$this->rep_uuid."';
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get contact for pfif note"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get contact for pfif note ((".$q."))"); }
 
 		if($result != NULL && !$result->EOF) {
 			$n->author_name  = $result->fields['full_name'];
@@ -1526,7 +1619,7 @@ class person {
 			WHERE incident_id = '".$this->incident_id."';
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person check event open"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person check event open ((".$q."))"); }
 
 		if($result != NULL && !$result->EOF) {
 			$row = $result->FetchRow();
@@ -1569,7 +1662,7 @@ class person {
 			WHERE shortname = '".mysql_real_escape_string($eventShortName)."';
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get incident"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get incident ((".$q."))"); }
 
 		$this->incident_id = $result->fields['incident_id'];
 	}
@@ -1664,7 +1757,7 @@ class person {
 				WHERE p_uuid = '".mysql_real_escape_string((string)$this->p_uuid)."';
 			";
 			$result = $this->db->Execute($q);
-			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person check p_uuid collision"); }
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person check p_uuid collision ((".$q."))"); }
 
 			if((int)$result->fields['count(*)'] > 0 ) {
 				return (int)401;
@@ -1696,7 +1789,7 @@ class person {
 			";
 
 			$result = $this->db->Execute($q);
-			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get incident"); }
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get incident ((".$q."))"); }
 
 			if($result != NULL && !$result->EOF) {
 				$this->incident_id = $result->fields['incident_id'];
@@ -1756,7 +1849,7 @@ class person {
 				WHERE shortname = '".mysql_real_escape_string((string)$eventName)."';
 			";
 			$result = $this->db->Execute($q);
-			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get incident"); }
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get incident ((".$q."))"); }
 
 			$this->incident_id = $result->fields["incident_id"];
 
@@ -1809,7 +1902,7 @@ class person {
 				WHERE npi = '".mysql_real_escape_string((string)$orgId)."';
 			";
 			$result = $this->db->Execute($q);
-			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get hospital"); }
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get hospital ((".$q."))"); }
 
 			$this->hospital_uuid = $result->fields["hospital_uuid"];
 			$this->last_seen     = $result->fields["name"]." Hospital";
@@ -1890,7 +1983,7 @@ class person {
 				WHERE shortname = '".mysql_real_escape_string((string)$eventName)."';
 			";
 			$result = $this->db->Execute($q);
-			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get incident"); }
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get incident ((".$q."))"); }
 
 			$this->incident_id = $result->fields["incident_id"];
 
@@ -1943,7 +2036,7 @@ class person {
 				WHERE npi = '".mysql_real_escape_string((string)$orgId)."';
 			";
 			$result = $this->db->Execute($q);
-			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get hospital"); }
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get hospital ((".$q."))"); }
 
 			$this->hospital_uuid = $result->fields["hospital_uuid"];
 			$this->last_seen     = $result->fields["name"]." Hospital";
@@ -2192,7 +2285,7 @@ class pop {
 				'".$toEmail."' ) ;
 		";
 		$result = $global['db']->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "pop send message"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "pop send message ((".$q."))"); }
 	}
 
 
