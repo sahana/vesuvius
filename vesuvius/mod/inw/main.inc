@@ -218,7 +218,7 @@ function shn_inw_default() {
 		</div>
 		<div id="exitFullScreen"></div>
 		<div id="exitFullScreenIpad" onclick="ScrollView.exitFullScreen()">Tap here to exit...</div>
-		<div id="glass" onclick="Utils.closeDetail();">&nbsp;</div>
+		<div id="glass" onclick="Utils.closePopup();">&nbsp;</div>
 
 		<div id="helpPane">
 			<div id="close" onclick="Utils.closeHelp();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Close</a></div>
@@ -226,8 +226,6 @@ function shn_inw_default() {
 			</div>
 			<div style="clear:both;"></div>
 		</div>
-		<div id="glass2" onclick="Utils.closeHelp();">&nbsp;</div>
-
 		<input name="language" id="language" type="hidden" value="<? echo L; ?>">
 		<br />
 
