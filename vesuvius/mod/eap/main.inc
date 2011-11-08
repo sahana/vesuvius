@@ -1839,7 +1839,7 @@ function shn_eap_edit() {
 			FROM person_updates u, person_uuid p
 			WHERE u.p_uuid = '".$global['uuid']."'
 			AND p.p_uuid = u.updated_by_p_uuid
-			ORDER BY update_time ASC;
+			ORDER BY update_time DESC;
 		";
 		$r  = $global['db']->Execute($q);
 		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 31"); }
@@ -2074,8 +2074,6 @@ function shn_eap_edit() {
 		$p->setNote($n);
 		$p->setIncidentId($person_incident['incident_id']);
 		$p->storeNotesInDatabase();
-
-		add_confirmation("Static PFIF Note Created!");
 	}
 }
 

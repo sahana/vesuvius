@@ -1986,9 +1986,33 @@ function expirePerson($uuid, $username, $password) {
 	$ecode = null;
 	$queued = true;
 
-	// not yet implemented ~ stub
-	$error = true;
-	$ecode = 9998;
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'queued'       => null,
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+	}
+
+	$p = new person();
+	$p->p_uuid = $uuid;
+	$ecode = $p->load();
+	if($ecode == 0) {
+		// check expiration permission
+		$allowed = shn_plus_checkCredzExpiry($username, $uuid);
+		if($allowed) {
+			$p->expire();
+			$queued = false;
+		} else {
+			$p->expireQueue();
+			$queued = true;
+		}
+	} else {
+		$error = true;
+	}
 
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
