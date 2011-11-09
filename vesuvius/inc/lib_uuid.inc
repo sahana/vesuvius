@@ -68,6 +68,7 @@ function shn_is_p_uuid_valid($p_uuid) {
  */
 function shn_create_uuid($type='person') {
 	global $conf;
+	global $global;
 
 	switch ($type){
 		case 'person':
@@ -120,6 +121,12 @@ function shn_create_uuid($type='person') {
 			$gen_id = null;
 			break;
 	}
+
+	// temporary for debugging....
+	require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
+	daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "gen_id >> ".$gen_id, print_r(debug_backtrace(), true));
+	daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "gen_id >> ".$gen_id, print_r(get_defined_vars(), true));
+
 	return $gen_id;
 }
 
