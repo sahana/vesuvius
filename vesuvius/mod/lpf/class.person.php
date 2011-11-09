@@ -377,8 +377,90 @@ class person {
 	}
 
 
-	// save the person
+	// save the person (initial save = insert)
 	public function insert() {
+		$this->sync();
+		$q = "
+			INSERT INTO person_uuid (
+				p_uuid,
+				full_name,
+				family_name,
+				given_name,
+				incident_id,
+				hospital_uuid,
+				expiry_date )
+			VALUES (
+				".$this->sql_p_uuid.",
+				".$this->sql_full_name.",
+				".$this->sql_family_name.",
+				".$this->sql_given_name.",
+				".$this->sql_incident_id.",
+				".$this->sql_hospital_uuid.",
+				".$this->sql_expiry_date." );
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_uuid insert ((".$q."))"); }
+
+		$q = "
+			INSERT INTO person_status (
+				p_uuid,
+				opt_status,
+				last_updated,
+				creation_time )
+			VALUES (
+				".$this->sql_p_uuid.",
+				".$this->sql_opt_status.",
+				".$this->sql_last_updated.",
+				".$this->sql_creation_time." );
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_status insert ((".$q."))"); }
+
+		$q = "
+			INSERT INTO person_details (
+				p_uuid,
+				birth_date,
+				opt_race,
+				opt_religion,
+				opt_gender,
+				years_old,
+				minAge,
+				maxAge,
+				last_seen,
+				last_clothing,
+				other_comments )
+			VALUES (
+				".$this->sql_p_uuid.",
+				".$this->sql_birth_date.",
+				".$this->sql_opt_race.",
+				".$this->sql_opt_religion.",
+				".$this->sql_opt_gender.",
+				".$this->sql_years_old.",
+				".$this->sql_minAge.",
+				".$this->sql_maxAge.",
+				".$this->sql_last_seen.",
+				".$this->sql_last_clothing.",
+				".$this->sql_other_comments." );
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_details insert ((".$q."))"); }
+
+		$q = "
+			INSERT INTO  `person_to_report` (`p_uuid`, `rep_uuid`)
+			VALUES (".$this->sql_p_uuid.", ".$this->sql_rep_uuid.");
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_to_report insert ((".$q."))"); }
+
+		$this->insertImages();
+		$this->insertEdxl();
+		$this->makeStaticPfifNote();
+		$this->insertVoiceNote();
+	}
+
+
+	// save the person (subsequent save = update)
+	public function update() {
 		$this->sync();
 		$q = "
 			INSERT INTO person_uuid (
