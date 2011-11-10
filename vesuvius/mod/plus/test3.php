@@ -24,8 +24,12 @@ require_once("../../inc/lib_uuid.inc");
 require_once("../../inc/lib_image.inc");
 
 $p = new person();
-$p->init();
+$p->p_uuid = "pl.nlm.nih.gov/person.4000914";
+$p->load();
 
+echo "\n\n".print_r(get_defined_vars(), true)."\n\n";
+
+/*
 //$p->theString = file_get_contents('reference_REUNITE3.xml');
 //$p->xmlFormat = "REUNITE3";
 
@@ -41,5 +45,5 @@ echo "\n\n".$p->p_uuid."\n\n";
 
 
 
-
+*/
 

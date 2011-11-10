@@ -2,7 +2,7 @@
 
 
 /*
-V5.10 10 Nov 2009   (c) 2000-2009 John Lim (jlim#natsoft.com). All rights reserved.
+V5.14 8 Sept 2011  (c) 2000-2011 John Lim (jlim#natsoft.com). All rights reserved.
          Contributed by Ross Smith (adodb@netebb.com). 
   Released under both BSD license and Lesser GPL library license.
   Whenever there is any discrepancy between the two licenses,
@@ -570,15 +570,17 @@ class ADODB_Session {
 			ADOConnection::outp( " driver=$driver user=$user db=$database ");
 		}
 		
-		if ($persist) {
-			switch($persist) {
-			default:
-			case 'P': $ok = $conn->PConnect($host, $user, $password, $database); break;
-			case 'C': $ok = $conn->Connect($host, $user, $password, $database); break;
-			case 'N': $ok = $conn->NConnect($host, $user, $password, $database); break;
+		if (empty($conn->_connectionID)) { // not dsn
+			if ($persist) {
+				switch($persist) {
+				default:
+				case 'P': $ok = $conn->PConnect($host, $user, $password, $database); break;
+				case 'C': $ok = $conn->Connect($host, $user, $password, $database); break;
+				case 'N': $ok = $conn->NConnect($host, $user, $password, $database); break;
+				}
+			} else {
+				$ok = $conn->Connect($host, $user, $password, $database);
 			}
-		} else {
-			$ok = $conn->Connect($host, $user, $password, $database);
 		}
 
 		if ($ok) $GLOBALS['ADODB_SESS_CONN'] = $conn;
@@ -725,7 +727,7 @@ class ADODB_Session {
 			if ($rs) $rs->Close();
 					
 			if ($rs && reset($rs->fields) > 0) {
-				$sql = "UPDATE $table SET expiry=$expiry, sessdata=".$conn->Param(0).", expireref= ".$conn->Param(1).",modified=$sysTimeStamp WHERE sesskey = ".$conn->Param('2');
+				$sql = "UPDATE $table SET expiry=$expiry, sessdata=".$conn->Param(0).", expireref= ".$conn->Param(1).",modified=$sysTimeStamp WHERE sesskey = ".$conn->Param(2);
 				
 			} else {
 				$sql = "INSERT INTO $table (expiry, sessdata, expireref, sesskey, created, modified) 
@@ -755,7 +757,6 @@ class ADODB_Session {
 			$conn->StartTrans();
 			
 			$rs = $conn->Execute("SELECT COUNT(*) AS cnt FROM $table WHERE $binary sesskey = ".$conn->Param(0),array($key));
-			if ($rs) $rs->Close();
 					
 			if ($rs && reset($rs->fields) > 0) {
 				$sql = "UPDATE $table SET expiry=$expiry, sessdata=$lob_value, expireref= ".$conn->Param(0).",modified=$sysTimeStamp WHERE sesskey = ".$conn->Param('1');
@@ -881,8 +882,8 @@ class ADODB_Session {
 		$savem = $conn->SetFetchMode(ADODB_FETCH_NUM);
 		$sql = "SELECT expireref, sesskey FROM $table WHERE expiry < $time ORDER BY 2"; # add order by to prevent deadlock
 		$rs = $conn->SelectLimit($sql,1000);
-		ADODB_Session::_dumprs($rs);
-		if ($debug) $conn->SetFetchMode($savem);
+		if ($debug) ADODB_Session::_dumprs($rs);
+		$conn->SetFetchMode($savem);
 		if ($rs) {
 			$tr = $conn->hasTransactions;
 			if ($tr) $conn->BeginTrans();

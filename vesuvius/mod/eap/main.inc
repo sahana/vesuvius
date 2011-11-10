@@ -1338,10 +1338,22 @@ function shn_eap_edit() {
 		echo "
 			<script>
 				var shit = document.getElementById('moveShitHere');
-				shit.innerHTML = '<b><label for=\"given_name\">Given Name </label></b><input type=\"text\" name=\"given_name\" id=\"given_name\" value=\"".$editGivenName."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\"><br><b><label for=\"given_name\">Family Name </label></b><input type=\"text\" name=\"family_name\" id=\"family_name\" value=\"".$editFamilyName."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\"><br>';
+				shit.innerHTML = '<b><label for=\"given_name\">Given Name </label></b><input onchange=\"updateGiven(this.value);\" onblur=\"updateGiven(this.value);\" type=\"text\" name=\"given_name2\" id=\"given_name2\" value=\"".$editGivenName."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\"><br><b><label for=\"family_name\">Family Name </label></b><input onchange=\"updateFamily(this.value);\" onblur=\"updateFamily(this.value);\" type=\"text\" name=\"family_name2\" id=\"family_name2\" value=\"".$editFamilyName."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\"><br>';
+
+				function updateGiven(value) {
+					var gv = document.getElementById('given_name');
+					gv.value = value;
+				}
+				function updateFamily(value) {
+					var fv = document.getElementById('family_name');
+					fv.value = value;
+				}
 			</script>
 
-			<label for=\"age\">Age (Years Old)</label>
+			<input type=\"hidden\" id=\"given_name\" name=\"given_name\" value=\"".$editGivenName."\">
+			<input type=\"hidden\" id=\"family_name\" name=\"family_name\" value=\"".$editFamilyName."\">
+
+			<label for=\"age\">Age in Years</label>
 			<input size=\"3\" type=\"number\" min=\"0\" max=\"150\" name=\"age\" id=\"age\" value=\"".$editAge."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
@@ -1827,7 +1839,7 @@ function shn_eap_edit() {
 			FROM person_updates u, person_uuid p
 			WHERE u.p_uuid = '".$global['uuid']."'
 			AND p.p_uuid = u.updated_by_p_uuid
-			ORDER BY update_time ASC;
+			ORDER BY update_time DESC;
 		";
 		$r  = $global['db']->Execute($q);
 		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 31"); }
@@ -2062,8 +2074,6 @@ function shn_eap_edit() {
 		$p->setNote($n);
 		$p->setIncidentId($person_incident['incident_id']);
 		$p->storeNotesInDatabase();
-
-		add_confirmation("Static PFIF Note Created!");
 	}
 }
 
