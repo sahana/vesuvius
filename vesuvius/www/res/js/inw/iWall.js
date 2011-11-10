@@ -229,8 +229,9 @@ function Person() {
 			this.statusSahana = args["opt_status"]; 
 			this.name         = $.trim(args["full_name"]) === "Unknown Unknown" || $.trim(args["full_name"]) == undefined ? "Unknown name" :  $.trim(args["full_name"]) || "Unknown name"; 
 			
-			this.age		  = args["years_old"] || -1;
-			this.minAge       = args["minAge"] || -1;
+                        # Added check for zero (PL-253).
+			this.age	  = (args["years_old"] == 0)? 0 : args["years_old"] || -1;
+			this.minAge       = (args["minAge"] == 0) ? 0 : args["minAge"] || -1;
 			this.maxAge       = args["maxAge"] || -1;
 			
 			this.statusSahanaUpdated = date.toString("yyyy-MM-dd HH:mm"); 
