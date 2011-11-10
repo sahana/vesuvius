@@ -874,13 +874,13 @@ class Pfif {
       if (!empty($age_info['date_of_birth'])) {
          $insert_array['birth_date'] = $age_info['date_of_birth'];
       }
-      if (!empty($age_info['years_old'])) {
+      if (is_numeric($age_info['years_old'])) {
          $insert_array['years_old'] = $age_info['years_old'];
       } else {
-         if (!empty($age_info['minAge'])) {
+         if (is_numeric($age_info['minAge'])) {
             $insert_array['minAge'] = $age_info['minAge'];
          }
-         if (!empty($age_info['maxAge'])) {
+         if (is_numeric($age_info['maxAge'])) {
             $insert_array['maxAge'] = $age_info['maxAge'];
          }
       }
