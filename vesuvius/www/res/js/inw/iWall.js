@@ -229,7 +229,7 @@ function Person() {
 			this.statusSahana = args["opt_status"]; 
 			this.name         = $.trim(args["full_name"]) === "Unknown Unknown" || $.trim(args["full_name"]) == undefined ? "Unknown name" :  $.trim(args["full_name"]) || "Unknown name"; 
 			
-                        # Added check for zero (PL-253).
+                        // Added check for zero (PL-253).
 			this.age	  = (args["years_old"] == 0)? 0 : args["years_old"] || -1;
 			this.minAge       = (args["minAge"] == 0) ? 0 : args["minAge"] || -1;
 			this.maxAge       = args["maxAge"] || -1;
@@ -252,10 +252,13 @@ function Person() {
 			
 			this.mass_casualty_id = args["mass_casualty_id"] || "N/A";
 			
+                        // Added allowance for unbounded range (PL-252).
 			if ( this.age > -1 ) 
 				this.displayAge = this.age;
-			else if ( this.minAge > -1 && this.maxAge > -1 )
-				this.displayAge = this.minAge + "-" + this.maxAge;
+			else if ( this.minAge > -1 && this.maxAge == -1 )
+				this.displayAge = this.minAge + "-?";
+			else if ( this.minAge == -1 && this.maxAge > -1 )
+				this.displayAge = "?-" + this.maxAge;
 			else 
 				this.displayAge = "Unknown";
 
