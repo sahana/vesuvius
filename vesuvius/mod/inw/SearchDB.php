@@ -177,7 +177,7 @@ class SearchDB
 		if ($this->found == "true")
 			$this->statusString .= "fnd;";
 
-        $this->genderString = "";
+		$this->genderString = "";
 		if ($this->male == "true")
 			$this->genderString .= "mal;";
 		if ($this->female == "true")
@@ -192,13 +192,10 @@ class SearchDB
 			$this->ageString .= "youth;";
 		if ($this->adult == "true")
 			$this->ageString .= "adult;";
-		if ($this->adult == "true" && $this->child == "true")
+		if ($this->adult == "true" || $this->child == "true")
 			$this->ageString .= "both;";
 		if ($this->ageUnk == "true")
 			$this->ageString .= "unknown;";
-
-		if ($this->adult == "true" && $this->child == "true")
-			$this->ageString .= "both;";
 
 		$this->hospitalString = "";
 		if ( $this->suburban == "true" )
@@ -402,8 +399,8 @@ class SearchDB
 
 	// ugly but I'd like to have clean json responses.
 	private function cleanUpFacets() {
-		$temp["child"] = $this->SOLRfacetResults->{"ageGroup:youth"};
-		$temp["adult"] = $this->SOLRfacetResults->{"ageGroup:adult"};
+		$temp["child"] = $this->SOLRfacetResults->{"ageGroup:youth"} + $this->SOLRfacetResults->{"ageGroup:both"};
+		$temp["adult"] = $this->SOLRfacetResults->{"ageGroup:adult"} + $this->SOLRfacetResults->{"ageGroup:both"};
 		$temp["otherAge"] = $this->SOLRfacetResults->{"ageGroup:unknown"};
 
 		$temp["missing"] = $this->SOLRfacetResults->{"opt_status:mis"};
@@ -472,7 +469,7 @@ class SearchDB
                     $this->SOLRroot . "select/?fl=*,score&qt=edismax&q=+" . trim(urlencode($this->searchTerm))
                                     . $this->SOLRfq
                                     . "&facet=true" //&facet.field=opt_status&facet.field=years_old&facet.field=opt_gender&facet.field=hospital&facet.missing=true"
-                                    . "&facet.query=ageGroup:youth&facet.query=ageGroup:adult&facet.query=ageGroup:unknown"
+                                    . "&facet.query=ageGroup:youth&facet.query=ageGroup:adult&facet.query=ageGroup:unknown&facet.query=ageGroup:both"
                                     . "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk&facet.query=opt_status:fnd"
                                     . "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:unk&facet.query=opt_gender:cpx"
                                     . "&facet.query=hospital:suburban&facet.query=hospital:wrnmmc&facet.query=hospital:public";
