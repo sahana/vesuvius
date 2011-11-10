@@ -404,6 +404,29 @@ h1 {
 	-webkit-border-radius: 5px;
 }
 
+#helpPane {
+	position: absolute;
+	background-color: white;
+	border: 4px solid #E0ECFF;
+	color: black;
+	font-weight: bold;
+	font-size: 1em;
+	display: none;
+	z-index: 99999;
+	min-height: 250px;
+	width: 500px;
+	text-align: center;
+	padding: 15px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+#helpPane li {
+	padding: 5px;
+}
+
+
 .map {
 	position: absolute;
 	background-color: white;

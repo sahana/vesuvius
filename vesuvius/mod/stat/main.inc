@@ -33,6 +33,7 @@ function shn_stat_menu() {
 			<li><a href=\"index.php?mod=stat&act=status\">Status Statistics</a></li>
 			<li><a href=\"index.php?mod=stat&act=gender\">Gender Statistics</a></li>
 			<li><a href=\"index.php?mod=stat&act=age\">Age Statistics</a></li>
+			<li><a href=\"index.php?mod=stat&act=agegroup\">Adult/Pediatrics Statistics</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_bydate\">Arrival Rate by Date</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_byhour\">Arrival Rate by Hour</a></li>
 			<li><a href=\"index.php?mod=stat&act=arrival_byminute\">Arrival Rate by Minute</a></li>
@@ -131,6 +132,7 @@ function shn_stat_status() {
                   echo "}\n" ;
 	echo "},\n" ;
       echo "yAxis: {\n" ;
+		echo "allowDecimals: false, \n";
          echo "min: 0,\n" ;
          echo "title: {\n" ;
             echo "text: 'People Count'\n" ;
@@ -233,6 +235,7 @@ function shn_stat_gender() {
                   echo "}\n" ;
 	echo "},\n" ;
       echo "yAxis: {\n" ;
+		echo "allowDecimals: false,\n";
          echo "min: 0,\n" ;
          echo "title: {\n" ;
             echo "text: 'People Count'\n" ;
@@ -270,7 +273,7 @@ echo "</script>\n" ;
 }
 
 /***********************************************************
-The report rate by date for sendai, christchurch & hepl only
+The report rate by date for sendai, christchurch, hepl, turkey
 ***********************************************************/
 function shn_stat_arrival_bydate() {
 	global $global;
@@ -372,6 +375,7 @@ function shn_stat_arrival_bydate() {
          echo "}\n" ;
      echo "},\n" ;
      echo "yAxis: {\n" ;
+		echo "allowDecimals: false,\n";
          echo "title: {\n" ;
             echo "text: 'People Count'\n" ;
          echo "}\n" ;
@@ -404,7 +408,7 @@ echo "</script>\n" ;
 }
 /********************************************
 * Arrival Rate by Hour
-* For sendai2011, hepl and christchurch event
+* For sendai2011, hepl, christchurch, turkey
 *********************************************/
 function shn_stat_arrival_byhour() {
 	global $global;
@@ -438,7 +442,7 @@ function shn_stat_arrival_byhour() {
 	where (c.shortname like '".$shortname."' and a.source_date >'2011-02-20')
 	GROUP BY DATE(source_date),HOUR(source_date) order by DATE(source_date),HOUR(source_date)";
 	}
-	//for christchurch
+	//for turkey
 	if($shortname=="turkey2011") {
 	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
@@ -517,6 +521,7 @@ function shn_stat_arrival_byhour() {
      echo "},\n" ;
     echo "yAxis: {\n";
 			echo "title: {\n";
+			echo "allowDecimals: false,\n";
             echo "text: 'Count of Persons Reported'\n";
 					echo "},\n";
 			echo "min: 0.6,\n";
@@ -570,8 +575,8 @@ echo "});\n" ;
 echo "</script>\n" ;
 }
 /********************************************
-* Arrival Rate by Hour
-* For sendai2011, hepl and christchurch event
+* Arrival Rate by Minute
+* For sendai2011, hepl, christchurch, turkey
 *********************************************/
 function shn_stat_arrival_byminute() {
 	global $global;
@@ -684,6 +689,7 @@ function shn_stat_arrival_byminute() {
      echo "},\n" ;
     echo "yAxis: {\n";
 			echo "title: {\n";
+			echo "allowDecimals: false,\n";
             echo "text: 'Count of Persons Reported'\n";
 					echo "},\n";
 			echo "min: 0.6,\n";
@@ -822,8 +828,9 @@ global $global;
 				echo "},\n";
 			echo "maxZoom: 24 * 3600 * 1000\n";
 				echo "},\n";
-		echo "yAxis: {\n";
+		echo "yAxis: {\n";	
 			echo "title: {\n";
+			echo "allowDecimals: false,\n";
             echo "text: 'Expiry Date Count'\n";
 					echo "}\n";
 				echo "},\n";
@@ -963,6 +970,7 @@ function shn_stat_age() {
 	echo "},\n" ;
       echo "yAxis: {\n" ;
          echo "min: 0,\n" ;
+		 echo "allowDecimals: false,\n";
          echo "title: {\n" ;
             echo "text: 'People Count'\n" ;
          echo "},\n" ;
@@ -1110,9 +1118,10 @@ function shn_stat_TP_sub_byhour() {
          echo "}\n" ;
      echo "},\n" ;
      echo "yAxis: {\n" ;
-         echo "title: {\n" ;
+		echo "allowDecimals: false,\n";
+        echo "title: {\n" ;
             echo "text: 'People Count'\n" ;
-         echo "}\n" ;
+        echo "}\n" ;
      echo "},\n" ;
      echo "tooltip: {\n";
 			echo "formatter: function() {\n";
@@ -1215,9 +1224,10 @@ function shn_stat_TP_nnmc_byhour() {
          echo "}\n" ;
      echo "},\n" ;
      echo "yAxis: {\n" ;
+		echo "allowDecimals: false,\n";
          echo "title: {\n" ;
             echo "text: 'People Count'\n" ;
-         echo "}\n" ;
+        echo "}\n" ;
      echo "},\n" ;
      /*
 	 echo "tooltip: {\n" ;
@@ -1332,6 +1342,7 @@ function shn_stat_TP_sub_byminute() {
          echo "}\n" ;
      echo "},\n" ;
      echo "yAxis: {\n" ;
+		echo "allowDecimals: false,\n";
          echo "title: {\n" ;
             echo "text: 'People Count'\n" ;
          echo "}\n" ;
@@ -1371,8 +1382,10 @@ function shn_stat_TP_sub_byminute() {
 echo "});\n" ;
 echo "</script>\n" ;
 }
-/*
-function shn_stat_TP_sub_byminute() {
+/*****************************
+* TP_nnmc_byminute
+*****************************/
+function shn_stat_TP_nnmc_byminute() {
 	global $global;
 	shn_stat_menu();
 	echo "People Statistics for  ";
@@ -1388,7 +1401,7 @@ function shn_stat_TP_sub_byminute() {
 	$res = $global['db']->Execute($q);
 	//$row = mysql_fetch_array($res);
 	$row = $res->FetchRow();
-	/*check result
+	//check result
 	if($row === FALSE) {
     	die(mysql_error());
 	}
@@ -1407,7 +1420,7 @@ function shn_stat_TP_sub_byminute() {
 	echo json_encode($count_update_time);
 	echo json_encode($update_time);
 	/* mysql_close($link); 	*/
-	/*echo "<script type="text/javascript">
+	/* echo "<script type="text/javascript"> */
 	?>
 	<div id="container" style="width: 400px; height: 600px; margin: 0 auto;"></div>;
 	<?php
@@ -1455,10 +1468,11 @@ function shn_stat_TP_sub_byminute() {
          echo "}\n" ;
      echo "},\n" ;
      echo "yAxis: {\n" ;
-         echo "title: {\n" ;
-            echo "text: 'Expiry Date Count'\n" ;
-         echo "}\n" ;
-     echo "},\n" ;
+		echo "allowDecimals: false,\n";
+			echo "title: {\n" ;
+				echo "text: 'Expiry Date Count'\n" ;
+			echo "}\n" ;
+		echo "},\n" ;
 
      echo "tooltip: {\n" ;
          echo "enabled: false,\n" ;
@@ -1486,7 +1500,7 @@ function shn_stat_TP_sub_byminute() {
 echo "});\n" ;
 echo "</script>\n" ;
 }
-*/
+
 /******************
 * TP_sub_stacked_status_byhour function
 *******************/
@@ -1549,7 +1563,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	//echo json_encode($time_rangeR);
 
 	//green
-	$queryG="SELECT count( triage_category ) AS count_statusG, '9-11 am' AS time_rangeG
+	$queryG="SELECT count( triage_category ) AS count_statusG, '9-10 am' AS time_rangeG
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '9'AND '9')
@@ -1567,12 +1581,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	SELECT count( triage_category ) AS count_statusR, '12-1 pm' AS time_rangeG
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
-	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '12'AND '12')
-	UNION
-	SELECT count( triage_category ) AS count_statusR, '12-1 pm' AS time_rangeG
-	FROM `edxl_co_lpf` a
-	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
-	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '12'AND '12')
+	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '12'AND '12')	
 	UNION
 	SELECT count( triage_category ) AS count_statusR, '1-2 pm' AS time_rangeG
 	FROM `edxl_co_lpf` a
@@ -1912,9 +1921,10 @@ echo "var chart = new Highcharts.Chart({\n" ;
 		echo "categories: ['9-10 AM','10-11 AM','11-12 PM','12-1 PM','1-2 PM','2-3 PM']\n" ;
 			echo "},\n" ;
     echo "yAxis: {\n" ;
+		echo "allowDecimals: false,\n";
 		echo "title: {\n" ;
             echo "text: 'People Count'\n" ;
-			echo "},\n" ;
+			echo "}\n" ;
 		echo "},\n" ;
     echo "plotOptions: {\n" ;
         echo "column: {\n" ;
@@ -1961,7 +1971,7 @@ echo "</script>\n" ;
 
 /**************************
 * arrival_bydate_status
-* for sendai, hepl and christchurch only
+* for sendai, hepl, christchurch, turkey
 **************************/
 function shn_stat_arrival_bydate_status() {
 	global $global;
@@ -2001,8 +2011,8 @@ function shn_stat_arrival_bydate_status() {
 	where (c.shortname like '".$shortname."' and a.source_date >'2011-10-22')
 	GROUP BY DATE(source_date) order by DATE(source_date)";
 	}
-	//for CMAX2010
-	if($shortname=="cmax2010"){
+	//for CMAX2010 or new
+	if(($shortname=="cmax2010") || ($shortname=="new")){
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id
@@ -2107,6 +2117,7 @@ function shn_stat_arrival_bydate_status() {
          echo "}\n" ;
      echo "},\n" ;
      echo "yAxis: {\n" ;
+		echo "allowDecimals: false,\n";
          echo "title: {\n" ;
             echo "text: 'People Count'\n" ;
          echo "}\n" ;
@@ -2208,8 +2219,8 @@ function shn_stat_arrival_byhour_status() {
 	where (c.shortname like '".$shortname."' and a.source_date >'2011-10-22')
 	GROUP BY DATE(source_date), HOUR(source_date) order by DATE(source_date), HOUR(source_date)";
 	}
-	//for CMAX2010
-	if($shortname=="cmax2010"){
+	//for CMAX2010 or new
+	if($shortname=="cmax2010") {
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id
@@ -2338,6 +2349,7 @@ function shn_stat_arrival_byhour_status() {
          echo "}\n" ;
      echo "},\n" ;
      echo "yAxis: {\n" ;
+		echo "allowDecimals: false,\n";
          echo "title: {\n" ;
             echo "text: 'People Count'\n" ;
          echo "}\n" ;
@@ -2401,7 +2413,7 @@ echo "</script>\n";
 
 /**************************
 * arrival_byminute_status
-* for cmax2010, sendai, hepl and christchurch only
+* for cmax2010, sendai, hepl, christchurch, turkey
 **************************/
 function shn_stat_arrival_byminute_status() {
 	global $global;
@@ -2441,33 +2453,15 @@ function shn_stat_arrival_byminute_status() {
 	where (c.shortname like '".$shortname."' and a.source_date >'2011-10-22')
 	GROUP BY DATE(source_date), HOUR(source_date) order by DATE(source_date), HOUR(source_date)";
 	}
-	//for CMAX2010
-	if($shortname=="cmax2010"){
+	//for CMAX2010 or new or testtp
+	if(($shortname=="cmax2010") || ($shortname=="new") || ($shortname=="testtp")){
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id
 	GROUP BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)";
-	}
-	//for new
-	if($shortname=="new"){
-	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
-	JOIN edxl_co_header b ON b.de_id = a.de_id
-	JOIN edxl_co_lpf c ON c.co_id = b.co_id
-	WHERE c.event_name like '".$shortname."'
-	GROUP BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)
-	ORDER BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)";
-	}
-	//for testtp
-	if($shortname=="testtp"){
-	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
-	JOIN edxl_co_header b ON b.de_id = a.de_id
-	JOIN edxl_co_lpf c ON c.co_id = b.co_id
-	WHERE c.event_name like '".$shortname."'
-	GROUP BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)
-	ORDER BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)";
-	}
-
+	}	
+	
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 
@@ -2572,6 +2566,7 @@ function shn_stat_arrival_byminute_status() {
          echo "}\n" ;
      echo "},\n" ;
      echo "yAxis: {\n" ;
+		echo "allowDecimals: false,\n";
          echo "title: {\n" ;
             echo "text: 'People Count'\n" ;
          echo "}\n" ;
@@ -2676,31 +2671,14 @@ function shn_stat_arrival_byhour_gender() {
 	GROUP BY DATE(source_date), HOUR(source_date) order by DATE(source_date), HOUR(source_date)";
 	}
 	//for CMAX2010
-	if($shortname=="cmax2010"){
+	if(($shortname=="cmax2010") || ($shortname=="new") || ($shortname=="ttp")){
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 	}
-	//for new
-	if($shortname=="new"){
-	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
-	JOIN edxl_co_header b ON b.de_id = a.de_id
-	JOIN edxl_co_lpf c ON c.co_id = b.co_id
-	WHERE c.event_name like '".$shortname."'
-	GROUP BY DATE( when_sent ) , HOUR(when_sent)
-	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
-	}
-	//for ttp
-	if($shortname=="ttp"){
-	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
-	JOIN edxl_co_header b ON b.de_id = a.de_id
-	JOIN edxl_co_lpf c ON c.co_id = b.co_id
-	WHERE c.event_name like '".$shortname."'
-	GROUP BY DATE( when_sent ) , HOUR(when_sent)
-	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
-	}
+	
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 
@@ -2807,6 +2785,7 @@ function shn_stat_arrival_byhour_gender() {
          echo "}\n" ;
      echo "},\n" ;
      echo "yAxis: {\n" ;
+		echo "allowDecimals: false,\n";
          echo "title: {\n" ;
             echo "text: 'People Count'\n" ;
          echo "}\n" ;
@@ -2879,31 +2858,14 @@ function shn_stat_arrival_byhour_age() {
 	$shortname = $_GET['shortname'];
 
 	//for CMAX2010
-	if($shortname=="cmax2010"){
+	if (($shortname=="cmax2010") || ($shortname=="new") || ($shortname=="ttp")){
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 	}
-	//for new
-	if($shortname=="new"){
-	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
-	JOIN edxl_co_header b ON b.de_id = a.de_id
-	JOIN edxl_co_lpf c ON c.co_id = b.co_id
-	WHERE c.event_name like '".$shortname."'
-	GROUP BY DATE( when_sent ) , HOUR(when_sent)
-	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
-	}
-	//for ttp
-	if($shortname=="ttp"){
-	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
-	JOIN edxl_co_header b ON b.de_id = a.de_id
-	JOIN edxl_co_lpf c ON c.co_id = b.co_id
-	WHERE c.event_name like '".$shortname."'
-	GROUP BY DATE( when_sent ) , HOUR(when_sent)
-	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
-	}
+	
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 
@@ -3012,6 +2974,7 @@ function shn_stat_arrival_byhour_age() {
          echo "}\n" ;
      echo "},\n" ;
      echo "yAxis: {\n" ;
+		echo "allowDecimals: false,\n";
          echo "title: {\n" ;
             echo "text: 'People Count'\n" ;
          echo "}\n" ;
@@ -3097,3 +3060,124 @@ function shn_stat_TP_random() {
 	echo "</div>\n";
 }
 */
+/*******************
+* agegroup (adult/peds)
+* for cmax2010, new only
+*******************/
+function shn_stat_agegroup() {
+	global $global;
+	shn_stat_menu();
+	echo "People Statistics for  ";
+	echo $_GET['shortname'];
+	$shortname = $_GET['shortname'];
+	
+	//for agegroup
+	$q1="SELECT 'pediatrics' as age_range, count(years_old) as count_age FROM `person_details` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	JOIN incident c ON b.incident_id = c.incident_id
+	where (c.shortname like '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 1 and a.years_old <= 17))
+	UNION
+	SELECT 'adult' as age_range, count(years_old) as count_age FROM `person_details` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	JOIN incident c ON b.incident_id = c.incident_id
+	where (c.shortname like '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 18))";
+	$res = $global['db']->Execute($q1);
+	$row = $res->FetchRow();
+
+	if($row === FALSE) {
+    	die(mysql_error());
+	}
+	$json_age_range = array();
+	$json_count_age = array();
+	do{
+		$age_range[] = $row['age_range'];
+		array_push($json_age_range, $row['age_range']);
+		$count_age[] = $row['count_age'];
+		array_push($json_count_age, $row['count_age']);
+		}
+	while($row = $res->FetchRow());
+
+	?>
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
+	<?php
+	$shortname = $_GET['shortname'];
+	echo "\n";
+	
+	$json_age_range = implode("','",$json_age_range);
+	$json_count_age = implode(",", $json_count_age);
+	echo json_encode($json_age_range);
+	echo json_encode($json_count_age);
+	echo "<script type=\"text/javascript\">\n";
+		echo "\n";
+		
+		//agegroup
+		echo "\n";
+		echo "var counts = [$json_count_age],\n";
+		echo "ages = " .json_encode($age_range);
+		echo ",\n";
+		echo "j, data_age = [], chart;";
+		echo "\n";
+		echo "for(j=0; j<counts.length; j++) {\n";
+			echo "data_age.push([ages[j], counts[j]]);\n";
+			echo "}\n";
+
+	echo "\$(document).ready(function() {\n" ;
+	echo "chart = new Highcharts.Chart({\n" ;
+      echo "chart: {\n" ;
+        echo "renderTo: 'container',\n" ;
+		echo "zoomType: 'x',\n";
+      echo "},\n" ;
+      echo "title: {\n" ;
+         echo "text: 'Adults/Pediatrics Statistics for $shortname'\n" ;
+      	  
+      echo "},\n";      
+     echo "tooltip: {\n" ;
+         echo "enabled: false,\n" ;
+         echo "formatter: function() {\n" ;
+		 echo "line:{\n";
+            echo "return '<b>'+ this.series.name +'</b><br/>'+\n" ;
+               echo "this.x +': '+ this.y;\n" ;
+			echo "}\n";
+		echo "pie: {\n";
+			echo "return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %'\n";
+			echo "}\n";
+         echo "}\n" ;
+      echo "},\n" ;
+      echo "plotOptions: {\n" ;
+        echo "line: {\n" ;
+            echo "dataLabels: {\n" ;
+               echo "enabled: true\n" ;
+            echo "},\n" ;
+            echo "enableMouseTracking: false\n" ;
+			echo "},\n" ;
+		echo "pie: {\n" ;
+			echo "allowPointSelect: true,\n" ;
+				echo "cursor: 'pointer',\n" ;
+				echo "dataLabels: {\n" ;
+					echo "enabled: true,\n" ;
+					echo "formatter: function() {\n" ;
+                  echo "return '<b>'+ this.point.name +'</b><br/>'+\n" ;
+				echo "this.y;\n" ;
+               echo "}\n" ;
+            echo "}\n" ;
+         echo "}\n" ;
+      echo "},\n" ;
+
+     echo "series: [{\n" ;
+        echo "name: '". $shortname;
+		echo "'";
+		echo ",\n";		
+		echo "type: 'pie',\n";
+		echo "data: data_age,\n" ;
+		echo "center: [275, 275],\n";
+		echo "size: 450,\n";
+		echo "showInLegend: true,\n";
+		echo "showLegend: true,\n";
+		echo "dataLabels: {\n";
+        echo "enabled: true\n";
+		echo "}\n";
+      echo "}]\n";
+   echo "})\n";
+echo "})\n";
+echo "</script>\n";
+}
