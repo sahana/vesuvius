@@ -1999,15 +1999,19 @@ function expirePerson($uuid, $username, $password) {
 
 	$p = new person();
 	$p->p_uuid = $uuid;
-	$ecode = $p->load();
+	$p->updated_by_p_uuid = shn_plus_getUserUuid($username);
+	$p->load();
+	if($p->ecode == 9000) {
+		$ecode = 410; // if we had trouble loading this record, we'll just report that the person does not exist (most likely whats happening)
+	}
 	if($ecode == 0) {
 		// check expiration permission
 		$allowed = shn_plus_checkCredzExpiry($username, $uuid);
 		if($allowed) {
-			$p->expire();
+			$p->expire(shn_plus_getUserId($username));
 			$queued = false;
 		} else {
-			$p->expireQueue();
+			$p->expireQueue(shn_plus_getUserId($username));
 			$queued = true;
 		}
 	} else {

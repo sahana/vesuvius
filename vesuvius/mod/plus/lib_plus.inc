@@ -135,6 +135,7 @@ function shn_plus_checkCredzExpiry($username, $uuid) {
 
 	global $global;
 
+	// check if the user is admin or hsa member...
 	$q = "
 		SELECT *
 		FROM users u, sys_user_groups g, sys_user_to_group x
@@ -171,6 +172,54 @@ function shn_plus_checkCredzExpiry($username, $uuid) {
 	} else {
 		// at least one row... they are an admin or hsa
 		return true;
+	}
+}
+
+
+
+/**
+* Finds the uuid a a prticular user
+* @return string (false if not found)
+*/
+function shn_plus_getUserUuid($username) {
+	global $global;
+
+	$q = "
+		SELECT *
+		FROM users
+		WHERE user_name = '".mysql_real_escape_string($username)."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus get user uuid ((".$q."))"); }
+
+	if(($result == null) || ($result->EOF)) {
+		return false;
+	} else {
+		return $result->fields["p_uuid"];
+	}
+}
+
+
+
+/**
+* Finds the user_id of a prticular user
+* @return string (false if not found)
+*/
+function shn_plus_getUserId($username) {
+	global $global;
+
+	$q = "
+		SELECT *
+		FROM users
+		WHERE user_name = '".mysql_real_escape_string($username)."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus get user uuid ((".$q."))"); }
+
+	if(($result == null) || ($result->EOF)) {
+		return false;
+	} else {
+		return $result->fields["user_id"];
 	}
 }
 
