@@ -201,7 +201,11 @@ function showFacets() {
 			$("#" + facet + " > span").remove();
 			$("#" + facet).append($("<span></span>")
 						  .css("font-size", "8pt")
-						  .html(" - [" + Utils.addCommas(facets[facet]) + "]"));
+						  .css("position", "absolute")
+						  .css("right", "30px")
+						  .css("margin-top", "7px")
+						  .css("font-weight", "bold")
+						  .html(Utils.addCommas(facets[facet])));
                         // obsolete?
 			//if ( (facet == "male" || facet == "female") && parseInt(facets[facet]) > 0 )
 				//tempGender++;
@@ -231,7 +235,7 @@ function Person() {
 			
                         // Added check for zero (PL-253).
 			this.age	  = (args["years_old"] == 0)? 0 : args["years_old"] || -1;
-			this.minAge       = (args["minAge"] == 0) ? 0 : args["minAge"] || -1;
+			this.minAge       = (args["minAge"] == 0)? 0 : args["minAge"] || -1;
 			this.maxAge       = args["maxAge"] || -1;
 			
 			this.statusSahanaUpdated = date.toString("yyyy-MM-dd HH:mm"); 
@@ -259,6 +263,8 @@ function Person() {
 				this.displayAge = this.minAge + "-?";
 			else if ( this.minAge == -1 && this.maxAge > -1 )
 				this.displayAge = "?-" + this.maxAge;
+                        else if ( this.minAge > -1 && this.maxAge > -1 )
+                                this.displayAge = this.minAge + "-" + this.maxAge;
 			else 
 				this.displayAge = "Unknown";
 

@@ -104,6 +104,7 @@ class SearchDB
 			$this->buildSOLRFilters();
 			$this->buildSOLRQuery();
 			$this->getSOLRallCount();  // there has to be a way to include this in the 1 query, still looking
+			$this->getSOLRFacetCount(); // (PL-234) any way to avoid doing a separate query?
 		}
 	}
 
@@ -428,10 +429,6 @@ class SearchDB
 		// set rows found
 		$this->numRowsFound = $tempObject->response->numFound;
 
-		//take care of facet queries
-		$this->SOLRfacetResults = $tempObject->facet_counts->facet_queries;
-		$this->cleanUpFacets();
-
 		// get query time
 		$this->SOLRqueryTime = $tempObject->responseHeader->QTime;
 
@@ -464,17 +461,9 @@ class SearchDB
 
 	private function buildSOLRQuery() {
                 $this->searchTerm = $this->searchTerm == "" ? "*:*" : $this->searchTerm . "~";
-
                 $this->SOLRquery =
                     $this->SOLRroot . "select/?fl=*,score&qt=edismax&q=+" . trim(urlencode($this->searchTerm))
-                                    . $this->SOLRfq
-                                    . "&facet=true" //&facet.field=opt_status&facet.field=years_old&facet.field=opt_gender&facet.field=hospital&facet.missing=true"
-                                    . "&facet.query=ageGroup:youth&facet.query=ageGroup:adult&facet.query=ageGroup:unknown&facet.query=ageGroup:both"
-                                    . "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk&facet.query=opt_status:fnd"
-                                    . "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:unk&facet.query=opt_gender:cpx"
-                                    . "&facet.query=hospital:suburban&facet.query=hospital:wrnmmc&facet.query=hospital:public";
-
-
+                                    . $this->SOLRfq;
 
 		if ( $this->mode == "true" && $this->perPage != "-1" )
 			$this->SOLRquery .= "&start=" . $this->pageStart . "&rows=" . $this->perPage;
@@ -484,7 +473,7 @@ class SearchDB
 		if ( $this->sortBy != "" )
 			$this->SOLRquery .= "&sort=" . $this->sortBy . ",score desc";
 
-		$this->SOLRquery = str_replace(" ", "%20", $this->SOLRquery);
+		$this->SOLRquery = str_replace(" ", "%20", $this->SOLRquery); 
 
 	}
 
@@ -559,6 +548,30 @@ class SearchDB
 
 		$this->allCount = $tempSOLRjson->response->numFound;
 		//echo $this->allCount;
+	}
+
+	private function getSOLRFacetCount() {
+		$solrQuery = $this->SOLRroot . "select/?qt=edismax&q=+" 
+				 . trim(urlencode($this->searchTerm))
+		                 . "&fq=shortname:(" . $this->incident . ")"
+                                 . (strpos($this->SOLRfq, "-full_name")? "&fq=-full_name:[*%20TO%20*]" : '')
+                                 . "&facet=true"
+                                 . "&facet.query=ageGroup:youth&facet.query=ageGroup:adult&facet.query=ageGroup:unknown&facet.query=ageGroup:both"
+                                 . "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk&facet.query=opt_status:fnd"
+                                 . "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:unk&facet.query=opt_gender:cpx"
+                                 . "&facet.query=hospital:suburban&facet.query=hospital:wrnmmc&facet.query=hospital:public";
+
+		$ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $solrQuery . "&wt=json"); // ensure the json version is called
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_VERBOSE, 1);
+		curl_setopt($ch, CURLOPT_PORT, $this->SOLRport);
+
+		$tempSOLRjson = json_decode(curl_exec($ch));
+                curl_close($ch);
+
+		$this->SOLRfacetResults = $tempSOLRjson->facet_counts->facet_queries;
+		$this->cleanUpFacets();
 	}
 }
 
