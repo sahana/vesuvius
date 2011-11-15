@@ -284,7 +284,6 @@ var Utils = {
 			else {
 				$("#updateAlerts2").fadeIn("slow");
 			}
-			//setTimeout(searchSubset2, 60000);
 			searchSubset(false);
 		}
 	},
@@ -441,5 +440,5 @@ var Utils = {
 		$("#helpPane").hide();
 		
 		document.location.hash = document.location.hash.replace("_help", "");
-	},
+	}
 };
