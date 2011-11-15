@@ -23,7 +23,7 @@ var Utils = {
 		Globals.currPage = 1;
 		Globals.initDone = 1;
 		Globals.personListOld = [];
-		searchSubset();
+		searchSubset(true);
 	},
 
         closePopup : function() {
@@ -283,9 +283,9 @@ var Utils = {
 				$("#updateAlerts").fadeIn("slow");
 			else {
 				$("#updateAlerts2").fadeIn("slow");
-				setTimeout(	searchSubset, 60000 );
 			}
-
+			//setTimeout(searchSubset2, 60000);
+			searchSubset(false);
 		}
 	},
 
@@ -305,7 +305,7 @@ var Utils = {
 				Globals.sortedBy = $("#selectSort").val() + " desc"
 		}
 
-		searchSubset();
+		searchSubset(true);
 	},
 
 	sortBy : function( el ) {
@@ -321,7 +321,7 @@ var Utils = {
 
 		Globals.initDone = 1;
 
-		searchSubset();
+		searchSubset(true);
 	},
 
 	printSet : function() {
@@ -329,13 +329,13 @@ var Utils = {
 		Globals.oldCurrPage = Globals.currPage;
 		Globals.currPage = 1;
 		Globals.displayMode = true;
-		searchSubset();
+		searchSubset(false);
 
 		setTimeout(function() {
 				window.print();
 				Globals.perPage = $("#perPage").val();
 				Globals.currPage = Globals.oldCurrPage;
-				searchSubset();
+				searchSubset(false);
 			}
 			, 1000);
 	},
@@ -370,7 +370,7 @@ var Utils = {
 		Globals.lastUpdated = undefined;
 		Globals.initDone = 1;
 		Globals.currPage = 1;
-		searchSubset();
+		searchSubset(true);
 	},
 	isNumber : function(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);

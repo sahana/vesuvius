@@ -24,7 +24,7 @@ $(document).ready(function start() {
 		if (!Globals.displayMode && $("#content").css("display") == "none") {
 			ScrollView.goFullScreen()
 		} else {
-			searchSubset();
+			searchSubset(true);
 		}
 
 	}
@@ -73,28 +73,16 @@ $(document).ready(function start() {
 			box.style.color = "#000000";
 			$("#searchBox").val(unescape(hash).replace('#', ''));
 		}
-		searchSubset();
+		searchSubset(true);
 	}
 });
 
-function searchSubset() {
-        if (Globals.displayMode) {
-                clearInterval(Globals.updaterId);
-        	searchSubset2();
-        	Globals.updaterId = setInterval("searchSubset2()", Globals.updaterTimer);
-        } else {
-                clearInterval(Globals.updaterId);
-        	searchSubset2();
-        }
-}
-
-function searchSubset2() {
+function searchSubset(first) {
 	Globals.searchTerms = $.trim($("#searchBox").attr("value"));
 	Globals.searchTerms = Globals.searchTerms == "Enter a name..." || Globals.searchTerms == "All" ? "" : Globals.searchTerms;
 	
 	if ( Globals.searchTerms.length < 2 && Globals.searchMode === "sql" ) {
 		alert("Please enter at least 2 characters of a name.");
-                clearInterval(Globals.updaterId);
 		return;
 	}
 	
@@ -163,7 +151,14 @@ function searchSubset2() {
 
 	if ( Globals.initDone == 1 ) 
 		$("#scrolling_content").html('<div id="loadingX" class="glass"><img src="res/img/loader.gif" /></div>').show(50);
-	
+
+        // Queue up next search at first invocation.
+        if (first) {
+        	clearInterval(Globals.updaterId);
+       		Globals.updaterId = setInterval(
+                        "inw_checkForChanges('"+Globals.searchMode+"','"+Globals.incident+"','"+Globals.searchTerms+"','"+sStatus+"','"+sGender+"','"+sAge+"','"+sHospital+"')",
+        		Globals.updaterTimer);
+        }
 }
 
 Object.size = function(obj) {
