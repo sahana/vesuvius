@@ -103,7 +103,6 @@ class SearchDB
 			$this->SOLRport = $conf["SOLR_port"];
 			$this->buildSOLRFilters();
 			$this->buildSOLRQuery();
-			$this->getSOLRallCount();  // there has to be a way to include this in the 1 query, still looking
 		}
 	}
 
@@ -177,7 +176,7 @@ class SearchDB
 		if ($this->found == "true")
 			$this->statusString .= "fnd;";
 
-        $this->genderString = "";
+		$this->genderString = "";
 		if ($this->male == "true")
 			$this->genderString .= "mal;";
 		if ($this->female == "true")
@@ -192,13 +191,10 @@ class SearchDB
 			$this->ageString .= "youth;";
 		if ($this->adult == "true")
 			$this->ageString .= "adult;";
-		if ($this->adult == "true" && $this->child == "true")
+		if ($this->adult == "true" || $this->child == "true")
 			$this->ageString .= "both;";
 		if ($this->ageUnk == "true")
 			$this->ageString .= "unknown;";
-
-		if ($this->adult == "true" && $this->child == "true")
-			$this->ageString .= "both;";
 
 		$this->hospitalString = "";
 		if ( $this->suburban == "true" )
@@ -315,12 +311,11 @@ class SearchDB
 	// TODO: need to test for no connection found?
         public function getLastUpdateSOLR() {
 		global $conf;
-		$solrQuery = $conf["SOLRroot"] . "select/?fl=*,score+desc&q=+"
-					 . trim(urlencode($this->searchTerm)) . "~" //for fuzzy search
-					 . $this->SOLRfq . "&sort=updated+desc&rows=1";
+		$solrQuery = $this->SOLRquery . "&sort=updated desc&rows=1";
+		$solrQuery = str_replace(" ", "%20", $solrQuery); 
 
 		$ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $solrQuery . "&wt=json"); // ensure the json version is called
+                curl_setopt($ch, CURLOPT_URL, $solrQuery . "&wt=json");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_VERBOSE, 1);
 		curl_setopt($ch, CURLOPT_PORT, $this->SOLRport);
@@ -388,22 +383,35 @@ class SearchDB
 
 
 	public function executeSOLRQuery() {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->SOLRquery . "&wt=json"); // ensure the json version is called
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+		$this->getSOLRallCount();  // there has to be a way to include this in the 1 query, still looking
+		$this->getSOLRFacetCount(); // (PL-234) any way to avoid doing a separate query?
+
+		if ( $this->mode == "true" && $this->perPage != "-1" )
+			$this->SOLRquery .= "&start=" . $this->pageStart . "&rows=" . $this->perPage;
+		else
+			$this->SOLRquery .= "&rows=2000"; // max number of rows returned is 2000
+
+		if ( $this->sortBy != "" )
+			$this->SOLRquery .= "&sort=" . $this->sortBy . ",score desc";
+
+		$this->SOLRquery = str_replace(" ", "%20", $this->SOLRquery); 
+
+        	$ch = curl_init();
+        	curl_setopt($ch, CURLOPT_URL, $this->SOLRquery . "&wt=json"); // ensure the json version is called
+        	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        	curl_setopt($ch, CURLOPT_VERBOSE, 1);
 		curl_setopt($ch, CURLOPT_PORT, $this->SOLRport);
 
 		$this->SOLRjson = curl_exec($ch);
-        curl_close($ch);
+        	curl_close($ch);
 
 		$this->processSOLRjson();
 	}
 
 	// ugly but I'd like to have clean json responses.
 	private function cleanUpFacets() {
-		$temp["child"] = $this->SOLRfacetResults->{"ageGroup:youth"};
-		$temp["adult"] = $this->SOLRfacetResults->{"ageGroup:adult"};
+		$temp["child"] = $this->SOLRfacetResults->{"ageGroup:youth"} + $this->SOLRfacetResults->{"ageGroup:both"};
+		$temp["adult"] = $this->SOLRfacetResults->{"ageGroup:adult"} + $this->SOLRfacetResults->{"ageGroup:both"};
 		$temp["otherAge"] = $this->SOLRfacetResults->{"ageGroup:unknown"};
 
 		$temp["missing"] = $this->SOLRfacetResults->{"opt_status:mis"};
@@ -430,10 +438,6 @@ class SearchDB
 
 		// set rows found
 		$this->numRowsFound = $tempObject->response->numFound;
-
-		//take care of facet queries
-		$this->SOLRfacetResults = $tempObject->facet_counts->facet_queries;
-		$this->cleanUpFacets();
 
 		// get query time
 		$this->SOLRqueryTime = $tempObject->responseHeader->QTime;
@@ -467,28 +471,9 @@ class SearchDB
 
 	private function buildSOLRQuery() {
                 $this->searchTerm = $this->searchTerm == "" ? "*:*" : $this->searchTerm . "~";
-
                 $this->SOLRquery =
                     $this->SOLRroot . "select/?fl=*,score&qt=edismax&q=+" . trim(urlencode($this->searchTerm))
-                                    . $this->SOLRfq
-                                    . "&facet=true" //&facet.field=opt_status&facet.field=years_old&facet.field=opt_gender&facet.field=hospital&facet.missing=true"
-                                    . "&facet.query=ageGroup:youth&facet.query=ageGroup:adult&facet.query=ageGroup:unknown"
-                                    . "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk&facet.query=opt_status:fnd"
-                                    . "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:unk&facet.query=opt_gender:cpx"
-                                    . "&facet.query=hospital:suburban&facet.query=hospital:wrnmmc&facet.query=hospital:public";
-
-
-
-		if ( $this->mode == "true" && $this->perPage != "-1" )
-			$this->SOLRquery .= "&start=" . $this->pageStart . "&rows=" . $this->perPage;
-		else
-			$this->SOLRquery .= "&rows=2000"; // max number of rows returned is 2000
-
-		if ( $this->sortBy != "" )
-			$this->SOLRquery .= "&sort=" . $this->sortBy . ",score desc";
-
-		$this->SOLRquery = str_replace(" ", "%20", $this->SOLRquery);
-
+                                    . $this->SOLRfq;
 	}
 
 	private function buildSOLRFilters() {
@@ -552,16 +537,40 @@ class SearchDB
 	private function getSOLRallCount() {
 		$tmpSOLRquery = $this->SOLRroot . "select/?q=*:*&fq=shortname:(" . $this->incident . ")";
 		$ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $tmpSOLRquery . "&wt=json"); // ensure the json version is called
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+        	curl_setopt($ch, CURLOPT_URL, $tmpSOLRquery . "&wt=json"); // ensure the json version is called
+        	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        	curl_setopt($ch, CURLOPT_VERBOSE, 1);
 		curl_setopt($ch, CURLOPT_PORT, $this->SOLRport);
 
 		$tempSOLRjson = json_decode(curl_exec($ch));
-        curl_close($ch);
+        	curl_close($ch);
 
 		$this->allCount = $tempSOLRjson->response->numFound;
 		//echo $this->allCount;
+	}
+
+	private function getSOLRFacetCount() {
+		$solrQuery = $this->SOLRroot . "select/?qt=edismax&q=+" 
+				 . trim(urlencode($this->searchTerm))
+		                 . "&fq=shortname:(" . $this->incident . ")"
+                                 . (strpos($this->SOLRfq, "-full_name")? "&fq=-full_name:[*%20TO%20*]" : '')
+                                 . "&facet=true"
+                                 . "&facet.query=ageGroup:youth&facet.query=ageGroup:adult&facet.query=ageGroup:unknown&facet.query=ageGroup:both"
+                                 . "&facet.query=opt_status:mis&facet.query=opt_status:ali&facet.query=opt_status:inj&facet.query=opt_status:dec&facet.query=opt_status:unk&facet.query=opt_status:fnd"
+                                 . "&facet.query=opt_gender:mal&facet.query=opt_gender:fml&facet.query=opt_gender:unk&facet.query=opt_gender:cpx"
+                                 . "&facet.query=hospital:suburban&facet.query=hospital:wrnmmc&facet.query=hospital:public";
+
+		$ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $solrQuery . "&wt=json"); // ensure the json version is called
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_VERBOSE, 1);
+		curl_setopt($ch, CURLOPT_PORT, $this->SOLRport);
+
+		$tempSOLRjson = json_decode(curl_exec($ch));
+                curl_close($ch);
+
+		$this->SOLRfacetResults = $tempSOLRjson->facet_counts->facet_queries;
+		$this->cleanUpFacets();
 	}
 }
 

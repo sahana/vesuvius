@@ -24,7 +24,7 @@ $(document).ready(function start() {
 		if (!Globals.displayMode && $("#content").css("display") == "none") {
 			ScrollView.goFullScreen()
 		} else {
-			searchSubset();
+			searchSubset(true);
 		}
 
 	}
@@ -73,28 +73,16 @@ $(document).ready(function start() {
 			box.style.color = "#000000";
 			$("#searchBox").val(unescape(hash).replace('#', ''));
 		}
-		searchSubset();
+		searchSubset(true);
 	}
 });
 
-function searchSubset() {
-        if (Globals.displayMode) {
-                clearInterval(Globals.updaterId);
-        	searchSubset2();
-        	Globals.updaterId = setInterval("searchSubset2()", Globals.updaterTimer);
-        } else {
-                clearInterval(Globals.updaterId);
-        	searchSubset2();
-        }
-}
-
-function searchSubset2() {
+function searchSubset(first) {
 	Globals.searchTerms = $.trim($("#searchBox").attr("value"));
 	Globals.searchTerms = Globals.searchTerms == "Enter a name..." || Globals.searchTerms == "All" ? "" : Globals.searchTerms;
 	
 	if ( Globals.searchTerms.length < 2 && Globals.searchMode === "sql" ) {
 		alert("Please enter at least 2 characters of a name.");
-                clearInterval(Globals.updaterId);
 		return;
 	}
 	
@@ -163,7 +151,14 @@ function searchSubset2() {
 
 	if ( Globals.initDone == 1 ) 
 		$("#scrolling_content").html('<div id="loadingX" class="glass"><img src="res/img/loader.gif" /></div>').show(50);
-	
+
+        // Queue up next search at first invocation.
+        if (first) {
+        	clearInterval(Globals.updaterId);
+       		Globals.updaterId = setInterval(
+                        "inw_checkForChanges('"+Globals.searchMode+"','"+Globals.incident+"','"+Globals.searchTerms+"','"+sStatus+"','"+sGender+"','"+sAge+"','"+sHospital+"')",
+        		Globals.updaterTimer);
+        }
 }
 
 Object.size = function(obj) {
@@ -201,7 +196,11 @@ function showFacets() {
 			$("#" + facet + " > span").remove();
 			$("#" + facet).append($("<span></span>")
 						  .css("font-size", "8pt")
-						  .html(" - [" + Utils.addCommas(facets[facet]) + "]"));
+						  .css("position", "absolute")
+						  .css("right", "30px")
+						  .css("margin-top", "7px")
+						  .css("font-weight", "bold")
+						  .html(Utils.addCommas(facets[facet])));
                         // obsolete?
 			//if ( (facet == "male" || facet == "female") && parseInt(facets[facet]) > 0 )
 				//tempGender++;
@@ -229,8 +228,9 @@ function Person() {
 			this.statusSahana = args["opt_status"]; 
 			this.name         = $.trim(args["full_name"]) === "Unknown Unknown" || $.trim(args["full_name"]) == undefined ? "Unknown name" :  $.trim(args["full_name"]) || "Unknown name"; 
 			
-			this.age		  = args["years_old"] || -1;
-			this.minAge       = args["minAge"] || -1;
+                        // Added check for zero (PL-253).
+			this.age	  = (args["years_old"] == 0)? 0 : args["years_old"] || -1;
+			this.minAge       = (args["minAge"] == 0)? 0 : args["minAge"] || -1;
 			this.maxAge       = args["maxAge"] || -1;
 			
 			this.statusSahanaUpdated = date.toString("yyyy-MM-dd HH:mm"); 
@@ -251,10 +251,15 @@ function Person() {
 			
 			this.mass_casualty_id = args["mass_casualty_id"] || "N/A";
 			
+                        // Added allowance for unbounded range (PL-252).
 			if ( this.age > -1 ) 
 				this.displayAge = this.age;
-			else if ( this.minAge > -1 && this.maxAge > -1 )
-				this.displayAge = this.minAge + "-" + this.maxAge;
+			else if ( this.minAge > -1 && this.maxAge == -1 )
+				this.displayAge = this.minAge + "-?";
+			else if ( this.minAge == -1 && this.maxAge > -1 )
+				this.displayAge = "?-" + this.maxAge;
+                        else if ( this.minAge > -1 && this.maxAge > -1 )
+                                this.displayAge = this.minAge + "-" + this.maxAge;
 			else 
 				this.displayAge = "Unknown";
 
