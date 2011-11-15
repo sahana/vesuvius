@@ -759,12 +759,51 @@ class person {
 		$this->expiry_date = date('Y-m-d H:i:s');
 		$this->update();
 
+		// first we clear out all pending expiration requests...
 		$q = "
-			INSERT into expiry_queue (`p_uuid`, `requested_by_user_id`, `requested_when`, `queued`, `approved_by_user_id`, `approved_when`, `expired`)
-			VALUES (".$this->sql_p_uuid.", '".$user_id."', ".$this->sql_expiry_date.", 0, '".$user_id."', ".$this->sql_expiry_date.", 1);
+			DELETE FROM expiry_queue
+			WHERE p_uuid = ".$this->sql_p_uuid.";
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person expire ((".$q."))"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person expire 1 ((".$q."))"); }
+
+		// next we insert a row to indicate who expired this person record
+		$q = "
+			INSERT into expiry_queue (`p_uuid`, `requested_by_user_id`, `requested_when`, `queued`, `approved_by_user_id`, `approved_when`, `expired`)
+			VALUES (".$this->sql_p_uuid.", NULL, NULL, 0, '".$user_id."', ".$this->sql_expiry_date.", 1);
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person expire 2 ((".$q."))"); }
+	}
+
+
+	// queues the expiration of a person
+	function expireQueue($user_id) {
+		$this->sync();
+		$q = "
+			INSERT into expiry_queue (`p_uuid`, `requested_by_user_id`, `requested_when`, `queued`, `approved_by_user_id`, `approved_when`, `expired`)
+			VALUES (".$this->sql_p_uuid.", '".$user_id."', '".date('Y-m-d H:i:s')."', 1, NULL, NULL, 0);
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person expireQueue ((".$q."))"); }
+	}
+
+
+	// checks if the person record has already expired (expiry_date is in the past)
+	function isAlreadyExpired() {
+
+		$currentTime = date('Y-m-d H:i:s');
+
+		$d1 = new DateTime($this->expiry_date);
+		$d2 = new DateTime($currentTime);
+
+		if($this->expiry_date === null) {
+			return false;
+		} else if($d1 == $d2 || $d1 < $d2) {
+			return true;
+		} else if($d1 > $d2) {
+			return false;
+		}
 	}
 
 

@@ -2004,6 +2004,9 @@ function expirePerson($uuid, $username, $password) {
 	if($p->ecode == 9000) {
 		$ecode = 410; // if we had trouble loading this record, we'll just report that the person does not exist (most likely whats happening)
 	}
+	if($p->isAlreadyExpired()) {
+		$ecode = 413;
+	}
 	if($ecode == 0) {
 		// check expiration permission
 		$allowed = shn_plus_checkCredzExpiry($username, $uuid);

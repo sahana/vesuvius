@@ -43,6 +43,7 @@ define("ERRORCODES", serialize(array(
 	410  => "No record available with the given uuid.",
 	411  => "Invalid start or limit value.",
 	412  => "Invalid or future unix timestamp.",
+	413  => "Record has already expired.",
 	9000 => "Database Error.",
 	9998 => "Function not yet implemented (stub).",
 	9999 => "Unknown error.",
