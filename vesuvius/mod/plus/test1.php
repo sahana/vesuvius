@@ -20,7 +20,7 @@ $wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?
 
 $client = new nusoap_client($wsdl);
 
-$result = $client->call('expirePerson', array('uuid'=>'pl.nlm.nih.gov/person.4000981', 'username'=>$user, 'password'=>$pass));
+$result = $client->call('expirePerson', array('uuid'=>'3', 'username'=>$user, 'password'=>$pass));
 
 //$result = $client->call('getUuidByMassCasualtyId', array('mcid'=>'91140', 'shortname'=>'test', 'username'=>$user, 'password'=>$pass));
 
