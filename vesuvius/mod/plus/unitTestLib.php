@@ -678,7 +678,7 @@ function expirePerson($uuid, $user, $pass) {
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
 		$result = $client->call('expirePerson', array('uuid'=>$uuid, 'username'=>$user, 'password'=>$pass));
-		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0 || ($result['errorCode'] == 413))) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
