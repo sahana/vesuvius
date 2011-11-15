@@ -103,8 +103,6 @@ class SearchDB
 			$this->SOLRport = $conf["SOLR_port"];
 			$this->buildSOLRFilters();
 			$this->buildSOLRQuery();
-			$this->getSOLRallCount();  // there has to be a way to include this in the 1 query, still looking
-			$this->getSOLRFacetCount(); // (PL-234) any way to avoid doing a separate query?
 		}
 	}
 
@@ -313,12 +311,11 @@ class SearchDB
 	// TODO: need to test for no connection found?
         public function getLastUpdateSOLR() {
 		global $conf;
-		$solrQuery = $conf["SOLRroot"] . "select/?fl=*,score+desc&q=+"
-					 . trim(urlencode($this->searchTerm)) . "~" //for fuzzy search
-					 . $this->SOLRfq . "&sort=updated+desc&rows=1";
+		$solrQuery = $this->SOLRquery . "&sort=updated desc&rows=1";
+		$solrQuery = str_replace(" ", "%20", $solrQuery); 
 
 		$ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $solrQuery . "&wt=json"); // ensure the json version is called
+                curl_setopt($ch, CURLOPT_URL, $solrQuery . "&wt=json");
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
                 curl_setopt($ch, CURLOPT_VERBOSE, 1);
 		curl_setopt($ch, CURLOPT_PORT, $this->SOLRport);
@@ -386,14 +383,27 @@ class SearchDB
 
 
 	public function executeSOLRQuery() {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->SOLRquery . "&wt=json"); // ensure the json version is called
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+		$this->getSOLRallCount();  // there has to be a way to include this in the 1 query, still looking
+		$this->getSOLRFacetCount(); // (PL-234) any way to avoid doing a separate query?
+
+		if ( $this->mode == "true" && $this->perPage != "-1" )
+			$this->SOLRquery .= "&start=" . $this->pageStart . "&rows=" . $this->perPage;
+		else
+			$this->SOLRquery .= "&rows=2000"; // max number of rows returned is 2000
+
+		if ( $this->sortBy != "" )
+			$this->SOLRquery .= "&sort=" . $this->sortBy . ",score desc";
+
+		$this->SOLRquery = str_replace(" ", "%20", $this->SOLRquery); 
+
+        	$ch = curl_init();
+        	curl_setopt($ch, CURLOPT_URL, $this->SOLRquery . "&wt=json"); // ensure the json version is called
+        	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        	curl_setopt($ch, CURLOPT_VERBOSE, 1);
 		curl_setopt($ch, CURLOPT_PORT, $this->SOLRport);
 
 		$this->SOLRjson = curl_exec($ch);
-        curl_close($ch);
+        	curl_close($ch);
 
 		$this->processSOLRjson();
 	}
@@ -464,17 +474,6 @@ class SearchDB
                 $this->SOLRquery =
                     $this->SOLRroot . "select/?fl=*,score&qt=edismax&q=+" . trim(urlencode($this->searchTerm))
                                     . $this->SOLRfq;
-
-		if ( $this->mode == "true" && $this->perPage != "-1" )
-			$this->SOLRquery .= "&start=" . $this->pageStart . "&rows=" . $this->perPage;
-		else
-			$this->SOLRquery .= "&rows=2000"; // max number of rows returned is 2000
-
-		if ( $this->sortBy != "" )
-			$this->SOLRquery .= "&sort=" . $this->sortBy . ",score desc";
-
-		$this->SOLRquery = str_replace(" ", "%20", $this->SOLRquery); 
-
 	}
 
 	private function buildSOLRFilters() {
@@ -538,13 +537,13 @@ class SearchDB
 	private function getSOLRallCount() {
 		$tmpSOLRquery = $this->SOLRroot . "select/?q=*:*&fq=shortname:(" . $this->incident . ")";
 		$ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $tmpSOLRquery . "&wt=json"); // ensure the json version is called
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_VERBOSE, 1);
+        	curl_setopt($ch, CURLOPT_URL, $tmpSOLRquery . "&wt=json"); // ensure the json version is called
+        	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        	curl_setopt($ch, CURLOPT_VERBOSE, 1);
 		curl_setopt($ch, CURLOPT_PORT, $this->SOLRport);
 
 		$tempSOLRjson = json_decode(curl_exec($ch));
-        curl_close($ch);
+        	curl_close($ch);
 
 		$this->allCount = $tempSOLRjson->response->numFound;
 		//echo $this->allCount;
