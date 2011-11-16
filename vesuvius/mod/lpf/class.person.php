@@ -753,7 +753,7 @@ class person {
 
 
 	// expires a person...
-	function expire($user_id) {
+	function expire($user_id, $explanation) {
 
 		// set the expiration time to now
 		$this->expiry_date = date('Y-m-d H:i:s');
@@ -769,8 +769,8 @@ class person {
 
 		// next we insert a row to indicate who expired this person record
 		$q = "
-			INSERT into expiry_queue (`p_uuid`, `requested_by_user_id`, `requested_when`, `queued`, `approved_by_user_id`, `approved_when`, `expired`)
-			VALUES (".$this->sql_p_uuid.", NULL, NULL, 0, '".$user_id."', ".$this->sql_expiry_date.", 1);
+			INSERT into expiry_queue (`p_uuid`, `requested_by_user_id`, `requested_when`, `queued`, `approved_by_user_id`, `approved_when`, `approved_why`, `expired`)
+			VALUES (".$this->sql_p_uuid.", NULL, NULL, 0, '".$user_id."', ".$this->sql_expiry_date.", '".mysql_real_escape_string($explanation)."', 1);
 		";
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person expire 2 ((".$q."))"); }
@@ -778,11 +778,11 @@ class person {
 
 
 	// queues the expiration of a person
-	function expireQueue($user_id) {
+	function expireQueue($user_id, $explanation) {
 		$this->sync();
 		$q = "
-			INSERT into expiry_queue (`p_uuid`, `requested_by_user_id`, `requested_when`, `queued`, `approved_by_user_id`, `approved_when`, `expired`)
-			VALUES (".$this->sql_p_uuid.", '".$user_id."', '".date('Y-m-d H:i:s')."', 1, NULL, NULL, 0);
+			INSERT into expiry_queue (`p_uuid`, `requested_by_user_id`, `requested_when`, `requested_why`, `queued`, `approved_by_user_id`, `approved_when`, `expired`)
+			VALUES (".$this->sql_p_uuid.", '".$user_id."', '".date('Y-m-d H:i:s')."', '".mysql_real_escape_string($explanation)."', 1, NULL, NULL, 0);
 		";
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person expireQueue ((".$q."))"); }
