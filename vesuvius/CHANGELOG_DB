@@ -1,7 +1,9 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+ALTER TABLE  `expiry_queue` ADD  `requested_why` TEXT NULL DEFAULT NULL COMMENT  'the reason (optional) why a expiration/deletion was requested' AFTER  `requested_when` ;
 
+ALTER TABLE  `expiry_queue` ADD  `approved_why` TEXT NULL DEFAULT NULL COMMENT  'the reason why an approval was accepted or rejected' AFTER  `approved_when` ;
 
 
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////

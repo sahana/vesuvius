@@ -44,6 +44,8 @@ define("ERRORCODES", serialize(array(
 	411  => "Invalid start or limit value.",
 	412  => "Invalid or future unix timestamp.",
 	413  => "Record has already expired.",
+	414  => "Invalid datetime value specified.",
+	415  => "This record has no EDXL component.",
 	9000 => "Database Error.",
 	9998 => "Function not yet implemented (stub).",
 	9999 => "Unknown error.",

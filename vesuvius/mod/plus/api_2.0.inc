@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1007
+ * @lastModified 2011.1115
  */
 
 global $api_version;
@@ -689,7 +689,7 @@ function getEventList() {
 	return array(
 		'eventList'    => (string)json_encode($list),
 		'errorCode'    => (int)0,
-		'errorMessage' => null
+		'errorMessage' => ''
 	);
 }
 
@@ -758,7 +758,7 @@ function getEventListUser($username, $password) {
 	return array(
 		'eventList'    => (string)json_encode($list),
 		'errorCode'    => (int)0,
-		'errorMessage' => null
+		'errorMessage' => ''
 	);
 }
 
@@ -786,7 +786,7 @@ function getGroupList() {
 	return array(
 		'groupList'    => (string)json_encode($list),
 		'errorCode'    => (int)0,
-		'errorMessage' => null
+		'errorMessage' => ''
 	);
 }
 
@@ -818,7 +818,7 @@ function getHospitalList() {
 	return array(
 		'hospitalList' => (string)json_encode($list),
 		'errorCode'    => (int)0,
-		'errorMessage' => null
+		'errorMessage' => ''
 	);
 }
 
@@ -858,7 +858,7 @@ function getHospitalData($hospital_uuid) {
 			'latitude'      => (double)$result->fields["latitude"],
 			'longitude'     => (double)$result->fields["longitude"],
 			'errorCode'     => (int)0,
-			'errorMessage'  => null
+			'errorMessage'  => ''
 		);
 		$result->MoveNext();
 		$error = false;
@@ -915,7 +915,7 @@ function getHospitalPolicy($hospital_uuid) {
 			'honorNoPhotoRequest'        => (boolean)$result->fields['honor_no_photo_request'],
 			'photographerNameRequired'   => (boolean)$result->fields['photographer_name_required'],
 			'errorCode'                  => (int)0,
-			'errorMessage'               => null
+			'errorMessage'               => ''
 		);
 		$result->MoveNext();
 		$error = false;
@@ -923,12 +923,12 @@ function getHospitalPolicy($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'patientIdPrefix'            => null,
-			'patientIdSuffixVariable'    => null,
-			'patientIdSuffixFixedLength' => null,
-			'photoRequired'              => null,
-			'honorNoPhotoRequest'        => null,
-			'photographerNameRequired'   => null,
+			'patientIdPrefix'            => '',
+			'patientIdSuffixVariable'    => (boolean)false,
+			'patientIdSuffixFixedLength' => (int)0,
+			'photoRequired'              => (boolean)false,
+			'honorNoPhotoRequest'        => (boolean)false,
+			'photographerNameRequired'   => (boolean)false,
 			'errorCode'                  => (int)100,
 			'errorMessage'               => (string)$eCodes[100]
 		);
@@ -957,7 +957,7 @@ function getHospitalLegalese($hospital_uuid) {
 		$data = array(
 			'legalese'     => (string)$result->fields["legalese"],
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 		$result->MoveNext();
 		$error = false;
@@ -994,7 +994,7 @@ function getHospitalLegaleseAnon($hospital_uuid) {
 		$data = array(
 			'legaleseAnon' => (string)$result->fields["legaleseAnon"],
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 		$result->MoveNext();
 		$error = false;
@@ -1032,7 +1032,7 @@ function getHospitalLegaleseTimestamps($hospital_uuid) {
 			'legaleseTimestamp'    => (string)$result->fields["legaleseTimestamp"],
 			'legaleseAnonTimestamp'=> (string)$result->fields["legaleseAnonTimestamp"],
 			'errorCode'            => (int)0,
-			'errorMessage'         => null
+			'errorMessage'         => ''
 		);
 		$result->MoveNext();
 		$error = false;
@@ -1123,7 +1123,7 @@ function registerUser($username, $emailAddress, $password, $givenName, $familyNa
 		return array(
 			'registered'   => (boolean)true,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	} else {
 		$eCodes = unserialize(ERRORCODES);
@@ -1172,7 +1172,7 @@ function changeUserPassword($username, $oldPassword, $newPassword) {
 		return array(
 			'changed'      => (boolean)true,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	} else {
 		$eCodes = unserialize(ERRORCODES);
@@ -1211,7 +1211,7 @@ function resetUserPassword($username) {
 		return array(
 			'sent'         => (boolean)true,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	} else {
 		$eCodes = unserialize(ERRORCODES);
@@ -1254,7 +1254,7 @@ function forgotUsername($email) {
 		return array(
 			'sent'         => (boolean)true,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	} else {
 		$eCodes = unserialize(ERRORCODES);
@@ -1282,7 +1282,7 @@ function checkUserAuth($username, $password) {
 		return array(
 			'valid'        => (boolean)true,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	} else {
 		$eCodes = unserialize(ERRORCODES);
@@ -1338,15 +1338,15 @@ function getUserStatus($username) {
 			'locked'       => (boolean)$locked,
 			'banned'       => (boolean)$banned,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	} else {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'pending'      => null,
-			'active'       => null,
-			'locked'       => null,
-			'banned'       => null,
+			'pending'      => (boolean)false,
+			'active'       => (boolean)false,
+			'locked'       => (boolean)false,
+			'banned'       => (boolean)false,
 			'errorCode'    => (int)12,
 			'errorMessage' => (string)$eCodes[12]
 		);
@@ -1377,16 +1377,16 @@ function getUserGroup($username) {
 	}
 	if($success) {
 		return array(
-			'group_id'     => (integer)$result->fields["group_id"],
+			'group_id'     => (int)$result->fields["group_id"],
 			'group_name'   => (string)$result->fields["group_name"],
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	} else {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'group_id'     => null,
-			'group_name'   => null,
+			'group_id'     => (int)0,
+			'group_name'   => '',
 			'errorCode'    => (int)12,
 			'errorMessage' => (string)$eCodes[12]
 		);
@@ -1402,7 +1402,7 @@ function getSessionTimeout() {
 	if($timeout == false) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'timeout'      => null,
+			'timeout'      => (int)0,
 			'errorCode'    => (int)200,
 			'errorMessage' => (string)$eCodes[200]
 		);
@@ -1410,7 +1410,7 @@ function getSessionTimeout() {
 		return array(
 			'timeout'      => (int)$timeout,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	}
 }
@@ -1508,8 +1508,8 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'resultSet'    => null,
-			'recordsFound' => null,
+			'resultSet'    => '',
+			'recordsFound' => (int)0,
 			'timeElapsed'  => (double)$timeElapsed,
 			'errorCode'    => (int)$ecode,
 			'errorMessage' => (string)$eCodes[$ecode]
@@ -1520,7 +1520,7 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 			'recordsFound' => (int)count($search->results),
 			'timeElapsed'  => (double)$timeElapsed,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	}
 }
@@ -1616,8 +1616,8 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'resultSet'    => null,
-			'recordsFound' => null,
+			'resultSet'    => '',
+			'recordsFound' => (int)0,
 			'timeElapsed'  => (double)$timeElapsed,
 			'errorCode'    => (int)$ecode,
 			'errorMessage' => (string)$eCodes[$ecode]
@@ -1628,7 +1628,7 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 			'recordsFound' => (int)count($search->results),
 			'timeElapsed'  => (double)$timeElapsed,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	}
 }
@@ -1720,7 +1720,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 		return array(
 			'url'          => (string)$p->p_uuid,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	}
 }
@@ -1741,7 +1741,7 @@ function createPersonUuid($username, $password) {
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'uuid'         => null,
+			'uuid'         => '',
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
 		);
@@ -1751,7 +1751,7 @@ function createPersonUuid($username, $password) {
 	return array(
 		'uuid'         => (string)$uuid,
 		'errorCode'    => (int)0,
-		'errorMessage' => null
+		'errorMessage' => ''
 	);
 }
 
@@ -1771,7 +1771,7 @@ function createPersonUuidBatch($number, $username, $password) {
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'uuids'        => null,
+			'uuids'        => '',
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
 		);
@@ -1788,7 +1788,7 @@ function createPersonUuidBatch($number, $username, $password) {
 	} else {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'uuids'        => null,
+			'uuids'        => '',
 			'errorCode'    => (int)201,
 			'errorMessage' => (string)$eCodes[201]
 		);
@@ -1797,7 +1797,7 @@ function createPersonUuidBatch($number, $username, $password) {
 	return array(
 		'uuid'         => (string)json_encode($uuids),
 		'errorCode'    => (int)0,
-		'errorMessage' => null
+		'errorMessage' => ''
 	);
 }
 
@@ -1818,7 +1818,7 @@ function createNoteUuid($username, $password) {
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'uuid'         => null,
+			'uuid'         => '',
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
 		);
@@ -1828,7 +1828,7 @@ function createNoteUuid($username, $password) {
 	return array(
 		'uuid'         => (string)$uuid,
 		'errorCode'    => (int)0,
-		'errorMessage' => null
+		'errorMessage' => ''
 	);
 }
 
@@ -1847,7 +1847,7 @@ function createNoteUuidBatch($number, $username, $password) {
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'uuids'        => null,
+			'uuids'        => '',
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
 		);
@@ -1864,7 +1864,7 @@ function createNoteUuidBatch($number, $username, $password) {
 	} else {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'uuids'        => null,
+			'uuids'        => '',
 			'errorCode'    => (int)201,
 			'errorMessage' => (string)$eCodes[201]
 		);
@@ -1873,7 +1873,7 @@ function createNoteUuidBatch($number, $username, $password) {
 	return array(
 		'uuid'         => (string)json_encode($uuids),
 		'errorCode'    => (int)0,
-		'errorMessage' => null
+		'errorMessage' => ''
 	);
 }
 
@@ -1969,7 +1969,7 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 	} else {
 		return array(
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	}
 }
@@ -1991,7 +1991,7 @@ function expirePerson($uuid, $username, $password) {
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'queued'       => null,
+			'queued'       => (boolean)false,
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
 		);
@@ -2003,9 +2003,11 @@ function expirePerson($uuid, $username, $password) {
 	$p->load();
 	if($p->ecode == 9000) {
 		$ecode = 410; // if we had trouble loading this record, we'll just report that the person does not exist (most likely whats happening)
+		$error = true;
 	}
 	if($p->isAlreadyExpired()) {
 		$ecode = 413;
+		$error = true;
 	}
 	if($ecode == 0) {
 		// check expiration permission
@@ -2017,14 +2019,12 @@ function expirePerson($uuid, $username, $password) {
 			$p->expireQueue(shn_plus_getUserId($username));
 			$queued = true;
 		}
-	} else {
-		$error = true;
 	}
 
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'queued'       => null,
+			'queued'       => (boolean)false,
 			'errorCode'    => (int)$ecode,
 			'errorMessage' => (string)$eCodes[$ecode]
 		);
@@ -2032,7 +2032,7 @@ function expirePerson($uuid, $username, $password) {
 		return array(
 			'queued'       => (boolean)$queued,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	}
 }
@@ -2063,7 +2063,7 @@ function getPersonExpiryDate($uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'expiryDate'   => null,
+			'expiryDate'   => '',
 			'errorCode'    => (int)$ecode,
 			'errorMessage' => (string)$eCodes[$ecode]
 		);
@@ -2071,7 +2071,7 @@ function getPersonExpiryDate($uuid) {
 		return array(
 			'expiryDate'   => (string)$expiryDate,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	}
 }
@@ -2084,26 +2084,54 @@ function setPersonExpiryDate($uuid, $expiryDate, $username, $password) {
 	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 	global $conf;
-	$error = true;
-	$ecode = 408;
-	$queued = false;
+	$error = false;
+	$ecode = null;
 
-	// not yet implemented ~ stub
-	$error = true;
-	$ecode = 9998;
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+	}
+
+	$p = new person();
+	$p->p_uuid = $uuid;
+	$p->updated_by_p_uuid = shn_plus_getUserUuid($username);
+	$p->load();
+	if($p->ecode == 9000) {
+		$ecode = 410; // if we had trouble loading this record, we'll just report that the person does not exist (most likely whats happening)
+		$error = true;
+	}
+
+	if(!checkValidDateTime($expiryDate)) {
+		$ecode = 414;
+		$error = true;
+	}
+
+	if(!$error) {
+		// check expiration permission
+		$allowed = shn_plus_checkCredzExpiry($username, $uuid);
+		if($allowed) {
+			$p->setExpiryDate($expiryDate);
+		} else {
+			$ecode = 408;
+			$error = true;
+		}
+	}
 
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'queued'       => null,
 			'errorCode'    => (int)$ecode,
 			'errorMessage' => (string)$eCodes[$ecode]
 		);
 	} else {
 		return array(
-			'queued'       => (boolean)$queued,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	}
 }
@@ -2116,26 +2144,49 @@ function setPersonExpiryDateOneYear($uuid, $username, $password) {
 	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 	global $conf;
-	$error = true;
-	$ecode = 408;
-	$queued = false;
+	$error = false;
+	$ecode = null;
 
-	// not yet implemented ~ stub
-	$error = true;
-	$ecode = 9998;
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+	}
+
+	$p = new person();
+	$p->p_uuid = $uuid;
+	$p->updated_by_p_uuid = shn_plus_getUserUuid($username);
+	$p->load();
+	if($p->ecode == 9000) {
+		$ecode = 410; // if we had trouble loading this record, we'll just report that the person does not exist (most likely whats happening)
+		$error = true;
+	}
+
+	if(!$error) {
+		// check expiration permission
+		$allowed = shn_plus_checkCredzExpiry($username, $uuid);
+		if($allowed) {
+			$p->setExpiryDateOneYear();
+		} else {
+			$ecode = 408;
+			$error = true;
+		}
+	}
 
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'queued'       => null,
 			'errorCode'    => (int)$ecode,
 			'errorMessage' => (string)$eCodes[$ecode]
 		);
 	} else {
 		return array(
-			'queued'       => (boolean)$queued,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	}
 }
@@ -2175,7 +2226,7 @@ function getUuidByMassCasualtyId($mcid, $shortname, $username, $password) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'uuid'         => null,
+			'uuid'         => '',
 			'errorCode'    => (int)$ecode,
 			'errorMessage' => (string)$eCodes[$ecode]
 		);
@@ -2183,7 +2234,7 @@ function getUuidByMassCasualtyId($mcid, $shortname, $username, $password) {
 		return array(
 			'uuid'         => (string)$uuid,
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	}
 }
@@ -2199,9 +2250,35 @@ function changeMassCasualtyId($newMcid, $uuid, $username, $password) {
 	$error = false;
 	$ecode = null;
 
-	// not yet implemented ~ stub
-	$error = true;
-	$ecode = 9998;
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+	}
+
+	$p = new person();
+	$p->p_uuid = $uuid;
+	$p->updated_by_p_uuid = shn_plus_getUserUuid($username);
+	$p->load();
+	if($p->ecode == 9000) {
+		$ecode = 410; // if we had trouble loading this record, we'll just report that the person does not exist (most likely whats happening)
+		$error = true;
+	}
+
+	if(!$error) {
+		// check permissions
+		$allowed = shn_plus_checkCredzTriage($username, $uuid);
+		if($allowed) {
+			$p->setMassCasualtyId($newMcid);
+		} else {
+			$ecode = 408;
+			$error = true;
+		}
+	}
 
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
@@ -2212,7 +2289,7 @@ function changeMassCasualtyId($newMcid, $uuid, $username, $password) {
 	} else {
 		return array(
 			'errorCode'    => (int)0,
-			'errorMessage' => null
+			'errorMessage' => ''
 		);
 	}
 }
@@ -2256,7 +2333,7 @@ function hasRecordBeenRevised($uuid, $username, $password) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'revisionsMade' => null,
+			'revisionsMade' => (int)0,
 			'errorCode'     => (int)$ecode,
 			'errorMessage'  => (string)$eCodes[$ecode]
 		);
@@ -2264,7 +2341,7 @@ function hasRecordBeenRevised($uuid, $username, $password) {
 		return array(
 			'revisionsMade' => (int)$revisionsMade,
 			'errorCode'     => (int)0,
-			'errorMessage'  => null
+			'errorMessage'  => ''
 		);
 	}
 }
