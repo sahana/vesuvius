@@ -789,6 +789,22 @@ class person {
 	}
 
 
+	// updates a expiry_date
+	function setExpiryDate($expiryDate) {
+
+		$this->expiry_date = $expiryDate;
+		$this->update();
+	}
+
+
+	// updates a expiry_date to one year from now
+	function setExpiryDateOneYear() {
+
+		$this->expiry_date = date('Y-m-d H:i:s', time()+(60*60*24*365));
+		$this->update();
+	}
+
+
 	// checks if the person record has already expired (expiry_date is in the past)
 	function isAlreadyExpired() {
 
@@ -804,6 +820,32 @@ class person {
 		} else if($d1 > $d2) {
 			return false;
 		}
+	}
+
+
+	// sets a new massCasualtyId on a person... HACK!!!!!
+	function setMassCasualtyId($newMcid) {
+
+		// we must revise this to work once DAO load/update is completed on all objects!!!
+		// HACK REMOVAL NOTICE !!! REMOVE THIS HACK SOMEDAY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111111111111
+
+		$this->sync();
+
+		$q = "
+			UPDATE edxl_co_lpf
+			SET person_id = '".mysql_real_escape_string($newMcid)."'
+			WHERE p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person setMassCasualtyId HACK 1 ((".$q."))"); }
+
+		// note the revision
+		$q = "
+			INSERT into person_updates (`p_uuid`, `updated_table`, `updated_column`, `old_value`, `new_value`, `updated_by_p_uuid`)
+			VALUES (".$this->sql_p_uuid.", 'edxl_co_lpf', 'person_id', 'NOT_YET_SET', '".mysql_real_escape_string($newMcid)."', '".$this->updated_by_p_uuid."');
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person setMassCasultyId HACK 2 ((".$q."))"); }
 	}
 
 

@@ -23,6 +23,33 @@ require_once("../../inc/handler_db.inc");
 require_once("../../inc/lib_uuid.inc");
 require_once("../../inc/lib_image.inc");
 
+$expiryDate = "-1";
+$error = false;
+$ecode = 0;
+
+	$p = new person();
+	$p->p_uuid = "pl.nlm.nih.gov/person.4001018";
+	$p->updated_by_p_uuid = 1;
+	$p->load();
+	if($p->ecode == 9000) {
+		$ecode = 410; // if we had trouble loading this record, we'll just report that the person does not exist (most likely whats happening)
+		$error = true;
+	}
+
+	if(checkValidDateTime($expiryDate)) {
+		$ecode = 414;
+		$error = true;
+	}
+
+	if(!$error) {
+		$p->setExpiryDate($expiryDate);
+	} else {
+		$error = true;
+	}
+
+echo "\n\n".(string)$ecode."\n\n";
+
+/*
 $p = new person();
 $p->p_uuid = "pl.nlm.nih.gov/person.4000914";
 $p->load();
@@ -42,8 +69,5 @@ $p->rep_uuid = 1;
 $p->insert();
 
 echo "\n\n".$p->p_uuid."\n\n";
-
-
-
 */
 
