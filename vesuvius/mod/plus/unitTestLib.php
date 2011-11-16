@@ -670,14 +670,14 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $user, $
 }
 
 
-function expirePerson($uuid, $user, $pass) {
+function expirePerson($uuid, $explanation, $user, $pass) {
 	global $sites;
 	global $count;
 	$count++;
 	echo "<tr><td>".$count."</td><td class=\"func\">expirePerson</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
-		$result = $client->call('expirePerson', array('uuid'=>$uuid, 'username'=>$user, 'password'=>$pass));
+		$result = $client->call('expirePerson', array('uuid'=>$uuid, 'explanation'=>$explanation, 'username'=>$user, 'password'=>$pass));
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0 || ($result['errorCode'] == 413))) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
