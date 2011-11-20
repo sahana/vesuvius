@@ -99,6 +99,7 @@ function inw_hasNextPage($mode, $incident, $searchTerm, $sStatus, $sGender, $sAg
 	return $global["xajax_res"]->getXML();
 
 }
+
 /**
  * params: $aStatus = status imploded
 		   $aPageControls = $pageStart, $perPage, $sortBy, $mode

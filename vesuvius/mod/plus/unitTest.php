@@ -54,9 +54,10 @@ if(!isset($_GET['api'])) {
 
 	// perform tests...
 	switch($_GET['api']) {
-		case '2.0':
+		case '2.1':
 			reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $user, $pass);
-			expirePerson($uuid, $user, $pass);
+		case '2.0':
+			expirePerson($uuid, '', $user, $pass);
 			getPersonExpiryDate($uuid);
 			setPersonExpiryDate($uuid, $expiryDate, $user, $pass);
 			setPersonExpiryDateOneYear($uuid, $user, $pass);

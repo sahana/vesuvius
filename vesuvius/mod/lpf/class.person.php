@@ -26,11 +26,23 @@ class person {
 	public $incident_id;
 	public $hospital_uuid;
 	public $expiry_date;
+	// original values (initialized at load and checked against when saved)
+	private $Op_uuid;
+	private $Ofull_name;
+	private $Ofamily_name;
+	private $Ogiven_name;
+	private $Oincident_id;
+	private $Ohospital_uuid;
+	private $Oexpiry_date;
 
 	// table person_status
 	public $opt_status;
 	public $last_updated;
 	public $creation_time;
+	// original values (initialized at load and checked against when saved)
+	private $Oopt_status;
+	private $Olast_updated;
+	private $Ocreation_time;
 
 	// table person_details
 	public $birth_date;
@@ -43,10 +55,22 @@ class person {
 	public $last_seen;
 	public $last_clothing;
 	public $other_comments;
+	// original values (initialized at load and checked against when saved)
+	private $Obirth_date;
+	private $Oopt_race;
+	private $Oopt_religion;
+	private $Oopt_gender;
+	private $Oyears_old;
+	private $OminAge;
+	private $OmaxAge;
+	private $Olast_seen;
+	private $Olast_clothing;
+	private $Oother_comments;
 
 	// table person_to_report
 	public $rep_uuid;
-	public $relation;
+	// original values (initialized at load and checked against when saved)
+	private $Orep_uuid;
 
 	// person's images
 	public $images;
@@ -79,7 +103,28 @@ class person {
 	private $sql_last_clothing;
 	private $sql_other_comments;
 	private $sql_rep_uuid;
-	private $sql_relation;
+	// and for original values..
+	private $sql_Op_uuid;
+	private $sql_Ofull_name;
+	private $sql_Ofamily_name;
+	private $sql_Ogiven_name;
+	private $sql_Oincident_id;
+	private $sql_Ohospital_uuid;
+	private $sql_Oexpiry_date;
+	private $sql_Oopt_status;
+	private $sql_Olast_updated;
+	private $sql_Ocreation_time;
+	private $sql_Obirth_date;
+	private $sql_Oopt_race;
+	private $sql_Oopt_religion;
+	private $sql_Oopt_gender;
+	private $sql_Oyears_old;
+	private $sql_OminAge;
+	private $sql_OmaxAge;
+	private $sql_Olast_seen;
+	private $sql_Olast_clothing;
+	private $sql_Oother_comments;
+	private $sql_Orep_uuid;
 
 	// used for when we recieve emails from mpres to make a pfif_note
 	public $author_name;
@@ -90,6 +135,9 @@ class person {
 
 	// if we encounter an error anywhere along the way, its value will be stored here ~ no error, value = 0
 	public $ecode;
+
+	// we hold the p_uuid of the person making modifications to the record
+	public $updated_by_p_uuid;
 
 	// Constructor:
 	public function	__construct() {
@@ -122,7 +170,28 @@ class person {
 		$this->last_clothing  = null;
 		$this->other_comments = null;
 		$this->rep_uuid       = null;
-		$this->relation       = null;
+
+		$this->Op_uuid         = null;
+		$this->Ofull_name      = null;
+		$this->Ofamily_name    = null;
+		$this->Ogiven_name     = null;
+		$this->Oincident_id    = null;
+		$this->Ohospital_uuid  = null;
+		$this->Oexpiry_date    = null;
+		$this->Oopt_status     = null;
+		$this->Olast_updated   = null;
+		$this->Ocreation_time  = null;
+		$this->Obirth_date     = null;
+		$this->Oopt_race       = null;
+		$this->Oopt_religion   = null;
+		$this->Oopt_gender     = null;
+		$this->Oyears_old      = null;
+		$this->OminAge         = null;
+		$this->OmaxAge         = null;
+		$this->Olast_seen      = null;
+		$this->Olast_clothing  = null;
+		$this->Oother_comments = null;
+		$this->Orep_uuid       = null;
 
 		$this->images         = array();
 		$this->edxl           = null;
@@ -149,7 +218,28 @@ class person {
 		$this->sql_last_clothing  = null;
 		$this->sql_other_comments = null;
 		$this->sql_rep_uuid       = null;
-		$this->sql_relation       = null;
+
+		$this->sql_Op_uuid         = null;
+		$this->sql_Ofull_name      = null;
+		$this->sql_Ofamily_name    = null;
+		$this->sql_Ogiven_name     = null;
+		$this->sql_Oincident_id    = null;
+		$this->sql_Ohospital_uuid  = null;
+		$this->sql_Oexpiry_date    = null;
+		$this->sql_Oopt_status     = null;
+		$this->sql_Olast_updated   = null;
+		$this->sql_Ocreation_time  = null;
+		$this->sql_Obirth_date     = null;
+		$this->sql_Oopt_race       = null;
+		$this->sql_Oopt_religion   = null;
+		$this->sql_Oopt_gender     = null;
+		$this->sql_Oyears_old      = null;
+		$this->sql_OminAge         = null;
+		$this->sql_OmaxAge         = null;
+		$this->sql_Olast_seen      = null;
+		$this->sql_Olast_clothing  = null;
+		$this->sql_Oother_comments = null;
+		$this->sql_Orep_uuid       = null;
 
 		$this->author_name        = null;
 		$this->author_email       = null;
@@ -157,6 +247,8 @@ class person {
 		$this->makePfifNote       = true;
 
 		$this->ecode = 0;
+
+		$this->updated_by_p_uuid = null;
 	}
 
 
@@ -188,7 +280,28 @@ class person {
 		$this->last_clothing  = null;
 		$this->other_comments = null;
 		$this->rep_uuid       = null;
-		$this->relation       = null;
+
+		$this->Op_uuid         = null;
+		$this->Ofull_name      = null;
+		$this->Ofamily_name    = null;
+		$this->Ogiven_name     = null;
+		$this->Oincident_id    = null;
+		$this->Ohospital_uuid  = null;
+		$this->Oexpiry_date    = null;
+		$this->Oopt_status     = null;
+		$this->Olast_updated   = null;
+		$this->Ocreation_time  = null;
+		$this->Obirth_date     = null;
+		$this->Oopt_race       = null;
+		$this->Oopt_religion   = null;
+		$this->Oopt_gender     = null;
+		$this->Oyears_old      = null;
+		$this->OminAge         = null;
+		$this->OmaxAge         = null;
+		$this->Olast_seen      = null;
+		$this->Olast_clothing  = null;
+		$this->Oother_comments = null;
+		$this->Orep_uuid       = null;
 
 		$this->images         = null;
 		$this->edxl           = null;
@@ -215,7 +328,28 @@ class person {
 		$this->sql_last_clothing  = null;
 		$this->sql_other_comments = null;
 		$this->sql_rep_uuid       = null;
-		$this->sql_relation       = null;
+
+		$this->sql_Op_uuid         = null;
+		$this->sql_Ofull_name      = null;
+		$this->sql_Ofamily_name    = null;
+		$this->sql_Ogiven_name     = null;
+		$this->sql_Oincident_id    = null;
+		$this->sql_Ohospital_uuid  = null;
+		$this->sql_Oexpiry_date    = null;
+		$this->sql_Oopt_status     = null;
+		$this->sql_Olast_updated   = null;
+		$this->sql_Ocreation_time  = null;
+		$this->sql_Obirth_date     = null;
+		$this->sql_Oopt_race       = null;
+		$this->sql_Oopt_religion   = null;
+		$this->sql_Oopt_gender     = null;
+		$this->sql_Oyears_old      = null;
+		$this->sql_OminAge         = null;
+		$this->sql_OmaxAge         = null;
+		$this->sql_Olast_seen      = null;
+		$this->sql_Olast_clothing  = null;
+		$this->sql_Oother_comments = null;
+		$this->sql_Orep_uuid       = null;
 
 		$this->author_name        = null;
 		$this->author_email       = null;
@@ -223,13 +357,15 @@ class person {
 		$this->makePfifNote       = null;
 
 		$this->ecode = null;
+
+		$this->updated_by_p_uuid = null;
 	}
 
 
-	// initializes some values for a new instance (instead of when we load a previous instance)
+	// initializes..
 	public function init() {
 		global $global;
-		// not used yet...
+		// not to do yet...
 	}
 
 
@@ -252,6 +388,14 @@ class person {
 			$this->incident_id   = $result->fields['incident_id'];
 			$this->hospital_uuid = $result->fields['hospital_uuid'];
 			$this->expiry_date   = $result->fields['expiry_date'];
+
+			// save them as original values too...
+			$this->Ofull_name     = $result->fields['full_name'];
+			$this->Ofamily_name   = $result->fields['family_name'];
+			$this->Ogiven_name    = $result->fields['given_name'];
+			$this->Oincident_id   = $result->fields['incident_id'];
+			$this->Ohospital_uuid = $result->fields['hospital_uuid'];
+			$this->Oexpiry_date   = $result->fields['expiry_date'];
 		} else {
 			$this->ecode = 9000;
 		}
@@ -269,6 +413,11 @@ class person {
 			$this->opt_status    = $result->fields['opt_status'];
 			$this->last_updated  = $result->fields['last_updated'];
 			$this->creation_time = $result->fields['creation_time'];
+
+			// save them as original values too...
+			$this->Oopt_status    = $result->fields['opt_status'];
+			$this->Olast_updated  = $result->fields['last_updated'];
+			$this->Ocreation_time = $result->fields['creation_time'];
 		} else {
 			$this->ecode = 9000;
 		}
@@ -293,6 +442,18 @@ class person {
 			$this->last_seen      = $result->fields['last_seen'];
 			$this->last_clothing  = $result->fields['last_clothing'];
 			$this->other_comments = $result->fields['other_comments'];
+
+			// save them as original values too...
+			$this->Obirth_date     = $result->fields['birth_date'];
+			$this->Oopt_race       = $result->fields['opt_race'];
+			$this->Oopt_religion   = $result->fields['opt_religion'];
+			$this->Oopt_gender     = $result->fields['opt_gender'];
+			$this->Oyears_old      = $result->fields['years_old'];
+			$this->OminAge         = $result->fields['minAge'];
+			$this->OmaxAge         = $result->fields['maxAge'];
+			$this->Olast_seen      = $result->fields['last_seen'];
+			$this->Olast_clothing  = $result->fields['last_clothing'];
+			$this->Oother_comments = $result->fields['other_comments'];
 		} else {
 			$this->ecode = 9000;
 		}
@@ -308,6 +469,8 @@ class person {
 
 		if($result != NULL && !$result->EOF) {
 			$this->rep_uuid = $result->fields['rep_uuid'];
+			// original value too...
+			$this->Orep_uuid = $result->fields['rep_uuid'];
 		} else {
 			$this->ecode = 9000;
 		}
@@ -373,7 +536,32 @@ class person {
 		$this->sql_other_comments = ($this->other_comments === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->other_comments)."'";
 
 		$this->sql_rep_uuid       = ($this->rep_uuid       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->rep_uuid)."'";
-		$this->sql_relation       = ($this->relation       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->relation)."'";
+
+		// do the same for original values...
+		$this->sql_Op_uuid         = ($this->Op_uuid         === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Op_uuid)."'";
+		$this->sql_Ofull_name      = ($this->Ofull_name      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ofull_name)."'";
+		$this->sql_Ofamily_name    = ($this->Ofamily_name    === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ofamily_name)."'";
+		$this->sql_Ogiven_name     = ($this->Ogiven_name     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ogiven_name)."'";
+		$this->sql_Oincident_id    = ($this->Oincident_id    === null) ? "NULL" : (int)$this->Oincident_id;
+		$this->sql_Ohospital_uuid  = ($this->Ohospital_uuid  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ohospital_uuid)."'";
+		$this->sql_Oexpiry_date    = ($this->Oexpiry_date    === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oexpiry_date)."'";
+
+		$this->sql_Oopt_status     = ($this->Oopt_status     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oopt_status)."'";
+		$this->sql_Olast_updated   = ($this->Olast_updated   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Olast_updated)."'";
+		$this->sql_Ocreation_time  = ($this->Ocreation_time  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ocreation_time)."'";
+
+		$this->sql_Obirth_date     = ($this->Obirth_date     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Obirth_date)."'";
+		$this->sql_Oopt_race       = ($this->Oopt_race       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oopt_race)."'";
+		$this->sql_Oopt_religion   = ($this->Oopt_religion   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oopt_religion)."'";
+		$this->sql_Oopt_gender     = ($this->Oopt_gender     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oopt_gender)."'";
+		$this->sql_Oyears_old      = ($this->Oyears_old      === null) ? "NULL" : (int)$this->Oyears_old;
+		$this->sql_OminAge         = ($this->OminAge         === null) ? "NULL" : (int)$this->OminAge;
+		$this->sql_OmaxAge         = ($this->OmaxAge         === null) ? "NULL" : (int)$this->OmaxAge;
+		$this->sql_Olast_seen      = ($this->Olast_seen      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Olast_seen)."'";
+		$this->sql_Olast_clothing  = ($this->Olast_clothing  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Olast_clothing)."'";
+		$this->sql_Oother_comments = ($this->Oother_comments === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oother_comments)."'";
+
+		$this->sql_Orep_uuid       = ($this->Orep_uuid       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Orep_uuid)."'";
 	}
 
 
@@ -462,82 +650,202 @@ class person {
 	// save the person (subsequent save = update)
 	public function update() {
 		$this->sync();
-		$q = "
-			INSERT INTO person_uuid (
-				p_uuid,
-				full_name,
-				family_name,
-				given_name,
-				incident_id,
-				hospital_uuid,
-				expiry_date )
-			VALUES (
-				".$this->sql_p_uuid.",
-				".$this->sql_full_name.",
-				".$this->sql_family_name.",
-				".$this->sql_given_name.",
-				".$this->sql_incident_id.",
-				".$this->sql_hospital_uuid.",
-				".$this->sql_expiry_date." );
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_uuid insert ((".$q."))"); }
+		$this->saveRevisions();
 
 		$q = "
-			INSERT INTO person_status (
-				p_uuid,
-				opt_status,
-				last_updated,
-				creation_time )
-			VALUES (
-				".$this->sql_p_uuid.",
-				".$this->sql_opt_status.",
-				".$this->sql_last_updated.",
-				".$this->sql_creation_time." );
+			UPDATE person_uuid
+			SET
+				full_name     = ".$this->sql_full_name.",
+				family_name   = ".$this->sql_family_name.",
+				given_name    = ".$this->sql_given_name.",
+				incident_id   = ".$this->sql_incident_id.",
+				hospital_uuid = ".$this->sql_hospital_uuid.",
+				expiry_date   = ".$this->sql_expiry_date."
+			WHERE p_uuid = ".$this->sql_p_uuid.";
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_status insert ((".$q."))"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_uuid update ((".$q."))"); }
+
+		// we always update the last_updated to current time when saving(updating)
+		$q = "
+			UPDATE person_status
+			SET
+				opt_status    = ".$this->sql_opt_status.",
+				last_updated  = '".date('Y-m-d H:i:s')."',
+				creation_time = ".$this->sql_creation_time."
+			WHERE p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_status update ((".$q."))"); }
 
 		$q = "
-			INSERT INTO person_details (
-				p_uuid,
-				birth_date,
-				opt_race,
-				opt_religion,
-				opt_gender,
-				years_old,
-				minAge,
-				maxAge,
-				last_seen,
-				last_clothing,
-				other_comments )
-			VALUES (
-				".$this->sql_p_uuid.",
-				".$this->sql_birth_date.",
-				".$this->sql_opt_race.",
-				".$this->sql_opt_religion.",
-				".$this->sql_opt_gender.",
-				".$this->sql_years_old.",
-				".$this->sql_minAge.",
-				".$this->sql_maxAge.",
-				".$this->sql_last_seen.",
-				".$this->sql_last_clothing.",
-				".$this->sql_other_comments." );
+			UPDATE person_details
+			SET
+				birth_date     = ".$this->sql_birth_date.",
+				opt_race       = ".$this->sql_opt_race.",
+				opt_religion   = ".$this->sql_opt_religion.",
+				opt_gender     = ".$this->sql_opt_gender.",
+				years_old      = ".$this->sql_years_old.",
+				minAge         = ".$this->sql_minAge.",
+				maxAge         = ".$this->sql_maxAge.",
+				last_seen      = ".$this->sql_last_seen.",
+				last_clothing  = ".$this->sql_last_clothing.",
+				other_comments = ".$this->sql_other_comments."
+			WHERE p_uuid = ".$this->sql_p_uuid.";
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_details insert ((".$q."))"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_details update ((".$q."))"); }
+
 
 		$q = "
-			INSERT INTO  `person_to_report` (`p_uuid`, `rep_uuid`)
-			VALUES (".$this->sql_p_uuid.", ".$this->sql_rep_uuid.");
+			UPDATE person_to_report
+			SET
+				rep_uuid = ".$this->sql_rep_uuid."
+			WHERE p_uuid = ".$this->sql_p_uuid.";
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_to_report insert ((".$q."))"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_to_report update ((".$q."))"); }
 
-		$this->insertImages();
-		$this->insertEdxl();
-		$this->makeStaticPfifNote();
-		$this->insertVoiceNote();
+		//$this->updateImages();
+		//$this->updateEdxl();
+		//$this->updateVoiceNote();
+	}
+
+
+	// save any changes since object was loaded as revisions
+	function saveRevisions() {
+		global $global;
+		global $revisionCount;
+
+		if($this->full_name      != $this->Ofull_name)      { $this->saveRevision($this->sql_full_name,      $this->sql_Ofull_name,      'person_uuid',      'full_name'     ); }
+		if($this->family_name    != $this->Ofamily_name)    { $this->saveRevision($this->sql_family_name,    $this->sql_Ofamily_name,    'person_uuid',      'family_name'   ); }
+		if($this->given_name     != $this->Ogiven_name)     { $this->saveRevision($this->sql_given_name,     $this->sql_Ogiven_name,     'person_uuid',      'given_name'    ); }
+		if($this->incident_id    != $this->Oincident_id)    { $this->saveRevision($this->sql_incident_id,    $this->sql_Oincident_id,    'person_uuid',      'incident_id'   ); }
+		if($this->hospital_uuid  != $this->Ohospital_uuid)  { $this->saveRevision($this->sql_hospital_uuid,  $this->sql_Ohospital_uuid,  'person_uuid',      'hospital_uuid' ); }
+		if($this->expiry_date    != $this->Oexpiry_date)    { $this->saveRevision($this->sql_expiry_date,    $this->sql_Oexpiry_date,    'person_uuid',      'expiry_date'   ); }
+		if($this->opt_status     != $this->Oopt_status)     { $this->saveRevision($this->sql_opt_status,     $this->sql_Oopt_status,     'person_status',    'opt_status'    ); }
+		if($this->last_updated   != $this->Olast_updated)   { $this->saveRevision($this->sql_last_updated,   $this->sql_Olast_updated,   'person_status',    'last_updated'  ); }
+		if($this->creation_time  != $this->Ocreation_time)  { $this->saveRevision($this->sql_creation_time,  $this->sql_Ocreation_time,  'person_status',    'creation_time' ); }
+		if($this->birth_date     != $this->Obirth_date)     { $this->saveRevision($this->sql_birth_date,     $this->sql_Obirth_date,     'person_details',   'birth_date'    ); }
+		if($this->opt_race       != $this->Oopt_race)       { $this->saveRevision($this->sql_opt_race,       $this->sql_Oopt_race,       'person_details',   'opt_race'      ); }
+		if($this->opt_religion   != $this->Oopt_religion)   { $this->saveRevision($this->sql_opt_religion,   $this->sql_Oopt_religion,   'person_details',   'opt_religion'  ); }
+		if($this->opt_gender     != $this->Oopt_gender)     { $this->saveRevision($this->sql_opt_gender,     $this->sql_Oopt_gender,     'person_details',   'opt_gender'    ); }
+		if($this->years_old      != $this->Oyears_old)      { $this->saveRevision($this->sql_years_old,      $this->sql_Oyears_old,      'person_details',   'years_old'     ); }
+		if($this->minAge         != $this->OminAge)         { $this->saveRevision($this->sql_minAge,         $this->sql_OminAge,         'person_details',   'minAge'        ); }
+		if($this->maxAge         != $this->OmaxAge)         { $this->saveRevision($this->sql_maxAge,         $this->sql_OmaxAge,         'person_details',   'maxAge'        ); }
+		if($this->last_seen      != $this->Olast_seen)      { $this->saveRevision($this->sql_last_seen,      $this->sql_Olast_seen,      'person_details',   'last_seen'     ); }
+		if($this->last_clothing  != $this->Olast_clothing)  { $this->saveRevision($this->sql_last_clothing,  $this->sql_Olast_clothing,  'person_details',   'last_clothing' ); }
+		if($this->other_comments != $this->Oother_comments) { $this->saveRevision($this->sql_other_comments, $this->sql_Oother_comments, 'person_details',   'other_comments'); }
+		if($this->rep_uuid       != $this->Orep_uuid)       { $this->saveRevision($this->sql_rep_uuid,       $this->sql_Orep_uuid,       'person_to_report', 'rep_uuid'      ); }
+	}
+
+
+	// save the revision
+	function saveRevision($newValue, $oldValue, $table, $column) {
+		// note the revision
+		$q = "
+			INSERT into person_updates (`p_uuid`, `updated_table`, `updated_column`, `old_value`, `new_value`, `updated_by_p_uuid`)
+			VALUES (".$this->sql_p_uuid.", '".$table."', '".$column."', ".$oldValue.", ".$newValue.", '".$this->updated_by_p_uuid."');
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person saveRevision ((".$q."))"); }
+	}
+
+
+	// expires a person...
+	function expire($user_id, $explanation) {
+
+		// set the expiration time to now
+		$this->expiry_date = date('Y-m-d H:i:s');
+		$this->update();
+
+		// first we clear out all pending expiration requests...
+		$q = "
+			DELETE FROM expiry_queue
+			WHERE p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person expire 1 ((".$q."))"); }
+
+		// next we insert a row to indicate who expired this person record
+		$q = "
+			INSERT into expiry_queue (`p_uuid`, `requested_by_user_id`, `requested_when`, `queued`, `approved_by_user_id`, `approved_when`, `approved_why`, `expired`)
+			VALUES (".$this->sql_p_uuid.", NULL, NULL, 0, '".$user_id."', ".$this->sql_expiry_date.", '".mysql_real_escape_string($explanation)."', 1);
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person expire 2 ((".$q."))"); }
+	}
+
+
+	// queues the expiration of a person
+	function expireQueue($user_id, $explanation) {
+		$this->sync();
+		$q = "
+			INSERT into expiry_queue (`p_uuid`, `requested_by_user_id`, `requested_when`, `requested_why`, `queued`, `approved_by_user_id`, `approved_when`, `expired`)
+			VALUES (".$this->sql_p_uuid.", '".$user_id."', '".date('Y-m-d H:i:s')."', '".mysql_real_escape_string($explanation)."', 1, NULL, NULL, 0);
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person expireQueue ((".$q."))"); }
+	}
+
+
+	// updates a expiry_date
+	function setExpiryDate($expiryDate) {
+
+		$this->expiry_date = $expiryDate;
+		$this->update();
+	}
+
+
+	// updates a expiry_date to one year from now
+	function setExpiryDateOneYear() {
+
+		$this->expiry_date = date('Y-m-d H:i:s', time()+(60*60*24*365));
+		$this->update();
+	}
+
+
+	// checks if the person record has already expired (expiry_date is in the past)
+	function isAlreadyExpired() {
+
+		$currentTime = date('Y-m-d H:i:s');
+
+		$d1 = new DateTime($this->expiry_date);
+		$d2 = new DateTime($currentTime);
+
+		if($this->expiry_date === null) {
+			return false;
+		} else if($d1 == $d2 || $d1 < $d2) {
+			return true;
+		} else if($d1 > $d2) {
+			return false;
+		}
+	}
+
+
+	// sets a new massCasualtyId on a person... HACK!!!!!
+	function setMassCasualtyId($newMcid) {
+
+		// we must revise this to work once DAO load/update is completed on all objects!!!
+		// HACK REMOVAL NOTICE !!! REMOVE THIS HACK SOMEDAY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111111111111
+
+		$this->sync();
+
+		$q = "
+			UPDATE edxl_co_lpf
+			SET person_id = '".mysql_real_escape_string($newMcid)."'
+			WHERE p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person setMassCasualtyId HACK 1 ((".$q."))"); }
+
+		// note the revision
+		$q = "
+			INSERT into person_updates (`p_uuid`, `updated_table`, `updated_column`, `old_value`, `new_value`, `updated_by_p_uuid`)
+			VALUES (".$this->sql_p_uuid.", 'edxl_co_lpf', 'person_id', 'NOT_YET_SET', '".mysql_real_escape_string($newMcid)."', '".$this->updated_by_p_uuid."');
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person setMassCasultyId HACK 2 ((".$q."))"); }
 	}
 
 

@@ -1,6 +1,21 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
+2011:1116 Greg
+--------------
+
+5000th revision to the source code!
+
+PLUS 2.0
++ expirePerson
++ getPersonExpiryDate
++ setPersonExpiryDate
++ setPersonExpiryDateOneYear
++ getUuidByMassCasualtyId
++ changeMassCasualtyId
++ hasRecordBeenRevised
+
+
 2011:1004 Greg
 --------------
 
