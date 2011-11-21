@@ -177,6 +177,59 @@ function shn_plus_checkCredzExpiry($username, $uuid) {
 
 
 
+
+/**
+* Checks the credentials of a user to perform a revision on a record (must be record owner, hsa, hs, or admin)
+* @return boolean (true if allowed to revise the record)
+*/
+function shn_plus_checkCredzTriage($username, $uuid) {
+
+	global $global;
+
+	// check if the user is admin or hsa member...
+	$q = "
+		SELECT *
+		FROM users u, sys_user_groups g, sys_user_to_group x
+		WHERE u.user_name = '".mysql_real_escape_string($username)."'
+		AND x.p_uuid = u.p_uuid
+		AND g.group_id = x.group_id
+		AND (
+			g.group_id = 1
+			OR g.group_id = 5
+			OR g.group_id = 6
+		);
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus check credz triage 1 ((".$q."))"); }
+
+	if(($result == null) || ($result->EOF)) {
+
+		// if not admin, hsa, or hs, check they are at least the record owner...
+		$q2 = "
+			SELECT *
+			FROM users u, person_to_report p
+			WHERE u.user_name = '".mysql_real_escape_string($username)."'
+			AND p.rep_uuid = u.p_uuid
+			AND p.p_uuid = '".mysql_real_escape_string($uuid)."';
+		";
+		$res2 = $global['db']->Execute($q2);
+		if($res2 === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus check credz triage 2 ((".$q2."))"); }
+
+		if(($res2 == null) || ($res2->EOF)) {
+			return false;
+		} else {
+			return true; // they must have reported this person
+		}
+
+	} else {
+		// at least one row... they are an admin or hsa
+		return true;
+	}
+}
+
+
+
+
 /**
 * Finds the uuid a a prticular user
 * @return string (false if not found)
