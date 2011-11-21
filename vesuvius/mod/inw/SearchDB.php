@@ -88,12 +88,18 @@ class SearchDB
 		$this->numRowsFound = -1;
 		$this->searchMode = $searchMode;
 
+                if (strpos($this->sortBy, "full_name") !== false) {
+                	// Sort on last name first, first name last (PL-237).
+               		$this->sortBy = str_replace("full_name", "family_name", $this->sortBy) . ",given_name asc";
+                }
+                // Consider age ranges in sort (PL-260).
+ 		$this->sortBy = ($searchMode == "solr")?
+			str_replace("years_old", "max(max(years_old,0),div(sum(max(minAge,0),max(maxAge,0)),2))", $this->sortBy) :
+		 	str_replace("years_old", "greatest(coalesce(years_old,0), (coalesce(minAge,0)+coalesce(maxAge,0))/2)", $this->sortBy);	
 		if ( $searchMode == "sql" ) {
 			// make sql mode sort by updated as default.
 			if ( $this->sortBy == "" )
 				$this->sortBy = "updated desc";
-
-			$this->sortBy = str_replace("+", " ", $this->sortBy);
 			$this->buildFromClause();
 			$this->buildWhereClause();
 			$this->buildMainQuery();
