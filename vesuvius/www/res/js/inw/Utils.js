@@ -284,7 +284,6 @@ var Utils = {
 			else {
 				$("#updateAlerts2").fadeIn("slow");
 			}
-			//setTimeout(searchSubset2, 60000);
 			searchSubset(false);
 		}
 	},
@@ -309,14 +308,23 @@ var Utils = {
 	},
 
 	sortBy : function( el ) {
-		var order = document.getElementById("sortOrderIcon").src.indexOf("desc") > 0 ? "desc" : "asc";
+                // Set the default sort direction according to the selection (PL-259).
 		if ( el.value == "" ) {
 			Globals.sortedBy = "";
 			$("#sortOrderIcon").hide();
 		}
 		else {
-			Globals.sortedBy = el.value + " " + order;
-			$("#sortOrderIcon").show();
+                        if ( el.value == "full_name" || el.value == "years_old" ) {
+				Globals.sortedBy = el.value + " " + "asc";
+				$("#sortOrderIcon").attr("src", "res/img/asc.png")
+			        	.attr("title", "Ascending (click for descending)")
+			                .show();
+                        } else {
+				Globals.sortedBy = el.value + " " + "desc";
+				$("#sortOrderIcon").attr("src", "res/img/desc.png")
+			        	.attr("title", "Descending (click for ascending)")
+ 					.show();
+                        }
 		}
 
 		Globals.initDone = 1;
@@ -441,5 +449,5 @@ var Utils = {
 		$("#helpPane").hide();
 		
 		document.location.hash = document.location.hash.replace("_help", "");
-	},
+	}
 };
