@@ -1,13 +1,12 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
-2011:1106 Leif
---------------
 
-ALTER TABLE `image` CHANGE `image_id` `image_id` BIGINT( 20 ) NOT NULL 
+///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
 
 
-2011:1026 Greg
+
+2011:1115 Greg
 --------------
 
 CREATE TABLE  `expiry_queue` (
@@ -21,8 +20,23 @@ CREATE TABLE  `expiry_queue` (
 	`expired` BOOLEAN NULL DEFAULT NULL COMMENT  'true when a expiration is approved'
 ) ENGINE = INNODB CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT =  'person expiry request management queue and related information';
 
+INSERT INTO `person_status` (`status_id`, `p_uuid`, `opt_status`, `last_updated`, `creation_time`)
+VALUES (NULL, '3', NULL , NULL , NULL);
 
-///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
+INSERT INTO `person_details` (`details_id`, `p_uuid`, `birth_date`, `opt_race`, `opt_religion`, `opt_gender`, `years_old`, `minAge`, `maxAge`, `last_seen`, `last_clothing`, `other_comments`) VALUES (NULL, '3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO `person_to_report` (`p_uuid`, `rep_uuid`) VALUES ('3', '');
+
+ALTER TABLE  `expiry_queue` ADD  `requested_why` TEXT NULL DEFAULT NULL COMMENT  'the reason (optional) why a expiration/deletion was requested' AFTER  `requested_when` ;
+
+ALTER TABLE  `expiry_queue` ADD  `approved_why` TEXT NULL DEFAULT NULL COMMENT  'the reason why an approval was accepted or rejected' AFTER  `approved_when` ;
+
+
+2011:1106 Leif
+--------------
+
+ALTER TABLE `image` CHANGE `image_id` `image_id` BIGINT( 20 ) NOT NULL ;
+
 
 2011:1025 Leif
 --------------

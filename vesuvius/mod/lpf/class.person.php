@@ -753,18 +753,99 @@ class person {
 
 
 	// expires a person...
-	function expire($user_id) {
+	function expire($user_id, $explanation) {
 
 		// set the expiration time to now
 		$this->expiry_date = date('Y-m-d H:i:s');
 		$this->update();
 
+		// first we clear out all pending expiration requests...
 		$q = "
-			INSERT into expiry_queue (`p_uuid`, `requested_by_user_id`, `requested_when`, `queued`, `approved_by_user_id`, `approved_when`, `expired`)
-			VALUES (".$this->sql_p_uuid.", '".$user_id."', ".$this->sql_expiry_date.", 0, '".$user_id."', ".$this->sql_expiry_date.", 1);
+			DELETE FROM expiry_queue
+			WHERE p_uuid = ".$this->sql_p_uuid.";
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person expire ((".$q."))"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person expire 1 ((".$q."))"); }
+
+		// next we insert a row to indicate who expired this person record
+		$q = "
+			INSERT into expiry_queue (`p_uuid`, `requested_by_user_id`, `requested_when`, `queued`, `approved_by_user_id`, `approved_when`, `approved_why`, `expired`)
+			VALUES (".$this->sql_p_uuid.", NULL, NULL, 0, '".$user_id."', ".$this->sql_expiry_date.", '".mysql_real_escape_string($explanation)."', 1);
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person expire 2 ((".$q."))"); }
+	}
+
+
+	// queues the expiration of a person
+	function expireQueue($user_id, $explanation) {
+		$this->sync();
+		$q = "
+			INSERT into expiry_queue (`p_uuid`, `requested_by_user_id`, `requested_when`, `requested_why`, `queued`, `approved_by_user_id`, `approved_when`, `expired`)
+			VALUES (".$this->sql_p_uuid.", '".$user_id."', '".date('Y-m-d H:i:s')."', '".mysql_real_escape_string($explanation)."', 1, NULL, NULL, 0);
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person expireQueue ((".$q."))"); }
+	}
+
+
+	// updates a expiry_date
+	function setExpiryDate($expiryDate) {
+
+		$this->expiry_date = $expiryDate;
+		$this->update();
+	}
+
+
+	// updates a expiry_date to one year from now
+	function setExpiryDateOneYear() {
+
+		$this->expiry_date = date('Y-m-d H:i:s', time()+(60*60*24*365));
+		$this->update();
+	}
+
+
+	// checks if the person record has already expired (expiry_date is in the past)
+	function isAlreadyExpired() {
+
+		$currentTime = date('Y-m-d H:i:s');
+
+		$d1 = new DateTime($this->expiry_date);
+		$d2 = new DateTime($currentTime);
+
+		if($this->expiry_date === null) {
+			return false;
+		} else if($d1 == $d2 || $d1 < $d2) {
+			return true;
+		} else if($d1 > $d2) {
+			return false;
+		}
+	}
+
+
+	// sets a new massCasualtyId on a person... HACK!!!!!
+	function setMassCasualtyId($newMcid) {
+
+		// we must revise this to work once DAO load/update is completed on all objects!!!
+		// HACK REMOVAL NOTICE !!! REMOVE THIS HACK SOMEDAY!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!11111111111111
+
+		$this->sync();
+
+		$q = "
+			UPDATE edxl_co_lpf
+			SET person_id = '".mysql_real_escape_string($newMcid)."'
+			WHERE p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person setMassCasualtyId HACK 1 ((".$q."))"); }
+
+		// note the revision
+		$q = "
+			INSERT into person_updates (`p_uuid`, `updated_table`, `updated_column`, `old_value`, `new_value`, `updated_by_p_uuid`)
+			VALUES (".$this->sql_p_uuid.", 'edxl_co_lpf', 'person_id', 'NOT_YET_SET', '".mysql_real_escape_string($newMcid)."', '".$this->updated_by_p_uuid."');
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person setMassCasultyId HACK 2 ((".$q."))"); }
 	}
 
 
