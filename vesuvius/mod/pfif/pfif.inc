@@ -689,6 +689,10 @@ class Pfif {
             continue;  // stop processing this person
          }
 
+         // Update stats.
+         require_once('mod/lpf/lib_helper.inc');
+	 updateArrivalRate($this->incident_id, false, false, false, true, false);
+
          // Save to pfif_person table.
          try {
             $this->shn_pfif_addpfifperson_commit($person);
