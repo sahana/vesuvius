@@ -100,6 +100,7 @@ function shn_report_instantiate() {
 	$p->last_updated  = date('Y-m-d H:i:s');
 	$p->expiry_date = "0000-01-01 00:00:00"; // special value for expiry date denotes a new record!
 	$p->makePfifNote = false;
+	$p->arrival_website = true;
 	$p->insert();
 	$p->rapReportLog();
 

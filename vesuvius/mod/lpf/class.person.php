@@ -4,7 +4,7 @@
 ********************************************************************************************************************************************************************
 *
 * @class        person
-* @version      10
+* @version      11
 * @author       Greg Miernicki <g@miernicki.com>
 *
 ********************************************************************************************************************************************************************
@@ -139,6 +139,13 @@ class person {
 	// we hold the p_uuid of the person making modifications to the record
 	public $updated_by_p_uuid;
 
+	// boolean values to denote the origin of the person (for statistical purposes)
+	public $arrival_triagepic;
+	public $arrival_reunite;
+	public $arrival_website;
+	public $arrival_pfif;
+	public $arrival_vanilla_email;
+
 	// Constructor:
 	public function	__construct() {
 		// init db
@@ -241,14 +248,20 @@ class person {
 		$this->sql_Oother_comments = null;
 		$this->sql_Orep_uuid       = null;
 
-		$this->author_name        = null;
-		$this->author_email       = null;
+		$this->author_name         = null;
+		$this->author_email        = null;
 
-		$this->makePfifNote       = true;
+		$this->makePfifNote        = true;
 
 		$this->ecode = 0;
 
-		$this->updated_by_p_uuid = null;
+		$this->updated_by_p_uuid   = null;
+
+		$this->arrival_triagepic     = false;
+		$this->arrival_reunite       = false;
+		$this->arrival_website       = false;
+		$this->arrival_pfif          = false;
+		$this->arrival_vanilla_email = false;
 	}
 
 
@@ -303,9 +316,9 @@ class person {
 		$this->Oother_comments = null;
 		$this->Orep_uuid       = null;
 
-		$this->images         = null;
-		$this->edxl           = null;
-		$this->voice_note     = null;
+		$this->images          = null;
+		$this->edxl            = null;
+		$this->voice_note      = null;
 
 		$this->sql_p_uuid         = null;
 		$this->sql_full_name      = null;
@@ -351,14 +364,20 @@ class person {
 		$this->sql_Oother_comments = null;
 		$this->sql_Orep_uuid       = null;
 
-		$this->author_name        = null;
-		$this->author_email       = null;
+		$this->author_name         = null;
+		$this->author_email        = null;
 
-		$this->makePfifNote       = null;
+		$this->makePfifNote        = null;
 
-		$this->ecode = null;
+		$this->ecode               = null;
 
-		$this->updated_by_p_uuid = null;
+		$this->updated_by_p_uuid   = null;
+
+		$this->arrival_triagepic     = null;
+		$this->arrival_reunite       = null;
+		$this->arrival_website       = null;
+		$this->arrival_pfif          = null;
+		$this->arrival_vanilla_email = null;
 	}
 
 
@@ -644,6 +663,9 @@ class person {
 		$this->insertEdxl();
 		$this->makeStaticPfifNote();
 		$this->insertVoiceNote();
+
+		// keep arrival rate Statistics...
+		updateArrivalRate($this->incident_id, $this->arrival_triagepic, $this->arrival_reunite, $this->arrival_website, $this->arrival_pfif, $this->arrival_vanilla_email);
 	}
 
 
@@ -1035,6 +1057,8 @@ class person {
 
 		// parse REUNITE3 XML
 		if($this->xmlFormat == "REUNITE3") {
+
+			$this->arrival_reunite = true;
 			$this->p_uuid         = $a['person']['p_uuid'];
 			$this->given_name     = $a['person']['givenName'];
 			$this->family_name    = $a['person']['familyName'];
@@ -1118,6 +1142,8 @@ class person {
 		// parse REUNITE2 XML
 		} elseif($this->xmlFormat == "REUNITE2") {
 
+			$this->arrival_reunite = true;
+
 			// figure out the incident_id
 			$shortName = strtolower($a['lpfContent']['person']['eventShortName']);
 			$q = "
@@ -1159,6 +1185,8 @@ class person {
 
 		// parse TRIAGEPIC1 XML
 		} elseif($this->xmlFormat == "TRIAGEPIC1") {
+
+			$this->arrival_triagepic = true;
 
 			$this->edxl = new personEdxl();
 			$this->edxl->init();
@@ -1306,6 +1334,8 @@ class person {
 
 		// parse TRIAGEPIC0 XML
 		} elseif($this->xmlFormat == "TRIAGEPIC0") {
+
+			$this->arrival_triagepic = true;
 
 			$this->edxl = new personEdxl();
 			$this->edxl->init();
