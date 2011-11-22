@@ -2,8 +2,28 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
 
+
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
 
+
+
+2011:1121 Greg
+--------------
+
+CREATE TABLE `arrival_rate` (
+ `incident_id` int(20) NOT NULL,
+ `arrival_time` datetime NOT NULL,
+ `source_all` int(32) NOT NULL,
+ `source_triagepic` int(32) NOT NULL,
+ `source_reunite` int(32) NOT NULL,
+ `source_website` int(32) NOT NULL,
+ `source_pfif` int(32) NOT NULL,
+ `source_vanilla_email` int(32) NOT NULL,
+ KEY `arrival_index` (`incident_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+ALTER TABLE  `arrival_rate` CHANGE  `incident_id`  `incident_id` BIGINT( 20 ) NOT NULL;
+ALTER TABLE  `arrival_rate` ADD FOREIGN KEY (  `incident_id` ) REFERENCES  `incident` (`incident_id`) ON DELETE CASCADE ON UPDATE CASCADE ;
 
 
 2011:1115 Greg
