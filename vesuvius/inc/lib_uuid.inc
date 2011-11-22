@@ -123,9 +123,9 @@ function shn_create_uuid($type='person') {
 	}
 
 	// temporary for debugging....
-	require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
-	daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "gen_id >> ".$gen_id, print_r(debug_backtrace(), true));
-	daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "gen_id >> ".$gen_id, print_r(get_defined_vars(), true));
+	//require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
+	//daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "gen_id >> ".$gen_id, print_r(debug_backtrace(), true));
+	//daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "gen_id >> ".$gen_id, print_r(get_defined_vars(), true));
 
 	return $gen_id;
 }
