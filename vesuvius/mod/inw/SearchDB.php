@@ -59,6 +59,9 @@ class SearchDB
 
 			$SOLRquery,
 
+			$searchImage,
+			$searchUnknown,
+
 			$db,
 			$conf;
 
@@ -76,7 +79,20 @@ class SearchDB
 	 *///
 	public function SearchDB($searchMode, $incident, $searchTerm, $sStatus = "true;true;true;true;true;true", $sGender="true;true;true;true", $sAge="true;true;true", $sHospital="true;true;true", $sPageControls="0;-1;;true") {
 		$this->incident = $incident;
-		$toReplace = array(",", ".", "/", "\\", "?", "!", "@", "$", "%", "^", "&", "(", ")", "+", "#");
+                // Look for hidden search string for filtering on images (PL-261).
+                $this->searchImage = "";
+                if (strpos($searchTerm, "[image]") !== false || strpos($searchTerm, "[+image]") !== false) {
+  			$this->searchImage = "only"; 
+                } else if (strpos($searchTerm, "[-image]") !== false) {
+  			$this->searchImage = "none"; 
+		} 
+                // Search string "unknown" means return records with no names (PL-225).
+                $this->searchUnknown = false;
+                if (strpos($searchTerm, "unknown") !== false) {
+  			$this->searchUnknown = true; 
+                }
+		$toReplace = array(",", ".", "/", "\\", "?", "!", "@", "$", "%", "^", "&", "(", ")", "+", "#",
+      					"[image]", "[+image]", "[-image]", "unknown");
 		$this->searchTerm = strtolower(str_replace($toReplace, "", $searchTerm));
 
 		$this->setStatusFilters($sStatus);
@@ -92,10 +108,12 @@ class SearchDB
                 	// Sort on last name first, first name last (PL-237).
                		$this->sortBy = str_replace("full_name", "family_name", $this->sortBy) . ",given_name asc";
                 }
-                // Consider age ranges in sort (PL-260).
- 		$this->sortBy = ($searchMode == "solr")?
-			str_replace("years_old", "max(max(years_old,0),div(sum(max(minAge,0),max(maxAge,0)),2))", $this->sortBy) :
-		 	str_replace("years_old", "greatest(coalesce(years_old,0), (coalesce(minAge,0)+coalesce(maxAge,0))/2)", $this->sortBy);	
+                // Accommodate age ranges in sort (PL-260).
+ 		$this->sortBy = ($searchMode == "solr")? 
+			str_replace("years_old", 
+			"max(max(years_old,0),div(sum(max(minAge,0),max(maxAge,0)),2))", $this->sortBy) :
+		 	str_replace("years_old", 
+			"greatest(coalesce(years_old,0), (coalesce(minAge,0)+coalesce(maxAge,0))/2)", $this->sortBy);	
 		if ( $searchMode == "sql" ) {
 			// make sql mode sort by updated as default.
 			if ( $this->sortBy == "" )
@@ -534,10 +552,16 @@ class SearchDB
 		$this->SOLRfq .= ")&fq=shortname:(" . $this->incident . ")";
 
                 // NULL full_name filter if searching for "unknown"
-                if ($this->searchTerm === "unknown") {
-                        $this->searchTerm = "*:*";
+                if ($this->searchUnknown) {
 		   	$this->SOLRfq .= "&fq=-full_name:[* TO *]";
                 }
+
+                // Filter only records with or without images?
+                if ($this->searchImage === "only") {
+		   	$this->SOLRfq .= "&fq=url_thumb:[* TO *]";
+                } else if ($this->searchImage === "none") {
+		   	$this->SOLRfq .= "&fq=-url_thumb:[* TO *]";
+		}
 	}
 
 	private function getSOLRallCount() {
