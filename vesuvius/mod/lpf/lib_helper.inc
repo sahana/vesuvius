@@ -1,20 +1,97 @@
 <?php
 /**
  * @name         LPF Library Helper Functions
- * @version      10
+ * @version      11
  * @package      lpf
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1111
+ * @lastModified 2011.1121
  */
+
+
+
+// update the arrival rate table...
+function updateArrivalRate($incident_id, $triagepic, $reunite, $website, $pfif, $vanilla_email) {
+
+	global $global;
+	$db = $global['db'];
+
+
+	$q = "
+		SELECT *
+		FROM arrival_rate
+		WHERE incident_id = ".$incident_id."
+		ORDER BY arrival_time DESC
+		LIMIT 1;
+	";
+	$result = $db->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $db->ErrorMsg(), "updateArrivalRate 1 ((".$q."))"); }
+
+	if($result != NULL && !$result->EOF) {
+		$source_all           = (int)$result->fields['source_all'];
+		$source_triagepic     = (int)$result->fields['source_triagepic'];
+		$source_reunite       = (int)$result->fields['source_reunite'];
+		$source_website       = (int)$result->fields['source_website'];
+		$source_pfif          = (int)$result->fields['source_pfif'];
+		$source_vanilla_email = (int)$result->fields['source_vanilla_email'];
+	} else {
+		$source_all           = 0;
+		$source_triagepic     = 0;
+		$source_reunite       = 0;
+		$source_website       = 0;
+		$source_pfif          = 0;
+		$source_vanilla_email = 0;
+	}
+
+	if($triagepic) {
+		$source_triagepic++;
+	}
+	if($reunite) {
+		$source_reunite++;
+	}
+	if($website) {
+		$source_website++;
+	}
+	if($pfif) {
+		$source_pfif++;
+	}
+	if($vanilla_email) {
+		$source_vanilla_email++;
+	}
+
+	$source_all++;
+
+	$q = "
+		INSERT INTO arrival_rate (
+			incident_id,
+			arrival_time,
+			source_all,
+			source_triagepic,
+			source_reunite,
+			source_website,
+			source_pfif,
+			source_vanilla_email )
+		VALUES (
+			'".mysql_real_escape_string((int)$incident_id)."',
+			'".date('Y-m-d H:i:s')."',
+			'".mysql_real_escape_string((int)$source_all)."',
+			'".mysql_real_escape_string((int)$source_triagepic)."',
+			'".mysql_real_escape_string((int)$source_reunite)."',
+			'".mysql_real_escape_string((int)$source_website)."',
+			'".mysql_real_escape_string((int)$source_pfif)."',
+			'".mysql_real_escape_string((int)$source_vanilla_email)."' );
+	";
+	$result = $db->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $db->ErrorMsg(), "updateArrivalRate 2 ((".$q."))"); }
+}
 
 
 // logs all DAO errors to database...
 function daoErrorLog($file, $line, $method, $class, $function, $errorMessage, $other) {
-	// init db
+
 	global $global;
 	$db = $global['db'];
 	$q = "

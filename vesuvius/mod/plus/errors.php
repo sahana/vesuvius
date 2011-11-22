@@ -41,7 +41,7 @@ define("ERRORCODES", serialize(array(
 	407  => "No record associated with this mass casualty ID exists.",
 	408  => "Insufficient permission to revise this record.",
 	410  => "No record available with the given uuid.",
-	411  => "Invalid start or limit value.",
+	411  => "A provided token value is out of range.",
 	412  => "Invalid or future unix timestamp.",
 	413  => "Record has already expired.",
 	414  => "Invalid datetime value specified.",
