@@ -655,7 +655,7 @@ class Pfif {
          $this->update_log_dates($person->entry_date);
 
          // Skip original records. (Might be worthwhile for batch-loading test records, but we would
-         // need a way to generate unique record IDs.) 
+         // need a way to generate unique record IDs.)
          if (strncmp($person->person_record_id, $conf['base_uuid'], strlen($conf['base_uuid']))==0) {
             $_SESSION['pfif_info']['person_insert_errors'] += 1;
             continue;
@@ -691,7 +691,7 @@ class Pfif {
 
          // Update stats.
          require_once('mod/lpf/lib_helper.inc');
-	 updateArrivalRate($this->incident_id, false, false, false, true, false);
+	 updateArrivalRate($person->person_record_id, $this->incident_id, false, false, false, true, false);
 
          // Save to pfif_person table.
          try {
@@ -716,7 +716,7 @@ class Pfif {
       }
 
       // Save number of new persons.
-      $_SESSION['pfif_info']['pfif_person_count'] = 
+      $_SESSION['pfif_info']['pfif_person_count'] =
          count($pfif_persons) - ($_SESSION['pfif_info']['person_insert_errors'] + $_SESSION['pfif_info']['person_insert_dups']);
 
       return $_SESSION['pfif_info']['pfif_person_count'];
@@ -738,7 +738,7 @@ class Pfif {
          $lookup = $this->checkForReportedNote($note->note_record_id);
          //var_dump('lookup returns:',$lookup);
          if (count($lookup) > 0) {
-            // This skips Notes reported in PL. 
+            // This skips Notes reported in PL.
             // TODO: Should other duplicates be passed through, so error can be reported at DB insert time?
             $_SESSION['pfif_info']['note_insert_errors'] += 1;
             continue; // stop processing this note

@@ -14,7 +14,7 @@
 
 
 // update the arrival rate table...
-function updateArrivalRate($incident_id, $triagepic, $reunite, $website, $pfif, $vanilla_email) {
+function updateArrivalRate($person_uuid, $incident_id, $triagepic, $reunite, $website, $pfif, $vanilla_email) {
 
 	global $global;
 	$db = $global['db'];
@@ -66,6 +66,7 @@ function updateArrivalRate($incident_id, $triagepic, $reunite, $website, $pfif, 
 
 	$q = "
 		INSERT INTO arrival_rate (
+			person_uuid,
 			incident_id,
 			arrival_time,
 			source_all,
@@ -75,6 +76,7 @@ function updateArrivalRate($incident_id, $triagepic, $reunite, $website, $pfif, 
 			source_pfif,
 			source_vanilla_email )
 		VALUES (
+			'".mysql_real_escape_string((string)$person_uuid)."',
 			'".mysql_real_escape_string((int)$incident_id)."',
 			'".date('Y-m-d H:i:s')."',
 			'".mysql_real_escape_string((int)$source_all)."',

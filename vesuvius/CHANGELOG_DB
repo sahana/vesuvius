@@ -6,6 +6,18 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
 
 
+2011:1122 Greg
+--------------
+
+truncate `arrival_rate`;
+ALTER TABLE  `arrival_rate` ADD  `person_uuid` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL FIRST ;
+ALTER TABLE  `arrival_rate` DROP FOREIGN KEY  `arrival_rate_ibfk_1` ;
+ALTER TABLE  `arrival_rate` DROP INDEX arrival_index ;
+ALTER TABLE  `arrival_rate` ADD PRIMARY KEY (  `person_uuid` ) ;
+ALTER TABLE  `arrival_rate` ADD INDEX  `incident_index` (  `incident_id` ) ;
+ALTER TABLE  `arrival_rate` ADD FOREIGN KEY (  `person_uuid` ) REFERENCES  `person_uuid` (`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE ;
+ALTER TABLE  `arrival_rate` ADD FOREIGN KEY (  `incident_id` ) REFERENCES  `incident` (`incident_id`) ON DELETE CASCADE ON UPDATE CASCADE ;
+
 
 2011:1121 Greg
 --------------

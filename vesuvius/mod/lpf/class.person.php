@@ -665,7 +665,7 @@ class person {
 		$this->insertVoiceNote();
 
 		// keep arrival rate Statistics...
-		updateArrivalRate($this->incident_id, $this->arrival_triagepic, $this->arrival_reunite, $this->arrival_website, $this->arrival_pfif, $this->arrival_vanilla_email);
+		updateArrivalRate($this->person_uuid, $this->incident_id, $this->arrival_triagepic, $this->arrival_reunite, $this->arrival_website, $this->arrival_pfif, $this->arrival_vanilla_email);
 	}
 
 
