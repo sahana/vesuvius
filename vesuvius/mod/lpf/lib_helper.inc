@@ -76,7 +76,7 @@ function updateArrivalRate($person_uuid, $incident_id, $triagepic, $reunite, $we
 			source_pfif,
 			source_vanilla_email )
 		VALUES (
-			'".mysql_real_escape_string((string)$person_uuid)."',
+			'".mysql_real_escape_string($person_uuid)."',
 			'".mysql_real_escape_string((int)$incident_id)."',
 			'".date('Y-m-d H:i:s')."',
 			'".mysql_real_escape_string((int)$source_all)."',
