@@ -690,8 +690,8 @@ class Pfif {
          }
 
          // Update stats.
-         require_once('mod/lpf/lib_helper.inc');
-	 updateArrivalRate($this->incident_id, false, false, false, true, false);
+         require_once($global['approot'].'/mod/lpf/lib_helper.inc');
+	 updateArrivalRate($person->person_record_id, $this->incident_id, false, false, false, true, false);
 
          // Save to pfif_person table.
          try {
