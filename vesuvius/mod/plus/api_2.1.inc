@@ -632,6 +632,65 @@ function shn_plus_registerAll($namespace) {
 		$namespace,
 		"A simple lookup to determine if a record is still an original or has incurred revisions."
 	);
+
+	// Image Indexing API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+	// Image Indexing API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+
+	shn_plus_registerOne($server, 'getImageCountsAndTokens',
+		array(
+			'in' => array(
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'imageCount'     => 'xsd:integer',
+				'firstToken'     => 'xsd:integer',
+				'lastToken'      => 'xsd:integer',
+				'nullTokenCount' => 'xsd:integer',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Returns a count of the total number of images and the value of the latest brownie (image index value)."
+	);
+
+	shn_plus_registerOne($server, 'getImageList',
+		array(
+			'in' => array(
+				'tokenStart'     => 'xsd:integer',
+				'tokenEnd'       => 'xsd:integer',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'inmageList'     => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Returns a list of the images and their associated properties, paginated by a start and end token (index value)."
+	);
+
+	shn_plus_registerOne($server, 'getNullTokenList',
+		array(
+			'in' => array(
+				'tokenStart'     => 'xsd:integer',
+				'tokenEnd'       => 'xsd:integer',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'nullTokenList'  => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Returns a list of the images that have been removed from the system (either deleted or expired)."
+	);
+
 }
 
 // GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
@@ -2350,150 +2409,85 @@ function hasRecordBeenRevised($uuid, $username, $password) {
 
 
 
+// Image Indexing API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// Image Indexing API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// Image Indexing API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// Image Indexing API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// Image Indexing API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
 
 /*
 
-
-
-
-	shn_plus_registerOne($server, 'reReportPerson',
+	shn_plus_registerOne($server, 'getImageCountsAndTokens',
 		array(
 			'in' => array(
-				'uuid'           => 'xsd:string',
-				'personXML'      => 'xsd:string',
-				'eventShortname' => 'xsd:string',
-				'xmlFormat'      => 'xsd:string',
 				'username'       => 'xsd:string',
 				'password'       => 'xsd:string'
 			),
 			'out' => array(
+				'imageCount'     => 'xsd:integer',
+				'firstToken'     => 'xsd:integer',
+				'lastToken'      => 'xsd:integer',
+				'nullTokenCount' => 'xsd:integer',
 				'errorCode'      => 'xsd:integer',
 				'errorMessage'   => 'xsd:string'
 			)
 		),
 		$namespace,
-		"Re-report a person using XML which will replace an existing record."
+		"Returns a count of the total number of images and the value of the latest brownie (image index value)."
 	);
 
-	shn_plus_registerOne($server, 'expirePerson',
+	shn_plus_registerOne($server, 'getImageList',
 		array(
 			'in' => array(
-				'uuid'           => 'xsd:string',
+				'tokenStart'     => 'xsd:integer',
+				'tokenEnd'       => 'xsd:integer',
 				'username'       => 'xsd:string',
 				'password'       => 'xsd:string'
 			),
 			'out' => array(
-				'queued'         => 'xsd:boolean',
+				'inmageList'     => 'xsd:string',
 				'errorCode'      => 'xsd:integer',
 				'errorMessage'   => 'xsd:string'
 			)
 		),
 		$namespace,
-		"Owners, admins, and HSA can immediately expire a record, everyone else can submit an expiration request to a moderated queue."
+		"Returns a list of the images and their associated properties, paginated by a start and end token (index value)."
 	);
 
-	shn_plus_registerOne($server, 'getPersonExpiryDate',
-		array(
-			'in' => array(
-				'uuid'           => 'xsd:string',
-			),
-			'out' => array(
-				'expiryDate'     => 'xsd:string',
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Get the datetime in UTC when a person record will expire."
-	);
 
-	shn_plus_registerOne($server, 'setPersonExpiryDate',
+
+JSON array
+person_uuid, // uuid of the person
+image_id, // unique id of the image
+expiry_date, // unix timestamp when the image will expire
+creation_time, // image creation time
+url, // url of the image
+url_thumb // url of the thumbnail image
+
+
+
+	shn_plus_registerOne($server, 'getNullTokenList',
 		array(
 			'in' => array(
-				'uuid'           => 'xsd:string',
-				'expiryDate'     => 'xsd:string',
+				'tokenStart'     => 'xsd:integer',
+				'tokenEnd'       => 'xsd:integer',
 				'username'       => 'xsd:string',
 				'password'       => 'xsd:string'
 			),
 			'out' => array(
-				'queued'         => 'xsd:boolean',
+				'nullTokenList'  => 'xsd:string',
 				'errorCode'      => 'xsd:integer',
 				'errorMessage'   => 'xsd:string'
 			)
 		),
 		$namespace,
-		"Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue."
+		"Returns a list of the images that have been removed from the system (either deleted or expired)."
 	);
 
-	shn_plus_registerOne($server, 'setPersonExpiryDateOneYear',
-		array(
-			'in' => array(
-				'uuid'           => 'xsd:string',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'queued'         => 'xsd:boolean',
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue. The expiry date in this case is updated to exactly one year from the time of the request."
-	);
 
-	shn_plus_registerOne($server, 'getUuidByMassCasualtyId',
-		array(
-			'in' => array(
-				'mcid'           => 'xsd:string',
-				'shortname'      => 'xsd:string',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'uuid'           => 'xsd:string',
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"A simple lookup of the internal uuid of a person based on their mass casualty id (if it exists)."
-	);
-
-	shn_plus_registerOne($server, 'changeMassCasualtyId',
-		array(
-			'in' => array(
-				'newMcid'        => 'xsd:string',
-				'uuid'           => 'xsd:string',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Updates the mass casualty id of a person based on their uuid."
-	);
-
-	shn_plus_registerOne($server, 'hasRecordBeenRevised',
-		array(
-			'in' => array(
-				'uuid'           => 'xsd:string',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'revisionsMade'  => 'xsd:integer',
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"A simple lookup to determine if a record is still an original or has incurred revisions."
-	);
+JSON array
+token, // token of a removed or expired image_id
 
 
 */
