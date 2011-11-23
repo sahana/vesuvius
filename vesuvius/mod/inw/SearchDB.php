@@ -81,7 +81,7 @@ class SearchDB
 		$this->incident = $incident;
                 // Look for hidden search string for filtering on images (PL-261).
                 $this->searchImage = "";
-                if (strpos($searchTerm, "[image]") !== false || strpos($searchTerm, "[+image]") !== false) {
+                if (strpos($searchTerm, "[image]") !== false) {
   			$this->searchImage = "only"; 
                 } else if (strpos($searchTerm, "[-image]") !== false) {
   			$this->searchImage = "none"; 
@@ -91,8 +91,9 @@ class SearchDB
                 if (strpos($searchTerm, "unknown") !== false) {
   			$this->searchUnknown = true; 
                 }
-		$toReplace = array(",", ".", "/", "\\", "?", "!", "@", "$", "%", "^", "&", "(", ")", "+", "#",
-      					"[image]", "[+image]", "[-image]", "unknown");
+                // Leif - removed ()'s to allow boolean grouping.
+		$toReplace = array(",", ".", "/", "\\", "?", "!", "@", "$", "%", "^", "&", "+", "#",
+      					"[image]", "[-image]", "unknown");
 		$this->searchTerm = strtolower(str_replace($toReplace, "", $searchTerm));
 
 		$this->setStatusFilters($sStatus);
