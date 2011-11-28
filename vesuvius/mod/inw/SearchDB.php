@@ -91,8 +91,8 @@ class SearchDB
                 if (strpos($searchTerm, "unknown") !== false) {
   			$this->searchUnknown = true; 
                 }
-                // Leif - removed ()'s to allow boolean grouping.
-		$toReplace = array(",", ".", "/", "\\", "?", "!", "@", "$", "%", "^", "&", "+", "#",
+                // Removed ()'s to allow boolean grouping, and + to indicate required term (PL-265).
+		$toReplace = array(",", ".", "/", "\\", "?", "!", "@", "$", "%", "^", "&", "#",
       					"[image]", "[-image]", "unknown");
 		$this->searchTerm = strtolower(str_replace($toReplace, "", $searchTerm));
 
@@ -495,7 +495,7 @@ class SearchDB
 	}
 
 	private function buildSOLRQuery() {
-                $this->searchTerm = $this->searchTerm == "" ? "*:*" : $this->searchTerm . "~";
+                $this->searchTerm = $this->searchTerm == "" ? "*:*" : $this->fuzzify($this->searchTerm);
                 $this->SOLRquery =
                     $this->SOLRroot . "select/?fl=*,score&qt=edismax&q=+" . trim(urlencode($this->searchTerm))
                                     . $this->SOLRfq;
@@ -603,6 +603,37 @@ class SearchDB
 		$this->SOLRfacetResults = $tempSOLRjson->facet_counts->facet_queries;
 		$this->cleanUpFacets();
 	}
+    
+        // Insert fuzzy search operator after each search term (PL-264).
+   	private function fuzzify($searchTerm) {
+                $tempTerm = '';
+        	// Take care not to fuzzify boolean terms, or those with '+', '-', or double-quotes.
+		$tempArray = explode(" ", $searchTerm);
+                $inQuote = false;
+  		foreach ($tempArray as $token) {
+                        if ($token[0] == '-' || $token[0] == '+' 
+				|| strpos($token, '"') !== false
+				|| strcasecmp($token, 'and') == 0 
+				|| strcasecmp($token, 'or') == 0) { 
+                    		$tempTerm .= $token . " ";
+                        } else {
+ 				if (!$inQuote) {
+                			$tempTerm .= $token . "~ ";
+ 				} else {
+					$tempTerm .= $token . " ";
+				}
+                        }
+                         // Process quote flag.
+			if ($token[0] == '"') {
+                                // First character is a quote.
+				$inQuote = true;
+ 			} else if (substr($token, -1) == '"') {
+                                // Last character is a quote.
+				$inQuote = false;
+			}
+                }
+  		return trim($tempTerm);
+        }
 }
 
 
