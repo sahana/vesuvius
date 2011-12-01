@@ -16,11 +16,13 @@ require_once("../../3rd/nusoap/lib/nusoap.php");
 
 //$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=2.0";
 //$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=1.9.8";
-$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.0";
+$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.1";
 
 $client = new nusoap_client($wsdl);
 
-$result = $client->call('expirePerson', array('uuid'=>'pl.nlm.nih.gov/person.4001018', 'explanation'=>'because!!!!', 'username'=>$user, 'password'=>$pass));
+//$result = $client->call('getImageCountsAndTokens', array('username'=>$user, 'password'=>$pass));
+
+//$result = $client->call('expirePerson', array('uuid'=>'pl.nlm.nih.gov/person.4001018', 'explanation'=>'because!!!!', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('setPersonExpiryDate', array('uuid'=>'pl.nlm.nih.gov/person.4001018', 'expiryDate'=>'2011-01-01 01:23:46', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('setPersonExpiryDateOneYear', array('uuid'=>'pl.nlm.nih.gov/person.4001018', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('changeMassCasualtyId', array('newMcid'=>'XXX', 'uuid'=>'3', 'username'=>$user, 'password'=>$pass));
@@ -72,8 +74,8 @@ $result = $client->call('searchWithAuth', array(
 */
 
 //$x = file_get_contents("RU.xml");
-//$x = file_get_contents("reference_REUNITE3.xml");
-//$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
+$x = file_get_contents("reference_REUNITE3.xml");
+$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
 
 
 //$x = file_get_contents("TP.xml");

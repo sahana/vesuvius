@@ -1,13 +1,13 @@
 /**
  * @name         Event Manager
- * @version      1.4
+ * @version      1.5
  * @package      em
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1004
+ * @lastModified 2011.1130
  */
 
 
@@ -131,8 +131,8 @@ function load_map(latitude, longitude, street) {
 
 
 function em_delete(incident_id) {
-	em_append_log('Deleting Event #<b>' + incident_id + '</b> ...<br>');
-	setTimeout('em_perform_delete('+incident_id+', confirm(\'Are you sure you want to delete this incident? Deleting this incident will orphan all data that was attached to it. If you are certain that you have removed all related data already (through Delete a Person module and similar modules) then you may proceeed; otherwise press please CANCEL to abort this operation.\'));', 100);
+	em_append_log('Deleting Event #<b>' + incident_id + '</b> (this operation may take a long time on large events) ...<br>');
+	setTimeout('em_perform_delete('+incident_id+', confirm(\'Are you sure you want to delete this incident? Doing so will delete all person data along with the associated image and voicenote data. If you are sure then you may proceeed; otherwise press please CANCEL to abort this operation.\'));', 100);
 }
 
 
