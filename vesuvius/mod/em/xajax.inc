@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Event Manager
- * @version      1.4
+ * @version      1.5
  * @package      em
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1004
+ * @lastModified 2011.1130
  */
 
 global $global;
@@ -751,6 +751,9 @@ function em_perform_delete($incident_id, $confirm) {
 
 	if ($confirm == "true") {
 
+		// purge the incident of persons and related image data
+		$response = em_perform_purge($incident_id);
+
 		//---- delete the incident from the db
 		$q = "
 			DELETE from incident
@@ -759,7 +762,8 @@ function em_perform_delete($incident_id, $confirm) {
 		$result = $global['db']->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "delete 1"); }
 
-		$global['xajax_res']->addAppend('rezLog', 'innerHTML', 'Event <b>#'.$incident_id.'</b> <span style="color: red;">Deleted</span>.<br>');
+		$global['xajax_res']->addAppend('rezLog', 'innerHTML', $response.'Event <b>#'.$incident_id.'</b> <span style="color: red;">Deleted</span>.<br>');
+
 	} else {
 		$global['xajax_res']->addAppend('rezLog', 'innerHTML', "Delete operation aborted.<br>");
 	}
@@ -776,6 +780,125 @@ function em_perform_delete($incident_id, $confirm) {
 	$global['xajax_res']->addAssign('rezMain', 'innerHTML', em_show_events(TRUE));
 	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
 	return $global['xajax_res']->getXML();
+}
+
+
+
+function em_perform_purge($incident_id) {
+
+	global $global;
+	require_once($global['approot']."/inc/lib_uuid.inc");
+	require_once($global['approot']."/inc/lib_image.inc");
+	require_once($global['approot']."/inc/lib_locale/gettext.inc");
+
+	$log = "";
+	$webroot = $global['approot']."www/";
+	$delPersons = 0;
+	$delImages = 0;
+	$delVn = 0;
+
+	// Get all persons for this incident
+	$q = "
+		SELECT *
+		FROM person_uuid
+		WHERE incident_id = '".$incident_id."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 1");  return($log."error!<br>"); }
+
+	$people = array();
+	$count = 0;
+	while($row = $result->FetchRow()) {
+		$people[$count] = $row['p_uuid'];
+		$count++;
+	}
+
+	foreach($people as $p_uuid) {
+
+		// Delete any associated images...
+		$q = "
+			SELECT *
+			FROM image WHERE p_uuid = '".$p_uuid."';
+		";
+		$image_result = $global['db']->Execute($q);
+
+		if($image_result === false) {
+			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 2 ((".$q."))");
+			$errchk = $global['db']->ErrorMsg();
+			$log .= "Error getting image for this person (".$p_uuid."): <b>".$errchk."</b><br>";
+			return($log);
+
+		} elseif(count($image_result) > 0) {
+
+			while($row = $image_result->FetchRow()) {
+
+				// There is an image so delete it and its thumbnail
+				$file = $webroot.$row['url'];
+				$thumb = $webroot.$row['url_thumb'];
+
+				if(!unlink($file)) {
+					$log .= "Unable to delete <b>".$file."</b><br>";
+				} else {
+					$delImages++;
+					$original = str_replace("full.jpg", "original", $file);
+					unlink($original);
+				}
+				if($thumb != $file) {
+					if(!unlink($thumb)) {
+						$log .= "Unable to delete <b>".$thumb."</b><br>";
+					}
+				}
+			}
+		}
+
+		// Delete any associated voice notes...
+		$q = "
+			SELECT *
+			FROM voice_note WHERE p_uuid = '".$p_uuid."';
+		";
+		$result = $global['db']->Execute($q);
+
+		if($result === false) {
+			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 4 ((".$q."))");
+			$errchk = $global['db']->ErrorMsg();
+			$log .= "Error getting voice note for this person (".$p_uuid."): <b>".$errchk."</b><br>";
+			return($log);
+
+		} elseif(count($result) > 0) {
+
+			while($row = $result->FetchRow()) {
+
+				// There is a voice note so delete it nd the resampleds
+				$original = $webroot.$row['url_original'];
+				$mp3      = $webroot.$row['url_resampled_mp3'];
+				$ogg      = $webroot.$row['url_resampled_ogg'];
+
+				if(!unlink($original)) {
+					$log .= "Unable to delete <b>".$file."</b><br>";
+				} else {
+					!unlink($mp3);
+					!unlink($ogg);
+					$delVn++;
+				}
+			}
+		}
+
+		// Delete the person in question and all dependent data (such as reporter)
+		$q = "
+			CALL delete_reported_person('$p_uuid', 1);
+		";
+		$st = $global['db']->Execute($q);
+		if($st === false) {
+			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 3 ((".$q."))");
+			$errchk = $global['db']->ErrorMsg();
+			$log .= "Error calling delete_person for this incident: <b>".$errchk."</b><br>";
+		} else {
+			$delPersons++;
+			//$log .= "Deleted <b>".$p_uuid."</b><br>";
+		}
+	}
+	$log .= "<b>".$delPersons." person(s)</b>, <b>".$delImages." images</b>, and <b>".$delVn." voice notes</b> deleted.<br>";
+	return($log);
 }
 
 

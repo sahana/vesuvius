@@ -3,8 +3,15 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 
 
 
+
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
 
+2011:1130 Greg
+--------------
+
+ALTER TABLE  `person_uuid` ADD INDEX  `incident_id_index` (  `incident_id` ) ;
+ALTER TABLE  `person_uuid` ADD FOREIGN KEY (  `incident_id` ) REFERENCES  `incident` (`incident_id`) ON DELETE CASCADE ON UPDATE CASCADE ;
+ALTER TABLE  `image` ADD FOREIGN KEY (`p_uuid`) REFERENCES  `person_uuid` (`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE ;
 
 2011:1122 Greg
 --------------

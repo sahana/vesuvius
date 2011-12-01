@@ -2408,7 +2408,6 @@ function hasRecordBeenRevised($uuid, $username, $password) {
 
 
 
-
 // Image Indexing API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // Image Indexing API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // Image Indexing API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
@@ -2416,26 +2415,88 @@ function hasRecordBeenRevised($uuid, $username, $password) {
 // Image Indexing API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
 
+// Returns a count of the total number of images and the value of the latest brownie (image index value).
+function getImageCountsAndTokens($username, $password) {
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+
+	$imageCount     = 0;
+	$firstToken     = 0;
+	$lastToken      = 0;
+	$nullTokenCount = 0;
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'imageCount'     => (int)0,
+			'firstToken'     => (int)0,
+			'lastToken'      => (int)0,
+			'nullTokenCount' => (int)0,
+			'errorCode'      => (int)$status,
+			'errorMessage'   => (string)$eCodes[$status]
+		);
+
+	// passed auth
+	} else {
+
+		// find the first token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id ASC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageCountAndTokens 1"); }
+		$firstToken = $result->fields["image_id"];
+
+		// find the last token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id DESC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageCountAndTokens 2"); }
+		$lastToken = $result->fields["image_id"];
+
+		// find the image count
+		$q = "
+			SELECT COUNT(*)
+			FROM image
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageCountAndTokens 3"); }
+		$imageCount = $result->fields["COUNT(*)"];
+
+		$nullTokenCount = $lastToken - $imageCount;
+	}
+
+	return array(
+		'imageCount'     => (int)$imageCount,
+		'firstToken'     => (int)$firstToken,
+		'lastToken'      => (int)$lastToken,
+		'nullTokenCount' => (int)$nullTokenCount,
+		'errorCode'      => (int)0,
+		'errorMessage'   => ''
+	);
+}
 /*
 
-	shn_plus_registerOne($server, 'getImageCountsAndTokens',
-		array(
-			'in' => array(
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'imageCount'     => 'xsd:integer',
-				'firstToken'     => 'xsd:integer',
-				'lastToken'      => 'xsd:integer',
-				'nullTokenCount' => 'xsd:integer',
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Returns a count of the total number of images and the value of the latest brownie (image index value)."
-	);
+
+
+
+
+
+
+
+
+
+
 
 	shn_plus_registerOne($server, 'getImageList',
 		array(
