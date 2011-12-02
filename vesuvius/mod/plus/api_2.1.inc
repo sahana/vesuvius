@@ -2485,18 +2485,84 @@ function getImageCountsAndTokens($username, $password) {
 		'errorMessage'   => ''
 	);
 }
+
+
+
+
+
+
+
+
 /*
 
 
 
+// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
+function getEventListUser($username, $password) {
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	$list = array();
 
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'eventList'    => null,
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
 
+	// find the user's p_uuid
+	} else {
+		$q = "
+			SELECT *
+			FROM users
+			WHERE user_name = '".mysql_real_escape_string($username)."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getEventListUser 1"); }
+		// we can assume, the row exists, since we passed auth check
+		$p_uuid = $result->fields["p_uuid"];
+	}
 
-
-
-
-
-
+	// get a list of all public events and events where the user has access
+	$q = "
+		SELECT *
+		FROM incident i
+		LEFT JOIN sys_user_to_group s ON i.private_group = s.group_id
+		LEFT JOIN users u ON u.p_uuid = s.p_uuid
+		WHERE i.private_group is null
+		OR (
+			s.group_id = i.private_group
+			and s.p_uuid = u.p_uuid
+			and u.p_uuid = '".$p_uuid."'
+		);
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getEventListUser 2"); }
+	while (!$result == NULL && !$result->EOF) {
+		$list[] = array(
+			'incident_id' => $result->fields["incident_id"],
+			'parent_id'   => $result->fields["parent_id"],
+			'name'        => $result->fields["name"],
+			'shortname'   => $result->fields["shortname"],
+			'date'        => $result->fields["date"],
+			'type'        => $result->fields["type"],
+			'latitude'    => $result->fields["latitude"],
+			'longitude'   => $result->fields["longitude"],
+			'street'      => $result->fields["street"],
+			'group'       => $result->fields["private_group"],
+			'closed'      => $result->fields["closed"],
+		);
+		$result->MoveNext();
+	}
+	return array(
+		'eventList'    => (string)json_encode($list),
+		'errorCode'    => (int)0,
+		'errorMessage' => ''
+	);
+}
 
 	shn_plus_registerOne($server, 'getImageList',
 		array(
