@@ -1,7 +1,10 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
-
+ALTER TABLE `edxl_co_lpf` ADD FOREIGN KEY (`p_uuid`) REFERENCES `person_uuid` (`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE  `person_uuid` ADD INDEX  `hospital_index` (`hospital_uuid`);
+ALTER TABLE  `person_uuid` CHANGE  `hospital_uuid`  hospital_uuid` INT(32) NULL DEFAULT NULL ;
+ALTER TABLE  `person_uuid` ADD FOREIGN KEY (`hospital_uuid`) REFERENCES `hospital` (`hospital_uuid`) ON DELETE SET NULL ON UPDATE CASCADE ;
 
 
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
