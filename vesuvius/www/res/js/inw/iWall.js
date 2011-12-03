@@ -249,7 +249,7 @@ function Person() {
 			this.y            = -999999;
 			this.wipe         = false; 
 			
-			this.mass_casualty_id = args["mass_casualty_id"] || "N/A";
+			this.mass_casualty_id = args["mass_casualty_id"] || "";
 			
                         // Added allowance for unbounded range (PL-252).
 			if ( this.age > -1 ) 
