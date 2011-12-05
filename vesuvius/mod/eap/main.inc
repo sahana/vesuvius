@@ -804,25 +804,6 @@ function shn_eap_edit() {
 			$tcc = "lime";
 		}
 
-
-		// zero pad the string if hospital says so...
-		if($person_uuid['hospital_uuid'] != null) {
-			$q  = "
-				SELECT *
-				FROM hospital
-				WHERE hospital_uuid = '".$person_uuid['hospital_uuid']."';
-			";
-
-			$r = $global['db']->Execute($q);
-			if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 11b"); }
-			$row = $r->FetchRow();
-
-			if((int)$row['patient_id_suffix_variable'] == 0) {
-				$did = str_pad($did, $row['patient_id_suffix_fixed_length'], "0", STR_PAD_LEFT);
-			}
-			$did = $row['patient_id_prefix'].$did;
-		}
-
 		echo "
 					<label><b>Mass Casualty ID</b> </label>
 					<input type=\"text\" value=\"".$did."\" size=\"64\" class=\"nonedit2 public\" READONLY>

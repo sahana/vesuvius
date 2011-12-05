@@ -1028,6 +1028,36 @@ class person {
 	}
 
 
+	// cleans data to improve integrity
+	private function cleanInput() {
+
+		// zero pad the patient_id string if hospital says we should...
+		if($this->hospital_uuid != null) {
+
+			// strip the hospital prefix from the patient_id (we will replace it with our own)
+			$tmp = $this->edxl->person_id = explode("-", $this->edxl->person_id);
+			$this->edxl->person_id = $tmp[sizeof($tmp)-1];
+
+			$q  = "
+				SELECT *
+				FROM hospital
+				WHERE hospital_uuid = '".$this->hospital_uuid."';
+			";
+
+			$result = $this->db->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "cleanData after parseXML ((".$q."))"); }
+			$row = $result->FetchRow();
+
+			if((int)$row['patient_id_suffix_variable'] == 0) {
+				$this->edxl->person_id = str_pad($this->edxl->person_id, $row['patient_id_suffix_fixed_length'], "0", STR_PAD_LEFT);
+			}
+
+			// re-add the prefix
+			$this->edxl->person_id = $row['patient_id_prefix'].$this->edxl->person_id;
+		}
+	}
+
+
 	public function parseXml() {
 		global $global;
 		require_once($global['approot']."inc/lib_uuid.inc");
@@ -1298,6 +1328,7 @@ class person {
 			$this->edxl->when_here       = $this->creation_time;
 			$this->edxl->inbound         = 1; //null; HACK! cant be null
 			$this->edxl->type            = "lpf";
+			$this->cleanInput();
 
 			// parse all images
 			for($n = 0; $n < sizeof($a['EDXLDistribution']); $n++) {
@@ -1434,6 +1465,7 @@ class person {
 			$this->edxl->when_here       = $this->creation_time;
 			$this->edxl->inbound         = 1; //null; HACK! cant be null
 			$this->edxl->type            = "lpf";
+			$this->cleanInput();
 
 			// check if the event is closed to reporting...
 			if(!$this->isEventOpen()) {
