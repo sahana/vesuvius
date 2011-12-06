@@ -848,16 +848,21 @@ class Pfif {
       $insert_array = null; // reset array
       // contact table
       $insert_array['p_uuid'] = $person->person_record_id;
-      // TODO: PFIF also may have home_country and home_neighborhood.
       $address = '';
       if (!empty($person->home_street)) {
          $address = $person->home_street . ", ";
+      }
+      if (!empty($person->home_neighborhood)) {
+         $address .= $person->home_neighborhood . ", ";
       }
       if (!empty($person->home_city)) {
          $address .= $person->home_city . ", ";
       }
       if (!empty($person->home_state)) {
          $address .= $person->home_state;
+      }
+      if (!empty($person->home_country)) {
+         $address .= ", " . $person->home_country;
       }
       if (!empty($address)) {
          $insert_array['contact_value'] = $address;

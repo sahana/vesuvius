@@ -91,8 +91,8 @@ class SearchDB
                 if (strpos($searchTerm, "unknown") !== false) {
   			$this->searchUnknown = true; 
                 }
-                // Removed ()'s to allow boolean grouping, and + to indicate required term (PL-265).
-		$toReplace = array(",", ".", "/", "\\", "?", "!", "@", "$", "%", "^", "&", "#",
+                // Removed a number of symbols to allow power users to exploit SOLR syntax (PL-265).
+		$toReplace = array(",", ".", "/", "\\", "@", "$", "%", "^", "&", "#",
       					"[image]", "[-image]", "unknown");
 		$this->searchTerm = strtolower(str_replace($toReplace, "", $searchTerm));
 
@@ -354,7 +354,46 @@ class SearchDB
 
 
 	private function getLastUpdateSQL() {
-		/*global $conf;
+		global $conf;
+
+		$mysqli = new mysqli( $conf["db_host"], $conf["db_user"], $conf["db_pass"], $conf["db_name"], $conf["db_port"] );
+
+		$this->pageStart = 0;
+		$this->perPage = 1;
+
+		$proc = "CALL PLSearch('$this->searchTerm', '$this->statusString', '$this->genderString', '$this->ageString', '$this->hospitalString', '$this->incident', '$this->sortBy', $this->pageStart, $this->perPage)";
+		//echo $proc;
+		$res = $mysqli->multi_query( "$proc; SELECT @allCount;" );
+		if( $res ) {
+			$results = 0;
+			$c = 0;
+			do {
+				if ($result = $mysqli->store_result()) {
+					if ( $c == 0 ) {
+						while ($row = $result->fetch_assoc()) {
+							$this->lastUpdated = $row["updated"];
+						}
+					/*} elseif ( $c == 1 ) { // rows found
+						while( $row = $result->fetch_row() )
+							foreach( $row as $cell )
+								$this->numRowsFound = $cell;
+					} elseif ( $c == 2 ) { // total rows*/
+					}
+
+					$result->close();
+					if( $mysqli->more_results() ) $c += 1;
+				}
+			} while( $mysqli->more_results() && $mysqli->next_result() );
+		}
+		$mysqli->close();
+
+		$date = new DateTime($this->lastUpdated);
+		$this->lastUpdated = $date->format('m/d/y @ g:i:s A');
+	}
+
+/*
+	private function getLastUpdateSQL() {
+		global $conf;
 		$mysqli = new mysqli( $conf["db_host"], $conf["db_user"], $conf["db_pass"], $conf["db_name"], $conf["db_port"] ); // "archivestage.nlm.nih.gov", "mrodriguez", "xdr5XDR%", "pltest3" );
 		$query = 	"SELECT DATE_FORMAT(MAX(t.updated), '%m/%e/%y @ %l:%i:%s %p') as updated FROM (
 						SELECT
@@ -402,8 +441,9 @@ class SearchDB
 		}
 
 		$stmt->close();
-		$mysqli->close();*/
+		$mysqli->close();
 	}
+*/
 
 
 
@@ -607,25 +647,25 @@ class SearchDB
         // Insert fuzzy search operator after each search term (PL-264).
    	private function fuzzify($searchTerm) {
                 $tempTerm = '';
-        	// Take care not to fuzzify boolean terms, or those with '+', '-', or double-quotes.
+        	// Take care not to fuzzify boolean terms, or terms w/in double-quoted phrases.
+                // SOLR does the right thing if you fuzzify nonsensical stuff (e.g. single quoted term).
 		$tempArray = explode(" ", $searchTerm);
                 $inQuote = false;
   		foreach ($tempArray as $token) {
-                        if ($token[0] == '-' || $token[0] == '+' 
-				|| strpos($token, '"') !== false
-				|| strcasecmp($token, 'and') == 0 
+			if (strcasecmp($token, 'and') == 0 
 				|| strcasecmp($token, 'or') == 0) { 
                     		$tempTerm .= $token . " ";
                         } else {
  				if (!$inQuote) {
+					// Fixme: Right paren? Place ~ inside it.
                 			$tempTerm .= $token . "~ ";
  				} else {
 					$tempTerm .= $token . " ";
 				}
                         }
                          // Process quote flag.
-			if ($token[0] == '"') {
-                                // First character is a quote.
+			if ($token[0] == '"' && substr($token, -1) != '"') {
+                                // First character (but not last character) is a quote.
 				$inQuote = true;
  			} else if (substr($token, -1) == '"') {
                                 // Last character is a quote.
