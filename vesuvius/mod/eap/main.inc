@@ -789,15 +789,10 @@ function shn_eap_edit() {
 			FROM edxl_co_lpf
 			WHERE p_uuid = '".$global['uuid']."';
 		";
-		$r   = $global['db']->Execute($q);
+		$r = $global['db']->Execute($q);
 		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 11"); }
 		$row = $r->FetchRow();
 		$did = $row['person_id'];
-		echo "
-					<label><b>Mass Casualty ID</b> </label>
-					<input type=\"text\" value=\"".$did."\" size=\"64\" class=\"nonedit2 public\" READONLY>
-					<br>
-		";
 
 		$tct = $row['triage_category'];
 		$tcc = $tct;
@@ -808,6 +803,13 @@ function shn_eap_edit() {
 		} else if($tct == "Green") {
 			$tcc = "lime";
 		}
+
+		echo "
+					<label><b>Mass Casualty ID</b> </label>
+					<input type=\"text\" value=\"".$did."\" size=\"64\" class=\"nonedit2 public\" READONLY>
+					<br>
+		";
+
 		echo "
 					<label><b>Initial Triage Category</b> </label>
 					<input type=\"text\" value=\"\" class=\"nonedit public tct\" style=\"border: 1px solid #777; border-radius: 20px; -moz-border-radius: 20px; width: 2px; margin-left: 10px; background-color: ".$tcc.";\" READONLY>
@@ -973,7 +975,7 @@ function shn_eap_edit() {
 		$url_mp3 = $row['url_resampled_mp3'];
 		$url_ogg = $row['url_resampled_ogg'];
 		echo "
-			<div class=\"form-container\">
+			<div class=\"form-container\" id=\"voiceNoteDiv\">
 				<form>
 					<fieldset id=\"editImages\">
 						<legend>Voice Note</legend>
@@ -1374,11 +1376,11 @@ function shn_eap_edit() {
 
 		echo "
 			<label for=\"height\">Height</label>
-			<input type=\"text\" name=\"height\" id=\"height\" value=\"".$editHeight."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
+			<input type=\"text\" name=\"height\" id=\"height\" value=\"".$editHeight."\" size=\"10\" maxlength=10 tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
 			<label for=\"height\">Weight</label>
-			<input type=\"text\" name=\"weight\" id=\"weight\" value=\"".$editWeight."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"public\">
+			<input type=\"text\" name=\"weight\" id=\"weight\" value=\"".$editWeight."\" size=\"10\" maxlength=10 tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
 			<label for=\"height\">Distinctive Features</label>
@@ -1664,8 +1666,6 @@ function shn_eap_edit() {
 				<span class=\"noteFooter\">".$result->fields["note_record_id"]."</span>
 			</p>
 			<div style=\"height: 25px;\">Posted by <b>".$result->fields["author_name"]."</b> on ".$udate." at ".$utime."</div>
-			<br>
-			<br>
 		";
 
 		/*
@@ -1685,24 +1685,26 @@ function shn_eap_edit() {
 	// if user is allowed to add notes... show the tool for this
 	if($global['addNote']) {
 		echo "
-			<br>
-			<b>Add your own comment...</b><br>
-			<center>
-				<textarea name=\"addNote\" id=\"addNote\" style=\"width: 80%; \" rows=\"5\" tabindex=\"".++$shn_tabindex."\" ></textarea><br>
-				<input type=\"submit\" value=\"Save Note\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
-			</center>
+			<div id=\"addYourOwnComment\">
+				<b>Add your own comment...</b><br>
+				<center>
+					<textarea name=\"addNote\" id=\"addNote\" style=\"width: 80%; \" rows=\"5\" tabindex=\"".++$shn_tabindex."\" ></textarea><br>
+					<input type=\"submit\" value=\"Save Note\" class=\"styleTehButton\" tabindex=\"".++$shn_tabindex."\">
+				</center>
+			</div>
 		";
 
 	// if user is not allowed to add notes, tell them
 	} else {
 		echo "
-			<b> &nbsp; To leave a note, you must first <a href=\"login\">login or register</a>.</b>
+			<div id=\"addYourOwnComment\">
+				<b> &nbsp; To leave a note, you must first <a href=\"login\">login or register</a>.</b>
+			</div>
 		";
 	}
 
 	// close notes
 	echo "
-		<br>
 		<label for=\"height\">&nbsp;</label>
 		</fieldset>
 		</form></div>
@@ -1795,10 +1797,10 @@ function shn_eap_edit() {
 			<br>
 		";
 
-		shn_form_text(    "Zip/Postal Code",          "zip",    'size="50"', array('value'=>$editZip  ));
-		shn_form_text(    "Home Phone Number",        "phone",  'size="50"', array('value'=>$editPhone));
-		shn_form_text(    "Cell/Mobile Phone Number", "mobile", 'size="50"', array('value'=>$editCell ));
-		shn_form_text(    "Email Address",            "email",  'size="50"', array('value'=>$editEmail));
+		shn_form_text(    "Zip/Postal Code",          "zip",    'size="20"', array('value'=>$editZip  ));
+		shn_form_text(    "Home Phone Number",        "phone",  'size="20"', array('value'=>$editPhone));
+		shn_form_text(    "Cell/Mobile Phone Number", "mobile", 'size="20"', array('value'=>$editCell ));
+		shn_form_text(    "Email Address",            "email",  'size="20"', array('value'=>$editEmail));
 
 		shn_form_opt_select("opt_race", "Race ",         null, array('sort'=>'display_order, option_description ASC', 'value'=>$editRace    ));
 		shn_form_opt_select("opt_religion", "Religion ", null, array('sort'=>'display_order, option_description ASC', 'value'=>$editReligion));
@@ -1876,6 +1878,7 @@ function shn_eap_edit() {
 
 
 	// FOLLOW //////////////////////////////////////////////////////////////////////////////////////////
+	echo "<div id=\"followDiv\">";
 	if($global['startFollow'] && $global['role'] != "reporter") {
 
 		$q  = "
@@ -1949,6 +1952,7 @@ function shn_eap_edit() {
 			</div>
 		";
 	}
+	echo "</div>";
 	// FOLLOW END ///////////////////////////////////////////////////////////////////////////////
 
 
@@ -1959,7 +1963,7 @@ function shn_eap_edit() {
 		<fieldset id=\"editShare\">
 		<legend>Share</legend>
 
-		<span>Send this page to a mobile device :</span><br><br>
+		<span id =\"sendToText\">Send this page to a mobile device :</span><br><br>
 		<div style=\"float: left; width: 158px;\">
 			<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\"></script>
 			<script type=\"text/javascript\" src=\"res/js/jquery.qrcode.min.js\"></script>
@@ -1970,7 +1974,7 @@ function shn_eap_edit() {
 		</div>
 
 
-		<div style=\"float: left;\">
+		<div id=\"shortUrlText\" style=\"float: left;\">
 			<br><br>
 			Short URL to this page : <br><br>
 			<a href=\"".$global['googl']."\">".$global['googl']."</a><br>
@@ -1978,7 +1982,7 @@ function shn_eap_edit() {
 
 		<div style=\"clear:both;\"></div>
 
-		<div style=\"margin: 15px 15px 0px 15px; border-top: 1px solid #000; padding-top: 15px;\">
+		<div style=\"margin: 15px 15px 0px 15px; border-top: 1px solid #000; padding-top: 15px;\" id=\"addThisDiv\">
 			<div class=\"addthis_toolbox addthis_default_style\">
 			<a class=\"addthis_button_facebook_like\" fb:like:layout=\"button_count\"></a>
 			<a class=\"addthis_button_tweet\"></a>

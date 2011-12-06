@@ -6,7 +6,7 @@ ini_set("display_errors", "stdout");
 
 // Delete all records for an incident. Requires an incident id.
 // Optional: Supply a p_uuid to delete through this record only.
-// 
+//
 // set approot since we don't know it yet
 $global['approot'] = getcwd() . "/../";
 require_once("../conf/sahana.conf");
@@ -50,9 +50,9 @@ $status_id = $result['status_id'];
 
 // Get all missing persons for this incident (but not their reporters).
 $status_check = empty($max_p_uuid)? '':"AND ps.status_id <= $status_id";
-$sql = "SELECT pu.p_uuid FROM person_uuid pu, person_status ps WHERE " . 
+$sql = "SELECT pu.p_uuid FROM person_uuid pu, person_status ps WHERE " .
        "pu.incident_id=$incident_id " .
-       "AND ps.p_uuid = pu.p_uuid " . 
+       "AND ps.p_uuid = pu.p_uuid " .
        $status_check;
 $p_uuids = $global['db']->GetCol($sql);
 if($p_uuids === false) {
