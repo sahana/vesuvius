@@ -1,18 +1,17 @@
 /**
  * @name         Event Manager
- * @version      1.5
+ * @version      16
  * @package      em
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1130
+ * @lastModified 2011.1205
  */
 
 
-em_show_message('Loading Events...');
-setTimeout('em_show_events();', 1500);
+em_show_events();
 
 // Google Maps junx
 
