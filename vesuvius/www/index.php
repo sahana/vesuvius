@@ -283,8 +283,8 @@ function shn_main_checkEventPermissions() {
 		// check if visitor comes in with no shortname....
 		isset($_GET['shortname']) ? $short = $_GET['shortname'] : $short = "";
 
-		// these 3 modules are event dependent, so kick a user out if they try to access them without first choosing an event
-		if(($short == "") && ($global['module'] == "inw" || $global['module'] == "rap" || $global['module'] == "report" || $global['module'] == "stat")) {
+		// these 5 modules are event dependent, so kick a user out if they try to access them without first choosing an event
+		if(($short == "") && ($global['module'] == "inw" || $global['module'] == "rap" || $global['module'] == "report" || $global['module'] == "stat" || $global['module'] == "arrive")) {
 			$global['module'] = $conf['default_module'];
 			$global['action'] = $conf['default_action'];
 

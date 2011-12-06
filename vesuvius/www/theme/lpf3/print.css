@@ -45,6 +45,7 @@ h1 { text-align: center; font-family: Georgia, "Times New Roman", Times, serif; 
 /* Removing unwanted items */
 #container { }
 	#header { display: none; }
+	#headerText { display: none; }
  	#user_act{display:none;}
 	#wrapper { }
 	#wrapper_menu{display:none}
@@ -79,12 +80,14 @@ table tr td {border:1px solid #8E8E8E}
 
 /* Form styles */
 div.form-container form fieldset {  margin-top: 10pt; }
-.form-container input[type="text"] { color: black; border-width: 0; border: 1px solid #000; margin: 0 10px 10px 10px; }
-.form-container img, .form-container input[type="file"] { display: none; }
+.form-container input[type="text"] { color: black; border: 1px solid #000; margin: 0 10px 10px 10px; }
+.form-container input[type="number"] { color: black; border: 1px solid #000; margin: 0 10px 10px 10px; }
+.form-container input[type="file"] { display: none; }
+#voiceNoteDiv, #addYourOwnComment, #followDiv, #sendToText, #shortUrlText, #addThisDiv { display: none; }
 .form-container textArea { color: black; width: 300px; border-width: 0; border: 1px solid #000; margin: 0 10px 10px 10px; }
 /* Removing the buttons */
 .form-container input[type="submit"] { display: none; }
-.form-container select { width: 0; margin-right: 200pt; visibility: hidden; }
+.form-container select { border: 1px solid #000; width: 200pt; }
 .form-container label { width: 30%; float: left; text-align: left; margin: 0 10px 10px 10px; clear: both; }
 .form-container label[id="value"] { text-align: right; }
 .form-container legend { font-weight: bold; }
