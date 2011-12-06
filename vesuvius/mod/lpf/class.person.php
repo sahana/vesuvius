@@ -1038,6 +1038,13 @@ class person {
 			$tmp = $this->edxl->person_id = explode("-", $this->edxl->person_id);
 			$this->edxl->person_id = $tmp[sizeof($tmp)-1];
 
+			// no prefix...
+			if(sizeof($tmp) == 1) {
+				$prefix = null;
+			} else {
+				$prefix = $tmp[0]."-";
+			}
+
 			$q  = "
 				SELECT *
 				FROM hospital
@@ -1052,8 +1059,17 @@ class person {
 				$this->edxl->person_id = str_pad($this->edxl->person_id, $row['patient_id_suffix_fixed_length'], "0", STR_PAD_LEFT);
 			}
 
-			// re-add the prefix
-			$this->edxl->person_id = $row['patient_id_prefix'].$this->edxl->person_id;
+			// re-add the prefix...
+			// save practice prefixes (dont over-write them)
+			if($prefix == "Practice-") {
+				$this->edxl->person_id = $prefix.$this->edxl->person_id;
+			} else {
+			// detect triagepic misbehaving and log it...
+				if($prefix != $row['patient_id_prefix']) {
+					daoErrorLog('', '', '', '', '', '', "TP misbehaving! sent prefix(".$prefix.") and HA has prefix(".$row['patient_id_prefix'].")");
+				}
+				$this->edxl->person_id = $row['patient_id_prefix'].$this->edxl->person_id;
+			}
 		}
 	}
 
