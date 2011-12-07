@@ -16,13 +16,31 @@ window.last_arrival_time = null;
 window.all_events = true;
 window.increments = 0;
 
-// check if we came in with an anchor variable...
-if(self.document.location.hash.substring(1) == 'false') {
+var tmp = self.document.location.hash;
+tmp = explode('zZ||Zz', tmp);
+var anchor1 = tmp[0];
+var anchor2 = tmp[1];
+
+if(typeof anchor1 === 'undefined') {
+	window.all_events = true;
+} else if(anchor1 == '#false') {
 	window.all_events = false;
-	arrive_append_log('Showing arrivals from <b>only the current event</b>.');
-} else {
-	arrive_append_log('Showing arrivals from <b>ALL events</b>.');
 }
+if(typeof anchor2 === 'undefined') {
+	window.rezLog = '';
+} else {
+	window.rezLog = unescape(anchor2);
+}
+if(window.rezLog == '') {
+	if(window.all_events) {
+		window.rezLog = 'Showing arrivals from <b>ALL events</b>.';
+	} else {
+		window.rezLog = 'Showing arrivals from <b>only the current event</b>.';
+	}
+}
+
+var rL = document.getElementById('rezLog');
+rL.innerHTML = window.rezLog;
 
 
 function updateMenu() {
@@ -41,7 +59,7 @@ function updateMenu() {
 		b.disabled = true;
 		b.style.opacity = '0.2';
 	}
-	window.history.pushState(null, null, '#'+window.all_events);
+	window.history.pushState(null, null, '#'+window.all_events+'zZ||Zz'+escape(window.rezLog));
 }
 
 
@@ -86,6 +104,10 @@ function cleanLog() {
 
 	// reload the page once an hour to keep the session alive...
 	if((window.increments % 720) == 0) {
+		var r = document.getElementById('rezLog');
+		window.rezLog = r.innerHTML;
+		window.rezLog = window.rezLog+'<br>Reloaded page to keep session alive.';
+		window.history.pushState(null, null, '#'+window.all_events+'zZ||Zz'+escape(window.rezLog));
 		window.location.reload();
 	}
 }
@@ -95,5 +117,40 @@ fetch(1);
 arrive_show_list('false', window.all_events);
 setInterval('fetch(0)', 5000);
 
+
+
+//////////// other help functions
+
+function explode (delimiter, string, limit) {
+	var emptyArray = {0: ''	};
+
+	// third argument is not required
+	if(arguments.length < 2 || typeof arguments[0] == 'undefined' || typeof arguments[1] == 'undefined') {
+		return null;
+	}
+
+	if(delimiter === '' || delimiter === false || delimiter === null) {
+		return false;
+	}
+
+	if(typeof delimiter == 'function' || typeof delimiter == 'object' || typeof string == 'function' || typeof string == 'object') {
+		return emptyArray;
+	}
+
+	if(delimiter === true) {
+		delimiter = '1';
+	}
+
+	if(!limit) {
+		return string.toString().split(delimiter.toString());
+	}
+
+	// support for limit argument
+	var splitted = string.toString().split(delimiter.toString());
+	var partA = splitted.splice(0, limit - 1);
+	var partB = splitted.join(delimiter.toString());
+	partA.push(partB);
+	return partA;
+}
 
 

@@ -26,7 +26,7 @@ function shn_arrive_default() {
 	global $global;
 	shn_xajax_printJavascript();
 	echo "
-		<div id=\"rezLog\" class=\"logArea\"><noscript>THIS MODULE REQUIRES THAT YOU ACTIVATE JAVASCRIPT!</noscript></div>
+		<div id=\"rezLog\" class=\"logArea\"></div>
 		<div id=\"rezControl\" class=\"controlArea\">&nbsp;</div>
 		<div id=\"rezMain\" class=\"mainArea\"></div>
 		<script>".file_get_contents($global['approot']."/mod/arrive/arrive.js")."</script>
