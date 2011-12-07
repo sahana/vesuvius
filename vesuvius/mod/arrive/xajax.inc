@@ -26,8 +26,11 @@ array_push($global['xajax_functions'], 'arrive_add_spacer');
 // adds a message to the log div @ tail
 function arrive_append_log($message = "no message specified?") {
 	global $global;
-	$global['xajax_res']->addAppend('rezLog','innerHTML',$message);
-	//---- scroll the log to the bottom
+
+	// append text to the log
+	$global['xajax_res']->addAppend('rezLog', 'innerHTML', $message);
+
+	// scroll the log to the bottom
 	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
 	return $global['xajax_res']->getXML();
 }

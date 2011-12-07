@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1116
+ * @lastModified 2011.1207
  */
 
 global $api_version;
@@ -766,7 +766,7 @@ function getEventListUser($username, $password) {
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'eventList'    => null,
+			'eventList'    => (string)'',
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
 		);
@@ -926,22 +926,22 @@ function getHospitalData($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'name'          => null,
-			'shortname'     => null,
-			'street1'       => null,
-			'street2'       => null,
-			'city'          => null,
-			'county'        => null,
-			'state'         => null,
-			'country'       => null,
-			'zip'           => null,
-			'phone'         => null,
-			'fax'           => null,
-			'email'         => null,
-			'www'           => null,
-			'npi'           => null,
-			'latitude'      => null,
-			'longitude'     => null,
+			'name'          => (string)'',
+			'shortname'     => (string)'',
+			'street1'       => (string)'',
+			'street2'       => (string)'',
+			'city'          => (string)'',
+			'county'        => (string)'',
+			'state'         => (string)'',
+			'country'       => (string)'',
+			'zip'           => (string)'',
+			'phone'         => (string)'',
+			'fax'           => (string)'',
+			'email'         => (string)'',
+			'www'           => (string)'',
+			'npi'           => (string)'',
+			'latitude'      => (double)0.0,
+			'longitude'     => (double)0.0,
 			'errorCode'    => (int)100,
 			'errorMessage' => (string)$eCodes[100]
 		);
@@ -1025,7 +1025,7 @@ function getHospitalLegalese($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'legalese'     => null,
+			'legalese'     => (string)'',
 			'errorCode'    => (int)100,
 			'errorMessage' => (string)$eCodes[100]
 		);
@@ -1062,7 +1062,7 @@ function getHospitalLegaleseAnon($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'legaleseAnon' => null,
+			'legaleseAnon' => (string)'',
 			'errorCode'    => (int)100,
 			'errorMessage' => (string)$eCodes[100]
 		);
@@ -1100,8 +1100,8 @@ function getHospitalLegaleseTimestamps($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'legaleseTimestamp'    => null,
-			'legaleseAnonTimestamp'=> null,
+			'legaleseTimestamp'    => (string)'',
+			'legaleseAnonTimestamp'=> (string)'',
 			'errorCode'    => (int)100,
 			'errorMessage' => (string)$eCodes[100]
 		);
@@ -2486,19 +2486,10 @@ function getImageCountsAndTokens($username, $password) {
 	);
 }
 
-
-
-
-
-
-
-
 /*
 
-
-
-// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
-function getEventListUser($username, $password) {
+// Returns a list of the images and their associated properties, paginated by a start and end token (index value).
+function getImageList($tokenStart, $tokenEnd, $username, $password) {
 	shn_plus_logAccess(__FUNCTION__);
 	global $global;
 	$list = array();
@@ -2508,7 +2499,7 @@ function getEventListUser($username, $password) {
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'eventList'    => null,
+			'imageList'    => (string)'',
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
 		);
@@ -2593,6 +2584,32 @@ url, // url of the image
 url_thumb // url of the thumbnail image
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 
 	shn_plus_registerOne($server, 'getNullTokenList',
 		array(
