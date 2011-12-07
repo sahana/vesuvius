@@ -104,14 +104,18 @@ function cleanLog() {
 
 	// reload the page once an hour to keep the session alive...
 	if((window.increments % 720) == 0) {
-		var r = document.getElementById('rezLog');
-		window.rezLog = r.innerHTML;
-		window.rezLog = window.rezLog+'<br>Reloaded page to keep session alive.';
-		window.history.pushState(null, null, '#'+window.all_events+'zZ||Zz'+escape(window.rezLog));
-		window.location.reload();
+		setTimeout('reloadPage();', 10000);
 	}
 }
 
+
+function reloadPage() {
+	var r = document.getElementById('rezLog');
+	window.rezLog = r.innerHTML;
+	window.rezLog = window.rezLog+'<br>Reloading page to keep session alive.';
+	window.history.pushState(null, null, '#'+window.all_events+'zZ||Zz'+escape(window.rezLog));
+	window.location.reload();
+}
 
 fetch(1);
 arrive_show_list('false', window.all_events);
