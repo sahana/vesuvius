@@ -14,12 +14,12 @@ $user = "testDontDelete";
 $pass = "dontDelete99";
 require_once("../../3rd/nusoap/lib/nusoap.php");
 
-//$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=2.0";
+$wsdl = "https://pl.nlm.nih.gov/?wsdl";
 //$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=1.9.8";
-$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.1";
+//$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.1";
 $client = new nusoap_client($wsdl);
 
-$result = $client->call('getNullTokenList', array('tokenStart'=>'262', 'tokenEnd'=>'272', 'username'=>$user, 'password'=>$pass));
+$result = $client->call('getNullTokenList', array('tokenStart'=>'0', 'tokenEnd'=>'120', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('getImageList', array('tokenStart'=>'262', 'tokenEnd'=>'263', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('getImageList', array('tokenStart'=>'262', 'tokenEnd'=>'311', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('getImageCountsAndTokens', array('username'=>$user, 'password'=>$pass));
