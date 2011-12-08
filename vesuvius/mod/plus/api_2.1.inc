@@ -673,6 +673,23 @@ function shn_plus_registerAll($namespace) {
 		"Returns a list of the images and their associated properties, paginated by a start and end token (index value)."
 	);
 
+	shn_plus_registerOne($server, 'getImageListBlock',
+		array(
+			'in' => array(
+				'tokenStart'     => 'xsd:integer',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'imageList'      => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Returns a list of the images and their associated properties, in blocks of 1000 beginning with a start token (index value)."
+	);
+
 	shn_plus_registerOne($server, 'getNullTokenList',
 		array(
 			'in' => array(
@@ -2531,7 +2548,7 @@ function getImageList($tokenStart, $tokenEnd, $username, $password) {
 		$lastToken = $result->fields["image_id"];
 
 		// check for user asking for out of range tokens...
-		if($tokenStart < $firstToken || $tokenEnd > $lastToken) {
+		if($tokenStart < $firstToken || $tokenEnd > $lastToken || $tokenStart > $lastToken || $tokenEnd < $firstToken || $tokenStart > $tokenEnd) {
 			$eCodes = unserialize(ERRORCODES);
 			return array(
 				'imageList'    => (string)'',
@@ -2569,6 +2586,87 @@ function getImageList($tokenStart, $tokenEnd, $username, $password) {
 	);
 }
 
+
+// Returns a list of the images and their associated properties, in blocks of 1000 beginning with a start token (index value).
+function getImageListBlock($tokenStart, $username, $password) {
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	global $conf;
+	$list = array();
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'imageList'    => (string)'',
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+
+	// passed auth
+	} else {
+
+		// find the first token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id ASC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 1"); }
+		$firstToken = $result->fields["image_id"];
+
+		// find the last token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id DESC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 2"); }
+		$lastToken = $result->fields["image_id"];
+
+		// check for user asking for out of range tokens...
+		if($tokenStart < $firstToken || $tokenStart > $lastToken) {
+			$eCodes = unserialize(ERRORCODES);
+			return array(
+				'imageList'    => (string)'',
+				'errorCode'    => (int)411,
+				'errorMessage' => (string)$eCodes[411]
+			);
+		}
+
+		// get a list of all images in the range of the provided tokens
+		$q = "
+			SELECT *
+			FROM image i, person_uuid p
+			WHERE p.p_uuid = i.p_uuid
+			AND image_id >= '".mysql_real_escape_string($tokenStart)."'
+			LIMIT 1000;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 3 ((".$q."))"); }
+		while (!$result == NULL && !$result->EOF) {
+			$list[] = array(
+				'person_uuid'   => $result->fields["p_uuid"],
+				'image_id'      => $result->fields["image_id"],
+				'expiry_date'   => $result->fields["expiry_date"],
+				'creation_time' => $result->fields["creation_time"],
+				'url'           => $conf['https'].$conf['base_uuid'].$result->fields["url"],
+				'url_thumb'     => $conf['https'].$conf['base_uuid'].$result->fields["url_thumb"]
+			);
+			$result->MoveNext();
+		}
+	}
+	return array(
+		'imageList'    => (string)json_encode($list),
+		'errorCode'    => (int)0,
+		'errorMessage' => ''
+	);
+}
 
 
 // Returns a list of the images that have been removed from the system (either deleted or expired).
