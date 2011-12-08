@@ -795,7 +795,7 @@ function changeMassCasualtyId($newMcid, $uuid, $user, $pass) {
 
 
 function hasRecordBeenRevised($uuid, $user, $pass) {
- 	global $sites;
+	global $sites;
 	global $count;
 	$count++;
 	echo "<tr><td>".$count."</td><td class=\"func\">hasRecordBeenRevised</td>";
@@ -812,6 +812,91 @@ function hasRecordBeenRevised($uuid, $user, $pass) {
 	}
 	echo "</tr>";
 }
+
+
+
+function getImageCountsAndTokens($user, $pass) {
+	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">getImageCountsAndTokens</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('getImageCountsAndTokens', array('username'=>$user, 'password'=>$pass));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
+			echo "<td class=\"stub\"><blink>STUB</blink></td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
+function getImageList($tokenStart, $tokenEnd, $user, $pass) {
+	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">getImageList</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('getImageList', array('tokenStart'=>$tokenStart, 'tokenEnd'=>$tokenEnd, 'username'=>$user, 'password'=>$pass));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
+			echo "<td class=\"stub\"><blink>STUB</blink></td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
+
+function getImageListBlock($tokenStart, $user, $pass) {
+	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">getImageListBlock</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('getImageListBlock', array('tokenStart'=>$tokenStart, 'username'=>$user, 'password'=>$pass));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
+			echo "<td class=\"stub\"><blink>STUB</blink></td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
+
+function getNullTokenList($tokenStart, $tokenEnd, $user, $pass) {
+	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">getNullTokenList</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('getImageList', array('getNullTokenList'=>$tokenStart, 'tokenEnd'=>$tokenEnd, 'username'=>$user, 'password'=>$pass));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
+			echo "<td class=\"stub\"><blink>STUB</blink></td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
 
 
 
