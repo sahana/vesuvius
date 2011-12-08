@@ -23,6 +23,8 @@ $uuid = "3";
 $mcid = "0";
 $newMcid = "1";
 $expiryDate = "2036-11-11 11:11:11";
+$tokenStart = "1";
+$tokenEnd = "1";
 
 // load nusoap client library
 require_once("../../3rd/nusoap/lib/nusoap.php");
@@ -57,7 +59,10 @@ if(!isset($_GET['api'])) {
 		case '2.2':
 			reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $user, $pass);
 		case '2.1':
-
+			getImageCountsAndTokens($user, $pass);
+			getImageList($tokenStart, $tokenEnd, $user, $pass);
+			getImageListBlock($tokenStart, $user, $pass);
+			getNullTokenList($tokenStart, $tokenEnd, $user, $pass);
 		case '2.0':
 			expirePerson($uuid, '', $user, $pass);
 			getPersonExpiryDate($uuid);
