@@ -260,7 +260,14 @@ function shn_pref_forgotPassword() {
 			$part2 = substr($p2b, 0, 8);
 
 			$new_pass = $part1.$part2;
+
+			// O, 0, i, l, 1 characters are removed ~ too hard for old people to read!
+			$search = array('O', '0', 'i', '1', 'l');
+			$replace = array('Z', 'Z', 'Z', 'Z', 'Z');
+			$new_pass = str_replace($search, $replace, $new_pass);
+
 			$new_pwd = substr($new_pass, 0, 4).$salt.substr($new_pass, 4);
+
 			$password_digest = md5(trim($new_pwd));
 			$q3 = "
 				update users

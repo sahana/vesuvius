@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1116
+ * @lastModified 2011.1207
  */
 
 global $api_version;
@@ -664,13 +664,30 @@ function shn_plus_registerAll($namespace) {
 				'password'       => 'xsd:string'
 			),
 			'out' => array(
-				'inmageList'     => 'xsd:string',
+				'imageList'      => 'xsd:string',
 				'errorCode'      => 'xsd:integer',
 				'errorMessage'   => 'xsd:string'
 			)
 		),
 		$namespace,
 		"Returns a list of the images and their associated properties, paginated by a start and end token (index value)."
+	);
+
+	shn_plus_registerOne($server, 'getImageListBlock',
+		array(
+			'in' => array(
+				'tokenStart'     => 'xsd:integer',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'imageList'      => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Returns a list of the images and their associated properties, in blocks of 1000 beginning with a start token (index value)."
 	);
 
 	shn_plus_registerOne($server, 'getNullTokenList',
@@ -766,7 +783,7 @@ function getEventListUser($username, $password) {
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'eventList'    => null,
+			'eventList'    => (string)'',
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
 		);
@@ -926,22 +943,22 @@ function getHospitalData($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'name'          => null,
-			'shortname'     => null,
-			'street1'       => null,
-			'street2'       => null,
-			'city'          => null,
-			'county'        => null,
-			'state'         => null,
-			'country'       => null,
-			'zip'           => null,
-			'phone'         => null,
-			'fax'           => null,
-			'email'         => null,
-			'www'           => null,
-			'npi'           => null,
-			'latitude'      => null,
-			'longitude'     => null,
+			'name'          => (string)'',
+			'shortname'     => (string)'',
+			'street1'       => (string)'',
+			'street2'       => (string)'',
+			'city'          => (string)'',
+			'county'        => (string)'',
+			'state'         => (string)'',
+			'country'       => (string)'',
+			'zip'           => (string)'',
+			'phone'         => (string)'',
+			'fax'           => (string)'',
+			'email'         => (string)'',
+			'www'           => (string)'',
+			'npi'           => (string)'',
+			'latitude'      => (double)0.0,
+			'longitude'     => (double)0.0,
 			'errorCode'    => (int)100,
 			'errorMessage' => (string)$eCodes[100]
 		);
@@ -1025,7 +1042,7 @@ function getHospitalLegalese($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'legalese'     => null,
+			'legalese'     => (string)'',
 			'errorCode'    => (int)100,
 			'errorMessage' => (string)$eCodes[100]
 		);
@@ -1062,7 +1079,7 @@ function getHospitalLegaleseAnon($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'legaleseAnon' => null,
+			'legaleseAnon' => (string)'',
 			'errorCode'    => (int)100,
 			'errorMessage' => (string)$eCodes[100]
 		);
@@ -1100,8 +1117,8 @@ function getHospitalLegaleseTimestamps($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'legaleseTimestamp'    => null,
-			'legaleseAnonTimestamp'=> null,
+			'legaleseTimestamp'    => (string)'',
+			'legaleseAnonTimestamp'=> (string)'',
 			'errorCode'    => (int)100,
 			'errorMessage' => (string)$eCodes[100]
 		);
@@ -2488,19 +2505,11 @@ function getImageCountsAndTokens($username, $password) {
 
 
 
-
-
-
-
-
-/*
-
-
-
-// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
-function getEventListUser($username, $password) {
+// Returns a list of the images and their associated properties, paginated by a start and end token (index value).
+function getImageList($tokenStart, $tokenEnd, $username, $password) {
 	shn_plus_logAccess(__FUNCTION__);
 	global $global;
+	global $conf;
 	$list = array();
 
 	// check auth, if fails, return w/ error code/message
@@ -2508,116 +2517,241 @@ function getEventListUser($username, $password) {
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'eventList'    => null,
+			'imageList'    => (string)'',
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
 		);
 
-	// find the user's p_uuid
+	// passed auth
 	} else {
+
+		// find the first token
 		$q = "
 			SELECT *
-			FROM users
-			WHERE user_name = '".mysql_real_escape_string($username)."';
+			FROM image
+			ORDER BY image_id ASC
+			LIMIT 1;
 		";
 		$result = $global['db']->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getEventListUser 1"); }
-		// we can assume, the row exists, since we passed auth check
-		$p_uuid = $result->fields["p_uuid"];
-	}
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 1"); }
+		$firstToken = $result->fields["image_id"];
 
-	// get a list of all public events and events where the user has access
-	$q = "
-		SELECT *
-		FROM incident i
-		LEFT JOIN sys_user_to_group s ON i.private_group = s.group_id
-		LEFT JOIN users u ON u.p_uuid = s.p_uuid
-		WHERE i.private_group is null
-		OR (
-			s.group_id = i.private_group
-			and s.p_uuid = u.p_uuid
-			and u.p_uuid = '".$p_uuid."'
-		);
-	";
-	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getEventListUser 2"); }
-	while (!$result == NULL && !$result->EOF) {
-		$list[] = array(
-			'incident_id' => $result->fields["incident_id"],
-			'parent_id'   => $result->fields["parent_id"],
-			'name'        => $result->fields["name"],
-			'shortname'   => $result->fields["shortname"],
-			'date'        => $result->fields["date"],
-			'type'        => $result->fields["type"],
-			'latitude'    => $result->fields["latitude"],
-			'longitude'   => $result->fields["longitude"],
-			'street'      => $result->fields["street"],
-			'group'       => $result->fields["private_group"],
-			'closed'      => $result->fields["closed"],
-		);
-		$result->MoveNext();
+		// find the last token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id DESC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 2"); }
+		$lastToken = $result->fields["image_id"];
+
+		// check for user asking for out of range tokens...
+		if($tokenStart < $firstToken || $tokenEnd > $lastToken || $tokenStart > $lastToken || $tokenEnd < $firstToken || $tokenStart > $tokenEnd) {
+			$eCodes = unserialize(ERRORCODES);
+			return array(
+				'imageList'    => (string)'',
+				'errorCode'    => (int)411,
+				'errorMessage' => (string)$eCodes[411]
+			);
+		}
+
+		// get a list of all images in the range of the provided tokens
+		$q = "
+			SELECT *
+			FROM image i, person_uuid p
+			WHERE p.p_uuid = i.p_uuid
+			AND image_id >= '".mysql_real_escape_string($tokenStart)."'
+			AND image_id <= '".mysql_real_escape_string($tokenEnd)."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 3 ((".$q."))"); }
+		while (!$result == NULL && !$result->EOF) {
+			$list[] = array(
+				'person_uuid'   => $result->fields["p_uuid"],
+				'image_id'      => $result->fields["image_id"],
+				'expiry_date'   => $result->fields["expiry_date"],
+				'creation_time' => $result->fields["creation_time"],
+				'url'           => $conf['https'].$conf['base_uuid'].$result->fields["url"],
+				'url_thumb'     => $conf['https'].$conf['base_uuid'].$result->fields["url_thumb"]
+			);
+			$result->MoveNext();
+		}
 	}
 	return array(
-		'eventList'    => (string)json_encode($list),
+		'imageList'    => (string)json_encode($list),
 		'errorCode'    => (int)0,
 		'errorMessage' => ''
 	);
 }
 
-	shn_plus_registerOne($server, 'getImageList',
-		array(
-			'in' => array(
-				'tokenStart'     => 'xsd:integer',
-				'tokenEnd'       => 'xsd:integer',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'inmageList'     => 'xsd:string',
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Returns a list of the images and their associated properties, paginated by a start and end token (index value)."
+
+// Returns a list of the images and their associated properties, in blocks of 1000 beginning with a start token (index value).
+function getImageListBlock($tokenStart, $username, $password) {
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	global $conf;
+	$list = array();
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'imageList'    => (string)'',
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+
+	// passed auth
+	} else {
+
+		// find the first token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id ASC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 1"); }
+		$firstToken = $result->fields["image_id"];
+
+		// find the last token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id DESC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 2"); }
+		$lastToken = $result->fields["image_id"];
+
+		// check for user asking for out of range tokens...
+		if($tokenStart < $firstToken || $tokenStart > $lastToken) {
+			$eCodes = unserialize(ERRORCODES);
+			return array(
+				'imageList'    => (string)'',
+				'errorCode'    => (int)411,
+				'errorMessage' => (string)$eCodes[411]
+			);
+		}
+
+		// get a list of all images in the range of the provided tokens
+		$q = "
+			SELECT *
+			FROM image i, person_uuid p
+			WHERE p.p_uuid = i.p_uuid
+			AND image_id >= '".mysql_real_escape_string($tokenStart)."'
+			LIMIT 1000;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 3 ((".$q."))"); }
+		while (!$result == NULL && !$result->EOF) {
+			$list[] = array(
+				'person_uuid'   => $result->fields["p_uuid"],
+				'image_id'      => $result->fields["image_id"],
+				'expiry_date'   => $result->fields["expiry_date"],
+				'creation_time' => $result->fields["creation_time"],
+				'url'           => $conf['https'].$conf['base_uuid'].$result->fields["url"],
+				'url_thumb'     => $conf['https'].$conf['base_uuid'].$result->fields["url_thumb"]
+			);
+			$result->MoveNext();
+		}
+	}
+	return array(
+		'imageList'    => (string)json_encode($list),
+		'errorCode'    => (int)0,
+		'errorMessage' => ''
 	);
+}
 
 
+// Returns a list of the images that have been removed from the system (either deleted or expired).
+function getNullTokenList($tokenStart, $tokenEnd, $username, $password) {
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	$nullList = array();
+	$imageList = array();
 
-JSON array
-person_uuid, // uuid of the person
-image_id, // unique id of the image
-expiry_date, // unix timestamp when the image will expire
-creation_time, // image creation time
-url, // url of the image
-url_thumb // url of the thumbnail image
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'nullTokenList'    => (string)'',
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
 
+	// passed auth
+	} else {
 
+		// find the first token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id ASC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getNullTokenList 1"); }
+		$firstToken = $result->fields["image_id"];
 
-	shn_plus_registerOne($server, 'getNullTokenList',
-		array(
-			'in' => array(
-				'tokenStart'     => 'xsd:integer',
-				'tokenEnd'       => 'xsd:integer',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'nullTokenList'  => 'xsd:string',
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Returns a list of the images that have been removed from the system (either deleted or expired)."
+		// find the last token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id DESC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getNullTokenList 2"); }
+		$lastToken = $result->fields["image_id"];
+
+		// check for user asking for out of range tokens...
+		if($tokenStart < $firstToken || $tokenEnd > $lastToken) {
+			$eCodes = unserialize(ERRORCODES);
+			return array(
+				'nullTokenList'    => (string)'',
+				'errorCode'    => (int)411,
+				'errorMessage' => (string)$eCodes[411]
+			);
+		}
+
+		// fill the array with all the possible indexes from the range
+		for($i = (int)$tokenStart; $i <= (int)$tokenEnd; $i++) {
+			$nullList[] = $i;
+		}
+
+		// get a list of all images in the range of the provided tokens
+		$q = "
+			SELECT image_id
+			FROM image
+			WHERE image_id >= '".mysql_real_escape_string($tokenStart)."'
+			AND image_id <= '".mysql_real_escape_string($tokenEnd)."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getNullTokenList 3 ((".$q."))"); }
+		while (!$result == NULL && !$result->EOF) {
+			$imageList[] = (int)$result->fields["image_id"];
+			$result->MoveNext();
+		}
+
+		// now we extract the images that are present from the range we created ~ this leaves the null tokens
+		for($i = 0; $i < sizeof($imageList); $i++) {
+			$delKey = array_search($imageList[$i], $nullList);
+			array_splice($nullList, $delKey, 1);
+		}
+
+	}
+	return array(
+		'nullTokenList'    => (string)json_encode($nullList),
+		'errorCode'    => (int)0,
+		'errorMessage' => ''
 	);
-
-
-JSON array
-token, // token of a removed or expired image_id
-
-
-*/
-
+}
 
 
