@@ -940,7 +940,10 @@ function em_perform_purge_do($incident_id) {
 	$log .= "<b>".$delPersons." person(s)</b>, <b>".$delImages." images</b>, and <b>".$delVn." voice notes</b> deleted.<br>";
 
         // Have SOLR do a full update of indexes.
-	fopen("http://pl:8983/solr/dataimport?command=full-import", "r");
+	$handle = fopen("http://pl:8983/solr/dataimport?command=full-import", "r");
+	if(!$handle) {
+		$log .= "Error doing full reload of indexes after purge.<br>";
+	} 
 
 	return($log);
 }
