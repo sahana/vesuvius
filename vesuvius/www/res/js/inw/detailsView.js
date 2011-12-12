@@ -23,7 +23,6 @@ var DetailsView =
 		var tempDiv = $("<div></div>");
 		for ( var i = 0; i < Globals.resultSet.length; i++ ) {
 			var p = new Person();
-
 			if ( Globals.resultSet[i])
 				p.init(Globals.resultSet[i]);
 			else break;

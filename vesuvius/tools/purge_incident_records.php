@@ -33,6 +33,20 @@ $webroot = $global['approot'] . "www/";
 $limit_prune = (empty($max_p_uuid))? '':"up through record $max_p_uuid ";
 print "Prune of $incident_id ".$limit_prune."has begun.\n";
 
+// If we are removing all records, reset last_count for last export log  record. (Otherwise,
+// the first 'last_count' new records won't get exported.)
+If (!$limit_prune) {
+   $sql = "UPDATE pfif_export_log pe, pfif_repository pr SET pe.last_count=0 WHERE " .
+       "pr.incident_id=$incident_id " .
+       "AND pe.repository_id = pr.id " .
+       "AND pe.status = 'paused'";
+   $st = $global['db']->Execute($sql);
+   if($st === false) {
+      $errchk = $global['db']->ErrorMsg();
+      die("Error updating last_count for export log for this incident: ".$errchk);
+   }
+}
+
 // Person_status table provides strict chronological ordering. Fetch person_status.status_id for this p_uuid.
 if (!empty($max_p_uuid)) {
    $sql = "SELECT status_id FROM person_status WHERE p_uuid = '".$max_p_uuid."'";
@@ -94,5 +108,8 @@ foreach ($p_uuids as $p_uuid) {
    print "Deleted '$p_uuid'\n";
 }
 print count($p_uuids)." persons deleted from incident $incident_id.\n";
+
+print "SOLR will do a full reload of indexes.\n";
+fopen("http://pl.nlm.nih.gov:8983/solr/dataimport?command=full-import", "r");
 
 print "Cleanup completed at ".strftime("%c")."\n";

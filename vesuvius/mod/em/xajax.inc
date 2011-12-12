@@ -23,6 +23,7 @@ array_push($global['xajax_functions'],'em_show_message');
 array_push($global['xajax_functions'],'em_show_events');
 array_push($global['xajax_functions'],'em_perform_edit');
 array_push($global['xajax_functions'],'em_perform_delete');
+array_push($global['xajax_functions'],'em_perform_purge');
 array_push($global['xajax_functions'],'em_perform_insert');
 array_push($global['xajax_functions'],'em_perform_save');
 array_push($global['xajax_functions'],'em_perform_help');
@@ -752,7 +753,7 @@ function em_perform_delete($incident_id, $confirm) {
 	if ($confirm == "true") {
 
 		// purge the incident of persons and related image data
-		$response = em_perform_purge($incident_id);
+		$response = em_perform_purge_do($incident_id);
 
 		//---- delete the incident from the db
 		$q = "
@@ -782,9 +783,35 @@ function em_perform_delete($incident_id, $confirm) {
 	return $global['xajax_res']->getXML();
 }
 
+// delete a page
+function em_perform_purge($incident_id, $confirm) {
+	global $global;
 
+	if ($confirm == "true") {
+		// purge the incident of persons and related image data
+		$response = em_perform_purge_do($incident_id);
 
-function em_perform_purge($incident_id) {
+		$global['xajax_res']->addAppend('rezLog', 'innerHTML', $response.'Event <b>#'.$incident_id.'</b> <span style="color: red;">Purged</span>.<br>');
+
+	} else {
+		$global['xajax_res']->addAppend('rezLog', 'innerHTML', "Purge operation aborted.<br>");
+	}
+
+	//---- update UI
+	$pageControlHtml = '
+		<input class="styleTehButton" type="button" onclick="javascript: em_append_log(\'Creating a new Event...<br>\'); em_perform_edit(0);" value="Create a new Disaster / Incident / Event">
+		&nbsp; &nbsp; &nbsp; &nbsp;
+		<input class="styleTehButton red" type="button" onclick="javascript: em_append_log(\'Opening Help...<br>\'); em_perform_help();" value="Help">
+	';
+	$global['xajax_res']->addAssign('rezControl','style.opacity','1.0');
+	$global['xajax_res']->addAssign('rezControl','innerHTML',$pageControlHtml);
+
+	$global['xajax_res']->addAssign('rezMain', 'innerHTML', em_show_events(TRUE));
+	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
+	return $global['xajax_res']->getXML();
+}
+
+function em_perform_purge_do($incident_id) {
 
 	global $global;
 	require_once($global['approot']."/inc/lib_uuid.inc");
@@ -796,6 +823,19 @@ function em_perform_purge($incident_id) {
 	$delPersons = 0;
 	$delImages = 0;
 	$delVn = 0;
+
+	// Reset last_count for last export log  record. (Otherwise, the first
+	// 'last_count' new records won't get exported.)
+	$q = "UPDATE pfif_export_log pe, pfif_repository pr SET pe.last_count=0 WHERE " .
+       		"pr.incident_id=$incident_id " .
+       		"AND pe.repository_id = pr.id " .
+       		"AND pe.status = 'paused'";
+   	$st = $global['db']->Execute($q);
+	if($st === false) {
+		daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 0 ((".$q."))");
+		$errchk = $global['db']->ErrorMsg();
+		$log .= "Error updating last_count for export log for this incident: <b>".$errchk."</b><br>";
+	}
 
 	// Get all persons for this incident
 	$q = "
@@ -898,6 +938,10 @@ function em_perform_purge($incident_id) {
 		}
 	}
 	$log .= "<b>".$delPersons." person(s)</b>, <b>".$delImages." images</b>, and <b>".$delVn." voice notes</b> deleted.<br>";
+
+        // Have SOLR do a full update of indexes.
+	fopen("http://pl:8983/solr/dataimport?command=full-import", "r");
+
 	return($log);
 }
 
@@ -1259,7 +1303,7 @@ function em_perform_edit($incident_id) {
 		<input class="styleTehButton" type="button" onclick="javascript: em_append_log(\'Canceling Changes...<br>\'); setTimeout(\'em_show_events();\', 250);" value="Cancel Editing and Close">
 	';
 
-	// if Admin... show delete button
+	// if Admin... show delete/purge buttons
 	if($_SESSION['group_id'] == "1") {
 		if($hasChildren) {
 			$disabled = "DISABLED style=\"opacity: 0.2;\"";
@@ -1269,6 +1313,10 @@ function em_perform_edit($incident_id) {
 		$editControlHtml .= '
 			&nbsp; &nbsp; &nbsp; &nbsp;
 			<input class="styleTehButton red" type="button" onclick="javascript: em_delete('.$incident_id.');" value="Delete Event" '.$disabled.' >
+		';
+		$editControlHtml .= '
+			&nbsp; &nbsp;
+			<input class="styleTehButton red" type="button" onclick="javascript: em_purge('.$incident_id.');" value="Purge Event" '.$disabled.' >
 		';
 	}
 
