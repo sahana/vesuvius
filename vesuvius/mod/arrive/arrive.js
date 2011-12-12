@@ -1,20 +1,47 @@
 /**
  * @name         Arrival Rate
- * @version      1
+ * @version      2
  * @package      arrive
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1205
+ * @lastModified 2011.1206
  */
-
 
 
 // other vars
 window.last_arrival_time = null;
 window.all_events = true;
+window.increments = 0;
+
+var tmp = self.document.location.hash;
+tmp = explode('zZ||Zz', tmp);
+var anchor1 = tmp[0];
+var anchor2 = tmp[1];
+
+if(typeof anchor1 === 'undefined') {
+	window.all_events = true;
+} else if(anchor1 == '#false') {
+	window.all_events = false;
+}
+if(typeof anchor2 === 'undefined') {
+	window.rezLog = '';
+} else {
+	window.rezLog = unescape(anchor2);
+}
+if(window.rezLog == '') {
+	if(window.all_events) {
+		window.rezLog = 'Showing arrivals from <b>ALL events</b>.';
+	} else {
+		window.rezLog = 'Showing arrivals from <b>only the current event</b>.';
+	}
+}
+
+var rL = document.getElementById('rezLog');
+rL.innerHTML = window.rezLog;
+
 
 function updateMenu() {
 	if(window.all_events) {
@@ -32,6 +59,7 @@ function updateMenu() {
 		b.disabled = true;
 		b.style.opacity = '0.2';
 	}
+	window.history.pushState(null, null, '#'+window.all_events+'zZ||Zz'+escape(window.rezLog));
 }
 
 
@@ -46,6 +74,7 @@ function updateLastArrival(val, initial) {
 	}
 }
 
+
 function showAll(val) {
 	window.all_events = val;
 	fetch(1);
@@ -55,7 +84,37 @@ function showAll(val) {
 
 
 function fetch(val) {
+	cleanLog();
 	arrive_fetch_last_updated(window.all_events, val);
+}
+
+
+function cleanLog() {
+	window.increments++;
+
+	// add a dot to the log every minute...
+	if((window.increments % 12) == 0) {
+		arrive_add_spacer('.');
+	}
+
+	// add a space to the log every ten minutes
+	if((window.increments % 120) == 0) {
+		arrive_add_spacer(' ');
+	}
+
+	// reload the page once an hour to keep the session alive...
+	if((window.increments % 720) == 0) {
+		setTimeout('reloadPage();', 10000);
+	}
+}
+
+
+function reloadPage() {
+	var r = document.getElementById('rezLog');
+	window.rezLog = r.innerHTML;
+	window.rezLog = window.rezLog+'<br>Reloading page to keep session alive.';
+	window.history.pushState(null, null, '#'+window.all_events+'zZ||Zz'+escape(window.rezLog));
+	window.location.reload();
 }
 
 fetch(1);
@@ -64,119 +123,38 @@ setInterval('fetch(0)', 5000);
 
 
 
+//////////// other help functions
 
-/*
+function explode (delimiter, string, limit) {
+	var emptyArray = {0: ''	};
 
-// Google Maps junx
-var latitude = '';
-var longitude = '';
-var geocoder;
-var map;
-var marker;
-
-function getLocation(pos) {
-	latitude = pos.coords.latitude;
-	longitude = pos.coords.longitude;
-	load_map();
-	geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
-		if (status == google.maps.GeocoderStatus.OK) {
-			if (results[0]) {
-				$('#address').val(results[0].formatted_address);
-				$('#latitude').val(marker.getPosition().lat());
-				$('#longitude').val(marker.getPosition().lng());
-			}
-		}
-	});
-}
-
-
-function unknownLocation() {
-	alert('Could not find location');
-}
-
-
-function detect_load() {
-	navigator.geolocation.getCurrentPosition(getLocation, unknownLocation);
-}
-
-
-function load_map(latitude, longitude, street) {
-	if(latitude == null || longitude == null) {
-		latitude = 39;
-		longitude = -77.101;
+	// third argument is not required
+	if(arguments.length < 2 || typeof arguments[0] == 'undefined' || typeof arguments[1] == 'undefined') {
+		return null;
 	}
-	var latlng = new google.maps.LatLng(latitude, longitude);
-	var config = {
-		zoom: 13,
-		center: latlng,
-		disableDefaultUI: true,
-		navigationControl: true,
-		navigationControlOptions: {
-			style: google.maps.NavigationControlStyle.ZOOM_PAN
-		},
-		mapTypeControl: true,
-		mapTypeControlOptions: {
-			style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
-		},
-		mapTypeId: google.maps.MapTypeId.ROADMAP
-	};
-	map = new google.maps.Map(document.getElementById("mapCanvas"), config);
 
-	geocoder = new google.maps.Geocoder();
+	if(delimiter === '' || delimiter === false || delimiter === null) {
+		return false;
+	}
 
-	marker = new google.maps.Marker({
-		map: map,
-		draggable: true
-	});
+	if(typeof delimiter == 'function' || typeof delimiter == 'object' || typeof string == 'function' || typeof string == 'object') {
+		return emptyArray;
+	}
 
-	$(function() {
-		$("#address").autocomplete({
+	if(delimiter === true) {
+		delimiter = '1';
+	}
 
-			// This bit uses the geocoder to fetch address values
-			source: function(request, response) {
-				geocoder.geocode( {'address': request.term }, function(results, status) {
-					response($.map(results, function(item) {
-						return {
-							label:  item.formatted_address,
-							value: item.formatted_address,
-							latitude: item.geometry.location.lat(),
-							longitude: item.geometry.location.lng()
-						}
-					}));
-				})
-			},
+	if(!limit) {
+		return string.toString().split(delimiter.toString());
+	}
 
-			// This bit is executed upon selection of an address
-			select: function(event, ui) {
-				$("#latitude").val(ui.item.latitude);
-				$("#longitude").val(ui.item.longitude);
-				var location = new google.maps.LatLng(ui.item.latitude, ui.item.longitude);
-				marker.setPosition(location);
-				map.setCenter(location);
-			}
-		});
-	});
-
-	// Add listener to marker for reverse geocoding
-	google.maps.event.addListener(marker, 'drag', function() {
-		geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
-			if (status == google.maps.GeocoderStatus.OK) {
-				if (results[0]) {
-					$('#address').val(results[0].formatted_address);
-					$('#latitude').val(marker.getPosition().lat());
-					$('#longitude').val(marker.getPosition().lng());
-				}
-			}
-		});
-	});
-
-	$("#latitude").val(latitude);
-	$("#longitude").val(longitude);
-	$("#address").val(street);
-	var location = new google.maps.LatLng(latitude, longitude);
-	marker.setPosition(location);
-	map.setCenter(location);
-
+	// support for limit argument
+	var splitted = string.toString().split(delimiter.toString());
+	var partA = splitted.splice(0, limit - 1);
+	var partB = splitted.join(delimiter.toString());
+	partA.push(partB);
+	return partA;
 }
-*/
+
 

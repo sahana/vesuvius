@@ -298,17 +298,17 @@ function emailUpdates() {
 		$subject  = "People Locator update for ".$global['full_name'];
 		$bodyHTML = "
 			<br>
-			Changes have been made to the details of <b>".$global['full_name']."</b>.<br>
+			Changes have been made to the details of the person record we have for <b>".$global['full_name']."</b>.<br>
 		";
 		$bodyAlt = "
 			\n
-			Changes have been made to the details of ".$global['full_name'].".\n
+			Changes have been made to the details of the person record we have for ".$global['full_name'].".\n
 		";
 
 		$bodyHTML .= "
 			<br>
 			<br>
-			You can view the page for this person here: <a href=\"".$global['googl']."\">".$global['googl']."</a> which includes the changes.<br>
+			You can view the page for this person here: <a href=\"".$global['googl']."\">".$global['googl']."</a><br>
 			<br>
 			<br>
 			<i>If you would like to unsubscribe from these email alerts, click the button to un-follow this person from the link provided above.</i><br>
@@ -320,7 +320,7 @@ function emailUpdates() {
 		$bodyAlt .= "
 			\n
 			\n
-			You can view the page for this person here: ".$global['googl']."  which includes the changes.\n
+			You can view the page for this person here: ".$global['googl']."\n
 			\n
 			\n
 			If you would like to unsubscribe from these email alerts, click the button to un-follow this person from the link provided above.\n
@@ -1337,6 +1337,7 @@ function shn_eap_edit() {
 		// rest of public info......
 		$editGivenName  = htmlspecialchars(mb_convert_case($editGivenName,  MB_CASE_TITLE, "UTF-8"));
 		$editFamilyName = htmlspecialchars(mb_convert_case($editFamilyName, MB_CASE_TITLE, "UTF-8"));
+		$global['full_name'] = $editGivenName." ".$editFamilyName;
 		echo "
 			<script>
 				var shit = document.getElementById('moveShitHere');
