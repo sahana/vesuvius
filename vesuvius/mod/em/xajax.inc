@@ -1169,7 +1169,7 @@ function em_perform_edit($incident_id) {
 		$pfif = "
 			PF repository: <input type=\"text\" id=\"pfifUrl\" name=\"pfifUrl\" size=\"48\" value=\"".htmlspecialchars($rowpfif['base_url'])."\">
                         &nbsp;&nbsp;Keep PL and PF synchronized? <input type=\"checkbox\" id=\"pfifSync\" name=\"pfifSync\" value=\"1\" ".$checkedSync."><br>
-                        (e.g. https://turkey-2011.googlepersonfinder.appspot.com)
+                        (e.g. https://www.google.org/personfinder/sendong)
 		";
         // end PFIF options
 
