@@ -663,7 +663,7 @@ class Pfif {
          // Check for duplicate.
          $lookup = $this->checkForReportedPerson($person->person_record_id);
          //var_dump('lookup returns:',$lookup);
-         $newPerson = !(count($lookup) > 0);
+         $newPerson = (count($lookup) == 0);
          if (!$newPerson) {
             $_SESSION['pfif_info']['person_insert_dups'] += 1;
             if (strtotime($person->expiry_date) == strtotime($person->source_date)) {
