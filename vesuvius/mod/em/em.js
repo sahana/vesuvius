@@ -131,7 +131,12 @@ function load_map(latitude, longitude, street) {
 
 function em_delete(incident_id) {
 	em_append_log('Deleting Event #<b>' + incident_id + '</b> (this operation may take a long time on large events) ...<br>');
-	setTimeout('em_perform_delete('+incident_id+', confirm(\'Are you sure you want to delete this incident? Doing so will delete all person data along with the associated image and voicenote data. If you are sure then you may proceeed; otherwise press please CANCEL to abort this operation.\'));', 100);
+	setTimeout('em_perform_delete('+incident_id+', confirm(\'Are you sure you want to delete this incident? Doing so will delete all person data along with the associated image and voicenote data. If you are sure then you may proceeed; otherwise please press CANCEL to abort this operation.\'));', 100);
+}
+
+function em_purge(incident_id) {
+	em_append_log('Purging Event #<b>' + incident_id + '</b> (this operation may take a long time on large events) ...<br>');
+	setTimeout('em_perform_purge('+incident_id+', confirm(\'Are you sure you want to purge all person data from this incident? If you are sure then you may proceeed; otherwise please press CANCEL to abort this operation.\'));', 100);
 }
 
 

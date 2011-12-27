@@ -508,7 +508,7 @@ class SearchDB
 		$this->SOLRqueryTime = $tempObject->responseHeader->QTime;
 
 		foreach ($tempObject->response->docs as $doc) {
-			$date = new DateTime($doc->updated);
+			//$date = new DateTime($doc->updated);
 			//date_sub($date, date_interval_create_from_date_string('4 hours'));
 
 			$this->results[] = array('p_uuid' => $doc->p_uuid,

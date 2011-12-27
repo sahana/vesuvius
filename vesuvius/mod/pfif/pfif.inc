@@ -663,7 +663,8 @@ class Pfif {
          // Check for duplicate.
          $lookup = $this->checkForReportedPerson($person->person_record_id);
          //var_dump('lookup returns:',$lookup);
-         if (count($lookup) > 0) {
+         $newPerson = (count($lookup) == 0);
+         if (!$newPerson) {
             $_SESSION['pfif_info']['person_insert_dups'] += 1;
             if (strtotime($person->expiry_date) == strtotime($person->source_date)) {
                // When a record is expired, Google sends out a record to expunge person data. These
@@ -689,9 +690,11 @@ class Pfif {
             continue;  // stop processing this person
          }
 
-         // Update stats.
-         require_once($global['approot'].'/mod/lpf/lib_helper.inc');
-	 updateArrivalRate($person->person_record_id, $this->incident_id, false, false, false, true, false);
+         // Update stats if new person.
+         if ($newPerson) {
+            require_once($global['approot'].'/mod/lpf/lib_helper.inc');
+	    updateArrivalRate($person->person_record_id, $this->incident_id, false, false, false, true, false);
+         }
 
          // Save to pfif_person table.
          try {

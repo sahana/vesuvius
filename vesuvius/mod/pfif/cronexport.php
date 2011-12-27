@@ -70,7 +70,8 @@ foreach ($export_queue as $service_name => $service) {
    $p->setService($service_name,$service);
 
    $repos->start_harvest('scheduled', 'out');
-   print "\n\nExport started to ".$service['post_url']." at ".$repos->get_log()->start_time . "\n";
+   //print "\n\nExport started to ".$service['post_url']." at ".$repos->get_log()->start_time . "\n";
+   print "\n\nExport started to ".$service['post_url']." at ".strftime("%c")."\n";
    $local_date = local_date($min_entry_date);
    $loaded = $p->loadFromDatabase($local_date, null, 0, $skip);
    print "load for post to $service_name for records after $local_date " . 
