@@ -24,6 +24,7 @@ shn_xajax_registerFunction('em_show_message');
 shn_xajax_registerFunction('em_show_events');
 shn_xajax_registerFunction('em_perform_edit');
 shn_xajax_registerFunction('em_perform_delete');
+shn_xajax_registerFunction('em_perform_purge');
 shn_xajax_registerFunction('em_perform_insert');
 shn_xajax_registerFunction('em_perform_save');
 shn_xajax_registerFunction('em_perform_help');
