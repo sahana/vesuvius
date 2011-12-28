@@ -1,17 +1,17 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.1
+ * @version      2.2
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1207
+ * @lastModified 2011.1227
  */
 
 global $api_version;
-$api_version = "2.1";
+$api_version = "2.2";
 
 // This function is called by the Document/Literal SOAP server upon initalization to register all the api services from this module's api.
 function shn_plus_registerAll($namespace) {
@@ -688,7 +688,7 @@ function shn_plus_registerAll($namespace) {
 			)
 		),
 		$namespace,
-		"Returns a list of the images and their associated properties, in blocks of stride size beginning with a start token (index value)."
+		"Returns a list of the images and their associated properties, in blocks of 1000 beginning with a start token (index value)."
 	);
 
 	shn_plus_registerOne($server, 'getNullTokenList',
@@ -1768,8 +1768,6 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 
 		// no errors, we must have permission to report to this event for the given user
 
-		$a = null;
-
 		if(!$error) {
 			$p = new person();
 			$p->init();
@@ -1979,8 +1977,6 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 	$error = true;
 	$ecode = 9998;
 
-
-/*
 	// check auth, if fails, return w/ error code/message
 	$status = shn_plus_checkCredz($username, $password);
 	if($status != 0) {
@@ -2016,9 +2012,25 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 			$rep_uuid = $result->fields['p_uuid'];
 		}
 
-		// no errors, we must have permission to report to this event for the given user
+		// check if the record exists
+		if(!shn_plus_doesPersonExist($uuid)) {
+			$error = true;
+			$ecode = 410;
+		}
 
-		$a = null;
+		// check if the record was reported via PLUS, if not error 416
+		if(!$error && !shn_plus_wasRecordReportedViaPLUS($uuid)) {
+			$error = true;
+			$ecode = 416;
+		}
+
+		// check if the user is admin, hs, hsa, or record owner
+		if(!$error && !shn_plus_checkCredzTriage($username, $uuid)) {
+			$error = true;
+			$ecode = 408;
+		}
+
+		// no errors, we must have permission to revise this record
 
 		if(!$error) {
 			$p = new person();
@@ -2028,7 +2040,15 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 			$p->xmlFormat = $xmlFormat;
 			$p->setEvent($eventShortName);
 			$ecode = $p->parseXml();
+
 			if($ecode == 0) {
+
+				// we made it this far, so delete the old person record
+				$personOld = new person();
+				$personOld->p_uuid = $uuid;
+				$personOld->delete();
+
+				// and then re-insert the new record (this is a hack until we re-parse and revise on the fly)
 				$p->insert();
 				$p->plusReportLog();
 			} else {
@@ -2036,7 +2056,6 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 			}
 		}
 	}
-*/
 
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
