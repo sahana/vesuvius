@@ -4,6 +4,12 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
 
+2011:1228 Greg
+--------------
+
+ALTER TABLE  `image_tag` DROP FOREIGN KEY  `image_tag_ibfk_2` ;
+
+
 2011:1206 Greg
 --------------
 
