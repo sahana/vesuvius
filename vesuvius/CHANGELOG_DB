@@ -8,6 +8,9 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 --------------
 
 ALTER TABLE  `image_tag` DROP FOREIGN KEY  `image_tag_ibfk_2` ;
+ALTER TABLE  `image` DROP FOREIGN KEY  `image_ibfk_2` ;
+ALTER TABLE  `person_details` DROP FOREIGN KEY  `person_details_ibfk_2` ;
+ALTER TABLE  `person_status` DROP FOREIGN KEY  `person_status_ibfk_2` ;
 
 
 2011:1206 Greg
