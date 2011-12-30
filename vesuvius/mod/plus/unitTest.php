@@ -19,7 +19,7 @@ $eventShortname = "test";
 $personXML = "";
 $xmlFormat = "TRIAGEPIC";
 $number = 2;
-$uuid = "3";
+$uuid = "8";
 $mcid = "0";
 $newMcid = "1";
 $expiryDate = "2036-11-11 11:11:11";
@@ -42,17 +42,18 @@ if(!isset($_GET['api'])) {
 } else {
 	$api = "&api=".$_GET['api'];
 
-/*
+
 	$sites = array(
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
-*/
+
+/*
 	$sites = array(
 		"PL"      => "https://pl.nlm.nih.gov/?wsdl".$api,
 		"PLstage" => "https://plstage.nlm.nih.gov/?wsdl".$api,
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
-
+*/
 	init2();
 
 	// perform tests...

@@ -688,7 +688,7 @@ function shn_plus_registerAll($namespace) {
 			)
 		),
 		$namespace,
-		"Returns a list of the images and their associated properties, in blocks of 1000 beginning with a start token (index value)."
+		"Returns a list of the images and their associated properties, in blocks of stride size beginning with a start token (index value)."
 	);
 
 	shn_plus_registerOne($server, 'getNullTokenList',
