@@ -494,25 +494,6 @@ function shn_plus_registerAll($namespace) {
 	// Record Revision API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 	// Record Revision API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
-	shn_plus_registerOne($server, 'reReportPerson',
-		array(
-			'in' => array(
-				'uuid'           => 'xsd:string',
-				'personXML'      => 'xsd:string',
-				'eventShortname' => 'xsd:string',
-				'xmlFormat'      => 'xsd:string',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Re-report a person using XML which will replace an existing record."
-	);
-
 	shn_plus_registerOne($server, 'expirePerson',
 		array(
 			'in' => array(
@@ -1964,94 +1945,6 @@ function createNoteUuidBatch($number, $username, $password) {
 // Record Revision API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // Record Revision API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // Record Revision API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-
-
-// Re-report a person using XML which will update a current record.
-function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $username, $password) {
-
-	shn_plus_logAccess(__FUNCTION__);
-	global $global;
-	global $conf;
-	$error = false;
-	$ecode = null;
-
-	// not yet implemented ~ stub
-	$error = true;
-	$ecode = 9998;
-
-
-/*
-	// check auth, if fails, return w/ error code/message
-	$status = shn_plus_checkCredz($username, $password);
-	if($status != 0) {
-		$error = true;
-		$ecode = $status;
-	} else {
-		// check if the user is a member of a group that has access to the event in question
-		$q = "
-			SELECT *
-			FROM incident i, users u, sys_user_groups s, sys_user_to_group t
-			WHERE (i.private_group = s.group_id
-			AND s.group_id = t.group_id
-			AND t.p_uuid = u.p_uuid
-			AND u.user_name = '".mysql_real_escape_string($username)."'
-			AND i.shortname = '".mysql_real_escape_string($eventShortName)."')
-			OR (i.private_group is null
-			AND i.shortname = '".mysql_real_escape_string($eventShortName)."');
-		";
-		$result = $global['db']->Execute($q);
-		if($result == null || $result->EOF) {
-			$error = true;
-			$ecode = 300;
-		}
-
-		// figure out the p_uuid of the user who is reporting
-		if(!$error) {
-			$q = "
-				SELECT *
-				FROM users
-				WHERE user_name = '".$username."';
-			";
-			$result = $global['db']->Execute($q);
-			$rep_uuid = $result->fields['p_uuid'];
-		}
-
-		// no errors, we must have permission to report to this event for the given user
-
-		$a = null;
-
-		if(!$error) {
-			$p = new person();
-			$p->init();
-			$p->rep_uuid  = $rep_uuid;
-			$p->theString = $personXML;
-			$p->xmlFormat = $xmlFormat;
-			$p->setEvent($eventShortName);
-			$ecode = $p->parseXml();
-			if($ecode == 0) {
-				$p->insert();
-				$p->plusReportLog();
-			} else {
-				$error = true;
-			}
-		}
-	}
-*/
-
-	if($error) {
-		$eCodes = unserialize(ERRORCODES);
-		return array(
-			'errorCode'    => (int)$ecode,
-			'errorMessage' => (string)$eCodes[$ecode]
-		);
-	} else {
-		return array(
-			'errorCode'    => (int)0,
-			'errorMessage' => ''
-		);
-	}
-}
-
 
 
 // Owners, admins, and HSA can immediately expire a record, everyone else can submit an expiration request to a moderated queue.
