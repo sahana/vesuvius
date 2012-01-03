@@ -19,6 +19,10 @@ function updateArrivalRate($person_uuid, $incident_id, $triagepic, $reunite, $we
 	global $global;
 	$db = $global['db'];
 
+	// lock tables to hold values for this session
+	$q = "LOCK TABLE arrival_rate WRITE ;";
+	$result = $db->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $db->ErrorMsg(), "updateArrivalRate 1 ((".$q."))"); }
 
 	$q = "
 		SELECT *
@@ -28,7 +32,7 @@ function updateArrivalRate($person_uuid, $incident_id, $triagepic, $reunite, $we
 		LIMIT 1;
 	";
 	$result = $db->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $db->ErrorMsg(), "updateArrivalRate 1 ((".$q."))"); }
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $db->ErrorMsg(), "updateArrivalRate 2 ((".$q."))"); }
 
 	if($result != NULL && !$result->EOF) {
 		$source_all           = (int)$result->fields['source_all'];
@@ -87,7 +91,12 @@ function updateArrivalRate($person_uuid, $incident_id, $triagepic, $reunite, $we
 			'".mysql_real_escape_string((int)$source_vanilla_email)."' );
 	";
 	$result = $db->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $db->ErrorMsg(), "updateArrivalRate 2 ((".$q."))"); }
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $db->ErrorMsg(), "updateArrivalRate 3 ((".$q."))"); }
+
+	// unlock table
+	$q = "UNLOCK TABLES ;";
+	$result = $db->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $db->ErrorMsg(), "updateArrivalRate 4 ((".$q."))"); }
 }
 
 

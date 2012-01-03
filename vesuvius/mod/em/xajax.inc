@@ -54,6 +54,7 @@ function em_show_message($message = "no message specified?") {
 }
 
 
+
 // reloads the mainArea div with information of what pages we have
 function em_show_events($internal = FALSE) {
 	global $conf;
@@ -749,13 +750,46 @@ function em_perform_save($page_id, $rj) {
 // delete a page
 function em_perform_delete($incident_id, $confirm) {
 	global $global;
+	global $conf;
 
 	if ($confirm == "true") {
+
+		// email audit...
+		$q = "
+			SELECT *
+			FROM `incident`
+			WHERE incident_id = '".$incident_id."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "delete event 2"); }
+		$row = $result->FetchRow();
+		$name = $row['name'];
+		$shortname = $row['shortname'];
+
+		$p = new pop();
+		$subject = "{ People Locator Event Manager Audit }";
+		$bodyHTML = "
+			<br>
+			<b>The event: ($incident_id) $name / $shortname has been deleted on PL.</b><br>
+			<br>
+			This is simply an audit email to keep the team aware of such changes.<br>
+			<br>
+			The event deletion was initiated by: <b>".$_SESSION['user']." | ".$_SESSION['full_name']."</b><br><br>
+		";
+		$bodyAlt = "
+			\n
+			The event: ($incident_id) $name / $shortname has been deleted on PL.\n
+			\n
+			This is simply an audit email to keep the team aware of such changes.\n
+			\n
+			The event deletion was initiated by: ".$_SESSION['user']." | ".$_SESSION['full_name']."\n\n
+		";
+		$p->sendMessage($conf['audit_email'], null, $subject, $bodyHTML, $bodyAlt);
 
 		// purge the incident of persons and related image data
 		$response = em_perform_purge_do($incident_id);
 
-		//---- delete the incident from the db
+		// delete the incident from the db
 		$q = "
 			DELETE from incident
 			WHERE incident_id = '".$incident_id."';
@@ -786,8 +820,43 @@ function em_perform_delete($incident_id, $confirm) {
 // delete a page
 function em_perform_purge($incident_id, $confirm) {
 	global $global;
+	global $conf;
 
 	if ($confirm == "true") {
+
+		// email audit...
+		$q = "
+			SELECT *
+			FROM `incident`
+			WHERE incident_id = '".$incident_id."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "delete event 2"); }
+		$row = $result->FetchRow();
+		$name = $row['name'];
+		$shortname = $row['shortname'];
+
+		$p = new pop();
+		$subject = "{ People Locator Event Manager Audit }";
+		$bodyHTML = "
+			<br>
+			<b>The event: ($incident_id) $name / $shortname has been purged on PL.</b><br>
+			<br>
+			This is simply an audit email to keep the team aware of such changes.<br>
+			<br>
+			The event purge was initiated by: <b>".$_SESSION['user']." | ".$_SESSION['full_name']."</b><br><br>
+		";
+		$bodyAlt = "
+			\n
+			The event: ($incident_id) $name / $shortname has been purged on PL.\n
+			\n
+			This is simply an audit email to keep the team aware of such changes.\n
+			\n
+			The event purge was initiated by: ".$_SESSION['user']." | ".$_SESSION['full_name']."\n\n
+		";
+		$p->sendMessage($conf['audit_email'], null, $subject, $bodyHTML, $bodyAlt);
+
+
 		// purge the incident of persons and related image data
 		$response = em_perform_purge_do($incident_id);
 
@@ -943,7 +1012,7 @@ function em_perform_purge_do($incident_id) {
 	$handle = fopen("http://pl:8983/solr/dataimport?command=full-import", "r");
 	if(!$handle) {
 		$log .= "Error doing full reload of indexes after purge.<br>";
-	} 
+	}
 
 	return($log);
 }
@@ -953,6 +1022,7 @@ function em_perform_purge_do($incident_id) {
 // create a new page with default content and return its new page_id
 function em_perform_new() {
 	global $global;
+	global $conf;
 
 	$group = $_SESSION['group_id'];
 
@@ -991,6 +1061,27 @@ function em_perform_new() {
 	";
 	$result = $global['db']->Execute($q);
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 7"); }
+
+	// email audit...
+	$p = new pop();
+	$subject = "{ People Locator Event Manager Audit }";
+	$bodyHTML = "
+		<br>
+		<b>A new event has been instantiated on PL.</b><br>
+		<br>
+		This is simply an audit email to keep the team aware of such changes.<br>
+		<br>
+		The event creation was initiated by: <b>".$_SESSION['user']." | ".$_SESSION['full_name']."</b><br><br>
+	";
+	$bodyAlt = "
+		\n
+		A new event has been instantiated on PL.\n\n
+		\n
+		This is simply an audit email to keep the team aware of such changes.\n
+		\n
+		The event creation was initiated by: ".$_SESSION['user']." | ".$_SESSION['full_name']."\n\n
+	";
+	$p->sendMessage($conf['audit_email'], null, $subject, $bodyHTML, $bodyAlt);
 
 	return $newId;
 }
