@@ -122,6 +122,16 @@ function shn_eap_addNote() {
 			";
 			$r  = $global['db']->Execute($q);
 			if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit add note 1"); }
+
+			// update record's timestamp
+			$q = "
+				UPDATE person_status
+				SET last_updated = CURRENT_TIMESTAMP
+				WHERE p_uuid = '".$global['uuid']."';
+			";
+			$r = $global['db']->Execute($q);
+			if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit add note 2 ((".$q."))"); }
+
 			$row = $r->FetchRow();
 			add_confirmation("Your note has been added.");
 		} else {
