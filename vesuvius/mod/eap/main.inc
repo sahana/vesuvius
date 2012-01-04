@@ -516,8 +516,11 @@ function saveContactRevision($type, $name, $oldValue, $newValue) {
 function updateFullName($editGivenName, $editFamilyName) {
 	global $global;
 
-	$editGivenName   = htmlspecialchars(mb_convert_case($editGivenName,  MB_CASE_TITLE, "UTF-8"));
-	$editFamilyName  = htmlspecialchars(mb_convert_case($editFamilyName, MB_CASE_TITLE, "UTF-8"));
+	// no more auto-camel casing...
+	//$editGivenName   = htmlspecialchars(mb_convert_case($editGivenName,  MB_CASE_TITLE, "UTF-8"));
+	//$editFamilyName  = htmlspecialchars(mb_convert_case($editFamilyName, MB_CASE_TITLE, "UTF-8"));
+	$editGivenName   = htmlspecialchars($editGivenName);
+	$editFamilyName  = htmlspecialchars($editFamilyName);
 
 	$q = "
 		UPDATE person_uuid
@@ -1335,8 +1338,11 @@ function shn_eap_edit() {
 
 
 		// rest of public info......
-		$editGivenName  = htmlspecialchars(mb_convert_case($editGivenName,  MB_CASE_TITLE, "UTF-8"));
-		$editFamilyName = htmlspecialchars(mb_convert_case($editFamilyName, MB_CASE_TITLE, "UTF-8"));
+		// no more camel casing
+		//$editGivenName  = htmlspecialchars(mb_convert_case($editGivenName,  MB_CASE_TITLE, "UTF-8"));
+		//$editFamilyName = htmlspecialchars(mb_convert_case($editFamilyName, MB_CASE_TITLE, "UTF-8"));
+		$editGivenName  = htmlspecialchars($editGivenName);
+		$editFamilyName = htmlspecialchars($editFamilyName);
 		$global['full_name'] = $editGivenName." ".$editFamilyName;
 		echo "
 			<script>
@@ -1491,8 +1497,11 @@ function shn_eap_edit() {
 			<br>
 		";
 
-		$person_uuid['given_name']  = htmlspecialchars(mb_convert_case($person_uuid['given_name'],  MB_CASE_TITLE, "UTF-8"));
-		$person_uuid['family_name'] = htmlspecialchars(mb_convert_case($person_uuid['family_name'], MB_CASE_TITLE, "UTF-8"));
+		// no more auto camel casing...
+		//$person_uuid['given_name']  = htmlspecialchars(mb_convert_case($person_uuid['given_name'],  MB_CASE_TITLE, "UTF-8"));
+		//$person_uuid['family_name'] = htmlspecialchars(mb_convert_case($person_uuid['family_name'], MB_CASE_TITLE, "UTF-8"));
+		$person_uuid['given_name']  = htmlspecialchars($person_uuid['given_name']);
+		$person_uuid['family_name'] = htmlspecialchars($person_uuid['family_name']);
 		echo "
 			<script>
 				var shit = document.getElementById('moveShitHere');
