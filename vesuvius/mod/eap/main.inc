@@ -1603,8 +1603,7 @@ function shn_eap_edit() {
 		$date->setTimezone( $timezone );
 
 		$date->setTimestamp(strtotime($row['when']));
-		$udate =  $date->format('Y-m-d');
-		$utime =  $date->format('g:i T');
+		$utime =  $date->format('l, F j, Y g:i a T');
 
 		$noteUrl = makeBaseUrl()."note.".$row['note_id'];
 		$noteUrl = str_replace("https://", "", $noteUrl);
@@ -1615,7 +1614,7 @@ function shn_eap_edit() {
 				".$row['note']."<br>
 				<span class=\"noteFooter\">".$noteUrl."</span>
 			</p>
-			<div style=\"height: 25px;\">Posted by <b>".$row['full_name']."</b> on ".$udate." at ".$utime."</div>
+			<div style=\"height: 25px;\">Posted by <b>".$row['full_name']."</b> on ".$utime."</div>
 			<br>
 			<br>
 		";
@@ -1641,8 +1640,7 @@ function shn_eap_edit() {
 		$date->setTimezone( $timezone );
 
 		$date->setTimestamp(strtotime($result->fields["entry_date"]));
-		$udate =  $date->format('Y-m-d');
-		$utime =  $date->format('g:i T');
+		$utime =  $date->format('l, F j, Y g:i a T');
 
 		echo "
 			<p class=\"triangle-obtuse\">
@@ -1666,7 +1664,7 @@ function shn_eap_edit() {
 		echo "
 				<span class=\"noteFooter\">".$result->fields["note_record_id"]."</span>
 			</p>
-			<div style=\"height: 25px;\">Posted by <b>".$result->fields["author_name"]."</b> on ".$udate." at ".$utime."</div>
+			<div style=\"height: 25px;\">Posted by <b>".$result->fields["author_name"]."</b> on ".$utime."</div>
 		";
 
 		/*
