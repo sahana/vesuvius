@@ -46,6 +46,8 @@ define("ERRORCODES", serialize(array(
 	413  => "Record has already expired.",
 	414  => "Invalid datetime value specified.",
 	415  => "This record has no EDXL component.",
+	416  => "Only records reported via web services can be revised by web services.",
+	417  => "Invalid stride size, must be an integer value between 1 and 1,000,000.",
 	9000 => "Database Error.",
 	9998 => "Function not yet implemented (stub).",
 	9999 => "Unknown error.",

@@ -25,6 +25,17 @@ class voiceNote {
 	public $url_resampled_mp3;
 	public $url_resampled_ogg;
 
+	public $Ovoice_id;
+	public $Op_uuid;
+	public $Olength;
+	public $Oformat;
+	public $Osample_rate;
+	public $Ochannels;
+	public $Ospeaker;
+	public $Ourl_original;
+	public $Ourl_resampled_mp3;
+	public $Ourl_resampled_ogg;
+
 	private $sql_voice_id;
 	private $sql_p_uuid;
 	private $sql_length;
@@ -58,6 +69,17 @@ class voiceNote {
 		$this->url_resampled_mp3 = null;
 		$this->url_resampled_ogg = null;
 
+		$this->Ovoice_note_id     = null;
+		$this->Op_uuid            = null;
+		$this->Olength            = null;
+		$this->Oformat            = null;
+		$this->Osample_rate       = null;
+		$this->Ochannels          = null;
+		$this->Ospeaker           = null;
+		$this->Ourl_original      = null;
+		$this->Ourl_resampled_mp3 = null;
+		$this->Ourl_resampled_ogg = null;
+
 		$this->sql_voice_note_id     = null;
 		$this->sql_p_uuid            = null;
 		$this->sql_length            = null;
@@ -87,6 +109,17 @@ class voiceNote {
 		$this->url_resampled_mp3 = null;
 		$this->url_resampled_ogg = null;
 
+		$this->Ovoice_note_id     = null;
+		$this->Op_uuid            = null;
+		$this->Olength            = null;
+		$this->Oformat            = null;
+		$this->Osample_rate       = null;
+		$this->Ochannels          = null;
+		$this->Ospeaker           = null;
+		$this->Ourl_original      = null;
+		$this->Ourl_resampled_mp3 = null;
+		$this->Ourl_resampled_ogg = null;
+
 		$this->sql_voice_note_id     = null;
 		$this->sql_p_uuid            = null;
 		$this->sql_length            = null;
@@ -111,6 +144,49 @@ class voiceNote {
 	// initializes some values for a new instance (instead of when we load a previous instance)
 	public function init() {
 		$this->voice_note_id = shn_create_uuid("voice_note");
+	}
+
+
+	// load data from db
+	public function load() {
+
+		$q = "
+			SELECT *
+			FROM voice_note
+			WHERE p_uuid = '".mysql_real_escape_string((string)$this->p_uuid)."' ;
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote load 1 ((".$q."))"); }
+
+		if($result != NULL && !$result->EOF) {
+
+			$this->voice_note_id     = $result->fields['voice_note_id'];
+			$this->p_uuid            = $result->fields['p_uuid'];
+			$this->length            = $result->fields['length'];
+			$this->format            = $result->fields['format'];
+			$this->sample_rate       = $result->fields['sample_rate'];
+			$this->channels          = $result->fields['channels'];
+			$this->speaker           = $result->fields['speaker'];
+			$this->url_original      = $result->fields['url_original'];
+			$this->url_resampled_mp3 = $result->fields['url_resampled_mp3'];
+			$this->url_resampled_ogg = $result->fields['url_resampled_ogg'];
+
+			// original values for updates...
+			$this->Ovoice_note_id     = $result->fields['voice_note_id'];
+			$this->Op_uuid            = $result->fields['p_uuid'];
+			$this->Olength            = $result->fields['length'];
+			$this->Oformat            = $result->fields['format'];
+			$this->Osample_rate       = $result->fields['sample_rate'];
+			$this->Ochannels          = $result->fields['channels'];
+			$this->Ospeaker           = $result->fields['speaker'];
+			$this->Ourl_original      = $result->fields['url_original'];
+			$this->Ourl_resampled_mp3 = $result->fields['url_resampled_mp3'];
+			$this->Ourl_resampled_ogg = $result->fields['url_resampled_ogg'];
+
+		} else {
+			// we failed to load a de object for this person, so fail the load (indicate to person class there is no edxl for this person)
+			return false;
+		}
 	}
 
 
