@@ -856,14 +856,14 @@ function getImageList($tokenStart, $tokenEnd, $user, $pass) {
 
 
 
-function getImageListBlock($tokenStart, $user, $pass) {
+function getImageListBlock($tokenStart, $stride, $user, $pass) {
 	global $sites;
 	global $count;
 	$count++;
 	echo "<tr><td>".$count."</td><td class=\"func\">getImageListBlock</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
-		$result = $client->call('getImageListBlock', array('tokenStart'=>$tokenStart, 'username'=>$user, 'password'=>$pass));
+		$result = $client->call('getImageListBlock', array('tokenStart'=>$tokenStart, 'stride'=>$stride, 'username'=>$user, 'password'=>$pass));
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {

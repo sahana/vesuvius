@@ -1,17 +1,17 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.1
+ * @version      2.2
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1207
+ * @lastModified 2011.1227
  */
 
 global $api_version;
-$api_version = "2.1";
+$api_version = "2.2";
 
 // This function is called by the Document/Literal SOAP server upon initalization to register all the api services from this module's api.
 function shn_plus_registerAll($namespace) {
@@ -493,6 +493,25 @@ function shn_plus_registerAll($namespace) {
 
 	// Record Revision API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 	// Record Revision API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+
+	shn_plus_registerOne($server, 'reReportPerson',
+		array(
+			'in' => array(
+				'uuid'           => 'xsd:string',
+				'personXML'      => 'xsd:string',
+				'eventShortname' => 'xsd:string',
+				'xmlFormat'      => 'xsd:string',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Re-report a person using XML which will replace an existing record."
+	);
 
 	shn_plus_registerOne($server, 'expirePerson',
 		array(
@@ -1749,8 +1768,6 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 
 		// no errors, we must have permission to report to this event for the given user
 
-		$a = null;
-
 		if(!$error) {
 			$p = new person();
 			$p->init();
@@ -1945,6 +1962,115 @@ function createNoteUuidBatch($number, $username, $password) {
 // Record Revision API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // Record Revision API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // Record Revision API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+
+
+// Re-report a person using XML which will update a current record.
+function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $username, $password) {
+
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	global $conf;
+	$error = false;
+	$ecode = null;
+
+	// not yet implemented ~ stub
+	$error = true;
+	$ecode = 9998;
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$error = true;
+		$ecode = $status;
+	} else {
+		// check if the user is a member of a group that has access to the event in question
+		$q = "
+			SELECT *
+			FROM incident i, users u, sys_user_groups s, sys_user_to_group t
+			WHERE (i.private_group = s.group_id
+			AND s.group_id = t.group_id
+			AND t.p_uuid = u.p_uuid
+			AND u.user_name = '".mysql_real_escape_string($username)."'
+			AND i.shortname = '".mysql_real_escape_string($eventShortName)."')
+			OR (i.private_group is null
+			AND i.shortname = '".mysql_real_escape_string($eventShortName)."');
+		";
+		$result = $global['db']->Execute($q);
+		if($result == null || $result->EOF) {
+			$error = true;
+			$ecode = 300;
+		}
+
+		// figure out the p_uuid of the user who is reporting
+		if(!$error) {
+			$q = "
+				SELECT *
+				FROM users
+				WHERE user_name = '".$username."';
+			";
+			$result = $global['db']->Execute($q);
+			$rep_uuid = $result->fields['p_uuid'];
+		}
+
+		// check if the record exists
+		if(!shn_plus_doesPersonExist($uuid)) {
+			$error = true;
+			$ecode = 410;
+		}
+
+		// check if the record was reported via PLUS, if not error 416
+		if(!$error && !shn_plus_wasRecordReportedViaPLUS($uuid)) {
+			$error = true;
+			$ecode = 416;
+		}
+
+		// check if the user is admin, hs, hsa, or record owner
+		if(!$error && !shn_plus_checkCredzTriage($username, $uuid)) {
+			$error = true;
+			$ecode = 408;
+		}
+
+		// no errors, we must have permission to revise this record
+
+		if(!$error) {
+			$p = new person();
+			$p->init();
+			$p->rep_uuid  = $rep_uuid;
+			$p->theString = $personXML;
+			$p->xmlFormat = $xmlFormat;
+			$p->setEvent($eventShortName);
+			$ecode = $p->parseXml();
+
+			if($ecode == 0) {
+
+				// we made it this far, so delete the old person record
+				$personOld = new person();
+				$personOld->p_uuid = $uuid;
+				$personOld->delete();
+
+				// and then re-insert the new record (this is a hack until we re-parse and revise on the fly)
+				$p->insert();
+				$p->plusReportLog();
+			} else {
+				$error = true;
+			}
+		}
+	}
+
+	if($error) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'errorCode'    => (int)$ecode,
+			'errorMessage' => (string)$eCodes[$ecode]
+		);
+	} else {
+		return array(
+			'errorCode'    => (int)0,
+			'errorMessage' => ''
+		);
+	}
+}
+
 
 
 // Owners, admins, and HSA can immediately expire a record, everyone else can submit an expiration request to a moderated queue.

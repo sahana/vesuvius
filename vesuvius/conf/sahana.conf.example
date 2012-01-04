@@ -70,3 +70,5 @@ $conf['enable_solr_for_search'] = false;
 $conf["SOLR_root"] = "http://localhost/solr/";
 $conf["SOLR_port"] = 8983;
 
+# Audit email address
+$conf['audit_email'] = "audit@example.com";

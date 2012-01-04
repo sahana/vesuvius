@@ -387,6 +387,9 @@ class person {
 		// not to do yet...
 	}
 
+	// Load Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Load Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Load Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// loads the data from a person in the database
 	public function load() {
@@ -494,95 +497,65 @@ class person {
 			$this->ecode = 9000;
 		}
 
-		//$this->loadImages();
-		//$this->loadEdxl();
-		//$this->loadPfif();
-		//$this->loadVoiceNote();
+		$this->loadImages();
+		$this->loadEdxl();
+		$this->loadPfif();
+		$this->loadVoiceNote();
 	}
 
 
-	// synchronize SQL value strings with public attributes
-	private function sync() {
-		global $global;
+	private function loadImages() {
 
-		// map enum types
+		// find all images for this person
+		$q = "
+			SELECT *
+			FROM image
+			WHERE p_uuid = '".mysql_real_escape_string((string)$this->p_uuid)."' ;
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "loadImages 1"); }
+		while(!$result == NULL && !$result->EOF) {
 
-		if($this->opt_gender == "M") {
-			$this->opt_gender = "mal";
-		} elseif($this->opt_gender == "F") {
-			$this->opt_gender = "fml";
-		} elseif($this->opt_gender == "C") {
-			$this->opt_gender = "cpx";
-		} elseif($this->opt_gender == "U") {
-			$this->opt_gender = null;
-		} else {
-			$this->opt_gender = null;
+			$i = new personImage();
+			$i->p_uuid = $this->p_uuid;
+			$i->image_id = $result->fields['image_id'];
+			$i->load();
+			$this->images[] = $i;
+			$result->MoveNext();
 		}
-
-		$this->full_name = $this->given_name." ".$this->family_name;
-		if($this->given_name === null) {
-			$this->full_name = $this->family_name;
-		}
-		if($this->family_name === null) {
-			$this->full_name = $this->given_name;
-		}
-		if($this->given_name === null && $this->family_name === null) {
-			$this->full_name = null;
-		}
-
-		// build SQL value strings
-		$this->sql_p_uuid         = ($this->p_uuid         === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
-		$this->sql_full_name      = ($this->full_name      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->full_name)."'";
-		$this->sql_family_name    = ($this->family_name    === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->family_name)."'";
-		$this->sql_given_name     = ($this->given_name     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->given_name)."'";
-		$this->sql_incident_id    = ($this->incident_id    === null) ? "NULL" : (int)$this->incident_id;
-		$this->sql_hospital_uuid  = ($this->hospital_uuid  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->hospital_uuid)."'";
-		$this->sql_expiry_date    = ($this->expiry_date    === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->expiry_date)."'";
-
-		$this->sql_opt_status     = ($this->opt_status     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_status)."'";
-		$this->sql_last_updated   = ($this->last_updated   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_updated)."'";
-		$this->sql_creation_time  = ($this->creation_time  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->creation_time)."'";
-
-		$this->sql_birth_date     = ($this->birth_date     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->birth_date)."'";
-		$this->sql_opt_race       = ($this->opt_race       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_race)."'";
-		$this->sql_opt_religion   = ($this->opt_religion   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_religion)."'";
-		$this->sql_opt_gender     = ($this->opt_gender     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_gender)."'";
-		$this->sql_years_old      = ($this->years_old      === null) ? "NULL" : (int)$this->years_old;
-		$this->sql_minAge         = ($this->minAge         === null) ? "NULL" : (int)$this->minAge;
-		$this->sql_maxAge         = ($this->maxAge         === null) ? "NULL" : (int)$this->maxAge;
-		$this->sql_last_seen      = ($this->last_seen      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_seen)."'";
-		$this->sql_last_clothing  = ($this->last_clothing  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_clothing)."'";
-		$this->sql_other_comments = ($this->other_comments === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->other_comments)."'";
-
-		$this->sql_rep_uuid       = ($this->rep_uuid       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->rep_uuid)."'";
-
-		// do the same for original values...
-		$this->sql_Op_uuid         = ($this->Op_uuid         === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Op_uuid)."'";
-		$this->sql_Ofull_name      = ($this->Ofull_name      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ofull_name)."'";
-		$this->sql_Ofamily_name    = ($this->Ofamily_name    === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ofamily_name)."'";
-		$this->sql_Ogiven_name     = ($this->Ogiven_name     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ogiven_name)."'";
-		$this->sql_Oincident_id    = ($this->Oincident_id    === null) ? "NULL" : (int)$this->Oincident_id;
-		$this->sql_Ohospital_uuid  = ($this->Ohospital_uuid  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ohospital_uuid)."'";
-		$this->sql_Oexpiry_date    = ($this->Oexpiry_date    === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oexpiry_date)."'";
-
-		$this->sql_Oopt_status     = ($this->Oopt_status     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oopt_status)."'";
-		$this->sql_Olast_updated   = ($this->Olast_updated   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Olast_updated)."'";
-		$this->sql_Ocreation_time  = ($this->Ocreation_time  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ocreation_time)."'";
-
-		$this->sql_Obirth_date     = ($this->Obirth_date     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Obirth_date)."'";
-		$this->sql_Oopt_race       = ($this->Oopt_race       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oopt_race)."'";
-		$this->sql_Oopt_religion   = ($this->Oopt_religion   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oopt_religion)."'";
-		$this->sql_Oopt_gender     = ($this->Oopt_gender     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oopt_gender)."'";
-		$this->sql_Oyears_old      = ($this->Oyears_old      === null) ? "NULL" : (int)$this->Oyears_old;
-		$this->sql_OminAge         = ($this->OminAge         === null) ? "NULL" : (int)$this->OminAge;
-		$this->sql_OmaxAge         = ($this->OmaxAge         === null) ? "NULL" : (int)$this->OmaxAge;
-		$this->sql_Olast_seen      = ($this->Olast_seen      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Olast_seen)."'";
-		$this->sql_Olast_clothing  = ($this->Olast_clothing  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Olast_clothing)."'";
-		$this->sql_Oother_comments = ($this->Oother_comments === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oother_comments)."'";
-
-		$this->sql_Orep_uuid       = ($this->Orep_uuid       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Orep_uuid)."'";
 	}
 
+
+	private function loadEdxl() {
+
+		$this->edxl = new personEdxl();
+		$this->edxl->p_uuid = $this->p_uuid;
+		$recordHasEdxl = $this->edxl->load();
+		if(!$recordHasEdxl) {
+			$this->edxl = null;
+echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF!!!!!!!!!!!!!!!!!!!!!!!!!!!1\n\n";
+		}
+	}
+
+
+	private function loadVoiceNote() {
+
+		$this->voice_note = new voiceNote();
+		$this->voice_note->p_uuid = $this->p_uuid;
+		$recordHasVoiceNote = $this->voice_note->load();
+		if(!$recordHasVoiceNote) {
+			$this->voice_note = null;
+		}
+	}
+
+
+	private function loadPfif() {
+		// to do....
+	}
+
+	// Insert / FirstSave Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Insert / FirstSave Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Insert / FirstSave Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// save the person (initial save = insert)
 	public function insert() {
@@ -666,6 +639,84 @@ class person {
 
 		// keep arrival rate Statistics...
 		updateArrivalRate($this->p_uuid, $this->incident_id, $this->arrival_triagepic, $this->arrival_reunite, $this->arrival_website, $this->arrival_pfif, $this->arrival_vanilla_email);
+	}
+
+
+	private function insertImages() {
+		foreach($this->images as $image) {
+			$image->insert();
+		}
+	}
+
+
+	private function insertEdxl() {
+		if($this->edxl != null) {
+			$this->edxl->insert();
+		}
+	}
+
+
+	private function insertVoiceNote() {
+		if($this->voice_note != null) {
+			$this->voice_note->insert();
+		}
+	}
+
+
+	public function makeStaticPfifNote() {
+		// make the note unless we are explicitly asked not to...
+		if(!$this->makePfifNote) {
+			return;
+		}
+
+		global $global;
+		require_once($global['approot']."inc/lib_uuid.inc");
+		require_once($global['approot']."mod/pfif/pfif.inc");
+		require_once($global['approot']."mod/pfif/util.inc");
+
+		$p = new Pfif();
+
+		$n = new Pfif_Note();
+		$n->note_record_id          = shn_create_uuid('pfif_note');
+		$n->person_record_id        = $this->p_uuid;
+		$n->linked_person_record_id = null;
+		$n->source_date             = $this->last_updated; // since we are now creating the note,
+		$n->entry_date              = $this->last_updated; // we use the last_updated for both values
+		$n->author_phone            = null;
+		$n->email_of_found_person   = null;
+		$n->phone_of_found_person   = null;
+		$n->last_known_location     = $this->last_seen;
+		$n->text                    = $this->other_comments;
+		$n->found                   = null; // we have no way to know if the reporter had direct contact (hence we leave this null)
+
+		// figure out the person's pfif status
+		$n->status = shn_map_status_to_pfif($this->opt_status);
+
+		// find author name and email...
+		$q = "
+			SELECT *
+			FROM contact c, person_uuid p
+			WHERE p.p_uuid = c.p_uuid
+			AND c.opt_contact_type = 'email'
+			AND p.p_uuid = '".$this->rep_uuid."';
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get contact for pfif note ((".$q."))"); }
+
+		if($result != NULL && !$result->EOF) {
+			$n->author_name  = $result->fields['full_name'];
+			$n->author_email = $result->fields['contact_value'];
+		} elseif($this->author_name != null) {
+			$n->author_name  = $this->author_name;
+			$n->author_email = $this->author_email;
+		} else {
+			$n->author_name  = null;
+			$n->author_email = null;
+		}
+
+		$p->setNote($n);
+		$p->setIncidentId($this->incident_id);
+		$p->storeNotesInDatabase();
 	}
 
 
@@ -771,6 +822,92 @@ class person {
 		";
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person saveRevision ((".$q."))"); }
+	}
+
+	// Other Members Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Other Members Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Other Members Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// synchronize SQL value strings with public attributes
+	private function sync() {
+		global $global;
+
+		// map enum types
+
+		if($this->opt_gender == "M") {
+			$this->opt_gender = "mal";
+		} elseif($this->opt_gender == "F") {
+			$this->opt_gender = "fml";
+		} elseif($this->opt_gender == "C") {
+			$this->opt_gender = "cpx";
+		} elseif($this->opt_gender == "U") {
+			$this->opt_gender = null;
+		} else {
+			$this->opt_gender = null;
+		}
+
+		$this->full_name = $this->given_name." ".$this->family_name;
+		if($this->given_name === null) {
+			$this->full_name = $this->family_name;
+		}
+		if($this->family_name === null) {
+			$this->full_name = $this->given_name;
+		}
+		if($this->given_name === null && $this->family_name === null) {
+			$this->full_name = null;
+		}
+
+		// build SQL value strings
+		$this->sql_p_uuid         = ($this->p_uuid         === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
+		$this->sql_full_name      = ($this->full_name      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->full_name)."'";
+		$this->sql_family_name    = ($this->family_name    === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->family_name)."'";
+		$this->sql_given_name     = ($this->given_name     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->given_name)."'";
+		$this->sql_incident_id    = ($this->incident_id    === null) ? "NULL" : (int)$this->incident_id;
+		$this->sql_hospital_uuid  = ($this->hospital_uuid  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->hospital_uuid)."'";
+		$this->sql_expiry_date    = ($this->expiry_date    === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->expiry_date)."'";
+
+		$this->sql_opt_status     = ($this->opt_status     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_status)."'";
+		$this->sql_last_updated   = ($this->last_updated   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_updated)."'";
+		$this->sql_creation_time  = ($this->creation_time  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->creation_time)."'";
+
+		$this->sql_birth_date     = ($this->birth_date     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->birth_date)."'";
+		$this->sql_opt_race       = ($this->opt_race       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_race)."'";
+		$this->sql_opt_religion   = ($this->opt_religion   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_religion)."'";
+		$this->sql_opt_gender     = ($this->opt_gender     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->opt_gender)."'";
+		$this->sql_years_old      = ($this->years_old      === null) ? "NULL" : (int)$this->years_old;
+		$this->sql_minAge         = ($this->minAge         === null) ? "NULL" : (int)$this->minAge;
+		$this->sql_maxAge         = ($this->maxAge         === null) ? "NULL" : (int)$this->maxAge;
+		$this->sql_last_seen      = ($this->last_seen      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_seen)."'";
+		$this->sql_last_clothing  = ($this->last_clothing  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->last_clothing)."'";
+		$this->sql_other_comments = ($this->other_comments === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->other_comments)."'";
+
+		$this->sql_rep_uuid       = ($this->rep_uuid       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->rep_uuid)."'";
+
+		// do the same for original values...
+		$this->sql_Op_uuid         = ($this->Op_uuid         === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Op_uuid)."'";
+		$this->sql_Ofull_name      = ($this->Ofull_name      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ofull_name)."'";
+		$this->sql_Ofamily_name    = ($this->Ofamily_name    === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ofamily_name)."'";
+		$this->sql_Ogiven_name     = ($this->Ogiven_name     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ogiven_name)."'";
+		$this->sql_Oincident_id    = ($this->Oincident_id    === null) ? "NULL" : (int)$this->Oincident_id;
+		$this->sql_Ohospital_uuid  = ($this->Ohospital_uuid  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ohospital_uuid)."'";
+		$this->sql_Oexpiry_date    = ($this->Oexpiry_date    === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oexpiry_date)."'";
+
+		$this->sql_Oopt_status     = ($this->Oopt_status     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oopt_status)."'";
+		$this->sql_Olast_updated   = ($this->Olast_updated   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Olast_updated)."'";
+		$this->sql_Ocreation_time  = ($this->Ocreation_time  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ocreation_time)."'";
+
+		$this->sql_Obirth_date     = ($this->Obirth_date     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Obirth_date)."'";
+		$this->sql_Oopt_race       = ($this->Oopt_race       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oopt_race)."'";
+		$this->sql_Oopt_religion   = ($this->Oopt_religion   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oopt_religion)."'";
+		$this->sql_Oopt_gender     = ($this->Oopt_gender     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oopt_gender)."'";
+		$this->sql_Oyears_old      = ($this->Oyears_old      === null) ? "NULL" : (int)$this->Oyears_old;
+		$this->sql_OminAge         = ($this->OminAge         === null) ? "NULL" : (int)$this->OminAge;
+		$this->sql_OmaxAge         = ($this->OmaxAge         === null) ? "NULL" : (int)$this->OmaxAge;
+		$this->sql_Olast_seen      = ($this->Olast_seen      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Olast_seen)."'";
+		$this->sql_Olast_clothing  = ($this->Olast_clothing  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Olast_clothing)."'";
+		$this->sql_Oother_comments = ($this->Oother_comments === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oother_comments)."'";
+
+		$this->sql_Orep_uuid       = ($this->Orep_uuid       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Orep_uuid)."'";
 	}
 
 
@@ -892,83 +1029,6 @@ class person {
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person rap_log insert ((".$q."))"); }
 	}
 
-
-	private function insertVoiceNote() {
-		if($this->voice_note != null) {
-			$this->voice_note->insert();
-		}
-	}
-
-
-	private function insertEdxl() {
-		if($this->edxl != null) {
-			$this->edxl->insert();
-		}
-	}
-
-
-	private function insertImages() {
-		foreach($this->images as $image) {
-			$image->insert();
-		}
-	}
-
-
-	public function makeStaticPfifNote() {
-		// make the note unless we are explicitly asked not to...
-		if(!$this->makePfifNote) {
-			return;
-		}
-
-		global $global;
-		require_once($global['approot']."inc/lib_uuid.inc");
-		require_once($global['approot']."mod/pfif/pfif.inc");
-		require_once($global['approot']."mod/pfif/util.inc");
-
-		$p = new Pfif();
-
-		$n = new Pfif_Note();
-		$n->note_record_id          = shn_create_uuid('pfif_note');
-		$n->person_record_id        = $this->p_uuid;
-		$n->linked_person_record_id = null;
-		$n->source_date             = $this->last_updated; // since we are now creating the note,
-		$n->entry_date              = $this->last_updated; // we use the last_updated for both values
-		$n->author_phone            = null;
-		$n->email_of_found_person   = null;
-		$n->phone_of_found_person   = null;
-		$n->last_known_location     = $this->last_seen;
-		$n->text                    = $this->other_comments;
-		$n->found                   = null; // we have no way to know if the reporter had direct contact (hence we leave this null)
-
-		// figure out the person's pfif status
-		$n->status = shn_map_status_to_pfif($this->opt_status);
-
-		// find author name and email...
-		$q = "
-			SELECT *
-			FROM contact c, person_uuid p
-			WHERE p.p_uuid = c.p_uuid
-			AND c.opt_contact_type = 'email'
-			AND p.p_uuid = '".$this->rep_uuid."';
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get contact for pfif note ((".$q."))"); }
-
-		if($result != NULL && !$result->EOF) {
-			$n->author_name  = $result->fields['full_name'];
-			$n->author_email = $result->fields['contact_value'];
-		} elseif($this->author_name != null) {
-			$n->author_name  = $this->author_name;
-			$n->author_email = $this->author_email;
-		} else {
-			$n->author_name  = null;
-			$n->author_email = null;
-		}
-
-		$p->setNote($n);
-		$p->setIncidentId($this->incident_id);
-		$p->storeNotesInDatabase();
-	}
 
 
 	public function isEventOpen() {

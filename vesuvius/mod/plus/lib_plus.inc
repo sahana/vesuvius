@@ -254,6 +254,58 @@ function shn_plus_getUserUuid($username) {
 
 
 
+
+/**
+* Finds out if a particulr uuid was reported via web services
+* @return boolean
+*/
+function shn_plus_wasRecordReportedViaPLUS($p_uuid) {
+
+	global $global;
+
+	$q = "
+		SELECT *
+		FROM plus_report_log
+		WHERE p_uuid = '".mysql_real_escape_string($p_uuid)."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus check was record reported via PLUS ((".$q."))"); }
+
+	if(($result == null) || ($result->EOF)) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+
+
+
+/**
+* Checks if a person exists (has an entry in person_uuid)
+* @return boolean
+*/
+function shn_plus_doesPersonExist($uuid) {
+
+	global $global;
+
+	$q = "
+		SELECT *
+		FROM person_uuid
+		WHERE p_uuid = '".mysql_real_escape_string($p_uuid)."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus check person exists ((".$q."))"); }
+
+	if(($result == null) || ($result->EOF)) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+
+
 /**
 * Finds the user_id of a prticular user
 * @return string (false if not found)

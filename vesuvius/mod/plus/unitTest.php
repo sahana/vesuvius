@@ -19,12 +19,13 @@ $eventShortname = "test";
 $personXML = "";
 $xmlFormat = "TRIAGEPIC";
 $number = 2;
-$uuid = "3";
+$uuid = "8";
 $mcid = "0";
 $newMcid = "1";
 $expiryDate = "2036-11-11 11:11:11";
 $tokenStart = "1";
 $tokenEnd = "1";
+$stride = 2;
 
 // load nusoap client library
 require_once("../../3rd/nusoap/lib/nusoap.php");
@@ -41,17 +42,18 @@ if(!isset($_GET['api'])) {
 } else {
 	$api = "&api=".$_GET['api'];
 
-/*
+
 	$sites = array(
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
-*/
+
+/*
 	$sites = array(
 		"PL"      => "https://pl.nlm.nih.gov/?wsdl".$api,
 		"PLstage" => "https://plstage.nlm.nih.gov/?wsdl".$api,
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
-
+*/
 	init2();
 
 	// perform tests...
@@ -61,7 +63,7 @@ if(!isset($_GET['api'])) {
 		case '2.1':
 			getImageCountsAndTokens($user, $pass);
 			getImageList($tokenStart, $tokenEnd, $user, $pass);
-			getImageListBlock($tokenStart, $user, $pass);
+			getImageListBlock($tokenStart, $stride, $user, $pass);
 			getNullTokenList($tokenStart, $tokenEnd, $user, $pass);
 		case '2.0':
 			expirePerson($uuid, '', $user, $pass);
