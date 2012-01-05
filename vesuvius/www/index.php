@@ -72,20 +72,25 @@ shn_main_front_controller();
 function shn_main_clean_getpost() {
 	global $global;
 
-	require_once($global['approot'].'/3rd/htmlpurifier/include.php');
-	$purifier = new HTMLPurifier();
+	require_once($global['approot'].'/3rd/htmlpurifier/library/HTMLPurifier.auto.php');
+
+	$config = HTMLPurifier_Config::createDefault();
+
+	// configuration goes here:
+	$config->set('Core.Encoding', 'UTF-8');
+	$config->set('HTML.Doctype', 'XHTML 1.0 Transitional');
+
+	$purifier = new HTMLPurifier($config);
 
 	foreach($_POST as $key=>$val) {
 		if(!is_array($_POST[$key])) {
 			$val = $purifier->purify($val);
-			$val = escapeHTML($val);
 			$_POST[$key] = $val;
 		}
 	}
 	foreach($_GET as $key=>$val) {
 		if(!is_array($_GET[$key])) {
 			$val = $purifier->purify($val);
-			$val = escapeHTML($val);
 			$_GET[$key] = $val;
 		}
 	}
