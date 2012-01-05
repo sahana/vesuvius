@@ -847,13 +847,20 @@ function shn_eap_edit() {
 		if($url == "NULL" || $url == "null") {
 			$url = "";
 		}
+
+		if(trim($url) == "") {
+			$linkToShow = "<div class=\"originUrl\">N/A</div>";
+		} else {
+			$linkToShow = "<div class=\"originUrl\"><a href=\"".$url."\">".$url."</a></div>";
+		}
+
 		echo "
 					<label for=\"opt_status\"><b>Origin ID</b> </label>
 					<input type=\"text\" name=\"opt_status\" id=\"opt_status\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit2 public\" READONLY>
 					<br>
 
 					<label for=\"opt_status\"><b>Origin URL</b> </label>
-					<div class=\"originUrl\"><a href=\"".$url."\">".$url."</a></div>
+					".$linkToShow."
 					<br>
 		";
 	}
