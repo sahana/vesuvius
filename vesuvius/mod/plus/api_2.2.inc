@@ -1,7 +1,7 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.3
+ * @version      2.2
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
@@ -11,7 +11,7 @@
  */
 
 global $api_version;
-$api_version = "2.3";
+$api_version = "2.2";
 
 // This function is called by the Document/Literal SOAP server upon initalization to register all the api services from this module's api.
 function shn_plus_registerAll($namespace) {
