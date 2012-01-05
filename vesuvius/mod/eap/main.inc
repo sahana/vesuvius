@@ -995,7 +995,9 @@ function shn_eap_edit() {
 		";
 
 	// no voice note
-	} else {
+	}
+/* PL-286 begin
+	else {
 		echo "
 			<div class=\"form-container\">
 				<form>
@@ -1007,6 +1009,8 @@ function shn_eap_edit() {
 			</div>
 		";
 	}
+// PL-286 end
+*/
 	// VOICENOTE END //////////////////////////////////////////////////////////////////////////////////
 
 
