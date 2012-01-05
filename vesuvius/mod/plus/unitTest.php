@@ -58,7 +58,7 @@ if(!isset($_GET['api'])) {
 
 	// perform tests...
 	switch($_GET['api']) {
-		case '2.2':
+		case '2.3':
 			reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $user, $pass);
 		case '2.1':
 			getImageCountsAndTokens($user, $pass);

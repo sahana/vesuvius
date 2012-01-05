@@ -1,7 +1,7 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.2
+ * @version      2.3
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
@@ -11,7 +11,7 @@
  */
 
 global $api_version;
-$api_version = "2.2";
+$api_version = "2.3";
 
 // This function is called by the Document/Literal SOAP server upon initalization to register all the api services from this module's api.
 function shn_plus_registerAll($namespace) {
@@ -1976,7 +1976,7 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 	// not yet implemented ~ stub
 	$error = true;
 	$ecode = 9998;
-
+/*
 	// check auth, if fails, return w/ error code/message
 	$status = shn_plus_checkCredz($username, $password);
 	if($status != 0) {
@@ -2056,7 +2056,7 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 			}
 		}
 	}
-
+*/
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
@@ -2066,7 +2066,7 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 	} else {
 		return array(
 			'errorCode'    => (int)0,
-			'errorMessage' => ''
+			'errorMessage' => (string)''
 		);
 	}
 }
