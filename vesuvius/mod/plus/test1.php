@@ -14,9 +14,9 @@ $user = "testDontDelete";
 $pass = "dontDelete99";
 require_once("../../3rd/nusoap/lib/nusoap.php");
 
-//$wsdl = "https://pl.nlm.nih.gov/?wsdl";
+$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=2.2";
 //$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=1.9.8";
-$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.1";
+//$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.2";
 $client = new nusoap_client($wsdl);
 
 //$result = $client->call('getNullTokenList', array('tokenStart'=>'0', 'tokenEnd'=>'120', 'username'=>$user, 'password'=>$pass));
@@ -78,7 +78,10 @@ $x = file_get_contents("reference_REUNITE3.xml");
 
 //$x = file_get_contents("TP.xml");
 $x = file_get_contents("reference_TRIAGEPIC1.xml");
-$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
+//$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
+
+$x = file_get_contents("reference_TRIAGEPIC1.xml");
+$result = $client->call('reReportPerson', array('uuid'=>'pl.blah', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
 
 echo "<pre>wsdl >> ".$wsdl."\n\n".var_export($result, true)."</pre>";
 
