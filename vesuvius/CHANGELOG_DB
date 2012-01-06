@@ -2,10 +2,21 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
 
+///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
 
+2012:0104 Greg
+--------------
 
+ALTER TABLE  `edxl_co_header` ADD INDEX  `p_uuid_idx` (  `p_uuid` ) ;
+SELECT p_uuid FROM edxl_co_header WHERE p_uuid NOT IN (SELECT p_uuid FROM person_uuid) ;
+## DELETED THESE ^^^^ ROWS BY HAND :)
+ALTER TABLE  `edxl_co_header` ADD FOREIGN KEY (`p_uuid`) REFERENCES `person_uuid` (`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE ;
+
+SELECT p_uuid FROM edxl_co_photos WHERE p_uuid NOT IN (SELECT p_uuid FROM person_uuid) ;
+## DELETED THESE ^^^^ ROWS BY HAND :)
 ALTER TABLE  `edxl_co_photos` ADD FOREIGN KEY (`co_id`) REFERENCES  `edxl_co_header` (`co_id`) ON DELETE CASCADE ON UPDATE CASCADE ;
 ALTER TABLE  `edxl_co_photos` ADD FOREIGN KEY (`p_uuid`) REFERENCES  `person_uuid` (`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE ;
+
 ALTER TABLE  `edxl_de_roles` ADD INDEX `role_idx` (`role_num`) ;
 ALTER TABLE  `edxl_co_roles` ADD FOREIGN KEY (`role_num`) REFERENCES  `edxl_de_roles` (`role_num`) ON DELETE CASCADE ON UPDATE CASCADE ;
 
@@ -20,19 +31,10 @@ ALTER TABLE  `person_physical` DROP FOREIGN KEY  `person_physical_ibfk_2` ;
 ALTER TABLE  `person_updates` DROP FOREIGN KEY  `person_updates_ibfk_3` ;
 ALTER TABLE  `person_updates` DROP FOREIGN KEY  `person_updates_ibfk_4` ;
 
+ALTER TABLE  `person_updates` DROP FOREIGN KEY  `person_updates_ibfk_3` ;
+ALTER TABLE  `person_updates` DROP FOREIGN KEY  `person_updates_ibfk_4` ;
+
 ALTER TABLE  `rap_log` DROP FOREIGN KEY  `rap_log_ibfk_2` ;
-
-
-///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
-
-2012:0104 Greg
---------------
-
-ALTER TABLE  `edxl_co_header` ADD INDEX  `p_uuid_idx` (  `p_uuid` ) ;
-SELECT p_uuid FROM edxl_co_header WHERE p_uuid NOT IN (SELECT p_uuid FROM person_uuid) ;
-## DELETED THESE ^^^^ ROWS BY HAND :)
-ALTER TABLE  `edxl_co_header` ADD FOREIGN KEY (`p_uuid`) REFERENCES `person_uuid` (`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE ;
-
 
 
 2011:1228 Greg
