@@ -1,16 +1,16 @@
-# Italian translation for vesuvius
-# Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
+# German translation for vesuvius
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2012
 # This file is distributed under the same license as the vesuvius package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: vesuvius\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-18 10:56-0400\n"
-"PO-Revision-Date: 2011-11-04 13:37+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Italian <it@li.org>\n"
+"PO-Revision-Date: 2012-01-05 22:41+0000\n"
+"Last-Translator: Daniel Winzen <d@winzen4.de>\n"
+"Language-Team: German <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1234,7 +1234,7 @@ msgstr ""
 
 #: ../mod/rap/main.inc:208
 msgid "Family Name"
-msgstr ""
+msgstr "Familienname"
 
 #: ../mod/rap/main.inc:208
 msgid "The person's surname or last name."
@@ -1242,7 +1242,7 @@ msgstr ""
 
 #: ../mod/rap/main.inc:209
 msgid "Age"
-msgstr ""
+msgstr "Alter"
 
 #: ../mod/rap/main.inc:209
 msgid ""
@@ -1272,15 +1272,15 @@ msgstr ""
 
 #: ../mod/rap/main.inc:212
 msgid "Gender"
-msgstr ""
+msgstr "Geschlecht"
 
 #: ../mod/rap/main.inc:213
 msgid "Religion"
-msgstr ""
+msgstr "Religion"
 
 #: ../mod/rap/main.inc:214
 msgid "Race"
-msgstr ""
+msgstr "Volk"
 
 #: ../mod/rap/main.inc:217
 msgid "Person's Contact Information"
@@ -1304,11 +1304,11 @@ msgstr ""
 
 #: ../mod/rap/main.inc:221
 msgid "Mobile Phone Number"
-msgstr ""
+msgstr "Handynummer"
 
 #: ../mod/rap/main.inc:222
 msgid "Email Address"
-msgstr ""
+msgstr "E-Mail Adresse"
 
 #: ../mod/rap/main.inc:225
 msgid "Person's Physical Details"
@@ -1316,23 +1316,23 @@ msgstr ""
 
 #: ../mod/rap/main.inc:226
 msgid "Eye Color"
-msgstr ""
+msgstr "Augenfarbe"
 
 #: ../mod/rap/main.inc:227
 msgid "Skin Color"
-msgstr ""
+msgstr "Hautfarbe"
 
 #: ../mod/rap/main.inc:228
 msgid "Hair Color"
-msgstr ""
+msgstr "Haarfarbe"
 
 #: ../mod/rap/main.inc:230
 msgid "Height"
-msgstr ""
+msgstr "Größe"
 
 #: ../mod/rap/main.inc:231
 msgid "Weight"
-msgstr ""
+msgstr "Gewicht"
 
 #: ../mod/rap/main.inc:233
 msgid "Other Obvious Distinctive Features"
@@ -1382,11 +1382,11 @@ msgstr ""
 
 #: ../mod/snap/admin_menu.inc:20
 msgid "Snapshot"
-msgstr ""
+msgstr "Schnappschuss"
 
 #: ../mod/stat/conf.inc:15
 msgid "Statistics"
-msgstr ""
+msgstr "Statistiken"
 
 #: ../mod/tp/conf.inc:14
 msgid "TriagePic"

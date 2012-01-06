@@ -1976,7 +1976,7 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 	// not yet implemented ~ stub
 	$error = true;
 	$ecode = 9998;
-
+/*
 	// check auth, if fails, return w/ error code/message
 	$status = shn_plus_checkCredz($username, $password);
 	if($status != 0) {
@@ -2056,7 +2056,7 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 			}
 		}
 	}
-
+*/
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
@@ -2066,7 +2066,7 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 	} else {
 		return array(
 			'errorCode'    => (int)0,
-			'errorMessage' => ''
+			'errorMessage' => (string)''
 		);
 	}
 }
