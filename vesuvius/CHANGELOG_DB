@@ -5,6 +5,11 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
 
+2012:0106 Leif
+
+ALTER TABLE `person_status` ADD `last_updated_db` DATETIME NULL COMMENT 'Last DB update. (For SOLR indexing.)',
+ADD INDEX ( `last_updated_db` ) 
+
 2012:0104 Greg
 --------------
 
@@ -49,6 +54,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 `pu`.`family_name` AS `family_name`,
 `pu`.`expiry_date` AS `expiry_date`,
 `ps`.`last_updated` AS `updated`,
+`ps`.`last_updated_db` AS `updated_db`,
 (case when ((`ps`.`opt_status` not in (_utf8'ali',_utf8'mis',_utf8'inj',_utf8'dec',_utf8'unk',_utf8'fnd')) or isnull(`ps`.`opt_status`)) then _utf8'unk' else `ps`.`opt_status` end) AS `opt_status`,
 (case when ((`pd`.`opt_gender` not in (_utf8'mal',_utf8'fml')) or isnull(`pd`.`opt_gender`)) then _utf8'unk' else `pd`.`opt_gender` end) AS `opt_gender`,
 (case when isnull(cast(`pd`.`years_old` as unsigned)) then -(1) else `pd`.`years_old` end) AS `years_old`,
