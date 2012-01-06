@@ -511,9 +511,10 @@ class SearchDB
 			//$date = new DateTime($doc->updated);
 			//date_sub($date, date_interval_create_from_date_string('4 hours'));
 
+                        // Don't camelcase full_name (PL-273).
 			$this->results[] = array('p_uuid' => $doc->p_uuid,
 				 'encodedUUID' => base64_encode($doc->p_uuid),
-				   'full_name' => isset($doc->full_name) ? htmlspecialchars( mb_convert_case($doc->full_name, MB_CASE_TITLE, "UTF-8")) : null,
+				   'full_name' => isset($doc->full_name) ? htmlspecialchars($doc->full_name) : null,
 				  'opt_status' => isset($doc->opt_status) ? $doc->opt_status : null,
 				    'imageUrl' => isset($doc->url_thumb) ? $doc->url_thumb : null,
 				  'imageWidth' => isset($doc->image_width) ? $doc->image_width : null,
