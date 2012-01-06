@@ -219,7 +219,7 @@ class Pfif {
             // Do log housekeeping since this may be an automated export (i.e. from cronexport.php).
             $this->reset_log_dates($pfif_persons[0]->entry_date);
             foreach ($pfif_persons as $person) {
-               // Snag last_updated for log since this indicates new information (could be from a new Note).
+               // Snag last_updated_db for log since this indicates new information (could be from a new Note).
                $this->update_log_dates($person->entry_date);
                // Is this an original record meeting the date constraint?
                if ((strtotime($person->source_date) > $start) &&
@@ -567,7 +567,7 @@ class Pfif {
                  && empty($pfif_person->last_name)
                  && empty($pfif_person->other)
                  && empty($pfif_person->photo_url)) {
-            $pfif_person->expiry_date = strftime("%Y-%m-%d %H:%M:%S");
+            $pfif_person->expiry_date = date("Y-m-d H:i:s");
          }
          $this->setPerson($pfif_person);
       }
@@ -807,15 +807,13 @@ class Pfif {
          // Update last_updated.
          $source_date = $note_row['source_date'];
          // Only update last known location if not empty.
-         if (!empty($last_known_location)) {
-            $sql = "UPDATE person_status ps,person_details pd SET" .
-                    " ps.last_updated='" . $source_date . "',ps.opt_status='" . $mapped_status . "',pd.last_seen='" . $last_known_location . "'" .
-                    " WHERE ps.p_uuid='" . $p_uuid . "' AND ps.p_uuid = pd.p_uuid";
-         } else {
-            $sql = "UPDATE person_status ps,person_details pd SET" .
-                    " ps.last_updated='" . $source_date . "',ps.opt_status='" . $mapped_status . "'" .
-                    " WHERE ps.p_uuid='" . $p_uuid . "' AND ps.p_uuid = pd.p_uuid";
-         }
+         $opt_clause = empty($last_known_location)? "" : ",pd.last_seen='" . $last_known_location . "'";
+         $sql = "UPDATE person_status ps,person_details pd SET" .
+                " ps.last_updated_db='" . date("Y-m-d H:i:s") . 
+                "', ps.last_updated='" . $source_date . 
+                "',ps.opt_status='" . $mapped_status . "'" .
+                $opt_clause .
+                " WHERE ps.p_uuid='" . $p_uuid . "' AND ps.p_uuid = pd.p_uuid";
          //print $sql."\n";
          $ret = $global['db']->Execute($sql);
          if ($ret === false) {
@@ -914,7 +912,8 @@ class Pfif {
          $insert_array['creation_time'] = '2000-01-01 00:00:00';
       }
       // Set last_updated.
-      $insert_array['last_updated'] = $person->entry_date;
+      $insert_array['last_updated'] = $person->source_date;
+      $insert_array['last_updated_db'] = date("Y-m-d H:i:s");
       shn_db_insert($insert_array, 'person_status');
       $insert_array = null; // reset array
       // image table
@@ -983,7 +982,7 @@ class Pfif {
          $person = new Pfif_Person();
 
          $person->person_record_id = $personRecord['p_uuid'];
-         $person->entry_date = $personRecord['last_updated'];
+         $person->entry_date = $personRecord['last_updated_db'];
          $person->expiry_date = $sourcePfif ? $sourcePfif->expiry_date : $personRecord['expiry_date'];
 
          $reporter = $this->getReportedPerson($personRecord['reporter']);
@@ -1089,10 +1088,10 @@ class Pfif {
       $whereSql = '';
       $where = array();
       if (!empty($since_entry_date)  && $since_entry_date != -1) {
-         $where[] = " ps.last_updated >= '$since_entry_date' ";
+         $where[] = " ps.last_updated_db >= '$since_entry_date' ";
       }
       if (!empty($before)) {
-         $where[] = " ps.last_updated <= '$before' ";
+         $where[] = " ps.last_updated_db <= '$before' ";
       }
       $where[] = " (a.expiry_date IS NULL OR a.expiry_date > now()) ";
       $where[] = " a.incident_id = " . $this->incident_id;
@@ -1128,8 +1127,9 @@ class Pfif {
               e.opt_gender, e.years_old, e.minAge, e.maxAge, f.comments as physical_comments, f.height, f.weight,
               f.opt_eye_color, f.opt_skin_color, f.opt_hair_color, g.contact_value as phone, h.contact_value as mobile,
               i.contact_value as email, j.contact_value AS address, k.contact_value AS zip, e.last_seen,
-              e.other_comments, pr.rep_uuid as reporter, ps.status_id, ps.last_updated, ps.creation_time,
-              ps.opt_status as `status`, im.url as image_url
+              e.other_comments, pr.rep_uuid as reporter, ps.status_id, ps.last_updated, ps.last_updated_db, 
+              ps.creation_time, ps.opt_status as `status`,
+              im.url as image_url
 	      FROM person_uuid a
 	      LEFT OUTER JOIN person_details e ON e.p_uuid = a.p_uuid
 	      LEFT OUTER JOIN person_physical f ON f.p_uuid = a.p_uuid
@@ -1229,7 +1229,7 @@ class Pfif {
       if ($this->getSourceReposId() != null) {
          $insert_array['source_repository_id'] = $this->getSourceReposId();
       }
-      $insert_array['entry_date'] = strftime("%Y-%m-%d %H:%M:%S");
+      $insert_array['entry_date'] = date("Y-m-d H:i:s");
       if (!empty($person->expiry_date)) {
          $insert_array['expiry_date'] = $person->expiry_date;
       }
@@ -1312,7 +1312,7 @@ class Pfif {
       if (!empty($note->linked_person_record_id)) {
          $insert_array['linked_person_record_id'] = $note->linked_person_record_id;
       }
-      $insert_array['entry_date'] = strftime("%Y-%m-%d %H:%M:%S ");
+      $insert_array['entry_date'] = date("Y-m-d H:i:s");
       if (!empty($note->author_name)) {
          $insert_array['author_name'] = $note->author_name;
       }
