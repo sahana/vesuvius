@@ -18,14 +18,7 @@ require_once($global['approot'].'mod/lpf/lib_lpf.inc');
 $full = false; // true when we show the full header...
 
 // show image
-echo '
-	<div id="header" class="clearfix">
-		<a href="'.makeBaseUrlMinusEvent().'"><img src="theme/lpf3/img/pl.png"></a>
-		<div id="rightHeaderLogo">
-			<a href="http://www.nlm.nih.gov/"><img src="theme/lpf3/img/NLMlogoSmall.gif"></a>
-		</div>
-';
-
+echo '<div id="header" class="clearfix"><div id="leftHeaderLogo"><a href="'.makeBaseUrlMinusEvent().'"><img id="leftHeaderLogoImg" src="theme/lpf3/img/pl.png"></a></div><div id="rightHeaderLogo"><a href="http://www.nlm.nih.gov/"><img src="theme/lpf3/img/NLMlogoSmall.gif"></a></div>';
 
 // show language selection if necessary...
 if(isset($conf['enable_locale']) && $conf['enable_locale'] == true) {
