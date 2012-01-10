@@ -11,10 +11,12 @@
  * @lastModified 2011.1005
  */
 
-require_once($global['approot']."/inc/lib_uuid.inc");
-require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 global $global;
 global $revisionCount;
+
+require_once($global['approot']."/inc/lib_uuid.inc");
+require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+
 $revisionCount = 0;
 $global['uuid'] = "";
 $global['makeStaticPfifNote'] = false;

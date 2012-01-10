@@ -85,7 +85,7 @@ form label { cursor: pointer; }
 
 fieldset { border: none; }
 
-input, select, textarea { font-size: 100%; border: 1px solid #777; margin: 3px;}
+input, select, textarea { font-size: 100%; border: 1px solid #d9d9d9; margin: 3px;}
 
 textarea { margin: 3px; font-size: 120%; }
 
@@ -93,6 +93,13 @@ input[type=text], input[type=password], input[type=number], textarea {
 	padding: 3px 10px 3px 10px;
 	border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;
 }
+
+input[type="checkbox"], input[type="radio"] {
+	background: #fff;
+}
+
+
+
 
 .left { text-align: left !important; }
 
@@ -113,6 +120,9 @@ a img {
 	border:none;
 }
 
+
+#searchBox { color: #CCC; }
+#searchBox:focus { color: #CCC; border-color: #959a9f; outline: none; box-shadow: inset 0 3px 6px rgba(127,127,127,0.2);}
 
 #chromeWebStore {
 	position: absolute;
@@ -139,7 +149,9 @@ div#container {
 	position:relative;
 }
 
-div#header { height: 130px; font-family: arial; background-color: #fff;}
+div#header { height: 140px; font-family: arial; background-color: #fff; border-bottom: 1px solid #e5eaef; margin: 0px 20px 0px 20px; }
+div#leftHeaderLogo {padding: 20px 0px 0px 20px;}
+div#rightHeaderLogo { position: absolute; top: 20px; right: 50px; }
 div#headerText { position: absolute; top: 23px;  left: 250px; }
 div#headerText a {text-decoration: none; font-family: arial; }
 div#headerText h1 { position: relative; text-align: left; color: #34689a; margin: 0; font-family: arial; font-size: 28px; line-height: 28px; font-weight: normal;}
@@ -148,7 +160,6 @@ div#headerText h2 span { font-size: 18px; }
 div#headerText h3 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 16px; font-weight: normal; font-family: arial; line-height: 19px; }
 div#headerText h4 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 12px; font-weight: normal; font-family: arial; line-height: 15px; }
 
-div#rightHeaderLogo { float: right !important; margin-right: 25px; margin-top: 35px; *margin-top: -90px; }
 
 div#user_act{ display:block;position:absolute;top:2px; right:0px;padding-right:15px;  }
 #disaster_selekta {margin-right: 1em; color: #FFF; font-size: 12px font-weight: bold; position: absolute; top: 134px; height: 16px; z-index: 100;}
@@ -164,8 +175,8 @@ p#skip { display: none; }
 div#menuwrap {
 	position: absolute;
 	left: 0px;
-	top: 172px;
-	margin: 0px;
+	top: 140px;
+	margin: 27px 0px 0px 0px;
 	padding: 0px 0px 20px 0px;
 	color: #000;
 }
@@ -206,10 +217,10 @@ div#modmenuwrap ul ul li a:hover {}
 }
 
 div#loginform {
-	margin: 	8px 14px;
+	margin: 	0px 10px;
 	position:	absolute;
-	right: 		0px;
-	top:		0px;
+	right: 		20px;
+	top:		110px;
 	text-align:	right;
 	padding:	0px;
 	color: 		#000;
@@ -229,7 +240,7 @@ div#loginform {
 	color: #fff;
 }
 
-div#content { margin: 20px 20px 40px 180px; padding: 32px 32px 163px 32px; min-height: 400px;}
+div#content { margin: 30px 20px 40px 180px; padding: 0px 32px 163px 32px; min-height: 400px;}
 div#content h1, div#content h2 {
 	color: #34689a; font-size: 16px; font-weight: bolder; margin: 10px 0px 10px 0px; padding: 0px; text-align: left;
 }
@@ -435,7 +446,7 @@ div#footer hr {display: none;}
 
 #ribbonHolder {
 	position: absolute;
-	top: 137px;
+	top: 140px;
 	left: 0px;
 	width: 100%;
 	height: 20px;
@@ -445,6 +456,7 @@ div#footer hr {display: none;}
 }
 
 #blueBack {
+	/*
 	margin: 0px;
 	height: 18px;
 	background-image: -webkit-linear-gradient(top, rgba(98,137,192,0.3), rgba(98,137,192,0.1));
@@ -454,6 +466,7 @@ div#footer hr {display: none;}
 	background-image:         linear-gradient(top, rgba(98,137,192,0.3), rgba(98,137,192,0.1));
 	border-top: 1px solid #aaa;
 	border-bottom: 1px solid #ddd;
+	*/
 }
 #disasterList, #locale { height: 20px; border: 1px solid #6289b0; }
 #language { position: absolute; top: 134px; right: 50px; z-index: 9999; color: #039; }

@@ -89,6 +89,15 @@ function shn_pref_loginForm() {
 			</script>
 */
 
+		// force focus to login box...
+		echo "
+			<script>
+				window.onload = function() {
+					document.getElementById(\"user_name\").focus();
+				};
+			</script>
+		";
+
 
 	} else {
 		echo "
