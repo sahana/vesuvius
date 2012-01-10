@@ -194,7 +194,7 @@ div#container {
 div#header { height: 140px; font-family: arial; background-color: #fff; border-bottom: 1px solid #e5eaef; margin: 0px 20px 0px 20px; }
 div#leftHeaderLogo {padding: 20px 0px 0px 20px;}
 div#rightHeaderLogo { position: absolute; top: 20px; right: 50px; }
-div#headerText { position: absolute; top: 23px;  left: 250px; }
+div#headerText { position: absolute; top: 42px;  left: 240px; }
 div#headerText a {text-decoration: none; font-family: arial; }
 div#headerText h1 { position: relative; text-align: left; color: #34689a; margin: 0; font-family: arial; font-size: 28px; line-height: 28px; font-weight: normal;}
 div#headerText h2 { position: relative; text-align: left; color: #34689a; margin: 0; font-size: 23px; font-weight: normal; font-family: arial; line-height: 27px; }

@@ -4,7 +4,7 @@
 ********************************************************************************************************************************************************************
 *
 * @class        person
-* @version      11
+* @version      12
 * @author       Greg Miernicki <g@miernicki.com>
 *
 ********************************************************************************************************************************************************************
@@ -43,6 +43,9 @@ class person {
 	private $Oopt_status;
 	private $Olast_updated;
 	private $Ocreation_time;
+
+	// when true we set the last_updated_db to null (holds record from solr indexing)
+	public $useNullLastUpdatedDb;
 
 	// table person_details
 	public $birth_date;
@@ -253,6 +256,8 @@ class person {
 
 		$this->makePfifNote        = true;
 
+		$this->useNullLastUpdatedDb = false;
+
 		$this->ecode = 0;
 
 		$this->updated_by_p_uuid   = null;
@@ -368,6 +373,8 @@ class person {
 		$this->author_email        = null;
 
 		$this->makePfifNote        = null;
+
+		$this->useNullLastUpdatedDb = null;
 
 		$this->ecode               = null;
 
@@ -581,17 +588,25 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_uuid insert ((".$q."))"); }
 
+		if($this->useNullLastUpdatedDb) {
+			$ludb = "NULL";
+		} else {
+			$ludb = "'".date('Y-m-d H:i:s')."'";
+		}
+
 		$q = "
 			INSERT INTO person_status (
 				p_uuid,
 				opt_status,
 				last_updated,
-				creation_time )
+				creation_time,
+				last_updated_db)
 			VALUES (
 				".$this->sql_p_uuid.",
 				".$this->sql_opt_status.",
 				".$this->sql_last_updated.",
-				".$this->sql_creation_time." );
+				".$this->sql_creation_time.",
+				".$ludb.");
 		";
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_status insert ((".$q."))"); }
