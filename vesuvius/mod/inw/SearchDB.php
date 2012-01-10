@@ -593,6 +593,9 @@ class SearchDB
 		//incident shortname filter (always applied)
 		$this->SOLRfq .= ")&fq=shortname:(" . $this->incident . ")";
 
+		//only non-expired records (always applied) (PL-288)
+		$this->SOLRfq .= "&fq=-expiry_date:[* TO NOW]";
+
                 // NULL full_name filter if searching for "unknown"
                 if ($this->searchUnknown) {
 		   	$this->SOLRfq .= "&fq=-full_name:[* TO *]";
@@ -607,7 +610,7 @@ class SearchDB
 	}
 
 	private function getSOLRallCount() {
-		$tmpSOLRquery = $this->SOLRroot . "select/?q=*:*&fq=shortname:(" . $this->incident . ")";
+		$tmpSOLRquery = $this->SOLRroot . "select/?q=*:*&fq=shortname:(".$this->incident.")&fq=-expiry_date:[*%20TO%20NOW]";
 		$ch = curl_init();
         	curl_setopt($ch, CURLOPT_URL, $tmpSOLRquery . "&wt=json"); // ensure the json version is called
         	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -625,6 +628,7 @@ class SearchDB
 		$solrQuery = $this->SOLRroot . "select/?qt=edismax&q=+"
 				 . trim(urlencode($this->searchTerm))
 		                 . "&fq=shortname:(" . $this->incident . ")"
+		                 . "&fq=-expiry_date:[*%20TO%20NOW]"
                                  . (strpos($this->SOLRfq, "-full_name")? "&fq=-full_name:[*%20TO%20*]" : '')
                                  . "&facet=true"
                                  . "&facet.query=ageGroup:youth&facet.query=ageGroup:adult&facet.query=ageGroup:unknown&facet.query=ageGroup:both"
