@@ -758,9 +758,11 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 		$q = "
 			UPDATE person_status
 			SET
-				opt_status    = ".$this->sql_opt_status.",
-				last_updated  = '".date('Y-m-d H:i:s')."',
-				creation_time = ".$this->sql_creation_time."
+				opt_status      = ".$this->sql_opt_status.",
+				last_updated    = '".date('Y-m-d H:i:s')."',
+				creation_time   = ".$this->sql_creation_time.",
+				last_updated_db = '".date('Y-m-d H:i:s')."'
+
 			WHERE p_uuid = ".$this->sql_p_uuid.";
 		";
 		$result = $this->db->Execute($q);
