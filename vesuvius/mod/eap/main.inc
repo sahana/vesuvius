@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Edit A Person
- * @version      1.8
+ * @version      1.9
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1005
+ * @lastModified 2012.0109
  */
 
 global $global;
@@ -128,7 +128,9 @@ function shn_eap_addNote() {
 			// update record's timestamp
 			$q = "
 				UPDATE person_status
-				SET last_updated = CURRENT_TIMESTAMP
+				SET
+					last_updated = CURRENT_TIMESTAMP,
+					last_updated_db = '".date('Y-m-d H:i:s')."'
 				WHERE p_uuid = '".$global['uuid']."';
 			";
 			$r = $global['db']->Execute($q);
@@ -426,7 +428,9 @@ function saveRevision($table, $column, $name, $oldValue, $newValue) {
 	// update timestamp
 	$q = "
 		UPDATE person_status
-		SET last_updated = CURRENT_TIMESTAMP
+		SET
+			last_updated = CURRENT_TIMESTAMP,
+			last_updated_db = '".date('Y-m-d H:i:s')."'
 		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r = $global['db']->Execute($q);
@@ -510,7 +514,9 @@ function saveContactRevision($type, $name, $oldValue, $newValue) {
 	// update timestamp
 	$q = "
 		UPDATE person_status
-		SET last_updated = CURRENT_TIMESTAMP
+		SET
+			last_updated = CURRENT_TIMESTAMP,
+			last_updated_db = '".date('Y-m-d H:i:s')."'
 		WHERE p_uuid = '".$global['uuid']."';
 	";
 	$r = $global['db']->Execute($q);
