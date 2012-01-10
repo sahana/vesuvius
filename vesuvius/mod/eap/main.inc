@@ -1396,11 +1396,11 @@ function shn_eap_edit() {
 
 		echo "
 			<label for=\"height\">Height</label>
-			<input type=\"text\" name=\"height\" id=\"height\" value=\"".$editHeight."\" size=\"10\" maxlength=10 tabindex=\"".++$shn_tabindex."\" class=\"public\">
+			<input type=\"text\" name=\"height\" id=\"height\" value=\"".htmlspecialchars($editHeight)."\" size=\"10\" maxlength=10 tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
 			<label for=\"height\">Weight</label>
-			<input type=\"text\" name=\"weight\" id=\"weight\" value=\"".$editWeight."\" size=\"10\" maxlength=10 tabindex=\"".++$shn_tabindex."\" class=\"public\">
+			<input type=\"text\" name=\"weight\" id=\"weight\" value=\"".htmlspecialchars($editWeight)."\" size=\"10\" maxlength=10 tabindex=\"".++$shn_tabindex."\" class=\"public\">
 			<br>
 
 			<label for=\"height\">Distinctive Features</label>
@@ -1567,11 +1567,11 @@ function shn_eap_edit() {
 			<br>
 
 			<label for=\"height\">Height</label>
-			<input type=\"text\" name=\"height\" id=\"height\" value=\"".$person_physical['height']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"height\" id=\"height\" value=\"".htmlspecialchars($person_physical['height'])."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"height\">Weight</label>
-			<input type=\"text\" name=\"weight\" id=\"weight\" value=\"".$person_physical['weight']."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
+			<input type=\"text\" name=\"weight\" id=\"weight\" value=\"".htmlspecialchars($person_physical['weight'])."\" size=\"50\" tabindex=\"".++$shn_tabindex."\" class=\"nonedit public\" READONLY>
 			<br>
 
 			<label for=\"height\">Distinctive Features</label>
