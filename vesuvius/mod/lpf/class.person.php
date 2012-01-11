@@ -47,6 +47,9 @@ class person {
 	// when true we set the last_updated_db to null (holds record from solr indexing)
 	public $useNullLastUpdatedDb;
 
+	// ignore duplicate check
+	public $ignoreDupeUuid;
+
 	// table person_details
 	public $birth_date;
 	public $opt_race;
@@ -258,6 +261,8 @@ class person {
 
 		$this->useNullLastUpdatedDb = false;
 
+		$this->ignoreDupeUuid       = false;
+
 		$this->ecode = 0;
 
 		$this->updated_by_p_uuid   = null;
@@ -375,6 +380,8 @@ class person {
 		$this->makePfifNote        = null;
 
 		$this->useNullLastUpdatedDb = null;
+
+		$this->ignoreDupeUuid       = null;
 
 		$this->ecode               = null;
 
@@ -540,7 +547,6 @@ class person {
 		$recordHasEdxl = $this->edxl->load();
 		if(!$recordHasEdxl) {
 			$this->edxl = null;
-echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF!!!!!!!!!!!!!!!!!!!!!!!!!!!1\n\n";
 		}
 	}
 
@@ -734,6 +740,100 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 		$p->storeNotesInDatabase();
 	}
 
+	// Delete Functions ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Delete Functions ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Delete Functions ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	public function delete() {
+
+		// just to mysql-ready the data nodes...
+		$this->sync();
+
+		$this->deleteImages();
+		$this->deleteEdxl();
+		$this->deleteVoiceNote();
+		$this->deletePfif();
+
+		$q = "
+			DELETE FROM person_status
+			WHERE  p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete person 1 ((".$q."))"); }
+
+		$q = "
+			DELETE FROM person_details
+			WHERE  p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete person 2 ((".$q."))"); }
+
+		$q = "
+			DELETE FROM person_to_report
+			WHERE  p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete person 3 ((".$q."))"); }
+
+		$q = "
+			DELETE FROM person_uuid
+			WHERE  p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete person 4 ((".$q."))"); }
+	}
+
+
+	private function deletePfif() {
+
+		$q = "
+			DELETE FROM pfif_person
+			WHERE  p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete pfif 1 ((".$q."))"); }
+
+		$q = "
+			DELETE FROM pfif_note
+			WHERE  p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete pfif 2 ((".$q."))"); }
+
+		$q = "
+			UPDATE pfif_note
+			SET linked_person_record_id = NULL
+			WHERE linked_person_record_id = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete pfif 3 ((".$q."))"); }
+	}
+
+
+	private function deleteImages() {
+		foreach($this->images as $image) {
+			$image->delete();
+		}
+	}
+
+
+	private function deleteEdxl() {
+		if($this->edxl != null) {
+			$this->edxl->delete();
+		}
+	}
+
+
+	private function deleteVoiceNote() {
+		if($this->voice_note != null) {
+			$this->voice_note->delete();
+		}
+	}
+
+
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// save the person (subsequent save = update)
 	public function update() {
@@ -1244,7 +1344,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 			$result = $this->db->Execute($q);
 			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person check p_uuid collision ((".$q."))"); }
 
-			if((int)$result->fields['count(*)'] > 0 ) {
+			if(!$this->ignoreDupeUuid && (int)$result->fields['count(*)'] > 0 ) {
 				return (int)401;
 			}
 

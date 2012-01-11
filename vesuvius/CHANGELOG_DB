@@ -10,6 +10,7 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 
 ALTER TABLE  `incident` CHANGE  `private_group`  `private_group` INT( 11 ) NULL DEFAULT NULL ;
 ALTER TABLE  `incident` ADD FOREIGN KEY (`private_group`) REFERENCES  `sys_user_groups` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE ;
+ALTER TABLE  `edxl_co_photos` DROP FOREIGN KEY  `edxl_co_photos_ibfk_3` ;
 
 
 2012:0106 Leif

@@ -1,14 +1,15 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.1
+ * @version      2.2
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1207
+ * @lastModified 2012.0110
  */
+
 
 function shn_plus_default() {
 	shn_plus_reportlog();
@@ -24,7 +25,7 @@ function shn_plus_header2() {
 		echo "<li>"._t('People Reported')."</li>";
 		//echo "<li>"._t('PLUS_MENU|People Reported')."</li>";
 	} else {
-		echo "<li><a href=\"index.php?mod=plus&act=reportlog\">"._t('PLUS_MENU|People Reported')."</a></li>";
+		echo "<li><a href=\"index.php?mod=plus&act=reportlog\">"._t('People Reported')."</a></li>";
 	}
 
 	if($global['action'] == "rawLog") {

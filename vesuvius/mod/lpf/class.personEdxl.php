@@ -568,6 +568,42 @@ class personEdxl {
 	}
 
 
+	// Delete Function
+	public function delete() {
+
+		// just to mysql-ready the data nodes...
+		$this->sync();
+
+		$q = "
+			DELETE FROM edxl_co_photos
+			WHERE p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete edxl 1 ((".$q."))"); }
+
+		$q = "
+			DELETE FROM edxl_co_lpf
+			WHERE p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete edxl 2 ((".$q."))"); }
+
+		$q = "
+			DELETE FROM edxl_co_header
+			WHERE p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete edxl 3 ((".$q."))"); }
+
+		$q = "
+			DELETE FROM edxl_de_header
+			WHERE de_id = ".$this->sql_de_id.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete edxl 4 ((".$q."))"); }
+	}
+
+
 	// save the image tag
 	public function insert() {
 		$this->sync();
