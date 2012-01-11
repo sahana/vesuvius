@@ -56,14 +56,14 @@ body {
 
 		-ms-linear-gradient(
 		left,
-		rgba(255,255,255,0.12),
-		rgba(255,255,255,0.0) 20%)
+		rgba(255,255,255,0.18),
+		rgba(255,255,255,0.0) 18%)
 		,
 
 		-ms-linear-gradient(
 		right,
-		rgba(255,255,255,0.12),
-		rgba(255,255,255,0.0) 20%)
+		rgba(255,255,255,0.18),
+		rgba(255,255,255,0.0) 18%)
 		,
 
 		-ms-linear-gradient(
@@ -80,14 +80,14 @@ body {
 
 		-moz-linear-gradient(
 		left,
-		rgba(255,255,255,0.12),
-		rgba(255,255,255,0.0) 20%)
+		rgba(255,255,255,0.18),
+		rgba(255,255,255,0.0) 18%)
 		,
 
 		-moz-linear-gradient(
 		right,
-		rgba(255,255,255,0.12),
-		rgba(255,255,255,0.0) 20%)
+		rgba(255,255,255,0.18),
+		rgba(255,255,255,0.0) 18%)
 		,
 
 		-moz-linear-gradient(
@@ -103,14 +103,14 @@ body {
 
 		-webkit-linear-gradient(
 		left,
-		rgba(255,255,255,0.12),
-		rgba(255,255,255,0.0) 20%)
+		rgba(255,255,255,0.18),
+		rgba(255,255,255,0.0) 18%)
 		,
 
 		-webkit-linear-gradient(
 		right,
-		rgba(255,255,255,0.12),
-		rgba(255,255,255,0.0) 20%)
+		rgba(255,255,255,0.18),
+		rgba(255,255,255,0.0) 18%)
 		,
 
 		-webkit-linear-gradient(
