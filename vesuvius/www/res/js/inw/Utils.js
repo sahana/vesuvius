@@ -91,20 +91,20 @@ var Utils = {
 		//play the scroll
 		if ( !Globals.displayMode )
 			ScrollView.play();
-			
+
 		if ( $("#dt_notesTab > a").html() === "Info" )
 			Utils.showNotes();
 
 		$("#glass").hide();
 		$("#detailsPane").hide();
-		
+
 		$("#dt_noteDates, #noteDatesLabel, #dt_image > div, #dt_notes > *").remove();
 		$("#jsonNotes").val("");
-		
-		
+
+
 		if ($("#map_canvas").css("visibility") === "visible")
 			Utils.showMap();
-		
+
 		document.location.hash = document.location.hash.replace("_details", "");
 	},
 
@@ -124,21 +124,21 @@ var Utils = {
 		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 		var geocoder = Utils.codeAddress();
 	},
-	
+
 	loadNotes : function() {
 		var jsonNotes = $.parseJSON($("#jsonNotes").val()); // expecting [{"note_id":"asahi.com\/note.0000a5f9cddbaa47f2e4917bf931d78d.1","date":"2011-04-11 21:16:54","author":"?????? ????????","found":null,"status":"believed_alive","lastSeen":null,"text":"???????????? URL???????????"},{"note_id":...
-		
-		if ( !jsonNotes ) { 
-			$("#dt_notesTab").hide(); 
-			return; 
-		} 
+
+		if ( !jsonNotes ) {
+			$("#dt_notesTab").hide();
+			return;
+		}
 		else $("#dt_notesTab").show();
-		
+
 		var noteDates = $("<ul></ul>").attr("id", "dt_noteDates").css({"display" : "none", "max-height" : "400px"}),
 			   jsonLength = jsonNotes.length;
-		
+
 		$("#dt_noteDates").html(""); // blank out
-		
+
 		for ( var i = 0; i < jsonLength; i++) {
 			var link = 	$("<li></li>").attr({ "id" : "note_" + i })
 									  .append(
@@ -148,12 +148,12 @@ var Utils = {
 										);
 			noteDates.append(link);
 		}
-		
+
 		var label = $("<label></label>").attr("id", "noteDatesLabel").css({"text-align": "left", "float" : "left", "display": "none", "width" : "100px"}).html("Available Notes");
 
 		$("#dt_image").append(label).append("<div style='clear:both'></div>").append(noteDates);
 	},
-	
+
 	showNoteContent : function(noteNumber) {
 		var noteContent = $("#dt_notes"),
 			jsonNotes   = $.parseJSON($("#jsonNotes").val()),
@@ -166,11 +166,11 @@ var Utils = {
 													.css({"height": "100px",
 														  "font-size" : "1.2em",
 														  "width" : "355px"}),
-			
+
 			legend 		= $("<legend></legend>");
-			
-			
-			
+
+
+
 		noteContent.html("")
 				   //.append(legend.clone().html("Id")).append(noteid)
 				   .append(legend.clone().html("Author")).append(author)
@@ -178,13 +178,13 @@ var Utils = {
 				   .append(legend.clone().html("Found")).append(found)
 				   .append(legend.clone().html("Last Known Location")).append(lastSeen)
 				   .append(legend.clone().html("Text")).append(text);
-		
-		$("#dt_noteDates > li").css("background-color", "transparent");		
+
+		$("#dt_noteDates > li").css("background-color", "transparent");
 		$("#note_" + noteNumber).css("background-color", "#E0ECFF")
 		$("#dt_notes_label").html( $("#note_" + noteNumber + " > a").html() );
 
 	},
-	
+
 	showNotes : function() {
 		$("#detailInfo > div, #detailInfo > label").toggle();
 		if ( $("#dt_notesTab > a").html() === "Notes") {
@@ -279,12 +279,11 @@ var Utils = {
 		if ( lastUpdated != Globals.lastUpdated ) {
 			Globals.mostRecent = Globals.lastUpdated; // saving for later
 			Globals.lastUpdated = lastUpdated;
-			if ( Globals.displayMode )   
+			if ( Globals.displayMode )
 				$("#updateAlerts").fadeIn("slow");
 			else {
 				$("#updateAlerts2").fadeIn("slow");
 			}
-			//setTimeout(searchSubset2, 60000);
 			searchSubset(false);
 		}
 	},
@@ -309,14 +308,23 @@ var Utils = {
 	},
 
 	sortBy : function( el ) {
-		var order = document.getElementById("sortOrderIcon").src.indexOf("desc") > 0 ? "desc" : "asc";
+                // Set the default sort direction according to the selection (PL-259).
 		if ( el.value == "" ) {
 			Globals.sortedBy = "";
 			$("#sortOrderIcon").hide();
 		}
 		else {
-			Globals.sortedBy = el.value + " " + order;
-			$("#sortOrderIcon").show();
+                        if ( el.value == "full_name" || el.value == "years_old" ) {
+				Globals.sortedBy = el.value + " " + "asc";
+				$("#sortOrderIcon").attr("src", "res/img/asc.png")
+			        	.attr("title", "Ascending (click for descending)")
+			                .show();
+                        } else {
+				Globals.sortedBy = el.value + " " + "desc";
+				$("#sortOrderIcon").attr("src", "res/img/desc.png")
+			        	.attr("title", "Descending (click for ascending)")
+ 					.show();
+                        }
 		}
 
 		Globals.initDone = 1;
@@ -375,7 +383,7 @@ var Utils = {
 	isNumber : function(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	},
-	
+
 	addCommas : function (nStr) { // credit - http://www.mredkj.com/javascript/numberFormat.html
 		nStr += '';
 		x = nStr.split('.');
@@ -387,8 +395,8 @@ var Utils = {
 		}
 		return x1 + x2;
 	},
-	
-	clear : function () { 
+
+	clear : function () {
 		window.location.hash = "";
 		window.location.reload();
 	},
@@ -411,7 +419,7 @@ var Utils = {
 		  .show();
 
 		$("#helpInfo").html("<h3>Search Help</h3>"+
-                  "<ul>"+     
+                  "<ul>"+
                   "<li>Enter \"unknown\" to search records without names.</li>"+
                   "<li>Leave the box blank to browse all records.</li>"+
                   "<li>Use * as a wildcard (for example: \"Cath*\" will find \"Catherine\").</li>"+
@@ -419,11 +427,11 @@ var Utils = {
                   "</ul>"
                 );
 
-		
+
 		doc.location.hash += "_help";
-		Globals.pollerId = setInterval( 
-			function() { 
-				if ( doc.location.hash.indexOf("_help") === -1 ) { 
+		Globals.pollerId = setInterval(
+			function() {
+				if ( doc.location.hash.indexOf("_help") === -1 ) {
 					Utils.closeHelp()
 					clearInterval(Globals.pollerId);
 				}
@@ -436,10 +444,10 @@ var Utils = {
 		//play the scroll
 		if ( !Globals.displayMode )
 			ScrollView.play();
-			
+
 		$("#glass").hide();
 		$("#helpPane").hide();
-		
+
 		document.location.hash = document.location.hash.replace("_help", "");
-	},
+	}
 };

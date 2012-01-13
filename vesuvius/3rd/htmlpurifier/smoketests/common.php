@@ -1,6 +1,7 @@
 <?php
 
 header('Content-type: text/html; charset=UTF-8');
+
 /*
 if (!isset($_GET['standalone'])) {
     require_once '../library/HTMLPurifier.auto.php';

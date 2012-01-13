@@ -1,14 +1,15 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.0
+ * @version      2.2
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1007
+ * @lastModified 2012.0110
  */
+
 
 global $global;
 
@@ -23,38 +24,11 @@ require_once("../../inc/handler_db.inc");
 require_once("../../inc/lib_uuid.inc");
 require_once("../../inc/lib_image.inc");
 
-$expiryDate = "-1";
-$error = false;
-$ecode = 0;
-
-	$p = new person();
-	$p->p_uuid = "pl.nlm.nih.gov/person.4001018";
-	$p->updated_by_p_uuid = 1;
-	$p->load();
-	if($p->ecode == 9000) {
-		$ecode = 410; // if we had trouble loading this record, we'll just report that the person does not exist (most likely whats happening)
-		$error = true;
-	}
-
-	if(checkValidDateTime($expiryDate)) {
-		$ecode = 414;
-		$error = true;
-	}
-
-	if(!$error) {
-		$p->setExpiryDate($expiryDate);
-	} else {
-		$error = true;
-	}
-
-echo "\n\n".(string)$ecode."\n\n";
-
-/*
 $p = new person();
-$p->p_uuid = "pl.nlm.nih.gov/person.4000914";
+$p->p_uuid = "pl.nlm.nih.gov/person.4001384";
 $p->load();
-
-echo "\n\n".print_r(get_defined_vars(), true)."\n\n";
+//echo "\n\n".print_r(get_defined_vars(), true)."\n\n";
+echo "\n\n".print_r(var_dump($p->edxl), true)."\n\n";
 
 /*
 //$p->theString = file_get_contents('reference_REUNITE3.xml');

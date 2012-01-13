@@ -10,8 +10,13 @@
  * @lastModified 2011.0412
  */
 
-# Unique identifier for all resources contained in the system ~ must be unique and 4 or more alphanumberic characters
+# Unique identifier for all resources contained in the system
+# Must be unique and 4 or more alphanumberic characters
+# this also is used throughout Vesuvius as the base URL for the site
 $conf['base_uuid'] = "pl.nlm.nih.gov/";
+
+# server uses https or http ~ some modules use this plus the base_uuid to form url's
+$conf['https'] = "https://";
 
 # Use this theme directory
 $conf['theme'] = "vesuvius";
@@ -65,3 +70,5 @@ $conf['enable_solr_for_search'] = false;
 $conf["SOLR_root"] = "http://localhost/solr/";
 $conf["SOLR_port"] = 8983;
 
+# Audit email address
+$conf['audit_email'] = "audit@example.com";

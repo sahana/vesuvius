@@ -76,3 +76,5 @@ After login, it would be adviseable to go to My Settings and then Change My Pass
 to alter the default password and add a bit of security to your site.
 
 
+9) Make the cache folder for the htmlPurifier writable:
+chmod -R 777 3rd/htmlpurifier/library/HTMLPurifier/DefinitionCache

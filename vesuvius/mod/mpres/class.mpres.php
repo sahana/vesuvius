@@ -216,6 +216,7 @@ class mpres {
 					$this->person->author_name   = $this->currentFrom;
 					$this->person->author_email  = $this->currentFrom;
 					$this->person->xmlFormat     = "MPRES";
+					$this->person->arrival_vanilla_email = true;
 					$this->person->insert();
 					$this->mpresLog();
 					$this->messages .= "Unstructured email found and person <a href=\"https://".$this->person->p_uuid."\">".$this->person->p_uuid."</a> inserted.<br>";

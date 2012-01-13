@@ -59,6 +59,9 @@ class SearchDB
 
 			$SOLRquery,
 
+			$searchImage,
+			$searchUnknown,
+
 			$db,
 			$conf;
 
@@ -76,7 +79,21 @@ class SearchDB
 	 *///
 	public function SearchDB($searchMode, $incident, $searchTerm, $sStatus = "true;true;true;true;true;true", $sGender="true;true;true;true", $sAge="true;true;true", $sHospital="true;true;true", $sPageControls="0;-1;;true") {
 		$this->incident = $incident;
-		$toReplace = array(",", ".", "/", "\\", "?", "!", "@", "$", "%", "^", "&", "(", ")", "+", "#");
+                // Look for hidden search string for filtering on images (PL-261).
+                $this->searchImage = "";
+                if (strpos($searchTerm, "[image]") !== false) {
+  			$this->searchImage = "only";
+                } else if (strpos($searchTerm, "[-image]") !== false) {
+  			$this->searchImage = "none";
+		}
+                // Search string "unknown" means return records with no names (PL-225).
+                $this->searchUnknown = false;
+                if (strpos($searchTerm, "unknown") !== false) {
+  			$this->searchUnknown = true;
+                }
+                // Removed a number of symbols to allow power users to exploit SOLR syntax (PL-265).
+		$toReplace = array(",", ".", "/", "\\", "@", "$", "%", "^", "&", "#",
+      					"[image]", "[-image]", "unknown");
 		$this->searchTerm = strtolower(str_replace($toReplace, "", $searchTerm));
 
 		$this->setStatusFilters($sStatus);
@@ -88,12 +105,20 @@ class SearchDB
 		$this->numRowsFound = -1;
 		$this->searchMode = $searchMode;
 
+                if (strpos($this->sortBy, "full_name") !== false) {
+                	// Sort on last name first, first name last (PL-237).
+               		$this->sortBy = str_replace("full_name", "family_name", $this->sortBy) . ",given_name asc";
+                }
+                // Accommodate age ranges in sort (PL-260).
+ 		$this->sortBy = ($searchMode == "solr")?
+			str_replace("years_old",
+			"max(max(years_old,0),div(sum(max(minAge,0),max(maxAge,0)),2))", $this->sortBy) :
+		 	str_replace("years_old",
+			"greatest(coalesce(years_old,0), (coalesce(minAge,0)+coalesce(maxAge,0))/2)", $this->sortBy);
 		if ( $searchMode == "sql" ) {
 			// make sql mode sort by updated as default.
 			if ( $this->sortBy == "" )
 				$this->sortBy = "updated desc";
-
-			$this->sortBy = str_replace("+", " ", $this->sortBy);
 			$this->buildFromClause();
 			$this->buildWhereClause();
 			$this->buildMainQuery();
@@ -312,7 +337,7 @@ class SearchDB
         public function getLastUpdateSOLR() {
 		global $conf;
 		$solrQuery = $this->SOLRquery . "&sort=updated desc&rows=1";
-		$solrQuery = str_replace(" ", "%20", $solrQuery); 
+		$solrQuery = str_replace(" ", "%20", $solrQuery);
 
 		$ch = curl_init();
                 curl_setopt($ch, CURLOPT_URL, $solrQuery . "&wt=json");
@@ -329,7 +354,46 @@ class SearchDB
 
 
 	private function getLastUpdateSQL() {
-		/*global $conf;
+		global $conf;
+
+		$mysqli = new mysqli( $conf["db_host"], $conf["db_user"], $conf["db_pass"], $conf["db_name"], $conf["db_port"] );
+
+		$this->pageStart = 0;
+		$this->perPage = 1;
+
+		$proc = "CALL PLSearch('$this->searchTerm', '$this->statusString', '$this->genderString', '$this->ageString', '$this->hospitalString', '$this->incident', '$this->sortBy', $this->pageStart, $this->perPage)";
+		//echo $proc;
+		$res = $mysqli->multi_query( "$proc; SELECT @allCount;" );
+		if( $res ) {
+			$results = 0;
+			$c = 0;
+			do {
+				if ($result = $mysqli->store_result()) {
+					if ( $c == 0 ) {
+						while ($row = $result->fetch_assoc()) {
+							$this->lastUpdated = $row["updated"];
+						}
+					/*} elseif ( $c == 1 ) { // rows found
+						while( $row = $result->fetch_row() )
+							foreach( $row as $cell )
+								$this->numRowsFound = $cell;
+					} elseif ( $c == 2 ) { // total rows*/
+					}
+
+					$result->close();
+					if( $mysqli->more_results() ) $c += 1;
+				}
+			} while( $mysqli->more_results() && $mysqli->next_result() );
+		}
+		$mysqli->close();
+
+		$date = new DateTime($this->lastUpdated);
+		$this->lastUpdated = $date->format('m/d/y @ g:i:s A');
+	}
+
+/*
+	private function getLastUpdateSQL() {
+		global $conf;
 		$mysqli = new mysqli( $conf["db_host"], $conf["db_user"], $conf["db_pass"], $conf["db_name"], $conf["db_port"] ); // "archivestage.nlm.nih.gov", "mrodriguez", "xdr5XDR%", "pltest3" );
 		$query = 	"SELECT DATE_FORMAT(MAX(t.updated), '%m/%e/%y @ %l:%i:%s %p') as updated FROM (
 						SELECT
@@ -377,8 +441,9 @@ class SearchDB
 		}
 
 		$stmt->close();
-		$mysqli->close();*/
+		$mysqli->close();
 	}
+*/
 
 
 
@@ -394,7 +459,7 @@ class SearchDB
 		if ( $this->sortBy != "" )
 			$this->SOLRquery .= "&sort=" . $this->sortBy . ",score desc";
 
-		$this->SOLRquery = str_replace(" ", "%20", $this->SOLRquery); 
+		$this->SOLRquery = str_replace(" ", "%20", $this->SOLRquery);
 
         	$ch = curl_init();
         	curl_setopt($ch, CURLOPT_URL, $this->SOLRquery . "&wt=json"); // ensure the json version is called
@@ -443,12 +508,13 @@ class SearchDB
 		$this->SOLRqueryTime = $tempObject->responseHeader->QTime;
 
 		foreach ($tempObject->response->docs as $doc) {
-			$date = new DateTime($doc->updated);
+			//$date = new DateTime($doc->updated);
 			//date_sub($date, date_interval_create_from_date_string('4 hours'));
 
+                        // Don't camelcase full_name (PL-273).
 			$this->results[] = array('p_uuid' => $doc->p_uuid,
 				 'encodedUUID' => base64_encode($doc->p_uuid),
-				   'full_name' => isset($doc->full_name) ? htmlspecialchars( mb_convert_case($doc->full_name, MB_CASE_TITLE, "UTF-8")) : null,
+				   'full_name' => isset($doc->full_name) ? htmlspecialchars($doc->full_name) : null,
 				  'opt_status' => isset($doc->opt_status) ? $doc->opt_status : null,
 				    'imageUrl' => isset($doc->url_thumb) ? $doc->url_thumb : null,
 				  'imageWidth' => isset($doc->image_width) ? $doc->image_width : null,
@@ -470,7 +536,7 @@ class SearchDB
 	}
 
 	private function buildSOLRQuery() {
-                $this->searchTerm = $this->searchTerm == "" ? "*:*" : $this->searchTerm . "~";
+                $this->searchTerm = $this->searchTerm == "" ? "*:*" : $this->fuzzify($this->searchTerm);
                 $this->SOLRquery =
                     $this->SOLRroot . "select/?fl=*,score&qt=edismax&q=+" . trim(urlencode($this->searchTerm))
                                     . $this->SOLRfq;
@@ -527,15 +593,24 @@ class SearchDB
 		//incident shortname filter (always applied)
 		$this->SOLRfq .= ")&fq=shortname:(" . $this->incident . ")";
 
+		//only non-expired records (always applied) (PL-288)
+		$this->SOLRfq .= "&fq=-expiry_date:[* TO NOW]";
+
                 // NULL full_name filter if searching for "unknown"
-                if ($this->searchTerm === "unknown") {
-                        $this->searchTerm = "*:*";
+                if ($this->searchUnknown) {
 		   	$this->SOLRfq .= "&fq=-full_name:[* TO *]";
                 }
+
+                // Filter only records with or without images?
+                if ($this->searchImage === "only") {
+		   	$this->SOLRfq .= "&fq=url_thumb:[* TO *]";
+                } else if ($this->searchImage === "none") {
+		   	$this->SOLRfq .= "&fq=-url_thumb:[* TO *]";
+		}
 	}
 
 	private function getSOLRallCount() {
-		$tmpSOLRquery = $this->SOLRroot . "select/?q=*:*&fq=shortname:(" . $this->incident . ")";
+		$tmpSOLRquery = $this->SOLRroot . "select/?q=*:*&fq=shortname:(".$this->incident.")&fq=-expiry_date:[*%20TO%20NOW]";
 		$ch = curl_init();
         	curl_setopt($ch, CURLOPT_URL, $tmpSOLRquery . "&wt=json"); // ensure the json version is called
         	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -550,9 +625,10 @@ class SearchDB
 	}
 
 	private function getSOLRFacetCount() {
-		$solrQuery = $this->SOLRroot . "select/?qt=edismax&q=+" 
+		$solrQuery = $this->SOLRroot . "select/?qt=edismax&q=+"
 				 . trim(urlencode($this->searchTerm))
 		                 . "&fq=shortname:(" . $this->incident . ")"
+		                 . "&fq=-expiry_date:[*%20TO%20NOW]"
                                  . (strpos($this->SOLRfq, "-full_name")? "&fq=-full_name:[*%20TO%20*]" : '')
                                  . "&facet=true"
                                  . "&facet.query=ageGroup:youth&facet.query=ageGroup:adult&facet.query=ageGroup:unknown&facet.query=ageGroup:both"
@@ -572,6 +648,37 @@ class SearchDB
 		$this->SOLRfacetResults = $tempSOLRjson->facet_counts->facet_queries;
 		$this->cleanUpFacets();
 	}
+
+        // Insert fuzzy search operator after each search term (PL-264).
+   	private function fuzzify($searchTerm) {
+                $tempTerm = '';
+        	// Take care not to fuzzify boolean terms, or terms w/in double-quoted phrases.
+                // SOLR does the right thing if you fuzzify nonsensical stuff (e.g. single quoted term).
+		$tempArray = explode(" ", $searchTerm);
+                $inQuote = false;
+  		foreach ($tempArray as $token) {
+			if (strcasecmp($token, 'and') == 0
+				|| strcasecmp($token, 'or') == 0) {
+                    		$tempTerm .= $token . " ";
+                        } else {
+ 				if (!$inQuote) {
+					// Fixme: Right paren? Place ~ inside it.
+                			$tempTerm .= $token . "~ ";
+ 				} else {
+					$tempTerm .= $token . " ";
+				}
+                        }
+                         // Process quote flag.
+			if ($token[0] == '"' && substr($token, -1) != '"') {
+                                // First character (but not last character) is a quote.
+				$inQuote = true;
+ 			} else if (substr($token, -1) == '"') {
+                                // Last character is a quote.
+				$inQuote = false;
+			}
+                }
+  		return trim($tempTerm);
+        }
 }
 
 

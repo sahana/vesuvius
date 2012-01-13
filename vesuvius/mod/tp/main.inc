@@ -30,7 +30,11 @@ function shn_tp_default() {
 	} else if($_GET['page_id'] == "-52") {
 		shn_tp_download();
 
-	// release notes
+	// release notes 2012
+	} else if($_GET['page_id'] == "-53") {
+		shn_tp_page(-53);
+
+	// release notes 2011
 	} else if($_GET['page_id'] == "-51") {
 		shn_tp_page(-51);
 
@@ -115,14 +119,25 @@ function shn_tp_header2() {
 		";
 	}
 
-	// RELEASE NOTES PAGE
-	if(!isset($_GET['page_id']) || (isset($_GET['page_id']) && $_GET['page_id'] != "-51")) {
+	// RELEASE 2012 NOTES PAGE
+	if(!isset($_GET['page_id']) || (isset($_GET['page_id']) && $_GET['page_id'] != "-53")) {
 		echo "
-			<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=tp&act=default&page_id=-51\">Release Notes</a></li>
+			<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=tp&act=default&page_id=-53\">Release Notes 2012</a></li>
 		";
 	} else {
 		echo "
-			<li><b>Release Notes</b></li>
+			<li><b>Release Notes 2012</b></li>
+		";
+	}
+
+	// RELEASE 2011 NOTES PAGE
+	if(!isset($_GET['page_id']) || (isset($_GET['page_id']) && $_GET['page_id'] != "-51")) {
+		echo "
+			<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=tp&act=default&page_id=-51\">Release Notes 2011</a></li>
+		";
+	} else {
+		echo "
+			<li><b>Release Notes 2011</b></li>
 		";
 	}
 

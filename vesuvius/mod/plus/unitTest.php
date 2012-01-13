@@ -1,14 +1,15 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.0
+ * @version      2.2
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1007
+ * @lastModified 2012.0110
  */
+
 
 // INTERNAL PLUS TESTER //
 
@@ -19,10 +20,13 @@ $eventShortname = "test";
 $personXML = "";
 $xmlFormat = "TRIAGEPIC";
 $number = 2;
-$uuid = "3";
+$uuid = "8";
 $mcid = "0";
 $newMcid = "1";
 $expiryDate = "2036-11-11 11:11:11";
+$tokenStart = "1";
+$tokenEnd = "1";
+$stride = 2;
 
 // load nusoap client library
 require_once("../../3rd/nusoap/lib/nusoap.php");
@@ -44,6 +48,7 @@ if(!isset($_GET['api'])) {
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
 */
+
 	$sites = array(
 		"PL"      => "https://pl.nlm.nih.gov/?wsdl".$api,
 		"PLstage" => "https://plstage.nlm.nih.gov/?wsdl".$api,
@@ -54,8 +59,13 @@ if(!isset($_GET['api'])) {
 
 	// perform tests...
 	switch($_GET['api']) {
-		case '2.1':
+		case '2.2':
 			reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $user, $pass);
+		case '2.1':
+			getImageCountsAndTokens($user, $pass);
+			getImageList($tokenStart, $tokenEnd, $user, $pass);
+			getImageListBlock($tokenStart, $stride, $user, $pass);
+			getNullTokenList($tokenStart, $tokenEnd, $user, $pass);
 		case '2.0':
 			expirePerson($uuid, '', $user, $pass);
 			getPersonExpiryDate($uuid);
