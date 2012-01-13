@@ -20,7 +20,7 @@ msgstr ""
 #: ../www/theme/lpf3/header.php:62 ../www/theme/lpf3/header.php:78
 #: ../www/theme/vesuvius/header.php:59 ../www/theme/vesuvius/header.php:75
 msgid "People Locator"
-msgstr "**FRENCH** PEOPLE LOCATOR **FRENCH**"
+msgstr "**FRENCH** Les Gens Locator **FRENCH**"
 
 #: ../www/theme/lpf3/header.php:63 ../www/theme/vesuvius/header.php:60
 msgid "for the "
