@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1116
+ * @lastModified 2011.1207
  */
 
 global $api_version;
@@ -494,25 +494,6 @@ function shn_plus_registerAll($namespace) {
 	// Record Revision API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 	// Record Revision API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
-	shn_plus_registerOne($server, 'reReportPerson',
-		array(
-			'in' => array(
-				'uuid'           => 'xsd:string',
-				'personXML'      => 'xsd:string',
-				'eventShortname' => 'xsd:string',
-				'xmlFormat'      => 'xsd:string',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Re-report a person using XML which will replace an existing record."
-	);
-
 	shn_plus_registerOne($server, 'expirePerson',
 		array(
 			'in' => array(
@@ -632,6 +613,83 @@ function shn_plus_registerAll($namespace) {
 		$namespace,
 		"A simple lookup to determine if a record is still an original or has incurred revisions."
 	);
+
+	// Image Indexing API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+	// Image Indexing API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+
+	shn_plus_registerOne($server, 'getImageCountsAndTokens',
+		array(
+			'in' => array(
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'imageCount'     => 'xsd:integer',
+				'firstToken'     => 'xsd:integer',
+				'lastToken'      => 'xsd:integer',
+				'nullTokenCount' => 'xsd:integer',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Returns a count of the total number of images and the value of the latest brownie (image index value)."
+	);
+
+	shn_plus_registerOne($server, 'getImageList',
+		array(
+			'in' => array(
+				'tokenStart'     => 'xsd:integer',
+				'tokenEnd'       => 'xsd:integer',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'imageList'      => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Returns a list of the images and their associated properties, paginated by a start and end token (index value)."
+	);
+
+	shn_plus_registerOne($server, 'getImageListBlock',
+		array(
+			'in' => array(
+				'tokenStart'     => 'xsd:integer',
+				'stride'         => 'xsd:integer',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'imageList'      => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Returns a list of the images and their associated properties, in blocks of stride size beginning with a start token (index value)."
+	);
+
+	shn_plus_registerOne($server, 'getNullTokenList',
+		array(
+			'in' => array(
+				'tokenStart'     => 'xsd:integer',
+				'tokenEnd'       => 'xsd:integer',
+				'username'       => 'xsd:string',
+				'password'       => 'xsd:string'
+			),
+			'out' => array(
+				'nullTokenList'  => 'xsd:string',
+				'errorCode'      => 'xsd:integer',
+				'errorMessage'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Returns a list of the images that have been removed from the system (either deleted or expired)."
+	);
+
 }
 
 // GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
@@ -707,7 +765,7 @@ function getEventListUser($username, $password) {
 	if($status != 0) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
-			'eventList'    => null,
+			'eventList'    => (string)'',
 			'errorCode'    => (int)$status,
 			'errorMessage' => (string)$eCodes[$status]
 		);
@@ -867,22 +925,22 @@ function getHospitalData($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'name'          => null,
-			'shortname'     => null,
-			'street1'       => null,
-			'street2'       => null,
-			'city'          => null,
-			'county'        => null,
-			'state'         => null,
-			'country'       => null,
-			'zip'           => null,
-			'phone'         => null,
-			'fax'           => null,
-			'email'         => null,
-			'www'           => null,
-			'npi'           => null,
-			'latitude'      => null,
-			'longitude'     => null,
+			'name'          => (string)'',
+			'shortname'     => (string)'',
+			'street1'       => (string)'',
+			'street2'       => (string)'',
+			'city'          => (string)'',
+			'county'        => (string)'',
+			'state'         => (string)'',
+			'country'       => (string)'',
+			'zip'           => (string)'',
+			'phone'         => (string)'',
+			'fax'           => (string)'',
+			'email'         => (string)'',
+			'www'           => (string)'',
+			'npi'           => (string)'',
+			'latitude'      => (double)0.0,
+			'longitude'     => (double)0.0,
 			'errorCode'    => (int)100,
 			'errorMessage' => (string)$eCodes[100]
 		);
@@ -966,7 +1024,7 @@ function getHospitalLegalese($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'legalese'     => null,
+			'legalese'     => (string)'',
 			'errorCode'    => (int)100,
 			'errorMessage' => (string)$eCodes[100]
 		);
@@ -1003,7 +1061,7 @@ function getHospitalLegaleseAnon($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'legaleseAnon' => null,
+			'legaleseAnon' => (string)'',
 			'errorCode'    => (int)100,
 			'errorMessage' => (string)$eCodes[100]
 		);
@@ -1041,8 +1099,8 @@ function getHospitalLegaleseTimestamps($hospital_uuid) {
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		$data = array(
-			'legaleseTimestamp'    => null,
-			'legaleseAnonTimestamp'=> null,
+			'legaleseTimestamp'    => (string)'',
+			'legaleseAnonTimestamp'=> (string)'',
 			'errorCode'    => (int)100,
 			'errorMessage' => (string)$eCodes[100]
 		);
@@ -1889,94 +1947,6 @@ function createNoteUuidBatch($number, $username, $password) {
 // Record Revision API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
 
-// Re-report a person using XML which will update a current record.
-function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $username, $password) {
-
-	shn_plus_logAccess(__FUNCTION__);
-	global $global;
-	global $conf;
-	$error = false;
-	$ecode = null;
-
-	// not yet implemented ~ stub
-	$error = true;
-	$ecode = 9998;
-
-
-/*
-	// check auth, if fails, return w/ error code/message
-	$status = shn_plus_checkCredz($username, $password);
-	if($status != 0) {
-		$error = true;
-		$ecode = $status;
-	} else {
-		// check if the user is a member of a group that has access to the event in question
-		$q = "
-			SELECT *
-			FROM incident i, users u, sys_user_groups s, sys_user_to_group t
-			WHERE (i.private_group = s.group_id
-			AND s.group_id = t.group_id
-			AND t.p_uuid = u.p_uuid
-			AND u.user_name = '".mysql_real_escape_string($username)."'
-			AND i.shortname = '".mysql_real_escape_string($eventShortName)."')
-			OR (i.private_group is null
-			AND i.shortname = '".mysql_real_escape_string($eventShortName)."');
-		";
-		$result = $global['db']->Execute($q);
-		if($result == null || $result->EOF) {
-			$error = true;
-			$ecode = 300;
-		}
-
-		// figure out the p_uuid of the user who is reporting
-		if(!$error) {
-			$q = "
-				SELECT *
-				FROM users
-				WHERE user_name = '".$username."';
-			";
-			$result = $global['db']->Execute($q);
-			$rep_uuid = $result->fields['p_uuid'];
-		}
-
-		// no errors, we must have permission to report to this event for the given user
-
-		$a = null;
-
-		if(!$error) {
-			$p = new person();
-			$p->init();
-			$p->rep_uuid  = $rep_uuid;
-			$p->theString = $personXML;
-			$p->xmlFormat = $xmlFormat;
-			$p->setEvent($eventShortName);
-			$ecode = $p->parseXml();
-			if($ecode == 0) {
-				$p->insert();
-				$p->plusReportLog();
-			} else {
-				$error = true;
-			}
-		}
-	}
-*/
-
-	if($error) {
-		$eCodes = unserialize(ERRORCODES);
-		return array(
-			'errorCode'    => (int)$ecode,
-			'errorMessage' => (string)$eCodes[$ecode]
-		);
-	} else {
-		return array(
-			'errorCode'    => (int)0,
-			'errorMessage' => ''
-		);
-	}
-}
-
-
-
 // Owners, admins, and HSA can immediately expire a record, everyone else can submit an expiration request to a moderated queue.
 function expirePerson($uuid, $explanation, $username, $password) {
 
@@ -2349,154 +2319,343 @@ function hasRecordBeenRevised($uuid, $username, $password) {
 
 
 
+// Image Indexing API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// Image Indexing API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// Image Indexing API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// Image Indexing API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
+// Image Indexing API FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
 
+// Returns a count of the total number of images and the value of the latest brownie (image index value).
+function getImageCountsAndTokens($username, $password) {
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
 
-/*
+	$imageCount     = 0;
+	$firstToken     = 0;
+	$lastToken      = 0;
+	$nullTokenCount = 0;
 
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'imageCount'     => (int)0,
+			'firstToken'     => (int)0,
+			'lastToken'      => (int)0,
+			'nullTokenCount' => (int)0,
+			'errorCode'      => (int)$status,
+			'errorMessage'   => (string)$eCodes[$status]
+		);
 
+	// passed auth
+	} else {
 
+		// find the first token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id ASC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageCountAndTokens 1"); }
+		$firstToken = $result->fields["image_id"];
 
-	shn_plus_registerOne($server, 'reReportPerson',
-		array(
-			'in' => array(
-				'uuid'           => 'xsd:string',
-				'personXML'      => 'xsd:string',
-				'eventShortname' => 'xsd:string',
-				'xmlFormat'      => 'xsd:string',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Re-report a person using XML which will replace an existing record."
+		// find the last token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id DESC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageCountAndTokens 2"); }
+		$lastToken = $result->fields["image_id"];
+
+		// find the image count
+		$q = "
+			SELECT COUNT(*)
+			FROM image
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageCountAndTokens 3"); }
+		$imageCount = $result->fields["COUNT(*)"];
+
+		$nullTokenCount = $lastToken - $imageCount;
+	}
+
+	return array(
+		'imageCount'     => (int)$imageCount,
+		'firstToken'     => (int)$firstToken,
+		'lastToken'      => (int)$lastToken,
+		'nullTokenCount' => (int)$nullTokenCount,
+		'errorCode'      => (int)0,
+		'errorMessage'   => ''
 	);
+}
 
-	shn_plus_registerOne($server, 'expirePerson',
-		array(
-			'in' => array(
-				'uuid'           => 'xsd:string',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'queued'         => 'xsd:boolean',
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Owners, admins, and HSA can immediately expire a record, everyone else can submit an expiration request to a moderated queue."
+
+
+// Returns a list of the images and their associated properties, paginated by a start and end token (index value).
+function getImageList($tokenStart, $tokenEnd, $username, $password) {
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	global $conf;
+	$list = array();
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'imageList'    => (string)'',
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+
+	// passed auth
+	} else {
+
+		// find the first token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id ASC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 1"); }
+		$firstToken = $result->fields["image_id"];
+
+		// find the last token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id DESC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 2"); }
+		$lastToken = $result->fields["image_id"];
+
+		// check for user asking for out of range tokens...
+		if($tokenStart < $firstToken || $tokenEnd > $lastToken || $tokenStart > $lastToken || $tokenEnd < $firstToken || $tokenStart > $tokenEnd) {
+			$eCodes = unserialize(ERRORCODES);
+			return array(
+				'imageList'    => (string)'',
+				'errorCode'    => (int)411,
+				'errorMessage' => (string)$eCodes[411]
+			);
+		}
+
+		// get a list of all images in the range of the provided tokens
+		$q = "
+			SELECT *
+			FROM image i, person_uuid p
+			WHERE p.p_uuid = i.p_uuid
+			AND image_id >= '".mysql_real_escape_string($tokenStart)."'
+			AND image_id <= '".mysql_real_escape_string($tokenEnd)."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 3 ((".$q."))"); }
+		while (!$result == NULL && !$result->EOF) {
+			$list[] = array(
+				'person_uuid'   => $result->fields["p_uuid"],
+				'image_id'      => $result->fields["image_id"],
+				'expiry_date'   => $result->fields["expiry_date"],
+				'creation_time' => $result->fields["creation_time"],
+				'url'           => $conf['https'].$conf['base_uuid'].$result->fields["url"],
+				'url_thumb'     => $conf['https'].$conf['base_uuid'].$result->fields["url_thumb"]
+			);
+			$result->MoveNext();
+		}
+	}
+	return array(
+		'imageList'    => (string)json_encode($list),
+		'errorCode'    => (int)0,
+		'errorMessage' => ''
 	);
+}
 
-	shn_plus_registerOne($server, 'getPersonExpiryDate',
-		array(
-			'in' => array(
-				'uuid'           => 'xsd:string',
-			),
-			'out' => array(
-				'expiryDate'     => 'xsd:string',
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Get the datetime in UTC when a person record will expire."
+
+// Returns a list of the images and their associated properties, in blocks of stride size beginning with a start token (index value).
+function getImageListBlock($tokenStart, $stride, $username, $password) {
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	global $conf;
+	$list = array();
+
+	// check for valid stride value
+	if($stride < 1 || $stride > 1000000) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'imageList'    => (string)'',
+			'errorCode'    => (int)417,
+			'errorMessage' => (string)$eCodes[417]
+		);
+	}
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'imageList'    => (string)'',
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+	}
+
+	// passed auth
+
+	// find the first token
+	$q = "
+		SELECT *
+		FROM image
+		ORDER BY image_id ASC
+		LIMIT 1;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 1"); }
+	$firstToken = $result->fields["image_id"];
+
+	// find the last token
+	$q = "
+		SELECT *
+		FROM image
+		ORDER BY image_id DESC
+		LIMIT 1;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 2"); }
+	$lastToken = $result->fields["image_id"];
+
+	// check for user asking for out of range tokens...
+	if($tokenStart < $firstToken || $tokenStart > $lastToken) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'imageList'    => (string)'',
+			'errorCode'    => (int)411,
+			'errorMessage' => (string)$eCodes[411]
+		);
+	}
+
+	// get a list of all images in the range of the provided tokens
+	$q = "
+		SELECT *
+		FROM image i, person_uuid p
+		WHERE p.p_uuid = i.p_uuid
+		AND image_id >= '".mysql_real_escape_string($tokenStart)."'
+		LIMIT ".(int)$stride.";
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 3 ((".$q."))"); }
+	while (!$result == NULL && !$result->EOF) {
+		$list[] = array(
+			'person_uuid'   => $result->fields["p_uuid"],
+			'image_id'      => $result->fields["image_id"],
+			'expiry_date'   => $result->fields["expiry_date"],
+			'creation_time' => $result->fields["creation_time"],
+			'url'           => $conf['https'].$conf['base_uuid'].$result->fields["url"],
+			'url_thumb'     => $conf['https'].$conf['base_uuid'].$result->fields["url_thumb"]
+		);
+		$result->MoveNext();
+	}
+
+	return array(
+		'imageList'    => (string)json_encode($list),
+		'errorCode'    => (int)0,
+		'errorMessage' => ''
 	);
+}
 
-	shn_plus_registerOne($server, 'setPersonExpiryDate',
-		array(
-			'in' => array(
-				'uuid'           => 'xsd:string',
-				'expiryDate'     => 'xsd:string',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'queued'         => 'xsd:boolean',
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue."
+
+// Returns a list of the images that have been removed from the system (either deleted or expired).
+function getNullTokenList($tokenStart, $tokenEnd, $username, $password) {
+	shn_plus_logAccess(__FUNCTION__);
+	global $global;
+	$nullList = array();
+	$imageList = array();
+
+	// check auth, if fails, return w/ error code/message
+	$status = shn_plus_checkCredz($username, $password);
+	if($status != 0) {
+		$eCodes = unserialize(ERRORCODES);
+		return array(
+			'nullTokenList'    => (string)'',
+			'errorCode'    => (int)$status,
+			'errorMessage' => (string)$eCodes[$status]
+		);
+
+	// passed auth
+	} else {
+
+		// find the first token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id ASC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getNullTokenList 1"); }
+		$firstToken = $result->fields["image_id"];
+
+		// find the last token
+		$q = "
+			SELECT *
+			FROM image
+			ORDER BY image_id DESC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getNullTokenList 2"); }
+		$lastToken = $result->fields["image_id"];
+
+		// check for user asking for out of range tokens...
+		if($tokenStart < $firstToken || $tokenEnd > $lastToken) {
+			$eCodes = unserialize(ERRORCODES);
+			return array(
+				'nullTokenList'    => (string)'',
+				'errorCode'    => (int)411,
+				'errorMessage' => (string)$eCodes[411]
+			);
+		}
+
+		// fill the array with all the possible indexes from the range
+		for($i = (int)$tokenStart; $i <= (int)$tokenEnd; $i++) {
+			$nullList[] = $i;
+		}
+
+		// get a list of all images in the range of the provided tokens
+		$q = "
+			SELECT image_id
+			FROM image
+			WHERE image_id >= '".mysql_real_escape_string($tokenStart)."'
+			AND image_id <= '".mysql_real_escape_string($tokenEnd)."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getNullTokenList 3 ((".$q."))"); }
+		while (!$result == NULL && !$result->EOF) {
+			$imageList[] = (int)$result->fields["image_id"];
+			$result->MoveNext();
+		}
+
+		// now we extract the images that are present from the range we created ~ this leaves the null tokens
+		for($i = 0; $i < sizeof($imageList); $i++) {
+			$delKey = array_search($imageList[$i], $nullList);
+			array_splice($nullList, $delKey, 1);
+		}
+
+	}
+	return array(
+		'nullTokenList'    => (string)json_encode($nullList),
+		'errorCode'    => (int)0,
+		'errorMessage' => ''
 	);
-
-	shn_plus_registerOne($server, 'setPersonExpiryDateOneYear',
-		array(
-			'in' => array(
-				'uuid'           => 'xsd:string',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'queued'         => 'xsd:boolean',
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue. The expiry date in this case is updated to exactly one year from the time of the request."
-	);
-
-	shn_plus_registerOne($server, 'getUuidByMassCasualtyId',
-		array(
-			'in' => array(
-				'mcid'           => 'xsd:string',
-				'shortname'      => 'xsd:string',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'uuid'           => 'xsd:string',
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"A simple lookup of the internal uuid of a person based on their mass casualty id (if it exists)."
-	);
-
-	shn_plus_registerOne($server, 'changeMassCasualtyId',
-		array(
-			'in' => array(
-				'newMcid'        => 'xsd:string',
-				'uuid'           => 'xsd:string',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Updates the mass casualty id of a person based on their uuid."
-	);
-
-	shn_plus_registerOne($server, 'hasRecordBeenRevised',
-		array(
-			'in' => array(
-				'uuid'           => 'xsd:string',
-				'username'       => 'xsd:string',
-				'password'       => 'xsd:string'
-			),
-			'out' => array(
-				'revisionsMade'  => 'xsd:integer',
-				'errorCode'      => 'xsd:integer',
-				'errorMessage'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"A simple lookup to determine if a record is still an original or has incurred revisions."
-	);
-
-
-*/
-
+}
 
 

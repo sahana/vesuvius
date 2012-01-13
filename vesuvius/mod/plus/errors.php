@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.0
+ * @version      2.2
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1007
+ * @lastModified 2012.0110
  */
 
 
@@ -41,11 +41,13 @@ define("ERRORCODES", serialize(array(
 	407  => "No record associated with this mass casualty ID exists.",
 	408  => "Insufficient permission to revise this record.",
 	410  => "No record available with the given uuid.",
-	411  => "Invalid start or limit value.",
+	411  => "A provided token value is out of range.",
 	412  => "Invalid or future unix timestamp.",
 	413  => "Record has already expired.",
 	414  => "Invalid datetime value specified.",
 	415  => "This record has no EDXL component.",
+	416  => "Only records reported via web services can be revised by web services.",
+	417  => "Invalid stride size, must be an integer value between 1 and 1,000,000.",
 	9000 => "Database Error.",
 	9998 => "Function not yet implemented (stub).",
 	9999 => "Unknown error.",

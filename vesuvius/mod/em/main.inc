@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Event Manager
- * @version      1.4
+ * @version      16
  * @package      em
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1004
+ * @lastModified 2011.1205
  */
 
 
@@ -24,6 +24,7 @@ shn_xajax_registerFunction('em_show_message');
 shn_xajax_registerFunction('em_show_events');
 shn_xajax_registerFunction('em_perform_edit');
 shn_xajax_registerFunction('em_perform_delete');
+shn_xajax_registerFunction('em_perform_purge');
 shn_xajax_registerFunction('em_perform_insert');
 shn_xajax_registerFunction('em_perform_save');
 shn_xajax_registerFunction('em_perform_help');

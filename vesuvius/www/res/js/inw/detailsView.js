@@ -23,7 +23,6 @@ var DetailsView =
 		var tempDiv = $("<div></div>");
 		for ( var i = 0; i < Globals.resultSet.length; i++ ) {
 			var p = new Person();
-
 			if ( Globals.resultSet[i])
 				p.init(Globals.resultSet[i]);
 			else break;
@@ -32,7 +31,7 @@ var DetailsView =
 				var stub = DetailsView.createStub(p);
 				tempDiv.append(stub);
 		}
-		
+
 		scont.html("").append(tempDiv).append("<div style='clear:both'></div>").show();
 
 		if ( Globals.searchMode == "solr" )
@@ -55,36 +54,36 @@ var DetailsView =
 	},
 
 	createInfoTag : function(person) {
-		var statusTab = 
+		var statusTab =
 			$("<div></div>").css("background-color", "#" + person.tagColor)
 							.addClass("status")
 							.html(person.statusSahanaFull);
-		
+
 		var edxl_id = $("<div></div>").css("float", "right")
 									  .append("<div style='clear:both'></div>")
 									  .html(person.mass_casualty_id);
-		
+
 		statusTab.append(edxl_id);
-	
+
 		var name = $("<div></div>").addClass("stubName").html(person.name);
-		
+
 		var details = $("<ul></ul>").addClass("stubDetails");
 		var dataName = $("<span></span>").addClass("dataName");
 		var dataValue = $("<span></span>").addClass("dataValue");
-		
+
 		details.append($("<li></li>").append(dataName.clone().html("Age:")).append(dataValue.clone().html(person.displayAge)));
 		details.append($("<li></li>").append(dataName.clone().html("Gender:")).append(dataValue.clone().html(person.gender)));
 		details.append($("<li></li>").append(dataName.clone().html("Updated:")).append(dataValue.clone().html(person.statusSahanaUpdated + " UTC")));
-		
-		
-		var div = 
+
+
+		var div =
 			$("<div></div>")
 				.addClass("stubText")
 				/*.attr("id", person.uuid)*/
 				.append(name)
 				.append(statusTab)
 				.append(details);
-				
+
 		return div;
 	},
 
@@ -94,7 +93,7 @@ var DetailsView =
 		$("#pager2").html("").css({display: "block"});
 		$("#perPageWrapper").css({display: "block"});
 		$("#sortBy").css({display: "block"});
-		
+
 		if ( Globals.searchMode == "sql" ) {
 			if ( Globals.currPage == 1 && Globals.hasNextPage )
 				$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage + 1) + "; searchSubset(true)'><img src='res/img/inw_next.png' /> </a>");
@@ -104,19 +103,19 @@ var DetailsView =
 				if ( Globals.hasNextPage )
 					$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage + 1) + "; searchSubset(true)'><img src='res/img/inw_next.png' /></a>" );
 			}
-		} else { 
+		} else {
 			var lastPage = Globals.perPage == "All" ? 1 : Math.ceil(Globals.totalResults / Globals.perPage),
 				currPage = Globals.currPage, //local reference == faster.
 				firstLabel = currPage - 5 < 1 ? 1 : currPage - 5,
 				lastLabel;
-				
+
 			if ( currPage + 5 > lastPage )
 				lastLabel = lastPage;
 			else if ( lastPage < 11 )
 				lastLabel = lastPage;
 			else if ( currPage + 5 < 11 )
 				lastLabel = 11;
-			else 
+			else
 				lastLabel = currPage + 5;
 
 			$("#pager").append("Page - ");
@@ -131,7 +130,7 @@ var DetailsView =
 
 			if ( lastLabel != lastPage )
 				$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + lastLabel + "; searchSubset(true)'> ... </a>");
-				
+
 			$("#recordsFound").html(Utils.addCommas($("#recordsFound").html()));
 		}
                 $("#pager2").append($("#pager").clone().contents());

@@ -35,7 +35,6 @@ function shn_inw_default() {
 	global $global;
 	global $conf;
 	// iWall
-	error_reporting(E_ERROR);
 	require_once("languageStrings.php");
 	?>
 		<link rel="stylesheet" type="text/css" href="res/iWall.css" media="screen" />
@@ -54,13 +53,12 @@ function shn_inw_default() {
 			<input type="text" id="shortName" style="display:none" value="<?= $_REQUEST["shortname"] ?>" />
 			<input type="hidden" id="searchMode" value="<?= $conf["enable_solr_for_search"] ? "solr" : "sql" ?>" />
 			<div id="searchOptions" style="display:none;">
-				<div style="font-weight: bold; background-color: #6289B0; color: white; padding:2px">Display Options</div>
+				<div class="searchOptionsHeader">Display Options</div>
 				<div style="float:left;">
 					<!--input type="textbox" autocomplete="off" value="Enter a name..." id="searchBox"/-->
 					<div id="sortBy" style="float:right;margin-right: 4px;width:160px; text-align: right;">
-					<br />
 					<b>Sort By</b>
-						<img id="sortOrderIcon" style="width:10px; height:10px; display: none;" src="res/img/desc.png" title="Descending (click for ascending)" />
+						<img id="sortOrderIcon" style="width:10px; height:10px; <?= $conf["enable_solr_for_search"] ? "display: none" : "" ?>" src="res/img/desc.png" title="Descending (click for ascending)" />
 						<select id="selectSort" onchange="Utils.sortBy( this )">
 							<? if ( $conf["enable_solr_for_search"] ) { ?>
 								<option value="">Relevance</option>
@@ -96,7 +94,7 @@ function shn_inw_default() {
 					<br/>
 					<div id="filtersWrapper">
 						<div id="filtersBox" style="display: block;">
-							<div style="font-weight: bold; background-color: #6289B0; color: white; padding:2px;">Status</div>
+							<div class="searchOptionsHeader">Status</div>
 							<input type="checkbox" id="checkMissing" name="checkMissing" checked onclick="Utils.formSearch()" /><label for="checkMissing" id="missing" class="bold"><? echo MISSING; ?></label>
 							<br />
 							<input type="checkbox" id="checkAliveWell" name="checkAliveWell" checked onclick="Utils.formSearch()" /><label for="checkAliveWell" class="bold" id="alive"><? echo ALIVE_AND_WELL; ?></label>
@@ -111,7 +109,7 @@ function shn_inw_default() {
 							<br />
 							<br />
 							<div id="gender">
-								<div style=" font-weight: bold; background-color: #6289B0; color: white; padding:2px;"><? echo GENDER; ?> </div>
+								<div class="searchOptionsHeader"><? echo GENDER; ?> </div>
 								<input type="checkbox" id="checkSexMale"    checked onclick="Utils.formSearch()" /><label for="checkSexMale" id="male"><? echo MALE; ?></label><br />
 								<input type="checkbox" id="checkSexFemale"  checked onclick="Utils.formSearch()" /><label for="checkSexFemale" id="female"><? echo FEMALE; ?></label><br />
 								<input type="checkbox" id="checkSexComplex" checked onclick="Utils.formSearch()" /><label for="checkSexComplex" id="complex">Complex</label><br />
@@ -119,14 +117,13 @@ function shn_inw_default() {
 							</div>
 							<br />
 							<div id="age">
-								<div style=" font-weight: bold; background-color: #6289B0; color: white; padding:2px;"><? echo AGE; ?></div>
+								<div class="searchOptionsHeader"><? echo AGE; ?></div>
 								<input type="checkbox" id="checkAgeChild"   checked onclick="Utils.formSearch()" /><label for="checkAgeChild" id="child">Youth (0-17)</label><br />
 								<input type="checkbox" id="checkAgeYouth"   checked onclick="Utils.formSearch()" /><label for="checkAgeYouth" id="adult">Adult (18+)</label><br />
 								<input type="checkbox" id="checkAgeUnknown" checked onclick="Utils.formSearch()" /><label for="checkAgeUnknown" id="otherAge"><? echo UNKNOWN; ?></label><br />
 							</div>
-							<br />
 							<div id="hospital">
-								<div style=" font-weight: bold; background-color: #6289B0; color: white; padding:2px;">Source</div>
+								<div class="searchOptionsHeader">Source</div>
 								<input type="checkbox" id="checkSuburban"   checked onclick="Utils.formSearch()" /><label for="checkSuburban" id="suburban">Suburban Hospital</label><br />
 								<input type="checkbox" id="checkNNMC"   checked onclick="Utils.formSearch()" /><label for="checkNNMC" id="nnmc">Navy Medical Center</label><br />
 								<input type="checkbox" id="checkOtherHosp"   checked onclick="Utils.formSearch()" /><label for="checkOtherHospital" id="otherHospital">Public/Other</label><br />
@@ -134,11 +131,10 @@ function shn_inw_default() {
 						</div>
 					</div>
 					<!--a href="#"  id="filtersSwitch" onmouseover="this.style.cursor='pointer'" onclick="$('#filtersBox').toggle(); this.innerHTML = this.innerHTML == '+ More Options' ? '- Less Options' : '+ More Options'">+ More Options</a-->
-					<br /><br />
 				</div>
 			</div>
 			<form action="javascript:Utils.formSearch()" id="searchForm">
-				<input type="textbox" autocomplete="off" value="Enter a name..." id="searchBox" style="color: #CCC"/>
+				<input type="textbox" autocomplete="off" value="Enter a name..." id="searchBox" x-webkit-speech="" x-webkit-grammar="builtin:search"/>
 				<div id="searchButtonWrapper" style="float:left">
 					<input type="submit" value="Search" id="buttonSearch" class="styleTehButton"/>
 					<input type="button" value="Clear"  id="buttonClear" class="styleTehButton" onclick="Utils.clear()"/>

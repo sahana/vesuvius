@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.0
+ * @version      2.2
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1007
+ * @lastModified 2012.0110
  */
 
 
@@ -249,6 +249,58 @@ function shn_plus_getUserUuid($username) {
 		return false;
 	} else {
 		return $result->fields["p_uuid"];
+	}
+}
+
+
+
+
+/**
+* Finds out if a particulr uuid was reported via web services
+* @return boolean
+*/
+function shn_plus_wasRecordReportedViaPLUS($p_uuid) {
+
+	global $global;
+
+	$q = "
+		SELECT *
+		FROM plus_report_log
+		WHERE p_uuid = '".mysql_real_escape_string($p_uuid)."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus check was record reported via PLUS ((".$q."))"); }
+
+	if(($result == null) || ($result->EOF)) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
+
+
+
+/**
+* Checks if a person exists (has an entry in person_uuid)
+* @return boolean
+*/
+function shn_plus_doesPersonExist($uuid) {
+
+	global $global;
+
+	$q = "
+		SELECT count(*)
+		FROM person_uuid
+		WHERE p_uuid = '".mysql_real_escape_string($uuid)."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus check person exists ((".$q."))"); }
+
+	if((int)$result->fields["count(*)"] == 1) {
+		return true;
+	} else {
+		return false;
 	}
 }
 

@@ -114,7 +114,6 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 function shn_mainmenuopen($desc) {
 	echo "
 		<div id=\"menuwrap\">
-		<h2>Modules</h2>
 		<ul id=\"menu\">
 	";
 }

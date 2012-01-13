@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Event Manager
- * @version      1.4
+ * @version      16
  * @package      em
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1004
+ * @lastModified 2011.1205
  */
 
 global $global;
@@ -23,6 +23,7 @@ array_push($global['xajax_functions'],'em_show_message');
 array_push($global['xajax_functions'],'em_show_events');
 array_push($global['xajax_functions'],'em_perform_edit');
 array_push($global['xajax_functions'],'em_perform_delete');
+array_push($global['xajax_functions'],'em_perform_purge');
 array_push($global['xajax_functions'],'em_perform_insert');
 array_push($global['xajax_functions'],'em_perform_save');
 array_push($global['xajax_functions'],'em_perform_help');
@@ -51,6 +52,7 @@ function em_show_message($message = "no message specified?") {
 	$global['xajax_res']->addAssign('rezMain','innerHTML','<div class="loadingMessage"><center><blink>'.$message.'</blink></center></div>');
 	return $global['xajax_res']->getXML();
 }
+
 
 
 // reloads the mainArea div with information of what pages we have
@@ -748,10 +750,46 @@ function em_perform_save($page_id, $rj) {
 // delete a page
 function em_perform_delete($incident_id, $confirm) {
 	global $global;
+	global $conf;
 
 	if ($confirm == "true") {
 
-		//---- delete the incident from the db
+		// email audit...
+		$q = "
+			SELECT *
+			FROM `incident`
+			WHERE incident_id = '".$incident_id."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "delete event 2"); }
+		$row = $result->FetchRow();
+		$name = $row['name'];
+		$shortname = $row['shortname'];
+
+		$p = new pop();
+		$subject = "{ People Locator Event Manager Audit }";
+		$bodyHTML = "
+			<br>
+			<b>The event: ($incident_id) $name / $shortname has been deleted on PL.</b><br>
+			<br>
+			This is simply an audit email to keep the team aware of such changes.<br>
+			<br>
+			The event deletion was initiated by: <b>".$_SESSION['user']." | ".$_SESSION['full_name']."</b><br><br>
+		";
+		$bodyAlt = "
+			\n
+			The event: ($incident_id) $name / $shortname has been deleted on PL.\n
+			\n
+			This is simply an audit email to keep the team aware of such changes.\n
+			\n
+			The event deletion was initiated by: ".$_SESSION['user']." | ".$_SESSION['full_name']."\n\n
+		";
+		$p->sendMessage($conf['audit_email'], null, $subject, $bodyHTML, $bodyAlt);
+
+		// purge the incident of persons and related image data
+		$response = em_perform_purge_do($incident_id);
+
+		// delete the incident from the db
 		$q = "
 			DELETE from incident
 			WHERE incident_id = '".$incident_id."';
@@ -759,7 +797,8 @@ function em_perform_delete($incident_id, $confirm) {
 		$result = $global['db']->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "delete 1"); }
 
-		$global['xajax_res']->addAppend('rezLog', 'innerHTML', 'Event <b>#'.$incident_id.'</b> <span style="color: red;">Deleted</span>.<br>');
+		$global['xajax_res']->addAppend('rezLog', 'innerHTML', $response.'Event <b>#'.$incident_id.'</b> <span style="color: red;">Deleted</span>.<br>');
+
 	} else {
 		$global['xajax_res']->addAppend('rezLog', 'innerHTML', "Delete operation aborted.<br>");
 	}
@@ -778,11 +817,212 @@ function em_perform_delete($incident_id, $confirm) {
 	return $global['xajax_res']->getXML();
 }
 
+// delete a page
+function em_perform_purge($incident_id, $confirm) {
+	global $global;
+	global $conf;
+
+	if ($confirm == "true") {
+
+		// email audit...
+		$q = "
+			SELECT *
+			FROM `incident`
+			WHERE incident_id = '".$incident_id."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "delete event 2"); }
+		$row = $result->FetchRow();
+		$name = $row['name'];
+		$shortname = $row['shortname'];
+
+		$p = new pop();
+		$subject = "{ People Locator Event Manager Audit }";
+		$bodyHTML = "
+			<br>
+			<b>The event: ($incident_id) $name / $shortname has been purged on PL.</b><br>
+			<br>
+			This is simply an audit email to keep the team aware of such changes.<br>
+			<br>
+			The event purge was initiated by: <b>".$_SESSION['user']." | ".$_SESSION['full_name']."</b><br><br>
+		";
+		$bodyAlt = "
+			\n
+			The event: ($incident_id) $name / $shortname has been purged on PL.\n
+			\n
+			This is simply an audit email to keep the team aware of such changes.\n
+			\n
+			The event purge was initiated by: ".$_SESSION['user']." | ".$_SESSION['full_name']."\n\n
+		";
+		$p->sendMessage($conf['audit_email'], null, $subject, $bodyHTML, $bodyAlt);
+
+
+		// purge the incident of persons and related image data
+		$response = em_perform_purge_do($incident_id);
+
+		$global['xajax_res']->addAppend('rezLog', 'innerHTML', $response.'Event <b>#'.$incident_id.'</b> <span style="color: red;">Purged</span>.<br>');
+
+	} else {
+		$global['xajax_res']->addAppend('rezLog', 'innerHTML', "Purge operation aborted.<br>");
+	}
+
+	//---- update UI
+	$pageControlHtml = '
+		<input class="styleTehButton" type="button" onclick="javascript: em_append_log(\'Creating a new Event...<br>\'); em_perform_edit(0);" value="Create a new Disaster / Incident / Event">
+		&nbsp; &nbsp; &nbsp; &nbsp;
+		<input class="styleTehButton red" type="button" onclick="javascript: em_append_log(\'Opening Help...<br>\'); em_perform_help();" value="Help">
+	';
+	$global['xajax_res']->addAssign('rezControl','style.opacity','1.0');
+	$global['xajax_res']->addAssign('rezControl','innerHTML',$pageControlHtml);
+
+	$global['xajax_res']->addAssign('rezMain', 'innerHTML', em_show_events(TRUE));
+	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
+	return $global['xajax_res']->getXML();
+}
+
+function em_perform_purge_do($incident_id) {
+
+	global $global;
+	require_once($global['approot']."/inc/lib_uuid.inc");
+	require_once($global['approot']."/inc/lib_image.inc");
+	require_once($global['approot']."/inc/lib_locale/gettext.inc");
+
+	$log = "";
+	$webroot = $global['approot']."www/";
+	$delPersons = 0;
+	$delImages = 0;
+	$delVn = 0;
+
+	// Reset last_count for last export log  record. (Otherwise, the first
+	// 'last_count' new records won't get exported.)
+	$q = "UPDATE pfif_export_log pe, pfif_repository pr SET pe.last_count=0 WHERE " .
+       		"pr.incident_id=$incident_id " .
+       		"AND pe.repository_id = pr.id " .
+       		"AND pe.status = 'paused'";
+   	$st = $global['db']->Execute($q);
+	if($st === false) {
+		daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 0 ((".$q."))");
+		$errchk = $global['db']->ErrorMsg();
+		$log .= "Error updating last_count for export log for this incident: <b>".$errchk."</b><br>";
+	}
+
+	// Get all persons for this incident
+	$q = "
+		SELECT *
+		FROM person_uuid
+		WHERE incident_id = '".$incident_id."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 1");  return($log."error!<br>"); }
+
+	$people = array();
+	$count = 0;
+	while($row = $result->FetchRow()) {
+		$people[$count] = $row['p_uuid'];
+		$count++;
+	}
+
+	foreach($people as $p_uuid) {
+
+		// Delete any associated images...
+		$q = "
+			SELECT *
+			FROM image WHERE p_uuid = '".$p_uuid."';
+		";
+		$image_result = $global['db']->Execute($q);
+
+		if($image_result === false) {
+			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 2 ((".$q."))");
+			$errchk = $global['db']->ErrorMsg();
+			$log .= "Error getting image for this person (".$p_uuid."): <b>".$errchk."</b><br>";
+			return($log);
+
+		} elseif(count($image_result) > 0) {
+
+			while($row = $image_result->FetchRow()) {
+
+				// There is an image so delete it and its thumbnail
+				$file = $webroot.$row['url'];
+				$thumb = $webroot.$row['url_thumb'];
+
+				if(!unlink($file)) {
+					$log .= "Unable to delete <b>".$file."</b><br>";
+				} else {
+					$delImages++;
+					$original = str_replace("full.jpg", "original", $file);
+					unlink($original);
+				}
+				if($thumb != $file) {
+					if(!unlink($thumb)) {
+						$log .= "Unable to delete <b>".$thumb."</b><br>";
+					}
+				}
+			}
+		}
+
+		// Delete any associated voice notes...
+		$q = "
+			SELECT *
+			FROM voice_note WHERE p_uuid = '".$p_uuid."';
+		";
+		$result = $global['db']->Execute($q);
+
+		if($result === false) {
+			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 4 ((".$q."))");
+			$errchk = $global['db']->ErrorMsg();
+			$log .= "Error getting voice note for this person (".$p_uuid."): <b>".$errchk."</b><br>";
+			return($log);
+
+		} elseif(count($result) > 0) {
+
+			while($row = $result->FetchRow()) {
+
+				// There is a voice note so delete it nd the resampleds
+				$original = $webroot.$row['url_original'];
+				$mp3      = $webroot.$row['url_resampled_mp3'];
+				$ogg      = $webroot.$row['url_resampled_ogg'];
+
+				if(!unlink($original)) {
+					$log .= "Unable to delete <b>".$file."</b><br>";
+				} else {
+					unlink($mp3);
+					unlink($ogg);
+					$delVn++;
+				}
+			}
+		}
+
+		// Delete the person in question and all dependent data (such as reporter)
+		$q = "
+			CALL delete_reported_person('$p_uuid', 1);
+		";
+		$st = $global['db']->Execute($q);
+		if($st === false) {
+			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 3 ((".$q."))");
+			$errchk = $global['db']->ErrorMsg();
+			$log .= "Error calling delete_person for this incident: <b>".$errchk."</b><br>";
+		} else {
+			$delPersons++;
+			//$log .= "Deleted <b>".$p_uuid."</b><br>";
+		}
+	}
+	$log .= "<b>".$delPersons." person(s)</b>, <b>".$delImages." images</b>, and <b>".$delVn." voice notes</b> deleted.<br>";
+
+        // Have SOLR do a full update of indexes.
+	$handle = fopen("http://pl:8983/solr/dataimport?command=full-import", "r");
+	if(!$handle) {
+		$log .= "Error doing full reload of indexes after purge.<br>";
+	}
+
+	return($log);
+}
+
 
 
 // create a new page with default content and return its new page_id
 function em_perform_new() {
 	global $global;
+	global $conf;
 
 	$group = $_SESSION['group_id'];
 
@@ -821,6 +1061,27 @@ function em_perform_new() {
 	";
 	$result = $global['db']->Execute($q);
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 7"); }
+
+	// email audit...
+	$p = new pop();
+	$subject = "{ People Locator Event Manager Audit }";
+	$bodyHTML = "
+		<br>
+		<b>A new event has been instantiated on PL.</b><br>
+		<br>
+		This is simply an audit email to keep the team aware of such changes.<br>
+		<br>
+		The event creation was initiated by: <b>".$_SESSION['user']." | ".$_SESSION['full_name']."</b><br><br>
+	";
+	$bodyAlt = "
+		\n
+		A new event has been instantiated on PL.\n\n
+		\n
+		This is simply an audit email to keep the team aware of such changes.\n
+		\n
+		The event creation was initiated by: ".$_SESSION['user']." | ".$_SESSION['full_name']."\n\n
+	";
+	$p->sendMessage($conf['audit_email'], null, $subject, $bodyHTML, $bodyAlt);
 
 	return $newId;
 }
@@ -999,7 +1260,7 @@ function em_perform_edit($incident_id) {
 		$pfif = "
 			PF repository: <input type=\"text\" id=\"pfifUrl\" name=\"pfifUrl\" size=\"48\" value=\"".htmlspecialchars($rowpfif['base_url'])."\">
                         &nbsp;&nbsp;Keep PL and PF synchronized? <input type=\"checkbox\" id=\"pfifSync\" name=\"pfifSync\" value=\"1\" ".$checkedSync."><br>
-                        (e.g. https://turkey-2011.googlepersonfinder.appspot.com)
+                        (e.g. https://www.google.org/personfinder/sendong)
 		";
         // end PFIF options
 
@@ -1136,7 +1397,7 @@ function em_perform_edit($incident_id) {
 		<input class="styleTehButton" type="button" onclick="javascript: em_append_log(\'Canceling Changes...<br>\'); setTimeout(\'em_show_events();\', 250);" value="Cancel Editing and Close">
 	';
 
-	// if Admin... show delete button
+	// if Admin... show delete/purge buttons
 	if($_SESSION['group_id'] == "1") {
 		if($hasChildren) {
 			$disabled = "DISABLED style=\"opacity: 0.2;\"";
@@ -1146,6 +1407,10 @@ function em_perform_edit($incident_id) {
 		$editControlHtml .= '
 			&nbsp; &nbsp; &nbsp; &nbsp;
 			<input class="styleTehButton red" type="button" onclick="javascript: em_delete('.$incident_id.');" value="Delete Event" '.$disabled.' >
+		';
+		$editControlHtml .= '
+			&nbsp; &nbsp;
+			<input class="styleTehButton red" type="button" onclick="javascript: em_purge('.$incident_id.');" value="Purge Event" '.$disabled.' >
 		';
 	}
 
