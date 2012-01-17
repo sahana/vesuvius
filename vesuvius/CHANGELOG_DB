@@ -1,14 +1,23 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
-=======
 
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
 
-2012:0106 Leif
 
-ALTER TABLE `person_status` ADD `last_updated_db` DATETIME NULL COMMENT 'Last DB update. (For SOLR indexing.)',
-ADD INDEX ( `last_updated_db` ) 
+2012:0109 Greg
+--------------
+
+ALTER TABLE  `incident` CHANGE  `private_group`  `private_group` INT( 11 ) NULL DEFAULT NULL ;
+ALTER TABLE  `incident` ADD FOREIGN KEY (`private_group`) REFERENCES  `sys_user_groups` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE ;
+ALTER TABLE  `edxl_co_photos` DROP FOREIGN KEY  `edxl_co_photos_ibfk_3` ;
+
+
+2012:0106 Leif
+--------------
+ALTER TABLE  `person_status` ADD  `last_updated_db` DATETIME NULL DEFAULT NULL COMMENT 'Last DB update. (For SOLR indexing.)',
+ADD INDEX ( `last_updated_db` )
+
 
 2012:0104 Greg
 --------------
@@ -41,41 +50,6 @@ ALTER TABLE  `person_updates` DROP FOREIGN KEY  `person_updates_ibfk_3` ;
 ALTER TABLE  `person_updates` DROP FOREIGN KEY  `person_updates_ibfk_4` ;
 
 ALTER TABLE  `rap_log` DROP FOREIGN KEY  `rap_log_ibfk_2` ;
-
-
-2012:0104 Leif
---------------
-
-DROP VIEW IF EXISTS `person_search`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `person_search` AS select `pu`.`p_uuid` AS `p_uuid`,
-`pu`.`full_name` AS `full_name`,
-`pu`.`given_name` AS `given_name`,
-`pu`.`family_name` AS `family_name`,
-`pu`.`expiry_date` AS `expiry_date`,
-`ps`.`last_updated` AS `updated`,
-`ps`.`last_updated_db` AS `updated_db`,
-(case when ((`ps`.`opt_status` not in (_utf8'ali',_utf8'mis',_utf8'inj',_utf8'dec',_utf8'unk',_utf8'fnd')) or isnull(`ps`.`opt_status`)) then _utf8'unk' else `ps`.`opt_status` end) AS `opt_status`,
-(case when ((`pd`.`opt_gender` not in (_utf8'mal',_utf8'fml')) or isnull(`pd`.`opt_gender`)) then _utf8'unk' else `pd`.`opt_gender` end) AS `opt_gender`,
-(case when isnull(cast(`pd`.`years_old` as unsigned)) then -(1) else `pd`.`years_old` end) AS `years_old`,
-(case when isnull(cast(`pd`.`minAge` as unsigned)) then -(1) else `pd`.`minAge` end) AS `minAge`,
-(case when isnull(cast(`pd`.`maxAge` as unsigned)) then -(1) else `pd`.`maxAge` end) AS `maxAge`,
-(case when (cast(`pd`.`years_old` as unsigned) is not null) then (case when (`pd`.`years_old` < 18) then _utf8'youth' when (`pd`.`years_old` >= 18) then _utf8'adult' end) when ((cast(`pd`.`minAge` as unsigned) is not null) and (cast(`pd`.`maxAge` as unsigned) is not null) and (`pd`.`minAge` < 18) and (`pd`.`maxAge` >= 18)) then _utf8'both' when ((cast(`pd`.`minAge` as unsigned) is not null) and (`pd`.`minAge` >= 18)) then _utf8'adult' when ((cast(`pd`.`maxAge` as unsigned) is not null) and (`pd`.`maxAge` < 18)) then _utf8'youth' else _utf8'unknown' end) AS `ageGroup`,
-`i`.`image_height` AS `image_height`,
-`i`.`image_width` AS `image_width`,
-`i`.`url_thumb` AS `url_thumb`,
-(case when (`h`.`hospital_uuid` = -(1)) then NULL else `h`.`icon_url` end) AS `icon_url`,
-`inc`.`shortname` AS `shortname`,
-(case when ((`pu`.`hospital_uuid` not in (1,2,3)) or isnull(`pu`.`hospital_uuid`)) then _utf8'public' else lcase(`h`.`short_name`) end) AS `hospital`,
-`pd`.`other_comments` AS `comments`,
-`pd`.`last_seen` AS `last_seen`,
-`ecl`.`person_id` AS `mass_casualty_id` from ((((((`person_uuid` `pu` join `person_status` `ps` on(`pu`.`p_uuid` = `ps`.`p_uuid`)) left join `image` `i` on(`pu`.`p_uuid` = `i`.`p_uuid`)) join `person_details` `pd` on(`pu`.`p_uuid` = `pd`.`p_uuid`)) join `incident` `inc` on(`inc`.`incident_id` = `pu`.`incident_id`)) left join `hospital` `h` on(`h`.`hospital_uuid` = `pu`.`hospital_uuid`)) left join `edxl_co_lpf` `ecl` on(`ecl`.`p_uuid` = `pu`.`p_uuid`))
-
-Here is the original view if needed:
-
-DROP VIEW IF EXISTS `person_search`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `person_search` AS select `pu`.`p_uuid` AS `p_uuid`,lcase(`pu`.`full_name`) AS `full_name`,`pu`.`given_name` AS `given_name`,`pu`.`family_name` AS `family_name`,(case when ((`ps`.`opt_status` not in (_utf8'ali',_utf8'mis',_utf8'inj',_utf8'dec',_utf8'unk',_utf8'fnd')) or isnull(`ps`.`opt_status`)) then _utf8'unk' else `ps`.`opt_status` end) AS `opt_status`,(case when (`ps`.`last_updated` < `upd`.`update_time`) then `upd`.`update_time` else `ps`.`last_updated` end) AS `updated`,(case when ((`pd`.`opt_gender` not in (_utf8'mal',_utf8'fml')) or isnull(`pd`.`opt_gender`)) then _utf8'unk' else `pd`.`opt_gender` end) AS `opt_gender`,(case when isnull(cast(`pd`.`years_old` as unsigned)) then -(1) else `pd`.`years_old` end) AS `years_old`,(case when isnull(cast(`pd`.`minAge` as unsigned)) then -(1) else `pd`.`minAge` end) AS `minAge`,(case when isnull(cast(`pd`.`maxAge` as unsigned)) then -(1) else `pd`.`maxAge` end) AS `maxAge`,(case when (cast(`pd`.`years_old` as unsigned) is not null) then (case when (`pd`.`years_old` < 18) then _utf8'youth' when (`pd`.`years_old` >= 18) then _utf8'adult' end) when ((cast(`pd`.`minAge` as unsigned) is not null) and (cast(`pd`.`maxAge` as unsigned) is not null) and (`pd`.`minAge` < 18) and (`pd`.`maxAge` >= 18)) then _utf8'both' when ((cast(`pd`.`minAge` as unsigned) is not null) and (`pd`.`minAge` >= 18)) then _utf8'adult' when ((cast(`pd`.`maxAge` as unsigned) is not null) and (`pd`.`maxAge` < 18)) then _utf8'youth' else _utf8'unknown' end) AS `ageGroup`,`i`.`image_height` AS `image_height`,`i`.`image_width` AS `image_width`,`i`.`url_thumb` AS `url_thumb`,(case when (`h`.`hospital_uuid` = -(1)) then NULL else `h`.`icon_url` end) AS `icon_url`,`inc`.`shortname` AS `shortname`,(case when ((`pu`.`hospital_uuid` not in (1,2,3)) or isnull(`pu`.`hospital_uuid`)) then _utf8'public' else lcase(`h`.`short_name`) end) AS `hospital`,`pd`.`other_comments` AS `comments`,`pd`.`last_seen` AS `last_seen`,`ecl`.`person_id` AS `mass_casualty_id` from (((((((`person_uuid` `pu` join `person_status` `ps` on(((`pu`.`p_uuid` = `ps`.`p_uuid`) and ((`pu`.`expiry_date` > now()) or isnull(`pu`.`expiry_date`))))) left join `image` `i` on((`pu`.`p_uuid` = `i`.`p_uuid`))) join `person_details` `pd` on((`pu`.`p_uuid` = `pd`.`p_uuid`))) join `incident` `inc` on((`inc`.`incident_id` = `pu`.`incident_id`))) left join `hospital` `h` on((`h`.`hospital_uuid` = `pu`.`hospital_uuid`))) left join `person_updates` `upd` on((`upd`.`p_uuid` = `pu`.`p_uuid`))) left join `edxl_co_lpf` `ecl` on((`ecl`.`p_uuid` = `pu`.`p_uuid`)))
 
 
 2011:1228 Greg

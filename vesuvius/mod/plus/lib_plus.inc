@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.1
+ * @version      2.2
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1207
+ * @lastModified 2012.0110
  */
 
 
@@ -290,17 +290,17 @@ function shn_plus_doesPersonExist($uuid) {
 	global $global;
 
 	$q = "
-		SELECT *
+		SELECT count(*)
 		FROM person_uuid
-		WHERE p_uuid = '".mysql_real_escape_string($p_uuid)."';
+		WHERE p_uuid = '".mysql_real_escape_string($uuid)."';
 	";
 	$result = $global['db']->Execute($q);
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus check person exists ((".$q."))"); }
 
-	if(($result == null) || ($result->EOF)) {
-		return false;
-	} else {
+	if((int)$result->fields["count(*)"] == 1) {
 		return true;
+	} else {
+		return false;
 	}
 }
 

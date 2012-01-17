@@ -985,8 +985,8 @@ function em_perform_purge_do($incident_id) {
 				if(!unlink($original)) {
 					$log .= "Unable to delete <b>".$file."</b><br>";
 				} else {
-					!unlink($mp3);
-					!unlink($ogg);
+					unlink($mp3);
+					unlink($ogg);
 					$delVn++;
 				}
 			}

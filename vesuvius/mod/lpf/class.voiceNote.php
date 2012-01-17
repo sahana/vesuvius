@@ -4,7 +4,7 @@
 ********************************************************************************************************************************************************************
 *
 * @class        voiceNote
-* @version      10
+* @version      11
 * @author       Greg Miernicki <g@miernicki.com>
 * @note         Usage of this class **REQUIRES** that ffmpeg is installed on the system.
 *
@@ -53,6 +53,7 @@ class voiceNote {
 
 	// Constructor
 	public function __construct() {
+
 		// init db
 		global $global;
 		$this->db = $global['db'];
@@ -98,6 +99,7 @@ class voiceNote {
 
 	// Destructor
 	public function __destruct() {
+
 		$this->voice_note_id     = null;
 		$this->p_uuid            = null;
 		$this->length            = null;
@@ -190,8 +192,28 @@ class voiceNote {
 	}
 
 
+	// Delete function
+	public function delete() {
+
+		// just to mysql-ready the data nodes...
+		$this->sync();
+
+		// remove from filesystem this image
+		$this->unwrite();
+
+		// delete from db
+		$q = "
+			DELETE FROM voice_note
+			WHERE voice_note_id = ".$this->sql_voice_note_id.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person voice note delete 1 ((".$q."))"); }
+	}
+
+
 	// synchronize SQL value strings with public attributes
 	private function sync() {
+
 		global $global;
 
 		// build SQL value strings
@@ -214,7 +236,29 @@ class voiceNote {
 	}
 
 
+	private function unwrite() {
+
+		global $global;
+
+		$webroot  = $global['approot']."www/";
+		$original = $webroot.$this->url_original;
+		$mp3      = $webroot.$this->url_resampled_mp3;
+		$ogg      = $webroot.$this->url_resampled_ogg;
+
+		if(!unlink($original)) {
+			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "unable to delete file", "person voicenote unwrite 1 ((".$original."))");
+		}
+		if(!unlink($mp3)) {
+			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "unable to delete file", "person voicenote unwrite 2 ((".$mp3."))");
+		}
+		if(!unlink($ogg)) {
+			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "unable to delete file", "person voicenote unwrite 3 ((".$ogg."))");
+		}
+	}
+
+
 	private function write() {
+
 		global $global;
 
 		// base64 to hex

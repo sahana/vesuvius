@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1227
+ * @lastModified 2012.0110
  */
 
 global $api_version;
@@ -1973,10 +1973,7 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 	$error = false;
 	$ecode = null;
 
-	// not yet implemented ~ stub
-	$error = true;
-	$ecode = 9998;
-/*
+
 	// check auth, if fails, return w/ error code/message
 	$status = shn_plus_checkCredz($username, $password);
 	if($status != 0) {
@@ -1991,9 +1988,9 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 			AND s.group_id = t.group_id
 			AND t.p_uuid = u.p_uuid
 			AND u.user_name = '".mysql_real_escape_string($username)."'
-			AND i.shortname = '".mysql_real_escape_string($eventShortName)."')
+			AND i.shortname = '".mysql_real_escape_string($eventShortname)."')
 			OR (i.private_group is null
-			AND i.shortname = '".mysql_real_escape_string($eventShortName)."');
+			AND i.shortname = '".mysql_real_escape_string($eventShortname)."');
 		";
 		$result = $global['db']->Execute($q);
 		if($result == null || $result->EOF) {
@@ -2013,7 +2010,7 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 		}
 
 		// check if the record exists
-		if(!shn_plus_doesPersonExist($uuid)) {
+		if(!$error && !shn_plus_doesPersonExist($uuid)) {
 			$error = true;
 			$ecode = 410;
 		}
@@ -2034,11 +2031,12 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 
 		if(!$error) {
 			$p = new person();
-			$p->init();
+			$p->p_uuid    = $uuid;
 			$p->rep_uuid  = $rep_uuid;
 			$p->theString = $personXML;
 			$p->xmlFormat = $xmlFormat;
 			$p->setEvent($eventShortName);
+			$p->ignoreDupeUuid = true;
 			$ecode = $p->parseXml();
 
 			if($ecode == 0) {
@@ -2046,17 +2044,19 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 				// we made it this far, so delete the old person record
 				$personOld = new person();
 				$personOld->p_uuid = $uuid;
+				$personOld->load();
 				$personOld->delete();
 
 				// and then re-insert the new record (this is a hack until we re-parse and revise on the fly)
 				$p->insert();
 				$p->plusReportLog();
+
 			} else {
 				$error = true;
 			}
 		}
 	}
-*/
+
 	if($error) {
 		$eCodes = unserialize(ERRORCODES);
 		return array(
