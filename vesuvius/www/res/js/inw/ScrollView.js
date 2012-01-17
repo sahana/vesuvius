@@ -149,7 +149,7 @@ var ScrollView = {
 			while ( Globals.resultSet[i] ) {
 				p = new Person();
 				p.init( Globals.resultSet[i] );
-				
+
 				// if status is changed, delete from Globals.personListOld and Q so it gets readded.
 				if (Globals.personListOld[ p.uuid ]
 					&& ( Globals.mostRecent && Date.parse(p.statusSahanaUpdated.replace('@','')) > Date.parse(Globals.mostRecent.replace('@','')) )) {
@@ -475,7 +475,7 @@ var ScrollView = {
 		$("body").css({backgroundColor : "#6289C0" });
 		$("#exitFullScreenIpad").hide();
 		Globals.initDone = 1;
-		
+
 		// reset to old values
 		Globals.maxRows = Math.ceil(($(window).height()-210)/300) > 4 ? 4 : Math.ceil(($(window).height()-210)/300);
 		Globals.imageHeight = Math.floor(($(window).height() - Globals.headerHeight - Globals.footerHeight - (2*(Globals.rowPadding+Globals.imageBorder))) / Globals.maxRows);

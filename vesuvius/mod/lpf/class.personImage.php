@@ -4,7 +4,7 @@
 ********************************************************************************************************************************************************************
 *
 * @class        personImage
-* @version      10
+* @version      12
 * @author       Greg Miernicki <g@miernicki.com>
 *
 ********************************************************************************************************************************************************************
@@ -227,6 +227,35 @@ class personImage {
 	}
 
 
+	// Delete function
+	public function delete() {
+
+		// just to mysql-ready the data nodes...
+		$this->sync();
+
+		// delete all associated tags
+		$this->deleteImageTags();
+
+		// remove from filesystem this image
+		$this->unwrite();
+
+		// delete from db
+		$q = "
+			DELETE FROM image
+			WHERE image_id = ".$this->sql_image_id.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person image delete 1 ((".$q."))"); }
+	}
+
+
+	private function deleteImageTags() {
+		foreach($this->tags as $tag) {
+			$tag->delete();
+		}
+	}
+
+
 	// synchronize SQL value strings with public attributes
 	private function sync() {
 		global $global;
@@ -248,6 +277,31 @@ class personImage {
 	public function decode() {
 		$this->fileContent = base64_decode($this->fileContentBase64);
 	}
+
+
+	private function unwrite() {
+
+		global $global;
+
+		$webroot  = $global['approot']."www/";
+		$file     = $webroot.$this->url;
+		$thumb    = $webroot.$this->url_thumb;
+		$original = str_replace("full.jpg", "original", $file);
+
+		if(!unlink($file)) {
+			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "unable to delete file", "person image unwrite 1 ((".$file."))");
+		} else {
+			unlink($original);
+			// we don't log problems deleting originals as we dont always have them and it would fill up the log...
+		}
+		// only delete the thumb if its not the same as the fullsized file
+		if($thumb != $file) {
+			if(!unlink($thumb)) {
+				daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "unable to delete file", "person image unwrite 2 ((".$thumb."))");
+			}
+		}
+	}
+
 
 
 	private function write() {

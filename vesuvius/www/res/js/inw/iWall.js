@@ -16,7 +16,7 @@ Array.prototype.remove = function(from, to) {
 
 // called when user starts the application
 $(document).ready(function start() {
-	Globals.searchMode = $("#searchMode").val(); 
+	Globals.searchMode = $("#searchMode").val();
 	Globals.sortedBy = Globals.searchMode == "solr" ? "" : "updated";
 	Globals.isiPad = window.Touch != undefined;
 	window.onorientationchange = function() {
@@ -29,43 +29,42 @@ $(document).ready(function start() {
 
 	}
 
-	
+
 	var doc = document,
-		hash = window.location.hash;  
-	
+		hash = window.location.hash;
+
 	hash = hash.replace("_details", "");
 
-	Globals.initDone = 1; 
+	Globals.initDone = 1;
 
-    $("#content").css({ paddingRight: "15px", paddingTop: "10px" });
-	
+    $("#content").css({ paddingRight: "20px", paddingTop: "0px" });
+    $("#wrapper_menu").css({ height: "0px" });
+
         // obsolete? (maybe should be detailsPane anyway?)
 	//$("#details").hide();
-	
+
 	// add an event to monitor when the search box gains focus
 	var box = doc.getElementById("searchBox");
 	box.onfocus = function() {
 		box.style.color = "#000000";
 		box.value = box.value == "Enter a name..." ? "" : box.value;
 	}
-	
+
 	box.onblur = function() {
 		box.value = box.value == "" ? "Enter a name..." : box.value;
 		if ( box.value == "Enter a name..." )
 			box.style.color = "#CCC";
 	}
 
-	$("#sortOrderIcon").click(function() { Utils.ascDesc(this) })
-					   .css({cursor: "pointer"});
-	
+	$("#sortOrderIcon").click(function() { Utils.ascDesc(this) }).css({cursor: "pointer"});
+
 	$("#buttonPlay").css("opacity", 0.3);
 	$("#buttonPlay").css("filter", "progid:DXImageTransform.Microsoft.Alpha(opacity=30)");
 
-	$("#loadingX").css( {height: Math.round($(window).height() - 190) + "px",
-						 paddingTop: Math.round(($(window).height() - 350)/2) + "px"});
-	
+	$("#loadingX").css( {height: Math.round($(window).height() - 190) + "px", paddingTop: Math.round(($(window).height() - 350)/2) + "px"});
+
 	Globals.imageHeight = Math.floor(($(window).height() - Globals.headerHeight - Globals.footerHeight - (2*(Globals.rowPadding+Globals.imageBorder))) / Globals.maxRows);
-	
+
 	if ( hash.length > 1 ) { //for bookmarking
 		if ( hash === "#searchAll" ) {
 			hash = "";
@@ -80,28 +79,28 @@ $(document).ready(function start() {
 function searchSubset(first) {
 	Globals.searchTerms = $.trim($("#searchBox").attr("value"));
 	Globals.searchTerms = Globals.searchTerms == "Enter a name..." || Globals.searchTerms == "All" ? "" : Globals.searchTerms;
-	
+
 	if ( Globals.searchTerms.length < 2 && Globals.searchMode === "sql" ) {
 		alert("Please enter at least 2 characters of a name.");
 		return;
 	}
-	
+
 	var missing   = $("#checkMissing")   .is(":checked"),
 		alive     = $("#checkAliveWell") .is(":checked"),
 		injured   = $("#checkInjured")   .is(":checked"),
 		deceased  = $("#checkDeceased")  .is(":checked"),
 		unknown   = $("#checkUnknown")   .is(":checked"),
 		found     = $("#checkFound")     .is(":checked"),
-		
+
 		complex   = $("#checkSexComplex").is(":checked"),
 		male 	  = $("#checkSexMale")   .is(":checked"),
 		female 	  = $("#checkSexFemale") .is(":checked"),
 		genderUnk = $("#checkSexOther")  .is(":checked"),
-		
+
 		child 	  = $("#checkAgeChild")  .is(":checked"),
 		adult	  = $("#checkAgeYouth")  .is(":checked"),
 		ageUnk    = $("#checkAgeUnknown").is(":checked"),
-		
+
 		suburban  = $("#checkSuburban")  .is(":checked"),
 		nnmc      = $("#checkNNMC")      .is(":checked"),
 		otherHosp = $("#checkOtherHosp") .is(":checked"),
@@ -111,21 +110,21 @@ function searchSubset(first) {
 		sAge          = child + ";" + adult + ";" +	ageUnk,
 		sHospital     = suburban + ";" + nnmc + ";" + otherHosp,
 
-		sPageControls = Globals.perPage * (Globals.currPage - 1)  + ";" 
-					  + Globals.perPage + ";" 
-					  + Globals.sortedBy + ";" 
+		sPageControls = Globals.perPage * (Globals.currPage - 1)  + ";"
+					  + Globals.perPage + ";"
+					  + Globals.sortedBy + ";"
 					  +	Globals.displayMode;
-		
-		
-	Globals.incident = Globals.incident || $("#shortName").val(); 
+
+
+	Globals.incident = Globals.incident || $("#shortName").val();
 	Globals.searchMode = $("#searchMode").val();
 	$("#updateAlerts, #updateAlerts2").hide();
 
 	inw_getData(Globals.searchMode, Globals.incident, Globals.searchTerms, sStatus, sGender, sAge, sHospital, sPageControls);
 	if ( Globals.searchMode == "sql" ) {
-		sPageControls = Globals.perPage * (Globals.currPage)  + ";" 
-				  + Globals.perPage + ";" 
-				  + Globals.sortedBy + ";" 
+		sPageControls = Globals.perPage * (Globals.currPage)  + ";"
+				  + Globals.perPage + ";"
+				  + Globals.sortedBy + ";"
 				  +	Globals.displayMode;
 		if ( Globals.displayMode ) {
 			inw_hasNextPage(Globals.searchMode, Globals.incident, Globals.searchTerms, sStatus, sGender, sAge, sHospital, sPageControls);
@@ -141,15 +140,15 @@ function searchSubset(first) {
 	$("#foundLabel").show();
 	if ( Globals.displayMode && Globals.searchMode != "sql" )
 		$("#maxShown").hide();
-	else 
+	else
 		$("#maxShown").show();
-		
-	$("#menuwrap").append($("#searchOptions").css({marginTop: "10px", marginLeft: "5px"}).show());
+
+	$("#menuwrap").append($("#searchOptions").css({marginTop: "5px", marginLeft: "10px"}).show());
 	if ( !$("#shortName").val().match(/cmax/) ) $("#hospital").hide();
-	$("#content").css({marginRight: "0px", paddingRight: "0px"});
+	$("#content").css({marginRight: "0px", paddingRight: "20px"});
         $("#buttonHelp").show();
 
-	if ( Globals.initDone == 1 ) 
+	if ( Globals.initDone == 1 )
 		$("#scrolling_content").html('<div id="loadingX" class="glass"><img src="res/img/loader.gif" /></div>').show(50);
 
         // Queue up next search at first invocation.
@@ -179,17 +178,17 @@ function handleUuidListResponse() {
 	window.location.hash = Globals.searchTerms === "" ? "searchAll" : Globals.searchTerms;
 
 	if ( Globals.displayMode ) {
-		Globals.displayMode = true; 
+		Globals.displayMode = true;
 		DetailsView.drawPage();
 	}
-	else 
+	else
 		ScrollView.init();
 }
 
 function showFacets() {
         // obsolete?
 	//var tempGender = 0, tempAge = 0;
-		
+
 	if ( Globals.searchMode == "solr" ) {
 		var facets = jQuery.parseJSON($("#SOLRFacets").val());
 		for( facet in facets ) {
@@ -223,36 +222,36 @@ function Person() {
 	this.init =  function(args) {
 		if ( args ) {
 			var date = Date.parse(args["statusSahanaUpdated"]);
-			this.uuid         = args["p_uuid"]; 
+			this.uuid         = args["p_uuid"];
 			this.encodedUUID  = args["encodedUUID"];
-			this.statusSahana = args["opt_status"]; 
-			this.name         = $.trim(args["full_name"]) === "Unknown Unknown" || $.trim(args["full_name"]) == undefined ? "Unknown name" :  $.trim(args["full_name"]) || "Unknown name"; 
-			
+			this.statusSahana = args["opt_status"];
+			this.name         = $.trim(args["full_name"]) === "Unknown Unknown" || $.trim(args["full_name"]) == undefined ? "Unknown name" :  $.trim(args["full_name"]) || "Unknown name";
+
                         // Added check for zero (PL-253).
 			this.age	  = (args["years_old"] == 0)? 0 : args["years_old"] || -1;
 			this.minAge       = (args["minAge"] == 0)? 0 : args["minAge"] || -1;
 			this.maxAge       = args["maxAge"] || -1;
-			
-			this.statusSahanaUpdated = date.toString("yyyy-MM-dd HH:mm"); 
-			this.statusTriage = args["statusTriage"]; 
-			this.id           = args["id"]; 
-			this.peds         = args["peds"]; 
-			this.location     = args["last_seen"]; 
-			this.comments     = args["comments"]; 
+
+			this.statusSahanaUpdated = date.toString("yyyy-MM-dd HH:mm");
+			this.statusTriage = args["statusTriage"];
+			this.id           = args["id"];
+			this.peds         = args["peds"];
+			this.location     = args["last_seen"];
+			this.comments     = args["comments"];
 			this.image        = null;
-			this.imageUrl     = args["imageUrl"] || "res/img/s4unknown.png"; 
-			this.imageHeight  = parseInt(args["imageHeight"]); 
-			this.imageWidth   = parseInt(args["imageWidth"]); 
+			this.imageUrl     = args["imageUrl"] || "res/img/s4unknown.png";
+			this.imageHeight  = parseInt(args["imageHeight"]);
+			this.imageWidth   = parseInt(args["imageWidth"]);
 			this.hospitalIcon = args["hospitalIcon"] || "";
 			this.imageShow    = true;
 			this.x            = -999999;
 			this.y            = -999999;
-			this.wipe         = false; 
-			
+			this.wipe         = false;
+
 			this.mass_casualty_id = args["mass_casualty_id"] || "";
-			
+
                         // Added allowance for unbounded range (PL-252).
-			if ( this.age > -1 ) 
+			if ( this.age > -1 )
 				this.displayAge = this.age;
 			else if ( this.minAge > -1 && this.maxAge == -1 )
 				this.displayAge = this.minAge + "-?";
@@ -260,7 +259,7 @@ function Person() {
 				this.displayAge = "?-" + this.maxAge;
                         else if ( this.minAge > -1 && this.maxAge > -1 )
                                 this.displayAge = this.minAge + "-" + this.maxAge;
-			else 
+			else
 				this.displayAge = "Unknown";
 
 
@@ -270,21 +269,21 @@ function Person() {
 				this.gender = "Female";
 			else if ( args["gender"] === "cpx" )
 				this.gender = "Complex";
-			else 
-				this.gender = "Unknown";				
-			
+			else
+				this.gender = "Unknown";
+
 			this.statusString()
 		}
 	};
-		
+
 		// to implement
 	this.equals = function(otherPerson) {
 		alert("equals!");
 	}
-	
+
 	this.statusString = function() {
 		var ss = this.statusSahana;
-		
+
 		if (this.statusSahana == "mis") {
 			this.tagColor         = "00C";
 			this.tagRGBA		  = "rgba(220,220,250, 0.60)";

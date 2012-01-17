@@ -141,6 +141,21 @@ class personImageTag {
 	}
 
 
+	// Delete function
+	public function delete() {
+
+		// just to mysql-ready the data nodes...
+		$this->sync();
+
+		$q = "
+			DELETE FROM image_tag
+			WHERE tag_id = ".$this->sql_tag_id.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete imageTag 1 ((".$q."))"); }
+	}
+
+
 	// synchronize SQL value strings with public attributes
 	private function sync() {
 		global $global;
