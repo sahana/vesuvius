@@ -4,7 +4,7 @@
 ********************************************************************************************************************************************************************
 *
 * @class        personImage
-* @version      12
+* @version      13
 * @author       Greg Miernicki <g@miernicki.com>
 *
 ********************************************************************************************************************************************************************
@@ -22,6 +22,7 @@ class personImage {
 	public $url;
 	public $url_thumb;
 	public $original_filename;
+
 	public $fileContentBase64;
 	public $fileContent;
 	public $fullSizePath;
@@ -36,6 +37,7 @@ class personImage {
 	public $Ourl;
 	public $Ourl_thumb;
 	public $Ooriginal_filename;
+
 	public $OfileContentBase64;
 	public $OfileContent;
 	public $OfullSizePath;
@@ -50,6 +52,16 @@ class personImage {
 	private $sql_url;
 	private $sql_url_thumb;
 	private $sql_original_filename;
+
+	private $sql_Oimage_id;
+	private $sql_Op_uuid;
+	private $sql_Oimage_type;
+	private $sql_Oimage_height;
+	private $sql_Oimage_width;
+	private $sql_Ocreated;
+	private $sql_Ourl;
+	private $sql_Ourl_thumb;
+	private $sql_Ooriginal_filename;
 
 	public $tags;
 
@@ -69,6 +81,7 @@ class personImage {
 		$this->url                   = null;
 		$this->url_thumb             = null;
 		$this->original_filename     = null;
+
 		$this->fileContentBase64     = null;
 		$this->fileContent           = null;
 		$this->fullSizePath          = null;
@@ -83,6 +96,7 @@ class personImage {
 		$this->Ourl                   = null;
 		$this->Ourl_thumb             = null;
 		$this->Ooriginal_filename     = null;
+
 		$this->OfileContentBase64     = null;
 		$this->OfileContent           = null;
 		$this->OfullSizePath          = null;
@@ -97,6 +111,16 @@ class personImage {
 		$this->sql_url               = null;
 		$this->sql_url_thumb         = null;
 		$this->sql_original_filename = null;
+
+		$this->sql_Oimage_id          = null;
+		$this->sql_Op_uuid            = null;
+		$this->sql_Oimage_type        = null;
+		$this->sql_Oimage_height      = null;
+		$this->sql_Oimage_width       = null;
+		$this->sql_Ocreated           = null;
+		$this->sql_Ourl               = null;
+		$this->sql_Ourl_thumb         = null;
+		$this->sql_Ooriginal_filename = null;
 
 		$this->tags                  = array();
 	}
@@ -113,6 +137,7 @@ class personImage {
 		$this->url                   = null;
 		$this->url_thumb             = null;
 		$this->original_filename     = null;
+
 		$this->fileContentBase64     = null;
 		$this->fileContent           = null;
 		$this->fullSizePath          = null;
@@ -127,6 +152,7 @@ class personImage {
 		$this->Ourl                   = null;
 		$this->Ourl_thumb             = null;
 		$this->Ooriginal_filename     = null;
+
 		$this->OfileContentBase64     = null;
 		$this->OfileContent           = null;
 		$this->OfullSizePath          = null;
@@ -142,16 +168,23 @@ class personImage {
 		$this->sql_url_thumb         = null;
 		$this->sql_original_filename = null;
 
-		$this->tags                  = null;
+		$this->sql_Oimage_id          = null;
+		$this->sql_Op_uuid            = null;
+		$this->sql_Oimage_type        = null;
+		$this->sql_Oimage_height      = null;
+		$this->sql_Oimage_width       = null;
+		$this->sql_Ocreated           = null;
+		$this->sql_Ourl               = null;
+		$this->sql_Ourl_thumb         = null;
+		$this->sql_Ooriginal_filename = null;
 
-		// make sure tables are safe :)
-		$q = "UNLOCK TABLES;";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage unlock ((".$q."))"); }
+		$this->tags                  = null;
 	}
+
 
 	// initializes some values for a new instance (instead of when we load a previous instance)
 	public function init() {
+
 		$this->image_id = shn_create_uuid("image");
 	}
 
@@ -183,7 +216,7 @@ class personImage {
 			$this->fullSizePath          = $global['approot']."www/".$result->fields['url'];
 			$this->thumbnailPath         = $global['approot']."www/".$result->fields['url_thumb'];
 			$this->fileContent           = file_get_contents($global['approot']."www/".$result->fields['url']);
-			$this->fileContentBase64     = base64_encode($this->fileContent);
+			$this->encode();
 
 			// copy the original values for use in diff'ing an update...
 			$this->Oimage_id              = $this->image_id;
@@ -214,7 +247,7 @@ class personImage {
 			WHERE image_id = '".mysql_real_escape_string((string)$this->image_id)."' ;
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "loadImageTags 1"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "image load loadImageTags 1 ((".$q."))"); }
 		while(!$result == NULL && !$result->EOF) {
 
 			$t = new personImageTag();
@@ -250,6 +283,7 @@ class personImage {
 
 
 	private function deleteImageTags() {
+
 		foreach($this->tags as $tag) {
 			$tag->delete();
 		}
@@ -258,7 +292,6 @@ class personImage {
 
 	// synchronize SQL value strings with public attributes
 	private function sync() {
-		global $global;
 
 		// build SQL strings from values
 
@@ -275,7 +308,14 @@ class personImage {
 
 
 	public function decode() {
+
 		$this->fileContent = base64_decode($this->fileContentBase64);
+	}
+
+
+	public function encode() {
+
+		$this->fileContentBase64 = base64_encode($this->fileContent);
 	}
 
 
@@ -396,6 +436,64 @@ class personImage {
 			$tag->insert();
 		}
 	}
+
+
+
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	// save the person (subsequent save = update)
+	public function update() {
+
+		$this->sync();
+		$this->saveRevisions();
+
+		$q = "
+			UPDATE image_tag
+			SET
+				image_id = ".$this->sql_image_id.",
+				tag_x    = ".$this->sql_tag_x.",
+				tag_y    = ".$this->sql_tag_y.",
+				tag_w    = ".$this->sql_tag_w.",
+				tag_h    = ".$this->sql_tag_h.",
+				tag_text = ".$this->sql_tag_text."
+
+			WHERE tag_id = ".$this->sql_tag_id.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag update ((".$q."))"); }
+	}
+
+
+	// save any changes since object was loaded as revisions
+	function saveRevisions() {
+
+		if($this->image_id != $this->Oimage_id) { $this->saveRevision($this->sql_image_id, $this->sql_Oimage_id, 'image_tag', 'image_id' ); }
+		if($this->tag_x    != $this->Otag_x)    { $this->saveRevision($this->sql_tag_x,    $this->sql_Otag_x,    'image_tag', 'tag_x'    ); }
+		if($this->tag_y    != $this->Otag_y)    { $this->saveRevision($this->sql_tag_y,    $this->sql_Otag_y,    'image_tag', 'tag_y'    ); }
+		if($this->tag_w    != $this->Otag_w)    { $this->saveRevision($this->sql_tag_w,    $this->sql_Otag_w,    'image_tag', 'tag_w'    ); }
+		if($this->tag_h    != $this->Otag_h)    { $this->saveRevision($this->sql_tag_h,    $this->sql_Otag_h,    'image_tag', 'tag_h'    ); }
+		if($this->tag_text != $this->Otag_text) { $this->saveRevision($this->sql_tag_text, $this->sql_Otag_text, 'image_tag', 'tag_text' ); }
+	}
+
+
+	// save the revision
+	function saveRevision($newValue, $oldValue, $table, $column) {
+
+		// note the revision
+		$q = "
+			INSERT into person_updates (`p_uuid`, `updated_table`, `updated_column`, `old_value`, `new_value`, `updated_by_p_uuid`)
+			VALUES (".$this->sql_p_uuid.", '".$table."', '".$column."', ".$oldValue.", ".$newValue.", '".$this->updated_by_p_uuid."');
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag saveRevision ((".$q."))"); }
+	}
+
+
+
+
 }
 
 

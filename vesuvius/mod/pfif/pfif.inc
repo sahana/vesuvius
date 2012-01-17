@@ -809,8 +809,8 @@ class Pfif {
          // Only update last known location if not empty.
          $opt_clause = empty($last_known_location)? "" : ",pd.last_seen='" . $last_known_location . "'";
          $sql = "UPDATE person_status ps,person_details pd SET" .
-                " ps.last_updated_db='" . date("Y-m-d H:i:s") . 
-                "', ps.last_updated='" . $source_date . 
+                " ps.last_updated_db='" . date("Y-m-d H:i:s") .
+                "', ps.last_updated='" . $source_date .
                 "',ps.opt_status='" . $mapped_status . "'" .
                 $opt_clause .
                 " WHERE ps.p_uuid='" . $p_uuid . "' AND ps.p_uuid = pd.p_uuid";
@@ -1127,7 +1127,7 @@ class Pfif {
               e.opt_gender, e.years_old, e.minAge, e.maxAge, f.comments as physical_comments, f.height, f.weight,
               f.opt_eye_color, f.opt_skin_color, f.opt_hair_color, g.contact_value as phone, h.contact_value as mobile,
               i.contact_value as email, j.contact_value AS address, k.contact_value AS zip, e.last_seen,
-              e.other_comments, pr.rep_uuid as reporter, ps.status_id, ps.last_updated, ps.last_updated_db, 
+              e.other_comments, pr.rep_uuid as reporter, ps.status_id, ps.last_updated, ps.last_updated_db,
               ps.creation_time, ps.opt_status as `status`,
               im.url as image_url
 	      FROM person_uuid a
