@@ -157,17 +157,21 @@ class Pfif_Repository {
         $gran = date_parse($this->log_granularity);
         $gran_secs = 3600*$gran['hour']+60*$gran['minute']+$gran['second'];
         //var_dump('log_start',$log_start,'end_time',$end_time,'log_granularity',$gran_secs);
-        if (!$success) {
-            // Fixme: Not used currently.
-            $end_status = 'error';
-        } else if ($end_time - $log_start <= $gran_secs) {
+        if ($end_time - $log_start <= $gran_secs) {
             $end_status = 'paused';
         } else {
             $end_status = 'completed';
         }
         //var_dump('end status',$end_status);
+        if ($success == 'error') {
+           // revert to original last_entry
+           $info_array['last_entry'] = '';
+           //$info_array['last_entry'] = $req_params['min_entry_date'];
+        }
         $this->log->stop($end_time,$info_array,$req_params,$end_status);
-        $this->update_summary($info_array);
+        if ($success != 'error') {
+           $this->update_summary($info_array);
+        }
     }
 
     private function update_summary($info_array) {
@@ -180,7 +184,6 @@ class Pfif_Repository {
         $this->total_notes += $info_array['pfif_note_count'];
         $this->save(); // TODO: can this return a status that needs to be reported to caller?
     }
-
 
     /**
     * Create a Pfif_Repository from provided attributes and store in database.
