@@ -71,11 +71,11 @@ foreach ($export_queue as $service_name => $service) {
 
    $repos->start_harvest('scheduled', 'out');
    //print "\n\nExport started to ".$service['post_url']." at ".$repos->get_log()->start_time . "\n";
-   print "\n\nExport started to ".$service['post_url']." at ".strftime("%c")."\n";
+   print "\n\nExport started to ".$service['post_url']." at ".date("Y-m-d H:i:s")."\n";
    $local_date = local_date($min_entry_date);
    $loaded = $p->loadFromDatabase($local_date, null, 0, $skip);
-   print "load for post to $service_name for records after $local_date " . 
-         (($loaded != -1) ? "suceeded with $loaded records" : "failed") . "\n";
+   print "Exporting original records after $local_date.\n"; 
+   //print "Loaded $loaded original and non-original records\n";
 
    if ($loaded > 0) {
       // Export only original records after min_entry_date
@@ -86,12 +86,23 @@ foreach ($export_queue as $service_name => $service) {
          $written = fwrite($fh, $xml, $charstowrite);
          fclose($fh);
          //print "Logged $written of $charstowrite characters to cronpfif.xml\n";
-   
          $post_status = $p->postToService('xml', $xml, $service_name);
          // person and note counts are in $_SESSION['pfif_info'].
-         // TODO: Adjust person and note counts depending on post_status.
-         update_harvest_log($repos, $req_params, 'completed');
-         print "Post status:\n $post_status \n";
+         if ($post_status == -1) {
+            update_harvest_log($repos, $req_params, 'error');
+            print "Export failed.\n";
+         } else {
+            update_harvest_log($repos, $req_params, 'completed');
+            // Parse XML response.
+            $response = @new SimpleXMLElement($post_status);
+            $written = $response->write[0]->written;
+            $parsed = $response->write[0]->parsed;
+            $sent = $_SESSION['pfif_info']['pfif_person_count'];
+            print "Export status: Sent=$sent, Parsed=$parsed, Accepted=$written\n";
+            if ($sent != $written) {
+               print "Status: $post_status";
+            }
+         }
       } else {
          update_harvest_log($repos, $req_params, 'completed');
          print "Export complete: no records to upload\n";

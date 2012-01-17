@@ -219,7 +219,7 @@ class Pfif {
             // Do log housekeeping since this may be an automated export (i.e. from cronexport.php).
             $this->reset_log_dates($pfif_persons[0]->entry_date);
             foreach ($pfif_persons as $person) {
-               // Snag last_updated_db for log since this indicates new information (could be from a new Note).
+               // Snag entry_date for log since this indicates new information (could be from a new Note).
                $this->update_log_dates($person->entry_date);
                // Is this an original record meeting the date constraint?
                if ((strtotime($person->source_date) > $start) &&
@@ -398,16 +398,48 @@ class Pfif {
          }
       }
       $pfif_uri = $service_uri.$subdomain.$auth_key;
-      // $posted = "Posted PFIF from <br/>".htmlentities($xml)."<br/> to $pfif_uri<br/>Status returned:<br/>";
-      /*
-       * TODO: Can xml string be POSTed or do we HAVE to use CURL ?
-       * curl -X POST -H 'Content-type: application/xml' --data-binary @your_file.xml \
-        http://haiticrisis.appspot.com/api/write?key=your_auth_key
-       * @see http://haiticrisis.appspot.com/developers for response details
-       */
+      $response = $this->do_post_request($pfif_uri, $item, 'Content-Type: application/xml');
+      //$response = $this->do_post_request_with_curl($pfif_uri, $item);
+      return $response;
+   }
+
+   private function do_post_request($url, $data, $optional_headers = null) {
+      ini_set('track_errors', 1); 
+      $params = array('http' => array(
+              'method' => 'POST',
+              'content' => $data
+            ));
+      if ($optional_headers !== null) {
+        $params['http']['header'] = $optional_headers;
+      }
+      $ctx = stream_context_create($params);
+      $fp = @fopen($url, 'rb', false, $ctx);
+      ini_set('track_errors', 0); 
+      if (!$fp) {
+        error_log("Problem with $url, $php_errormsg");
+        return -1;
+      }
+      $response = @stream_get_contents($fp);
+      if ($response === false) {
+        error_log("Problem reading data from $url, $php_errormsg");
+        return -1;
+      }
+      return $response;
+   }
+
+   /* 
+    * Note that command-line curl comes in handy for debugging.
+    * curl -X POST -H 'Content-type: application/xml' --data-binary @your_file.xml \
+      http://haiticrisis.appspot.com/api/write?key=your_auth_key
+    */
+   private function do_post_request_with_curl($pfif_uri, $item, $item_type='data') {
       $ch = curl_init();    /* Create a CURL handle. */
       //print "cURL init " . ($ch ? "true" : "false") . "\n";
       /* Set cURL options. */
+      // Set temporarily when Google had SSL problems.
+      $status = $ch ? curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false) : false;
+      $status = $ch ? curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false) : false;
+
       $status = $ch ? curl_setopt($ch, CURLOPT_URL, $pfif_uri) : false;
       print "URL $pfif_uri set " . ($status ? "true" : "false") . "\n";
 
