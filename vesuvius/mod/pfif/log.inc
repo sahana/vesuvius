@@ -78,12 +78,14 @@ abstract class Pfif_Log {
             } else if (!empty($last_entry) && strtotime($last_entry) == strtotime($this->last_entry)) {
                 //print " updating last count\n";
                 $this->last_count += $log_info['last_entry_count'];
-            } else if (empty($this->last_entry)) {
+            } else if (empty($this->last_entry) || empty($last_entry)) {
                 // No new items so repeat old log entries.
                 //print " updating log with previous entries\n";
                 // Convert back to local time.
                 $this->last_entry = local_date($req_params['min_entry_date']);
                 $this->last_count = $req_params['skip'];
+                // Don't update counts.
+                return true;
             }
             //var_dump($this->last_entry);
             $this->update_counts($log_info);
