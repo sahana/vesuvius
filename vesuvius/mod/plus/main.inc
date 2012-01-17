@@ -18,7 +18,9 @@ function shn_plus_default() {
 
 
 function shn_plus_header2() {
+
 	global $global;
+
 	echo "<ul>";
 
 	if($global['action'] == "reportlog" || $global['action'] == "default") {
