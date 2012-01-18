@@ -740,6 +740,74 @@ class personEdxl {
 			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co photos insert ((".$q."))"); }
 		}
 	}
+
+
+
+
+
+
+
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	// save the person (subsequent save = update)
+	public function update() {
+/*
+		$this->sync();
+		$this->saveRevisions();
+
+		$q = "
+			UPDATE image_tag
+			SET
+				image_id = ".$this->sql_image_id.",
+				tag_x    = ".$this->sql_tag_x.",
+				tag_y    = ".$this->sql_tag_y.",
+				tag_w    = ".$this->sql_tag_w.",
+				tag_h    = ".$this->sql_tag_h.",
+				tag_text = ".$this->sql_tag_text."
+
+			WHERE tag_id = ".$this->sql_tag_id.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag update ((".$q."))"); }
+*/
+	}
+
+
+	// save any changes since object was loaded as revisions
+	function saveRevisions() {
+
+		if($this->image_id != $this->Oimage_id) { $this->saveRevision($this->sql_image_id, $this->sql_Oimage_id, 'image_tag', 'image_id' ); }
+		if($this->tag_x    != $this->Otag_x)    { $this->saveRevision($this->sql_tag_x,    $this->sql_Otag_x,    'image_tag', 'tag_x'    ); }
+		if($this->tag_y    != $this->Otag_y)    { $this->saveRevision($this->sql_tag_y,    $this->sql_Otag_y,    'image_tag', 'tag_y'    ); }
+		if($this->tag_w    != $this->Otag_w)    { $this->saveRevision($this->sql_tag_w,    $this->sql_Otag_w,    'image_tag', 'tag_w'    ); }
+		if($this->tag_h    != $this->Otag_h)    { $this->saveRevision($this->sql_tag_h,    $this->sql_Otag_h,    'image_tag', 'tag_h'    ); }
+		if($this->tag_text != $this->Otag_text) { $this->saveRevision($this->sql_tag_text, $this->sql_Otag_text, 'image_tag', 'tag_text' ); }
+	}
+
+
+	// save the revision
+	function saveRevision($newValue, $oldValue, $table, $column) {
+
+		// note the revision
+		$q = "
+			INSERT into person_updates (`p_uuid`, `updated_table`, `updated_column`, `old_value`, `new_value`, `updated_by_p_uuid`)
+			VALUES (".$this->sql_p_uuid.", '".$table."', '".$column."', ".$oldValue.", ".$newValue.", '".$this->updated_by_p_uuid."');
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag saveRevision ((".$q."))"); }
+	}
+
+
+
+
+
+
+
+
+
 }
 
 

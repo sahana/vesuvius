@@ -63,6 +63,7 @@ class personImage {
 	private $sql_Ourl_thumb;
 	private $sql_Ooriginal_filename;
 
+	public $updated_by_p_uuid;
 	public $tags;
 
 
@@ -122,6 +123,7 @@ class personImage {
 		$this->sql_Ourl_thumb         = null;
 		$this->sql_Ooriginal_filename = null;
 
+		$this->updated_by_p_uuid     = null;
 		$this->tags                  = array();
 	}
 
@@ -179,6 +181,7 @@ class personImage {
 		$this->sql_Ooriginal_filename = null;
 
 		$this->tags                  = null;
+		$this->updated_by_p_uuid     = null;
 	}
 
 
@@ -295,11 +298,11 @@ class personImage {
 
 		// build SQL strings from values
 
-		$this->sql_image_id          = ($this->image_id          === null) ? "NULL" : (int)$this->image_id;
+		$this->sql_image_id          = ($this->image_id          === null) ? "NULL" : "'".(int)$this->image_id."'";
 		$this->sql_p_uuid            = ($this->p_uuid            === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->p_uuid)."'";
 		$this->sql_image_type        = ($this->image_type        === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->image_type)."'";
-		$this->sql_image_height      = ($this->image_height      === null) ? "NULL" : (int)$this->image_height;
-		$this->sql_image_width       = ($this->image_width       === null) ? "NULL" : (int)$this->image_width;
+		$this->sql_image_height      = ($this->image_height      === null) ? "NULL" : "'".(int)$this->image_height."'";
+		$this->sql_image_width       = ($this->image_width       === null) ? "NULL" : "'".(int)$this->image_width."'";
 		$this->sql_created           = ($this->created           === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->created)."'";
 		$this->sql_url               = ($this->url               === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url)."'";
 		$this->sql_url_thumb         = ($this->url_thumb         === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_thumb)."'";
@@ -343,8 +346,8 @@ class personImage {
 	}
 
 
-
 	private function write() {
+
 		global $global;
 		require_once($global['approot']."inc/lib_image.inc");
 
@@ -415,11 +418,11 @@ class personImage {
 				url_thumb,
 				original_filename )
 			VALUES (
-				'".$this->sql_image_id."',
+				".$this->sql_image_id.",
 				".$this->sql_p_uuid.",
 				".$this->sql_image_type.",
-				'".$this->sql_image_height."',
-				'".$this->sql_image_width."',
+				".$this->sql_image_height.",
+				".$this->sql_image_width.",
 				".$this->sql_url.",
 				".$this->sql_url_thumb.",
 				".$this->sql_original_filename." );
@@ -432,11 +435,11 @@ class personImage {
 
 
 	private function insertImageTags() {
+
 		foreach($this->tags as $tag) {
 			$tag->insert();
 		}
 	}
-
 
 
 	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -451,31 +454,43 @@ class personImage {
 		$this->saveRevisions();
 
 		$q = "
-			UPDATE image_tag
+			UPDATE image
 			SET
-				image_id = ".$this->sql_image_id.",
-				tag_x    = ".$this->sql_tag_x.",
-				tag_y    = ".$this->sql_tag_y.",
-				tag_w    = ".$this->sql_tag_w.",
-				tag_h    = ".$this->sql_tag_h.",
-				tag_text = ".$this->sql_tag_text."
-
-			WHERE tag_id = ".$this->sql_tag_id.";
+				p_uuid            = ".$this->sql_p_uuid.",
+				image_type        = ".$this->sql_image_type.",
+				image_height      = ".$this->sql_image_height.",
+				image_width       = ".$this->sql_image_width.",
+				url               = ".$this->sql_url.",
+				url_thumb         = ".$this->sql_url_thumb.",
+				original_filename = ".$this->sql_original_filename."
+			WHERE image_id = ".$this->sql_image_id.";
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag update ((".$q."))"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage update ((".$q."))"); }
+
+		$this->updateImageTags();
+	}
+
+
+	private function updateImageTags() {
+
+		foreach($this->tags as $tag) {
+			$tag->updated_by_p_uuid = $this->updated_by_p_uuid;
+			$tag->update();
+		}
 	}
 
 
 	// save any changes since object was loaded as revisions
 	function saveRevisions() {
 
-		if($this->image_id != $this->Oimage_id) { $this->saveRevision($this->sql_image_id, $this->sql_Oimage_id, 'image_tag', 'image_id' ); }
-		if($this->tag_x    != $this->Otag_x)    { $this->saveRevision($this->sql_tag_x,    $this->sql_Otag_x,    'image_tag', 'tag_x'    ); }
-		if($this->tag_y    != $this->Otag_y)    { $this->saveRevision($this->sql_tag_y,    $this->sql_Otag_y,    'image_tag', 'tag_y'    ); }
-		if($this->tag_w    != $this->Otag_w)    { $this->saveRevision($this->sql_tag_w,    $this->sql_Otag_w,    'image_tag', 'tag_w'    ); }
-		if($this->tag_h    != $this->Otag_h)    { $this->saveRevision($this->sql_tag_h,    $this->sql_Otag_h,    'image_tag', 'tag_h'    ); }
-		if($this->tag_text != $this->Otag_text) { $this->saveRevision($this->sql_tag_text, $this->sql_Otag_text, 'image_tag', 'tag_text' ); }
+		if($this->p_uuid            != $this->Op_uuid)            { $this->saveRevision($this->sql_p_uuid,            $this->sql_Op_uuid,            'image', 'p_uuid'            ); }
+		if($this->image_type        != $this->Oimage_type)        { $this->saveRevision($this->sql_image_type,        $this->sql_Oimage_type,        'image', 'image_type'        ); }
+		if($this->image_height      != $this->Oimage_height)      { $this->saveRevision($this->sql_image_height,      $this->sql_Oimage_height,      'image', 'image_height'      ); }
+		if($this->image_width       != $this->Oimage_width)       { $this->saveRevision($this->sql_image_width,       $this->sql_Oimage_width,       'image', 'image_width'       ); }
+		if($this->url               != $this->Ourl)               { $this->saveRevision($this->sql_url,               $this->sql_Ourl,               'image', 'url'               ); }
+		if($this->url_thumb         != $this->Ourl_thumb)         { $this->saveRevision($this->sql_url_thumb,         $this->sql_Ourl_thumb,         'image', 'url_thumb'         ); }
+		if($this->original_filename != $this->Ooriginal_filename) { $this->saveRevision($this->sql_original_filename, $this->sql_Ooriginal_filename, 'image', 'original_filename' ); }
 	}
 
 
@@ -488,12 +503,8 @@ class personImage {
 			VALUES (".$this->sql_p_uuid.", '".$table."', '".$column."', ".$oldValue.", ".$newValue.", '".$this->updated_by_p_uuid."');
 		";
 		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag saveRevision ((".$q."))"); }
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage saveRevision ((".$q."))"); }
 	}
-
-
-
-
 }
 
 
