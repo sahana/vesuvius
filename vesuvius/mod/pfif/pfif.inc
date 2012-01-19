@@ -108,12 +108,12 @@ class Pfif {
 
    public function setPerson(Pfif_Person $person) {
       $this->personArray[] = $person;
-      //error_log("Set $person->person_record_id ...");
+      //pfif_error_log("Set $person->person_record_id ...");
    }
 
    public function setNote(Pfif_Note $note) {
       $this->noteArray[] = $note;
-      //error_log("Set $note->note_record_id ...");
+      //pfif_error_log("Set $note->note_record_id ...");
    }
 
    public function setNotes($notes) {
@@ -416,12 +416,12 @@ class Pfif {
       $fp = @fopen($url, 'rb', false, $ctx);
       ini_set('track_errors', 0); 
       if (!$fp) {
-        error_log("Problem with $url, $php_errormsg");
+        pfif_error_log("Problem with $url, $php_errormsg");
         return -1;
       }
       $response = @stream_get_contents($fp);
       if ($response === false) {
-        error_log("Problem reading data from $url, $php_errormsg");
+        pfif_error_log("Problem reading data from $url, $php_errormsg");
         return -1;
       }
       return $response;
@@ -515,7 +515,7 @@ class Pfif {
 
       $persons = $this->dom_pfif->getElementsByTagNameNS($ns, 'person');
       // $dump = var_export($persons, true);
-      // error_log("got persons:".$dump." length = ".$persons->length);
+      // pfif_error_log("got persons:".$dump." length = ".$persons->length);
       if ($persons->length > 0) {
          $this->process_persons($persons, $ns);
       }
@@ -566,7 +566,7 @@ class Pfif {
       foreach ($persons as $person) {
          $pfif_person = new Pfif_Person();
          $pfif_person->person_record_id = $this->getValueFromXmlElementTag($person, 'person_record_id', $ns)->item(0)->nodeValue;
-         // error_log("processing person:".$pfif_person->person_record_id);
+         // pfif_error_log("processing person:".$pfif_person->person_record_id);
          $pfif_person->entry_date = local_date($this->getValueFromXmlElementTag($person, 'entry_date', $ns)->item(0)->nodeValue);
          $pfif_person->expiry_date = local_date($this->getValueFromXmlElementTag($person, 'expiry_date', $ns)->item(0)->nodeValue);
          $pfif_person->author_name = $this->getValueFromXmlElementTag($person, 'author_name', $ns)->item(0)->nodeValue;
@@ -575,7 +575,7 @@ class Pfif {
          $pfif_person->source_name = $this->getValueFromXmlElementTag($person, 'source_name', $ns)->item(0)->nodeValue;
          $pfif_person->source_date = local_date($this->getValueFromXmlElementTag($person, 'source_date', $ns)->item(0)->nodeValue);
          $pfif_person->source_url = $this->getValueFromXmlElementTag($person, 'source_url', $ns)->item(0)->nodeValue;
-         // error_log("meta-informaton done ...");
+         // pfif_error_log("meta-informaton done ...");
          // Static identifying information
          $pfif_person->full_name = $this->getValueFromXmlElementTag($person, 'full_name', $ns)->item(0)->nodeValue;
          $pfif_person->first_name = $this->getValueFromXmlElementTag($person, 'first_name', $ns)->item(0)->nodeValue;
@@ -591,7 +591,7 @@ class Pfif {
          $pfif_person->age = $this->getValueFromXmlElementTag($person, 'age', $ns)->item(0)->nodeValue;
          $pfif_person->date_of_birth = $this->getValueFromXmlElementTag($person, 'date_of_birth', $ns)->item(0)->nodeValue;
          $pfif_person->sex = $this->getValueFromXmlElementTag($person, 'sex', $ns)->item(0)->nodeValue;
-         // error_log("Static informaton done ...");
+         // pfif_error_log("Static informaton done ...");
          // If empty record without expiration date, expire it. (JIRA PL-183)
          if (empty($pfif_person->expiry_date)
                  && empty($pfif_person->full_name)
@@ -716,7 +716,7 @@ class Pfif {
          try {
             $this->shn_pfif_addperson_commit($person);
          } catch (Exception $e) {
-            error_log("shn_mod_pfif.storeInDatabase: shn_pfif_addperson_commit failed for "
+            pfif_error_log("shn_mod_pfif.storeInDatabase: shn_pfif_addperson_commit failed for "
                     . $person->person_record_id . ":" . $e->getMessage());
             $_SESSION['pfif_info']['person_insert_errors'] += 1;
             continue;  // stop processing this person
@@ -732,7 +732,7 @@ class Pfif {
          try {
             $this->shn_pfif_addpfifperson_commit($person);
          } catch (Exception $e) {
-            error_log("shn_mod_pfif.storeInDatabase: shn_pfif_addpfifperson_commit failed for "
+            pfif_error_log("shn_mod_pfif.storeInDatabase: shn_pfif_addpfifperson_commit failed for "
                     . $person->person_record_id . ":" . $e->getMessage());
          }
 
@@ -784,7 +784,7 @@ class Pfif {
             $this->shn_pfif_addpfifnote_commit($note);
          } catch (Exception $e) {
             $_SESSION['pfif_info']['note_insert_errors'] += 1;
-               error_log("shn_mod_pfif.storeNotesInDatabase: shn_pfif_addpfifnote_commit failed for "
+               pfif_error_log("shn_mod_pfif.storeNotesInDatabase: shn_pfif_addpfifnote_commit failed for "
                     . $note->note_record_id . ":" . $e->getMessage());
             continue; // stop processing this note
          }
@@ -1019,7 +1019,7 @@ class Pfif {
 
          $reporter = $this->getReportedPerson($personRecord['reporter']);
          if (count($reporter) > 0) {
-            // error_log("reporter_record is set!");
+            // pfif_error_log("reporter_record is set!");
             $personRecord['reporter_record'] = $reporter;
             $person->author_name = $personRecord['reporter_record']['full_name'];
             $person->author_email = $personRecord['reporter_record']['email'];
@@ -1177,8 +1177,8 @@ class Pfif {
       $array = $global['db']->GetAll($sql);
       if ($array === false) {
          $errchk = $global['db']->ErrorMsg();
-         // error_log("getMprAddedRecords: ".$sql);
-         error_log("Error in getMprAddedRecords: " . $errchk);
+         // pfif_error_log("getMprAddedRecords: ".$sql);
+         pfif_error_log("Error in getMprAddedRecords: " . $errchk);
       }
       return $array;
    }
@@ -1227,17 +1227,17 @@ class Pfif {
       $image_result = $global['db']->GetRow($sql);
       if ($image_result === false) {
          $errchk = $global['db']->ErrorMsg();
-         error_log("Error getting images for this person: " . $errchk);
+         pfif_error_log("Error getting images for this person: " . $errchk);
       } else if (count($image_result) > 0) {
          // There is an image so delete it and its thumbnail.
          $file = $webroot . $image_result['url'];
          if (!unlink($file)) {
-            error_log("Unable to delete $file.");
+            pfif_error_log("Unable to delete $file.");
          }
          $thumb = $webroot . $image_result['url_thumb'];
          if ($thumb != $file) {
             if (!unlink($thumb)) {
-               error_log("Unable to delete $thumb.");
+               pfif_error_log("Unable to delete $thumb.");
             }
          }
       }
@@ -1246,7 +1246,7 @@ class Pfif {
       $st = $global['db']->Execute($sql);
       if ($st === false) {
          $errchk = $global['db']->ErrorMsg();
-         error_log("Error deleting '$p_uuid': $errchk");
+         pfif_error_log("Error deleting '$p_uuid': $errchk");
       }
    }
 
@@ -1393,7 +1393,7 @@ class Pfif {
       if (count($rs) > 0) {
          $pfif_person = new Pfif_Person();
          $pfif_person->person_record_id = $rs['p_uuid'];
-         // error_log("processing person:".$pfif_person->person_record_id);
+         // pfif_error_log("processing person:".$pfif_person->person_record_id);
          $pfif_person->entry_date = $rs['entry_date'];
          $pfif_person->expiry_date = $rs['expiry_date'];
          $pfif_person->author_name = $rs['author_name'];
@@ -1402,7 +1402,7 @@ class Pfif {
          $pfif_person->source_name = $rs['source_name'];
          $pfif_person->source_date = $rs['source_date'];
          $pfif_person->source_url = $rs['source_url'];
-         // error_log("meta-information done ...");
+         // pfif_error_log("meta-information done ...");
          // Static identifying information
          $pfif_person->full_name = $rs['full_name'];
          $pfif_person->first_name = $rs['first_name'];
@@ -1418,7 +1418,7 @@ class Pfif {
          $pfif_person->age = $rs['age'];
          $pfif_person->date_of_birth = $rs['date_of_birth'];
          $pfif_person->sex = $rs['sex'];
-         // error_log("Static informaton done ...");
+         // pfif_error_log("Static informaton done ...");
       }
       unset($person);
       return $pfif_person;
@@ -1466,7 +1466,7 @@ class Pfif {
       $ret = $global['db']->Execute($sql);
       if ($ret === false) {
          $errchk = $global['db']->ErrorMsg();
-         error_log("Error performing person_uuid update: " . $errchk);
+         pfif_error_log("Error performing person_uuid update: " . $errchk);
       }
       // Update expiration date in pfif_person.
       $sql = "UPDATE pfif_person SET expiry_date='" . $person->expiry_date . "'" .
@@ -1474,7 +1474,7 @@ class Pfif {
       $ret = $global['db']->Execute($sql);
       if ($ret === false) {
          $errchk = $global['db']->ErrorMsg();
-         error_log("Error performing pfif_person update: " . $errchk);
+         pfif_error_log("Error performing pfif_person update: " . $errchk);
       }
    }
 }

@@ -27,13 +27,13 @@ class WebImage {
    private $initialized = false;
 
    public function __construct($url = null, $uuid = null) {
-      // error_log('WebImage:'.$url.','.$uuid);
+      // pfif_error_log('WebImage:'.$url.','.$uuid);
       if (isset($url) && isset($uuid)) {
-         // error_log('WebImage:args ok');
+         // pfif_error_log('WebImage:args ok');
          $this->set_id($uuid);
          $this->_init($url);
       } else {
-         error_log('shn_mod_pfif_WebImage: bad arguments (url = ' . $url . ' uuid= ' . $uuid . ')');
+         pfif_error_log('shn_mod_pfif_WebImage: bad arguments (url = ' . $url . ' uuid= ' . $uuid . ')');
       }
    }
 
@@ -59,19 +59,19 @@ class WebImage {
       // Fetch the image
       $image_data = false;
       $image_info = @getimagesize($url);
-      //error_log('_init.image_info:'.var_export($image_info,true));
+      //pfif_error_log('_init.image_info:'.var_export($image_info,true));
 
       $type = ($image_info != false) ? $image_info['mime'] : false;
-      // error_log('_init.type:'.var_export($type,true));
+      // pfif_error_log('_init.type:'.var_export($type,true));
 
       $is_valid_type = ($type != false) ? shn_check_valid_image_type($type) : false;
-      // error_log('is_valid_type:'.var_export($is_valid_type,true));
+      // pfif_error_log('is_valid_type:'.var_export($is_valid_type,true));
 
       if ($is_valid_type) {
          // FIXME (chc 1/31/2010):: Use shn_image_resize_height to rescale oversize images on import
          $image_data = file_get_contents($url, FILE_BINARY);
          if ($image_data === false) {
-            error_log('_init.file_get_contents failed for: ' . $url);
+            pfif_error_log('_init.file_get_contents failed for: ' . $url);
          }
       }
       // Set the image type and size.
@@ -84,7 +84,7 @@ class WebImage {
          $this->initialized = true;
          unset($image_data);
       } else {
-         // error_log("Image get failed for ".$url);
+         // pfif_error_log("Image get failed for ".$url);
       }
    }
 
