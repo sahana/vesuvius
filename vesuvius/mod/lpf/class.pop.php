@@ -4,7 +4,7 @@
 ********************************************************************************************************************************************************************
 *
 * @class        pop
-* @version      10
+* @version      11
 * @author       Greg Miernicki <g@miernicki.com>
 *
 ********************************************************************************************************************************************************************
@@ -12,6 +12,7 @@
 **********************************************************************************************************************************************************************/
 
 class pop {
+
 	private $pop_host;
 	private $pop_port;
 	private $pop_popimap;
@@ -25,7 +26,6 @@ class pop {
 	private $pop_username;
 	private $pop_password;
 	private $smtp_reply_address;
-	private $smtp_reply_name;
 
 	private $attachments;
 	private $incident_id;
@@ -53,6 +53,7 @@ class pop {
 	* @access public
 	*/
 	public function __construct($use="PRIMARY") {
+
 		if ($use == "PRIMARY") {
 			// get configuration settings
 			$this->pop_host           = shn_db_get_config("pop","pop_host1");
@@ -68,7 +69,6 @@ class pop {
 			$this->password           = shn_db_get_config("pop","pop_password1");
 			$this->smtp_backup2       = shn_db_get_config("pop","smtp_backup2");
 			$this->smtp_reply_address = shn_db_get_config("pop","smtp_reply_address1");
-			$this->smtp_reply_name    = shn_db_get_config("pop","smtp_reply_name1");
 		} else {
 			$this->pop_host           = shn_db_get_config("pop","pop_host2");
 			$this->pop_port           = shn_db_get_config("pop","pop_port2");
@@ -83,8 +83,8 @@ class pop {
 			$this->password           = shn_db_get_config("pop","pop_password2");
 			$this->smtp_backup2       = shn_db_get_config("pop","smtp_backup2");
 			$this->smtp_reply_address = shn_db_get_config("pop","smtp_reply_address2");
-			$this->smtp_reply_name    = shn_db_get_config("pop","smtp_reply_name2");
 		}
+
 		$this->messages          = "scriptExecutedAtTime >> ".date("Ymd:Gis.u")."\n";
 		$this->startTime         = microtime(true);
 		$this->stopTime          = null;
@@ -101,6 +101,7 @@ class pop {
 	* Destructor
 	*/
 	public function __destruct() {
+
 		if ($this->mailboxOpen) {
 			// purge and close inbox
 			if ($this->delete_messages) {
@@ -117,6 +118,7 @@ class pop {
 	* @access public
 	*/
 	public function reloadBackupConfig() {
+
 		$this->pop_host           = shn_db_get_config("pop","pop_host2");
 		$this->pop_port           = shn_db_get_config("pop","pop_port2");
 		$this->pop_popimap        = shn_db_get_config("pop","pop_popimap2");
@@ -129,7 +131,6 @@ class pop {
 		$this->username           = shn_db_get_config("pop","pop_username2");
 		$this->password           = shn_db_get_config("pop","pop_password2");
 		$this->smtp_reply_address = shn_db_get_config("pop","smtp_reply_address2");
-		$this->smtp_reply_name    = shn_db_get_config("pop","smtp_reply_name2");
 	}
 
 
@@ -138,14 +139,17 @@ class pop {
 	* Sends an Email to a recipient.
 	*/
 	public function sendMessage($toEmail, $toName, $subject, $bodyHTML, $bodyAlt) {
+
 		global $global;
-		//$messageLog = "";
+		global $conf;
+
 		$messageLog = "";
 		$sendStatus = "";
 		require_once($global['approot']."3rd/phpmailer/class.phpmailer.php");
 		require_once($global['approot']."3rd/phpmailer/class.smtp.php");
 		$mail = new PHPMailer(true);  // the true param means it will throw exceptions on errors, which we need to catch
 		$mail->IsSMTP();              // telling the class to use SMTP
+
 		try {
 			$mail->SMTPDebug  = 0;                                       // enables SMTP debug information (for testing)
 			$mail->SMTPAuth   = ($this->smtp_auth == 1) ? true  : false; // enable SMTP authentication
@@ -155,8 +159,8 @@ class pop {
 			$mail->Username   = $this->pop_username;                     // username
 			$mail->Password   = $this->pop_password;                     // password
 
-			$mail->AddReplyTo($this->smtp_reply_address, $this->smtp_reply_name);
-			$mail->SetFrom(   $this->smtp_reply_address, $this->smtp_reply_name);
+			$mail->AddReplyTo($this->smtp_reply_address, $conf['site_name']);
+			$mail->SetFrom(   $this->smtp_reply_address, $conf['site_name']);
 
 			$mail->AddAddress($toEmail, $toName);
 			$mail->Subject = $subject;
@@ -167,16 +171,21 @@ class pop {
 			$mail->Send();
 			$sendStatus = "SUCCESS\n";
 			$this->messages .= "Successfully sent the message.\n";
-			$this->sentStatus = TRUE;
+			$this->sentStatus = true;
+
 		} catch (phpmailerException $e) {
+
 			$sendStatus = "ERROR";
 			$this->messages .= $e->errorMessage(); // pretty error messages from phpmailer
 			$messageLog .= $e->errorMessage();
+
 		} catch (Exception $e) {
+
 			$sendStatus = "ERROR";
 			$this->messages .= $e->getMessage();   // boring error messages from anything else!
 			$messageLog .= $e->getMessage();
 		}
+
 		$this->messages .= $sendStatus;
 
 		// log that we sent out an email ....
@@ -209,6 +218,7 @@ class pop {
 	* Prints the message log
 	*/
 	public function spit() {
+
 		$this->stopTime = microtime(true);
 		$totalTime = $this->stopTime - $this->startTime;
 		$this->messages .= "scriptExecutedIn >> ".$totalTime." seconds.\n";
