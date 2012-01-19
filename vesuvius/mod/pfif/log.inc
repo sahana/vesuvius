@@ -31,7 +31,7 @@ abstract class Pfif_Log {
             try {
                 $this->start_time = date(LOG_DATE_FORMAT,$start_time);
             } catch (Exception $e) {
-                error_log("date format errror:"+$e->getMessage()+" for start_time = $start_time \n");
+                pfif_error_log("date format errror:"+$e->getMessage()+" for start_time = $start_time \n");
             }
             $this->start_mode = $mode;
             $status = $this->save($log_table);
@@ -134,10 +134,10 @@ abstract class Pfif_Log {
                     $this->log_index = $key;
                     $status = true;
                 } else {
-                    error_log("Pfif_Log.save: failed to retrieve log_index :".$global['db']->ErrorMsg());
+                    pfif_error_log("Pfif_Log.save: failed to retrieve log_index :".$global['db']->ErrorMsg());
                 }
             } catch (Exception $e) {
-                error_log("shn_db_insert error:".$e->getMessage().":".$global['db']->ErrorMsg());
+                pfif_error_log("shn_db_insert error:".$e->getMessage().":".$global['db']->ErrorMsg());
             }
         }
         return $status;
@@ -155,7 +155,7 @@ abstract class Pfif_Log {
         try {
             shn_db_update($insert_array,$log_table,$key);
         } catch (Exception $e) {
-            error_log("shn_db_insert error:".$e->getMessage().":".$global['db']->ErrorMsg());
+            pfif_error_log("shn_db_insert error:".$e->getMessage().":".$global['db']->ErrorMsg());
             return false;
         }
         return true;

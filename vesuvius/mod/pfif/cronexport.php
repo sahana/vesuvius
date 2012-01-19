@@ -35,7 +35,7 @@ function update_harvest_log($r, $req_params, $status) {
    $r->end_harvest($status, $req_params, $pfif_info);
 }
 
-print "database = " . $conf['db_name'];
+print "\nDatabase = " . $conf['db_name'];
 
 // Get all PFIF repository sources.
 $repositories = Pfif_Repository::find_sink();
