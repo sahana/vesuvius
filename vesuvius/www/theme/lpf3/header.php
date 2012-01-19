@@ -55,7 +55,7 @@ if(isset($_GET['shortname'])) {
 		// show the full event specific header...
 		echo '
 			<div id="headerText">
-				<h1>'._t("People Locator").' '.$long.'</h1>
+				<h1>'._t($conf['site_name']).' '.$long.'</h1>
 				<h3>'._t("of").' '.$date.'</h3>
 				<h4>'._t("U.S. National Library of Medicine").'</h4>
 				<h4>'._t("Lister Hill National Center for Biomedical Communications").'</h4>
@@ -70,7 +70,7 @@ if(!$full) {
 
 	echo '
 		<div id="headerText">
-			<h1>'._t("People Locator").'</h1>
+			<h1>'._t($conf['site_name']).'</h1>
 			<h3>&nbsp;</h3>
 			<h4>'._t("U.S. National Library of Medicine").'</h4>
 			<h4>'._t("Lister Hill National Center for Biomedical Communications").'</h4>

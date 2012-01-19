@@ -8,7 +8,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1205
+ * @lastModified 2011.0119
  */
 
 global $global;
@@ -431,7 +431,7 @@ function em_perform_help() {
 			<li><b>Type</b>: indicates whether the event is a <b>REAL</b> or a <b>TEST</b> event. This is spcified by per disaster and all incidents and events that are children of the particular disaster inherit this value from the parent.</li>
 			<li><b>Default</b>: shows which event is the default event a user see when they come to the site.</li>
 			<li><b>Visibility</b>: shows whether an event is visible to the public (enyone may view it) or whether it is only visible to a specific user class.</li>
-			<li><b>Open</b>: an event that is <b>CLOSED</b> cannot accept new persons in the RAP (Report A Person), PLS (Person Locator web Services), and MPRES (Missing Person Registry Email Services). <b>OPEN</b> events allow new persons to be accepted via these three avenues. <b>CLOSED(PF)</b> events are the same as <b>CLOSED</b> events except that they allow the reporting of persons via the Google Person Finder.</li>
+			<li><b>Open</b>: an event that is <b>CLOSED</b> cannot accept new persons in the RAP (Report A Person), PLUS (Web Services), and MPRES (Missing Person Registry Email Services). <b>OPEN</b> events allow new persons to be accepted via these three avenues. <b>CLOSED(PF)</b> events are the same as <b>CLOSED</b> events except that they allow the reporting of persons via the Google Person Finder.</li>
 			<li><b>Edit</b>: is the link you click on to edit this particular event.</li>
 		</ul>
 		<img alt=\"IE6,7,8 dont support inline images, please upgrade to IE9 or Google Chrome, Firefox, Safari\" class=\"inlineHelp\" src=\"data:image/png;base64,".base64_encode(file_get_contents($global['approot'].'/mod/em/help2.png'))."\">
@@ -767,10 +767,10 @@ function em_perform_delete($incident_id, $confirm) {
 		$shortname = $row['shortname'];
 
 		$p = new pop();
-		$subject = "{ People Locator Event Manager Audit }";
+		$subject = "{ ".$conf['site_name']." Event Manager Audit }";
 		$bodyHTML = "
 			<br>
-			<b>The event: ($incident_id) $name / $shortname has been deleted on PL.</b><br>
+			<b>The event: ($incident_id) $name / $shortname has been deleted on ".$conf['site_name'].".</b><br>
 			<br>
 			This is simply an audit email to keep the team aware of such changes.<br>
 			<br>
@@ -778,7 +778,7 @@ function em_perform_delete($incident_id, $confirm) {
 		";
 		$bodyAlt = "
 			\n
-			The event: ($incident_id) $name / $shortname has been deleted on PL.\n
+			The event: ($incident_id) $name / $shortname has been deleted on ".$conf['site_name'].".\n
 			\n
 			This is simply an audit email to keep the team aware of such changes.\n
 			\n
@@ -837,10 +837,10 @@ function em_perform_purge($incident_id, $confirm) {
 		$shortname = $row['shortname'];
 
 		$p = new pop();
-		$subject = "{ People Locator Event Manager Audit }";
+		$subject = "{ ".$conf['site_name']." Event Manager Audit }";
 		$bodyHTML = "
 			<br>
-			<b>The event: ($incident_id) $name / $shortname has been purged on PL.</b><br>
+			<b>The event: ($incident_id) $name / $shortname has been purged on ".$conf['site_name'].".</b><br>
 			<br>
 			This is simply an audit email to keep the team aware of such changes.<br>
 			<br>
@@ -848,7 +848,7 @@ function em_perform_purge($incident_id, $confirm) {
 		";
 		$bodyAlt = "
 			\n
-			The event: ($incident_id) $name / $shortname has been purged on PL.\n
+			The event: ($incident_id) $name / $shortname has been purged on ".$conf['site_name'].".\n
 			\n
 			This is simply an audit email to keep the team aware of such changes.\n
 			\n
@@ -1064,10 +1064,10 @@ function em_perform_new() {
 
 	// email audit...
 	$p = new pop();
-	$subject = "{ People Locator Event Manager Audit }";
+	$subject = "{ ".$conf['site_name']." Event Manager Audit }";
 	$bodyHTML = "
 		<br>
-		<b>A new event has been instantiated on PL.</b><br>
+		<b>A new event has been instantiated on ".$conf['site_name'].".</b><br>
 		<br>
 		This is simply an audit email to keep the team aware of such changes.<br>
 		<br>
@@ -1075,7 +1075,7 @@ function em_perform_new() {
 	";
 	$bodyAlt = "
 		\n
-		A new event has been instantiated on PL.\n\n
+		A new event has been instantiated on ".$conf['site_name'].".\n\n
 		\n
 		This is simply an audit email to keep the team aware of such changes.\n
 		\n
@@ -1091,6 +1091,7 @@ function em_perform_new() {
 // presents a gui to edit a page and its corresponding fields
 function em_perform_edit($incident_id) {
 	global $global;
+	global $conf;
 
 	//$global['xajax_res']->setFlag('debug', true);
 
@@ -1259,7 +1260,7 @@ function em_perform_edit($incident_id) {
                 $checkedSync = $rowpfif['sched_interval_minutes'] == "0" ? "" : "CHECKED";
 		$pfif = "
 			PF repository: <input type=\"text\" id=\"pfifUrl\" name=\"pfifUrl\" size=\"48\" value=\"".htmlspecialchars($rowpfif['base_url'])."\">
-                        &nbsp;&nbsp;Keep PL and PF synchronized? <input type=\"checkbox\" id=\"pfifSync\" name=\"pfifSync\" value=\"1\" ".$checkedSync."><br>
+                        &nbsp;&nbsp;Keep ".$conf['site_name']." and Google PF synchronized? <input type=\"checkbox\" id=\"pfifSync\" name=\"pfifSync\" value=\"1\" ".$checkedSync."><br>
                         (e.g. https://www.google.org/personfinder/sendong)
 		";
         // end PFIF options
@@ -1324,7 +1325,7 @@ function em_perform_edit($incident_id) {
 
 
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" style=\"\">Title Line 2 (appears under People Locator)<br>ie. <b>for the Joplin Tornado</b></td>
+		<td class=\"mainRowOdd emLastWhite\" style=\"\">Title portion 2 (appears next to '".$conf['site_name']."')<br>ie. <b>for the Joplin Tornado</b></td>
 		<td class=\"mainRowOdd emFirstWhite\" style=\"\"><textarea id=\"eventDescription\" rows=1 cols=60 />".$row['description']."</textarea></td>
 	<tr>
 
