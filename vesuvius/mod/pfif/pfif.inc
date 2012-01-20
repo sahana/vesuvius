@@ -404,7 +404,7 @@ class Pfif {
    }
 
    private function do_post_request($url, $data, $optional_headers = null) {
-      ini_set('track_errors', 1); 
+      ini_set('track_errors', 1);
       $params = array('http' => array(
               'method' => 'POST',
               'content' => $data
@@ -414,7 +414,7 @@ class Pfif {
       }
       $ctx = stream_context_create($params);
       $fp = @fopen($url, 'rb', false, $ctx);
-      ini_set('track_errors', 0); 
+      ini_set('track_errors', 0);
       if (!$fp) {
         error_log("Problem with $url, $php_errormsg");
         return -1;
@@ -427,7 +427,7 @@ class Pfif {
       return $response;
    }
 
-   /* 
+   /*
     * Note that command-line curl comes in handy for debugging.
     * curl -X POST -H 'Content-type: application/xml' --data-binary @your_file.xml \
       http://haiticrisis.appspot.com/api/write?key=your_auth_key
