@@ -192,6 +192,8 @@ function shn_mpres_status() {
  * @return void
  */
 function shn_mpres_person_log() {
+
+	global $conf;
 	global $global;
 	$count = 0;
 
@@ -252,7 +254,7 @@ function shn_mpres_person_log() {
 			$odd = "class=\"evener\"";
 		}
 		echo "  <tr>
-				<td ".$odd."><a href=\"https://".$row['p_uuid']."\">".$row['p_uuid']."</a></td>
+				<td ".$odd."><a href=\"".$conf['https'].$row['p_uuid']."\">".$row['p_uuid']."</a></td>
 				<td ".$odd.">".$row['email_from']."</td>
 				<td ".$odd.">".$row['email_subject']."</td>
 				<td ".$odd.">".$row['update_time']."</td>
