@@ -282,7 +282,7 @@ class SearchDB
 				if ($result = $mysqli->store_result()) {
 				  if ( $c == 0 ) {
 						while ($row = $result->fetch_assoc()) {
-							$encodedUUID = base64_encode($row["p_uuid"]);
+							$encodedUUID = $conf['https'].$conf['base_uuid']."edit?puuid=".urlencode($row["p_uuid"]);
 							$this->results[] = array('p_uuid'=>$row["p_uuid"],
 									'encodedUUID'=>$encodedUUID,
 									'full_name'=>htmlspecialchars($row["full_name"]),
@@ -499,6 +499,9 @@ class SearchDB
 	}
 
 	private function processSOLRjson() {
+
+		global $conf;
+
 		$tempObject = json_decode($this->SOLRjson);
 
 		// set rows found
@@ -513,7 +516,7 @@ class SearchDB
 
                         // Don't camelcase full_name (PL-273).
 			$this->results[] = array('p_uuid' => $doc->p_uuid,
-				 'encodedUUID' => base64_encode($doc->p_uuid),
+				 'encodedUUID' => $conf['https'].$conf['base_uuid']."edit?puuid=".urlencode($doc->p_uuid),
 				   'full_name' => isset($doc->full_name) ? htmlspecialchars($doc->full_name) : null,
 				  'opt_status' => isset($doc->opt_status) ? $doc->opt_status : null,
 				    'imageUrl' => isset($doc->url_thumb) ? $doc->url_thumb : null,

@@ -18,6 +18,7 @@ $conf['site_name'] = "Sahana Vesuvius";
 # Must be unique and 4 or more alphanumberic characters
 # this also is used throughout Vesuvius as the base URL for the site (must retain trailing slash)
 $conf['base_uuid'] = "vesuvius.sahanafoundation.org/";
+#$conf['base_uuid'] = "plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/";
 
 # server uses https or http ~ some modules use this plus the base_uuid to form url's
 $conf['https'] = "https://";

@@ -2,6 +2,10 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
 
+ALTER TABLE  `person_notes` CHANGE  `note_about_p_uuid`  `note_about_p_uuid` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+ALTER TABLE  `person_notes` CHANGE  `note_written_by_p_uuid`  `note_written_by_p_uuid` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+
+
 ///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
 
 

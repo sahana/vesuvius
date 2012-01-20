@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Edit A Person
- * @version      1.9
+ * @version      1.11
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0109
+ * @lastModified 2012.0119
  */
 
 global $global;
@@ -22,21 +22,22 @@ $global['uuid'] = "";
 $global['makeStaticPfifNote'] = false;
 
 
-/**
- * Entry point for mod_rewrite person uuid urls
- */
-function shn_eap_modrewrite() {
-	shn_eap_edit();
+// Entry point for mod_rewrite urls
+function shn_eap_default() {
+
+	if(isset($_GET['addNote'])) {
+		shn_eap_addNote();
+	} elseif(isset($_GET['follow'])) {
+		shn_eap_follow();
+	} elseif(isset($_GET['unfollow'])) {
+		shn_eap_unfollow();
+	} else {
+		shn_eap_edit();
+	}
 }
 
 
-
-/**
- * Begin following a person.....
- *
- * @access public
- * @return void
- */
+// Begin following a person.....
 function shn_eap_follow() {
 	global $global;
 	shn_eap_findRights();
@@ -76,7 +77,7 @@ function shn_eap_follow() {
  * @access public
  * @return void
  */
-function shn_eap_unFollow() {
+function shn_eap_unfollow() {
 	global $global;
 	shn_eap_findRights();
 
@@ -200,14 +201,19 @@ function shn_eap_mainmenu() {
  * @return void
  */
 function shn_eap_findRights() {
+
 	global $global;
 	global $conf;
 
 	// if we came in via a mod_rewrite rule for a uuid formed from a url, use its $val here...
 	if(isset($_GET['val'])) {
 		$global['uuid'] = mysql_real_escape_string($conf['base_uuid'].$_GET['val']);
+
+	} elseif(isset($_GET['puuid'])) {
+		$global['uuid'] = mysql_real_escape_string(urldecode($_GET['puuid']));
+
 	} else {
-		$global['uuid'] = mysql_real_escape_string(base64_decode($_GET['uuid']));
+		$global['uuid'] = mysql_real_escape_string(urldecode($_GET['puuid']));
 	}
 
 	// first and foremost, check if the user has permissions to view the record
@@ -552,6 +558,7 @@ function updateFullName($editGivenName, $editFamilyName) {
  * @return void
  */
 function shn_eap_edit() {
+
 	global $global;
 	global $conf;
 	global $shn_tabindex;
@@ -829,7 +836,7 @@ function shn_eap_edit() {
 	if(preg_match("+".$conf['base_uuid']."+", $global['uuid']) > 0) {
 		echo "
 					<label><b>Origin ID</b> </label>
-					<input type=\"text\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit2 public\" READONLY>
+					<input type=\"text\" value=\"".$global['uuid']."\" size=\"96\" class=\"nonedit2 public\" READONLY>
 					<br>
 
 					<label><b>Origin URL</b> </label>
@@ -1267,7 +1274,7 @@ function shn_eap_edit() {
 
 		echo "
 			<div class=\"form-container\">
-			<form method=\"post\" id=\"editPublic\" name=\"editPublic\" action=\"index.php?mod=eap&act=edit".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
+			<form method=\"post\" id=\"editPublic\" name=\"editPublic\" action=\"edit?puuid=".urlencode($global['uuid'])."\">
 			<fieldset id=\"editPublic\">
 			<legend><span class=\"publicText\">Public Information</span></legend>
 
@@ -1599,7 +1606,7 @@ function shn_eap_edit() {
 	// NOTES BEGIN ////////////////////////////////////////////////////////////////////////////////////////
 	echo "
 		<div class=\"form-container\">
-		<form method=\"post\" id=\"notesPerson\" name=\"notesPerson\" action=\"index.php?mod=eap&act=addNote".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
+		<form method=\"post\" id=\"notesPerson\" name=\"notesPerson\" action=\"edit?addNote&puuid=".urlencode($global['uuid'])."\">
 		<fieldset id=\"editNotes\">
 		<legend><span class=\"notesText\">Notes</span></legend>
 	";
@@ -1805,14 +1812,9 @@ function shn_eap_edit() {
 
 		echo "
 			<div class=\"form-container\">
-			<form method=\"post\" id=\"editPrivateForm\" name=\"editPrivateForm\" action=\"index.php?mod=eap&act=edit".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
+			<form method=\"post\" id=\"editPrivateForm\" name=\"editPrivateForm\" action=\"edit?puuid=".urlencode($global['uuid'])."\">
 			<fieldset id=\"editPrivate\">
 			<legend><span class=\"privateText\">Private Contact Information (not visible to the public)</span></legend>
-		";
-
-		//shn_form_textarea("Address",                  "address", null,       array('value'=>$editAddress, 'cols'=>70));
-
-		echo "
 			<label for=\"address\">Street Address</label>
 			<textarea name=\"address\" id=\"address\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editAddress."</textarea>
 			<br>
@@ -1921,9 +1923,8 @@ function shn_eap_edit() {
 						fP.submit();
 					}
 				</script>
-
 				<div class=\"form-container\">
-				<form method=\"post\" id=\"followPerson\" name=\"followPerson\" action=\"index.php?mod=eap&act=follow".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
+				<form method=\"post\" id=\"followPerson\" name=\"followPerson\" action=\"edit?follow&puuid=".urlencode($global['uuid'])."\">
 				<fieldset id=\"editFollow\">
 				<legend><span class=\"followText\">Follow</span></legend>
 				To receive email alerts when this record is updated with new information, you can elect to follow this person. You will only receive an email when the reporter or staff change any of the information in this person's record or when a user of the site leaves a note on this page.<br>
@@ -1944,7 +1945,7 @@ function shn_eap_edit() {
 					}
 				</script>
 				<div class=\"form-container\">
-				<form method=\"post\" id=\"unFollowPerson\" name=\"unFollowPerson\" action=\"index.php?mod=eap&act=unFollow".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
+				<form method=\"post\" id=\"unFollowPerson\" name=\"unFollowPerson\" action=\"edit?unfollow&puuid=".urlencode($global['uuid'])."\">
 				<fieldset id=\"editFollow\">
 				<legend><span class=\"followText\">Follow</span></legend>
 				To stop receiving email alerts when this record is updated with new information or notes, you can elect to unfollow this person.<br>
