@@ -70,13 +70,14 @@ class SearchDB
 	/**
 	 *  Constructor
 	 *
-	 * Params: $searchMode = "solr" or "sql"
-			   $sStatus = "missing;alive;injured;deceased;unknown"
-	 *  	   $sPageControls = "pageStart;perPage;sortBy;mode"
-	 *         $sGender = gender imploded
-	 *	   	   $sAge = age imploded
+	 * Params:
+	 * $searchMode = "solr" or "sql"
+	 * $sStatus = "missing;alive;injured;deceased;unknown"
+	 * $sPageControls = "pageStart;perPage;sortBy;mode"
+	 * $sGender = gender imploded
+	 * $sAge = age imploded
 	 *
-	 *///
+	 */
 	public function SearchDB($searchMode, $incident, $searchTerm, $sStatus = "true;true;true;true;true;true", $sGender="true;true;true;true", $sAge="true;true;true", $sHospital="true;true;true", $sPageControls="0;-1;;true") {
 		$this->incident = $incident;
                 // Look for hidden search string for filtering on images (PL-261).

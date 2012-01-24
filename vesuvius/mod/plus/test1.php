@@ -44,7 +44,7 @@ $client = new nusoap_client($wsdl);
 //$result = $client->call('reportPerson', array('personXML'=>null, 'eventShortName'=>null, 'xmlFormat'=>'TRIAGEPIC', 'username'=>null, 'password'=>null));
 //$result = $client->call('createPersonUuid', array('username'=>'testDontDelete', 'password'=>'dontDelete99'));
 //$result = $client->call('createPersonUuidBatch', array('number'=>5, 'username'=>'testDontDelete', 'password'=>'dontDelete99'));
-/*
+
 $result = $client->call('searchWithAuth', array(
 	'eventShortname'=>'test',
 	'searchTerm'=>'t',
@@ -67,16 +67,14 @@ $result = $client->call('searchWithAuth', array(
 	'pageStart'=>0,
 	'perPage'=>10,
 	'sortBy'=>'',
-	'mode'=>true,
 	'username'=>'testDontDelete',
 	'password'=>'dontDelete99'
 ));
-*/
 
 //$x = file_get_contents("RU.xml");
 $x = file_get_contents("reference_REUNITE3.xml");
 //$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
-$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
+//$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
 
 //$x = file_get_contents("TP.xml");
 $x = file_get_contents("reference_TRIAGEPIC1.xml");
