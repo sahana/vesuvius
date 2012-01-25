@@ -896,6 +896,127 @@ function shn_eap_edit() {
 	$woman   = "res/img/s3woman.png";
 	$unknown = "res/img/s4unknown.png";
 
+	echo "
+		<div class=\"form-container\">
+			<form method=\"post\" id=\"editPublic\" name=\"editPublic\" action=\"edit?puuid=".urlencode($global['uuid'])."\" enctype=\"multipart/form-data\">
+				<fieldset id=\"editImages\">
+					<legend>Images</legend>
+	";
+
+	if($global['publicEdit']) {
+
+		// add images...
+		if((count($_POST) > 0) && isset($_POST['UPLOAD'])) {
+
+			//echo "<pre>".print_r($_FILES, true)."</pre>";
+
+			$name     = $_FILES["add_image"]["name"];
+			$type     = $_FILES["add_image"]["type"];
+			$tmp_name = $_FILES["add_image"]["tmp_name"];
+			$error    = $_FILES["add_image"]["error"];
+			$size     = $_FILES["add_image"]["size"];
+
+			if($size > 1000000) {
+				add_error("Uploaded file is too large. Please upload an image file smaller than 1MB.");
+
+			} elseif($type == "image/gif" || $type == "image/jpeg" || $type == "image/png") {
+
+				if ($_FILES["file"]["error"] > 0) {
+					echo "Return Code: " . $_FILES["file"]["error"] . "<br />";
+
+				} else {
+					// get the file contents...
+					$image = file_get_contents($tmp_name);
+
+/*
+					echo "Upload: ".$name."<br />";
+					echo "Type: ".$type."<br />";
+					echo "Size: ".($size/1000000)." MB<br />";
+					echo "Temp file: ".$tmp_name."<br />";
+*/
+					require_once($global['approot']."inc/lib_image.inc");
+
+					// generate path and filename portion
+					$a = explode("/", $global['uuid']);
+
+					$image_id = shn_create_uuid("image");
+
+					$filename = $a[0]."_".$a[1]; // make pl.nlm.nih.gov/person.123456 into pl.nlm.nih.gov_person.123456
+					$filename = $filename."_".$image_id."_"; // filename now like pl.nlm.nih.gov_person.123456_112233_
+					$path = $global['approot']."www/tmp/plus_cache/".$filename; // path is now like /opt/pl/www/tmp/plus_cache/pl.nlm.nih.gov_person.123456_112233_
+
+					// save original like /opt/pl/www/tmp/plus_cache/person.123456_112233_original
+					file_put_contents($path."original", $image);
+
+					// get information from original file
+					$info = getimagesize($path."original");
+					$image_width  = $info[0];
+					$image_height = $info[1];
+					list(,$mime) = explode("/",$info['mime']);
+					$mime = strtolower($mime);
+					$image_type = $mime;
+					if(stripos($mime,"png") !== FALSE) {
+						$ext = ".png";
+					} elseif(stripos($mime,"gif") !== FALSE) {
+						$ext = ".gif";
+					} else {
+						$ext = ".jpg";
+					}
+
+					// save full size resampled image like /opt/pl/www/tmp/plus_cache/person.123456_112233_full.ext
+					shn_image_resize($path."original", $path."full".$ext, $image_width, $image_height);
+
+					// save thumb resampled image (320px height) like /opt/pl/www/tmp/plus_cache/person.123456_112233_thumb.ext
+					shn_image_resize_height($path."original", $path."thumb".$ext, 320);
+
+					$fullSizePath  = $path."full".$ext;
+					$thumbnailPath = $path."thumb".$ext;
+
+					// update URLs
+					$url       = "tmp/plus_cache/".$filename."full".$ext;
+					$url_thumb = "tmp/plus_cache/".$filename."thumb".$ext;
+
+					// make the files world writeable for other users/applications and to handle deletes
+					chmod($path."original",   0777);
+					chmod($path."full".$ext,  0777);
+					chmod($path."thumb".$ext, 0777);
+
+					$q = "
+						INSERT INTO image (
+							image_id,
+							p_uuid,
+							image_type,
+							image_height,
+							image_width,
+							url,
+							url_thumb,
+							original_filename )
+						VALUES (
+							'".$image_id."',
+							'".$global['uuid']."',
+							'".$image_type."',
+							'".$image_height."',
+							'".$image_width."',
+							'".$url."',
+							'".$url_thumb."',
+							'".mysql_real_escape_string((string)$tmp_name)."' );
+					";
+					$result = $global['db']->Execute($q);
+					if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "eap insert image ((".$q."))"); }
+				}
+			} else {
+				add_error("Invalid filetype uploaded. Supported image filetypes are jpeg, png, and gif.");
+			}
+		}
+		echo '
+			<div style="background-color: #fff; padding: 5px; border: 1px solid #bbb; float: left; text-align: center; margin-right: 10px;">
+			Add an additional image to this record:<br><input type="file" name="add_image" id="add_image" /><br><input type="submit" name="UPLOAD" id="UPLOAD" value="UPLOAD" class="styleTehButton"/>
+			</div>
+		';
+	}
+
+	// show all images
+
 	// figure out if the person has any images ...
 
 	$q  = "
@@ -911,59 +1032,43 @@ function shn_eap_edit() {
 	$imagesFull  = array();
 	$imagesThumb = array();
 
-	// we has images
-	if($num > 0) {
-		$q  = "
-			SELECT *
-			FROM image
-			WHERE p_uuid = '".$global['uuid']."';
-		";
-		$r   = $global['db']->Execute($q);
-		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 14 ((".$q."))"); }
-		while ($row = $r->FetchRow()) {
-			$imagesFull[]  = $row['url'];
-			$imagesThumb[] = $row['url_thumb'];
-		}
+	$q  = "
+		SELECT *
+		FROM image
+		WHERE p_uuid = '".$global['uuid']."';
+	";
+	$r   = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 14 ((".$q."))"); }
+	while ($row = $r->FetchRow()) {
+		$imagesFull[]  = $row['url'];
+		$imagesThumb[] = $row['url_thumb'];
+	}
 
+	for($i = 0; $i < $num; $i++) {
 		echo "
-			<div class=\"form-container\">
-				<form>
-					<fieldset id=\"editImages\">
-						<legend>Images</legend>
-		";
-
-		// show all images
-		for($i = 0; $i < $num; $i++) {
-			echo "
-						<a href=\"".$imagesFull[$i]."\" target=\"_blank\">
-							<div style=\"background-color: #fff; padding: 5px; border: 1px solid #777; float: left; text-align: center; margin-right: 10px;\">
-								<img height=\"150\" src=\"".$imagesThumb[$i]."\">
-								<div style=\"clear:both;\"></div>
-								zoom
-							</div>
-						</a>
-			";
-		}
-		echo "
-					</fieldset>
-				</form>
-			</div>
-		";
-
-
-	// no images
-	} else {
-		echo "
-			<div class=\"form-container\">
-				<form>
-					<fieldset id=\"editImages\">
-						<legend>Images</legend>
-						No Images.
-					</fieldset>
-				</form>
-			</div>
+					<a href=\"".$imagesFull[$i]."\" target=\"_blank\">
+						<div style=\"background-color: #fff; padding: 5px; border: 1px solid #777; float: left; text-align: center; margin-right: 10px; margin-bottom: 10px;\">
+							<img height=\"150\" src=\"".$imagesThumb[$i]."\">
+							<div style=\"clear:both;\"></div>
+							zoom
+						</div>
+					</a>
 		";
 	}
+	if($num == 0) {
+		echo '
+			<div style="float: left; margin-right: 10px;">
+			This record does not have an image associated with it.
+			</div>
+		';
+	}
+
+
+	echo "
+				</fieldset>
+			</form>
+		</div>
+	";
 	// IMAGES END /////////////////////////////////////////////////////////////////////////////////////
 
 
