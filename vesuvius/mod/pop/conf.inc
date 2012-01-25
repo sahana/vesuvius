@@ -11,7 +11,7 @@
  */
 
 
-$conf['mod_pop_name']         = _t("Outbound Email");  // Defines the name of the module
-$conf['mod_pop_menuorder']    = 89;                             // Defines this module's main menu priority
+$conf['mod_pop_name']         = _t("Outbound Email");
+$conf['mod_pop_menuorder']    = 84;
 $conf['mod_pop_dependencies'] = "";
 $conf['mod_pop_version']      = 1.0;

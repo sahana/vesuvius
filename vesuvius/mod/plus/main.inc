@@ -18,7 +18,9 @@ function shn_plus_default() {
 
 
 function shn_plus_header2() {
+
 	global $global;
+
 	echo "<ul>";
 
 	if($global['action'] == "reportlog" || $global['action'] == "default") {
@@ -119,7 +121,7 @@ function shn_plus_reportlog() {
 		$uu = explode("/", $row['p_uuid']);
 		$url = $uu[1];
 		echo "  <tr>
-				<td ".$odd."><a href=\"".$url."\">".$row['p_uuid']."</a></td>
+				<td ".$odd."><a href=\"edit?puuid=".urlencode($row['p_uuid'])."\" target=\"_blank\">".$row['p_uuid']."</a></td>
 				<td ".$odd.">".$row['report_time']."</td>
 				<td ".$odd.">".$row['enum']."</td>
 			</tr>";
