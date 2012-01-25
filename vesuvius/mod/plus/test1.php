@@ -21,9 +21,7 @@ $wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?
 $client = new nusoap_client($wsdl);
 
 //$result = $client->call('getNullTokenList', array('tokenStart'=>'0', 'tokenEnd'=>'120', 'username'=>$user, 'password'=>$pass));
-
 //$result = $client->call('getImageListBlock', array('tokenStart'=>'314', 'stride'=>2, 'username'=>$user, 'password'=>$pass));
-
 //$result = $client->call('getImageList', array('tokenStart'=>'262', 'tokenEnd'=>'311', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('getImageCountsAndTokens', array('username'=>$user, 'password'=>$pass));
 //$result = $client->call('expirePerson', array('uuid'=>'pl.nlm.nih.gov/person.4001018', 'explanation'=>'because!!!!', 'username'=>$user, 'password'=>$pass));
@@ -47,7 +45,7 @@ $client = new nusoap_client($wsdl);
 
 $result = $client->call('searchWithAuth', array(
 	'eventShortname'=>'test',
-	'searchTerm'=>'t',
+	'searchTerm'=>'te',
 	'filterStatusMissing'=>true,
 	'filterStatusAlive'=>true,
 	'filterStatusInjured'=>true,
