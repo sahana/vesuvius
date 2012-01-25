@@ -2,14 +2,17 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
 
+///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
+
+
+2012:0124 Greg
+--------------
+
 ALTER TABLE  `person_notes` CHANGE  `note_about_p_uuid`  `note_about_p_uuid` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
 ALTER TABLE  `person_notes` CHANGE  `note_written_by_p_uuid`  `note_written_by_p_uuid` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
 ALTER TABLE  `person_followers` DROP FOREIGN KEY  `person_followers_ibfk_3` ;
 ALTER TABLE  `person_followers` DROP FOREIGN KEY  `person_followers_ibfk_4` ;
-UPDATE  `person_uuid` SET  `incident_id` = NULL , `hospital_uuid` = NULL WHERE  `person_uuid`.`p_uuid` =  '8' LIMIT 1
-
-
-///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
+UPDATE  `person_uuid` SET  `incident_id` = NULL , `hospital_uuid` = NULL WHERE  `person_uuid`.`p_uuid` =  '8' LIMIT 1 ;
 
 
 2012:0109 Greg
