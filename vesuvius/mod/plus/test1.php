@@ -15,9 +15,9 @@ $user = "testDontDelete";
 $pass = "dontDelete99";
 require_once("../../3rd/nusoap/lib/nusoap.php");
 
-//$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=2.2";
+$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=2.2";
 //$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=2.2";
-$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.2";
+//$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.2";
 $client = new nusoap_client($wsdl);
 
 //$result = $client->call('getNullTokenList', array('tokenStart'=>'0', 'tokenEnd'=>'120', 'username'=>$user, 'password'=>$pass));
@@ -43,9 +43,9 @@ $client = new nusoap_client($wsdl);
 //$result = $client->call('createPersonUuid', array('username'=>'testDontDelete', 'password'=>'dontDelete99'));
 //$result = $client->call('createPersonUuidBatch', array('number'=>5, 'username'=>'testDontDelete', 'password'=>'dontDelete99'));
 
-$result = $client->call('searchWithAuth', array(
+$result = $client->call('search', array(
 	'eventShortname'=>'test',
-	'searchTerm'=>'',
+	'searchTerm'=>'g2',
 	'filterStatusMissing'=>true,
 	'filterStatusAlive'=>true,
 	'filterStatusInjured'=>true,
@@ -63,10 +63,8 @@ $result = $client->call('searchWithAuth', array(
 	'filterHospitalWRNMMC'=>true,
 	'filterHospitalOther'=>true,
 	'pageStart'=>0,
-	'perPage'=>10,
-	'sortBy'=>'',
-	'username'=>'testDontDelete',
-	'password'=>'dontDelete99'
+	'perPage'=>9999,
+	'sortBy'=>''
 ));
 
 //$x = file_get_contents("RU.xml");
@@ -81,3 +79,4 @@ $x = file_get_contents("reference_TRIAGEPIC1.xml");
 
 echo "<pre>wsdl >> ".$wsdl."\n\n".var_export($result, true)."</pre>";
 
+echo "<pre>resultSet: ".print_r(json_decode($result['resultSet']), true)."</pre>";
