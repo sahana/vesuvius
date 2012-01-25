@@ -70,13 +70,14 @@ class SearchDB
 	/**
 	 *  Constructor
 	 *
-	 * Params: $searchMode = "solr" or "sql"
-			   $sStatus = "missing;alive;injured;deceased;unknown"
-	 *  	   $sPageControls = "pageStart;perPage;sortBy;mode"
-	 *         $sGender = gender imploded
-	 *	   	   $sAge = age imploded
+	 * Params:
+	 * $searchMode = "solr" or "sql"
+	 * $sStatus = "missing;alive;injured;deceased;unknown"
+	 * $sPageControls = "pageStart;perPage;sortBy;mode"
+	 * $sGender = gender imploded
+	 * $sAge = age imploded
 	 *
-	 *///
+	 */
 	public function SearchDB($searchMode, $incident, $searchTerm, $sStatus = "true;true;true;true;true;true", $sGender="true;true;true;true", $sAge="true;true;true", $sHospital="true;true;true", $sPageControls="0;-1;;true") {
 		$this->incident = $incident;
                 // Look for hidden search string for filtering on images (PL-261).
@@ -282,7 +283,7 @@ class SearchDB
 				if ($result = $mysqli->store_result()) {
 				  if ( $c == 0 ) {
 						while ($row = $result->fetch_assoc()) {
-							$encodedUUID = base64_encode($row["p_uuid"]);
+							$encodedUUID = $conf['https'].$conf['base_uuid']."edit?puuid=".urlencode($row["p_uuid"]);
 							$this->results[] = array('p_uuid'=>$row["p_uuid"],
 									'encodedUUID'=>$encodedUUID,
 									'full_name'=>htmlspecialchars($row["full_name"]),
@@ -499,6 +500,9 @@ class SearchDB
 	}
 
 	private function processSOLRjson() {
+
+		global $conf;
+
 		$tempObject = json_decode($this->SOLRjson);
 
 		// set rows found
@@ -513,7 +517,7 @@ class SearchDB
 
                         // Don't camelcase full_name (PL-273).
 			$this->results[] = array('p_uuid' => $doc->p_uuid,
-				 'encodedUUID' => base64_encode($doc->p_uuid),
+				 'encodedUUID' => $conf['https'].$conf['base_uuid']."edit?puuid=".urlencode($doc->p_uuid),
 				   'full_name' => isset($doc->full_name) ? htmlspecialchars($doc->full_name) : null,
 				  'opt_status' => isset($doc->opt_status) ? $doc->opt_status : null,
 				    'imageUrl' => isset($doc->url_thumb) ? $doc->url_thumb : null,

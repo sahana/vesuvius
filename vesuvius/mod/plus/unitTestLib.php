@@ -495,7 +495,6 @@ function search($shortname, $searchTerm) {
 			'pageStart'            => 0,
 			'perPage'              => 10,
 			'sortBy'               => "",
-			'mode'                 => true
 			));
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
@@ -537,7 +536,6 @@ function searchWithAuth($shortname, $searchTerm, $username, $password) {
 			'pageStart'            => 0,
 			'perPage'              => 10,
 			'sortBy'               => "",
-			'mode'                 => true,
 			'username'             => $username,
 			'password'             => $password
 			));
