@@ -1003,6 +1003,8 @@ function shn_eap_edit() {
 					";
 					$result = $global['db']->Execute($q);
 					if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "eap insert image ((".$q."))"); }
+
+					add_confirmation("Your image has been uploaded successfully.");
 				}
 			} else {
 				add_error("Invalid filetype uploaded. Supported image filetypes are jpeg, png, and gif.");
