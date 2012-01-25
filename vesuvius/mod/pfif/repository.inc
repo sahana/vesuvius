@@ -72,6 +72,8 @@ class Pfif_Repository {
 
         // Verify that a harvest is not already in progress
         if (!empty($this->log) && $this->log->status == 'started') {
+            // Print something to standard out to get some idea of frequency.
+            print ("\nRepository '".$this->name."' already started!");
             return false;
         }
 
@@ -116,6 +118,7 @@ class Pfif_Repository {
         //var_dump($done, $start_time, $log_start, $gran_secs);
         return $done;
     }
+
     public function start_harvest($mode, $direction) {
         $start_time = time();
         if ($this->is_ready_for_harvest($direction, $start_time)) {
@@ -123,7 +126,7 @@ class Pfif_Repository {
             if ($log->status == 'paused' && $this->is_logrecord_done($start_time)) {
                 $log->status = 'completed';
                 $log->update();
-                print "start_harvest: closed log record with start time ".$log->start_time."\n";
+                //print "start_harvest: closed log record with start time ".$log->start_time."\n";
             }
             $this->log->start($this->id, $start_time, $mode, $direction);
         } else {
@@ -241,7 +244,7 @@ class Pfif_Repository {
 
         $r_list = false;
         if (!$rs) {
-            error_log("ERROR: find ".$where_clause." failed! ".$global['db']->_errorMsg."\n");
+            pfif_error_log("ERROR: find ".$where_clause." failed! ".$global['db']->_errorMsg."\n");
         } else {
             foreach ($rs as $id => $row) {
                 //var_dump($id,$row);
@@ -327,10 +330,10 @@ class Pfif_Repository {
                     $this->id = $key;
                     $status = true;
                 } else {
-                    error_log("Pfif_Repository.save: failed to retrieve log_index :".$global['db']->ErrorMsg());
+                    pfif_error_log("Pfif_Repository.save: failed to retrieve log_index :".$global['db']->ErrorMsg());
                 }
             } catch (Exception $e) {
-                error_log("shn_db_insert error:".$e->getMessage().":".$global['db']->ErrorMsg());
+                pfif_error_log("shn_db_insert error:".$e->getMessage().":".$global['db']->ErrorMsg());
             }
         }
         return $status;
@@ -348,7 +351,7 @@ class Pfif_Repository {
                 shn_db_update($insert_array,'pfif_repository',$key);
                 $status = true;
             } catch (Exception $e) {
-                error_log("shn_db_insert error:".$e->getMessage().":".$global['db']->ErrorMsg());
+                pfif_error_log("shn_db_insert error:".$e->getMessage().":".$global['db']->ErrorMsg());
             }
         }
         return $status;

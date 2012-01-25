@@ -119,7 +119,7 @@ foreach ($import_queue as $service_name => $service) {
          update_harvest_log($repos, $req_params, 'completed');
       } else {
          if ($loaded == -1) {
-            error_log("Import failed from repository $service_name at ".strftime('%c')."\n");
+            pfif_error_log("Import failed from repository $service_name at ".date("Y-m-d H:i:s")."\n");
          } else {
             print "0 records for import from repository $service_name\n";
          }
@@ -127,7 +127,7 @@ foreach ($import_queue as $service_name => $service) {
       }
       unset($p);
    } catch (Exception $e) {
-      error_log("Error in import: " . $e->getMessage() . "\n");
+      pfif_error_log("Error in import: " . $e->getMessage() . "\n");
    }
    unset($_SESSION['pfif_info']);
 }
