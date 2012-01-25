@@ -1532,20 +1532,15 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 
 	if(!$error) {
 
-		// PL-306
-		// we only use SQL search for now, something is broken with SOLR
-		$searchMode = "sql";
-/*
 		if($conf['enable_solr_for_search'] == true) {
 			$searchMode = "solr";
 		} else {
 			$searchMode = "sql";
 		}
-*/
 
 		// find lack of sort order and use last updated as a result...
 		if(trim($sortBy) == "") {
-			$sortBy = "last_updated";
+			$sortBy = " updated desc,score desc";
 		}
 
 		$filterStatusMissing  = ($filterStatusMissing)  ? 'true' : 'false';
@@ -1569,7 +1564,7 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 		$sGender       = $filterGenderComplex.";".$filterGenderMale.";".$filterGenderFemale.";".$filterGenderUnknown;
 		$sAge          = $filterAgeChild.";".$filterAgeAdult.";".$filterAgeUnknown;
 		$sHospital     = $filterHospitalSH.";".$filterHospitalWRNMMC.";".$filterHospitalOther;
-		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";".$mode;
+		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";true";
 
 		require_once($global['approot']."/mod/inw/SearchDB.php");
 		$timeElsapsed = 0;
@@ -1646,19 +1641,15 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 
 	if(!$error) {
 
-		// PL-306
-		// we only use SQL search for now, something is broken with SOLR
-		$searchMode = "sql";
-/*
 		if($conf['enable_solr_for_search'] == true) {
 			$searchMode = "solr";
 		} else {
 			$searchMode = "sql";
 		}
-*/
+
 		// find lack of sort order and use last updated as a result...
 		if(trim($sortBy) == "") {
-			$sortBy = "last_updated";
+			$sortBy = " updated desc,score desc";
 		}
 
 		$filterStatusMissing  = ($filterStatusMissing)  ? 'true' : 'false';
@@ -1682,7 +1673,7 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 		$sGender       = $filterGenderComplex.";".$filterGenderMale.";".$filterGenderFemale.";".$filterGenderUnknown;
 		$sAge          = $filterAgeChild.";".$filterAgeAdult.";".$filterAgeUnknown;
 		$sHospital     = $filterHospitalSH.";".$filterHospitalWRNMMC.";".$filterHospitalOther;
-		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";".$mode;
+		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";true";
 
 		require_once($global['approot']."/mod/inw/SearchDB.php");
 		$timeElsapsed = 0;
