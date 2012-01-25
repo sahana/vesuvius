@@ -143,7 +143,7 @@ function shn_map_status_from_pfif($status, $found, $old_status) {
 
    // Do the ranking mapping.
    $result = $status_ranking_map[$old_status][$new_status];
-   //error_log("Old status: " . $old_status . " new status: " . $result);
+   //pfif_error_log("Old status: " . $old_status . " new status: " . $result);
    return $result;
 }
 
@@ -160,7 +160,7 @@ function shn_map_gender_to_pfif($personRecord, $source_person) {
    $g = '';
    if (!empty($personRecord['opt_gender'])) {
       $g = $gender_map[$personRecord['opt_gender']];
-      //DEBUG: error_log("mapped gender to ".$g);
+      //DEBUG: pfif_error_log("mapped gender to ".$g);
    }
    return $g;
 }
@@ -239,11 +239,11 @@ function fetch_image($photo_url, $person_record_id) {
    $result = array();
    // var_dump('id',$person_record_id,'photo_url',$photo_url,'empty?',empty($photo_url));
    if (!empty($photo_url)) {
-      // error_log("Found photo for ".$person->person_record_id." at ".$person->photo_url);
+      // pfif_error_log("Found photo for ".$person->person_record_id." at ".$person->photo_url);
       $image = new WebImage($photo_url, $person_record_id);
-      // error_log("new WebImage() returns:".var_export($image,true));
+      // pfif_error_log("new WebImage() returns:".var_export($image,true));
       if ($image->is_initialized()) {
-         // error_log("image type: $image->type width: $image->width height; $image->height");
+         // pfif_error_log("image type: $image->type width: $image->width height; $image->height");
          $result['image_type'] = $image->type;
          $result['image_height'] = $image->height;
          $result['image_width'] = $image->width;
@@ -271,14 +271,19 @@ function fetch_image($photo_url, $person_record_id) {
             }
             $result['url_thumb'] = PFIF_IMG_CACHE_DIR . $thumbName;
          } else { // image write failed
-            error_log("fetch_image:error writing file " . $filePath . "/" . $fileName);
+            pfif_error_log("fetch_image:error writing file " . $filePath . "/" . $fileName);
          }
          $_SESSION['pfif_info']['images_in'] += 1;
       } else {
          $failed_images[] = array('p_uuid' => $person_record_id, 'url' => $photo_url);
       }
    } else {
-      // error_log("no photo for ".$person->person_record_id);
+      // pfif_error_log("no photo for ".$person->person_record_id);
    }
    return $result;
 }
+
+function pfif_error_log($msg) {
+   error_log("[".date("Y-m-d H:i:s")."] $msg");
+}
+
