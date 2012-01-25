@@ -1532,11 +1532,16 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 
 	if(!$error) {
 
+		// PL-306
+		// we only use SQL search for now, something is broken with SOLR
+		$searchMode = "sql";
+/*
 		if($conf['enable_solr_for_search'] == true) {
 			$searchMode = "solr";
 		} else {
 			$searchMode = "sql";
 		}
+*/
 
 		// find lack of sort order and use last updated as a result...
 		if(trim($sortBy) == "") {
@@ -1640,14 +1645,17 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 	}
 
 	if(!$error) {
+
+		// PL-306
+		// we only use SQL search for now, something is broken with SOLR
+		$searchMode = "sql";
 /*
 		if($conf['enable_solr_for_search'] == true) {
 			$searchMode = "solr";
 		} else {
-*/
 			$searchMode = "sql";
-//		}
-
+		}
+*/
 		// find lack of sort order and use last updated as a result...
 		if(trim($sortBy) == "") {
 			$sortBy = "last_updated";
