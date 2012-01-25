@@ -1640,12 +1640,13 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 	}
 
 	if(!$error) {
-
+/*
 		if($conf['enable_solr_for_search'] == true) {
 			$searchMode = "solr";
 		} else {
+*/
 			$searchMode = "sql";
-		}
+//		}
 
 		// find lack of sort order and use last updated as a result...
 		if(trim($sortBy) == "") {
