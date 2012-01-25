@@ -15,9 +15,9 @@ $user = "testDontDelete";
 $pass = "dontDelete99";
 require_once("../../3rd/nusoap/lib/nusoap.php");
 
-$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=2.2";
+//$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=2.2";
 //$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=2.2";
-//$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.2";
+$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.2";
 $client = new nusoap_client($wsdl);
 
 //$result = $client->call('getNullTokenList', array('tokenStart'=>'0', 'tokenEnd'=>'120', 'username'=>$user, 'password'=>$pass));
