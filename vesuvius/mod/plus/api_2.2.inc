@@ -1647,8 +1647,8 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 			$searchMode = "sql";
 		}
 
-		// find lack of sort order and use last updated as a result...
-		if((trim($sortBy) == "") || ($sortBy == null) || (strlen((string)$sortBy) < 3)) {
+		// find lack of explicit sort order and use last updated as a default...
+		if(strlen((string)$sortBy) < 3) {
 			$sortBy = "updated desc";
 		}
 
