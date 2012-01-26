@@ -1540,7 +1540,7 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 
 		// find lack of sort order and use last updated as a result...
 		if(trim($sortBy) == "") {
-			$sortBy = " updated desc,score desc";
+			$sortBy = "last_updated";
 		}
 
 		$filterStatusMissing  = ($filterStatusMissing)  ? 'true' : 'false';
@@ -1564,7 +1564,7 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 		$sGender       = $filterGenderComplex.";".$filterGenderMale.";".$filterGenderFemale.";".$filterGenderUnknown;
 		$sAge          = $filterAgeChild.";".$filterAgeAdult.";".$filterAgeUnknown;
 		$sHospital     = $filterHospitalSH.";".$filterHospitalWRNMMC.";".$filterHospitalOther;
-		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";true";
+		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";".$mode;
 
 		require_once($global['approot']."/mod/inw/SearchDB.php");
 		$timeElsapsed = 0;
@@ -1649,7 +1649,7 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 
 		// find lack of sort order and use last updated as a result...
 		if(trim($sortBy) == "") {
-			$sortBy = " updated desc,score desc";
+			$sortBy = "updated desc, score desc";
 		}
 
 		$filterStatusMissing  = ($filterStatusMissing)  ? 'true' : 'false';
@@ -1673,7 +1673,7 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 		$sGender       = $filterGenderComplex.";".$filterGenderMale.";".$filterGenderFemale.";".$filterGenderUnknown;
 		$sAge          = $filterAgeChild.";".$filterAgeAdult.";".$filterAgeUnknown;
 		$sHospital     = $filterHospitalSH.";".$filterHospitalWRNMMC.";".$filterHospitalOther;
-		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";true";
+		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";".$mode;
 
 		require_once($global['approot']."/mod/inw/SearchDB.php");
 		$timeElsapsed = 0;
