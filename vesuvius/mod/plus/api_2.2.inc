@@ -1648,8 +1648,8 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 		}
 
 		// find lack of sort order and use last updated as a result...
-		if(trim($sortBy) == "") {
-			$sortBy = "updated desc, score desc";
+		if((trim($sortBy) == "") || ($sortBy == null) || (strlen((string)$sortBy) < 3)) {
+			$sortBy = "updated desc";
 		}
 
 		$filterStatusMissing  = ($filterStatusMissing)  ? 'true' : 'false';
