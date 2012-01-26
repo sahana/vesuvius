@@ -15,11 +15,13 @@ $user = "testDontDelete";
 $pass = "dontDelete99";
 require_once("../../3rd/nusoap/lib/nusoap.php");
 
-$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=2.2";
+//$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=2.2";
 //$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=2.2";
-//$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.2";
+$wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.2";
 $client = new nusoap_client($wsdl);
 
+$result = $client->call('getEventListUser', array('username'=>$user, 'password'=>$pass));
+//$result = $client->call('getEventList', array(null));
 //$result = $client->call('getNullTokenList', array('tokenStart'=>'0', 'tokenEnd'=>'120', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('getImageListBlock', array('tokenStart'=>'314', 'stride'=>2, 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('getImageList', array('tokenStart'=>'262', 'tokenEnd'=>'311', 'username'=>$user, 'password'=>$pass));
@@ -32,7 +34,6 @@ $client = new nusoap_client($wsdl);
 //$result = $client->call('getPersonExpiryDate', array('uuid'=>'pl.nlm.nih.gov/person.4000579'));
 //$result = $client->call('hasRecordBeenRevised', array('uuid'=>'pl.nlm.nih.gov/person.4000579', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('checkUserAuth', array('username'=>$user, 'password'=>$pass));
-//$result = $client->call('getEventListUser', array('username'=>$user, 'password'=>$pass));
 //$result = $client->call('getHospitalPolicy', array('hospital_uuid'=>1));
 //$result = $client->call('getHospitalLegaleseTimestamps', array('hospital_uuid'=>1));
 //$result = $client->call('registerUser', array('username'=>'testCaseUser', 'emailAddress'=>'testCase@email.com', 'password'=>'testPassword99', 'givenName'=>'testCaseGiven', 'familyName'=>'testCaseFamily'));
@@ -42,7 +43,7 @@ $client = new nusoap_client($wsdl);
 //$result = $client->call('reportPerson', array('personXML'=>null, 'eventShortName'=>null, 'xmlFormat'=>'TRIAGEPIC', 'username'=>null, 'password'=>null));
 //$result = $client->call('createPersonUuid', array('username'=>'testDontDelete', 'password'=>'dontDelete99'));
 //$result = $client->call('createPersonUuidBatch', array('number'=>5, 'username'=>'testDontDelete', 'password'=>'dontDelete99'));
-
+/*
 $result = $client->call('search', array(
 	'eventShortname'=>'test',
 	'searchTerm'=>'',
@@ -62,11 +63,11 @@ $result = $client->call('search', array(
 	'filterHospitalSH'=>true,
 	'filterHospitalWRNMMC'=>true,
 	'filterHospitalOther'=>true,
-	'pageStart'=>2,
+	'pageStart'=>0,
 	'perPage'=>2,
 	'sortBy'=>''
 ));
-
+*/
 //$x = file_get_contents("RU.xml");
 $x = file_get_contents("reference_REUNITE3.xml");
 //$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
@@ -79,4 +80,4 @@ $x = file_get_contents("reference_TRIAGEPIC1.xml");
 
 echo "<pre>wsdl >> ".$wsdl."\n\n".var_export($result, true)."</pre>";
 
-echo "<pre>resultSet: ".print_r(json_decode($result['resultSet']), true)."</pre>";
+echo "<pre>eventList: ".print_r(json_decode($result['eventList']), true)."</pre>";

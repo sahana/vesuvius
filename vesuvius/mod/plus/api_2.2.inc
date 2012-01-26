@@ -45,7 +45,7 @@ function shn_plus_registerAll($namespace) {
 			)
 		),
 		$namespace,
-		"Returns an array of (event_id, parent_id, name, shortname, date, type, latitude, longitude, street, group) listing disaster events' components."
+		"Returns an array of (event_id, parent_id, name, shortname, date, type, latitude, longitude, street, group) public disaster events."
 	);
 
 	shn_plus_registerOne($server, 'getEventListUser',
@@ -61,7 +61,7 @@ function shn_plus_registerAll($namespace) {
 			)
 		),
 		$namespace,
-		"Returns an array of (event_id, parent_id, name, shortname, date, type, latitude, longitude, street) listing disaster events' components accessible by a certain user."
+		"Returns an array of (event_id, parent_id, name, shortname, date, type, latitude, longitude, street) disaster events accessible by a certain user."
 	);
 
 	shn_plus_registerOne($server, 'getGroupList',
@@ -734,7 +734,7 @@ function version() {
 
 
 
-// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
+// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of public disaster events.
 function getEventList() {
 	shn_plus_logAccess(__FUNCTION__);
 	global $global;
@@ -742,6 +742,7 @@ function getEventList() {
 	$q = "
 		SELECT *
 		FROM incident
+		WHERE private_group is null
 		ORDER BY `default` DESC, name ASC;
 	";
 	$result = $global['db']->Execute($q);
@@ -771,7 +772,7 @@ function getEventList() {
 
 
 
-// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
+// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) disaster events accessibleby a certain user.
 function getEventListUser($username, $password) {
 	shn_plus_logAccess(__FUNCTION__);
 	global $global;
