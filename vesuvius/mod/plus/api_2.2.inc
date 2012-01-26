@@ -1564,7 +1564,7 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 		$sGender       = $filterGenderComplex.";".$filterGenderMale.";".$filterGenderFemale.";".$filterGenderUnknown;
 		$sAge          = $filterAgeChild.";".$filterAgeAdult.";".$filterAgeUnknown;
 		$sHospital     = $filterHospitalSH.";".$filterHospitalWRNMMC.";".$filterHospitalOther;
-		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";".$mode;
+		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";true"; // use non-interactive mode
 
 		require_once($global['approot']."/mod/inw/SearchDB.php");
 		$timeElsapsed = 0;
@@ -1673,7 +1673,7 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 		$sGender       = $filterGenderComplex.";".$filterGenderMale.";".$filterGenderFemale.";".$filterGenderUnknown;
 		$sAge          = $filterAgeChild.";".$filterAgeAdult.";".$filterAgeUnknown;
 		$sHospital     = $filterHospitalSH.";".$filterHospitalWRNMMC.";".$filterHospitalOther;
-		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";".$mode;
+		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";true"; // use non-interactive mode
 
 		require_once($global['approot']."/mod/inw/SearchDB.php");
 		$timeElsapsed = 0;
