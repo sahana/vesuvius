@@ -62,9 +62,9 @@ $result = $client->call('search', array(
 	'filterHospitalSH'=>true,
 	'filterHospitalWRNMMC'=>true,
 	'filterHospitalOther'=>true,
-	'pageStart'=>0,
-	'perPage'=>9999,
-	'sortBy'=>'updated desc'
+	'pageStart'=>2,
+	'perPage'=>2,
+	'sortBy'=>''
 ));
 
 //$x = file_get_contents("RU.xml");
