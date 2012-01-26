@@ -688,6 +688,12 @@ function shn_plus_stat30ext() {
 	global $global;
 	shn_plus_header2();
 
+	$notLike = "
+		AND ip NOT LIKE '130.14.109%'
+		AND ip NOT LIKE '130.14.108%'
+		AND ip NOT LIKE '130.14.119%'
+	";
+
 	echo "<div id=\"home\">";
 
 	// by ip /////////////////////////////////////////////////////////////////////////////////
@@ -696,7 +702,7 @@ function shn_plus_stat30ext() {
 		SELECT `ip`, count(*)
 		FROM `plus_access_log`
 		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
-		AND ip NOT LIKE '130.14.109%'
+		".$notLike."
 		GROUP BY `ip`
 		ORDER BY count(*) desc;
 	";
@@ -742,7 +748,7 @@ function shn_plus_stat30ext() {
 		SELECT `call`, count(*)
 		FROM `plus_access_log`
 		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
-		AND ip NOT LIKE '130.14.109%'
+		".$notLike."
 		group by `call`
 		order by count(*) desc;
 	";
@@ -790,7 +796,7 @@ function shn_plus_stat30ext() {
 		SELECT `api_version`, count(*)
 		FROM `plus_access_log`
 		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
-		AND ip NOT LIKE '130.14.109%'
+		".$notLike."
 		group by `api_version`
 		order by count(*) desc;
 	";
@@ -837,7 +843,7 @@ function shn_plus_stat30ext() {
 		SELECT `application`, count(*)
 		FROM `plus_access_log`
 		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
-		AND ip NOT LIKE '130.14.109%'
+		".$notLike."
 		group by `application`
 		order by count(*) desc;
 	";
