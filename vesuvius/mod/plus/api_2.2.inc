@@ -1538,9 +1538,9 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 			$searchMode = "sql";
 		}
 
-		// find lack of sort order and use last updated as a result...
-		if(trim($sortBy) == "") {
-			$sortBy = "last_updated";
+		// find lack of explicit sort order and use last updated as a default...
+		if(strlen((string)$sortBy) < 3) {
+			$sortBy = "updated desc";
 		}
 
 		$filterStatusMissing  = ($filterStatusMissing)  ? 'true' : 'false';
