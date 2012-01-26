@@ -323,7 +323,7 @@ function shn_plus_stat() {
 			$odd = "class=\"evener\"";
 		}
 		echo "  <tr>
-				<td ".$odd.">".$row['ip']."</td>
+				<td ".$odd."><a href=\"http://www.geoiptool.com/en/?IP=".$row['ip']."\" target=\"_blank\">".$row['ip']."</a></td>
 				<td ".$odd.">".$row['count(*)']."</td>
 			</tr>";
 		$count++;
@@ -519,7 +519,7 @@ function shn_plus_stat30() {
 			$odd = "class=\"evener\"";
 		}
 		echo "  <tr>
-				<td ".$odd.">".$row['ip']."</td>
+				<td ".$odd."><a href=\"http://www.geoiptool.com/en/?IP=".$row['ip']."\" target=\"_blank\">".$row['ip']."</a></td>
 				<td ".$odd.">".$row['count(*)']."</td>
 			</tr>";
 		$count++;
@@ -727,7 +727,7 @@ function shn_plus_stat30ext() {
 			$odd = "class=\"evener\"";
 		}
 		echo "  <tr>
-				<td ".$odd.">".$row['ip']."</td>
+				<td ".$odd."><a href=\"http://www.geoiptool.com/en/?IP=".$row['ip']."\" target=\"_blank\">".$row['ip']."</a></td>
 				<td ".$odd.">".$row['count(*)']."</td>
 			</tr>";
 		$count++;
