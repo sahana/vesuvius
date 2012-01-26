@@ -56,12 +56,6 @@ function shn_plus_logAccess($call="") {
 	$app    = $appver[0];
 	$ver    = $appver[1];
 	$ip     = $_SERVER['REMOTE_ADDR'];
-	// skip these ip's from logging (internal testing servers)
-	if(
-		$ip == "130.14.109.100" ||
-		$ip == "130.14.109.88" ||
-		$ip == "130.14.109.50")
-		{return;}
 	$q = "
 		INSERT INTO plus_access_log (`access_time`, `application`, `version`, `ip`, `call`, `api_version`)
 		VALUES (CURRENT_TIMESTAMP, '".$app."', '".$ver."', '".$ip."', '".$call."', '".mysql_real_escape_string($global['apiVersion'])."');
@@ -69,10 +63,6 @@ function shn_plus_logAccess($call="") {
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus log access ((".$q."))"); }
 	$result = $global['db']->Execute($q);
 }
-
-
-
-
 
 
 /**

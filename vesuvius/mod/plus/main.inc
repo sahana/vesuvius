@@ -42,6 +42,18 @@ function shn_plus_header2() {
 		echo "<li><a href=\"index.php?mod=plus&act=stat\">Access Statistics</a></li>";
 	}
 
+	if($global['action'] == "stat30") {
+		echo "<li>Access Statistics Last 30 Days</li>";
+	} else {
+		echo "<li><a href=\"index.php?mod=plus&act=stat30\">Access Statistics Last 30 Days</a></li>";
+	}
+
+	if($global['action'] == "stat30ext") {
+		echo "<li>Access Statistics Last 30 Days Excluding Internal IPs</li>";
+	} else {
+		echo "<li><a href=\"index.php?mod=plus&act=stat30ext\">Access Statistics Last 30 Days Excluding Internal IPs</a></li>";
+	}
+
 	if($global['action'] == "settings") {
 		echo "<li>Client Settings</li>";
 	} else {
@@ -465,10 +477,205 @@ function shn_plus_stat() {
 			</form>
 		</div>
 	";
+	echo "</div>";
+}
 
 
 
+function shn_plus_stat30() {
 
+	global $global;
+	shn_plus_header2();
+
+	echo "<div id=\"home\">";
+
+	// by ip /////////////////////////////////////////////////////////////////////////////////
+
+	$q  = "
+		SELECT `ip`, count(*)
+		FROM `plus_access_log`
+		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
+		GROUP BY `ip`
+		ORDER BY count(*) desc;
+	";
+	$result = $global['db']->Execute($q);
+	$count = 0;
+
+	echo "
+		<div class=\"form-container\" style=\"width: 230px; float: left; margin-right: 5px;\">
+			<form>
+				<fieldset>
+					<legend>Hits by IP Address</legend>
+					<table id=\"regLog\">
+						<tr>
+							<td class=\"evener\"><b>IP Address</b></td>
+							<td class=\"evener\"><b>Hits</b></td>
+						</tr>
+	";
+	while($row = $result->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		echo "  <tr>
+				<td ".$odd.">".$row['ip']."</td>
+				<td ".$odd.">".$row['count(*)']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
+	}
+	echo "
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	";
+
+	// by api call /////////////////////////////////////////////////////////////////////////////////
+
+	$q  = "
+		SELECT `call`, count(*)
+		FROM `plus_access_log`
+		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
+		group by `call`
+		order by count(*) desc;
+	";
+	$result = $global['db']->Execute($q);
+	$count = 0;
+
+	echo "
+		<div class=\"form-container\" style=\"width: 270px; float: left;  margin-right: 5px;\">
+			<form>
+				<fieldset>
+					<legend>Hits by API Function</legend>
+					<table id=\"regLog\">
+						<tr>
+							<td class=\"evener\"><b>Function</b></td>
+							<td class=\"evener\"><b>Hits</b></td>
+						</tr>
+	";
+	while($row = $result->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		echo "  <tr>
+				<td ".$odd.">".$row['call']."</td>
+				<td ".$odd.">".$row['count(*)']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
+	}
+	echo "
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	";
+
+
+
+	// by api version /////////////////////////////////////////////////////////////////////////////////
+
+	$q  = "
+		SELECT `api_version`, count(*)
+		FROM `plus_access_log`
+		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
+		group by `api_version`
+		order by count(*) desc;
+	";
+	$result = $global['db']->Execute($q);
+	$count = 0;
+
+	echo "
+		<div class=\"form-container\" style=\"width: 230px; float: left; margin-right: 5px;\">
+			<form>
+				<fieldset>
+					<legend>Hits by API Version</legend>
+					<table id=\"regLog\">
+						<tr>
+							<td class=\"evener\"><b>Version</b></td>
+							<td class=\"evener\"><b>Hits</b></td>
+						</tr>
+	";
+	while($row = $result->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		echo "  <tr>
+				<td ".$odd.">".$row['api_version']."</td>
+				<td ".$odd.">".$row['count(*)']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
+	}
+	echo "
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	";
+
+
+	// by application /////////////////////////////////////////////////////////////////////////////////
+
+	$q  = "
+		SELECT `application`, count(*)
+		FROM `plus_access_log`
+		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
+		group by `application`
+		order by count(*) desc;
+	";
+	$result = $global['db']->Execute($q);
+	$count = 0;
+
+	echo "
+		<div class=\"form-container\" style=\"width: 230px; float: left; margin-right: 5px;\">
+			<form>
+				<fieldset>
+					<legend>Hits by Application</legend>
+					<table id=\"regLog\">
+						<tr>
+							<td class=\"evener\"><b>Application</b></td>
+							<td class=\"evener\"><b>Hits</b></td>
+						</tr>
+	";
+	while($row = $result->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		if(trim($row['application']) == "") {
+			$app = "TriagePic and others";
+		} else {
+			$app = $row['application'];
+		}
+		echo "  <tr>
+				<td ".$odd.">".$app."</td>
+				<td ".$odd.">".$row['count(*)']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
+	}
+	echo "
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	";
 	echo "</div>";
 }
 
@@ -476,4 +683,203 @@ function shn_plus_stat() {
 
 
 
+function shn_plus_stat30ext() {
 
+	global $global;
+	shn_plus_header2();
+
+	echo "<div id=\"home\">";
+
+	// by ip /////////////////////////////////////////////////////////////////////////////////
+
+	$q  = "
+		SELECT `ip`, count(*)
+		FROM `plus_access_log`
+		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
+		AND ip NOT LIKE '130.14.109%'
+		GROUP BY `ip`
+		ORDER BY count(*) desc;
+	";
+	$result = $global['db']->Execute($q);
+	$count = 0;
+
+	echo "
+		<div class=\"form-container\" style=\"width: 230px; float: left; margin-right: 5px;\">
+			<form>
+				<fieldset>
+					<legend>Hits by IP Address</legend>
+					<table id=\"regLog\">
+						<tr>
+							<td class=\"evener\"><b>IP Address</b></td>
+							<td class=\"evener\"><b>Hits</b></td>
+						</tr>
+	";
+	while($row = $result->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		echo "  <tr>
+				<td ".$odd.">".$row['ip']."</td>
+				<td ".$odd.">".$row['count(*)']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
+	}
+	echo "
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	";
+
+	// by api call /////////////////////////////////////////////////////////////////////////////////
+
+	$q  = "
+		SELECT `call`, count(*)
+		FROM `plus_access_log`
+		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
+		AND ip NOT LIKE '130.14.109%'
+		group by `call`
+		order by count(*) desc;
+	";
+	$result = $global['db']->Execute($q);
+	$count = 0;
+
+	echo "
+		<div class=\"form-container\" style=\"width: 270px; float: left;  margin-right: 5px;\">
+			<form>
+				<fieldset>
+					<legend>Hits by API Function</legend>
+					<table id=\"regLog\">
+						<tr>
+							<td class=\"evener\"><b>Function</b></td>
+							<td class=\"evener\"><b>Hits</b></td>
+						</tr>
+	";
+	while($row = $result->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		echo "  <tr>
+				<td ".$odd.">".$row['call']."</td>
+				<td ".$odd.">".$row['count(*)']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
+	}
+	echo "
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	";
+
+
+
+	// by api version /////////////////////////////////////////////////////////////////////////////////
+
+	$q  = "
+		SELECT `api_version`, count(*)
+		FROM `plus_access_log`
+		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
+		AND ip NOT LIKE '130.14.109%'
+		group by `api_version`
+		order by count(*) desc;
+	";
+	$result = $global['db']->Execute($q);
+	$count = 0;
+
+	echo "
+		<div class=\"form-container\" style=\"width: 230px; float: left; margin-right: 5px;\">
+			<form>
+				<fieldset>
+					<legend>Hits by API Version</legend>
+					<table id=\"regLog\">
+						<tr>
+							<td class=\"evener\"><b>Version</b></td>
+							<td class=\"evener\"><b>Hits</b></td>
+						</tr>
+	";
+	while($row = $result->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		echo "  <tr>
+				<td ".$odd.">".$row['api_version']."</td>
+				<td ".$odd.">".$row['count(*)']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
+	}
+	echo "
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	";
+
+
+	// by application /////////////////////////////////////////////////////////////////////////////////
+
+	$q  = "
+		SELECT `application`, count(*)
+		FROM `plus_access_log`
+		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
+		AND ip NOT LIKE '130.14.109%'
+		group by `application`
+		order by count(*) desc;
+	";
+	$result = $global['db']->Execute($q);
+	$count = 0;
+
+	echo "
+		<div class=\"form-container\" style=\"width: 230px; float: left; margin-right: 5px;\">
+			<form>
+				<fieldset>
+					<legend>Hits by Application</legend>
+					<table id=\"regLog\">
+						<tr>
+							<td class=\"evener\"><b>Application</b></td>
+							<td class=\"evener\"><b>Hits</b></td>
+						</tr>
+	";
+	while($row = $result->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		if(trim($row['application']) == "") {
+			$app = "TriagePic and others";
+		} else {
+			$app = $row['application'];
+		}
+		echo "  <tr>
+				<td ".$odd.">".$app."</td>
+				<td ".$odd.">".$row['count(*)']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
+	}
+	echo "
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	";
+	echo "</div>";
+}
