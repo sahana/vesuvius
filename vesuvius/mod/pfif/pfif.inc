@@ -999,8 +999,8 @@ class Pfif {
       $this->loadFilters['before'] = $before;
 
       $baseUuid = $conf['base_uuid'];
+      $baseUrl = "https://" . $baseUuid;
       $pfifDomain = substr($baseUuid, 0, -1);  // omit trailing "/"
-      $baseUrl = "https://" . $pfifDomain;
 
       // Get person records based on filters.
       $personRecords = $this->getPersonFromDb($since_entry_date, $before, $max_results, $skip);
@@ -1050,7 +1050,7 @@ class Pfif {
          } else {
             if (!empty($personRecord['image_url'])) {
                $photo_url = $personRecord['image_url'];
-               $person->photo_url = $photo_url[0] == '/' ? $baseUrl . $photo_url : $baseUrl . '/' . $photo_url;
+               $person->photo_url = $baseUrl . $photo_url;
             }
          }
 

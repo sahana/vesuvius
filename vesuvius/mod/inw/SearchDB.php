@@ -148,7 +148,7 @@ class SearchDB
 		$this->pageStart = $tempArray[0];
 		$this->perPage   = $tempArray[1];
 		$this->sortBy    = $tempArray[2];
-		$this->mode      = $tempArray[3];  // true = handsfree
+		$this->mode      = $tempArray[3];  // false = handsfree
 	}
 
 	private function setGenderFilters($sGender) {
