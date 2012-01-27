@@ -50,12 +50,6 @@ $(document).ready(function start() {
 		box.value = box.value == "Enter a name..." ? "" : box.value;
 	}
 
-	box.onblur = function() {
-		box.value = box.value == "" ? "Enter a name..." : box.value;
-		if ( box.value == "Enter a name..." )
-			box.style.color = "#CCC";
-	}
-
 	$("#sortOrderIcon").click(function() { Utils.ascDesc(this) }).css({cursor: "pointer"});
 
 	$("#buttonPlay").css("opacity", 0.3);

@@ -1,13 +1,13 @@
 <?
 /**
  * @name         Report (a person)
- * @version      2.0
+ * @version      2.1
  * @package      report
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0921
+ * @lastModified 2012.0119
  */
 
 
@@ -25,7 +25,7 @@ function shn_report_default() {
 		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."';
 	";
 	$result   = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "report default 1"); }
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "report default 1 ((".$q."))"); }
 	$row      = $result->FetchRow();
 	$closed   = $row['closed'];
 	$external = $row['external_report'];
@@ -89,8 +89,11 @@ function shn_report_default() {
 
 
 
-// build the stub record and redirec to it...
+// build the stub record and redirect the user to it...
 function shn_report_instantiate() {
+
+	global $conf;
+
 	$p = new person();
 	$p->createUUID();
 	$p->rep_uuid = $_SESSION['user_p_uuid'];
@@ -105,17 +108,17 @@ function shn_report_instantiate() {
 	$p->insert();
 	$p->rapReportLog();
 
-	$p_uuid_a = explode("/", $p->p_uuid);
-	$p_uuid_portion = $p_uuid_a[1];
-	header("Location: ".$p_uuid_portion);
+	$url = $conf['https'].$p->p_uuid;
+	header("Location: ".$url);
 
 	// fall back redirect if header() fails for some reason
 	echo "
 		<script>
-			window.location = '".$p_uuid_portion."';
+			window.location = '".$url."';
 		</script>
-		<a href=\"".$p_uuid_portion."\">click here if not automatically redirectd...</a>
+		<a href=\"".$url."\">click here if not automatically redirectd...</a>
 	";
 }
+
 
 

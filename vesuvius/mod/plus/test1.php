@@ -16,14 +16,14 @@ $pass = "dontDelete99";
 require_once("../../3rd/nusoap/lib/nusoap.php");
 
 //$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=2.2";
-//$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=1.9.8";
+//$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=2.2";
 $wsdl = "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.2";
 $client = new nusoap_client($wsdl);
 
+$result = $client->call('getEventListUser', array('username'=>$user, 'password'=>$pass));
+//$result = $client->call('getEventList', array(null));
 //$result = $client->call('getNullTokenList', array('tokenStart'=>'0', 'tokenEnd'=>'120', 'username'=>$user, 'password'=>$pass));
-
 //$result = $client->call('getImageListBlock', array('tokenStart'=>'314', 'stride'=>2, 'username'=>$user, 'password'=>$pass));
-
 //$result = $client->call('getImageList', array('tokenStart'=>'262', 'tokenEnd'=>'311', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('getImageCountsAndTokens', array('username'=>$user, 'password'=>$pass));
 //$result = $client->call('expirePerson', array('uuid'=>'pl.nlm.nih.gov/person.4001018', 'explanation'=>'because!!!!', 'username'=>$user, 'password'=>$pass));
@@ -34,7 +34,6 @@ $client = new nusoap_client($wsdl);
 //$result = $client->call('getPersonExpiryDate', array('uuid'=>'pl.nlm.nih.gov/person.4000579'));
 //$result = $client->call('hasRecordBeenRevised', array('uuid'=>'pl.nlm.nih.gov/person.4000579', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('checkUserAuth', array('username'=>$user, 'password'=>$pass));
-//$result = $client->call('getEventListUser', array('username'=>$user, 'password'=>$pass));
 //$result = $client->call('getHospitalPolicy', array('hospital_uuid'=>1));
 //$result = $client->call('getHospitalLegaleseTimestamps', array('hospital_uuid'=>1));
 //$result = $client->call('registerUser', array('username'=>'testCaseUser', 'emailAddress'=>'testCase@email.com', 'password'=>'testPassword99', 'givenName'=>'testCaseGiven', 'familyName'=>'testCaseFamily'));
@@ -45,9 +44,9 @@ $client = new nusoap_client($wsdl);
 //$result = $client->call('createPersonUuid', array('username'=>'testDontDelete', 'password'=>'dontDelete99'));
 //$result = $client->call('createPersonUuidBatch', array('number'=>5, 'username'=>'testDontDelete', 'password'=>'dontDelete99'));
 /*
-$result = $client->call('searchWithAuth', array(
+$result = $client->call('search', array(
 	'eventShortname'=>'test',
-	'searchTerm'=>'t',
+	'searchTerm'=>'',
 	'filterStatusMissing'=>true,
 	'filterStatusAlive'=>true,
 	'filterStatusInjured'=>true,
@@ -65,18 +64,14 @@ $result = $client->call('searchWithAuth', array(
 	'filterHospitalWRNMMC'=>true,
 	'filterHospitalOther'=>true,
 	'pageStart'=>0,
-	'perPage'=>10,
-	'sortBy'=>'',
-	'mode'=>true,
-	'username'=>'testDontDelete',
-	'password'=>'dontDelete99'
+	'perPage'=>2,
+	'sortBy'=>''
 ));
 */
-
 //$x = file_get_contents("RU.xml");
 $x = file_get_contents("reference_REUNITE3.xml");
 //$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
-$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
+//$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
 
 //$x = file_get_contents("TP.xml");
 $x = file_get_contents("reference_TRIAGEPIC1.xml");
@@ -85,3 +80,4 @@ $x = file_get_contents("reference_TRIAGEPIC1.xml");
 
 echo "<pre>wsdl >> ".$wsdl."\n\n".var_export($result, true)."</pre>";
 
+echo "<pre>eventList: ".print_r(json_decode($result['eventList']), true)."</pre>";

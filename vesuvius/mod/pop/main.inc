@@ -154,7 +154,10 @@ function shn_pop_outlog() {
  * @return void
  */
 function shn_pop_configuration() {
+
 	global $global;
+	global $conf;
+
 	shn_pop_first();
 	//include_once $global['approot'].'/inc/lib_xajax.inc';
 	$posted = 0;
@@ -170,10 +173,6 @@ function shn_pop_configuration() {
 		if(($_POST['pop_password1'] == null) || ($_POST['pop_password1'] == "") ) {
 			$errorCount++;
 			add_error('Please fill in the password for the email address, it cannot be left blank.');
-		}
-		if(($_POST['smtp_reply_name1'] == null) || ($_POST['smtp_reply_name1'] == "") ) {
-			$errorCount++;
-			add_error('Please fill in the From/Reply-To Name, it cannot be left blank.');
 		}
 		if($errorCount == 0 ) {
 			add_confirmation('Configuration Saved!');
@@ -208,7 +207,6 @@ function shn_pop_configuration() {
 
 			// save module configuration
 			shn_db_config_update("pop","smtp_reply_address1", $_POST['smtp_reply_address1']);
-			shn_db_config_update("pop","smtp_reply_name1",    $_POST['smtp_reply_name1']);
 			shn_db_config_update("pop","smtp_host1",          $_POST['smtp_host1']);
 			shn_db_config_update("pop","smtp_port1",          $_POST['smtp_port1']);
 			shn_db_config_update("pop","smtp_auth1",          $smtp_auth1);
@@ -217,7 +215,6 @@ function shn_pop_configuration() {
 			shn_db_config_update("pop","pop_password1",       $_POST['pop_password1']);
 
 			shn_db_config_update("pop","smtp_reply_address2", $_POST['smtp_reply_address2']);
-			shn_db_config_update("pop","smtp_reply_name2",    $_POST['smtp_reply_name2']);
 			shn_db_config_update("pop","smtp_host2",          $_POST['smtp_host2']);
 			shn_db_config_update("pop","smtp_port2",          $_POST['smtp_port2']);
 			shn_db_config_update("pop","smtp_auth2",          $smtp_auth2);
@@ -236,15 +233,12 @@ function shn_pop_configuration() {
 		$pop_username1       = $_POST['pop_username1'];
 		$pop_password1       = $_POST['pop_password1'];
 		$smtp_reply_address1 = $_POST['smtp_reply_address1'];
-		$smtp_reply_name1    = $_POST['smtp_reply_name1'];
 
 		$smtp_host2          = $_POST['smtp_host2'];
 		$smtp_port2          = $_POST['smtp_port2'];
 		$pop_username2       = $_POST['pop_username2'];
 		$pop_password2       = $_POST['pop_password2'];
 		$smtp_reply_address2 = $_POST['smtp_reply_address2'];
-		$smtp_reply_name2    = $_POST['smtp_reply_name2'];
-
 
 		if (isset($_POST['smtp_ssl1'])) {
 			$smtp_ssl1_text = "CHECKED";
@@ -283,7 +277,6 @@ function shn_pop_configuration() {
 		$pop_username1       = shn_db_get_config("pop","pop_username1");
 		$pop_password1       = shn_db_get_config("pop","pop_password1");
 		$smtp_reply_address1 = shn_db_get_config("pop","smtp_reply_address1");
-		$smtp_reply_name1    = shn_db_get_config("pop","smtp_reply_name1");
 
 		$smtp_host2          = shn_db_get_config("pop","smtp_host2");
 		$smtp_port2          = shn_db_get_config("pop","smtp_port2");
@@ -293,7 +286,6 @@ function shn_pop_configuration() {
 		$pop_username2       = shn_db_get_config("pop","pop_username2");
 		$pop_password2       = shn_db_get_config("pop","pop_password2");
 		$smtp_reply_address2 = shn_db_get_config("pop","smtp_reply_address2");
-		$smtp_reply_name2    = shn_db_get_config("pop","smtp_reply_name2");
 
 		if ($smtp_ssl1=="1") {
 			$smtp_ssl1_text = "CHECKED";
@@ -346,14 +338,14 @@ function shn_pop_configuration() {
 <tr><td colspan=3>&nbsp;</td></tr>
 <tr><td><b>Outbound Email Settings</b></td><td colspan=2>&nbsp;</td></tr>
 <tr>
-	<td class="odd">From/Reply-To Email Address</td>
-	<td class="odd"><input size=30 type="text" name="smtp_reply_address1" id="smtp_reply_address1" value="<?php echo $smtp_reply_address1; ?>" tabindex="8"  /><span class='req'>*</span></td>
-	<td class="odd"><input size=30 type="text" name="smtp_reply_address2" id="smtp_reply_address2" value="<?php echo $smtp_reply_address2; ?>" tabindex="48" /></td>
+	<td class="odd">From/Reply-To Name</td>
+	<td class="odd"><?php echo $conf['site_name']; ?></td>
+	<td class="odd"><?php echo $conf['site_name']; ?></td>
 </tr>
 <tr>
-	<td>From/Reply-To Name</td>
-	<td><input type="text" name="smtp_reply_name1" id="smtp_reply_name1" value="<?php echo $smtp_reply_name1; ?>" tabindex="9"  /><span class='req'>*</span></td>
-	<td><input type="text" name="smtp_reply_name2" id="smtp_reply_name2" value="<?php echo $smtp_reply_name2; ?>" tabindex="49" /></td>
+	<td>From/Reply-To Email Address</td>
+	<td><input size=30 type="text" name="smtp_reply_address1" id="smtp_reply_address1" value="<?php echo $smtp_reply_address1; ?>" tabindex="8"  /><span class='req'>*</span></td>
+	<td><input size=30 type="text" name="smtp_reply_address2" id="smtp_reply_address2" value="<?php echo $smtp_reply_address2; ?>" tabindex="48" /></td>
 </tr>
 <tr>
 	<td class="odd">SMTP Server Hostname/IP</td>

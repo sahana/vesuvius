@@ -888,7 +888,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'Red' AND HOUR( when_sent ) BETWEEN '12'AND '12')
 	UNION
-	SELECT count( triage_category ) AS count_statusR, '1-2 mm' AS time_rangeR
+	SELECT count( triage_category ) AS count_statusR, '1-2 pm' AS time_rangeR
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'Red' AND HOUR( when_sent ) BETWEEN '1'AND '1')
@@ -930,22 +930,22 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '10'AND '10')
 	UNION
-	SELECT count( triage_category ) AS count_statusR, '11-12 am' AS time_rangeG
+	SELECT count( triage_category ) AS count_statusG, '11-12 am' AS time_rangeG
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '11'AND '11')
 	UNION
-	SELECT count( triage_category ) AS count_statusR, '12-1 pm' AS time_rangeG
+	SELECT count( triage_category ) AS count_statusG, '12-1 pm' AS time_rangeG
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '12'AND '12')	
 	UNION
-	SELECT count( triage_category ) AS count_statusR, '1-2 pm' AS time_rangeG
+	SELECT count( triage_category ) AS count_statusG, '1-2 pm' AS time_rangeG
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '1'AND '1')
 	UNION
-	SELECT count( triage_category ) AS count_statusR, '2-3 pm' AS time_rangeG
+	SELECT count( triage_category ) AS count_statusG, '2-3 pm' AS time_rangeG
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '2'AND '2')";
@@ -1047,12 +1047,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	SELECT count( triage_category ) AS count_statusY, '1-2 pm' AS time_rangeY
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
-	WHERE (triage_category = 'Yellow' AND HOUR( when_sent ) BETWEEN '1'AND '1')
-	UNION
-	SELECT count( triage_category ) AS count_statusY, '1-2 pm' AS time_rangeY
-	FROM `edxl_co_lpf` a
-	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
-	WHERE (triage_category = 'Yellow' AND HOUR( when_sent ) BETWEEN '1'AND '1')
+	WHERE (triage_category = 'Yellow' AND HOUR( when_sent ) BETWEEN '1'AND '1')	
 	UNION
 	SELECT count( triage_category ) AS count_statusY, '2-3 pm' AS time_rangeY
 	FROM `edxl_co_lpf` a
@@ -1100,12 +1095,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	SELECT count( triage_category ) AS count_statusGr, '12-1 pm' AS time_rangeGr
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
-	WHERE (triage_category = 'Gray' AND HOUR( when_sent ) BETWEEN '12'AND '12')
-	UNION
-	SELECT count( triage_category ) AS count_statusGr, '12-1 pm' AS time_rangeGr
-	FROM `edxl_co_lpf` a
-	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
-	WHERE (triage_category = 'Gray' AND HOUR( when_sent ) BETWEEN '12'AND '1')
+	WHERE (triage_category = 'Gray' AND HOUR( when_sent ) BETWEEN '12'AND '12')	
 	UNION
 	SELECT count( triage_category ) AS count_statusGr, '1-2 pm' AS time_rangeGr
 	FROM `edxl_co_lpf` a
@@ -1139,7 +1129,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	$queryB="SELECT count( triage_category ) AS count_statusB, '9-10 am' AS time_rangeB
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
-	WHERE (triage_category = 'Black' AND HOUR( when_sent ) BETWEEN '10'AND '10')
+	WHERE (triage_category = 'Black' AND HOUR( when_sent ) BETWEEN '10'AND '10')	
 	UNION
 	SELECT count( triage_category ) AS count_statusB, '10-11 am' AS time_rangeB
 	FROM `edxl_co_lpf` a
