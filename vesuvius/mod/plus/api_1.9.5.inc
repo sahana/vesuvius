@@ -481,6 +481,7 @@ function getEventList() {
 	$q = "
 		SELECT *
 		FROM incident
+		WHERE private_group is null
 		ORDER BY `default` DESC, name ASC;
 	";
 	$result = $global['db']->Execute($q);

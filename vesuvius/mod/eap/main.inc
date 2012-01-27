@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Edit A Person
- * @version      1.9
+ * @version      1.11
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0109
+ * @lastModified 2012.0119
  */
 
 global $global;
@@ -22,21 +22,22 @@ $global['uuid'] = "";
 $global['makeStaticPfifNote'] = false;
 
 
-/**
- * Entry point for mod_rewrite person uuid urls
- */
-function shn_eap_modrewrite() {
-	shn_eap_edit();
+// Entry point for mod_rewrite urls
+function shn_eap_default() {
+
+	if(isset($_GET['addNote'])) {
+		shn_eap_addNote();
+	} elseif(isset($_GET['follow'])) {
+		shn_eap_follow();
+	} elseif(isset($_GET['unfollow'])) {
+		shn_eap_unfollow();
+	} else {
+		shn_eap_edit();
+	}
 }
 
 
-
-/**
- * Begin following a person.....
- *
- * @access public
- * @return void
- */
+// Begin following a person.....
 function shn_eap_follow() {
 	global $global;
 	shn_eap_findRights();
@@ -76,7 +77,7 @@ function shn_eap_follow() {
  * @access public
  * @return void
  */
-function shn_eap_unFollow() {
+function shn_eap_unfollow() {
 	global $global;
 	shn_eap_findRights();
 
@@ -200,14 +201,19 @@ function shn_eap_mainmenu() {
  * @return void
  */
 function shn_eap_findRights() {
+
 	global $global;
 	global $conf;
 
 	// if we came in via a mod_rewrite rule for a uuid formed from a url, use its $val here...
 	if(isset($_GET['val'])) {
 		$global['uuid'] = mysql_real_escape_string($conf['base_uuid'].$_GET['val']);
+
+	} elseif(isset($_GET['puuid'])) {
+		$global['uuid'] = mysql_real_escape_string(urldecode($_GET['puuid']));
+
 	} else {
-		$global['uuid'] = mysql_real_escape_string(base64_decode($_GET['uuid']));
+		$global['uuid'] = mysql_real_escape_string(urldecode($_GET['puuid']));
 	}
 
 	// first and foremost, check if the user has permissions to view the record
@@ -552,6 +558,7 @@ function updateFullName($editGivenName, $editFamilyName) {
  * @return void
  */
 function shn_eap_edit() {
+
 	global $global;
 	global $conf;
 	global $shn_tabindex;
@@ -829,7 +836,7 @@ function shn_eap_edit() {
 	if(preg_match("+".$conf['base_uuid']."+", $global['uuid']) > 0) {
 		echo "
 					<label><b>Origin ID</b> </label>
-					<input type=\"text\" value=\"".$global['uuid']."\" size=\"64\" class=\"nonedit2 public\" READONLY>
+					<input type=\"text\" value=\"".$global['uuid']."\" size=\"96\" class=\"nonedit2 public\" READONLY>
 					<br>
 
 					<label><b>Origin URL</b> </label>
@@ -889,6 +896,129 @@ function shn_eap_edit() {
 	$woman   = "res/img/s3woman.png";
 	$unknown = "res/img/s4unknown.png";
 
+	echo "
+		<div class=\"form-container\">
+			<form method=\"post\" id=\"editPublic\" name=\"editPublic\" action=\"edit?puuid=".urlencode($global['uuid'])."\" enctype=\"multipart/form-data\">
+				<fieldset id=\"editImages\">
+					<legend>Images</legend>
+	";
+
+	if($global['publicEdit']) {
+
+		// add images...
+		if((count($_POST) > 0) && isset($_POST['UPLOAD'])) {
+
+			//echo "<pre>".print_r($_FILES, true)."</pre>";
+
+			$name     = $_FILES["add_image"]["name"];
+			$type     = $_FILES["add_image"]["type"];
+			$tmp_name = $_FILES["add_image"]["tmp_name"];
+			$error    = $_FILES["add_image"]["error"];
+			$size     = $_FILES["add_image"]["size"];
+
+			if($size > 1000000) {
+				add_error("Uploaded file is too large. Please upload an image file smaller than 1MB.");
+
+			} elseif($type == "image/gif" || $type == "image/jpeg" || $type == "image/png") {
+
+				if ($_FILES["file"]["error"] > 0) {
+					echo "Return Code: " . $_FILES["file"]["error"] . "<br />";
+
+				} else {
+					// get the file contents...
+					$image = file_get_contents($tmp_name);
+
+/*
+					echo "Upload: ".$name."<br />";
+					echo "Type: ".$type."<br />";
+					echo "Size: ".($size/1000000)." MB<br />";
+					echo "Temp file: ".$tmp_name."<br />";
+*/
+					require_once($global['approot']."inc/lib_image.inc");
+
+					// generate path and filename portion
+					$a = explode("/", $global['uuid']);
+
+					$image_id = shn_create_uuid("image");
+
+					$filename = $a[0]."_".$a[1]; // make pl.nlm.nih.gov/person.123456 into pl.nlm.nih.gov_person.123456
+					$filename = $filename."_".$image_id."_"; // filename now like pl.nlm.nih.gov_person.123456_112233_
+					$path = $global['approot']."www/tmp/plus_cache/".$filename; // path is now like /opt/pl/www/tmp/plus_cache/pl.nlm.nih.gov_person.123456_112233_
+
+					// save original like /opt/pl/www/tmp/plus_cache/person.123456_112233_original
+					file_put_contents($path."original", $image);
+
+					// get information from original file
+					$info = getimagesize($path."original");
+					$image_width  = $info[0];
+					$image_height = $info[1];
+					list(,$mime) = explode("/",$info['mime']);
+					$mime = strtolower($mime);
+					$image_type = $mime;
+					if(stripos($mime,"png") !== FALSE) {
+						$ext = ".png";
+					} elseif(stripos($mime,"gif") !== FALSE) {
+						$ext = ".gif";
+					} else {
+						$ext = ".jpg";
+					}
+
+					// save full size resampled image like /opt/pl/www/tmp/plus_cache/person.123456_112233_full.ext
+					shn_image_resize($path."original", $path."full".$ext, $image_width, $image_height);
+
+					// save thumb resampled image (320px height) like /opt/pl/www/tmp/plus_cache/person.123456_112233_thumb.ext
+					shn_image_resize_height($path."original", $path."thumb".$ext, 320);
+
+					$fullSizePath  = $path."full".$ext;
+					$thumbnailPath = $path."thumb".$ext;
+
+					// update URLs
+					$url       = "tmp/plus_cache/".$filename."full".$ext;
+					$url_thumb = "tmp/plus_cache/".$filename."thumb".$ext;
+
+					// make the files world writeable for other users/applications and to handle deletes
+					chmod($path."original",   0777);
+					chmod($path."full".$ext,  0777);
+					chmod($path."thumb".$ext, 0777);
+
+					$q = "
+						INSERT INTO image (
+							image_id,
+							p_uuid,
+							image_type,
+							image_height,
+							image_width,
+							url,
+							url_thumb,
+							original_filename )
+						VALUES (
+							'".$image_id."',
+							'".$global['uuid']."',
+							'".$image_type."',
+							'".$image_height."',
+							'".$image_width."',
+							'".$url."',
+							'".$url_thumb."',
+							'".mysql_real_escape_string((string)$tmp_name)."' );
+					";
+					$result = $global['db']->Execute($q);
+					if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "eap insert image ((".$q."))"); }
+
+					add_confirmation("Your image has been uploaded successfully.");
+				}
+			} else {
+				add_error("Invalid filetype uploaded. Supported image filetypes are jpeg, png, and gif.");
+			}
+		}
+		echo '
+			<div style="background-color: #fff; padding: 5px; border: 1px solid #bbb; float: left; text-align: center; margin-right: 10px;"><br>
+			Add an additional image to this record:<br><br><input type="file" name="add_image" id="add_image" /><br><br><input type="submit" name="UPLOAD" id="UPLOAD" value="UPLOAD" class="styleTehButton"/><br>&nbsp;
+			</div>
+		';
+	}
+
+	// show all images
+
 	// figure out if the person has any images ...
 
 	$q  = "
@@ -904,59 +1034,43 @@ function shn_eap_edit() {
 	$imagesFull  = array();
 	$imagesThumb = array();
 
-	// we has images
-	if($num > 0) {
-		$q  = "
-			SELECT *
-			FROM image
-			WHERE p_uuid = '".$global['uuid']."';
-		";
-		$r   = $global['db']->Execute($q);
-		if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 14 ((".$q."))"); }
-		while ($row = $r->FetchRow()) {
-			$imagesFull[]  = $row['url'];
-			$imagesThumb[] = $row['url_thumb'];
-		}
+	$q  = "
+		SELECT *
+		FROM image
+		WHERE p_uuid = '".$global['uuid']."';
+	";
+	$r   = $global['db']->Execute($q);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit edit 14 ((".$q."))"); }
+	while ($row = $r->FetchRow()) {
+		$imagesFull[]  = $row['url'];
+		$imagesThumb[] = $row['url_thumb'];
+	}
 
+	for($i = 0; $i < $num; $i++) {
 		echo "
-			<div class=\"form-container\">
-				<form>
-					<fieldset id=\"editImages\">
-						<legend>Images</legend>
-		";
-
-		// show all images
-		for($i = 0; $i < $num; $i++) {
-			echo "
-						<a href=\"".$imagesFull[$i]."\" target=\"_blank\">
-							<div style=\"background-color: #fff; padding: 5px; border: 1px solid #777; float: left; text-align: center; margin-right: 10px;\">
-								<img height=\"150\" src=\"".$imagesThumb[$i]."\">
-								<div style=\"clear:both;\"></div>
-								zoom
-							</div>
-						</a>
-			";
-		}
-		echo "
-					</fieldset>
-				</form>
-			</div>
-		";
-
-
-	// no images
-	} else {
-		echo "
-			<div class=\"form-container\">
-				<form>
-					<fieldset id=\"editImages\">
-						<legend>Images</legend>
-						No Images.
-					</fieldset>
-				</form>
-			</div>
+					<a href=\"".$imagesFull[$i]."\" target=\"_blank\">
+						<div style=\"background-color: #fff; padding: 5px; border: 1px solid #777; float: left; text-align: center; margin-right: 10px; margin-bottom: 10px;\">
+							<img height=\"150\" src=\"".$imagesThumb[$i]."\">
+							<div style=\"clear:both;\"></div>
+							zoom
+						</div>
+					</a>
 		";
 	}
+	if($num == 0) {
+		echo '
+			<div style="float: left; margin-right: 10px;">
+			This record does not have an image associated with it.
+			</div>
+		';
+	}
+
+
+	echo "
+				</fieldset>
+			</form>
+		</div>
+	";
 	// IMAGES END /////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -1267,7 +1381,7 @@ function shn_eap_edit() {
 
 		echo "
 			<div class=\"form-container\">
-			<form method=\"post\" id=\"editPublic\" name=\"editPublic\" action=\"index.php?mod=eap&act=edit".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
+			<form method=\"post\" id=\"editPublic\" name=\"editPublic\" action=\"edit?puuid=".urlencode($global['uuid'])."\">
 			<fieldset id=\"editPublic\">
 			<legend><span class=\"publicText\">Public Information</span></legend>
 
@@ -1599,7 +1713,7 @@ function shn_eap_edit() {
 	// NOTES BEGIN ////////////////////////////////////////////////////////////////////////////////////////
 	echo "
 		<div class=\"form-container\">
-		<form method=\"post\" id=\"notesPerson\" name=\"notesPerson\" action=\"index.php?mod=eap&act=addNote".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
+		<form method=\"post\" id=\"notesPerson\" name=\"notesPerson\" action=\"edit?addNote&puuid=".urlencode($global['uuid'])."\">
 		<fieldset id=\"editNotes\">
 		<legend><span class=\"notesText\">Notes</span></legend>
 	";
@@ -1805,14 +1919,9 @@ function shn_eap_edit() {
 
 		echo "
 			<div class=\"form-container\">
-			<form method=\"post\" id=\"editPrivateForm\" name=\"editPrivateForm\" action=\"index.php?mod=eap&act=edit".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
+			<form method=\"post\" id=\"editPrivateForm\" name=\"editPrivateForm\" action=\"edit?puuid=".urlencode($global['uuid'])."\">
 			<fieldset id=\"editPrivate\">
 			<legend><span class=\"privateText\">Private Contact Information (not visible to the public)</span></legend>
-		";
-
-		//shn_form_textarea("Address",                  "address", null,       array('value'=>$editAddress, 'cols'=>70));
-
-		echo "
 			<label for=\"address\">Street Address</label>
 			<textarea name=\"address\" id=\"address\" cols=\"56\" rows=\"4\" tabindex=\"".++$shn_tabindex."\" class=\"public\">".$editAddress."</textarea>
 			<br>
@@ -1921,9 +2030,8 @@ function shn_eap_edit() {
 						fP.submit();
 					}
 				</script>
-
 				<div class=\"form-container\">
-				<form method=\"post\" id=\"followPerson\" name=\"followPerson\" action=\"index.php?mod=eap&act=follow".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
+				<form method=\"post\" id=\"followPerson\" name=\"followPerson\" action=\"edit?follow&puuid=".urlencode($global['uuid'])."\">
 				<fieldset id=\"editFollow\">
 				<legend><span class=\"followText\">Follow</span></legend>
 				To receive email alerts when this record is updated with new information, you can elect to follow this person. You will only receive an email when the reporter or staff change any of the information in this person's record or when a user of the site leaves a note on this page.<br>
@@ -1944,7 +2052,7 @@ function shn_eap_edit() {
 					}
 				</script>
 				<div class=\"form-container\">
-				<form method=\"post\" id=\"unFollowPerson\" name=\"unFollowPerson\" action=\"index.php?mod=eap&act=unFollow".$debugParam."&uuid=".base64_encode($global['uuid'])."\">
+				<form method=\"post\" id=\"unFollowPerson\" name=\"unFollowPerson\" action=\"edit?unfollow&puuid=".urlencode($global['uuid'])."\">
 				<fieldset id=\"editFollow\">
 				<legend><span class=\"followText\">Follow</span></legend>
 				To stop receiving email alerts when this record is updated with new information or notes, you can elect to unfollow this person.<br>

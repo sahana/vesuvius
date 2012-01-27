@@ -62,10 +62,7 @@ var Utils = {
                 inw_getNotes(person.uuid)
                 $("#dt_notesTab > a").html("Notes");
 
-                if ( $("#shortName").val() == "sendai2011" ) // obviously a hack.
-                        $("#dt_eapLink > a").attr("href", "http://japan.person-finder.appspot.com/view?lang=en&id=" + person.uuid ).attr("target", "_new");
-                else
-                        $("#dt_eapLink > a").attr("href", "index.php?mod=eap&act=edit&uuid=" + person.encodedUUID);
+		$("#dt_eapLink > a").attr("href", person.encodedUUID ).attr("target", "_new");
 
                 if ( person.hospitalIcon != "" )
                         $("#dt_hospitalIcon").html("<img src='" + person.hospitalIcon + "' />");

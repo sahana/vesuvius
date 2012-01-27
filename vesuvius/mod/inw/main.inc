@@ -55,7 +55,6 @@ function shn_inw_default() {
 			<div id="searchOptions" style="display:none;">
 				<div class="searchOptionsHeader">Display Options</div>
 				<div style="float:left;">
-					<!--input type="textbox" autocomplete="off" value="Enter a name..." id="searchBox"/-->
 					<div id="sortBy" style="float:right;margin-right: 4px;width:160px; text-align: right;">
 					<b>Sort By</b>
 						<img id="sortOrderIcon" style="width:10px; height:10px; <?= $conf["enable_solr_for_search"] ? "display: none" : "" ?>" src="res/img/desc.png" title="Descending (click for ascending)" />

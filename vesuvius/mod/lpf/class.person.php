@@ -4,7 +4,7 @@
 ********************************************************************************************************************************************************************
 *
 * @class        person
-* @version      12
+* @version      14
 * @author       Greg Miernicki <g@miernicki.com>
 *
 ********************************************************************************************************************************************************************
@@ -26,6 +26,7 @@ class person {
 	public $incident_id;
 	public $hospital_uuid;
 	public $expiry_date;
+
 	// original values (initialized at load and checked against when saved)
 	private $Op_uuid;
 	private $Ofull_name;
@@ -39,6 +40,7 @@ class person {
 	public $opt_status;
 	public $last_updated;
 	public $creation_time;
+
 	// original values (initialized at load and checked against when saved)
 	private $Oopt_status;
 	private $Olast_updated;
@@ -61,6 +63,7 @@ class person {
 	public $last_seen;
 	public $last_clothing;
 	public $other_comments;
+
 	// original values (initialized at load and checked against when saved)
 	private $Obirth_date;
 	private $Oopt_race;
@@ -109,6 +112,7 @@ class person {
 	private $sql_last_clothing;
 	private $sql_other_comments;
 	private $sql_rep_uuid;
+
 	// and for original values..
 	private $sql_Op_uuid;
 	private $sql_Ofull_name;
@@ -154,7 +158,7 @@ class person {
 
 	// Constructor:
 	public function	__construct() {
-		// init db
+
 		global $global;
 		$this->db = $global['db'];
 
@@ -254,19 +258,13 @@ class person {
 		$this->sql_Oother_comments = null;
 		$this->sql_Orep_uuid       = null;
 
-		$this->author_name         = null;
-		$this->author_email        = null;
-
-		$this->makePfifNote        = true;
-
-		$this->useNullLastUpdatedDb = false;
-
-		$this->ignoreDupeUuid       = false;
-
-		$this->ecode = 0;
-
-		$this->updated_by_p_uuid   = null;
-
+		$this->author_name           = null;
+		$this->author_email          = null;
+		$this->makePfifNote          = true;
+		$this->useNullLastUpdatedDb  = false;
+		$this->ignoreDupeUuid        = false;
+		$this->ecode                 = 0;
+		$this->updated_by_p_uuid     = null;
 		$this->arrival_triagepic     = false;
 		$this->arrival_reunite       = false;
 		$this->arrival_website       = false;
@@ -374,19 +372,13 @@ class person {
 		$this->sql_Oother_comments = null;
 		$this->sql_Orep_uuid       = null;
 
-		$this->author_name         = null;
-		$this->author_email        = null;
-
-		$this->makePfifNote        = null;
-
-		$this->useNullLastUpdatedDb = null;
-
-		$this->ignoreDupeUuid       = null;
-
-		$this->ecode               = null;
-
-		$this->updated_by_p_uuid   = null;
-
+		$this->author_name           = null;
+		$this->author_email          = null;
+		$this->makePfifNote          = null;
+		$this->useNullLastUpdatedDb  = null;
+		$this->ignoreDupeUuid        = null;
+		$this->ecode                 = null;
+		$this->updated_by_p_uuid     = null;
 		$this->arrival_triagepic     = null;
 		$this->arrival_reunite       = null;
 		$this->arrival_website       = null;
@@ -396,17 +388,17 @@ class person {
 
 
 	// initializes..
-	public function init() {
-		global $global;
-		// not to do yet...
-	}
+	public function init() {}
+
 
 	// Load Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Load Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Load Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 	// loads the data from a person in the database
 	public function load() {
+
 		global $global;
 
 		$q = "
@@ -566,12 +558,15 @@ class person {
 		// to do....
 	}
 
+
 	// Insert / FirstSave Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Insert / FirstSave Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Insert / FirstSave Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
 	// save the person (initial save = insert)
 	public function insert() {
+
 		$this->sync();
 		$q = "
 			INSERT INTO person_uuid (
@@ -664,6 +659,7 @@ class person {
 
 
 	private function insertImages() {
+
 		foreach($this->images as $image) {
 			$image->insert();
 		}
@@ -671,6 +667,7 @@ class person {
 
 
 	private function insertEdxl() {
+
 		if($this->edxl != null) {
 			$this->edxl->insert();
 		}
@@ -678,6 +675,7 @@ class person {
 
 
 	private function insertVoiceNote() {
+
 		if($this->voice_note != null) {
 			$this->voice_note->insert();
 		}
@@ -685,6 +683,7 @@ class person {
 
 
 	public function makeStaticPfifNote() {
+
 		// make the note unless we are explicitly asked not to...
 		if(!$this->makePfifNote) {
 			return;
@@ -740,9 +739,11 @@ class person {
 		$p->storeNotesInDatabase();
 	}
 
+
 	// Delete Functions ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Delete Functions ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Delete Functions ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 	public function delete() {
 
@@ -811,6 +812,7 @@ class person {
 
 
 	private function deleteImages() {
+
 		foreach($this->images as $image) {
 			$image->delete();
 		}
@@ -818,6 +820,7 @@ class person {
 
 
 	private function deleteEdxl() {
+
 		if($this->edxl != null) {
 			$this->edxl->delete();
 		}
@@ -825,6 +828,7 @@ class person {
 
 
 	private function deleteVoiceNote() {
+
 		if($this->voice_note != null) {
 			$this->voice_note->delete();
 		}
@@ -835,8 +839,10 @@ class person {
 	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
 	// save the person (subsequent save = update)
 	public function update() {
+
 		$this->sync();
 		$this->saveRevisions();
 
@@ -896,14 +902,47 @@ class person {
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_to_report update ((".$q."))"); }
 
-		//$this->updateImages();
-		//$this->updateEdxl();
-		//$this->updateVoiceNote();
+		$this->updateImages();
+		$this->updateEdxl();
+		$this->updatePfif();
+		$this->updateVoiceNote();
+	}
+
+
+	private function updateImages() {
+
+		foreach($this->images as $image) {
+			$image->updated_by_p_uuid = $this->updated_by_p_uuid;
+			$image->update();
+		}
+	}
+
+
+	private function updateEdxl() {
+
+		if($this->edxl != null) {
+			$this->edxl->updated_by_p_uuid = $this->updated_by_p_uuid;
+			$this->edxl->update();
+		}
+	}
+
+	private function updatePfif() {
+		// to do....
+	}
+
+
+	private function updateVoiceNote() {
+
+		if($this->voice_note != null) {
+			$this->voice_note->updated_by_p_uuid = $this->updated_by_p_uuid;
+			$this->voice_note->update();
+		}
 	}
 
 
 	// save any changes since object was loaded as revisions
 	function saveRevisions() {
+
 		global $global;
 		global $revisionCount;
 
@@ -932,6 +971,7 @@ class person {
 
 	// save the revision
 	function saveRevision($newValue, $oldValue, $table, $column) {
+
 		// note the revision
 		$q = "
 			INSERT into person_updates (`p_uuid`, `updated_table`, `updated_column`, `old_value`, `new_value`, `updated_by_p_uuid`)
@@ -941,12 +981,15 @@ class person {
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person saveRevision ((".$q."))"); }
 	}
 
+
 	// Other Members Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Other Members Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Other Members Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
 	// synchronize SQL value strings with public attributes
 	private function sync() {
+
 		global $global;
 
 		// map enum types
@@ -1055,6 +1098,7 @@ class person {
 
 	// queues the expiration of a person
 	function expireQueue($user_id, $explanation) {
+
 		$this->sync();
 		$q = "
 			INSERT into expiry_queue (`p_uuid`, `requested_by_user_id`, `requested_when`, `requested_why`, `queued`, `approved_by_user_id`, `approved_when`, `expired`)
@@ -1127,6 +1171,7 @@ class person {
 
 	// insert into plus_log
 	public function plusReportLog() {
+
 		$q = "
 			INSERT INTO plus_report_log (p_uuid, enum)
 			VALUES ('".$this->p_uuid."', '".$this->xmlFormat."');
@@ -1138,6 +1183,7 @@ class person {
 
 	// insert into rap_log
 	public function rapReportLog() {
+
 		$q = "
 			INSERT INTO rap_log (p_uuid)
 			VALUES ('".$this->p_uuid."');
@@ -1149,6 +1195,7 @@ class person {
 
 
 	public function isEventOpen() {
+
 		// find if this event is open/closed
 		$q = "
 			SELECT *
@@ -1172,6 +1219,7 @@ class person {
 
 
 	public function addImage($fileContentBase64, $filename) {
+
 		// create sahana image
 		if(trim($fileContentBase64) != "") {
 			$i = new personImage();
@@ -1185,6 +1233,7 @@ class person {
 
 
 	public function createUUID() {
+
 		if($this->p_uuid === null || $this->p_uuid == "") {
 			$this->p_uuid = shn_create_uuid("person");
 		}
@@ -1193,6 +1242,7 @@ class person {
 
 	// set the event id (which will be ignored by XML parser)
 	public function setEvent($eventShortName) {
+
 		$q = "
 			SELECT *
 			FROM `incident`
@@ -1252,6 +1302,7 @@ class person {
 
 
 	public function parseXml() {
+
 		global $global;
 		require_once($global['approot']."inc/lib_uuid.inc");
 
@@ -1323,8 +1374,9 @@ class person {
 
 			// if there is actual voicenote data, save process it...
 			if(trim($a['person']['voiceNote']['data']) != "") {
+
 				$v = new voiceNote();
-				$v->init();
+				$v->init();     // reserves a voicenote id for this note
 				$v->p_uuid      = $this->p_uuid;
 				$v->dataBase64  = $a['person']['voiceNote']['data'];
 				$v->length      = $a['person']['voiceNote']['length'];
@@ -1525,6 +1577,7 @@ class person {
 
 			// parse all images
 			for($n = 0; $n < sizeof($a['EDXLDistribution']); $n++) {
+
 				if(isset($a['EDXLDistribution'][$n]['nonXMLContent']) && $a['EDXLDistribution'][$n]['nonXMLContent'] != null) {
 
 					$imageNode = $a['EDXLDistribution'][$n]['nonXMLContent'];

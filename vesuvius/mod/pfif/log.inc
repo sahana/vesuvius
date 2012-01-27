@@ -31,7 +31,7 @@ abstract class Pfif_Log {
             try {
                 $this->start_time = date(LOG_DATE_FORMAT,$start_time);
             } catch (Exception $e) {
-                error_log("date format errror:"+$e->getMessage()+" for start_time = $start_time \n");
+                pfif_error_log("date format errror:"+$e->getMessage()+" for start_time = $start_time \n");
             }
             $this->start_mode = $mode;
             $status = $this->save($log_table);
@@ -78,12 +78,14 @@ abstract class Pfif_Log {
             } else if (!empty($last_entry) && strtotime($last_entry) == strtotime($this->last_entry)) {
                 //print " updating last count\n";
                 $this->last_count += $log_info['last_entry_count'];
-            } else if (empty($this->last_entry)) {
+            } else if (empty($this->last_entry) || empty($last_entry)) {
                 // No new items so repeat old log entries.
                 //print " updating log with previous entries\n";
                 // Convert back to local time.
                 $this->last_entry = local_date($req_params['min_entry_date']);
                 $this->last_count = $req_params['skip'];
+                // Don't update counts.
+                return true;
             }
             //var_dump($this->last_entry);
             $this->update_counts($log_info);
@@ -132,10 +134,10 @@ abstract class Pfif_Log {
                     $this->log_index = $key;
                     $status = true;
                 } else {
-                    error_log("Pfif_Log.save: failed to retrieve log_index :".$global['db']->ErrorMsg());
+                    pfif_error_log("Pfif_Log.save: failed to retrieve log_index :".$global['db']->ErrorMsg());
                 }
             } catch (Exception $e) {
-                error_log("shn_db_insert error:".$e->getMessage().":".$global['db']->ErrorMsg());
+                pfif_error_log("shn_db_insert error:".$e->getMessage().":".$global['db']->ErrorMsg());
             }
         }
         return $status;
@@ -153,7 +155,7 @@ abstract class Pfif_Log {
         try {
             shn_db_update($insert_array,$log_table,$key);
         } catch (Exception $e) {
-            error_log("shn_db_insert error:".$e->getMessage().":".$global['db']->ErrorMsg());
+            pfif_error_log("shn_db_insert error:".$e->getMessage().":".$global['db']->ErrorMsg());
             return false;
         }
         return true;

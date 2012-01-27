@@ -1,6 +1,22 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
+2012:0124 Leif
+--------------
++ Timestamp PFIF log messages
+
+2012:0124 Greg
+--------------
++ Added the ability to upload images to a person record in EAP
+
+2012:0119 Greg
+--------------
++ Fixed javascript for the search box to empty text on a click of the microphone icon (Chrome only) so that voice searches now work properly.
++ Gave Vesuvius a global configuration variable $conf['site_name'] which defines the global name of the site, ie. People Locator. This will be used throughout the site in various communications to refer to the proper name of the site (it was hard coded to People Locator in many instances).
++ POP module (outbound email) now uses the new global site name in the configuration page as well as in all outbound emails sent.
++ MPRES, PLUS, PREF, ARRIVE, EAP, INW, REPORT updated for link compatibility
++ MPRES/POP/PFIF menu item order changed ~ grouped together
+
 2011:1116 Greg
 --------------
 
