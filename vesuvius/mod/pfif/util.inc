@@ -21,22 +21,8 @@ define("PFIF_1_3_NAMESPACE", "http://zesty.ca/pfif/1.3");
 define("PFIF_V_1_2", "1.2");
 define("PFIF_V_1_3", "1.3");
 
-define("MISSING_NODE_TAGNAME", "empty_child");
-
 define("PFIF_IMG_CACHE_DIR", "tmp/pfif_cache/");
 define("PFIF_IMG_THUMB_PREFIX", "thumb_");
-
-// HACK ALERT: A dummy node list to prevent non-object access errors on missing elements.
-$dummy_node_list = null;
-
-function set_dummy_node_list($documentNode) {
-   global $dummy_node_list;
-
-   $dummy_element = $documentNode->createElement('empty_node');
-   $dummy_child = $documentNode->createElement(MISSING_NODE_TAGNAME);
-   $dummy_element->appendChild($dummy_child);
-   $dummy_node_list = $dummy_element->getElementsByTagName('*');
-}
 
 /**
  * Transform local time to UTC time.

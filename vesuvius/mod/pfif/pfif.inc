@@ -505,10 +505,6 @@ class Pfif {
          }
       }
 
-      // FIXME: this is a workaround for errors resulting from empty elements. Need to rework the interface between
-      // process_persons/process_notes and getValueFromXmlElementTag to eliminate this.
-      set_dummy_node_list($this->dom_pfif);
-
       $ns = $this->dom_pfif->documentElement->lookupnamespaceURI(PFIF_NS_PREFIX); // 'http://zesty.ca/pfif/1.3';
       // DEBUG: print('loadPersonsFromXML: ns='.$ns.'\n');
       $this->setVersion(($ns == PFIF_1_2_NAMESPACE) ? PFIF_V_1_2 : PFIF_V_1_3);
@@ -541,10 +537,6 @@ class Pfif {
          }
       }
 
-      // FIXME: this is a workaround for errors resulting from empty elements. Need to rework the interface between
-      // process_persons/process_notes and getValueFromXmlElementTag to eliminate this.
-      set_dummy_node_list($this->dom_pfif);
-
       $ns = $this->dom_pfif->documentElement->lookupnamespaceURI(PFIF_NS_PREFIX); // 'http://zesty.ca/pfif/1.3';
       // DEBUG: print('loadNotesFromXML: ns='.$ns.'\n');
       $this->setVersion(($ns == PFIF_1_2_NAMESPACE) ? PFIF_V_1_2 : PFIF_V_1_3);
@@ -560,38 +552,32 @@ class Pfif {
    // Extract DOM person data into pif_person.
    // Drop any embedded notes on the floor and process them as a separate feed.
    private function process_persons($persons, $ns) {
-      // Get source version
-      $ns = $this->dom_pfif->documentElement->lookupnamespaceURI(PFIF_NS_PREFIX); // 'http://zesty.ca/pfif/1.3';
-
       foreach ($persons as $person) {
          $pfif_person = new Pfif_Person();
-         $pfif_person->person_record_id = $this->getValueFromXmlElementTag($person, 'person_record_id', $ns)->item(0)->nodeValue;
-         // pfif_error_log("processing person:".$pfif_person->person_record_id);
-         $pfif_person->entry_date = local_date($this->getValueFromXmlElementTag($person, 'entry_date', $ns)->item(0)->nodeValue);
-         $pfif_person->expiry_date = local_date($this->getValueFromXmlElementTag($person, 'expiry_date', $ns)->item(0)->nodeValue);
-         $pfif_person->author_name = $this->getValueFromXmlElementTag($person, 'author_name', $ns)->item(0)->nodeValue;
-         $pfif_person->author_email = $this->getValueFromXmlElementTag($person, 'author_email', $ns)->item(0)->nodeValue;
-         $pfif_person->author_phone = $this->getValueFromXmlElementTag($person, 'author_phone', $ns)->item(0)->nodeValue;
-         $pfif_person->source_name = $this->getValueFromXmlElementTag($person, 'source_name', $ns)->item(0)->nodeValue;
-         $pfif_person->source_date = local_date($this->getValueFromXmlElementTag($person, 'source_date', $ns)->item(0)->nodeValue);
-         $pfif_person->source_url = $this->getValueFromXmlElementTag($person, 'source_url', $ns)->item(0)->nodeValue;
-         // pfif_error_log("meta-informaton done ...");
+         $pfif_person->person_record_id = $this->getValueFromXmlElementTag($person, 'person_record_id', $ns);
+         $pfif_person->entry_date = local_date($this->getValueFromXmlElementTag($person, 'entry_date', $ns));
+         $pfif_person->expiry_date = local_date($this->getValueFromXmlElementTag($person, 'expiry_date', $ns));
+         $pfif_person->author_name = $this->getValueFromXmlElementTag($person, 'author_name', $ns);
+         $pfif_person->author_email = $this->getValueFromXmlElementTag($person, 'author_email', $ns);
+         $pfif_person->author_phone = $this->getValueFromXmlElementTag($person, 'author_phone', $ns);
+         $pfif_person->source_name = $this->getValueFromXmlElementTag($person, 'source_name', $ns);
+         $pfif_person->source_date = local_date($this->getValueFromXmlElementTag($person, 'source_date', $ns));
+         $pfif_person->source_url = $this->getValueFromXmlElementTag($person, 'source_url', $ns);
          // Static identifying information
-         $pfif_person->full_name = $this->getValueFromXmlElementTag($person, 'full_name', $ns)->item(0)->nodeValue;
-         $pfif_person->first_name = $this->getValueFromXmlElementTag($person, 'first_name', $ns)->item(0)->nodeValue;
-         $pfif_person->last_name = $this->getValueFromXmlElementTag($person, 'last_name', $ns)->item(0)->nodeValue;
-         $pfif_person->home_city = $this->getValueFromXmlElementTag($person, 'home_city', $ns)->item(0)->nodeValue;
-         $pfif_person->home_state = $this->getValueFromXmlElementTag($person, 'home_state', $ns)->item(0)->nodeValue;
-         $pfif_person->home_neighborhood = $this->getValueFromXmlElementTag($person, 'home_neighborhood', $ns)->item(0)->nodeValue;
-         $pfif_person->home_street = $this->getValueFromXmlElementTag($person, 'home_street', $ns)->item(0)->nodeValue;
-         $pfif_person->home_country = $this->getValueFromXmlElementTag($person, 'home_country', $ns)->item(0)->nodeValue;
-         $pfif_person->home_postal_code = $this->getValueFromXmlElementTag($person, 'home_postal_code', $ns)->item(0)->nodeValue;
-         $pfif_person->photo_url = $this->getValueFromXmlElementTag($person, 'photo_url', $ns)->item(0)->nodeValue;
-         $pfif_person->other = $this->getValueFromXmlElementTag($person, 'other', $ns)->item(0)->nodeValue;
-         $pfif_person->age = $this->getValueFromXmlElementTag($person, 'age', $ns)->item(0)->nodeValue;
-         $pfif_person->date_of_birth = $this->getValueFromXmlElementTag($person, 'date_of_birth', $ns)->item(0)->nodeValue;
-         $pfif_person->sex = $this->getValueFromXmlElementTag($person, 'sex', $ns)->item(0)->nodeValue;
-         // pfif_error_log("Static informaton done ...");
+         $pfif_person->full_name = $this->getValueFromXmlElementTag($person, 'full_name', $ns);
+         $pfif_person->first_name = $this->getValueFromXmlElementTag($person, 'first_name', $ns);
+         $pfif_person->last_name = $this->getValueFromXmlElementTag($person, 'last_name', $ns);
+         $pfif_person->home_city = $this->getValueFromXmlElementTag($person, 'home_city', $ns);
+         $pfif_person->home_state = $this->getValueFromXmlElementTag($person, 'home_state', $ns);
+         $pfif_person->home_neighborhood = $this->getValueFromXmlElementTag($person, 'home_neighborhood', $ns);
+         $pfif_person->home_street = $this->getValueFromXmlElementTag($person, 'home_street', $ns);
+         $pfif_person->home_country = $this->getValueFromXmlElementTag($person, 'home_country', $ns);
+         $pfif_person->home_postal_code = $this->getValueFromXmlElementTag($person, 'home_postal_code', $ns);
+         $pfif_person->photo_url = $this->getValueFromXmlElementTag($person, 'photo_url', $ns);
+         $pfif_person->other = $this->getValueFromXmlElementTag($person, 'other', $ns);
+         $pfif_person->age = $this->getValueFromXmlElementTag($person, 'age', $ns);
+         $pfif_person->date_of_birth = $this->getValueFromXmlElementTag($person, 'date_of_birth', $ns);
+         $pfif_person->sex = $this->getValueFromXmlElementTag($person, 'sex', $ns);
          // If empty record without expiration date, expire it. (JIRA PL-183)
          if (empty($pfif_person->expiry_date)
                  && empty($pfif_person->full_name)
@@ -610,45 +596,37 @@ class Pfif {
    private function process_notes($notes, $ns) {
       foreach ($notes as $note) {
          $pfif_note = new Pfif_Note();
-         $pfif_note->note_record_id = $this->getValueFromXmlElementTag($note, 'note_record_id', $ns)->item(0)->nodeValue;
-         $pfif_note->entry_date = local_date($this->getValueFromXmlElementTag($note, 'entry_date', $ns)->item(0)->nodeValue);
-         $pfif_note->author_name = $this->getValueFromXmlElementTag($note, 'author_name', $ns)->item(0)->nodeValue;
-         $pfif_note->author_email = $this->getValueFromXmlElementTag($note, 'author_email', $ns)->item(0)->nodeValue;
-         $pfif_note->author_phone = $this->getValueFromXmlElementTag($note, 'author_phone', $ns)->item(0)->nodeValue;
-         $pfif_note->source_date = local_date($this->getValueFromXmlElementTag($note, 'source_date', $ns)->item(0)->nodeValue);
-         $pfif_note->status = $this->getValueFromXmlElementTag($note, 'status', $ns)->item(0)->nodeValue;
-         $pfif_note->found = $this->getValueFromXmlElementTag($note, 'found', $ns)->item(0)->nodeValue;
-         $pfif_note->email_of_found_person = $this->getValueFromXmlElementTag($note, 'email_of_found_person', $ns)->item(0)->nodeValue;
-         $pfif_note->phone_of_found_person = $this->getValueFromXmlElementTag($note, 'phone_of_found_person', $ns)->item(0)->nodeValue;
-         $pfif_note->last_known_location = $this->getValueFromXmlElementTag($note, 'last_known_location', $ns)->item(0)->nodeValue;
-         $pfif_note->text = $this->getValueFromXmlElementTag($note, 'text', $ns)->item(0)->nodeValue;
-         $pfif_note->person_record_id = $this->getValueFromXmlElementTag($note, 'person_record_id', $ns)->item(0)->nodeValue;
-         $pfif_note->linked_person_record_id = $this->getValueFromXmlElementTag($note, 'linked_person_record_id', $ns)->item(0)->nodeValue;
+         $pfif_note->note_record_id = $this->getValueFromXmlElementTag($note, 'note_record_id', $ns);
+         $pfif_note->entry_date = local_date($this->getValueFromXmlElementTag($note, 'entry_date', $ns));
+         $pfif_note->author_name = $this->getValueFromXmlElementTag($note, 'author_name', $ns);
+         $pfif_note->author_email = $this->getValueFromXmlElementTag($note, 'author_email', $ns);
+         $pfif_note->author_phone = $this->getValueFromXmlElementTag($note, 'author_phone', $ns);
+         $pfif_note->source_date = local_date($this->getValueFromXmlElementTag($note, 'source_date', $ns));
+         $pfif_note->status = $this->getValueFromXmlElementTag($note, 'status', $ns);
+         $pfif_note->found = $this->getValueFromXmlElementTag($note, 'found', $ns);
+         $pfif_note->email_of_found_person = $this->getValueFromXmlElementTag($note, 'email_of_found_person', $ns);
+         $pfif_note->phone_of_found_person = $this->getValueFromXmlElementTag($note, 'phone_of_found_person', $ns);
+         $pfif_note->last_known_location = $this->getValueFromXmlElementTag($note, 'last_known_location', $ns);
+         $pfif_note->text = $this->getValueFromXmlElementTag($note, 'text', $ns);
+         $pfif_note->person_record_id = $this->getValueFromXmlElementTag($note, 'person_record_id', $ns);
+         $pfif_note->linked_person_record_id = $this->getValueFromXmlElementTag($note, 'linked_person_record_id', $ns);
          $this->setNote($pfif_note);
       }
       unset($note);
    }
 
    private function getValueFromXmlElementTag($elementNode, $elementName, $ns) {
-      global $dummy_node_list;
-
-      $return_value = null;
-      //var_dump('elementName' , $elementName);
+      // Default value.
+      $return_value = "";
       $nsValue = $elementNode->getElementsByTagNameNS($ns, $elementName);
-      // var_dump('nsValue' , $nsValue); //->item(0)->nodeValue);
-      //print("nsLength = $nsValue->length ");
-      if ($nsValue->length != 0) { //item(0)->nodeValue != null) { // Be aware: both of these could be NULL!
-         $return_value = $nsValue;
+      if ($nsValue->length != 0) {
+         $return_value = $nsValue->item(0)->nodeValue;
       } else {
          // Try to get the element without namespace
+         // LJN - Is this still necessary?
          $nonNsValue = $elementNode->getElementsByTagName($elementName);
-         // var_dump('nonNsValue' , $nonNsValue); // ->item(0)->nodeValue);
-         if ($nonNsValue->length != 0) { // item(0)->nodeValue != null) {
-            $return_value = $nonNsValue;
-         } else {
-            //Create an empty element
-            // DEBUG: print "returning dummy_node_list for element $elementName \n";
-            $return_value = $dummy_node_list;
+         if ($nonNsValue->length != 0) {
+            $return_value = $nonNsValue->item(0)->nodeValue;
          }
       }
 
