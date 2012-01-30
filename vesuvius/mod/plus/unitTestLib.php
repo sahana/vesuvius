@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.2
+ * @version      2.3
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0110
+ * @lastModified 2012.0130
  */
 
 
@@ -349,14 +349,14 @@ function changeUserPassword($username, $oldPassword, $newPassword) {
 
 
 
-function resetUserPassword($username) {
+function resetUserPassword($email) {
  	global $sites;
 	global $count;
 	$count++;
 	echo "<tr><td>".$count."</td><td class=\"func\">resetUserPassword</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
-		$result = $client->call('resetUserPassword', array('username'=>$username));
+		$result = $client->call('resetUserPassword', array('email'=>$email));
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
