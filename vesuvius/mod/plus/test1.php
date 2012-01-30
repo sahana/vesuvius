@@ -1,7 +1,7 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.2
+ * @version      2.3
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
@@ -38,12 +38,13 @@ $client = new nusoap_client($wsdl);
 //$result = $client->call('getHospitalLegaleseTimestamps', array('hospital_uuid'=>1));
 //$result = $client->call('registerUser', array('username'=>'testCaseUser', 'emailAddress'=>'testCase@email.com', 'password'=>'testPassword99', 'givenName'=>'testCaseGiven', 'familyName'=>'testCaseFamily'));
 //$result = $client->call('changeUserPassword', array('username'=>$user, 'oldPassword'=>$pass, 'newPassword'=>$pass));
-//$result = $client->call('resetUserPassword', array('username'=>"testCaseUser9"));
+$result = $client->call('resetUserPassword', array('email'=>"pl@tehk.org"));
 //$result = $client->call('forgotUsername', array('email'=>"testCase@email.com"));
 //$result = $client->call('reportPerson', array('personXML'=>null, 'eventShortName'=>null, 'xmlFormat'=>'TRIAGEPIC', 'username'=>null, 'password'=>null));
 //$result = $client->call('createPersonUuid', array('username'=>'testDontDelete', 'password'=>'dontDelete99'));
 //$result = $client->call('createPersonUuidBatch', array('number'=>5, 'username'=>'testDontDelete', 'password'=>'dontDelete99'));
 
+/*
 $result = $client->call('searchCountWithAuth', array(
 	'eventShortname'=>'test',
 	'searchTerm'=>'',
@@ -69,6 +70,7 @@ $result = $client->call('searchCountWithAuth', array(
 	'username'=>$user,
 	'password'=>$pass
 ));
+*/
 
 //$x = file_get_contents("RU.xml");
 $x = file_get_contents("reference_REUNITE3.xml");
