@@ -143,11 +143,8 @@ class Pfif {
 
    private function createXmlElement($domElement, $property, $value) {
       if (!empty($value)) {
-         //$child = $this->dom_pfif->createElement($property, $value);
          $child = $this->dom_pfif->createElement($property);
-         // FIXME: createTextNode escapes the text; use alternate approach above if
-         // this is not what we want.
-         $text = $this->dom_pfif->createTextNode($value);
+         $text = $this->dom_pfif->createTextNode($value);  // escapes text
          $child->appendChild($text);
          $domElement->appendChild($child);
       }
@@ -345,41 +342,11 @@ class Pfif {
       return $noteElement;
    }
 
-   public function postDbToService($id, $svc='google') {
-      return $this->postToService('id', $id, $svc);
-   }
-
-   public function postXmlToService($xml, $svc='google') {
-      return $this->postToService('xml', $xml, $svc);
-   }
-
-   public function postFileToService($filename, $svc='google') {
-      return $this->postToService('file', $filename, $svc);
-   }
-
-   public function postToService(
-   $source_type, // 'id','xml','file'
-           $source_data, // pfif id,  XML string, or file name
-           $service_name = 'googlejapan') {
+   public function postToService($xml) {
       $this->check_init();
-
-      if ($source_type == 'id') {
-         // not used currently
-         $persons = $this->loadFromDatabase('id?' . $id_or_filename);
-         $xml = $this->storeInXML();
-      } else if ($source_type == 'xml') {
-         // not used currently
-         $xml = $source_data;
-      } else {
-         $loaded = $this->loadFromXML($filename);
-         $xml = $loaded ? $this->storeInXML() : false;
-      }
       //print "posting to service $this->service_name \n";
-      if ($xml) {
-         $status = $this->postGoogleItem($this->service, $xml);
-      } else {
-         $status = "<status:status>Error reading input from $source_type.</status:status>";
-      }
+      // Harcoding Google service as it's the only game in town right now.
+      $status = $this->postGoogleItem($this->service, $xml);
       return $status;
    }
 
@@ -399,6 +366,7 @@ class Pfif {
       }
       $pfif_uri = $service_uri.$subdomain.$auth_key;
       $response = $this->do_post_request($pfif_uri, $item, 'Content-Type: application/xml');
+      // The old curl approach should still work if necessary.
       //$response = $this->do_post_request_with_curl($pfif_uri, $item);
       return $response;
    }
@@ -622,8 +590,7 @@ class Pfif {
       if ($nsValue->length != 0) {
          $return_value = $nsValue->item(0)->nodeValue;
       } else {
-         // Try to get the element without namespace
-         // LJN - Is this still necessary?
+         // Try to get the element without namespace just in case that helps.
          $nonNsValue = $elementNode->getElementsByTagName($elementName);
          if ($nonNsValue->length != 0) {
             $return_value = $nonNsValue->item(0)->nodeValue;
