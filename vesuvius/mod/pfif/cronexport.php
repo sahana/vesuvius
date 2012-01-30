@@ -55,7 +55,6 @@ foreach ($repositories as $r) {
 unset($r);
 unset($repositories);
 $export_queue = $pfif_conf['services'];
-//print "Queued exports:\n".print_r($export_queue,true)."\n";
 
 foreach ($export_queue as $service_name => $service) {
    $repos = $service['repository'];
@@ -70,24 +69,21 @@ foreach ($export_queue as $service_name => $service) {
    $p->setService($service_name,$service);
 
    $repos->start_harvest('scheduled', 'out');
-   //print "\n\nExport started to ".$service['post_url']." at ".$repos->get_log()->start_time . "\n";
    print "\n\nExport started to ".$service['post_url']." at ".date("Y-m-d H:i:s")."\n";
    $local_date = local_date($min_entry_date);
    $loaded = $p->loadFromDatabase($local_date, null, 0, $skip);
    print "Exporting original records after $local_date.\n"; 
-   //print "Loaded $loaded original and non-original records\n";
 
    if ($loaded > 0) {
-      // Export only original records after min_entry_date
+      // Export records
       $xml = $p->storeInXML(false, true);
       if ($xml != null) {
          $fh = fopen('cronpfif.xml', 'w');
          $charstowrite = strlen($xml);
          $written = fwrite($fh, $xml, $charstowrite);
          fclose($fh);
-         //print "Logged $written of $charstowrite characters to cronpfif.xml\n";
-         $post_status = $p->postToService('xml', $xml, $service_name);
-         // person and note counts are in $_SESSION['pfif_info'].
+         $post_status = $p->postToService($xml);
+         // Person and note counts are in $_SESSION['pfif_info'].
          if ($post_status == -1) {
             update_harvest_log($repos, $req_params, 'error');
             print "Export failed.\n";
