@@ -59,6 +59,9 @@ if(!isset($_GET['api'])) {
 
 	// perform tests...
 	switch($_GET['api']) {
+		case '2.3':
+			searchCount("test", "t");
+			searchCountWithAuth("test", "t", $user, $pass);
 		case '2.2':
 			reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $user, $pass);
 		case '2.1':
@@ -74,7 +77,6 @@ if(!isset($_GET['api'])) {
 			getUuidByMassCasualtyId($mcid, $user, $pass);
 			changeMassCasualtyId($newMcid, $uuid, $user, $pass);
 			hasRecordBeenRevised($uuid, $user, $pass);
-		case '1.9.9':
 			getHospitalLegalese("1");
 			getHospitalLegaleseAnon("1");
 			getHospitalLegaleseTimestamps("1");

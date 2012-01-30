@@ -230,7 +230,7 @@ function shn_plus_registerAll($namespace) {
 	shn_plus_registerOne($server, 'resetUserPassword',
 		array(
 			'in' => array(
-				'username'     => 'xsd:string'
+				'email'        => 'xsd:string'
 			),
 			'out' => array(
 				'sent'         => 'xsd:boolean',
