@@ -1,6 +1,28 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
+2012:0131 Update
+----------------
+Greg:
++ PLUS v2.3 in production
++ Changed 1 web service: resetUserPassword() to handle both password and username "forgot scenarios"
++ Added 2 additional web services: searchCount() and searchCountWithAuth()
++/- Fixed PLUS::search() and searchWithAuth() to perform as expected (dropped the mode parameter fixed perPage parameter)
++ PLUS Stats: Log all hits (before we excluded internal ips)
++ PLUS Stats: 2 new reports: Hits in the last 30 days and Hits in the last 30 days not internal
++ PLUS Stats: added geoip lookups when clicking on ip addresses
++ finishing work on last DAO object ~ class.personEDXL.php
+- removed old xmlrpc code from codebase (app store related)
++/- fixed getEventList ws showing non-public events
++ began work on REUNITE4 XML format
+
++/- PFIF saves image_urls without a preceding slash (fixed)
+
+Leif Neve 2012-01-31 image.primary -> image.principal
+Leif Neve 2012-01-30 Cleaned up PFIF export code
+Leif Neve 2012-01-28 cleaned up unnecessary 'dummy node' business
+Leif Neve 2012-01-27 Fix search problem that arose from multiple images (PL-303)
+Leif Neve 2012-01-27 Omit leading / for image url's (PL-308)
 
 
 2012:0124 Leif
