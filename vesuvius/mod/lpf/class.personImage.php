@@ -358,8 +358,8 @@ class personImage {
 		$a = explode("/", $this->p_uuid);
 
 		$filename = $a[0]."_".$a[1]; // make pl.nlm.nih.gov/person.123456 into pl.nlm.nih.gov_person.123456
-		$filename = $filename."_".$this->image_id."_"; // filename now like person.123456_112233_
-		$path = $global['approot']."www/tmp/plus_cache/".$filename; // path is now like /opt/pl/www/tmp/plus_cache/person.123456_112233_
+		$filename = $filename."_".$this->image_id."_"; // filename now like pl.nlm.nih.gov_person.123456_112233_
+		$path = $global['approot']."www/tmp/plus_cache/".$filename; // path is now like /opt/pl/www/tmp/plus_cache/pl.nlm.nih.gov_person.123456_112233_
 
 		// save original like /opt/pl/www/tmp/plus_cache/person.123456_112233_original
 		file_put_contents($path."original", $this->fileContent);
