@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.2
+ * @version      2.3
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0110
+ * @lastModified 2012.0130
  */
 
 
@@ -78,17 +78,18 @@ function showEntry() {
 		<br>
 		<h2>Available API Levels:</h2><br>
 	";
-        $dir   = getcwd();
-        $files = scandir($dir);
-        $j     = count($files);
-        for ($i = 0; $i < $j; $i++) {
-                if ($files[$i] == "." || $files[$i] == "..") {
-                        array_splice($files, $i, 1);
-                        $j--;
-                } else {
+	$dir   = getcwd();
+	$files = scandir($dir);
+	$j     = count($files);
+	for ($i = 0; $i < $j; $i++) {
+		if ($files[$i] == "." || $files[$i] == "..") {
+			array_splice($files, $i, 1);
+			$j--;
+		} else {
 			$pos = strpos($files[$i], "api_");
 			$til = strpos($files[$i], "~");
-			if($pos === false || $til) {
+			$f = strpos($files[$i], "f.inc");
+			if($pos === false || $til || $f) {
 				// not an api
 			} else {
 				$a = str_replace("api_", "", $files[$i]);
@@ -117,7 +118,7 @@ function _t() {}
 
 
 function version() {
- 	global $sites;
+	global $sites;
 	global $count;
 	$count++;
 	echo "<tr><td>".$count."</td><td class=\"func\">version</td>";
@@ -348,14 +349,14 @@ function changeUserPassword($username, $oldPassword, $newPassword) {
 
 
 
-function resetUserPassword($username) {
+function resetUserPassword($email) {
  	global $sites;
 	global $count;
 	$count++;
 	echo "<tr><td>".$count."</td><td class=\"func\">resetUserPassword</td>";
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
-		$result = $client->call('resetUserPassword', array('username'=>$username));
+		$result = $client->call('resetUserPassword', array('email'=>$email));
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
@@ -515,6 +516,89 @@ function searchWithAuth($shortname, $searchTerm, $username, $password) {
 	foreach($sites as $name => $wsdl) {
 		$client = new nusoap_client($wsdl);
 		$result = $client->call('searchWithAuth', array(
+			'eventShortname'       => $shortname,
+			'searchTerm'           => $searchTerm,
+			'filterStatusMissing'  => true,
+			'filterStatusAlive'    => true,
+			'filterStatusInjured'  => true,
+			'filterStatusDeceased' => true,
+			'filterStatusUnknown'  => true,
+			'filterStatusFound'    => true,
+			'filterGenderComplex'  => true,
+			'filterGenderMale'     => true,
+			'filterGenderFemale'   => true,
+			'filterGenderUnknown'  => true,
+			'filterAgeChild'       => true,
+			'filterAgeAdult'       => true,
+			'filterAgeUnknown'     => true,
+			'filterHospitalSH'     => true,
+			'filterHospitalNNMCC'  => true,
+			'filterHospitalOther'  => true,
+			'pageStart'            => 0,
+			'perPage'              => 10,
+			'sortBy'               => "",
+			'username'             => $username,
+			'password'             => $password
+			));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
+function searchCount($shortname, $searchTerm) {
+ 	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">searchCount</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('searchCount', array(
+			'eventShortname'       => $shortname,
+			'searchTerm'           => $searchTerm,
+			'filterStatusMissing'  => true,
+			'filterStatusAlive'    => true,
+			'filterStatusInjured'  => true,
+			'filterStatusDeceased' => true,
+			'filterStatusUnknown'  => true,
+			'filterStatusFound'    => true,
+			'filterGenderComplex'  => true,
+			'filterGenderMale'     => true,
+			'filterGenderFemale'   => true,
+			'filterGenderUnknown'  => true,
+			'filterAgeChild'       => true,
+			'filterAgeAdult'       => true,
+			'filterAgeUnknown'     => true,
+			'filterHospitalSH'     => true,
+			'filterHospitalNNMCC'  => true,
+			'filterHospitalOther'  => true,
+			'pageStart'            => 0,
+			'perPage'              => 10,
+			'sortBy'               => "",
+			));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
+
+function searchCountWithAuth($shortname, $searchTerm, $username, $password) {
+ 	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">searchCountWithAuth</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('searchCountWithAuth', array(
 			'eventShortname'       => $shortname,
 			'searchTerm'           => $searchTerm,
 			'filterStatusMissing'  => true,

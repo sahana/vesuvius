@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.2
+ * @version      2.3
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0110
+ * @lastModified 2012.0130
  */
 
 
@@ -15,7 +15,7 @@
 
 $user  = "testDontDelete";
 $pass  = "dontDelete99";
-$email = "testCase@email.com";
+$email = "test@dontDelete.com";
 $eventShortname = "test";
 $personXML = "";
 $xmlFormat = "TRIAGEPIC";
@@ -59,6 +59,10 @@ if(!isset($_GET['api'])) {
 
 	// perform tests...
 	switch($_GET['api']) {
+		case '2.3':
+			searchCount("test", "t");
+			searchCountWithAuth("test", "t", $user, $pass);
+			resetUserPassword($email);
 		case '2.2':
 			reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $user, $pass);
 		case '2.1':
@@ -74,7 +78,6 @@ if(!isset($_GET['api'])) {
 			getUuidByMassCasualtyId($mcid, $user, $pass);
 			changeMassCasualtyId($newMcid, $uuid, $user, $pass);
 			hasRecordBeenRevised($uuid, $user, $pass);
-		case '1.9.9':
 			getHospitalLegalese("1");
 			getHospitalLegaleseAnon("1");
 			getHospitalLegaleseTimestamps("1");
@@ -89,7 +92,6 @@ if(!isset($_GET['api'])) {
 			getSessionTimeout();
 			registerUser("testCaseUser", "testCase@email.com", "testPassword99", "testCaseGiven", "testCaseFamily");
 			changeUserPassword($user, $pass, $pass);
-			resetUserPassword($user);
 			forgotUsername($email);
 			checkUserAuth($user, $pass);
 			getUserStatus($user);

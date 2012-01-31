@@ -13,7 +13,7 @@
 global $api_version;
 $api_version = "2.1";
 
-// This function is called by the Document/Literal SOAP server upon initalization to register all the api services from this module's api.
+// This function is called by the Document/Literal SOAP server upon initalization to register all the api services from this module's api
 function shn_plus_registerAll($namespace) {
 	global $server;
 	global $api_version;
@@ -725,6 +725,7 @@ function getEventList() {
 	$q = "
 		SELECT *
 		FROM incident
+		WHERE private_group is null
 		ORDER BY `default` DESC, name ASC;
 	";
 	$result = $global['db']->Execute($q);
