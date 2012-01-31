@@ -18,8 +18,7 @@ require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
 function shn_stat_menu() {
 	global $global;
-		echo "
-		
+		echo "		
 		<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\"></script>		
 		<script type=\"text/javascript\" src=\"res/js/statpacked.js\"></script>
 		<script type=\"text/javascript\" src=\"res/js/showHide.js\"></script>		
@@ -28,7 +27,7 @@ function shn_stat_menu() {
 		$shortname = $_GET['shortname'];
 		echo "People Statistics for $shortname:\n";
 		echo "\n";
-		echo "Please select from the links below for avalailable statistics:\n";	
+		echo "Please select from the links below for avalailable statistics:\n";
 		
 		echo "
 		<ul>			
@@ -36,8 +35,7 @@ function shn_stat_menu() {
 			<li><a href=\"index.php?mod=stat&act=cummulative_arrival\">Cummulative Arrivals</a></li>
 			<li><a href=\"index.php?mod=stat&act=stacked_cummulative_arrival\">Stacked Cummulative Arrivals</a></li>
 			<li><a href=\"index.php?mod=stat&act=demographic\">Demographic Pie Charts</a></li>
-			<li><a href=\"index.php?mod=stat&act=pie_test\">Demographic Pie Charts from View</a></li>
-					
+						
 		</ul>
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
 		";
@@ -45,6 +43,7 @@ function shn_stat_menu() {
 		echo "
 		<ul>			
 			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour#stacked\">TriagePic Zone Status on Arrival </a></li>	
+			
 		</ul>
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
 		";
@@ -1340,6 +1339,135 @@ echo "var chart = new Highcharts.Chart({\n" ;
             echo "name: 'Black Zone',\n" ;
 			echo "color: '#000000',\n" ;
 			echo "data: pointsB\n" ;
+        echo "}\n" ;
+    echo "]\n" ;
+echo "});\n";
+echo "});\n";
+echo "</script>\n" ;
+}
+/***************************************
+* TP_stacked_status_byhour function
+***************************************/
+function shn_stat_TP_new_stacked_status_byhour() {
+	global $global;
+	shn_stat_menu();
+	echo "People Statistics for  ";
+	echo $_GET['shortname'];	
+	$shortname = $_GET['shortname'];
+	$name=ucfirst($shortname);
+
+	$query="SELECT distinct(triage_category), count( triage_category ) AS count_status, hour( when_sent ) AS time_range
+	FROM `edxl_co_lpf` a
+	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id ) 	
+	GROUP BY triage_category, hour(when_sent)
+	";
+    
+	$r=mysql_query($query);
+	$row = mysql_fetch_array($r);
+	//check result
+	if($row === FALSE) {
+    	//die(mysql_error()); // TODO: better error handling
+	}
+	if ($row['triage_category']=='Green'){
+	$json_time_rangeG = array();
+	$json_count_statusG = array();
+	do{
+		$time_rangeG[] = $row['time_range'];
+		//date_default_timezone_set('UTC');
+		array_push($json_time_rangeG, $row['time_range']);
+		$row['count_status'] = (int) $row['count_status'];
+		$count_statusG[] = $row['count_status'];
+		array_push($json_count_statusG, $row['count_status']);
+	}
+	while($row = mysql_fetch_array($r));
+	//echo 'red';
+	echo json_encode($count_statusG);
+	echo json_encode($time_rangeG);
+	}
+	
+	?>
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
+	<?php
+	$shortname = $_GET['shortname'];
+	//to do
+	$json_time_rangeG = implode("','",$json_time_rangeG);
+	$json_count_statusG = implode(",", $json_count_statusG);
+	
+	echo "<script type=\"text/javascript\"> \n" ;
+	//all
+		echo "var pointsG = [$json_count_statusG],\n" ;
+		echo "datesG = " .json_encode($time_range);
+		echo ",\n" ;
+		echo "i, dataG = [], chart;\n" ;
+		echo "for(i=0; i<pointsG.length; i++) {\n" ;
+			echo "dataG.push([datesG[i], pointsG[i]]);\n" ;
+			echo"}\n";
+	
+echo "\$(document).ready(function() {\n";
+echo "var chart = new Highcharts.Chart({\n" ;
+    echo "chart: {\n" ;
+        echo "renderTo: 'container',\n" ;
+        echo "defaultSeriesType: 'column'\n" ;
+    echo "},\n" ;
+	echo "title: {\n" ;
+			echo "text: 'TriagePic Zone Status on Arrival for $name',\n" ;
+			echo "style: {\n" ;
+            echo "color: '#000000',\n" ;
+            echo "fontWeight: 'bold'\n" ;
+					echo "}\n" ;
+			echo "},\n" ;
+		echo "subtitle: {\n" ;
+			echo " " ;
+			echo "style: {\n" ;
+            echo "color: '#FF00FF',\n" ;
+            echo "fontWeight: 'bold'\n" ;
+					echo "}\n" ;
+					echo "},\n" ;
+    echo "xAxis: {\n" ;
+        echo "title: {\n" ;
+            echo "text: 'Time Range'\n" ;
+			echo "},\n";
+		echo "maxPadding: 0.1,\n";
+		echo "categories: ['9-10 AM','10-11 AM','11-12 PM','12-1 PM','1-2 PM','2-3 PM']\n" ;
+			echo "},\n" ;
+    echo "yAxis: {\n" ;
+		echo "allowDecimals: false,\n";
+		
+		echo "stackLabels: {\n";
+            echo "enabled: true,\n";
+            echo "style: {\n";
+               echo "fontWeight: 'bold',\n";
+               echo "color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'\n";
+            echo "}\n";
+         echo "},\n";
+		echo "title: {\n" ;
+            echo "text: 'Patient Counts'\n" ;
+			echo "}\n" ;
+		echo "},\n" ;
+	echo"
+	tooltip: {
+         formatter: function() {
+            return '<b>'+ this.x +'</b><br/>'+
+                this.series.name +': '+ this.y +'<br/>'+
+                'Total: '+ this.point.stackTotal;
+         }
+      },
+	  \n";
+    echo "plotOptions: {\n" ;
+        echo "column: {
+            stacking: 'normal',
+            dataLabels: {
+               enabled: true,
+			   color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'black'
+            }
+         }
+      },\n" ;
+    echo "series: [\n" ;
+
+         echo "{\n" ;
+            echo "name: 'Zone',\n" ;
+			echo "color:'#339900',\n" ;
+			echo "data: points\n" ;
         echo "}\n" ;
     echo "]\n" ;
 echo "});\n";
@@ -3233,7 +3361,7 @@ function shn_stat_demographic() {
 			}
 			//if it's hospital-based
 			//if ($groupID='2'){
-			if ($shortname=='cmax2010' or $shortname=='new') {
+			if ($shortname=='cmax2010' or $shortname=='new' or $shortname=='test') {
 			echo ",{\n" ;
             echo "html:'Based on Initial Triage Zones ',\n" ;
             echo "style: {\n" ;
@@ -3829,7 +3957,6 @@ echo "Test area ";
 /***************************************
 demographic charts 
 ****************************************/
-
 function shn_stat_pie_test() {
 	global $global;
 	shn_stat_menu();
@@ -3898,7 +4025,7 @@ function shn_stat_pie_test() {
 	while($row = $res->FetchRow());
 	
 	//for gender
-	/*
+	
 	$q_g="SELECT DISTINCT d.option_description as opt_gender, count( opt_gender ) AS count_opt_gender
 	FROM person_details a
 	JOIN field_options d ON a.opt_gender = d.option_code
@@ -3906,9 +4033,9 @@ function shn_stat_pie_test() {
 	JOIN incident c ON c.incident_id = b.incident_id
 	WHERE c.shortname = '".$shortname."'
 	GROUP BY option_description";
-	*/
+	
 	//using view gender_count
-	$q_g="SELECT opt_gender, count_opt_gender from gender_count where shortname = '".$shortname."'";
+	//$q_g="SELECT opt_gender, count_opt_gender from gender_count where shortname = '".$shortname."'";
 	
 	$res = $global['db']->Execute($q_g);
 	$row = $res->FetchRow();	
@@ -3927,7 +4054,6 @@ function shn_stat_pie_test() {
 		array_push($json_count_opt_gender, $row['count_opt_gender']);
 		}
 	while($row = $res->FetchRow());
-	
 	
 	//for pediatrics/adults
 	
@@ -4053,8 +4179,7 @@ function shn_stat_pie_test() {
 			color: colors[j]
 			});
 			";
-		echo "}\n";
-			
+		echo "}\n";		
 		
 		echo "var counts_a = [$json_count_opt_age],\n";
 		echo "names_a = " .json_encode($opt_age);
@@ -4321,10 +4446,12 @@ function shn_stat_pie_test() {
 			echo ",{\n" ;
 			echo "html: '<button id=\"button\">Export Chart</button>',\n" ;
             echo "style: {\n" ;
+			    echo "position:absolute,\n";
                 echo "left: '70px',\n" ;
                 echo "top: '20px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'Red'\n" ;            
+				echo "z-index:2,\n";
+                echo "color: 'Red'\n"; 				           
             echo "}\n" ;
 			echo "}\n";
 			
