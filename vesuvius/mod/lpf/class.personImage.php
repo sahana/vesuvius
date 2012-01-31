@@ -22,6 +22,7 @@ class personImage {
 	public $url;
 	public $url_thumb;
 	public $original_filename;
+	public $principal;
 
 	public $fileContentBase64;
 	public $fileContent;
@@ -37,6 +38,7 @@ class personImage {
 	public $Ourl;
 	public $Ourl_thumb;
 	public $Ooriginal_filename;
+	public $Oprincipal;
 
 	public $OfileContentBase64;
 	public $OfileContent;
@@ -52,6 +54,7 @@ class personImage {
 	private $sql_url;
 	private $sql_url_thumb;
 	private $sql_original_filename;
+	private $sql_principal;
 
 	private $sql_Oimage_id;
 	private $sql_Op_uuid;
@@ -62,6 +65,7 @@ class personImage {
 	private $sql_Ourl;
 	private $sql_Ourl_thumb;
 	private $sql_Ooriginal_filename;
+	private $sql_Oprincipal;
 
 	public $updated_by_p_uuid;
 	public $tags;
@@ -82,6 +86,7 @@ class personImage {
 		$this->url                   = null;
 		$this->url_thumb             = null;
 		$this->original_filename     = null;
+		$this->principal             = null;
 
 		$this->fileContentBase64     = null;
 		$this->fileContent           = null;
@@ -97,6 +102,7 @@ class personImage {
 		$this->Ourl                   = null;
 		$this->Ourl_thumb             = null;
 		$this->Ooriginal_filename     = null;
+		$this->Oprincipal             = null;
 
 		$this->OfileContentBase64     = null;
 		$this->OfileContent           = null;
@@ -112,6 +118,7 @@ class personImage {
 		$this->sql_url               = null;
 		$this->sql_url_thumb         = null;
 		$this->sql_original_filename = null;
+		$this->sql_principal         = null;
 
 		$this->sql_Oimage_id          = null;
 		$this->sql_Op_uuid            = null;
@@ -122,6 +129,7 @@ class personImage {
 		$this->sql_Ourl               = null;
 		$this->sql_Ourl_thumb         = null;
 		$this->sql_Ooriginal_filename = null;
+		$this->sql_Oprincipal         = null;
 
 		$this->updated_by_p_uuid     = null;
 		$this->tags                  = array();
@@ -139,6 +147,7 @@ class personImage {
 		$this->url                   = null;
 		$this->url_thumb             = null;
 		$this->original_filename     = null;
+		$this->principal             = null;
 
 		$this->fileContentBase64     = null;
 		$this->fileContent           = null;
@@ -154,6 +163,7 @@ class personImage {
 		$this->Ourl                   = null;
 		$this->Ourl_thumb             = null;
 		$this->Ooriginal_filename     = null;
+		$this->Oprincipal             = null;
 
 		$this->OfileContentBase64     = null;
 		$this->OfileContent           = null;
@@ -169,6 +179,7 @@ class personImage {
 		$this->sql_url               = null;
 		$this->sql_url_thumb         = null;
 		$this->sql_original_filename = null;
+		$this->sql_principal         = null;
 
 		$this->sql_Oimage_id          = null;
 		$this->sql_Op_uuid            = null;
@@ -179,6 +190,8 @@ class personImage {
 		$this->sql_Ourl               = null;
 		$this->sql_Ourl_thumb         = null;
 		$this->sql_Ooriginal_filename = null;
+		$this->sql_Oprincipal         = null;
+		$this->sql_Oprincipal         = null;
 
 		$this->tags                  = null;
 		$this->updated_by_p_uuid     = null;
@@ -216,6 +229,7 @@ class personImage {
 			$this->url                   = $result->fields['url'];
 			$this->url_thumb             = $result->fields['url_thumb'];
 			$this->original_filename     = $result->fields['original_filename'];
+			$this->principal             = $result->fields['principal'];
 			$this->fullSizePath          = $global['approot']."www/".$result->fields['url'];
 			$this->thumbnailPath         = $global['approot']."www/".$result->fields['url_thumb'];
 			$this->fileContent           = file_get_contents($global['approot']."www/".$result->fields['url']);
@@ -231,6 +245,7 @@ class personImage {
 			$this->Ourl                   = $this->url;
 			$this->Ourl_thumb             = $this->url_thumb;
 			$this->Ooriginal_filename     = $this->original_filename;
+			$this->Oprincipal             = $this->principal;
 			$this->OfullSizePath          = $this->fullSizePath;
 			$this->OthumbnailPath         = $this->thumbnailPath;
 			$this->OfileContent           = $this->fileContent;
@@ -307,6 +322,18 @@ class personImage {
 		$this->sql_url               = ($this->url               === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url)."'";
 		$this->sql_url_thumb         = ($this->url_thumb         === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_thumb)."'";
 		$this->sql_original_filename = ($this->original_filename === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->original_filename)."'";
+		$this->sql_principal         = ($this->principal         === null) ? "'1'"  : "'".mysql_real_escape_string((int)$this->principal)."'";
+
+		$this->sql_Oimage_id          = ($this->Oimage_id          === null) ? "NULL" : "'".(int)$this->Oimage_id."'";
+		$this->sql_Op_uuid            = ($this->Op_uuid            === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Op_uuid)."'";
+		$this->sql_Oimage_type        = ($this->Oimage_type        === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oimage_type)."'";
+		$this->sql_Oimage_height      = ($this->Oimage_height      === null) ? "NULL" : "'".(int)$this->Oimage_height."'";
+		$this->sql_Oimage_width       = ($this->Oimage_width       === null) ? "NULL" : "'".(int)$this->Oimage_width."'";
+		$this->sql_Ocreated           = ($this->Ocreated           === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ocreated)."'";
+		$this->sql_Ourl               = ($this->Ourl               === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ourl)."'";
+		$this->sql_Ourl_thumb         = ($this->Ourl_thumb         === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ourl_thumb)."'";
+		$this->sql_Ooriginal_filename = ($this->Ooriginal_filename === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ooriginal_filename)."'";
+		$this->sql_Oprincipal         = ($this->Oprincipal         === null) ? "'1'"  : "'".mysql_real_escape_string((int)$this->Oprincipal)."'";
 	}
 
 
@@ -416,7 +443,8 @@ class personImage {
 				image_width,
 				url,
 				url_thumb,
-				original_filename )
+				original_filename,
+				principal )
 			VALUES (
 				".$this->sql_image_id.",
 				".$this->sql_p_uuid.",
@@ -425,7 +453,8 @@ class personImage {
 				".$this->sql_image_width.",
 				".$this->sql_url.",
 				".$this->sql_url_thumb.",
-				".$this->sql_original_filename." );
+				".$this->sql_original_filename."
+				".$this->sql_principal." );
 		";
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage insert ((".$q."))"); }
@@ -442,9 +471,9 @@ class personImage {
 	}
 
 
-	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/** Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Update / Save Functions ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 
 	// save the person (subsequent save = update)
@@ -463,6 +492,7 @@ class personImage {
 				url               = ".$this->sql_url.",
 				url_thumb         = ".$this->sql_url_thumb.",
 				original_filename = ".$this->sql_original_filename."
+				principal         = ".$this->sql_principal."
 			WHERE image_id = ".$this->sql_image_id.";
 		";
 		$result = $this->db->Execute($q);
@@ -491,6 +521,7 @@ class personImage {
 		if($this->url               != $this->Ourl)               { $this->saveRevision($this->sql_url,               $this->sql_Ourl,               'image', 'url'               ); }
 		if($this->url_thumb         != $this->Ourl_thumb)         { $this->saveRevision($this->sql_url_thumb,         $this->sql_Ourl_thumb,         'image', 'url_thumb'         ); }
 		if($this->original_filename != $this->Ooriginal_filename) { $this->saveRevision($this->sql_original_filename, $this->sql_Ooriginal_filename, 'image', 'original_filename' ); }
+		if($this->principal         != $this->Oprincipal)         { $this->saveRevision($this->sql_principal,         $this->sql_Oprincipal,         'image', 'principal'         ); }
 	}
 
 
