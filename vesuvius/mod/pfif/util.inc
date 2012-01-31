@@ -21,22 +21,8 @@ define("PFIF_1_3_NAMESPACE", "http://zesty.ca/pfif/1.3");
 define("PFIF_V_1_2", "1.2");
 define("PFIF_V_1_3", "1.3");
 
-define("MISSING_NODE_TAGNAME", "empty_child");
-
-define("PFIF_IMG_CACHE_DIR", "/tmp/pfif_cache/");
+define("PFIF_IMG_CACHE_DIR", "tmp/pfif_cache/");
 define("PFIF_IMG_THUMB_PREFIX", "thumb_");
-
-// HACK ALERT: A dummy node list to prevent non-object access errors on missing elements.
-$dummy_node_list = null;
-
-function set_dummy_node_list($documentNode) {
-   global $dummy_node_list;
-
-   $dummy_element = $documentNode->createElement('empty_node');
-   $dummy_child = $documentNode->createElement(MISSING_NODE_TAGNAME);
-   $dummy_element->appendChild($dummy_child);
-   $dummy_node_list = $dummy_element->getElementsByTagName('*');
-}
 
 /**
  * Transform local time to UTC time.
@@ -250,7 +236,7 @@ function fetch_image($photo_url, $person_record_id) {
          $result['original_filename'] = $photo_url;
 
          // Gen cache filename from id, ..
-         $filePath = '/pl'.PFIF_IMG_CACHE_DIR;
+         $filePath = '/pl/'.PFIF_IMG_CACHE_DIR;
          $fileName = str_replace("/", "SLASH", $person_record_id) . "__" . rand(1000000000, 1999999999) . "." . $image->type;
          $localUrl = PFIF_IMG_CACHE_DIR . $fileName;
 
