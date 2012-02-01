@@ -1620,7 +1620,10 @@ class person {
 						$i->init();
 						$i->p_uuid = $this->p_uuid;
 						$i->fileContentBase64 = $imageNode['contentData'];
-						//error_log(">>>>>>>>>>>>>>>>>>>>>>>>>>>".sha1($i->fileContentBase64)."<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+
+$i->decode();
+daoErrorLog('','','','','','', "sha1_base64(".sha1($i->fileContentBase64).") sha1(".sha1($i->fileContent).")");
+
 						$i->original_filename = $imageNode['uri'];
 						if($primary) {
 							$i->principal = 1;
