@@ -1581,6 +1581,38 @@ class person {
 				if(isset($a['EDXLDistribution'][$n]['nonXMLContent']) && $a['EDXLDistribution'][$n]['nonXMLContent'] != null) {
 
 					$imageNode = $a['EDXLDistribution'][$n]['nonXMLContent'];
+					$cd = $a['EDXLDistribution'][$n]['contentDescription'];
+					$cd = str_replace($a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['personId'], "", $cd); // remove patient id from the string
+					$cd = str_replace($this->edxl->triage_category, "", $cd); // remove triage category from the string
+					$cd = trim($cd); // remove preceding and trailing whitespace(s)
+
+					// what we should now have left is in the format: "" or "sX" or "sX - caption" or "- caption"
+
+					// primary no caption
+					if($cd === "") {
+						$primary = true;
+						$caption = null;
+
+					// secondary no caption
+					} elseif(strpos($cd, "-") === false) {
+						$primary = false;
+						$caption = null;
+
+					// has caption
+					} else {
+						$ecd = explode("-", $cd);
+
+						// primary with caption
+						if(trim($ecd[0]) == "") {
+							$primary = true;
+							$caption = $ecd[1];
+
+						// secondary with caption
+						} else {
+							$primary = false;
+							$caption = trim($ecd[1]);
+						}
+					}
 
 					// create sahana image
 					if(trim($imageNode['contentData']) != "") {
@@ -1588,7 +1620,22 @@ class person {
 						$i->init();
 						$i->p_uuid = $this->p_uuid;
 						$i->fileContentBase64 = $imageNode['contentData'];
+						//error_log(">>>>>>>>>>>>>>>>>>>>>>>>>>>".sha1($i->fileContentBase64)."<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 						$i->original_filename = $imageNode['uri'];
+						if($primary) {
+							$i->principal = 1;
+						}
+						if($caption != null) {
+							$t = new personImageTag();
+							$t->init();
+							$t->image_id = $i->image_id;
+							$t->tag_x    = 0;
+							$t->tag_y    = 0;
+							$t->tag_w    = 10;
+							$t->tag_h    = 10;
+							$t->tag_text = $caption;
+							$i->tags[] = $t;
+						}
 						$this->images[] = $i;
 					}
 

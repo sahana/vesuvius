@@ -4,7 +4,7 @@
 ********************************************************************************************************************************************************************
 *
 * @class        personImage
-* @version      13
+* @version      14
 * @author       Greg Miernicki <g@miernicki.com>
 *
 ********************************************************************************************************************************************************************
@@ -86,7 +86,7 @@ class personImage {
 		$this->url                   = null;
 		$this->url_thumb             = null;
 		$this->original_filename     = null;
-		$this->principal             = null;
+		$this->principal             = 1;
 
 		$this->fileContentBase64     = null;
 		$this->fileContent           = null;
@@ -102,7 +102,7 @@ class personImage {
 		$this->Ourl                   = null;
 		$this->Ourl_thumb             = null;
 		$this->Ooriginal_filename     = null;
-		$this->Oprincipal             = null;
+		$this->Oprincipal             = 1;
 
 		$this->OfileContentBase64     = null;
 		$this->OfileContent           = null;
@@ -453,7 +453,7 @@ class personImage {
 				".$this->sql_image_width.",
 				".$this->sql_url.",
 				".$this->sql_url_thumb.",
-				".$this->sql_original_filename."
+				".$this->sql_original_filename.",
 				".$this->sql_principal." );
 		";
 		$result = $this->db->Execute($q);
