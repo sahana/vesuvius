@@ -154,11 +154,12 @@ class personEdxl {
 	public $contentDatas;
 	public $image_ids;
 	public $image_co_ids;
+	public $image_sha1;
 
 
 	// Constructor
 	public function __construct() {
-		// init db
+
 		global $global;
 		$this->db = $global['db'];
 
@@ -229,6 +230,7 @@ class personEdxl {
 		$this->contentDatas = array();
 		$this->image_ids    = array();
 		$this->image_co_ids = array();
+		$this->image_sha1   = array();
 
 		$this->sql_de_id           = null;
 		$this->sql_co_id           = null;
@@ -296,6 +298,7 @@ class personEdxl {
 
 	// Destructor
 	public function __destruct() {
+
 		$this->de_id           = null;
 		$this->co_id           = null;
 		$this->content_descr   = null;
@@ -363,6 +366,7 @@ class personEdxl {
 		$this->contentDatas = null;
 		$this->image_ids    = null;
 		$this->image_co_ids = null;
+		$this->image_sha1   = null;
 
 		$this->sql_de_id           = null;
 		$this->sql_co_id           = null;
@@ -576,6 +580,7 @@ class personEdxl {
 			$this->uris[]         = $result->fields['uri'];
 			$this->contentDatas[] = $result->fields['contentData'];
 			$this->image_ids[]    = $result->fields['image_id'];
+			$this->image_sha1[]   = $result->fields['sha1'];
 			$result->MoveNext();
 		}
 		return true;
@@ -584,6 +589,7 @@ class personEdxl {
 
 	// synchronize SQL value strings with public attributes
 	private function sync() {
+
 		global $global;
 
 		// sanity checks
@@ -709,6 +715,7 @@ class personEdxl {
 
 	// save the image tag
 	public function insert() {
+
 		$this->sync();
 		$q = "
 			INSERT INTO edxl_de_header (
@@ -830,14 +837,16 @@ class personEdxl {
 					mimeType,
 					uri,
 					contentData,
-					image_id )
+					image_id,
+					sha1 )
 				VALUES (
 					'".mysql_real_escape_string($this->image_co_ids[$i])."',
 					".$this->sql_p_uuid.",
 					'".mysql_real_escape_string($this->mimeTypes[$i])."',
 					'".mysql_real_escape_string($this->uris[$i])."',
 					'".mysql_real_escape_string($this->contentDatas[$i])."',
-					'".mysql_real_escape_string($this->image_ids[$i])."' );
+					'".mysql_real_escape_string($this->image_ids[$i])."',
+					'".mysql_real_escape_string($this->image_sha1[$i])."' );
 			";
 			$result = $this->db->Execute($q);
 			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co photos insert ((".$q."))"); }
@@ -857,6 +866,28 @@ class personEdxl {
 		$this->saveRevisions();
 
 		$q = "
+			UPDATE edxl_de_header (
+			SET
+				de_id         = ".$this->sql_de_id.",
+				when_sent     = ".$this->sql_when_sent.",
+				sender_id     = ".$this->sql_sender_id.",
+				distr_id      = ".$this->sql_distr_id.",
+				distr_status  = ".$this->sql_distr_status.",
+				distr_type    = ".$this->sql_distr_type.",
+				combined_conf = ".$this->sql_combined_conf.",
+				language      = ".$this->sql_language.",
+				when_here     = ".$this->sql_when_here.",
+				inbound       = ".$this->sql_inbound."
+			WHERE de_id = ".$this->sql_de_id.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl de header insert ((".$q."))"); }
+
+
+
+
+
+		$q = "
 			UPDATE image_tag
 			SET
 				image_id = ".$this->sql_image_id.",
@@ -871,6 +902,7 @@ class personEdxl {
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag update ((".$q."))"); }
 */
+
 	}
 
 

@@ -536,7 +536,14 @@ function shn_authenticate_user() {
 			if((($status == 'locked') || ($status == 'try1') || ($status == 'try2')) && (shn_acl_is_locking_enabled())) {
 				shn_auth_activate_user($uid);
 			}
-			add_confirmation("Login Successful.");
+
+			$e = explode("/", $_POST['return']);
+			$f = $e[sizeof($e)-1];
+			if($f == "login" || $f == "index.php?doLogin=1") {
+				header("Location: settings");
+			} else {
+				header("Location: ".$_POST['return']);
+			}
 			$user_data["user_id"] = $res->fields["p_uuid"];
 			$user_data["user"] = $user;
 			$user_data["result"] = LOGGEDIN;
