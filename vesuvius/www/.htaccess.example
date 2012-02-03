@@ -19,7 +19,7 @@ RewriteBase /
 ##### make mod_rewrite skip the subsequent 7 rules if the file or folder exists already
 RewriteCond %{REQUEST_FILENAME} -d [OR]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule .* - [S=11]
+RewriteRule .* - [S=12]
 
 ##### matches /puuid for person uuid's as urls in special cases
 RewriteRule ^(edit|EDIT)$ index.php?mod=eap [QSA,L]
@@ -32,6 +32,9 @@ RewriteRule ^(about|ABOUT)$ index.php?mod=rez&act=default&page_id=-30 [L]
 
 ##### handle the about page via php
 RewriteRule ^(plus|PLUS)$ index.php?mod=rez&act=default&page_id=-45 [L]
+
+##### handle settings page
+RewriteRule ^(settings|SETTINGS)$ index.php?mod=pref&act=default [L]
 
 ##### handle login
 RewriteRule ^(login|LOGIN)$ index.php?mod=pref&act=loginForm [L]

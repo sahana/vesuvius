@@ -42,6 +42,7 @@ function shn_pref_loginForm() {
 				</div>
 				</fieldset>
 				<br><br><br>
+				<input type="hidden" name="return" value="'.$_SERVER['REQUEST_URI'].'">
 				</form>
 			</div>
 		';
