@@ -56,18 +56,9 @@ function shn_report_default() {
 			You must first login to report a new person to this registry.<br>
 			<br>
 			<br>
-			<input id="login" class="styleTehButton" type="button" value="Login" onclick="login();">
-			&nbsp; &nbsp; &nbsp; &nbsp;
-			<input id="register" class="styleTehButton" type="button" value="Register as a new user" onclick="register();">
-			<script>
-				function register() {
-					window.location = \'register\';
-				}
-				function login() {
-					window.location = \'login\';
-				}
-			</script>
 		';
+		require_once($global['approot'].'mod/pref/main.inc');
+		shn_pref_loginForm();
 		return;
 	}
 
@@ -75,10 +66,10 @@ function shn_report_default() {
 	echo '
 		<h2>Report a Person</h2>
 		<br>
-		You may wish to perform a <a href="index.php?mod=inw&act=default">quick search</a> before reporting. Otherwise,<br>
+		You may wish to perform a <a href="index.php?mod=inw&act=default">quick search</a> before reporting. Otherwise...<br>
 		<br>
 		<br>
-		<input id="login" class="styleTehButton" type="button" value="Create a New Person Record" onclick="report();">
+		<input id="login" class="styleTehButton" type="button" value="Create a New Person Report" onclick="report();">
 		<script>
 			function report() {
 				window.location = \'index.php?mod=report&act=instantiate\';
