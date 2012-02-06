@@ -78,25 +78,20 @@ if(!$full) {
 	';
 }
 
-/*
+
 function isChrome() {
 	return(stristr($_SERVER['HTTP_USER_AGENT'], "chrome"));
 }
 
 if(isChrome()) {
 	echo '
-		<script>
-			function runInstall() {
-				chrome.webstore.install();
-				//window.domAutomationController.send(true);
-			}
-		</script>
-		<div id="chromeWebStore">
-			<input class="styleTehButton" onclick="javascript: runInstall();" value="Add to Chrome" />
+		<div id="install-button">
+			<center><a href="#" onclick="chrome.webstore.install();">Install the People Locator app to Chrome</a></center>
+			<script>if(chrome.app.isInstalled) { document.getElementById(\'install-button\').style.display = \'none\'; }</script>
 		</div>
 	';
 }
-*/
+
 
 
 
