@@ -86,7 +86,7 @@ function isChrome() {
 if(isChrome()) {
 	echo "
 		<div id=\"install-button\" style=\"z-index: 99999;\">
-			<center><a href=\"#\" onclick=\"chrome.webstore.install();\">Install the People Locator app to Chrome</a></center>
+			<center><a href=\"#\" onclick=\"chrome.webstore.install(); console.log('clicked');\">Install the People Locator app to Chrome</a></center>
 			<script>if(chrome.app.isInstalled) { document.getElementById('install-button').style.display = 'none'; }</script>
 		</div>
 	";
