@@ -321,6 +321,12 @@ function makePageUrl() {
 
 
 function makeBaseUrl() {
+
+	global $conf;
+	$link = $conf['https'].$conf['base_uuid'].$_GET['shortname'];
+	return $link;
+
+/*
 	if(isset($_SERVER['HTTPS'])) {
 		$protocol = "https://";
 	} else {
@@ -329,11 +335,18 @@ function makeBaseUrl() {
 	$link = $protocol.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'];
 	$link = str_replace("index.php", "", $link);
 	return $link;
+*/
 }
 
 
 
 function makeBaseUrlMinusEvent() {
+
+	global $conf;
+	$link = $conf['https'].$conf['base_uuid'];
+	return $link;
+
+/*
 	isset($_GET['shortname']) ? $short = $_GET['shortname'] : $short = "";
 	if(isset($_SERVER['HTTPS'])) {
 		$protocol = "https://";
@@ -342,12 +355,18 @@ function makeBaseUrlMinusEvent() {
 	}
 	$link = $protocol.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'];
 	$link = str_replace($short."/index.php", "/index.php", $link);
-	return $link;
+*/
 }
 
 
 
 function makeBaseUrlMinusEventForHome() {
+
+	global $conf;
+	$link = $conf['https'].$conf['base_uuid'];
+	return $link;
+
+/*
 	isset($_GET['shortname']) ? $short = $_GET['shortname'] : $short = "";
 	if(isset($_SERVER['HTTPS'])) {
 		$protocol = "https://";
@@ -358,6 +377,7 @@ function makeBaseUrlMinusEventForHome() {
 	$link = str_replace($short."/index.php", "", $link);
 	$link = str_replace("/index.php", "", $link);
 	return $link;
+*/
 }
 
 

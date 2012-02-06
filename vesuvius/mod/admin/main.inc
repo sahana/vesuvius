@@ -35,18 +35,39 @@ function shn_admin_field_option_config() {
 function shn_admin_default() {
 	echo '
 		<ul>
-		<li><a href="index.php?mod=admin&amp;act=snap_show">Snapshot Module ~ Database Backup and Restore</a></li><br>
-		<li><a href="index.php?mod=rez&act=adm_default">Resource Pages</a></li><br>
-		<br>
-		<li><a href="index.php?mod=admin&act=add_user&tabid=0">User Management</a></li><br>
-		<li><a href="index.php?mod=admin&act=acl_event_log">User Event Log</a></li><br>
-		<li><a href="index.php?mod=admin&act=acl_enable_mods">Module Access Control</a></li><br>
-		<br>
-		<li><a href="index.php?mod=admin&act=acl_enable_signup">Enable / Disable User Self Signup</a></li><br>
-		<li><a href="index.php?mod=admin&act=acl_enable_locking">Enable / Disable User Account Locking</a></li><br>
-		<br>
+		<li><a href="index.php?mod=rez&act=adm_default">Resource Pages</a></li>
+		<li><a href="index.php?mod=admin&act=add_user&tabid=0">User Management</a></li>
+		<li><a href="index.php?mod=admin&act=acl_event_log">User Event Log</a></li>
+		<li><a href="index.php?mod=admin&act=acl_enable_mods">Module Access Control</a></li>
+		<li><a href="index.php?mod=admin&act=acl_enable_signup">Enable / Disable User Self Signup</a></li>
+		<li><a href="index.php?mod=admin&act=acl_enable_locking">Enable / Disable User Account Locking</a></li>
 		</ul>
 	';
+
+
+	// show build & version
+	$revision_file = $global['approot']."/www/theme/lpf3/version";
+	$time_file     = $global['approot']."/www/theme/lpf3/time";
+
+	// only show the rev/build info on stage/production ~ not dev as version/time dont exist there or in svn
+	if(file_exists($revision_file) && file_exists($time_file)) {
+		// open file with the revision number in the first line
+		$handle = fopen($revision_file, "r");
+
+		// read first line. TODO: check if it's not empty, etc.
+		$version = fgets($handle);
+
+		// open file to read timestamp
+		$handle2 = fopen($time_file, "r");
+
+		// extract time
+		$time = fgets($handle2);
+
+		// print generated link
+		echo "version: <b>r".$version."</b> &nbsp; Build Time: <b>".$time."</b>";
+	}
+
+
 }
 
 

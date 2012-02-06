@@ -1,14 +1,15 @@
 <?
 /**
  * @name         Snapshot
- * @version      1.1
+ * @version      12
  * @package      snap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2012.0206
  */
+
 
 // cron job task for for automating snapshots
 

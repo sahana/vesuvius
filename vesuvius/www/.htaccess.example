@@ -5,7 +5,7 @@ AddType application/x-httpd-php .php .xml
 ErrorDocument 404 /index.php
 
 ##### Disallow Directory Listings
-DirectoryIndex /index.php
+DirectoryIndex index.php
 
 ##### Turn on mod_rewrite to capture the shortname from a url and pass it on as a url parameter
 RewriteEngine On
