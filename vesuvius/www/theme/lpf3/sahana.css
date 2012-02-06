@@ -497,6 +497,8 @@ div#footer hr {display: none;}
 	text-align: center;
 }
 
+#install-button { position: absolute; top: 0px; left: 45%;}
+
 #blueBack {
 	/*
 	margin: 0px;
@@ -509,6 +511,7 @@ div#footer hr {display: none;}
 	border-top: 1px solid #aaa;
 	border-bottom: 1px solid #ddd;
 	*/
+	display: none;
 }
 #disasterList, #locale { height: 20px; border: 1px solid #6289b0; }
 #language { position: absolute; top: 134px; right: 50px; z-index: 9999; color: #039; }
