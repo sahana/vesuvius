@@ -4,3 +4,5 @@ vesuvius/www/.htaccess
 .project
 .settings
 .buildpath
+vesuvius/www/theme/lpf3/time
+vesuvius/www/theme/lpf3/version
