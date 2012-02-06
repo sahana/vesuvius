@@ -1,13 +1,13 @@
 <?
 /**
  * @name         Home
- * @version      1.0
+ * @version      11
  * @package      home
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0729
+ * @lastModified 2012.0206
  */
 
 
@@ -140,19 +140,19 @@ function showList() {
 		if($row['spacer'] == 0) {
 			echo "
 				<span style=\"color: red;\"><span style=\"text-shadow: 1px 1px 1px #000;\">▶</span></span>&nbsp;
-				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['name']."</a><br>
+				<a href=\"".makeBaseUrlMinusEventForHome().$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['name']."</a><br>
 			";
 		} else if($row['spacer'] == 1) {
 			echo "
 				&nbsp;&nbsp;&nbsp;&nbsp;
 				<span style=\"color: orange;\"><span style=\"text-shadow: 1px 1px 1px #000;\">▶</span></span>&nbsp;
-				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['name']."</a><br>
+				<a href=\"".makeBaseUrlMinusEventForHome().$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['name']."</a><br>
 			";
 		} else if($row['spacer'] == 2) {
 			echo "
 				&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
 				<span style=\"color: yellow;\"><span style=\"text-shadow: 1px 1px 1px #000;\">▶</span></span>&nbsp;
-				<a href=\"".makeBaseUrlMinusEventForHome()."/".$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['name']."</a><br>
+				<a href=\"".makeBaseUrlMinusEventForHome().$row['shortname']."/index.php?mod=$nextMod&act=default\">".$row['name']."</a><br>
 			";
 		}
 
@@ -160,33 +160,4 @@ function showList() {
 	}
 }
 
-
-
-
-/*
-function shn_home_old() {
-	echo "
-		This is an organized online bulletin board to aid in locating someone after a disaster.<br><br>
-		Anyone may use the search feature, without logging in or registering for an account to search for people. You may also get basic information about someone missing or found, including photos, as reported by family members, friends, or participating local hospitals.<br>
-		<br>
-		<br>
-		<span class=\"styleTehButton\" onclick=\"location.href='index.php?mod=inw&amp;act=default';\">Click Here to Begin Searching for People</span>
-		<br>
-		<br>
-		<br><br>
-		To do more with the site like reporting people, first <a href=\"index.php?act=signup\">create an account</a> and login. Then you can:<br>
-		<br>
-		<ul>
-			<li>Report someone as missing, and include photographs of them</li>
-			<li>Update that report, e.g., if the person is found or their status changes</li>
-			<li>Share the ability to update a report with family members and friends</li>
-			<li>Receive email notifications when the status of a person changes or more information is reported about them.
-		</li></ul>
-		<br>
-		Participating local hospitals can report basic information about arriving disaster victims.&nbsp; (Suburban Hospital’s implementation is furthest along.)<br>
-		<br>
-		<br>
-	";
-}
-*/
 

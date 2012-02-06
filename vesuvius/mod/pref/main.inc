@@ -29,7 +29,7 @@ function shn_pref_loginForm() {
 	if ($_SESSION['logged_in'] != true ) {
 		echo '
 			<div class="form-container" style="padding: auto;">
-				<form method="post" action="index.php?doLogin=1" id="form0" name="form0">
+				<form method="post" action="auth" id="form0" name="form0">
 				<fieldset id="noIdDefined" style="width: 500px;">
 				<legend>Login</legend>
 				<label for="user_name">Username </label><input type="text" name="user_name" id="user_name" tabindex="1" autocomplete="off"><br>
@@ -289,7 +289,7 @@ function shn_pref_forgotPassword() {
 			// send out the new password in an email
 			$p = new pop();
 			$subject  = "Your login details...";
-			$url = makeBaseUrl()."index.php";
+			$url = makeBaseUrl()."password";
 
 			$bodyHTML = "
 				Dear ".$user_name.",<br>
@@ -299,9 +299,8 @@ function shn_pref_forgotPassword() {
 				Username: <b>".$user_name."</b><br>
 				Password: <b>".$new_pass."</b><br>
 				<br>
-				To change your password, please visit our site: <br>
+				To change your password please visit our site, login, and you will be offered the choice to create a new password: <br>
 				<a href=\"".$url."\">".$url."</a><br>
-				then login, and navigate to My Settings where you will see a link to change your password.<br>
 				<br>
 				All the best,<br>
 				Admins<br>
@@ -315,9 +314,8 @@ function shn_pref_forgotPassword() {
 				Username: ".$user_name."\n
 				Password: ".$new_pass."\n
 				\n
-				To change your password, please visit our site: \n
+				To change your password please visit our site, login, and you will be offered the choice to create a new password: \n
 				".$url."\n
-				then login, and navigate to My Settings where you will see a link to change your password.\n
 				\n
 				All the best,\n
 				Admins\n
@@ -509,13 +507,13 @@ function shn_pref_header2() {
 	if($global['action'] == "session" || $global['action'] == "default") {
 		echo "<li>Session Information</li>";
 	} else {
-		echo "<li><b><a href=\"index.php?mod=pref&act=session\">Session Information</a></b></li><br>";
+		echo "<li><b><a href=\"settings\">Session Information</a></b></li><br>";
 	}
 
 	if($global['action'] == "ch_passwd") {
 		echo "<li>Change My Password</li>";
 	} else {
-		echo "<li><b><a href=\"index.php?mod=pref&act=ch_passwd\">Change My Password</a></b></li><br>";
+		echo "<li><b><a href=\"password\">Change My Password</a></b></li><br>";
 	}
 
 	echo "</ul><hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
