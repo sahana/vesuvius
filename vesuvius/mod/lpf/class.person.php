@@ -1241,13 +1241,9 @@ class person {
 
 	public function createUUID() {
 
-error_log(">>>>>".$this->p_uuid."<<<<<");
-
 		if($this->p_uuid === null || $this->p_uuid == "") {
 			$this->p_uuid = shn_create_uuid("person");
 		}
-
-error_log("[[[[[".$this->p_uuid."]]]]]");
 	}
 
 
