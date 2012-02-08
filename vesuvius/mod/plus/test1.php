@@ -10,6 +10,7 @@
  * @lastModified 2012.0130
  */
 
+ob_start();
 
 $user = "testDontDelete";
 $pass = "dontDelete99";
@@ -82,11 +83,14 @@ $x = file_get_contents("testTP1.xml");
 //$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
 
-echo "<pre>wsdl >> ".$wsdl."\n\n".var_export($result, true)."</pre>";
+$out = ob_get_contents();
+ob_end_flush();
 
+echo "<pre>wsdl >> ".$wsdl."\n\n".$out."\n\n".var_export($result, true)."</pre>";
 
-//echo "<pre>eventList: ".print_r(json_decode($result['resultSet']), true)."</pre>";
-
+/*
+echo "<pre>".print_r(var_export($client), true)."</pre>";
+*/
 
 
 
