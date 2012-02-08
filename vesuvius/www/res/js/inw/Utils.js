@@ -140,7 +140,7 @@ var Utils = {
 			var link = 	$("<li></li>").attr({ "id" : "note_" + i })
 									  .append(
 											$("<a></a>")
-												.html(jsonNotes[i]["date"])
+												.html(jsonNotes[i]["date"] + " UTC")
 												.attr("href", "javascript:Utils.showNoteContent(" + i + ")" )
 										);
 			noteDates.append(link);
