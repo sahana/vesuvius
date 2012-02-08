@@ -30,7 +30,7 @@ function shn_plus_registerOne($server, $methodname, $params, $ns, $rtfm) {
 		'literal',
 		$rtfm
 	);
-	/*
+	/* REFERENCE ~ DONT DELETE!
 	$server->register(
 		$function,  // $name the name of the PHP function, class.method or class..method
 		$in,        // $in assoc array of input values: key = param name, value = param type
