@@ -15,8 +15,8 @@ $user = "testDontDelete";
 $pass = "dontDelete99";
 require_once("../../3rd/nusoap/lib/nusoap.php");
 
-//$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=2.3";
-$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=2.3";
+$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=2.3";
+//$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=2.3";
 //$wsdl = "http://ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl&api=2.3";
 $client = new nusoap_client($wsdl);
 
@@ -72,8 +72,8 @@ $result = $client->call('searchCountWithAuth', array(
 ));
 */
 
-//$x = file_get_contents("RU.xml");
-$x = file_get_contents("reference_REUNITE4.xml");
+$x = file_get_contents("RU.xml");
+//$x = file_get_contents("reference_REUNITE4.xml");
 $result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE4', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
 
