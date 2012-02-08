@@ -1241,9 +1241,13 @@ class person {
 
 	public function createUUID() {
 
+error_log(">>>>>".$this->p_uuid."<<<<<");
+
 		if($this->p_uuid === null || $this->p_uuid == "") {
 			$this->p_uuid = shn_create_uuid("person");
 		}
+
+error_log("[[[[[".$this->p_uuid."]]]]]");
 	}
 
 
@@ -1336,8 +1340,105 @@ class person {
 
 		$a = $aa->getArray();
 
+		// parse REUNITE4 XML
+		if($this->xmlFormat == "REUNITE4") {
+
+			$this->createUUID();
+			$this->arrival_reunite = true;
+			$this->given_name     = $a['person']['givenName'];
+			$this->family_name    = $a['person']['familyName'];
+			$this->expiry_date    = $a['person']['expiryDate'];
+			$this->opt_status     = $a['person']['status'];
+			$this->last_updated   = date('Y-m-d H:i:s');
+			$this->creation_time  = $a['person']['dateTimeSent'];
+			$this->opt_gender     = $a['person']['gender'];
+			$this->years_old      = $a['person']['estimatedAge'];
+			$this->minAge         = $a['person']['minAge'];
+			$this->maxAge         = $a['person']['maxAge'];
+			$this->other_comments = $a['person']['note'];
+
+			// only update the incident_id if not already set
+			if($this->incident_id === null) {
+
+				$q = "
+					SELECT *
+					FROM incident
+					WHERE shortname = '".mysql_real_escape_string((string)$a['person']['eventShortname'])."';
+				";
+				$result = $this->db->Execute($q);
+				if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get incident ((".$q."))"); }
+
+				$this->incident_id = $result->fields["incident_id"];
+			}
+
+			foreach($a['person']['photos'] as $photo) {
+				if(trim($photo['data']) != "") {
+					$i = new personImage();
+					$i->init();
+					$i->p_uuid = $this->p_uuid;
+					$i->fileContentBase64 = $photo['data'];
+					foreach($photo['tags'] as $tag) {
+						$t = new personImageTag();
+						$t->init();
+						$t->image_id = $i->image_id;
+						$t->tag_x    = $tag['x'];
+						$t->tag_y    = $tag['y'];
+						$t->tag_w    = $tag['w'];
+						$t->tag_h    = $tag['h'];
+						$t->tag_text = $tag['text'];
+						$i->tags[] = $t;
+					}
+					if(!$i->invalid) {
+						$this->images[] = $i;
+						$this->ecode = 419;
+					}
+				}
+			}
+
+			// if there is actual voicenote data, save process it...
+			if(trim($a['person']['voiceNote']['data']) != "") {
+
+				$v = new voiceNote();
+				$v->init();     // reserves a voicenote id for this note
+				$v->p_uuid      = $this->p_uuid;
+				$v->dataBase64  = $a['person']['voiceNote']['data'];
+				$v->length      = $a['person']['voiceNote']['length'];
+				$v->format      = $a['person']['voiceNote']['format'];
+				$v->sample_rate = $a['person']['voiceNote']['sampleRate'];
+				$v->channels    = $a['person']['voiceNote']['numberOfChannels'];
+				$v->speaker     = $a['person']['voiceNote']['speaker'];
+				$this->voice_note = $v;
+			}
+
+			// check for p_uuid collision with already present data, return 401 error if p_uuid already exists
+			$q = "
+				SELECT count(*)
+				FROM person_uuid
+				WHERE p_uuid = '".mysql_real_escape_string((string)$this->p_uuid)."';
+			";
+			$result = $this->db->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person check p_uuid collision ((".$q."))"); }
+
+			if(!$this->ignoreDupeUuid && (int)$result->fields['count(*)'] > 0 ) {
+				return (int)401;
+			}
+
+			// check if reported p_uuid is valid (in range of sequence) ~ 402 error if not
+			if(!shn_is_p_uuid_valid($this->p_uuid)) {
+				return (int)402;
+			}
+
+			// check if the event is closed to reporting...
+			if(!$this->isEventOpen()) {
+				return (int)405;
+			}
+
+			// no errors
+			return (int)$this->ecode;
+
+
 		// parse REUNITE3 XML
-		if($this->xmlFormat == "REUNITE3") {
+		} elseif($this->xmlFormat == "REUNITE3") {
 
 			$this->arrival_reunite = true;
 			$this->p_uuid         = $a['person']['p_uuid'];
@@ -1631,8 +1732,8 @@ class person {
 						$i->p_uuid = $this->p_uuid;
 						$i->fileContentBase64 = $imageNode['contentData'];
 
-$i->decode();
-daoErrorLog('','','','','','', "sha1_base64(".sha1($i->fileContentBase64).") sha1(".sha1($i->fileContent).")");
+//$i->decode();
+//error_log("fileSHA1(".sha1($i->fileContent).") and XMLSHA1("..")");
 
 						$i->original_filename = $imageNode['uri'];
 						if($primary) {
