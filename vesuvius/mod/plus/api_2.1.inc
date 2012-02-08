@@ -1760,7 +1760,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 			$p->xmlFormat = $xmlFormat;
 			$p->setEvent($eventShortName);
 			$ecode = $p->parseXml();
-			if($ecode == 0) {
+			if($ecode == 0 || $ecode == 419 || $ecode == 420) { // we accept record with bad images (the images are not saved)
 				$p->insert();
 				$p->plusReportLog();
 			} else {
