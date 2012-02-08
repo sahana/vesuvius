@@ -4,7 +4,7 @@
 ********************************************************************************************************************************************************************
 *
 * @class        person
-* @version      14
+* @version      15
 * @author       Greg Miernicki <g@miernicki.com>
 *
 ********************************************************************************************************************************************************************
@@ -753,7 +753,6 @@ class person {
 		$this->deleteImages();
 		$this->deleteEdxl();
 		$this->deleteVoiceNote();
-		$this->deletePfif();
 
 		$q = "
 			DELETE FROM person_status
@@ -782,6 +781,8 @@ class person {
 		";
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete person 4 ((".$q."))"); }
+
+		$this->deletePfif();
 	}
 
 
@@ -808,6 +809,12 @@ class person {
 		";
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete pfif 3 ((".$q."))"); }
+
+		$q = "
+			CALL delete_reported_person('$this->p_uuid', 1);
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete pfif 4 ((".$q."))"); }
 	}
 
 
@@ -1368,7 +1375,10 @@ class person {
 						$t->tag_text = $tag['text'];
 						$i->tags[] = $t;
 					}
-					$this->images[] = $i;
+					if(!$i->invalid) {
+						$this->images[] = $i;
+						$this->ecode = 419;
+					}
 				}
 			}
 
@@ -1411,7 +1421,7 @@ class person {
 			}
 
 			// no errors
-			return (int)0;
+			return (int)$this->ecode;
 
 
 		// parse REUNITE2 XML
@@ -1639,7 +1649,10 @@ daoErrorLog('','','','','','', "sha1_base64(".sha1($i->fileContentBase64).") sha
 							$t->tag_text = $caption;
 							$i->tags[] = $t;
 						}
-						$this->images[] = $i;
+						if(!$i->invalid) {
+							$this->images[] = $i;
+							$this->ecode = 419;
+						}
 					}
 
 					// create edxl image
@@ -1657,7 +1670,7 @@ daoErrorLog('','','','','','', "sha1_base64(".sha1($i->fileContentBase64).") sha
 			}
 
 			// exit with success
-			return (int)0;
+			return (int)$this->ecode;
 
 		// parse TRIAGEPIC0 XML
 		} elseif($this->xmlFormat == "TRIAGEPIC0") {

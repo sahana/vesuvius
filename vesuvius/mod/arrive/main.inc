@@ -23,7 +23,9 @@ shn_xajax_registerFunction('arrive_add_spacer');
 
 
 function shn_arrive_default() {
+
 	global $global;
+
 	shn_xajax_printJavascript();
 	echo "
 		<div id=\"rezLog\" class=\"logArea\"></div>

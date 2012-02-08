@@ -4,7 +4,7 @@
 ********************************************************************************************************************************************************************
 *
 * @class        personImage
-* @version      14
+* @version      15
 * @author       Greg Miernicki <g@miernicki.com>
 *
 ********************************************************************************************************************************************************************
@@ -69,11 +69,12 @@ class personImage {
 
 	public $updated_by_p_uuid;
 	public $tags;
+	public $invalid; // false by default, true when the image data turns out to be an invalid mime type
 
 
 	// Constructor
 	public function __construct() {
-		// init db
+
 		global $global;
 		$this->db = $global['db'];
 
@@ -133,6 +134,7 @@ class personImage {
 
 		$this->updated_by_p_uuid     = null;
 		$this->tags                  = array();
+		$this->invalid               = false;
 	}
 
 
@@ -195,6 +197,7 @@ class personImage {
 
 		$this->tags                  = null;
 		$this->updated_by_p_uuid     = null;
+		$this->invalid               = null;
 	}
 
 
@@ -381,10 +384,7 @@ class personImage {
 		// base64 to hex
 		$this->decode();
 
-		// generate path and filename portion
-		$a = explode("/", $this->p_uuid);
-
-		$filename = $a[0]."_".$a[1]; // make pl.nlm.nih.gov/person.123456 into pl.nlm.nih.gov_person.123456
+		$filename = str_replace("/", "_", $this->p_uuid); // make pl.nlm.nih.gov/person.123456 into pl.nlm.nih.gov_person.123456
 		$filename = $filename."_".$this->image_id."_"; // filename now like pl.nlm.nih.gov_person.123456_112233_
 		$path = $global['approot']."www/tmp/plus_cache/".$filename; // path is now like /opt/pl/www/tmp/plus_cache/pl.nlm.nih.gov_person.123456_112233_
 
@@ -402,27 +402,32 @@ class personImage {
 			$ext = ".png";
 		} elseif(stripos($mime,"gif") !== FALSE) {
 			$ext = ".gif";
-		} else {
+		} elseif(stripos($mime,"jpeg") !== FALSE) {
 			$ext = ".jpg";
+		} else {
+			$this->invalid = true;
 		}
 
-		// save full size resampled image like /opt/pl/www/tmp/plus_cache/person.123456_112233_full.ext
-		shn_image_resize($path."original", $path."full".$ext, $this->image_width, $this->image_height);
+		if(!$this->invalid) {
 
-		// save thumb resampled image (320px height) like /opt/pl/www/tmp/plus_cache/person.123456_112233_thumb.ext
-		shn_image_resize_height($path."original", $path."thumb".$ext, 320);
+			// save full size resampled image like /opt/pl/www/tmp/plus_cache/person.123456_112233_full.ext
+			shn_image_resize($path."original", $path."full".$ext, $this->image_width, $this->image_height);
 
-		$this->fullSizePath  = $path."full".$ext;
-		$this->thumbnailPath = $path."thumb".$ext;
+			// save thumb resampled image (320px height) like /opt/pl/www/tmp/plus_cache/person.123456_112233_thumb.ext
+			shn_image_resize_height($path."original", $path."thumb".$ext, 320);
 
-		// update URLs
-		$this->url       = "tmp/plus_cache/".$filename."full".$ext;
-		$this->url_thumb = "tmp/plus_cache/".$filename."thumb".$ext;
+			$this->fullSizePath  = $path."full".$ext;
+			$this->thumbnailPath = $path."thumb".$ext;
 
-		// make the files world writeable for other users/applications and to handle deletes
-		chmod($path."original",   0777);
-		chmod($path."full".$ext,  0777);
-		chmod($path."thumb".$ext, 0777);
+			// update URLs
+			$this->url       = "tmp/plus_cache/".$filename."full".$ext;
+			$this->url_thumb = "tmp/plus_cache/".$filename."thumb".$ext;
+
+			// make the files world writeable for other users/applications and to handle deletes
+			chmod($path."full".$ext,  0777);
+			chmod($path."thumb".$ext, 0777);
+		}
+		chmod($path."original", 0777);
 	}
 
 
@@ -432,34 +437,37 @@ class personImage {
 		// save image to disk
 		$this->write();
 
-		// db insert
-		$this->sync();
-		$q = "
-			INSERT INTO image (
-				image_id,
-				p_uuid,
-				image_type,
-				image_height,
-				image_width,
-				url,
-				url_thumb,
-				original_filename,
-				principal )
-			VALUES (
-				".$this->sql_image_id.",
-				".$this->sql_p_uuid.",
-				".$this->sql_image_type.",
-				".$this->sql_image_height.",
-				".$this->sql_image_width.",
-				".$this->sql_url.",
-				".$this->sql_url_thumb.",
-				".$this->sql_original_filename.",
-				".$this->sql_principal." );
-		";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage insert ((".$q."))"); }
+		// db insert only a valid image
+		if(!$this->invalid) {
 
-		$this->insertImageTags();
+			$this->sync();
+			$q = "
+				INSERT INTO image (
+					image_id,
+					p_uuid,
+					image_type,
+					image_height,
+					image_width,
+					url,
+					url_thumb,
+					original_filename,
+					principal )
+				VALUES (
+					".$this->sql_image_id.",
+					".$this->sql_p_uuid.",
+					".$this->sql_image_type.",
+					".$this->sql_image_height.",
+					".$this->sql_image_width.",
+					".$this->sql_url.",
+					".$this->sql_url_thumb.",
+					".$this->sql_original_filename.",
+					".$this->sql_principal." );
+			";
+			$result = $this->db->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImage insert ((".$q."))"); }
+
+			$this->insertImageTags();
+		}
 	}
 
 

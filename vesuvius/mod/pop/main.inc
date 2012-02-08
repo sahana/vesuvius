@@ -1,17 +1,23 @@
 <?
 /**
  * @name         Push Out Post
- * @version      1.0
+ * @version      12
  * @package      pop
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2012.0207
  */
 
 
+global $global;
+require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
+
+
+/** informs the lib_menu of the module's status */
 function shn_pop_statusGood() {
+
 	global $global;
 	$q = "
 		SELECT *
@@ -19,6 +25,7 @@ function shn_pop_statusGood() {
 		ORDER BY `pop_outlog`.`time_sent` DESC LIMIT 1;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "popStatusGood 1 ((".$q."))"); }
 	$row = $result->FetchRow();
 	$pass = $row['send_status'];
 
@@ -31,53 +38,51 @@ function shn_pop_statusGood() {
 
 
 function shn_pop_default() {
-	shn_pop_outlog();
-}
 
-
-function shn_pop_first() {
 	global $global;
+
+	$control = "";
 
 	echo "<ul>";
 
-	if(($_GET['act'] == "outlog") || ($_GET['act'] == "default")){
-		echo "<li>Outbound Email Log</li>";
+	if(isset($_GET['configuration'])) {
+		echo "<li>Configuration Options</li>";
+		$control = "shn_pop_configuration";
 	} else {
-		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=pop&act=outlog\">Outblound Email Log</a></li>";
+		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"outbound?configuration\">Configuration Options</a></li>";
 	}
 
-	if($_GET['act'] == "configuration") {
-		echo "<li>Configuration Options</li>";
+	if(isset($_GET['log']) || $control == "") {
+		echo "<li>Outbound Email Log</li>";
+		$control = "shn_pop_log";
 	} else {
-		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=pop&act=configuration\">Configuration Options</a></li>";
+		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"outbound?log\">Outblound Email Log</a></li>";
 	}
 
 	echo "</ul><hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
+
+	$control();
 }
 
 
 
-/**
- * Generates the Configuration Page and provides the load/save functions for configuration data.
- * @access public
- * @return void
- */
-function shn_pop_outlog() {
+/** Generates the Configuration Page and provides the load/save functions for configuration data. */
+function shn_pop_log() {
+
 	global $global;
-	shn_pop_first();
 
 	if(isset($_GET['pagenum'])) {
-		$startPoint = (int)$_GET['pagenum']*100;
-		$endPoint = $startPoint + 100;
+		$startPoint = (int)$_GET['pagenum']*50;
+		$endPoint = $startPoint + 50;
 		$msg = "showing messages ".($startPoint+1)." to ".$endPoint;
 	} else {
 		$startPoint = 0;
-		$endPoint = $startPoint + 100;
-		$msg = "showing last 100 messages";
+		$endPoint = $startPoint + 50;
+		$msg = "showing last 50 messages";
 	}
 
 	if(isset($_GET['pagenum']) && (int)$_GET['pagenum'] > 0) {
-		$previous = "<a href=\"index.php?mod=pop&act=outlog&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
+		$previous = "<a href=\"outbound?log&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
 	} else {
 		$previous = "◄";
 		$_GET['pagenum'] = 0;
@@ -88,11 +93,12 @@ function shn_pop_outlog() {
 		FROM `pop_outlog`;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "pop log 1 ((".$q."))"); }
 	$row = $result->FetchRow();
 	$totalCount = $row['count(*)'];
 
 	if($endPoint < $totalCount) {
-		$next = "<a href=\"index.php?mod=pop&act=outlog&pagenum=".($_GET['pagenum']+1)."\">►</a>";
+		$next = "<a href=\"outbound?log&pagenum=".($_GET['pagenum']+1)."\">►</a>";
 	} else {
 		$next = "►";
 		$msg = "showing messages ".($startPoint+1)." to ".$totalCount;
@@ -102,9 +108,10 @@ function shn_pop_outlog() {
 		SELECT *
 		FROM pop_outlog
 		ORDER BY time_sent DESC
-		LIMIT ".$startPoint.", 100;
+		LIMIT ".$startPoint.", 50;
 	";
 	$result = $global['db']->Execute($query);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "pop log 2 ((".$q."))"); }
 	$count = 0;
 	echo "<div class=\"form-container\"><form><fieldset>";
 	echo "<legend>Outbound Email Log (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
@@ -148,19 +155,14 @@ function shn_pop_outlog() {
 
 
 
-/**
- * Generates the Configuration Page and provides the load/save functions for configuration data.
- * @access public
- * @return void
- */
+/** Generates the Configuration Page and provides the load/save functions for configuration data. */
 function shn_pop_configuration() {
 
 	global $global;
 	global $conf;
 
-	shn_pop_first();
-	//include_once $global['approot'].'/inc/lib_xajax.inc';
 	$posted = 0;
+
 	// if its a post ~ save configuration after we validate
 	if(isset($_POST['smtp_reply_address1'])) {
 		$posted = 1;
@@ -315,7 +317,7 @@ function shn_pop_configuration() {
 			$smtp_backup2_text = "";
 		}
 	}
-	shn_form_fopen("configuration", null,array('req_message'=>false));
+	shn_form_fopen2("outbound?configuration", null, array('req_message'=>false));
 		shn_form_fsopen("Outbound Email Settings");
 		?>
 <table id="popSettings">

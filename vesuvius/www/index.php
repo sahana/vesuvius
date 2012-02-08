@@ -119,6 +119,10 @@ function shn_main_defaults() {
 		$global['action'] = !isset($_REQUEST['act']) ? $a : $_REQUEST['act'];
 		$global['module'] = !isset($_REQUEST['mod']) ? $m : $_REQUEST['mod'];
 	}
+
+	if(!isset($_GET['act'])) {
+		$_GET['act'] = "default";
+	}
 }
 
 
@@ -335,8 +339,8 @@ function shn_main_debugger() {
 	if(($_SERVER['HTTP_HOST'] == "plstage.nlm.nih.gov")
 	|| ($_SERVER['HTTP_HOST'] == "plstage")
 	|| ($_SERVER['HTTP_HOST'] == "127.0.0.1")
-	|| ($_SERVER['HTTP_HOST'] == "archivestage.nlm.nih.gov")
-	|| ($_SERVER['HTTP_HOST'] == "archivestage")) {
+	|| ($_SERVER['HTTP_HOST'] == "ceb-stage-lx")
+	|| ($_SERVER['HTTP_HOST'] == "ceb-stage-lx.nlm.nih.gov")) {
 
 		require_once('../3rd/php-console/PhpConsole.php');
 		PhpConsole::start(true, true, dirname(__FILE__));
@@ -403,3 +407,6 @@ function shn_main_plus_register() {
 /*
 echo "<h1>DEBUGGING INFO</h1><pre>".print_r(get_defined_vars(), true)."</pre><h1>END DEBUG INFO</h1>";
 */
+
+
+

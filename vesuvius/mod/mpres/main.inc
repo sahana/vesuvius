@@ -1,24 +1,28 @@
 <?php
 /**
  * @name         MPR Email Service
- * @version      2.0
+ * @version      21
  * @package      mpres
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0908
+ * @lastModified 2012.0206
  */
 
 
+
+/** for mainmenu to figure out which status color to show */
 function shn_mpres_statusGood() {
+
 	global $global;
 	$q = "
 		SELECT Unix_Timestamp(last_executed)
 		FROM mpres_seq ;
 	";
 	$res = $global['db']->Execute($q);
+	if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "mpres status good"); }
 	$row = $res->FetchRow();
 	$lastExecutedU = $row['Unix_Timestamp(last_executed)'];
 
@@ -31,59 +35,55 @@ function shn_mpres_statusGood() {
 }
 
 
-function shn_mpres_header2() {
+function shn_mpres_default() {
+
 	global $global;
+
+	$control = "";
 
 	echo "<ul>";
 
-	if(($_GET['act'] == "status") || ($_GET['act'] == "default")){
-		echo "<li>Service Status</li>";
+	if(isset($_GET['log'])) {
+		echo "<li>Inbound Person Log</li>";
+		$control = "shn_mpres_log";
 	} else {
-		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=mpres&act=status\">Service Status</a></li>";
+		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"inbound?log\">Inbound Person Log</a></li>";
 	}
-
-	if(($_GET['act'] == "person_log")){
-		echo "<li>Reported Person Log</li>";
-	} else {
-		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=mpres&act=person_log\">Reported Person Log</a></li>";
-	}
-
-	if($_GET['act'] == "configuration") {
+	if(isset($_GET['configuration'])) {
 		echo "<li>Configuration Options</li>";
+		$control = "shn_mpres_configuration";
 	} else {
-		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=mpres&act=configuration\">Configuration Options</a></li>";
+		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"inbound?configuration\">Configuration Options</a></li>";
+	}
+	if(isset($_GET['status']) || $control == "") {
+		echo "<li>Service Status</li>";
+		$control = "shn_mpres_status";
+	} else {
+		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"inbound?status\">Service Status</a></li>";
 	}
 
 	echo "</ul><hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
+
+	$control();
 }
 
 
-/**
- * @access public
- * @return void
- */
-function shn_mpres_default() {
-	 shn_mpres_status();
-}
 
-
-/**
- * Shows Cron Status as well as the last 100 emails entered...
- * @access public
- * @return void
- */
+/** Shows Cron Status as well as the last 100 emails entered... */
 function shn_mpres_status() {
-	global $global;
-	$count = 0;
 
-	shn_mpres_header2();
+	global $global;
+
+	$count = 0;
 
 	$q = "
 		SELECT *
 		FROM mpres_seq ;
 	";
 	$res = $global['db']->Execute($q);
+	if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "mpres status 1"); }
 	$row = $res->FetchRow();
+
 	$lastExecuted = $row['last_executed'];
 	$lastMessage  = $row['last_message'];
 
@@ -92,7 +92,9 @@ function shn_mpres_status() {
 		FROM mpres_seq ;
 	";
 	$res = $global['db']->Execute($q);
+	if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "mpres status 2"); }
 	$row = $res->FetchRow();
+
 	$lastExecutedU = $row['Unix_Timestamp(last_executed)'];
 
 	$delta = date("U") - $lastExecutedU;
@@ -121,9 +123,11 @@ function shn_mpres_status() {
 	// figure out log traversal navigation....
 
 	if(isset($_GET['pagenum'])) {
+
 		$startPoint = (int)$_GET['pagenum']*100;
 		$endPoint = $startPoint + 100;
 		$msg = "showing executions ".($startPoint+1)." to ".$endPoint;
+
 	} else {
 		$startPoint = 0;
 		$endPoint = $startPoint + 100;
@@ -131,7 +135,8 @@ function shn_mpres_status() {
 	}
 
 	if(isset($_GET['pagenum']) && (int)$_GET['pagenum'] > 0) {
-		$previous = "<a href=\"index.php?mod=mpres&act=status&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
+		$previous = "<a href=\"inbound?status&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
+
 	} else {
 		$previous = "◄";
 		$_GET['pagenum'] = 0;
@@ -142,11 +147,13 @@ function shn_mpres_status() {
 		FROM `mpres_messages`;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "mpres status 3"); }
 	$row = $result->FetchRow();
+
 	$totalCount = $row['count(*)'];
 
 	if($endPoint < $totalCount) {
-		$next = "<a href=\"index.php?mod=mpres&act=status&pagenum=".($_GET['pagenum']+1)."\">►</a>";
+		$next = "<a href=\"inbound?status&pagenum=".($_GET['pagenum']+1)."\">►</a>";
 	} else {
 		$next = "►";
 		$msg = "showing ".($startPoint+1)." to ".$totalCount;
@@ -165,7 +172,10 @@ function shn_mpres_status() {
 		LIMIT ".$startPoint.", 100;
 	";
 	$res = $global['db']->Execute($q);
+	if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "mpres status 4"); }
+
 	while($row = $res->FetchRow()) {
+
 		if(($count%2)==0) {
 			$odd = "class=\"odder left\"";
 		} else {
@@ -186,18 +196,13 @@ function shn_mpres_status() {
 
 
 
-/**
- * Shows Cron Status as well as the last 100 emails entered...
- * @access public
- * @return void
- */
-function shn_mpres_person_log() {
+/** Shows Cron Status as well as the last 100 emails entered... */
+function shn_mpres_log() {
 
 	global $conf;
 	global $global;
-	$count = 0;
 
-	shn_mpres_header2();
+	$count = 0;
 
 	// figure out log traversal navigation....
 
@@ -212,7 +217,7 @@ function shn_mpres_person_log() {
 	}
 
 	if(isset($_GET['pagenum']) && (int)$_GET['pagenum'] > 0) {
-		$previous = "<a href=\"index.php?mod=mpres&act=person_log&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
+		$previous = "<a href=\"inbound?log&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
 	} else {
 		$previous = "◄";
 	}
@@ -222,11 +227,12 @@ function shn_mpres_person_log() {
 		FROM `mpres_log`;
 	";
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "mpres log 1"); }
 	$row = $result->FetchRow();
 	$totalCount = $row['count(*)'];
 
 	if($endPoint < $totalCount) {
-		$next = "<a href=\"index.php?mod=mpres&act=person_log&pagenum=".($_GET['pagenum']+1)."\">►</a>";
+		$next = "<a href=\"inbound?log&pagenum=".($_GET['pagenum']+1)."\">►</a>";
 	} else {
 		$next = "►";
 		$msg = "showing emails ".($startPoint+1)." to ".$totalCount;
@@ -247,6 +253,7 @@ function shn_mpres_person_log() {
 		LIMIT ".$startPoint.", 100;
 	";
 	$res = $global['db']->Execute($q);
+	if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "mpres log 2"); }
 	while($row = $res->FetchRow()) {
 		if(($count%2)==0) {
 			$odd = "class=\"odder\"";
@@ -271,15 +278,10 @@ function shn_mpres_person_log() {
 
 
 
-/**
- * Generates the Configuration Page and provides the load/save functions for configuration data.
- * @access public
- * @return void
- */
+/** Generates the Configuration Page and provides the load/save functions for configuration data. */
 function shn_mpres_configuration() {
-	global $global;
 
-	shn_mpres_header2();
+	global $global;
 
 	$posted = 0;
 	// if its a post ~ save configuration after we validate
@@ -352,17 +354,17 @@ function shn_mpres_configuration() {
 			$popimapOption = "IMAP";
 		}
 	}
-	shn_form_fopen("configuration", null,array('req_message'=>true));
+	shn_form_fopen2("inbound?configuration", null, array('req_message'=>true));
 		shn_form_fsopen("POP / IMAP Settings");
-			shn_form_text("Host or IP (ie. mail.google.com)","mpres_host",null,array("req"=>true,"value"=>$host));
-			shn_form_text("Port (ie. 110 or 993,995 for SSL)","mpres_port",null,array("req"=>true,"value"=>$port));
-			shn_form_radio(array("POP"=>"POP","IMAP"=>"IMAP"),"Use POP or IMAP protocol","mpres_popimap", null, array("value"=>$popimapOption));
+			shn_form_text("Host or IP (ie. mail.google.com)", "mpres_host", null, array("req"=>true, "value"=>$host));
+			shn_form_text("Port (ie. 110 or 993,995 for SSL)", "mpres_port",null, array("req"=>true, "value"=>$port));
+			shn_form_radio(array("POP"=>"POP", "IMAP"=>"IMAP"), "Use POP or IMAP protocol", "mpres_popimap", null, array("value"=>$popimapOption));
 			shn_form_checkbox("Use SSL", "mpres_ssl", $text_opts = $sslText, $extra_opts = null);
 		shn_form_fsclose();
 
 		shn_form_fsopen("Email Account Credentials");
-			shn_form_text("Username","mpres_username",null,array("req"=>true,"value"=>$username));
-			shn_form_text("Password","mpres_password",null,array("req"=>true,"value"=>$password));
+			shn_form_text("Username", "mpres_username", null, array("req"=>true, "value"=>$username));
+			shn_form_text("Password", "mpres_password", null, array("req"=>true, "value"=>$password));
 		shn_form_fsclose();
 
 		shn_form_fsopen("Default Event");
@@ -376,26 +378,57 @@ function shn_mpres_configuration() {
 
 
 
-/**
- *
- */
-function shn_mpres_incident_select($incident_id){
+/** generates the incident select box */
+function shn_mpres_incident_select($incident_id) {
+
 	global $global;
-	?> <label for="mpres_incident">The event selected here will be used for persons reported using unstructured emails.</label><select name="mpres_incident_id"><?php
-	$query1 = "SELECT incident_id, name FROM incident WHERE parent_id IS NULL";
-	$result1 = $global['db']->Execute($query1);
-	while($row1 = $result1->FetchRow()){
-		?><option value="<?php echo $row1['incident_id'];?>"  <?php echo ($incident_id==$row1['incident_id']?'selected="selected"':'');?> >&nbsp;&nbsp;&nbsp;<?php echo $row1['name'];?></option><?php
-		$query2 = "SELECT incident_id, name FROM incident WHERE parent_id = '".$row1['incident_id']."';";
-		$result2 = $global['db']->Execute($query2);
-		while($row2 = $result2->FetchRow() ){
-			?><option value="<?php echo $row2['incident_id'];?>"  <?php echo ($incident_id==$row2['incident_id']?'selected="selected"':'');?>  >&nbsp;&nbsp;&#8211;&nbsp;<?php echo $row2['name'];?></option><?php
-			$query3 = "SELECT incident_id, name FROM incident WHERE parent_id = '".$row2['incident_id']."'";
-			$result3 = $global['db']->Execute($query3);
-			while($row3 = $result3->FetchRow() ){
-				?><option value="<?php echo $row3['incident_id'];?>"  <?php echo ($incident_id==$row3['incident_id']?'selected="selected"':'');?>  >&nbsp;&nbsp;&nbsp;&nbsp;&#8211;&nbsp;<?php echo $row3['name'];?></option><?php
+
+	echo '
+		<label for="mpres_incident">The event selected here will be used for persons reported using unstructured emails.</label><select name="mpres_incident_id">
+	';
+
+	$q1 = "
+		SELECT incident_id, name
+		FROM incident
+		WHERE parent_id IS NULL ;
+	";
+	$r1 = $global['db']->Execute($q1);
+	if($r1 === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "mpres incident select 1"); }
+	while($row1 = $r1->FetchRow()) {
+
+		echo '
+			<option value="'.$row1['incident_id'].'"  '.($incident_id == $row1['incident_id'] ? 'selected="selected"' : '').'>&nbsp;&nbsp;&nbsp;'.$row1['name'].'</option>
+		';
+		$q2 = "
+			SELECT incident_id, name
+			FROM incident
+			WHERE parent_id = '".$row1['incident_id']."';
+		";
+		$r2 = $global['db']->Execute($q2);
+		if($r2 === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "mpres incident select 2"); }
+		while($row2 = $r2->FetchRow()) {
+
+			echo '
+				<option value="'.$row2['incident_id'].'" '.($incident_id == $row2['incident_id'] ? 'selected="selected"' : '').'>&nbsp;&nbsp;&#8211;&nbsp;'.$row2['name'].'</option>
+			';
+			$q3 = "
+				SELECT incident_id, name
+				FROM incident
+				WHERE parent_id = '".$row2['incident_id']."' ;
+			";
+			$r3 = $global['db']->Execute($q3);
+			if($r3 === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "mpres incident select 3"); }
+			while($row3 = $r3->FetchRow()) {
+
+				echo '
+					<option value="'.$row3['incident_id'].'" '.($incident_id == $row3['incident_id'] ? 'selected="selected"' : '').'>&nbsp;&nbsp;&nbsp;&nbsp;&#8211;&nbsp;'.$row3['name'].'</option>
+				';
 			}
 		}
 	}
-	?></select><?php
+	echo '
+		</select>
+	';
 }
+
+
