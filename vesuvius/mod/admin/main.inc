@@ -33,6 +33,9 @@ function shn_admin_field_option_config() {
 
 
 function shn_admin_default() {
+
+	global $global;
+
 	echo '
 		<ul>
 		<li><a href="index.php?mod=rez&act=adm_default">Resource Pages</a></li>

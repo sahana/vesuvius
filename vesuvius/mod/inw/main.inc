@@ -243,19 +243,4 @@ function shn_inw_default() {
 	<?
 }
 
-/**
- * This function defines the menu list.
- * @access public
- * @return void
- */
-function shn_inw_mainmenu() {
-	global $global;
-	$module = $global['module'];
-	include $global['approot']."/inc/handler_mainmenu.inc";
-
-	// Create the module menu
-	shn_mod_menuopen(_t("Search for a Person"));
-	//	shn_mod_menuitem("default", _t("Search Home"));
-	shn_mod_menuclose();
-}
 

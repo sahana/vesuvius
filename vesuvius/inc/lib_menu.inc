@@ -1,7 +1,7 @@
 <?
 /**
  * @name         Menu Library
- * @version      14
+ * @version      15
  * @package      framework
  * @author       http://www.linux.lk/~chamindra
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
@@ -13,21 +13,11 @@
  */
 
 
-/**
- * shn_mainmenuitem
- *
- * @param mixed $action
- * @param mixed $desc
- * @param mixed $module
- * @access public
- * @return void
- */
+/** shn_mainmenuitem */
 function shn_mainmenuitem($action, $desc, $module = null) {
 
 	global $global;
 	global $conf;
-
-	require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
 	if ($module == null) {
 		$module = $global['module'];
@@ -46,16 +36,6 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 	} else {
 		$class = '';
 	}
-
-	// UGLY HACK TO NOT SHOW USER PREFERENCES AS CURRENT MODULE WHEN VIEWING "PEOPLE IM TRACKING" OR VICE VERSA ~~~ sorry!!! ~greg
-	if(($desc == "My Settings") && ($global['action'] == "tracking")) {
-		$class = '';
-	}
-	if(($desc == "People I'm Tracking") && ($global['action'] != "tracking")) {
-		$class = '';
-	}
-	// HACK END
-
 
 	// yet another hack to highlight the admin module when using the resource module in the administration module
 	if(($desc == "Administration") && (isset($_GET['act']) && (($_GET['act'] == "adm_default") || ($_GET['act'] == "adm_configuration")))) {
@@ -97,23 +77,54 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 		}
 	}
 
+	// prettify links :)
+	switch($module) {
+		case 'inw':
+			$module = "search";
+			break;
+		case 'rez':
+			$module = "resources";
+			break;
+		case 'tp':
+			$module = "triagepic";
+			break;
+		case 'stat':
+			$module = "statistics";
+			break;
+		case 'ha':
+			$module = "hospital";
+			break;
+		case 'pop':
+			$module = "outbound";
+			break;
+		case 'mpres':
+			$module = "inbound";
+			break;
+		case 'em':
+			$module = "events";
+			break;
+		case 'sepl':
+			$module = "searchplus";
+			break;
+	}
+	if($module == "pref" && $action == "tracking") {
+		$module = "tracking";
+		$action = "default";
+	}
+
 	// a 3rd hack to show the proper home link (it doesn't have the shortname in the url)
 	if($desc == "Home") {
 		echo "<li ".$class."><a href=\"".makeBaseUrlMinusEvent()."\">".$desc."</a></li>";
+	} elseif($action != "default") {
+		echo "<li ".$class."><a href=\"".$module."?act=".$action."\">".$desc."</a></li>";
 	} else {
-		echo "<li ".$class."><a href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a></li>";
+		echo "<li ".$class."><a href=\"".$module."\">".$desc."</a></li>";
 	}
 }
 
 
 
-/**
- * shn_mainmenuopen
- *
- * @param mixed $desc
- * @access public
- * @return void
- */
+/** shn_mainmenuopen */
 function shn_mainmenuopen($desc) {
 	echo "
 		<div id=\"menuwrap\">
@@ -123,12 +134,7 @@ function shn_mainmenuopen($desc) {
 
 
 
-/**
- * shn_mainmenuclose
- *
- * @access public
- * @return void
- */
+/** shn_mainmenuclose */
 function shn_mainmenuclose() {
 	echo "
 		</ul>
@@ -138,43 +144,7 @@ function shn_mainmenuclose() {
 
 
 
-// deprecated but still sometimes called...
-function shn_mod_menuitem($action, $desc, $module = null) {}
-
-
-
-function shn_adm_menuopen($desc=null) {
-	echo "
-		<div id=\"submenu_v\">
-	";
-}
-
-
-
-function shn_adm_menuclose() {
-	echo "
-		</div>
-	";
-}
-
-
-
-function shn_adm_menuitem($action, $desc, $module = null ) {
-	global $global;
-	if( null == $module) {
-		$module = $global['module'];
-	}
-	echo "<a ".($global['action'] == $action ? 'class="selected" ' : '')." href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a>";
-}
-
-
-
-/**
- * Open tab menu
- *
- * @access public
- * @return void
- */
+/** Open tab menu */
 function shn_tabmenu_open() {
 	echo "
 		<ul id=\"tabmenu\">
@@ -183,12 +153,7 @@ function shn_tabmenu_open() {
 
 
 
-/**
- * Close tab menu
- *
- * @access public
- * @return void
- */
+/** Close tab menu */
 function shn_tabmenu_close() {
 	echo "
 		</ul>
@@ -197,16 +162,9 @@ function shn_tabmenu_close() {
 
 
 
-/**
- * Add an tab menu item
- *
- * @param mixed $action
- * @param mixed $desc
- * @param mixed $module
- * @access public
- * @return void
- */
+/** Add an tab menu item */
 function shn_tabmenu_item($action, $desc, $module = null) {
+
 	global $global;
 	if(null == $module ) {
 		$module = $global['module'];
@@ -220,4 +178,5 @@ function shn_tabmenu_item($action, $desc, $module = null) {
 	$tabid = '&tabid='.$count++;
 	echo "<li ".$active." ><a href=\"index.php?mod=".$module."&amp;act=".$action.$tabid."\"><span>".$desc."</span></a></li>";
 }
+
 

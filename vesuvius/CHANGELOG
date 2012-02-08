@@ -8,6 +8,7 @@ Greg:
 + Report module now has the login box if you are not logged in.
 + URL cleanup-age : htaccess updated with defaults for all modules, ie. /search to get to search, /admin to get to admin section, /triagepic or /tp to get to TriagePic.
 + Snapshot module broken out from Admin module (so it could be disabled in Module Access Control as we no longer use it)
++ Internal Resources module: moved version information to admin module (removed all internal pages as they are now on the NLM wiki)
 
 
 2012:0131 Update

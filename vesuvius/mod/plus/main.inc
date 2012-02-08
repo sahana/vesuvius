@@ -60,6 +60,8 @@ function shn_plus_header2() {
 		echo "<li><a href=\"index.php?mod=plus&act=settings\">Client Settings</a></li>";
 	}
 
+	echo "<li><a href=\"http://goo.gl/z5VnJ\" target=\"_blank\">PLUS Documentation</a></li>";
+
 	echo "</ul><hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
 }
 
