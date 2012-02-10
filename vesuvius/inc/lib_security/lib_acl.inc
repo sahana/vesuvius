@@ -335,40 +335,9 @@ function _shn_acl_is_user_role_only($user,$role) {
 
 
 
-function shn_acl_is_signup_enabled() {
-	global $global;
-	$db = $global["db"];
-	$q = "select value from config where module_id='admin' and confkey='acl_signup_enabled'";
-	$res = $db->Execute($q);
-	if(($res==null) ||($res->EOF)) {
-		return true; //by default we allow signup
-	} else {
-		if(($res->fields['value']==1)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-}
-
-
-
-function shn_acl_is_locking_enabled() {
-	global $global;
-	$db = $global["db"];
-	$q = "select value from config where module_id='admin' and confkey='acl_locking'";
-	$res = $db->Execute($q);
-	if(($res==null) ||($res->EOF)) {
-		return true; //by default we should have security
-	} else {
-		if(($res->fields['value']==1)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-}
-
+/** always enabled! */
+function shn_acl_is_signup_enabled() { return true; }
+function shn_acl_is_locking_enabled() { return true; }
 
 
 /**
@@ -433,23 +402,6 @@ function shn_acl_install($root_username, $root_passwd, $sahana_username, $sahana
 	$res=$db->Execute($sql);
 	$sql="insert into sys_group_to_module values({$role},'pref','enabled')";
 	$res=$db->Execute($sql);
-}
-
-
-
-
-
-
-/**
- * Enable Disable ACL Signup
- *
- * @param boolean $flag true to enable, false to disable.
- */
-function shn_acl_enable_signup($flag=true){
-	global $global;
-	$db=$global["db"];
-	$q="UPDATE config SET value='{$flag}' WHERE module_id='admin' AND confkey='acl_signup_enabled'";
-	$res=$db->Execute($q);
 }
 
 

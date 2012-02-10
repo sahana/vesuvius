@@ -37,6 +37,15 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 		$class = '';
 	}
 
+	// UGLY HACK TO NOT SHOW USER PREFERENCES AS CURRENT MODULE WHEN VIEWING "PEOPLE IM TRACKING" OR VICE VERSA
+	if(($desc == "My Settings") && ($global['action'] == "tracking")) {
+		$class = '';
+	}
+	if(($desc == "People I'm Tracking") && ($global['action'] != "tracking")) {
+		$class = '';
+	}
+
+
 	// yet another hack to highlight the admin module when using the resource module in the administration module
 	if(($desc == "Administration") && (isset($_GET['act']) && (($_GET['act'] == "adm_default") || ($_GET['act'] == "adm_configuration")))) {
 		$class = ' class="currentMainMenuItem"';
@@ -82,6 +91,9 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 		case 'inw':
 			$module = "search";
 			break;
+		case 'arrive':
+			$module = "arrivals";
+			break;
 		case 'rez':
 			$module = "resources";
 			break;
@@ -92,7 +104,7 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 			$module = "statistics";
 			break;
 		case 'ha':
-			$module = "hospital";
+			$module = "hospitals";
 			break;
 		case 'pop':
 			$module = "outbound";
@@ -163,20 +175,20 @@ function shn_tabmenu_close() {
 
 
 /** Add an tab menu item */
-function shn_tabmenu_item($action, $desc, $module = null) {
+function shn_tabmenu_item($action, $desc, $module) {
 
 	global $global;
-	if(null == $module ) {
-		$module = $global['module'];
-	}
+
 	static $count = 0;
-	if(isset($_REQUEST['tabid'])) {
-		$active = ($count == $_REQUEST['tabid']) ? "id='active'" : '';
+	if(isset($_GET['tabid'])) {
+		$active = ($count == $_GET['tabid']) ? "id='active'" : '';
+	} elseif($count == 0) {
+		$active = "id='active'";
 	} else {
 		$active = '';
 	}
 	$tabid = '&tabid='.$count++;
-	echo "<li ".$active." ><a href=\"index.php?mod=".$module."&amp;act=".$action.$tabid."\"><span>".$desc."</span></a></li>";
+	echo "<li ".$active." ><a href=\"".$module."?".$action.$tabid."\"><span>".$desc."</span></a></li>";
 }
 
 

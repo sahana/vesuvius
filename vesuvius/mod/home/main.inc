@@ -116,8 +116,11 @@ function getList($closed) {
 
 // show a list of events
 function showList() {
+
 	global $global;
 	global $events;
+	global $conf;
+
 	require_once ($global['approot'].'mod/lpf/lib_lpf.inc');
 
         // preserve the module if we were redirected here (because this is an event-specific
@@ -125,7 +128,7 @@ function showList() {
         if (isset($_GET['mod'])) {
            $nextMod = $_GET['mod'];
         } else {
-           $nextMod = "inw";  //default
+           $nextMod = $conf['default_module_event'];
         }
 	foreach($events as $row) {
 

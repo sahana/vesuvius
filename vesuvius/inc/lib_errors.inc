@@ -48,7 +48,7 @@ function add_information($information) {
 
 
 
-/** this function will display the submit message of a certain type as contained in the container specified by the type @TODO: add generic check for container existance */
+/** this function will display the submit message of a certain type as contained in the container specified by the type */
 function display_submit_message($type = 'warning', $msg = 'please note the following:') {
 
 	global $global;
@@ -59,17 +59,44 @@ function display_submit_message($type = 'warning', $msg = 'please note the follo
 		return;
 	}
 	echo '
-		<div class="'.$type.' message">
+		<div id="submit_'.$type.'" class="'.$type.' message">
 			<p><em>'.$msg.'</em></p>
 			<ul>
 	';
 	foreach($global[$container] as $i) {
-		echo '<li>'.$i.'<br></li>';
+		echo '
+				<li>'.$i.'<br></li>
+		';
 	}
-	echo '
+	echo "
 			</ul>
 		</div>
-	';
+		<script>
+			fade('submit_".$type."');
+			var i".$type.";
+			var o = 1;
+	";
+		?>
+			function fade(eid) {
+				var e = document.getElementById(eid);
+				if(e == null) return;
+				setTimeout("animateGo('"+eid+"')", 10000);
+			}
+			function animateGo(eid) {
+				i<?=$type; ?> = setInterval("animateFade('"+eid+"')", 50);
+			}
+			function animateFade(eid) {
+				var e = document.getElementById(eid);
+				o = o - 0.05;
+				if(o <= 0.05) {
+					clearInterval(i<?=$type; ?>);
+					console.log('timer stpopped');
+					o = 0;
+				}
+				e.style.opacity = o;
+			}
+		</script>
+		<?
 	$global[$container] = null;
 }
 
@@ -173,7 +200,7 @@ function shn_error_display_restricted_access() {
 
 	if($_SESSION['user'] == "Anonymous") {
 		echo '
-			<div class="error message">
+			<div id="errorMessage" class="error message">
 				<br>
 				<p><em>Sorry, you do not have permisssion to access this section. You must first login.</em></p><br>
 			</div>
@@ -183,11 +210,37 @@ function shn_error_display_restricted_access() {
 
 	} else {
 		echo '
-			<div class="error message">
+			<div id="errorMessage" class="error message">
 				<p><em>Sorry, you do not have permisssion to access this section. To gain access to this section please contact the site admin or your hospital staff administrator.</em><br><br>
 			</div>
 		';
 	}
+	?>
+	<script>
+		fade('errorMessage');
+		var iErrorMessage;
+		var o = 1;
+
+		function fade(eid) {
+			var e = document.getElementById(eid);
+			if(e == null) return;
+			setTimeout("animateGo('"+eid+"')", 10000);
+		}
+		function animateGo(eid) {
+			iErrorMessage = setInterval("animateFade('"+eid+"')", 50);
+		}
+		function animateFade(eid) {
+			var e = document.getElementById(eid);
+			o = o - 0.05;
+			if(o <= 0.05) {
+				clearInterval(iErrorMessage);
+				console.log('timer stpopped');
+				o = 0;
+			}
+			e.style.opacity = o;
+		}
+	</script>
+	<?
 }
 
 
