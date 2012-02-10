@@ -60,16 +60,11 @@ function display_submit_message($type = 'warning', $msg = 'please note the follo
 	}
 	echo '
 		<div id="submit_'.$type.'" class="'.$type.' message">
-			<p><em>'.$msg.'</em></p>
-			<ul>
 	';
 	foreach($global[$container] as $i) {
-		echo '
-				<li>'.$i.'<br></li>
-		';
+		echo $i.'<br>';
 	}
 	echo "
-			</ul>
 		</div>
 		<script>
 			fade('submit_".$type."');
@@ -122,14 +117,9 @@ function display_errors($error_title = null, $return = false, $clean_errors = tr
 		if (count($global['submit_errors']) == 0 ) return;
 
 		$output = "<div class=\"error message\">";
-
-		$output .= '<p><em>'.$error_title.'</em></p>';
-
-		$output .= "<ul>";
 		foreach ($global['submit_errors'] as $error){
-			$output .= "<li>".$error.'<br/></li>';
+			$output .= $error.'<br/>';
 		}
-		$output .= "</ul>";
 		$output .= "</div>";
 
 		//Clean Errors
@@ -200,19 +190,14 @@ function shn_error_display_restricted_access() {
 
 	if($_SESSION['user'] == "Anonymous") {
 		echo '
-			<div id="errorMessage" class="error message">
-				<br>
-				<p><em>Sorry, you do not have permisssion to access this section. You must first login.</em></p><br>
-			</div>
+			<div id="errorMessage" class="error message">Sorry, you do not have permisssion to access this section. You must first login.</div>
 		';
 		require_once($global['approot'].'mod/pref/main.inc');
 		shn_pref_loginForm();
 
 	} else {
 		echo '
-			<div id="errorMessage" class="error message">
-				<p><em>Sorry, you do not have permisssion to access this section. To gain access to this section please contact the site admin or your hospital staff administrator.</em><br><br>
-			</div>
+			<div id="errorMessage" class="error message">Sorry, you do not have permisssion to access this section. To gain access to this section please contact the site admin or your hospital staff administrator.</div>
 		';
 	}
 	?>
@@ -250,17 +235,12 @@ function shn_error_get_restricted_access_message() {
 	ob_start();
 	if($_SESSION['user'] == "Anonymous") {
 		echo '
-			<div class="error message">
-				<br>
-				<p><em>Sorry, you do not have permisssion to access this section. You must first login.</em></p><br>
-			</div>
+			<div class="error message">Sorry, you do not have permisssion to access this section. You must first login.</div>
 		';
 
 	} else {
 		echo '
-			<div class="error message">
-				<p><em>Sorry, you do not have permisssion to access this section. To gain access to this section please contact the site admin or your hospital staff administrator.</em><br><br>
-			</div>
+			<div class="error message">Sorry, you do not have permisssion to access this section. To gain access to this section please contact the site admin or your hospital staff administrator.</div>
 		';
 	}
 	$contents = ob_get_contents();
