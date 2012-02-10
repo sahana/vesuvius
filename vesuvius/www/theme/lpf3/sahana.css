@@ -577,18 +577,13 @@ div.form-container div.buttonrow { margin-left: 180px; }
 
 
 /* Message Display Styles  ------------------------------------------------------------------------------- */
-.error { border:  rgba(208,0,0,0.3) 1px solid; background: url(img/dialog-error.png) rgba(255,229,229,0.95) no-repeat 20px 20px; }
-.error p em { color:#C00; }
+.error { border:  rgba(208,0,0,0.3) 1px solid; background: url(img/dialog-error.png) rgba(255,229,229,0.95) no-repeat 20px center; }
 
-.confirmation { border: rgba(0,112,0,0.3) 1px solid; background: url(img/dialog-confirmation.png) rgba(229,255,229,0.95) no-repeat 20px 20px; }
-.confirmation p em { color:#070;}
+.confirmation { border: rgba(0,112,0,0.3) 1px solid; background: url(img/dialog-confirmation.png) rgba(229,255,229,0.95) no-repeat 20px center; }
 
-.confirmation.message p { line-height: 10px; }
+.warning { border: #FC6 1px solid; background: url(img/dialog-warning.png) #FFC no-repeat 20px center; }
 
-.warning { border: #FC6 1px solid; background: url(img/dialog-warning.png) #FFC no-repeat 20px 20px; }
-.warning p em { color:#C00;  }
-
-.information { border: rgba(149,205,204,0.8) 1px solid; background: url(img/dialog-information.png) rgba(235,253,255,0.9) no-repeat 20px 20px; }
+.information { border: rgba(149,205,204,0.8) 1px solid; background: url(img/dialog-information.png) rgba(235,253,255,0.9) no-repeat 20px center; }
 .information p em { color:#748D8E;  }
 
 .message {

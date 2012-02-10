@@ -247,6 +247,17 @@ function shn_main_front_controller() {
 
 			if (false !== $res) {
 				if( shn_acl_check_perms($module, $module_function) == ALLOWED) {
+					// check if the user just logged in.... request_time = session expiry, if so, gret them! :)
+					$q = "
+						SELECT count(*)
+						FROM sessions
+						WHERE expiry = '".mysql_real_escape_string($_SERVER['REQUEST_TIME'])."';
+					";
+					$result = $global['db']->Execute($q);
+					//if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getEventListUser 1"); }
+					if($result->fields["count(*)"] == '1') {
+						add_confirmation("Login successful");
+					}
 					$module_function();
 				} else {
 					shn_error_display_restricted_access();
@@ -404,9 +415,9 @@ function shn_main_plus_register() {
 
 
 
-/*
+
 echo "<h1>DEBUGGING INFO</h1><pre>".print_r(get_defined_vars(), true)."</pre><h1>END DEBUG INFO</h1>";
-*/
+
 
 
 

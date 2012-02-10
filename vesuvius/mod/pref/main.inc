@@ -555,10 +555,7 @@ function shn_pref_default() {
 		</div>
 	';
 	echo "</div>";
-	$a = explode("/", $_SERVER['HTTP_REFERER']);
-	if($a[sizeof($a)-1] == "login") {
-		add_confirmation('You logged in successfully.');
-	}
+
 }
 
 
