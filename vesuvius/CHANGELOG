@@ -1,7 +1,7 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
-2012:0207 Update
+2012:02xx Update
 ----------------
 Greg:
 + Login Redirection ~ after logging in, you are directed back to the last page you were on / also from the login link, you are directed to /settings now after successful login.
@@ -9,6 +9,10 @@ Greg:
 + URL cleanup-age : htaccess updated with defaults for all modules, ie. /search to get to search, /admin to get to admin section, /triagepic or /tp to get to TriagePic.
 + Snapshot module broken out from Admin module (so it could be disabled in Module Access Control as we no longer use it)
 + Internal Resources module: moved version information to admin module (removed all internal pages as they are now on the NLM wiki)
++ Admin module ~ new tabbed menu structure merged and removed old code files and old code
++ Removed user signup disable function from admin
++ Removed user account lock disable feature from admin
++ moved VERSION and TIME from theme (public folder) to app root (non-public)
 
 
 2012:0131 Update

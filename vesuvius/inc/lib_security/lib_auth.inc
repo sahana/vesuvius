@@ -815,48 +815,6 @@ function shn_auth_self_signup_cr() {
 }
 
 
-
-function _shn_auth_del_user_cr() {
-	global $global;
-	$user=$_POST{"users"};
-	$db=$global["db"];
-	$VARCHAR=100;
-	for($i=0;$i<count($user);$i++) {
-		if($user[$i]!=ADMINUSER) {
-			$q="delete from users where p_uuid='{$user[$i]}'";
-			$res=$db->Execute($q);
-			if($res==false){
-				add_error($db->ErrorMsg());
-			}
-		}
-	}
-	for($i=0;$i<count($user);$i++) {
-		if($user[$i]!=ADMINUSER){
-			$q="delete from alt_logins where p_uuid='{$user[$i]}'";
-			$res=$db->Execute($q);
-			if($res==false){
-				add_error($db->ErrorMsg());
-			}
-		}
-	}
-	for($i=0;$i<count($user);$i++) {
-		if($user[$i]!=ADMINUSER){
-			$q="delete from contact where p_uuid='{$user[$i]}'";
-			$res=$db->Execute($q);
-			if($res==false){
-				add_error($db->ErrorMsg());
-			}
-		}
-	}
-	if($res==false) {
-		add_error(_t("User does not exist"));
-	} else {
-		add_confirmation(_t("User was successfully removed"));
-	}
-}
-
-
-
 function _shn_generateSalt($salt = null) {
 	if ($salt === null)
 	{

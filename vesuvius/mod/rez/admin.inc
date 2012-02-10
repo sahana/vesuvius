@@ -25,14 +25,12 @@ shn_xajax_registerFunction('rez_perform_move_up');
 shn_xajax_registerFunction('rez_perform_move_down');
 shn_xajax_registerFunction('rez_perform_change_visibility');
 
-/**
- * setup admin GUI for modRez and then let xajax do all the work
- * @access public
- * @return void
- */
+
+/** setup admin GUI for modRez and then let xajax do all the work */
 function shn_rez_adm_default() {
+
 	shn_xajax_printJavascript();
-	?><h2><?php echo _t('Help and Resource Page Administration'); ?></h2>
+	?>
 	<div id="rezLog" class="logArea">Loading Pages...<br></div>
 	<div id="rezControl" class="controlArea">&nbsp;</div>
 	<div id="rezMain" class="mainArea">&nbsp;</div>

@@ -1003,12 +1003,19 @@ class person {
 
 		if($this->opt_gender == "M") {
 			$this->opt_gender = "mal";
+
 		} elseif($this->opt_gender == "F") {
 			$this->opt_gender = "fml";
+
 		} elseif($this->opt_gender == "C") {
 			$this->opt_gender = "cpx";
+
 		} elseif($this->opt_gender == "U") {
 			$this->opt_gender = null;
+
+		} elseif($this->opt_gender == "mal" || $this->opt_gender == "fml" || $this->opt_gender == "cpx") {
+			// do nothing... we are good :)
+
 		} else {
 			$this->opt_gender = null;
 		}
@@ -1313,7 +1320,7 @@ class person {
 		global $global;
 		require_once($global['approot']."inc/lib_uuid.inc");
 
-		// save xml for debuggins?
+		// save xml for debugging?
 		if($global['debugAndSaveXmlToFile'] == true) {
 			$filename = "debugXML_".mt_rand();
 			$path = $global['approot']."www/tmp/plus_cache/".$filename.".xml";

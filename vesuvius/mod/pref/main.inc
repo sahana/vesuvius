@@ -521,14 +521,9 @@ function shn_pref_header2() {
 
 
 
-/**
- *
- * This function displays the home page of the User Preferences
- *
- * @access public
- * @return void
- */
+/** This function displays the home page of the User Preferences */
 function shn_pref_default() {
+
 	global $global;
 	shn_pref_header2();
 	echo "<div id=\"home\">";
@@ -560,7 +555,10 @@ function shn_pref_default() {
 		</div>
 	';
 	echo "</div>";
-	//echo "<pre>".var_export($_SESSION, true)."</pre>";
+	$a = explode("/", $_SERVER['HTTP_REFERER']);
+	if($a[sizeof($a)-1] == "login") {
+		add_confirmation('You logged in successfully.');
+	}
 }
 
 

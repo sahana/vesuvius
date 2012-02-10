@@ -1,7 +1,7 @@
 <?
 /**
  * @name         Authentication Form Library
- * @version      1.0
+ * @version      11
  * @package      framework
  * @author       Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
@@ -9,7 +9,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2012.0209
  */
 
 
@@ -18,75 +18,6 @@ global $global;
 include_once $global['approot']. 'inc/lib_security/lib_auth.inc';
 include_once $global['approot']."/inc/lib_errors.inc";
 include_once $global['approot']."/inc/lib_validate.inc";
-
-
-/**
- * Generates a form to delete a user
- * @return void
- * @access public
- */
-function shn_auth_form_user_del($title="Delete Usert", $mod="admin" ,$act="del_user_cr", $error=false) {
-	if($error) {
-		display_errors();
-	}
-	echo "
-		<br>
-		<div id=\"formcontainer\">
-	";
-	shn_form_fopen($act, $mod, null);
-		shn_form_fsopen(_t("Select User"));
-			$users = shn_auth_user_list(true, false);
-			shn_form_multi_select('users', $users, "Users", null, null);
-		shn_form_fsclose();
-		echo "<br>";
-		shn_form_submit(_t("Remove user"), "class=\"styleTehButton\"");
-		echo "<br>";
-	shn_form_fclose();
-	echo "</div>";
-}
-
-
-
-/**
- * Generates a form to add an user
- * @return void
- * @access public
- */
-
-function shn_auth_form_user_add($title="Create Your Account", $mod="admin", $act="add_user_cr", $error=false) {
-	global $global;
-	if($error) {
-		display_errors();
-	}
-	echo "
-		<br>
-		<div id=\"formcontainer\">
-	";
-	shn_form_fopen($act,$mod);
-	shn_form_fsopen(_t("Account Details"));
-	$extra_opts['req'] = true;
-	shn_form_text("First Name ",    'given_name',    'size="30" autocomplete="off"', $extra_opts);
-	shn_form_text("Last Name ",     'family_name',   'size="30" autocomplete="off"', $extra_opts);
-	shn_form_text("User Name ",     'user_name',     'size="30" autocomplete="oo"', $extra_opts);
-	shn_form_text("Email Address ", 'email_address', 'size="30" autocomplete="off"', $extra_opts);
-	shn_form_password("Password for Login", "password", 'autocomplete="off"', $extra_opts);
-	shn_form_password("Confirm Password", "re_password", 'autocomplete="off"', $extra_opts);
-	shn_form_fsclose();
-	$roles=_shn_acl_get_roles(null, false);
-	shn_form_fsopen(_t("Select Role"));
-	shn_form_select($roles,"Roles", 'roles', null, $extra_opts);
-	shn_form_fsclose();
-	$extra_opts['req'] = true;
-	shn_form_fsopen("OpenId Login Details", "openIdSignup");
-	echo "<div class=\"info\">Option to use an OpenID instead of a username/password if you'd like.</div><br />";
-	shn_form_text(_t("OpenID "), 'openid', 'size="30"', null);
-	shn_form_fsclose();
-	echo "</br>";
- 	shn_form_submit(_t("Submit"), "class=\"styleTehButton\"");
-	echo "</br>";
-	shn_form_fclose();
-	echo "</div>";
-}
 
 
 

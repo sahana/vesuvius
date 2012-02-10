@@ -1,15 +1,14 @@
 <?php
 /**
  * @name         Administration
- * @version      1.0
+ * @version      11
  * @package      admin
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
- * @author       Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0303
+ * @lastModified 2012.0208
  */
 
 define("SHN_ERR_ADMIN_LOCATION_INCOMPLETE","Organization location is essential for registration. Please complete and submit again");
