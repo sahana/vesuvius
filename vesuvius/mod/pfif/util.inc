@@ -87,33 +87,27 @@ function shn_map_status_from_pfif($status, $found, $old_status) {
            array('unk' => array('unk' => 'unk',
                    'ali' => 'ali',
                    'mis' => 'mis',
-                   'dec' => 'dec',
-                   'fnd' => 'fnd'),
+                   'dec' => 'dec'),
                'mis' => array('unk' => 'mis',
                    'ali' => 'ali',
                    'mis' => 'mis',
-                   'dec' => 'dec',
-                   'fnd' => 'fnd'),
+                   'dec' => 'dec'),
                'fnd' => array('unk' => 'fnd',
                    'ali' => 'ali',
                    'mis' => 'fnd',
-                   'dec' => 'dec',
-                   'fnd' => 'fnd'),
+                   'dec' => 'dec'),
                'inj' => array('unk' => 'inj',
                    'ali' => 'ali',
                    'mis' => 'inj',
-                   'dec' => 'dec',
-                   'fnd' => 'inj'),
+                   'dec' => 'dec'),
                'dec' => array('unk' => 'dec',
                    'ali' => 'ali',
                    'mis' => 'dec',
-                   'dec' => 'dec',
-                   'fnd' => 'dec'),
+                   'dec' => 'dec'),
                'ali' => array('unk' => 'ali',
                    'ali' => 'ali',
                    'mis' => 'ali',
-                   'dec' => 'dec',
-                   'fnd' => 'ali'));
+                   'dec' => 'dec'));
 
    // Map new status from PFIF record.
    $new_status = 'unk';  // default for unspecified status
@@ -121,10 +115,11 @@ function shn_map_status_from_pfif($status, $found, $old_status) {
    if (!empty($status)) {
       $new_status = $status_map[$status];
    }
-   // We have to do something with the "found" field if present. Have it
-   // outrank a concurrent status of "missing" or "unknown".
-   if ($found == 'true' && ($new_status == 'unk' || $new_status == 'mis')) {
-      $new_status = 'fnd';
+   // We have to do something with the "found" field if present. Since it means
+   // the person was directly contacted, have it override any accompanying status
+   // by always translating to "alive".
+   if ($found == 'true') {
+      $new_status = 'ali';
    }
 
    // Do the ranking mapping.
