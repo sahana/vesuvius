@@ -10,6 +10,8 @@ this should work :)
 2012:0207 Leif
 --------------
 
+ALTER TABLE `pl`.`person_to_report` ADD INDEX ( `rep_uuid` ) 
+
 DELIMITER //
 DROP PROCEDURE `PLSearch`//
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PLSearch`(
