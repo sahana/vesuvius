@@ -1,25 +1,25 @@
 <?
 /**
  * @name         Authentication Library
- * @version      1.0
+ * @version      11
  * @package      framework
- * @author       Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0801
+ * @lastModified 2012.0213
  */
 
 
+require_once("constants.inc");
+require_once("errors.inc");
+require_once("lib_acl.inc");
 
-require_once "constants.inc";
-require_once "errors.inc";
-require_once "lib_acl.inc";
+function shn_auth_get_openid_user($openid) {
 
-function shn_auth_get_openid_user($openid){
 	global $global;
+
 	$db=$global['db'];
 	$q = "
 		select users.user_name
@@ -37,8 +37,10 @@ function shn_auth_get_openid_user($openid){
 
 
 
-function shn_auth_user_list_and_status(){
+function shn_auth_user_list_and_status() {
+
 	global $global;
+
 	$db = $global['db'];
 	$q = "
 		select users.p_uuid, full_name, user_name, status
@@ -60,8 +62,10 @@ function shn_auth_user_list_and_status(){
 
 
 
-function shn_auth_locked_user_list(){
+function shn_auth_locked_user_list() {
+
 	global $global;
+
 	$db=$global['db'];
 
 	$q = "
@@ -86,8 +90,10 @@ function shn_auth_locked_user_list(){
 
 
 
-function shn_auth_activate_user($pid=null,$uname=null){
+function shn_auth_activate_user($pid=null,$uname=null) {
+
 	global $global;
+
 	$db=$global['db'];
 
 	if($pid==null){
@@ -161,7 +167,9 @@ function shn_get_user_details($user){
  *@return bool
  */
 function shn_auth_add_user($given_name, $family_name, $user_name, $user_password, $role, $pid=null, $extra_opts=null, $email=null) {
+
 	global $global;
+
 	$db = $global['db'];
 	include_once($global['approot']."/inc/lib_uuid.inc");
 	$error = false;
@@ -303,7 +311,9 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 
 // check the existence of an user
 function shn_is_user($user_name) {
+
 	global $global;
+
 	$db = $global['db'];
 	$q = "
 		SELECT p_uuid
@@ -322,7 +332,9 @@ function shn_is_user($user_name) {
 
 // check the existence of an user with the email address
 function shn_is_user_with_email($email) {
+
 	global $global;
+
 	$db = $global['db'];
 	$q = "
 		SELECT *
@@ -341,7 +353,9 @@ function shn_is_user_with_email($email) {
 
 
 function shn_auth_user_list($fullname = false, $admin = true) {
+
 	global $global;
+
 	$db = $global['db'];
 
 	$q = "
@@ -371,7 +385,9 @@ function shn_auth_user_list($fullname = false, $admin = true) {
 
 // added to allow the usage of user_id instead of p_uuid for user managerment (its more logical) ~ G
 function shn_auth_user_list2() {
+
 	global $global;
+
 	$db=$global['db'];
 
 	$q = "
@@ -416,7 +432,9 @@ function shn_auth_user_list2() {
  *@access public
  */
 function shn_authenticate_user() {
+
 	global $global;
+
 	$db = $global['db'];
 	$user_data = array("user_id" => ANONYMOUS_USER, "user" => "Anonymous");
 	$user_data["result"] = null;
@@ -614,6 +632,7 @@ function shn_change_password($user, $old_pwd, $new_pwd) {
 
 
 function shn_force_change_password($user=null,$new_pwd,$p_uuid=null) {
+
 	if(shn_validate_password($user,$new_pwd)==false){
 		return true;
 	}
@@ -655,6 +674,7 @@ function shn_force_change_password($user=null,$new_pwd,$p_uuid=null) {
 
 
 function shn_change_password_simple($username = null, $newPassword) {
+
 	global $global;
 	date_default_timezone_set('America/New_York');
 	$q = "
@@ -685,6 +705,7 @@ function shn_change_password_simple($username = null, $newPassword) {
 
 /******** form processing ****/
 function shn_auth_add_user_cr(){
+
 	global $global;
 
 	$db      = $global["db"];
@@ -763,7 +784,9 @@ function shn_auth_add_user_cr(){
 
 
 function shn_auth_self_signup_cr() {
+
 	global $global;
+
 	$db = $global["db"];
 	$VARCHAR = 100;
 	$error = null;
@@ -816,6 +839,7 @@ function shn_auth_self_signup_cr() {
 
 
 function _shn_generateSalt($salt = null) {
+
 	if ($salt === null)
 	{
 		$salt = substr(md5(uniqid(rand(), true)), 0, SALT_LENGTH);
@@ -831,7 +855,9 @@ function _shn_generateSalt($salt = null) {
 
 
 function _shn_auth_lock_user($uid,$status) {
+
 	global $global;
+
 	$role = REGISTERED;
 	if(_shn_acl_is_user_role_only($uid,$role)==true){
 		return true;
@@ -863,7 +889,8 @@ function _shn_auth_lock_user($uid,$status) {
 
 
 
-function shn_auth_gen_captcha(){
+function shn_auth_gen_captcha() {
+
 	// Now lets use md5 to generate a totally random string
 	$md5 = md5(microtime() * time());
 
@@ -968,7 +995,9 @@ define("HAS_USERNAME",7);
  * @return true if the password matches the policy, An Error code if the password doesnt match, stating which rule fails.
  */
 function shn_check_password_matches_policy($password, $username, $extra_opts=null) {
+
 	global $global, $conf;
+
 	if(isset($extra_opts['rule_set'])) {
 		// specify from where to get the rule set values.
 		// this is used in setup because the values are in the session.
@@ -1041,7 +1070,9 @@ function shn_check_password_matches_policy($password, $username, $extra_opts=nul
 
 
 function shn_get_password_policy_message($error_code, $extra_opts = null) {
+
 	global $conf;
+
 	$rule_array = null;
 	if(isset($extra_opts['rule_set'])) {
 		$rule_array = $extra_opts['rule_set'];
@@ -1084,7 +1115,9 @@ function shn_get_password_policy_message($error_code, $extra_opts = null) {
  * @return Array The password policy ruleset.
  */
 function shn_get_password_policy($extra_opts = null) {
+
 	global $conf;
+
 	$policy = array();
 	$rule_array = null;
 	if(isset($extra_opts['rule_set'])) {
@@ -1126,8 +1159,10 @@ function shn_get_password_policy($extra_opts = null) {
 
 
 
-function shn_auth_add_role_cr(){
+function shn_auth_add_role_cr() {
+
 	global $global;
+
 	$db = $global['db'];
 
 	if($_POST['role_name']==null || strlen(trim($_POST['role_name']))==0){
@@ -1168,6 +1203,7 @@ function shn_auth_add_role_cr(){
  * borrowed from: http://goo.gl/ufhg
  */
 function validEmail($email) {
+
 	$isValid = true;
 	$atIndex = strrpos($email, "@");
 	if(is_bool($atIndex) && !$atIndex) {

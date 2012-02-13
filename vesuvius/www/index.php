@@ -1,14 +1,14 @@
 <?
 /**
  * @name         Sahana Agasti Main Controller
- * @version      1.0
+ * @version      12
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @author       Chamindra de Silva <chamindra@opensource.lk>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0803
+ * @lastModified 2012.0214
  */
 
 
@@ -415,9 +415,9 @@ function shn_main_plus_register() {
 
 
 
-
+/*
 echo "<h1>DEBUGGING INFO</h1><pre>".print_r(get_defined_vars(), true)."</pre><h1>END DEBUG INFO</h1>";
-
+*/
 
 
 

@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         LPF Library Helper Functions
- * @version      11
+ * @version      12
  * @package      lpf
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1121
+ * @lastModified 2012.0213
  */
 
 
@@ -309,12 +309,9 @@ function xml2array($xml, $get_attributes = 1, $priority = 'tag') {
 
 
 function makePageUrl() {
-	if(isset($_SERVER['HTTPS'])) {
-		$protocol = "https://";
-	} else {
-		$protocol = "http://";
-	}
-	$link = $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
+	global $conf;
+	$link = $conf['https'].$conf['base_uuid'].$_SERVER['REQUEST_URI'];
 	return $link;
 }
 
@@ -325,17 +322,6 @@ function makeBaseUrl() {
 	global $conf;
 	$link = $conf['https'].$conf['base_uuid'].$_GET['shortname'];
 	return $link;
-
-/*
-	if(isset($_SERVER['HTTPS'])) {
-		$protocol = "https://";
-	} else {
-		$protocol = "http://";
-	}
-	$link = $protocol.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'];
-	$link = str_replace("index.php", "", $link);
-	return $link;
-*/
 }
 
 
@@ -345,17 +331,6 @@ function makeBaseUrlMinusEvent() {
 	global $conf;
 	$link = $conf['https'].$conf['base_uuid'];
 	return $link;
-
-/*
-	isset($_GET['shortname']) ? $short = $_GET['shortname'] : $short = "";
-	if(isset($_SERVER['HTTPS'])) {
-		$protocol = "https://";
-	} else {
-		$protocol = "http://";
-	}
-	$link = $protocol.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'];
-	$link = str_replace($short."/index.php", "/index.php", $link);
-*/
 }
 
 
@@ -365,19 +340,6 @@ function makeBaseUrlMinusEventForHome() {
 	global $conf;
 	$link = $conf['https'].$conf['base_uuid'];
 	return $link;
-
-/*
-	isset($_GET['shortname']) ? $short = $_GET['shortname'] : $short = "";
-	if(isset($_SERVER['HTTPS'])) {
-		$protocol = "https://";
-	} else {
-		$protocol = "http://";
-	}
-	$link = $protocol.$_SERVER['HTTP_HOST'].$_SERVER['SCRIPT_NAME'];
-	$link = str_replace($short."/index.php", "", $link);
-	$link = str_replace("/index.php", "", $link);
-	return $link;
-*/
 }
 
 

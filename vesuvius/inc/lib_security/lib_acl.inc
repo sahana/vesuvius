@@ -1,7 +1,7 @@
 <?
 /**
  * @name         ACL Form Library
- * @version      1.0
+ * @version      11
  * @package      framework
  * @author       Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
@@ -9,13 +9,14 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2012.0213
  */
 
 
 require_once "constants.inc";
 
 function shn_acl_log_msg($comment, $p_uuid = null, $user_name = null, $event_type=1) {
+
 	global $global;
 	$db = $global["db"];
 	$timestamp = time();
@@ -35,6 +36,7 @@ function shn_acl_log_msg($comment, $p_uuid = null, $user_name = null, $event_typ
 
 
 function shn_get_allowed_mods_current_user() {
+
 	$user = shn_current_user();
 	if($user==null) {
 		$roles[ANONYMOUS]="Anonymous User";
@@ -58,6 +60,7 @@ function shn_get_allowed_mods_current_user() {
 
 
 function shn_get_enabled_mods_current_user() {
+
 	$user=shn_current_user();
 	if($user==null){
 		$roles[ANONYMOUS]="Anonymous User";
@@ -87,9 +90,10 @@ function shn_acl_check_perms($mod, $module_function) {
 
 
 
-
 function shn_acl_deluser_roles($users){
+
 	global $global;
+
 	$db = $global['db'];
 
 	// Insert a new user,group mapping into the sys_user_to_group table
@@ -127,15 +131,11 @@ function shn_acl_deluser_roles($users){
 
 
 
-/**
- *adds a role to user
- *@return bool
- *@param string user
- *@param string role
- *@access public
- */
+/** adds a role to user */
 function shn_acl_adduser_to_role($user, $role) {
+
 	global $global;
+
 	$db = $global['db'];
 
 	// find p_uuid for the given user_id
@@ -164,15 +164,11 @@ function shn_acl_adduser_to_role($user, $role) {
 }
 
 
-/**
- *adds a role to user using uuid
- *@return bool
- *@param string user
- *@param string role
- *@access public
- */
+/** adds a role to user using uuid */
 function shn_acl_adduser_to_role_uuid($user, $role) {
+
 	global $global;
+
 	$db = $global['db'];
 	$okay = true;
 
@@ -193,8 +189,10 @@ function shn_acl_adduser_to_role_uuid($user, $role) {
 
 
 
-function _shn_acl_get_roles($user=null, $anonymous=true){
+function _shn_acl_get_roles($user=null, $anonymous=true) {
+
 	global $global;
+
 	$db=$global['db'];
 	$roles=array();
 
@@ -226,17 +224,17 @@ function _shn_acl_get_roles($user=null, $anonymous=true){
 
 
 function _shn_acl_modules_for_role($role) {
-	$mods=array();
-
 
 	global $global;
-	$db=$global['db'];
-	$q="select status,module from sys_group_to_module where group_id='{$role}' and status='enabled'";
 
-	$res=$db->Execute($q);
+	$mods = array();
+	$db = $global['db'];
+	$q = "select status,module from sys_group_to_module where group_id='{$role}' and status='enabled'";
+
+	$res = $db->Execute($q);
 	if(($res==null) ||($res->EOF)){
 		return null;
-	}else{
+	} else {
 		while(!$res->EOF){
 			array_push($mods,$res->fields["module"]);
 			$res->MoveNext();
@@ -249,7 +247,9 @@ function _shn_acl_modules_for_role($role) {
 
 
 function _shn_acl_is_module_role($mod,$role) {
+
 	global $global;
+
 	$db = $global['db'];
 	$q = "select status from sys_group_to_module where group_id='{$role}' and module='{$mod}'";
 	$res = $db->Execute($q);
@@ -267,7 +267,9 @@ function _shn_acl_is_module_role($mod,$role) {
 
 
 function _shn_acl_is_user_role($user, $role) {
+
 	global $global;
+
 	$db = $global['db'];
 	$q = "select group_id from sys_user_to_group where p_uuid='{$user}' and sys_user_to_group.group_id=$role ";
 	$res = $db->Execute($q);
@@ -281,7 +283,9 @@ function _shn_acl_is_user_role($user, $role) {
 
 
 function _shn_acl_is_user_role2($user, $role) {
+
 	global $global;
+
 	$db = $global['db'];
 
 	// find p_uuid for the given user_id
@@ -313,10 +317,10 @@ function _shn_acl_is_user_role2($user, $role) {
 
 
 
-
-
 function _shn_acl_is_user_role_only($user,$role) {
+
 	global $global;
+
 	$db = $global['db'];
 	$q = "select group_id from sys_user_to_group where p_uuid='{$user}' and sys_user_to_group.group_id=$role";
 	$res = $db->Execute($q);
@@ -352,8 +356,10 @@ function shn_acl_is_locking_enabled() { return true; }
  * @return boolean Whether the operation succeeded.
  */
 function shn_acl_install($root_username, $root_passwd, $sahana_username, $sahana_password, $enable_acl=true, $extra_opts=null) {
+
 	global $global;
 	global $conf;
+
 	$status=true;
 
 	include_once $global['approot'].'inc/lib_security/lib_auth.inc';
@@ -406,19 +412,14 @@ function shn_acl_install($root_username, $root_passwd, $sahana_username, $sahana
 
 
 
-/**
- * Get the name of a group by passing the group id.
- *
- * @param integer $role_id group id
- * @return String group name
- */
+/** Get the name of a group by passing the group id. */
 function shn_acl_get_group_name($role_id){
+
 	global $global;
 	$db = $global['db'];
 	$query = "SELECT group_name FROM `sys_user_groups` where `group_id`=?";
 	$res = $db->Execute($query,$role_id);
-
 	return $res->fields[0];
-
 }
+
 
