@@ -308,6 +308,22 @@ function xml2array($xml, $get_attributes = 1, $priority = 'tag') {
 }
 
 
+function makePersonUrl($uuid) {
+
+	global $conf;
+
+	// if the person is not reported locally, use an external url
+	if(strpos($uuid, $conf['base_uuid']) === false) {
+		return $conf['https'].$conf['base_uuid']."edit?puuid=".urlencode($uuid);
+
+	// else use an internal url
+	} else {
+		return $conf['https'].$uuid;
+	}
+}
+
+
+
 function makePageUrl() {
 
 	global $conf;
