@@ -256,6 +256,7 @@ class SearchDB {
 	private function executeSQLQuery() {
 
 		global $conf;
+		global $global;
 
 		$mysqli = new mysqli( $conf["db_host"], $conf["db_user"], $conf["db_pass"], $conf["db_name"], $conf["db_port"] );
 
@@ -275,7 +276,9 @@ class SearchDB {
 				if($result = $mysqli->store_result()) {
 					if($c == 0) {
 						while($row = $result->fetch_assoc()) {
-							$encodedUUID = $conf['https'].$conf['base_uuid']."edit?puuid=".urlencode($row["p_uuid"]);
+
+							require_once($global['approot']."/mod/lpf/lib_helper.inc");
+							$encodedUUID = makePersonUrl($row["p_uuid"]);
 							$this->results[] = array(
 								'p_uuid'             => $row["p_uuid"],
 								'encodedUUID'        => $encodedUUID,

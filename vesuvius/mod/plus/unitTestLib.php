@@ -18,11 +18,10 @@ function init() {
 			body {
 				background-color: #000;
 				color: #fff;
-				font-size: 12px;
 				font-family: courier;
 				margin: 20px;
 			}
-			table {}
+			table { font-size: 14px; }
 			th {
 				font-size: 150%;
 			}

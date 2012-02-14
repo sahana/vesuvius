@@ -1,14 +1,17 @@
 /**
- * @name         Interactive Notification Wall
- * @version      1.6
+ * @name         Interactive Notification Wall (Search)
+ * @version      21
  * @package      inw
  * @author       Merwan Rodriguez <rodriguezmer@mail.nih.gov>
- * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @author       Leif Neve <lneve@mail.nih.gov>
+ * @author       Greg Miernicki <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2012.0213
  */
+
 
 #footer, #header, #disaster_selekta, #pager, #perPageWrapper, #printLink, #map_canvas, #scrolling_content, #searchForm,
 #blueBack, #wrapper_menu, #skip, #menuwrap, #modmenuwrap, #loginform, #modmenu, #glass, #loadingX, #exitFullScreen{

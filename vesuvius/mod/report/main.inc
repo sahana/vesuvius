@@ -1,13 +1,13 @@
 <?
 /**
  * @name         Report (a person)
- * @version      2.1
+ * @version      22
  * @package      report
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0119
+ * @lastModified 2012.0213
  */
 
 
@@ -17,6 +17,11 @@ function shn_report_default() {
 
 	global $global;
 	require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
+
+	if(isset($_GET['create'])) {
+		shn_report_create();
+		return;
+	}
 
 	// check if event is closed...
 	$q = "
@@ -51,23 +56,11 @@ function shn_report_default() {
 	// check if the person is not logged in or is anonymous (must be logged in and not anonymous to report)
 	if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != 1 || !isset($_SESSION['group_id']) || $_SESSION['group_id'] == 3) {
 		echo '
-			<h2>Login Required</h2>
+			<div class="message information"><br/>You must be loggged in to report a new person to this registry. Please login or register as a new user.<br><br></div>
 			<br>
-			You must first login to report a new person to this registry.<br>
-			<br>
-			<br>
-			<input id="login" class="styleTehButton" type="button" value="Login" onclick="login();">
-			&nbsp; &nbsp; &nbsp; &nbsp;
-			<input id="register" class="styleTehButton" type="button" value="Register as a new user" onclick="register();">
-			<script>
-				function register() {
-					window.location = \'register\';
-				}
-				function login() {
-					window.location = \'login\';
-				}
-			</script>
 		';
+		require_once($global['approot'].'mod/pref/main.inc');
+		shn_pref_loginForm();
 		return;
 	}
 
@@ -75,13 +68,13 @@ function shn_report_default() {
 	echo '
 		<h2>Report a Person</h2>
 		<br>
-		You may wish to perform a <a href="index.php?mod=inw&act=default">quick search</a> before reporting. Otherwise,<br>
+		You may wish to perform a <a href="search">quick search</a> before reporting. Otherwise...<br>
 		<br>
 		<br>
-		<input id="login" class="styleTehButton" type="button" value="Create a New Person Record" onclick="report();">
+		<input id="login" class="styleTehButton" type="button" value="Create a New Person Report" onclick="report();">
 		<script>
 			function report() {
-				window.location = \'index.php?mod=report&act=instantiate\';
+				window.location = \'report?create\';
 			}
 		</script>
 	';
@@ -89,8 +82,8 @@ function shn_report_default() {
 
 
 
-// build the stub record and redirect the user to it...
-function shn_report_instantiate() {
+/** build the stub record and redirect the user to it... */
+function shn_report_create() {
 
 	global $conf;
 

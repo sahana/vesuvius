@@ -1,13 +1,13 @@
 <?
 /**
  * @name         Resources
- * @version      1.5
+ * @version      16
  * @package      rez
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1004
+ * @lastModified 2012.0213
  */
 
 
@@ -19,10 +19,11 @@ require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
 
 function shn_rez_header2() {
+
 	global $global;
 
 	// if we are display a positive number page, show the menu
-	if($_GET['page_id'] > 0) {
+	if($_GET['page'] > 0) {
 
 		echo "<ul>";
 		// get page info
@@ -37,14 +38,14 @@ function shn_rez_header2() {
 		if($result){
 			// build page info
 			while($row = $result->FetchRow() ) {
-				if($row['rez_page_id'] == $_GET['page_id']) {
+				if($row['rez_page_id'] == $_GET['page']) {
 					echo "
 						<li><b>".shn_google_translate($row['rez_menu_title'])."</b></li>
 					";
 				} else {
 					echo "
 						<li>
-							<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"index.php?mod=rez&act=default&page_id=".$row['rez_page_id']."\">".shn_google_translate($row['rez_menu_title'])."</a>
+							<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."\">".shn_google_translate($row['rez_menu_title'])."</a>
 						</li>
 					";
 				}
@@ -58,7 +59,7 @@ function shn_rez_header2() {
 		$q = "
 			SELECT *
 			FROM rez_pages
-			WHERE rez_page_id = '".mysql_real_escape_string($_GET['page_id'])."'
+			WHERE rez_page_id = '".mysql_real_escape_string($_GET['page'])."'
 			LIMIT 1;
 		";
 		$result = $global['db']->Execute($q);
@@ -75,26 +76,23 @@ function shn_rez_header2() {
 
 
 
-/**
- * Displays the Resources pages' content on the front end of the site.
- * @access public
- * @return void
- */
+/** Displays the Resources pages' content on the front end of the site. */
 function shn_rez_default() {
+
 	global $global;
 
 	//initialize the Google Translate element JS
 	shn_google_translate_element_init();
 
-	// if page_id, then render that page from db
-	if(isset($_GET['page_id'])) {
+	// if page, then render that page from db
+	if(isset($_GET['page'])) {
 
 		// get page info
-		$page_id = intval(mysql_real_escape_string($_GET['page_id']));
+		$page = intval(mysql_real_escape_string($_GET['page']));
 		$q = "
 			select *
 			from rez_pages
-			where rez_page_id = '".$page_id."'
+			where rez_page_id = '".$page."'
 			and rez_visibility <> 'INTERNAL';
 		";
 		$result = $global['db']->Execute($q);
@@ -108,7 +106,7 @@ function shn_rez_default() {
 			echo "<h2>Error 404 ~ Page not found.</h2>";
 		}
 
-	// if no page_id, then render the Resources homepage
+	// if no page, then render the Resources homepage
 	} else {
 		echo "<ul id=\"rezMain\">";
 
@@ -126,7 +124,7 @@ function shn_rez_default() {
 				while($row = $result->FetchRow() ) {
 					echo "
 						<li>
-							<a class=\"rezLink\" href=\"index.php?mod=rez&act=default&page_id=".$row['rez_page_id']."\">
+							<a class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."\">
 							".shn_google_translate($row['rez_menu_title'])."</a>
 						</li>
 					";

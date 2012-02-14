@@ -1,14 +1,16 @@
-<?php
+<?
 /**
  * @name         Interactive Notification Wall (Search)
- * @version      2.0
+ * @version      21
  * @package      inw
  * @author       Merwan Rodriguez <rodriguezmer@mail.nih.gov>
+ * @author       Leif Neve <lneve@mail.nih.gov>
+ * @author       Greg Miernicki <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0307
+ * @lastModified 2012.0213
  */
 
 
@@ -243,19 +245,4 @@ function shn_inw_default() {
 	<?
 }
 
-/**
- * This function defines the menu list.
- * @access public
- * @return void
- */
-function shn_inw_mainmenu() {
-	global $global;
-	$module = $global['module'];
-	include $global['approot']."/inc/handler_mainmenu.inc";
-
-	// Create the module menu
-	shn_mod_menuopen(_t("Search for a Person"));
-	//	shn_mod_menuitem("default", _t("Search Home"));
-	shn_mod_menuclose();
-}
 
