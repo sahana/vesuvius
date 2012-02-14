@@ -15,6 +15,7 @@ Greg:
 + moved VERSION and TIME from theme (public folder) to app root (non-public)
 + error, information, and confirmation messages appear absolutely positioned from the top of the page not to disturb page content and fade out after 10 seconds
 + PLUS module migrated to tabbed interface
++ TP module migrated to tabbed interface
 
 
 2012:0131 Update

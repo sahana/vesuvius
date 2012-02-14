@@ -1,13 +1,13 @@
 <?
 /**
  * @name         Report (a person)
- * @version      2.1
+ * @version      22
  * @package      report
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0119
+ * @lastModified 2012.0213
  */
 
 
@@ -17,6 +17,11 @@ function shn_report_default() {
 
 	global $global;
 	require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
+
+	if(isset($_GET['create'])) {
+		shn_report_create();
+		return;
+	}
 
 	// check if event is closed...
 	$q = "
@@ -63,13 +68,13 @@ function shn_report_default() {
 	echo '
 		<h2>Report a Person</h2>
 		<br>
-		You may wish to perform a <a href="index.php?mod=inw&act=default">quick search</a> before reporting. Otherwise...<br>
+		You may wish to perform a <a href="search">quick search</a> before reporting. Otherwise...<br>
 		<br>
 		<br>
 		<input id="login" class="styleTehButton" type="button" value="Create a New Person Report" onclick="report();">
 		<script>
 			function report() {
-				window.location = \'index.php?mod=report&act=instantiate\';
+				window.location = \'report?create\';
 			}
 		</script>
 	';
@@ -77,8 +82,8 @@ function shn_report_default() {
 
 
 
-// build the stub record and redirect the user to it...
-function shn_report_instantiate() {
+/** build the stub record and redirect the user to it... */
+function shn_report_create() {
 
 	global $conf;
 

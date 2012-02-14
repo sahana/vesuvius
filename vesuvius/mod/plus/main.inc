@@ -24,13 +24,11 @@ function shn_plus_default() {
 	$control = "";
 
 	shn_tabmenu_open();
-	shn_tabmenu_item("plus",     _t("PLUS+"), "plus");
+	shn_tabmenu_item("plus",     _t("PLUS+"),              "plus");
 	shn_tabmenu_item("reported", _t("People Reported"),    "plus");
 	shn_tabmenu_item("raw",      _t("Raw Access Log"),     "plus");
 	shn_tabmenu_item("stat",     _t("Access Statistics"),  "plus");
-
 	shn_tabmenu_close();
-
 
 	if(isset($_GET['plus'])) {
 		$control = "shn_plus_plus";
