@@ -11,6 +11,10 @@
  */
 
 
+global $global;
+require_once($global['approot']."/mod/lpf/lib_helper.inc");
+
+
 function shn_pref_tracking() {
 
 	global $conf;
@@ -54,9 +58,9 @@ function shn_pref_tracking() {
 			echo "
 				<tr>
 				<td style=\"width: 250px;\" class=\"noBorderLeft ".$class."\" >
-				<a href=\"edit?puuid=".urlencode($row['p_uuid'])."\" target=\"_blank\"><b>".$row['p_uuid']."</b></a></td>
+				<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['p_uuid']."</b></a></td>
 				<td class=\"noBorderLeft ".$class."\" >
-				<a href=\"edit?puuid=".urlencode($row['p_uuid'])."\" target=\"_blank\"><b>".$row['full_name']."</b></a></td>
+				<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['full_name']."</b></a></td>
 				</tr>
 			";
 			$count++;
@@ -89,9 +93,9 @@ function shn_pref_tracking() {
 			echo "
 				<tr>
 				<td style=\"width: 250px;\" class=\"noBorderLeft ".$class."\" >
-				<a href=\"edit?puuid=".urlencode($row['p_uuid'])."\" target=\"_blank\"><b>".$row['p_uuid']."</b></a></td>
+				<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['p_uuid']."</b></a></td>
 				<td class=\"noBorderLeft ".$class."\" >
-				<a href=\"edit?puuid=".urlencode($row['p_uuid'])."\" target=\"_blank\"><b>".$row['full_name']."</b></a></td>
+				<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['full_name']."</b></a></td>
 				</tr>
 			";
 			$count++;
@@ -159,9 +163,9 @@ function shn_pref_tracking() {
 		echo "
 			<tr>
 			<td style=\"width: 250px;\" class=\"noBorderLeft ".$class."\" >
-			<a href=\"edit?puuid=".urlencode($row['p_uuid'])."\" target=\"_blank\"><b>".$row['p_uuid']."</b></a></td>
+			<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['p_uuid']."</b></a></td>
 			<td class=\"noBorderLeft ".$class."\" >
-			<a href=\"edit?puuid=".urlencode($row['p_uuid'])."\" target=\"_blank\"><b>".$row['full_name']."</b></a></td>
+			<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['full_name']."</b></a></td>
 			<td class=\"noBorderLeft ".$class."\" >
 			".$row['name']."</b></td>
 			</tr>
@@ -223,9 +227,9 @@ function shn_pref_tracking() {
 		echo "
 			<tr>
 			<td style=\"width: 250px;\" class=\"noBorderLeft ".$class."\" >
-			<a href=\"edit?puuid=".urlencode($row['p_uuid'])."\" target=\"_blank\"><b>".$row['p_uuid']."</b></a></td>
+			<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['p_uuid']."</b></a></td>
 			<td class=\"noBorderLeft ".$class."\" >
-			<a href=\"edit?puuid=".urlencode($row['p_uuid'])."\" target=\"_blank\"><b>".$row['full_name']."</b></a></td>
+			<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['full_name']."</b></a></td>
 			<td class=\"noBorderLeft ".$class."\" >
 			".$row['name']."</b></td>
 			</tr>
