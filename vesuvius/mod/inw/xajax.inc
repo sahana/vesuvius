@@ -33,18 +33,18 @@ function inw_getNotes($uuid) {
 
 	$db->EXECUTE("set names 'utf8'");
 
-	$q = "SELECT note_record_id, entry_date,
+	$q = "SELECT note_record_id, CONVERT_TZ(source_date, 'America/New_York', 'UTC') AS source_date,
 				 author_name,
 				 found,
 				 REPLACE(status, '_', ' ') as status,
 				 last_known_location,
 				 text
-		    FROM pfif_note WHERE p_uuid = '$uuid' ORDER BY entry_date DESC";
+		    FROM pfif_note WHERE p_uuid = '$uuid' ORDER BY source_date DESC";
 
 	$result = $db->Execute($q);
 	while (!$result == NULL && !$result->EOF) {
 		$list[] = array('note_id'=>$result->fields["note_record_id"],
-						'date'=>$result->fields["entry_date"],
+						'date'=>$result->fields["source_date"],
 						'author'=>$result->fields["author_name"],
 						'found'=>$result->fields["found"],
 						'status'=>$result->fields["status"],
