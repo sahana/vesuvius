@@ -17,6 +17,14 @@
 /// GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 /// GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
+// Used to test if the server is active/up.
+function ping() {
+
+	global $api_version;
+	return array('time' => (string)date("Y:md H:m:s.u e"));
+}
+
+
 
 // Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
 function version() {
@@ -1303,7 +1311,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 			$p->xmlFormat = $xmlFormat;
 			$p->setEvent($eventShortName);
 			$ecode = $p->parseXml();
-			if($ecode == 0) {
+			if($ecode == 0 || $ecode == 419 || $ecode == 420) { // we accept record with bad images (the images are not saved)
 				$p->insert();
 				$p->plusReportLog();
 			} else {
@@ -1567,7 +1575,7 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 			$p->ignoreDupeUuid = true;
 			$ecode = $p->parseXml();
 
-			if($ecode == 0) {
+			if($ecode == 0 || $ecode == 419 || $ecode == 420) { // we accept bad images, we'll record the person, not the bad images (419/420!)
 
 				// we made it this far, so delete the old person record
 				$personOld = new person();

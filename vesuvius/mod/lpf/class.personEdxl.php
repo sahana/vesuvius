@@ -4,7 +4,7 @@
 ********************************************************************************************************************************************************************
 *
 * @class        personEdxl
-* @version      11
+* @version      12
 * @author       Greg Miernicki <g@miernicki.com>
 *
 ********************************************************************************************************************************************************************
@@ -34,6 +34,13 @@ class personEdxl {
 	private $sql_incident_id;
 	private $sql_incident_descr;
 	private $sql_confidentiality;
+
+	private $sql_Ode_id;
+	private $sql_Oco_id;
+	private $sql_Ocontent_descr;
+	private $sql_Oincident_id;
+	private $sql_Oincident_descr;
+	private $sql_Oconfidentiality;
 
 	// edxl_co_lpf
 	public $p_uuid;
@@ -84,6 +91,22 @@ class personEdxl {
 	private $sql_peds;
 	private $sql_triage_category;
 
+	private $sql_Op_uuid;
+	private $sql_Otype;
+	private $sql_Oschema_version;
+	private $sql_Ologin_machine;
+	private $sql_Ologin_account;
+	private $sql_Operson_id;
+	private $sql_Oevent_name;
+	private $sql_Oevent_long_name;
+	private $sql_Oorg_name;
+	private $sql_Oorg_id;
+	private $sql_Olast_name;
+	private $sql_Ofirst_name;
+	private $sql_Ogender;
+	private $sql_Opeds;
+	private $sql_Otriage_category;
+
 	// edxl_de_header
 	public $when_sent;
 	public $sender_id;     // Email, phone num, etc. Not always URI, URN, URL
@@ -115,17 +138,28 @@ class personEdxl {
 	private $sql_when_here;
 	private $sql_inbound;
 
+	private $sql_Owhen_sent;
+	private $sql_Osender_id;
+	private $sql_Odistr_id;
+	private $sql_Odistr_status;
+	private $sql_Odistr_type;
+	private $sql_Ocombined_conf;
+	private $sql_Olanguage;
+	private $sql_Owhen_here;
+	private $sql_Oinbound;
+
 	// edxl_co_photos
 	public $mimeTypes;
 	public $uris;
 	public $contentDatas;
 	public $image_ids;
 	public $image_co_ids;
+	public $image_sha1;
 
 
 	// Constructor
 	public function __construct() {
-		// init db
+
 		global $global;
 		$this->db = $global['db'];
 
@@ -196,6 +230,7 @@ class personEdxl {
 		$this->contentDatas = array();
 		$this->image_ids    = array();
 		$this->image_co_ids = array();
+		$this->image_sha1   = array();
 
 		$this->sql_de_id           = null;
 		$this->sql_co_id           = null;
@@ -227,11 +262,43 @@ class personEdxl {
 		$this->sql_language        = null;
 		$this->sql_when_here       = null;
 		$this->sql_inbound         = null;
+
+		$this->sql_Ode_id           = null;
+		$this->sql_Oco_id           = null;
+		$this->sql_Ocontent_descr   = null;
+		$this->sql_Oincident_id     = null;
+		$this->sql_Oincident_descr  = null;
+		$this->sql_Oconfidentiality = null;
+		$this->sql_Op_uuid          = null;
+		$this->sql_Otype            = null;
+		$this->sql_Oschema_version  = null;
+		$this->sql_Ologin_machine   = null;
+		$this->sql_Ologin_account   = null;
+		$this->sql_Operson_id       = null;
+		$this->sql_Oevent_name      = null;
+		$this->sql_Oevent_long_name = null;
+		$this->sql_Oorg_name        = null;
+		$this->sql_Oorg_id          = null;
+		$this->sql_Olast_name       = null;
+		$this->sql_Ofirst_name      = null;
+		$this->sql_Ogender          = null;
+		$this->sql_Opeds            = null;
+		$this->sql_Otriage_category = null;
+		$this->sql_Owhen_sent       = null;
+		$this->sql_Osender_id       = null;
+		$this->sql_Odistr_id        = null;
+		$this->sql_Odistr_status    = null;
+		$this->sql_Odistr_type      = null;
+		$this->sql_Ocombined_conf   = null;
+		$this->sql_Olanguage        = null;
+		$this->sql_Owhen_here       = null;
+		$this->sql_Oinbound         = null;
 	}
 
 
 	// Destructor
 	public function __destruct() {
+
 		$this->de_id           = null;
 		$this->co_id           = null;
 		$this->content_descr   = null;
@@ -299,6 +366,7 @@ class personEdxl {
 		$this->contentDatas = null;
 		$this->image_ids    = null;
 		$this->image_co_ids = null;
+		$this->image_sha1   = null;
 
 		$this->sql_de_id           = null;
 		$this->sql_co_id           = null;
@@ -331,40 +399,48 @@ class personEdxl {
 		$this->sql_when_here       = null;
 		$this->sql_inbound         = null;
 
-		// make sure tables are safe :)
-		$q = "UNLOCK TABLES;";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl unlock tables ((".$q."))"); }
+		$this->sql_Ode_id           = null;
+		$this->sql_Oco_id           = null;
+		$this->sql_Ocontent_descr   = null;
+		$this->sql_Oincident_id     = null;
+		$this->sql_Oincident_descr  = null;
+		$this->sql_Oconfidentiality = null;
+		$this->sql_Op_uuid          = null;
+		$this->sql_Otype            = null;
+		$this->sql_Oschema_version  = null;
+		$this->sql_Ologin_machine   = null;
+		$this->sql_Ologin_account   = null;
+		$this->sql_Operson_id       = null;
+		$this->sql_Oevent_name      = null;
+		$this->sql_Oevent_long_name = null;
+		$this->sql_Oorg_name        = null;
+		$this->sql_Oorg_id          = null;
+		$this->sql_Olast_name       = null;
+		$this->sql_Ofirst_name      = null;
+		$this->sql_Ogender          = null;
+		$this->sql_Opeds            = null;
+		$this->sql_Otriage_category = null;
+		$this->sql_Owhen_sent       = null;
+		$this->sql_Osender_id       = null;
+		$this->sql_Odistr_id        = null;
+		$this->sql_Odistr_status    = null;
+		$this->sql_Odistr_type      = null;
+		$this->sql_Ocombined_conf   = null;
+		$this->sql_Olanguage        = null;
+		$this->sql_Owhen_here       = null;
+		$this->sql_Oinbound         = null;
 	}
 
-	// initializes some values for a new instance (instead of when we load a previous instance)
+	/** initializes some values for a new instance (instead of when we load a previous instance) */
 	public function init() {
-		/*
-		// lock tables to hold new indexes for this session
-		$q = "LOCK table edxl_de_header write;";
-		$result = $this->db->Execute($q);
-
-		$q = "LOCK table edxl_co_header write;";
-		$result = $this->db->Execute($q);
-
-		// get index values
-		$q = "SHOW TABLE STATUS LIKE 'edxl_de_header'";
-		$result = $this->db->Execute($q);
-		$this->de_id = $result->fields['Auto_increment'];
-
-		$q = "SHOW TABLE STATUS LIKE 'edxl_co_header'";
-		$result = $this->db->Execute($q);
-		$this->co_id = $result->fields['Auto_increment'];
-		*/
 
 		// update sequences
-
 		$this->co_id = shn_create_uuid("edxl_co_header");
 		$this->de_id = shn_create_uuid("edxl_de_header");
 	}
 
 
-	// load data from db
+	/** load data from db */
 	public function load() {
 
 		$q = "
@@ -504,6 +580,7 @@ class personEdxl {
 			$this->uris[]         = $result->fields['uri'];
 			$this->contentDatas[] = $result->fields['contentData'];
 			$this->image_ids[]    = $result->fields['image_id'];
+			$this->image_sha1[]   = $result->fields['sha1'];
 			$result->MoveNext();
 		}
 		return true;
@@ -512,6 +589,7 @@ class personEdxl {
 
 	// synchronize SQL value strings with public attributes
 	private function sync() {
+
 		global $global;
 
 		// sanity checks
@@ -565,6 +643,37 @@ class personEdxl {
 		$this->sql_language        = ($this->language        === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->language)."'";
 		$this->sql_when_here       = ($this->when_here       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->when_here)."'";
 		$this->sql_inbound         = ($this->inbound         === null) ? "NULL" : (int)$this->inbound;
+
+		$this->sql_Ode_id           = ($this->Ode_id           === null) ? "NULL" : (int)$this->Ode_id;
+		$this->sql_Oco_id           = ($this->Oco_id           === null) ? "NULL" : (int)$this->Oco_id;
+		$this->sql_Ocontent_descr   = ($this->Ocontent_descr   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ocontent_descr)."'";
+		$this->sql_Oincident_id     = ($this->Oincident_id     === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oincident_id)."'";
+		$this->sql_Oincident_descr  = ($this->Ocontent_descr   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ocontent_descr)."'";
+		$this->sql_Oconfidentiality = ($this->Oconfidentiality === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oconfidentiality)."'";
+		$this->sql_Op_uuid          = ($this->Op_uuid          === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Op_uuid)."'";
+		$this->sql_Otype            = ($this->Otype            === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Otype)."'";
+		$this->sql_Oschema_version  = ($this->Oschema_version  === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oschema_version)."'";
+		$this->sql_Ologin_machine   = ($this->Ologin_machine   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ologin_machine)."'";
+		$this->sql_Ologin_account   = ($this->Ologin_account   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ologin_account)."'";
+		$this->sql_Operson_id       = ($this->Operson_id       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Operson_id)."'";
+		$this->sql_Oevent_name      = ($this->Oevent_name      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oevent_name)."'";
+		$this->sql_Oevent_long_name = ($this->Oevent_long_name === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oevent_long_name)."'";
+		$this->sql_Oorg_name        = ($this->Oorg_name        === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oorg_name)."'";
+		$this->sql_Oorg_id          = ($this->Oorg_id          === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oorg_id)."'";
+		$this->sql_Olast_name       = ($this->Olast_name       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Olast_name)."'";
+		$this->sql_Ofirst_name      = ($this->Ofirst_name      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ofirst_name)."'";
+		$this->sql_Ogender          = ($this->Ogender          === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ogender)."'";
+		$this->sql_Opeds            = ($this->Opeds            === null) ? "NULL" : (int)$this->Opeds;
+		$this->sql_Otriage_category = ($this->Otriage_category === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Otriage_category)."'";
+		$this->sql_Owhen_sent       = ($this->Owhen_sent       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Owhen_sent)."'";
+		$this->sql_Osender_id       = ($this->Osender_id       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Osender_id)."'";
+		$this->sql_Odistr_id        = ($this->Odistr_id        === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Odistr_id)."'";
+		$this->sql_Odistr_status    = ($this->Odistr_status    === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Odistr_status)."'";
+		$this->sql_Odistr_type      = ($this->Odistr_type      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Odistr_type)."'";
+		$this->sql_Ocombined_conf   = ($this->Ocombined_conf   === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ocombined_conf)."'";
+		$this->sql_Olanguage        = ($this->Olanguage        === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Olanguage)."'";
+		$this->sql_Owhen_here       = ($this->Owhen_here       === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Owhen_here)."'";
+		$this->sql_Oinbound         = ($this->Oinbound         === null) ? "NULL" : (int)$this->Oinbound;
 	}
 
 
@@ -606,6 +715,7 @@ class personEdxl {
 
 	// save the image tag
 	public function insert() {
+
 		$this->sync();
 		$q = "
 			INSERT INTO edxl_de_header (
@@ -727,14 +837,16 @@ class personEdxl {
 					mimeType,
 					uri,
 					contentData,
-					image_id )
+					image_id,
+					sha1 )
 				VALUES (
 					'".mysql_real_escape_string($this->image_co_ids[$i])."',
 					".$this->sql_p_uuid.",
 					'".mysql_real_escape_string($this->mimeTypes[$i])."',
 					'".mysql_real_escape_string($this->uris[$i])."',
 					'".mysql_real_escape_string($this->contentDatas[$i])."',
-					'".mysql_real_escape_string($this->image_ids[$i])."' );
+					'".mysql_real_escape_string($this->image_ids[$i])."',
+					'".mysql_real_escape_string($this->image_sha1[$i])."' );
 			";
 			$result = $this->db->Execute($q);
 			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl co photos insert ((".$q."))"); }
@@ -742,14 +854,9 @@ class personEdxl {
 	}
 
 
-
-
-
-
-
-	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/** Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/// Update / Save Functions ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */
 
 
 	// save the person (subsequent save = update)
@@ -757,6 +864,28 @@ class personEdxl {
 /*
 		$this->sync();
 		$this->saveRevisions();
+
+		$q = "
+			UPDATE edxl_de_header (
+			SET
+				de_id         = ".$this->sql_de_id.",
+				when_sent     = ".$this->sql_when_sent.",
+				sender_id     = ".$this->sql_sender_id.",
+				distr_id      = ".$this->sql_distr_id.",
+				distr_status  = ".$this->sql_distr_status.",
+				distr_type    = ".$this->sql_distr_type.",
+				combined_conf = ".$this->sql_combined_conf.",
+				language      = ".$this->sql_language.",
+				when_here     = ".$this->sql_when_here.",
+				inbound       = ".$this->sql_inbound."
+			WHERE de_id = ".$this->sql_de_id.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personEdxl de header insert ((".$q."))"); }
+
+
+
+
 
 		$q = "
 			UPDATE image_tag
@@ -773,6 +902,7 @@ class personEdxl {
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "personImageTag update ((".$q."))"); }
 */
+
 	}
 
 

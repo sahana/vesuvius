@@ -1,15 +1,15 @@
 <?
 /**
  * @name         User Preferences
- * @version      1.0
+ * @version      13
  * @package      pref
- * @author       Janaka Wickramasinghe <janaka@opensource.lk>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2012.0213
  */
+
 
 global $global;
 require_once($global['approot']."/inc/lib_modules.inc");
@@ -21,15 +21,97 @@ require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 require_once("tracker.inc");
 
 
+function shn_pref_default() {
+
+	global $global;
+
+	echo "<ul>";
+
+	if($global['action'] == "session" || $global['action'] == "default") {
+		echo "<li>Session Information</li>";
+	} else {
+		echo "<li><b><a href=\"settings\">Session Information</a></b></li><br>";
+	}
+
+	if($global['action'] == "ch_passwd") {
+		echo "<li>Change My Password</li>";
+	} else {
+		echo "<li><b><a href=\"password\">Change My Password</a></b></li><br>";
+	}
+
+	echo "</ul><hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
+
+	$control = "";
+
+	if(isset($_GET['forgot'])) {
+		$control = "shn_pref_forgotPassword";
+
+	} elseif(isset($_GET['captcha'])) {
+		$control = "shn_image_pref_captcha";
+
+	} elseif(isset($_GET['passwdp'])) {
+		$control = "shn_pref_ch_passwd_p";
+
+	} elseif(isset($_GET['login'])) {
+		$control = "shn_pref_loginForm";
+	}
+
+	if($control == "") {
+		$control = "shn_pref_session";
+	}
+
+	$control();
+}
+
+
+
+/** This function displays the home page of the User Preferences */
+function shn_pref_session() {
+
+	global $global;
+
+	echo "<div id=\"home\">";
+	echo '
+		<div id="rezMain" class="mainArea" style="opacity: 1; width: 300px;">
+			<table class="emTable">
+				<tbody>
+				<tr>
+					<td style="padding-left: 8px; text-align: left; font-weight: bold;" colspan=2 class="mainRowOdd">Currently Logged in as...</td>
+				</tr>
+				<tr>
+					<td style="padding-left: 8px; text-align: right;" class="mainRowEven">Username</td>
+					<td style="padding-left: 8px; text-align: left; font-weight: bold;" class="mainRowEven">'.$_SESSION['user'].'</td>
+				</tr>
+				<tr>
+					<td style="padding-left: 8px; text-align: right;" class="mainRowOdd">Full Name</td>
+					<td style="padding-left: 8px; text-align: left; font-weight: bold;" class="mainRowOdd">'.$_SESSION['full_name'].'</td>
+				</tr>
+				<tr>
+					<td style="padding-left: 8px; text-align: right;" class="mainRowEven">User Group</td>
+					<td style="padding-left: 8px; text-align: left; font-weight: bold;" class="mainRowEven">'.$_SESSION['group_name'].'</td>
+				</tr>
+				<tr>
+					<td style="padding-left: 8px; text-align: right;" class="mainRowOdd">Locale</td>
+					<td style="padding-left: 8px; text-align: left; font-weight: bold;" class="mainRowOdd">'.$_SESSION['locale'].'</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	';
+	echo "</div>";
+}
+
+
 
 function shn_pref_loginForm() {
+
 	global $conf;
 	global $global;
 
 	if ($_SESSION['logged_in'] != true ) {
 		echo '
 			<div class="form-container" style="padding: auto;">
-				<form method="post" action="index.php?doLogin=1" id="form0" name="form0">
+				<form method="post" action="auth" id="form0" name="form0">
 				<fieldset id="noIdDefined" style="width: 500px;">
 				<legend>Login</legend>
 				<label for="user_name">Username </label><input type="text" name="user_name" id="user_name" tabindex="1" autocomplete="off"><br>
@@ -42,14 +124,10 @@ function shn_pref_loginForm() {
 				</div>
 				</fieldset>
 				<br><br><br>
+				<input type="hidden" name="return" value="'.$_SERVER['REQUEST_URI'].'">
 				</form>
 			</div>
 		';
-
-		$acl = shn_acl_is_signup_enabled();
-		if($acl == true) {
-
-
 		echo '
 			<div style="width: 500px; text-align: center;">
 				<input id="followButton" class="styleTehButton" type="button" value="Register as a new user" onclick="register();">
@@ -65,9 +143,6 @@ function shn_pref_loginForm() {
 				}
 			</script>
 		';
-
-		}
-
 /*
 				<div id=\"switchOpenId\">
 					<a href=\"#\" onclick=\"switchLogin('loginform','openid_loginform');\">Login with an OpenID></a>
@@ -88,7 +163,6 @@ function shn_pref_loginForm() {
 				switchLogin('openid_loginform','loginform');
 			</script>
 */
-
 		// force focus to login box...
 		echo "
 			<script>
@@ -97,7 +171,6 @@ function shn_pref_loginForm() {
 				};
 			</script>
 		";
-
 
 	} else {
 		echo "
@@ -113,12 +186,9 @@ function shn_pref_loginForm() {
 
 
 
-/**
- * Forgot Password Controller
- * @return void
- * @access public
- */
+/** Forgot Password Controller */
 function shn_pref_forgotPassword() {
+
 	global $global;
 
 	// step 0 ~ email + captcha form
@@ -159,7 +229,7 @@ function shn_pref_forgotPassword() {
 				// needed for users table to work from here on out......
 				// ALTER TABLE  `users` ADD  `confirmation` VARCHAR( 255 ) NULL DEFAULT NULL
 
-				$url = makeBaseUrl() ."index.php?mod=pref&act=forgotPassword&zz=2&c=".base64_encode($confirmation)."&u=".base64_encode($user_id);
+				$url = makeBaseUrl() ."pref?forgot&zz=2&c=".base64_encode($confirmation)."&u=".base64_encode($user_id);
 
 				$q = "
 					UPDATE  `users`
@@ -288,7 +358,7 @@ function shn_pref_forgotPassword() {
 			// send out the new password in an email
 			$p = new pop();
 			$subject  = "Your login details...";
-			$url = makeBaseUrl()."index.php";
+			$url = makeBaseUrl()."password";
 
 			$bodyHTML = "
 				Dear ".$user_name.",<br>
@@ -298,9 +368,8 @@ function shn_pref_forgotPassword() {
 				Username: <b>".$user_name."</b><br>
 				Password: <b>".$new_pass."</b><br>
 				<br>
-				To change your password, please visit our site: <br>
+				To change your password please visit our site, login, and you will be offered the choice to create a new password: <br>
 				<a href=\"".$url."\">".$url."</a><br>
-				then login, and navigate to My Settings where you will see a link to change your password.<br>
 				<br>
 				All the best,<br>
 				Admins<br>
@@ -314,9 +383,8 @@ function shn_pref_forgotPassword() {
 				Username: ".$user_name."\n
 				Password: ".$new_pass."\n
 				\n
-				To change your password, please visit our site: \n
+				To change your password please visit our site, login, and you will be offered the choice to create a new password: \n
 				".$url."\n
-				then login, and navigate to My Settings where you will see a link to change your password.\n
 				\n
 				All the best,\n
 				Admins\n
@@ -360,13 +428,11 @@ function shn_pref_forgotPassword() {
 
 
 
-/**
- * Generates a form to rest a forgotten password
- * @return void
- * @access public
- */
+/** Generates a form to rest a forgotten password */
 function shn_pref_emailCaptchaForm() {
+
 	global $global;
+
 	echo "
 		<h2>Forgot My Password</h2>
 		<div id=\"formcontainer\">
@@ -380,7 +446,7 @@ function shn_pref_emailCaptchaForm() {
 			shn_form_text("Email Address ", 'email', 'size="30"', $extra_opts);
 		shn_form_fsclose();
 		shn_form_fsopen("Verify that you are human");
-			echo "<br><img src=\"index.php?stream=image&mod=pref&act=captcha\" /><br>";
+			echo "<br><img src=\"pref?stream=image&captcha\" /><br>";
 			if(isset($_POST['captcha'])) {
 				unset($_POST['captcha']);
 			}
@@ -394,13 +460,11 @@ function shn_pref_emailCaptchaForm() {
 
 
 
-/**
- * Generates a form to add an user
- * @return void
- * @access public
- */
+/** Generates a form to add an user */
 function shn_pref_signup($title="Create Your Account", $mod="pref", $act="signup_cr", $error=false) {
+
 	global $global;
+
 	if($error) {
 		display_errors();
 	}
@@ -440,7 +504,7 @@ function shn_pref_signup($title="Create Your Account", $mod="pref", $act="signup
 	shn_form_fsclose();
 
 	shn_form_fsopen("Verify that you are human");
-	echo "<br><img src=\"index.php?stream=image&mod=pref&act=captcha\" /><br>";
+	echo "<br><img src=\"pref?stream=image&captcha\" /><br>";
 	if(isset($_POST['captcha'])) {
 		unset($_POST['captcha']);
 	}
@@ -455,6 +519,7 @@ function shn_pref_signup($title="Create Your Account", $mod="pref", $act="signup
 
 
 function shn_pref_signup_cr() {
+
 	if(shn_auth_self_signup_cr() == true){
 		shn_pref_signup();
 		if(!isset($_POST["captcha"]) || ($_SESSION['security_captcha_key'] != md5($_POST["captcha"]))) {
@@ -481,179 +546,222 @@ function shn_pref_signup_cr() {
 
 
 
-function shn_image_pref_captcha() {
-	shn_auth_gen_captcha();
-}
+function shn_image_pref_captcha() { shn_auth_gen_captcha(); }
 
 
 
-/*
- * include all xxx_main.inc
- */
-$d = dir($global['approot'].'mod/pref/');
-while (false !== ($f = $d->read())) {
-	if (preg_match('/.*_main.inc$/',$f)){
-		if (file_exists($global['approot'].'mod/pref/'.$f)){
-			include ($global['approot'].'mod/pref/'.$f);
+/** Generates a form to change the password */
+function shn_pref_ch_passwd() {
+
+	global $global;
+
+	echo "
+		<h2>Change My Password</h2>
+		<br>
+	";
+	if($error) {
+		display_errors();
+	}
+	?><div id="formcontainer"><?php
+	$act    = "ch_passwd_cr";
+	$mod    = "pref";
+	$policy = shn_get_password_policy();
+
+	if(count($policy) > 0){
+		?><h4><?php echo _t("You new password must adhere to following rules:") ?></h4><?php
+		for($i=0; $i < count($policy); $i++) {
+			echo ($i+1).". ".$policy[$i]."<br/>";
 		}
 	}
-}
-
-
-
-function shn_pref_header2() {
-	global $global;
-	echo "<ul>";
-
-	if($global['action'] == "session" || $global['action'] == "default") {
-		echo "<li>Session Information</li>";
-	} else {
-		echo "<li><b><a href=\"index.php?mod=pref&act=session\">Session Information</a></b></li><br>";
-	}
-
-	if($global['action'] == "ch_passwd") {
-		echo "<li>Change My Password</li>";
-	} else {
-		echo "<li><b><a href=\"index.php?mod=pref&act=ch_passwd\">Change My Password</a></b></li><br>";
-	}
-
-	echo "</ul><hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
-}
-
-
-
-/**
- *
- * This function displays the home page of the User Preferences
- *
- * @access public
- * @return void
- */
-function shn_pref_default() {
-	global $global;
-	shn_pref_header2();
-	echo "<div id=\"home\">";
-	echo '
-		<div id="rezMain" class="mainArea" style="opacity: 1; width: 300px;">
-			<table class="emTable">
-				<tbody>
-				<tr>
-					<td style="padding-left: 8px; text-align: left; font-weight: bold;" colspan=2 class="mainRowOdd">Currently Logged in as...</td>
-				</tr>
-				<tr>
-					<td style="padding-left: 8px; text-align: right;" class="mainRowEven">Username</td>
-					<td style="padding-left: 8px; text-align: left; font-weight: bold;" class="mainRowEven">'.$_SESSION['user'].'</td>
-				</tr>
-				<tr>
-					<td style="padding-left: 8px; text-align: right;" class="mainRowOdd">Full Name</td>
-					<td style="padding-left: 8px; text-align: left; font-weight: bold;" class="mainRowOdd">'.$_SESSION['full_name'].'</td>
-				</tr>
-				<tr>
-					<td style="padding-left: 8px; text-align: right;" class="mainRowEven">User Group</td>
-					<td style="padding-left: 8px; text-align: left; font-weight: bold;" class="mainRowEven">'.$_SESSION['group_name'].'</td>
-				</tr>
-				<tr>
-					<td style="padding-left: 8px; text-align: right;" class="mainRowOdd">Locale</td>
-					<td style="padding-left: 8px; text-align: left; font-weight: bold;" class="mainRowOdd">'.$_SESSION['locale'].'</td>
-				</tr>
-				</tbody>
-			</table>
-		</div>
-	';
-	echo "</div>";
-	//echo "<pre>".var_export($_SESSION, true)."</pre>";
-}
-
-
-
-/**
- * Generates a form to enable/disable XForm
- * @access public
- * @return void
- */
-
-function shn_pref_enable_ocr_xform() {
-	include_once('xform_config.inc');
-	echo "<h2>"._t("Enable/Disable OCR XForm")."</h2>";
-	shn_form_fopen("enable_xform","pref",array("req"=>false));
-		shn_form_fsopen(_t("Enable or disable the OCR friendly form generation."));
-			$_value = _shn_xform_conf_value();
-			$val_xform = ($_value==true?'enabled':'disabled');
-			shn_form_radio(array("enabled"=>_t("Enabled"),"disabled"=>_t("Disabled")),_t("OCR friendly XForm : "),"ocr_xform_status","",array('value'=>$val_xform));
-		shn_form_fsclose();
-		shn_form_submit(_("Cancel"),"name='disable'");
-		shn_form_submit(_("Save"));
+	?><br><?php
+	shn_form_fopen2("pref?passwdp", null, null, null, "width: 600px;");
+	shn_form_fsopen(_t("Fill in these required fields to change your password"));
+	$extra_opts['req']=true;
+	shn_form_password("Old Password", "old_password", null, $extra_opts);
+	shn_form_password("New Password", "password", null, $extra_opts);
+	shn_form_password("Confirm New Password", "re_password", null, $extra_opts);
+	$user_id=$_SESSION["user_id"];
+	shn_form_hidden(array('user'=>$user_id));
+	shn_form_fsclose();
+	echo "<br>";
+ 	shn_form_submit(_t("Change Password"), "class=\"styleTehButton\"");
+	echo "<br>";
 	shn_form_fclose();
+	echo "</div>";
 }
 
 
 
-function shn_pref_enable_xform() {
-	include('xform_config.inc');
-	if(!$_POST['disable']){
-		$val_xform = $_POST['ocr_xform_status'];
-		if($val_xform =='enabled'){
-			$ret_xform = _shn_xform_set_config_value('false');
-			if($ret_xform == true){
-				add_confirmation(_t("Your preference was successfully saved."));
-			}
-			else{
-				add_error(_t("An error occured while saving your preference."));
-			}
+
+
+
+
+
+function shn_pref_ch_passwd_p() {
+
+	global $global;
+
+	$error = false;
+	$user = $_POST["user"];
+	if($user != $_SESSION["user_id"]){
+		add_error("Session Hijacked");
+		return false;
+	}
+
+	$db = $global['db'];
+
+	if (shn_validate_password($_SESSION['user'], $_POST["password"]) == false) {
+		shn_pref_ch_passwd();
+		return false;
+	}
+
+	if((null == $_POST["old_password"]) or (is_null($_POST["old_password"]))) {
+		$error=true;
+		add_error(_t("Old password cannot be empty!"));
+		shn_acl_log_msg("Password Change error: Old password cannot be empty");
+	} else {
+		$old_password=trim($_POST{"old_password"});
+	}
+
+	if((null == $_POST["password"]) or (is_null($_POST["password"]))) {
+		$error = true;
+		add_error(_t("New password cannot be empty!"));
+		shn_acl_log_msg("Password Change error: User password cannot be empty");
+	} else {
+		$new_password=trim($_POST{"password"});
+	}
+
+	if((null==$_POST["re_password"])or(is_null($_POST["re_password"]))) {
+		$error=true;
+		add_error(_t("You left the confirm password field blank."));
+		shn_acl_log_msg("Password Change error: User Confirm password cannot be empty");
+	} else {
+		$re_password=trim($_POST{"re_password"});
+	}
+
+	if(!($new_password==$re_password)) {
+		$error=true;
+		add_error(_t("Your new password did not match when you retyped it."));
+		shn_acl_log_msg("Password Change error: User password and confirm password should match");
+	}
+
+	if($error){
+		return false;
+	}
+
+	date_default_timezone_set('America/New_York');
+
+	$curr = time();
+	$curr_date= date("Ymd",$curr);
+
+	//echo gmdate();
+
+	$sql="select password,changed_timestamp from users where user_name='{$_SESSION['user']}'";
+	$res=$db->Execute($sql);
+	$tmp=$res->fields["changed_timestamp"];
+	$old_pwd=$res->fields["password"];
+	$date= date("Ymd",$tmp);
+	global $conf;
+
+    	if(!isset($conf['pwd_no_change_limit']) && ($conf['pwd_no_change_limit'] == true) && ($date == $curr_date)){
+		global $conf;
+		echo "<pre>ok".print_r($conf, true)."</pre>";
+    		add_error(_t("You cannot change the password more than once in one day"));
+    		shn_acl_log_msg("Password Change error: tried to change the password more than once in one day");
+    		shn_auth_form_ch_pwd();
+    		return false;
+    	}else{
+		$pwd=md5(trim($_POST["password"]));
+		$sql="select count(p_uuid) as count from old_passwords where p_uuid='{$user}'";
+		$res=$db->Execute($sql);
+		$count=$res->fields["count"];
+
+		if(($res==null) or ($res->EOF) or ($count==0)){
+			$insert=true;
+		}else{
+
+		// password the same as one of the last 4?
+		if($count < 4){
+			$insert=true;
+		}else{
+			$insert=false;
 		}
-		else{
-			$ret_xform = _shn_xform_set_config_value('true');
-			if($ret_xform == false){
-				add_confirmation(_t("Your preference was successfully saved."));
-			}
-			else{
-				add_error(_t("An error occured while saving your preference."));
-			}
+
+		$sql="select password from old_passwords where p_uuid='{$user}' and password='{$pwd}' order by changed_timestamp";
+		$res=$db->Execute($sql);
+
+		if(($res==null) or ($res->EOF)){
+			$sql="select password from old_passwords where p_uuid='{$user}' order by changed_timestamp DESC ";
+			$res=$db->Execute($sql);
+			$tmp=$res->fields["password"];
+			$sql="update old_passwords set password='{$old_pwd}', changed_timestamp=$curr where p_uuid='{$user}' and password='{$tmp}'";
+			$res=$db->Execute($sql);
+		}else{
+			add_error(_t("You cannot choose one of the recent four passwords"));
+			shn_acl_log_msg("Password Change error: tried to choose one of the recent four passwords");
+			shn_auth_form_ch_pwd();
+			return false;
 		}
-		shn_pref_enable_ocr_xform();
+		}
+		if($insert==true) {
+			$sql="INSERT INTO old_passwords (p_uuid,password,changed_timestamp) SELECT users.p_uuid,users.password,$curr FROM users WHERE users.p_uuid='{$user}'";
+			$res=$db->Execute($sql);
+		}
 	}
-	else {
-		shn_pref_enable_ocr_xform();
+	if(shn_change_password($user, $old_password, $new_password) == false) {
+		shn_auth_form_ch_pwd();
+	} else {
+		$msg = _t(" Succesfully changed Password");
+		add_confirmation($msg);
 	}
+	shn_pref_session();
 }
 
 
 
 
-/**
- * This function cleans the POST values
- * @todo Put this somewhere else, i.e. form handling
- * @param mixed $local_post
- * @access public
- * @return void
- */
-function shn_tools_clean_post(&$local_post) {
-	//trim them all
-	foreach($_POST as $k => $v){
-		$v = trim($v);
-		if($v != '')
-		$local_post[$k] = $v;
+
+
+
+function _shn_admin_ch_pwd_cr() {
+
+	global $global;
+
+	$db = $global["db"];
+	$VARCHAR = 100;
+
+	if((null == $_POST["old_password"])  || (is_null($_POST["old_password"]))) {
+		$error = true;
+		add_error(_t("Old password cannot be empty"));
+	} else {
+		$old_password = trim($_POST{"old_password"});
 	}
+	if((null == $_POST["password"]) || (is_null($_POST["password"]))) {
+		$error = true;
+		add_error(_t("New password cannot be empty"));
+	} else {
+		$password = trim($_POST{"password"});
+	}
+	if((null == $_POST["re_password"]) || (is_null($_POST["re_password"]))) {
+		$error = true;
+		add_error(_t("Confirm password cannot be empty"));
+	} else {
+		$re_password = trim($_POST{"re_password"});
+	}
+	if(!($password == $re_password)){
+		$error = true;
+		add_error(_t("Password and Confirm Password should match"));
+	}
+	if($error == true) {
+		return $error;
+	}
+	$user_id = trim($_POST{"user"});
+	$error = shn_change_password($user_id,$old_password,$password);
+	if($error == true){
+		return $error;
+	}
+	shn_admin_ch_pwd($error);
 }
 
-
-
-// debug info
-function globalvars(){
-    $result=array();
-    $skip=array('GLOBALS','_ENV','HTTP_ENV_VARS',
-                        '_POST','HTTP_POST_VARS','_GET',
-                        'HTTP_GET_VARS',
-                        '_COOKIE',
-                        'HTTP_COOKIE_VARS','_SERVER',
-                        'HTTP_SERVER_VARS',
-                        '_FILES','HTTP_POST_FILES',
-                        '_REQUEST','HTTP_SESSION_VARS',
-                        '_SESSION');
-    foreach($GLOBALS as $k=>$v)
-        if(!in_array($k,$skip))
-            $result[$k]=$v;
-    return $result;
-}
 
 

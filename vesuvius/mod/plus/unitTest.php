@@ -43,18 +43,16 @@ if(!isset($_GET['api'])) {
 } else {
 	$api = "&api=".$_GET['api'];
 
-/*
 	$sites = array(
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
-*/
-
+/*
 	$sites = array(
 		"PL"      => "https://pl.nlm.nih.gov/?wsdl".$api,
 		"PLstage" => "https://plstage.nlm.nih.gov/?wsdl".$api,
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
-
+*/
 	init2();
 
 	// perform tests...
@@ -104,7 +102,7 @@ if(!isset($_GET['api'])) {
 			getHospitalPolicy("1");
 			version();
 	}
-	echo "</table><h2>Note: deprecated functions are not listed/tested.</h2></body>";
+	echo "</table><b>Note: deprecated functions are not listed/tested.</b></body>";
 }
 
 

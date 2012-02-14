@@ -23,13 +23,23 @@ function shn_plus_registerAll($namespace) {
 	// GENERAL API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 	// GENERAL API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
+	shn_plus_registerOne($server, 'ping',
+		array(
+			'in' => array(),
+			'out' => array(
+				'time'   => 'xsd:string'
+			)
+		),
+		$namespace,
+		"Used to test if the server is active/up."
+	);
+
 	shn_plus_registerOne($server, 'version',
 		array(
 			'in' => array(),
 			'out' => array(
 				'versionMajor'    => 'xsd:integer',
 				'versionMinor'    => 'xsd:integer',
-				'versionRevision' => 'xsd:integer',
 				'versionString'   => 'xsd:string'
 			)
 		),

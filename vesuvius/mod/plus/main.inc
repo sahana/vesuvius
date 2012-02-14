@@ -1,73 +1,71 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.3
+ * @version      24
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0130
+ * @lastModified 2012.0214
  */
 
 
+
+global $tabid;
+$tabid = "&tabid=".$_GET['tabid'];
+
+
+
 function shn_plus_default() {
-	shn_plus_reportlog();
+
+	global $global;
+
+	$control = "";
+
+	shn_tabmenu_open();
+	shn_tabmenu_item("plus",     _t("PLUS+"),              "plus");
+	shn_tabmenu_item("reported", _t("People Reported"),    "plus");
+	shn_tabmenu_item("raw",      _t("Raw Access Log"),     "plus");
+	shn_tabmenu_item("stat",     _t("Access Statistics"),  "plus");
+	shn_tabmenu_close();
+
+	if(isset($_GET['plus'])) {
+		$control = "shn_plus_plus";
+
+	} elseif(isset($_GET['raw'])) {
+		$control = "shn_plus_raw";
+
+	} elseif(isset($_GET['stat'])) {
+		$control = "shn_plus_stat";
+
+	} elseif(isset($_GET['reported'])) {
+		$control = "shn_plus_reported";
+	}
+
+	if($control == "") {
+		$control = "shn_plus_plus";
+	}
+
+	$control();
+}
+
+
+function shn_plus_plus() {
+	echo '
+		<br>
+		<br>
+		<li><a href="http://goo.gl/z5VnJ" target="_blank">PLUS API Specification</a></li>
+		<li><a href="https://groups.google.com/forum/#!forum/plus-web-services" target="_blank">PLUS Mailing List</a></li>
+	';
 }
 
 
 
-function shn_plus_header2() {
+function shn_plus_reported() {
 
 	global $global;
-
-	echo "<ul>";
-
-	if($global['action'] == "reportlog" || $global['action'] == "default") {
-		echo "<li>"._t('People Reported')."</li>";
-		//echo "<li>"._t('PLUS_MENU|People Reported')."</li>";
-	} else {
-		echo "<li><a href=\"index.php?mod=plus&act=reportlog\">"._t('People Reported')."</a></li>";
-	}
-
-	if($global['action'] == "rawLog") {
-		echo "<li>Raw Access Log</li>";
-	} else {
-		echo "<li><a href=\"index.php?mod=plus&act=rawLog\">Raw Access Log</a></li>";
-	}
-
-	if($global['action'] == "stat") {
-		echo "<li>Access Statistics</li>";
-	} else {
-		echo "<li><a href=\"index.php?mod=plus&act=stat\">Access Statistics</a></li>";
-	}
-
-	if($global['action'] == "stat30") {
-		echo "<li>Access Statistics Last 30 Days</li>";
-	} else {
-		echo "<li><a href=\"index.php?mod=plus&act=stat30\">Access Statistics Last 30 Days</a></li>";
-	}
-
-	if($global['action'] == "stat30ext") {
-		echo "<li>Access Statistics Last 30 Days Excluding Internal IPs</li>";
-	} else {
-		echo "<li><a href=\"index.php?mod=plus&act=stat30ext\">Access Statistics Last 30 Days Excluding Internal IPs</a></li>";
-	}
-
-	if($global['action'] == "settings") {
-		echo "<li>Client Settings</li>";
-	} else {
-		echo "<li><a href=\"index.php?mod=plus&act=settings\">Client Settings</a></li>";
-	}
-
-	echo "</ul><hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
-}
-
-
-
-function shn_plus_reportlog() {
-	global $global;
-	shn_plus_header2();
+	global $tabid;
 
 	echo "<div id=\"home\">";
 
@@ -84,7 +82,7 @@ function shn_plus_reportlog() {
 	}
 
 	if(isset($_GET['pagenum']) && (int)$_GET['pagenum'] > 0) {
-		$previous = "<a href=\"index.php?mod=plus&act=reportlog&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
+		$previous = '<a href="plus?reported&pagenum='.((int)$_GET['pagenum']-1).$tabid.'">◄</a>';
 	} else {
 		$previous = "◄";
 		$_GET['pagenum'] = 0;
@@ -99,7 +97,7 @@ function shn_plus_reportlog() {
 	$totalCount = $row['count(*)'];
 
 	if($endPoint < $totalCount) {
-		$next = "<a href=\"index.php?mod=plus&act=reportlog&pagenum=".($_GET['pagenum']+1)."\">►</a>";
+		$next = '<a href="plus?reported&pagenum='.($_GET['pagenum']+1).$tabid.'">►</a>';
 	} else {
 		$next = "►";
 		$msg = "showing people ".($startPoint+1)." to ".$totalCount;
@@ -130,10 +128,8 @@ function shn_plus_reportlog() {
 		} else {
 			$odd = "class=\"evener\"";
 		}
-		$uu = explode("/", $row['p_uuid']);
-		$url = $uu[1];
 		echo "  <tr>
-				<td ".$odd."><a href=\"edit?puuid=".urlencode($row['p_uuid'])."\" target=\"_blank\">".$row['p_uuid']."</a></td>
+				<td ".$odd."><a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\">".$row['p_uuid']."</a></td>
 				<td ".$odd.">".$row['report_time']."</td>
 				<td ".$odd.">".$row['enum']."</td>
 			</tr>";
@@ -150,9 +146,10 @@ function shn_plus_reportlog() {
 
 
 
-function shn_plus_rawLog() {
+function shn_plus_raw() {
+
 	global $global;
-	shn_plus_header2();
+	global $tabid;
 
 	echo "<div id=\"home\">";
 
@@ -169,7 +166,7 @@ function shn_plus_rawLog() {
 	}
 
 	if(isset($_GET['pagenum']) && (int)$_GET['pagenum'] > 0) {
-		$previous = "<a href=\"index.php?mod=plus&act=rawLog&pagenum=".((int)$_GET['pagenum']-1)."\">◄</a>";
+		$previous = '<a href="plus?raw&pagenum='.((int)$_GET['pagenum']-1).$tabid.'">◄</a>';
 	} else {
 		$previous = "◄";
 		$_GET['pagenum'] = 0;
@@ -184,7 +181,7 @@ function shn_plus_rawLog() {
 	$totalCount = $row['count(*)'];
 
 	if($endPoint < $totalCount) {
-		$next = "<a href=\"index.php?mod=plus&act=rawLog&pagenum=".($_GET['pagenum']+1)."\">►</a>";
+		$next = '<a href="plus?raw&pagenum='.($_GET['pagenum']+1).$tabid.'">►</a>';
 	} else {
 		$next = "►";
 		$msg = "showing hits ".($startPoint+1)." to ".$totalCount;
@@ -235,62 +232,40 @@ function shn_plus_rawLog() {
 }
 
 
-function shn_plus_settings() {
-	global $global;
-	require_once($global['approot'].'/inc/lib_xajax.inc');
-	shn_plus_header2();
-
-	$posted = 0;
-	// if its a post ~ save configuration after we validate
-	if(isset($_POST['timeout'])) {
-		$posted = 1;
-		$errorCount = 0;
-		$t = (int)$_POST['timeout'];
-		if(($t < 600) || ($t > 315360000)) {
-			$errorCount++;
-			add_error("Please use a positive integer value for the timeout in seconds (between 600 and 315,360,000 ~10 minutes to 10 years).");
-		}
-		if($errorCount == 0 ) {
-			add_confirmation('Settings Saved!');
-			shn_db_config_update("plus","timeout",  $_POST['timeout']);
-		} else {
-			add_warning('Errors were encountered, settings were not saved.');
-		}
-	}
-	$timeout = "";
-	if ( $posted ) {
-		$timeout = $_POST['timeout'];
-	} else {
-		$timeout = shn_db_get_config("plus","timeout");
-	}
-
-	// newly visited... option not yet set, so set and save
-	if($timeout == "") {
-		$timeout = 864000; // 100 days default
-		shn_db_config_update("plus","timeout",  $timeout);
-	}
-
-	shn_form_fopen("settings", null,array('req_message'=>true));
-		shn_form_fsopen("Client Settings");
-		?>
-		<table id="popSettings">
-		<tr>
-			<td class="odder">Client Session Timeout (currently used in ReUnite) [in seconds]</td>
-			<td class="odder"><input type="text" name="timeout" id="timeout" value="<?php echo $timeout; ?>" tabindex="1"  /><span class='req'>*</span></td>
-		</tr>
-		</table>
-		<br><br>
-		<?php
-		shn_form_submit("Save Settings", $submit_opts = "class=\"styleTehButton\"");
-		shn_form_fsclose();
-	shn_form_fclose();
-}
-
-
 
 function shn_plus_stat() {
+
 	global $global;
-	shn_plus_header2();
+	global $tabid;
+
+	$where = "";
+	if(isset($_GET['last'])) {
+		$where = "WHERE access_time > DATE_SUB(NOW(), INTERVAL ".(int)$_GET['last']." day) ";
+		$last = "&last=".(int)$_GET['last'];
+	} else {
+		$where = "WHERE access_time > DATE_SUB(NOW(), INTERVAL 9999 day) ";
+		$last = "&last=9999";
+		$_GET['last'] = 9999;
+	}
+
+	$notLike = "";
+	$ext = "";
+	if(isset($_GET['ext'])) {
+		if($where == "") {
+			$notLike = "
+				WHERE ip NOT LIKE '130.14.109%'
+				AND ip NOT LIKE '130.14.108%'
+				AND ip NOT LIKE '130.14.119%'
+			";
+		} else {
+			$notLike = "
+				AND ip NOT LIKE '130.14.109%'
+				AND ip NOT LIKE '130.14.108%'
+				AND ip NOT LIKE '130.14.119%'
+			";
+		}
+		$ext = "&ext";
+	}
 
 	echo "<div id=\"home\">";
 
@@ -299,13 +274,63 @@ function shn_plus_stat() {
 	$q  = "
 		SELECT `ip`, count(*)
 		FROM `plus_access_log`
+		".$where."
+		".$notLike."
 		group by `ip`
 		order by count(*) desc;
 	";
 	$result = $global['db']->Execute($q);
 	$count = 0;
 
+	echo "<br><br>";
+
+	if($ext != "") {
+		echo 'SOURCE: <span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$last.$tabid.'\'">ALL</span> <span class="styleTehButton" style="opacity: 0.5">Excluding Internal Sources</span>';
+	} else {
+		echo 'SOURCE: <span class="styleTehButton" style="opacity: 0.5">ALL</span> <span class="styleTehButton" onclick="window.location.href=\'plus?stat&ext'.$last.$tabid.'\'">Excluding Internal Sources</span>';
+	}
+
+	echo " &nbsp; &nbsp; DURING LAST: ";
+
+	if((int)$_GET['last'] == 30) {
+		echo '<span class="styleTehButton" style="opacity: 0.5">30</span> ';
+	} else {
+		echo '<span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$ext.'&last=30'.$tabid.'\'">30</span> ';
+	}
+	if((int)$_GET['last'] == 60) {
+		echo '<span class="styleTehButton" style="opacity: 0.5">60</span> ';
+	} else {
+		echo '<span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$ext.'&last=60'.$tabid.'\'">60</span> ';
+	}
+	if((int)$_GET['last'] == 90) {
+		echo '<span class="styleTehButton" style="opacity: 0.5">90</span> ';
+	} else {
+		echo '<span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$ext.'&last=90'.$tabid.'\'">90</span> ';
+	}
+	if((int)$_GET['last'] == 120) {
+		echo '<span class="styleTehButton" style="opacity: 0.5">120</span> ';
+	} else {
+		echo '<span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$ext.'&last=120'.$tabid.'\'">120</span> ';
+	}
+	if((int)$_GET['last'] == 180) {
+		echo '<span class="styleTehButton" style="opacity: 0.5">180</span> ';
+	} else {
+		echo '<span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$ext.'&last=180'.$tabid.'\'">180</span> ';
+	}
+	if((int)$_GET['last'] == 365) {
+		echo '<span class="styleTehButton" style="opacity: 0.5">365</span> ';
+	} else {
+		echo '<span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$ext.'&last=365'.$tabid.'\'">365</span> ';
+	}
+	if((int)$_GET['last'] == 9999) {
+		echo '<span class="styleTehButton" style="opacity: 0.5">9999</span> ';
+	} else {
+		echo '<span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$ext.'&last=9999'.$tabid.'\'">9999</span> ';
+	}
+
 	echo "
+		DAYS<br>
+		<br><br>
 		<div class=\"form-container\" style=\"width: 230px; float: left; margin-right: 5px;\">
 			<form>
 				<fieldset>
@@ -343,411 +368,7 @@ function shn_plus_stat() {
 	$q  = "
 		SELECT `call`, count(*)
 		FROM `plus_access_log`
-		group by `call`
-		order by count(*) desc;
-	";
-	$result = $global['db']->Execute($q);
-	$count = 0;
-
-	echo "
-		<div class=\"form-container\" style=\"width: 270px; float: left;  margin-right: 5px;\">
-			<form>
-				<fieldset>
-					<legend>Hits by API Function</legend>
-					<table id=\"regLog\">
-						<tr>
-							<td class=\"evener\"><b>Function</b></td>
-							<td class=\"evener\"><b>Hits</b></td>
-						</tr>
-	";
-	while($row = $result->FetchRow()) {
-		if(($count%2)==0) {
-			$odd = "class=\"odder\"";
-		} else {
-			$odd = "class=\"evener\"";
-		}
-		echo "  <tr>
-				<td ".$odd.">".$row['call']."</td>
-				<td ".$odd.">".$row['count(*)']."</td>
-			</tr>";
-		$count++;
-	}
-	if($count==0) {
-		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
-	}
-	echo "
-					</table>
-				</fieldset>
-			</form>
-		</div>
-	";
-
-
-
-	// by api version /////////////////////////////////////////////////////////////////////////////////
-
-	$q  = "
-		SELECT `api_version`, count(*)
-		FROM `plus_access_log`
-		group by `api_version`
-		order by count(*) desc;
-	";
-	$result = $global['db']->Execute($q);
-	$count = 0;
-
-	echo "
-		<div class=\"form-container\" style=\"width: 230px; float: left; margin-right: 5px;\">
-			<form>
-				<fieldset>
-					<legend>Hits by API Version</legend>
-					<table id=\"regLog\">
-						<tr>
-							<td class=\"evener\"><b>Version</b></td>
-							<td class=\"evener\"><b>Hits</b></td>
-						</tr>
-	";
-	while($row = $result->FetchRow()) {
-		if(($count%2)==0) {
-			$odd = "class=\"odder\"";
-		} else {
-			$odd = "class=\"evener\"";
-		}
-		echo "  <tr>
-				<td ".$odd.">".$row['api_version']."</td>
-				<td ".$odd.">".$row['count(*)']."</td>
-			</tr>";
-		$count++;
-	}
-	if($count==0) {
-		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
-	}
-	echo "
-					</table>
-				</fieldset>
-			</form>
-		</div>
-	";
-
-
-	// by application /////////////////////////////////////////////////////////////////////////////////
-
-	$q  = "
-		SELECT `application`, count(*)
-		FROM `plus_access_log`
-		group by `application`
-		order by count(*) desc;
-	";
-	$result = $global['db']->Execute($q);
-	$count = 0;
-
-	echo "
-		<div class=\"form-container\" style=\"width: 230px; float: left; margin-right: 5px;\">
-			<form>
-				<fieldset>
-					<legend>Hits by Application</legend>
-					<table id=\"regLog\">
-						<tr>
-							<td class=\"evener\"><b>Application</b></td>
-							<td class=\"evener\"><b>Hits</b></td>
-						</tr>
-	";
-	while($row = $result->FetchRow()) {
-		if(($count%2)==0) {
-			$odd = "class=\"odder\"";
-		} else {
-			$odd = "class=\"evener\"";
-		}
-		if(trim($row['application']) == "") {
-			$app = "TriagePic and others";
-		} else {
-			$app = $row['application'];
-		}
-		echo "  <tr>
-				<td ".$odd.">".$app."</td>
-				<td ".$odd.">".$row['count(*)']."</td>
-			</tr>";
-		$count++;
-	}
-	if($count==0) {
-		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
-	}
-	echo "
-					</table>
-				</fieldset>
-			</form>
-		</div>
-	";
-	echo "</div>";
-}
-
-
-
-function shn_plus_stat30() {
-
-	global $global;
-	shn_plus_header2();
-
-	echo "<div id=\"home\">";
-
-	// by ip /////////////////////////////////////////////////////////////////////////////////
-
-	$q  = "
-		SELECT `ip`, count(*)
-		FROM `plus_access_log`
-		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
-		GROUP BY `ip`
-		ORDER BY count(*) desc;
-	";
-	$result = $global['db']->Execute($q);
-	$count = 0;
-
-	echo "
-		<div class=\"form-container\" style=\"width: 230px; float: left; margin-right: 5px;\">
-			<form>
-				<fieldset>
-					<legend>Hits by IP Address</legend>
-					<table id=\"regLog\">
-						<tr>
-							<td class=\"evener\"><b>IP Address</b></td>
-							<td class=\"evener\"><b>Hits</b></td>
-						</tr>
-	";
-	while($row = $result->FetchRow()) {
-		if(($count%2)==0) {
-			$odd = "class=\"odder\"";
-		} else {
-			$odd = "class=\"evener\"";
-		}
-		echo "  <tr>
-				<td ".$odd."><a href=\"http://www.geoiptool.com/en/?IP=".$row['ip']."\" target=\"_blank\">".$row['ip']."</a></td>
-				<td ".$odd.">".$row['count(*)']."</td>
-			</tr>";
-		$count++;
-	}
-	if($count==0) {
-		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
-	}
-	echo "
-					</table>
-				</fieldset>
-			</form>
-		</div>
-	";
-
-	// by api call /////////////////////////////////////////////////////////////////////////////////
-
-	$q  = "
-		SELECT `call`, count(*)
-		FROM `plus_access_log`
-		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
-		group by `call`
-		order by count(*) desc;
-	";
-	$result = $global['db']->Execute($q);
-	$count = 0;
-
-	echo "
-		<div class=\"form-container\" style=\"width: 270px; float: left;  margin-right: 5px;\">
-			<form>
-				<fieldset>
-					<legend>Hits by API Function</legend>
-					<table id=\"regLog\">
-						<tr>
-							<td class=\"evener\"><b>Function</b></td>
-							<td class=\"evener\"><b>Hits</b></td>
-						</tr>
-	";
-	while($row = $result->FetchRow()) {
-		if(($count%2)==0) {
-			$odd = "class=\"odder\"";
-		} else {
-			$odd = "class=\"evener\"";
-		}
-		echo "  <tr>
-				<td ".$odd.">".$row['call']."</td>
-				<td ".$odd.">".$row['count(*)']."</td>
-			</tr>";
-		$count++;
-	}
-	if($count==0) {
-		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
-	}
-	echo "
-					</table>
-				</fieldset>
-			</form>
-		</div>
-	";
-
-
-
-	// by api version /////////////////////////////////////////////////////////////////////////////////
-
-	$q  = "
-		SELECT `api_version`, count(*)
-		FROM `plus_access_log`
-		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
-		group by `api_version`
-		order by count(*) desc;
-	";
-	$result = $global['db']->Execute($q);
-	$count = 0;
-
-	echo "
-		<div class=\"form-container\" style=\"width: 230px; float: left; margin-right: 5px;\">
-			<form>
-				<fieldset>
-					<legend>Hits by API Version</legend>
-					<table id=\"regLog\">
-						<tr>
-							<td class=\"evener\"><b>Version</b></td>
-							<td class=\"evener\"><b>Hits</b></td>
-						</tr>
-	";
-	while($row = $result->FetchRow()) {
-		if(($count%2)==0) {
-			$odd = "class=\"odder\"";
-		} else {
-			$odd = "class=\"evener\"";
-		}
-		echo "  <tr>
-				<td ".$odd.">".$row['api_version']."</td>
-				<td ".$odd.">".$row['count(*)']."</td>
-			</tr>";
-		$count++;
-	}
-	if($count==0) {
-		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
-	}
-	echo "
-					</table>
-				</fieldset>
-			</form>
-		</div>
-	";
-
-
-	// by application /////////////////////////////////////////////////////////////////////////////////
-
-	$q  = "
-		SELECT `application`, count(*)
-		FROM `plus_access_log`
-		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
-		group by `application`
-		order by count(*) desc;
-	";
-	$result = $global['db']->Execute($q);
-	$count = 0;
-
-	echo "
-		<div class=\"form-container\" style=\"width: 230px; float: left; margin-right: 5px;\">
-			<form>
-				<fieldset>
-					<legend>Hits by Application</legend>
-					<table id=\"regLog\">
-						<tr>
-							<td class=\"evener\"><b>Application</b></td>
-							<td class=\"evener\"><b>Hits</b></td>
-						</tr>
-	";
-	while($row = $result->FetchRow()) {
-		if(($count%2)==0) {
-			$odd = "class=\"odder\"";
-		} else {
-			$odd = "class=\"evener\"";
-		}
-		if(trim($row['application']) == "") {
-			$app = "TriagePic and others";
-		} else {
-			$app = $row['application'];
-		}
-		echo "  <tr>
-				<td ".$odd.">".$app."</td>
-				<td ".$odd.">".$row['count(*)']."</td>
-			</tr>";
-		$count++;
-	}
-	if($count==0) {
-		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
-	}
-	echo "
-					</table>
-				</fieldset>
-			</form>
-		</div>
-	";
-	echo "</div>";
-}
-
-
-
-
-
-function shn_plus_stat30ext() {
-
-	global $global;
-	shn_plus_header2();
-
-	$notLike = "
-		AND ip NOT LIKE '130.14.109%'
-		AND ip NOT LIKE '130.14.108%'
-		AND ip NOT LIKE '130.14.119%'
-	";
-
-	echo "<div id=\"home\">";
-
-	// by ip /////////////////////////////////////////////////////////////////////////////////
-
-	$q  = "
-		SELECT `ip`, count(*)
-		FROM `plus_access_log`
-		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
-		".$notLike."
-		GROUP BY `ip`
-		ORDER BY count(*) desc;
-	";
-	$result = $global['db']->Execute($q);
-	$count = 0;
-
-	echo "
-		<div class=\"form-container\" style=\"width: 230px; float: left; margin-right: 5px;\">
-			<form>
-				<fieldset>
-					<legend>Hits by IP Address</legend>
-					<table id=\"regLog\">
-						<tr>
-							<td class=\"evener\"><b>IP Address</b></td>
-							<td class=\"evener\"><b>Hits</b></td>
-						</tr>
-	";
-	while($row = $result->FetchRow()) {
-		if(($count%2)==0) {
-			$odd = "class=\"odder\"";
-		} else {
-			$odd = "class=\"evener\"";
-		}
-		echo "  <tr>
-				<td ".$odd."><a href=\"http://www.geoiptool.com/en/?IP=".$row['ip']."\" target=\"_blank\">".$row['ip']."</a></td>
-				<td ".$odd.">".$row['count(*)']."</td>
-			</tr>";
-		$count++;
-	}
-	if($count==0) {
-		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
-	}
-	echo "
-					</table>
-				</fieldset>
-			</form>
-		</div>
-	";
-
-	// by api call /////////////////////////////////////////////////////////////////////////////////
-
-	$q  = "
-		SELECT `call`, count(*)
-		FROM `plus_access_log`
-		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
+		".$where."
 		".$notLike."
 		group by `call`
 		order by count(*) desc;
@@ -795,7 +416,7 @@ function shn_plus_stat30ext() {
 	$q  = "
 		SELECT `api_version`, count(*)
 		FROM `plus_access_log`
-		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
+		".$where."
 		".$notLike."
 		group by `api_version`
 		order by count(*) desc;
@@ -842,7 +463,7 @@ function shn_plus_stat30ext() {
 	$q  = "
 		SELECT `application`, count(*)
 		FROM `plus_access_log`
-		WHERE access_time > DATE_SUB(NOW(), INTERVAL 30 day)
+		".$where."
 		".$notLike."
 		group by `application`
 		order by count(*) desc;
@@ -889,3 +510,5 @@ function shn_plus_stat30ext() {
 	";
 	echo "</div>";
 }
+
+
