@@ -18,6 +18,7 @@ require_once($global['approot']."/inc/lib_form.inc");
 require_once($global['approot']."/inc/lib_validate.inc");
 require_once($global['approot']."/inc/lib_errors.inc");
 require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+require_once($global['approot']."/inc/lib_security/lib_auth.inc");
 require_once("tracker.inc");
 
 
@@ -46,11 +47,11 @@ function shn_pref_default() {
 	if(isset($_GET['forgot'])) {
 		$control = "shn_pref_forgotPassword";
 
-	} elseif(isset($_GET['captcha'])) {
-		$control = "shn_image_pref_captcha";
-
 	} elseif(isset($_GET['passwdp'])) {
 		$control = "shn_pref_ch_passwd_p";
+
+	} elseif(isset($_GET['signup2'])) {
+		$control = "shn_pref_signup2";
 
 	} elseif(isset($_GET['login'])) {
 		$control = "shn_pref_loginForm";
@@ -103,12 +104,19 @@ function shn_pref_session() {
 
 
 
-function shn_pref_loginForm() {
+function shn_pref_loginForm($return = null) {
 
 	global $conf;
 	global $global;
 
 	if ($_SESSION['logged_in'] != true ) {
+
+		if($return != null) {
+			$returnVal = $return;
+		} else {
+			$returnVal = $_SERVER['REQUEST_URI'];
+		}
+
 		echo '
 			<div class="form-container" style="padding: auto;">
 				<form method="post" action="auth" id="form0" name="form0">
@@ -124,7 +132,7 @@ function shn_pref_loginForm() {
 				</div>
 				</fieldset>
 				<br><br><br>
-				<input type="hidden" name="return" value="'.$_SERVER['REQUEST_URI'].'">
+				<input type="hidden" name="return" value="'.$returnVal.'">
 				</form>
 			</div>
 		';
@@ -446,7 +454,7 @@ function shn_pref_emailCaptchaForm() {
 			shn_form_text("Email Address ", 'email', 'size="30"', $extra_opts);
 		shn_form_fsclose();
 		shn_form_fsopen("Verify that you are human");
-			echo "<br><img src=\"pref?stream=image&captcha\" /><br>";
+			echo "<br><img src=\"index.php?stream=image&mod=pref&act=captcha\" /><br>";
 			if(isset($_POST['captcha'])) {
 				unset($_POST['captcha']);
 			}
@@ -461,7 +469,7 @@ function shn_pref_emailCaptchaForm() {
 
 
 /** Generates a form to add an user */
-function shn_pref_signup($title="Create Your Account", $mod="pref", $act="signup_cr", $error=false) {
+function shn_pref_signup($title="Create Your Account", $mod="pref", $act="signup2", $error=false) {
 
 	global $global;
 
@@ -480,7 +488,7 @@ function shn_pref_signup($title="Create Your Account", $mod="pref", $act="signup
 	}
 
 	echo "<div id=\"formcontainer\">";
-	shn_form_fopen($act, $mod);
+	shn_form_fopen2("register2", null);
 	shn_form_fsopen("Account Details");
 	$extra_opts['req'] = true;
 
@@ -504,7 +512,7 @@ function shn_pref_signup($title="Create Your Account", $mod="pref", $act="signup
 	shn_form_fsclose();
 
 	shn_form_fsopen("Verify that you are human");
-	echo "<br><img src=\"pref?stream=image&captcha\" /><br>";
+	echo "<br><img src=\"index.php?stream=image&mod=pref&act=captcha\" /><br>";
 	if(isset($_POST['captcha'])) {
 		unset($_POST['captcha']);
 	}
@@ -518,7 +526,7 @@ function shn_pref_signup($title="Create Your Account", $mod="pref", $act="signup
 
 
 
-function shn_pref_signup_cr() {
+function shn_pref_signup2() {
 
 	if(shn_auth_self_signup_cr() == true){
 		shn_pref_signup();
@@ -536,8 +544,9 @@ function shn_pref_signup_cr() {
 		}
 		$ret = shn_auth_add_user($_POST['given_name'], $_POST['family_name'], $_POST['user_name'], $_POST['password'], $role=REGISTERED, null, null, $_POST['email_address']);
 		if($ret) {
-			$msg = "Your new user account has been created and is now active. You may now use your credentials to login to the site.";
+			$msg = "A new user account has been created for you and is now active. Please login below using your credentials.";
 			add_confirmation($msg);
+			shn_pref_loginForm('settings');
 		} else {
 			shn_pref_signup();
 		}

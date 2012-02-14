@@ -891,6 +891,8 @@ function _shn_auth_lock_user($uid,$status) {
 
 function shn_auth_gen_captcha() {
 
+error_log('hi!');
+
 	// Now lets use md5 to generate a totally random string
 	$md5 = md5(microtime() * time());
 

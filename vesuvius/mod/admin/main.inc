@@ -17,7 +17,6 @@ global $global;
 require_once($global['approot']."/inc/lib_errors.inc");
 require_once($global['approot']."/inc/lib_validate.inc");
 require_once($global['approot']."inc/lib_security/acl_form.inc");
-require_once($global['approot']."inc/lib_security/auth_form.inc");
 require_once($global['approot']."inc/lib_security/lib_auth.inc");
 require_once($global['approot']."inc/lib_xajax.inc");
 
