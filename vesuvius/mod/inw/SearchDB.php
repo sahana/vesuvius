@@ -59,7 +59,7 @@ class SearchDB {
 	 *
 	 * Params:
 	 * $searchMode = "solr" or "sql"
-	 * $sStatus = "missing;alive;injured;deceased;unknown"
+	 * $sStatus = "missing;alive;injured;deceased;unknown;found"
 	 * $sPageControls = "pageStart;perPage;sortBy;mode"
 	 * $sGender = gender imploded
 	 * $sAge = age imploded
