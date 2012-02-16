@@ -551,7 +551,7 @@ class SearchDB {
 
 	private function getSOLRallCount() {
 
-		$tmpSOLRquery = $this->SOLRroot . "select/?q=*:*&fq=shortname:(".$this->incident.")&fq=-expiry_date:[*%20TO%20NOW]";
+		$tmpSOLRquery = $this->SOLRroot . "select/?rows=0&q=*:*&fq=shortname:(".$this->incident.")&fq=-expiry_date:[*%20TO%20NOW]";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $tmpSOLRquery . "&wt=json"); // ensure the json version is called
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
