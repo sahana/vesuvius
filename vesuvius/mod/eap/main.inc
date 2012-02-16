@@ -1,7 +1,7 @@
 <?php
 /**
  * @name         Edit A Person
- * @version      1.11
+ * @version      14
  * @package      eap
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
@@ -2181,6 +2181,11 @@ function shn_eap_edit() {
 		$n->last_known_location     = $person_details['last_seen'];
 		$n->text                    = $person_details['other_comments'];
 		$n->found                   = null; // we have no way to know if the reporter had direct contact (hence we leave this null)
+
+		// we map found = true for the cases when we know a person is alive (PL-318)
+		if($person_status['opt_status'] == "ali") {
+			$n->found = true;
+		}
 
 		// figure out the person's pfif status
 		$n->status = shn_map_status_to_pfif($person_status['opt_status']);
