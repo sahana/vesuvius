@@ -529,7 +529,7 @@ class SearchDB {
 		if($this->otherHosp != "true") $this->SOLRfq .= " -public";
 
 		//incident shortname filter (always applied)
-		$this->SOLRfq .= ")&fq=shortname:(" . $this->incident . ")";
+		$this->SOLRfq .= ")&fq=shortname:" . $this->incident;
 
 		//only non-expired records (always applied) (PL-288)
 		$this->SOLRfq .= "&fq=-expiry_date:[* TO NOW]";
@@ -551,7 +551,7 @@ class SearchDB {
 
 	private function getSOLRallCount() {
 
-		$tmpSOLRquery = $this->SOLRroot . "select/?rows=0&q=*:*&fq=shortname:(".$this->incident.")&fq=-expiry_date:[*%20TO%20NOW]";
+		$tmpSOLRquery = $this->SOLRroot . "select/?rows=0&q=*:*&fq=shortname:".$this->incident."&fq=-expiry_date:[*%20TO%20NOW]";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $tmpSOLRquery . "&wt=json"); // ensure the json version is called
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -569,9 +569,9 @@ class SearchDB {
 
 		$solrQuery =
 			$this->SOLRroot
-			. "select/?qt=edismax&rows=0&q=+"
+			. "select/?rows=0&qt=edismax&q=+"
 			. trim(urlencode($this->searchTerm))
-			. "&fq=shortname:(" . $this->incident . ")"
+			. "&fq=shortname:" . $this->incident
 			. "&fq=-expiry_date:[*%20TO%20NOW]"
 			. (strpos($this->SOLRfq, "-full_name")? "&fq=-full_name:[*%20TO%20*]" : '')
 			. "&facet=true"
