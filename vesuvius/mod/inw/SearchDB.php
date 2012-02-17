@@ -569,7 +569,7 @@ class SearchDB {
 
 		$solrQuery =
 			$this->SOLRroot
-			. "select/?qt=edismax&rows=0q=+"
+			. "select/?qt=edismax&rows=0&q=+"
 			. trim(urlencode($this->searchTerm))
 			. "&fq=shortname:(" . $this->incident . ")"
 			. "&fq=-expiry_date:[*%20TO%20NOW]"
