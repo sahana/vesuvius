@@ -1,7 +1,7 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
-2012:02xx Update
+2012:0214 Update
 ----------------
 Greg:
 + Login Redirection ~ after logging in, you are directed back to the last page you were on / also from the login link, you are directed to /settings now after successful login.
@@ -16,6 +16,11 @@ Greg:
 + error, information, and confirmation messages appear absolutely positioned from the top of the page not to disturb page content and fade out after 10 seconds
 + PLUS module migrated to tabbed interface
 + TP module migrated to tabbed interface
++ PREF module update URLs and login/forgot password procedure
+Leif Neve 2012-02-12 Optimize SQL queries for 'People I'm Tracking' (PL-323)
+Leif Neve 2012-02-11 PFIF found=true should always map to PL alive (PL-318)
+Leif Neve 2012-02-08 adjust SQL datetimes for UTC (PL-319), order search pop-up notes by source date (PL-317)
+Leif Neve 2012-02-03 person_status.opt_status can't be null
 
 
 2012:0131 Update

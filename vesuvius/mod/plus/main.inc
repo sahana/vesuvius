@@ -67,7 +67,7 @@ function shn_plus_reported() {
 	global $global;
 	global $tabid;
 
-	echo "<div id=\"home\">";
+	echo "<br><div id=\"home\">";
 
 	// figure out log traversal navigation....
 
@@ -151,7 +151,7 @@ function shn_plus_raw() {
 	global $global;
 	global $tabid;
 
-	echo "<div id=\"home\">";
+	echo "<br><div id=\"home\">";
 
 	// figure out log traversal navigation....
 
@@ -285,45 +285,45 @@ function shn_plus_stat() {
 	echo "<br><br>";
 
 	if($ext != "") {
-		echo 'SOURCE: <span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$last.$tabid.'\'">ALL</span> <span class="styleTehButton" style="opacity: 0.5">Excluding Internal Sources</span>';
+		echo 'SOURCE: <span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$last.$tabid.'\'">ALL</span> <span class="styleTehButton" style="opacity: 0.2">Excluding Internal Sources</span>';
 	} else {
-		echo 'SOURCE: <span class="styleTehButton" style="opacity: 0.5">ALL</span> <span class="styleTehButton" onclick="window.location.href=\'plus?stat&ext'.$last.$tabid.'\'">Excluding Internal Sources</span>';
+		echo 'SOURCE: <span class="styleTehButton" style="opacity: 0.2">ALL</span> <span class="styleTehButton" onclick="window.location.href=\'plus?stat&ext'.$last.$tabid.'\'">Excluding Internal Sources</span>';
 	}
 
 	echo " &nbsp; &nbsp; DURING LAST: ";
 
 	if((int)$_GET['last'] == 30) {
-		echo '<span class="styleTehButton" style="opacity: 0.5">30</span> ';
+		echo '<span class="styleTehButton" style="opacity: 0.2">30</span> ';
 	} else {
 		echo '<span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$ext.'&last=30'.$tabid.'\'">30</span> ';
 	}
 	if((int)$_GET['last'] == 60) {
-		echo '<span class="styleTehButton" style="opacity: 0.5">60</span> ';
+		echo '<span class="styleTehButton" style="opacity: 0.2">60</span> ';
 	} else {
 		echo '<span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$ext.'&last=60'.$tabid.'\'">60</span> ';
 	}
 	if((int)$_GET['last'] == 90) {
-		echo '<span class="styleTehButton" style="opacity: 0.5">90</span> ';
+		echo '<span class="styleTehButton" style="opacity: 0.2">90</span> ';
 	} else {
 		echo '<span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$ext.'&last=90'.$tabid.'\'">90</span> ';
 	}
 	if((int)$_GET['last'] == 120) {
-		echo '<span class="styleTehButton" style="opacity: 0.5">120</span> ';
+		echo '<span class="styleTehButton" style="opacity: 0.2">120</span> ';
 	} else {
 		echo '<span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$ext.'&last=120'.$tabid.'\'">120</span> ';
 	}
 	if((int)$_GET['last'] == 180) {
-		echo '<span class="styleTehButton" style="opacity: 0.5">180</span> ';
+		echo '<span class="styleTehButton" style="opacity: 0.2">180</span> ';
 	} else {
 		echo '<span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$ext.'&last=180'.$tabid.'\'">180</span> ';
 	}
 	if((int)$_GET['last'] == 365) {
-		echo '<span class="styleTehButton" style="opacity: 0.5">365</span> ';
+		echo '<span class="styleTehButton" style="opacity: 0.2">365</span> ';
 	} else {
 		echo '<span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$ext.'&last=365'.$tabid.'\'">365</span> ';
 	}
 	if((int)$_GET['last'] == 9999) {
-		echo '<span class="styleTehButton" style="opacity: 0.5">9999</span> ';
+		echo '<span class="styleTehButton" style="opacity: 0.2">9999</span> ';
 	} else {
 		echo '<span class="styleTehButton" onclick="window.location.href=\'plus?stat'.$ext.'&last=9999'.$tabid.'\'">9999</span> ';
 	}
