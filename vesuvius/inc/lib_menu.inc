@@ -94,6 +94,19 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 		}
 	}
 
+        if($desc == "Notification Module") {
+                //require_once($global['approot'].'/mod/ntfy/main.inc');
+/*
+                if(shn_ntfy_status_code() == RED) {
+                        $desc .= " <span style=\"color: red;\"><b>●</b></span>";
+                } else if (shn_ntfy_status_code() == ORANGE) {
+                        $desc .= " <span style=\"color: orange;\"><b>●</b></span>";
+                } else {
+                        $desc .= " <span style=\"color: green;\"><b>●</b></span>";
+                }
+*/
+        }
+
 	// a 3rd hack to show the proper home linl (it doesn't have the shortname in the url)
 	if($desc == "Home") {
 		echo "<li ".$class."><a href=\"".makeBaseUrlMinusEvent()."\">".$desc."</a></li>";
