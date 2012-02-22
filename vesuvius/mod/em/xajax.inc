@@ -11,7 +11,15 @@
  * @lastModified 2011.1205
  */
 
+// xajax.inc
+require 'facebook/src/facebook.php';
+include 'twitter/EpiCurl.php';
+include 'twitter/EpiOAuth.php';
+include 'twitter/EpiTwitter.php';
+
 global $global;
+
+$isNew = 0;
 
 // create an array as it does not exist previosuly and will make warnings
 $global['xajax_functions'] = array();
@@ -27,6 +35,193 @@ array_push($global['xajax_functions'],'em_perform_purge');
 array_push($global['xajax_functions'],'em_perform_insert');
 array_push($global['xajax_functions'],'em_perform_save');
 array_push($global['xajax_functions'],'em_perform_help');
+array_push($global['xajax_functions'],'em_send_post');
+array_push($global['xajax_functions'],'em_get_prev_msg');
+array_push($global['xajax_functions'],'shortenUrl');
+
+$prevMsg = '';
+
+function shortenUrl($eventName) {
+        global $conf;
+        global $global;
+        require_once($global['approot']."/inc/lib_uuid.inc");
+        require_once($global['approot']."/inc/lib_image.inc");
+        require_once($global['approot']."/inc/lib_locale/gettext.inc");
+        if ($_SESSION['logged_in'] != true ) return;
+//This is the URL you want to shorten
+//$longUrl = 'https://www.packtpub.com/php-jquery-cookbook-to-create-interactive-web-applications/book';
+$longUrl = 'https://pl.nlm.nih.gov/'.$eventName.'/search';
+$apiKey = 'AIzaSyAgpx-svmRIrHnJxzoqA7G1AZaoxKyLMD0';
+//Get API key from : http://code.google.com/apis/console/
+
+$postData = array('longUrl' => $longUrl, 'key' => $apiKey);
+$jsonData = json_encode($postData);
+
+$curlObj = curl_init();
+
+curl_setopt($curlObj, CURLOPT_URL, 'https://www.googleapis.com/urlshortener/v1/url');
+curl_setopt($curlObj, CURLOPT_RETURNTRANSFER, 1);
+curl_setopt($curlObj, CURLOPT_SSL_VERIFYPEER, 0);
+curl_setopt($curlObj, CURLOPT_HEADER, 0);
+curl_setopt($curlObj, CURLOPT_HTTPHEADER, array('Content-type:application/json'));
+curl_setopt($curlObj, CURLOPT_POST, 1);
+curl_setopt($curlObj, CURLOPT_POSTFIELDS, $jsonData);
+
+$response = curl_exec($curlObj);
+
+//change the response json string to object
+$json = json_decode($response);
+
+curl_close($curlObj);
+
+//return $json->id;
+//	$eventName = $('#eventName').val();
+//	$shortUrl = shortenUrl($eventName);
+	$global['xajax_res']->addAssign('eventUrl', 'innerHTML', 'testing 123');
+	return $global['xajax_res']->getXML();
+}
+
+function em_get_prev_msg($id) {
+        global $conf;
+        global $global;
+        require_once($global['approot']."/inc/lib_uuid.inc");
+        require_once($global['approot']."/inc/lib_image.inc");
+        require_once($global['approot']."/inc/lib_locale/gettext.inc");
+        if ($_SESSION['logged_in'] != true ) return;
+        $q = "
+		SELECT sysgenid, trim(message) as message, trim(user_name) as user_name, sent
+		FROM notification_messages
+		WHERE configid = (
+		SELECT configid
+		FROM notification_messages
+		WHERE sysgenid = $id )
+		ORDER BY sent DESC;
+        ";
+        $result = $global['db']->Execute($q);
+        if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 1");  return($log."error!<br>"); }
+
+        $count = 0;
+	$m = '';
+	$s = '<select style=\"width:210px;\">';
+        while($row = $result->FetchRow()) {
+		$t = "[".$row['message']."] from ".$row['user_name']." on ". $row['sent'];
+		if ($row['sysgenid'] ==  $id) $m = $t;
+		$s .= "<option title=\"".$t."\" value=\"".$row['sysgenid']."\">".substr($t,0,30). "</option>";
+                $count++;
+        }
+	$s .= '</select>';
+	$prevMsg = $s;
+	$global['xajax_res']->addAssign('eventMsg', 'innerHTML', '<p>'.$m.'</p>');
+	$global['xajax_res']->addAssign('prevMsg', 'innerHTML', $s);
+	$temp = "testing";
+	$global['xajax_res']->addAssign('eventUrl', 'text', $temp );
+
+	$js = '
+	$eventName = $("#eventName").val();
+	$shortUrl = shortenUrl($eventName);
+	$(\"#eventUrl\").val($shortUrl);
+	';
+//	$global['xajax_res']->addScript($js);
+
+//	$global['xajax_res']->addAssign('eventUrl', 'innerHTML', $shortUrl);
+
+
+	return $global['xajax_res']->getXML();
+}
+
+// send post
+function em_send_post($msg="", $p_uuid=0) {
+	global $conf;
+	global $global;
+	require_once($global['approot']."/inc/lib_uuid.inc");
+        require_once($global['approot']."/inc/lib_image.inc");
+        require_once($global['approot']."/inc/lib_locale/gettext.inc");
+	if ($_SESSION['logged_in'] != true ) return;
+	$q = "
+		SELECT pref_key, value
+		FROM user_preference p, users u
+		WHERE p.p_uuid = u.p_uuid and u.user_name = '".$_SESSION['user']."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 1");  return($log."error!<br>"); }
+
+	$pref = array();
+	$count = 0;
+	while($row = $result->FetchRow()) {
+		$pref[$count] = $row;
+		$count++;
+	}
+	$i = 0;
+	while ($i < $count) {
+		$row = $pref[$i];
+		$t = $row['pref_key'];
+		$a = explode('|', $row['value']);
+		if ($t == 'facebook') {
+                        $facebook = new Facebook(array(
+                                'appId'  => $a[0],
+                                'secret' => $a[1],
+                                'cookie' => true,
+                        ));
+                        $token = $facebook->getAccessToken();
+                        $post =  array(
+                                'access_token' => $token,
+                                'message' => $msg
+                        );
+			$res = $facebook->api('/'.$a[2].'/feed', 'POST', $post);
+		}
+		elseif($t == 'twitter') {
+			$twitterObj = new EpiTwitter($a[0], $a[1], $a[2], $a[3]); // //$consumer_key, $consumer_secret, $token, $secret);
+			$status = $twitterObj->post('/statuses/update.json', array('status' => $msg));
+		}
+		$i++;
+	}
+/*
+$facebook = new Facebook(array(
+  'appId'  => '272810739444941',
+  'secret' => 'f589181f7e8f51c5492f6c07f59873f8',
+  'cookie' => true,
+));
+
+$token = $facebook->getAccessToken();
+//if ($msg == "" || $msg == null) $msg="dummy";
+$post =  array(
+    'access_token' => $token,
+    'message' => $t
+);
+
+$res = $facebook->api('/myjc11/feed', 'POST', $post);
+*/
+/*
+	$q = "select pref_key, value from user_preference where p_uuid = '". $p_uuid . "'";
+
+        $result = $global['db']->Execute($q);
+        if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "show events 1"); }
+
+        $snm = array();
+        $dcount = 0;
+	$k = "";
+	$v = "";
+        while($row = $result->FetchRow() ){
+                if ($row['pref_key'] == "facebook") {
+			$a = explode("|", $row['value']);
+			$facebook = new Facebook(array(
+				'appId'  => $a[0],
+				'secret' => $a[1],
+				'cookie' => true,
+			));
+			$token = $facebook->getAccessToken();
+			$post =  array(
+				'access_token' => $token,
+				'message' => $msg
+			);
+			$res = $facebook->api('/'.$a[2].'/feed', 'POST', $post);
+		}
+                $dcount++;
+        }
+        $total = $dcount;
+*/
+	return $global['xajax_res']->getXML();
+}
 
 // adds a message to the log div @ tail
 function em_append_log($message = "no message specified?") {
@@ -60,7 +255,7 @@ function em_show_events($internal = FALSE) {
 	global $conf;
 	global $global;
 	$htmlLog = "";
-	$htmlMain = "";
+	$htmlMain = "<script type=\"text/javascript\">alert('in em_show_events');</script>";
 	$total = 0;
 	$char = "<span style=\"text-shadow: 1px 1px 1px #000;\">▶</span>";
 
@@ -147,14 +342,14 @@ function em_show_events($internal = FALSE) {
 		$htmlMain .= "
 			<tr>
 				<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$type."</td>
-				<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\"><a href=\"#\" onclick=\"em_append_log('Editting Event #<b>".$disaster_id."</b> ...<br>'); em_perform_edit(".$disaster_id.");\" value=\"Edit\">".$longname."</a></td>
+				<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\"><a href=\"#\" onclick=\"em_append_log('Editing Event #<b>".$disaster_id."</b> ...<br>'); em_perform_edit(".$disaster_id.");\" value=\"Edit\">".$longname."</a></td>
 				<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$shortname."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$type2."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$defaultText."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$groupText."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$closedText."</td>
 
-<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"em_append_log('Editting Event #<b>".$disaster_id."</b> ...<br>'); em_perform_edit(".$disaster_id.");\" value=\"Edit\"></td>
+<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"em_append_log('Editing Event #<b>".$disaster_id."</b> ...<br>'); em_perform_edit(".$disaster_id.");\" value=\"Edit\"></td>
 
 			</tr>
 		";
@@ -243,7 +438,7 @@ function em_show_events($internal = FALSE) {
 					<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$defaultText."</td>
 					<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$groupText."</td>
 					<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$closedText."</td>
-					<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: em_append_log('Editting Event #<b>".$incident_id."</b> ...<br>'); em_perform_edit(".$incident_id.");\">Edit</a></td>
+					<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: em_append_log('Editing Event #<b>".$incident_id."</b> ...<br>'); em_perform_edit(".$incident_id.");\">Edit</a></td>
 				</tr>
 			";
 
@@ -330,7 +525,7 @@ function em_show_events($internal = FALSE) {
 						<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$defaultText."</td>
 						<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$groupText."</td>
 						<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$closedText."</td>
-						<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: em_append_log('Editting Event #<b>".$event_id."</b> ...<br>'); em_perform_edit(".$event_id.");\">Edit</a></td>
+						<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: em_append_log('Editing Event #<b>".$event_id."</b> ...<br>'); em_perform_edit(".$event_id.");\">Edit</a></td>
 					</tr>
 				";
 				$k++;
@@ -363,6 +558,8 @@ function em_show_events($internal = FALSE) {
 		&nbsp; &nbsp; &nbsp; &nbsp;
 		<input class="styleTehButton red" type="button" onclick="javascript: em_append_log(\'Opening Help...<br>\'); em_perform_help();" value="Help">
 	';
+
+        $htmlMain .= "<script type=\"text/javascript\">alert('at the end of em_show_events');</script>";
 
 	//---- internally, no ajax, just pass back data
 	if ( $internal ) {
@@ -575,7 +772,9 @@ function em_perform_save($page_id, $rj) {
 	$shortName   = preg_replace("/[^a-zA-Z0-9\s]/", "", $shortName);
 	$shortName   = strtolower($shortName);
 	$shortName   = mysql_real_escape_string($shortName);
+$msgSocial = mysql_real_escape_string($r['msgSocial']);
 
+//$msgSocial = $name." (Event ID# ".$row['incident_id'].") has been created";
 	if($r['shortName'] != $shortName) {
 		$log .= "<span style=\"color: red;\"><b>Short Name field revised to match rules: 1) lowercase letters and numbers only 2) max 16 characters in length.</span></b><br>";
 		$suggest = true;
@@ -587,7 +786,7 @@ function em_perform_save($page_id, $rj) {
 		$shortName = "event".date("mdGis");
 	}
 	if($suggest) {
-		$log .= "<span style=\"color: red;\"><b>You may wish to <a onclick=\"javascript: em_append_log('Editting Event #<b>".$eventId."</b> ...<br>'); em_perform_edit(".$eventId.");\">edit</a> this event again to make corrections to the new Short Name: </span>".$shortName."</b><br>";
+		$log .= "<span style=\"color: red;\"><b>You may wish to <a onclick=\"javascript: em_append_log('Editing Event #<b>".$eventId."</b> ...<br>'); em_perform_edit(".$eventId.");\">edit</a> this event again to make corrections to the new Short Name: </span>".$shortName."</b><br>";
 	}
 
 
@@ -729,6 +928,9 @@ function em_perform_save($page_id, $rj) {
 	if($passOnGenes) {
 		em_save_children($eventId, $group, $type);
 	}
+
+	//$msgSocial = $name." (Event ID# ".$eventId.") has been created";
+	em_send_post($msgSocial);
 
 	$log .= "Event #<b>".$page_id."</b> <span style=\"color: green;\">Saved</span>.<b><br>";
 
@@ -1024,6 +1226,8 @@ function em_perform_new() {
 	global $global;
 	global $conf;
 
+	$isNew = 1;
+
 	$group = $_SESSION['group_id'];
 
 	// generate the new event index
@@ -1032,6 +1236,7 @@ function em_perform_new() {
 
 	// insert the new incident
 	$random = mt_rand();
+
 	$q = "
 		INSERT INTO incident
 			(incident_id, parent_id, search_id, name, shortname, date, type, latitude, longitude, private_group, closed)
@@ -1081,7 +1286,8 @@ function em_perform_new() {
 		\n
 		The event creation was initiated by: ".$_SESSION['user']." | ".$_SESSION['full_name']."\n\n
 	";
-	$p->sendMessage($conf['audit_email'], null, $subject, $bodyHTML, $bodyAlt);
+
+//	$p->sendMessage($conf['audit_email'], null, $subject, $bodyHTML, $bodyAlt);
 
 	return $newId;
 }
@@ -1200,7 +1406,7 @@ function em_perform_edit($incident_id) {
 			} else {
 				$pvalue = $row['parent_id'];
 			}
-			$options = "<option value=\"".$pvalue."\" SELECTED >Event Has Children --- Not Edittable</option>";
+			$options = "<option value=\"".$pvalue."\" SELECTED >Event Has Children --- Not Editable</option>";
 			$parent = "
 				<select id=\"eventParent\" DISABLED>
 				".$options."
@@ -1302,6 +1508,41 @@ function em_perform_edit($incident_id) {
 	// end visibility select box
 
 	$editMainHtml = "
+<style>
+body {
+  line-height:1.4em;
+}
+
+#formBlock {
+  float:left;
+  width:700px;
+}
+
+#topBlock{
+  position: relative;
+}
+
+#topNotify{ /* required to avoid jumping */
+  left: 700px;
+  position: absolute;
+  margin-left: 10px;
+  margin-top: 1px;
+  width:280px;
+}
+
+#notifyBlock{
+  position: absolute;
+  top: 0;
+  width:280px;
+  //margin-top: 20px;
+  //border-top: 1px solid purple;
+  //padding-top: 19px;
+}
+
+</style>
+
+<div id=\"topBlock\" >
+<div id=\"formBlock\" >
 
 <table class=\"emTable\">
 
@@ -1364,6 +1605,35 @@ function em_perform_edit($incident_id) {
 		<td class=\"mainRowEven emFirst emLast\" style=\"\">".$pfif."</td>
         <tr>
 </table>
+</div>
+<div id=\"topNotify\">
+ <div id=\"notifyBlock\" class=\"form-container\" >
+
+   <form>
+     <fieldset>
+       <legend>Event Notification</legend>
+        <table class=\"emTable\">
+	<tr>
+		<td class=\"mainRowEven emFirst emLast\" style=\"\">Message</td>
+		<td class=\"mainRowEven emFirst emLast\" style=\"\"><div id=\"eventMsg\" rows=7 col=35 readonly style=\"resize:none;\"></div></td>
+	<tr>
+
+	<tr>
+		<td class=\"mainRowOdd emFirst emLast\" style=\"\" colspan=2>
+        	<div id=\"tree\" name=\"selNodes\">tree</div>
+		</td>
+	<tr>
+	</table>
+
+
+        <p><input type=\"button\" value=\"Send Notification\"></p>
+
+     </fieldset>
+
+   </form>
+ </div>
+</div>
+</div>
 <br>
 <table class=\"emTable\">
 	<tr>
@@ -1389,6 +1659,28 @@ function em_perform_edit($incident_id) {
 		</td>
 	</tr>
 </table>
+<div id=\"dialog\" title=\"\">
+
+<table class=\"emTable\">
+
+	<tr>
+		<td class=\"mainRowEven emFirst emLast\" style=\"\">Event Name</td>
+		<td class=\"mainRowEven emFirst emLast\" style=\"\"><input id=\"eventName\" type=\"text\" value=\"".$row['name']."\" size=25 readonly /></td>
+	<tr>
+	<tr>
+		<td class=\"mainRowOdd emFirst emLast\" style=\"\">Event URL(short)</td>
+		<td class=\"mainRowOdd emFirst emLast\" style=\"\"><div id=\"eventUrl\" ></div></td>
+	<tr>
+	<tr>
+		<td class=\"mainRowEven emFirst emLast\" style=\"\">Previous Message</td>
+		<td class=\"mainRowEven emFirst emLast\" style=\"\"><div id=\"prevMsg\" style=\"width:50px\"></div></td>
+	<tr>
+	<tr>
+		<td class=\"mainRowOdd emFirst emLast\" style=\"\">Message</td>
+		<td class=\"mainRowOdd emFirst emLast\" style=\"\"><textarea id=\"newMsg\" rows=7 col=35 style=\"resize:none;\"></textarea></td>
+	<tr>
+</table>
+</div>
 	";
 
 	// control HTML
@@ -1423,9 +1715,196 @@ function em_perform_edit($incident_id) {
 		$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
 	}
 
+	$nc1 = "
+		SELECT id, trim( outType ) AS outType, trim( nckey ) AS nckey, trim( icon ) AS icon, trim( value ) AS value, (
+		SELECT sysgenid
+		FROM notification_messages
+		WHERE configid = c.id
+		ORDER BY sent DESC
+		LIMIT 1
+		) AS genid, (
+
+		SELECT trim( message )
+		FROM notification_messages
+		WHERE configid = c.id
+		ORDER BY sent DESC
+		LIMIT 1
+		) AS message, (
+
+		SELECT sent
+		FROM notification_messages
+		WHERE configid = c.id
+		ORDER BY sent DESC
+		LIMIT 1
+		) AS sent, (
+
+		SELECT trim( user_name )
+		FROM notification_messages
+		WHERE configid = c.id
+		ORDER BY sent DESC
+		LIMIT 1
+		) AS user_name
+		FROM notification_config c
+		ORDER BY seq;
+	";
+        $ncres1 = $global['db']->Execute($nc1);
+        if($ncres1 === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new nc1"); }
+	$nctypes = array();
+	$ncvalues = array();
+	$ncvcount = 0;
+	$z = 0;
+	while($ncrow = $ncres1->FetchRow()) {
+		$ncvalues[$ncvcount] = $ncrow;
+		if ( !in_array($ncvalues[$ncvcount]['outType'], $nctypes))
+			array_push($nctypes, $ncvalues[$ncvcount]['outType']);
+		$ncvcount++;
+	}       
+	$i = 0;
+	// create the Notification tree
+	$s = '$("#tree").dynatree({
+		checkbox: true,
+		imagePath: "theme/lpf3/ntfy/",
+		selectMode: 3,
+		expand: true,
+		onClick: function(node, event) {
+
+			if(node.tree.isUserEvent()){
+
+				if (!isNaN(node.data.key) && !isNaN(parseInt(node.data.key))) {
+					$( "#dialog" ).dialog({dialogClass: "ui-dialog-titlebar"});
+					$( "#dialog" ).dialog({title: "to " + node.parent.data.title});
+					em_get_prev_msg(node.data.key);
+					$( "#dialog" ).dialog( "open" );
+				}
+			}
+		},
+		children: [
+		';
+
+	while($i < count($nctypes)) {
+		$j = 0;
+		if ($i>0) $s .= ",";
+		$init = 0;
+		while ($j < $ncvcount) {
+			if ($ncvalues[$j]['outType'] == $nctypes[$i]) {
+
+				if ($init==0) {
+
+					$icon = strtolower(str_replace(' ', '-', $ncvalues[$j]['outType'])). '.png';
+
+					$s .= "{title: \"". $ncvalues[$j]['outType']. "\",key: \"". $ncvalues[$j]['outType']. "\", hideCheckbox:true, expand: true, icon: \"$icon\",
+						children: 
+							[
+					";
+
+				}
+				if ($init!=0) $s .= ",";
+				$s .= "
+					{title: \"". ($ncvalues[$j]['outType']=='Email'?$ncvalues[$j]['value']:$ncvalues[$j]['nckey']) . "\", key: \"". $ncvalues[$j]['sysgenid']. "\", hideCheckbox:true, expand: true, icon: \"". $ncvalues[$j]['icon']. "\", 
+						children: 
+							[
+								{title: \"Last sent: ".$ncvalues[$j]['sent']."\", key: \"".$ncvalues[$j]['genid']."\", 
+									icon:false,hideCheckbox:true, tooltip: \"Last message [". $ncvalues[$j]['message']. "] was sent by ". 
+$ncvalues[$j]['user_name'].($ncvalues[$j]['outType']=='Email'?' to '.$ncvalues[$j]['value']:''). " on ". $ncvalues[$j]['sent']. "\",
+}
+							]
+					}";
+				$init = 1;
+			}
+			$j++;
+		}
+		$s .= ']}';
+
+		$i++;
+	}
+	$s .= ']});';
+
+//$global['xajax_res']->addAppend('rezLog', 'innerHTML', $s);
+				/* need to either change last sent to "new" or add
+				 a new node before last sent and enable the checkbox with checked
+				*/
+
+	$global['xajax_res']->addScript("
+var mtop = 0;
+
+
+$(function () {
+
+	$(window).scroll(function () {
+		if (typeof $('#notifyBlock').css('position') == 'undefined') return;
+
+		//var isfixed = ($('#notifyBlock').css('position') == 'fixed'? 0 : 1);
+		if (mtop == 0) {
+			mtop = $('#notifyBlock').offset().top - parseFloat($('#notifyBlock').css('margin-top').replace(/auto/, 0));
+		}
+		var y = $(this).scrollTop();
+
+		if (y >= mtop) {
+			$('#notifyBlock').css('position', 'fixed');
+		} else if (y < mtop) {
+			$('#notifyBlock').css('position', 'absolute');
+		}
+
+	});
+
+	if ((_canLog) && (typeof $('#tree').attr('name') != 'undefined')) {" 
+		. $s ."
+	}
+
+//var shortUrl = shortenUrl($('#eventName').val());
+//alert(shortUrl);
+        $( '#dialog' ).dialog({
+		autoOpen: false,
+		draggable: true,
+		height: 400,
+		width: 450,
+		modal: true,
+		buttons: {
+			'Save': function() {
+				$('#eventMsg').html('<p>'+$('#newMsg').val()+'</p>');
+
+				var title = $( \"#dialog\" ).dialog( \"option\", \"title\" );
+				title = title.replace('to ', '');
+var node = $('#tree').dynatree('getActiveNode');
+var newtitle = 'New: ' + $('#newMsg').val();
+node.setTitle(newtitle.substr(0,25));
+node.data.tooltip = newtitle;
+node.select(true);
+node.data.hideCheckbox = false;
+node.getParent().select(true);
+node.getParent().data.hideCheckbox = false;
+node.render();
+node.getParent().render();
+				$( this ).dialog( 'close' );
+			},
+			Cancel: function() {
+				$( this ).dialog( 'close' );
+			}
+		},
+		close: function() {
+			//allFields.val( \"\" ).removeClass( \"ui-state-error\" );
+		}
+	});
+
+	$('#prevMsg').change(function () {
+		var str = $(this).find(\":selected\").attr(\"title\");
+		var fin = \"\"; 
+		if (str) {
+			fin = str.substr(str.indexOf(\"[\")+1, str.indexOf(\"]\")-1-str.indexOf(\"[\"));
+			$('#newMsg').val(fin);
+		}
+//		$(\"select option:selected\").each(function () {
+//			str += $(this).text() + \" \";
+//		});
+//		$('#newMsg').val(str);
+        })
+        .trigger('change');
+
+  }); // end function
+"); // end addScript
+
 	$global['xajax_res']->addScript("load_map(".$row['latitude'].", ".$row['longitude'].", '".$row['street']."');");
 	$global['xajax_res']->addScript("initDate();");
-
 	return $global['xajax_res']->getXML();
 }
 
