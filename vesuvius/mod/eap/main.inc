@@ -1745,9 +1745,38 @@ function shn_eap_edit() {
 		$noteUrl = str_replace("https://", "", $noteUrl);
 		$noteUrl = str_replace("http://", "", $noteUrl);
 
+		if($row['suggested_status'] == null) {
+			$ss = "";
+		} else {
+			$ss = "<br>Suggested Status: <b>";
+
+			// HACK ~ fix this to use the DB to get these values!
+			if($row['suggested_status'] == "ali") {
+				$ss .= "Alive & Well";
+
+			} elseif($row['suggested_status'] == "inj") {
+				$ss .= "Injured";
+
+			} elseif($row['suggested_status'] == "mis") {
+				$ss .= "Missing";
+
+			} elseif($row['suggested_status'] == "dec") {
+				$ss .= "Deceased";
+
+			} elseif($row['suggested_status'] == "fnd") {
+				$ss .= "Found";
+
+			} else {
+				$ss .= "Unknown";
+			}
+
+			$ss .= "</b><br>";
+		}
+
 		echo "
 			<p class=\"triangle-obtuse\">
-				".$row['note']."<br>
+				".htmlentities($row['note'])."<br>
+				".$ss."
 				<span class=\"noteFooter\">".$noteUrl."</span>
 			</p>
 			<div style=\"height: 25px;\">Posted by <b>".$row['full_name']."</b> on ".$utime."</div>

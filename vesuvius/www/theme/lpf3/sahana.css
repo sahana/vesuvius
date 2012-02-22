@@ -11,6 +11,15 @@
  */
 
 
+
+* {
+  transition:         all 0.2s ease !important;
+  -webkit-transition: all 0.2s ease !important;
+  -moz-transition:    all 0.2s ease !important;
+  -ms-transition:     all 0.2s ease !important;
+  -o-transition:      all 0.2s ease !important;
+}
+
 html, body, form, fieldset {
 	margin: 0;
 	padding: 0;

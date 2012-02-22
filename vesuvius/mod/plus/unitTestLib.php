@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.3
+ * @version      24
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0130
+ * @lastModified 2012.0221
  */
 
 
@@ -125,10 +125,10 @@ function version() {
 		$client = new nusoap_client($wsdl);
 		//$client->useHTTPPersistentConnection();
 		$result = $client->call('version', array(null));
-		if(is_array($result) && (($result['versionMajor'] == 1) || ($result['versionMajor'] == 2))) {
+		if(is_array($result) && ((int)$result['version'] > 23)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".(int)$result['version'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -897,6 +897,54 @@ function hasRecordBeenRevised($uuid, $user, $pass) {
 
 
 
+function addComment($uuid, $comment, $status, $user, $pass) {
+	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">addComment</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('addComment', array('uuid'=>$uuid, 'comment'=>$comment, 'status'=>$status, 'username'=>$user, 'password'=>$pass));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
+			echo "<td class=\"stub\"><blink>STUB</blink></td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
+
+function getPersonPermissions($uuid, $user, $pass) {
+	global $sites;
+	global $count;
+	$count++;
+	echo "<tr><td>".$count."</td><td class=\"func\">getPersonPermissions</td>";
+	foreach($sites as $name => $wsdl) {
+		$client = new nusoap_client($wsdl);
+		$result = $client->call('getPersonPermissions', array('uuid'=>$uuid, 'username'=>$user, 'password'=>$pass));
+		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
+			echo "<td class=\"pass\">&nbsp;</td>";
+		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
+			echo "<td class=\"stub\"><blink>STUB</blink></td>";
+		} else {
+			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+		}
+	}
+	echo "</tr>";
+}
+
+
+
+////// PLUS UNIT TEST Image List FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////// PLUS UNIT TEST Image List FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////// PLUS UNIT TEST Image List FUNCTIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 function getImageCountsAndTokens($user, $pass) {
 	global $sites;
 	global $count;
@@ -915,6 +963,7 @@ function getImageCountsAndTokens($user, $pass) {
 	}
 	echo "</tr>";
 }
+
 
 
 function getImageList($tokenStart, $tokenEnd, $user, $pass) {

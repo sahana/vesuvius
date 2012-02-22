@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0214
+ * @lastModified 2012.0221
  */
 
 
@@ -24,10 +24,11 @@ function shn_plus_default() {
 	$control = "";
 
 	shn_tabmenu_open();
-	shn_tabmenu_item("plus",     _t("PLUS+"),              "plus");
-	shn_tabmenu_item("reported", _t("People Reported"),    "plus");
-	shn_tabmenu_item("raw",      _t("Raw Access Log"),     "plus");
-	shn_tabmenu_item("stat",     _t("Access Statistics"),  "plus");
+	shn_tabmenu_item("plus",     _t("PLUS+"),             "plus");
+	shn_tabmenu_item("reported", _t("People Reported"),   "plus");
+	shn_tabmenu_item("raw",      _t("Raw Access Log"),    "plus");
+	shn_tabmenu_item("stat",     _t("Access Statistics"), "plus");
+	shn_tabmenu_item("clients",  _t("Active Clients"),    "plus");
 	shn_tabmenu_close();
 
 	if(isset($_GET['plus'])) {
@@ -41,6 +42,9 @@ function shn_plus_default() {
 
 	} elseif(isset($_GET['reported'])) {
 		$control = "shn_plus_reported";
+
+	} elseif(isset($_GET['clients'])) {
+		$control = "shn_plus_clients";
 	}
 
 	if($control == "") {
@@ -206,12 +210,18 @@ function shn_plus_raw() {
 		<td class=\"evener\"><b>IP</b></td>
 		<td class=\"evener\" style=\"text-align: left;\"><b>Call</b></td>
 		<td class=\"evener\"><b>API Version</b></td>
+		<td class=\"evener\"><b>Username</b></td>
 	</tr>";
 	while($row = $result->FetchRow()) {
 		if(($count%2)==0) {
 			$odd = "class=\"odder\"";
 		} else {
 			$odd = "class=\"evener\"";
+		}
+		if($row['user_name'] === null) {
+			$username = "anonymous";
+		} else {
+			$username = $row['user_name'];
 		}
 		echo "  <tr>
 				<td ".$odd.">".$row['access_time']."</td>
@@ -220,6 +230,7 @@ function shn_plus_raw() {
 				<td ".$odd.">".$row['ip']."</td>
 				<td ".$odd." style=\"text-align: left;\"><b>".$row['call']."</b></td>
 				<td ".$odd.">".$row['api_version']."</td>
+				<td ".$odd.">".$username."</td>
 			</tr>";
 		$count++;
 	}
@@ -413,6 +424,8 @@ function shn_plus_stat() {
 
 	// by api version /////////////////////////////////////////////////////////////////////////////////
 
+	$towtull = 0;
+
 	$q  = "
 		SELECT `api_version`, count(*)
 		FROM `plus_access_log`
@@ -446,10 +459,20 @@ function shn_plus_stat() {
 				<td ".$odd.">".$row['count(*)']."</td>
 			</tr>";
 		$count++;
+		$towtull += $row['count(*)'];
 	}
 	if($count==0) {
-		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
+		echo "<tr><td colspan=2 class=\"odder\">No Service Calls Yet!</td></tr>";
 	}
+	if(($count%2)==0) {
+		$odd = "class=\"odder\"";
+	} else {
+		$odd = "class=\"evener\"";
+	}
+	echo "  <tr>
+			<td ".$odd."><b>TOTAL</td>
+			<td ".$odd."><b>".$towtull."</b></td>
+		</tr>";
 	echo "
 					</table>
 				</fieldset>
@@ -508,7 +531,153 @@ function shn_plus_stat() {
 			</form>
 		</div>
 	";
-	echo "</div>";
+
+
+	// by user /////////////////////////////////////////////////////////////////////////////////
+
+	$q  = "
+		SELECT `user_name`, count(*)
+		FROM `plus_access_log`
+		".$where."
+		".$notLike."
+		group by `user_name`
+		order by count(*) desc;
+	";
+	$result = $global['db']->Execute($q);
+	$count = 0;
+
+	echo "
+		<div class=\"form-container\" style=\"width: 230px; float: left; margin-right: 5px;\">
+			<form>
+				<fieldset>
+					<legend>Hits by User</legend>
+					<table id=\"regLog\">
+						<tr>
+							<td class=\"evener\"><b>User</b></td>
+							<td class=\"evener\"><b>Hits</b></td>
+						</tr>
+	";
+	while($row = $result->FetchRow()) {
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		if(trim($row['user_name']) == "") {
+			$username = "Anonymous";
+		} else {
+			$username = $row['user_name'];
+		}
+		echo "  <tr>
+				<td ".$odd.">".$username."</td>
+				<td ".$odd.">".$row['count(*)']."</td>
+			</tr>";
+		$count++;
+	}
+	if($count==0) {
+		echo "<tr><td colspan=6 class=\"odder\">No Service Calls Yet!</td></tr>";
+	}
+	echo "
+					</table>
+				</fieldset>
+			</form>
+		</div>
+	";
+	echo "</div><div style=\"clear:both;\"></div>";
 }
+
+
+
+function shn_plus_clients() {
+
+	global $global;
+
+	// only use the pro version of Google Maps on these domains (which have a license key):
+	if(($_SERVER['HTTP_HOST'] == "pl")
+	|| ($_SERVER['HTTP_HOST'] == "pl.nlm.nih.gov")
+	|| ($_SERVER['HTTP_HOST'] == "plstage")
+	|| ($_SERVER['HTTP_HOST'] == "plstage.nlm.nih.gov")
+	|| ($_SERVER['HTTP_HOST'] == "ceb-stage-lx")
+	|| ($_SERVER['HTTP_HOST'] == "ceb-stage-lx.nlm.nih.gov")) {
+		echo "<script type=\"text/javascript\" src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&client=gme-hhs&sensor=true\"></script>";
+
+	// else use standard Google Maps:
+	} else {
+		echo "<script type=\"text/javascript\" src=\"http://maps.google.com/maps/api/js?v=3&sensor=true\"></script>";
+	}
+
+	echo '
+		<br><div id="mapCanvas" style="width: 100%; height: 500px;"></div>
+		<script>'.file_get_contents($global['approot']."/mod/plus/plus.js").'</script>
+	';
+
+	$ips = array();
+	$q = "
+		SELECT ip
+		FROM plus_access_log
+		GROUP BY ip;
+	";
+	$result = $global['db']->Execute($q);
+	while($row = $result->FetchRow()) {
+		$ips[] = $row['ip'];
+	}
+
+	echo "<script>
+		var locations = [
+	";
+
+	$count = 0;
+	foreach($ips as $ip) {
+		$q = "
+			SELECT *
+			FROM plus_access_log
+			WHERE ip = '".$ip."'
+			ORDER BY access_time DESC
+			LIMIT 1;
+		";
+		$result = $global['db']->Execute($q);
+		$row = $result->FetchRow();
+
+		if($row['latitude'] !== null && trim($row['latitude']) != '' && $row['longitude'] !== null && trim($row['longitude']) != '') {
+			if($count > 0) {
+				echo ",";
+			}
+			echo "
+				['".$row['user_name']."', ".(float)$row['latitude'].", ".(float)$row['longitude']."]
+			";
+			$count++;
+		}
+	}
+	echo "
+		];
+
+		var infowindow = new google.maps.InfoWindow();
+		var marker, i;
+		var latlngbounds = new google.maps.LatLngBounds();
+
+		for (i = 0; i < locations.length; i++) {
+			var p = new google.maps.LatLng(locations[i][1], locations[i][2]);
+			latlngbounds.extend(p);
+			marker = new google.maps.Marker({
+				position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+				map: map
+			});
+			google.maps.event.addListener(marker, 'click', (function(marker, i) {
+				return function() {
+					infowindow.setContent(locations[i][0]);
+					infowindow.open(map, marker);
+				}
+			})(marker, i));
+		}
+
+		map.fitBounds(latlngbounds);
+		</script>
+	";
+}
+
+
+
+
+
 
 

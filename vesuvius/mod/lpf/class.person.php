@@ -1232,6 +1232,57 @@ class person {
 	}
 
 
+	public function getOwner() {
+
+		// find the username of the user to report this person
+		$q = "
+			SELECT *
+			FROM `users`
+			WHERE p_uuid = '".$this->rep_uuid."';
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person getOwner ((".$q."))"); }
+		if($result != NULL && !$result->EOF) {
+			$row = $result->FetchRow();
+		} else {
+			return false;
+		}
+		return $row['user_name'];
+	}
+
+
+	public function addComment($comment, $status, $authorUuid) {
+
+		// check validity of suggested status
+		if($status != "ali" && $status != "inj" && $status != "dec" && $status != "mis" && $status != "fnd" && $status != "unk") {
+			$suggested_status = "NULL";
+		} else {
+			$suggested_status = "'".$status."'";
+		}
+
+		$q = "
+			INSERT INTO person_notes (note_about_p_uuid, note_written_by_p_uuid, note, suggested_status)
+			VALUES ('".$this->p_uuid."', '".$authorUuid."', '".mysql_real_escape_string($comment)."', ".$suggested_status.");
+		";
+error_log("(((".$q.")))");
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person add comment ((".$q."))"); }
+	}
+
+
+	public function getRevisionPermissionGroupIDs() {
+
+		// for now this is a hack, we allow records to be revised by admin, hs, hsa
+		// so, we will just report this back
+		// in the future, a better group manager will allow finer grained control of record revisions
+		$list = array();
+		$list[] = 1;
+		$list[] = 5;
+		$list[] = 6;
+		return(json_encode($list));
+	}
+
+
 	public function addImage($fileContentBase64, $filename) {
 
 		// create sahana image

@@ -21,26 +21,8 @@
 function ping() {
 
 	global $api_version;
-	return array('time' => (string)date("Y:md H:m:s.u e"));
-}
-
-
-
-// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
-function version() {
-
-	global $api_version;
 	shn_plus_logAccess(__FUNCTION__);
-
-	$e        = explode(".", $api_version);
-	$major    = $e[0];
-	$minor    = $e[1];
-
-	return array(
-		'versionMajor'    => (int)$major,
-		'versionMinor'    => (int)$minor,
-		'versionString'   => (string)$api_version
-	);
+	return array('time' => (string)date("Y:md H:m:s.u e"));
 }
 
 
@@ -87,7 +69,7 @@ function getEventList() {
 // Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) disaster events accessibleby a certain user.
 function getEventListUser($username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 	$list = array();
 
@@ -538,7 +520,7 @@ function registerUser($username, $emailAddress, $password, $givenName, $familyNa
 // Changes the password from old to new.
 function changeUserPassword($username, $oldPassword, $newPassword) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 
 	global $global;
 	require_once($global['approot']."/inc/lib_security/lib_auth.inc");
@@ -672,7 +654,7 @@ function forgotUsername($email) {
 // Used to verify a username / password combination are valid
 function checkUserAuth($username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 
 	global $global;
 	require_once($global['approot']."/inc/lib_security/lib_auth.inc");
@@ -701,7 +683,7 @@ function checkUserAuth($username, $password) {
 // Used to determine user account status without authenticating
 function getUserStatus($username) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 
 	global $global;
 	$success = false;
@@ -761,7 +743,7 @@ function getUserStatus($username) {
 // Used to determine user account status without authenticating
 function getUserGroup($username) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 
 	global $global;
 	$success = false;
@@ -935,7 +917,7 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 // Performs a search across a specific event with filters, paging, and sort options with authentication.
 function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $filterStatusAlive, $filterStatusInjured, $filterStatusDeceased, $filterStatusUnknown, $filterStatusFound, $filterGenderComplex, $filterGenderMale, $filterGenderFemale, $filterGenderUnknown, $filterAgeChild, $filterAgeAdult, $filterAgeUnknown, $filterHospitalSH, $filterHospitalWRNMMC, $filterHospitalOther, $pageStart, $perPage, $sortBy, $username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 
 	global $global;
 	global $conf;
@@ -1145,7 +1127,7 @@ function searchCount($eventShortname, $searchTerm, $filterStatusMissing, $filter
 // Performs a search across a specific event with filters, paging, and sort options with authentication, but only returns the number of results found.
 function searchCountWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $filterStatusAlive, $filterStatusInjured, $filterStatusDeceased, $filterStatusUnknown, $filterStatusFound, $filterGenderComplex, $filterGenderMale, $filterGenderFemale, $filterGenderUnknown, $filterAgeChild, $filterAgeAdult, $filterAgeUnknown, $filterHospitalSH, $filterHospitalWRNMMC, $filterHospitalOther, $pageStart, $perPage, $sortBy, $username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 
 	global $global;
 	global $conf;
@@ -1257,7 +1239,7 @@ function searchCountWithAuth($eventShortname, $searchTerm, $filterStatusMissing,
 // Report a new person
 function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 	global $conf;
 	$url = "";
@@ -1344,7 +1326,7 @@ function createPersonUuid($username, $password) {
 	global $global;
 	require_once $global['approot'].'/inc/lib_uuid.inc';
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 	$list = array();
 
@@ -1376,7 +1358,7 @@ function createPersonUuidBatch($number, $username, $password) {
 	global $global;
 	require_once $global['approot'].'/inc/lib_uuid.inc';
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 
 	// check auth, if fails, return w/ error code/message
@@ -1423,7 +1405,7 @@ function createNoteUuid($username, $password) {
 	global $global;
 	require_once $global['approot'].'/inc/lib_uuid.inc';
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 	$list = array();
 
@@ -1454,7 +1436,7 @@ function createNoteUuidBatch($number, $username, $password) {
 	global $global;
 	require_once $global['approot'].'/inc/lib_uuid.inc';
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 
 	// check auth, if fails, return w/ error code/message
@@ -1503,7 +1485,7 @@ function createNoteUuidBatch($number, $username, $password) {
 // Re-report a person using XML which will update a current record.
 function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 	global $conf;
 	$error = false;
@@ -1612,7 +1594,7 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 // Owners, admins, and HSA can immediately expire a record, everyone else can submit an expiration request to a moderated queue.
 function expirePerson($uuid, $explanation, $username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 	global $conf;
 	$error = false;
@@ -1714,7 +1696,7 @@ function getPersonExpiryDate($uuid) {
 // Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue.
 function setPersonExpiryDate($uuid, $expiryDate, $username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 	global $conf;
 	$error = false;
@@ -1774,7 +1756,7 @@ function setPersonExpiryDate($uuid, $expiryDate, $username, $password) {
 // Owners, admins, and HSA can immediately update a records expiry date, everyone else can submit a request to update the expiry date to a moderated queue. The expiry date in this case is updated to exactly one year from the time of the request.
 function setPersonExpiryDateOneYear($uuid, $username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 	global $conf;
 	$error = false;
@@ -1829,7 +1811,7 @@ function setPersonExpiryDateOneYear($uuid, $username, $password) {
 // A simple lookup of the internal uuid of a person based on their mass casualty id (if it exists).
 function getUuidByMassCasualtyId($mcid, $shortname, $username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 	global $conf;
 	$error = true;
@@ -1877,7 +1859,7 @@ function getUuidByMassCasualtyId($mcid, $shortname, $username, $password) {
 // Updates the mass casualty id of a person based on their uuid.
 function changeMassCasualtyId($newMcid, $uuid, $username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 	global $conf;
 	$error = false;
@@ -1932,7 +1914,7 @@ function changeMassCasualtyId($newMcid, $uuid, $username, $password) {
 // A simple lookup to determine if a record is still an original or has incurred revisions.
 function hasRecordBeenRevised($uuid, $username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 	global $conf;
 	$error = true;
@@ -1990,7 +1972,7 @@ function hasRecordBeenRevised($uuid, $username, $password) {
 // Returns a count of the total number of images and the value of the latest brownie (image index value).
 function getImageCountsAndTokens($username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 
 	$imageCount     = 0;
@@ -2064,7 +2046,7 @@ function getImageCountsAndTokens($username, $password) {
 // Returns a list of the images and their associated properties, paginated by a start and end token (index value).
 function getImageList($tokenStart, $tokenEnd, $username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 	global $conf;
 	$list = array();
@@ -2147,7 +2129,7 @@ function getImageList($tokenStart, $tokenEnd, $username, $password) {
 // Returns a list of the images and their associated properties, in blocks of stride size beginning with a start token (index value).
 function getImageListBlock($tokenStart, $stride, $username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 	global $conf;
 	$list = array();
@@ -2240,7 +2222,7 @@ function getImageListBlock($tokenStart, $stride, $username, $password) {
 // Returns a list of the images that have been removed from the system (either deleted or expired).
 function getNullTokenList($tokenStart, $tokenEnd, $username, $password) {
 
-	shn_plus_logAccess(__FUNCTION__);
+	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
 	$nullList = array();
 	$imageList = array();
