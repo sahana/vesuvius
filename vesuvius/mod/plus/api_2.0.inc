@@ -21,20 +21,6 @@ function shn_plus_registerAll($namespace) {
 	// GENERAL API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 	// GENERAL API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
-	shn_plus_registerOne($server, 'version',
-		array(
-			'in' => array(),
-			'out' => array(
-				'versionMajor'    => 'xsd:integer',
-				'versionMinor'    => 'xsd:integer',
-				'versionRevision' => 'xsd:integer',
-				'versionString'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Returns version info (".$api_version.")"
-	);
-
 	shn_plus_registerOne($server, 'getEventList',
 		array(
 			'in' => array(),
@@ -620,24 +606,6 @@ function shn_plus_registerAll($namespace) {
 // GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 // GENERAL API FUNCTIONS ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
-
-
-// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
-function version() {
-	global $api_version;
-	shn_plus_logAccess(__FUNCTION__);
-
-	$e        = explode(".", $api_version);
-	$major    = $e[0];
-	$minor    = $e[1];
-
-	return array(
-		'versionMajor'    => (int)$major,
-		'versionMinor'    => (int)$minor,
-		'versionString'   => (string)$api_version
-	);
-}
-
 
 
 // Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.

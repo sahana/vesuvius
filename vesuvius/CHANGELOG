@@ -1,6 +1,15 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
+2012:0221 Update
+----------------
++ added IP geocoded lookup of web service calls to track the location of TriagePic and ReUnite users for data visualization
++ added total api calls to API_VERSION in PLus Access Stats
++ added "Hits by User" section to PLUS Access Statistics
++ added "Active Clients" tab to PLUS to monitor on a Google Map the currently active web service clients (for the moment, this shows all clients over time)
++ added getPersonPermissions and addComment services to the new PLUS v24 API_VERSION
++ updated EAP (Full Record Page) to show added comments and suggested statuses
+
 2012:0214 Update
 ----------------
 Greg:

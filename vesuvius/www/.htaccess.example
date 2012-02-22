@@ -10,9 +10,9 @@ DirectoryIndex index.php
 ##### Turn on mod_rewrite to capture the shortname from a url and pass it on as a url parameter
 RewriteEngine On
 
+##### Only use 1 of the following RewriteBase options ~ comment the other out
 ##### for when Sahana is installed on a virtual host at root level ie. http://domain.com/
 RewriteBase /
-
 ##### for when Sahana is installed in a user homedir ie. http://domain.gov/~gmiernicki/sahanaDev/www/
 #RewriteBase /~miernickig/vesuvius/vesuvius/www/
 

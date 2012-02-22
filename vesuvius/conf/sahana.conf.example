@@ -1,7 +1,7 @@
 <?php
 /**
  * @name         Main Sahana Configuration File
- * @version      1.0
+ * @version      0.9.2
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
@@ -16,12 +16,14 @@ $conf['site_name'] = "Sahana Vesuvius";
 
 # Unique identifier for all resources contained in the system
 # Must be unique and 4 or more alphanumberic characters
-# this also is used throughout Vesuvius as the base URL for the site (must retain trailing slash)
+# this also is used throughout Vesuvius as the base URL for all URLs that are generated, so it must be correct (also must have a trailing slash)
 $conf['base_uuid'] = "vesuvius.sahanafoundation.org/";
-#$conf['base_uuid'] = "plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/";
+#$conf['base_uuid'] = "pl.nlm.nih.gov/";
+#$conf['base_uuid'] = "ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/";
 
 # server uses https or http ~ some modules use this plus the base_uuid to form url's
 $conf['https'] = "https://";
+#$conf['https'] = "http://";
 
 # Use this theme directory
 $conf['theme'] = "vesuvius";

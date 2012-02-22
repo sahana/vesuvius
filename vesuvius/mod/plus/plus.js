@@ -1,4 +1,3 @@
-<?
 /**
  * @name         PL User Services
  * @version      24
@@ -10,9 +9,13 @@
  * @lastModified 2012.0221
  */
 
-$conf['mod_plus_name']       = _t("Web Services");
-$conf['mod_plus_menuorder']  = 99;
-$conf['mod_plus_version']    = "24";
-$conf['mod_plus_latest_api'] = "24";
+// Google Maps junx
+
+var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+	zoom: 2,
+	center: new google.maps.LatLng(0,0),
+	mapTypeId: google.maps.MapTypeId.TERRAIN
+});
+
 
 

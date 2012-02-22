@@ -34,19 +34,6 @@ function shn_plus_registerAll($namespace) {
 		"Used to test if the server is active/up."
 	);
 
-	shn_plus_registerOne($server, 'version',
-		array(
-			'in' => array(),
-			'out' => array(
-				'versionMajor'    => 'xsd:integer',
-				'versionMinor'    => 'xsd:integer',
-				'versionString'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Returns version info (".$api_version.")"
-	);
-
 	shn_plus_registerOne($server, 'getEventList',
 		array(
 			'in' => array(),

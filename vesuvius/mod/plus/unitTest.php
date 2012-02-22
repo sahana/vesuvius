@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.3
+ * @version      24
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0130
+ * @lastModified 2012.0221
  */
 
 
@@ -27,6 +27,8 @@ $expiryDate = "2036-11-11 11:11:11";
 $tokenStart = "1";
 $tokenEnd = "1";
 $stride = 2;
+$comment = "TEST COMMENT FOR WEB SERVICES.";
+$status = "dec";
 
 // load nusoap client library
 require_once("../../3rd/nusoap/lib/nusoap.php");
@@ -57,17 +59,26 @@ if(!isset($_GET['api'])) {
 
 	// perform tests...
 	switch($_GET['api']) {
+
+		case '24':
+			getPersonPermissions($uuid, $user, $pass);
+			addComment($uuid, $comment, $status, $user, $pass);
+			version();
+
 		case '2.3':
 			searchCount("test", "t");
 			searchCountWithAuth("test", "t", $user, $pass);
 			resetUserPassword($email);
+
 		case '2.2':
 			reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $user, $pass);
+
 		case '2.1':
 			getImageCountsAndTokens($user, $pass);
 			getImageList($tokenStart, $tokenEnd, $user, $pass);
 			getImageListBlock($tokenStart, $stride, $user, $pass);
 			getNullTokenList($tokenStart, $tokenEnd, $user, $pass);
+
 		case '2.0':
 			expirePerson($uuid, '', $user, $pass);
 			getPersonExpiryDate($uuid);
@@ -79,6 +90,7 @@ if(!isset($_GET['api'])) {
 			getHospitalLegalese("1");
 			getHospitalLegaleseAnon("1");
 			getHospitalLegaleseTimestamps("1");
+
 		case '1.9.5':
 			reportPerson($personXML, $eventShortname, $xmlFormat, $user, $pass);
 			createPersonUuid($user, $pass);
@@ -100,7 +112,6 @@ if(!isset($_GET['api'])) {
 			getHospitalList();
 			getHospitalData("1");
 			getHospitalPolicy("1");
-			version();
 	}
 	echo "</table><b>Note: deprecated functions are not listed/tested.</b></body>";
 }
