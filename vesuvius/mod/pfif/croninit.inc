@@ -1,20 +1,17 @@
 <?php
 /**
-* Initialization script for scheduled PFIF import/export services
-* Note: Services are the same as repositories, with a bit of extra massaging
-* thrown in.
-*
-* PHP version 4 and 5
-*
-* LICENSE: This source file is subject to LGPL license
-* that is available through the world-wide-web at the following URI:
-* http://www.gnu.org/copyleft/lesser.html
-*
-* @package    Sahana - http://sahana.sourceforge.net
-* @author ccornwell, contractor, NLM-CEB, ccornwell@mail.nih.gov
-* @author lneve, contractor, NLM-CEB, lneve@mail.nih.gov
-* @copyright  Lanka Software Foundation - http://www.opensource.lk
-*/
+ * @name         Person Finder Interchange Format
+ * @version      2
+ * @package      pfif
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @author       Leif Neve <lneve@mail.nih.gov>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2012.0223
+ */
+
 
 $pfif_conf['services'] = array();
 
@@ -23,7 +20,7 @@ function add_pfif_service($repository) {
    global $pfif_conf;
 
    $service_name = $repository->name;
-   // Stash repository here for getting at harvest log, etc. 
+   // Stash repository here for getting at harvest log, etc.
    $pfif_conf['services'][$service_name]['repository'] = $repository;
    // TODO: Move to repository table.
    $pfif_conf['services'][$service_name]['version'] = '1.3';

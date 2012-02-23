@@ -1,17 +1,18 @@
 <?php
-
 /**
- * Loads PFIF Persons or Notes depending on first argument. Uses harvest log information to keep
- * track of where it left off.
- *
- * @package     pfif
- * @version      1.1
- * @author       Carl H. Cornwell <ccornwell@mail.nih.gov>
+ * @name         Person Finder Interchange Format
+ * @version      2
+ * @package      pfif
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
  * @author       Leif Neve <lneve@mail.nih.gov>
- * LastModified: 2011:0719
- * License:      LGPL
- * @link         TBD
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2012.0223
  */
+
+
 // print "Configuring error reporting  ...\n";
 error_reporting(E_ALL ^ E_NOTICE);
 // print "Configuring error display  ...\n";
@@ -46,7 +47,7 @@ if ($argc < 2) {
    die("Wrong number of arguments: Expecting at least 2.");
 } else if ($argv[1] != "person" && $argv[1] != "note") {
    die("Expect 'person' or 'note' as first argument.");
-} 
+}
 $is_person = ($argv[1] == "person") ? true : false;
 $is_scheduled = ($argc > 2 && $argv[2] == "test") ? false : true;
 $mode = $is_scheduled ? "scheduled" : "test";
@@ -104,7 +105,7 @@ foreach ($import_queue as $service_name => $service) {
                $stored = $p->storeNotesInDatabase();
             }
             print "Stored $stored records.\n";
-         } else { 
+         } else {
             // Output to file for test/debug. (This leverages export functionality.)
             $xml = $p->storeInXML(false); // non-embedded format
             //print $xml;
