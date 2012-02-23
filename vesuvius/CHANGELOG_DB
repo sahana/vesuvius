@@ -10,6 +10,7 @@ ALTER TABLE  `plus_access_log` ADD  `user_name` VARCHAR( 100 ) NULL DEFAULT NULL
 ALTER TABLE  `plus_access_log` ADD INDEX  `user_idx` (`user_name`) ;
 ALTER TABLE  `plus_access_log` ADD FOREIGN KEY (`user_name`) REFERENCES  `users` (`user_name`) ON DELETE CASCADE ON UPDATE CASCADE ;
 ALTER TABLE  `person_notes`    ADD  `suggested_status` VARCHAR( 3 ) NULL DEFAULT NULL COMMENT  'the status of the person as suggested by the note maker' ;
+ALTER TABLE  `plus_access_log` ADD INDEX  `ip_idx` (  `ip` );
 
 2012:0216 Greg
 --------------

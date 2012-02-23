@@ -557,7 +557,7 @@ function shn_authenticate_user() {
 
 			$e = explode("/", $_POST['return']);
 			$f = $e[sizeof($e)-1];
-			if($f == "login" || $f == "index.php?doLogin=1") {
+			if($f == "login" || $f = "auth" || $f == "index.php?doLogin=1") {
 				header("Location: settings");
 			} else {
 				header("Location: ".$_POST['return']);
@@ -891,8 +891,6 @@ function _shn_auth_lock_user($uid,$status) {
 
 function shn_auth_gen_captcha() {
 
-error_log('hi!');
-
 	// Now lets use md5 to generate a totally random string
 	$md5 = md5(microtime() * time());
 
@@ -957,7 +955,6 @@ error_log('hi!');
 		$alpha = rand(16, 47);
 		$color = imagecolorallocatealpha($captcha, $red, $green, $blue, $alpha);
 		$path = realpath(getcwd()."/res/ttf/");
-		//error_log("PATH>>".$path."<<");
 		$font  = $path."/arial.ttf";
 		$angle = rand(-30, 30);
 		$x     = (($width/5)*$i)+abs($angle)/2;

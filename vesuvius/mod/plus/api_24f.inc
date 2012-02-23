@@ -1260,7 +1260,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 	global $conf;
 	$url = "";
 	$error = false;
-	$ecode = null;
+	$ecode = 0;
 
 	// check auth, if fails, return w/ error code/message
 	$status = shn_plus_checkCredz($username, $password);
@@ -1318,8 +1318,8 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 		}
 	}
 
+	$eCodes = unserialize(ERRORCODES);
 	if($error) {
-		$eCodes = unserialize(ERRORCODES);
 		return array(
 			'url'          => (string)$p->p_uuid,
 			'errorCode'    => (int)$ecode,
@@ -1328,8 +1328,8 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 	} else {
 		return array(
 			'url'          => (string)$p->p_uuid,
-			'errorCode'    => (int)0,
-			'errorMessage' => ''
+			'errorCode'    => (int)$ecode,
+			'errorMessage' => (string)$eCodes[$ecode]
 		);
 	}
 }
@@ -1591,16 +1591,18 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 		}
 	}
 
+	$eCodes = unserialize(ERRORCODES);
 	if($error) {
-		$eCodes = unserialize(ERRORCODES);
 		return array(
+			'url'          => (string)$p->p_uuid,
 			'errorCode'    => (int)$ecode,
 			'errorMessage' => (string)$eCodes[$ecode]
 		);
 	} else {
 		return array(
-			'errorCode'    => (int)0,
-			'errorMessage' => (string)''
+			'url'          => (string)$p->p_uuid,
+			'errorCode'    => (int)$ecode,
+			'errorMessage' => (string)$eCodes[$ecode]
 		);
 	}
 }

@@ -1,65 +1,42 @@
 <?
 /**
  * @name         Push Out Post
- * @version      12
+ * @version      13
  * @package      pop
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0207
+ * @lastModified 2012.0222
  */
 
 
 global $global;
 require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
-
-/** informs the lib_menu of the module's status */
-function shn_pop_statusGood() {
-
-	global $global;
-	$q = "
-		SELECT *
-		FROM `pop_outlog`
-		ORDER BY `pop_outlog`.`time_sent` DESC LIMIT 1;
-	";
-	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "popStatusGood 1 ((".$q."))"); }
-	$row = $result->FetchRow();
-	$pass = $row['send_status'];
-
-	if((string)trim($pass) == "SUCCESS") {
-		return true;
-	} else {
-		return false;
-	}
-}
+global $tabid;
+$tabid = isset($_GET['tabid']) ? $_GET['tabid'] : 0;
+$tabid = "&tabid=".$tabid;
 
 
+/** module controller */
 function shn_pop_default() {
 
 	global $global;
 
 	$control = "";
 
-	echo "<ul>";
+	shn_tabmenu_open();
+	shn_tabmenu_item("log",           _t("Sent Email Log"), "outbound");
+	shn_tabmenu_item("configuration", _t("SMTP Configuration"),  "outbound");
+	shn_tabmenu_close();
 
 	if(isset($_GET['configuration'])) {
-		echo "<li>Configuration Options</li>";
 		$control = "shn_pop_configuration";
-	} else {
-		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"outbound?configuration\">Configuration Options</a></li>";
-	}
 
-	if(isset($_GET['log']) || $control == "") {
-		echo "<li>Outbound Email Log</li>";
+	} else {
 		$control = "shn_pop_log";
-	} else {
-		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"outbound?log\">Outblound Email Log</a></li>";
 	}
-
-	echo "</ul><hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
 
 	$control();
 }
@@ -113,7 +90,7 @@ function shn_pop_log() {
 	$result = $global['db']->Execute($query);
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "pop log 2 ((".$q."))"); }
 	$count = 0;
-	echo "<div class=\"form-container\"><form><fieldset>";
+	echo "<br><div class=\"form-container\"><form><fieldset>";
 	echo "<legend>Outbound Email Log (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
 	echo "<table id=\"regLog\"><tr>
 		<td class=\"evener\"><b>Sent By Module</b></td>
@@ -160,6 +137,7 @@ function shn_pop_configuration() {
 
 	global $global;
 	global $conf;
+	global $tabid;
 
 	$posted = 0;
 
@@ -317,9 +295,9 @@ function shn_pop_configuration() {
 			$smtp_backup2_text = "";
 		}
 	}
-	shn_form_fopen2("outbound?configuration", null, array('req_message'=>false));
+	shn_form_fopen2("outbound?configuration".$tabid, null, array('req_message'=>false));
 		shn_form_fsopen("Outbound Email Settings");
-		?>
+		?><br>
 <table id="popSettings">
 <tr>
 	<td>&nbsp;</td>
@@ -384,6 +362,28 @@ function shn_pop_configuration() {
 }
 
 
+
+
+/** informs the lib_menu of the module's status */
+function shn_pop_statusGood() {
+
+	global $global;
+	$q = "
+		SELECT *
+		FROM `pop_outlog`
+		ORDER BY `pop_outlog`.`time_sent` DESC LIMIT 1;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "popStatusGood 1 ((".$q."))"); }
+	$row = $result->FetchRow();
+	$pass = $row['send_status'];
+
+	if((string)trim($pass) == "SUCCESS") {
+		return true;
+	} else {
+		return false;
+	}
+}
 
 
 
