@@ -1253,7 +1253,7 @@ class person {
 
 	public function addComment($comment, $status, $authorUuid) {
 
-		// check validity of suggested status
+		// check validity of suggested status ** HACK!!! ~ update to use opt_codes later....
 		if($status != "ali" && $status != "inj" && $status != "dec" && $status != "mis" && $status != "fnd" && $status != "unk") {
 			$suggested_status = "NULL";
 		} else {
@@ -1264,7 +1264,7 @@ class person {
 			INSERT INTO person_notes (note_about_p_uuid, note_written_by_p_uuid, note, suggested_status)
 			VALUES ('".$this->p_uuid."', '".$authorUuid."', '".mysql_real_escape_string($comment)."', ".$suggested_status.");
 		";
-error_log("(((".$q.")))");
+
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person add comment ((".$q."))"); }
 	}
@@ -1785,9 +1785,16 @@ error_log("(((".$q.")))");
 						$i->init();
 						$i->p_uuid = $this->p_uuid;
 						$i->fileContentBase64 = $imageNode['contentData'];
+						$i->decode();
 
-//$i->decode();
-//error_log("fileSHA1(".sha1($i->fileContent).") and XMLSHA1("..")");
+						$xmlSha1 = $imageNode['digest'];
+						$realSha1 = sha1($i->fileContent);
+
+						if($realSha1 !== $xmlSha1) {
+							//error_log("420!! realSha1(".$realSha1.") xmlSha1(".$xmlSha1.")");
+							$i->invalid = true;
+							$this->ecode = 420;
+						}
 
 						$i->original_filename = $imageNode['uri'];
 						if($primary) {
@@ -1806,7 +1813,6 @@ error_log("(((".$q.")))");
 						}
 						if(!$i->invalid) {
 							$this->images[] = $i;
-							$this->ecode = 419;
 						}
 					}
 

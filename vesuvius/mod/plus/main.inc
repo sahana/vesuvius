@@ -13,8 +13,14 @@
 
 
 global $tabid;
-$tabid = "&tabid=".$_GET['tabid'];
+$tabid = isset($_GET['tabid']) ? $_GET['tabid'] : 0;
+$tabid = "&tabid=".$tabid;
 
+//function shn_plus_mainmenu() {}
+//function shn_plus_header() {}
+//function shn_plus_footer() {}
+//function shn_plus_html_head() {}
+//function shn_plus_login() {}
 
 
 function shn_plus_default() {

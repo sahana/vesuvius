@@ -12,7 +12,8 @@
 
 $user = "testDontDelete";
 $pass = "dontDelete99";
-$uuid = "ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/person.4001921";
+$uuid = "pl.nlm.nih.gov/person.2958785";
+//$uuid = "ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/person.4001921";
 require_once("../../3rd/nusoap/lib/nusoap.php");
 
 //$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=24";
@@ -20,10 +21,31 @@ require_once("../../3rd/nusoap/lib/nusoap.php");
 $wsdl = "http://ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/?wsdl&api=24";
 $client = new nusoap_client($wsdl);
 
+
+//$x = file_get_contents("RU.xml");
+$x = file_get_contents("reference_REUNITE4.xml");
+//$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE4', 'username'=>$user, 'password'=>$pass));
+//$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
+
+$x = file_get_contents("testTP1.xml");
+//$x = file_get_contents("reference_TRIAGEPIC1.xml");
+$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
+//$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
+
+echo "
+	<h2>wsdl: ".$wsdl."</h2>
+	<pre>".var_export($result, true)."</pre>
+	<h2>Request</h2>
+	<pre>".htmlspecialchars($client->request, ENT_QUOTES)."</pre>
+	<h2>Response</h2>
+	<pre>".htmlspecialchars($client->response, ENT_QUOTES)."</pre>
+	<h2>Debug</h2>
+	<pre>".htmlspecialchars($client->debug_str, ENT_QUOTES)."</pre>
+";
+
 //$result = $client->call('version', array(null));
 //$result = $client->call('getPersonPermissions', array('uuid'=>$uuid, 'username'=>$user, 'password'=>$pass));
-$result = $client->call('addComment', array('uuid'=>$uuid, 'comment'=>'comment!!!', 'status'=>'dec', 'username'=>$user, 'password'=>$pass));
-
+//$result = $client->call('addComment', array('uuid'=>$uuid, 'comment'=>'comment!!!', 'status'=>'dec', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('getEventListUser', array('username'=>$user, 'password'=>$pass));
 //$result = $client->call('getEventList', array(null));
 //$result = $client->call('ping', array(null));
@@ -76,29 +98,6 @@ $result = $client->call('searchCountWithAuth', array(
 	'password'=>$pass
 ));
 */
-
-//$x = file_get_contents("RU.xml");
-$x = file_get_contents("reference_REUNITE4.xml");
-//$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE4', 'username'=>$user, 'password'=>$pass));
-//$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
-
-//$x = file_get_contents("testTP1.xml");
-$x = file_get_contents("reference_TRIAGEPIC1.xml");
-//$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
-//$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
-
-
-
-echo "
-	<h2>wsdl: ".$wsdl."</h2>
-	<pre>".var_export($result, true)."</pre>
-	<h2>Request</h2>
-	<pre>".htmlspecialchars($client->request, ENT_QUOTES)."</pre>
-	<h2>Response</h2>
-	<pre>".htmlspecialchars($client->response, ENT_QUOTES)."</pre>
-	<h2>Debug</h2>
-	<pre>".htmlspecialchars($client->debug_str, ENT_QUOTES)."</pre>
-";
 
 
 

@@ -12,7 +12,8 @@
 
 
 global $tabid;
-$tabid = "&tabid=".$_GET['tabid'];
+$tabid = isset($_GET['tabid']) ? $_GET['tabid'] : 0;
+$tabid = "&tabid=".$tabid;
 
 
 function shn_tp_default() {
