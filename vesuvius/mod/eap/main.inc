@@ -243,6 +243,8 @@ function shn_eap_findRights() {
 		$global['startFollow'] = false;
 		$global['role']        = "anonymous";
 
+
+	// logged in
 	} else {
 		$q  = "
 			SELECT COUNT(*)
@@ -285,17 +287,18 @@ function shn_eap_findRights() {
 			$global['addNote']     = true;
 			$global['startFollow'] = true;
 			$global['role']        = "staff";
-
-		// Admin ~ logged in
-		} else if(($_SESSION['group_id'] == "1") && ($_SESSION['logged_in'] == 1)) {
-			$global['publicView']  = true;
-			$global['publicEdit']  = true;
-			$global['privateView'] = true;
-			$global['privateEdit'] = true;
-			$global['addNote']     = true;
-			$global['startFollow'] = true;
-			$global['role']        = "admin";
 		}
+	}
+	// Admin ~ logged in ~ has right to everything
+	if(($_SESSION['group_id'] == "1") && ($_SESSION['logged_in'] == 1)) {
+		$global['permissionToView'] = true;
+		$global['publicView']  = true;
+		$global['publicEdit']  = true;
+		$global['privateView'] = true;
+		$global['privateEdit'] = true;
+		$global['addNote']     = true;
+		$global['startFollow'] = true;
+		$global['role']        = "admin";
 	}
 }
 
