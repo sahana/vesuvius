@@ -1,6 +1,14 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
+2012:0228 Update
+----------------
++ tabbed Inbound / Outbound / PFIF modules
++ fixed login/auth redirection bug
++ 508'd the LPF site
++
+
+
 2012:0221 Update
 ----------------
 + added IP geocoded lookup of web service calls to track the location of TriagePic and ReUnite users for data visualization
