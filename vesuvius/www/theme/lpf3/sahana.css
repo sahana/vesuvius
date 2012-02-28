@@ -58,6 +58,8 @@ body {
 	height: 100%;
 	/*background-color: rgba(98,137,192,1);*/
 
+
+/*
 	background-attachment:fixed;
 
 
@@ -125,11 +127,9 @@ body {
 		-webkit-linear-gradient(
 		top,
 		rgba(255,255,255,1),
-		rgba(255,255,255,1) 72%,
-		rgba(98,137,192,0) 72%,
-		rgba(98,137,192,0.05) 74%,
-		rgba(98,137,192,0.25) 80%,
-		rgba(98,137,192,1.0)) ;
+		rgba(255,255,255,1) 80%,
+		rgba(212,224,240,1.0)) ;
+		*/
 }
 
 form label { cursor: pointer; }
@@ -442,36 +442,45 @@ div#footer {
 	bottom: 0px;
 	height: 163px;
 	width: 100%;
+	/*
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#6289b0');
+	*/
 }
 
 #footerTable {
 	padding: 10px 30px 10px 30px;
 	border: none;
-	height: 120px;
 	width: 680px;
-	margin-top: 20px;
-	background-color: rgba(255,255,255,0.1);
+	margin-top: 30px;
+	border-top: 1px solid #E5EAEF;
+/*
+	background-color: rgba(191,191,191,0.15);
 	border-radius: 20px;
-	-moz-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.05);
-	-webkit-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.05);
-	box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.05);
+	-moz-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.15);
+	box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.15);
+*/
 }
 #footerTable td { padding: 10px; border: none; text-align: center; }
-#footerTable td a { color: white; }
-#footerTable td a:hover { color: white; text-decoration: underline; }
+#footerTable td a { color: #34689A; }
+#footerTable td a:hover { /*color: white;*/ text-decoration: underline; }
 #footerTable td img {
 	padding: 8px;
 }
+/*
 #footerTable td img:hover {
 	background:
 	-moz-radial-gradient(50% 50%, circle, rgba(255,255,255,0.75) 10px, rgba(255,255,255,0.01) 33px);
 	background:
 	-webkit-radial-gradient(50% 50%, circle, rgba(255,255,255,0.75) 10px, rgba(255,255,255,0.01) 33px);
 }
+*/
 #footerTable tr td {
-	color: #fff; text-shadow: rgba(0,0,0,0.7) 1px 1px 2px; font-size: 12px;
+/* 	color: #fff; */
+/* 	text-shadow: rgba(0,0,0,0.7) 1px 1px 2px; */
+	font-size: 12px;
 }
+/*
 #footerTable tr td a img {
 	padding: 10px;
 	background:
@@ -479,12 +488,13 @@ div#footer {
 	background:
 		-webkit-radial-gradient(50% 50%, circle, rgba(255,255,255,0.5) 10px, rgba(255,255,255,0.01) 33px);
 }
+*/
 div#footer hr {display: none;}
 #notice {
 	padding: 5px;
-	color: #fff;
+	color: #34689A;
 	font-size: 12px;
-	text-shadow: rgba(0,0,0,0.7) 1px 1px 2px;
+/* 	text-shadow: rgba(0,0,0,0.7) 1px 1px 2px; */
 }
 
 #notice:hover {

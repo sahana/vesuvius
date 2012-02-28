@@ -6,7 +6,10 @@ Changes since Vesuvius 0.9.1 was released (2011-05-20)
 + tabbed Inbound / Outbound / PFIF modules
 + fixed login/auth redirection bug
 + 508'd the LPF site
-+
++ Admins can now view/edit all records regardless if they have permission to the event.
++ Event Manager : Event Visiblity choice have been narrow to: Public, Admin, HS, HSA, Researcher (registered user and anonymous removed)
++ updated TP to use newest version of jQuery / collapsible script
+
 
 
 2012:0221 Update
