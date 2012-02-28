@@ -734,7 +734,7 @@ h1 {
 }
 
 p {padding: 10px; }
-table {border-collapse: collapse; border: 3px solid #444;}
+table {border-collapse: collapse; }
 td {padding: 4px;}
 
 #aboutUsLogos {
@@ -870,3 +870,5 @@ td {padding: 4px;}
 	display: none;
 	z-index: 1000;
 }
+
+div#footer { position: relative !important; }
