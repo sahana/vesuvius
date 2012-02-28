@@ -32,12 +32,14 @@ function shn_stat_menu() {
 		echo "
 		<ul>			
 			<li><a href=\"index.php?mod=stat&act=arrival\">Arrival Rates</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival_regular_interval\">Regular Interval Arrival Rates</a></li>
 			<li><a href=\"index.php?mod=stat&act=cummulative_arrival\">Cummulative Arrivals</a></li>
 			<li><a href=\"index.php?mod=stat&act=stacked_cummulative_arrival\">Stacked Cummulative Arrivals</a></li>
-			<li><a href=\"index.php?mod=stat&act=demographic\">Demographic Pie Charts</a></li>
+			<li><a href=\"index.php?mod=stat&act=demographic\">Demographic Pie Charts</a></li>			
 						
 		</ul>
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
+		<div id="container" style="width: 100%; height: 100%; min-height: 100%;">
 		";
 		if ($shortname=='cmax2010' or $shortname=='new'){
 		echo "
@@ -2242,7 +2244,7 @@ function shn_stat_cummulative_arrival() {
 	while($row5 = $res5->FetchRow());		
 	
 	?>
-	<div id="container" style="width: 600px; height: 800px;">
+	<div id="container" style="width: 100%; height: 100%;">
 
 	</div>;	
 	<?php
@@ -2659,7 +2661,7 @@ function shn_stat_stacked_cummulative_arrival() {
 			
 	
 	?>
-	<div id="container" style="width: 600px; height: 800px;">	
+	<div id="container" style="width: 100%; height: 100%;">	
 
 	</div>;
 	
@@ -3072,10 +3074,8 @@ function shn_stat_demographic() {
 	while($row = $res->FetchRow());		
 	
 	?>
-	<div id="container" style="width: 300px; height: 400px;">
-	<--!div id="container2" style="width: 300px; height: 400px;"-->
-	<--!button id="button">Remove first series</button-->
-
+	<div id="container" style="width: 100%; height: 100%;">
+	
 	<div>;
 	
 	<?php
@@ -3194,7 +3194,9 @@ function shn_stat_demographic() {
 				echo "},\n";
 		echo "margin: 45,\n";
 		echo "y: 50,\n";
+		 if ($startdate_has_data=true){
          echo "text: 'From: $start_date to $end_date'\n" ;
+		 }
       echo "},\n" ;
 	  
 	  echo "xAxis: {\n" ;
@@ -3419,29 +3421,57 @@ function shn_stat_arrival() {
 	$row = $res->FetchRow();
 	$end_date= $row[0];
 	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+	
 	$q="SELECT (arrival_time) as source_date, count(*) as count_source_date from arrival_rate a
 	where ((source_all >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
-	GROUP by (arrival_time)";
+	GROUP by date(arrival_time)";
 	
 	$q1="SELECT (arrival_time) as source_date1, count(*) as count_source_date1 from arrival_rate a
 	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
-	GROUP by (arrival_time)"; 
+	GROUP by date(arrival_time)"; 
 	
 	$q2="SELECT (arrival_time) as source_date2, count(*) as count_source_date2 from arrival_rate a
 	where ((source_reunite >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
-	GROUP by (arrival_time)";
+	GROUP by date(arrival_time)";
 	
 	$q3="SELECT (arrival_time) as source_date3, count(*) as count_source_date3 from arrival_rate a
 	where ((source_website >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
-	GROUP by (arrival_time)";
+	GROUP by date(arrival_time)";
 	
 	$q4="SELECT (arrival_time) as source_date4, count(*) as count_source_date4 from arrival_rate a
 	where ((source_pfif >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
-	GROUP by (arrival_time)";
+	GROUP by date(arrival_time)";
 	
 	$q5="SELECT (arrival_time) as source_date5, count(*) as count_source_date5 from arrival_rate a
 	where ((source_vanilla_email >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
-	GROUP by (arrival_time)";
+	GROUP by date(arrival_time)";
+	
+	if ($shortname=='new'){
+	
+	$q="SELECT (arrival_time) as source_date, count(*) as count_source_date from arrival_rate a
+	where ((source_all >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time), hour(arrival_time)";
+	
+	$q1="SELECT (arrival_time) as source_date1, count(*) as count_source_date1 from arrival_rate a
+	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time),hour(arrival_time)"; 
+	
+	$q2="SELECT (arrival_time) as source_date2, count(*) as count_source_date2 from arrival_rate a
+	where ((source_reunite >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time),hour(arrival_time)";
+	
+	$q3="SELECT (arrival_time) as source_date3, count(*) as count_source_date3 from arrival_rate a
+	where ((source_website >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time),hour(arrival_time)";
+	
+	$q4="SELECT (arrival_time) as source_date4, count(*) as count_source_date4 from arrival_rate a
+	where ((source_pfif >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time),hour(arrival_time)";
+	
+	$q5="SELECT (arrival_time) as source_date5, count(*) as count_source_date5 from arrival_rate a
+	where ((source_vanilla_email >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time),hour(arrival_time)";
+	}
 	
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
@@ -3544,8 +3574,8 @@ function shn_stat_arrival() {
 			
 	
 	?>
-	<div id="container" style="width: 600px; height: 800px;"></div>;
-	<!--button id="button">Remove first series</button--!>
+	<div id="container" style="width: 100%; height: auto;"></div>;
+	
 	
 	
 	<?php
@@ -4492,3 +4522,382 @@ echo "
 </script>\n" ;
 echo "Test area ";
 }//end function
+/***********************************************************
+arrivals rate- regular interval-from arrival rate table
+***********************************************************/
+function shn_stat_arrival_regular_interval() {
+	global $global;
+	shn_stat_menu();
+	echo $_GET['shortname'];
+	$shortname = $_GET['shortname'];
+	$name=ucfirst($shortname);
+	//$item = $_GET['item'];
+	
+	//for starting date for all sources
+	$q_start_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	ORDER BY arrival_time asc limit 1";
+	$res = $global['db']->Execute($q_start_date);
+	$row = $res->FetchRow();
+	$start_date= $row[0];
+	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
+	//for end date for all sources
+	$q_end_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	ORDER BY arrival_time desc limit 1";
+	$res = $global['db']->Execute($q_end_date);
+	$row = $res->FetchRow();
+	$end_date= $row[0];
+	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+	
+	$q="SELECT (arrival_time) as source_date, count(*) as count_source_date from arrival_rate a
+	where ((source_all >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time)";
+	
+	$q1="SELECT (arrival_time) as source_date1, count(*) as count_source_date1 from arrival_rate a
+	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time)"; 
+	
+	$q2="SELECT (arrival_time) as source_date2, count(*) as count_source_date2 from arrival_rate a
+	where ((source_reunite >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time)";
+	
+	$q3="SELECT (arrival_time) as source_date3, count(*) as count_source_date3 from arrival_rate a
+	where ((source_website >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time)";
+	
+	$q4="SELECT (arrival_time) as source_date4, count(*) as count_source_date4 from arrival_rate a
+	where ((source_pfif >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time)";
+	
+	$q5="SELECT (arrival_time) as source_date5, count(*) as count_source_date5 from arrival_rate a
+	where ((source_vanilla_email >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time)";
+	
+	$res = $global['db']->Execute($q);
+	$row = $res->FetchRow();
+	$res1 = $global['db']->Execute($q1);
+	$row1 = $res1->FetchRow();
+	
+	$res2 = $global['db']->Execute($q2);
+	$row2 = $res2->FetchRow();
+	$res3 = $global['db']->Execute($q3);
+	$row3 = $res3->FetchRow();
+	$res4 = $global['db']->Execute($q4);
+	$row4 = $res4->FetchRow();
+	$res5 = $global['db']->Execute($q5);		
+	$row5 = $res5->FetchRow();
+    
+	if($row === FALSE) {
+    	//die(mysql_error());
+	}
+	$json_source_date = array();
+	$json_count_source_date = array();
+	do{
+		$source_date[] = (strtotime($row['source_date'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_source_date, $row['source_date']);
+		$count_source_date[] = $row['count_source_date'];
+		array_push($json_count_source_date, $row['count_source_date']);
+		}
+	while($row = $res->FetchRow());
+	
+	
+	if($row1 === FALSE) {
+    	//die(mysql_error());
+	}
+	$json_source_date1 = array();
+	$json_count_source_date1 = array();
+	do{
+		$source_date1[] = (strtotime($row1['source_date1'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_source_date1, $row1['source_date1']);
+		$count_source_date1[] = $row1['count_source_date1'];
+		array_push($json_count_source_date1, $row1['count_source_date1']);
+		}
+	while($row1 = $res1->FetchRow());
+	
+	if($row2 === FALSE) {
+    	//die(mysql_error());
+	}
+	$json_source_date2 = array();
+	$json_count_source_date2 = array();
+	do{
+		$source_date2[] = (strtotime($row2['source_date2'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_source_date2, $row2['source_date2']);
+		$count_source_date2[] = $row2['count_source_date2'];
+		array_push($json_count_source_date2, $row2['count_source_date2']);
+		}
+	while($row2 = $res2->FetchRow());
+	
+	if($row3 === FALSE) {
+    	//die(mysql_error());
+	}
+	$json_source_date3 = array();
+	$json_count_source_date3 = array();
+	do{
+		$source_date3[] = (strtotime($row3['source_date3'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_source_date3, $row3['source_date3']);
+		$count_source_date3[] = $row3['count_source_date3'];
+		array_push($json_count_source_date3, $row3['count_source_date3']);
+		}
+	while($row3 = $res3->FetchRow());
+	
+	if($row4 === FALSE) {
+    	//die(mysql_error());
+	}
+	$json_source_date4 = array();
+	$json_count_source_date4 = array();
+	do{
+		$source_date4[] = (strtotime($row4['source_date4'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_source_date4, $row4['source_date4']);
+		$count_source_date4[] = $row4['count_source_date4'];
+		array_push($json_count_source_date4, $row4['count_source_date4']);
+		}
+	while($row4 = $res4->FetchRow());
+	
+	if($row5 === FALSE) {
+    	//die(mysql_error());
+	}
+	$json_source_date5 = array();
+	$json_count_source_date5 = array();
+	do{
+		$source_date5[] = (strtotime($row5['source_date5'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_source_date5, $row5['source_date5']);
+		$count_source_date5[] = $row5['count_source_date5'];
+		array_push($json_count_source_date5, $row5['count_source_date5']);
+		}
+	while($row5 = $res5->FetchRow());	
+			
+	
+	?>
+	<div id="container" style="width: 600px; height: 800px;"></div>;
+	<!--button id="button">Remove first series</button--!>
+	
+	
+	<?php
+	$shortname = $_GET['shortname'];
+	echo "\n";
+	$json_source_date = implode("','",$json_source_date);
+	$json_count_source_date = implode(",", $json_count_source_date);	
+	
+	$json_source_date1 = implode("','",$json_source_date1);
+	$json_count_source_date1 = implode(",", $json_count_source_date1);
+	
+	$json_source_date2 = implode("','",$json_source_date2);
+	$json_count_source_date2 = implode(",", $json_count_source_date2);	
+	
+	$json_source_date3 = implode("','",$json_source_date3);
+	$json_count_source_date3 = implode(",", $json_count_source_date3);
+	
+	$json_source_date4 = implode("','",$json_source_date4);
+	$json_count_source_date4 = implode(",", $json_count_source_date4);	
+	
+	$json_source_date5 = implode("','",$json_source_date5);
+	$json_count_source_date5 = implode(",", $json_count_source_date5);		
+	
+	echo "\n";
+
+	echo "<script type=\"text/javascript\">\n";
+		echo "\n";
+		echo "var points = [$json_count_source_date],\n";
+		echo "dates = " .json_encode($source_date);
+		echo ",\n";
+		echo "i, data = [], chart;";
+		echo "\n";
+		echo "for(i=0; i<points.length; i++) {\n";
+			echo "data.push([dates[i], points[i]]);\n";
+			echo "}\n";
+	
+		echo "\n";
+		echo "var points1 = [$json_count_source_date1],\n";
+		echo "dates1 = " .json_encode($source_date1);
+		echo ",\n";
+		echo "j, data1 = [], chart;";
+		echo "\n";
+		echo "for(j=0; j<points1.length; j++) {\n";
+			echo "data1.push([dates1[j], points1[j]]);\n";
+			echo "}\n";
+	    
+		echo "\n";
+		echo "var points2 = [$json_count_source_date2],\n";
+		echo "dates2 = " .json_encode($source_date2);
+		echo ",\n";
+		echo "k, data2 = [], chart;";
+		echo "\n";
+		echo "for(k=0; k<points2.length; k++) {\n";
+			echo "data2.push([dates2[k], points2[k]]);\n";
+			echo "}\n";
+		
+		echo "\n";
+		echo "var points3 = [$json_count_source_date3],\n";
+		echo "dates3 = " .json_encode($source_date3);
+		echo ",\n";
+		echo "l, data3 = [], chart;";
+		echo "\n";
+		echo "for(l=0; l<points3.length; l++) {\n";
+			echo "data3.push([dates3[l], points3[l]]);\n";
+			echo "}\n";
+	
+		echo "\n";
+		echo "var points4 = [$json_count_source_date4],\n";
+		echo "dates4 = " .json_encode($source_date4);
+		echo ",\n";
+		echo "m, data4 = [], chart;";
+		echo "\n";
+		echo "for(m=0; m<points4.length; m++) {\n";
+			echo "data4.push([dates4[m], points4[m]]);\n";
+			echo "}\n";	
+	
+		echo "\n";
+		echo "var points5 = [$json_count_source_date5],\n";
+		echo "dates5 = " .json_encode($source_date5);
+		echo ",\n";
+		echo "n, data5 = [], chart;";
+		echo "\n";
+		echo "for(n=0; n<points5.length; n++) {\n";
+			echo "data5.push([dates5[n], points5[n]]);\n";
+			echo "}\n";
+		        
+	echo "\$(document).ready(function() {\n" ;
+	echo "chart = new Highcharts.Chart({\n" ;
+      echo "chart: {
+         renderTo: 'container',
+         zoomType: 'x',
+         spacingRight: 20
+      },
+       title: {
+         text: 'Arrival Rate for $name'
+      },
+       subtitle: {
+         text: document.ontouchstart === undefined ?
+            'Click and drag in the plot area to zoom in' :
+            'Drag your finger over the plot to zoom in'
+      },
+      xAxis: {
+         type: 'datetime',
+         
+         title: {
+            text: null
+         }
+      },
+      yAxis: {
+         title: {
+            text: 'People Count'
+         },
+		 
+         min: 0.6,
+         startOnTick: false,
+         showFirstLabel: false
+      },
+      tooltip: {
+         shared: true               
+      },
+      legend: {
+         enabled: false
+      },
+      plotOptions: {
+         series: {
+            pointStart: Date.UTC(2011, 11, 1),
+            pointInterval: 24 * 3600 * 1000 // one day
+        }
+      },
+   
+      series: [{
+         type: 'area',
+         name: 'All Sources',     
+		 
+		 data:[points]
+		 },{
+         type: 'area',
+         name: 'TriagePic',
+         
+		 data:[points1]
+		 },{
+		 type: 'area',
+         name: 'ReUnite',
+         
+		 data:[points2]
+		 },{
+		 type: 'area',
+         name: 'Website',
+         
+		 data:[points3]
+		 },{
+		 type: 'area',
+         name: 'PFIF',
+         
+		 data:[points4]
+		 },{
+		 type: 'area',
+         name: 'Vanilla Email',
+         
+		 data:[points5]
+		}\n";
+        //echo "name: '". $shortname;
+		/*
+		echo "name: 'All sources";
+		echo "'";
+		echo ",\n";
+		echo "type: 'line',\n" ;
+        echo "data: data\n" ;        
+		echo "},\n";
+		echo "{\n" ;
+		echo "name: 'TriagePic";
+		echo "'";
+		echo ",\n";
+		echo "type: 'line',\n" ;
+        echo "data: data1\n" ;        
+		echo "},\n";
+		
+		echo "{\n" ;
+		echo "name: 'ReUnite";
+		echo "'";
+		echo ",\n";
+		echo "type: 'line',\n" ;
+        echo "data: data2\n" ;        
+		echo "},\n";
+		
+		echo "{\n" ;
+		echo "name: 'Website";
+		echo "'";
+		echo ",\n";
+		echo "type: 'line',\n" ;
+        echo "data: data3\n" ;        
+		echo "},\n";
+		echo "{\n" ;
+		echo "name: 'PFIF";
+		echo "'";
+		echo ",\n";
+		echo "type: 'line',\n" ;
+        echo "data: data4\n" ;        
+		echo "},\n";
+		echo "{\n" ;
+		echo "name: 'Vanilla Email";
+		echo "'";
+		echo ",\n";
+		echo "type: 'line',\n" ;
+        echo "data: data5\n" ;    
+		*/
+        echo "]\n" ;
+   echo "});\n" ;
+echo "});\n" ;
+
+// the button action
+/*
+echo "
+$('#button').click(function() {
+    if (chart.series.length) {
+        chart.series[0].remove();
+    }
+});
+";
+*/
+
+echo "</script>\n" ;
+
+}
