@@ -291,7 +291,7 @@ div#loginform {
 	color: #fff;
 }
 
-div#content { margin: 30px 20px 163px 180px; padding: 0px 32px 0px 32px; /*min-height: 400px;*/}
+div#content { margin: 30px 20px 143px 180px; padding: 0px 32px 0px 32px; /*min-height: 400px;*/}
 div#content h1, div#content h2 {
 	color: #34689a; font-size: 16px; font-weight: bolder; margin: 10px 0px 10px 0px; padding: 0px; text-align: left;
 }
@@ -441,7 +441,7 @@ div#footer {
 	margin: 0px;
 	font-size: 12px;
 	position: absolute;
-	bottom: 20px;
+	bottom: 0px;
 	height: 123px;
 	width: 100%;
 	background-color: #E5EAEF;
