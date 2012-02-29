@@ -291,7 +291,7 @@ div#loginform {
 	color: #fff;
 }
 
-div#content { margin: 30px 20px 143px 180px; padding: 0px 32px 0px 32px; /*min-height: 400px;*/}
+div#content { margin: 30px 20px 163px 180px; padding: 0px 32px 0px 32px; /*min-height: 400px;*/}
 div#content h1, div#content h2 {
 	color: #34689a; font-size: 16px; font-weight: bolder; margin: 10px 0px 10px 0px; padding: 0px; text-align: left;
 }
@@ -441,11 +441,12 @@ div#footer {
 	margin: 0px;
 	font-size: 12px;
 	position: absolute;
-	bottom: 0px;
+	bottom: 20px;
 	height: 123px;
 	width: 100%;
 	background-color: #E5EAEF;
-	border-top: 5px solid #34689A;
+	border-top: 1px solid rgba(52, 104, 154, 0.15);
+	border-bottom: 1px solid rgba(52, 104, 154, 0.15);
 }
 #footerTable {
 	padding: 0px 30px 0px 30px;
