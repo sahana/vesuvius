@@ -9,8 +9,8 @@ Changes since Vesuvius 0.9.1 was released (2011-05-20)
 + Admins can now view/edit all records regardless if they have permission to the event.
 + Event Manager : Event Visiblity choice have been narrow to: Public, Admin, HS, HSA, Researcher (registered user and anonymous removed)
 + updated TP to use newest version of jQuery / collapsible script
-
-
++ Error / Confirmation / Information dialogs menus better styled
++ New style for the footer (assistance from Mike Chung)
 
 2012:0221 Update
 ----------------
