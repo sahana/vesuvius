@@ -178,7 +178,7 @@ function shn_pref_loginForm($return = null) {
 					<div style="text-align: center;">
 						<input id="followButton" class="styleTehButton" type="button" value="Register as a new user" onclick="register();">
 						&nbsp; &nbsp; &nbsp; &nbsp;
-						<input id="followButton" class="styleTehButton" type="button" value="Forgot My Password" onclick="forgot();">
+						<input id="followButton" class="styleTehButton" type="button" value="Forgot my password" onclick="forgot();">
 					</div>
 					</fieldset>
 				</form>
