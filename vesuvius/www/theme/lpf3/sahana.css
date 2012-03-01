@@ -515,7 +515,7 @@ div.form-container p { margin: 0.5em 0 0 0; }
 div.form-container form p { margin: 0; }
 div.form-container form p.note { font-style: italic; margin-left: 18em; font-size: 80%; color: #666; }
 div.form-container form legend { font-weight: bold; color: #666; }
-div.form-container form fieldset { margin:0 0 10px 0; padding: 20px; border: #E5EAEF 1px solid; background-color: #fff; -moz-border-radius: 5px; border-radius: 5px; -webkit-border-radius: 5px; box-shadow: 0px 0px 5px rgba(191,191,191,0.5);}
+div.form-container form fieldset { margin:0 0 20px 0; padding: 20px; border: #E5EAEF 1px solid; background-color: #fcfcfc; -moz-border-radius: 5px; border-radius: 5px; -webkit-border-radius: 5px; box-shadow: 0px 0px 5px rgba(191,191,191,0.4);}
 div.form-container form fieldset div.brake { padding: 0.3em; }
 div.form-container form fieldset label{ position:relative; margin-right: 10px; padding-right: 10px; width: 15em; display: block; float: left; text-align: right;min-height:1em;top:0.25em;}
 div.form-container form fieldset label.errorfield,
@@ -911,19 +911,15 @@ div.widget tr:hover td{ background:#E7E4D3;}
 /* additional xajax styles for use in modSnapshot and other modules --------------------------------------------------------------------------------------- */
 
 .mainTable	{width: 100%; font-size: 14px; border: 1px solid #e5eaef; margin-bottom: 24px; 	background: #fff;
--moz-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
--webkit-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+box-shadow: 1px 1px 6px rgba(191,191,191,0.6);
 border-radius: 5px;}
 .mainTable td	{border: none; padding: 3px; height: 24px; }
-.mainRowEven	{background-color: #e5eaef; border: 1px solid transparent; }
-.mainRowOdd	{background-color: #ffffff; border: 1px solid transparent; }
+.mainRowEven	{background-color: #e5eaef; }
+.mainRowOdd	{background-color: #ffffff; }
 .mainArea	{padding: 0px; margin-top: 0px;}
-.logArea	{padding: 10px;background-color: #fafafa;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;margin-top: 0px;border: 1px dotted #ddd;overflow-x: hidden;overflow-y: scroll;height: 70px;
+.logArea	{padding: 10px;background-color: #fcfcfc ;border-radius: 5px;-moz-border-radius: 5px;-webkit-border-radius: 5px;margin-top: 0px; overflow-x: hidden ;overflow-y: scroll; height: 70px;
 
--moz-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
--webkit-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
+box-shadow: 1px 1px 6px rgba(191,191,191,0.6);
 border-radius: 5px;
 
 }
@@ -947,9 +943,7 @@ td.justTop { border: 1px solid #e5eaef; background-color: #f5faff; }
 	font-size: 14px;
 	margin-bottom: 24px;
 	background: #fff;
-	-moz-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
-	-webkit-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
-	box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+	box-shadow: 1px 1px 5px rgba(191,191,191,0.8);
 	border-radius: 5px;
 }
 .emTable td { padding: 3px; height: 24px; padding: 3px 10px 3px 10px; }
@@ -968,7 +962,8 @@ td.justTop { border: 1px solid #e5eaef; background-color: #f5faff; }
 .toggle input	{margin: 0px;}
 
 table#regLog, table#regLog tbody tr td { border: none; }
-.odder { background-color: #ddd; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;}
+.odder {  background-color: #e0e0e7; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+		box-shadow: inset 2px 2px 6px rgba(255,255,255,0.6), inset -2px -2px 6px rgba(192,191,191,0.1);}
 .evener, .odder {padding: 5px; text-align: center; }
 .evener a, .odder a {text-decoration: underline; }
 
@@ -1204,7 +1199,7 @@ fieldset#editNotes div {
 	display: block;
 	width: 0;
 	border-style: solid;
-	border-color: transparent #eee;
+	border-color: transparent #fcfcfc;
 }
 
 .insideHr {
