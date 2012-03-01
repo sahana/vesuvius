@@ -15,8 +15,8 @@
 define("ERRORCODES", serialize(array(
 	0    => "No error.",
 	1    => "Invalid username or password.",
-	2    => "User account is not active.",
-	3    => "Invalid confirmation request.",
+	2    => "User account is not active. Please check your email for a link to activate your account.",
+	3    => "User account is banned. Please contact support for help with this issue.",
 	4    => "Account already active.",
 	5    => "Account activated.",
 	6    => "User exists with provided email address.",
@@ -26,6 +26,7 @@ define("ERRORCODES", serialize(array(
 	10   => "User does not exist or user's account is not active.",
 	11   => "Email address is not associated with any user account.",
 	12   => "Username does not exist.",
+	13    => "Invalid confirmation request.",
 	100  => "No hospital registered with this id.",
 	200  => "sessionTimeout value missing from database.",
 	201  => "Invalid number of uuid’s requested, value must be between 2 and 100.",
