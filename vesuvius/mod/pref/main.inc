@@ -102,6 +102,7 @@ function shn_pref_session() {
 function shn_pref_makeGoogleLoginLink() {
 
 	global $global;
+	global $conf;
 
 	require_once($global['approot']."/3rd/google-api-php-client/src/apiClient.php");
 	require_once($global['approot']."/3rd/google-api-php-client/src/contrib/apiOauth2Service.php");
@@ -109,12 +110,11 @@ function shn_pref_makeGoogleLoginLink() {
 	session_start();
 
 	$client = new apiClient();
-	$client->setApplicationName('Google PHP Starter Application');
-
-	$client->setClientId('583242333610.apps.googleusercontent.com');
-	$client->setClientSecret('OI7C0xWrohfPF1iFUr3aIDU4');
-	$client->setRedirectUri('http://pl.nlm.nih.gov/oauthin');
-	$client->setDeveloperKey('AIzaSyBSIX6ocFNo3FioGIWTv-Po9Z5uLFzaPRw');
+	$client->setApplicationName($conf['site_name']);
+	$client->setClientId($conf['oauth_google_clientId']);
+	$client->setClientSecret($conf['oauth_google_clientSecret']);
+	$client->setRedirectUri($conf['oauth_google_redirectUri']);
+	$client->setDeveloperKey($conf['oauth_google_developerKey']);
 	$client->setAccessType('online');
 
 	$oauth2 = new apiOauth2Service($client);
@@ -148,7 +148,7 @@ function shn_pref_loginForm($return = null) {
 			$returnVal = $_SERVER['REQUEST_URI'];
 		}
 
-		if(isset($_GET['oauthtest'])) {
+		if($conf['oauth_google_enable'] && isset($_GET['oauthtest'])) {
 			shn_pref_makeGoogleLoginLink();
 		}
 
