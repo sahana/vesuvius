@@ -491,7 +491,7 @@ function shn_authenticate_user() {
 			try {
 				$client->verifyIdToken();
 			} catch(apiAuthException $e) {
-				die('Unable to verify id_token. Error: ' . $e->getMessage());
+				echo '<pre>Unable to verify id_token. Error: ' . $e->getMessage().'</pre>';
 			}
 			$user = $oauth2->userinfo->get();
 			$email = filter_var($user['email'], FILTER_SANITIZE_EMAIL);
@@ -500,42 +500,16 @@ function shn_authenticate_user() {
 
 			// The access token may have been updated lazily.
 			$_SESSION['token'] = $client->getAccessToken();
-		} else {
-			$authUrl = $client->createAuthUrl();
 		}
-
-		echo '
-			<!doctype html>
-			<html><head><meta charset=utf-8></head>
-			<body>
-		';
 
 		if(isset($personMarkup)) {
 			print $personMarkup;
 		}
-		if(isset($authUrl)) {
-			print "<a class=login href='$authUrl'>Connect Me!</a>";
-		} else {
-			print "<a class=logout href='?logout'>Logout</a>";
-		}
 
-		echo '
-			<br>
-			</body></html>
-			<pre>('.print_r(get_defined_vars(), true).')</pre>
-		';
-die();
+		echo '<pre>('.print_r($_SESSION, true).')</pre>';
+		echo '<pre>('.print_r(var_dump($client), true).')</pre>';
 
-
-
-
-
-
-
-
-
-
-
+		die();
 
 
 
