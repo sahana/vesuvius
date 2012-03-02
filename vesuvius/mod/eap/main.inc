@@ -1014,7 +1014,7 @@ function shn_eap_edit() {
 			}
 		}
 		echo '
-			<div style="background-color: #fff; padding: 5px; border: 1px solid #bbb; float: left; text-align: center; margin-right: 10px;"><br>
+			<div id="eapUploadImage"><br>
 			Add an additional image to this record:<br><br><input type="file" name="add_image" id="add_image" /><br><br><input type="submit" name="UPLOAD" id="UPLOAD" value="UPLOAD" class="styleTehButton"/><br>&nbsp;
 			</div>
 		';
