@@ -480,11 +480,13 @@ function shn_authenticate_user() {
 
 		if (isset($_SESSION['token'])) {
 			$client->setAccessToken($_SESSION['token']);
+			echo 'TOKEN!!!!!';
 		}
 
 		if (isset($_REQUEST['logout'])) {
 			unset($_SESSION['token']);
 			$client->revokeToken();
+			echo "LOGOUT!!";
 		}
 
 		if ($client->getAccessToken()) {
@@ -507,7 +509,7 @@ function shn_authenticate_user() {
 		}
 
 		echo '<pre>('.print_r($_SESSION, true).')</pre>';
-		echo '<pre>('.print_r(var_dump($client), true).')</pre>';
+		echo '<pre>('.print_r(var_export($client, true), true).')</pre>';
 
 		die();
 
