@@ -17,7 +17,7 @@ define("ERRORCODES", serialize(array(
 	1    => "Invalid username or password.",
 	2    => "User account is not active. Please check your email for a link to activate your account.",
 	3    => "User account is banned. Please contact support for help with this issue.",
-	4    => "Account already active.",
+	4    => "User account locked due to many failed authentication attempts.",
 	5    => "Account activated.",
 	6    => "User exists with provided email address.",
 	7    => "Username already in use.",

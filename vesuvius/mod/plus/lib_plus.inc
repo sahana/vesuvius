@@ -146,12 +146,16 @@ function shn_plus_checkCredz($username, $password) {
 	if(($res == null) || ($res->EOF)) {
 		return 1;
 	} else {
-		if($res->fields["status"] != "active") {
+		if($res->fields["status"] == "pending") {
 			return 2;
-		}
-		if($res->fields["status"] != "banned") {
+
+		} elseif($res->fields["status"] == "banned") {
 			return 3;
+
+		} elseif($res->fields["status"] == "locked") {
+			return 4;
 		}
+
 		$salt = $res->fields["salt"];
 		$pwd  = substr($password, 0, 4) .$salt. substr($password, 4);
 
