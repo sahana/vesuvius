@@ -1235,7 +1235,7 @@ function searchCountWithAuth($eventShortname, $searchTerm, $filterStatusMissing,
 		);
 	} else {
 		return array(
-			'recordsFound' => (int)count($search->results),
+			'recordsFound' => (int)$search->numRowsFound,
 			'timeElapsed'  => (double)$timeElapsed,
 			'errorCode'    => (int)0,
 			'errorMessage' => ''
