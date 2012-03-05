@@ -1,6 +1,13 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
+2012:0306 Update
+----------------
+
++ changed web service auth codes to return good, pending, locked, banned account status codes
++
+
+
 2012:0228 Update
 ----------------
 + tabbed Inbound / Outbound / PFIF modules

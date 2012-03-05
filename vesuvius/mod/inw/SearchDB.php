@@ -269,6 +269,7 @@ class SearchDB {
 
 		$res = $mysqli->multi_query( "$proc; SELECT @allCount;" );
 
+		$this->numRowsFound = 0;;
 		if($res) {
 			$results = 0;
 			$c = 0;
@@ -297,6 +298,7 @@ class SearchDB {
 								'hospitalIcon'       => $row["icon_url"],
 								'mass_casualty_id'   => $row["mass_casualty_id"]
 							);
+						$this->numRowsFound++;
 						}
 					}
 					$result->close();
