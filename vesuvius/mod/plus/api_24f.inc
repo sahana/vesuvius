@@ -1044,6 +1044,7 @@ function searchCount($eventShortname, $searchTerm, $filterStatusMissing, $filter
 	global $global;
 	global $conf;
 	$error = false;
+	$perPage = 2000;
 
 	// verify that the event is a public event...
 	$q = "
@@ -1147,6 +1148,7 @@ function searchCountWithAuth($eventShortname, $searchTerm, $filterStatusMissing,
 	global $global;
 	global $conf;
 	$error = false;
+	$perPage = 2000;
 
 	// check auth, if fails, return w/ error code/message
 	$status = shn_plus_checkCredz($username, $password);
