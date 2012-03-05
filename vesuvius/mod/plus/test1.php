@@ -29,19 +29,8 @@ $x = file_get_contents("reference_REUNITE4.xml");
 
 $x = file_get_contents("testTP1.xml");
 //$x = file_get_contents("reference_TRIAGEPIC1.xml");
-$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
+//$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
-
-echo "
-	<h2>wsdl: ".$wsdl."</h2>
-	<pre>".var_export($result, true)."</pre>
-	<h2>Request</h2>
-	<pre>".htmlspecialchars($client->request, ENT_QUOTES)."</pre>
-	<h2>Response</h2>
-	<pre>".htmlspecialchars($client->response, ENT_QUOTES)."</pre>
-	<h2>Debug</h2>
-	<pre>".htmlspecialchars($client->debug_str, ENT_QUOTES)."</pre>
-";
 
 //$result = $client->call('version', array(null));
 //$result = $client->call('getPersonPermissions', array('uuid'=>$uuid, 'username'=>$user, 'password'=>$pass));
@@ -71,10 +60,10 @@ echo "
 //$result = $client->call('createPersonUuid', array('username'=>'testDontDelete', 'password'=>'dontDelete99'));
 //$result = $client->call('createPersonUuidBatch', array('number'=>5, 'username'=>'testDontDelete', 'password'=>'dontDelete99'));
 
-/*
-$result = $client->call('searchCountWithAuth', array(
+
+$result = $client->call('searchCount', array(
 	'eventShortname'=>'test',
-	'searchTerm'=>'',
+	'searchTerm'=>'test',
 	'filterStatusMissing'=>true,
 	'filterStatusAlive'=>true,
 	'filterStatusInjured'=>true,
@@ -92,14 +81,21 @@ $result = $client->call('searchCountWithAuth', array(
 	'filterHospitalWRNMMC'=>true,
 	'filterHospitalOther'=>true,
 	'pageStart'=>0,
-	'perPage'=>2,
-	'sortBy'=>'',
-	'username'=>$user,
-	'password'=>$pass
+	'perPage'=>33567,
+	'sortBy'=>''
 ));
-*/
 
 
+echo "
+	<h2>wsdl: ".$wsdl."</h2>
+	<pre>".var_export($result, true)."</pre>
+	<h2>Request</h2>
+	<pre>".htmlspecialchars($client->request, ENT_QUOTES)."</pre>
+	<h2>Response</h2>
+	<pre>".htmlspecialchars($client->response, ENT_QUOTES)."</pre>
+	<h2>Debug</h2>
+	<pre>".htmlspecialchars($client->debug_str, ENT_QUOTES)."</pre>
+";
 
 
 

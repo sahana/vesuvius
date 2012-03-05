@@ -392,9 +392,30 @@ div#submenu_v a.selected:hover { background-color: #FFF; border-bottom: 1px soli
 div#content ul#tabmenu { list-style-type:none; border-bottom: 1px solid #e5eaef; padding-bottom:3px;  }
 div#content ul#tabmenu li { display: inline; margin:0px;}
 div#content ul#tabmenu li a,
-div#content ul#tabmenu li a:link { padding: 3px 10px; background: #EEF3FF; text-decoration: none; white-space:nowrap; -moz-border-radius: 5px 5px 0 0; border-right: 2px solid #fff; border-left: 2px solid #fff;}
-div#content ul#tabmenu li a:hover {  border-bottom: 1px solid #C3CFFF; }
-div#content ul#tabmenu li#active a { background-color: #FFF; color:#C00;border: 1px solid #e5eaef; border-bottom: none;padding-bottom:4px;font-weight: bolder;}
+div#content ul#tabmenu li a:link {
+	background: rgba(228,233,245,0.6);
+	text-decoration: none;
+	white-space:nowrap;
+	border-right: 2px solid #fff;
+	border-left: 2px solid #fff;
+	border-top: 2px solid #fff;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	padding: 4px 10px 3px 10px;
+}
+div#content ul#tabmenu li a:hover {
+	background: rgba(228,233,245,1);
+}
+div#content ul#tabmenu li#active a {
+	background-color: #FFF;
+	color:#C00;
+	border: 1px solid #e5eaef;
+	border-bottom: none;
+	font-weight: bolder;
+	border-top-left-radius: 8px;
+	border-top-right-radius: 8px;
+	padding: 4px 10px 4px 10px;
+}
 div#content ul#tabmenu li#active a:hover { background-color: #FFF; border-bottom: 1px solid #FFF; }
 
 #tabmenu { margin: 0 0 1em 0px; }
@@ -800,67 +821,6 @@ div.widget tr:hover td{ background:#E7E4D3;}
 
 }
 
-/* --------- ADDITIONAL MPR STYLES -------------*/
-
-
-
-.pill2 {
-	background-color: #34689a;
-	padding: 10px 20px 10px 20px;
-	border-radius: 100px;
-	-moz-border-radius: 100px;
-	-webkit-border-radius: 100px;
-	color: #fff;
-	text-align: center;
-	vertical-align: middle;
-	cursor: pointer;
-	font-size: 24px;
-	font-weight: bold;
-	color: #fff;
-}
-
-.pill2 a {color: white;}
-
-
-
-/*
-#reportPerson, #searchPerson, #reportMissing, #reportFound {
-	background-color: #34689a;
-	height: 128px;
-	padding: 10px;
-	border-radius: 100px;
-	-moz-border-radius: 100px;
-	-webkit-border-radius: 100px;
-	width: 46%;
-	color: #fff;
-	text-align: center;
-	vertical-align: middle;
-	cursor: pointer;
-	font-size: 24px;
-	font-weight: bold;
-	color: #fff;
-	box-shadow:		inset 0px   0px   5px       rgba(0,   0,   0,   0.4),
-				inset 0px   0px  30px       rgba(255, 255, 255, 0.5),
-				inset 0px  64px  64px       rgba(255, 255, 255, 0.25),
-				      0px   0px  16px       rgba(192, 192, 192, 0.5),
-				      0px 74px   50px -50px rgba( 52, 104, 154,  0.5);
-
-	-moz-box-shadow:	inset 0px   0px   5px       rgba(0,   0,   0,   0.4),
-				inset 0px   0px  30px       rgba(255, 255, 255, 0.5),
-				inset 0px  64px  64px       rgba(255, 255, 255, 0.25),
-				      0px   0px  16px       rgba(192, 192, 192, 0.5),
-				      0px 74px   50px -50px rgba( 52, 104, 154,  0.5);
-
-	-webkit-box-shadow:	/*inset 0px   0px   5px       rgba(0,   0,   0,   0.4), ~ removed until a bug in webkit is fixed ~ */
-/*
-				inset 0px   0px  30px       rgba(255, 255, 255, 0.5),
-				inset 0px  64px  64px       rgba(255, 255, 255, 0.25),
-				      0px   0px  16px       rgba(192, 192, 192, 0.5);
-				      /*0px  74px  50px -50px rgba( 52, 104, 154,  0.5); ~ removed until bounding bug in webkit fixed */
-/*
-}
-*/
-
 
 #reportPerson:active, #searchPerson:active, #reportMissing:active, #reportMissing:active, #listAllMissing:active, #listAllFound:active {
 	position: relative;
@@ -894,11 +854,6 @@ div.widget tr:hover td{ background:#E7E4D3;}
 	float: left;
 	color: #fff;
 }
-
-#popSettings { background-color: #f7f7f7; }
-#popSettings .odd { background-color: #e7e7e7;}
-#popSettings td { border: none; padding: 3px 10px 3px 10px;}
-#popSettings td input { border: 1px solid #999; background-color: #fff; padding: 2px; -moz-border-radius: 5px; border-radius: 5px; -webkit-border-radius: 5px;}
 
 .smoothinput  { background-color: #fff; border: 1px solid #777; -webkit-border-radius: 4px; border-radius: 4px; -moz-border-radius: 4px; padding: 2px; text-align: center; }
 .smoothinput2 { background-color: #fff; border: 1px solid #777; -webkit-border-radius: 4px; border-radius: 4px; -moz-border-radius: 4px; padding: 2px; text-align: center; margin: 2px 0px; }
