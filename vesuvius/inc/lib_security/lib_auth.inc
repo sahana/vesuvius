@@ -472,8 +472,18 @@ function shn_authenticate_user() {
 
 		$redirect = "https://pl.nlm.nih.gov/oauthReturnGoogle";
 
-echo "<pre>".print_r($_GET, true)."</pre>";
-echo "<pre>".print_r($_REQUEST, true)."</pre>";
+
+	echo "<pre>";
+	echo "\$_SERVER = \n";
+	echo print_r($_SERVER, true),"\n\n\n";
+	echo "---------------------------------------------------------------------------------------------------------------------  \n\n";
+	echo "\$_COOKIE = \n";
+	echo print_r($_COOKIE, true),"\n\n\n";
+	echo "---------------------------------------------------------------------------------------------------------------------  \n\n";
+	echo "\$_REQUEST = \n";
+	echo print_r($_REQUEST, true),"\n\n\n";
+	echo "</pre> ";
+
 
 
 		if(isset($_GET['code'])) {
