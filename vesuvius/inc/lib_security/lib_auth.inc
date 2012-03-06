@@ -474,8 +474,8 @@ function shn_authenticate_user() {
 			$client->authenticate();
 			$_SESSION['token'] = $client->getAccessToken();
 			$redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-			echo 'redirect...why?!'.$redirect;
-			//header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
+			//echo 'redirect...why?!'.$redirect;
+			header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
 		}
 
 		if (isset($_SESSION['token'])) {
@@ -493,7 +493,6 @@ function shn_authenticate_user() {
 		if($client->getAccessToken()) {
 			try {
 				$client->verifyIdToken();
-
 			} catch(apiAuthException $e) {
 				echo '<br>Unable to verify id_token. Error: '.$e->getMessage().'<br>';
 			}
