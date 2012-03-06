@@ -8,7 +8,7 @@ Greg: changed web service auth codes to return good, pending, locked, banned acc
 Greg: patch to only enable debugger when enabled in conf
 Greg: added google-api-php-client
 Greg: initial implementation of OAuth Google login
-Greg: theme tweaks
+Greg: theme tweaks including 508 compliance and trademarks
 Leif: Tweak positioning in details pane (PL-332)
 
 
