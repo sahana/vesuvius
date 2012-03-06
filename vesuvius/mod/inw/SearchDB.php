@@ -269,7 +269,7 @@ class SearchDB {
 
 		$res = $mysqli->multi_query( "$proc; SELECT @allCount;" );
 
-		$this->numRowsFound = 0;;
+		$this->numRowsFound = 0;
 		if($res) {
 			$results = 0;
 			$c = 0;
