@@ -23,22 +23,22 @@ $legalese = "Notice: Submission of information is voluntary. All submitted infor
 <div id="footer"><center><table id="footerTable">
 		<tr>
 		<td>
-			<a href="http://www.nlm.nih.gov"><img src="theme/lpf3/img/nlm.png"></a>
-			<a href="http://www.nih.gov"><img src="theme/lpf3/img/nih.png"></a>
-			<a href="http://www.hhs.gov"><img src="theme/lpf3/img/hhs.png"></a><br>
+			<a href="http://www.nlm.nih.gov"><img src="theme/lpf3/img/nlm.png" alt="United States National Library of Medicine Logo"></a>
+			<a href="http://www.nih.gov"><img src="theme/lpf3/img/nih.png" alt="National Institutes of Health Logo"></a>
+			<a href="http://www.hhs.gov"><img src="theme/lpf3/img/hhs.png" alt="Department of Health and Human Services Logo"></a><br>
 			<a href="http://www.nlm.nih.gov">Developed and Hosted by the<br>
-			US National Library of Medicine</a>
+			USS National Library of Medicine</a>
 		</td>
 		<td>
-			<a href="http://www.bethesdahospitalsemergencypartnership.org/"><img src="theme/lpf3/img/bhepp.png"></a>
-			<a href="http://www.suburbanhospital.org/"><img src="theme/lpf3/img/suburban.png"></a>
-			<a href="http://www.bethesda.med.navy.mil/"><img src="theme/lpf3/img/nnmc.png"></a>
-			<a href="http://clinicalcenter.nih.gov/"><img src="theme/lpf3/img/clinicalcenter.png"></a><br>
-			<a href="http://www.bethesdahospitalsemergencypartnership.org/">Funded through the <br>
+			<a href="http://www.bethesdahospitalsemergencypartnership.org/"><img src="theme/lpf3/img/bhepp.png" alt="Bethesda Hospitals' Emergency Preparedness Partnership Logo"></a>
+			<a href="http://www.suburbanhospital.org/"><img src="theme/lpf3/img/suburban.png" alt="Suburban Hospital a part of Johns Hopkins Medicine Logo" ></a>
+			<a href="http://www.bethesda.med.navy.mil/"><img src="theme/lpf3/img/nnmc.png" alt="Walter Reed National Military Medical Center Logo"></a>
+			<a href="http://clinicalcenter.nih.gov/"><img src="theme/lpf3/img/clinicalcenter.png" alt="Nantional Institutes of Health Clinical Center Logo"></a><br>
+			<a href="http://www.bethesdahospitalsemergencypartnership.org/">In Collaboration with the <br>
 			Bethesda Hospitals' Emergency Preparedness Partnership</a>
 		</td>
 		<td>
-			<a href="http://sahanafoundation.org"><img src="theme/lpf3/img/sahana.png"></a><br>
+			<a href="http://sahanafoundation.org"><img src="theme/lpf3/img/sahana.png" alt="Sahana Software Foundation Logo"></a><br>
 			<a href="http://sahanafoundation.org">Powered by<br>
 			Sahana</a>
 		</td>
