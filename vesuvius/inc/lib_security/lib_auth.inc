@@ -458,7 +458,7 @@ function shn_authenticate_user() {
 		require_once($global['approot']."/3rd/google-api-php-client/src/apiClient.php");
 		require_once($global['approot']."/3rd/google-api-php-client/src/contrib/apiOauth2Service.php");
 
-		session_start();
+		//session_start();
 
 		$client = new apiClient();
 		$client->setApplicationName($conf['site_name']);
