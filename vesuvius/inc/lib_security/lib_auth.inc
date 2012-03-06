@@ -449,7 +449,7 @@ function shn_authenticate_user() {
 
 	// only authenticate if requested
 	if(!isset($_GET['doLogin'])) {
-		$user_data["user_id"] =- 1;
+		$user_data["user_id"] = -1;
 		return $user_data ;
 
 	// handle Google OAuth login
@@ -458,7 +458,7 @@ function shn_authenticate_user() {
 		require_once($global['approot']."/3rd/google-api-php-client/src/apiClient.php");
 		require_once($global['approot']."/3rd/google-api-php-client/src/contrib/apiOauth2Service.php");
 
-		session_start();
+		//session_start();
 
 		$client = new apiClient();
 		$client->setApplicationName($conf['site_name']);
@@ -470,31 +470,35 @@ function shn_authenticate_user() {
 
 		$oauth2 = new apiOauth2Service($client);
 
-		if (isset($_GET['code'])) {
+		$redirect = "https://pl.nlm.nih.gov/oauthReturnGoogle";
+		echo "<pre>".print_r($_GET, true)."</pre>";
+		if(isset($_GET['code'])) {
 			$client->authenticate();
 			$_SESSION['token'] = $client->getAccessToken();
-			$redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-			echo 'redirect...why?!'.$redirect;
-			//header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
+			//$redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+			//echo 'redirect...why?!'.$redirect;
+			header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
 		}
 
-		if (isset($_SESSION['token'])) {
+		if(isset($_SESSION['token'])) {
 			$client->setAccessToken($_SESSION['token']);
-			echo 'TOKEN!!!!!';
+			echo "<BR>TOKEN SET!<BR>";
 		}
 
-		if (isset($_REQUEST['logout'])) {
+
+		if(isset($_REQUEST['logout'])) {
 			unset($_SESSION['token']);
 			$client->revokeToken();
 			echo "LOGOUT!!";
 		}
 
-		if ($client->getAccessToken()) {
+		if($client->getAccessToken()) {
 			try {
 				$client->verifyIdToken();
 			} catch(apiAuthException $e) {
-				echo '<pre>Unable to verify id_token. Error: ' . $e->getMessage().'</pre>';
+				echo '<br>Unable to verify id_token. Error: '.$e->getMessage().'<br>';
 			}
+
 			$user = $oauth2->userinfo->get();
 			$email = filter_var($user['email'], FILTER_SANITIZE_EMAIL);
 			$img = filter_var($user['picture'], FILTER_VALIDATE_URL);
@@ -505,11 +509,19 @@ function shn_authenticate_user() {
 		}
 
 		if(isset($personMarkup)) {
-			print $personMarkup;
+			echo "<br><br>".$personMarkup."<br><br>";
 		}
 
-		echo '<pre>('.print_r($_SESSION, true).')</pre>';
-		echo '<pre>('.print_r(var_export($client, true), true).')</pre>';
+  if(isset($authUrl)) {
+    print "<a class=login href='$authUrl'>Connect Me!</a>";
+  } else {
+    print "<a class=logout href='?logout'>Logout</a>";
+  }
+
+
+echo '<pre>('.print_r(var_export($user, true), true).')</pre>';
+echo '<pre>('.print_r(var_export($_SESSION, true), true).')</pre>';
+echo '<pre>('.print_r(var_export($client, true), true).')</pre>';
 
 		die();
 

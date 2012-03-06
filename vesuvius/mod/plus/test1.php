@@ -81,7 +81,7 @@ $result = $client->call('searchCount', array(
 	'filterHospitalWRNMMC'=>true,
 	'filterHospitalOther'=>true,
 	'pageStart'=>0,
-	'perPage'=>1000,
+	'perPage'=>33567,
 	'sortBy'=>''
 ));
 

@@ -18,7 +18,7 @@ $global['previous'] = false;
 $global["setup"]    = false;
 
 // uncomment line below to initialize the debugger
-shn_main_debugger();
+//shn_main_debugger();
 
 // uncomment to handle redirection for different browsers/device
 //shn_main_redirect();
