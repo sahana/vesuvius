@@ -38,8 +38,7 @@ function shn_stat_menu() {
 			<li><a href=\"index.php?mod=stat&act=demographic\">Demographic Pie Charts</a></li>			
 						
 		</ul>
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		<div id="container" style="width: 100%; height: 100%; min-height: 100%;">
+		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">		
 		";
 		if ($shortname=='cmax2010' or $shortname=='new'){
 		echo "
@@ -157,7 +156,7 @@ function shn_stat_arrival_bydate() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container',\n" ;
+         echo "renderTo: 'container'\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
          echo "text: 'Arrival Rate by Date for $shortname'\n" ;
@@ -321,7 +320,7 @@ function shn_stat_arrival_byhour() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container',\n" ;
+         echo "renderTo: 'container'\n" ;
 		 echo "zoomType: 'x',\n";
       echo "},\n" ;
       echo "title: {\n" ;
@@ -1748,8 +1747,6 @@ function shn_stat_new_arrival_rate() {
 	
 	?>
 	<div id="container" style="width: 600px; height: 800px;">
-	<button id="button">Remove first series</button>
-
 	</div>;
 	
 	<?php
@@ -1888,7 +1885,7 @@ function shn_stat_new_arrival_rate() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container',\n" ;
+         echo "renderTo: 'container'\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
          echo "text: 'Arrival Rate by Date (new table) from $shortname'\n" ;
@@ -2334,7 +2331,7 @@ function shn_stat_cummulative_arrival() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container',\n" ;
+         echo "renderTo: 'container'\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
 		 echo "style: {\n";
@@ -2351,7 +2348,7 @@ function shn_stat_cummulative_arrival() {
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
 		 echo "y: 50,\n";
-         echo "text: 'From: $start_date to $end_date',\n" ;
+         echo "text: 'From: $start_date to $end_date'\n" ;
          echo "},\n" ;	  
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
@@ -2390,10 +2387,10 @@ function shn_stat_cummulative_arrival() {
 			echo "area: {\n";
 			echo "align: 'right',\n";
 			echo "backgroundColor: '#FCFFC5',\n";    
-			echo "enabled: true,\n";			
-			echo "},\n";
+			echo "enabled: true\n";			
+			echo "}\n";
 			
-				echo "},\n";
+		echo "},\n";
 		echo "plotOptions: {\n";								
 			echo "area: {\n";			
             echo "fillColor: {\n";
@@ -2421,7 +2418,7 @@ function shn_stat_cummulative_arrival() {
 						echo "}\n";
 					echo "}\n";
          echo "},\n";
-		 echo "area: {\n" ;
+		 echo "line: {\n" ;
             echo "dataLabels: {\n" ;
                echo "enabled: true\n" ;
             echo "},\n" ;
@@ -2769,7 +2766,7 @@ function shn_stat_stacked_cummulative_arrival() {
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
 		 echo "y: 50,\n";
-         echo "text: 'From: $start_date to $end_date',\n" ;
+         echo "text: 'From: $start_date to $end_date'\n" ;
          echo "},\n" ;	  
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
@@ -2805,10 +2802,10 @@ function shn_stat_stacked_cummulative_arrival() {
 			echo "area: {\n";
 			echo "align: 'right',\n";
 			echo "backgroundColor: '#FCFFC5',\n";    
-			echo "enabled: true,\n";			
-			echo "},\n";
+			echo "enabled: true\n";			
+			echo "}\n";
 			
-				echo "},\n";
+		echo "},\n";
 		echo "plotOptions: {\n";
 			echo "series: {\n";
                         echo "stacking: 'normal'\n";
@@ -3074,9 +3071,12 @@ function shn_stat_demographic() {
 	while($row = $res->FetchRow());		
 	
 	?>
-	<div id="container" style="width: 100%; height: 100%;">
 	
-	<div>;
+	<html,body{
+     style="height: 100%;"
+	 }>;
+
+	<div id="container" style="width: 100%; min-height: 100%;height: auto !important; zIndex="99";"></div>;
 	
 	<?php
 	$shortname = $_GET['shortname'];
@@ -3172,7 +3172,7 @@ function shn_stat_demographic() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container',\n" ;
+         echo "renderTo: 'container'\n" ;
       echo "},\n" ;
 	  //echo "colors: ['pink', 'cyan', 'lime', 'cinnabar', 'orange', 'lilac', 'green', 'black', 'royal blue','blue','emerald', 'lime', 'yellow', 'red','gray','black'],\n"; 
 	  echo "colors: ['#FCDFFF', '#00FFFF', '#8AFB17', '#7E2217', '#F87217', '#D462FF', '#4CC417', '#000000', '#151B8D','#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";
@@ -3346,7 +3346,8 @@ function shn_stat_demographic() {
                 echo "left: '510px',\n" ;
                 echo "top: '600px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'blue'\n" ;            
+                echo "color: 'blue',\n" ; 
+                //echo "zIndex=\"2\"\n";				
             echo "}\n" ;
 			echo "}\n";
 			}
@@ -3357,7 +3358,8 @@ function shn_stat_demographic() {
                 echo "left: '830px',\n" ;
                 echo "top: '600px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'blue'\n" ;            
+                echo "color: 'blue',\n" ;  
+                //echo "zIndex=\"2\"\n";				
             echo "}\n" ;
 			echo "}\n";
 			}
@@ -3370,7 +3372,8 @@ function shn_stat_demographic() {
                 echo "left: '1180px',\n" ;
                 echo "top: '600px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'blue'\n" ;            
+                echo "color: 'blue',\n" ;     
+				//echo "zIndex=\"2\"\n";
             echo "}\n" ;			
 			echo "}\n";
 			}
@@ -3665,7 +3668,7 @@ function shn_stat_arrival() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container',\n" ;
+         echo "renderTo: 'container'\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
 		 echo "style: {\n";
@@ -3719,10 +3722,10 @@ function shn_stat_arrival() {
 			echo "line: {\n";
 			echo "align: 'right',\n";
 			echo "backgroundColor: '#FCFFC5',\n";    
-			echo "enabled: true,\n";			
-			echo "},\n";
+			echo "enabled: true\n";			
+			echo "}\n";
 			
-				echo "},\n";
+	  echo "},\n";
 		echo "plotOptions: {\n";
 			
 			echo "area: {\n";
@@ -3755,7 +3758,7 @@ function shn_stat_arrival() {
                echo "enabled: true\n" ;
             echo "},\n" ;
             echo "enableMouseTracking: false\n" ;
-         echo "},\n" ;
+         echo "}\n" ;
 		 
       echo "},\n";
      echo "series: [{\n" ;
@@ -3928,7 +3931,7 @@ function shn_stat_test_select() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container1',\n" ;
+         echo "renderTo: 'container'\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
          echo "text: 'Arrival Rate by Date (new table) from $shortname'\n" ;
@@ -4250,7 +4253,7 @@ function shn_stat_pie_test() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container',\n";
+         echo "renderTo: 'container'\n";
 		 /* add logo to the chart
 		 echo "
 		 events: {
@@ -4550,6 +4553,26 @@ function shn_stat_arrival_regular_interval() {
 	$end_date= $row[0];
 	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
 	
+	//create a range dates
+	
+	$range = array();
+    /*
+	if (is_string($start_date) === true) $start_date = strtotime($start_date);
+	if (is_string($end_date) === true ) $end_date = strtotime($end_date);
+
+	if ($start_date > $end_date) return createDateRangeArray($end_date, $start_date);
+
+	do {
+	$range[] = date('Y-m-d', $start_date);
+	$start_date = strtotime("+ 1 day", $start_date);
+	}
+	while($start_date < $end_date);
+
+	return $range;
+	} 
+    echo $range;
+	*/
+	
 	$q="SELECT (arrival_time) as source_date, count(*) as count_source_date from arrival_rate a
 	where ((source_all >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
 	GROUP by date(arrival_time)";
@@ -4838,66 +4861,37 @@ function shn_stat_arrival_regular_interval() {
          
 		 data:[points5]
 		}\n";
-        //echo "name: '". $shortname;
-		/*
-		echo "name: 'All sources";
-		echo "'";
-		echo ",\n";
-		echo "type: 'line',\n" ;
-        echo "data: data\n" ;        
-		echo "},\n";
-		echo "{\n" ;
-		echo "name: 'TriagePic";
-		echo "'";
-		echo ",\n";
-		echo "type: 'line',\n" ;
-        echo "data: data1\n" ;        
-		echo "},\n";
-		
-		echo "{\n" ;
-		echo "name: 'ReUnite";
-		echo "'";
-		echo ",\n";
-		echo "type: 'line',\n" ;
-        echo "data: data2\n" ;        
-		echo "},\n";
-		
-		echo "{\n" ;
-		echo "name: 'Website";
-		echo "'";
-		echo ",\n";
-		echo "type: 'line',\n" ;
-        echo "data: data3\n" ;        
-		echo "},\n";
-		echo "{\n" ;
-		echo "name: 'PFIF";
-		echo "'";
-		echo ",\n";
-		echo "type: 'line',\n" ;
-        echo "data: data4\n" ;        
-		echo "},\n";
-		echo "{\n" ;
-		echo "name: 'Vanilla Email";
-		echo "'";
-		echo ",\n";
-		echo "type: 'line',\n" ;
-        echo "data: data5\n" ;    
-		*/
+        
         echo "]\n" ;
    echo "});\n" ;
 echo "});\n" ;
 
-// the button action
-/*
-echo "
-$('#button').click(function() {
-    if (chart.series.length) {
-        chart.series[0].remove();
-    }
-});
-";
-*/
 
 echo "</script>\n" ;
-
 }
+function shn_stat_range_date() {
+	global $global;
+	
+
+	//create a range dates
+	
+	$range = array();
+
+	if (is_string($start_date) === true) $start_date = strtotime($start_date);
+	if (is_string($end_date) === true ) $end_date = strtotime($end_date);
+
+	if ($start_date > $end_date) return createDateRangeArray($end_date, $start_date);
+
+	do {
+	$range[] = date('Y-m-d', $start_date);
+	$start_date = strtotime("+ 1 day", $start_date);
+	}
+	while($start_date < $end_date);
+
+	return $range;
+	} 
+    echo $range;
+	
+	
+
+	}
