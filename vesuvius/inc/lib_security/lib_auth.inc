@@ -511,6 +511,13 @@ function shn_authenticate_user() {
 			echo "<br><br>".$personMarkup."<br><br>";
 		}
 
+  if(isset($authUrl)) {
+    print "<a class=login href='$authUrl'>Connect Me!</a>";
+  } else {
+    print "<a class=logout href='?logout'>Logout</a>";
+  }
+
+
 echo '<pre>('.print_r(var_export($user, true), true).')</pre>';
 echo '<pre>('.print_r(var_export($_SESSION, true), true).')</pre>';
 echo '<pre>('.print_r(var_export($client, true), true).')</pre>';
