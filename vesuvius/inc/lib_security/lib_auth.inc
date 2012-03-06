@@ -471,8 +471,11 @@ function shn_authenticate_user() {
 		$oauth2 = new apiOauth2Service($client);
 
 		$redirect = "https://pl.nlm.nih.gov/oauthReturnGoogle";
-		echo "<pre>".print_r($_GET, true)."</pre>";
-		echo "<pre>".print_r($_REQUEST, true)."</pre>";
+
+echo "<pre>".print_r($_GET, true)."</pre>";
+echo "<pre>".print_r($_REQUEST, true)."</pre>";
+
+
 		if(isset($_GET['code'])) {
 			$client->authenticate();
 			$_SESSION['token'] = $client->getAccessToken();

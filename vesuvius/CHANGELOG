@@ -4,8 +4,12 @@ Changes since Vesuvius 0.9.1 was released (2011-05-20)
 2012:0306 Update
 ----------------
 
-+ changed web service auth codes to return good, pending, locked, banned account status codes
-+
+Greg: changed web service auth codes to return good, pending, locked, banned account status codes
+Greg: patch to only enable debugger when enabled in conf
+Greg: added google-api-php-client
+Greg: initial implementation of OAuth Google login
+Greg: theme tweaks
+Leif: Tweak positioning in details pane (PL-332)
 
 
 2012:0228 Update
