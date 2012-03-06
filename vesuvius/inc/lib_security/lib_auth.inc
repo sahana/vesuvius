@@ -470,11 +470,13 @@ function shn_authenticate_user() {
 
 		$oauth2 = new apiOauth2Service($client);
 
-		$redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-		echo 'redirect >> '.$redirect;
+		$redirect = "https://pl.nlm.nih.gov/oauthReturnGoogle";
+		echo "<pre>".print_r($_GET, true)."</pre>";
 		if(isset($_GET['code'])) {
 			$client->authenticate();
 			$_SESSION['token'] = $client->getAccessToken();
+			//$redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+			//echo 'redirect...why?!'.$redirect;
 			header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
 		}
 
