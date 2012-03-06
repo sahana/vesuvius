@@ -127,6 +127,15 @@ function shn_pref_makeGoogleLoginLink() {
 				<fieldset style="width: 500px;">
 				<legend>Login with</legend>
 				<a class="styleTehButton googleButton" href="'.$authUrl.'"><img src="theme/lpf3/img/google34px.png"></a>
+';
+
+  if(isset($authUrl)) {
+    print "<a class=login href='$authUrl'>Connect Me!</a>";
+  } else {
+    print "<a class=logout href='?logout'>Logout</a>";
+  }
+
+echo '
 				</fieldset>
 			</form>
 		</div>
