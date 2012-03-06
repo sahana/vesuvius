@@ -449,7 +449,7 @@ function shn_authenticate_user() {
 
 	// only authenticate if requested
 	if(!isset($_GET['doLogin'])) {
-		$user_data["user_id"] =- 1;
+		$user_data["user_id"] = -1;
 		return $user_data ;
 
 	// handle Google OAuth login
@@ -480,8 +480,9 @@ function shn_authenticate_user() {
 
 		if (isset($_SESSION['token'])) {
 			$client->setAccessToken($_SESSION['token']);
-			echo 'TOKEN!!!!!';
+			echo "<BR>TOKEN SET!<BR>";
 		}
+
 
 		if (isset($_REQUEST['logout'])) {
 			unset($_SESSION['token']);
@@ -489,12 +490,14 @@ function shn_authenticate_user() {
 			echo "LOGOUT!!";
 		}
 
-		if ($client->getAccessToken()) {
+		if($client->getAccessToken()) {
 			try {
 				$client->verifyIdToken();
+
 			} catch(apiAuthException $e) {
-				echo '<pre>Unable to verify id_token. Error: ' . $e->getMessage().'</pre>';
+				echo '<br>Unable to verify id_token. Error: '.$e->getMessage().'<br>';
 			}
+
 			$user = $oauth2->userinfo->get();
 			$email = filter_var($user['email'], FILTER_SANITIZE_EMAIL);
 			$img = filter_var($user['picture'], FILTER_VALIDATE_URL);
@@ -505,11 +508,12 @@ function shn_authenticate_user() {
 		}
 
 		if(isset($personMarkup)) {
-			print $personMarkup;
+			echo "<br><br>".$personMarkup."<br><br>";
 		}
 
-		echo '<pre>('.print_r($_SESSION, true).')</pre>';
-		echo '<pre>('.print_r(var_export($client, true), true).')</pre>';
+echo '<pre>('.print_r(var_export($user, true), true).')</pre>';
+echo '<pre>('.print_r(var_export($_SESSION, true), true).')</pre>';
+echo '<pre>('.print_r(var_export($client, true), true).')</pre>';
 
 		die();
 
