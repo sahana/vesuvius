@@ -132,6 +132,15 @@ function shn_pref_makeGoogleLoginLink() {
 		</div>
 	';
 	//	<pre>('.print_r(get_defined_vars(), true).')</pre>
+
+
+  if(isset($authUrl)) {
+    print "<a class=login href='$authUrl'>Connect Me!</a>";
+  } else {
+    print "<a class=logout href='?logout'>Logout</a>";
+  }
+
+
 }
 
 
