@@ -127,12 +127,7 @@ function shn_pref_makeGoogleLoginLink() {
 				<fieldset style="width: 500px;">
 				<legend>Login with</legend>
 				<a class="styleTehButton googleButton" href="'.$authUrl.'"><img src="theme/lpf3/img/google34px.png"></a>
-				</fieldset>
-			</form>
-		</div>
-	';
-	//	<pre>('.print_r(get_defined_vars(), true).')</pre>
-
+';
 
   if(isset($authUrl)) {
     print "<a class=login href='$authUrl'>Connect Me!</a>";
@@ -140,7 +135,12 @@ function shn_pref_makeGoogleLoginLink() {
     print "<a class=logout href='?logout'>Logout</a>";
   }
 
-
+echo '
+				</fieldset>
+			</form>
+		</div>
+	';
+	//	<pre>('.print_r(get_defined_vars(), true).')</pre>
 }
 
 
