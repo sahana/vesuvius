@@ -19,7 +19,7 @@ RewriteBase /
 ##### make mod_rewrite skip the subsequent rules if the file or folder exists already (the number must be incremented each time a new rule is added below)
 RewriteCond %{REQUEST_FILENAME} -d [OR]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule .* - [S=38]
+RewriteRule .* - [S=37]
 
 ##### matches /person.XXXXX for the person uuid's as urls
 RewriteRule ^(person.[0-9]+)$ ?mod=eap&val=$1 [L]
@@ -31,7 +31,6 @@ RewriteRule ^(privacy)$ ?mod=rez&page=44  [L]
 ##### handle actions
 RewriteRule ^(login)$              ?mod=pref&act=loginForm [L]
 RewriteRule ^(auth)$               ?doLogin=1 [L]
-RewriteRule ^(oauthReturnGoogle)$  ?doLogin=2 [L]
 RewriteRule ^(password)$           ?mod=pref&act=ch_passwd [L]
 RewriteRule ^(logout)$             ?act=logout [L]
 RewriteRule ^(register)$           ?mod=pref&act=signup [L]
