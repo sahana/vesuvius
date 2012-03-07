@@ -460,19 +460,6 @@ function shn_authenticate_user() {
 
 		//session_start();
 
-		$client = new apiClient();
-		$client->setApplicationName($conf['site_name']);
-		$client->setClientId($conf['oauth_google_clientId']);
-		$client->setClientSecret($conf['oauth_google_clientSecret']);
-		$client->setRedirectUri($conf['oauth_google_redirectUri']);
-		$client->setDeveloperKey($conf['oauth_google_developerKey']);
-		$client->setAccessType('online');
-
-		$oauth2 = new apiOauth2Service($client);
-
-		$redirect = "https://pl.nlm.nih.gov/oauthReturnGoogle";
-
-
 	echo "<pre>";
 	echo "\$_SERVER = \n";
 	echo print_r($_SERVER, true),"\n\n\n";
@@ -483,6 +470,18 @@ function shn_authenticate_user() {
 	echo "\$_REQUEST = \n";
 	echo print_r($_REQUEST, true),"\n\n\n";
 	echo "</pre> ";
+
+		$client = new apiClient();
+		$client->setApplicationName($conf['site_name']);
+		$client->setClientId($conf['oauth_google_clientId']);
+		$client->setClientSecret($conf['oauth_google_clientSecret']);
+		$client->setRedirectUri($conf['oauth_google_redirectUri']);
+		$client->setDeveloperKey($conf['oauth_google_developerKey']);
+		$client->setAccessType('online');
+
+		$oauth2 = new apiOauth2Service($client);
+
+//		$redirect = "https://pl.nlm.nih.gov/oauthReturnGoogle";
 
 
 
