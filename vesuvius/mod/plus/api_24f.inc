@@ -1331,7 +1331,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 		return array(
 			'url'          => (string)$p->p_uuid,
 			'errorCode'    => (int)$ecode,
-			'errorMessage' => (string)$eCodes[$ecode]
+			'errorMessage' => (string)''
 		);
 	}
 }
@@ -1604,7 +1604,7 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 		return array(
 			'url'          => (string)$p->p_uuid,
 			'errorCode'    => (int)$ecode,
-			'errorMessage' => (string)$eCodes[$ecode]
+			'errorMessage' => (string)''
 		);
 	}
 }
