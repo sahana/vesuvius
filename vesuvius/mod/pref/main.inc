@@ -126,7 +126,7 @@ function shn_pref_makeGoogleLoginLink() {
 			<form>
 				<fieldset style="width: 500px;">
 				<legend>Login with</legend>
-				<a class="styleTehButton googleButton" href="'.$authUrl.'"><img src="theme/lpf3/img/google34px.png"></a>
+				<a class="styleTehButton googleButton" href="'.$authUrl.'"><img height=23 src="theme/lpf3/img/google34px.png"></a>
 ';
 
   if(isset($authUrl)) {
