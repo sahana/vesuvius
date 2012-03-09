@@ -4521,6 +4521,7 @@ $global['title_override'] = "SEX!";
 	echo '<script src="res/js/sorttable.js"></script>';
 	echo '
 		* click on a column header to sort by that column<br>
+		** only shows last 100 updated persons<br>
 		<br>
 		<table id="regLog" class="sortable">
 		<thead>	<tr>
@@ -4540,7 +4541,9 @@ $global['title_override'] = "SEX!";
 		FROM `person_status` s, incident i, person_uuid p
 		WHERE s.opt_status = 'fnd'
 		AND i.shortname = 'test'
-		AND s.p_uuid = p.p_uuid ;
+		AND s.p_uuid = p.p_uuid
+		ORDER BY s.last_updated DESC
+		LIMIT 100;
 	";
 	$result = $global['db']->Execute($q);
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 1"); }
