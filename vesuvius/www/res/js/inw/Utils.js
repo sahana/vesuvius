@@ -314,7 +314,7 @@ var Utils = {
 			$("#sortOrderIcon").hide();
 		}
 		else {
-                        if ( el.value == "full_name" || el.value == "years_old" ) {
+                        if ( el.value == "full_name" || el.value == "years_old" || el.value == "mass_casualty_id") {
 				Globals.sortedBy = el.value + " " + "asc";
 				$("#sortOrderIcon").attr("src", "res/img/asc.png")
 			        	.attr("title", "Ascending (click for descending)")

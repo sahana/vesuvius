@@ -68,6 +68,9 @@ function shn_inw_default() {
 							<option value="full_name">Name</option>
 							<option value="years_old">Age</option>
 							<option value="opt_status">Status</option>
+							<? if ( preg_match('(cmax|shield)',$_REQUEST["shortname"])) { ?>
+							        <option value="mass_casualty_id">Mass Casualty ID</option>
+							<? } ?>
 						</select>
 					</div>
 					<div style="clear:both;"></div>
