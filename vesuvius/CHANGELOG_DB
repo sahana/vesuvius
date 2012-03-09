@@ -21,6 +21,12 @@ ALTER TABLE  `plus_access_log` ADD  `latitude` DOUBLE NULL DEFAULT NULL COMMENT 
 
 ///////////////////////////////////////////////// LEIF'S CHANGES THAT ARE IN PRODUCTION ////////////////////////////////////////////////////////////////////////
 
+2012:0309 Leif
+--------------
+
+UPDATE `pl`.`incident` SET `shortname` = 'shield2012' WHERE `incident`.`incident_id` =37;
+
+
 2012:0227 Leif
 --------------
 

@@ -126,6 +126,7 @@ function shn_inw_default() {
 								<input type="checkbox" id="checkAgeYouth"   checked onclick="Utils.formSearch()" /><label for="checkAgeYouth" id="adult">Adult (18+)</label><br />
 								<input type="checkbox" id="checkAgeUnknown" checked onclick="Utils.formSearch()" /><label for="checkAgeUnknown" id="otherAge"><? echo UNKNOWN; ?></label><br />
 							</div>
+							<br />
 							<div id="hospital">
 								<div class="searchOptionsHeader">Source</div>
 								<input type="checkbox" id="checkSuburban"   checked onclick="Utils.formSearch()" /><label for="checkSuburban" id="suburban">Suburban Hospital</label><br />
