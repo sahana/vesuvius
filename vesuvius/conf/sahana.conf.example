@@ -79,3 +79,12 @@ $conf["SOLR_port"] = 8983;
 
 # Audit email address
 $conf['audit_email'] = "audit@example.com";
+
+# Enable login via Google OAuth?
+$conf['oauth_google_enable']       = false;
+$conf['oauth_google_clientId']     = '';
+$conf['oauth_google_clientSecret'] = '';
+$conf['oauth_google_redirectUri']  = '';
+$conf['oauth_google_developerKey'] = '';
+
+

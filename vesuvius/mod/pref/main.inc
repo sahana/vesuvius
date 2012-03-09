@@ -99,6 +99,51 @@ function shn_pref_session() {
 
 
 
+function shn_pref_makeGoogleLoginLink() {
+
+	global $global;
+	global $conf;
+
+	require_once($global['approot']."/3rd/google-api-php-client/src/apiClient.php");
+	require_once($global['approot']."/3rd/google-api-php-client/src/contrib/apiOauth2Service.php");
+
+	session_start();
+
+	$client = new apiClient();
+	$client->setApplicationName($conf['site_name']);
+	$client->setClientId($conf['oauth_google_clientId']);
+	$client->setClientSecret($conf['oauth_google_clientSecret']);
+	$client->setRedirectUri($conf['oauth_google_redirectUri']);
+	$client->setDeveloperKey($conf['oauth_google_developerKey']);
+	$client->setAccessType('online');
+
+	$oauth2 = new apiOauth2Service($client);
+
+	$authUrl = $client->createAuthUrl();
+
+	echo '
+		<div class="form-container" style="padding: auto;">
+			<form>
+				<fieldset style="width: 500px;">
+				<legend>Login with</legend>
+				<a class="styleTehButton googleButton" href="'.$authUrl.'"><img src="theme/lpf3/img/google34px.png"></a>
+';
+
+  if(isset($authUrl)) {
+    print "<a class=login href='$authUrl'>Connect Me!</a>";
+  } else {
+    print "<a class=logout href='?logout'>Logout</a>";
+  }
+
+echo '
+				</fieldset>
+			</form>
+		</div>
+	';
+	//	<pre>('.print_r(get_defined_vars(), true).')</pre>
+}
+
+
 function shn_pref_loginForm($return = null) {
 
 	global $conf;
@@ -110,6 +155,10 @@ function shn_pref_loginForm($return = null) {
 			$returnVal = $return;
 		} else {
 			$returnVal = $_SERVER['REQUEST_URI'];
+		}
+
+		if($conf['oauth_google_enable'] && isset($_GET['oauthtest'])) {
+			shn_pref_makeGoogleLoginLink();
 		}
 
 		echo '
@@ -126,16 +175,22 @@ function shn_pref_loginForm($return = null) {
 					<input type="submit" value="Login" class="styleTehButton" tabindex="3">
 				</div>
 				</fieldset>
-				<br><br><br>
 				<input type="hidden" name="return" value="'.$returnVal.'">
 				</form>
 			</div>
 		';
 		echo '
-			<div style="width: 500px; text-align: center;">
-				<input id="followButton" class="styleTehButton" type="button" value="Register as a new user" onclick="register();">
-				&nbsp; &nbsp; &nbsp; &nbsp;
-				<input id="followButton" class="styleTehButton" type="button" value="Forgot My Password" onclick="forgot();">
+			<div class="form-container" style="padding: auto;">
+				<form>
+					<fieldset style="width: 500px;">
+					<legend>Register / Forgot Password</legend>
+					<div style="text-align: center;">
+						<input id="followButton" class="styleTehButton" type="button" value="Register as a new user" onclick="register();">
+						&nbsp; &nbsp; &nbsp; &nbsp;
+						<input id="followButton" class="styleTehButton" type="button" value="Forgot my password" onclick="forgot();">
+					</div>
+					</fieldset>
+				</form>
 			</div>
 			<script>
 				function register() {
@@ -146,7 +201,8 @@ function shn_pref_loginForm($return = null) {
 				}
 			</script>
 		';
-/*
+
+		/*
 				<div id=\"switchOpenId\">
 					<a href=\"#\" onclick=\"switchLogin('loginform','openid_loginform');\">Login with an OpenID></a>
 				</div>
@@ -165,7 +221,9 @@ function shn_pref_loginForm($return = null) {
 			<script type=\"text/javascript\">
 				switchLogin('openid_loginform','loginform');
 			</script>
-*/
+		*/
+
+
 		// force focus to login box...
 		echo "
 			<script>
@@ -992,10 +1050,6 @@ function shn_pref_tracking() {
 	echo "</fieldset>";
 	echo "</form></div>";
 }
-
-
-
-
 
 
 

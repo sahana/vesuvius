@@ -1044,6 +1044,7 @@ function searchCount($eventShortname, $searchTerm, $filterStatusMissing, $filter
 	global $global;
 	global $conf;
 	$error = false;
+	$perPage = 2000;
 
 	// verify that the event is a public event...
 	$q = "
@@ -1128,7 +1129,7 @@ function searchCount($eventShortname, $searchTerm, $filterStatusMissing, $filter
 		);
 	} else {
 		return array(
-			'recordsFound' => (int)count($search->results),
+			'recordsFound' => (int)$search->numRowsFound,
 			'timeElapsed'  => (double)$timeElapsed,
 			'errorCode'    => (int)0,
 			'errorMessage' => ''
@@ -1147,6 +1148,7 @@ function searchCountWithAuth($eventShortname, $searchTerm, $filterStatusMissing,
 	global $global;
 	global $conf;
 	$error = false;
+	$perPage = 2000;
 
 	// check auth, if fails, return w/ error code/message
 	$status = shn_plus_checkCredz($username, $password);
@@ -1235,7 +1237,7 @@ function searchCountWithAuth($eventShortname, $searchTerm, $filterStatusMissing,
 		);
 	} else {
 		return array(
-			'recordsFound' => (int)count($search->results),
+			'recordsFound' => (int)$search->numRowsFound,
 			'timeElapsed'  => (double)$timeElapsed,
 			'errorCode'    => (int)0,
 			'errorMessage' => ''

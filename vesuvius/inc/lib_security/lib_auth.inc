@@ -434,6 +434,7 @@ function shn_auth_user_list2() {
 function shn_authenticate_user() {
 
 	global $global;
+	global $conf;
 
 	$db = $global['db'];
 	$user_data = array("user_id" => ANONYMOUS_USER, "user" => "Anonymous");
@@ -446,15 +447,92 @@ function shn_authenticate_user() {
 		return $user_data ;
 	}
 
-	/*
-	if user has not requested login no need to authenticate, simply
-	 return -1 , so the calling application can identify that
-	 authentication was not attempted
-	 */
-	if(!isset($_GET['doLogin']) || (isset($_GET['doLogin']) && $_GET['doLogin'] != "1")) {
-		$user_data["user_id"] =- 1;
+	// only authenticate if requested
+	if(!isset($_GET['doLogin'])) {
+		$user_data["user_id"] = -1;
 		return $user_data ;
-	} else {
+
+	// handle Google OAuth login
+	} elseif($_GET['doLogin'] == "2") {
+
+		require_once($global['approot']."/3rd/google-api-php-client/src/apiClient.php");
+		require_once($global['approot']."/3rd/google-api-php-client/src/contrib/apiOauth2Service.php");
+
+		//session_start();
+
+		$client = new apiClient();
+		$client->setApplicationName($conf['site_name']);
+		$client->setClientId($conf['oauth_google_clientId']);
+		$client->setClientSecret($conf['oauth_google_clientSecret']);
+		$client->setRedirectUri($conf['oauth_google_redirectUri']);
+		$client->setDeveloperKey($conf['oauth_google_developerKey']);
+		$client->setAccessType('online');
+
+		$oauth2 = new apiOauth2Service($client);
+
+		$redirect = "https://pl.nlm.nih.gov/oauthReturnGoogle";
+		echo "<pre>".print_r($_GET, true)."</pre>";
+		if(isset($_GET['code'])) {
+			$client->authenticate();
+			$_SESSION['token'] = $client->getAccessToken();
+			//$redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+			//echo 'redirect...why?!'.$redirect;
+			header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
+		}
+
+		if(isset($_SESSION['token'])) {
+			$client->setAccessToken($_SESSION['token']);
+			echo "<BR>TOKEN SET!<BR>";
+		}
+
+
+		if(isset($_REQUEST['logout'])) {
+			unset($_SESSION['token']);
+			$client->revokeToken();
+			echo "LOGOUT!!";
+		}
+
+		if($client->getAccessToken()) {
+			try {
+				$client->verifyIdToken();
+			} catch(apiAuthException $e) {
+				echo '<br>Unable to verify id_token. Error: '.$e->getMessage().'<br>';
+			}
+
+			$user = $oauth2->userinfo->get();
+			$email = filter_var($user['email'], FILTER_SANITIZE_EMAIL);
+			$img = filter_var($user['picture'], FILTER_VALIDATE_URL);
+			$personMarkup = "$email<div><img src='$img?sz=128'></div>";
+
+			// The access token may have been updated lazily.
+			$_SESSION['token'] = $client->getAccessToken();
+		}
+
+		if(isset($personMarkup)) {
+			echo "<br><br>".$personMarkup."<br><br>";
+		}
+
+  if(isset($authUrl)) {
+    print "<a class=login href='$authUrl'>Connect Me!</a>";
+  } else {
+    print "<a class=logout href='?logout'>Logout</a>";
+  }
+
+
+echo '<pre>('.print_r(var_export($user, true), true).')</pre>';
+echo '<pre>('.print_r(var_export($_SESSION, true), true).')</pre>';
+echo '<pre>('.print_r(var_export($client, true), true).')</pre>';
+
+		die();
+
+
+
+
+
+
+
+	// handle a normal login
+	} elseif($_GET['doLogin'] == "1") {
 
 		//authentication is done only as the user requested to login
 		$user = addslashes(strip_tags(trim($_POST{"user_name"})));
