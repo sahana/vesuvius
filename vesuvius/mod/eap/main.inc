@@ -1014,7 +1014,7 @@ function shn_eap_edit() {
 			}
 		}
 		echo '
-			<div style="background-color: #fff; padding: 5px; border: 1px solid #bbb; float: left; text-align: center; margin-right: 10px;"><br>
+			<div id="eapUploadImage"><br>
 			Add an additional image to this record:<br><br><input type="file" name="add_image" id="add_image" /><br><br><input type="submit" name="UPLOAD" id="UPLOAD" value="UPLOAD" class="styleTehButton"/><br>&nbsp;
 			</div>
 		';
@@ -2143,7 +2143,7 @@ function shn_eap_edit() {
 
 		<div style=\"clear:both;\"></div>
 
-		<div style=\"margin: 15px 15px 0px 15px; border-top: 1px solid #000; padding-top: 15px;\" id=\"addThisDiv\">
+		<div id=\"addThisDiv\">
 			<div class=\"addthis_toolbox addthis_default_style\">
 			<a class=\"addthis_button_facebook_like\" fb:like:layout=\"button_count\"></a>
 			<a class=\"addthis_button_tweet\"></a>

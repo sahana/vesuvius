@@ -18,6 +18,12 @@ require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
 function shn_stat_menu() {
 	global $global;
+	//empty the all	
+	function shn_stat_mainmenu() {}
+	function shn_stat_header() {}
+	function shn_stat_footer() {}
+	function shn_stat_html_head() {}
+	function shn_stat_login() {}
 		echo "		
 		<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\"></script>		
 		<script type=\"text/javascript\" src=\"res/js/statpacked.js\"></script>
@@ -27,15 +33,15 @@ function shn_stat_menu() {
 		$shortname = $_GET['shortname'];
 		echo "People Statistics for $shortname:\n";
 		echo "\n";
-		echo "Please select from the links below for avalailable statistics:\n";
-		
+		echo "Please select from the links below for avalailable statistics:\n";		
 		echo "
 		<ul>			
-			<li><a href=\"index.php?mod=stat&act=arrival\">Arrival Rates</a></li>
-			<li><a href=\"index.php?mod=stat&act=arrival_regular_interval\">Regular Interval Arrival Rates</a></li>
+			<li><a href=\"index.php?mod=stat&act=arrival\">Arrival Rates</a></li>			
 			<li><a href=\"index.php?mod=stat&act=cummulative_arrival\">Cummulative Arrivals</a></li>
 			<li><a href=\"index.php?mod=stat&act=stacked_cummulative_arrival\">Stacked Cummulative Arrivals</a></li>
-			<li><a href=\"index.php?mod=stat&act=demographic\">Demographic Pie Charts</a></li>			
+			<li><a href=\"index.php?mod=stat&act=demographic\">Demographic Pie Charts</a></li>
+			
+			<li><a href=\"index.php?mod=stat&act=pie_status\">People Locator Status Pie Chart</a></li>		
 						
 		</ul>
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">		
@@ -2366,20 +2372,24 @@ function shn_stat_cummulative_arrival() {
             echo "year: '%b %e'\n" ;
          echo "}\n" ;
      echo "},\n" ;
-    echo "yAxis: {\n";			
-			echo "allowDecimals: false,\n";
-			echo "labels: {\n";
-            echo "formatter: function() {\n";
-                echo "return '<b>'+this.value;\n";
-				echo "}\n";
-			echo "},\n";
-			echo "title: {\n";
-            echo "text: 'Count of Persons Reported'\n";
-					echo "},\n";
-			echo "min: 0.6,\n";
-			echo "startOnTick: true,\n";
-			echo "showFirstLabel: true\n";
-				echo "},\n";
+    echo "yAxis:  [{
+			lineWidth: 3,
+			title: {
+				text: 'Total People Count'
+			}
+		}, {
+			lineWidth: 3,
+			opposite: true,
+			title: {
+				text: 'Total People Count'
+			}
+		}],\n";
+
+			//echo "min: 0.6,\n";
+			//echo "startOnTick: true,\n";
+			//echo "showFirstLabel: true\n";
+				//echo "},\n";
+				
 		echo "tooltip: {\n";
 			echo "shared: true\n";
 				echo "},\n";
@@ -2392,7 +2402,7 @@ function shn_stat_cummulative_arrival() {
 			
 		echo "},\n";
 		echo "plotOptions: {\n";								
-			echo "area: {\n";			
+			echo "line: {\n";			
             echo "fillColor: {\n";
                echo "linearGradient: [0, 0, 0, 300],\n";
                echo "stops: [\n";
@@ -2418,9 +2428,9 @@ function shn_stat_cummulative_arrival() {
 						echo "}\n";
 					echo "}\n";
          echo "},\n";
-		 echo "line: {\n" ;
+		 echo "area: {\n" ;
             echo "dataLabels: {\n" ;
-               echo "enabled: true\n" ;
+               echo "enabled: false\n" ; //disable the point labels
             echo "},\n" ;
             echo "enableMouseTracking: false\n" ;
          echo "}\n" ;
@@ -2440,14 +2450,14 @@ function shn_stat_cummulative_arrival() {
 		echo "name: 'All sources";
 		echo "'";
 		echo ",\n";
-		echo "type: 'area',\n" ;
+		echo "type: 'line',\n" ;
         echo "data: data\n" ;        
 		echo "},\n";
 		echo "{\n" ;
 		echo "name: 'TriagePic";
 		echo "'";
 		echo ",\n";
-		echo "type: 'area',\n" ;
+		echo "type: 'line',\n" ;
         echo "data: data1\n" ;        
 		echo "},\n";
 		
@@ -2455,7 +2465,7 @@ function shn_stat_cummulative_arrival() {
 		echo "name: 'ReUnite";
 		echo "'";
 		echo ",\n";
-		echo "type: 'area',\n" ;
+		echo "type: 'line',\n" ;
         echo "data: data2\n" ;        
 		echo "},\n";
 		
@@ -2463,21 +2473,21 @@ function shn_stat_cummulative_arrival() {
 		echo "name: 'Website";
 		echo "'";
 		echo ",\n";
-		echo "type: 'area',\n" ;
+		echo "type: 'line',\n" ;
         echo "data: data3\n" ;        
 		echo "},\n";
 		echo "{\n" ;
 		echo "name: 'PFIF";
 		echo "'";
 		echo ",\n";
-		echo "type: 'area',\n" ;
+		echo "type: 'line',\n" ;
         echo "data: data4\n" ;        
 		echo "},\n";
 		echo "{\n" ;
 		echo "name: 'Vanilla Email";
 		echo "'";
 		echo ",\n";
-		echo "type: 'area',\n" ;
+		echo "type: 'line',\n" ;
         echo "data: data5\n" ;    
 		
         echo "}]\n" ;
@@ -2757,7 +2767,7 @@ function shn_stat_stacked_cummulative_arrival() {
 				echo "fontSize: '28px',\n";
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
-         echo "text: 'Cummulative Arrivals During $name Event'\n" ;
+         echo "text: 'Stacked Cummulative Arrivals During $name Event'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n" ;
 		 echo "style: {\n";
@@ -2781,6 +2791,7 @@ function shn_stat_stacked_cummulative_arrival() {
             echo "year: '%b %e'\n" ;
          echo "}\n" ;
      echo "},\n" ;
+	 /*
     echo "yAxis: {\n";			
 			echo "allowDecimals: false,\n";
 			echo "labels: {\n";
@@ -2795,6 +2806,20 @@ function shn_stat_stacked_cummulative_arrival() {
 			echo "startOnTick: true,\n";
 			echo "showFirstLabel: true\n";
 				echo "},\n";
+	*/
+	echo "yAxis: [{
+			lineWidth: 3,
+			title: {
+				text: 'Total People Count'
+			}
+		}, {
+			lineWidth: 3,
+			opposite: true,
+			title: {
+				text: 'Total People Count'
+			}
+		}],\n";
+	
 		echo "tooltip: {\n";
 			echo "shared: true\n";
 				echo "},\n";
@@ -2838,7 +2863,7 @@ function shn_stat_stacked_cummulative_arrival() {
          echo "},\n";
 		 echo "area: {\n" ;
             echo "dataLabels: {\n" ;
-               echo "enabled: true\n" ;
+               echo "enabled: false\n" ;//disable the point labels
             echo "},\n" ;
             echo "enableMouseTracking: false\n" ;
          echo "}\n" ;
@@ -2921,6 +2946,15 @@ demographic charts
 function shn_stat_demographic() {
 	global $global;
 	shn_stat_menu();
+	
+	//empty the footer
+	
+	//function shn_stat_mainmenu() {}
+	//function shn_stat_header() {}
+	//function shn_stat_footer() {}
+	//function shn_stat_html_head() {}
+	//function shn_stat_login() {}
+
 	echo "People Statistics for  ";
 	echo $_GET['shortname'];
 	$shortname = $_GET['shortname'];
@@ -2980,6 +3014,7 @@ function shn_stat_demographic() {
 		}
 	while($row = $res->FetchRow());
 	
+	//if ($shortname!=='testind') {
 	//for gender
 	$q_g="SELECT DISTINCT d.option_description as opt_gender, count( opt_gender ) AS count_opt_gender
 	FROM person_details a
@@ -3069,15 +3104,13 @@ function shn_stat_demographic() {
 		array_push($json_count_optcategory, $row['count_optcategory']);
 		}
 	while($row = $res->FetchRow());		
-	
+	//}//end if event not=testIND
 	?>
 	
-	<html,body{
-     style="height: 100%;"
-	 }>;
 
-	<div id="container" style="width: 100%; min-height: 100%;height: auto !important; zIndex="99";"></div>;
+	<div id="container" style="width: 100%; height: 100%;"></div>
 	
+
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
@@ -3381,6 +3414,8 @@ function shn_stat_demographic() {
 			echo "]}\n" ;      
 		
    echo "});\n" ;
+   
+        
 echo "});\n" ;
 
 
@@ -4869,6 +4904,8 @@ echo "});\n" ;
 
 echo "</script>\n" ;
 }
+/*****************************************/
+
 function shn_stat_range_date() {
 	global $global;
 	
@@ -4894,4 +4931,425 @@ function shn_stat_range_date() {
 	
 	
 
+	//}
+
+/***************************************
+status pie chart
+****************************************/
+function shn_stat_pie_status() {
+global $global;
+	shn_stat_menu();
+	
+	//empty the footer
+	
+	//function shn_stat_mainmenu() {}
+	//function shn_stat_header() {}
+	//function shn_stat_footer() {}
+	//function shn_stat_html_head() {}
+	//function shn_stat_login() {}
+
+	echo "People Statistics for  ";
+	echo $_GET['shortname'];
+	$shortname = $_GET['shortname'];
+	$name=ucfirst($shortname);
+	$groupID = $_SESSION['group_id'];
+	//echo "Shortname: " .$shortname."";
+	//echo "Group ID: " .$groupID."";
+	
+	//for starting date
+	$q_start_date="SELECT arrival_time from arrival_rate a
+	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
+	ORDER BY arrival_time asc limit 1";
+	$res = $global['db']->Execute($q_start_date);
+	$row = $res->FetchRow();
+	if($row === FALSE) {
+    	//die(mysql_error());
+		$startdate_has_data=false;
 	}
+	$start_date= $row[0];
+	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
+	//for end date
+	$q_end_date="SELECT arrival_time from arrival_rate a
+	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
+	ORDER BY arrival_time desc limit 1";
+	$res = $global['db']->Execute($q_end_date);
+	$row = $res->FetchRow();
+	if($row === FALSE) {
+    	//die(mysql_error());
+		$enddate_has_data=false;
+	}
+	$end_date= $row[0];
+    $end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+	//for status
+	
+	$q_s="SELECT DISTINCT d.option_description as opt_status, count( opt_status ) as count_opt_status FROM person_status a
+	join field_options d ON a.opt_status=d.option_code
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	join incident c ON c.incident_id= b.incident_id where c.shortname = '".$shortname."'
+	GROUP BY opt_status";
+	
+	//using status_count view
+	//$q_s="SELECT opt_status, count_opt_status, color FROM status_count where incident_id = '".$shortname."'";
+	
+	$res = $global['db']->Execute($q_s);
+	$row = $res->FetchRow();
+
+	if($row === FALSE) {
+    	//die(mysql_error());
+		$status_has_data=false;
+	}
+	$status_has_data=true;
+	$json_opt_status = array();
+	$json_count_opt_status = array();
+	//if use view to match color
+	//$json_colors=array()
+	do{
+		$opt_status[] = $row['opt_status'];
+		array_push($json_opt_status, $row['opt_status']);
+		$count_opt_status[] = $row['count_opt_status'];
+		array_push($json_count_opt_status, $row['count_opt_status']);
+		//if use view
+		//$color[] = $row['color'];
+		//array_push($json_color, $row['color']);
+		}
+	while($row = $res->FetchRow());
+	
+	//if ($shortname!=='testind') {
+	//for gender
+	$q_g="SELECT DISTINCT d.option_description as opt_gender, count( opt_gender ) AS count_opt_gender
+	FROM person_details a
+	JOIN field_options d ON a.opt_gender = d.option_code
+	JOIN person_uuid b ON a.p_uuid = b.p_uuid
+	JOIN incident c ON c.incident_id = b.incident_id
+	WHERE c.shortname = '".$shortname."'
+	GROUP BY option_description";
+	//using view gender_count
+	//$q_g="SELECT opt_gender, count_opt_gender where incident_id = '".$shortname."'";
+	
+	$res = $global['db']->Execute($q_g);
+	$row = $res->FetchRow();	
+	
+	if($row === FALSE) {
+    	//die(mysql_error());
+		$gender_has_data=false;
+	}
+	$gender_has_data=true;
+	$json_opt_gender = array();
+	$json_count_opt_gender = array();
+	do{
+		$opt_gender[] = $row['opt_gender'];
+		array_push($json_opt_gender, $row['opt_gender']);
+		$count_opt_gender[] = $row['count_opt_gender'];
+		array_push($json_count_opt_gender, $row['count_opt_gender']);
+		}
+	while($row = $res->FetchRow());
+	
+	
+	//for pediatrics/adults
+	$q_a="SELECT 'pediatrics' as opt_age, count(years_old) as count_opt_age FROM `person_details` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	JOIN incident c ON b.incident_id = c.incident_id
+	where (c.shortname = '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 1 and a.years_old <= 17))
+	UNION
+	SELECT 'adult' as opt_age, count(years_old) as count_opt_age FROM `person_details` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	JOIN incident c ON b.incident_id = c.incident_id
+	where (c.shortname = '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 18))";
+	//using view 'age_group_age'
+	//$q_a="select opt_age, count_opt_age from age_group_count where incident_id = '".$shortname."'";
+	
+	$res = $global['db']->Execute($q_a);
+	$row = $res->FetchRow();	
+	
+	if($row === FALSE) {
+    	//die(mysql_error());		
+		$agegroup_has_data=false;
+	}
+	$agegroup_has_data=true;
+	$json_opt_age = array();
+	$json_count_opt_age = array();
+	do{
+		$opt_age[] = ucfirst($row['opt_age']);
+		array_push($json_opt_age, $row['opt_age']);
+		$count_opt_age[] =  $row['count_opt_age'];
+		array_push($json_count_opt_age, $row['count_opt_age']);
+		}
+	while($row = $res->FetchRow());
+	
+	//for tp category	
+	$q_tp="SELECT distinct (triage_category) as opt_category, count(triage_category) as count_optcategory FROM `edxl_co_lpf` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	JOIN incident c ON b.incident_id = c.incident_id
+	where c.shortname = '".$shortname."'	 
+	group by a.triage_category
+	order by a.triage_category";
+	
+	//using view 'tp_zonecolor_count'
+	//$q_tp="SELECT opt_category, count_optcategory FROM `tp_zonecolor_count` where incident_id = '".$shortname."'";
+	
+	$res = $global['db']->Execute($q_tp);
+	$row = $res->FetchRow();	
+	
+	if($row === FALSE) {
+    	//echo 'No data available: ' . mysql_error();		
+     $TP_has_data=false;
+	}
+	$TP_has_data=true;
+	$json_opt_category = array();
+	$json_count_optcategory = array();
+	do{
+		$opt_category[] = $row['opt_category'];
+		array_push($json_opt_category, $row['opt_category']);
+		$count_optcategory[] = $row['count_optcategory'];
+		array_push($json_count_optcategory, $row['count_optcategory']);
+		}
+	while($row = $res->FetchRow());		
+	//}//end if event not=testIND
+	?>
+	
+
+	<div id="container" style="width: 100%; height: 100%;"></div>
+	
+
+	<?php
+	$shortname = $_GET['shortname'];
+	echo "\n";
+		
+	$json_opt_status = implode("','",$json_opt_status);
+	$json_count_opt_status = implode(",", $json_count_opt_status);
+	//using view
+	//$json_colors = implode(",", $json_colors);
+	
+	$json_opt_gender = implode("','",$json_opt_gender);
+	$json_count_opt_gender = implode(",", $json_count_opt_gender);
+	
+	$json_opt_age = implode("','",$json_opt_age);
+	$json_count_opt_age = implode(",", $json_count_opt_age);	
+	
+	$json_opt_category = implode("','",$json_opt_category);
+	$json_count_optcategory = implode(",", $json_count_optcategory);
+	
+	echo "\n";
+
+	echo "<script type=\"text/javascript\">\n";
+			
+		echo "counts = [$json_count_opt_status],\n";		
+		echo "names = " .json_encode($opt_status);	
+        echo ",\n";
+		//using view
+        //echo "colors =	" .json_encode($color);
+		echo "colors= ['#348017','#000000', '#990033','red','blue','#333333'],\n";
+		echo "j, data_status = [], chart;";
+		echo "\n";
+		echo "for(j=0; j<counts.length; j++) {\n";		
+			
+			echo "
+			data_status.push({
+			name: names[j],
+			y: counts[j],
+            color: colors[j]
+            //color: names[j]			
+			});
+			";			
+			echo "}\n";
+			
+		echo "var counts_g = [$json_count_opt_gender],\n";
+		echo "names_g = " .json_encode($opt_gender);
+		echo ",\n";
+		echo "colors= ['#9900FF', '#0099FF','#CCFFCC'],\n";
+		echo "j, data_gender = [], chart;";
+		echo "\n";
+		echo "for(j=0; j<counts_g.length; j++) {\n";
+			//echo "data_gender.push([names_g[j], counts_g[j]]);\n";
+			echo "
+			data_gender.push({
+			name: names_g[j],
+			y: counts_g[j],
+			color: colors[j]
+			});
+			";
+		echo "}\n";
+			
+		
+		echo "var counts_a = [$json_count_opt_age],\n";
+		echo "names_a = " .json_encode($opt_age);
+		echo ",\n";
+		echo "colors= ['#FFCCCC', '#FFCC99'],\n";
+		echo "j, data_age = [], chart;";
+		echo "\n";
+		echo "for(j=0; j<counts_a.length; j++) {\n";
+			//echo "data_age.push([names_a[j], counts_a[j]]);\n";
+			echo "
+			data_age.push({
+			name: names_a[j],
+			y: counts_a[j],
+			color: colors[j]
+			});
+			";
+			echo "}\n";
+		
+		echo "var counts_c = [$json_count_optcategory],\n";
+		echo "names_c = " .json_encode($opt_category);
+		echo ",\n";
+		//echo "colors: ['#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";
+		echo "j, data_category = [], chart;";
+		echo "\n";
+		echo "for(j=0; j<counts_c.length; j++) {\n";	
+		
+			//echo "data_category.push([names_c[j], counts_c[j]])\n";
+		echo "
+			data_category.push({
+			name: names_c[j],
+			y: counts_c[j],
+			color: names_c[j]
+			});
+			";
+		echo "}\n";       
+		
+
+	echo "\$(document).ready(function() {\n" ;
+	echo "chart = new Highcharts.Chart({\n" ;
+      echo "chart: {\n" ;
+         echo "renderTo: 'container'\n" ;
+      echo "},\n" ;
+	  //echo "colors: ['pink', 'cyan', 'lime', 'cinnabar', 'orange', 'lilac', 'green', 'black', 'royal blue','blue','emerald', 'lime', 'yellow', 'red','gray','black'],\n"; 
+	  echo "colors: ['#FCDFFF', '#00FFFF', '#8AFB17', '#7E2217', '#F87217', '#D462FF', '#4CC417', '#000000', '#151B8D','#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";
+      
+	  echo "title: {\n" ;
+		 echo "style: {\n";
+				echo "color: 'Blue',\n";
+				echo "fontSize: '28px',\n";
+				echo "fontWeight: 'bold'\n";
+				echo "},\n";
+		 echo "margin: 45,\n";  
+         echo "text: 'People Locator Status During $name Event'\n" ;
+      echo "},\n" ;
+	  echo "subtitle: {\n" ;
+		 echo "style: {\n";
+				echo "color: 'Blue',\n";
+				echo "fontSize: '20px',\n";
+				echo "fontWeight: 'bold'\n";
+				echo "},\n";
+		echo "margin: 45,\n";
+		echo "y: 50,\n";
+		 if ($startdate_has_data=true){
+         //echo "text: 'From: $start_date to $end_date'\n" ;
+		 echo "text: ''\n" ;
+		 }
+      echo "},\n" ;
+	  
+	  echo "xAxis: {\n" ;
+         echo "type: 'datetime',\n" ;
+		 echo "maxZoom:  3600000,\n";
+         echo "dateTimeLabelFormats: {\n" ;
+            echo "second: '%I:%M %p',\n" ;
+            echo "minute: '%I:%M %p',\n" ;
+            echo "hour: '%I:%M %p',\n" ;
+            echo "day: '%b %e',\n" ;
+            echo "week: '%b %e',\n" ;
+            echo "month: '%b %e',\n" ;
+            echo "year: '%b %e'\n" ;
+         echo "}\n" ;
+     echo "},\n" ;
+    echo "yAxis: {\n";			
+			echo "allowDecimals: false,\n";			
+			echo "title: {\n";			
+            echo "text: 'Count of Persons Reported'\n";
+					echo "},\n";
+			echo "min: 0.6,\n";
+			echo "startOnTick: true,\n";
+			echo "showFirstLabel: true\n";
+				echo "},\n";
+		echo "tooltip: {\n";
+			echo "shared: true\n";
+				echo "},\n";
+		echo "legend: {\n";
+			
+			echo "pie: {\n";
+			echo "enabled: false,\n";			
+            echo "align: 'left',\n";
+            echo "layout: 'horizontal',\n";
+            echo "verticalAlign: 'top',\n";
+            echo "floating: true,\n";        
+			echo "backgroundColor: 'yellow'\n";
+			echo "}\n";
+				echo "},\n";
+				
+		echo "plotOptions: {\n";	
+		//display more details
+		 echo "pie: {\n" ;
+			echo "allowPointSelect: true,\n" ;
+				echo "cursor: 'pointer',\n" ;
+				echo "dataLabels: {\n" ;
+					echo "enabled: true,\n" ;
+					echo "formatter: function() {\n" ;
+                  echo "return '<b>'+ this.point.name +'</b><br/>'+\n" ;
+				echo "this.y;\n" ;
+               echo "}\n" ;
+            echo "}\n" ;
+         echo "},\n" ;
+		 
+		 //test
+		 echo "
+		 series: {
+            events: {
+                hide: function(event) {
+                    alert ('The series was just hidden');
+                }
+            }
+        }
+		 ";
+        
+      echo "},\n";
+	  //test
+     echo "series: [{\n" ;
+        //echo "name: '". $shortname;
+		echo "name: 'Status";
+		echo "'";
+		echo ",\n";	
+		
+		//echo "{\n";
+		echo "type: 'pie',\n";
+		echo "data: data_status,\n" ;
+		//echo "center: [200, 300],\n";
+		echo "center: ['50%', '50%'],\n";
+		echo "size: 400,\n";
+		echo "showInLegend: false,\n";
+		echo "showLegend: true,\n";
+		echo "dataLabels: {\n";
+			echo "enabled: true\n";
+			echo "}\n";
+		//echo "}\n";
+		
+        echo "}],\n" ;
+		
+		
+		//add labels for each pie charts
+		//if ($has_data=true) then 
+		
+		echo "labels: {\n" ;
+        echo "items: [{\n" ;
+		
+		    if ($gender_has_data=='true'){
+            echo "html: '',\n" ;
+            echo "style: {\n" ;
+                echo "left: '160px',\n" ;
+                echo "top: '600px',\n" ;
+				echo "fontSize: '16px',\n";
+                echo "color: 'blue'\n" ;				
+            echo "}\n" ;			
+			echo "}\n";
+			}
+			
+			
+			echo "]}\n" ;      
+		
+   echo "});\n" ;
+   
+        
+echo "});\n" ;
+
+echo "</script>\n" ;
+//echo "Test area ";
+}
+	

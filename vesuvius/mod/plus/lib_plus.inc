@@ -125,6 +125,7 @@ function shn_plus_logAccess($call="", $username=null) {
 * error code: 0 for user/password valid and user is active
 * error code: 1 invalid username or password
 * error code: 2 user account is not active
+* error code: 3 user account is banned
 */
 function shn_plus_checkCredz($username, $password) {
 
@@ -145,9 +146,16 @@ function shn_plus_checkCredz($username, $password) {
 	if(($res == null) || ($res->EOF)) {
 		return 1;
 	} else {
-		if($res->fields["status"] != "active") {
+		if($res->fields["status"] == "pending") {
 			return 2;
+
+		} elseif($res->fields["status"] == "banned") {
+			return 3;
+
+		} elseif($res->fields["status"] == "locked") {
+			return 4;
 		}
+
 		$salt = $res->fields["salt"];
 		$pwd  = substr($password, 0, 4) .$salt. substr($password, 4);
 

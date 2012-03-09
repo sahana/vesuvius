@@ -55,7 +55,7 @@ function shn_inw_default() {
 			<input type="text" id="shortName" style="display:none" value="<?= $_REQUEST["shortname"] ?>" />
 			<input type="hidden" id="searchMode" value="<?= $conf["enable_solr_for_search"] ? "solr" : "sql" ?>" />
 			<div id="searchOptions" style="display:none;">
-				<div class="searchOptionsHeader">Display Options</div>
+				<div class="searchOptionsHeader">Search Options</div>
 				<div style="float:left;">
 					<div id="sortBy" style="float:right;margin-right: 4px;width:160px; text-align: right;">
 					<b>Sort By</b>
