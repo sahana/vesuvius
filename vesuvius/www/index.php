@@ -1,14 +1,14 @@
 <?
 /**
  * @name         Sahana Agasti Main Controller
- * @version      12
+ * @version      13
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @author       Chamindra de Silva <chamindra@opensource.lk>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0214
+ * @lastModified 2012.0306
  */
 
 
@@ -17,8 +17,14 @@ $global['approot']  = realpath(dirname(__FILE__)).'/../';
 $global['previous'] = false;
 $global["setup"]    = false;
 
-// uncomment line below to initialize the debugger
-shn_main_debugger();
+// include the main sysconf file
+require($global['approot'].'conf/sahana.conf');
+
+// load the debugger if enabled in conf
+if(isset($conf['enable_debugger']) && $conf['enable_debugger'] === true) {
+	require_once('../3rd/php-console/PhpConsole.php');
+	PhpConsole::start(true, true, dirname(__FILE__));
+}
 
 // uncomment to handle redirection for different browsers/device
 //shn_main_redirect();
@@ -27,12 +33,6 @@ shn_main_debugger();
 require_once($global['approot'].'inc/lib_config.inc');
 require_once($global['approot'].'inc/lib_modules.inc');
 require_once($global['approot'].'inc/lib_errors.inc');
-
-// uncomment the line below to allow a check for the installer (Agasti will be packaged this way) we turn it off to save time when we are sure we are not installing :)
-//shn_main_install_check();
-
-// include the main sysconf file
-require($global['approot'].'conf/sahana.conf');
 
 // include the main libraries the system depends on
 require_once ($global['approot'].'inc/handler_db.inc');
@@ -70,10 +70,9 @@ shn_main_front_controller();
 
 // cleans the GET and POST
 function shn_main_clean_getpost() {
+
 	global $global;
-
 	require_once($global['approot'].'/3rd/htmlpurifier/library/HTMLPurifier.auto.php');
-
 	$config = HTMLPurifier_Config::createDefault();
 
 	// configuration goes here:
@@ -100,6 +99,7 @@ function shn_main_clean_getpost() {
 
 // find the proper default module and actions
 function shn_main_defaults() {
+
 	global $global;
 	global $conf;
 
@@ -129,6 +129,7 @@ function shn_main_defaults() {
 
 // front controller
 function shn_main_front_controller() {
+
 	global $global;
 	global $conf;
 
@@ -294,6 +295,7 @@ function shn_main_front_controller() {
 
 // check if the event manager is installed and if so, check if the current user has group permission to the currently chosen incident
 function shn_main_checkEventPermissions() {
+
 	global $global;
 	global $conf;
 
@@ -344,28 +346,9 @@ function shn_main_checkEventPermissions() {
 
 
 
-// php-console debugger
-function shn_main_debugger() {
-	// only use debugger on these internal staging servers...
-	if(($_SERVER['HTTP_HOST'] == "plstage.nlm.nih.gov")
-	|| ($_SERVER['HTTP_HOST'] == "plstage")
-	|| ($_SERVER['HTTP_HOST'] == "127.0.0.1")
-	|| ($_SERVER['HTTP_HOST'] == "ceb-stage-lx")
-	|| ($_SERVER['HTTP_HOST'] == "ceb-stage-lx.nlm.nih.gov")) {
-
-		require_once('../3rd/php-console/PhpConsole.php');
-		PhpConsole::start(true, true, dirname(__FILE__));
-
-	// if not on development servers, disable error reporting
-	} else {
-		error_reporting(0);
-	}
-}
-
-
-
 // handle redirection if need be
 function shn_main_redirect() {
+
 	global $global;
 
 	// redirect? only if we are not using the stream module
@@ -387,6 +370,7 @@ function shn_main_redirect() {
 
 // check if we should install Agasti
 function shn_main_install_check() {
+
 	// does the sahana.conf exist in the conf directory? if not start the web installer
 	if (!file_exists($global['approot'].'conf/sahana.conf')) {
 		$global["setup"] = true;
@@ -399,6 +383,7 @@ function shn_main_install_check() {
 
 // provide SOAP Services
 function shn_main_plus_server() {
+
 	global $global;
 	require_once($global['approot'].'mod/plus/server.php');
 }

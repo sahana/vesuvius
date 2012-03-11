@@ -21,6 +21,20 @@ ALTER TABLE  `plus_access_log` ADD  `latitude` DOUBLE NULL DEFAULT NULL COMMENT 
 
 ///////////////////////////////////////////////// LEIF'S CHANGES THAT ARE IN PRODUCTION ////////////////////////////////////////////////////////////////////////
 
+2012:0227 Leif
+--------------
+
+ALTER TABLE `field_options` ADD INDEX ( `option_code` ) ;
+ALTER TABLE `person_details` DROP INDEX `search_index` ;
+ALTER TABLE `person_details` ADD INDEX ( `opt_gender` ) ;
+ALTER TABLE `person_details` ADD INDEX ( `years_old` ) ;
+ALTER TABLE person_uuid DROP INDEX search_index ;
+ALTER TABLE person_status DROP INDEX search_index ;
+ALTER TABLE `person_status` ADD INDEX ( `opt_status` ) ;
+ALTER TABLE `person_status` ADD INDEX ( `last_updated` ) ;
+ALTER TABLE `field_options` ADD INDEX ( `option_description` ) ;
+ALTER TABLE `field_options` CHANGE `option_code` `option_code` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;
+
 2012:0207 Leif
 --------------
 
