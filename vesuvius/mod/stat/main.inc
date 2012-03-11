@@ -5413,7 +5413,7 @@ td { text-align: center; }
 		SELECT *, TIMEDIFF(s.last_updated, s.creation_time)
 		FROM `person_status` s, incident i, person_uuid p
 		WHERE s.opt_status = 'fnd'
-		AND i.shortname = 'test'
+		AND i.shortname = '".mysql_real_escape_string($_GET['shortname'])."'
 		AND s.p_uuid = p.p_uuid
 		ORDER BY s.last_updated DESC
 		LIMIT 100;
