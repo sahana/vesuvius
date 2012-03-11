@@ -1404,7 +1404,16 @@ class person {
 			$this->expiry_date    = $a['person']['expiryDate'];
 			$this->opt_status     = $a['person']['status'];
 			$this->last_updated   = date('Y-m-d H:i:s');
-			$this->creation_time  = $a['person']['dateTimeSent'];
+
+			$datetime      = $a['person']['dateTimeSent'];
+			$timezoneUTC   = new DateTimeZone("UTC");
+			$timezoneLocal = new DateTimeZone(date_default_timezone_get());
+			$datetime2     = new DateTime();
+			$datetime2->setTimezone($timezoneUTC);
+			$datetime2->setTimestamp(strtotime($datetime));
+			$datetime2->setTimezone($timezoneLocal);
+			$this->creation_time = $datetime2->format('Y-m-d H:i:s');
+
 			$this->opt_gender     = $a['person']['gender'];
 			$this->years_old      = $a['person']['estimatedAge'];
 			$this->minAge         = $a['person']['minAge'];
