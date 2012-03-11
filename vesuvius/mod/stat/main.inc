@@ -5414,6 +5414,7 @@ td { text-align: center; }
 		FROM `person_status` s, incident i, person_uuid p
 		WHERE s.opt_status = 'fnd'
 		AND i.shortname = '".mysql_real_escape_string($_GET['shortname'])."'
+		AND p.incident_id = i.incident_id
 		AND s.p_uuid = p.p_uuid
 		ORDER BY s.last_updated DESC
 		LIMIT 100;
