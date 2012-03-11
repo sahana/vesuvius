@@ -460,6 +460,17 @@ function shn_authenticate_user() {
 
 		//session_start();
 
+	echo "<pre>";
+	echo "\$_SERVER = \n";
+	echo print_r($_SERVER, true),"\n\n\n";
+	echo "---------------------------------------------------------------------------------------------------------------------  \n\n";
+	echo "\$_COOKIE = \n";
+	echo print_r($_COOKIE, true),"\n\n\n";
+	echo "---------------------------------------------------------------------------------------------------------------------  \n\n";
+	echo "\$_REQUEST = \n";
+	echo print_r($_REQUEST, true),"\n\n\n";
+	echo "</pre> ";
+
 		$client = new apiClient();
 		$client->setApplicationName($conf['site_name']);
 		$client->setClientId($conf['oauth_google_clientId']);
@@ -470,8 +481,10 @@ function shn_authenticate_user() {
 
 		$oauth2 = new apiOauth2Service($client);
 
-		$redirect = "https://pl.nlm.nih.gov/oauthReturnGoogle";
-		echo "<pre>".print_r($_GET, true)."</pre>";
+//		$redirect = "https://pl.nlm.nih.gov/oauthReturnGoogle";
+
+
+
 		if(isset($_GET['code'])) {
 			$client->authenticate();
 			$_SESSION['token'] = $client->getAccessToken();

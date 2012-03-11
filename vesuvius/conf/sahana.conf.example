@@ -1,7 +1,7 @@
 <?php
 /**
  * @name         Main Sahana Configuration File
- * @version      0.9.2
+ * @version      17
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
@@ -13,6 +13,9 @@
 # The official name of your site, ie. People Locator
 # This is used throughout Vesuvius for string replacement when referring to your site.
 $conf['site_name'] = "Sahana Vesuvius";
+
+# enable the built-in PHP-Console debugger (requires http://goo.gl/KNTi0)
+$conf['enable_debugger'] = false;
 
 # Unique identifier for all resources contained in the system
 # Must be unique and 4 or more alphanumberic characters
