@@ -5354,7 +5354,11 @@ function shn_stat_transit() {
 
 	//shn_stat_menu();
 
-	echo '<script src="res/js/sorttable.js"></script>
+	echo '
+		<script src="res/js/sorttable.js"></script>
+		<script>
+			window.setTimeout(function(){console.log("refresh!"); location.reload(true);}, 60000);
+		</script>
 
 	<style>
 table thead td, table tr th {
@@ -5391,10 +5395,11 @@ table { width: 100%; }
 td { text-align: center; }
 
 	</style>
-		<h1>Patient Transit Times</h1>
+		<h1>Patient Transit Times for the <i>'.$_GET['shortname'].'</i> event</h1>
 
 		* click on a column header to sort by that column<br>
 		** only shows last 100 updated persons<br>
+		*** page refreshed every 60 seconds<br>
 		<br>
 		<table id="regLog" class="sortable">
 		<thead>	<tr>
