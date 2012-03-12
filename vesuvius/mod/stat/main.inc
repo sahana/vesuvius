@@ -19,19 +19,25 @@ require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 function shn_stat_mainmenu() {}
 function shn_stat_header() {}
 function shn_stat_footer() {}
-function shn_stat_html_head() {}
+function shn_stat_html_head() {
+	echo '
+	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+	<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+	  <script type="text/javascript" src="res/js/jquery.js"></script>
+	  <script type="text/javascript" src="res/js/highcharts.js"></script>
+	  <script type="text/javascript" src="res/js/exporting.js"></script>
+	  <script type="text/javascript" src="res/js/excanvas.compiled.js"></script>
+	  <script type="text/javascript" src="res/js/showHide.js"></script>
+	</head>
+	';
+}
 function shn_stat_login() {}
 
 
 function shn_stat_menu() {
 
 	global $global;
-
-	echo "
-	<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\"></script>
-	<script type=\"text/javascript\" src=\"res/js/statpacked.js\"></script>
-	<script type=\"text/javascript\" src=\"res/js/showHide.js\"></script>
-	";
 
 	$shortname = $_GET['shortname'];
 	echo "
@@ -4894,8 +4900,8 @@ echo "</script>\n" ;
 /*****************************************/
 
 function shn_stat_range_date() {
-	global $global;
 
+	global $global;
 
 	//create a range dates
 
@@ -4903,22 +4909,18 @@ function shn_stat_range_date() {
 
 	if (is_string($start_date) === true) $start_date = strtotime($start_date);
 	if (is_string($end_date) === true ) $end_date = strtotime($end_date);
-
 	if ($start_date > $end_date) return createDateRangeArray($end_date, $start_date);
 
 	do {
-	$range[] = date('Y-m-d', $start_date);
-	$start_date = strtotime("+ 1 day", $start_date);
+	  $range[] = date('Y-m-d', $start_date);
+	  $start_date = strtotime("+ 1 day", $start_date);
 	}
 	while($start_date < $end_date);
 
 	return $range;
-	}
-    echo $range;
+}
 
 
-
-	//}
 
 /***************************************
 status pie chart
@@ -5357,7 +5359,7 @@ function shn_stat_transit() {
 	echo '
 		<script src="res/js/sorttable.js"></script>
 		<script>
-			window.setTimeout(function(){console.log("refresh!"); location.reload(true);}, 60000);
+			window.setTimeout(function(){console.log("refresh!"); location.reload(true);}, 120000);
 		</script>
 
 	<style>
@@ -5399,7 +5401,7 @@ td { text-align: center; }
 
 		* click on a column header to sort by that column<br>
 		** only shows last 100 updated persons<br>
-		*** page refreshed every 60 seconds<br>
+		*** page refreshed every 120 seconds<br>
 		<br>
 		<table id="regLog" class="sortable">
 		<thead>	<tr>
@@ -5408,6 +5410,7 @@ td { text-align: center; }
 			<th>Record ID</th>
 			<th>Departing Time</th>
 			<th>Arrival Time</th>
+			<th>Age</th>
 			<th>Delta</th>
 		</thead>
 		<tbody>
@@ -5416,11 +5419,12 @@ td { text-align: center; }
 	$count = 1;
 	$q = "
 		SELECT *, TIMEDIFF(s.last_updated, s.creation_time)
-		FROM `person_status` s, incident i, person_uuid p
+		FROM `person_status` s, incident i, person_uuid p, person_details d
 		WHERE s.opt_status = 'fnd'
 		AND i.shortname = '".mysql_real_escape_string($_GET['shortname'])."'
 		AND p.incident_id = i.incident_id
 		AND s.p_uuid = p.p_uuid
+		AND d.p_uuid = p.p_uuid
 		ORDER BY s.last_updated DESC
 		LIMIT 100;
 	";
@@ -5439,6 +5443,7 @@ td { text-align: center; }
 			<td '.$odd.'><a href="'.makePersonUrl($result->fields["p_uuid"]).'" target="_blank">'.$result->fields["p_uuid"].'</a></td>
 			<td '.$odd.'>'.$result->fields["creation_time"].'</td>
 			<td '.$odd.'>'.$result->fields["last_updated"].'</td>
+			<td '.$odd.'>'.$result->fields["years_old"].'</td>
 			<td '.$odd.'>'.$result->fields["TIMEDIFF(s.last_updated, s.creation_time)"].'</td>
 		</tr>';
 		$result->MoveNext();
