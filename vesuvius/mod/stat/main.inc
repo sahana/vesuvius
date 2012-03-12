@@ -29,6 +29,17 @@ function shn_stat_html_head() {
 	  <script type="text/javascript" src="res/js/exporting.js"></script>
 	  <script type="text/javascript" src="res/js/excanvas.compiled.js"></script>
 	  <script type="text/javascript" src="res/js/showHide.js"></script>
+	  <link rel="icon" type="image/png" href="favicon.png">
+	  <style>
+	      h1 {
+	      color: #34689A;
+	      font-family: arial;
+	      font-size: 28px;
+	      line-height: 28px;
+	      font-weight: normal;
+	   }
+	   body {margin: 20px; }
+	  </style>
 	</head>
 	';
 }
@@ -38,10 +49,25 @@ function shn_stat_login() {}
 function shn_stat_menu() {
 
 	global $global;
-
+	
 	$shortname = $_GET['shortname'];
+
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+	
 	echo "
-		<h1>People Statistics for the <i>$shortname</i> event</h1>\n
+		<h1>People Statistics ".$description."</h1>\n
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
 		\n
 		Please select from these available statistics:\n
@@ -5355,7 +5381,20 @@ function shn_stat_transit() {
 	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 
 	//shn_stat_menu();
-
+	
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
 	echo '
 		<script src="res/js/sorttable.js"></script>
 		<script>
@@ -5397,7 +5436,7 @@ table { width: 100%; }
 td { text-align: center; }
 
 	</style>
-		<h1>Patient Transit Times for the <i>'.$_GET['shortname'].'</i> event</h1>
+		<h1>Patient Transit Times '.$description.'</h1>
 
 		* click on a column header to sort by that column<br>
 		** only shows last 100 updated persons<br>
@@ -5407,10 +5446,10 @@ td { text-align: center; }
 		<thead>	<tr>
 			<th>Full Name</th>
 			<th>Family Name</th>
+			<th>Age</th>
 			<th>Record ID</th>
 			<th>Departing Time</th>
 			<th>Arrival Time</th>
-			<th>Age</th>
 			<th>Delta</th>
 		</thead>
 		<tbody>
@@ -5440,10 +5479,10 @@ td { text-align: center; }
 		echo '<tr>
 			<td '.$odd.'>'.$result->fields["full_name"].'</td>
 			<td '.$odd.'>'.$result->fields["family_name"].'</td>
+			<td '.$odd.'>'.$result->fields["years_old"].'</td>
 			<td '.$odd.'><a href="'.makePersonUrl($result->fields["p_uuid"]).'" target="_blank">'.$result->fields["p_uuid"].'</a></td>
 			<td '.$odd.'>'.$result->fields["creation_time"].'</td>
 			<td '.$odd.'>'.$result->fields["last_updated"].'</td>
-			<td '.$odd.'>'.$result->fields["years_old"].'</td>
 			<td '.$odd.'>'.$result->fields["TIMEDIFF(s.last_updated, s.creation_time)"].'</td>
 		</tr>';
 		$result->MoveNext();
