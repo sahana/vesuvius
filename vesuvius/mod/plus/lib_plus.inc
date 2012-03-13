@@ -113,8 +113,8 @@ function shn_plus_logAccess($call="", $username=null) {
 		INSERT INTO plus_access_log (`access_time`, `application`, `version`, `ip`, `call`, `api_version`, `latitude`, `longitude`, `user_name`)
 		VALUES (CURRENT_TIMESTAMP, '".$app."', '".$ver."', '".$ip."', '".$call."', '".mysql_real_escape_string($global['apiVersion'])."', ".$lat.", ".$lon.", ".$user_name.");
 	";
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus log access 3 ((".$q."))"); }
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus log access 3 ((".$q."))"); }
 }
 
 
