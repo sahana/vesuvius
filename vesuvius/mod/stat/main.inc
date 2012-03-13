@@ -26,10 +26,22 @@ function shn_stat_menu() {
 	//function shn_stat_html_head() {}
 	//function shn_stat_login() {}
 	
+	    //refresh the screen every 60 seconds
+		//The JavaScript Source!! http://javascript.internet.com
+		//Created by: Lee Underwood
 		echo "		
 		<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\"></script>		
 		<script type=\"text/javascript\" src=\"res/js/statpacked.js\"></script>
-		<script type=\"text/javascript\" src=\"res/js/showHide.js\"></script>		
+		<script type=\"text/javascript\" src=\"res/js/showHide.js\"></script>    
+
+		<script type=\"text/javascript\">	
+
+		function reFresh() {
+		  location.reload(true)	}
+		
+		window.setInterval(\"reFresh()\",60000);		
+		</script>
+		
 		";	
 	    
 		$shortname = $_GET['shortname'];
@@ -876,6 +888,13 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	$shortname = $_GET['shortname'];
 	$name=ucfirst($shortname);
 
+	//empty all	
+	function shn_stat_mainmenu() {}
+	function shn_stat_header() {}
+	function shn_stat_footer() {}
+	function shn_stat_html_head() {}
+	function shn_stat_login() {}
+	
 	$queryR="SELECT count( triage_category ) AS count_statusR, '9-10 am' AS time_rangeR
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
@@ -2415,7 +2434,7 @@ function shn_stat_cummulative_arrival() {
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
 		 echo "y: 50,\n";
-         echo "text: 'From: $start_date to $end_date'\n" ;
+         echo "text: 'From: $start_date to $end_date. (This page refreshes every 60 seconds)'\n" ;
          echo "},\n" ;	  
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
@@ -2861,7 +2880,7 @@ function shn_stat_stacked_cummulative_arrival() {
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
 		 echo "y: 50,\n";
-         echo "text: 'From: $start_date to $end_date'\n" ;
+         echo "text: 'From: $start_date to $end_date. (This page refreshes every 60 seconds).'\n" ;
          echo "},\n" ;	  
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
@@ -3032,13 +3051,12 @@ function shn_stat_demographic() {
 	global $global;
 	shn_stat_menu();
 	
-	//empty the footer
-	
-	//function shn_stat_mainmenu() {}
-	//function shn_stat_header() {}
-	//function shn_stat_footer() {}
-	//function shn_stat_html_head() {}
-	//function shn_stat_login() {}
+	//empty all	
+	function shn_stat_mainmenu() {}
+	function shn_stat_header() {}
+	function shn_stat_footer() {}
+	function shn_stat_html_head() {}
+	function shn_stat_login() {}
 
 	echo "People Statistics for  ";
 	echo $_GET['shortname'];
@@ -3329,7 +3347,7 @@ function shn_stat_demographic() {
 		echo "margin: 45,\n";
 		echo "y: 50,\n";
 		 if ($startdate_has_data=true){
-         echo "text: 'From: $start_date to $end_date'\n" ;
+         echo "text: 'From: $start_date to $end_date. (This page refreshes every 60 seconds).'\n" ;
 		 }
       echo "},\n" ;
 	  
@@ -3720,6 +3738,9 @@ function shn_stat_arrival() {
 			
 	
 	?>
+
+
+
 	<div id="container" style="width: 100%; height: 100%;margin: 0 auto;"></div>;
 	
 	
@@ -3828,7 +3849,7 @@ function shn_stat_arrival() {
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
 		 echo "y: 50,\n";
-         echo "text: 'From: $start_date to $end_date'\n" ;
+         echo "text: 'From: $start_date to $end_date. (This page refreshes every 60 seconds).'\n" ;
          echo "},\n" ;	  
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
@@ -5348,13 +5369,13 @@ global $global;
 	  echo "subtitle: {\n" ;
 		 echo "style: {\n";
 				echo "color: 'Blue',\n";
-				echo "fontSize: '20px',\n";
-				echo "fontWeight: 'bold'\n";
+				echo "fontSize: '18px',\n";
+				echo "fontWeight: 'italic'\n";
 				echo "},\n";
 		echo "margin: 45,\n";
 		echo "y: 50,\n";
 		 //if ($startdate_has_data=true){
-         echo "text: 'From: $start_date to $end_date'\n" ;
+         echo "text: 'From: $start_date to $end_date. (This page refreshes every 60 seconds)'" ;
 		 //echo "text: ''\n" ;
 		 //}
       echo "},\n" ;
