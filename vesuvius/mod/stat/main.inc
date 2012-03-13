@@ -14,44 +14,37 @@
 
 global $global;
 global $conf;
-require_once($global['approot'].'/mod/lpf/lib_lpf.inc');   
-	
+require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
+
 function shn_stat_mainmenu() {}
 function shn_stat_header() {}
 function shn_stat_footer() {}
 function shn_stat_html_head() {
-	echo '
-	<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-	<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-	<head>
-	  <script type="text/javascript" src="res/js/jquery.js"></script>
-	  <script type="text/javascript" src="res/js/highcharts.js"></script>
-	  <script type="text/javascript" src="res/js/exporting.js"></script>
-	  <script type="text/javascript" src="res/js/excanvas.compiled.js"></script>
-	  <script type="text/javascript" src="res/js/showHide.js"></script>
-	  <script type="text/javascript">	
-
-		function reFresh() {
-		  location.reload(true)	}
-		
-		window.setInterval("reFresh()",60000);		
-		</script>
-		
-		
-		
-	  <link rel="icon" type="image/png" href="favicon.png">
-	  <style>
-	      h1 {
-	      color: #34689A;
-	      font-family: arial;
-	      font-size: 28px;
-	      line-height: 28px;
-	      font-weight: normal;
-	   }
-	   body {margin: 20px; }
-	  </style>
-	</head>
-	';
+echo '
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+	<script type="text/javascript" src="res/js/jquery.js"></script>
+	<script type="text/javascript" src="res/js/highcharts.js"></script>
+	<script type="text/javascript" src="res/js/exporting.js"></script>
+	<script type="text/javascript" src="res/js/excanvas.compiled.js"></script>
+	<script type="text/javascript" src="res/js/showHide.js"></script>
+	<script type="text/javascript">
+		window.setTimeout(function(){console.log("refresh!"); location.reload(true);}, 120000);
+	</script>
+	<link rel="icon" type="image/png" href="favicon.png">
+	<style>
+		h1 {
+			color: #34689A;
+			font-family: arial;
+			font-size: 28px;
+			line-height: 28px;
+			font-weight: normal;
+		}
+		body {margin: 20px; }
+	</style>
+</head>
+';
 }
 function shn_stat_login() {}
 
@@ -4982,7 +4975,7 @@ function shn_stat_pie_status() {
 global $global;
 	shn_stat_menu();
 
-	
+
 
 	echo "People Statistics for  ";
 	echo $_GET['shortname'];
@@ -4991,7 +4984,7 @@ global $global;
 	$groupID = $_SESSION['group_id'];
 	//echo "Shortname: " .$shortname."";
 	//echo "Group ID: " .$groupID."";
-    
+
 	/*
 	//for starting date
 	$q_start_date="SELECT arrival_time from arrival_rate a
@@ -5034,7 +5027,7 @@ global $global;
 	$row = $res->FetchRow();
 	$end_date= $row[0];
 	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
-	
+
 	//for status
 
 	$q_s="SELECT DISTINCT d.option_description as opt_status, count( opt_status ) as count_opt_status FROM person_status a
@@ -5440,9 +5433,6 @@ function shn_stat_transit() {
 	}
 	echo '
 		<script src="res/js/sorttable.js"></script>
-		<script>
-			window.setTimeout(function(){console.log("refresh!"); location.reload(true);}, 120000);
-		</script>
 
 	<style>
 table thead td, table tr th {
