@@ -1399,13 +1399,13 @@ class person {
 
 			$this->createUUID();
 			$this->arrival_reunite = true;
-			$this->given_name     = $a['person']['givenName'];
-			$this->family_name    = $a['person']['familyName'];
-			$this->expiry_date    = $a['person']['expiryDate'];
-			$this->opt_status     = $a['person']['status'];
+			$this->given_name     = isset($a['person']['givenName'])  ? $a['person']['givenName']  : null;
+			$this->family_name    = isset($a['person']['familyName']) ? $a['person']['familyName'] : null;
+			$this->expiry_date    = isset($a['person']['expiryDate']) ? $a['person']['expiryDate'] : null;
+			$this->opt_status     = isset($a['person']['status'])     ? $a['person']['status']     : null;
 			$this->last_updated   = date('Y-m-d H:i:s');
 
-			$datetime      = $a['person']['dateTimeSent'];
+			$datetime      = isset($a['person']['dateTimeSent']) ? $a['person']['dateTimeSent'] : nullååå;
 			$timezoneUTC   = new DateTimeZone("UTC");
 			$timezoneLocal = new DateTimeZone(date_default_timezone_get());
 			$datetime2     = new DateTime();
@@ -1414,11 +1414,11 @@ class person {
 			$datetime2->setTimezone($timezoneLocal);
 			$this->creation_time = $datetime2->format('Y-m-d H:i:s');
 
-			$this->opt_gender     = $a['person']['gender'];
-			$this->years_old      = $a['person']['estimatedAge'];
-			$this->minAge         = $a['person']['minAge'];
-			$this->maxAge         = $a['person']['maxAge'];
-			$this->other_comments = $a['person']['note'];
+			$this->opt_gender     = isset($a['person']['gender'])       ? $a['person']['gender']       : null;
+			$this->years_old      = isset($a['person']['estimatedAge']) ? $a['person']['estimatedAge'] : null;
+			$this->minAge         = isset($a['person']['minAge'])       ? $a['person']['minAge']       : null;
+			$this->maxAge         = isset($a['person']['maxAge'])       ? $a['person']['maxAge']       : null;
+			$this->other_comments = isset($a['person']['note'])         ? $a['person']['note']         : null;
 
 			// only update the incident_id if not already set
 			if($this->incident_id === null) {
@@ -1459,7 +1459,7 @@ class person {
 			}
 
 			// if there is actual voicenote data, save process it...
-			if(trim($a['person']['voiceNote']['data']) != "") {
+			if(isset($a['person']['voiceNote']['data']) && trim($a['person']['voiceNote']['data']) != "") {
 
 				$v = new voiceNote();
 				$v->init();     // reserves a voicenote id for this note
