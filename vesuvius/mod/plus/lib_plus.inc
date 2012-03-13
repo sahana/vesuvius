@@ -75,11 +75,19 @@ function shn_plus_logAccess($call="", $username=null) {
 		$user_name = "'".$username."'";
 	}
 
-	$agent  = explode(" ", $_SERVER['HTTP_USER_AGENT']);
-	$appver = explode("/", $agent[0]);
-	$app    = $appver[0];
-	$ver    = $appver[1];
-	$ip     = $_SERVER['REMOTE_ADDR'];
+	if(isset($_SERVER['HTTP_USER_AGENT'])) {
+
+		$agent  = explode(" ", $_SERVER['HTTP_USER_AGENT']);
+		$appver = explode("/", $agent[0]);
+		$app    = $appver[0];
+		$ver    = $appver[1];
+
+	} else {
+		$app = "";
+		$ver = "";
+	}
+
+	$ip = $_SERVER['REMOTE_ADDR'];
 
 	// see if this ip accessed plus in the last 10 minutes (for rate throttling ip lookups)
 	$q = "
