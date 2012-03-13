@@ -166,7 +166,7 @@ function change_session_to_anonymous() {
 	$key = isset($_SESSION['security_captcha_key']) ? $_SESSION['security_captcha_key'] : null;
 	session_regenerate_id();
 	$_SESSION = array(); // reset the session to empty any extraneous data
-	$_SESSION['user_agent'] = md5($_SERVER['HTTP_USER_AGENT']);
+	$_SESSION['user_agent'] = isset($_SERVER['HTTP_USER_AGENT']) ? md5($_SERVER['HTTP_USER_AGENT']) : null;
 	$_SESSION['initiated']  = true;
 	$_SESSION['logged_in']  = false;
 	$_SESSION["user"]       = "Anonymous";

@@ -538,7 +538,7 @@ function ha_perform_edit($hospital_uuid) {
 
 	// if Admin... show delete button
 	if($_SESSION['group_id'] == "1") {
-		if($hasChildren) {
+		if(isset($hasChildren) && $hasChildren == true) {
 			$disabled = "DISABLED style=\"opacity: 0.2;\"";
 		} else {
 			$disabled = "";
