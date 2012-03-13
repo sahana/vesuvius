@@ -1405,7 +1405,7 @@ class person {
 			$this->opt_status     = isset($a['person']['status'])     ? $a['person']['status']     : null;
 			$this->last_updated   = date('Y-m-d H:i:s');
 
-			$datetime      = isset($a['person']['dateTimeSent']) ? $a['person']['dateTimeSent'] : nullååå;
+			$datetime      = isset($a['person']['dateTimeSent']) ? $a['person']['dateTimeSent'] : null;
 			$timezoneUTC   = new DateTimeZone("UTC");
 			$timezoneLocal = new DateTimeZone(date_default_timezone_get());
 			$datetime2     = new DateTime();
