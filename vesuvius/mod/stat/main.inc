@@ -14,8 +14,8 @@
 
 global $global;
 global $conf;
-require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
-
+require_once($global['approot'].'/mod/lpf/lib_lpf.inc');   
+	
 function shn_stat_mainmenu() {}
 function shn_stat_header() {}
 function shn_stat_footer() {}
@@ -29,6 +29,16 @@ function shn_stat_html_head() {
 	  <script type="text/javascript" src="res/js/exporting.js"></script>
 	  <script type="text/javascript" src="res/js/excanvas.compiled.js"></script>
 	  <script type="text/javascript" src="res/js/showHide.js"></script>
+	  <script type="text/javascript">	
+
+		function reFresh() {
+		  location.reload(true)	}
+		
+		window.setInterval("reFresh()",60000);		
+		</script>
+		
+		
+		
 	  <link rel="icon" type="image/png" href="favicon.png">
 	  <style>
 	      h1 {
@@ -2537,6 +2547,7 @@ function shn_stat_stacked_cummulative_arrival() {
 	$name=ucfirst($shortname);
 	//$item = $_GET['item'];
 
+	/*
 	//for starting date
 	$q_start_date="SELECT arrival_time from arrival_rate a
 	where ((source_triagepic>=1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
@@ -2554,7 +2565,23 @@ function shn_stat_stacked_cummulative_arrival() {
 	$row = $res->FetchRow();
 	$end_date= $row[0];
 	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
-
+    */
+	//start and end date
+	$q_start_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	ORDER BY arrival_time asc limit 1";
+	$res = $global['db']->Execute($q_start_date);
+	$row = $res->FetchRow();
+	$start_date= $row[0];
+	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
+	//for end date for all sources
+	$q_end_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	ORDER BY arrival_time desc limit 1";
+	$res = $global['db']->Execute($q_end_date);
+	$row = $res->FetchRow();
+	$end_date= $row[0];
+	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
 
 	//$q="SELECT arrival_time as source_date, source_all AS count_source_date
 	//FROM `arrival_rate` a
@@ -3503,7 +3530,7 @@ function shn_stat_arrival() {
 	where ((source_vanilla_email >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
 	GROUP by date(arrival_time)";
 
-	if ($shortname=='new'){
+	if ($shortname=='shield2012' or $shortname=='testind' or $shortname=='testindmon' or $shortname=='testindtues' or $shortname=='testindwed' or $shortname=='testindthur'){
 
 	$q="SELECT (arrival_time) as source_date, count(*) as count_source_date from arrival_rate a
 	where ((source_all >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
@@ -4955,13 +4982,7 @@ function shn_stat_pie_status() {
 global $global;
 	shn_stat_menu();
 
-	//empty the footer
-
-	//function shn_stat_mainmenu() {}
-	//function shn_stat_header() {}
-	//function shn_stat_footer() {}
-	//function shn_stat_html_head() {}
-	//function shn_stat_login() {}
+	
 
 	echo "People Statistics for  ";
 	echo $_GET['shortname'];
@@ -4970,7 +4991,8 @@ global $global;
 	$groupID = $_SESSION['group_id'];
 	//echo "Shortname: " .$shortname."";
 	//echo "Group ID: " .$groupID."";
-
+    
+	/*
 	//for starting date
 	$q_start_date="SELECT arrival_time from arrival_rate a
 	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
@@ -4995,6 +5017,24 @@ global $global;
 	}
 	$end_date= $row[0];
     $end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+	*/
+	//start and end date
+	$q_start_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	ORDER BY arrival_time asc limit 1";
+	$res = $global['db']->Execute($q_start_date);
+	$row = $res->FetchRow();
+	$start_date= $row[0];
+	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
+	//for end date for all sources
+	$q_end_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	ORDER BY arrival_time desc limit 1";
+	$res = $global['db']->Execute($q_end_date);
+	$row = $res->FetchRow();
+	$end_date= $row[0];
+	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+	
 	//for status
 
 	$q_s="SELECT DISTINCT d.option_description as opt_status, count( opt_status ) as count_opt_status FROM person_status a
@@ -5154,6 +5194,9 @@ global $global;
 		//using view
         //echo "colors =	" .json_encode($color);
 		echo "colors= ['#348017','#000000', '#990033','red','blue','#333333'],\n";
+		if ($shortname=='shield2012' or $shortname=='testind' or $shortname=='testindmon' or $shortname=='testindtues' or $shortname=='testindwed' or $shortname=='testindthur') {
+		echo "colors= ['Green','Brown','Blue'],\n";
+		}
 		echo "j, data_status = [], chart;";
 		echo "\n";
 		echo "for(j=0; j<counts.length; j++) {\n";
@@ -5248,8 +5291,8 @@ global $global;
 		echo "margin: 45,\n";
 		echo "y: 50,\n";
 		 if ($startdate_has_data=true){
-         //echo "text: 'From: $start_date to $end_date'\n" ;
-		 echo "text: ''\n" ;
+         echo "text: 'From: $start_date to $end_date. The page refreshes every 60 seconds.'\n" ;
+		 //echo "text: ''\n" ;
 		 }
       echo "},\n" ;
 
@@ -5328,7 +5371,7 @@ global $global;
 		echo "data: data_status,\n" ;
 		//echo "center: [200, 300],\n";
 		echo "center: ['50%', '50%'],\n";
-		echo "size: 400,\n";
+		echo "size: 200,\n";
 		echo "showInLegend: false,\n";
 		echo "showLegend: true,\n";
 		echo "dataLabels: {\n";
