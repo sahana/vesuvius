@@ -59,7 +59,7 @@ function shn_stat_login() {}
 function shn_stat_menu() {
 
 	global $global;
-	
+
 	$shortname = $_GET['shortname'];
 
 	$q = "
@@ -75,7 +75,7 @@ function shn_stat_menu() {
 	} else {
 	  $description = "";
 	}
-	
+
 	echo "
 		<h1>People Statistics ".$description."</h1>\n
 		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
@@ -5424,7 +5424,7 @@ function shn_stat_transit() {
 	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 
 	//shn_stat_menu();
-	
+
 	$q = "
 		SELECT *
 		FROM incident
@@ -5484,6 +5484,7 @@ td { text-align: center; }
 		* click on a column header to sort by that column<br>
 		** only shows last 100 updated persons<br>
 		*** page refreshed every 120 seconds<br>
+		**** <a href="index.php?mod=stat&act=transitCsv&stream=text">Download tabular data as a .csv file</a><br>
 		<br>
 		<table id="regLog" class="sortable">
 		<thead>	<tr>
@@ -5538,5 +5539,55 @@ td { text-align: center; }
 }
 
 
+
+
+function shn_text_stat_transitCsv() {
+
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+
+	$csv = "Full Name,Family Name,Age,Record ID,Departing Time,Arrival Time,Delta\n";
+
+	$count = 1;
+	$q = "
+		SELECT *, TIMEDIFF(s.last_updated, s.creation_time)
+		FROM `person_status` s, incident i, person_uuid p, person_details d
+		WHERE s.opt_status = 'fnd'
+		AND i.shortname = '".mysql_real_escape_string($_GET['shortname'])."'
+		AND p.incident_id = i.incident_id
+		AND s.p_uuid = p.p_uuid
+		AND d.p_uuid = p.p_uuid
+		ORDER BY s.last_updated DESC
+		LIMIT 100;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 1"); }
+	while(!$result == NULL && !$result->EOF) {
+
+		$csv .= $result->fields["full_name"].",".$result->fields["family_name"].",".$result->fields["years_old"].",".$result->fields["p_uuid"].",".$result->fields["creation_time"].",".$result->fields["last_updated"].",".$result->fields["TIMEDIFF(s.last_updated, s.creation_time)"]."\n";
+
+		$result->MoveNext();
+		$count++;
+	}
+	header("Content-type: application/csv");
+	header("Content-Disposition: attachment; filename=transit_times.csv");
+	header("Pragma: no-cache");
+	header("Expires: 0");
+	echo $csv;
+}
 
 
