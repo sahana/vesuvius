@@ -18,12 +18,13 @@ require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
 function shn_stat_menu() {
 	global $global;
+	
 	//empty all	
-	function shn_stat_mainmenu() {}
-	function shn_stat_header() {}
-	function shn_stat_footer() {}
-	function shn_stat_html_head() {}
-	function shn_stat_login() {}
+	//function shn_stat_mainmenu() {}
+	//function shn_stat_header() {}
+	//function shn_stat_footer() {}
+	//function shn_stat_html_head() {}
+	//function shn_stat_login() {}
 	
 		echo "		
 		<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\"></script>		
@@ -2100,6 +2101,12 @@ function shn_stat_cummulative_arrival() {
 	$name=ucfirst($shortname);
 	//$item = $_GET['item'];
 	
+	//empty all	
+	function shn_stat_mainmenu() {}
+	function shn_stat_header() {}
+	function shn_stat_footer() {}
+	function shn_stat_html_head() {}
+	function shn_stat_login() {}
 	/*
 	//for starting date
 	$q_start_date="SELECT arrival_time from arrival_rate a
@@ -2571,6 +2578,13 @@ function shn_stat_stacked_cummulative_arrival() {
 	$shortname = $_GET['shortname'];
 	$name=ucfirst($shortname);
 	//$item = $_GET['item'];
+	
+	//empty all	
+	function shn_stat_mainmenu() {}
+	function shn_stat_header() {}
+	function shn_stat_footer() {}
+	function shn_stat_html_head() {}
+	function shn_stat_login() {}
 	
 	/*
 	//for starting date
@@ -3529,6 +3543,13 @@ function shn_stat_arrival() {
 	$shortname = $_GET['shortname'];
 	$name=ucfirst($shortname);
 	//$item = $_GET['item'];
+	
+	//empty all	
+	function shn_stat_mainmenu() {}
+	function shn_stat_header() {}
+	function shn_stat_footer() {}
+	function shn_stat_html_head() {}
+	function shn_stat_login() {}
 	
 	//for starting date for all sources
 	$q_start_date="SELECT arrival_time from arrival_rate a
@@ -5026,11 +5047,11 @@ global $global;
 	shn_stat_menu();
 	
 	//empty all	
-	//function shn_stat_mainmenu() {}
-	//function shn_stat_header() {}
-	//function shn_stat_footer() {}
-	//function shn_stat_html_head() {}
-	//function shn_stat_login() {}
+	function shn_stat_mainmenu() {}
+	function shn_stat_header() {}
+	function shn_stat_footer() {}
+	function shn_stat_html_head() {}
+	function shn_stat_login() {}
 
 	echo "People Statistics for  ";
 	echo $_GET['shortname'];
@@ -5412,8 +5433,8 @@ global $global;
 		echo "type: 'pie',\n";
 		echo "data: data_status,\n" ;
 		//echo "center: [200, 300],\n";
-		echo "center: ['50%', '50%'],\n";
-		echo "size: 400,\n";
+		echo "center: ['50%', '40%'],\n";
+		echo "size: 300,\n";
 		echo "showInLegend: false,\n";
 		echo "showLegend: true,\n";
 		echo "dataLabels: {\n";
