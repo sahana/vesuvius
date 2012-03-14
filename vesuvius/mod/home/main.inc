@@ -14,6 +14,8 @@
 // array of events used for generating the home page...
 $events = array();
 
+function shn_home_mainmenu() {}
+
 
 /**
  * Displays a Landing Page
@@ -51,13 +53,6 @@ function shn_home_default() {
 		echo "<br><br><h3>For these events you can search only :</h3>";
 		showList();
 	}
-
-	echo "
-		<script>
-			document.getElementById('menu').style.visibility = 'hidden';
-		</script>
-		</div>
-	";
 }
 
 
