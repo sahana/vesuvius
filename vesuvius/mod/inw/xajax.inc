@@ -1,13 +1,18 @@
-<?php
+<?
 /**
- * modRez xajax library
- *
- * @package	module
- * @subpackage	inw
- * @author 	Merwan Rodriguez
- * @copyright	www.nlm.nih.gov
- * @license	http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @name         Interactive Notification Wall (Search)
+ * @version      21
+ * @package      inw
+ * @author       Merwan Rodriguez <rodriguezmer@mail.nih.gov>
+ * @author       Leif Neve <lneve@mail.nih.gov>
+ * @author       Greg Miernicki <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2012.0213
  */
+
 
 global $global;
 global $conf;
@@ -28,18 +33,18 @@ function inw_getNotes($uuid) {
 
 	$db->EXECUTE("set names 'utf8'");
 
-	$q = "SELECT note_record_id, entry_date,
+	$q = "SELECT note_record_id, CONVERT_TZ(source_date, 'America/New_York', 'UTC') AS source_date,
 				 author_name,
 				 found,
 				 REPLACE(status, '_', ' ') as status,
 				 last_known_location,
 				 text
-		    FROM pfif_note WHERE p_uuid = '$uuid' ORDER BY entry_date DESC";
+		    FROM pfif_note WHERE p_uuid = '$uuid' ORDER BY source_date DESC";
 
 	$result = $db->Execute($q);
 	while (!$result == NULL && !$result->EOF) {
 		$list[] = array('note_id'=>$result->fields["note_record_id"],
-						'date'=>$result->fields["entry_date"],
+						'date'=>$result->fields["source_date"],
 						'author'=>$result->fields["author_name"],
 						'found'=>$result->fields["found"],
 						'status'=>$result->fields["status"],

@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.2
+ * @version      2.3
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0110
+ * @lastModified 2012.0130
  */
 
 
@@ -48,6 +48,9 @@ define("ERRORCODES", serialize(array(
 	415  => "This record has no EDXL component.",
 	416  => "Only records reported via web services can be revised by web services.",
 	417  => "Invalid stride size, must be an integer value between 1 and 1,000,000.",
+	418  => "Insufficient permission to access this record.",
+	419  => "Invalid image mimetype(s) ~ image(s) not added to record.",
+	420  => "SHA-1 mismatch(s) ~ image(s) rejected.",
 	9000 => "Database Error.",
 	9998 => "Function not yet implemented (stub).",
 	9999 => "Unknown error.",

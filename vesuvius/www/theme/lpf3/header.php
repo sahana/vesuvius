@@ -55,7 +55,7 @@ if(isset($_GET['shortname'])) {
 		// show the full event specific header...
 		echo '
 			<div id="headerText">
-				<h1>'._t("People Locator").' '.$long.'</h1>
+				<h1>'._t($conf['site_name']).' '.$long.'</h1>
 				<h3>'._t("of").' '.$date.'</h3>
 				<h4>'._t("U.S. National Library of Medicine").'</h4>
 				<h4>'._t("Lister Hill National Center for Biomedical Communications").'</h4>
@@ -70,7 +70,7 @@ if(!$full) {
 
 	echo '
 		<div id="headerText">
-			<h1>'._t("People Locator").'</h1>
+			<h1>'._t($conf['site_name']).'</h1>
 			<h3>&nbsp;</h3>
 			<h4>'._t("U.S. National Library of Medicine").'</h4>
 			<h4>'._t("Lister Hill National Center for Biomedical Communications").'</h4>
@@ -84,17 +84,12 @@ function isChrome() {
 }
 
 if(isChrome()) {
-	echo '
-		<script>
-			function runInstall() {
-				chrome.webstore.install();
-				//window.domAutomationController.send(true);
-			}
-		</script>
-		<div id="chromeWebStore">
-			<input class="styleTehButton" onclick="javascript: runInstall();" value="Add to Chrome" />
+	echo "
+		<div id=\"install-button\" style=\"z-index: 99999;\">
+			<center><a href=\"#\" onclick=\"chrome.webstore.install(); console.log('clicked');\">Install the People Locator app to Chrome</a></center>
+			<script>if(chrome.app.isInstalled) { document.getElementById('install-button').style.display = 'none'; }</script>
 		</div>
-	';
+	";
 }
 */
 

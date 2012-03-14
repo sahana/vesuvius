@@ -13,6 +13,6 @@
 
 
 $conf['mod_pfif_name']         = _t("Import & Export");
-$conf['mod_pfif_menuorder']    = 70;
+$conf['mod_pfif_menuorder']    = 80;
 $conf['mod_pfif_version']      = 0.1;
 $conf['mod_pfif_dependencies'] = "";

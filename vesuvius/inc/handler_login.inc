@@ -22,7 +22,7 @@ global $global;
 if ($_SESSION['logged_in'] == true ) {
 	echo "
 		<div id=\"loginform\">
-			<a href=\"index.php?mod=pref&amp;act=default\">My Settings</a> <span style=\"color: #e5eaef;\">&nbsp;|&nbsp;</span> <a href=\"logout\">Logout</a>
+			<a href=\"settings\">My Settings</a> <span style=\"color: #e5eaef;\">&nbsp;|&nbsp;</span> <a href=\"logout\">Logout</a>
 		</div>
 	";
 } else {

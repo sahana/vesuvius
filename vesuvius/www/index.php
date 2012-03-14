@@ -1,14 +1,14 @@
 <?
 /**
  * @name         Sahana Agasti Main Controller
- * @version      1.0
+ * @version      12
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @author       Chamindra de Silva <chamindra@opensource.lk>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0803
+ * @lastModified 2012.0214
  */
 
 
@@ -118,6 +118,10 @@ function shn_main_defaults() {
 	if(!$global['previous']) {
 		$global['action'] = !isset($_REQUEST['act']) ? $a : $_REQUEST['act'];
 		$global['module'] = !isset($_REQUEST['mod']) ? $m : $_REQUEST['mod'];
+	}
+
+	if(!isset($_GET['act'])) {
+		$_GET['act'] = "default";
 	}
 }
 
@@ -230,7 +234,7 @@ function shn_main_front_controller() {
 
 	if($stream == null) {
 
-		if((($global['action'] == 'signup_cr') || ($global['action'] == 'signup') || ($global['action'] == 'forgotPassword') || ($global['action'] == 'loginForm')) && ($global['module'] = 'pref')) {
+		if((($global['action'] == 'signup2') || ($global['action'] == 'signup') || ($global['action'] == 'forgotPassword') || ($global['action'] == 'loginForm')) && ($global['module'] = 'pref')) {
 			if(shn_acl_is_signup_enabled()) {
 				$module_function();
 			}
@@ -243,6 +247,17 @@ function shn_main_front_controller() {
 
 			if (false !== $res) {
 				if( shn_acl_check_perms($module, $module_function) == ALLOWED) {
+					// check if the user just logged in.... request_time = session expiry, if so, gret them! :)
+					$q = "
+						SELECT count(*)
+						FROM sessions
+						WHERE expiry = '".mysql_real_escape_string($_SERVER['REQUEST_TIME'])."';
+					";
+					$result = $global['db']->Execute($q);
+					//if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getEventListUser 1"); }
+					if($result->fields["count(*)"] == '1') {
+						add_confirmation("Login successful");
+					}
 					$module_function();
 				} else {
 					shn_error_display_restricted_access();
@@ -335,8 +350,8 @@ function shn_main_debugger() {
 	if(($_SERVER['HTTP_HOST'] == "plstage.nlm.nih.gov")
 	|| ($_SERVER['HTTP_HOST'] == "plstage")
 	|| ($_SERVER['HTTP_HOST'] == "127.0.0.1")
-	|| ($_SERVER['HTTP_HOST'] == "archivestage.nlm.nih.gov")
-	|| ($_SERVER['HTTP_HOST'] == "archivestage")) {
+	|| ($_SERVER['HTTP_HOST'] == "ceb-stage-lx")
+	|| ($_SERVER['HTTP_HOST'] == "ceb-stage-lx.nlm.nih.gov")) {
 
 		require_once('../3rd/php-console/PhpConsole.php');
 		PhpConsole::start(true, true, dirname(__FILE__));
@@ -396,6 +411,13 @@ function shn_main_plus_register() {
 	require_once($global['approot'].'mod/plus/register.php');
 }
 
+
+
+
+
 /*
 echo "<h1>DEBUGGING INFO</h1><pre>".print_r(get_defined_vars(), true)."</pre><h1>END DEBUG INFO</h1>";
 */
+
+
+
