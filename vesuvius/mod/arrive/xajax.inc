@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Arrival Rate
- * @version      2
+ * @version      3
  * @package      arrive
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1206
+ * @lastModified 2012.0213
  */
 
 
@@ -23,8 +23,10 @@ array_push($global['xajax_functions'], 'arrive_fetch_last_updated');
 array_push($global['xajax_functions'], 'arrive_show_list');
 array_push($global['xajax_functions'], 'arrive_add_spacer');
 
+
 // adds a message to the log div @ tail
 function arrive_append_log($message = "no message specified?") {
+
 	global $global;
 
 	// append text to the log
@@ -38,6 +40,7 @@ function arrive_append_log($message = "no message specified?") {
 
 // fetches the last_updated time (to find out if we need to update GUI)
 function arrive_fetch_last_updated($all, $initial) {
+
 	global $global;
 	$last_updated = null;
 
@@ -72,6 +75,7 @@ function arrive_fetch_last_updated($all, $initial) {
 
 // spaces out the log with a $val string/character
 function arrive_add_spacer($val) {
+
 	global $global;
 	$global['xajax_res']->addAppend('rezLog', 'innerHTML', $val);
 	return $global['xajax_res']->getXML();
@@ -80,7 +84,11 @@ function arrive_add_spacer($val) {
 
 // reloads the mainArea div with information of what pages we have
 function arrive_show_list($isAnUpdate, $allEvents) {
+
 	global $global;
+	global $conf;
+	require_once($global['approot']."/mod/lpf/lib_helper.inc");
+
 	$htmlLog = "";
 	$htmlMain = "";
 	$count = 0;
@@ -149,7 +157,7 @@ function arrive_show_list($isAnUpdate, $allEvents) {
 			<tr>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$row['arrival_time']."</td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$row['name']."</td>
-				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><a href=\"index.php?mod=eap&act=edit&uuid=".base64_encode($row['person_uuid'])."\" target=\"_blank\">".$row['person_uuid']."</a></td>
+				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><a href=\"".makePersonUrl($row['person_uuid'])."\" target=\"_blank\">".$row['person_uuid']."</a></td>
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$row['full_name']."</td>
 			</tr>
 		";

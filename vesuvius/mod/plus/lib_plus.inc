@@ -1,24 +1,25 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.2
+ * @version      2.3
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0110
+ * @lastModified 2012.0130
  */
 
 
 global $global;
 require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
-/**
-* Registers one service from the API to the nusoap server
-*/
+
+/** Registers one service from the API to the nusoap server */
 function shn_plus_registerOne($server, $methodname, $params, $ns, $rtfm) {
+
 	global $ns;
+
 	$server->register(
 		$methodname,
 		$params["in"],
@@ -29,7 +30,7 @@ function shn_plus_registerOne($server, $methodname, $params, $ns, $rtfm) {
 		'literal',
 		$rtfm
 	);
-	/*
+	/* REFERENCE ~ DONT DELETE!
 	$server->register(
 		$function,  // $name the name of the PHP function, class.method or class..method
 		$in,        // $in assoc array of input values: key = param name, value = param type
@@ -46,22 +47,16 @@ function shn_plus_registerOne($server, $methodname, $params, $ns, $rtfm) {
 
 
 
-/**
- * Log access to PLUS services
- */
+/** Log access to PLUS services */
 function shn_plus_logAccess($call="") {
+
 	global $global;
+
 	$agent  = explode(" ", $_SERVER['HTTP_USER_AGENT']);
 	$appver = explode("/", $agent[0]);
 	$app    = $appver[0];
 	$ver    = $appver[1];
 	$ip     = $_SERVER['REMOTE_ADDR'];
-	// skip these ip's from logging (internal testing servers)
-	if(
-		$ip == "130.14.109.100" ||
-		$ip == "130.14.109.88" ||
-		$ip == "130.14.109.50")
-		{return;}
 	$q = "
 		INSERT INTO plus_access_log (`access_time`, `application`, `version`, `ip`, `call`, `api_version`)
 		VALUES (CURRENT_TIMESTAMP, '".$app."', '".$ver."', '".$ip."', '".$call."', '".mysql_real_escape_string($global['apiVersion'])."');
@@ -69,9 +64,6 @@ function shn_plus_logAccess($call="") {
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus log access ((".$q."))"); }
 	$result = $global['db']->Execute($q);
 }
-
-
-
 
 
 
@@ -83,6 +75,7 @@ function shn_plus_logAccess($call="") {
 * error code: 2 user account is not active
 */
 function shn_plus_checkCredz($username, $password) {
+
 	global $global;
 	require_once($global['approot']."/conf/sahana.conf");
 	require_once($global['approot']."/3rd/adodb/adodb.inc.php");
@@ -229,12 +222,12 @@ function shn_plus_checkCredzTriage($username, $uuid) {
 
 
 
-
 /**
 * Finds the uuid a a prticular user
 * @return string (false if not found)
 */
 function shn_plus_getUserUuid($username) {
+
 	global $global;
 
 	$q = "
@@ -251,7 +244,6 @@ function shn_plus_getUserUuid($username) {
 		return $result->fields["p_uuid"];
 	}
 }
-
 
 
 
@@ -277,7 +269,6 @@ function shn_plus_wasRecordReportedViaPLUS($p_uuid) {
 		return true;
 	}
 }
-
 
 
 
@@ -311,6 +302,7 @@ function shn_plus_doesPersonExist($uuid) {
 * @return string (false if not found)
 */
 function shn_plus_getUserId($username) {
+
 	global $global;
 
 	$q = "
@@ -330,11 +322,12 @@ function shn_plus_getUserId($username) {
 
 
 
-/**
- * Creates a new registration.
- */
+/** Creates a new registration. */
 function shn_plus_emailNewUser($username) {
+
 	global $global;
+	global $conf;
+
 	$q = "
 		SELECT *
 		FROM users u, contact c
@@ -356,20 +349,23 @@ function shn_plus_emailNewUser($username) {
 			"Thank you for registering.<br><br>"
 			."You <b>must</b> click on this link in order for the registration process to be completed:<br><a href=\"".$link."\">".$link."</a><br><br>"
 			."Once completed, your account will be active allowing you to login the Person Locator web site and other devices which utilize its web services.<br><br><br>"
-			."<b>- People Locator</b>";
+			."<b>- ".$conf['site_name']."</b>";
 		$bodyAlt =
 			"Thank you for registering.\n\n"
 			."You must click on this link in order for the registration process to be completed:\n".$link."\n"
 			."Once completed, your account will be active allowing you to login the Person Locator web site and other devices which utilize its web services.\n\n\n"
-			."- People Locator";
+			."- ".$conf['site_name'];
 		$p->sendMessage($res->fields["contact_value"], $username, $subject, $bodyHTML, $bodyAlt);
 	}
 }
 
 
 
+/** Changes a user's account status to active */
 function shn_plus_activateUser($username) {
+
 	global $global;
+
 	$q = "
 		UPDATE  users
 		SET
@@ -383,11 +379,12 @@ function shn_plus_activateUser($username) {
 
 
 
-/**
- * Updates confirmation code and sends email with link to reset password.
- */
+/** Updates confirmation code and sends email with link to reset password. */
 function shn_plus_resetEmail($username, $email) {
+
 	global $global;
+	global $conf;
+
 	$confirmation = md5(uniqid(rand(), true));
 
 	$q = "
@@ -402,19 +399,22 @@ function shn_plus_resetEmail($username, $email) {
 	$link = makeBaseUrl()."index.php?register&reset=".$confirmation."&username=".$username;
 	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 	$p = new pop();
-	$subject  = "Request to reset the password of your PL user account";
+	$subject  = "Request to reset the password of your account on ".$conf['site_name'];
 	$bodyHTML =
-		"Dear User,<br><br>Someone (possibly not you) has initiated a request to reset the password for your PL user account. If you feel this was in error or you did not initiate this request yourself, you may safely ignore this email as nothing will change. However, if you did initiate this request and would like to reset your password, you must visit the following link to have it reset:<br><br><a href=\"".$link."\">".$link."</a><br><br>Once this has been done, another email will be sent to you with a temporary password. From there, you can login and change your password to someting of your choosing.<br><br><b>- People Locator</b>";
+		"Dear User,<br><br>Someone (possibly not you) has initiated a request to reset the password for your account on ".$conf['site_name'].". If you feel this was in error or you did not initiate this request yourself, you may safely ignore this email as nothing will change. However, if you did initiate this request and would like to reset your password, you must visit the following link to have it reset:<br><br><a href=\"".$link."\">".$link."</a><br><br>Once this has been done, another email will be sent to you with a temporary password. From there, you can login and change your password to something of your own choosing.<br><br>Your username on ".$conf['site_name']." is: <b>".$username."</b><br><br><b>- ".$conf['site_name']."</b>";
 	$bodyAlt =
-		"Dear User,\n\nSomeone (possibly not you) has initiated a request to reset the password for your PL user account. If you feel this was in error or you did not initiate this request yourself, you may safely ignore this email as nothing will change. However, if you did initiate this request and would like to reset your password, you must visit the following link to have it reset:\n\n".$link."\n\nOnce this has been done, another email will be sent to you with a temporary password. From there, you can login and change your password to someting of your choosing.\n\n- People Locator";
+		"Dear User,\n\nSomeone (possibly not you) has initiated a request to reset the password for your account on ".$conf['site_name'].". If you feel this was in error or you did not initiate this request yourself, you may safely ignore this email as nothing will change. However, if you did initiate this request and would like to reset your password, you must visit the following link to have it reset:\n\n".$link."\n\nOnce this has been done, another email will be sent to you with a temporary password. From there, you can login and change your password to something of your own choosing.\n\nYour username on ".$conf['site_name']." is: ".$username."\n\n- ".$conf['site_name'];
 	$p->sendMessage($email, $username, $subject, $bodyHTML, $bodyAlt);
 }
 
 
 
-
+/** Reset a user's password to a random value and email it to the user */
 function shn_plus_resetPasswordAndEmail($username) {
+
 	global $global;
+	global $conf;
+
 	require_once($global['approot']."/inc/lib_security/lib_auth.inc");
 	$newPassword = md5(uniqid(rand(), true));
 	$newPassword = substr($newPassword, rand(0,7), 12)."Z";
@@ -431,34 +431,37 @@ function shn_plus_resetPasswordAndEmail($username) {
 
 	if(($res == null) || ($res->EOF)) {
 		return false;
+
+	// Email the new password to the user
 	} else {
-		// Email the new password to the user
 		$link1 = makeBaseUrl()."login";
 		$link2 = makeBaseUrl()."index.php?mod=pref&act=ch_passwd";
 		require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 		$p = new pop();
-		$subject  = "New password for your PL user account.";
+		$subject  = "New password for your account on ".$conf['site_name'];
 		$bodyHTML =
-			"Dear User,<br><br>Your password has successfully been updated and is now set to:<br><b>".$newPassword."</b><br><br>You may now login with it here:<br><a href=\"".$link1."\">".$link1."</a><br><br>Also, you may change your password by visiting this link (after logging in):<br><a href=\"".$link2."\">".$link2."</a><br><br><b>- People Locator</b>";
+			"Dear User,<br><br>Your password has successfully been updated and is now set to:<br><b>".$newPassword."</b><br><br>You may now login with it here:<br><a href=\"".$link1."\">".$link1."</a><br><br>Also, you may change your password by visiting this link (after logging in):<br><a href=\"".$link2."\">".$link2."</a><br><br><b>- ".$conf['site_name']."</b>";
 		$bodyAlt =
-			"Dear User,\n\nYour password has successfully been updated and is now set to:\n".$newPassword."\n\nYou may now login with it here:\n".$link1."\n\nAlso, you may change your password by visiting this link (after logging in):\n".$link2."\n\n- People Locator";
+			"Dear User,\n\nYour password has successfully been updated and is now set to:\n".$newPassword."\n\nYou may now login with it here:\n".$link1."\n\nAlso, you may change your password by visiting this link (after logging in):\n".$link2."\n\n- ".$conf['site_name'];
 		$p->sendMessage($res->fields["contact_value"], $username, $subject, $bodyHTML, $bodyAlt);
 	}
 }
 
 
 
+/** Emails username to a user who forgot it */
 function shn_plus_forgotUsernameEmail($email, $username) {
-	global $global;
 
-	// Email the username to the user
+	global $global;
+	global $conf;
+
 	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 	$p = new pop();
-	$subject  = "Email Reminder of your username for your PL account";
+	$subject  = "Email Reminder of your username account on ".$conf['site_name'];
 	$bodyHTML =
-		"Dear User,<br><br>Someone (possibly not you) has requested to be reminded of the username associated with their account on PL.<br><br>The username assoicated with this email address is:<br><b>".$username."</b><br><br>This should help you to login to the site if you had forgotten your username. If you did not request this email, please disregard it.<br><br><b>- People Locator</b><br>";
+		"Dear User,<br><br>Someone (possibly not you) has requested to be reminded of the username associated with their account on ".$conf['site_name'].".<br><br>The username assoicated with this email address is:<br><b>".$username."</b><br><br>This should help you to login to the site if you had forgotten your username. If you did not request this email, please disregard it.<br><br><b>- ".$conf['site_name']."</b><br>";
 	$bodyAlt =
-		"Dear User,\n\nSomeone (possibly not you) has requested to be reminded of the username associated with their account on PL.\n\nThe username assoicated with this email address is:\n".$username."\n\nThis should help you to login to the site if you had forgotten your username. If you did not request this email, please disregard it.\n\n- People Locator\n";
+		"Dear User,\n\nSomeone (possibly not you) has requested to be reminded of the username associated with their account on ".$conf['site_name'].".\n\nThe username assoicated with this email address is:\n".$username."\n\nThis should help you to login to the site if you had forgotten your username. If you did not request this email, please disregard it.\n\n- ".$conf['site_name'];
 	$p->sendMessage($email, $username, $subject, $bodyHTML, $bodyAlt);
 }
 

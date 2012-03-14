@@ -108,12 +108,12 @@ class Pfif {
 
    public function setPerson(Pfif_Person $person) {
       $this->personArray[] = $person;
-      //error_log("Set $person->person_record_id ...");
+      //pfif_error_log("Set $person->person_record_id ...");
    }
 
    public function setNote(Pfif_Note $note) {
       $this->noteArray[] = $note;
-      //error_log("Set $note->note_record_id ...");
+      //pfif_error_log("Set $note->note_record_id ...");
    }
 
    public function setNotes($notes) {
@@ -143,11 +143,8 @@ class Pfif {
 
    private function createXmlElement($domElement, $property, $value) {
       if (!empty($value)) {
-         //$child = $this->dom_pfif->createElement($property, $value);
          $child = $this->dom_pfif->createElement($property);
-         // FIXME: createTextNode escapes the text; use alternate approach above if
-         // this is not what we want.
-         $text = $this->dom_pfif->createTextNode($value);
+         $text = $this->dom_pfif->createTextNode($value);  // escapes text
          $child->appendChild($text);
          $domElement->appendChild($child);
       }
@@ -219,7 +216,7 @@ class Pfif {
             // Do log housekeeping since this may be an automated export (i.e. from cronexport.php).
             $this->reset_log_dates($pfif_persons[0]->entry_date);
             foreach ($pfif_persons as $person) {
-               // Snag last_updated_db for log since this indicates new information (could be from a new Note).
+               // Snag entry_date for log since this indicates new information (could be from a new Note).
                $this->update_log_dates($person->entry_date);
                // Is this an original record meeting the date constraint?
                if ((strtotime($person->source_date) > $start) &&
@@ -345,41 +342,11 @@ class Pfif {
       return $noteElement;
    }
 
-   public function postDbToService($id, $svc='google') {
-      return $this->postToService('id', $id, $svc);
-   }
-
-   public function postXmlToService($xml, $svc='google') {
-      return $this->postToService('xml', $xml, $svc);
-   }
-
-   public function postFileToService($filename, $svc='google') {
-      return $this->postToService('file', $filename, $svc);
-   }
-
-   public function postToService(
-   $source_type, // 'id','xml','file'
-           $source_data, // pfif id,  XML string, or file name
-           $service_name = 'googlejapan') {
+   public function postToService($xml) {
       $this->check_init();
-
-      if ($source_type == 'id') {
-         // not used currently
-         $persons = $this->loadFromDatabase('id?' . $id_or_filename);
-         $xml = $this->storeInXML();
-      } else if ($source_type == 'xml') {
-         // not used currently
-         $xml = $source_data;
-      } else {
-         $loaded = $this->loadFromXML($filename);
-         $xml = $loaded ? $this->storeInXML() : false;
-      }
       //print "posting to service $this->service_name \n";
-      if ($xml) {
-         $status = $this->postGoogleItem($this->service, $xml);
-      } else {
-         $status = "<status:status>Error reading input from $source_type.</status:status>";
-      }
+      // Harcoding Google service as it's the only game in town right now.
+      $status = $this->postGoogleItem($this->service, $xml);
       return $status;
    }
 
@@ -398,16 +365,49 @@ class Pfif {
          }
       }
       $pfif_uri = $service_uri.$subdomain.$auth_key;
-      // $posted = "Posted PFIF from <br/>".htmlentities($xml)."<br/> to $pfif_uri<br/>Status returned:<br/>";
-      /*
-       * TODO: Can xml string be POSTed or do we HAVE to use CURL ?
-       * curl -X POST -H 'Content-type: application/xml' --data-binary @your_file.xml \
-        http://haiticrisis.appspot.com/api/write?key=your_auth_key
-       * @see http://haiticrisis.appspot.com/developers for response details
-       */
+      $response = $this->do_post_request($pfif_uri, $item, 'Content-Type: application/xml');
+      // The old curl approach should still work if necessary.
+      //$response = $this->do_post_request_with_curl($pfif_uri, $item);
+      return $response;
+   }
+
+   private function do_post_request($url, $data, $optional_headers = null) {
+      ini_set('track_errors', 1);
+      $params = array('http' => array(
+              'method' => 'POST',
+              'content' => $data
+            ));
+      if ($optional_headers !== null) {
+        $params['http']['header'] = $optional_headers;
+      }
+      $ctx = stream_context_create($params);
+      $fp = @fopen($url, 'rb', false, $ctx);
+      ini_set('track_errors', 0);
+      if (!$fp) {
+        pfif_error_log("Problem with $url, $php_errormsg");
+        return -1;
+      }
+      $response = @stream_get_contents($fp);
+      if ($response === false) {
+        pfif_error_log("Problem reading data from $url, $php_errormsg");
+        return -1;
+      }
+      return $response;
+   }
+
+   /*
+    * Note that command-line curl comes in handy for debugging.
+    * curl -X POST -H 'Content-type: application/xml' --data-binary @your_file.xml \
+      http://haiticrisis.appspot.com/api/write?key=your_auth_key
+    */
+   private function do_post_request_with_curl($pfif_uri, $item, $item_type='data') {
       $ch = curl_init();    /* Create a CURL handle. */
       //print "cURL init " . ($ch ? "true" : "false") . "\n";
       /* Set cURL options. */
+      // Set temporarily when Google had SSL problems.
+      $status = $ch ? curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false) : false;
+      $status = $ch ? curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false) : false;
+
       $status = $ch ? curl_setopt($ch, CURLOPT_URL, $pfif_uri) : false;
       print "URL $pfif_uri set " . ($status ? "true" : "false") . "\n";
 
@@ -473,17 +473,13 @@ class Pfif {
          }
       }
 
-      // FIXME: this is a workaround for errors resulting from empty elements. Need to rework the interface between
-      // process_persons/process_notes and getValueFromXmlElementTag to eliminate this.
-      set_dummy_node_list($this->dom_pfif);
-
       $ns = $this->dom_pfif->documentElement->lookupnamespaceURI(PFIF_NS_PREFIX); // 'http://zesty.ca/pfif/1.3';
       // DEBUG: print('loadPersonsFromXML: ns='.$ns.'\n');
       $this->setVersion(($ns == PFIF_1_2_NAMESPACE) ? PFIF_V_1_2 : PFIF_V_1_3);
 
       $persons = $this->dom_pfif->getElementsByTagNameNS($ns, 'person');
       // $dump = var_export($persons, true);
-      // error_log("got persons:".$dump." length = ".$persons->length);
+      // pfif_error_log("got persons:".$dump." length = ".$persons->length);
       if ($persons->length > 0) {
          $this->process_persons($persons, $ns);
       }
@@ -509,10 +505,6 @@ class Pfif {
          }
       }
 
-      // FIXME: this is a workaround for errors resulting from empty elements. Need to rework the interface between
-      // process_persons/process_notes and getValueFromXmlElementTag to eliminate this.
-      set_dummy_node_list($this->dom_pfif);
-
       $ns = $this->dom_pfif->documentElement->lookupnamespaceURI(PFIF_NS_PREFIX); // 'http://zesty.ca/pfif/1.3';
       // DEBUG: print('loadNotesFromXML: ns='.$ns.'\n');
       $this->setVersion(($ns == PFIF_1_2_NAMESPACE) ? PFIF_V_1_2 : PFIF_V_1_3);
@@ -528,38 +520,32 @@ class Pfif {
    // Extract DOM person data into pif_person.
    // Drop any embedded notes on the floor and process them as a separate feed.
    private function process_persons($persons, $ns) {
-      // Get source version
-      $ns = $this->dom_pfif->documentElement->lookupnamespaceURI(PFIF_NS_PREFIX); // 'http://zesty.ca/pfif/1.3';
-
       foreach ($persons as $person) {
          $pfif_person = new Pfif_Person();
-         $pfif_person->person_record_id = $this->getValueFromXmlElementTag($person, 'person_record_id', $ns)->item(0)->nodeValue;
-         // error_log("processing person:".$pfif_person->person_record_id);
-         $pfif_person->entry_date = local_date($this->getValueFromXmlElementTag($person, 'entry_date', $ns)->item(0)->nodeValue);
-         $pfif_person->expiry_date = local_date($this->getValueFromXmlElementTag($person, 'expiry_date', $ns)->item(0)->nodeValue);
-         $pfif_person->author_name = $this->getValueFromXmlElementTag($person, 'author_name', $ns)->item(0)->nodeValue;
-         $pfif_person->author_email = $this->getValueFromXmlElementTag($person, 'author_email', $ns)->item(0)->nodeValue;
-         $pfif_person->author_phone = $this->getValueFromXmlElementTag($person, 'author_phone', $ns)->item(0)->nodeValue;
-         $pfif_person->source_name = $this->getValueFromXmlElementTag($person, 'source_name', $ns)->item(0)->nodeValue;
-         $pfif_person->source_date = local_date($this->getValueFromXmlElementTag($person, 'source_date', $ns)->item(0)->nodeValue);
-         $pfif_person->source_url = $this->getValueFromXmlElementTag($person, 'source_url', $ns)->item(0)->nodeValue;
-         // error_log("meta-informaton done ...");
+         $pfif_person->person_record_id = $this->getValueFromXmlElementTag($person, 'person_record_id', $ns);
+         $pfif_person->entry_date = local_date($this->getValueFromXmlElementTag($person, 'entry_date', $ns));
+         $pfif_person->expiry_date = local_date($this->getValueFromXmlElementTag($person, 'expiry_date', $ns));
+         $pfif_person->author_name = $this->getValueFromXmlElementTag($person, 'author_name', $ns);
+         $pfif_person->author_email = $this->getValueFromXmlElementTag($person, 'author_email', $ns);
+         $pfif_person->author_phone = $this->getValueFromXmlElementTag($person, 'author_phone', $ns);
+         $pfif_person->source_name = $this->getValueFromXmlElementTag($person, 'source_name', $ns);
+         $pfif_person->source_date = local_date($this->getValueFromXmlElementTag($person, 'source_date', $ns));
+         $pfif_person->source_url = $this->getValueFromXmlElementTag($person, 'source_url', $ns);
          // Static identifying information
-         $pfif_person->full_name = $this->getValueFromXmlElementTag($person, 'full_name', $ns)->item(0)->nodeValue;
-         $pfif_person->first_name = $this->getValueFromXmlElementTag($person, 'first_name', $ns)->item(0)->nodeValue;
-         $pfif_person->last_name = $this->getValueFromXmlElementTag($person, 'last_name', $ns)->item(0)->nodeValue;
-         $pfif_person->home_city = $this->getValueFromXmlElementTag($person, 'home_city', $ns)->item(0)->nodeValue;
-         $pfif_person->home_state = $this->getValueFromXmlElementTag($person, 'home_state', $ns)->item(0)->nodeValue;
-         $pfif_person->home_neighborhood = $this->getValueFromXmlElementTag($person, 'home_neighborhood', $ns)->item(0)->nodeValue;
-         $pfif_person->home_street = $this->getValueFromXmlElementTag($person, 'home_street', $ns)->item(0)->nodeValue;
-         $pfif_person->home_country = $this->getValueFromXmlElementTag($person, 'home_country', $ns)->item(0)->nodeValue;
-         $pfif_person->home_postal_code = $this->getValueFromXmlElementTag($person, 'home_postal_code', $ns)->item(0)->nodeValue;
-         $pfif_person->photo_url = $this->getValueFromXmlElementTag($person, 'photo_url', $ns)->item(0)->nodeValue;
-         $pfif_person->other = $this->getValueFromXmlElementTag($person, 'other', $ns)->item(0)->nodeValue;
-         $pfif_person->age = $this->getValueFromXmlElementTag($person, 'age', $ns)->item(0)->nodeValue;
-         $pfif_person->date_of_birth = $this->getValueFromXmlElementTag($person, 'date_of_birth', $ns)->item(0)->nodeValue;
-         $pfif_person->sex = $this->getValueFromXmlElementTag($person, 'sex', $ns)->item(0)->nodeValue;
-         // error_log("Static informaton done ...");
+         $pfif_person->full_name = $this->getValueFromXmlElementTag($person, 'full_name', $ns);
+         $pfif_person->first_name = $this->getValueFromXmlElementTag($person, 'first_name', $ns);
+         $pfif_person->last_name = $this->getValueFromXmlElementTag($person, 'last_name', $ns);
+         $pfif_person->home_city = $this->getValueFromXmlElementTag($person, 'home_city', $ns);
+         $pfif_person->home_state = $this->getValueFromXmlElementTag($person, 'home_state', $ns);
+         $pfif_person->home_neighborhood = $this->getValueFromXmlElementTag($person, 'home_neighborhood', $ns);
+         $pfif_person->home_street = $this->getValueFromXmlElementTag($person, 'home_street', $ns);
+         $pfif_person->home_country = $this->getValueFromXmlElementTag($person, 'home_country', $ns);
+         $pfif_person->home_postal_code = $this->getValueFromXmlElementTag($person, 'home_postal_code', $ns);
+         $pfif_person->photo_url = $this->getValueFromXmlElementTag($person, 'photo_url', $ns);
+         $pfif_person->other = $this->getValueFromXmlElementTag($person, 'other', $ns);
+         $pfif_person->age = $this->getValueFromXmlElementTag($person, 'age', $ns);
+         $pfif_person->date_of_birth = $this->getValueFromXmlElementTag($person, 'date_of_birth', $ns);
+         $pfif_person->sex = $this->getValueFromXmlElementTag($person, 'sex', $ns);
          // If empty record without expiration date, expire it. (JIRA PL-183)
          if (empty($pfif_person->expiry_date)
                  && empty($pfif_person->full_name)
@@ -578,45 +564,36 @@ class Pfif {
    private function process_notes($notes, $ns) {
       foreach ($notes as $note) {
          $pfif_note = new Pfif_Note();
-         $pfif_note->note_record_id = $this->getValueFromXmlElementTag($note, 'note_record_id', $ns)->item(0)->nodeValue;
-         $pfif_note->entry_date = local_date($this->getValueFromXmlElementTag($note, 'entry_date', $ns)->item(0)->nodeValue);
-         $pfif_note->author_name = $this->getValueFromXmlElementTag($note, 'author_name', $ns)->item(0)->nodeValue;
-         $pfif_note->author_email = $this->getValueFromXmlElementTag($note, 'author_email', $ns)->item(0)->nodeValue;
-         $pfif_note->author_phone = $this->getValueFromXmlElementTag($note, 'author_phone', $ns)->item(0)->nodeValue;
-         $pfif_note->source_date = local_date($this->getValueFromXmlElementTag($note, 'source_date', $ns)->item(0)->nodeValue);
-         $pfif_note->status = $this->getValueFromXmlElementTag($note, 'status', $ns)->item(0)->nodeValue;
-         $pfif_note->found = $this->getValueFromXmlElementTag($note, 'found', $ns)->item(0)->nodeValue;
-         $pfif_note->email_of_found_person = $this->getValueFromXmlElementTag($note, 'email_of_found_person', $ns)->item(0)->nodeValue;
-         $pfif_note->phone_of_found_person = $this->getValueFromXmlElementTag($note, 'phone_of_found_person', $ns)->item(0)->nodeValue;
-         $pfif_note->last_known_location = $this->getValueFromXmlElementTag($note, 'last_known_location', $ns)->item(0)->nodeValue;
-         $pfif_note->text = $this->getValueFromXmlElementTag($note, 'text', $ns)->item(0)->nodeValue;
-         $pfif_note->person_record_id = $this->getValueFromXmlElementTag($note, 'person_record_id', $ns)->item(0)->nodeValue;
-         $pfif_note->linked_person_record_id = $this->getValueFromXmlElementTag($note, 'linked_person_record_id', $ns)->item(0)->nodeValue;
+         $pfif_note->note_record_id = $this->getValueFromXmlElementTag($note, 'note_record_id', $ns);
+         $pfif_note->entry_date = local_date($this->getValueFromXmlElementTag($note, 'entry_date', $ns));
+         $pfif_note->author_name = $this->getValueFromXmlElementTag($note, 'author_name', $ns);
+         $pfif_note->author_email = $this->getValueFromXmlElementTag($note, 'author_email', $ns);
+         $pfif_note->author_phone = $this->getValueFromXmlElementTag($note, 'author_phone', $ns);
+         $pfif_note->source_date = local_date($this->getValueFromXmlElementTag($note, 'source_date', $ns));
+         $pfif_note->status = $this->getValueFromXmlElementTag($note, 'status', $ns);
+         $pfif_note->found = $this->getValueFromXmlElementTag($note, 'found', $ns);
+         $pfif_note->email_of_found_person = $this->getValueFromXmlElementTag($note, 'email_of_found_person', $ns);
+         $pfif_note->phone_of_found_person = $this->getValueFromXmlElementTag($note, 'phone_of_found_person', $ns);
+         $pfif_note->last_known_location = $this->getValueFromXmlElementTag($note, 'last_known_location', $ns);
+         $pfif_note->text = $this->getValueFromXmlElementTag($note, 'text', $ns);
+         $pfif_note->person_record_id = $this->getValueFromXmlElementTag($note, 'person_record_id', $ns);
+         $pfif_note->linked_person_record_id = $this->getValueFromXmlElementTag($note, 'linked_person_record_id', $ns);
          $this->setNote($pfif_note);
       }
       unset($note);
    }
 
    private function getValueFromXmlElementTag($elementNode, $elementName, $ns) {
-      global $dummy_node_list;
-
-      $return_value = null;
-      //var_dump('elementName' , $elementName);
+      // Default value.
+      $return_value = "";
       $nsValue = $elementNode->getElementsByTagNameNS($ns, $elementName);
-      // var_dump('nsValue' , $nsValue); //->item(0)->nodeValue);
-      //print("nsLength = $nsValue->length ");
-      if ($nsValue->length != 0) { //item(0)->nodeValue != null) { // Be aware: both of these could be NULL!
-         $return_value = $nsValue;
+      if ($nsValue->length != 0) {
+         $return_value = $nsValue->item(0)->nodeValue;
       } else {
-         // Try to get the element without namespace
+         // Try to get the element without namespace just in case that helps.
          $nonNsValue = $elementNode->getElementsByTagName($elementName);
-         // var_dump('nonNsValue' , $nonNsValue); // ->item(0)->nodeValue);
-         if ($nonNsValue->length != 0) { // item(0)->nodeValue != null) {
-            $return_value = $nonNsValue;
-         } else {
-            //Create an empty element
-            // DEBUG: print "returning dummy_node_list for element $elementName \n";
-            $return_value = $dummy_node_list;
+         if ($nonNsValue->length != 0) {
+            $return_value = $nonNsValue->item(0)->nodeValue;
          }
       }
 
@@ -684,7 +661,7 @@ class Pfif {
          try {
             $this->shn_pfif_addperson_commit($person);
          } catch (Exception $e) {
-            error_log("shn_mod_pfif.storeInDatabase: shn_pfif_addperson_commit failed for "
+            pfif_error_log("shn_mod_pfif.storeInDatabase: shn_pfif_addperson_commit failed for "
                     . $person->person_record_id . ":" . $e->getMessage());
             $_SESSION['pfif_info']['person_insert_errors'] += 1;
             continue;  // stop processing this person
@@ -700,7 +677,7 @@ class Pfif {
          try {
             $this->shn_pfif_addpfifperson_commit($person);
          } catch (Exception $e) {
-            error_log("shn_mod_pfif.storeInDatabase: shn_pfif_addpfifperson_commit failed for "
+            pfif_error_log("shn_mod_pfif.storeInDatabase: shn_pfif_addpfifperson_commit failed for "
                     . $person->person_record_id . ":" . $e->getMessage());
          }
 
@@ -752,7 +729,7 @@ class Pfif {
             $this->shn_pfif_addpfifnote_commit($note);
          } catch (Exception $e) {
             $_SESSION['pfif_info']['note_insert_errors'] += 1;
-               error_log("shn_mod_pfif.storeNotesInDatabase: shn_pfif_addpfifnote_commit failed for "
+               pfif_error_log("shn_mod_pfif.storeNotesInDatabase: shn_pfif_addpfifnote_commit failed for "
                     . $note->note_record_id . ":" . $e->getMessage());
             continue; // stop processing this note
          }
@@ -809,8 +786,8 @@ class Pfif {
          // Only update last known location if not empty.
          $opt_clause = empty($last_known_location)? "" : ",pd.last_seen='" . $last_known_location . "'";
          $sql = "UPDATE person_status ps,person_details pd SET" .
-                " ps.last_updated_db='" . date("Y-m-d H:i:s") . 
-                "', ps.last_updated='" . $source_date . 
+                " ps.last_updated_db='" . date("Y-m-d H:i:s") .
+                "', ps.last_updated='" . $source_date .
                 "',ps.opt_status='" . $mapped_status . "'" .
                 $opt_clause .
                 " WHERE ps.p_uuid='" . $p_uuid . "' AND ps.p_uuid = pd.p_uuid";
@@ -967,8 +944,8 @@ class Pfif {
       $this->loadFilters['before'] = $before;
 
       $baseUuid = $conf['base_uuid'];
+      $baseUrl = "https://" . $baseUuid;
       $pfifDomain = substr($baseUuid, 0, -1);  // omit trailing "/"
-      $baseUrl = "https://" . $pfifDomain;
 
       // Get person records based on filters.
       $personRecords = $this->getPersonFromDb($since_entry_date, $before, $max_results, $skip);
@@ -987,7 +964,7 @@ class Pfif {
 
          $reporter = $this->getReportedPerson($personRecord['reporter']);
          if (count($reporter) > 0) {
-            // error_log("reporter_record is set!");
+            // pfif_error_log("reporter_record is set!");
             $personRecord['reporter_record'] = $reporter;
             $person->author_name = $personRecord['reporter_record']['full_name'];
             $person->author_email = $personRecord['reporter_record']['email'];
@@ -1018,7 +995,7 @@ class Pfif {
          } else {
             if (!empty($personRecord['image_url'])) {
                $photo_url = $personRecord['image_url'];
-               $person->photo_url = $photo_url[0] == '/' ? $baseUrl . $photo_url : $baseUrl . '/' . $photo_url;
+               $person->photo_url = $baseUrl . $photo_url;
             }
          }
 
@@ -1127,7 +1104,7 @@ class Pfif {
               e.opt_gender, e.years_old, e.minAge, e.maxAge, f.comments as physical_comments, f.height, f.weight,
               f.opt_eye_color, f.opt_skin_color, f.opt_hair_color, g.contact_value as phone, h.contact_value as mobile,
               i.contact_value as email, j.contact_value AS address, k.contact_value AS zip, e.last_seen,
-              e.other_comments, pr.rep_uuid as reporter, ps.status_id, ps.last_updated, ps.last_updated_db, 
+              e.other_comments, pr.rep_uuid as reporter, ps.status_id, ps.last_updated, ps.last_updated_db,
               ps.creation_time, ps.opt_status as `status`,
               im.url as image_url
 	      FROM person_uuid a
@@ -1145,8 +1122,8 @@ class Pfif {
       $array = $global['db']->GetAll($sql);
       if ($array === false) {
          $errchk = $global['db']->ErrorMsg();
-         // error_log("getMprAddedRecords: ".$sql);
-         error_log("Error in getMprAddedRecords: " . $errchk);
+         // pfif_error_log("getMprAddedRecords: ".$sql);
+         pfif_error_log("Error in getMprAddedRecords: " . $errchk);
       }
       return $array;
    }
@@ -1195,17 +1172,17 @@ class Pfif {
       $image_result = $global['db']->GetRow($sql);
       if ($image_result === false) {
          $errchk = $global['db']->ErrorMsg();
-         error_log("Error getting images for this person: " . $errchk);
+         pfif_error_log("Error getting images for this person: " . $errchk);
       } else if (count($image_result) > 0) {
          // There is an image so delete it and its thumbnail.
          $file = $webroot . $image_result['url'];
          if (!unlink($file)) {
-            error_log("Unable to delete $file.");
+            pfif_error_log("Unable to delete $file.");
          }
          $thumb = $webroot . $image_result['url_thumb'];
          if ($thumb != $file) {
             if (!unlink($thumb)) {
-               error_log("Unable to delete $thumb.");
+               pfif_error_log("Unable to delete $thumb.");
             }
          }
       }
@@ -1214,7 +1191,7 @@ class Pfif {
       $st = $global['db']->Execute($sql);
       if ($st === false) {
          $errchk = $global['db']->ErrorMsg();
-         error_log("Error deleting '$p_uuid': $errchk");
+         pfif_error_log("Error deleting '$p_uuid': $errchk");
       }
    }
 
@@ -1361,7 +1338,7 @@ class Pfif {
       if (count($rs) > 0) {
          $pfif_person = new Pfif_Person();
          $pfif_person->person_record_id = $rs['p_uuid'];
-         // error_log("processing person:".$pfif_person->person_record_id);
+         // pfif_error_log("processing person:".$pfif_person->person_record_id);
          $pfif_person->entry_date = $rs['entry_date'];
          $pfif_person->expiry_date = $rs['expiry_date'];
          $pfif_person->author_name = $rs['author_name'];
@@ -1370,7 +1347,7 @@ class Pfif {
          $pfif_person->source_name = $rs['source_name'];
          $pfif_person->source_date = $rs['source_date'];
          $pfif_person->source_url = $rs['source_url'];
-         // error_log("meta-information done ...");
+         // pfif_error_log("meta-information done ...");
          // Static identifying information
          $pfif_person->full_name = $rs['full_name'];
          $pfif_person->first_name = $rs['first_name'];
@@ -1386,7 +1363,7 @@ class Pfif {
          $pfif_person->age = $rs['age'];
          $pfif_person->date_of_birth = $rs['date_of_birth'];
          $pfif_person->sex = $rs['sex'];
-         // error_log("Static informaton done ...");
+         // pfif_error_log("Static informaton done ...");
       }
       unset($person);
       return $pfif_person;
@@ -1434,7 +1411,7 @@ class Pfif {
       $ret = $global['db']->Execute($sql);
       if ($ret === false) {
          $errchk = $global['db']->ErrorMsg();
-         error_log("Error performing person_uuid update: " . $errchk);
+         pfif_error_log("Error performing person_uuid update: " . $errchk);
       }
       // Update expiration date in pfif_person.
       $sql = "UPDATE pfif_person SET expiry_date='" . $person->expiry_date . "'" .
@@ -1442,7 +1419,7 @@ class Pfif {
       $ret = $global['db']->Execute($sql);
       if ($ret === false) {
          $errchk = $global['db']->ErrorMsg();
-         error_log("Error performing pfif_person update: " . $errchk);
+         pfif_error_log("Error performing pfif_person update: " . $errchk);
       }
    }
 }

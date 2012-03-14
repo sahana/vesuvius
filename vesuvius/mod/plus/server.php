@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.2
+ * @version      2.3
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0110
+ * @lastModified 2012.0130
  */
 
 
@@ -30,8 +30,15 @@ if(!isset($conf['enable_plus_web_services']) || (isset($conf['enable_plus_web_se
 // figure out which api version to load ~ not specified, load default
 if(isset($_GET['api']) && file_exists($global['approot']."/mod/plus/api_".$_GET['api'].".inc")) {
 	require_once($global['approot']."/mod/plus/api_".$_GET['api'].".inc");
+
+	// include the separate function file for v>=2.3
+	if((float)$_GET['api'] >= 2.3) {
+		require_once($global['approot'].'/mod/plus/api_'.$_GET['api'].'f.inc');
+	}
+
 	$versionString = "&amp;api=".$_GET['api'];
 	$global['apiVersion'] = $_GET['api'];
+
 } else {
 	require_once("api_".$conf['mod_plus_latest_api'].".inc");
 	$versionString = "";
@@ -61,4 +68,7 @@ if(!isset($HTTP_RAW_POST_DATA)) {
 }
 
 $server->service($HTTP_RAW_POST_DATA);
+
+
+
 

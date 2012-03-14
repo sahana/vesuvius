@@ -62,10 +62,7 @@ var Utils = {
                 inw_getNotes(person.uuid)
                 $("#dt_notesTab > a").html("Notes");
 
-                if ( $("#shortName").val() == "sendai2011" ) // obviously a hack.
-                        $("#dt_eapLink > a").attr("href", "http://japan.person-finder.appspot.com/view?lang=en&id=" + person.uuid ).attr("target", "_new");
-                else
-                        $("#dt_eapLink > a").attr("href", "index.php?mod=eap&act=edit&uuid=" + person.encodedUUID);
+		$("#dt_eapLink > a").attr("href", person.encodedUUID ).attr("target", "_new");
 
                 if ( person.hospitalIcon != "" )
                         $("#dt_hospitalIcon").html("<img src='" + person.hospitalIcon + "' />");
@@ -143,7 +140,7 @@ var Utils = {
 			var link = 	$("<li></li>").attr({ "id" : "note_" + i })
 									  .append(
 											$("<a></a>")
-												.html(jsonNotes[i]["date"])
+												.html(jsonNotes[i]["date"] + " UTC")
 												.attr("href", "javascript:Utils.showNoteContent(" + i + ")" )
 										);
 			noteDates.append(link);
@@ -155,12 +152,16 @@ var Utils = {
 	},
 
 	showNoteContent : function(noteNumber) {
+		var jsonNotes   = $.parseJSON($("#jsonNotes").val());
+                var status_msg = jsonNotes[noteNumber]["status"] || "Not Reported";
+                // (PL-318) If found is true, override status unless status is "is note author".
+                if (jsonNotes[noteNumber]["found"] === "true" && status_msg != "is note author")  {
+ 			status_msg = "personally contacted";
+                }
 		var noteContent = $("#dt_notes"),
-			jsonNotes   = $.parseJSON($("#jsonNotes").val()),
 			noteid		= $("<div></div>").attr("id", "note_author").html(jsonNotes[noteNumber]["note_id"]),
 			author      = $("<div></div>").attr("id", "note_author").html(jsonNotes[noteNumber]["author"] || "Not Reported"),
-			status	 	= $("<div></div>").attr("id","note_status").html(jsonNotes[noteNumber]["status"] || "Not Reported"),
-			found	 	= $("<div></div>").attr("id","note_found").html(jsonNotes[noteNumber]["found"] === "true" ? "Yes" : "No"),
+			status	 	= $("<div></div>").attr("id","note_status").html(status_msg),
 			lastSeen 	= $("<div></div>").attr("id","note_lastSeen").html(jsonNotes[noteNumber]["lastSeen"] || "Not Reported"),
 			text	 	= $("<textarea></textarea>").attr("id","note_text").html(jsonNotes[noteNumber]["text"])
 													.css({"height": "100px",
@@ -175,7 +176,6 @@ var Utils = {
 				   //.append(legend.clone().html("Id")).append(noteid)
 				   .append(legend.clone().html("Author")).append(author)
 				   .append(legend.clone().html("Status")).append(status)
-				   .append(legend.clone().html("Found")).append(found)
 				   .append(legend.clone().html("Last Known Location")).append(lastSeen)
 				   .append(legend.clone().html("Text")).append(text);
 

@@ -45,7 +45,7 @@ function shn_plus_registerAll($namespace) {
 			)
 		),
 		$namespace,
-		"Returns an array of (event_id, parent_id, name, shortname, date, type, latitude, longitude, street, group) listing disaster events' components."
+		"Returns an array of (event_id, parent_id, name, shortname, date, type, latitude, longitude, street, group) public disaster events."
 	);
 
 	shn_plus_registerOne($server, 'getEventListUser',
@@ -61,7 +61,7 @@ function shn_plus_registerAll($namespace) {
 			)
 		),
 		$namespace,
-		"Returns an array of (event_id, parent_id, name, shortname, date, type, latitude, longitude, street) listing disaster events' components accessible by a certain user."
+		"Returns an array of (event_id, parent_id, name, shortname, date, type, latitude, longitude, street) disaster events accessible by a certain user."
 	);
 
 	shn_plus_registerOne($server, 'getGroupList',
@@ -344,8 +344,7 @@ function shn_plus_registerAll($namespace) {
 				'filterHospitalOther'  => 'xsd:boolean',
 				'pageStart'            => 'xsd:integer',
 				'perPage'              => 'xsd:integer',
-				'sortBy'               => 'xsd:string',
-				'mode'                 => 'xsd:boolean'
+				'sortBy'               => 'xsd:string'
 			),
 			'out' => array(
 				'resultSet'    => 'xsd:string',
@@ -383,7 +382,6 @@ function shn_plus_registerAll($namespace) {
 				'pageStart'            => 'xsd:integer',
 				'perPage'              => 'xsd:integer',
 				'sortBy'               => 'xsd:string',
-				'mode'                 => 'xsd:boolean',
 				'username'             => 'xsd:string',
 				'password'             => 'xsd:string'
 			),
@@ -736,7 +734,7 @@ function version() {
 
 
 
-// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
+// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of public disaster events.
 function getEventList() {
 	shn_plus_logAccess(__FUNCTION__);
 	global $global;
@@ -744,6 +742,7 @@ function getEventList() {
 	$q = "
 		SELECT *
 		FROM incident
+		WHERE private_group is null
 		ORDER BY `default` DESC, name ASC;
 	";
 	$result = $global['db']->Execute($q);
@@ -773,7 +772,7 @@ function getEventList() {
 
 
 
-// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
+// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) disaster events accessibleby a certain user.
 function getEventListUser($username, $password) {
 	shn_plus_logAccess(__FUNCTION__);
 	global $global;
@@ -1503,7 +1502,7 @@ function getSessionTimeout() {
 
 
 // performs a search across a specific PUBLIC event with filters, paging, and sort options
-function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatusAlive, $filterStatusInjured, $filterStatusDeceased, $filterStatusUnknown, $filterStatusFound, $filterGenderComplex, $filterGenderMale, $filterGenderFemale, $filterGenderUnknown, $filterAgeChild, $filterAgeAdult, $filterAgeUnknown, $filterHospitalSH, $filterHospitalWRNMMC, $filterHospitalOther, $pageStart, $perPage, $sortBy = "last_updated", $mode) {
+function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatusAlive, $filterStatusInjured, $filterStatusDeceased, $filterStatusUnknown, $filterStatusFound, $filterGenderComplex, $filterGenderMale, $filterGenderFemale, $filterGenderUnknown, $filterAgeChild, $filterAgeAdult, $filterAgeUnknown, $filterHospitalSH, $filterHospitalWRNMMC, $filterHospitalOther, $pageStart, $perPage, $sortBy = "last_updated") {
 
 	shn_plus_logAccess(__FUNCTION__);
 	global $global;
@@ -1540,9 +1539,9 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 			$searchMode = "sql";
 		}
 
-		// find lack of sort order and use last updated as a result...
-		if(trim($sortBy) == "") {
-			$sortBy = "last_updated";
+		// find lack of explicit sort order and use last updated as a default...
+		if(strlen((string)$sortBy) < 3) {
+			$sortBy = "updated desc";
 		}
 
 		$filterStatusMissing  = ($filterStatusMissing)  ? 'true' : 'false';
@@ -1566,7 +1565,7 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 		$sGender       = $filterGenderComplex.";".$filterGenderMale.";".$filterGenderFemale.";".$filterGenderUnknown;
 		$sAge          = $filterAgeChild.";".$filterAgeAdult.";".$filterAgeUnknown;
 		$sHospital     = $filterHospitalSH.";".$filterHospitalWRNMMC.";".$filterHospitalOther;
-		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";".$mode;
+		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";true"; // use non-interactive mode
 
 		require_once($global['approot']."/mod/inw/SearchDB.php");
 		$timeElsapsed = 0;
@@ -1607,9 +1606,10 @@ function search($eventShortname, $searchTerm, $filterStatusMissing, $filterStatu
 
 
 // Performs a search across a specific event with filters, paging, and sort options with authentication.
-function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $filterStatusAlive, $filterStatusInjured, $filterStatusDeceased, $filterStatusUnknown, $filterStatusFound, $filterGenderComplex, $filterGenderMale, $filterGenderFemale, $filterGenderUnknown, $filterAgeChild, $filterAgeAdult, $filterAgeUnknown, $filterHospitalSH, $filterHospitalWRNMMC, $filterHospitalOther, $pageStart, $perPage, $sortBy = "last_updated", $mode, $username, $password) {
+function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $filterStatusAlive, $filterStatusInjured, $filterStatusDeceased, $filterStatusUnknown, $filterStatusFound, $filterGenderComplex, $filterGenderMale, $filterGenderFemale, $filterGenderUnknown, $filterAgeChild, $filterAgeAdult, $filterAgeUnknown, $filterHospitalSH, $filterHospitalWRNMMC, $filterHospitalOther, $pageStart, $perPage, $sortBy = "last_updated", $username, $password) {
 
 	shn_plus_logAccess(__FUNCTION__);
+
 	global $global;
 	global $conf;
 	$error = false;
@@ -1648,9 +1648,9 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 			$searchMode = "sql";
 		}
 
-		// find lack of sort order and use last updated as a result...
-		if(trim($sortBy) == "") {
-			$sortBy = "last_updated";
+		// find lack of explicit sort order and use last updated as a default...
+		if(strlen((string)$sortBy) < 3) {
+			$sortBy = "updated desc";
 		}
 
 		$filterStatusMissing  = ($filterStatusMissing)  ? 'true' : 'false';
@@ -1674,7 +1674,7 @@ function searchWithAuth($eventShortname, $searchTerm, $filterStatusMissing, $fil
 		$sGender       = $filterGenderComplex.";".$filterGenderMale.";".$filterGenderFemale.";".$filterGenderUnknown;
 		$sAge          = $filterAgeChild.";".$filterAgeAdult.";".$filterAgeUnknown;
 		$sHospital     = $filterHospitalSH.";".$filterHospitalWRNMMC.";".$filterHospitalOther;
-		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";".$mode;
+		$sPageControls = $pageStart.";".$perPage.";".$sortBy.";true"; // use non-interactive mode
 
 		require_once($global['approot']."/mod/inw/SearchDB.php");
 		$timeElsapsed = 0;
@@ -1776,7 +1776,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 			$p->xmlFormat = $xmlFormat;
 			$p->setEvent($eventShortName);
 			$ecode = $p->parseXml();
-			if($ecode == 0) {
+			if($ecode == 0 || $ecode == 419 || $ecode == 420) { // we accept record with bad images (the images are not saved)
 				$p->insert();
 				$p->plusReportLog();
 			} else {
@@ -2039,7 +2039,7 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 			$p->ignoreDupeUuid = true;
 			$ecode = $p->parseXml();
 
-			if($ecode == 0) {
+			if($ecode == 0 || $ecode == 419 || $ecode == 420) { // we accept record with bad images (the images are not saved)
 
 				// we made it this far, so delete the old person record
 				$personOld = new person();

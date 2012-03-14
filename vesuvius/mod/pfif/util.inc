@@ -21,22 +21,8 @@ define("PFIF_1_3_NAMESPACE", "http://zesty.ca/pfif/1.3");
 define("PFIF_V_1_2", "1.2");
 define("PFIF_V_1_3", "1.3");
 
-define("MISSING_NODE_TAGNAME", "empty_child");
-
-define("PFIF_IMG_CACHE_DIR", "/tmp/pfif_cache/");
+define("PFIF_IMG_CACHE_DIR", "tmp/pfif_cache/");
 define("PFIF_IMG_THUMB_PREFIX", "thumb_");
-
-// HACK ALERT: A dummy node list to prevent non-object access errors on missing elements.
-$dummy_node_list = null;
-
-function set_dummy_node_list($documentNode) {
-   global $dummy_node_list;
-
-   $dummy_element = $documentNode->createElement('empty_node');
-   $dummy_child = $documentNode->createElement(MISSING_NODE_TAGNAME);
-   $dummy_element->appendChild($dummy_child);
-   $dummy_node_list = $dummy_element->getElementsByTagName('*');
-}
 
 /**
  * Transform local time to UTC time.
@@ -101,33 +87,27 @@ function shn_map_status_from_pfif($status, $found, $old_status) {
            array('unk' => array('unk' => 'unk',
                    'ali' => 'ali',
                    'mis' => 'mis',
-                   'dec' => 'dec',
-                   'fnd' => 'fnd'),
+                   'dec' => 'dec'),
                'mis' => array('unk' => 'mis',
                    'ali' => 'ali',
                    'mis' => 'mis',
-                   'dec' => 'dec',
-                   'fnd' => 'fnd'),
+                   'dec' => 'dec'),
                'fnd' => array('unk' => 'fnd',
                    'ali' => 'ali',
                    'mis' => 'fnd',
-                   'dec' => 'dec',
-                   'fnd' => 'fnd'),
+                   'dec' => 'dec'),
                'inj' => array('unk' => 'inj',
                    'ali' => 'ali',
                    'mis' => 'inj',
-                   'dec' => 'dec',
-                   'fnd' => 'inj'),
+                   'dec' => 'dec'),
                'dec' => array('unk' => 'dec',
                    'ali' => 'ali',
                    'mis' => 'dec',
-                   'dec' => 'dec',
-                   'fnd' => 'dec'),
+                   'dec' => 'dec'),
                'ali' => array('unk' => 'ali',
                    'ali' => 'ali',
                    'mis' => 'ali',
-                   'dec' => 'dec',
-                   'fnd' => 'ali'));
+                   'dec' => 'dec'));
 
    // Map new status from PFIF record.
    $new_status = 'unk';  // default for unspecified status
@@ -135,15 +115,16 @@ function shn_map_status_from_pfif($status, $found, $old_status) {
    if (!empty($status)) {
       $new_status = $status_map[$status];
    }
-   // We have to do something with the "found" field if present. Have it
-   // outrank a concurrent status of "missing" or "unknown".
-   if ($found == 'true' && ($new_status == 'unk' || $new_status == 'mis')) {
-      $new_status = 'fnd';
+   // We have to do something with the "found" field if present. Since it means
+   // the person was directly contacted, have it override any accompanying status
+   // by always translating to "alive".
+   if ($found == 'true') {
+      $new_status = 'ali';
    }
 
    // Do the ranking mapping.
    $result = $status_ranking_map[$old_status][$new_status];
-   //error_log("Old status: " . $old_status . " new status: " . $result);
+   //pfif_error_log("Old status: " . $old_status . " new status: " . $result);
    return $result;
 }
 
@@ -160,7 +141,7 @@ function shn_map_gender_to_pfif($personRecord, $source_person) {
    $g = '';
    if (!empty($personRecord['opt_gender'])) {
       $g = $gender_map[$personRecord['opt_gender']];
-      //DEBUG: error_log("mapped gender to ".$g);
+      //DEBUG: pfif_error_log("mapped gender to ".$g);
    }
    return $g;
 }
@@ -239,18 +220,18 @@ function fetch_image($photo_url, $person_record_id) {
    $result = array();
    // var_dump('id',$person_record_id,'photo_url',$photo_url,'empty?',empty($photo_url));
    if (!empty($photo_url)) {
-      // error_log("Found photo for ".$person->person_record_id." at ".$person->photo_url);
+      // pfif_error_log("Found photo for ".$person->person_record_id." at ".$person->photo_url);
       $image = new WebImage($photo_url, $person_record_id);
-      // error_log("new WebImage() returns:".var_export($image,true));
+      // pfif_error_log("new WebImage() returns:".var_export($image,true));
       if ($image->is_initialized()) {
-         // error_log("image type: $image->type width: $image->width height; $image->height");
+         // pfif_error_log("image type: $image->type width: $image->width height; $image->height");
          $result['image_type'] = $image->type;
          $result['image_height'] = $image->height;
          $result['image_width'] = $image->width;
          $result['original_filename'] = $photo_url;
 
          // Gen cache filename from id, ..
-         $filePath = '/pl'.PFIF_IMG_CACHE_DIR;
+         $filePath = '/pl/'.PFIF_IMG_CACHE_DIR;
          $fileName = str_replace("/", "SLASH", $person_record_id) . "__" . rand(1000000000, 1999999999) . "." . $image->type;
          $localUrl = PFIF_IMG_CACHE_DIR . $fileName;
 
@@ -271,14 +252,19 @@ function fetch_image($photo_url, $person_record_id) {
             }
             $result['url_thumb'] = PFIF_IMG_CACHE_DIR . $thumbName;
          } else { // image write failed
-            error_log("fetch_image:error writing file " . $filePath . "/" . $fileName);
+            pfif_error_log("fetch_image:error writing file " . $filePath . "/" . $fileName);
          }
          $_SESSION['pfif_info']['images_in'] += 1;
       } else {
          $failed_images[] = array('p_uuid' => $person_record_id, 'url' => $photo_url);
       }
    } else {
-      // error_log("no photo for ".$person->person_record_id);
+      // pfif_error_log("no photo for ".$person->person_record_id);
    }
    return $result;
 }
+
+function pfif_error_log($msg) {
+   error_log("[".date("Y-m-d H:i:s")."] $msg");
+}
+

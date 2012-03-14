@@ -8,7 +8,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1205
+ * @lastModified 2011.0119
  */
 
 global $global;
@@ -431,7 +431,7 @@ function em_perform_help() {
 			<li><b>Type</b>: indicates whether the event is a <b>REAL</b> or a <b>TEST</b> event. This is spcified by per disaster and all incidents and events that are children of the particular disaster inherit this value from the parent.</li>
 			<li><b>Default</b>: shows which event is the default event a user see when they come to the site.</li>
 			<li><b>Visibility</b>: shows whether an event is visible to the public (enyone may view it) or whether it is only visible to a specific user class.</li>
-			<li><b>Open</b>: an event that is <b>CLOSED</b> cannot accept new persons in the RAP (Report A Person), PLS (Person Locator web Services), and MPRES (Missing Person Registry Email Services). <b>OPEN</b> events allow new persons to be accepted via these three avenues. <b>CLOSED(PF)</b> events are the same as <b>CLOSED</b> events except that they allow the reporting of persons via the Google Person Finder.</li>
+			<li><b>Open</b>: an event that is <b>CLOSED</b> cannot accept new persons in the RAP (Report A Person), PLUS (Web Services), and MPRES (Missing Person Registry Email Services). <b>OPEN</b> events allow new persons to be accepted via these three avenues. <b>CLOSED(PF)</b> events are the same as <b>CLOSED</b> events except that they allow the reporting of persons via the Google Person Finder.</li>
 			<li><b>Edit</b>: is the link you click on to edit this particular event.</li>
 		</ul>
 		<img alt=\"IE6,7,8 dont support inline images, please upgrade to IE9 or Google Chrome, Firefox, Safari\" class=\"inlineHelp\" src=\"data:image/png;base64,".base64_encode(file_get_contents($global['approot'].'/mod/em/help2.png'))."\">
@@ -767,10 +767,10 @@ function em_perform_delete($incident_id, $confirm) {
 		$shortname = $row['shortname'];
 
 		$p = new pop();
-		$subject = "{ People Locator Event Manager Audit }";
+		$subject = "{ ".$conf['site_name']." Event Manager Audit }";
 		$bodyHTML = "
 			<br>
-			<b>The event: ($incident_id) $name / $shortname has been deleted on PL.</b><br>
+			<b>The event: ($incident_id) $name / $shortname has been deleted on ".$conf['site_name'].".</b><br>
 			<br>
 			This is simply an audit email to keep the team aware of such changes.<br>
 			<br>
@@ -778,7 +778,7 @@ function em_perform_delete($incident_id, $confirm) {
 		";
 		$bodyAlt = "
 			\n
-			The event: ($incident_id) $name / $shortname has been deleted on PL.\n
+			The event: ($incident_id) $name / $shortname has been deleted on ".$conf['site_name'].".\n
 			\n
 			This is simply an audit email to keep the team aware of such changes.\n
 			\n
@@ -837,10 +837,10 @@ function em_perform_purge($incident_id, $confirm) {
 		$shortname = $row['shortname'];
 
 		$p = new pop();
-		$subject = "{ People Locator Event Manager Audit }";
+		$subject = "{ ".$conf['site_name']." Event Manager Audit }";
 		$bodyHTML = "
 			<br>
-			<b>The event: ($incident_id) $name / $shortname has been purged on PL.</b><br>
+			<b>The event: ($incident_id) $name / $shortname has been purged on ".$conf['site_name'].".</b><br>
 			<br>
 			This is simply an audit email to keep the team aware of such changes.<br>
 			<br>
@@ -848,7 +848,7 @@ function em_perform_purge($incident_id, $confirm) {
 		";
 		$bodyAlt = "
 			\n
-			The event: ($incident_id) $name / $shortname has been purged on PL.\n
+			The event: ($incident_id) $name / $shortname has been purged on ".$conf['site_name'].".\n
 			\n
 			This is simply an audit email to keep the team aware of such changes.\n
 			\n
@@ -883,6 +883,7 @@ function em_perform_purge($incident_id, $confirm) {
 function em_perform_purge_do($incident_id) {
 
 	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 	require_once($global['approot']."/inc/lib_uuid.inc");
 	require_once($global['approot']."/inc/lib_image.inc");
 	require_once($global['approot']."/inc/lib_locale/gettext.inc");
@@ -890,8 +891,6 @@ function em_perform_purge_do($incident_id) {
 	$log = "";
 	$webroot = $global['approot']."www/";
 	$delPersons = 0;
-	$delImages = 0;
-	$delVn = 0;
 
 	// Reset last_count for last export log  record. (Otherwise, the first
 	// 'last_count' new records won't get exported.)
@@ -924,89 +923,14 @@ function em_perform_purge_do($incident_id) {
 
 	foreach($people as $p_uuid) {
 
-		// Delete any associated images...
-		$q = "
-			SELECT *
-			FROM image WHERE p_uuid = '".$p_uuid."';
-		";
-		$image_result = $global['db']->Execute($q);
-
-		if($image_result === false) {
-			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 2 ((".$q."))");
-			$errchk = $global['db']->ErrorMsg();
-			$log .= "Error getting image for this person (".$p_uuid."): <b>".$errchk."</b><br>";
-			return($log);
-
-		} elseif(count($image_result) > 0) {
-
-			while($row = $image_result->FetchRow()) {
-
-				// There is an image so delete it and its thumbnail
-				$file = $webroot.$row['url'];
-				$thumb = $webroot.$row['url_thumb'];
-
-				if(!unlink($file)) {
-					$log .= "Unable to delete <b>".$file."</b><br>";
-				} else {
-					$delImages++;
-					$original = str_replace("full.jpg", "original", $file);
-					unlink($original);
-				}
-				if($thumb != $file) {
-					if(!unlink($thumb)) {
-						$log .= "Unable to delete <b>".$thumb."</b><br>";
-					}
-				}
-			}
-		}
-
-		// Delete any associated voice notes...
-		$q = "
-			SELECT *
-			FROM voice_note WHERE p_uuid = '".$p_uuid."';
-		";
-		$result = $global['db']->Execute($q);
-
-		if($result === false) {
-			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 4 ((".$q."))");
-			$errchk = $global['db']->ErrorMsg();
-			$log .= "Error getting voice note for this person (".$p_uuid."): <b>".$errchk."</b><br>";
-			return($log);
-
-		} elseif(count($result) > 0) {
-
-			while($row = $result->FetchRow()) {
-
-				// There is a voice note so delete it nd the resampleds
-				$original = $webroot.$row['url_original'];
-				$mp3      = $webroot.$row['url_resampled_mp3'];
-				$ogg      = $webroot.$row['url_resampled_ogg'];
-
-				if(!unlink($original)) {
-					$log .= "Unable to delete <b>".$file."</b><br>";
-				} else {
-					unlink($mp3);
-					unlink($ogg);
-					$delVn++;
-				}
-			}
-		}
-
-		// Delete the person in question and all dependent data (such as reporter)
-		$q = "
-			CALL delete_reported_person('$p_uuid', 1);
-		";
-		$st = $global['db']->Execute($q);
-		if($st === false) {
-			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 3 ((".$q."))");
-			$errchk = $global['db']->ErrorMsg();
-			$log .= "Error calling delete_person for this incident: <b>".$errchk."</b><br>";
-		} else {
-			$delPersons++;
-			//$log .= "Deleted <b>".$p_uuid."</b><br>";
-		}
+		$p = new person();
+		$p->p_uuid = $p_uuid;
+		$p->load();
+		$p->delete();
+		$delPersons++;
+		$log .= "Deleted <b>".$p_uuid."</b><br>";
 	}
-	$log .= "<b>".$delPersons." person(s)</b>, <b>".$delImages." images</b>, and <b>".$delVn." voice notes</b> deleted.<br>";
+	$log .= "<b>".$delPersons." person(s)</b> purged.<br>";
 
         // Have SOLR do a full update of indexes.
 	$handle = fopen("http://pl:8983/solr/dataimport?command=full-import", "r");
@@ -1064,10 +988,10 @@ function em_perform_new() {
 
 	// email audit...
 	$p = new pop();
-	$subject = "{ People Locator Event Manager Audit }";
+	$subject = "{ ".$conf['site_name']." Event Manager Audit }";
 	$bodyHTML = "
 		<br>
-		<b>A new event has been instantiated on PL.</b><br>
+		<b>A new event has been instantiated on ".$conf['site_name'].".</b><br>
 		<br>
 		This is simply an audit email to keep the team aware of such changes.<br>
 		<br>
@@ -1075,7 +999,7 @@ function em_perform_new() {
 	";
 	$bodyAlt = "
 		\n
-		A new event has been instantiated on PL.\n\n
+		A new event has been instantiated on ".$conf['site_name'].".\n\n
 		\n
 		This is simply an audit email to keep the team aware of such changes.\n
 		\n
@@ -1091,6 +1015,7 @@ function em_perform_new() {
 // presents a gui to edit a page and its corresponding fields
 function em_perform_edit($incident_id) {
 	global $global;
+	global $conf;
 
 	//$global['xajax_res']->setFlag('debug', true);
 
@@ -1259,7 +1184,7 @@ function em_perform_edit($incident_id) {
                 $checkedSync = $rowpfif['sched_interval_minutes'] == "0" ? "" : "CHECKED";
 		$pfif = "
 			PF repository: <input type=\"text\" id=\"pfifUrl\" name=\"pfifUrl\" size=\"48\" value=\"".htmlspecialchars($rowpfif['base_url'])."\">
-                        &nbsp;&nbsp;Keep PL and PF synchronized? <input type=\"checkbox\" id=\"pfifSync\" name=\"pfifSync\" value=\"1\" ".$checkedSync."><br>
+                        &nbsp;&nbsp;Keep ".$conf['site_name']." and Google PF synchronized? <input type=\"checkbox\" id=\"pfifSync\" name=\"pfifSync\" value=\"1\" ".$checkedSync."><br>
                         (e.g. https://www.google.org/personfinder/sendong)
 		";
         // end PFIF options
@@ -1324,7 +1249,7 @@ function em_perform_edit($incident_id) {
 
 
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" style=\"\">Title Line 2 (appears under People Locator)<br>ie. <b>for the Joplin Tornado</b></td>
+		<td class=\"mainRowOdd emLastWhite\" style=\"\">Title portion 2 (appears next to '".$conf['site_name']."')<br>ie. <b>for the Joplin Tornado</b></td>
 		<td class=\"mainRowOdd emFirstWhite\" style=\"\"><textarea id=\"eventDescription\" rows=1 cols=60 />".$row['description']."</textarea></td>
 	<tr>
 

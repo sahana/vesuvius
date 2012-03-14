@@ -1,13 +1,13 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.2
+ * @version      2.3
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0110
+ * @lastModified 2012.0130
  */
 
 
@@ -15,7 +15,7 @@
 
 $user  = "testDontDelete";
 $pass  = "dontDelete99";
-$email = "testCase@email.com";
+$email = "test@dontDelete.com";
 $eventShortname = "test";
 $personXML = "";
 $xmlFormat = "TRIAGEPIC";
@@ -43,22 +43,24 @@ if(!isset($_GET['api'])) {
 } else {
 	$api = "&api=".$_GET['api'];
 
-/*
 	$sites = array(
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
-*/
-
+/*
 	$sites = array(
 		"PL"      => "https://pl.nlm.nih.gov/?wsdl".$api,
 		"PLstage" => "https://plstage.nlm.nih.gov/?wsdl".$api,
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
-
+*/
 	init2();
 
 	// perform tests...
 	switch($_GET['api']) {
+		case '2.3':
+			searchCount("test", "t");
+			searchCountWithAuth("test", "t", $user, $pass);
+			resetUserPassword($email);
 		case '2.2':
 			reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $user, $pass);
 		case '2.1':
@@ -74,7 +76,6 @@ if(!isset($_GET['api'])) {
 			getUuidByMassCasualtyId($mcid, $user, $pass);
 			changeMassCasualtyId($newMcid, $uuid, $user, $pass);
 			hasRecordBeenRevised($uuid, $user, $pass);
-		case '1.9.9':
 			getHospitalLegalese("1");
 			getHospitalLegaleseAnon("1");
 			getHospitalLegaleseTimestamps("1");
@@ -89,7 +90,6 @@ if(!isset($_GET['api'])) {
 			getSessionTimeout();
 			registerUser("testCaseUser", "testCase@email.com", "testPassword99", "testCaseGiven", "testCaseFamily");
 			changeUserPassword($user, $pass, $pass);
-			resetUserPassword($user);
 			forgotUsername($email);
 			checkUserAuth($user, $pass);
 			getUserStatus($user);
@@ -102,7 +102,7 @@ if(!isset($_GET['api'])) {
 			getHospitalPolicy("1");
 			version();
 	}
-	echo "</table><h2>Note: deprecated functions are not listed/tested.</h2></body>";
+	echo "</table><b>Note: deprecated functions are not listed/tested.</b></body>";
 }
 
 
