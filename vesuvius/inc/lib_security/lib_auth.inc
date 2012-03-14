@@ -508,7 +508,7 @@ function shn_authenticate_user() {
 			$user = $oauth2->userinfo->get();
 			$email = filter_var($user['email'], FILTER_SANITIZE_EMAIL);
 			$img = filter_var($user['picture'], FILTER_VALIDATE_URL);
-			$personMarkup = "$email<div><img src='$img?sz=128'></div>";
+			$personMarkup = '<img src="'.$img.'">';
 
 			// The access token may have been updated lazily.
 			$_SESSION['token'] = $client->getAccessToken();
