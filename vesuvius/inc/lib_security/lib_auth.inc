@@ -452,6 +452,14 @@ function shn_authenticate_user() {
 		$user_data["user_id"] = -1;
 		return $user_data ;
 
+
+
+
+
+
+
+
+
 	// handle Google OAuth login
 	} elseif($_GET['doLogin'] == "2") {
 
@@ -459,17 +467,6 @@ function shn_authenticate_user() {
 		require_once($global['approot']."/3rd/google-api-php-client/src/contrib/apiOauth2Service.php");
 
 		//session_start();
-
-	echo "<pre>";
-	echo "\$_SERVER = \n";
-	echo print_r($_SERVER, true),"\n\n\n";
-	echo "---------------------------------------------------------------------------------------------------------------------  \n\n";
-	echo "\$_COOKIE = \n";
-	echo print_r($_COOKIE, true),"\n\n\n";
-	echo "---------------------------------------------------------------------------------------------------------------------  \n\n";
-	echo "\$_REQUEST = \n";
-	echo print_r($_REQUEST, true),"\n\n\n";
-	echo "</pre> ";
 
 		$client = new apiClient();
 		$client->setApplicationName($conf['site_name']);
@@ -480,10 +477,6 @@ function shn_authenticate_user() {
 		$client->setAccessType('online');
 
 		$oauth2 = new apiOauth2Service($client);
-
-//		$redirect = "https://pl.nlm.nih.gov/oauthReturnGoogle";
-
-
 
 		if(isset($_GET['code'])) {
 			$client->authenticate();
@@ -506,40 +499,34 @@ function shn_authenticate_user() {
 		}
 
 		if($client->getAccessToken()) {
-			try {
-				$client->verifyIdToken();
-			} catch(apiAuthException $e) {
-				echo '<br>Unable to verify id_token. Error: '.$e->getMessage().'<br>';
-			}
+			/*
+			try { $client->verifyIdToken(); }
+			catch(apiAuthException $e) { echo '<br>Unable to verify id_token. Error: '.$e->getMessage().'<br>'; }
+			*/
 
 			$user = $oauth2->userinfo->get();
 			$email = filter_var($user['email'], FILTER_SANITIZE_EMAIL);
 			$img = filter_var($user['picture'], FILTER_VALIDATE_URL);
-			$personMarkup = "$email<div><img src='$img?sz=128'></div>";
 
 			// The access token may have been updated lazily.
 			$_SESSION['token'] = $client->getAccessToken();
 		}
 
-		if(isset($personMarkup)) {
-			echo "<br><br>".$personMarkup."<br><br>";
-		}
-
-  if(isset($authUrl)) {
-    print "<a class=login href='$authUrl'>Connect Me!</a>";
-  } else {
-    print "<a class=logout href='?logout'>Logout</a>";
-  }
-
-
-echo '<pre>('.print_r(var_export($user, true), true).')</pre>';
-echo '<pre>('.print_r(var_export($_SESSION, true), true).')</pre>';
-echo '<pre>('.print_r(var_export($client, true), true).')</pre>';
+echo '<pre>user('.print_r(var_export($user, true), true).')</pre>';
+echo '<pre>client('.print_r(var_export($client, true), true).')</pre>';
+echo '<pre>_SESSION('.print_r(var_export($_SESSION, true), true).')</pre>';
+echo '<pre>_SERVER('.print_r(var_export($_SERVER, true), true).')</pre>';
+echo '<pre>_COOKIE('.print_r(var_export($_COOKIE, true), true).')</pre>';
+echo '<pre>_REQUEST('.print_r(var_export($_REQUEST, true), true).')</pre>';
 
 		die();
 
-
-
+			// logged in successfully
+			$user_data["user_id"] = $res->fields["p_uuid"];
+			$user_data["user"] = $user;
+			$user_data["result"] = LOGGEDIN;
+			$user_data["doHeader"] = true;
+			return $user_data;
 
 
 
@@ -648,15 +635,10 @@ echo '<pre>('.print_r(var_export($client, true), true).')</pre>';
 
 			$e = explode("/", $_POST['return']);
 			$f = $e[sizeof($e)-1];
-			if($f == "login" || $f = "auth" || $f == "index.php?doLogin=1") {
-				header("Location: settings");
-			} else {
-				header("Location: ".$_POST['return']);
-			}
 			$user_data["user_id"] = $res->fields["p_uuid"];
 			$user_data["user"] = $user;
 			$user_data["result"] = LOGGEDIN;
-			$global['welcome'] = true;
+			$user_data["doHeader"] = true;
 			return $user_data;
 		}
 	}

@@ -290,7 +290,7 @@ function shn_eap_findRights() {
 		}
 	}
 	// Admin ~ logged in ~ has right to everything
-	if(($_SESSION['group_id'] == "1") && ($_SESSION['logged_in'] == 1)) {
+	if(isset($_SESSION['group_id']) && ($_SESSION['group_id'] == "1") && ($_SESSION['logged_in'] == 1)) {
 		$global['permissionToView'] = true;
 		$global['publicView']  = true;
 		$global['publicEdit']  = true;

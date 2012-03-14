@@ -5,7 +5,9 @@ Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ----------------
 Greg: added transit time table to stats module.
 Greg: UTC time support for REUNITE4 XML
-Lan: Stat module updates
+Lan: Stat module updates (bug fixes, tweaks, graphical errors)
+Greg: added CSV download option for Transit data
+Greg: many a E_STRICT patches
 
 
 2012:0306 Update

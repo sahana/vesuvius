@@ -1,15 +1,15 @@
 <?
 /**
  * @name         Session Handler
- * @version      1.0
+ * @version      11
  * @package      framework
- * @author       Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @author       Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0401
+ * @lastModified 2012.0314
  */
 
 
@@ -26,26 +26,39 @@ shn_session_start();
 $user_data = shn_authenticate_user();
 
 switch($user_data["result"]) {
+
 	case LOGGEDIN:
 		$global['module']   = isset($conf['default_module']) ? $conf['default_module'] : "home";
 		$global['action']   = isset($conf['default_action']) ? $conf['default_action'] : "default";
 		$global['previous'] = true;
 		shn_session_change($user_data);
 		break;
+
 	case LOGGEDOUT:
 		shn_session_end($user_data);
 		header("Location: ".makeBaseUrlMinusEvent());
 		break;
+
 	case LOGINFAILED:
 		$global['module']   = "pref";
 		$global['action']   = "loginForm";
 		$global['previous'] = true;
 		break;
+
 	default:
 		break;
 }
 
 session_update_activity();
+
+if(isset($user_data["doHeader"]) && $user_data["doHeader"] === true) {
+	if($f == "login" || $f = "auth" || $f == "index.php?doLogin=1" || $f == "index.php?doLogin=2") {
+		header("Location: settings");
+	} else {
+		header("Location: ".$_POST['return']);
+	}
+}
+
 
 /**
 * this function is a wrapper around session_start()
@@ -166,7 +179,7 @@ function change_session_to_anonymous() {
 	$key = isset($_SESSION['security_captcha_key']) ? $_SESSION['security_captcha_key'] : null;
 	session_regenerate_id();
 	$_SESSION = array(); // reset the session to empty any extraneous data
-	$_SESSION['user_agent'] = md5($_SERVER['HTTP_USER_AGENT']);
+	$_SESSION['user_agent'] = isset($_SERVER['HTTP_USER_AGENT']) ? md5($_SERVER['HTTP_USER_AGENT']) : null;
 	$_SESSION['initiated']  = true;
 	$_SESSION['logged_in']  = false;
 	$_SESSION["user"]       = "Anonymous";

@@ -107,8 +107,6 @@ function shn_pref_makeGoogleLoginLink() {
 	require_once($global['approot']."/3rd/google-api-php-client/src/apiClient.php");
 	require_once($global['approot']."/3rd/google-api-php-client/src/contrib/apiOauth2Service.php");
 
-	session_start();
-
 	$client = new apiClient();
 	$client->setApplicationName($conf['site_name']);
 	$client->setClientId($conf['oauth_google_clientId']);
@@ -129,11 +127,14 @@ function shn_pref_makeGoogleLoginLink() {
 				<a class="styleTehButton googleButton" href="'.$authUrl.'"><img height=23 src="theme/lpf3/img/google34px.png"></a>
 ';
 
+
+/*
   if(isset($authUrl)) {
     print "<a class=login href='$authUrl'>Connect Me!</a>";
   } else {
     print "<a class=logout href='?logout'>Logout</a>";
   }
+*/
 
 echo '
 				</fieldset>
@@ -157,10 +158,6 @@ function shn_pref_loginForm($return = null) {
 			$returnVal = $_SERVER['REQUEST_URI'];
 		}
 
-		if($conf['oauth_google_enable'] && isset($_GET['oauthtest'])) {
-			shn_pref_makeGoogleLoginLink();
-		}
-
 		echo '
 			<div class="form-container" style="padding: auto;">
 				<form method="post" action="auth" id="form0" name="form0">
@@ -179,6 +176,11 @@ function shn_pref_loginForm($return = null) {
 				</form>
 			</div>
 		';
+
+		if($conf['oauth_google_enable'] && isset($_GET['oauthtest'])) {
+			shn_pref_makeGoogleLoginLink();
+		}
+
 		echo '
 			<div class="form-container" style="padding: auto;">
 				<form>
