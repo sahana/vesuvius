@@ -499,25 +499,18 @@ function shn_authenticate_user() {
 		}
 
 		if($client->getAccessToken()) {
-			try {
-				$client->verifyIdToken();
-			} catch(apiAuthException $e) {
-				echo '<br>Unable to verify id_token. Error: '.$e->getMessage().'<br>';
-			}
+			/*
+			try { $client->verifyIdToken(); }
+			catch(apiAuthException $e) { echo '<br>Unable to verify id_token. Error: '.$e->getMessage().'<br>'; }
+			*/
 
 			$user = $oauth2->userinfo->get();
 			$email = filter_var($user['email'], FILTER_SANITIZE_EMAIL);
 			$img = filter_var($user['picture'], FILTER_VALIDATE_URL);
-			$personMarkup = '<img src="'.$img.'">';
 
 			// The access token may have been updated lazily.
 			$_SESSION['token'] = $client->getAccessToken();
 		}
-
-		if(isset($personMarkup)) {
-			echo "<br><br>personMarkup(".$personMarkup.")<br><br>";
-		}
-
 
 echo '<pre>user('.print_r(var_export($user, true), true).')</pre>';
 echo '<pre>client('.print_r(var_export($client, true), true).')</pre>';
