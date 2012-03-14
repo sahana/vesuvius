@@ -1405,7 +1405,7 @@ class person {
 			$this->opt_status     = isset($a['person']['status'])     ? $a['person']['status']     : null;
 			$this->last_updated   = date('Y-m-d H:i:s');
 
-			$datetime      = isset($a['person']['dateTimeSent']) ? $a['person']['dateTimeSent'] : nullååå;
+			$datetime      = isset($a['person']['dateTimeSent']) ? $a['person']['dateTimeSent'] : null;
 			$timezoneUTC   = new DateTimeZone("UTC");
 			$timezoneLocal = new DateTimeZone(date_default_timezone_get());
 			$datetime2     = new DateTime();
@@ -1440,20 +1440,22 @@ class person {
 					$i->init();
 					$i->p_uuid = $this->p_uuid;
 					$i->fileContentBase64 = $photo['data'];
-					foreach($photo['tags'] as $tag) {
-						$t = new personImageTag();
-						$t->init();
-						$t->image_id = $i->image_id;
-						$t->tag_x    = $tag['x'];
-						$t->tag_y    = $tag['y'];
-						$t->tag_w    = $tag['w'];
-						$t->tag_h    = $tag['h'];
-						$t->tag_text = $tag['text'];
-						$i->tags[] = $t;
-					}
-					if(!$i->invalid) {
-						$this->images[] = $i;
-						$this->ecode = 419;
+					if(isset($photo['tags'])) {
+						foreach($photo['tags'] as $tag) {
+							$t = new personImageTag();
+							$t->init();
+							$t->image_id = $i->image_id;
+							$t->tag_x    = $tag['x'];
+							$t->tag_y    = $tag['y'];
+							$t->tag_w    = $tag['w'];
+							$t->tag_h    = $tag['h'];
+							$t->tag_text = $tag['text'];
+							$i->tags[] = $t;
+						}
+						if(!$i->invalid) {
+							$this->images[] = $i;
+							$this->ecode = 419;
+						}
 					}
 				}
 			}
