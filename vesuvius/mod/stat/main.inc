@@ -1,7 +1,7 @@
 <?php
 /**
  * @name         Statistics
- * @version      0.5
+ * @version      0.6
  * @package      stat
  * @author       Lan Ngoc Le <lale@mail.nih.gov>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
@@ -34,7 +34,7 @@ function shn_stat_html_head() {
 		function reFresh() {
 		  location.reload(true)	}
 		
-		window.setInterval("reFresh()",60000);		
+		window.setInterval("reFresh()",120000);		
 		</script>
 		
 		
@@ -42,13 +42,30 @@ function shn_stat_html_head() {
 	  <link rel="icon" type="image/png" href="favicon.png">
 	  <style>
 	      h1 {
-	      color: #34689A;
-	      font-family: arial;
-	      font-size: 28px;
-	      line-height: 28px;
-	      font-weight: normal;
-	   }
+			  color: #34689A;
+			  font-family: arial;
+			  font-size: 28px;
+			  line-height: 28px;
+			  font-weight: normal;
+			  
+		   }
+	   html {
+			height: 100%;
+		}
+		body {
+			margin: 1;
+			padding: 1;
+			height: 100%;
+		}
+
 	   body {margin: 20px; }
+	   #container {
+			background: #FFFFFF;			
+			margin: auto;
+			font: 1.5em arial, verdana, sans-serif;
+			width: 100%;
+			min-height: 100%;
+		}
 	  </style>
 	</head>
 	';
@@ -59,7 +76,7 @@ function shn_stat_login() {}
 function shn_stat_menu() {
 
 	global $global;
-
+	
 	$shortname = $_GET['shortname'];
 
 	$q = "
@@ -75,10 +92,10 @@ function shn_stat_menu() {
 	} else {
 	  $description = "";
 	}
-
+	
 	echo "
 		<h1>People Statistics ".$description."</h1>\n
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
+		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; min-height:100%;\">
 		\n
 		Please select from these available statistics:\n
 		<ul>
@@ -2128,24 +2145,43 @@ function shn_stat_cummulative_arrival() {
 	$name=ucfirst($shortname);
 	//$item = $_GET['item'];
 
-	//for starting date
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+
+	//shn_stat_menu();
+	
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+ 
+ 
+    //start and end date
 	$q_start_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic>=1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
 	ORDER BY arrival_time asc limit 1";
 	$res = $global['db']->Execute($q_start_date);
 	$row = $res->FetchRow();
 	$start_date= $row[0];
 	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
-
-	//for end date
+	//for end date for all sources
 	$q_end_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic>=1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
 	ORDER BY arrival_time desc limit 1";
 	$res = $global['db']->Execute($q_end_date);
 	$row = $res->FetchRow();
 	$end_date= $row[0];
 	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
-
+	
 	$q="SELECT arrival_time as source_date, source_all AS count_source_date
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
@@ -2374,7 +2410,7 @@ function shn_stat_cummulative_arrival() {
 				echo "fontSize: '28px',\n";
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
-         echo "text: 'Cummulative Arrivals During $name Event'\n" ;
+         echo "text: 'Cummulative Arrivals $description Event'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n" ;
 		 echo "style: {\n";
@@ -2383,7 +2419,7 @@ function shn_stat_cummulative_arrival() {
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
 		 echo "y: 50,\n";
-         echo "text: 'From: $start_date to $end_date'\n" ;
+         echo "text: 'First Reported: $start_date, Last Reported: $end_date. This page refreshes every 120 seconds'\n" ;
          echo "},\n" ;
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
@@ -2402,11 +2438,13 @@ function shn_stat_cummulative_arrival() {
          echo "}\n" ;
      echo "},\n" ;
     echo "yAxis:  [{
+	        allowDecimals: false,
 			lineWidth: 3,
 			title: {
 				text: 'Total People Count'
 			}
 		}, {
+		    allowDecimals: false,
 			lineWidth: 3,
 			opposite: true,
 			title: {
@@ -2547,25 +2585,25 @@ function shn_stat_stacked_cummulative_arrival() {
 	$name=ucfirst($shortname);
 	//$item = $_GET['item'];
 
-	/*
-	//for starting date
-	$q_start_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic>=1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
-	ORDER BY arrival_time asc limit 1";
-	$res = $global['db']->Execute($q_start_date);
-	$row = $res->FetchRow();
-	$start_date= $row[0];
-	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 
-	//for end date
-	$q_end_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic>=1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
-	ORDER BY arrival_time desc limit 1";
-	$res = $global['db']->Execute($q_end_date);
-	$row = $res->FetchRow();
-	$end_date= $row[0];
-	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
-    */
+	//shn_stat_menu();
+	
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+	
 	//start and end date
 	$q_start_date="SELECT arrival_time from arrival_rate a
 	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
@@ -2813,7 +2851,7 @@ function shn_stat_stacked_cummulative_arrival() {
 				echo "fontSize: '28px',\n";
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
-         echo "text: 'Stacked Cummulative Arrivals During $name Event'\n" ;
+         echo "text: 'Stacked Cummulative Arrivals $description Event'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n" ;
 		 echo "style: {\n";
@@ -2822,7 +2860,7 @@ function shn_stat_stacked_cummulative_arrival() {
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
 		 echo "y: 50,\n";
-         echo "text: 'From: $start_date to $end_date'\n" ;
+         echo "text: 'First Reported: $start_date, Last Reported: $end_date. This page refreshes every 120 seconds'\n" ;
          echo "},\n" ;
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
@@ -2854,11 +2892,13 @@ function shn_stat_stacked_cummulative_arrival() {
 				echo "},\n";
 	*/
 	echo "yAxis: [{
+		    allowDecimals: false,
 			lineWidth: 3,
 			title: {
 				text: 'Total People Count'
 			}
 		}, {
+		    allowDecimals: false,
 			lineWidth: 3,
 			opposite: true,
 			title: {
@@ -2993,13 +3033,24 @@ function shn_stat_demographic() {
 	global $global;
 	shn_stat_menu();
 
-	//empty the footer
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 
-	//function shn_stat_mainmenu() {}
-	//function shn_stat_header() {}
-	//function shn_stat_footer() {}
-	//function shn_stat_html_head() {}
-	//function shn_stat_login() {}
+	//shn_stat_menu();
+	
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
 
 	echo "People Statistics for  ";
 	echo $_GET['shortname'];
@@ -3008,39 +3059,34 @@ function shn_stat_demographic() {
 	$groupID = $_SESSION['group_id'];
 	//echo "Shortname: " .$shortname."";
 	//echo "Group ID: " .$groupID."";
-
-	//for starting date
+	
+	//start and end date
 	$q_start_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
 	ORDER BY arrival_time asc limit 1";
 	$res = $global['db']->Execute($q_start_date);
 	$row = $res->FetchRow();
-	if($row === FALSE) {
-    	//die(mysql_error());
-		$startdate_has_data=false;
-	}
 	$start_date= $row[0];
 	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
-	//for end date
+	//for end date for all sources
 	$q_end_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
 	ORDER BY arrival_time desc limit 1";
 	$res = $global['db']->Execute($q_end_date);
 	$row = $res->FetchRow();
-	if($row === FALSE) {
-    	//die(mysql_error());
-		$enddate_has_data=false;
-	}
 	$end_date= $row[0];
-    $end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+	
 	//for status
-	$q_s="SELECT DISTINCT d.option_description as opt_status, count( opt_status ) as count_opt_status FROM person_status a
+
+	$q_s="SELECT DISTINCT d.option_description as opt_status, d.color as color, count( opt_status ) as count_opt_status FROM person_status a
 	join field_options d ON a.opt_status=d.option_code
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	join incident c ON c.incident_id= b.incident_id where c.shortname = '".$shortname."'
 	GROUP BY opt_status";
+
 	//using status_count view
-	//$q_s="SELECT opt_status, count_opt_status FROM status_count where incident_id = '".$shortname."'";
+	//$q_s="SELECT opt_status, count_opt_status, color FROM status_count where incident_id = '".$shortname."'";
 
 	$res = $global['db']->Execute($q_s);
 	$row = $res->FetchRow();
@@ -3052,11 +3098,16 @@ function shn_stat_demographic() {
 	$status_has_data=true;
 	$json_opt_status = array();
 	$json_count_opt_status = array();
+	//to match color
+	$json_colors=array();
 	do{
 		$opt_status[] = $row['opt_status'];
 		array_push($json_opt_status, $row['opt_status']);
 		$count_opt_status[] = $row['count_opt_status'];
 		array_push($json_count_opt_status, $row['count_opt_status']);
+		//color
+		$color[] = $row['color'];
+		array_push($json_colors, $row['color']);
 		}
 	while($row = $res->FetchRow());
 
@@ -3163,7 +3214,8 @@ function shn_stat_demographic() {
 
 	$json_opt_status = implode("','",$json_opt_status);
 	$json_count_opt_status = implode(",", $json_count_opt_status);
-
+    $json_colors= implode(",", $json_colors);
+	
 	$json_opt_gender = implode("','",$json_opt_gender);
 	$json_count_opt_gender = implode(",", $json_count_opt_gender);
 
@@ -3180,7 +3232,8 @@ function shn_stat_demographic() {
 		echo "counts = [$json_count_opt_status],\n";
 		echo "names = " .json_encode($opt_status);
 		echo ",\n";
-		echo "colors= ['#348017','#000000', '#990033','red','blue','#333333'],\n";
+		echo "colors = [$json_colors],\n";
+		//echo "colors= ['#348017','#000000', '#990033','red','blue','#333333'],\n";
 		echo "j, data_status = [], chart;";
 		echo "\n";
 		echo "for(j=0; j<counts.length; j++) {\n";
@@ -3263,7 +3316,7 @@ function shn_stat_demographic() {
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
 		 echo "margin: 45,\n";
-         echo "text: 'Arrivals During $name Event'\n" ;
+         echo "text: 'Arrivals $description Event'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n" ;
 		 echo "style: {\n";
@@ -3274,7 +3327,7 @@ function shn_stat_demographic() {
 		echo "margin: 45,\n";
 		echo "y: 50,\n";
 		 if ($startdate_has_data=true){
-         echo "text: 'From: $start_date to $end_date'\n" ;
+         echo "text: 'First Reported: $start_date, Last Reported: $end_date. This page refreshes every 120 seconds'\n" ;
 		 }
       echo "},\n" ;
 
@@ -3412,7 +3465,7 @@ function shn_stat_demographic() {
             echo "html: 'Gender',\n" ;
             echo "style: {\n" ;
                 echo "left: '160px',\n" ;
-                echo "top: '600px',\n" ;
+                echo "top: '500px',\n" ;
 				echo "fontSize: '16px',\n";
                 echo "color: 'blue'\n" ;
             echo "}\n" ;
@@ -3423,9 +3476,9 @@ function shn_stat_demographic() {
 			echo "html: 'Age Group',\n" ;
             echo "style: {\n" ;
                 echo "left: '510px',\n" ;
-                echo "top: '600px',\n" ;
+                echo "top: '500px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'blue',\n" ;
+                echo "color: 'blue'\n" ;
                 //echo "zIndex=\"2\"\n";
             echo "}\n" ;
 			echo "}\n";
@@ -3435,9 +3488,9 @@ function shn_stat_demographic() {
 			echo "html: 'People Locator Status',\n" ;
             echo "style: {\n" ;
                 echo "left: '830px',\n" ;
-                echo "top: '600px',\n" ;
+                echo "top: '500px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'blue',\n" ;
+                echo "color: 'blue'\n" ;
                 //echo "zIndex=\"2\"\n";
             echo "}\n" ;
 			echo "}\n";
@@ -3449,9 +3502,9 @@ function shn_stat_demographic() {
             echo "html:'Based on Initial Triage Zones ',\n" ;
             echo "style: {\n" ;
                 echo "left: '1180px',\n" ;
-                echo "top: '600px',\n" ;
+                echo "top: '500px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'blue',\n" ;
+                echo "color: 'blue'\n" ;
 				//echo "zIndex=\"2\"\n";
             echo "}\n" ;
 			echo "}\n";
@@ -3489,6 +3542,25 @@ function shn_stat_arrival() {
 	$name=ucfirst($shortname);
 	//$item = $_GET['item'];
 
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+
+	//shn_stat_menu();
+	
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+	
 	//for starting date for all sources
 	$q_start_date="SELECT arrival_time from arrival_rate a
 	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
@@ -3658,7 +3730,7 @@ function shn_stat_arrival() {
 
 
 	?>
-	<div id="container" style="width: 100%; height: auto;"></div>;
+	<div id="container" style="width: 100%; min-height: 100%;"></div>;
 
 
 
@@ -3757,7 +3829,7 @@ function shn_stat_arrival() {
 				echo "fontSize: '28px',\n";
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
-         echo "text: 'Reported Rate During $name Event'\n" ;
+         echo "text: 'Reported Rate $description Event'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n" ;
 		 echo "style: {\n";
@@ -3766,7 +3838,7 @@ function shn_stat_arrival() {
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
 		 echo "y: 50,\n";
-         echo "text: 'From: $start_date to $end_date'\n" ;
+         echo "text: 'First Reported: $start_date, Last Reported: $end_date. This page refreshes every 120 seconds'\n" ;
          echo "},\n" ;
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
@@ -4982,6 +5054,24 @@ function shn_stat_pie_status() {
 global $global;
 	shn_stat_menu();
 
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+
+	//shn_stat_menu();
+	
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
 	
 
 	echo "People Statistics for  ";
@@ -4990,34 +5080,8 @@ global $global;
 	$name=ucfirst($shortname);
 	$groupID = $_SESSION['group_id'];
 	//echo "Shortname: " .$shortname."";
-	//echo "Group ID: " .$groupID."";
-    
-	/*
-	//for starting date
-	$q_start_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
-	ORDER BY arrival_time asc limit 1";
-	$res = $global['db']->Execute($q_start_date);
-	$row = $res->FetchRow();
-	if($row === FALSE) {
-    	//die(mysql_error());
-		$startdate_has_data=false;
-	}
-	$start_date= $row[0];
-	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
-	//for end date
-	$q_end_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
-	ORDER BY arrival_time desc limit 1";
-	$res = $global['db']->Execute($q_end_date);
-	$row = $res->FetchRow();
-	if($row === FALSE) {
-    	//die(mysql_error());
-		$enddate_has_data=false;
-	}
-	$end_date= $row[0];
-    $end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
-	*/
+	//echo "Group ID: " .$groupID."";    
+	
 	//start and end date
 	$q_start_date="SELECT arrival_time from arrival_rate a
 	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
@@ -5037,7 +5101,7 @@ global $global;
 	
 	//for status
 
-	$q_s="SELECT DISTINCT d.option_description as opt_status, count( opt_status ) as count_opt_status FROM person_status a
+	$q_s="SELECT DISTINCT d.option_description as opt_status, d.color as color, count( opt_status ) as count_opt_status FROM person_status a
 	join field_options d ON a.opt_status=d.option_code
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	join incident c ON c.incident_id= b.incident_id where c.shortname = '".$shortname."'
@@ -5056,16 +5120,16 @@ global $global;
 	$status_has_data=true;
 	$json_opt_status = array();
 	$json_count_opt_status = array();
-	//if use view to match color
-	//$json_colors=array()
+	//to match color
+	$json_colors=array();
 	do{
 		$opt_status[] = $row['opt_status'];
 		array_push($json_opt_status, $row['opt_status']);
 		$count_opt_status[] = $row['count_opt_status'];
 		array_push($json_count_opt_status, $row['count_opt_status']);
-		//if use view
-		//$color[] = $row['color'];
-		//array_push($json_color, $row['color']);
+		//color
+		$color[] = $row['color'];
+		array_push($json_colors, $row['color']);
 		}
 	while($row = $res->FetchRow());
 
@@ -5163,7 +5227,7 @@ global $global;
 	?>
 
 
-	<div id="container" style="width: 100%; height: 100%;"></div>
+	<div id="container" style="width: 100%; min-height: 100%;"></div>
 
 
 	<?php
@@ -5172,8 +5236,8 @@ global $global;
 
 	$json_opt_status = implode("','",$json_opt_status);
 	$json_count_opt_status = implode(",", $json_count_opt_status);
-	//using view
-	//$json_colors = implode(",", $json_colors);
+	//color
+	$json_colors = implode(",",$json_colors);
 
 	$json_opt_gender = implode("','",$json_opt_gender);
 	$json_count_opt_gender = implode(",", $json_count_opt_gender);
@@ -5188,25 +5252,25 @@ global $global;
 
 	echo "<script type=\"text/javascript\">\n";
 
-		echo "counts = [$json_count_opt_status],\n";
+		echo "var counts = [$json_count_opt_status],\n";
 		echo "names = " .json_encode($opt_status);
-        echo ",\n";
-		//using view
-        //echo "colors =	" .json_encode($color);
-		echo "colors= ['#348017','#000000', '#990033','red','blue','#333333'],\n";
-		if ($shortname=='shield2012' or $shortname=='testind' or $shortname=='testindmon' or $shortname=='testindtues' or $shortname=='testindwed' or $shortname=='testindthur') {
-		echo "colors= ['Green','Brown','Blue'],\n";
-		}
+        echo ",\n";		
+		echo "colors = [$json_colors],\n";
+		
+		//echo "colors= ['#348017','#000000', '#990033','red','blue','#333333'],\n";
+		//if ($shortname=='shield2012' or $shortname=='testind' or $shortname=='testindmon' or $shortname=='testindtues' or $shortname=='testindwed' or $shortname=='testindthur') {
+		//echo "colors= ['Green','Brown','Blue']\n";
+		//}
+		
+		
 		echo "j, data_status = [], chart;";
 		echo "\n";
-		echo "for(j=0; j<counts.length; j++) {\n";
-
+		echo "for(j=0; j<counts.length; j++) {\n";		
 			echo "
 			data_status.push({
 			name: names[j],
-			y: counts[j],
-            color: colors[j]
-            //color: names[j]
+			y: counts[j],            			
+			color: colors[j]
 			});
 			";
 			echo "}\n";
@@ -5214,25 +5278,26 @@ global $global;
 		echo "var counts_g = [$json_count_opt_gender],\n";
 		echo "names_g = " .json_encode($opt_gender);
 		echo ",\n";
-		echo "colors= ['#9900FF', '#0099FF','#CCFFCC'],\n";
+		echo "colors_g= ['#9900FF', '#0099FF','#CCFFCC'],\n";
 		echo "j, data_gender = [], chart;";
 		echo "\n";
 		echo "for(j=0; j<counts_g.length; j++) {\n";
 			//echo "data_gender.push([names_g[j], counts_g[j]]);\n";
+			
 			echo "
 			data_gender.push({
 			name: names_g[j],
 			y: counts_g[j],
-			color: colors[j]
+			color: colors_g[j]			
 			});
 			";
-		echo "}\n";
+			echo "}\n";
 
 
 		echo "var counts_a = [$json_count_opt_age],\n";
 		echo "names_a = " .json_encode($opt_age);
 		echo ",\n";
-		echo "colors= ['#FFCCCC', '#FFCC99'],\n";
+		echo "colors_a= ['#FFCCCC', '#FFCC99'],\n";
 		echo "j, data_age = [], chart;";
 		echo "\n";
 		echo "for(j=0; j<counts_a.length; j++) {\n";
@@ -5241,7 +5306,7 @@ global $global;
 			data_age.push({
 			name: names_a[j],
 			y: counts_a[j],
-			color: colors[j]
+			color: colors_a[j]
 			});
 			";
 			echo "}\n";
@@ -5269,9 +5334,10 @@ global $global;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
          echo "renderTo: 'container'\n" ;
+		 //echo "backgroundColor: '#FCFFC5'\n";
       echo "},\n" ;
 	  //echo "colors: ['pink', 'cyan', 'lime', 'cinnabar', 'orange', 'lilac', 'green', 'black', 'royal blue','blue','emerald', 'lime', 'yellow', 'red','gray','black'],\n";
-	  echo "colors: ['#FCDFFF', '#00FFFF', '#8AFB17', '#7E2217', '#F87217', '#D462FF', '#4CC417', '#000000', '#151B8D','#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";
+	  //echo "colors: ['#FCDFFF', '#00FFFF', '#8AFB17', '#7E2217', '#F87217', '#D462FF', '#4CC417', '#000000', '#151B8D','#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";
 
 	  echo "title: {\n" ;
 		 echo "style: {\n";
@@ -5280,7 +5346,7 @@ global $global;
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
 		 echo "margin: 45,\n";
-         echo "text: 'People Locator Status During $name Event'\n" ;
+         echo "text: 'People Locator Status $description Event'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n" ;
 		 echo "style: {\n";
@@ -5291,7 +5357,7 @@ global $global;
 		echo "margin: 45,\n";
 		echo "y: 50,\n";
 		 if ($startdate_has_data=true){
-         echo "text: 'From: $start_date to $end_date. The page refreshes every 60 seconds.'\n" ;
+         echo "text: 'First Reported: $start_date, Last Reported: $end_date. The page refreshes every 120 seconds.'\n" ;
 		 //echo "text: ''\n" ;
 		 }
       echo "},\n" ;
@@ -5371,7 +5437,7 @@ global $global;
 		echo "data: data_status,\n" ;
 		//echo "center: [200, 300],\n";
 		echo "center: ['50%', '50%'],\n";
-		echo "size: 200,\n";
+		echo "size: 400,\n";
 		echo "showInLegend: false,\n";
 		echo "showLegend: true,\n";
 		echo "dataLabels: {\n";
@@ -5424,7 +5490,7 @@ function shn_stat_transit() {
 	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 
 	//shn_stat_menu();
-
+	
 	$q = "
 		SELECT *
 		FROM incident
@@ -5484,7 +5550,6 @@ td { text-align: center; }
 		* click on a column header to sort by that column<br>
 		** only shows last 100 updated persons<br>
 		*** page refreshed every 120 seconds<br>
-		**** <a href="index.php?mod=stat&act=transitCsv&stream=text">Download tabular data as a .csv file</a><br>
 		<br>
 		<table id="regLog" class="sortable">
 		<thead>	<tr>
@@ -5539,55 +5604,5 @@ td { text-align: center; }
 }
 
 
-
-
-function shn_text_stat_transitCsv() {
-
-	global $global;
-	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
-
-	$q = "
-		SELECT *
-		FROM incident
-		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
-	";
-	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
-	if($result != NULL && !$result->EOF) {
-		$row = $result->FetchRow();
-		$description = $row["description"];
-	} else {
-	  $description = "";
-	}
-
-	$csv = "Full Name,Family Name,Age,Record ID,Departing Time,Arrival Time,Delta\n";
-
-	$count = 1;
-	$q = "
-		SELECT *, TIMEDIFF(s.last_updated, s.creation_time)
-		FROM `person_status` s, incident i, person_uuid p, person_details d
-		WHERE s.opt_status = 'fnd'
-		AND i.shortname = '".mysql_real_escape_string($_GET['shortname'])."'
-		AND p.incident_id = i.incident_id
-		AND s.p_uuid = p.p_uuid
-		AND d.p_uuid = p.p_uuid
-		ORDER BY s.last_updated DESC
-		LIMIT 100;
-	";
-	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 1"); }
-	while(!$result == NULL && !$result->EOF) {
-
-		$csv .= $result->fields["full_name"].",".$result->fields["family_name"].",".$result->fields["years_old"].",".$result->fields["p_uuid"].",".$result->fields["creation_time"].",".$result->fields["last_updated"].",".$result->fields["TIMEDIFF(s.last_updated, s.creation_time)"]."\n";
-
-		$result->MoveNext();
-		$count++;
-	}
-	header("Content-type: application/csv");
-	header("Content-Disposition: attachment; filename=transit_times.csv");
-	header("Pragma: no-cache");
-	header("Expires: 0");
-	echo $csv;
-}
 
 
