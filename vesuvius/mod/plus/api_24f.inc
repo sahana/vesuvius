@@ -1571,7 +1571,7 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $usernam
 			$p->rep_uuid  = $rep_uuid;
 			$p->theString = $personXML;
 			$p->xmlFormat = $xmlFormat;
-			$p->setEvent($eventShortName);
+			$p->setEvent($eventShortname);
 			$p->ignoreDupeUuid = true;
 			$ecode = $p->parseXml();
 
