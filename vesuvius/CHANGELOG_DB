@@ -3,6 +3,16 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 
 ///////////////////////////////////////////////// GREG'S CHANGES THAT ARE IN PRODUCTION ////////////////////////////////////////////////////////////////////////
 
+2012:0314 Greg
+--------------
+
+ALTER TABLE  `users` ADD  `oauth_id` VARCHAR( 32 ) NULL DEFAULT NULL COMMENT  'the oauth user id',
+ADD  `profile_link` VARCHAR( 256 ) NULL DEFAULT NULL COMMENT  'url to profile',
+ADD  `profile_picture` VARCHAR( 256 ) NULL DEFAULT NULL COMMENT  'url to profile pic',
+ADD  `locale` VARCHAR( 8 ) NULL DEFAULT NULL COMMENT  'language locale',
+ADD  `verified_email` BOOLEAN NULL DEFAULT NULL COMMENT  'true if email verified' ;
+
+
 2012:0221 Greg
 --------------
 
@@ -30,16 +40,16 @@ UPDATE `pl`.`incident` SET `shortname` = 'shield2012' WHERE `incident`.`incident
 2012:0227 Leif
 --------------
 
-ALTER TABLE `pl`.`field_options` ADD INDEX ( `option_code` ) 
-ALTER TABLE `person_details` DROP INDEX `search_index`
-ALTER TABLE `pl`.`person_details` ADD INDEX ( `opt_gender` ) 
-ALTER TABLE `pl`.`person_details` ADD INDEX ( `years_old` ) 
-ALTER TABLE person_uuid DROP INDEX search_index
-ALTER TABLE person_status DROP INDEX search_index
-ALTER TABLE `pl`.`person_status` ADD INDEX ( `opt_status` ) 
-ALTER TABLE `pl`.`person_status` ADD INDEX ( `last_updated` ) 
-ALTER TABLE `pl`.`field_options` ADD INDEX ( `option_description` )
-ALTER TABLE `field_options` CHANGE `option_code` `option_code` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL 
+ALTER TABLE `field_options` ADD INDEX ( `option_code` ) ;
+ALTER TABLE `person_details` DROP INDEX `search_index` ;
+ALTER TABLE `person_details` ADD INDEX ( `opt_gender` ) ;
+ALTER TABLE `person_details` ADD INDEX ( `years_old` ) ;
+ALTER TABLE person_uuid DROP INDEX search_index ;
+ALTER TABLE person_status DROP INDEX search_index ;
+ALTER TABLE `person_status` ADD INDEX ( `opt_status` ) ;
+ALTER TABLE `person_status` ADD INDEX ( `last_updated` ) ;
+ALTER TABLE `field_options` ADD INDEX ( `option_description` ) ;
+ALTER TABLE `field_options` CHANGE `option_code` `option_code` VARCHAR( 10 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL ;
 
 2012:0207 Leif
 --------------

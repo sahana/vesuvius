@@ -18,7 +18,7 @@ require_once($global['approot'].'mod/lpf/lib_lpf.inc');
 $full = false; // true when we show the full header...
 
 // show image
-echo '<div id="header" class="clearfix"><div id="leftHeaderLogo"><a href="'.makeBaseUrlMinusEvent().'"><img id="leftHeaderLogoImg" src="theme/lpf3/img/pl.png"></a></div><div id="rightHeaderLogo"><a href="http://www.nlm.nih.gov/"><img src="theme/lpf3/img/NLMlogoSmall.gif"></a></div>';
+echo '<div id="header" class="clearfix"><div id="leftHeaderLogo"><a href="'.makeBaseUrlMinusEvent().'"><img id="leftHeaderLogoImg" src="theme/lpf3/img/pl.png" alt="People Locator Logo"></a><sup id="suplogo" style="font-size: 120%; color: #34689A;">™</sup></div><div id="rightHeaderLogo"><a href="http://www.nlm.nih.gov/"><img src="theme/lpf3/img/NLMlogoSmall.gif" alt="United States National Library of Medicine Logo"></a></div>';
 
 // show language selection if necessary...
 if(isset($conf['enable_locale']) && $conf['enable_locale'] == true) {
@@ -70,7 +70,7 @@ if(!$full) {
 
 	echo '
 		<div id="headerText">
-			<h1>'._t($conf['site_name']).'</h1>
+			<h1>'._t($conf['site_name']).'<sup>™</sup></h1>
 			<h3>&nbsp;</h3>
 			<h4>'._t("U.S. National Library of Medicine").'</h4>
 			<h4>'._t("Lister Hill National Center for Biomedical Communications").'</h4>
