@@ -524,10 +524,11 @@ function shn_authenticate_user() {
 			$authenticated = false;
 		}
 
-		if(!$authenticated) {
+		if(!$authenticated || (isset($_GET['error']) && $_GET['error'] == "access_denied")) {
 			$user_data["user_id"] = ANONYMOUS_USER;
 			$user_data["user"] = "Anonymous";
 			$user_data["result"] = LOGINFAILED;
+			add_error("Access denied.");
 			return $user_data;
 		}
 
