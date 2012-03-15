@@ -542,11 +542,10 @@ echo '<pre>_REQUEST('.print_r(var_export($_REQUEST, true), true).')</pre>';
 //die();
 
 		// logged in successfully
-		$user_data["user_id"] = -9999; //$res->fields["p_uuid"];
-		$user_data["user"] = 'null'; //$username;
+		$user_data["user_id"] = 140; //$res->fields["p_uuid"];
+		$user_data["user"] = 'g'; //$username;
 		$user_data["result"] = LOGGEDIN;
 		$user_data["doHeader"] = true;
-		add_error("Logged in via Google successfully.");
 		return $user_data;
 
 

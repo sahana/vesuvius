@@ -248,7 +248,7 @@ function shn_main_front_controller() {
 
 			if (false !== $res) {
 				if( shn_acl_check_perms($module, $module_function) == ALLOWED) {
-					// check if the user just logged in.... request_time = session expiry, if so, gret them! :)
+					// check if the user just logged in.... request_time = session expiry, if so, great them! :)
 					$q = "
 						SELECT count(*)
 						FROM sessions
