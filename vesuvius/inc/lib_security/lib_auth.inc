@@ -510,6 +510,10 @@ function shn_authenticate_user() {
 					// The access token may have been updated lazily.
 					$_SESSION['token'] = $client->getAccessToken();
 
+					if($_SESSION['token'] != null) {
+						$authenticated = true;
+					}
+
 				} else {
 					$authenticated = false;
 				}
@@ -520,8 +524,14 @@ function shn_authenticate_user() {
 			$authenticated = false;
 		}
 
-//echo '<pre>user('.print_r(var_export($user, true), true).')</pre>';
-echo '<pre>client('.print_r(var_export($client->getAuth(), true), true).')</pre>';
+		if(!$authenticated) {
+			$user_data["user_id"] = ANONYMOUS_USER;
+			$user_data["user"] = "Anonymous";
+			$user_data["result"] = LOGINFAILED;
+			return $user_data;
+		}
+
+
 /*
 echo '<pre>_SESSION('.print_r(var_export($_SESSION, true), true).')</pre>';
 echo '<pre>_SERVER('.print_r(var_export($_SERVER, true), true).')</pre>';
