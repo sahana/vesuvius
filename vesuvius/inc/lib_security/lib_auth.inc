@@ -521,7 +521,7 @@ function shn_authenticate_user() {
 		}
 
 //echo '<pre>user('.print_r(var_export($user, true), true).')</pre>';
-echo '<pre>client('.print_r(var_export($client->scopes, true), true).')</pre>';
+echo '<pre>client('.print_r(var_export($client->getAuth(), true), true).')</pre>';
 /*
 echo '<pre>_SESSION('.print_r(var_export($_SESSION, true), true).')</pre>';
 echo '<pre>_SERVER('.print_r(var_export($_SERVER, true), true).')</pre>';
