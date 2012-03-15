@@ -271,6 +271,7 @@ var Utils = {
 	},
 
 	changeObserver : function( lastUpdated ) {
+		$("#refreshLabel").show();
 		if ( !Globals.lastUpdated ) {
 			Globals.lastUpdated = lastUpdated
 			return;
@@ -279,9 +280,9 @@ var Utils = {
 		if ( lastUpdated != Globals.lastUpdated ) {
 			Globals.mostRecent = Globals.lastUpdated; // saving for later
 			Globals.lastUpdated = lastUpdated;
-			if ( Globals.displayMode )
-				$("#updateAlerts").fadeIn("slow");
-			else {
+			if ( Globals.displayMode ) {
+                                $("#lastChange").html(lastUpdated + " UTC");
+                        } else {
 				$("#updateAlerts2").fadeIn("slow");
 			}
 			searchSubset(false);

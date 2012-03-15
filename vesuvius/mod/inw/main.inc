@@ -146,13 +146,11 @@ function shn_inw_default() {
 					<input type="button" style="margin-left: 20px; display: none;" value="Help"  id="buttonHelp" class="styleTehButton" onclick="Utils.showHelp()"/>
 				</div>
 				<div style="clear:both;"></div>
-				<div style="float:left;font-size: .85em; display: none;margin-top: 2px;" id="foundLabel">
-					<span id="solrFoundLabel" style="display: none">Found <span id="recordsFound">0</span> out of <span id="totalRecordsSOLR">0</span> records in <span id="timeElapsedSOLR">0</span> seconds </span>
-					<span id="sqlFoundLabel"  style="display: none">Searched <span id="totalRecordsSQL">0</span> records in <span id="timeElapsedSQL">0</span> seconds </span>
-					<span id="maxShown" style="display:none;font-size: .6em">(max 2,000 shown)</span>
-				</div>
-				<div id="updateAlerts" style=" font-weight: bold;float:left;font-size: .85em; display: none; margin-left: 5px; color: #C00">
-				<!--	<span style="color: black"> | </span> There are new or updated records in the database, click <a href="javascript:searchSubset()">here</a> to refresh the results -->
+				<div id="foundLabel" style="float:left;font-size:.85em;display:none;margin-top: 2px;">
+					<span id="solrFoundLabel" style="display:none">Found <span id="recordsFound">0</span> out of <span id="totalRecordsSOLR">0</span> records in <span id="timeElapsedSOLR">0</span> seconds </span>
+					<span id="sqlFoundLabel"  style="display:none">Searched <span id="totalRecordsSQL">0</span> records in <span id="timeElapsedSQL">0</span> seconds </span>
+					<span id="maxShown" style="display:none;font-size:.6em">(max 2,000 shown)</span>
+					<span id="refreshLabel" style="display:none"> | Last updated at <span id="lastCheck"></span>, Last new record found: <span id="lastChange">none</span></span>
 				</div>
 				<div id="updateAlerts2" style="float:left;font-size: .85em; font-weight: bold; display: none; margin-left: 5px; color: #C00">
 					<span style="color: black"> | </span> There are new or updated records in the database, the results will be automatically refreshed in 1 minute.
