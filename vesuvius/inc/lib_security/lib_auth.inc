@@ -528,7 +528,7 @@ function shn_authenticate_user() {
 			$user_data["user_id"] = ANONYMOUS_USER;
 			$user_data["user"] = "Anonymous";
 			$user_data["result"] = LOGINFAILED;
-			add_error("Access denied.");
+			add_error("Authentication via Google failed or was denied.");
 			return $user_data;
 		}
 
@@ -539,14 +539,15 @@ echo '<pre>_SERVER('.print_r(var_export($_SERVER, true), true).')</pre>';
 echo '<pre>_COOKIE('.print_r(var_export($_COOKIE, true), true).')</pre>';
 echo '<pre>_REQUEST('.print_r(var_export($_REQUEST, true), true).')</pre>';
 */
-		die();
+//die();
 
-			// logged in successfully
-			$user_data["user_id"] = $res->fields["p_uuid"];
-			$user_data["user"] = $user;
-			$user_data["result"] = LOGGEDIN;
-			$user_data["doHeader"] = true;
-			return $user_data;
+		// logged in successfully
+		$user_data["user_id"] = -9999; //$res->fields["p_uuid"];
+		$user_data["user"] = 'null'; //$username;
+		$user_data["result"] = LOGGEDIN;
+		$user_data["doHeader"] = true;
+		add_error("Logged in via Google successfully.");
+		return $user_data;
 
 
 
