@@ -190,7 +190,25 @@ table#scw { -moz-box-shadow: 0px 0px 20px rgba(0,0,0,0.5); box-shadow: 0px 0px 2
 table#scw td {border:none;}
 table {border-collapse:collapse;width:100%;}
 table thead tr:hover td {background:#BBB8AB;}
-table thead td, table tr th {text-align:center; padding:.25em; background: #999; color:#fff; font-size:100%; border:1px solid #fff; font-weight: bold;}
+table thead td, table tr th {
+	text-align:center;
+	padding:.25em;
+	background: #aaa;
+	color:#fff;
+	font-size:100%;
+	font-weight: bold;
+	border-radius: 5px;
+	box-shadow: inset 2px 2px 6px rgba(255,255,255,0.6), inset -2px -2px 6px rgba(192,191,191,0.1);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	cursor: default;
+	text-shadow: 1px 1px rgba(0,0,0,0.5);
+}
 tr td{ text-align:left; padding:.1em; font-size:90%; color:#000; }
 tr.odd td{ background:#F6F5EF }
 tr td.total{ background:#D5D2C3;}
@@ -1065,7 +1083,7 @@ div#qrcode canvas {
 	white-space: nowrap;
 }
 
-.googleButton { padding-top: 2px; padding-bottom: 2px; }
+.googleButton { padding-top: 4px; padding-bottom: 2px; }
 
 
 .red { color: red; }

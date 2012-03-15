@@ -1399,17 +1399,26 @@ class person {
 
 			$this->createUUID();
 			$this->arrival_reunite = true;
-			$this->given_name     = $a['person']['givenName'];
-			$this->family_name    = $a['person']['familyName'];
-			$this->expiry_date    = $a['person']['expiryDate'];
-			$this->opt_status     = $a['person']['status'];
+			$this->given_name     = isset($a['person']['givenName'])  ? $a['person']['givenName']  : null;
+			$this->family_name    = isset($a['person']['familyName']) ? $a['person']['familyName'] : null;
+			$this->expiry_date    = isset($a['person']['expiryDate']) ? $a['person']['expiryDate'] : null;
+			$this->opt_status     = isset($a['person']['status'])     ? $a['person']['status']     : null;
 			$this->last_updated   = date('Y-m-d H:i:s');
-			$this->creation_time  = $a['person']['dateTimeSent'];
-			$this->opt_gender     = $a['person']['gender'];
-			$this->years_old      = $a['person']['estimatedAge'];
-			$this->minAge         = $a['person']['minAge'];
-			$this->maxAge         = $a['person']['maxAge'];
-			$this->other_comments = $a['person']['note'];
+
+			$datetime      = isset($a['person']['dateTimeSent']) ? $a['person']['dateTimeSent'] : null;
+			$timezoneUTC   = new DateTimeZone("UTC");
+			$timezoneLocal = new DateTimeZone(date_default_timezone_get());
+			$datetime2     = new DateTime();
+			$datetime2->setTimezone($timezoneUTC);
+			$datetime2->setTimestamp(strtotime($datetime));
+			$datetime2->setTimezone($timezoneLocal);
+			$this->creation_time = $datetime2->format('Y-m-d H:i:s');
+
+			$this->opt_gender     = isset($a['person']['gender'])       ? $a['person']['gender']       : null;
+			$this->years_old      = isset($a['person']['estimatedAge']) ? $a['person']['estimatedAge'] : null;
+			$this->minAge         = isset($a['person']['minAge'])       ? $a['person']['minAge']       : null;
+			$this->maxAge         = isset($a['person']['maxAge'])       ? $a['person']['maxAge']       : null;
+			$this->other_comments = isset($a['person']['note'])         ? $a['person']['note']         : null;
 
 			// only update the incident_id if not already set
 			if($this->incident_id === null) {
@@ -1431,26 +1440,28 @@ class person {
 					$i->init();
 					$i->p_uuid = $this->p_uuid;
 					$i->fileContentBase64 = $photo['data'];
-					foreach($photo['tags'] as $tag) {
-						$t = new personImageTag();
-						$t->init();
-						$t->image_id = $i->image_id;
-						$t->tag_x    = $tag['x'];
-						$t->tag_y    = $tag['y'];
-						$t->tag_w    = $tag['w'];
-						$t->tag_h    = $tag['h'];
-						$t->tag_text = $tag['text'];
-						$i->tags[] = $t;
-					}
-					if(!$i->invalid) {
-						$this->images[] = $i;
-						$this->ecode = 419;
+					if(isset($photo['tags'])) {
+						foreach($photo['tags'] as $tag) {
+							$t = new personImageTag();
+							$t->init();
+							$t->image_id = $i->image_id;
+							$t->tag_x    = $tag['x'];
+							$t->tag_y    = $tag['y'];
+							$t->tag_w    = $tag['w'];
+							$t->tag_h    = $tag['h'];
+							$t->tag_text = $tag['text'];
+							$i->tags[] = $t;
+						}
+						if(!$i->invalid) {
+							$this->images[] = $i;
+							$this->ecode = 419;
+						}
 					}
 				}
 			}
 
 			// if there is actual voicenote data, save process it...
-			if(trim($a['person']['voiceNote']['data']) != "") {
+			if(isset($a['person']['voiceNote']['data']) && trim($a['person']['voiceNote']['data']) != "") {
 
 				$v = new voiceNote();
 				$v->init();     // reserves a voicenote id for this note

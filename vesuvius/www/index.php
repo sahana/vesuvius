@@ -70,10 +70,9 @@ shn_main_front_controller();
 
 // cleans the GET and POST
 function shn_main_clean_getpost() {
+
 	global $global;
-
 	require_once($global['approot'].'/3rd/htmlpurifier/library/HTMLPurifier.auto.php');
-
 	$config = HTMLPurifier_Config::createDefault();
 
 	// configuration goes here:
@@ -100,6 +99,7 @@ function shn_main_clean_getpost() {
 
 // find the proper default module and actions
 function shn_main_defaults() {
+
 	global $global;
 	global $conf;
 
@@ -129,6 +129,7 @@ function shn_main_defaults() {
 
 // front controller
 function shn_main_front_controller() {
+
 	global $global;
 	global $conf;
 
@@ -247,7 +248,7 @@ function shn_main_front_controller() {
 
 			if (false !== $res) {
 				if( shn_acl_check_perms($module, $module_function) == ALLOWED) {
-					// check if the user just logged in.... request_time = session expiry, if so, gret them! :)
+					// check if the user just logged in.... request_time = session expiry, if so, great them! :)
 					$q = "
 						SELECT count(*)
 						FROM sessions
@@ -294,6 +295,7 @@ function shn_main_front_controller() {
 
 // check if the event manager is installed and if so, check if the current user has group permission to the currently chosen incident
 function shn_main_checkEventPermissions() {
+
 	global $global;
 	global $conf;
 
@@ -346,6 +348,7 @@ function shn_main_checkEventPermissions() {
 
 // handle redirection if need be
 function shn_main_redirect() {
+
 	global $global;
 
 	// redirect? only if we are not using the stream module
@@ -367,6 +370,7 @@ function shn_main_redirect() {
 
 // check if we should install Agasti
 function shn_main_install_check() {
+
 	// does the sahana.conf exist in the conf directory? if not start the web installer
 	if (!file_exists($global['approot'].'conf/sahana.conf')) {
 		$global["setup"] = true;
@@ -379,6 +383,7 @@ function shn_main_install_check() {
 
 // provide SOAP Services
 function shn_main_plus_server() {
+
 	global $global;
 	require_once($global['approot'].'mod/plus/server.php');
 }
