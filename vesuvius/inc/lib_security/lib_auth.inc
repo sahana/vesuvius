@@ -554,7 +554,7 @@ function shn_authenticate_user() {
 		*/
 
 		// logged in successfully
-		error_log("oauth logged in successfully");
+		error_log("OAuth authenticated successfully!");
 
 		// find the local user with the corresponding oauth id (if it already exists)
 		$q = "
