@@ -52,7 +52,7 @@ switch($user_data["result"]) {
 session_update_activity();
 
 if(isset($user_data["doHeader"]) && $user_data["doHeader"] === true) {
-	if($f == "login" || $f = "auth" || $f == "index.php?doLogin=1" || $f == "index.php?doLogin=2") {
+	if($user_data["headerLocation"] == "login" || $user_data["headerLocation"] = "auth" || $user_data["headerLocation"] == "index.php?doLogin=1" || $user_data["headerLocation"] == "index.php?doLogin=2") {
 		header("Location: settings");
 	} else {
 		header("Location: ".$_POST['return']);

@@ -3070,11 +3070,20 @@ function shn_stat_demographic() {
 
 	//for status
 
-	$q_s="SELECT DISTINCT d.option_description as opt_status, d.color as color, count( opt_status ) as count_opt_status FROM person_status a
-	join field_options d ON a.opt_status=d.option_code
-	join person_uuid b ON a.p_uuid= b.p_uuid
-	join incident c ON c.incident_id= b.incident_id where c.shortname = '".$shortname."'
-	GROUP BY opt_status";
+	//$q_s="SELECT DISTINCT d.option_code as opt_status, d.option_description as color, count( opt_code ) as count_opt_status FROM person_status a
+	//join field_options d ON a.opt_status=d.option_code where (d.field_name ='opt_status_color')
+	//join person_uuid b ON a.p_uuid= b.p_uuid
+	//join incident c ON c.incident_id= b.incident_id where c.shortname = '".$shortname."'
+	//GROUP BY opt_status";
+	$q_s="SELECT DISTINCT f.option_description AS opt_status, COUNT( opt_status ) AS count_opt_status, g.option_description
+	FROM person_status s
+	LEFT JOIN field_options f ON s.opt_status = f.option_code
+	LEFT JOIN field_options g ON f.option_code = g.option_code
+	JOIN person_uuid p ON p.p_uuid= s.p_uuid
+	JOIN incident i ON i.incident_id = p.incident_id
+	WHERE i.shortname = '".$shortname."'
+	AND g.field_name = 'opt_status_color'
+	GROUP BY opt_status ";
 
 	//using status_count view
 	//$q_s="SELECT opt_status, count_opt_status, color FROM status_count where incident_id = '".$shortname."'";
@@ -3097,8 +3106,8 @@ function shn_stat_demographic() {
 		$count_opt_status[] = $row['count_opt_status'];
 		array_push($json_count_opt_status, $row['count_opt_status']);
 		//color
-		$color[] = $row['color'];
-		array_push($json_colors, $row['color']);
+		$color[] = $row['option_description'];
+		array_push($json_colors, $row['option_description']);
 		}
 	while($row = $res->FetchRow());
 
@@ -3205,7 +3214,7 @@ function shn_stat_demographic() {
 
 	$json_opt_status = implode("','",$json_opt_status);
 	$json_count_opt_status = implode(",", $json_count_opt_status);
-    $json_colors= implode(",", $json_colors);
+    $json_colors= implode("','", $json_colors);
 
 	$json_opt_gender = implode("','",$json_opt_gender);
 	$json_count_opt_gender = implode(",", $json_count_opt_gender);
@@ -3221,9 +3230,12 @@ function shn_stat_demographic() {
 	echo "<script type=\"text/javascript\">\n";
 
 		echo "counts = [$json_count_opt_status],\n";
-		echo "names = " .json_encode($opt_status);
+		echo "names = " .json_encode($opt_status);		
 		echo ",\n";
-		echo "colors = [$json_colors],\n";
+		echo "colors = ['".$json_colors ;
+		echo "'], \n";
+		
+		//echo "colors = [$json_colors],\n";
 		//echo "colors= ['#348017','#000000', '#990033','red','blue','#333333'],\n";
 		echo "j, data_status = [], chart;";
 		echo "\n";
@@ -3455,8 +3467,8 @@ function shn_stat_demographic() {
 		    if ($gender_has_data=='true'){
             echo "html: 'Gender',\n" ;
             echo "style: {\n" ;
-                echo "left: '160px',\n" ;
-                echo "top: '500px',\n" ;
+                echo "left: '260px',\n" ;
+                echo "top: '600px',\n" ;
 				echo "fontSize: '16px',\n";
                 echo "color: 'blue'\n" ;
             echo "}\n" ;
@@ -3466,8 +3478,8 @@ function shn_stat_demographic() {
 			echo ",{\n" ;
 			echo "html: 'Age Group',\n" ;
             echo "style: {\n" ;
-                echo "left: '510px',\n" ;
-                echo "top: '500px',\n" ;
+                echo "left: '630px',\n" ;
+                echo "top: '600px',\n" ;
 				echo "fontSize: '16px',\n";
                 echo "color: 'blue'\n" ;
                 //echo "zIndex=\"2\"\n";
@@ -3478,8 +3490,8 @@ function shn_stat_demographic() {
 			echo ",{\n" ;
 			echo "html: 'People Locator Status',\n" ;
             echo "style: {\n" ;
-                echo "left: '830px',\n" ;
-                echo "top: '500px',\n" ;
+                echo "left: '1100px',\n" ;
+                echo "top: '600px',\n" ;
 				echo "fontSize: '16px',\n";
                 echo "color: 'blue'\n" ;
                 //echo "zIndex=\"2\"\n";
@@ -3492,8 +3504,8 @@ function shn_stat_demographic() {
 			echo ",{\n" ;
             echo "html:'Based on Initial Triage Zones ',\n" ;
             echo "style: {\n" ;
-                echo "left: '1180px',\n" ;
-                echo "top: '500px',\n" ;
+                echo "left: '1500px',\n" ;
+                echo "top: '600px',\n" ;
 				echo "fontSize: '16px',\n";
                 echo "color: 'blue'\n" ;
 				//echo "zIndex=\"2\"\n";
@@ -5092,11 +5104,22 @@ global $global;
 
 	//for status
 
-	$q_s="SELECT DISTINCT d.option_description as opt_status, d.color as color, count( opt_status ) as count_opt_status FROM person_status a
-	join field_options d ON a.opt_status=d.option_code
-	join person_uuid b ON a.p_uuid= b.p_uuid
-	join incident c ON c.incident_id= b.incident_id where c.shortname = '".$shortname."'
-	GROUP BY opt_status";
+	//$q_s="SELECT DISTINCT d.option_description as opt_status, d.color as color, count( opt_status ) as count_opt_status FROM person_status a
+	//join field_options d ON a.opt_status=d.option_code
+	//join person_uuid b ON a.p_uuid= b.p_uuid
+	//join incident c ON c.incident_id= b.incident_id where c.shortname = '".$shortname."'
+	//GROUP BY opt_status";
+	
+	$q_s="SELECT DISTINCT f.option_description AS opt_status, COUNT( opt_status ) AS count_opt_status, g.option_description
+	FROM person_status s
+	LEFT JOIN field_options f ON s.opt_status = f.option_code
+	LEFT JOIN field_options g ON f.option_code = g.option_code
+	JOIN person_uuid p ON p.p_uuid= s.p_uuid
+	JOIN incident i ON i.incident_id = p.incident_id
+	WHERE i.shortname = '".$shortname."'
+	AND g.field_name = 'opt_status_color'
+	GROUP BY opt_status"; 
+
 
 	//using status_count view
 	//$q_s="SELECT opt_status, count_opt_status, color FROM status_count where incident_id = '".$shortname."'";
@@ -5119,11 +5142,15 @@ global $global;
 		$count_opt_status[] = $row['count_opt_status'];
 		array_push($json_count_opt_status, $row['count_opt_status']);
 		//color
-		$color[] = $row['color'];
-		array_push($json_colors, $row['color']);
+		//$color[] = $row['color'];
+		//array_push($json_colors, $row['color']);
+		
+		$color[] =  $row['option_description'];
+		
+		array_push($json_colors, $row['option_description']);
 		}
 	while($row = $res->FetchRow());
-
+       
 	//if ($shortname!=='testind') {
 	//for gender
 	$q_g="SELECT DISTINCT d.option_description as opt_gender, count( opt_gender ) AS count_opt_gender
@@ -5228,7 +5255,8 @@ global $global;
 	$json_opt_status = implode("','",$json_opt_status);
 	$json_count_opt_status = implode(",", $json_count_opt_status);
 	//color
-	$json_colors = implode(",",$json_colors);
+	
+	$json_colors = implode("','",$json_colors);
 
 	$json_opt_gender = implode("','",$json_opt_gender);
 	$json_count_opt_gender = implode(",", $json_count_opt_gender);
@@ -5246,13 +5274,10 @@ global $global;
 		echo "var counts = [$json_count_opt_status],\n";
 		echo "names = " .json_encode($opt_status);
         echo ",\n";
-		echo "colors = [$json_colors],\n";
-
-		//echo "colors= ['#348017','#000000', '#990033','red','blue','#333333'],\n";
-		//if ($shortname=='shield2012' or $shortname=='testind' or $shortname=='testindmon' or $shortname=='testindtues' or $shortname=='testindwed' or $shortname=='testindthur') {
-		//echo "colors= ['Green','Brown','Blue']\n";
-		//}
-
+		//echo "colors = [$json_colors],\n";
+        echo "colors = ['".$json_colors ;
+		echo "'], \n";
+		
 
 		echo "j, data_status = [], chart;";
 		echo "\n";

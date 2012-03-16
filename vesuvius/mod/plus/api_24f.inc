@@ -1829,7 +1829,7 @@ function setPersonExpiryDateOneYear($uuid, $username, $password) {
 
 
 /** A simple lookup of the internal uuid of a person based on their mass casualty id (if it exists). */
-function getUuidByMassCasualtyId($mcid, $shortname, $username, $password) {
+function getUuidByMassCasualtyId($mcid, $shortname = null, $username = null, $password = null) {
 
 	shn_plus_logAccess(__FUNCTION__, $username);
 	global $global;
