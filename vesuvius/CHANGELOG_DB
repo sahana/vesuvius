@@ -13,6 +13,7 @@ ADD  `locale` VARCHAR( 8 ) NULL DEFAULT NULL COMMENT  'language locale',
 ADD  `verified_email` BOOLEAN NULL DEFAULT NULL COMMENT  'true if email verified' ;
 
 
+
 2012:0221 Greg
 --------------
 

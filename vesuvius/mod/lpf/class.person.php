@@ -1452,11 +1452,8 @@ class person {
 							$t->tag_text = $tag['text'];
 							$i->tags[] = $t;
 						}
-						if(!$i->invalid) {
-							$this->images[] = $i;
-							$this->ecode = 419;
-						}
 					}
+					$this->images[] = $i;
 				}
 			}
 
