@@ -1834,6 +1834,7 @@ class person {
 					$this->edxl->uris[]         = $imageNode['uri'];
 					$this->edxl->contentDatas[] = $imageNode['contentData'];
 					$this->edxl->image_ids[]    = $i->image_id;
+					$this->edxl->image_sha1[]   = $realSha1;
 					$this->edxl->image_co_ids[] = shn_create_uuid("edxl_co_header");
 				}
 			}
