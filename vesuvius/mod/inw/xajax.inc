@@ -53,9 +53,10 @@ function inw_getNotes($uuid) {
 
 		$result->MoveNext();
 	}
-	mysql_free_result($result);
 
-	$global["xajax_res"]->addAssign("jsonNotes", "value", json_encode($list));
+        if (!empty($list)) {
+                $global["xajax_res"]->addAssign("jsonNotes", "value", json_encode($list));
+        }
 	$global["xajax_res"]->addScript("Utils.loadNotes()");
 	return $global["xajax_res"]->getXML();
 }
