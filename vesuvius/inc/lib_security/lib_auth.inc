@@ -287,6 +287,21 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 		if($res) {
 			$res = shn_acl_adduser_to_role_uuid($pid, $role);
 			shn_acl_log_msg("New user added : ", $pid, $user_name);
+
+			$q = "
+				SELECT *
+				FROM users
+				WHERE p_uuid = '".mysql_real_escape_string($pid)."' ;
+			";
+			$result = $global['db']->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "add user find new user_id ((".$q."))"); }
+
+			if($row = $result->FetchRow()) {
+				$res = $row['user_id'];
+				error_log("Added new user ~ found user_id : ".$res.".");
+			} else {
+				error_log("Added new user ~ COULD NOT FIND USER_ID!");
+			}
 		}
 
 		if($_POST["openid"] != null) {
@@ -456,17 +471,14 @@ function shn_authenticate_user() {
 
 
 
-
-
-
-
 	// handle Google OAuth login
 	} elseif($_GET['doLogin'] == "2") {
 
 		require_once($global['approot']."/3rd/google-api-php-client/src/apiClient.php");
 		require_once($global['approot']."/3rd/google-api-php-client/src/contrib/apiOauth2Service.php");
 
-		//session_start();
+		$user_id = null;
+		$username = null;
 
 		$client = new apiClient();
 		$client->setApplicationName($conf['site_name']);
@@ -528,28 +540,114 @@ function shn_authenticate_user() {
 			$user_data["user_id"] = ANONYMOUS_USER;
 			$user_data["user"] = "Anonymous";
 			$user_data["result"] = LOGINFAILED;
-			add_error("Authentication via Google failed or was denied.");
+			add_error("Login via Google failed.");
+			error_log("oauth logged in FAILED");
 			return $user_data;
 		}
 
-
-/*
-echo '<pre>_SESSION('.print_r(var_export($_SESSION, true), true).')</pre>';
-echo '<pre>_SERVER('.print_r(var_export($_SERVER, true), true).')</pre>';
-echo '<pre>_COOKIE('.print_r(var_export($_COOKIE, true), true).')</pre>';
-echo '<pre>_REQUEST('.print_r(var_export($_REQUEST, true), true).')</pre>';
-*/
-//die();
+		/*
+		echo '<pre>_SESSION('.print_r(var_export($_SESSION, true), true).')</pre>';
+		echo '<pre>_SERVER('.print_r(var_export($_SERVER, true), true).')</pre>';
+		echo '<pre>_COOKIE('.print_r(var_export($_COOKIE, true), true).')</pre>';
+		echo '<pre>_REQUEST('.print_r(var_export($_REQUEST, true), true).')</pre>';
+		die();
+		*/
 
 		// logged in successfully
-		$user_data["user_id"]  = -9999; // 140; //$res->fields["p_uuid"];
-		$user_data["user"]     = "toast"; // 'g'; //$username;
+		error_log("oauth logged in successfully");
+
+		// find the local user with the corresponding oauth id (if it already exists)
+		$q = "
+			SELECT *
+			FROM `users`
+			WHERE oauth_id = '".mysql_real_escape_string($oauth_id)."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "oauth query 1 ((".$q."))"); }
+
+		// if we already have an oauth user with a matching id on our system, log them in
+		if($row = $result->FetchRow()) {
+			$user_id = $row['user_id'];
+			$username = $row['user'];
+			error_log("OAuth user matches a previous user by ID.");
+
+		// the oauth user is not already present in our system
+		} else {
+
+			// find the local user with a username that matches the google email address
+			$q = "
+				SELECT *
+				FROM `users`
+				WHERE user_name = '".mysql_real_escape_string($email)."';
+			";
+			$result = $global['db']->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "oauth query 2 ((".$q."))"); }
+
+			// we have a user with a username that matches the google email address
+			if($row = $result->FetchRow()) {
+				$user_id = $row['user_id'];
+				$username = $row['user'];
+				error_log("OAuth user matches a previous user by USERNAME.");
+
+			// check if a user in the system is using a contact email address the same as the google email
+			} else {
+
+				$q = "
+					SELECT *
+					FROM contact c, users u
+					WHERE c.contact_value = '".mysql_real_escape_string($email)."'
+					AND c.p_uuid = u.p_uuid;
+				";
+				$result = $global['db']->Execute($q);
+				if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "oauth query 2 ((".$q."))"); }
+
+				// we have a user that is using this google email address
+				if($row = $result->FetchRow()) {
+					$user_id = $row['user_id'];
+					$username = $row['user'];
+					error_log("OAuth user matches a previous user by CONTACT EMAIL.");
+				}
+			}
+		}
+
+		// if not set, we have a new user, so add the new user...
+		if($user_id == null && $username == null) {
+
+			// generate a strong random password for the local account...
+			$time = time();
+			$p1a = rand(10e16, 10e20);
+			$p1b = base_convert($p1a, 10, 36);
+			$p1c = strtoupper($p1b);
+			$part1 = substr($p1c, 0, 8);
+			$p2a = rand(10e16, 10e20);
+			$p2b = base_convert($p2a, 10, 36);
+			$part2 = substr($p2b, 0, 8);
+			$password = $part1.$part2;
+
+			$user_id = shn_auth_add_user($given_name, $family_name, $email, $password, REGISTERED, null, null, $email);
+			$username = $email;
+			error_log("A new user has been created with the OAuth credz.");
+		}
+
+		// finally, update the user profile information with the current profile data...
+		$q = "
+			UPDATE users
+			SET
+				oauth_id        = '".mysql_real_escape_string($oauth_id)."',
+				profile_link    = '".mysql_real_escape_string($profile_link)."',
+				profile_picture = '".mysql_real_escape_string($profile_pic)."',
+				locale          = '".mysql_real_escape_string($locale)."',
+				verified_email  = '".mysql_real_escape_string($verified_email)."'
+
+			WHERE user_id = '".mysql_real_escape_string($user_id)."' ;
+		";
+
+		// log the user in...
+		$user_data["user_id"]  = $user_id;
+		$user_data["user"]     = $username;
 		$user_data["result"]   = LOGGEDIN;
 		$user_data["doHeader"] = true;
 		return $user_data;
-
-
-
 
 	// handle a normal login
 	} elseif($_GET['doLogin'] == "1") {
@@ -659,6 +757,7 @@ echo '<pre>_REQUEST('.print_r(var_export($_REQUEST, true), true).')</pre>';
 			$user_data["user"] = $user;
 			$user_data["result"] = LOGGEDIN;
 			$user_data["doHeader"] = true;
+			$user_data["headerLocation"] = $f;
 			return $user_data;
 		}
 	}
