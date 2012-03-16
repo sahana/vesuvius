@@ -566,7 +566,8 @@ function shn_authenticate_user() {
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "oauth query 1 ((".$q."))"); }
 
 		// if we already have an oauth user with a matching id on our system, log them in
-		if($row = $result->FetchRow()) {
+		if($result != null && !$result->EOF) {
+			$row = $result->FetchRow();
 			$user_id = $row['user_id'];
 			$username = $row['user'];
 			error_log("OAuth user matches a previous user by ID.");
@@ -584,7 +585,8 @@ function shn_authenticate_user() {
 			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "oauth query 2 ((".$q."))"); }
 
 			// we have a user with a username that matches the google email address
-			if($row = $result->FetchRow()) {
+			if($result != null && !$result->EOF) {
+				$row = $result->FetchRow();
 				$user_id = $row['user_id'];
 				$username = $row['user'];
 				error_log("OAuth user matches a previous user by USERNAME.");
@@ -599,10 +601,11 @@ function shn_authenticate_user() {
 					AND c.p_uuid = u.p_uuid;
 				";
 				$result = $global['db']->Execute($q);
-				if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "oauth query 2 ((".$q."))"); }
+				if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "oauth query 3 ((".$q."))"); }
 
 				// we have a user that is using this google email address
-				if($row = $result->FetchRow()) {
+				if($result != null && !$result->EOF) {
+					$row = $result->FetchRow();
 					$user_id = $row['user_id'];
 					$username = $row['user'];
 					error_log("OAuth user matches a previous user by CONTACT EMAIL.");
@@ -641,6 +644,8 @@ function shn_authenticate_user() {
 
 			WHERE user_id = '".mysql_real_escape_string($user_id)."' ;
 		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "oauth query 4 ((".$q."))"); }
 
 		// log the user in...
 		$user_data["user_id"]  = $user_id;
