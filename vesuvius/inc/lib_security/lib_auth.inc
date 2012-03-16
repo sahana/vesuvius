@@ -588,7 +588,7 @@ function shn_authenticate_user() {
 			if($result != null && !$result->EOF) {
 				$row = $result->FetchRow();
 				$user_id = $row['user_id'];
-				$username = $row['user'];
+				$username = $row['user_name'];
 				error_log("OAuth user matches a previous user by USERNAME.");
 
 			// check if a user in the system is using a contact email address the same as the google email
@@ -607,7 +607,7 @@ function shn_authenticate_user() {
 				if($result != null && !$result->EOF) {
 					$row = $result->FetchRow();
 					$user_id = $row['user_id'];
-					$username = $row['user'];
+					$username = $row['user_name'];
 					error_log("OAuth user matches a previous user by CONTACT EMAIL.");
 				}
 			}
