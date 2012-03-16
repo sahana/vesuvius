@@ -1,15 +1,5 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
-------------------------------------------------------
-///////////////////////////////////////////////// LAN'S CHANGES THAT ARE NOT YET IN PRODUCTION /////////////////////////////////////////////////////////////////
 
-2012:0315 Lan
--------------
-INSERT INTO `field_options` (`field_name`, `option_code`, `option_description`, `display_order`) VALUES ('opt_status_color', 'dec', '#000000', NULL);
-INSERT INTO `field_options` (`field_name`, `option_code`, `option_description`, `display_order`) VALUES ('opt_status_color', 'ali', '#167D21', NULL);
-INSERT INTO `field_options` (`field_name`, `option_code`, `option_description`, `display_order`) VALUES ('opt_status_color', 'fnd', '#7E2217', NULL);
-INSERT INTO `field_options` (`field_name`, `option_code`, `option_description`, `display_order`) VALUES ('opt_status_color', 'inj', '#FF0000', NULL);
-INSERT INTO `field_options` (`field_name`, `option_code`, `option_description`, `display_order`) VALUES ('opt_status_color', 'unk', '#808080', NULL);
-INSERT INTO `field_options` (`field_name`, `option_code`, `option_description`, `display_order`) VALUES ('opt_status_color', 'mis', '#0000FF', NULL);
 
 
 ///////////////////////////////////////////////// GREG'S CHANGES THAT ARE IN PRODUCTION ////////////////////////////////////////////////////////////////////////

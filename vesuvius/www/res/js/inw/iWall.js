@@ -132,13 +132,14 @@ function searchSubset(first) {
 	}
 
 	$("#foundLabel").show();
+	$("#refreshLabel").hide();
 	if ( Globals.displayMode && Globals.searchMode != "sql" )
 		$("#maxShown").hide();
 	else
 		$("#maxShown").show();
 
 	$("#menuwrap").append($("#searchOptions").css({marginTop: "5px", marginLeft: "10px"}).show());
-	if ( !$("#shortName").val().match(/cmax/) ) $("#hospital").hide();
+	if ( !$("#shortName").val().match(/(cmax|shield)/) ) $("#hospital").hide();
 	$("#content").css({marginRight: "0px", paddingRight: "20px"});
         $("#buttonHelp").show();
 

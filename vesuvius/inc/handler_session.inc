@@ -147,8 +147,9 @@ function session_is_valid() {
 		$in_expiry = $res->fields["inactive_expiry"];
 		$expiry = $res->fields["expiry"];
 		$secret = $res->fields["secret"];
-		// changed to allow up to 8 hours of inactivity, and session allowed to age up to 16 hours ~ we always will regenerate sessid upon relogin from this method, since its more secure
-		if (($time < $in_expiry+(3600*8)) && ($time < $expiry+(3600*16))) {
+		// changed to allow up to 8 hours of inactivity, and unlimited session otherwise (see PL-344) ~
+                // we always will regenerate sessid upon relogin from this method, since it's more secure
+		if ($time < $in_expiry+(3600*8)) { 
 			return true;
 		} else {
 			return false;
