@@ -477,56 +477,76 @@ function shn_authenticate_user() {
 		$client->setAccessType('online');
 
 		$oauth2 = new apiOauth2Service($client);
+		$authenticated = false;
 
 		if(isset($_GET['code'])) {
+
 			$client->authenticate();
 			$_SESSION['token'] = $client->getAccessToken();
+
 			//$redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-			//echo 'redirect...why?!'.$redirect;
-			header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
+			//header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
+
+			if(isset($_SESSION['token'])) {
+				$client->setAccessToken($_SESSION['token']);
+
+				if($client->getAccessToken()) {
+
+					// try { $client->verifyIdToken(); }
+					// catch(apiAuthException $e) { echo '<br>Unable to verify id_token. Error: '.$e->getMessage().'<br>'; }
+
+					$user = $oauth2->userinfo->get();
+
+					$oauth_id       = filter_var($user['id'],             FILTER_SANITIZE_NUMBER_INT);
+					$email          = filter_var($user['email'],          FILTER_VALIDATE_EMAIL);
+					$verified_email = filter_var($user['verified_email'], FILTER_VALIDATE_BOOLEAN);
+					$given_name     = filter_var($user['given_name'],     FILTER_SANITIZE_STRING);
+					$family_name    = filter_var($user['family_name'],    FILTER_SANITIZE_STRING);
+					$profile_link   = filter_var($user['link'],           FILTER_VALIDATE_URL);
+					$profile_pic    = filter_var($user['picture'],        FILTER_VALIDATE_URL);
+					$gender         = filter_var($user['gender'],         FILTER_SANITIZE_STRING);
+					$locale         = filter_var($user['locale'],         FILTER_SANITIZE_STRING);
+
+					// The access token may have been updated lazily.
+					$_SESSION['token'] = $client->getAccessToken();
+
+					if($_SESSION['token'] != null) {
+						$authenticated = true;
+					}
+
+				} else {
+					$authenticated = false;
+				}
+			} else {
+				$authenticated = false;
+			}
+		} else {
+			$authenticated = false;
 		}
 
-		if(isset($_SESSION['token'])) {
-			$client->setAccessToken($_SESSION['token']);
-			echo "<BR>TOKEN SET!<BR>";
+		if(!$authenticated || (isset($_GET['error']) && $_GET['error'] == "access_denied")) {
+			$user_data["user_id"] = ANONYMOUS_USER;
+			$user_data["user"] = "Anonymous";
+			$user_data["result"] = LOGINFAILED;
+			add_error("Authentication via Google failed or was denied.");
+			return $user_data;
 		}
 
 
-		if(isset($_REQUEST['logout'])) {
-			unset($_SESSION['token']);
-			$client->revokeToken();
-			echo "LOGOUT!!";
-		}
-
-		if($client->getAccessToken()) {
-			/*
-			try { $client->verifyIdToken(); }
-			catch(apiAuthException $e) { echo '<br>Unable to verify id_token. Error: '.$e->getMessage().'<br>'; }
-			*/
-
-			$user = $oauth2->userinfo->get();
-			$email = filter_var($user['email'], FILTER_SANITIZE_EMAIL);
-			$img = filter_var($user['picture'], FILTER_VALIDATE_URL);
-
-			// The access token may have been updated lazily.
-			$_SESSION['token'] = $client->getAccessToken();
-		}
-
-echo '<pre>user('.print_r(var_export($user, true), true).')</pre>';
-echo '<pre>client('.print_r(var_export($client, true), true).')</pre>';
+/*
 echo '<pre>_SESSION('.print_r(var_export($_SESSION, true), true).')</pre>';
 echo '<pre>_SERVER('.print_r(var_export($_SERVER, true), true).')</pre>';
 echo '<pre>_COOKIE('.print_r(var_export($_COOKIE, true), true).')</pre>';
 echo '<pre>_REQUEST('.print_r(var_export($_REQUEST, true), true).')</pre>';
+*/
+//die();
 
-		die();
-
-			// logged in successfully
-			$user_data["user_id"] = $res->fields["p_uuid"];
-			$user_data["user"] = $user;
-			$user_data["result"] = LOGGEDIN;
-			$user_data["doHeader"] = true;
-			return $user_data;
+		// logged in successfully
+		$user_data["user_id"]  = -9999; // 140; //$res->fields["p_uuid"];
+		$user_data["user"]     = "toast"; // 'g'; //$username;
+		$user_data["result"]   = LOGGEDIN;
+		$user_data["doHeader"] = true;
+		return $user_data;
 
 
 

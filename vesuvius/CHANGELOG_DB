@@ -3,6 +3,16 @@ Log of all Changes to the schema since Vesuvius v0.9.1
 
 ///////////////////////////////////////////////// GREG'S CHANGES THAT ARE IN PRODUCTION ////////////////////////////////////////////////////////////////////////
 
+2012:0314 Greg
+--------------
+
+ALTER TABLE  `users` ADD  `oauth_id` VARCHAR( 32 ) NULL DEFAULT NULL COMMENT  'the oauth user id',
+ADD  `profile_link` VARCHAR( 256 ) NULL DEFAULT NULL COMMENT  'url to profile',
+ADD  `profile_picture` VARCHAR( 256 ) NULL DEFAULT NULL COMMENT  'url to profile pic',
+ADD  `locale` VARCHAR( 8 ) NULL DEFAULT NULL COMMENT  'language locale',
+ADD  `verified_email` BOOLEAN NULL DEFAULT NULL COMMENT  'true if email verified' ;
+
+
 2012:0221 Greg
 --------------
 
