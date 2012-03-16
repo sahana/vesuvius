@@ -569,7 +569,7 @@ function shn_authenticate_user() {
 		if($result != null && !$result->EOF) {
 			$row = $result->FetchRow();
 			$user_id = $row['user_id'];
-			$username = $row['user'];
+			$username = $row['user_name'];
 			error_log("OAuth user matches a previous user by ID.");
 
 		// the oauth user is not already present in our system
