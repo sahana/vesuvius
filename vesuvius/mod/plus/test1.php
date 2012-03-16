@@ -40,7 +40,7 @@ $x = file_get_contents("testTP1.xml");
 //$result = $client->call('ping', array(null));
 //$result = $client->call('getNullTokenList', array('tokenStart'=>'0', 'tokenEnd'=>'120', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('getImageListBlock', array('tokenStart'=>'314', 'stride'=>2, 'username'=>$user, 'password'=>$pass));
-//$result = $client->call('getImageList', array('tokenStart'=>'262', 'tokenEnd'=>'311', 'username'=>$user, 'password'=>$pass));
+$result = $client->call('getImageList', array('tokenStart'=>'0', 'tokenEnd'=>'1000', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('getImageCountsAndTokens', array('username'=>$user, 'password'=>$pass));
 //$result = $client->call('expirePerson', array('uuid'=>'pl.nlm.nih.gov/person.4001018', 'explanation'=>'because!!!!', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('setPersonExpiryDate', array('uuid'=>'pl.nlm.nih.gov/person.4001018', 'expiryDate'=>'2011-01-01 01:23:46', 'username'=>$user, 'password'=>$pass));
@@ -60,7 +60,7 @@ $x = file_get_contents("testTP1.xml");
 //$result = $client->call('createPersonUuid', array('username'=>'testDontDelete', 'password'=>'dontDelete99'));
 //$result = $client->call('createPersonUuidBatch', array('number'=>5, 'username'=>'testDontDelete', 'password'=>'dontDelete99'));
 
-
+/*
 $result = $client->call('searchCount', array(
 	'eventShortname'=>'hepl',
 	'searchTerm'=>'',
@@ -84,7 +84,7 @@ $result = $client->call('searchCount', array(
 	'perPage'=>33567,
 	'sortBy'=>''
 ));
-
+*/
 
 echo "
 	<h2>wsdl: ".$wsdl."</h2>

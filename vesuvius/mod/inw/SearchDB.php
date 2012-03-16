@@ -351,7 +351,7 @@ class SearchDB {
 		curl_close($ch);
 
 		$date = new DateTime($temp->response->docs[0]->updated);
-		$this->lastUpdated = $date->format('m/d/y @ g:i:s A');
+		$this->lastUpdated = $date->format("Y-m-d H:i:s");
 	}
 
 
