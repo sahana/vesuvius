@@ -3205,8 +3205,10 @@ function shn_stat_demographic() {
 	?>
 
 
-	<div id="container" style="width: 100%; height: 100%;"></div>
-
+	<div id="container" style="width: 100%; height: 100%;">
+	
+	</div>
+   
 
 	<?php
 	$shortname = $_GET['shortname'];
@@ -3459,7 +3461,7 @@ function shn_stat_demographic() {
 		echo "}\n";
         echo "}],\n" ;
 
-
+		/*hide labels
 		//add labels for each pie charts
 		//if ($has_data=true) then
 		echo "labels: {\n" ;
@@ -3514,9 +3516,9 @@ function shn_stat_demographic() {
 			}
 			//end if
 			echo "]}\n" ;
-
+          end labels */
    echo "});\n" ;
-
+   
 
 echo "});\n" ;
 
@@ -3532,7 +3534,7 @@ echo "});\n" ;
 
 
 echo "</script>\n" ;
-//echo "Test area ";
+echo "Test area ";
 }
 /***********************************************************
 arrivals- from arrival rate table
