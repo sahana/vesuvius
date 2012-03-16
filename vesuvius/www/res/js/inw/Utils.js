@@ -271,6 +271,7 @@ var Utils = {
 	},
 
 	changeObserver : function( lastUpdated ) {
+		$("#refreshLabel").show();
 		if ( !Globals.lastUpdated ) {
 			Globals.lastUpdated = lastUpdated
 			return;
@@ -279,9 +280,9 @@ var Utils = {
 		if ( lastUpdated != Globals.lastUpdated ) {
 			Globals.mostRecent = Globals.lastUpdated; // saving for later
 			Globals.lastUpdated = lastUpdated;
-			if ( Globals.displayMode )
-				$("#updateAlerts").fadeIn("slow");
-			else {
+			if ( Globals.displayMode ) {
+                                $("#lastChange").html(lastUpdated + " UTC");
+                        } else {
 				$("#updateAlerts2").fadeIn("slow");
 			}
 			searchSubset(false);
@@ -314,7 +315,7 @@ var Utils = {
 			$("#sortOrderIcon").hide();
 		}
 		else {
-                        if ( el.value == "full_name" || el.value == "years_old" ) {
+                        if ( el.value == "full_name" || el.value == "years_old" || el.value == "mass_casualty_id") {
 				Globals.sortedBy = el.value + " " + "asc";
 				$("#sortOrderIcon").attr("src", "res/img/asc.png")
 			        	.attr("title", "Ascending (click for descending)")
