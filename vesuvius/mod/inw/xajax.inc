@@ -83,8 +83,6 @@ function inw_getAllCount($incident) {
 function inw_checkForChanges($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital) {
 	global $global;
 
-        // TODO: Extend session for one minute so session doesn't eventually expire in hands-free mode (PL-344).
-        //session_start();
 	$search = new SearchDB($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital);
 	$search->getLastUpdate();
 	$global["xajax_res"]->addAssign("lastCheck", "innerHTML", gmdate("Y-m-d H:i:s")." UTC");
