@@ -21,6 +21,7 @@ $events = array();
  * @return void
  */
 function shn_sepl_default() {
+
 	global $global;
 	global $events;
 
