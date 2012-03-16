@@ -187,7 +187,7 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 		return false;
 	}
 
-	if($_POST["email_address"] != null) {
+	if(isset($_POST["email_address"]) && $_POST["email_address"] != null) {
 		$q = "
 			SELECT *
 			FROM contact c, users u
@@ -205,7 +205,7 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 		}
 	}
 
-	if($_POST["openid"] != null) {
+	if(isset($_POST["openid"]) && $_POST["openid"] != null) {
 		$q = "
 			select alt_logins.p_uuid
 			from alt_logins
@@ -304,7 +304,7 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 			}
 		}
 
-		if($_POST["openid"] != null) {
+		if(isset($_POST["openid"]) && $_POST["openid"] != null) {
 			$q2 = "
 				INSERT INTO alt_logins(p_uuid, user_name, type)
 				values('".$pid."', '".$_POST["openid"]."', 'openid');
@@ -652,6 +652,7 @@ function shn_authenticate_user() {
 		$user_data["user"]     = $username;
 		$user_data["result"]   = LOGGEDIN;
 		$user_data["doHeader"] = true;
+		$user_data["headerLocation"] = "settings";
 		return $user_data;
 
 	// handle a normal login
