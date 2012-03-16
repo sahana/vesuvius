@@ -509,15 +509,15 @@ function shn_authenticate_user() {
 
 					$user = $oauth2->userinfo->get();
 
-					$oauth_id       = filter_var($user['id'],             FILTER_SANITIZE_NUMBER_INT);
-					$email          = filter_var($user['email'],          FILTER_VALIDATE_EMAIL);
-					$verified_email = filter_var($user['verified_email'], FILTER_VALIDATE_BOOLEAN);
-					$given_name     = filter_var($user['given_name'],     FILTER_SANITIZE_STRING);
-					$family_name    = filter_var($user['family_name'],    FILTER_SANITIZE_STRING);
-					$profile_link   = filter_var($user['link'],           FILTER_VALIDATE_URL);
-					$profile_pic    = filter_var($user['picture'],        FILTER_VALIDATE_URL);
-					$gender         = filter_var($user['gender'],         FILTER_SANITIZE_STRING);
-					$locale         = filter_var($user['locale'],         FILTER_SANITIZE_STRING);
+					$oauth_id       = isset($user['id'])             ? filter_var($user['id'],             FILTER_SANITIZE_NUMBER_INT) : null;
+					$email          = isset($user['email'])          ? filter_var($user['email'],          FILTER_VALIDATE_EMAIL)      : null;
+					$verified_email = isset($user['verified_email']) ? filter_var($user['verified_email'], FILTER_VALIDATE_BOOLEAN)    : null;
+					$given_name     = isset($user['given_name'])     ? filter_var($user['given_name'],     FILTER_SANITIZE_STRING)     : null;
+					$family_name    = isset($user['family_name'])    ? filter_var($user['family_name'],    FILTER_SANITIZE_STRING)     : null;
+					$profile_link   = isset($user['link'])           ? filter_var($user['link'],           FILTER_VALIDATE_URL)        : null;
+					$profile_pic    = isset($user['picture'])        ? filter_var($user['picture'],        FILTER_VALIDATE_URL)        : null;
+					$gender         = isset($user['gender'])         ? filter_var($user['gender'],         FILTER_SANITIZE_STRING)     : null;
+					$locale         = isset($user['locale'])         ? filter_var($user['locale'],         FILTER_SANITIZE_STRING)     : null;
 
 					// The access token may have been updated lazily.
 					$_SESSION['token'] = $client->getAccessToken();
