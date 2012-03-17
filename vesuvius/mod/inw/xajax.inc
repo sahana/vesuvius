@@ -53,9 +53,10 @@ function inw_getNotes($uuid) {
 
 		$result->MoveNext();
 	}
-	mysql_free_result($result);
 
-	$global["xajax_res"]->addAssign("jsonNotes", "value", json_encode($list));
+        if (!empty($list)) {
+                $global["xajax_res"]->addAssign("jsonNotes", "value", json_encode($list));
+        }
 	$global["xajax_res"]->addScript("Utils.loadNotes()");
 	return $global["xajax_res"]->getXML();
 }
@@ -85,6 +86,7 @@ function inw_checkForChanges($mode, $incident, $searchTerm, $sStatus, $sGender, 
 
 	$search = new SearchDB($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital);
 	$search->getLastUpdate();
+	$global["xajax_res"]->addAssign("lastCheck", "innerHTML", gmdate("Y-m-d H:i:s")." UTC");
 	$global["xajax_res"]->addScript("Utils.changeObserver('". $search->lastUpdated . "');");
 	return $global["xajax_res"]->getXML();
 }

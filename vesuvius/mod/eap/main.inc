@@ -243,6 +243,8 @@ function shn_eap_findRights() {
 		$global['startFollow'] = false;
 		$global['role']        = "anonymous";
 
+
+	// logged in
 	} else {
 		$q  = "
 			SELECT COUNT(*)
@@ -285,17 +287,18 @@ function shn_eap_findRights() {
 			$global['addNote']     = true;
 			$global['startFollow'] = true;
 			$global['role']        = "staff";
-
-		// Admin ~ logged in
-		} else if(($_SESSION['group_id'] == "1") && ($_SESSION['logged_in'] == 1)) {
-			$global['publicView']  = true;
-			$global['publicEdit']  = true;
-			$global['privateView'] = true;
-			$global['privateEdit'] = true;
-			$global['addNote']     = true;
-			$global['startFollow'] = true;
-			$global['role']        = "admin";
 		}
+	}
+	// Admin ~ logged in ~ has right to everything
+	if(isset($_SESSION['group_id']) && ($_SESSION['group_id'] == "1") && ($_SESSION['logged_in'] == 1)) {
+		$global['permissionToView'] = true;
+		$global['publicView']  = true;
+		$global['publicEdit']  = true;
+		$global['privateView'] = true;
+		$global['privateEdit'] = true;
+		$global['addNote']     = true;
+		$global['startFollow'] = true;
+		$global['role']        = "admin";
 	}
 }
 
@@ -1011,7 +1014,7 @@ function shn_eap_edit() {
 			}
 		}
 		echo '
-			<div style="background-color: #fff; padding: 5px; border: 1px solid #bbb; float: left; text-align: center; margin-right: 10px;"><br>
+			<div id="eapUploadImage"><br>
 			Add an additional image to this record:<br><br><input type="file" name="add_image" id="add_image" /><br><br><input type="submit" name="UPLOAD" id="UPLOAD" value="UPLOAD" class="styleTehButton"/><br>&nbsp;
 			</div>
 		';
@@ -1745,9 +1748,38 @@ function shn_eap_edit() {
 		$noteUrl = str_replace("https://", "", $noteUrl);
 		$noteUrl = str_replace("http://", "", $noteUrl);
 
+		if($row['suggested_status'] == null) {
+			$ss = "";
+		} else {
+			$ss = "<br>Suggested Status: <b>";
+
+			// HACK ~ fix this to use the DB to get these values!
+			if($row['suggested_status'] == "ali") {
+				$ss .= "Alive & Well";
+
+			} elseif($row['suggested_status'] == "inj") {
+				$ss .= "Injured";
+
+			} elseif($row['suggested_status'] == "mis") {
+				$ss .= "Missing";
+
+			} elseif($row['suggested_status'] == "dec") {
+				$ss .= "Deceased";
+
+			} elseif($row['suggested_status'] == "fnd") {
+				$ss .= "Found";
+
+			} else {
+				$ss .= "Unknown";
+			}
+
+			$ss .= "</b><br>";
+		}
+
 		echo "
 			<p class=\"triangle-obtuse\">
-				".$row['note']."<br>
+				".htmlentities($row['note'])."<br>
+				".$ss."
 				<span class=\"noteFooter\">".$noteUrl."</span>
 			</p>
 			<div style=\"height: 25px;\">Posted by <b>".$row['full_name']."</b> on ".$utime."</div>
@@ -2111,7 +2143,7 @@ function shn_eap_edit() {
 
 		<div style=\"clear:both;\"></div>
 
-		<div style=\"margin: 15px 15px 0px 15px; border-top: 1px solid #000; padding-top: 15px;\" id=\"addThisDiv\">
+		<div id=\"addThisDiv\">
 			<div class=\"addthis_toolbox addthis_default_style\">
 			<a class=\"addthis_button_facebook_like\" fb:like:layout=\"button_count\"></a>
 			<a class=\"addthis_button_tweet\"></a>

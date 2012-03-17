@@ -10,22 +10,23 @@ DirectoryIndex index.php
 ##### Turn on mod_rewrite to capture the shortname from a url and pass it on as a url parameter
 RewriteEngine On
 
+##### Only use 1 of the following RewriteBase options ~ comment the other out
 ##### for when Sahana is installed on a virtual host at root level ie. http://domain.com/
 RewriteBase /
-
 ##### for when Sahana is installed in a user homedir ie. http://domain.gov/~gmiernicki/sahanaDev/www/
 #RewriteBase /~miernickig/vesuvius/vesuvius/www/
 
-##### make mod_rewrite skip the subsequent rules if the file or folder exists already
+##### make mod_rewrite skip the subsequent rules if the file or folder exists already (the number must be incremented each time a new rule is added below)
 RewriteCond %{REQUEST_FILENAME} -d [OR]
 RewriteCond %{REQUEST_FILENAME} -f
-RewriteRule .* - [S=36]
+RewriteRule .* - [S=37]
 
 ##### matches /person.XXXXX for the person uuid's as urls
 RewriteRule ^(person.[0-9]+)$ ?mod=eap&val=$1 [L]
 
 ##### handle resource pages
-RewriteRule ^(about|ABOUT)$ ?mod=rez&page_id=-30 [L]
+RewriteRule ^(about)$   ?mod=rez&page=-30 [L]
+RewriteRule ^(privacy)$ ?mod=rez&page=44  [L]
 
 ##### handle actions
 RewriteRule ^(login)$              ?mod=pref&act=loginForm [L]

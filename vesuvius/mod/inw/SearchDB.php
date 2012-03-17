@@ -269,6 +269,7 @@ class SearchDB {
 
 		$res = $mysqli->multi_query( "$proc; SELECT @allCount;" );
 
+		$this->numRowsFound = 0;
 		if($res) {
 			$results = 0;
 			$c = 0;
@@ -297,6 +298,7 @@ class SearchDB {
 								'hospitalIcon'       => $row["icon_url"],
 								'mass_casualty_id'   => $row["mass_casualty_id"]
 							);
+						$this->numRowsFound++;
 						}
 					}
 					$result->close();
@@ -349,7 +351,7 @@ class SearchDB {
 		curl_close($ch);
 
 		$date = new DateTime($temp->response->docs[0]->updated);
-		$this->lastUpdated = $date->format('m/d/y @ g:i:s A');
+		$this->lastUpdated = $date->format("Y-m-d H:i:s");
 	}
 
 
@@ -529,7 +531,7 @@ class SearchDB {
 		if($this->otherHosp != "true") $this->SOLRfq .= " -public";
 
 		//incident shortname filter (always applied)
-		$this->SOLRfq .= ")&fq=shortname:(" . $this->incident . ")";
+		$this->SOLRfq .= ")&fq=shortname:" . $this->incident;
 
 		//only non-expired records (always applied) (PL-288)
 		$this->SOLRfq .= "&fq=-expiry_date:[* TO NOW]";
@@ -551,7 +553,7 @@ class SearchDB {
 
 	private function getSOLRallCount() {
 
-		$tmpSOLRquery = $this->SOLRroot . "select/?q=*:*&fq=shortname:(".$this->incident.")&fq=-expiry_date:[*%20TO%20NOW]";
+		$tmpSOLRquery = $this->SOLRroot . "select/?rows=0&q=*:*&fq=shortname:".$this->incident."&fq=-expiry_date:[*%20TO%20NOW]";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $tmpSOLRquery . "&wt=json"); // ensure the json version is called
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -569,9 +571,9 @@ class SearchDB {
 
 		$solrQuery =
 			$this->SOLRroot
-			. "select/?qt=edismax&q=+"
+			. "select/?rows=0&qt=edismax&q=+"
 			. trim(urlencode($this->searchTerm))
-			. "&fq=shortname:(" . $this->incident . ")"
+			. "&fq=shortname:" . $this->incident
 			. "&fq=-expiry_date:[*%20TO%20NOW]"
 			. (strpos($this->SOLRfq, "-full_name")? "&fq=-full_name:[*%20TO%20*]" : '')
 			. "&facet=true"

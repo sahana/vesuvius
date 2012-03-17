@@ -102,7 +102,8 @@ generatemap:function(){
 
 init:function(){
 	var ac=this
-	jQuery(document).ready(function($){
+	jQuery(window).bind('load', function($){
+		var $=jQuery;
 		animatedcollapse.ontoggle=animatedcollapse.ontoggle || null
 		var urlparamopenids=animatedcollapse.urlparamselect() //Get div ids that should be expanded based on the url (['div1','div2',etc])
 		var persistopenids=ac.getCookie('acopendivids') //Get list of div ids that should be expanded due to persistence ('div1,div2,etc')
@@ -133,7 +134,7 @@ init:function(){
 					targetgroup.lastactivedivid=this.id //remember this DIV as the last "active" DIV (this DIV will be expanded). Overrides other settings
 					targetgroup.overridepersist=1 //Indicate to override persisted div that would have been expanded
 				}
-				if (!targetgroup.lastactivedivid && this.$divref.css('display')!='none' || cssdisplay=="block" && typeof targetgroup.overridepersist=="undefined") //if this DIV was open by default or should be open due to persistence								
+				if (!targetgroup.lastactivedivid && this.$divref.css('display')!='none' || cssdisplay=="block" && typeof targetgroup.overridepersist=="undefined") //if this DIV was open by default or should be open due to persistence
 					targetgroup.lastactivedivid=this.id //remember this DIV as the last "active" DIV (this DIV will be expanded)
 				this.$divref.css({display:'none'}) //hide any DIV that's part of said group for now
 			}
@@ -159,7 +160,7 @@ init:function(){
 			}
 			$(this).click(function(){ //assign click behavior to each control link
 				var relattr=this.getAttribute('rel')
-				var divids=(this._divids=="")? [] : this._divids.split(',') //convert 'div1,div2,etc' to array 
+				var divids=(this._divids=="")? [] : this._divids.split(',') //convert 'div1,div2,etc' to array
 				if (divids.length>0){
 					animatedcollapse[/expand/i.test(relattr)? 'show' : /collapse/i.test(relattr)? 'hide' : 'toggle'](divids) //call corresponding public function
 					return false
@@ -188,7 +189,7 @@ uninit:function(){
 	this.setCookie('acgroupswithpersist', groupswithpersist)
 },
 
-getCookie:function(Name){ 
+getCookie:function(Name){
 	var re=new RegExp(Name+"=[^;]*", "i"); //construct RE to search for target name/value pair
 	if (document.cookie.match(re)) //if cookie found
 		return document.cookie.match(re)[0].split("=")[1] //return its value

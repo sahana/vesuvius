@@ -1,7 +1,7 @@
 <?php
 /**
  * @name         Main Sahana Configuration File
- * @version      1.0
+ * @version      17
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
@@ -14,14 +14,19 @@
 # This is used throughout Vesuvius for string replacement when referring to your site.
 $conf['site_name'] = "Sahana Vesuvius";
 
+# enable the built-in PHP-Console debugger (requires http://goo.gl/KNTi0)
+$conf['enable_debugger'] = false;
+
 # Unique identifier for all resources contained in the system
 # Must be unique and 4 or more alphanumberic characters
-# this also is used throughout Vesuvius as the base URL for the site (must retain trailing slash)
+# this also is used throughout Vesuvius as the base URL for all URLs that are generated, so it must be correct (also must have a trailing slash)
 $conf['base_uuid'] = "vesuvius.sahanafoundation.org/";
-#$conf['base_uuid'] = "plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/";
+#$conf['base_uuid'] = "pl.nlm.nih.gov/";
+#$conf['base_uuid'] = "ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/";
 
 # server uses https or http ~ some modules use this plus the base_uuid to form url's
 $conf['https'] = "https://";
+#$conf['https'] = "http://";
 
 # Use this theme directory
 $conf['theme'] = "vesuvius";
@@ -77,3 +82,12 @@ $conf["SOLR_port"] = 8983;
 
 # Audit email address
 $conf['audit_email'] = "audit@example.com";
+
+# Enable login via Google OAuth?
+$conf['oauth_google_enable']       = false;
+$conf['oauth_google_clientId']     = '';
+$conf['oauth_google_clientSecret'] = '';
+$conf['oauth_google_redirectUri']  = '';
+$conf['oauth_google_developerKey'] = '';
+
+

@@ -11,7 +11,10 @@
  */
 
 
-global $global;
+global $tabid;
+$tabid = isset($_GET['tabid']) ? $_GET['tabid'] : 0;
+$tabid = "&tabid=".$tabid;
+
 require_once($global['approot']."/inc/lib_modules.inc");
 require_once($global['approot']."/inc/lib_menu.inc");
 require_once($global['approot']."/inc/lib_form.inc");
@@ -19,33 +22,25 @@ require_once($global['approot']."/inc/lib_validate.inc");
 require_once($global['approot']."/inc/lib_errors.inc");
 require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 require_once($global['approot']."/inc/lib_security/lib_auth.inc");
-require_once("tracker.inc");
+
 
 
 function shn_pref_default() {
 
 	global $global;
 
-	echo "<ul>";
-
-	if($global['action'] == "session" || $global['action'] == "default") {
-		echo "<li>Session Information</li>";
-	} else {
-		echo "<li><b><a href=\"settings\">Session Information</a></b></li><br>";
-	}
-
-	if($global['action'] == "ch_passwd") {
-		echo "<li>Change My Password</li>";
-	} else {
-		echo "<li><b><a href=\"password\">Change My Password</a></b></li><br>";
-	}
-
-	echo "</ul><hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
+	shn_tabmenu_open();
+	shn_tabmenu_item("session",  _t("Session Information"), "pref");
+	shn_tabmenu_item("password", _t("Change My Password"),  "pref");
+	shn_tabmenu_close();
 
 	$control = "";
 
 	if(isset($_GET['forgot'])) {
 		$control = "shn_pref_forgotPassword";
+
+	} elseif(isset($_GET['password'])) {
+		$control = "shn_pref_ch_passwd";
 
 	} elseif(isset($_GET['passwdp'])) {
 		$control = "shn_pref_ch_passwd_p";
@@ -71,7 +66,7 @@ function shn_pref_session() {
 
 	global $global;
 
-	echo "<div id=\"home\">";
+	echo "<br><div id=\"home\">";
 	echo '
 		<div id="rezMain" class="mainArea" style="opacity: 1; width: 300px;">
 			<table class="emTable">
@@ -104,6 +99,40 @@ function shn_pref_session() {
 
 
 
+function shn_pref_makeGoogleLoginLink() {
+
+	global $global;
+	global $conf;
+
+	require_once($global['approot']."/3rd/google-api-php-client/src/apiClient.php");
+	require_once($global['approot']."/3rd/google-api-php-client/src/contrib/apiOauth2Service.php");
+
+	$client = new apiClient();
+	$client->setApplicationName($conf['site_name']);
+	$client->setClientId($conf['oauth_google_clientId']);
+	$client->setClientSecret($conf['oauth_google_clientSecret']);
+	$client->setRedirectUri($conf['oauth_google_redirectUri']);
+	$client->setDeveloperKey($conf['oauth_google_developerKey']);
+	$client->setAccessType('online');
+
+	$oauth2 = new apiOauth2Service($client);
+
+	$authUrl = $client->createAuthUrl();
+
+	echo '
+		<div class="form-container" style="padding: auto;">
+			<form>
+				<fieldset style="width: 500px;">
+				<legend>Login with</legend>
+				<a class="styleTehButton googleButton" href="'.$authUrl.'"><img height=23 src="theme/lpf3/img/google34px.png"></a>
+				</fieldset>
+			</form>
+		</div>
+	';
+	//	<pre>('.print_r(get_defined_vars(), true).')</pre>
+}
+
+
 function shn_pref_loginForm($return = null) {
 
 	global $conf;
@@ -131,16 +160,27 @@ function shn_pref_loginForm($return = null) {
 					<input type="submit" value="Login" class="styleTehButton" tabindex="3">
 				</div>
 				</fieldset>
-				<br><br><br>
 				<input type="hidden" name="return" value="'.$returnVal.'">
 				</form>
 			</div>
 		';
+
+		if($conf['oauth_google_enable'] && isset($_GET['oauthtest'])) {
+			shn_pref_makeGoogleLoginLink();
+		}
+
 		echo '
-			<div style="width: 500px; text-align: center;">
-				<input id="followButton" class="styleTehButton" type="button" value="Register as a new user" onclick="register();">
-				&nbsp; &nbsp; &nbsp; &nbsp;
-				<input id="followButton" class="styleTehButton" type="button" value="Forgot My Password" onclick="forgot();">
+			<div class="form-container" style="padding: auto;">
+				<form>
+					<fieldset style="width: 500px;">
+					<legend>Register / Forgot Password</legend>
+					<div style="text-align: center;">
+						<input id="followButton" class="styleTehButton" type="button" value="Register as a new user" onclick="register();">
+						&nbsp; &nbsp; &nbsp; &nbsp;
+						<input id="followButton" class="styleTehButton" type="button" value="Forgot my password" onclick="forgot();">
+					</div>
+					</fieldset>
+				</form>
 			</div>
 			<script>
 				function register() {
@@ -151,7 +191,8 @@ function shn_pref_loginForm($return = null) {
 				}
 			</script>
 		';
-/*
+
+		/*
 				<div id=\"switchOpenId\">
 					<a href=\"#\" onclick=\"switchLogin('loginform','openid_loginform');\">Login with an OpenID></a>
 				</div>
@@ -170,7 +211,9 @@ function shn_pref_loginForm($return = null) {
 			<script type=\"text/javascript\">
 				switchLogin('openid_loginform','loginform');
 			</script>
-*/
+		*/
+
+
 		// force focus to login box...
 		echo "
 			<script>
@@ -565,7 +608,6 @@ function shn_pref_ch_passwd() {
 	global $global;
 
 	echo "
-		<h2>Change My Password</h2>
 		<br>
 	";
 	if($error) {
@@ -577,12 +619,12 @@ function shn_pref_ch_passwd() {
 	$policy = shn_get_password_policy();
 
 	if(count($policy) > 0){
-		?><h4><?php echo _t("You new password must adhere to following rules:") ?></h4><?php
+		?><h4><?php echo _t("You new password must adhere to following rules:") ?></h4><br><?php
 		for($i=0; $i < count($policy); $i++) {
 			echo ($i+1).". ".$policy[$i]."<br/>";
 		}
 	}
-	?><br><?php
+	?><br><br><?php
 	shn_form_fopen2("pref?passwdp", null, null, null, "width: 600px;");
 	shn_form_fsopen(_t("Fill in these required fields to change your password"));
 	$extra_opts['req']=true;
@@ -728,10 +770,6 @@ function shn_pref_ch_passwd_p() {
 
 
 
-
-
-
-
 function _shn_admin_ch_pwd_cr() {
 
 	global $global;
@@ -771,6 +809,239 @@ function _shn_admin_ch_pwd_cr() {
 	}
 	shn_admin_ch_pwd($error);
 }
+
+
+
+function shn_pref_tracking() {
+
+	global $conf;
+	global $global;
+
+	$showAll = true;
+
+	// persons in the current event //////////////////////////////////////////////////////////
+	if(isset($_GET['shortname']) && $_GET['shortname'] != "") {
+		$showAll = false;
+
+		// current event reported
+		$q = "
+			SELECT *
+			FROM person_to_report u, person_uuid p, incident i
+			WHERE rep_uuid = '".$_SESSION['user_p_uuid']."'
+			AND p.p_uuid = u.p_uuid
+			AND p.incident_id = i.incident_id
+			AND i.shortname = '".mysql_real_escape_string($_GET['shortname'])."';
+		";
+		$r  = $global['db']->Execute($q);
+		$count = 0;
+		while($row = $r->FetchRow()) {
+			if($count == 0) {
+				echo "
+					<div class=\"form-container\"><form><fieldset>
+					<legend>People that I'm following or Reported for the ".$row['name']."</legend>
+					<table id=\"repLog\">
+					<tr>
+					<td class=\"noBorderLeft evener\" >Origin ID / Origin URL</td>
+					<td class=\"noBorderLeft evener\" >Full Name</td>
+					</tr>
+				";
+
+			}
+			if($count%2 == 0) {
+				$class = "odder";
+			} else {
+				$class = "evener";
+			}
+			echo "
+				<tr>
+				<td style=\"width: 250px;\" class=\"noBorderLeft ".$class."\" >
+				<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['p_uuid']."</b></a></td>
+				<td class=\"noBorderLeft ".$class."\" >
+				<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['full_name']."</b></a></td>
+				</tr>
+			";
+			$count++;
+		}
+
+		if($count == 0) {
+			echo "
+				<div class=\"form-container\"><form><fieldset>
+				<legend>People that I'm following or Reported for the current event.</legend>
+				<table id=\"repLog\">
+			";
+		}
+
+		// current event following
+		$q  = "
+			SELECT *
+			FROM person_followers f, person_uuid p, incident i
+			WHERE follower_p_uuid = '".$_SESSION['user_p_uuid']."'
+			AND p.p_uuid = f.p_uuid
+			AND p.incident_id = i.incident_id
+			AND i.shortname = '".mysql_real_escape_string($_GET['shortname'])."';
+		";
+		$r  = $global['db']->Execute($q);
+		while($row = $r->FetchRow()) {
+			if($count%2 == 0) {
+				$class = "odder";
+			} else {
+				$class = "evener";
+			}
+			echo "
+				<tr>
+				<td style=\"width: 250px;\" class=\"noBorderLeft ".$class."\" >
+				<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['p_uuid']."</b></a></td>
+				<td class=\"noBorderLeft ".$class."\" >
+				<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['full_name']."</b></a></td>
+				</tr>
+			";
+			$count++;
+		}
+
+		if($count == 0) {
+			echo "<tr><td class=\"noBorderLeft\" colspan=2>No persons reported.</td></tr>";
+		}
+		echo "</table>";
+		echo "</fieldset>";
+		echo "</form></div><br>";
+	}
+
+
+
+	// Personally Reported ///////////////////////////////////////////////////////////////////
+	if($showAll) {
+		$other = "";
+	} else {
+		$other = "Other ";
+	}
+	echo "
+		<div class=\"form-container\"><form><fieldset>
+		<legend>".$other."People That I Have Reported</legend>
+	";
+
+	if($showAll) {
+		$q  = "
+			SELECT *
+			FROM person_to_report u, person_uuid p, incident i
+			WHERE rep_uuid = '".$_SESSION['user_p_uuid']."'
+			AND p.p_uuid = u.p_uuid
+			AND p.incident_id = i.incident_id;
+		";
+	} else {
+		$q  = "
+			SELECT *
+			FROM person_to_report u, person_uuid p, incident i
+			WHERE rep_uuid = '".$_SESSION['user_p_uuid']."'
+			AND p.p_uuid = u.p_uuid
+			AND p.incident_id = i.incident_id
+			AND i.shortname <> '".mysql_real_escape_string($_GET['shortname'])."';
+		";
+	}
+	$r  = $global['db']->Execute($q);
+
+	$count = 0;
+	while($row = $r->FetchRow()) {
+		if($count == 0) {
+			echo "
+				<table id=\"repLog\">
+				<tr>
+				<td class=\"noBorderLeft evener\" >Origin ID / Origin URL</td>
+				<td class=\"noBorderLeft evener\" >Full Name</td>
+				<td class=\"noBorderLeft evener\" >Event</td>
+				</tr>
+			";
+
+		}
+		if($count%2 == 0) {
+			$class = "odder";
+		} else {
+			$class = "evener";
+		}
+		echo "
+			<tr>
+			<td style=\"width: 250px;\" class=\"noBorderLeft ".$class."\" >
+			<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['p_uuid']."</b></a></td>
+			<td class=\"noBorderLeft ".$class."\" >
+			<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['full_name']."</b></a></td>
+			<td class=\"noBorderLeft ".$class."\" >
+			".$row['name']."</b></td>
+			</tr>
+		";
+		$count++;
+	}
+	if($count == 0) {
+		echo "<tr><td class=\"noBorderLeft\" colspan=3>No persons reported.</td></tr>";
+	}
+	echo "</table>";
+	echo "</fieldset>";
+	echo "</form></div><br>";
+
+
+
+	// Persons Following ///////////////////////////////////////////////////////////////////////
+	echo "<div class=\"form-container\"><form><fieldset>";
+	echo "<legend>".$other."People That I Am Following</legend>";
+
+	if($showAll) {
+		$q  = "
+			SELECT *
+			FROM person_followers f, person_uuid p, incident i
+			WHERE follower_p_uuid = '".$_SESSION['user_p_uuid']."'
+			AND p.p_uuid = f.p_uuid
+			AND p.incident_id = i.incident_id;
+		";
+	} else {
+		$q  = "
+			SELECT *
+			FROM person_followers f, person_uuid p, incident i
+			WHERE follower_p_uuid = '".$_SESSION['user_p_uuid']."'
+			AND p.p_uuid = f.p_uuid
+			AND p.incident_id <> i.incident_id
+			AND i.shortname = '".mysql_real_escape_string($_GET['shortname'])."';
+		";
+	}
+	$r  = $global['db']->Execute($q);
+
+	$count = 0;
+	echo "<table id=\"followLog\">";
+	while($row = $r->FetchRow()) {
+		if($count == 0) {
+			echo "
+				<table id=\"repLog\">
+				<tr>
+				<td class=\"noBorderLeft evener\" >Origin ID / Origin URL</td>
+				<td class=\"noBorderLeft evener\" >Full Name</td>
+				<td class=\"noBorderLeft evener\" >Event</td>
+				</tr>
+			";
+
+		}
+		if($count%2 == 0) {
+			$class = "odder";
+		} else {
+			$class = "evener";
+		}
+		echo "
+			<tr>
+			<td style=\"width: 250px;\" class=\"noBorderLeft ".$class."\" >
+			<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['p_uuid']."</b></a></td>
+			<td class=\"noBorderLeft ".$class."\" >
+			<a href=\"".makePersonUrl($row['p_uuid'])."\" target=\"_blank\"><b>".$row['full_name']."</b></a></td>
+			<td class=\"noBorderLeft ".$class."\" >
+			".$row['name']."</b></td>
+			</tr>
+		";
+		$count++;
+	}
+	if($count == 0) {
+		echo "<tr><td class=\"noBorderLeft\" colspan=3>Not following any persons.</td></tr>";
+	}
+	echo "</table>";
+	echo "</fieldset>";
+	echo "</form></div>";
+}
+
+
 
 
 

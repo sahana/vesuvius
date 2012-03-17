@@ -1,5 +1,9 @@
 <?php
 
+// known deficiency in using this script...
+// there has to be an image_id = 1 in the image table
+// if not, the lowest empty block will be skipped
+
 error_reporting(E_ALL ^ E_NOTICE);
 ini_set("display_errors", "stdout");
 
