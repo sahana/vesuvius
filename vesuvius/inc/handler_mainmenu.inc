@@ -43,10 +43,10 @@ foreach ($module_list as $i) {
 
 // HACK TO SHOW "People I'm Tracking" menu link ~ Greg
 // if Edit A Person Module and Preferences Tracker installed and logged in, show a menu link to this resource
-if(file_exists($global['approot'].'/mod/eap/main.inc') && file_exists($global['approot'].'/mod/pref/tracker.inc') && ($_SESSION['logged_in'] == true)) {
-		array_push($module_names, "People I'm Tracking");
-		array_push($module_menuorder,15);
-		array_push($module_directory, "pref&act=tracking");
+if($_SESSION['logged_in'] == true) {
+	array_push($module_names, "People I'm Tracking");
+	array_push($module_menuorder,15);
+	array_push($module_directory, "pref&act=tracking");
 }
 
 array_multisort($module_menuorder, $module_names, $module_directory);

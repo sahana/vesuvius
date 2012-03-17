@@ -1198,7 +1198,9 @@ function em_perform_edit($incident_id) {
 			// get list of GROUPS
 			$qg = "
 				SELECT *
-				FROM  `sys_user_groups`;
+				FROM  `sys_user_groups`
+				WHERE group_id != 2
+				AND group_id != 3 ;
 			";
 			$resg = $global['db']->Execute($qg);
 			if($resg === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "edit 6"); }

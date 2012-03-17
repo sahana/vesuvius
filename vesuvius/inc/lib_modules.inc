@@ -1,7 +1,7 @@
 <?
 /**
  * @name         Module Library
- * @version      1.0
+ * @version      10
  * @package      framework
  * @author       http://www.linux.lk/~chamindra
  * @author       Ravindra De Silva <ravindra@opensource.lk><http://r4vi.org>
@@ -15,15 +15,9 @@
 
 
 
-/**
- * shn_get_all_modules
- *
- * @access public
- * @return void
- *
- * Description: get all available modules regardless of weather they are enabled or not
- */
+/** Get all available modules regardless of weather they are enabled or not */
 function shn_get_all_modules($nice_name_req=true) {
+
 	global $global;
 	global $conf;
 
@@ -53,22 +47,16 @@ function shn_get_all_modules($nice_name_req=true) {
 
 
 
-// helper function to above function
+/** helper function to above function */
 function compare_nice_name($a, $b) {
 	return strnatcmp($a['nice_name'], $b['nice_name']);
 }
 
 
 
-/**
- * shn_get_module_names
- *
- * @access public
- * @return void
- *
- * Description: get all available modules regardless of weather they are enabled or not
- */
+/** Get all available modules regardless of weather they are enabled or not */
 function shn_get_module_names() {
+
 	global $global;
 	global $conf;
 
@@ -90,13 +78,9 @@ function shn_get_module_names() {
 
 
 
-/**
- * shn_get_module_names
- *
- * @access public
- * @return void
- */
+/** Get the names of all mlodules */
 function shn_get_enabled_module_names() {
+
 	global $global;
 	global $conf;
 
@@ -118,15 +102,9 @@ function shn_get_enabled_module_names() {
 
 
 
-/**
- * shn_get_modules_with_admin
- *
- * @access public
- * @return void
- *
- * Description: get all modules that have admin pages
- */
+/** Get all modules that have admin pages */
 function shn_get_modules_with_admin() {
+
 	global $global;
 
 	$module_list = array();
@@ -143,15 +121,9 @@ function shn_get_modules_with_admin() {
 
 
 
-/**
- * shn_get_modules_with_web_services
- *
- * @access public
- * @return void
- *
- * Description: get all modules that expose web services
- */
+/** Get all modules that expose web services */
 function shn_get_modules_with_web_services() {
+
 	global $global;
 	global $conf;
 
@@ -171,14 +143,8 @@ function shn_get_modules_with_web_services() {
 
 
 
-/**
- * shn_include_module_conf
- *
- * @access public
- * @depracted
- * @return void
- */
 function shn_include_module_conf() {
+
 	global $global;
 	global $conf;
 
@@ -197,47 +163,31 @@ function shn_include_module_conf() {
 
 
 
-/**
- * shn_include_page_section
- *
- * @param mixed $section
- * @param mixed $module
- * @access public
- * @return void
- */
 function shn_include_page_section($section, $module=null) {
+
 	global $global;
-	if ($module == null) {
-		$module = $global['module'];
-	}
-	if(($global["setup"]) == false) {
-		$mods=shn_get_allowed_mods_current_user();
-		$module_function = 'shn_'.$module.'_'.$section;
-		if (function_exists($module_function)) {
-			$res=array_search($module,$mods,false);
-			if(FALSE !== $res) {
-				$module_function();
-			} else {
-				include($global['approot'].'inc/handler_'.$section.'.inc');
-			}
+
+	$mods = shn_get_allowed_mods_current_user();
+	$module_function = 'shn_'.$module.'_'.$section;
+
+	if (function_exists($module_function)) {
+		$res = array_search($module, $mods, false);
+		if(FALSE !== $res) {
+			$module_function();
 		} else {
-			include($global['approot'].'inc/handler_'.$section.'.inc');
+			require_once($global['approot'].'inc/handler_'.$section.'.inc');
 		}
 	} else {
-		include($global['approot'].'inc/handler_'.$section.'.inc');
+		require_once($global['approot'].'inc/handler_'.$section.'.inc');
 	}
+
 }
 
 
 
-/**
- * Return the 'nice' name of the module
- *
- * @param mixed $module
- * @access public
- * @return string
- */
+/** Return the 'nice' name of the module */
 function shn_get_module_name($module=null) {
+
 	global $global;
 	global $conf;
 
@@ -250,13 +200,9 @@ function shn_get_module_name($module=null) {
 
 
 
-/**
- * Check if module exists
- *
- * @param mixed $module
- * @return boolean
- */
+/** Check if module exists */
 function shn_module_exists($module=null) {
+
 	global $global;
 	$module_file = $global['approot'].'mod/'.$module;
 	return file_exists($module_file);

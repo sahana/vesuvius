@@ -1,14 +1,18 @@
 <?php
-
 /**
- * @package     pfif
- * @version      1.1
- * @author       Carl H. Cornwell <ccornwell@mail.nih.gov>
+ * @name         Person Finder Interchange Format
+ * @version      2
+ * @package      pfif
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
  * @author       Leif Neve <lneve@mail.nih.gov>
- * LastModified: 2011:0719
- * License:      LGPL
- * @link         TBD
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2012.0223
  */
+
+
 // print "Configuring error reporting  ...\n";
 error_reporting(E_ALL ^ E_NOTICE); // E_NOTICE);
 // print "Configuring error display  ...\n";
@@ -72,7 +76,7 @@ foreach ($export_queue as $service_name => $service) {
    print "\n\nExport started to ".$service['post_url']." at ".date("Y-m-d H:i:s")."\n";
    $local_date = local_date($min_entry_date);
    $loaded = $p->loadFromDatabase($local_date, null, 0, $skip);
-   print "Exporting original records after $local_date.\n"; 
+   print "Exporting original records after $local_date.\n";
 
    if ($loaded > 0) {
       // Export records

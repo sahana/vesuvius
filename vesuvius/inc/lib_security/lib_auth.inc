@@ -187,7 +187,7 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 		return false;
 	}
 
-	if($_POST["email_address"] != null) {
+	if(isset($_POST["email_address"]) && $_POST["email_address"] != null) {
 		$q = "
 			SELECT *
 			FROM contact c, users u
@@ -205,7 +205,7 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 		}
 	}
 
-	if($_POST["openid"] != null) {
+	if(isset($_POST["openid"]) && $_POST["openid"] != null) {
 		$q = "
 			select alt_logins.p_uuid
 			from alt_logins
@@ -287,9 +287,21 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 		if($res) {
 			$res = shn_acl_adduser_to_role_uuid($pid, $role);
 			shn_acl_log_msg("New user added : ", $pid, $user_name);
+
+			$q = "
+				SELECT *
+				FROM users
+				WHERE p_uuid = '".mysql_real_escape_string($pid)."' ;
+			";
+			$result = $global['db']->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "add user find new user_id ((".$q."))"); }
+
+			if($row = $result->FetchRow()) {
+				$res = $row['user_id'];
+			}
 		}
 
-		if($_POST["openid"] != null) {
+		if(isset($_POST["openid"]) && $_POST["openid"] != null) {
 			$q2 = "
 				INSERT INTO alt_logins(p_uuid, user_name, type)
 				values('".$pid."', '".$_POST["openid"]."', 'openid');
@@ -434,6 +446,7 @@ function shn_auth_user_list2() {
 function shn_authenticate_user() {
 
 	global $global;
+	global $conf;
 
 	$db = $global['db'];
 	$user_data = array("user_id" => ANONYMOUS_USER, "user" => "Anonymous");
@@ -446,15 +459,195 @@ function shn_authenticate_user() {
 		return $user_data ;
 	}
 
-	/*
-	if user has not requested login no need to authenticate, simply
-	 return -1 , so the calling application can identify that
-	 authentication was not attempted
-	 */
-	if(!isset($_GET['doLogin']) || (isset($_GET['doLogin']) && $_GET['doLogin'] != "1")) {
-		$user_data["user_id"] =- 1;
+	// only authenticate if requested
+	if(!isset($_GET['doLogin'])) {
+		$user_data["user_id"] = -1;
 		return $user_data ;
-	} else {
+
+
+
+
+
+	// handle Google OAuth login
+	} elseif($_GET['doLogin'] == "2") {
+
+		require_once($global['approot']."/3rd/google-api-php-client/src/apiClient.php");
+		require_once($global['approot']."/3rd/google-api-php-client/src/contrib/apiOauth2Service.php");
+
+		$user_id = null;
+		$username = null;
+
+		$client = new apiClient();
+		$client->setApplicationName($conf['site_name']);
+		$client->setClientId($conf['oauth_google_clientId']);
+		$client->setClientSecret($conf['oauth_google_clientSecret']);
+		$client->setRedirectUri($conf['oauth_google_redirectUri']);
+		$client->setDeveloperKey($conf['oauth_google_developerKey']);
+		$client->setAccessType('online');
+
+		$oauth2 = new apiOauth2Service($client);
+		$authenticated = false;
+
+		if(isset($_GET['code'])) {
+
+			$client->authenticate();
+			$_SESSION['token'] = $client->getAccessToken();
+
+			//$redirect = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+			//header('Location: ' . filter_var($redirect, FILTER_SANITIZE_URL));
+
+			if(isset($_SESSION['token'])) {
+				$client->setAccessToken($_SESSION['token']);
+
+				if($client->getAccessToken()) {
+
+					// try { $client->verifyIdToken(); }
+					// catch(apiAuthException $e) { echo '<br>Unable to verify id_token. Error: '.$e->getMessage().'<br>'; }
+
+					$user = $oauth2->userinfo->get();
+
+					$oauth_id       = isset($user['id'])             ? filter_var($user['id'],             FILTER_SANITIZE_NUMBER_INT) : null;
+					$email          = isset($user['email'])          ? filter_var($user['email'],          FILTER_VALIDATE_EMAIL)      : null;
+					$verified_email = isset($user['verified_email']) ? filter_var($user['verified_email'], FILTER_VALIDATE_BOOLEAN)    : null;
+					$given_name     = isset($user['given_name'])     ? filter_var($user['given_name'],     FILTER_SANITIZE_STRING)     : null;
+					$family_name    = isset($user['family_name'])    ? filter_var($user['family_name'],    FILTER_SANITIZE_STRING)     : null;
+					$profile_link   = isset($user['link'])           ? filter_var($user['link'],           FILTER_VALIDATE_URL)        : null;
+					$profile_pic    = isset($user['picture'])        ? filter_var($user['picture'],        FILTER_VALIDATE_URL)        : null;
+					$gender         = isset($user['gender'])         ? filter_var($user['gender'],         FILTER_SANITIZE_STRING)     : null;
+					$locale         = isset($user['locale'])         ? filter_var($user['locale'],         FILTER_SANITIZE_STRING)     : null;
+
+					// The access token may have been updated lazily.
+					$_SESSION['token'] = $client->getAccessToken();
+
+					if($_SESSION['token'] != null) {
+						$authenticated = true;
+					}
+
+				} else {
+					$authenticated = false;
+				}
+			} else {
+				$authenticated = false;
+			}
+		} else {
+			$authenticated = false;
+		}
+
+		if(!$authenticated || (isset($_GET['error']) && $_GET['error'] == "access_denied")) {
+			$user_data["user_id"] = ANONYMOUS_USER;
+			$user_data["user"] = "Anonymous";
+			$user_data["result"] = LOGINFAILED;
+			add_error("Login via Google failed.");
+			return $user_data;
+		}
+
+		/*
+		echo '<pre>_SESSION('.print_r(var_export($_SESSION, true), true).')</pre>';
+		echo '<pre>_SERVER('.print_r(var_export($_SERVER, true), true).')</pre>';
+		echo '<pre>_COOKIE('.print_r(var_export($_COOKIE, true), true).')</pre>';
+		echo '<pre>_REQUEST('.print_r(var_export($_REQUEST, true), true).')</pre>';
+		die();
+		*/
+
+		// logged in successfully
+
+		// find the local user with the corresponding oauth id (if it already exists)
+		$q = "
+			SELECT *
+			FROM `users`
+			WHERE oauth_id = '".mysql_real_escape_string($oauth_id)."';
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "oauth query 1 ((".$q."))"); }
+
+		// if we already have an oauth user with a matching id on our system, log them in
+		if($result != null && !$result->EOF) {
+			$row = $result->FetchRow();
+			$user_id = $row['user_id'];
+			$username = $row['user_name'];
+
+		// the oauth user is not already present in our system
+		} else {
+
+			// find the local user with a username that matches the google email address
+			$q = "
+				SELECT *
+				FROM `users`
+				WHERE user_name = '".mysql_real_escape_string($email)."';
+			";
+			$result = $global['db']->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "oauth query 2 ((".$q."))"); }
+
+			// we have a user with a username that matches the google email address
+			if($result != null && !$result->EOF) {
+				$row = $result->FetchRow();
+				$user_id = $row['user_id'];
+				$username = $row['user_name'];
+
+			// check if a user in the system is using a contact email address the same as the google email
+			} else {
+
+				$q = "
+					SELECT *
+					FROM contact c, users u
+					WHERE c.contact_value = '".mysql_real_escape_string($email)."'
+					AND c.p_uuid = u.p_uuid;
+				";
+				$result = $global['db']->Execute($q);
+				if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "oauth query 3 ((".$q."))"); }
+
+				// we have a user that is using this google email address
+				if($result != null && !$result->EOF) {
+					$row = $result->FetchRow();
+					$user_id = $row['user_id'];
+					$username = $row['user_name'];
+				}
+			}
+		}
+
+		// if not set, we have a new user, so add the new user...
+		if($user_id == null && $username == null) {
+
+			// generate a strong random password for the local account...
+			$time = time();
+			$p1a = rand(10e16, 10e20);
+			$p1b = base_convert($p1a, 10, 36);
+			$p1c = strtoupper($p1b);
+			$part1 = substr($p1c, 0, 8);
+			$p2a = rand(10e16, 10e20);
+			$p2b = base_convert($p2a, 10, 36);
+			$part2 = substr($p2b, 0, 8);
+			$password = $part1.$part2;
+
+			$user_id = shn_auth_add_user($given_name, $family_name, $email, $password, REGISTERED, null, null, $email);
+			$username = $email;
+		}
+
+		// finally, update the user profile information with the current profile data...
+		$q = "
+			UPDATE users
+			SET
+				oauth_id        = '".mysql_real_escape_string($oauth_id)."',
+				profile_link    = '".mysql_real_escape_string($profile_link)."',
+				profile_picture = '".mysql_real_escape_string($profile_pic)."',
+				locale          = '".mysql_real_escape_string($locale)."',
+				verified_email  = '".mysql_real_escape_string($verified_email)."'
+
+			WHERE user_id = '".mysql_real_escape_string($user_id)."' ;
+		";
+		$result = $global['db']->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "oauth query 4 ((".$q."))"); }
+
+		// log the user in...
+		$user_data["user_id"]  = $user_id;
+		$user_data["user"]     = $username;
+		$user_data["result"]   = LOGGEDIN;
+		$user_data["doHeader"] = true;
+		$user_data["headerLocation"] = "settings";
+		return $user_data;
+
+	// handle a normal login
+	} elseif($_GET['doLogin'] == "1") {
 
 		//authentication is done only as the user requested to login
 		$user = addslashes(strip_tags(trim($_POST{"user_name"})));
@@ -557,15 +750,11 @@ function shn_authenticate_user() {
 
 			$e = explode("/", $_POST['return']);
 			$f = $e[sizeof($e)-1];
-			if($f == "login" || $f == "index.php?doLogin=1") {
-				header("Location: settings");
-			} else {
-				header("Location: ".$_POST['return']);
-			}
 			$user_data["user_id"] = $res->fields["p_uuid"];
 			$user_data["user"] = $user;
 			$user_data["result"] = LOGGEDIN;
-			$global['welcome'] = true;
+			$user_data["doHeader"] = true;
+			$user_data["headerLocation"] = $f;
 			return $user_data;
 		}
 	}
@@ -891,8 +1080,6 @@ function _shn_auth_lock_user($uid,$status) {
 
 function shn_auth_gen_captcha() {
 
-error_log('hi!');
-
 	// Now lets use md5 to generate a totally random string
 	$md5 = md5(microtime() * time());
 
@@ -957,7 +1144,6 @@ error_log('hi!');
 		$alpha = rand(16, 47);
 		$color = imagecolorallocatealpha($captcha, $red, $green, $blue, $alpha);
 		$path = realpath(getcwd()."/res/ttf/");
-		//error_log("PATH>>".$path."<<");
 		$font  = $path."/arial.ttf";
 		$angle = rand(-30, 30);
 		$x     = (($width/5)*$i)+abs($angle)/2;

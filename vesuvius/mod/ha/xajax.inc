@@ -31,6 +31,7 @@ array_push($global['xajax_functions'],'ha_perform_help');
 
 // adds a message to the log div @ tail
 function ha_append_log($message = "no message specified?") {
+
 	global $global;
 	$global['xajax_res']->addAppend('rezLog', 'innerHTML', $message);
 	//---- scroll the log to the bottom
@@ -41,6 +42,7 @@ function ha_append_log($message = "no message specified?") {
 
 // adds a message to the log div @ head
 function ha_prepend_log($message = "no message specified?") {
+
 	global $global;
 	$global['xajax_res']->addPrepend('rezLog','innerHTML',$message);
 	return $global['xajax_res']->getXML();
@@ -49,6 +51,7 @@ function ha_prepend_log($message = "no message specified?") {
 
 // shows a status message before another ajax function is executed
 function ha_show_message($message = "no message specified?") {
+
 	global $global;
 	$global['xajax_res']->addAssign('rezMain','innerHTML','<div class="loadingMessage"><center><blink>'.$message.'</blink></center></div>');
 	return $global['xajax_res']->getXML();
@@ -57,6 +60,7 @@ function ha_show_message($message = "no message specified?") {
 
 // reloads the mainArea div with information of what pages we have
 function ha_show_hospitals($internal = FALSE) {
+
 	global $conf;
 	global $global;
 	$htmlLog = "";
@@ -158,6 +162,7 @@ function ha_show_hospitals($internal = FALSE) {
 
 // shows help
 function ha_perform_help() {
+
 	global $global;
 
 	// help content
@@ -180,6 +185,7 @@ function ha_perform_help() {
 
 // saves the event attributes to the database
 function ha_perform_save($hospital_uuid, $rj) {
+
 	global $global;
 	$r = json_decode($rj, true);
 	$suggest = false;
@@ -293,6 +299,7 @@ function ha_perform_save($hospital_uuid, $rj) {
 
 // delete a page
 function ha_perform_delete($hospital_uuid, $confirm) {
+
 	global $global;
 
 	if($confirm == "true") {
@@ -330,6 +337,7 @@ function ha_perform_delete($hospital_uuid, $confirm) {
 
 // add a new hospital with default atributes and return uuid
 function ha_perform_new() {
+
 	global $global;
 
 	$group = $_SESSION['group_id'];
@@ -359,6 +367,7 @@ function ha_perform_new() {
 
 // presents a gui to edit a hospital and its corresponding fields
 function ha_perform_edit($hospital_uuid) {
+
 	global $global;
 	$new = false;
 
@@ -539,7 +548,7 @@ function ha_perform_edit($hospital_uuid) {
 
 	// if Admin... show delete button
 	if($_SESSION['group_id'] == "1") {
-		if($hasChildren) {
+		if(isset($hasChildren) && $hasChildren == true) {
 			$disabled = "DISABLED style=\"opacity: 0.2;\"";
 		} else {
 			$disabled = "";

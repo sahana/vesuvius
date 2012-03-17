@@ -336,7 +336,8 @@ function makePageUrl() {
 function makeBaseUrl() {
 
 	global $conf;
-	$link = $conf['https'].$conf['base_uuid'].$_GET['shortname'];
+	$shorty = isset($_GET['shortname']) ? $_GET['shortname'] : "";
+	$link = $conf['https'].$conf['base_uuid'].$shorty;
 	return $link;
 }
 

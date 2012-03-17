@@ -1,6 +1,46 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
+2012:0313 Update
+----------------
+Greg: added transit time table to stats module.
+Greg: UTC time support for REUNITE4 XML
+Lan: Stat module updates (bug fixes, tweaks, graphical errors)
+Greg: added CSV download option for Transit data
+Greg: many a E_STRICT patches
+
+
+2012:0306 Update
+----------------
+Greg: changed web service auth codes to return good, pending, locked, banned account status codes
+Greg: patch to only enable debugger when enabled in conf
+Greg: added google-api-php-client
+Greg: initial implementation of OAuth Google login
+Greg: theme tweaks including 508 compliance, alt tags, and trademarks
+Leif: Tweak positioning in details pane (PL-332)
+
+
+2012:0228 Update
+----------------
++ tabbed Inbound / Outbound / PFIF modules
++ fixed login/auth redirection bug
++ 508'd the LPF site
++ Admins can now view/edit all records regardless if they have permission to the event.
++ Event Manager : Event Visiblity choice have been narrow to: Public, Admin, HS, HSA, Researcher (registered user and anonymous removed)
++ updated TP to use newest version of jQuery / collapsible script
++ Error / Confirmation / Information dialogs menus better styled
++ New style for the footer (assistance from Mike Chung)
+
+2012:0221 Update
+----------------
++ added IP geocoded lookup of web service calls to track the location of TriagePic and ReUnite users for data visualization
++ added total api calls to API_VERSION in PLus Access Stats
++ added "Hits by User" section to PLUS Access Statistics
++ added "Active Clients" tab to PLUS to monitor on a Google Map the currently active web service clients (for the moment, this shows all clients over time)
++ added getPersonPermissions and addComment services to the new PLUS v24 API_VERSION
++ updated EAP (Full Record Page) to show added comments and suggested statuses
+Leif: Tweaked SOLR invocations to wring out additional efficiencies.
+
 2012:0214 Update
 ----------------
 Greg:
