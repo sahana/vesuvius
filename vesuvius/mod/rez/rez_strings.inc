@@ -13,9 +13,9 @@ It is best to leave off titles (â€œDr.â€, â€œMrs.â€) and suffi
 <br>
 <br>
 <h2>Search Options</h2>
-Once you have performed a search, you may also limit your results by status, gender, and age.<br>
+You may also specify status, gender, and age to limit your search results.  The default is to search all options.  To access search options, click on the "+ More Options" link.<br>
 <br>
-Status choices are missing (blue), alive and well (green), injured (red), deceased (black), found (brown) or unknown (gray).<br>
+Status choices are missing (blue), alive and well (green), injured (red), deceased (black), or unknown (gray)<br>
 <br>
 Gender choices are male, female, and other/unknown.<br>
 <br>
@@ -47,49 +47,11 @@ What Information is being Searched, and How Often Is It Updated?<br>
 <br>
 Once a set of result images for a search is loaded, the search will be quietly repeated every minute to see if there is new content to include.<br>
 <br>
-Information is being input via Report a Person and records set to us directly by email.<br>
+Information is being input via TriagePic and records set to us directly by email (e.g., with our iPhone app).<br>
 <br>
 <br>
 <h2>Data Updates</h2>
 Once a set of result images for a search is loaded, the search will be quietly repeated every minute to see if there is new content.
-Information is being input via the Report a Person page and records sent to us directly by email.
+Information is being input via TriagePic and records sent to us directly by email (e.g., with our iPhone app).
 <br>
 <br><br>')
-_t('RESOURCE_PAGES_TITLE|About Us')
-_t('RESOURCE_PAGES_CONTENT|<h2>About</h2>This site is provided by the <a href="http://www.nlm.nih.gov/">United States National Library of Medicine (NLM)</a> in Bethesda, Maryland.NLM is part of the <a href="http://www.nih.gov/">National Institutes of Health</a>, U.S. <a href="http://www.dhhs.gov/">Department of Health and Human Services</a>, and has in its mission the development and coordination of communication technology to improve the delivery of health services. This site is provided for the purpose of studying the utility of such tools in responding to disasters. The underlying technology was developed through NLMâ€™s <a href="http://archive.nlm.nih.gov/proj/lpf.php">Lost Person Finder (LPF) project</a>, part of NLMâ€™s contribution to the <a href="http://www.bhepp.org/">Bethesda Hospitalsâ€™ Emergency Preparedness Partnership (BHEPP)</a>.<br>
-<br>
-<h2>Privacy</h2>
-All data contained on this Web are available to the public and are searchable by all visitors to the Web site. Data are received from multiple sources:&nbsp; direct submissions to NLM
-using the â€œFound in Haitiâ€ iPhoneâ„¢ application or email, from the Google Person Finder, and from other organizations, as indicated on individual records. The site may not be moderated, and NLM and other contributing organizations do not review or verify the accuracy of any of the data presented on this Web site. Note that data received by direct submission to NLM may be disseminated to other agencies, institutions, and organizations assisting the effort to locate missing people,including the Google Person Finder. For direct submissions to NLM, the senderâ€™s email address and iPhone device ID will be retained by NLM, but will not be displayed on the Web site. Contact email addresses that are explicitly provided by the submitter
- may be displayed, however, regardless of the manner in which the data were received.<br>
-<br>
-<h2>Technical Details</h2>
-This site should work with the most recent versions of Firefox, Chrome, Safari, and Internet Explorer.')
-_t('RESOURCE_PAGES_TITLE|Links')
-_t('RESOURCE_PAGES_CONTENT|<h2>Find Family and Friends</h2>
-<a href="https://safeandwell.communityos.org/cms//" title="Red Cross Safe and Well List">Red Cross Safe and Well List</a><br>
-<a href="http://www.nokr.org/nok/restricted/home.htm" title="Next of Kin National Registry">Next of Kin National Registry</a><br>
-<a href="http://www.lrcf.net/create-flyer/" title="Missing Person Flier Creation Tools" >Missing Person Flier Creation Tools</a><br>
-<br>
-
-<h2>Disaster Resources</h2>
-<a target="" title="Disaster Assistance" href="http://www.disasterassistance.gov/">Disaster Assistance</a><br>
-<a href="http://app.redcross.org/nss-app/" title="Red Cross Provides Shelters and Food">Red Cross Provides Shelters and Food</a><br>
-<a target="" title="Tornado Information" href="http://disaster.nlm.nih.gov/enviro/tornados.html">Tornado Information from the Disaster Information Management Resource Center</a><br>
-<a target="" title="Tornado Information" href="http://www.nlm.nih.gov/medlineplus/tornadoes.html">Tornado Information from MedlinePlus</a><br>
-<a target="" title="2011 Tornado Information" href="http://www.noaanews.noaa.gov/2011_tornado_information.html">NOAA 2011 Tornado Information</a><br>
-<a target="" title="" href="http://www.poynter.org/latest-news/making-sense-of-news/133446/joplin-globes-facebook-page-locates-reunites-missing-people-in-tornado-aftermath/">Joplin Globeâ€™s Facebook page locates, reunites missing people in tornado aftermath</a>
-
-
-
-
-')
-_t('RESOURCE_PAGES_TITLE|Contact us')
-_t('RESOURCE_PAGES_CONTENT|<h2>
-	<script>
-	var kontakt = "Contact us via email"
-	var uzer = "lpfsupport"
-	var dohmain = "mail.nih.gov"
-	document.write('<a href="'+'m'+'ai'+'l'+'to:'+uzer+'@'+dohmain+'?subject=Feedback for People Locator">Click here to email us.</a>')
-	</script>
-</h2>')

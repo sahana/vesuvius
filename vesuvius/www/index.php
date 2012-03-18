@@ -400,9 +400,9 @@ function shn_main_plus_register() {
 
 
 
-/*
+
 echo "<h1>DEBUGGING INFO</h1><pre>".print_r(get_defined_vars(), true)."</pre><h1>END DEBUG INFO</h1>";
-*/
+
 
 
 
