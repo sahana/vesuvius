@@ -40,7 +40,7 @@ msgstr ""
 #: ../www/theme/lpf3/header.php:60 ../www/theme/lpf3/header.php:75
 #: ../www/theme/vesuvius/header.php:62 ../www/theme/vesuvius/header.php:76
 msgid "U.S. National Library of Medicine"
-msgstr "*ENGLISH_UK*U.S. National Library of Medicine*ENGLISH_UK"
+msgstr "*ENGLISH_UK*U.S. National Library of Medicine*ENGLISH_UK*"
 
 #: ../www/theme/lpf3/header.php:61 ../www/theme/lpf3/header.php:76
 #: ../www/theme/vesuvius/header.php:63 ../www/theme/vesuvius/header.php:77
@@ -49,7 +49,7 @@ msgstr ""
 
 #: ../www/theme/vesuvius/header.php:59 ../www/theme/vesuvius/header.php:75
 msgid "People Locator"
-msgstr "People Locator "
+msgstr "*ENGLISH_UK*People Locator*ENGLISH_UK*"
 
 #: ../www/theme/vesuvius/header.php:60
 msgid "for the "
