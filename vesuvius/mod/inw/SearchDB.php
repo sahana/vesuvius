@@ -81,10 +81,7 @@ class SearchDB {
 		}
 
 		// Search string "unknown" means return records with no names (PL-225).
-		$this->searchUnknown = false;
-                if (strpos($searchTerm, "unknown") !== false) {
-			$this->searchUnknown = true;
-                }
+                $this->searchUnknown = (strpos($searchTerm, "unknown") !== false)? true : false;
 
 		// Removed a number of symbols to allow power users to exploit SOLR syntax (PL-265).
 		$toReplace = array(",", ".", "/", "\\", "@", "$", "%", "^", "&", "#", "[image]", "[-image]", "unknown");
@@ -264,6 +261,9 @@ class SearchDB {
 			$this->pageStart = 0;
 			$this->perPage = 2000;
 		}
+
+                // Set "unknown" flag for SQL search (PL-225).
+                if ($this->searchUnknown) $this->searchTerm = 'unknown';
 
 		$proc = "CALL PLSearch('$this->searchTerm', '$this->statusString', '$this->genderString', '$this->ageString', '$this->hospitalString', '$this->incident', '$this->sortBy', $this->pageStart, $this->perPage)";
 
