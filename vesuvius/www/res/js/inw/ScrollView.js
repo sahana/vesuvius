@@ -472,7 +472,8 @@ var ScrollView = {
 		$("#headerText, #dt_print, #content, #pager, #perPageWrapper, #printLink, #disaster_selekta, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap").show();
 		$("#scrolling_content, #detailsPane, #glass").insertAfter("#beforeScrollingContent");
 		$("#scrolling_content").css({ position: "relative" });
-		$("body").css({backgroundColor : "#6289C0" });
+                // Why did someone code this? Comment out for PL-345.
+		//$("body").css({backgroundColor : "#6289C0" });
 		$("#exitFullScreenIpad").hide();
 		Globals.initDone = 1;
 
