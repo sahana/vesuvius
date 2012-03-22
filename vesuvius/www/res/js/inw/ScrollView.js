@@ -289,7 +289,7 @@ var ScrollView = {
 								 });
 
 			if (!writeOnDiv)
-				newDiv.html('<img onclick="Utils.showDetail(Globals.personListOld[\''+person.uuid+'\'])" id="row'+person.row+'picture'+Globals.Q2[person.row].length+'i" style="height: '+person.imageHeight+'px; width: '+person.imageWidth+'px;" src="'+person.image.src+'" onMouseOver="ScrollView.info('+person.row+', '+Globals.Q2[person.row].length+')" onMouseOut="ScrollView.unfade('+person.row+', '+Globals.Q2[person.row].length+')">');
+				newDiv.html('<img onclick="Utils.showDetail(Globals.personListOld[\''+person.uuid+'\'])" id="row'+person.row+'picture'+Globals.Q2[person.row].length+'i" style="height: '+person.imageHeight+'px; width: '+person.imageWidth+'px;" src="'+person.image.src+'" onMouseOver="ScrollView.info('+person.row+', '+Globals.Q2[person.row].length+')" onMouseOut="ScrollView.unfade('+person.row+', '+Globals.Q2[person.row].length+')" alt="photo of person">');
 			else {
 				newDiv = Utils.pictureDetails(newDiv, person);
 			}

@@ -34,6 +34,27 @@ ALTER TABLE  `plus_access_log` ADD  `latitude` DOUBLE NULL DEFAULT NULL COMMENT 
 2012:0319 Leif
 --------------
 
+INSERT INTO `pl`.`field_options` (
+`field_name` ,
+`option_code` ,
+`option_description` ,
+`display_order`
+)
+VALUES (
+'opt_status_color', 'fnd', '#7E2217', NULL
+), (
+'opt_status_color', 'ali', '#167D21', NULL 
+), (
+'opt_status_color', 'mis', '#0000FF', NULL
+),(
+'opt_status_color', 'inj', '#FF0000', NULL
+), (
+'opt_status_color', 'unk', '#808080', NULL 
+), (
+'opt_status_color', 'dec', '#000000', NULL
+);
+
+
 DELIMITER //
 DROP PROCEDURE `PLSearch`//
 CREATE DEFINER=`root`@`localhost` PROCEDURE `PLSearch`(
