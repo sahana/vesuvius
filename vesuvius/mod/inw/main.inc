@@ -101,11 +101,11 @@ function shn_inw_default() {
 							<div class="searchOptionsHeader">Status</div>
 							<input type="checkbox" id="checkMissing" name="checkMissing" checked onclick="Utils.formSearch()" /><label for="checkMissing" id="missing" class="bold"><? echo MISSING; ?></label>
 							<br />
-							<input type="checkbox" id="checkAliveWell" name="checkAliveWell" checked onclick="Utils.formSearch()" /><label for="checkAliveWell" class="bold" id="alive"><? echo ALIVE_AND_WELL; ?></label>
+							<input type="checkbox" id="checkAliveWell" name="checkAliveWell" checked onclick="Utils.formSearch()" /><label for="checkAliveWell" id="alive" class="bold"><? echo ALIVE_AND_WELL; ?></label>
 							<br />
-							<input type="checkbox" id="checkInjured"   name="checkInjured"  checked onclick="Utils.formSearch()" /><label for="checkInjured" class="bold" id="injured"><? echo INJURED; ?></label>
+							<input type="checkbox" id="checkInjured"   name="checkInjured"  checked onclick="Utils.formSearch()" /><label for="checkInjured" id="injured" class="bold"><? echo INJURED; ?></label>
 							<br />
-							<input type="checkbox" id="checkDeceased"  name="checkDeceased" checked onclick="Utils.formSearch()" /><label for="checkDeceased" class="bold" id="deceased"><? echo DECEASED; ?></label>
+							<input type="checkbox" id="checkDeceased"  name="checkDeceased" checked onclick="Utils.formSearch()" /><label for="checkDeceased" id="deceased" class="bold"><? echo DECEASED; ?></label>
 							<br />
 							<input type="checkbox" id="checkUnknown"  name="checkUnknown" checked onclick="Utils.formSearch()" /><label for="checkUnknown" id="unknown" class="bold"><? echo UNKNOWN; ?></label>
 							<br />
