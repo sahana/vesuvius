@@ -192,7 +192,7 @@ function showFacets() {
 						  .css("font-size", "8pt")
 						  .css("position", "absolute")
 						  .css("right", "30px")
-						  .css("margin-top", "7px")
+						  .css("margin-top", "5px")
 						  .css("font-weight", "bold")
 						  .html(Utils.addCommas(facets[facet])));
                         // obsolete?
