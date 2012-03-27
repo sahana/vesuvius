@@ -298,9 +298,6 @@ function shn_auth_add_user($given_name, $family_name, $user_name, $user_password
 
 			if($row = $result->FetchRow()) {
 				$res = $row['user_id'];
-				error_log("Added new user ~ found user_id : ".$res.".");
-			} else {
-				error_log("Added new user ~ COULD NOT FIND USER_ID!");
 			}
 		}
 
@@ -541,7 +538,6 @@ function shn_authenticate_user() {
 			$user_data["user"] = "Anonymous";
 			$user_data["result"] = LOGINFAILED;
 			add_error("Login via Google failed.");
-			error_log("oauth logged in FAILED");
 			return $user_data;
 		}
 
@@ -554,7 +550,6 @@ function shn_authenticate_user() {
 		*/
 
 		// logged in successfully
-		error_log("OAuth authenticated successfully!");
 
 		// find the local user with the corresponding oauth id (if it already exists)
 		$q = "
@@ -570,7 +565,6 @@ function shn_authenticate_user() {
 			$row = $result->FetchRow();
 			$user_id = $row['user_id'];
 			$username = $row['user_name'];
-			error_log("OAuth user matches a previous user by ID.");
 
 		// the oauth user is not already present in our system
 		} else {
@@ -589,7 +583,6 @@ function shn_authenticate_user() {
 				$row = $result->FetchRow();
 				$user_id = $row['user_id'];
 				$username = $row['user_name'];
-				error_log("OAuth user matches a previous user by USERNAME.");
 
 			// check if a user in the system is using a contact email address the same as the google email
 			} else {
@@ -608,7 +601,6 @@ function shn_authenticate_user() {
 					$row = $result->FetchRow();
 					$user_id = $row['user_id'];
 					$username = $row['user_name'];
-					error_log("OAuth user matches a previous user by CONTACT EMAIL.");
 				}
 			}
 		}
@@ -629,7 +621,6 @@ function shn_authenticate_user() {
 
 			$user_id = shn_auth_add_user($given_name, $family_name, $email, $password, REGISTERED, null, null, $email);
 			$username = $email;
-			error_log("A new user has been created with the OAuth credz.");
 		}
 
 		// finally, update the user profile information with the current profile data...
