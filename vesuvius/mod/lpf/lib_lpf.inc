@@ -23,6 +23,7 @@ $global['enumXmlFormats']        = array('REUNITE2', 'REUNITE3', 'REUNITE4', 'TR
 
 // whether to save the xml attachments for debug purposes
 $global['debugAndSaveXmlToFile'] = true;
+$global['debugAndSaveXmlToFilePath'] = $global['approot']."www/tmp/debug_cache/";
 
 // load uuid library for generating id's
 require_once($global['approot']."/inc/lib_uuid.inc");
