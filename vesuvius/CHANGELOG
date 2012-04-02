@@ -1,6 +1,10 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
+2012:0403 Update
+----------------
+Greg: patch to save debug xmls to a separate folder
+
 2012:0313 Update
 ----------------
 Greg: added transit time table to stats module.
