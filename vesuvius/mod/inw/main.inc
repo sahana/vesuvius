@@ -59,7 +59,7 @@ function shn_inw_default() {
 				<div style="float:left;">
 					<div id="sortBy" style="float:right;margin-right: 4px;width:160px; text-align: right;">
 					<b>Sort By</b>
-						<img id="sortOrderIcon" style="width:10px; height:10px; <?= $conf["enable_solr_for_search"] ? "display: none" : "" ?>" src="res/img/desc.png" title="Descending (click for ascending)" />
+						<img id="sortOrderIcon" style="width:10px; height:10px; <?= $conf["enable_solr_for_search"] ? "display: none" : "" ?>" src="res/img/desc.png" title="Descending (click for ascending)"/>
 						<select id="selectSort" onchange="Utils.sortBy( this )">
 							<? if ( $conf["enable_solr_for_search"] ) { ?>
 								<option value="">Relevance</option>
@@ -84,10 +84,10 @@ function shn_inw_default() {
 					</div>
 					<div style="clear:both;"></div>
 					<div id="scrollControls">
-						<img src="res/img/play_up.png" title="Play" onmousedown="this.src='res/img/play_down.png'" onmouseup="ScrollView.play();this.src='res/img/play_up.png'" />
-						<img src="res/img/pause_up.png" title="Pause" onmousedown="this.src='res/img/pause_down.png'" onmouseup="ScrollView.pause();this.src='res/img/pause_up.png'" />
-						<img src="res/img/faster_up.png" title="Scroll faster" onmousedown="this.src='res/img/faster_down.png'" onmouseup="ScrollView.increaseSpeed();this.src='res/img/faster_up.png'" />
-						<img src="res/img/slower_up.png" title="Scroll slower" onmousedown="this.src='res/img/slower_down.png'" onmouseup="ScrollView.decreaseSpeed();this.src='res/img/slower_up.png'" />
+						<img src="res/img/play_up.png" title="Play" onmousedown="this.src='res/img/play_down.png'" onmouseup="ScrollView.play();this.src='res/img/play_up.png'" alt="play"/>
+						<img src="res/img/pause_up.png" title="Pause" onmousedown="this.src='res/img/pause_down.png'" onmouseup="ScrollView.pause();this.src='res/img/pause_up.png'" alt="pause"/>
+						<img src="res/img/faster_up.png" title="Scroll faster" onmousedown="this.src='res/img/faster_down.png'" onmouseup="ScrollView.increaseSpeed();this.src='res/img/faster_up.png'" alt="faster"/>
+						<img src="res/img/slower_up.png" title="Scroll slower" onmousedown="this.src='res/img/slower_down.png'" onmouseup="ScrollView.decreaseSpeed();this.src='res/img/slower_up.png'" alt="slower"/>
 						<div style="height: 20px;" id="speedDisplayWrapper">
 							<div style="display: none;" id="speedDisplay">
 								0
@@ -101,11 +101,11 @@ function shn_inw_default() {
 							<div class="searchOptionsHeader">Status</div>
 							<input type="checkbox" id="checkMissing" name="checkMissing" checked onclick="Utils.formSearch()" /><label for="checkMissing" id="missing" class="bold"><? echo MISSING; ?></label>
 							<br />
-							<input type="checkbox" id="checkAliveWell" name="checkAliveWell" checked onclick="Utils.formSearch()" /><label for="checkAliveWell" class="bold" id="alive"><? echo ALIVE_AND_WELL; ?></label>
+							<input type="checkbox" id="checkAliveWell" name="checkAliveWell" checked onclick="Utils.formSearch()" /><label for="checkAliveWell" id="alive" class="bold"><? echo ALIVE_AND_WELL; ?></label>
 							<br />
-							<input type="checkbox" id="checkInjured"   name="checkInjured"  checked onclick="Utils.formSearch()" /><label for="checkInjured" class="bold" id="injured"><? echo INJURED; ?></label>
+							<input type="checkbox" id="checkInjured"   name="checkInjured"  checked onclick="Utils.formSearch()" /><label for="checkInjured" id="injured" class="bold"><? echo INJURED; ?></label>
 							<br />
-							<input type="checkbox" id="checkDeceased"  name="checkDeceased" checked onclick="Utils.formSearch()" /><label for="checkDeceased" class="bold" id="deceased"><? echo DECEASED; ?></label>
+							<input type="checkbox" id="checkDeceased"  name="checkDeceased" checked onclick="Utils.formSearch()" /><label for="checkDeceased" id="deceased" class="bold"><? echo DECEASED; ?></label>
 							<br />
 							<input type="checkbox" id="checkUnknown"  name="checkUnknown" checked onclick="Utils.formSearch()" /><label for="checkUnknown" id="unknown" class="bold"><? echo UNKNOWN; ?></label>
 							<br />
@@ -150,7 +150,7 @@ function shn_inw_default() {
 					<span id="solrFoundLabel" style="display:none">Found <span id="recordsFound">0</span> out of <span id="totalRecordsSOLR">0</span> records in <span id="timeElapsedSOLR">0</span> seconds </span>
 					<span id="sqlFoundLabel"  style="display:none">Searched <span id="totalRecordsSQL">0</span> records in <span id="timeElapsedSQL">0</span> seconds </span>
 					<span id="maxShown" style="display:none;font-size:.6em">(max 2,000 shown)</span>
-					<span id="refreshLabel" style="display:none"> | Last updated at <span id="lastCheck"></span>, Last new record found: <span id="lastChange">none</span></span>
+					<span id="refreshLabel" style="display:none"> | Last updated: <span id="lastCheck"></span>, last new record: <span id="lastChange">none</span></span>
 				</div>
 				<div id="updateAlerts2" style="float:left;font-size: .85em; font-weight: bold; display: none; margin-left: 5px; color: #C00">
 					<span style="color: black"> | </span> There are new or updated records in the database, the results will be automatically refreshed in 1 minute.
