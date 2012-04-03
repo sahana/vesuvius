@@ -63,7 +63,7 @@ $x = file_get_contents("testTP1.xml");
 
 $result = $client->call('search', array(
 	'eventShortname'=>'test',
-	'searchTerm'=>'test',
+	'searchTerm'=>'mary',
 	'filterStatusMissing'=>true,
 	'filterStatusAlive'=>true,
 	'filterStatusInjured'=>true,
