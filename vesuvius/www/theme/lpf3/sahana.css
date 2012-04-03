@@ -301,6 +301,9 @@ div#loginform {
 }
 
 
+.loginHr { height: 0px; border: none; border-bottom: 1px solid #e6e6e6; margin: 10px 0px; }
+.loginText { color: #aaa; }
+
 /* quick history styles */
 #breadcrumbs ,#breadcrumbs b,#breadcrumbs a, #breadcrumbs a:hover { color: #fff; font-size: 12px; font-weight: normal; display: none;}
 #breadcrumbs {

@@ -125,6 +125,8 @@ function shn_pref_makeGoogleLoginLink() {
 				<fieldset style="width: 500px;">
 				<legend>Login with</legend>
 				<a class="styleTehButton googleButton" href="'.$authUrl.'"><img height=23 src="theme/lpf3/img/google34px.png"></a>
+				<hr class="loginHr">
+				<span class="loginText">You may login with a 3rd party service instead of registering for a new user account.</span>
 				</fieldset>
 			</form>
 		</div>
@@ -165,7 +167,7 @@ function shn_pref_loginForm($return = null) {
 			</div>
 		';
 
-		if($conf['oauth_google_enable'] && isset($_GET['oauthtest'])) {
+		if($conf['oauth_google_enable']) {
 			shn_pref_makeGoogleLoginLink();
 		}
 
@@ -179,6 +181,8 @@ function shn_pref_loginForm($return = null) {
 						&nbsp; &nbsp; &nbsp; &nbsp;
 						<input id="followButton" class="styleTehButton" type="button" value="Forgot my password" onclick="forgot();">
 					</div>
+					<hr class="loginHr">
+					<span class="loginText">You can register for a new user account or reset your password in the event it is lost.</span>
 					</fieldset>
 				</form>
 			</div>
