@@ -40,9 +40,9 @@ var DetailsView =
 
 	createStub : function(person) {
 		var image = $("<img />").attr({ /*id : "picture_" + person.uuid,*/
-										src : person.imageUrl })
-								.addClass("stubPicture"),
-
+							src : person.imageUrl,
+							alt : isNaN(person.imageHeight) ? "no photo available" : "photo of person" })
+						.addClass("stubPicture"),
 			tempStub =  $("<div style='background-color: " + person.tagRGBA + "'></div>")
 							   .css({border: "1px solid #" + person.tagColor, background : person.tagRGBA + " url(" + person.hospitalIcon + ") no-repeat right top"})
 							   .addClass("ieStubBorder")
@@ -96,12 +96,12 @@ var DetailsView =
 
 		if ( Globals.searchMode == "sql" ) {
 			if ( Globals.currPage == 1 && Globals.hasNextPage )
-				$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage + 1) + "; searchSubset(true)'><img src='res/img/inw_next.png' /> </a>");
+				$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage + 1) + "; searchSubset(true)'><img src='res/img/inw_next.png' alt='next page'/> </a>");
 			else {
 				if ( Globals.currPage != 1 )
-					$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage - 1) + "; searchSubset(true)'><img src='res/img/inw_prev.png' /></a>")
+					$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage - 1) + "; searchSubset(true)'><img src='res/img/inw_prev.png' alt='previous page'/></a>")
 				if ( Globals.hasNextPage )
-					$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage + 1) + "; searchSubset(true)'><img src='res/img/inw_next.png' /></a>" );
+					$("#pager").append("<a href='#' style='margin-right:10px;' onclick='Globals.currPage = " + (Globals.currPage + 1) + "; searchSubset(true)'><img src='res/img/inw_next.png' alt='next page'/></a>" );
 			}
 		} else {
 			var lastPage = Globals.perPage == "All" ? 1 : Math.ceil(Globals.totalResults / Globals.perPage),
