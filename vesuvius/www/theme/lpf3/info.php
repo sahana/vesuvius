@@ -1,14 +1,14 @@
 <?
 /**
  * @name         Lost Person Finder Theme
- * @version      3.0
+ * @version      3.5
  * @package      lpf
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2012.0403
  */
 
 
@@ -16,5 +16,5 @@
 
 $shortname = "lpf3";
 $longname  = "Lost Person Finder v3";
-$siteTitle = "NLM People Locator";
+$siteTitle = "People Locator";
 
