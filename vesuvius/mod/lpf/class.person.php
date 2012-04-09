@@ -1789,6 +1789,7 @@ class person {
 
 					// create sahana image
 					if(trim($imageNode['contentData']) != "") {
+
 						$i = new personImage();
 						$i->init();
 						$i->p_uuid = $this->p_uuid;
