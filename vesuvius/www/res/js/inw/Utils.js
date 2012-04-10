@@ -69,7 +69,7 @@ var Utils = {
                 else
                         $("#dt_hospitalIcon").html("");
 
-                $("#dt_image").html('<img style="position:relative;max-height:300px;max-width:300px" src="'+person.imageUrl+'" alt="'+isNaN(person.imageHeight) ? "no photo available" : "photo of person"+'">');
+                $("#dt_image").html('<img style="position:relative;max-height:300px;max-width:300px" src="'+person.imageUrl+'" alt="'+(isNaN(person.imageHeight) ? "no photo available" : "photo of person")+'">');
                 doc.location.hash += "_details";
                 Globals.pollerId = setInterval(
                         function() {
