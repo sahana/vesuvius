@@ -17,7 +17,7 @@ $user  = "testDontDelete";
 $pass  = "dontDelete99";
 $email = "test@dontDelete.com";
 $eventShortname = "test";
-$personXML = "";
+$personXML = file_get_contents("testTP1.xml");
 $xmlFormat = "TRIAGEPIC";
 $number = 2;
 $uuid = "8";
@@ -44,17 +44,17 @@ if(!isset($_GET['api'])) {
 	showEntry();
 } else {
 	$api = "&api=".$_GET['api'];
-
+/*
 	$sites = array(
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
-/*
+*/
 	$sites = array(
 		"PL"      => "https://pl.nlm.nih.gov/?wsdl".$api,
 		"PLstage" => "https://plstage.nlm.nih.gov/?wsdl".$api,
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
-*/
+
 	init2();
 
 	// perform tests...
