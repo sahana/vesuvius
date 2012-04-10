@@ -126,7 +126,8 @@ function shn_admin_build() {
 		echo "
 			<br>Build Time: <b>".$time."</b><br>
 			Bazaar revision: <b><a href=\"http://bazaar.launchpad.net/~triune/vesuvius/trunk/revision/".$version."\" target=\"_blank\">r".$version."</a></b><br>
-			Codebase: <b><a href=\"https://code.launchpad.net/vesuvius\" target=\"_blank\">https://code.launchpad.net/vesuvius</a></b>
+			Codebase: <b><a href=\"https://code.launchpad.net/vesuvius\" target=\"_blank\">https://code.launchpad.net/vesuvius</a></b><br>
+			CHANGELOG: <b><a href=\"http://bazaar.launchpad.net/~triune/vesuvius/trunk/view/head:/vesuvius/CHANGELOG\" target=\"_blank\">http://bazaar.launchpad.net/~triune/vesuvius/trunk/view/head:/vesuvius/CHANGELOG</a></b>
 		";
 	}
 

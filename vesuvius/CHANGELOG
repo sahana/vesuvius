@@ -3,6 +3,7 @@ Changes since Vesuvius 0.9.1 was released (2011-05-20)
 
 2012:0410 Update
 ----------------
+Greg: Admin module now has a link to this CHANGLEOG
 Greg: Change LGPL url reference to new URL across all source code
 Greg: Various E_STRICT warnings patches
 Greg: Fixed Web Service Tests and user accounts
