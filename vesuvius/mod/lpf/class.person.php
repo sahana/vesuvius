@@ -1434,7 +1434,7 @@ class person {
 				$this->incident_id = $result->fields["incident_id"];
 			}
 
-			if(isset($a['person']['photos']['photo']) {
+			if(isset($a['person']['photos']['photo'])) {
 				foreach($a['person']['photos'] as $photo) {
 					if(trim($photo['data']) != "") {
 						$i = new personImage();
