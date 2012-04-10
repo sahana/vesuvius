@@ -6,7 +6,7 @@
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0221
  */
 
@@ -22,12 +22,10 @@ $wsdl = "http://ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/?wsdl
 $client = new nusoap_client($wsdl);
 
 
-//$x = file_get_contents("RU.xml");
-$x = file_get_contents("testRU4.xml");
-$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE4', 'username'=>$user, 'password'=>$pass));
+//$x = file_get_contents("reference_REUNITE4.xml");
+//$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE4', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
 
-$x = file_get_contents("testTP1.xml");
 //$x = file_get_contents("reference_TRIAGEPIC1.xml");
 //$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
@@ -40,7 +38,7 @@ $x = file_get_contents("testTP1.xml");
 //$result = $client->call('ping', array(null));
 //$result = $client->call('getNullTokenList', array('tokenStart'=>'0', 'tokenEnd'=>'120', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('getImageListBlock', array('tokenStart'=>'314', 'stride'=>2, 'username'=>$user, 'password'=>$pass));
-//$result = $client->call('getImageList', array('tokenStart'=>'0', 'tokenEnd'=>'1000', 'username'=>$user, 'password'=>$pass));
+$result = $client->call('getImageList', array('tokenStart'=>'1', 'tokenEnd'=>'1', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('getImageCountsAndTokens', array('username'=>$user, 'password'=>$pass));
 //$result = $client->call('expirePerson', array('uuid'=>'pl.nlm.nih.gov/person.4001018', 'explanation'=>'because!!!!', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('setPersonExpiryDate', array('uuid'=>'pl.nlm.nih.gov/person.4001018', 'expiryDate'=>'2011-01-01 01:23:46', 'username'=>$user, 'password'=>$pass));
@@ -61,9 +59,9 @@ $x = file_get_contents("testTP1.xml");
 //$result = $client->call('createPersonUuidBatch', array('number'=>5, 'username'=>'testDontDelete', 'password'=>'dontDelete99'));
 
 /*
-$result = $client->call('searchCount', array(
-	'eventShortname'=>'hepl',
-	'searchTerm'=>'',
+$result = $client->call('search', array(
+	'eventShortname'=>'test',
+	'searchTerm'=>'mary',
 	'filterStatusMissing'=>true,
 	'filterStatusAlive'=>true,
 	'filterStatusInjured'=>true,

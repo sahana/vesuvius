@@ -6,7 +6,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2011.0921
  */
 
@@ -300,6 +300,9 @@ div#loginform {
 	font-size: 	100%;
 }
 
+
+.loginHr { height: 0px; border: none; border-bottom: 1px solid #e6e6e6; margin: 10px 0px; }
+.loginText { color: #aaa; }
 
 /* quick history styles */
 #breadcrumbs ,#breadcrumbs b,#breadcrumbs a, #breadcrumbs a:hover { color: #fff; font-size: 12px; font-weight: normal; display: none;}

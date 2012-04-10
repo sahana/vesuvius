@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0119
  */
 
@@ -213,7 +213,7 @@ function shn_eap_findRights() {
 		$global['uuid'] = mysql_real_escape_string(urldecode($_GET['puuid']));
 
 	} else {
-		$global['uuid'] = mysql_real_escape_string(urldecode($_GET['puuid']));
+		$global['uuid'] = 0;
 	}
 
 	// first and foremost, check if the user has permissions to view the record
