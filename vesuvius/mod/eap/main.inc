@@ -213,7 +213,7 @@ function shn_eap_findRights() {
 		$global['uuid'] = mysql_real_escape_string(urldecode($_GET['puuid']));
 
 	} else {
-		$global['uuid'] = mysql_real_escape_string(urldecode($_GET['puuid']));
+		$global['uuid'] = 0;
 	}
 
 	// first and foremost, check if the user has permissions to view the record
