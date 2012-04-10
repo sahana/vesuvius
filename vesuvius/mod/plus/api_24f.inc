@@ -2235,11 +2235,12 @@ function getImageList($tokenStart, $tokenEnd, $username, $password) {
 		$result = $global['db']->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 3 ((".$q."))"); }
 		while (!$result == NULL && !$result->EOF) {
+			$creation_time = isset($result->fields["creation_time"]) ? $result->fields["creation_time"] : null;
 			$list[] = array(
 				'person_uuid'   => $result->fields["p_uuid"],
 				'image_id'      => $result->fields["image_id"],
 				'expiry_date'   => $result->fields["expiry_date"],
-				'creation_time' => $result->fields["creation_time"],
+				'creation_time' => $creation_time,
 				'url'           => $conf['https'].$conf['base_uuid'].$result->fields["url"],
 				'url_thumb'     => $conf['https'].$conf['base_uuid'].$result->fields["url_thumb"]
 			);
@@ -2328,11 +2329,12 @@ function getImageListBlock($tokenStart, $stride, $username, $password) {
 	$result = $global['db']->Execute($q);
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 3 ((".$q."))"); }
 	while (!$result == NULL && !$result->EOF) {
+		$creation_time = isset($result->fields["creation_time"]) ? $result->fields["creation_time"] : null;
 		$list[] = array(
 			'person_uuid'   => $result->fields["p_uuid"],
 			'image_id'      => $result->fields["image_id"],
 			'expiry_date'   => $result->fields["expiry_date"],
-			'creation_time' => $result->fields["creation_time"],
+			'creation_time' => $creation_time,
 			'url'           => $conf['https'].$conf['base_uuid'].$result->fields["url"],
 			'url_thumb'     => $conf['https'].$conf['base_uuid'].$result->fields["url_thumb"]
 		);

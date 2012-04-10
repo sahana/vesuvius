@@ -17,19 +17,17 @@ $uuid = "pl.nlm.nih.gov/person.2958785";
 require_once("../../3rd/nusoap/lib/nusoap.php");
 
 //$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=24";
-$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=24";
-//$wsdl = "http://ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/?wsdl&api=24";
+//$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=24";
+$wsdl = "http://ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/?wsdl&api=24";
 $client = new nusoap_client($wsdl);
 
 
-//$x = file_get_contents("RU.xml");
-$x = file_get_contents("testRU4.xml");
+//$x = file_get_contents("reference_REUNITE4.xml");
 //$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE4', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
 
-$x = file_get_contents("testTP1.xml");
-$x = file_get_contents("reference_TRIAGEPIC1.xml");
-$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
+//$x = file_get_contents("reference_TRIAGEPIC1.xml");
+//$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
 
 //$result = $client->call('version', array(null));
