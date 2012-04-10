@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2011 Google Inc.
+ * Copyright 2012 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 require_once '../../src/apiClient.php';
-require_once '../../src/contrib/apiOauth2Service.php';
 session_start();
 
 $client = new apiClient();
-$client->setApplicationName('Google PHP Starter Application');
-// Visit https://code.google.com/apis/console?api=plus to generate your
-// oauth2_client_id, oauth2_client_secret, and to register your oauth2_redirect_uri.
+$client->setApplicationName('Google Contacts PHP Sample');
+$client->setScopes("http://www.google.com/m8/feeds/");
+// Documentation: http://code.google.com/apis/gdata/docs/2.0/basics.html
+// Visit https://code.google.com/apis/console?api=contacts to generate your
+// oauth2_client_id, oauth2_client_secret, and register your oauth2_redirect_uri.
 // $client->setClientId('insert_your_oauth2_client_id');
 // $client->setClientSecret('insert_your_oauth2_client_secret');
 // $client->setRedirectUri('insert_your_redirect_uri');
 // $client->setDeveloperKey('insert_your_developer_key');
-$oauth2 = new apiOauth2Service($client);
 
 if (isset($_GET['code'])) {
   $client->authenticate();
@@ -45,35 +46,21 @@ if (isset($_REQUEST['logout'])) {
 }
 
 if ($client->getAccessToken()) {
-  try {
-    $client->verifyIdToken();
-  } catch(apiAuthException $e) {
-    die('Unable to verify id_token. Error: ' . $e->getMessage());
-  }
+  $req = new apiHttpRequest("https://www.google.com/m8/feeds/contacts/default/full");
+  $val = $client->getIo()->authenticatedRequest($req);
 
-  $user = $oauth2->userinfo->get();
-
-  $email = filter_var($user['email'], FILTER_SANITIZE_EMAIL);
-  $img = filter_var($user['picture'], FILTER_VALIDATE_URL);
-  $personMarkup = "$email<div><img src='$img?sz=50'></div>";
+  // The contacts api only returns XML responses.
+  $response = json_encode(simplexml_load_string($val->getResponseBody()));
+  print "<pre>" . print_r(json_decode($response, true), true) . "</pre>";
 
   // The access token may have been updated lazily.
   $_SESSION['token'] = $client->getAccessToken();
 } else {
-  $authUrl = $client->createAuthUrl();
+  $auth = $client->createAuthUrl();
 }
-?>
-<!doctype html>
-<html><head><meta charset=utf-8></head>
-<body>
-<?php
-  if(isset($personMarkup)) {
-    print $personMarkup;
-  }
-  if(isset($authUrl)) {
-    print "<a class=login href='$authUrl'>Connect Me!</a>";
+
+if (isset($auth)) {
+    print "<a class=login href='$auth'>Connect Me!</a>";
   } else {
     print "<a class=logout href='?logout'>Logout</a>";
-  }
-?>
-</body></html>
+}
