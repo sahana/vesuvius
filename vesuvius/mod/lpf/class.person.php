@@ -1800,11 +1800,11 @@ class person {
 						$realSha1 = sha1($i->fileContent);
 
 						if(strcasecmp($realSha1, $xmlSha1) != 0) {
-							//error_log("420 ERROR!! realSha1(".$realSha1.") xmlSha1(".$xmlSha1.")");
+							error_log("420 ERROR!! realSha1(".$realSha1.") xmlSha1(".$xmlSha1.")");
 							$i->invalid = true;
 							$this->ecode = 420;
 						} else {
-							//error_log("strings match! realSha1(".$realSha1.") xmlSha1(".$xmlSha1.")");
+							error_log("strings match! realSha1(".$realSha1.") xmlSha1(".$xmlSha1.")");
 						}
 
 						$i->original_filename = $imageNode['uri'];
