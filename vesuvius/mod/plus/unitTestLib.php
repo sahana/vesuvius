@@ -147,7 +147,7 @@ function getEventList() {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -166,7 +166,7 @@ function getEventListUser($username, $password) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -185,7 +185,7 @@ function getGroupList() {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -204,7 +204,7 @@ function getHospitalList() {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -223,7 +223,7 @@ function getHospitalData($uuid) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -242,7 +242,7 @@ function getHospitalPolicy($uuid) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -261,7 +261,7 @@ function getHospitalLegalese($uuid) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -280,7 +280,7 @@ function getHospitalLegaleseAnon($uuid) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -298,7 +298,7 @@ function getHospitalLegaleseTimestamps($uuid) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -321,7 +321,7 @@ function registerUser($username, $emailAddress, $password, $givenName, $familyNa
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -340,7 +340,7 @@ function changeUserPassword($username, $oldPassword, $newPassword) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -359,7 +359,7 @@ function resetUserPassword($email) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -378,7 +378,7 @@ function forgotUsername($email) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -397,7 +397,7 @@ function checkUserAuth($username, $password) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -416,7 +416,7 @@ function getUserStatus($username) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -435,7 +435,7 @@ function getUserGroup($username) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -454,7 +454,7 @@ function getSessionTimeout() {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -499,7 +499,7 @@ function search($shortname, $searchTerm) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -542,7 +542,7 @@ function searchWithAuth($shortname, $searchTerm, $username, $password) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -582,7 +582,7 @@ function searchCount($shortname, $searchTerm) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -625,7 +625,7 @@ function searchCountWithAuth($shortname, $searchTerm, $username, $password) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -648,8 +648,10 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $user, $pass) {
 		$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'TRIAGEPIC1', 'username'=>$user, 'password'=>$pass));
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
+		} elseif(is_array($result) && isset($result['errorCode']) && (($result['errorCode'] == 419) || ($result['errorCode'] == 420))) {
+			echo "<td class=\"stub\">WARN(".$result['errorCode'].")</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -667,7 +669,7 @@ function createPersonUuid($user, $pass) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -685,7 +687,7 @@ function createPersonUuidBatch($number, $user, $pass) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -702,7 +704,7 @@ function createNoteUuid($user, $pass) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -719,7 +721,7 @@ function createNoteUuidBatch($number, $user, $pass) {
 		if(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 0)) {
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -744,8 +746,10 @@ function reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $user, $
 			echo "<td class=\"pass\">&nbsp;</td>";
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
+		} elseif(is_array($result) && isset($result['errorCode']) && (($result['errorCode'] == 419) || ($result['errorCode'] == 420))) {
+			echo "<td class=\"stub\">WARN(".$result['errorCode'].")</td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -765,7 +769,7 @@ function expirePerson($uuid, $explanation, $user, $pass) {
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -786,7 +790,7 @@ function getPersonExpiryDate($uuid) {
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -807,7 +811,7 @@ function setPersonExpiryDate($uuid, $expiryDate, $user, $pass) {
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -828,7 +832,7 @@ function setPersonExpiryDateOneYear($uuid, $user, $pass) {
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -849,7 +853,7 @@ function getUuidByMassCasualtyId($mcid, $user, $pass) {
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -869,7 +873,7 @@ function changeMassCasualtyId($newMcid, $uuid, $user, $pass) {
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -889,7 +893,7 @@ function hasRecordBeenRevised($uuid, $user, $pass) {
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -910,7 +914,7 @@ function addComment($uuid, $comment, $status, $user, $pass) {
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -931,7 +935,7 @@ function getPersonPermissions($uuid, $user, $pass) {
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -958,7 +962,7 @@ function getImageCountsAndTokens($user, $pass) {
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -979,7 +983,7 @@ function getImageList($tokenStart, $tokenEnd, $user, $pass) {
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -1000,7 +1004,7 @@ function getImageListBlock($tokenStart, $stride, $user, $pass) {
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
@@ -1021,7 +1025,7 @@ function getNullTokenList($tokenStart, $tokenEnd, $user, $pass) {
 		} elseif(is_array($result) && isset($result['errorCode']) && ($result['errorCode'] == 9998)) {
 			echo "<td class=\"stub\"><blink>STUB</blink></td>";
 		} else {
-			echo "<td class=\"fail\"><blink>FAIL</blink></td>";
+			echo "<td class=\"fail\"><blink>FAIL(".$result['errorCode'].")</blink></td>";
 		}
 	}
 	echo "</tr>";
