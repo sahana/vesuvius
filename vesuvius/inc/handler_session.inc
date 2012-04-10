@@ -8,7 +8,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0314
  */
 
@@ -149,7 +149,7 @@ function session_is_valid() {
 		$secret = $res->fields["secret"];
 		// changed to allow up to 8 hours of inactivity, and unlimited session otherwise (see PL-344) ~
                 // we always will regenerate sessid upon relogin from this method, since it's more secure
-		if ($time < $in_expiry+(3600*8)) { 
+		if ($time < $in_expiry+(3600*8)) {
 			return true;
 		} else {
 			return false;

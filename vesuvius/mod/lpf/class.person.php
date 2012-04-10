@@ -1373,8 +1373,8 @@ class person {
 
 		// save xml for debugging?
 		if($global['debugAndSaveXmlToFile'] == true) {
-			$filename = "debugXML_".mt_rand();
-			$path = $global['approot']."www/tmp/plus_cache/".$filename.".xml";
+			$filename = date("Y_md_H-i-s.u")."___".mt_rand().".xml"; // 2012_0402_17-50-33.454312___437849328789.xml
+			$path = $global['debugAndSaveXmlToFilePath'].$filename;
 			file_put_contents($path, $this->theString);
 		}
 
@@ -1434,26 +1434,28 @@ class person {
 				$this->incident_id = $result->fields["incident_id"];
 			}
 
-			foreach($a['person']['photos'] as $photo) {
-				if(trim($photo['data']) != "") {
-					$i = new personImage();
-					$i->init();
-					$i->p_uuid = $this->p_uuid;
-					$i->fileContentBase64 = $photo['data'];
-					if(isset($photo['tags'])) {
-						foreach($photo['tags'] as $tag) {
-							$t = new personImageTag();
-							$t->init();
-							$t->image_id = $i->image_id;
-							$t->tag_x    = $tag['x'];
-							$t->tag_y    = $tag['y'];
-							$t->tag_w    = $tag['w'];
-							$t->tag_h    = $tag['h'];
-							$t->tag_text = $tag['text'];
-							$i->tags[] = $t;
+			if(isset($a['person']['photos']['photo'])) {
+				foreach($a['person']['photos'] as $photo) {
+					if(trim($photo['data']) != "") {
+						$i = new personImage();
+						$i->init();
+						$i->p_uuid = $this->p_uuid;
+						$i->fileContentBase64 = $photo['data'];
+						if(isset($photo['tags'])) {
+							foreach($photo['tags'] as $tag) {
+								$t = new personImageTag();
+								$t->init();
+								$t->image_id = $i->image_id;
+								$t->tag_x    = $tag['x'];
+								$t->tag_y    = $tag['y'];
+								$t->tag_w    = $tag['w'];
+								$t->tag_h    = $tag['h'];
+								$t->tag_text = $tag['text'];
+								$i->tags[] = $t;
+							}
 						}
+						$this->images[] = $i;
 					}
-					$this->images[] = $i;
 				}
 			}
 
@@ -1789,6 +1791,7 @@ class person {
 
 					// create sahana image
 					if(trim($imageNode['contentData']) != "") {
+
 						$i = new personImage();
 						$i->init();
 						$i->p_uuid = $this->p_uuid;

@@ -6,7 +6,7 @@
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0221
  */
 
@@ -2235,11 +2235,12 @@ function getImageList($tokenStart, $tokenEnd, $username, $password) {
 		$result = $global['db']->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 3 ((".$q."))"); }
 		while (!$result == NULL && !$result->EOF) {
+			$creation_time = isset($result->fields["creation_time"]) ? $result->fields["creation_time"] : null;
 			$list[] = array(
 				'person_uuid'   => $result->fields["p_uuid"],
 				'image_id'      => $result->fields["image_id"],
 				'expiry_date'   => $result->fields["expiry_date"],
-				'creation_time' => $result->fields["creation_time"],
+				'creation_time' => $creation_time,
 				'url'           => $conf['https'].$conf['base_uuid'].$result->fields["url"],
 				'url_thumb'     => $conf['https'].$conf['base_uuid'].$result->fields["url_thumb"]
 			);
@@ -2328,11 +2329,12 @@ function getImageListBlock($tokenStart, $stride, $username, $password) {
 	$result = $global['db']->Execute($q);
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "getImageList 3 ((".$q."))"); }
 	while (!$result == NULL && !$result->EOF) {
+		$creation_time = isset($result->fields["creation_time"]) ? $result->fields["creation_time"] : null;
 		$list[] = array(
 			'person_uuid'   => $result->fields["p_uuid"],
 			'image_id'      => $result->fields["image_id"],
 			'expiry_date'   => $result->fields["expiry_date"],
-			'creation_time' => $result->fields["creation_time"],
+			'creation_time' => $creation_time,
 			'url'           => $conf['https'].$conf['base_uuid'].$result->fields["url"],
 			'url_thumb'     => $conf['https'].$conf['base_uuid'].$result->fields["url_thumb"]
 		);

@@ -364,7 +364,9 @@ class personImage {
 		if(!unlink($file)) {
 			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "unable to delete file", "person image unwrite 1 ((".$file."))");
 		} else {
-			unlink($original);
+			if(file_exists($original)) {
+				unlink($original);
+			}
 			// we don't log problems deleting originals as we dont always have them and it would fill up the log...
 		}
 		// only delete the thumb if its not the same as the fullsized file
