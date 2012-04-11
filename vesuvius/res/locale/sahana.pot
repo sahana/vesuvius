@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-18 23:17+0530\n"
+"POT-Creation-Date: 2012-04-12 00:51+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -60,7 +60,7 @@ msgstr ""
 msgid "Select the Role you want to edit permissions of"
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:33 ../mod/admin/main.inc:330
+#: ../inc/lib_security/acl_form.inc:33 ../mod/admin/main.inc:331
 msgid "Select Role"
 msgstr ""
 
@@ -82,115 +82,105 @@ msgstr ""
 msgid "Locked User"
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:64 ../mod/admin/main.inc:178
+#: ../inc/lib_security/acl_form.inc:64 ../mod/admin/main.inc:179
 msgid "Active"
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:65 ../mod/admin/main.inc:179
+#: ../inc/lib_security/acl_form.inc:65 ../mod/admin/main.inc:180
 msgid "Locked"
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:66 ../mod/admin/main.inc:180
+#: ../inc/lib_security/acl_form.inc:66 ../mod/admin/main.inc:181
 msgid "Banned"
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:75
-msgid ""
-"Password locking is disabled system wide. Locks will not take any effect "
-"until it is enabled."
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:76
-msgid "Click here to enable locking"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:111 ../mod/admin/main.inc:220
+#: ../inc/lib_security/acl_form.inc:105 ../mod/admin/main.inc:221
 msgid "Save"
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:908
+#: ../inc/lib_security/lib_auth.inc:955
 msgid "First name is a required field. Please enter a value."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:916
+#: ../inc/lib_security/lib_auth.inc:963
 msgid "Last name is a required field. Please enter a value."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1273
+#: ../inc/lib_security/lib_auth.inc:1285
 #, php-format
 msgid "The minimum password length is %d"
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1276
+#: ../inc/lib_security/lib_auth.inc:1288
 #, php-format
 msgid "The maximum password length is %d."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1279
+#: ../inc/lib_security/lib_auth.inc:1291
 msgid "The password should have at least one uppercase character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1282
+#: ../inc/lib_security/lib_auth.inc:1294
 msgid "The password should have at least one lowercase character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1285
+#: ../inc/lib_security/lib_auth.inc:1297
 msgid "The password should have at least one numeric character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1288
+#: ../inc/lib_security/lib_auth.inc:1300
 msgctxt ""
 "The password should have at least one special character. eg. !,@.#$%\\^&\\*/?"
 "`~+="
 msgid ":;-\"'"
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1291
+#: ../inc/lib_security/lib_auth.inc:1303
 msgid "The username cannot be a part of the password."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1318
+#: ../inc/lib_security/lib_auth.inc:1330
 #, php-format
 msgid "The minimum length of the password is %d characters."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1322
+#: ../inc/lib_security/lib_auth.inc:1334
 #, php-format
 msgid "The maximum length of the password is %d characters."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1326
+#: ../inc/lib_security/lib_auth.inc:1338
 msgid "Must have at least one uppercase character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1330
+#: ../inc/lib_security/lib_auth.inc:1342
 msgid "Must have at least one lowercase character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1334
+#: ../inc/lib_security/lib_auth.inc:1346
 msgid "Must have at least one numeral (0-9)."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1338
+#: ../inc/lib_security/lib_auth.inc:1350
 msgctxt ""
 "Should have one or more of the following characters: '!@,.#$%\\^&\\*/?`~+="
 msgid ":;()-\"'[]{}<>' "
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1342
+#: ../inc/lib_security/lib_auth.inc:1354
 msgid "The password cannot contain your username."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1357
+#: ../inc/lib_security/lib_auth.inc:1369
 msgid "Please enter a valid Role name."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1373
+#: ../inc/lib_security/lib_auth.inc:1385
 #, php-format
 msgid "The role '%s' was successfully added."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1378
+#: ../inc/lib_security/lib_auth.inc:1390
 msgid ""
 "A role with the name you entered already exists. Please enter a different "
 "role name."
@@ -519,8 +509,8 @@ msgstr ""
 msgid "Records originating in PL only"
 msgstr ""
 
-#: ../mod/pfif/main.inc:173 ../mod/admin/main.inc:339 ../mod/pref/main.inc:506
-#: ../mod/pref/main.inc:564
+#: ../mod/pfif/main.inc:173 ../mod/admin/main.inc:340 ../mod/pref/main.inc:510
+#: ../mod/pref/main.inc:568
 msgid "Submit"
 msgstr ""
 
@@ -635,119 +625,119 @@ msgstr ""
 msgid "Event Log"
 msgstr ""
 
-#: ../mod/admin/main.inc:162
+#: ../mod/admin/main.inc:163
 msgid "Rows are Users ,Columns are the possible status values"
 msgstr ""
 
-#: ../mod/admin/main.inc:165
+#: ../mod/admin/main.inc:166
 msgid "<strong>Active</strong> - The user can login and perform operations."
 msgstr ""
 
-#: ../mod/admin/main.inc:166
+#: ../mod/admin/main.inc:167
 msgid ""
 "<strong>Locked</strong> - The user is withheld from performing operations on "
 "the system temporarily."
 msgstr ""
 
-#: ../mod/admin/main.inc:167
+#: ../mod/admin/main.inc:168
 msgid ""
 "<strong>Banned</strong> - The user is not allowed to perform any operation "
 "on the system permanently."
 msgstr ""
 
-#: ../mod/admin/main.inc:177
+#: ../mod/admin/main.inc:178
 msgid "User"
 msgstr ""
 
-#: ../mod/admin/main.inc:264
+#: ../mod/admin/main.inc:265
 msgid "Date"
 msgstr ""
 
-#: ../mod/admin/main.inc:265
+#: ../mod/admin/main.inc:266
 msgid "Time"
 msgstr ""
 
-#: ../mod/admin/main.inc:266
+#: ../mod/admin/main.inc:267
 msgid "User Name"
 msgstr ""
 
-#: ../mod/admin/main.inc:267
+#: ../mod/admin/main.inc:268
 msgid "Full Name"
 msgstr ""
 
-#: ../mod/admin/main.inc:268
+#: ../mod/admin/main.inc:269
 msgid "Event Type"
 msgstr ""
 
-#: ../mod/admin/main.inc:269
+#: ../mod/admin/main.inc:270
 msgid "Event"
 msgstr ""
 
-#: ../mod/admin/main.inc:320
+#: ../mod/admin/main.inc:321
 msgid "Account Details"
 msgstr ""
 
-#: ../mod/admin/main.inc:336
+#: ../mod/admin/main.inc:337
 msgid "OpenID "
 msgstr ""
 
-#: ../mod/admin/main.inc:371
+#: ../mod/admin/main.inc:372
 msgid "Select User(s) to Delete"
 msgstr ""
 
-#: ../mod/admin/main.inc:376
+#: ../mod/admin/main.inc:377
 msgid "Remove user"
 msgstr ""
 
-#: ../mod/admin/main.inc:417
+#: ../mod/admin/main.inc:418
 msgid "User does not exist"
 msgstr ""
 
-#: ../mod/admin/main.inc:419
+#: ../mod/admin/main.inc:420
 msgid "User was successfully removed"
 msgstr ""
 
-#: ../mod/admin/main.inc:443
+#: ../mod/admin/main.inc:444
 msgid "Select User"
 msgstr ""
 
-#: ../mod/admin/main.inc:446
+#: ../mod/admin/main.inc:447
 msgid "New Password"
 msgstr ""
 
-#: ../mod/admin/main.inc:452
+#: ../mod/admin/main.inc:453
 msgid "Reset Password"
 msgstr ""
 
-#: ../mod/admin/main.inc:473
+#: ../mod/admin/main.inc:474
 msgid "New password cannot be blank."
 msgstr ""
 
-#: ../mod/admin/main.inc:480
+#: ../mod/admin/main.inc:481
 msgid "You failed to re-enter the password."
 msgstr ""
 
-#: ../mod/admin/main.inc:487
+#: ../mod/admin/main.inc:488
 msgid "The two passwords you entered did not match."
 msgstr ""
 
-#: ../mod/admin/main.inc:498
+#: ../mod/admin/main.inc:499
 msgid "The password was succesfully reset."
 msgstr ""
 
-#: ../mod/admin/main.inc:592
+#: ../mod/admin/main.inc:593
 msgid "Save ACL"
 msgstr ""
 
-#: ../mod/admin/main.inc:645
+#: ../mod/admin/main.inc:646
 msgid "The selection was not saved due to one or more errors."
 msgstr ""
 
-#: ../mod/admin/main.inc:647
+#: ../mod/admin/main.inc:648
 msgid "The ACL changes were saved successfully."
 msgstr ""
 
-#: ../mod/admin/main.inc:670
+#: ../mod/admin/main.inc:671
 msgid "User's class updated successfully."
 msgstr ""
 
@@ -775,63 +765,63 @@ msgstr ""
 msgid "Change My Password"
 msgstr ""
 
-#: ../mod/pref/main.inc:252 ../mod/pref/main.inc:577 ../mod/pref/main.inc:584
+#: ../mod/pref/main.inc:256 ../mod/pref/main.inc:581 ../mod/pref/main.inc:588
 msgid "Please provide the text in the image correctly to prove you are human."
 msgstr ""
 
-#: ../mod/pref/main.inc:622
+#: ../mod/pref/main.inc:626
 msgid "You new password must adhere to following rules:"
 msgstr ""
 
-#: ../mod/pref/main.inc:629
+#: ../mod/pref/main.inc:633
 msgid "Fill in these required fields to change your password"
 msgstr ""
 
-#: ../mod/pref/main.inc:638
+#: ../mod/pref/main.inc:642
 msgid "Change Password"
 msgstr ""
 
-#: ../mod/pref/main.inc:671
+#: ../mod/pref/main.inc:675
 msgid "Old password cannot be empty!"
 msgstr ""
 
-#: ../mod/pref/main.inc:679
+#: ../mod/pref/main.inc:683
 msgid "New password cannot be empty!"
 msgstr ""
 
-#: ../mod/pref/main.inc:687
+#: ../mod/pref/main.inc:691
 msgid "You left the confirm password field blank."
 msgstr ""
 
-#: ../mod/pref/main.inc:695
+#: ../mod/pref/main.inc:699
 msgid "Your new password did not match when you retyped it."
 msgstr ""
 
-#: ../mod/pref/main.inc:720
+#: ../mod/pref/main.inc:724
 msgid "You cannot change the password more than once in one day"
 msgstr ""
 
-#: ../mod/pref/main.inc:751
+#: ../mod/pref/main.inc:755
 msgid "You cannot choose one of the recent four passwords"
 msgstr ""
 
-#: ../mod/pref/main.inc:765
+#: ../mod/pref/main.inc:769
 msgid " Succesfully changed Password"
 msgstr ""
 
-#: ../mod/pref/main.inc:782
+#: ../mod/pref/main.inc:786
 msgid "Old password cannot be empty"
 msgstr ""
 
-#: ../mod/pref/main.inc:788
+#: ../mod/pref/main.inc:792
 msgid "New password cannot be empty"
 msgstr ""
 
-#: ../mod/pref/main.inc:794
+#: ../mod/pref/main.inc:798
 msgid "Confirm password cannot be empty"
 msgstr ""
 
-#: ../mod/pref/main.inc:800
+#: ../mod/pref/main.inc:804
 msgid "Password and Confirm Password should match"
 msgstr ""
 
