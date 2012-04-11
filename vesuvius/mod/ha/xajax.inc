@@ -167,12 +167,12 @@ function ha_perform_help() {
 
 	// help content
 	$pageMainHtml = "
-		"._t('HOSPITAL_HTML|coming soon....')."
+		"._t('HOSPITAL_HELP|coming soon....')."
 	";
 
 	// update log/ui
 	$pageControlHtml = '
-		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('HOSPITAL_LOG|Closing Help...').'<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="'._t('HOSPITAL_BUTTON|Close Help').'">
+		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('HOSPITAL_HELP|Closing Help...').'<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="'._t('HOSPITAL_BUTTON|Close Help').'">
 	';
 
 	$global['xajax_res']->addAssign('rezMain', 'innerHTML', $pageMainHtml);
@@ -307,14 +307,12 @@ function ha_perform_delete($hospital_uuid, $confirm) {
 			DELETE from hospital
 			WHERE hospital_uuid = '".$hospital_uuid."';
 		";
-<<<<<<< TREE
+
 		$res = $global['db']->Execute($q);
 		$global['xajax_res']->addAppend('rezLog', 'innerHTML', _t('HOSPITAL_LOG|Hospital <b>#').$hospital_uuid.'</b> <span style="color: red;">'._t('HOSPITAL_LOG|removed').'</span>.<br>');
-=======
 		$result = $global['db']->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital delete 1"); }
 		$global['xajax_res']->addAppend('rezLog', 'innerHTML', 'Hospital <b>#'.$hospital_uuid.'</b> <span style="color: red;">removed</span>.<br>');
->>>>>>> MERGE-SOURCE
 	} else {
 		$global['xajax_res']->addAppend('rezLog', 'innerHTML', "Remove operation aborted.<br>");
 	}
@@ -537,13 +535,11 @@ function ha_perform_edit($hospital_uuid) {
 
 	// control HTML
 	$editControlHtml = '
-<<<<<<< TREE
+
 		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('HOSPITAL_LOG|Canceling Changes...').'<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="'._t('HOSPITAL_BUTTON|Cancel Edit / Close').'">
 		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('HOSPITAL_LOG|Saving Changes...').'<br>\'); setTimeout(\'ha_perform_save('.$hospital_uuid.', ha_get_data());\', 250);" value="'._t('HOSPITAL_BUTTON|Save Changes').'">
-=======
 		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\'Saving Changes...<br>\'); setTimeout(\'ha_perform_save('.$hospital_uuid.', ha_get_data());\', 250);" value="Save Changes and Close">
 		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\'Canceling Changes...<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="Cancel Editing and Close">
->>>>>>> MERGE-SOURCE
 	';
 
 	// if Admin... show delete button
