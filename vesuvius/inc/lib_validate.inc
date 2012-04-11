@@ -10,7 +10,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2011.0308
  *
  * @todo       password validation
@@ -412,10 +412,12 @@ function shn_validate_user_name($field){
  * @access public
  * @return bool
  */
-function shn_validate_password($user=null,$pwd) {
+function shn_validate_password($user = null, $pwd) {
+
 	global $global;
 	require_once ($global['approot'].'inc/lib_security/lib_acl.inc');
-	$result = shn_check_password_matches_policy($pwd,$user);
+
+	$result = shn_check_password_matches_policy($pwd, $user);
 	if($result !== true) {
 		add_error(shn_get_password_policy_message($result));
 		shn_acl_log_msg("Password Change error: password does not comply with the policy");

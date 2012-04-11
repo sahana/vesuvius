@@ -6,7 +6,7 @@
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0221
  */
 
@@ -17,10 +17,10 @@ $user  = "testDontDelete";
 $pass  = "dontDelete99";
 $email = "test@dontDelete.com";
 $eventShortname = "test";
-$personXML = "";
-$xmlFormat = "TRIAGEPIC";
+$personXML = file_get_contents("reference_TRIAGEPIC1.xml");
+$xmlFormat = "TRIAGEPIC1";
 $number = 2;
-$uuid = "8";
+$uuid = "4";
 $mcid = "0";
 $newMcid = "1";
 $expiryDate = "2036-11-11 11:11:11";
@@ -44,17 +44,17 @@ if(!isset($_GET['api'])) {
 	showEntry();
 } else {
 	$api = "&api=".$_GET['api'];
-
+/*
 	$sites = array(
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
-/*
+*/
 	$sites = array(
 		"PL"      => "https://pl.nlm.nih.gov/?wsdl".$api,
 		"PLstage" => "https://plstage.nlm.nih.gov/?wsdl".$api,
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
-*/
+
 	init2();
 
 	// perform tests...
