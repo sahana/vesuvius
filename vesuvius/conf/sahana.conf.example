@@ -1,22 +1,29 @@
 <?php
 /**
  * @name         Main Sahana Configuration File
- * @version      1.0
+ * @version      0.9.2
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0412
+ * @lastModified 2012.0119
  */
+
+# The official name of your site, ie. People Locator
+# This is used throughout Vesuvius for string replacement when referring to your site.
+$conf['site_name'] = "Sahana Vesuvius";
 
 # Unique identifier for all resources contained in the system
 # Must be unique and 4 or more alphanumberic characters
-# this also is used throughout Vesuvius as the base URL for the site
-$conf['base_uuid'] = "pl.nlm.nih.gov/";
+# this also is used throughout Vesuvius as the base URL for all URLs that are generated, so it must be correct (also must have a trailing slash)
+$conf['base_uuid'] = "vesuvius.sahanafoundation.org/";
+#$conf['base_uuid'] = "pl.nlm.nih.gov/";
+#$conf['base_uuid'] = "ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/";
 
 # server uses https or http ~ some modules use this plus the base_uuid to form url's
 $conf['https'] = "https://";
+#$conf['https'] = "http://";
 
 # Use this theme directory
 $conf['theme'] = "vesuvius";

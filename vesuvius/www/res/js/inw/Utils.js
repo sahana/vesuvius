@@ -62,10 +62,7 @@ var Utils = {
                 inw_getNotes(person.uuid)
                 $("#dt_notesTab > a").html("Notes");
 
-                if ( $("#shortName").val() == "sendai2011" ) // obviously a hack.
-                        $("#dt_eapLink > a").attr("href", "http://japan.person-finder.appspot.com/view?lang=en&id=" + person.uuid ).attr("target", "_new");
-                else
-                        $("#dt_eapLink > a").attr("href", "index.php?mod=eap&act=edit&uuid=" + person.encodedUUID);
+		$("#dt_eapLink > a").attr("href", person.encodedUUID ).attr("target", "_new");
 
                 if ( person.hospitalIcon != "" )
                         $("#dt_hospitalIcon").html("<img src='" + person.hospitalIcon + "' />");
@@ -91,20 +88,20 @@ var Utils = {
 		//play the scroll
 		if ( !Globals.displayMode )
 			ScrollView.play();
-			
+
 		if ( $("#dt_notesTab > a").html() === "Info" )
 			Utils.showNotes();
 
 		$("#glass").hide();
 		$("#detailsPane").hide();
-		
+
 		$("#dt_noteDates, #noteDatesLabel, #dt_image > div, #dt_notes > *").remove();
 		$("#jsonNotes").val("");
-		
-		
+
+
 		if ($("#map_canvas").css("visibility") === "visible")
 			Utils.showMap();
-		
+
 		document.location.hash = document.location.hash.replace("_details", "");
 	},
 
@@ -124,67 +121,70 @@ var Utils = {
 		map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 		var geocoder = Utils.codeAddress();
 	},
-	
+
 	loadNotes : function() {
 		var jsonNotes = $.parseJSON($("#jsonNotes").val()); // expecting [{"note_id":"asahi.com\/note.0000a5f9cddbaa47f2e4917bf931d78d.1","date":"2011-04-11 21:16:54","author":"?????? ????????","found":null,"status":"believed_alive","lastSeen":null,"text":"???????????? URL???????????"},{"note_id":...
-		
-		if ( !jsonNotes ) { 
-			$("#dt_notesTab").hide(); 
-			return; 
-		} 
+
+		if ( !jsonNotes ) {
+			$("#dt_notesTab").hide();
+			return;
+		}
 		else $("#dt_notesTab").show();
-		
+
 		var noteDates = $("<ul></ul>").attr("id", "dt_noteDates").css({"display" : "none", "max-height" : "400px"}),
 			   jsonLength = jsonNotes.length;
-		
+
 		$("#dt_noteDates").html(""); // blank out
-		
+
 		for ( var i = 0; i < jsonLength; i++) {
 			var link = 	$("<li></li>").attr({ "id" : "note_" + i })
 									  .append(
 											$("<a></a>")
-												.html(jsonNotes[i]["date"])
+												.html(jsonNotes[i]["date"] + " UTC")
 												.attr("href", "javascript:Utils.showNoteContent(" + i + ")" )
 										);
 			noteDates.append(link);
 		}
-		
+
 		var label = $("<label></label>").attr("id", "noteDatesLabel").css({"text-align": "left", "float" : "left", "display": "none", "width" : "100px"}).html("Available Notes");
 
 		$("#dt_image").append(label).append("<div style='clear:both'></div>").append(noteDates);
 	},
-	
+
 	showNoteContent : function(noteNumber) {
+		var jsonNotes   = $.parseJSON($("#jsonNotes").val());
+                var status_msg = jsonNotes[noteNumber]["status"] || "Not Reported";
+                // (PL-318) If found is true, override status unless status is "is note author".
+                if (jsonNotes[noteNumber]["found"] === "true" && status_msg != "is note author")  {
+ 			status_msg = "personally contacted";
+                }
 		var noteContent = $("#dt_notes"),
-			jsonNotes   = $.parseJSON($("#jsonNotes").val()),
 			noteid		= $("<div></div>").attr("id", "note_author").html(jsonNotes[noteNumber]["note_id"]),
 			author      = $("<div></div>").attr("id", "note_author").html(jsonNotes[noteNumber]["author"] || "Not Reported"),
-			status	 	= $("<div></div>").attr("id","note_status").html(jsonNotes[noteNumber]["status"] || "Not Reported"),
-			found	 	= $("<div></div>").attr("id","note_found").html(jsonNotes[noteNumber]["found"] === "true" ? "Yes" : "No"),
+			status	 	= $("<div></div>").attr("id","note_status").html(status_msg),
 			lastSeen 	= $("<div></div>").attr("id","note_lastSeen").html(jsonNotes[noteNumber]["lastSeen"] || "Not Reported"),
 			text	 	= $("<textarea></textarea>").attr("id","note_text").html(jsonNotes[noteNumber]["text"])
 													.css({"height": "100px",
 														  "font-size" : "1.2em",
 														  "width" : "355px"}),
-			
+
 			legend 		= $("<legend></legend>");
-			
-			
-			
+
+
+
 		noteContent.html("")
 				   //.append(legend.clone().html("Id")).append(noteid)
 				   .append(legend.clone().html("Author")).append(author)
 				   .append(legend.clone().html("Status")).append(status)
-				   .append(legend.clone().html("Found")).append(found)
 				   .append(legend.clone().html("Last Known Location")).append(lastSeen)
 				   .append(legend.clone().html("Text")).append(text);
-		
-		$("#dt_noteDates > li").css("background-color", "transparent");		
+
+		$("#dt_noteDates > li").css("background-color", "transparent");
 		$("#note_" + noteNumber).css("background-color", "#E0ECFF")
 		$("#dt_notes_label").html( $("#note_" + noteNumber + " > a").html() );
 
 	},
-	
+
 	showNotes : function() {
 		$("#detailInfo > div, #detailInfo > label").toggle();
 		if ( $("#dt_notesTab > a").html() === "Notes") {
@@ -279,7 +279,7 @@ var Utils = {
 		if ( lastUpdated != Globals.lastUpdated ) {
 			Globals.mostRecent = Globals.lastUpdated; // saving for later
 			Globals.lastUpdated = lastUpdated;
-			if ( Globals.displayMode )   
+			if ( Globals.displayMode )
 				$("#updateAlerts").fadeIn("slow");
 			else {
 				$("#updateAlerts2").fadeIn("slow");
@@ -383,7 +383,7 @@ var Utils = {
 	isNumber : function(n) {
 		return !isNaN(parseFloat(n)) && isFinite(n);
 	},
-	
+
 	addCommas : function (nStr) { // credit - http://www.mredkj.com/javascript/numberFormat.html
 		nStr += '';
 		x = nStr.split('.');
@@ -395,8 +395,8 @@ var Utils = {
 		}
 		return x1 + x2;
 	},
-	
-	clear : function () { 
+
+	clear : function () {
 		window.location.hash = "";
 		window.location.reload();
 	},
@@ -419,7 +419,7 @@ var Utils = {
 		  .show();
 
 		$("#helpInfo").html("<h3>Search Help</h3>"+
-                  "<ul>"+     
+                  "<ul>"+
                   "<li>Enter \"unknown\" to search records without names.</li>"+
                   "<li>Leave the box blank to browse all records.</li>"+
                   "<li>Use * as a wildcard (for example: \"Cath*\" will find \"Catherine\").</li>"+
@@ -427,11 +427,11 @@ var Utils = {
                   "</ul>"
                 );
 
-		
+
 		doc.location.hash += "_help";
-		Globals.pollerId = setInterval( 
-			function() { 
-				if ( doc.location.hash.indexOf("_help") === -1 ) { 
+		Globals.pollerId = setInterval(
+			function() {
+				if ( doc.location.hash.indexOf("_help") === -1 ) {
 					Utils.closeHelp()
 					clearInterval(Globals.pollerId);
 				}
@@ -444,10 +444,10 @@ var Utils = {
 		//play the scroll
 		if ( !Globals.displayMode )
 			ScrollView.play();
-			
+
 		$("#glass").hide();
 		$("#helpPane").hide();
-		
+
 		document.location.hash = document.location.hash.replace("_help", "");
 	}
 };

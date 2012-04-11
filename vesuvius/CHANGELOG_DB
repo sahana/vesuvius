@@ -1,11 +1,383 @@
 Log of all Changes to the schema since Vesuvius v0.9.1
 ------------------------------------------------------
 
+///////////////////////////////////////////////// GREG'S CHANGES THAT ARE IN PRODUCTION ////////////////////////////////////////////////////////////////////////
+
+2012:0221 Greg
+--------------
+
+ALTER TABLE  `plus_access_log` ADD  `user_name` VARCHAR( 100 ) NULL DEFAULT NULL COMMENT  'users.user_name that make the call' ;
+ALTER TABLE  `plus_access_log` ADD INDEX  `user_idx` (`user_name`) ;
+ALTER TABLE  `plus_access_log` ADD FOREIGN KEY (`user_name`) REFERENCES  `users` (`user_name`) ON DELETE CASCADE ON UPDATE CASCADE ;
+ALTER TABLE  `person_notes`    ADD  `suggested_status` VARCHAR( 3 ) NULL DEFAULT NULL COMMENT  'the status of the person as suggested by the note maker' ;
+
+2012:0216 Greg
+--------------
+ALTER TABLE  `edxl_co_photos` ADD  `sha1` VARCHAR( 40 ) NULL DEFAULT NULL COMMENT  'sha1 calculated hash of the image' ;
+ALTER TABLE  `voice_note` DROP FOREIGN KEY  `voice_note_ibfk_2` ;
+ALTER TABLE  `plus_access_log` ADD  `latitude` DOUBLE NULL DEFAULT NULL COMMENT  'lat of the ip address', ADD  `longitude` DOUBLE NULL DEFAULT NULL COMMENT  'lon of the ip address';
 
 
+///////////////////////////////////////////////// LEIF'S CHANGES THAT ARE IN PRODUCTION ////////////////////////////////////////////////////////////////////////
 
+2012:0207 Leif
+--------------
+
+ALTER TABLE `pl`.`person_to_report` ADD INDEX ( `rep_uuid` )
+
+DELIMITER //
+DROP PROCEDURE `PLSearch`//
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PLSearch`(
+     IN searchTerms CHAR(255),
+         IN statusFilter VARCHAR(100),
+         IN genderFilter VARCHAR(100),
+         IN ageFilter VARCHAR(100),
+         IN hospitalFilter VARCHAR(100),
+         IN incidentName VARCHAR(100),
+         IN sortBy VARCHAR(100),
+         IN pageStart INT,
+         IN perPage INT
+)
+BEGIN
+
+        DROP TABLE IF EXISTS tmp_names;
+    IF searchTerms = '' THEN
+            CREATE TEMPORARY TABLE tmp_names AS (
+            SELECT SQL_NO_CACHE pu.*
+                FROM person_uuid pu
+                   JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
+                  LIMIT 5000
+         );
+
+    ELSE
+            CREATE TEMPORARY TABLE  tmp_names AS (
+            SELECT SQL_NO_CACHE pu.*
+                FROM person_uuid pu
+                   JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
+            WHERE full_name like CONCAT(searchTerms , '%')
+            LIMIT 5000
+            );
+     END IF;
+
+    SET @sqlString = CONCAT("SELECT  SQL_NO_CACHE `tn`.`p_uuid`       AS `p_uuid`,
+                                `tn`.`full_name`    AS `full_name`,
+                                `tn`.`given_name`   AS `given_name`,
+                                `tn`.`family_name`  AS `family_name`,
+                                (CASE WHEN `ps`.`opt_status` NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') THEN 'unk' ELSE `ps`.`opt_status` END) AS `opt_status`,
+                                CONVERT_TZ(ps.last_updated,'America/New_York','UTC') AS updated,
+                                (CASE WHEN `pd`.`opt_gender` NOT IN ('mal', 'fml') OR `pd`.`opt_gender` IS NULL THEN 'unk' ELSE `pd`.`opt_gender` END) AS `opt_gender`,
+                                `pd`.`years_old` as `years_old`,
+                                `pd`.`minAge` as `minAge`,
+                                `pd`.`maxAge` as `maxAge`,
+                                `i`.`image_height` AS `image_height`,
+                                `i`.`image_width`  AS `image_width`,
+                                `i`.`url_thumb`    AS `url_thumb`,
+                                (CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)  AS `hospital`,
+                                (CASE WHEN (`h`.`hospital_uuid` = -(1)) THEN NULL ELSE `h`.`icon_url` END) AS `icon_url`,
+                                `pd`.last_seen,
+                                `pd`.other_comments as comments,
+                                 ecl.person_id as mass_casualty_id
+                         FROM tmp_names tn
+             JOIN person_status ps  ON (tn.p_uuid = ps.p_uuid and (`tn`.`expiry_date` > NOW() OR `tn`.`expiry_date` IS NULL) AND INSTR(?,       (CASE WHEN ps.opt_status NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR ps.opt_status IS NULL THEN 'unk' ELSE  ps.opt_status END)))
+             JOIN person_details pd ON (tn.p_uuid = pd.p_uuid AND INSTR(?, (CASE WHEN `opt_gender` NOT IN ('mal', 'fml') OR `opt_gender` IS NULL THEN 'unk' ELSE `opt_gender` END))
+                                                                                                                          AND INSTR(?, (CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NOT NULL THEN
+                                                        (CASE WHEN `pd`.`years_old` < 18 THEN 'youth'
+                                                                  WHEN `pd`.`years_old` >= 18 THEN 'adult' END)
+                                         WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL
+                                                  AND `pd`.`minAge` < 18 AND `pd`.`maxAge` >= 18 THEN 'both'
+                                         WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`minAge` >= 18 THEN 'adult'
+                                         WHEN CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`maxAge` < 18 THEN 'youth'
+                                         ELSE 'unknown'
+                                         END)))
+                         LEFT
+                         JOIN hospital h        ON (tn.hospital_uuid = h.hospital_uuid AND INSTR(?, (CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)))
+             LEFT
+                         JOIN image i                   ON (tn.p_uuid = i.p_uuid AND i.principal = TRUE)
+                         LEFT
+                         JOIN edxl_co_lpf ecl   ON tn.p_uuid = ecl.p_uuid
+           ORDER BY ", sortBy, " LIMIT ?, ?;");
+
+      PREPARE stmt FROM @sqlString;
+
+      SET @statusFilter = statusFilter;
+      SET @genderFilter = genderFilter;
+      SET @ageFilter = ageFilter;
+      SET @hospitalFilter = hospitalFilter;
+
+      SET @pageStart = pageStart;
+      SET @perPage = perPage;
+      SET NAMES utf8;
+      EXECUTE stmt USING @statusFilter, @genderFilter, @ageFilter, @hospitalFilter, @pageStart, @perPage;
+
+      DEALLOCATE PREPARE stmt;
+      DROP TABLE tmp_names;
+END
+
+2012:0202 Leif
+--------------
+
+ALTER TABLE `person_status` CHANGE `opt_status` `opt_status` VARCHAR( 3 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'unk'
+
+DROP VIEW IF EXISTS `person_search`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `person_search` AS
+select `pu`.`p_uuid` AS `p_uuid`,
+`pu`.`full_name` AS `full_name`,
+`pu`.`given_name` AS `given_name`,
+`pu`.`family_name` AS `family_name`,
+`pu`.`expiry_date` AS `expiry_date`,
+`ps`.`last_updated` AS `updated`,
+`ps`.`last_updated_db` AS `updated_db`,
+(case when (`ps`.`opt_status` not in ('ali','mis','inj','dec','unk','fnd')) then 'unk' else `ps`.`opt_status` end) AS `opt_status`,
+(case when ((`pd`.`opt_gender` not in ('mal','fml')) or isnull(`pd`.`opt_gender`)) then 'unk' else `pd`.`opt_gender` end) AS `opt_gender`,
+(case when isnull(cast(`pd`.`years_old` as unsigned)) then -(1) else `pd`.`years_old` end) AS `years_old`,
+(case when isnull(cast(`pd`.`minAge` as unsigned)) then -(1) else `pd`.`minAge` end) AS `minAge`,
+(case when isnull(cast(`pd`.`maxAge` as unsigned)) then -(1) else `pd`.`maxAge` end) AS `maxAge`,
+(case when (cast(`pd`.`years_old` as unsigned) is not null) then (case when (`pd`.`years_old` < 18) then 'youth' when (`pd`.`years_old` >= 18) then 'adult' end) when ((cast(`pd`.`minAge` as unsigned) is not null) and (cast(`pd`.`maxAge` as unsigned) is not null) and (`pd`.`minAge` < 18) and (`pd`.`maxAge` >= 18)) then 'both' when ((cast(`pd`.`minAge` as unsigned) is not null) and (`pd`.`minAge` >= 18)) then 'adult' when ((cast(`pd`.`maxAge` as unsigned) is not null) and (`pd`.`maxAge` < 18)) then 'youth' else 'unknown' end) AS `ageGroup`,
+`i`.`image_height` AS `image_height`,
+`i`.`image_width` AS `image_width`,
+`i`.`url_thumb` AS `url_thumb`,
+(case when (`h`.`hospital_uuid` = -(1)) then NULL else `h`.`icon_url` end) AS `icon_url`,
+`inc`.`shortname` AS `shortname`,
+(case when ((`pu`.`hospital_uuid` not in (1,2,3)) or isnull(`pu`.`hospital_uuid`)) then 'public' else lcase(`h`.`short_name`) end) AS `hospital`,
+`pd`.`other_comments` AS `comments`,
+`pd`.`last_seen` AS `last_seen`,
+`ecl`.`person_id` AS `mass_casualty_id`
+from ((((((`person_uuid` `pu` join `person_status` `ps` on((`pu`.`p_uuid` = `ps`.`p_uuid`))) left join `image` `i` on(((`pu`.`p_uuid` = `i`.`p_uuid`) and (`i`.`principal` = 1)))) join `person_details` `pd` on(`pu`.`p_uuid` = `pd`.`p_uuid`)) join `incident` `inc` on(`inc`.`incident_id` = `pu`.`incident_id`)) left join `hospital` `h` on(`h`.`hospital_uuid` = `pu`.`hospital_uuid`)) left join `edxl_co_lpf` `ecl` on(`ecl`.`p_uuid` = `pu`.`p_uuid`))
+
+DELIMITER //
+DROP PROCEDURE `PLSearch`//
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PLSearch`(
+     IN searchTerms CHAR(255),
+         IN statusFilter VARCHAR(100),
+         IN genderFilter VARCHAR(100),
+         IN ageFilter VARCHAR(100),
+         IN hospitalFilter VARCHAR(100),
+         IN incidentName VARCHAR(100),
+         IN sortBy VARCHAR(100),
+         IN pageStart INT,
+         IN perPage INT
+)
+BEGIN
+
+        DROP TABLE IF EXISTS tmp_names;
+    IF searchTerms = '' THEN
+            CREATE TEMPORARY TABLE tmp_names AS (
+            SELECT SQL_NO_CACHE pu.*
+                FROM person_uuid pu
+                   JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
+                  LIMIT 5000
+         );
+
+    ELSE
+            CREATE TEMPORARY TABLE  tmp_names AS (
+            SELECT SQL_NO_CACHE pu.*
+                FROM person_uuid pu
+                   JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
+            WHERE full_name like CONCAT(searchTerms , '%')
+            LIMIT 5000
+            );
+     END IF;
+
+    SET @sqlString = CONCAT("SELECT  SQL_NO_CACHE `tn`.`p_uuid`       AS `p_uuid`,
+                                `tn`.`full_name`    AS `full_name`,
+                                `tn`.`given_name`   AS `given_name`,
+                                `tn`.`family_name`  AS `family_name`,
+                                (CASE WHEN `ps`.`opt_status` NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') THEN 'unk' ELSE `ps`.`opt_status` END) AS `opt_status`,
+
+                                DATE_FORMAT(ps.last_updated, '%Y-%m-%d %k:%i:%s') as updated,
+
+                                (CASE WHEN `pd`.`opt_gender` NOT IN ('mal', 'fml') OR `pd`.`opt_gender` IS NULL THEN 'unk' ELSE `pd`.`opt_gender` END) AS `opt_gender`,
+                                `pd`.`years_old` as `years_old`,
+                                `pd`.`minAge` as `minAge`,
+                                `pd`.`maxAge` as `maxAge`,
+                                `i`.`image_height` AS `image_height`,
+                                `i`.`image_width`  AS `image_width`,
+                                `i`.`url_thumb`    AS `url_thumb`,
+                                (CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)  AS `hospital`,
+                                (CASE WHEN (`h`.`hospital_uuid` = -(1)) THEN NULL ELSE `h`.`icon_url` END) AS `icon_url`,
+                                `pd`.last_seen,
+                                `pd`.other_comments as comments,
+                                 ecl.person_id as mass_casualty_id
+                         FROM tmp_names tn
+             JOIN person_status ps  ON (tn.p_uuid = ps.p_uuid and (`tn`.`expiry_date` > NOW() OR `tn`.`expiry_date` IS NULL) AND INSTR(?,       (CASE WHEN ps.opt_status NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR ps.opt_status IS NULL THEN 'unk' ELSE  ps.opt_status END)))
+             JOIN person_details pd ON (tn.p_uuid = pd.p_uuid AND INSTR(?, (CASE WHEN `opt_gender` NOT IN ('mal', 'fml') OR `opt_gender` IS NULL THEN 'unk' ELSE `opt_gender` END))
+                                                                                                                          AND INSTR(?, (CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NOT NULL THEN
+                                                        (CASE WHEN `pd`.`years_old` < 18 THEN 'youth'
+                                                                  WHEN `pd`.`years_old` >= 18 THEN 'adult' END)
+                                         WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL
+                                                  AND `pd`.`minAge` < 18 AND `pd`.`maxAge` >= 18 THEN 'both'
+                                         WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`minAge` >= 18 THEN 'adult'
+                                         WHEN CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`maxAge` < 18 THEN 'youth'
+                                         ELSE 'unknown'
+                                         END)))
+                         LEFT
+                         JOIN hospital h        ON (tn.hospital_uuid = h.hospital_uuid AND INSTR(?, (CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)))
+             LEFT
+                         JOIN image i                   ON (tn.p_uuid = i.p_uuid AND i.principal = TRUE)
+                         LEFT
+                         JOIN edxl_co_lpf ecl   ON tn.p_uuid = ecl.p_uuid
+           ORDER BY ", sortBy, " LIMIT ?, ?;");
+
+      PREPARE stmt FROM @sqlString;
+
+      SET @statusFilter = statusFilter;
+      SET @genderFilter = genderFilter;
+      SET @ageFilter = ageFilter;
+      SET @hospitalFilter = hospitalFilter;
+
+      SET @pageStart = pageStart;
+      SET @perPage = perPage;
+      SET NAMES utf8;
+      EXECUTE stmt USING @statusFilter, @genderFilter, @ageFilter, @hospitalFilter, @pageStart, @perPage;
+
+      DEALLOCATE PREPARE stmt;
+      DROP TABLE tmp_names;
+END
+
+2012:0131 Leif
+--------------
+
+ALTER TABLE `image` ADD `principal` BOOLEAN NOT NULL DEFAULT '1'
+ALTER TABLE `image` ADD INDEX ( `principal` )
+
+ALTER TABLE `image` DROP INDEX `image_id`
+
+DELIMITER //
+DROP PROCEDURE `PLSearch`//
+CREATE DEFINER=`root`@`localhost` PROCEDURE `PLSearch`(
+     IN searchTerms CHAR(255),
+         IN statusFilter VARCHAR(100),
+         IN genderFilter VARCHAR(100),
+         IN ageFilter VARCHAR(100),
+         IN hospitalFilter VARCHAR(100),
+         IN incidentName VARCHAR(100),
+         IN sortBy VARCHAR(100),
+         IN pageStart INT,
+         IN perPage INT
+)
+BEGIN
+
+        DROP TABLE IF EXISTS tmp_names;
+    IF searchTerms = '' THEN
+            CREATE TEMPORARY TABLE tmp_names AS (
+            SELECT SQL_NO_CACHE pu.*
+                FROM person_uuid pu
+                   JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
+                  LIMIT 5000
+         );
+
+    ELSE
+            CREATE TEMPORARY TABLE  tmp_names AS (
+            SELECT SQL_NO_CACHE pu.*
+                FROM person_uuid pu
+                   JOIN incident i  ON (pu.incident_id = i.incident_id AND i.shortname = incidentName)
+            WHERE full_name like CONCAT(searchTerms , '%')
+            LIMIT 5000
+            );
+     END IF;
+
+    SET @sqlString = CONCAT("SELECT  SQL_NO_CACHE `tn`.`p_uuid`       AS `p_uuid`,
+                                `tn`.`full_name`    AS `full_name`,
+                                `tn`.`given_name`   AS `given_name`,
+                                `tn`.`family_name`  AS `family_name`,
+                                (CASE WHEN `ps`.`opt_status` NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR `ps`.`opt_status` IS NULL THEN 'unk' ELSE `ps`.`opt_status` END) AS `opt_status`,
+
+                                DATE_FORMAT(ps.last_updated, '%Y-%m-%d %k:%i:%s') as updated,
+
+                                (CASE WHEN `pd`.`opt_gender` NOT IN ('mal', 'fml') OR `pd`.`opt_gender` IS NULL THEN 'unk' ELSE `pd`.`opt_gender` END) AS `opt_gender`,
+                                `pd`.`years_old` as `years_old`,
+                                `pd`.`minAge` as `minAge`,
+                                `pd`.`maxAge` as `maxAge`,
+                                `i`.`image_height` AS `image_height`,
+                                `i`.`image_width`  AS `image_width`,
+                                `i`.`url_thumb`    AS `url_thumb`,
+                                (CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)  AS `hospital`,
+                                (CASE WHEN (`h`.`hospital_uuid` = -(1)) THEN NULL ELSE `h`.`icon_url` END) AS `icon_url`,
+                                `pd`.last_seen,
+                                `pd`.other_comments as comments,
+                                 ecl.person_id as mass_casualty_id
+                         FROM tmp_names tn
+             JOIN person_status ps  ON (tn.p_uuid = ps.p_uuid and (`tn`.`expiry_date` > NOW() OR `tn`.`expiry_date` IS NULL) AND INSTR(?,       (CASE WHEN ps.opt_status NOT IN ('ali', 'mis', 'inj', 'dec', 'fnd') OR ps.opt_status IS NULL THEN 'unk' ELSE  ps.opt_status END)))
+             JOIN person_details pd ON (tn.p_uuid = pd.p_uuid AND INSTR(?, (CASE WHEN `opt_gender` NOT IN ('mal', 'fml') OR `opt_gender` IS NULL THEN 'unk' ELSE `opt_gender` END))
+                                                                                                                          AND INSTR(?, (CASE WHEN CONVERT(`pd`.`years_old`, UNSIGNED INTEGER) IS NOT NULL THEN
+                                                        (CASE WHEN `pd`.`years_old` < 18 THEN 'youth'
+                                                                  WHEN `pd`.`years_old` >= 18 THEN 'adult' END)
+                                         WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL
+                                                  AND `pd`.`minAge` < 18 AND `pd`.`maxAge` >= 18 THEN 'both'
+                                         WHEN CONVERT(`pd`.`minAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`minAge` >= 18 THEN 'adult'
+                                         WHEN CONVERT(`pd`.`maxAge`, UNSIGNED INTEGER) IS NOT NULL AND `pd`.`maxAge` < 18 THEN 'youth'
+                                         ELSE 'unknown'
+                                         END)))
+                         LEFT
+                         JOIN hospital h        ON (tn.hospital_uuid = h.hospital_uuid AND INSTR(?, (CASE WHEN `h`.`short_name` NOT IN ('nnmc', 'suburban') OR `h`.`short_name` IS NULL THEN 'other' ELSE `h`.`short_name` END)))
+             LEFT
+                         JOIN image i                   ON (tn.p_uuid = i.p_uuid AND i.principal = TRUE)
+                         LEFT
+                         JOIN edxl_co_lpf ecl   ON tn.p_uuid = ecl.p_uuid
+           ORDER BY ", sortBy, " LIMIT ?, ?;");
+
+      PREPARE stmt FROM @sqlString;
+
+      SET @statusFilter = statusFilter;
+      SET @genderFilter = genderFilter;
+      SET @ageFilter = ageFilter;
+      SET @hospitalFilter = hospitalFilter;
+
+      SET @pageStart = pageStart;
+      SET @perPage = perPage;
+      SET NAMES utf8;
+      EXECUTE stmt USING @statusFilter, @genderFilter, @ageFilter, @hospitalFilter, @pageStart, @perPage;
+
+      DEALLOCATE PREPARE stmt;
+      DROP TABLE tmp_names;
+END
+
+
+DROP VIEW IF EXISTS `person_search`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `person_search` AS select `pu`.`p_uuid` AS `p_uuid`,`pu`.`full_name` AS `full_name`,`pu`.`given_name` AS `given_name`,`pu`.`family_name` AS `family_name`,`pu`.`expiry_date` AS `expiry_date`,`ps`.`last_updated` AS `updated`,`ps`.`last_updated_db` AS `updated_db`,(case when ((`ps`.`opt_status` not in (_utf8'ali',_utf8'mis',_utf8'inj',_utf8'dec',_utf8'unk',_utf8'fnd')) or isnull(`ps`.`opt_status`)) then _utf8'unk' else `ps`.`opt_status` end) AS `opt_status`,(case when ((`pd`.`opt_gender` not in (_utf8'mal',_utf8'fml')) or isnull(`pd`.`opt_gender`)) then _utf8'unk' else `pd`.`opt_gender` end) AS `opt_gender`,(case when isnull(cast(`pd`.`years_old` as unsigned)) then -(1) else `pd`.`years_old` end) AS `years_old`,(case when isnull(cast(`pd`.`minAge` as unsigned)) then -(1) else `pd`.`minAge` end) AS `minAge`,(case when isnull(cast(`pd`.`maxAge` as unsigned)) then -(1) else `pd`.`maxAge` end) AS `maxAge`,(case when (cast(`pd`.`years_old` as unsigned) is not null) then (case when (`pd`.`years_old` < 18) then _utf8'youth' when (`pd`.`years_old` >= 18) then _utf8'adult' end) when ((cast(`pd`.`minAge` as unsigned) is not null) and (cast(`pd`.`maxAge` as unsigned) is not null) and (`pd`.`minAge` < 18) and (`pd`.`maxAge` >= 18)) then _utf8'both' when ((cast(`pd`.`minAge` as unsigned) is not null) and (`pd`.`minAge` >= 18)) then _utf8'adult' when ((cast(`pd`.`maxAge` as unsigned) is not null) and (`pd`.`maxAge` < 18)) then _utf8'youth' else _utf8'unknown' end) AS `ageGroup`,`i`.`image_height` AS `image_height`,`i`.`image_width` AS `image_width`,`i`.`url_thumb` AS `url_thumb`,(case when (`h`.`hospital_uuid` = -(1)) then NULL else `h`.`icon_url` end) AS `icon_url`,`inc`.`shortname` AS `shortname`,(case when ((`pu`.`hospital_uuid` not in (1,2,3)) or isnull(`pu`.`hospital_uuid`)) then _utf8'public' else lcase(`h`.`short_name`) end) AS `hospital`,`pd`.`other_comments` AS `comments`,`pd`.`last_seen` AS `last_seen`,`ecl`.`person_id` AS `mass_casualty_id` from ((((((`person_uuid` `pu` join `person_status` `ps` on((`pu`.`p_uuid` = `ps`.`p_uuid`))) left join `image` `i` on((`pu`.`p_uuid` = `i`.`p_uuid` and `i`.`principal` = TRUE))) join `person_details` `pd` on((`pu`.`p_uuid` = `pd`.`p_uuid`))) join `incident` `inc` on((`inc`.`incident_id` = `pu`.`incident_id`))) left join `hospital` `h` on((`h`.`hospital_uuid` = `pu`.`hospital_uuid`))) left join `edxl_co_lpf` `ecl` on((`ecl`.`p_uuid` = `pu`.`p_uuid`))) ;
+
+
+///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION PRE-2012-0130 ////////////////////////////////////////////////////////////
+
+
+2012:0124 Greg
+--------------
+
+ALTER TABLE  `person_notes` CHANGE  `note_about_p_uuid`  `note_about_p_uuid` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+ALTER TABLE  `person_notes` CHANGE  `note_written_by_p_uuid`  `note_written_by_p_uuid` VARCHAR( 128 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ;
+ALTER TABLE  `person_followers` DROP FOREIGN KEY  `person_followers_ibfk_3` ;
+ALTER TABLE  `person_followers` DROP FOREIGN KEY  `person_followers_ibfk_4` ;
+UPDATE  `person_uuid` SET  `incident_id` = NULL , `hospital_uuid` = NULL WHERE  `person_uuid`.`p_uuid` =  '8' LIMIT 1 ;
+
+
+2012:0109 Greg
+--------------
+
+ALTER TABLE  `incident` CHANGE  `private_group`  `private_group` INT( 11 ) NULL DEFAULT NULL ;
+ALTER TABLE  `incident` ADD FOREIGN KEY (`private_group`) REFERENCES  `sys_user_groups` (`group_id`) ON DELETE CASCADE ON UPDATE CASCADE ;
+ALTER TABLE  `edxl_co_photos` DROP FOREIGN KEY  `edxl_co_photos_ibfk_3` ;
+
+
+2012:0106 Leif
+--------------
+ALTER TABLE  `person_status` ADD  `last_updated_db` DATETIME NULL DEFAULT NULL COMMENT 'Last DB update. (For SOLR indexing.)',
+ADD INDEX ( `last_updated_db` )
+
+
+2012:0104 Greg
+--------------
+
+ALTER TABLE  `edxl_co_header` ADD INDEX  `p_uuid_idx` (  `p_uuid` ) ;
+SELECT p_uuid FROM edxl_co_header WHERE p_uuid NOT IN (SELECT p_uuid FROM person_uuid) ;
+## DELETED THESE ^^^^ ROWS BY HAND :)
+ALTER TABLE  `edxl_co_header` ADD FOREIGN KEY (`p_uuid`) REFERENCES `person_uuid` (`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE ;
+
+SELECT p_uuid FROM edxl_co_photos WHERE p_uuid NOT IN (SELECT p_uuid FROM person_uuid) ;
+## DELETED THESE ^^^^ ROWS BY HAND :)
 ALTER TABLE  `edxl_co_photos` ADD FOREIGN KEY (`co_id`) REFERENCES  `edxl_co_header` (`co_id`) ON DELETE CASCADE ON UPDATE CASCADE ;
 ALTER TABLE  `edxl_co_photos` ADD FOREIGN KEY (`p_uuid`) REFERENCES  `person_uuid` (`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE ;
+
 ALTER TABLE  `edxl_de_roles` ADD INDEX `role_idx` (`role_num`) ;
 ALTER TABLE  `edxl_co_roles` ADD FOREIGN KEY (`role_num`) REFERENCES  `edxl_de_roles` (`role_num`) ON DELETE CASCADE ON UPDATE CASCADE ;
 
@@ -20,19 +392,10 @@ ALTER TABLE  `person_physical` DROP FOREIGN KEY  `person_physical_ibfk_2` ;
 ALTER TABLE  `person_updates` DROP FOREIGN KEY  `person_updates_ibfk_3` ;
 ALTER TABLE  `person_updates` DROP FOREIGN KEY  `person_updates_ibfk_4` ;
 
+ALTER TABLE  `person_updates` DROP FOREIGN KEY  `person_updates_ibfk_3` ;
+ALTER TABLE  `person_updates` DROP FOREIGN KEY  `person_updates_ibfk_4` ;
+
 ALTER TABLE  `rap_log` DROP FOREIGN KEY  `rap_log_ibfk_2` ;
-
-
-///////////////////////////////////////////////// ALL BELOW CHANGES ARE IN PRODUCTION ////////////////////////////////////////////////////////////
-
-2012:0104 Greg
---------------
-
-ALTER TABLE  `edxl_co_header` ADD INDEX  `p_uuid_idx` (  `p_uuid` ) ;
-SELECT p_uuid FROM edxl_co_header WHERE p_uuid NOT IN (SELECT p_uuid FROM person_uuid) ;
-## DELETED THESE ^^^^ ROWS BY HAND :)
-ALTER TABLE  `edxl_co_header` ADD FOREIGN KEY (`p_uuid`) REFERENCES `person_uuid` (`p_uuid`) ON DELETE CASCADE ON UPDATE CASCADE ;
-
 
 
 2011:1228 Greg

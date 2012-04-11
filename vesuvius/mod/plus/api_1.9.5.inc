@@ -21,20 +21,6 @@ function shn_plus_registerAll($namespace) {
 	// GENERAL API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 	// GENERAL API DECLARATIONS /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// //
 
-	shn_plus_registerOne($server, 'version',
-		array(
-			'in' => array(),
-			'out' => array(
-				'versionMajor'    => 'xsd:integer',
-				'versionMinor'    => 'xsd:integer',
-				'versionRevision' => 'xsd:integer',
-				'versionString'   => 'xsd:string'
-			)
-		),
-		$namespace,
-		"Returns version info (".$api_version.")"
-	);
-
 	shn_plus_registerOne($server, 'getEventList',
 		array(
 			'in' => array(),
@@ -454,26 +440,6 @@ function shn_plus_registerAll($namespace) {
 
 
 // Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
-function version() {
-	global $api_version;
-	shn_plus_logAccess("version");
-
-	$e        = explode(".", $api_version);
-	$major    = $e[0];
-	$minor    = $e[1];
-	$revision = $e[2];
-
-	return array(
-		'versionMajor'    => (int)$major,
-		'versionMinor'    => (int)$minor,
-		'versionRevision' => (int)$revision,
-		'versionString'   => (string)$api_version
-	);
-}
-
-
-
-// Returns an array of (incident_id, parent_id, name, shortname, date, type, latitude, longitude) of listed disaster incidents.
 function getEventList() {
 	shn_plus_logAccess("getEventList");
 	global $global;
@@ -481,6 +447,7 @@ function getEventList() {
 	$q = "
 		SELECT *
 		FROM incident
+		WHERE private_group is null
 		ORDER BY `default` DESC, name ASC;
 	";
 	$result = $global['db']->Execute($q);
@@ -1379,7 +1346,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 			$p->xmlFormat = $xmlFormat;
 			$p->setEvent($eventShortName);
 			$ecode = $p->parseXml();
-			if($ecode == 0) {
+			if($ecode == 0 || $ecode == 419 || $ecode == 420) { // we accept record with bad images (the images are not saved)
 				$p->insert();
 				$p->plusReportLog();
 			} else {

@@ -1,6 +1,78 @@
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
 
+2012:0221 Update
+----------------
++ added IP geocoded lookup of web service calls to track the location of TriagePic and ReUnite users for data visualization
++ added total api calls to API_VERSION in PLus Access Stats
++ added "Hits by User" section to PLUS Access Statistics
++ added "Active Clients" tab to PLUS to monitor on a Google Map the currently active web service clients (for the moment, this shows all clients over time)
++ added getPersonPermissions and addComment services to the new PLUS v24 API_VERSION
++ updated EAP (Full Record Page) to show added comments and suggested statuses
+Leif: Tweaked SOLR invocations to wring out additional efficiencies.
+
+2012:0214 Update
+----------------
+Greg:
++ Login Redirection ~ after logging in, you are directed back to the last page you were on / also from the login link, you are directed to /settings now after successful login.
++ Report module now has the login box if you are not logged in.
++ URL cleanup-age : htaccess updated with defaults for all modules, ie. /search to get to search, /admin to get to admin section, /triagepic or /tp to get to TriagePic.
++ Snapshot module broken out from Admin module (so it could be disabled in Module Access Control as we no longer use it)
++ Internal Resources module: moved version information to admin module (removed all internal pages as they are now on the NLM wiki)
++ Admin module ~ new tabbed menu structure merged and removed old code files and old code
++ Removed user signup disable function from admin
++ Removed user account lock disable feature from admin
++ moved VERSION and TIME from theme (public folder) to app root (non-public)
++ error, information, and confirmation messages appear absolutely positioned from the top of the page not to disturb page content and fade out after 10 seconds
++ PLUS module migrated to tabbed interface
++ TP module migrated to tabbed interface
++ PREF module update URLs and login/forgot password procedure
+Leif Neve 2012-02-12 Optimize SQL queries for 'People I'm Tracking' (PL-323)
+Leif Neve 2012-02-11 PFIF found=true should always map to PL alive (PL-318)
+Leif Neve 2012-02-08 adjust SQL datetimes for UTC (PL-319), order search pop-up notes by source date (PL-317)
+Leif Neve 2012-02-03 person_status.opt_status can't be null
+
+
+2012:0131 Update
+----------------
+Greg:
++ PLUS v2.3 in production
++ Changed 1 web service: resetUserPassword() to handle both password and username "forgot scenarios"
++ Added 2 additional web services: searchCount() and searchCountWithAuth()
++/- Fixed PLUS::search() and searchWithAuth() to perform as expected (dropped the mode parameter fixed perPage parameter)
++ PLUS Stats: Log all hits (before we excluded internal ips)
++ PLUS Stats: 2 new reports: Hits in the last 30 days and Hits in the last 30 days not internal
++ PLUS Stats: added geoip lookups when clicking on ip addresses
++ finishing work on last DAO object ~ class.personEDXL.php
+- removed old xmlrpc code from codebase (app store related)
++/- fixed getEventList ws showing non-public events
++ began work on REUNITE4 XML format
+
++/- PFIF saves image_urls without a preceding slash (fixed)
+
+Leif Neve 2012-01-31 image.primary -> image.principal
+Leif Neve 2012-01-30 Cleaned up PFIF export code
+Leif Neve 2012-01-28 cleaned up unnecessary 'dummy node' business
+Leif Neve 2012-01-27 Fix search problem that arose from multiple images (PL-303)
+Leif Neve 2012-01-27 Omit leading / for image url's (PL-308)
+
+
+2012:0124 Leif
+--------------
++ Timestamp PFIF log messages
+
+2012:0124 Greg
+--------------
++ Added the ability to upload images to a person record in EAP
+
+2012:0119 Greg
+--------------
++ Fixed javascript for the search box to empty text on a click of the microphone icon (Chrome only) so that voice searches now work properly.
++ Gave Vesuvius a global configuration variable $conf['site_name'] which defines the global name of the site, ie. People Locator. This will be used throughout the site in various communications to refer to the proper name of the site (it was hard coded to People Locator in many instances).
++ POP module (outbound email) now uses the new global site name in the configuration page as well as in all outbound emails sent.
++ MPRES, PLUS, PREF, ARRIVE, EAP, INW, REPORT updated for link compatibility
++ MPRES/POP/PFIF menu item order changed ~ grouped together
+
 2011:1116 Greg
 --------------
 

@@ -1,20 +1,21 @@
 <?
 /**
  * @name         PL User Services
- * @version      2.1
+ * @version      24
  * @package      plus
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1207
+ * @lastModified 2012.0221
  */
+
 
 // INTERNAL PLUS TESTER //
 
 $user  = "testDontDelete";
 $pass  = "dontDelete99";
-$email = "testCase@email.com";
+$email = "test@dontDelete.com";
 $eventShortname = "test";
 $personXML = "";
 $xmlFormat = "TRIAGEPIC";
@@ -26,6 +27,8 @@ $expiryDate = "2036-11-11 11:11:11";
 $tokenStart = "1";
 $tokenEnd = "1";
 $stride = 2;
+$comment = "TEST COMMENT FOR WEB SERVICES.";
+$status = "dec";
 
 // load nusoap client library
 require_once("../../3rd/nusoap/lib/nusoap.php");
@@ -42,11 +45,9 @@ if(!isset($_GET['api'])) {
 } else {
 	$api = "&api=".$_GET['api'];
 
-
 	$sites = array(
 		"devGreg" => "http://plstage.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/index.php?wsdl".$api,
 	);
-
 /*
 	$sites = array(
 		"PL"      => "https://pl.nlm.nih.gov/?wsdl".$api,
@@ -58,13 +59,26 @@ if(!isset($_GET['api'])) {
 
 	// perform tests...
 	switch($_GET['api']) {
+
+		case '24':
+			getPersonPermissions($uuid, $user, $pass);
+			addComment($uuid, $comment, $status, $user, $pass);
+			version();
+
+		case '2.3':
+			searchCount("test", "t");
+			searchCountWithAuth("test", "t", $user, $pass);
+			resetUserPassword($email);
+
 		case '2.2':
 			reReportPerson($uuid, $personXML, $eventShortname, $xmlFormat, $user, $pass);
+
 		case '2.1':
 			getImageCountsAndTokens($user, $pass);
 			getImageList($tokenStart, $tokenEnd, $user, $pass);
 			getImageListBlock($tokenStart, $stride, $user, $pass);
 			getNullTokenList($tokenStart, $tokenEnd, $user, $pass);
+
 		case '2.0':
 			expirePerson($uuid, '', $user, $pass);
 			getPersonExpiryDate($uuid);
@@ -73,10 +87,10 @@ if(!isset($_GET['api'])) {
 			getUuidByMassCasualtyId($mcid, $user, $pass);
 			changeMassCasualtyId($newMcid, $uuid, $user, $pass);
 			hasRecordBeenRevised($uuid, $user, $pass);
-		case '1.9.9':
 			getHospitalLegalese("1");
 			getHospitalLegaleseAnon("1");
 			getHospitalLegaleseTimestamps("1");
+
 		case '1.9.5':
 			reportPerson($personXML, $eventShortname, $xmlFormat, $user, $pass);
 			createPersonUuid($user, $pass);
@@ -88,7 +102,6 @@ if(!isset($_GET['api'])) {
 			getSessionTimeout();
 			registerUser("testCaseUser", "testCase@email.com", "testPassword99", "testCaseGiven", "testCaseFamily");
 			changeUserPassword($user, $pass, $pass);
-			resetUserPassword($user);
 			forgotUsername($email);
 			checkUserAuth($user, $pass);
 			getUserStatus($user);
@@ -99,9 +112,8 @@ if(!isset($_GET['api'])) {
 			getHospitalList();
 			getHospitalData("1");
 			getHospitalPolicy("1");
-			version();
 	}
-	echo "</table><h2>Note: deprecated functions are not listed/tested.</h2></body>";
+	echo "</table><b>Note: deprecated functions are not listed/tested.</b></body>";
 }
 
 

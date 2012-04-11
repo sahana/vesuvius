@@ -30,6 +30,7 @@ shn_xajax_registerFunction('ha_perform_help');
 
 
 function shn_ha_default() {
+
 	global $global;
 	shn_xajax_printJavascript();
 	echo "
@@ -44,8 +45,8 @@ function shn_ha_default() {
 	|| ($_SERVER['HTTP_HOST'] == "pl.nlm.nih.gov")
 	|| ($_SERVER['HTTP_HOST'] == "plstage")
 	|| ($_SERVER['HTTP_HOST'] == "plstage.nlm.nih.gov")
-	|| ($_SERVER['HTTP_HOST'] == "archivestage")
-	|| ($_SERVER['HTTP_HOST'] == "archivestage.nlm.nih.gov")) {
+	|| ($_SERVER['HTTP_HOST'] == "ceb-stage-lx")
+	|| ($_SERVER['HTTP_HOST'] == "ceb-stage-lx.nlm.nih.gov")) {
 		echo "<script type=\"text/javascript\" src=\"https://maps-api-ssl.google.com/maps/api/js?v=3&client=gme-hhs&sensor=true\"></script>";
 
 	// else use standard Google Maps:
