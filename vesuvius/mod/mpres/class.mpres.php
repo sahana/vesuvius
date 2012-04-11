@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         MPR Email Service
- * @version      2.0
+ * @version      21
  * @package      mpres
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0908
+ * @lastModified 2012.0206
  */
 
 
@@ -194,7 +194,7 @@ class mpres {
 				} else {
 					$this->person->insert();
 					$this->mpresLog();
-					$this->messages .= "LPF XML email found and person <a href=\"https://".$this->person->p_uuid."\">".$this->person->p_uuid."</a> inserted.<br>";
+					$this->messages .= "LPF XML email found and person <a href=\"https://".$this->person->p_uuid."\" target=\"_blank\">".$this->person->p_uuid."</a> inserted.<br>";
 					$this->replySuccess($this->person->p_uuid, $this->person->incident_id);
 				}
 
@@ -219,7 +219,7 @@ class mpres {
 					$this->person->arrival_vanilla_email = true;
 					$this->person->insert();
 					$this->mpresLog();
-					$this->messages .= "Unstructured email found and person <a href=\"https://".$this->person->p_uuid."\">".$this->person->p_uuid."</a> inserted.<br>";
+					$this->messages .= "Unstructured email found and person <a href=\"https://".$this->person->p_uuid."\"  target=\"_blank\">".$this->person->p_uuid."</a> inserted.<br>";
 					$this->replySuccess($this->person->p_uuid, $this->person->incident_id);
 				}
 			}
@@ -510,7 +510,7 @@ class mpres {
 			We received the person record you submitted ".$event.". It has been added to our registry and will show up in search results in a few minutes.<br>
 			<br>
 			You can always view the record for this person (and updates) at the following url:<br>
-			<a href=\"https://".$uuid."\">https://".$uuid."</a><br>
+			<a href=\"https://".$uuid."\" target=\"_blank\">https://".$uuid."</a><br>
 			<br>
 			<br>
 			<b>- People Locator</b><br>

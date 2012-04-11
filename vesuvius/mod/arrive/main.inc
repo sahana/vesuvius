@@ -1,14 +1,14 @@
 <?php
 /**
  * @name         Arrival Rate
- * @version      2
+ * @version      3
  * @package      arrive
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1206
+ * @lastModified 2012.0213
  */
 
 
@@ -23,7 +23,9 @@ shn_xajax_registerFunction('arrive_add_spacer');
 
 
 function shn_arrive_default() {
+
 	global $global;
+
 	shn_xajax_printJavascript();
 	echo "
 		<div id=\"rezLog\" class=\"logArea\"></div>

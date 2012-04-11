@@ -1,7 +1,7 @@
 <?
 /**
  * @name         Menu Library
- * @version      1.3
+ * @version      15
  * @package      framework
  * @author       http://www.linux.lk/~chamindra
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
@@ -9,22 +9,15 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0728
+ * @lastModified 2012.0206
  */
 
 
-/**
- * shn_mainmenuitem
- *
- * @param mixed $action
- * @param mixed $desc
- * @param mixed $module
- * @access public
- * @return void
- */
+/** shn_mainmenuitem */
 function shn_mainmenuitem($action, $desc, $module = null) {
+
 	global $global;
-	require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
+	global $conf;
 
 	if ($module == null) {
 		$module = $global['module'];
@@ -44,17 +37,16 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 		$class = '';
 	}
 
-	// UGLY HACK TO NOT SHOW USER PREFERENCES AS CURRENT MODULE WHEN VIEWING "PEOPLE IM TRACKING" OR VICE VERSA ~~~ sorry!!! ~greg
+	// UGLY HACK TO NOT SHOW USER PREFERENCES AS CURRENT MODULE WHEN VIEWING "PEOPLE IM TRACKING" OR VICE VERSA
 	if(($desc == "My Settings") && ($global['action'] == "tracking")) {
 		$class = '';
 	}
 	if(($desc == "People I'm Tracking") && ($global['action'] != "tracking")) {
 		$class = '';
 	}
-	// HACK END
 
 
-	// yet another hack to highlight the admin module when using either the snapshot or resource module in the administration module
+	// yet another hack to highlight the admin module when using the resource module in the administration module
 	if(($desc == "Administration") && (isset($_GET['act']) && (($_GET['act'] == "adm_default") || ($_GET['act'] == "adm_configuration")))) {
 		$class = ' class="currentMainMenuItem"';
 	}
@@ -94,52 +86,72 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 		}
 	}
 
-        if($desc == "Notification Module") {
-                //require_once($global['approot'].'/mod/ntfy/main.inc');
-/*
-                if(shn_ntfy_status_code() == RED) {
-                        $desc .= " <span style=\"color: red;\"><b>●</b></span>";
-                } else if (shn_ntfy_status_code() == ORANGE) {
-                        $desc .= " <span style=\"color: orange;\"><b>●</b></span>";
-                } else {
-                        $desc .= " <span style=\"color: green;\"><b>●</b></span>";
-                }
-*/
-        }
+	// prettify links :)
+	switch($module) {
+		case 'inw':
+			$module = "search";
+			break;
+		case 'arrive':
+			$module = "arrivals";
+			break;
+		case 'rez':
+			$module = "resources";
+			break;
+		case 'tp':
+			$module = "triagepic";
+			break;
+		case 'stat':
+			$module = "statistics";
+			break;
+		case 'ha':
+			$module = "hospitals";
+			break;
+		case 'pop':
+			$module = "outbound";
+			break;
+		case 'mpres':
+			$module = "inbound";
+			break;
+		case 'em':
+			$module = "events";
+			break;
+		case 'sepl':
+			$module = "searchplus";
+			break;
+	}
+	if($module == "pref" && $action == "tracking") {
+		$module = "tracking";
+		$action = "default";
+	}
+/** >>>>>>> MERGE-SOURCE */
 
+/** <<<<<<< TREE */
 	// a 3rd hack to show the proper home linl (it doesn't have the shortname in the url)
+/** ======= */
+	// a 3rd hack to show the proper home link (it doesn't have the shortname in the url)
+/** //>>>>>>> MERGE-SOURCE */
 	if($desc == "Home") {
 		echo "<li ".$class."><a href=\"".makeBaseUrlMinusEvent()."\">".$desc."</a></li>";
+	} elseif($action != "default") {
+		echo "<li ".$class."><a href=\"".$module."?act=".$action."\">".$desc."</a></li>";
 	} else {
-		echo "<li ".$class."><a href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a></li>";
+		echo "<li ".$class."><a href=\"".$module."\">".$desc."</a></li>";
 	}
 }
 
 
 
-/**
- * shn_mainmenuopen
- *
- * @param mixed $desc
- * @access public
- * @return void
- */
+/** shn_mainmenuopen */
 function shn_mainmenuopen($desc) {
 	echo "
 		<div id=\"menuwrap\">
-		<h2>Modules</h2>
 		<ul id=\"menu\">
 	";
 }
 
 
 
-/**
- * shn_mainmenuclose
- *
- * @access public
- * @return void
- */
+/** shn_mainmenuclose */
 function shn_mainmenuclose() {
 	echo "
 		</ul>
@@ -149,154 +161,7 @@ function shn_mainmenuclose() {
 
 
 
-/**
- * shn_mod_menuitem
- *
- * @param mixed $action
- * @param mixed $desc
- * @param mixed $module
- * @access public
- * @return void
- */
-function shn_mod_menuitem($action, $desc, $module = null) {
-	global $global;
-	if ( null == $module ) {
-		$module = $global['module'];
-	}
-	// if this mod menu item is the current action, add a css class to allow proper styling
-	if(($global['module'] == $module) && ($global['action'] == $action) && !isset($_REQUEST['page_id']) ) {
-		echo "<li class=\"currentModMenuItem\"><a href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a></li>";
-
-	// hack to accomodate links in mod_rez
-	} else if($module == 'rez' && isset($_REQUEST['page_id']) && ($action == "default&page_id=".$_REQUEST['page_id'])) {
-		echo "<li class=\"currentModMenuItem\"><a href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a></li>";
-
-	// else display menu item normally
-	} else {
-		echo "<li><a href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a></li>";
-	}
-}
-
-
-
-/**
- * shn_mod_menuopen
- *
- * @param mixed $desc
- * @access public
- * @return void
- */
-function shn_mod_menuopen($desc)  {
-	echo "
-		<div id=\"modmenuwrap\">
-		<h2>".$desc."</h2>
-		<ul id=\"modmenu\">
-	";
-}
-
-
-
-/**
- * shn_mod_menuclose
- *
- * @access public
- * @return void
- */
-function shn_mod_menuclose() {
-	echo "
-		</ul>
-		</div> <!-- /modmenuwrap -->
-	";
-}
-
-
-
-/**
- * shn_sub_mod_menuitem
- *
- * @param mixed $action
- * @param mixed $desc
- * @param mixed $module
- * @access public
- * @return void
- */
-function shn_sub_mod_menuitem($action, $desc, $module = null ) {
-	global $global;
-	if ( null == $module ) {
-		$module = $global['module'];
-	}
-	echo "<li><a href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a></li>";
-	global $sub_menu_id;
-	$sub_menu_id=$action;
-}
-
-
-
-/**
- * shn_sub_mod_menuopen
- *
- * @param mixed $desc
- * @access public
- * @return void
- */
-$sub_menu_id='sub';
-function shn_sub_mod_menuopen($desc) {
-	global $sub_menu_id;
-	static $num = 0;
-	$id = 'sub'.$sub_menu_id.$num;
-	$num++;
-	echo "<li><a href=\"#\" onclick=\"expand('".$id."',this);\" class=\"smopen\">".$desc."</a><ul id=\"".$id."\">";
-}
-
-
-
-/**
- * shn_sub_mod_menuclose
- *
- * @access public
- * @return void
- */
-function shn_sub_mod_menuclose() {
-	echo "
-		</ul>
-		</li> <!-- /modmenuwrap -->
-	";
-}
-
-
-
-function shn_adm_menuopen($desc=null) {
-	echo "
-		<div id=\"submenu_v\">
-	";
-}
-
-
-
-function shn_adm_menuclose() {
-	echo "
-		</div>
-	";
-}
-
-
-
-function shn_adm_menuitem($action, $desc, $module = null ) {
-	global $global;
-	if( null == $module) {
-		$module = $global['module'];
-	}
-	echo "<a ".($global['action'] == $action ? 'class="selected" ' : '')." href=\"index.php?mod=".$module."&amp;act=".$action."\">".$desc."</a>";
-}
-
-
-
-/**
- * Open tab menu
- *
- * @access public
- * @return void
- */
+/** Open tab menu */
 function shn_tabmenu_open() {
 	echo "
 		<ul id=\"tabmenu\">
@@ -305,12 +170,7 @@ function shn_tabmenu_open() {
 
 
 
-/**
- * Close tab menu
- *
- * @access public
- * @return void
- */
+/** Close tab menu */
 function shn_tabmenu_close() {
 	echo "
 		</ul>
@@ -319,27 +179,21 @@ function shn_tabmenu_close() {
 
 
 
-/**
- * Add an tab menu item
- *
- * @param mixed $action
- * @param mixed $desc
- * @param mixed $module
- * @access public
- * @return void
- */
-function shn_tabmenu_item($action, $desc, $module = null) {
+/** Add an tab menu item */
+function shn_tabmenu_item($action, $desc, $module) {
+
 	global $global;
-	if(null == $module ) {
-		$module = $global['module'];
-	}
+
 	static $count = 0;
-	if(isset($_REQUEST['tabid'])) {
-		$active = ($count == $_REQUEST['tabid']) ? "id='active'" : '';
+	if(isset($_GET['tabid'])) {
+		$active = ($count == $_GET['tabid']) ? "id='active'" : '';
+	} elseif($count == 0) {
+		$active = "id='active'";
 	} else {
 		$active = '';
 	}
 	$tabid = '&tabid='.$count++;
-	echo "<li ".$active." ><a href=\"index.php?mod=".$module."&amp;act=".$action.$tabid."\"><span>".$desc."</span></a></li>";
+	echo "<li ".$active." ><a href=\"".$module."?".$action.$tabid."\"><span>".$desc."</span></a></li>";
 }
+
 

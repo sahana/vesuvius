@@ -8,7 +8,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1205
+ * @lastModified 2011.0119
  */
 
 // xajax.inc
@@ -16,6 +16,8 @@ require 'facebook/src/facebook.php';
 include 'twitter/EpiCurl.php';
 include 'twitter/EpiOAuth.php';
 include 'twitter/EpiTwitter.php';
+
+require 'googlevoice/class.googlevoice.php';
 
 global $global;
 
@@ -36,192 +38,1424 @@ array_push($global['xajax_functions'],'em_perform_insert');
 array_push($global['xajax_functions'],'em_perform_save');
 array_push($global['xajax_functions'],'em_perform_help');
 array_push($global['xajax_functions'],'em_send_post');
+array_push($global['xajax_functions'],'em_notify_event');
 array_push($global['xajax_functions'],'em_get_prev_msg');
-array_push($global['xajax_functions'],'shortenUrl');
+array_push($global['xajax_functions'],'em_get_short_url');
+array_push($global['xajax_functions'],'em_save_new_post');
+array_push($global['xajax_functions'],'em_save_post_error');
+/*
+array_push($global['xajax_functions'],'em_format_title');
+array_push($global['xajax_functions'],'em_insert_node');
+array_push($global['xajax_functions'],'em_edit_node');
+array_push($global['xajax_functions'],'em_append_node');
+array_push($global['xajax_functions'],'em_delete_node');
+*/	
+//$prevMsg = '';
 
-$prevMsg = '';
-
-function shortenUrl($eventName) {
-        global $conf;
-        global $global;
-        require_once($global['approot']."/inc/lib_uuid.inc");
-        require_once($global['approot']."/inc/lib_image.inc");
-        require_once($global['approot']."/inc/lib_locale/gettext.inc");
-        if ($_SESSION['logged_in'] != true ) return;
-//This is the URL you want to shorten
-//$longUrl = 'https://www.packtpub.com/php-jquery-cookbook-to-create-interactive-web-applications/book';
-$longUrl = 'https://pl.nlm.nih.gov/'.$eventName.'/search';
-$apiKey = 'AIzaSyAgpx-svmRIrHnJxzoqA7G1AZaoxKyLMD0';
-//Get API key from : http://code.google.com/apis/console/
-
-$postData = array('longUrl' => $longUrl, 'key' => $apiKey);
-$jsonData = json_encode($postData);
-
-$curlObj = curl_init();
-
-curl_setopt($curlObj, CURLOPT_URL, 'https://www.googleapis.com/urlshortener/v1/url');
-curl_setopt($curlObj, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($curlObj, CURLOPT_SSL_VERIFYPEER, 0);
-curl_setopt($curlObj, CURLOPT_HEADER, 0);
-curl_setopt($curlObj, CURLOPT_HTTPHEADER, array('Content-type:application/json'));
-curl_setopt($curlObj, CURLOPT_POST, 1);
-curl_setopt($curlObj, CURLOPT_POSTFIELDS, $jsonData);
-
-$response = curl_exec($curlObj);
-
-//change the response json string to object
-$json = json_decode($response);
-
-curl_close($curlObj);
-
-//return $json->id;
-//	$eventName = $('#eventName').val();
-//	$shortUrl = shortenUrl($eventName);
-	$global['xajax_res']->addAssign('eventUrl', 'innerHTML', 'testing 123');
-	return $global['xajax_res']->getXML();
-}
-
-function em_get_prev_msg($id) {
-        global $conf;
-        global $global;
-        require_once($global['approot']."/inc/lib_uuid.inc");
-        require_once($global['approot']."/inc/lib_image.inc");
-        require_once($global['approot']."/inc/lib_locale/gettext.inc");
-        if ($_SESSION['logged_in'] != true ) return;
-        $q = "
-		SELECT sysgenid, trim(message) as message, trim(user_name) as user_name, sent
-		FROM notification_messages
-		WHERE configid = (
-		SELECT configid
-		FROM notification_messages
-		WHERE sysgenid = $id )
-		ORDER BY sent DESC;
-        ";
-        $result = $global['db']->Execute($q);
-        if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 1");  return($log."error!<br>"); }
-
-        $count = 0;
-	$m = '';
-	$s = '<select style=\"width:210px;\">';
-        while($row = $result->FetchRow()) {
-		$t = "[".$row['message']."] from ".$row['user_name']." on ". $row['sent'];
-		if ($row['sysgenid'] ==  $id) $m = $t;
-		$s .= "<option title=\"".$t."\" value=\"".$row['sysgenid']."\">".substr($t,0,30). "</option>";
-                $count++;
-        }
-	$s .= '</select>';
-	$prevMsg = $s;
-	$global['xajax_res']->addAssign('eventMsg', 'innerHTML', '<p>'.$m.'</p>');
-	$global['xajax_res']->addAssign('prevMsg', 'innerHTML', $s);
-	$temp = "testing";
-	$global['xajax_res']->addAssign('eventUrl', 'text', $temp );
-
-	$js = '
-	$eventName = $("#eventName").val();
-	$shortUrl = shortenUrl($eventName);
-	$(\"#eventUrl\").val($shortUrl);
-	';
-//	$global['xajax_res']->addScript($js);
-
-//	$global['xajax_res']->addAssign('eventUrl', 'innerHTML', $shortUrl);
-
-
-	return $global['xajax_res']->getXML();
-}
-
-// send post
-function em_send_post($msg="", $p_uuid=0) {
+// insert new node to dynatree
+/*
+function em_insert_node($id, $user, $msg) {
 	global $conf;
 	global $global;
 	require_once($global['approot']."/inc/lib_uuid.inc");
         require_once($global['approot']."/inc/lib_image.inc");
         require_once($global['approot']."/inc/lib_locale/gettext.inc");
 	if ($_SESSION['logged_in'] != true ) return;
-	$q = "
-		SELECT pref_key, value
-		FROM user_preference p, users u
-		WHERE p.p_uuid = u.p_uuid and u.user_name = '".$_SESSION['user']."';
-	";
-	$result = $global['db']->Execute($q);
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 1");  return($log."error!<br>"); }
 
-	$pref = array();
-	$count = 0;
-	while($row = $result->FetchRow()) {
-		$pref[$count] = $row;
-		$count++;
+	$s = "insert into ntfy_messages(configid, user_name, message, sent) values('$id', '$user', '$msg', now())";
+	$r = $global['db']->Execute($s);
+	if($r === false) {
+$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>error insert ntfy_messages: '.$global['db']->ErrorMsg());
+		daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "send post");  return($log."error!<br>");
 	}
-	$i = 0;
-	while ($i < $count) {
-		$row = $pref[$i];
-		$t = $row['pref_key'];
-		$a = explode('|', $row['value']);
-		if ($t == 'facebook') {
-                        $facebook = new Facebook(array(
-                                'appId'  => $a[0],
-                                'secret' => $a[1],
-                                'cookie' => true,
-                        ));
-                        $token = $facebook->getAccessToken();
-                        $post =  array(
-                                'access_token' => $token,
-                                'message' => $msg
-                        );
-			$res = $facebook->api('/'.$a[2].'/feed', 'POST', $post);
-		}
-		elseif($t == 'twitter') {
-			$twitterObj = new EpiTwitter($a[0], $a[1], $a[2], $a[3]); // //$consumer_key, $consumer_secret, $token, $secret);
-			$status = $twitterObj->post('/statuses/update.json', array('status' => $msg));
-		}
-		$i++;
-	}
-/*
-$facebook = new Facebook(array(
-  'appId'  => '272810739444941',
-  'secret' => 'f589181f7e8f51c5492f6c07f59873f8',
-  'cookie' => true,
-));
 
-$token = $facebook->getAccessToken();
-//if ($msg == "" || $msg == null) $msg="dummy";
-$post =  array(
-    'access_token' => $token,
-    'message' => $t
-);
-
-$res = $facebook->api('/myjc11/feed', 'POST', $post);
-*/
-/*
-	$q = "select pref_key, value from user_preference where p_uuid = '". $p_uuid . "'";
-
-        $result = $global['db']->Execute($q);
-        if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "show events 1"); }
-
-        $snm = array();
-        $dcount = 0;
-	$k = "";
-	$v = "";
-        while($row = $result->FetchRow() ){
-                if ($row['pref_key'] == "facebook") {
-			$a = explode("|", $row['value']);
-			$facebook = new Facebook(array(
-				'appId'  => $a[0],
-				'secret' => $a[1],
-				'cookie' => true,
-			));
-			$token = $facebook->getAccessToken();
-			$post =  array(
-				'access_token' => $token,
-				'message' => $msg
-			);
-			$res = $facebook->api('/'.$a[2].'/feed', 'POST', $post);
-		}
-                $dcount++;
-        }
-        $total = $dcount;
-*/
 	return $global['xajax_res']->getXML();
 }
+*/
+
+function em_format_title($s, $isnew=0) {
+
+//	$s = str_replace("\r\n", " ", $s);
+	$num = 0;
+	$prefix = '';
+	if ($isnew==1) {
+		$num = 63;
+		$prefix = 'New: ';
+	}
+	else {
+		$num = 58;
+		$prefix = 'Last sent: ';
+	}
+	$r = substr($s,0,$num);
+	$r .= (strlen($s)>$num?'...':'');
+
+	return $prefix.$r;
+}
+
+// save new Message to ntfy_messages
+function em_save_new_post($id, $user, $msg) {
+	global $conf;
+	global $global;
+	require_once($global['approot']."/inc/lib_uuid.inc");
+        require_once($global['approot']."/inc/lib_image.inc");
+        require_once($global['approot']."/inc/lib_locale/gettext.inc");
+	if ($_SESSION['logged_in'] != true ) return;
+
+	$s = "insert into ntfy_messages(configid, user_name, message, sent) values('".mysql_real_escape_string($id)."', '".mysql_real_escape_string($user)."', '".str_replace("\r\n", " ", mysql_real_escape_string($msg))."', now())";
+	$r = $global['db']->Execute($s);
+	if($r === false) {
+$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>error insert ntfy_messages: '.$global['db']->ErrorMsg());
+		daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "send post");  return($log."error!<br>");
+	}
+
+	return $global['xajax_res']->getXML();
+}
+
+// save post error to ntfy_error
+function em_save_post_error($id, $user, $msg) {
+	global $conf;
+	global $global;
+	require_once($global['approot']."/inc/lib_uuid.inc");
+        require_once($global['approot']."/inc/lib_image.inc");
+        require_once($global['approot']."/inc/lib_locale/gettext.inc");
+	if ($_SESSION['logged_in'] != true ) return;
+
+	$s = "insert into ntfy_error(configid, username, error) values('$id', '$user', '$msg')";
+	$r = $global['db']->Execute($s);
+	if($r === false) {
+$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>error insert ntfy_error: '.$global['db']->ErrorMsg());
+		daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "send post");  return($log."error!<br>");
+	}
+
+	return $global['xajax_res']->getXML();
+}
+
+function splitText($s, $delimiter, $limit) {
+	$p = '';
+	$i = 0;
+	$j = 0;
+	$len = 0;
+	$r = array();
+	if (strlen($s)<=$limit)
+		$r[0] = $s;
+	else {
+		$arr = explode($delimiter, $s);
+		$len = 0;
+		$prefix = '';
+		while ($i<count($arr)) {
+			$prefix = "#".($j+1).".";
+			if ($p=='')
+				$p = $prefix . $arr[$i];
+			else
+				$p .= ' ' . $arr[$i];
+			$p = trim($p);
+			$len = strlen($p);
+			if ($len > $limit) {
+				$p = substr($p, 0, $len-strlen($arr[$i])-1);
+				$r[$j++] = $p;
+				$p = '';
+			}
+			else if ($len == $limit) {
+				$r[$j++] = $p;
+				$p = '';
+				$i++;
+			}
+			else {
+				$i++;
+			}
+		}
+		if (strlen($p)>0)
+			$r[count($r)] = $p;
+	}
+	//$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>count:'.count($r));
+	return $r;
+}
+
+// send post
+function em_send_post($msg=null) {
+	global $conf;
+	global $global;
+	require_once($global['approot']."/inc/lib_uuid.inc");
+        require_once($global['approot']."/inc/lib_image.inc");
+        require_once($global['approot']."/inc/lib_locale/gettext.inc");
+	if ($_SESSION['logged_in'] != true ) return;
+/*
+$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>m:'.$msg[0]);
+	preg_match('/<([0-9]+)>/', $msg[0], $matches);
+	$s_match = $matches[0];
+	$id = $matches[1];
+	$z = 0;
+	$foundit = 0;
+	$arr = null;
+	$m = substr($msg[0], strlen($s_match));
+	$arr = splitText($m, ' ', 140);
+$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>m:'.$m);
+$c = count($arr);
+$i = 0;
+while ($i < $c) {
+$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>'.$arr[$i]);
+$i++;
+}
+return $global['xajax_res']->getXML();
+*/
+
+//foreach ($msg as $ma) {
+//$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>');
+//$global['xajax_res']->addAppend('rezLog', 'innerHTML', $ma.data.tooltip); //var_dump($a.data.tooltip));
+//$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>');
+//}
+//return $global['xajax_res']->getXML();
+
+	$s = "
+		select id, outType, nckey, value from ntfy_config;
+	";
+	$r = $global['db']->Execute($s);
+	if($r === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "send post");  return($log."error!<br>"); }
+
+	$config = array();
+	$count = 0;
+	while($row = $r->FetchRow()) {
+		$config[$count] = $row;
+//$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>value:'.$config[$count]['value']);
+		$count++;
+	}
+
+$i = 0;
+foreach ($msg as $msgi) {
+	preg_match('/<([0-9]+)>/', $msgi, $matches);
+	$s_match = $matches[0];
+	$id = $matches[1];
+	$z = 0;
+	$foundit = 0;
+	$arr = null;
+	while ($z < $count) {
+		if ($id == $config[$z]['id']) {
+			$m = substr($msgi, strlen($s_match));
+			$a = explode("|", $config[$z]['value']);
+
+			switch ( $config[$z]['nckey'] ) {
+				case "Facebook":
+					try {
+						$facebook = new Facebook(array(
+							'appId'  => $a[0],
+							'secret' => $a[1],
+							'cookie' => true,
+						));
+						$token = $facebook->getAccessToken();
+						$post =  array(
+							'access_token' => $token,
+							'message' => $m
+						);
+						$res = $facebook->api('/'.$a[2].'/feed', 'POST', $post);
+						$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>New post was sent to Facebook');
+					}
+					catch (Exception $e) {
+						em_save_post_error($id, $_SESSION['user'], $e->getMessage());
+						$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>Facebook error:'.$e->getMessage());
+					}
+					break;
+				case "Twitter":
+					try {
+						$twitterObj = new EpiTwitter($a[0], $a[1], $a[2], $a[3]); // //$consumer_key, $consumer_secret, $token, $secret);
+						$arr = splitText($m, ' ', 140);
+						$i=count($arr)-1;
+						while ($i >= 0) {
+							$status = $twitterObj->post('/statuses/update.json', array('status' => $arr[$i]));
+							$i--;
+						}
+						$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>New post was sent to Twitter');
+					}
+					catch (Exception $e) {
+						em_save_post_error($id, $_SESSION['user'], $e->getMessage());
+						$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>Twitter error:'.$e->getMessage());
+					}
+					break;
+				case "Email":
+					try {
+						$subject = "notification from event manager";
+						$bodyHTML = $m;
+						$bodyAlt = $m;
+						if (strpos($m, "|")>0) {
+							$arr = explode("|", $m);
+							$subject = $arr[0];
+							$bodyHTML = $arr[1];
+							$bodyAlt = $arr[1];
+						}
+						$pop = new pop();
+						$pop->sendMessage($a[1], null, $subject, $bodyHTML, $bodyAlt);
+//$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>Message sent to: '.$a[1].','.$subject.','.$bodyHTML);
+						$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>New email was sent to '. $a[0] . ', status: '.$pop->messages);
+						unset($pop);
+					}
+					catch (Exception $e) {
+						em_save_post_error($id, $_SESSION['user'], $e->getMessage());
+						$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>Email error:'. $e->getMessage());
+					}
+					break;
+				case "SMS":
+					try {
+						$gv = new GoogleVoice($a[2], $a[3]);
+						$arr = splitText($m, ' ', 140);
+						$i=count($arr)-1;
+						while ($i >= 0) {
+							$gv->sms($a[1], $arr[$i]);
+							$i--;
+						}
+						$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>New SMS message was sent to '. $a[0]. ', status: '.$gv->status);
+					}
+					catch (Exception $e) {
+						em_save_post_error($id, $_SESSION['user'], $e->getMessage());
+						$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>SMS error:'. $e->getMessage());
+					}
+			}
+
+			em_save_new_post($id, $_SESSION['user'], mysql_real_escape_string($m));
+			break;
+		}
+		$z++;
+	}
+	$i++;
+}
+
+/*
+0,DynaTreeNode: 'Social Media'
+1,DynaTreeNode<9>: 'Facebook'
+2,DynaTreeNode<9>: 'New: A new event BIG has occurred tweet test'
+3,DynaTreeNode<10>: 'Twitter'
+4,DynaTreeNode<10>: 'New: A new event BIG has occurred tweet test'
+
+*/
+
+//$_SESSION['user'].' | '.$_SESSION['full_name']);
+
+// need to decide if saving messages to ntfy_messages first, then send them
+// or send them first, then save them to tables
+
+	return $global['xajax_res']->getXML();
+}
+
+function urlOK($url)
+{
+
+    $url_data = parse_url ($url);
+    if (!$url_data) return FALSE;
+
+   $errno="";
+   $errstr="";
+   $fp=0;
+
+   $fp=fsockopen($url_data['host'],80,$errno,$errstr,30);
+
+   if($fp===0) return FALSE;
+   $path ='';
+   if  (isset( $url_data['path'])) $path .=  $url_data['path'];
+   if  (isset( $url_data['query'])) $path .=  '?' .$url_data['query'];
+
+   $out="GET /$path HTTP/1.1\r\n";
+   $out.="Host: {$url_data['host']}\r\n";
+   $out.="Connection: Close\r\n\r\n";
+
+   fwrite($fp,$out);
+   $content=fgets($fp);
+   $code=trim(substr($content,9,4)); //get http code
+   fclose($fp);
+   // if http code is 2xx or 3xx url should work
+   return  ($code[0] == 2 || $code[0] == 3) ? TRUE : FALSE;
+}
+
+function em_get_short_url($longurl) {
+        global $conf;
+        global $global;
+        require_once($global['approot']."/inc/lib_uuid.inc");
+        require_once($global['approot']."/inc/lib_image.inc");
+        require_once($global['approot']."/inc/lib_locale/gettext.inc");
+        if ($_SESSION['logged_in'] != true ) return;
+
+
+	$s = "
+		SELECT short_url
+		FROM ntfy_short_urls
+		WHERE long_url = '".$longurl."'
+	;";
+        $res = $global['db']->Execute($s);
+        if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "get short URL"); }
+
+	$shorturl = '';
+	if ($row = $res->FetchRow()) {
+		$shorturl = $row['short_url'];
+	}
+	else {
+
+		$apiKey = 'AIzaSyAgpx-svmRIrHnJxzoqA7G1AZaoxKyLMD0';
+		//Get API key from : http://code.google.com/apis/console/
+
+		$postData = array('longUrl' => $longurl, 'key' => $apiKey);
+		$jsonData = json_encode($postData);
+
+		$curlObj = curl_init();
+
+		curl_setopt($curlObj, CURLOPT_URL, 'https://www.googleapis.com/urlshortener/v1/url');
+		curl_setopt($curlObj, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($curlObj, CURLOPT_SSL_VERIFYPEER, 0);
+		curl_setopt($curlObj, CURLOPT_HEADER, 0);
+		curl_setopt($curlObj, CURLOPT_HTTPHEADER, array('Content-type:application/json'));
+		curl_setopt($curlObj, CURLOPT_POST, 1);
+		curl_setopt($curlObj, CURLOPT_POSTFIELDS, $jsonData);
+
+		$response = curl_exec($curlObj);
+
+		//change the response json string to object
+		$json = json_decode($response);
+
+		curl_close($curlObj);
+
+		$shorturl = $json->id;
+
+		if ($shorturl) {
+
+			$s = "INSERT INTO ntfy_short_urls select '$longurl', '$shorturl'
+			;";
+
+			$res = $global['db']->Execute($s);
+			if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "insert new short URL"); }
+		}
+	}
+	return $shorturl;
+}
+
+function extractPart($arr, $delimiter,  $partNum) {
+	$a = explode($delimiter, $arr);
+	if (count($a)>0)
+		return $a[$partNum];
+}
+
+// pops up dialog to customize a outgoing message
+function em_notify_event ($disaster_id, $longname, $shortname) {
+        global $conf;
+        global $global;
+        require_once($global['approot']."/inc/lib_uuid.inc");
+        require_once($global['approot']."/inc/lib_image.inc");
+        require_once($global['approot']."/inc/lib_locale/gettext.inc");
+        if ($_SESSION['logged_in'] != true ) return;
+
+	// block builds the tree that displays outgoing message types
+	$nc1 = "
+		SELECT id, trim( outType ) AS outType, trim( nckey ) AS nckey, trim( icon ) AS icon, trim( value ) AS value, (
+		SELECT sysgenid
+		FROM ntfy_messages
+		WHERE configid = c.id
+		ORDER BY sent DESC
+		LIMIT 1
+		) AS sysgenid, (
+
+		SELECT trim( message )
+		FROM ntfy_messages
+		WHERE configid = c.id
+		ORDER BY sent DESC
+		LIMIT 1
+		) AS message, (
+
+		SELECT sent
+		FROM ntfy_messages
+		WHERE configid = c.id
+		ORDER BY sent DESC
+		LIMIT 1
+		) AS sent, (
+
+		SELECT trim( user_name )
+		FROM ntfy_messages
+		WHERE configid = c.id
+		ORDER BY sent DESC
+		LIMIT 1
+		) AS user_name
+		FROM ntfy_config c
+		ORDER BY seq;
+	";
+        $ncres1 = $global['db']->Execute($nc1);
+        if($ncres1 === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "get prev msg"); }
+	$nctypes = array();
+	$ncvalues = array();
+	$ncvcount = 0;
+	$z = 0;
+	while($ncrow = $ncres1->FetchRow()) {
+		$ncvalues[$ncvcount] = $ncrow;
+		if ( !in_array($ncvalues[$ncvcount]['outType'], $nctypes))
+			array_push($nctypes, $ncvalues[$ncvcount]['outType']);
+		$ncvcount++;
+	}       
+	$i = 0;
+//$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>in em_notify_event<br>');
+
+
+//<input type=\"text\" size=45 value = \"" + prevTitle + "\"/>
+//<input type=\"text\" size=45 value = \"" + prevTitle + "\"/>
+
+	// create the Notification tree
+	// provides editing on new messages only
+	$s = '
+	function format_title(s, isnew) {
+		var num = 0;
+		var prefix = "";
+		if (isnew==1) {
+			num = 63;
+			prefix = "New: ";
+		}
+		else {
+			num = 58;
+			prefix = "Last sent: ";
+		}
+		r = s.substring(0,num);
+		r += (s.length>num?"...":"");
+		return prefix+r.replace(/(\r\n)/g, " ");
+	}
+
+	function editNode(node){
+		var prevTitle = node.data.href, tree = node.tree;
+		if (node.data.title.toLowerCase().substring(0,5) != "new: ") return;
+		// Disable dynatree mouse- and key handling
+		tree.$widget.unbind();
+
+		// Replace node with <input>
+		// Focus <input> and bind keyboard handler
+		if (node.getParent().getParent().data.title.toLowerCase() == "email") {
+			$("#editEmail").dialog("open");
+			$("#editEmail").dialog("option", "title", "Edit Email to "+node.getParent().data.title);
+			if (prevTitle.indexOf("|")>0) {
+				var a = prevTitle.split("|");
+				$("#subject").val(a[0]);
+				$("#body").val(a[1]);
+			}
+			else {
+				$("#subject").val(prevTitle);
+				$("#body").val(prevTitle);
+			}
+			tree.$widget.bind();
+			node.focus();
+		}
+		else if (node.getParent().data.title.toLowerCase() == "twitter") {
+			//$("#editTwitter").dialog("option", "title", "Edit Twitter");
+			if (prevTitle.indexOf("...")>0) {
+				$("#tweet").val(node.data.tooltip.substring(4));
+			}
+			else {
+				$("#tweet").val(prevTitle.substring(4));
+			}
+			$("#editTwitter").dialog("open");
+			tree.$widget.bind();
+			node.focus();
+		}
+		else {
+			$(".dynatree-title", node.span).html("<input id=\"editNode\" type=\"text\" size=45 value = \"" + prevTitle.substring(4) + "\" />");
+			$("input#editNode")
+			.focus()
+			.keydown(function(event){
+				switch( event.which ) {
+					case 27: // [esc]
+						// discard changes on [esc]
+						$("input#editNode").val(prevTitle);
+						$(this).blur();
+						break;
+					case 13: // [enter]
+						// simulate blur to accept new value
+						$(this).blur();
+						break;
+				}
+			})
+			.blur(function(event){
+				// Accept new value, when user leaves <input>
+				var title = $("input#editNode").val();
+				node.setTitle(format_title(title,1));
+				node.data.href = title;
+				node.data.tooltip = format_title(title,1);
+				var button = $(":button:contains(\'Send Notification\')");
+				enableButton(button);
+				// Re-enable mouse and keyboard handlling
+				tree.$widget.bind();
+				node.focus();
+			});
+		}
+	}
+	';
+
+//$('#rezLog').append('<br>'+node.getLevel());
+	$s .= "
+	function enableButton(button) {
+		button.attr(\"disabled\", true).removeClass(\"ui-state-disabled\");
+		button.attr(\"disabled\", false).addClass(\"ui-state-enabled\");
+	}
+
+	function disableButton(button) {
+		button.attr(\"disabled\", false).removeClass(\"ui-state-enabled\");
+		button.attr(\"disabled\", true).addClass(\"ui-state-disabled\");
+	}
+
+	var savedMsgs = new Array();
+	function saveInitialMsg() {
+		if (savedMsgs.length>0) return;
+		var num = 0;
+		var i = 0;
+		$('#tree').dynatree(\"getRoot\").visit(function(node){
+			if (node.getLevel() == 4) {
+				savedMsgs[i] = new Array();
+				savedMsgs[i][0] = node.data.key;
+				savedMsgs[i][1] = node.data.title;
+				savedMsgs[i][2] = node.data.tooltip;
+				i++;
+			}
+		});
+	}
+
+	function mytrim(s) {  
+		return s.replace(/^\s+|\s+$/g,'');  
+	};  
+
+	function splitText(s, delimiter, limit) {
+		var p = '';
+		var i = 0;
+		var j = 0;
+		var len = 0;
+		var r = new Array();
+		if (s.length<=limit)
+			r[0] = s;
+		else {
+			var arr = s.split(delimiter);
+			i = 0;
+			j = 0;
+			len = 0;
+			var prefix = '';
+			while (i<arr.length) {
+				prefix = '<'+j+'>';
+				if (p=='')
+					p = prefix + arr[i];
+				else
+					p += ' ' + arr[i];
+				len = p.length;
+				if (len > limit) {
+					p = p.substr(0, len-(arr[i].length));
+					r[j++] = p;
+					p = '';
+				}
+				else if (len == limit) {
+					r[j++] = p;
+					p = '';
+					i++;
+				}
+				else {
+					i++;
+				}
+			}
+			if (p.length>0)
+				r[r.length] = p;
+		}
+		return r;
+	}
+
+	function insertNode(node, el) {
+		var curKey = node.data.key;
+		
+		$( '#insertRecipient' ).dialog({
+			icon: \"move.png\",
+			autoOpen: false,
+			draggable: true,
+			closeOnEscape: false, 
+			resizable: false,
+			height: \"auto\",
+			width: \"auto\",
+			modal: true,
+			buttons: {
+				'Save': function() {
+					deSelectAll();
+					var node = $('#tree').dynatree('getActiveNode');
+					if (node) node.deactivate();
+					$( this ).dialog( 'close' );
+				},
+				Cancel: function() {
+					deSelectAll();
+					var node = $('#tree').dynatree('getActiveNode');
+					if (node) node.deactivate();
+					$( this ).dialog( 'close' );
+				}
+			},
+			close: function() {
+				//allFields.val( \"\" ).removeClass( \"ui-state-error\" );
+				//$(\"#tree\").dynatree(\"getTree\").reload();
+				var node = $('#tree').dynatree('getActiveNode');
+				if (node) node.deactivate();
+				deSelectAll();
+				//$(this).remove();
+				}
+		}).bind(\"dialogopen\", function (event, ui) {
+			$('#prevMsg').html(\"\");
+			$('#newMessage').val(\"\");
+
+			// disable Send Notification button initially
+			var notify_button = $(\":button:contains('Send Notification')\");
+			disableButton(notify_button);
+
+			var savemsg_button = $(\":button:contains('Save New Message')\");
+			disableButton(savemsg_button);
+
+			saveInitialMsg();
+
+			// fix for width:auto in IE
+			var contentWidth = $(this).width();
+			$(this).parent().find('.ui-dialog-titlebar').each(function () {
+				$(this).width(contentWidth-2);
+			});
+			$(this).parent().find('.ui-dialog-buttonpane').each(function () {
+				$(this).width(contentWidth);
+			});
+		}).bind(\"dialogresize\", function (event, ui) {
+			// fix for width:auto in IE
+			var contentWidth = $(this).width();
+			$(this).parent().find('.ui-dialog-titlebar').each(function () {
+				$(this).width(contentWidth-2);
+			});
+			$(this).parent().find('.ui-dialog-buttonpane').each(function () {
+				$(this).width(contentWidth);
+			});
+		})
+		;
+		$('#insertRecipient').dialog('open');
+		node.getParent().addChild({
+			title: \"ABC node\", key:1,
+			tooltip: \"This folder and all child nodes were added programmatically.\"
+		});
+		var cmp = function(a, b) {
+			a = a.data.key;
+			b = b.data.key;
+			return a > b ? 1 : a < b ? -1 : 0;
+		};
+
+		node.getParent().sortChildren(null, false);
+	}
+
+	function appendNode(node, el) {
+		alert('append:' + node.data.title);
+	}
+
+	function deleteNode(node, el) {
+		node.remove();
+	}
+
+	function bindContextMenu(node, span) {
+		// disabled at the moment
+		return;
+		// Add context menu to this node:
+		$(span).contextMenu({menu: \"manageRecipients\"}, function(action, el, pos) {
+			// The event was bound to the <span> tag, but the node object
+			// is stored in the parent <li> tag
+//			var node = $.ui.dynatree.getNode(el);
+//alert(node.data.title);
+			switch( action ) {
+				case \"insert\":
+					insertNode(node, el);
+					break;
+				case \"append\":
+					appendNode(node, el);
+					break;
+				case \"delete\":
+					deleteNode(node, el);
+					break;
+				default:
+					alert(\"Todo: appply action '\" + action + \"' to node \" + node);
+			}
+
+		});
+	};
+
+	function undo(node) {
+		var k = node.data.key;
+/*
+		for (var i=0; i<savedMsgs.length; i++) {
+			if (savedMsgs[i][0] == k) {
+				node.setTitle(savedMsgs[i][1];
+				node.data.tooltip = (savedMsgs[i][2];
+			}
+		}
+*/
+	}
+
+	var leftPartWidth = 0, leftPartHeight = 0, rightPartWidth = 0, rightPartHeight = 0;
+	// create tree-view ui that hosts the post receivers
+	$('#tree').dynatree({
+		checkbox: true,
+		imagePath: \"theme/lpf3/ntfy/\",
+		selectMode: 3,
+		expand: true,
+		onClick: function(node, event) {
+			if(event.which==1 && (node.tree.isUserEvent()) && node.getLevel()<4) {
+				$('#prevMsg').html(\"\");
+				$('#newMessage').val(\"\");
+				if (node.getLevel()==3) {
+					node.visit(function(c){
+						if (c.getLevel() == 4) {
+							$('#newMessage').val(c.data.href);
+							if (c.getParent().getParent().data.title == \"Email\") {
+								if (c.data.href.indexOf(\"|\")>0) {
+									var a = c.data.href.split(\"|\");
+									$('#newMessage').val(a[1]);
+								}
+							}
+						}
+					});
+				}
+				if (node.data.title == \"Twitter\" || node.data.title == \"SMS\") {
+		//button.attr(\"disabled\", true).removeClass(\"ui-state-disabled\");
+		//$('#charLeftDiv').attr(\"disabled\", false).addClass(\"ui-state-enabled\");
+					//$('#charLeftDiv').toggle(true);
+					$('#charLeftDiv').show();
+					$('#charLeft').show();
+					$('#charLeft').html( 140 - parseInt($('#newMessage').val().length) );
+					$('#newMessage').bind(\"textchange\", function (event, previousText) {
+						var limit = 140;
+						var text = $('#newMessage').val();
+						var len = parseInt(text.length);
+						$('#charLeft').html( limit - len );
+						if (limit == len)
+						  $('#newMessage').val(text.substr(0,limit));
+					});
+				}
+				else {
+					$('#charLeftDiv').hide();
+					$('#charLeft').hide();
+				}
+				em_get_prev_msg(node.data.key, $('#filter').val(), $('#showLast').val());
+			}
+			// return false; // this breaks/stops subsequent processing
+		},
+		onDblClick: function(node, event) {
+			editNode(node);
+			return false;
+		},
+
+		onSelect: function(flag, node) {
+			var foundit=0;
+			var selectedNodes = $(\"#tree\").dynatree(\"getSelectedNodes\");
+			var button = $(\":button:contains('Send Notification')\");
+			if (selectedNodes.length>0) {
+				enableButton(button);
+			}
+			else {
+				disableButton(button);
+			}
+		},
+
+		onCreate: function(node, span){
+			if (node.getLevel()==3) {
+				bindContextMenu(node, span);
+			}
+		},
+/*
+		dnd: {
+			preventVoidMoves: true, // Prevent dropping nodes 'before self', etc.
+			onDragStart: function(node) {
+				return true;
+			},
+			onDragEnter: function(node, sourceNode) {
+				if(node.parent !== sourceNode.parent)
+					return false;
+				return [\"before\", \"after\"];
+			},
+			onDrop: function(node, sourceNode, hitMode, ui, draggable) {
+				sourceNode.move(node, hitMode);
+			}
+		},
+*/
+		children: [
+			{title: \"All\", key:\"All\",hideCheckbox:false, expand: true, icon: \"globe.png\", 
+				children: [
+	";
+
+	while($i < count($nctypes)) {
+		$j = 0;
+		if ($i>0) $s .= ",";
+		$init = 0;
+		while ($j < $ncvcount) {
+			if ($ncvalues[$j]['outType'] == $nctypes[$i]) {
+
+				if ($init==0) {
+
+					$icon = strtolower(str_replace(' ', '-', $ncvalues[$j]['outType'])). '.png';
+
+					$s .= "{title: \"".$ncvalues[$j]['outType']."\", key: \"".$ncvalues[$j]['outType']."\", expand: true, icon: \"$icon\",
+						children: 
+							[
+					";
+
+				}
+				if ($init!=0) $s .= ",";
+
+				$t_title = $ncvalues[$j]['nckey'];
+				$arr = explode('|', $ncvalues[$j]['value']);
+				if ($ncvalues[$j]['outType']=='Email' || $ncvalues[$j]['outType']=='SMS')
+					$t_title = $arr[0];
+
+				$ttt = em_format_title( $ncvalues[$j]['message']);
+								//{title: \"Last sent: ".$ncvalues[$j]['sent']." [". $tmp ."]\", key: \"".$ncvalues[$j]['id']."\", 
+
+				$toRecipient = "";
+				if ($ncvalues[$j]['outType']=='Email' || $ncvalues[$j]['outType']=='SMS')
+					$toRecipient = 'tooltip:"'.extractPart($ncvalues[$j]['value'],'|',1).'",';
+				$s .= "
+					{title: \"". $t_title . "\", key: \"". $ncvalues[$j]['id']. "\", expand: true, icon: \"". $ncvalues[$j]['icon']. "\", 
+						". $toRecipient . "
+						children: 
+							[
+								{title: \"". $ttt ."\", key: \"".$ncvalues[$j]['id']."\", hideCheckbox: true,
+									icon:false, href: \"".$ncvalues[$j]['message']."\", tooltip: \"Last message [". $ncvalues[$j]['message']. "] was sent by ". 
+$ncvalues[$j]['user_name'].($ncvalues[$j]['outType']=='Email'?' to '.$ncvalues[$j]['value']:''). " on ". $ncvalues[$j]['sent']. "\"
+}
+							]
+					}";
+				$init = 1;
+			}
+			$j++;
+		}
+		$s .= ']}';
+
+		$i++;
+	}
+	$s .= ']
+	}]
+})';
+// debug $global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>'.$s);
+	// block retrieves google shortened url
+	$longUrl = "https://".$_SERVER['SERVER_NAME']."/".$shortname."/search";
+	$shortUrl = em_get_short_url($longUrl);
+
+
+//$wt_list = "";
+
+/*
+$('#twitter').bind('textchange', function (event, previousText) {
+  $('#charactersLeft').html( 140 - parseInt($(this).val().length) );
+});
+			$('#prevMsg').change(function() {
+				$('#newMessage').trigger('click');
+			});
+// debug $('#rezLog').append('<br>'+childNodes[child]);
+//$('#rezLog').append('<br>'+c.getLevel());
+*/
+
+	$send = "
+		function filterStr(s) {
+			return s.replace(/\\r/g, \"\").replace(/\\n/g, \"\").replace(/\\t/g, \"\");
+		}
+
+		function format_title(s, isnew) {
+			var num = 0;
+			var prefix = '';
+			var r = '';
+			if (isnew==1) {
+				num = 63;
+				prefix = 'New: ';
+			}
+			else {
+				num = 58;
+				prefix = 'Last sent: ';
+			}
+			r = s.substring(0,num);
+			r += (s.length>num?'...':'');
+
+			return prefix+r;
+		}
+
+		function deSelectAll() {
+			var selectedNodes = $(\"#tree\").dynatree(\"getSelectedNodes\");
+			var selectedKeys = $.map(selectedNodes, function(node){
+				node.deactivate();
+				node.select(false);
+			});
+		}
+
+		function sendMsg() {
+			var selectedNodes = $(\"#tree\").dynatree(\"getSelectedNodes\");
+			var selectedKeys = $.map(selectedNodes, function(node){
+				if (node.getLevel()==4) {
+					if (node.data.title.substring(0,5) == \"New: \") {
+						return \"<\"+node.data.key+\">\"+node.data.href;
+					}
+				}
+			});
+//alert(selectedKeys.join(\", \")); DO NOT USE join when passing into em_send_post
+			em_send_post(selectedKeys);
+
+			// hide char count for twitter
+			$('#charLeftDiv').hide();
+			$('#charLeft').hide();
+
+			$.map(selectedNodes, function(node){
+				if (node.getLevel()==4) {
+					node.setTitle(format_title(node.data.href,0));
+					node.data.tooltip = \"Last message \"+ node.data.href;
+				}
+			});
+		}
+	";
+
+	$s2 .= "
+		jQuery(document).ready(function() {
+		". $send . "
+
+			$( '#notify' ).dialog({
+				icon: \"move.png\",
+				autoOpen: false,
+				draggable: true,
+				closeOnEscape: false, 
+				resizable: false,
+				height: \"auto\",
+				width: \"auto\",
+				modal: true,
+				buttons: {
+					'Send Notification': function() {
+						sendMsg();
+						deSelectAll();
+						var node = $('#tree').dynatree('getActiveNode');
+						if (node) node.deactivate();
+						$( this ).dialog( 'close' );
+					},
+					Cancel: function() {
+						deSelectAll();
+						var node = $('#tree').dynatree('getActiveNode');
+						if (node) node.deactivate();
+						$( this ).dialog( 'close' );
+					}
+				},
+				close: function() {
+					//allFields.val( \"\" ).removeClass( \"ui-state-error\" );
+					//$(\"#tree\").dynatree(\"getTree\").reload();
+					var node = $('#tree').dynatree('getActiveNode');
+					if (node) node.deactivate();
+					deSelectAll();
+					//$(this).remove();
+				}
+			}).bind(\"dialogopen\", function (event, ui) {
+				$('#prevMsg').html(\"\");
+				$('#newMessage').val(\"\");
+
+				// disable Send Notification button initially
+				var notify_button = $(\":button:contains('Send Notification')\");
+				disableButton(notify_button);
+
+				var savemsg_button = $(\":button:contains('Save New Message')\");
+				disableButton(savemsg_button);
+
+				saveInitialMsg();
+	
+                                // fix for width:auto in IE
+                                var contentWidth = $(this).width();
+                                $(this).parent().find('.ui-dialog-titlebar').each(function () {
+                                        $(this).width(contentWidth-2);
+                                });
+                                $(this).parent().find('.ui-dialog-buttonpane').each(function () {
+                                        $(this).width(contentWidth);
+                                });
+			}).bind(\"dialogresize\", function (event, ui) {
+                                // fix for width:auto in IE
+                                var contentWidth = $(this).width();
+                                $(this).parent().find('.ui-dialog-titlebar').each(function () {
+                                        $(this).width(contentWidth-2);
+                                });
+                                $(this).parent().find('.ui-dialog-buttonpane').each(function () {
+                                        $(this).width(contentWidth);
+                                });
+                        })
+			;
+
+			$('#eventName').val('".$longname."/".$shortname."');
+//			$('#eventNameShort').val('".$shortname."');
+			$('#eventUrl').val('".$longUrl."');
+			$('#shortUrl').val('". $shortUrl . "');
+			$('#notify').dialog({ title: \"Event Notification for $longname (long), $shortname (short)\" });
+
+			// add script to create tree (dynatree plug-in)
+			if ((_canLog) && (typeof $('#tree').attr('name') != 'undefined')) {" 
+				. $s ."
+			}
+
+			// add text change event
+			$('#newMessage').bind('textchange', function (event, previousText) {
+				if ($('#tree').dynatree('getActiveNode'))
+					$(this).val(filterStr($(this).val()));
+				else {
+					$(this).val('');
+					alert('Please select a recipient first.');
+				}
+
+				var button = $(\":button:contains('Save New Message')\");
+				if ($(this).val().length==0)
+					disableButton(button);
+				else
+					enableButton(button);
+			});
+
+
+			// monitor previous msg shown input to ensure all numbers are entered
+			// saved for future <input id= ... onkeyup=\"this.value=this.value.replace(/\D/g,'')\"/>
+			$('#showLast').bind('textchange', function (event, previousText) {
+				if ($(this).val()!=\"*\" && isNaN($(this).val()))
+					$(this).val(previousText);
+			});
+
+			// event handling for button Save New Message
+			$('#saveNewMsg').click(function () {
+				var node = $('#tree').dynatree('getActiveNode');
+				var childNodes = node.getChildren();
+
+				// set New Message to all children nodes
+				node.visit(function(c){
+                    			if (c.getLevel()==4) { /// && c.data.title.substring(0,10)=='Last sent:') {
+						//n = c; //nxt[0];
+						var newmsg = $.trim($('#newMessage').val());
+						$('#newMessage').val(newmsg);
+						c.data.href = newmsg;
+						c.data.tooltip = 'New: '+newmsg;
+						var newtitle = format_title( newmsg, 1);	
+						c.setTitle(newtitle);
+						c.select(true);
+//						c.data.hideCheckbox = false;
+						c.data.addClass = \"myMenu\";
+						c.getParent().select(true);
+						//n.getParent().data.hideCheckbox = false;
+/*
+						$.contextMenu({
+							selector: '.myMenu', //dynatree-title', //context-menu-one', 
+							callback: function(key, options) {
+								switch (key) {
+									case \"undo\":
+										undo(c);
+										break;
+									case \"edit\":
+										if (c.getParent().getParent().data.title == \"Email\") {
+											$('#editEmail').dialog(\"open\");
+											$('#editEmail').dialog(\"option\", \"title\", \"Edit Email (\"+node.getParent().data.title+\")\");
+										}
+										break;
+								}
+							},
+							items: {
+								\"undo\": {name: \"Undo\", icon: \"undo\"},
+								\"edit\": {name: \"Edit\", icon: \"edit\"},
+
+							}
+						});
+*/ 
+						c.render();
+						c.getParent().render();
+					}
+               			 });
+
+				// enable Send Notification button
+				var button = $(\":button:contains('Send Notification')\");
+				enableButton(button);
+
+				// again disable the Save New Message button until next new message is entered, detected
+//				$(this).addClass('disabled').attr('disabled', true);
+				var button = $(\":button:contains('Save New Message')\");
+				disableButton(button);
+/*
+				$(node).contextMenu({
+					selector: '.context-menu-one', 
+					items: {
+						key: {
+							name: \"Something Clickable\", 
+							callback: $.noop
+						}
+					}, 
+					events: {
+						show: function(opt) {
+							// this is the trigger element
+							var $this = this;
+							// import states from data store 
+							$.contextMenu.setInputValues(opt, $this.data());
+							// this basically fills the input commands from an object
+							// like {name: \"foo\", yesno: true, radio: \"3\", }
+						}, 
+						hide: function(opt) {
+							// this is the trigger element
+							var $this = this;
+							// export states to data store
+							$.contextMenu.getInputValues(opt, $this.data());
+							// this basically dumps the input commands' values to an object
+							// like {name: \"foo\", yesno: true, radio: \"3\", }
+						}
+					}
+				});
+*/
+			});
+
+			$('#prevMsg').change(function () {
+				var str = $(this).find(\":selected\").attr(\"title\");
+				var fin = \"\"; 
+				if (str) {
+					fin = str.substr(str.indexOf(\"[\")+1, str.indexOf(\"]\")-1-str.indexOf(\"[\"));
+					$('#newMessage').val(fin);
+					$('#newMessage').trigger('textchange');
+//					$('#saveNewMsg').change();
+
+				}
+			//		$(\"select option:selected\").each(function () {
+			//			str += $(this).text() + \" \";
+			//		});
+			//		$('#newMsg').val(str
+			})
+//			.trigger('change')
+			;
+
+			$( '#tabs' ).tabs().bind(\"tabcreate\", function (event, ui) {
+			})
+			;
+//			$('#saveNewMsg').attr(\"disabled\", \"true\");
+
+			$('#word-template').sortable({ opacity: 0.9, cursor: \"move\"});
+
+			$( '#editTwitter' ).dialog({
+				autoOpen: false,
+				draggable: true,
+				closeOnEscape: false, 
+				resizable: false,
+				height: \"auto\",
+				width: \"auto\",
+				modal: true,
+				buttons: {
+					\"Save and Close\": function() {
+						var node = $('#tree').dynatree('getActiveNode');
+						var newTitle = \"New: \" + $('#tweet').val();
+						var len = newTitle.length;
+						node.data.tooltip = newTitle;
+						//var finaltitle = newTitle.substring(0, (len>63?63:len)) + (len>63?\"...\":\"\");
+						node.setTitle(format_title(newtitle,1));
+						var button = $(\":button:contains('Send Notification')\");
+						enableButton(button);
+						$( this ).dialog( \"close\" );
+					},
+					Cancel: function() {
+						$( this ).dialog( \"close\" );
+					}
+				},
+				close: function() {
+					//allFields.val( \"\" ).removeClass( \"ui-state-error\" );
+				}
+			}).bind(\"dialogopen\", function (event, ui) {
+                                var contentWidth = $(this).width();
+                                $(this).parent().find(\".ui-dialog-titlebar\").each(function () {
+                                        $(this).width(contentWidth-2);
+                                });
+                                $(this).parent().find(\".ui-dialog-buttonpane\").each(function () {
+                                        $(this).width(contentWidth);
+                                });
+
+				$('#charCount').html( 140 - parseInt($('#tweet').val().length) );
+				$('#tweet').bind(\"textchange\", function (event, previousText) {
+					var limit = 140;
+					var text = $('#tweet').val();
+					var len = parseInt(text.length);
+					$('#charCount').html( limit - len );
+					if (limit == len)
+					  $('#tweet').val(text.substr(0,limit));
+				});
+
+			}).bind(\"dialogresize\", function (event, ui) {
+                                // fix for width:auto in IE
+                                var contentWidth = $(this).width();
+                                $(this).parent().find(\".ui-dialog-titlebar\").each(function () {
+                                        $(this).width(contentWidth-2);
+                                });
+                                $(this).parent().find(\".ui-dialog-buttonpane\").each(function () {
+                                        $(this).width(contentWidth);
+                                });
+			})
+			;
+
+			$( '#editEmail' ).dialog({
+				autoOpen: false,
+				draggable: true,
+				closeOnEscape: false, 
+				resizable: false,
+				height: \"auto\",
+				width: \"auto\",
+				modal: true,
+				buttons: {
+					\"Save and Close\": function() {
+						var node = $('#tree').dynatree('getActiveNode');
+						node.data.href = $('#subject').val()+\"|\"+$('#body').val();
+						node.data.tooltip = \"New: \"+$('#subject').val()+\"|\"+$('#body').val();
+						var newtitle = format_title($('#body').val(),1);
+						node.setTitle(newtitle);
+						var button = $(\":button:contains('Send Notification')\");
+						enableButton(button);
+						$( this ).dialog( \"close\" );
+					},
+					Cancel: function() {
+						$( this ).dialog( \"close\" );
+					}
+				},
+				close: function() {
+					//allFields.val( \"\" ).removeClass( \"ui-state-error\" );
+				}
+			}).bind(\"dialogopen\", function (event, ui) {
+                                var contentWidth = $(this).width();
+                                $(this).parent().find(\".ui-dialog-titlebar\").each(function () {
+                                        $(this).width(contentWidth-2);
+                                });
+                                $(this).parent().find(\".ui-dialog-buttonpane\").each(function () {
+                                        $(this).width(contentWidth);
+                                });
+			}).bind(\"dialogresize\", function (event, ui) {
+                                // fix for width:auto in IE
+                                var contentWidth = $(this).width();
+                                $(this).parent().find(\".ui-dialog-titlebar\").each(function () {
+                                        $(this).width(contentWidth-2);
+                                });
+                                $(this).parent().find(\".ui-dialog-buttonpane\").each(function () {
+                                        $(this).width(contentWidth);
+                                });
+			})
+			;
+
+			$('#notify').dialog('open');
+			leftPartWidth = $('#leftPart').width();
+			leftPartHeight = $('#leftPart').height();
+			rightPartWidth = $('#rightPart').width();
+			rightPartHeight = $('#rightPart').height();
+// 538, 343, 441, 391
+//alert(leftPartWidth + ','+leftPartHeight + ',' + rightPartWidth + ',' + rightPartHeight);
+
+
+		});
+	";
+//$global['xajax_res']->addAppend('rezLog', 'innerHTML', $s2);
+	$global['xajax_res']->addScript($s2);
+
+	
+//	$global['xajax_res']->addScript("alert(\"in em_notify_event\");");
+	return $global['xajax_res']->getXML();
+}
+
+
+
+function wildcard($s) {
+	$s = trim($s);
+	$words = explode(" ", $s);
+	if (count($words)==0) return "";
+	$r = "%";
+	foreach ($words as $w)
+		$r .= "%". trim($w);
+	$r .= "%";
+	$r = "";
+	return $r;
+}
+
+function em_get_prev_msg($key, $filter="", $last=0) {
+        global $conf;
+        global $global;
+        require_once($global['approot']."/inc/lib_uuid.inc");
+        require_once($global['approot']."/inc/lib_image.inc");
+        require_once($global['approot']."/inc/lib_locale/gettext.inc");
+        if ($_SESSION['logged_in'] != true ) return;
+
+	$newfilter = "";
+	if (!empty($filter)) {
+	        $words = explode(" ", trim($filter));
+		if (count($words)>0) {
+			$newfilter = " and message like '";
+			foreach ($words as $w)
+				$newfilter .= "%". trim($w);
+			$newfilter .= "%'";
+		}
+	}
+
+	$limit = "";
+	if (!empty($last) && $last>0) $limit = "limit ".$last;
+
+	$q = "";
+
+	if (is_numeric($key)) {
+        	$q = "
+		SELECT sysgenid, trim(message) as message, trim(user_name) as user_name, sent
+		FROM ntfy_messages
+		WHERE configid = $key
+		" . $newfilter ."
+		ORDER BY sent DESC
+		".$limit."
+		;
+		";
+	}
+	else {
+		if ($key == "All") {
+	        	$q = "
+			SELECT sysgenid, trim(message) as message, trim(user_name) as user_name, sent
+			FROM ntfy_messages
+			WHERE configid in ( SELECT id FROM ntfy_config)
+			" . $newfilter ."
+			ORDER BY sent DESC
+			".$limit."
+			;
+			";
+		}
+		else { // top level (Social Media, Email, Sms) selected
+	        	$q = "
+			SELECT sysgenid, trim(message) as message, trim(user_name) as user_name, sent
+			FROM ntfy_messages
+			WHERE configid in ( SELECT id FROM ntfy_config WHERE outType = '" . $key . "')
+			" . $newfilter ."
+			ORDER BY sent DESC
+			".$limit."
+			;
+			";
+		}
+	}
+
+// debug $global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>'.$q);
+
+        $result = $global['db']->Execute($q);
+        if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 1");  return($log."error!<br>"); }
+	$recCount = $result->RecordCount();
+        $count = 0;
+	$m = '';
+	
+	$s = '<select style=\"width:410px;\">';
+	if ($recCount == 0) {
+		$s .= '<option title=\"none\" value=\"-1\">None retrieved</option>';
+		$global['xajax_res']->addAssign('newMessage', 'innerHTML', '');
+	}
+
+	else {
+		if ($recCount == 1) {
+			$s .= '<option title=\"One found\" value=\"0\">Only one was found</option>';
+		}
+		else {
+			$s .= '<option title=\"choose 1 from '.$recCount.'\" value=\"0\">choose 1 from '.$recCount.' messages</option>';
+		}
+        	while($row = $result->FetchRow()) {
+			$t = "[".$row['message']."] from ".$row['user_name']." on ". $row['sent'];
+//			if ($row['sysgenid'] ==  $id) $m = $t;
+			$s .= "<option title=\"".$t."\" value=\"".$row['sysgenid']."\">".substr($t,0,25). "</option>";
+       	        	$count++;
+		}
+	}
+	$s .= '</select>';
+	$global['xajax_res']->addAssign('prevMsg', 'innerHTML', $s);
+//$global['xajax_res']->addAppend('rezLog', 'innerHTML', $s);
+//	$prevMsg = $s;
+//	$global['xajax_res']->addAssign('eventMsg', 'innerHTML', '<p>'.$m.'</p>');
+
+//	$temp = "testing";
+//	$global['xajax_res']->addAssign('eventUrl', 'text', $temp );
+
+	//$js = '
+//	$eventName = $("#eventName").val();
+//	$shortUrl = shortenUrl($eventName);
+//	$(\"#eventUrl\").val($shortUrl);
+//	';
+//	$global['xajax_res']->addScript($js);
+
+//	$global['xajax_res']->addAssign('eventUrl', 'innerHTML', $shortUrl);
+
+	return $global['xajax_res']->getXML();
+}
+
 
 // adds a message to the log div @ tail
 function em_append_log($message = "no message specified?") {
@@ -270,6 +1504,7 @@ function em_show_events($internal = FALSE) {
 				<td style=\"font-size: 120%; padding-left: 8px;text-align: center;\" ><b>Visibility</b></td>
 				<td style=\"font-size: 120%; padding-left: 8px;text-align: center;\" ><b>Open</b></td>
 				<td style=\"font-size: 120%; padding-left: 8px;text-align: center;\" ><b>Edit</b></td>
+				<td style=\"font-size: 120%; padding-left: 8px;text-align: center;\" ><b>Notify</b></td>
 			</tr>
 	";
 
@@ -350,6 +1585,8 @@ function em_show_events($internal = FALSE) {
 				<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$closedText."</td>
 
 <td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"em_append_log('Editing Event #<b>".$disaster_id."</b> ...<br>'); em_perform_edit(".$disaster_id.");\" value=\"Edit\"></td>
+
+<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"em_append_log('Notifying Event #<b>".$disaster_id."</b> ...<br>'); em_notify_event(".$disaster_id.",'".$longname."','".$shortname."');\"); \" value=\"Notify\"></td>
 
 			</tr>
 		";
@@ -553,6 +1790,186 @@ function em_show_events($internal = FALSE) {
 	}
 	$htmlMain .= "</table>";
 
+	// script for word-template sortable
+	$wt_list = "";
+	$sq = "
+		select list from ntfy_word_template order by last_update desc limit 1;
+	";
+        $res3 = $global['db']->Execute($sq);
+//	$wt_list .= "<div id =\"$w\" class=\"ui-state-default\" style=\"text-align:center; float:left; width:auto; height: 18px; padding: 0.5em; border:1px solid black;\">$w</div>";
+//	$wt_list .= "<div id =\"$w\" class=\"ui-state-default\" style=\"text-align:center; float:left; width: 95px; height: 18px; padding: 0.5em; border:1px solid black;\">$w</div>";
+
+        if($res3 === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "get ntfy word template"); }
+
+	if ($row = $res3->FetchRow()) {
+		$wt = explode(",", $row['list']);
+                $wt_list = "";
+
+		foreach ($wt as $w) {
+			$t = str_replace(" ", "<br>", $w);
+        		$wt_list .= "<div id =\"$w\" class=\"ui-state-default\" style=\"-webkit-transform: rotate(-90deg); -moz-transform: rotate(-90deg); z-index:inherit; width:80px; height:40px; margin:30px 0px 0px 0px; padding: 0px 0px 0px 0px; display: table-cell; float:left; border:1px solid black;\">$t</div>";
+		}
+	}
+//debug $global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>'.$wt_list);
+
+	// this block paints the dialog for Event Notification
+	$htmlMain .= "
+		<ul id=\"manageRecipients\" class=\"contextMenu\">
+			<li id=\"insert\" class=\"insert\"><a href=\"#insert\">Insert a Recipient</a></li>
+			<li id=\"append\" class=\"append\"><a href=\"#append\">Append a Recipient</a></li>
+			<li id=\"delete\" class=\"delete separator\"><a href=\"#delete\">Delete a Recipient</a></li>
+		</ul>
+
+		<div style=\"display:none\" id=\"insertRecipient\" title=\"\">
+			<table class=\"emTable\">
+				<tr>
+					<td class=\"mainRowEven emFirst emLast\" style=\"\">Title</td>
+					<td class=\"mainRowEven emFirst emLast\" style=\"\"><input id=\"rcptitle\" type=\"text\" size=15 ></input></td>
+				</tr>
+				<tr>
+					<td class=\"mainRowOdd emFirst emLast\" style=\"\">Icon</td>
+					<td class=\"mainRowOdd emFirst emLast\" style=\"\"><input id=\"iconfile\" type=\"text\" size=45 ></input></td>
+				</tr>
+				<tr>
+					<td class=\"mainRowEven emFirst emLast\" style=\"\">Value</td>
+					<td class=\"mainRowEven emFirst emLast\" style=\"\"><input id=\"rcpvalue\" type=\"text\" size=15 title=\"\" ></input></td>
+				</tr>
+			</table>
+		</div>
+
+		<div style=\"display:none\" id=\"editTwitter\" title=\"Edit Message to Twitter\">
+			<table class=\"emTable\">
+				<tr>
+					<td class=\"mainRowEven emFirst emLast\" style=\"\">Tweet</td>
+					<td class=\"mainRowEven emFirst emLast\" style=\"\"><textarea id=\"tweet\" rows=5 cols=28 style=\"resize:none\"></textarea></td>
+				</tr>
+				<tr>
+					<td class=\"mainRowOdd emFirst emLast\" style=\"\">characters Left</td>
+					<td class=\"mainRowOdd emFirst emLast\" style=\"\"><div id=\"charCount\" ></div></td>
+				</tr>
+			</table>
+		</div>
+
+		<div style=\"display:none\" id=\"editEmail\" title=\"Edit Email\">
+			<table class=\"emTable\">
+				<tr>
+					<td class=\"mainRowEven emFirst emLast\" style=\"\">Subject</td>
+					<td class=\"mainRowEven emFirst emLast\" style=\"\"><input id=\"subject\" type=\"text\" size=45 /></td>
+				</tr>
+				<tr>
+					<td class=\"mainRowOdd emFirst emLast\" style=\"\">Body</td>
+					<td class=\"mainRowOdd emFirst emLast\" style=\"\"><textarea id=\"body\" rows=7 cols=55></textarea></td>
+				</tr>
+			</table>
+		</div>
+
+		<div style=\"display:none\" id=\"notify\" title=\"Event Notification\" style=\"float:none\">
+		    <div id=\"leftPart\" style=\"margin:5px 10px 5px 5px; width:574; height:380; float:left\">
+			<table class=\"emTable\">
+<!--
+				<tr>
+					<td class=\"mainRowEven emFirst emLast\" style=\"\">Event Name (long/short)</td>
+					<td class=\"mainRowEven emFirst emLast\" style=\"\"><input id=\"eventName\" type=\"text\" size=45 readonly /></td>
+				</tr>
+-->
+				<tr>
+					<td class=\"mainRowOdd emFirst emLast\" style=\"\">Event URL</td>
+					<td class=\"mainRowOdd emFirst emLast\" style=\"\"><input id=\"eventUrl\" type=\"text\" size=55 readonly /></td>
+				</tr>
+
+				<tr>
+					<td class=\"mainRowEven emFirst emLast\" style=\"\">Short URL</td>
+					<td class=\"mainRowEven emFirst emLast\" style=\"\"><input id=\"shortUrl\" type=\"text\" size=25 readonly /></td>
+				</tr>
+				<tr>
+					<td class=\"mainRowOdd emFirst emLast\" style=\"\" colspan=2>
+					<div id=\"tree\" name=\"selNodes\">tree</div></td>
+				</tr>
+			</table>
+		    </div>
+		    <div id=\"rightPart\" style=\"width:441; height:391; float:left\">
+			<table class=\"emTable\">
+
+				<tr>
+					<td class=\"mainRowEven emFirst emLast\" style=\"\" colspan=2>
+						<div id=\"tabs\" style=\"height:auto\">
+							<ul>
+								<li><a href=\"#tabs-1\">Use Previous</a></li>
+<!--
+								<li><a href=\"#tabs-2\">Start Fresh</a></li>
+-->
+							</ul>
+							<div id=\"tabs-1\" style=\"height:auto\" class=\"mainRowEven emFirst emLast\">
+								<table class=\"emTable\">
+									<tr>
+										<td class=\"mainRowEven emFirst emLast\" style=\"\">
+										    <div>
+											Filter
+										    </div>
+										    <div>
+											<textarea id=\"filter\" type=\"text\" cols=10 style=\"resize:none\"></textarea>
+										    </div>
+<!--
+											<label for=\"filter\">Filter</label>
+											<textarea id=\"filter\" type=\"text\" size=10 style=\"resize:none\"></textarea>
+-->
+										</td>
+
+										<td class=\"mainRowEven emFirst emLast\" style=\"\">
+											<label for=\"showLast\">Retrieve Sent Posts</label>
+											<input id=\"showLast\" type=\"text\" size=3 maxlength=3 style=\"width:25px\" title=\"Up to 999 can be entered\" value=\"5\" />
+										</td>
+									</tr>
+									<tr>
+										<td class=\"mainRowOdd emFirst emLast\" style=\"\">Found Message</td>
+										<td class=\"mainRowOdd emFirst emLast\" style=\"\"><div id=\"prevMsg\" style=\"width:50px\"></div></td>
+									</tr>
+									<tr>
+										<td class=\"mainRowEven emFirst emLast\" style=\"\">New Message</td>
+										<td class=\"mainRowEven emFirst emLast\" style=\"\">
+										  <table class=\"emTable\">
+										    <tr><td>
+											<textarea id=\"newMessage\" rows=7 cols=20 type=\"text\" style=\"resize:none;width:200px; height:100px;\"></textarea>
+										    </td></tr>
+										    <tr><td>
+											<div id=\"charLeftDiv\" style=\"float:left; display:none; padding-left:5px; \">
+												Characters Left:&nbsp;
+											</div>
+												<div id=\"charLeft\" style=\"float:left; display:none; position:relative;\"></div></div>
+										    </td></tr>
+										  </table>
+										</td>
+									</tr>
+								</table>
+							</div>
+<!--
+							<div id=\"tabs-2\" style=\"height:auto\" class=\"emLast\">
+								<table class=\"\">
+									<tr>
+										<td class=\"\" style=\"\">Template</td>
+										<td>
+											<div id=\"word-template\" class=\"ui-state-default\" style=\"margin:0px 0px 0px 0px; padding: 0px 0px 0px 0px; height:100px; display:table;\">".$wt_list."</div>
+										</td>
+									</tr>
+									<tr>
+										<td class=\"mainRowOdd emFirst emLast\" style=\"\">New Message</td>
+										<td class=\"mainRowOdd emFirst emLast\">
+											<textarea id=\"newMessage\" rows=4 cols=30 type=\"text\" style=\"resize:none;\"></textarea>
+										</td>
+									</tr>
+								</table>
+							</div>
+-->
+						</div>
+					</td>
+				<tr>
+					<td class=\"mainRowEven\" colspan=2 style=\"padding-left: 8px; text-align: center;\" class=\"\"><button id=\"saveNewMsg\" class=\"\" value=\"Save New Message\">Save New Message</button></td>
+				</tr>
+			</table>
+		    </div>
+		</div>
+
+	";
 	$pageControlHtml = '
 		<input class="styleTehButton" type="button" onclick="javascript: em_append_log(\'Creating a new Event...<br>\'); em_perform_edit(0);" value="Create a new Disaster / Incident / Event">
 		&nbsp; &nbsp; &nbsp; &nbsp;
@@ -628,7 +2045,7 @@ function em_perform_help() {
 			<li><b>Type</b>: indicates whether the event is a <b>REAL</b> or a <b>TEST</b> event. This is spcified by per disaster and all incidents and events that are children of the particular disaster inherit this value from the parent.</li>
 			<li><b>Default</b>: shows which event is the default event a user see when they come to the site.</li>
 			<li><b>Visibility</b>: shows whether an event is visible to the public (enyone may view it) or whether it is only visible to a specific user class.</li>
-			<li><b>Open</b>: an event that is <b>CLOSED</b> cannot accept new persons in the RAP (Report A Person), PLS (Person Locator web Services), and MPRES (Missing Person Registry Email Services). <b>OPEN</b> events allow new persons to be accepted via these three avenues. <b>CLOSED(PF)</b> events are the same as <b>CLOSED</b> events except that they allow the reporting of persons via the Google Person Finder.</li>
+			<li><b>Open</b>: an event that is <b>CLOSED</b> cannot accept new persons in the RAP (Report A Person), PLUS (Web Services), and MPRES (Missing Person Registry Email Services). <b>OPEN</b> events allow new persons to be accepted via these three avenues. <b>CLOSED(PF)</b> events are the same as <b>CLOSED</b> events except that they allow the reporting of persons via the Google Person Finder.</li>
 			<li><b>Edit</b>: is the link you click on to edit this particular event.</li>
 		</ul>
 		<img alt=\"IE6,7,8 dont support inline images, please upgrade to IE9 or Google Chrome, Firefox, Safari\" class=\"inlineHelp\" src=\"data:image/png;base64,".base64_encode(file_get_contents($global['approot'].'/mod/em/help2.png'))."\">
@@ -930,7 +2347,7 @@ $msgSocial = mysql_real_escape_string($r['msgSocial']);
 	}
 
 	//$msgSocial = $name." (Event ID# ".$eventId.") has been created";
-	em_send_post($msgSocial);
+	//em_send_post($msgSocial);
 
 	$log .= "Event #<b>".$page_id."</b> <span style=\"color: green;\">Saved</span>.<b><br>";
 
@@ -969,10 +2386,10 @@ function em_perform_delete($incident_id, $confirm) {
 		$shortname = $row['shortname'];
 
 		$p = new pop();
-		$subject = "{ People Locator Event Manager Audit }";
+		$subject = "{ ".$conf['site_name']." Event Manager Audit }";
 		$bodyHTML = "
 			<br>
-			<b>The event: ($incident_id) $name / $shortname has been deleted on PL.</b><br>
+			<b>The event: ($incident_id) $name / $shortname has been deleted on ".$conf['site_name'].".</b><br>
 			<br>
 			This is simply an audit email to keep the team aware of such changes.<br>
 			<br>
@@ -980,7 +2397,7 @@ function em_perform_delete($incident_id, $confirm) {
 		";
 		$bodyAlt = "
 			\n
-			The event: ($incident_id) $name / $shortname has been deleted on PL.\n
+			The event: ($incident_id) $name / $shortname has been deleted on ".$conf['site_name'].".\n
 			\n
 			This is simply an audit email to keep the team aware of such changes.\n
 			\n
@@ -1039,10 +2456,10 @@ function em_perform_purge($incident_id, $confirm) {
 		$shortname = $row['shortname'];
 
 		$p = new pop();
-		$subject = "{ People Locator Event Manager Audit }";
+		$subject = "{ ".$conf['site_name']." Event Manager Audit }";
 		$bodyHTML = "
 			<br>
-			<b>The event: ($incident_id) $name / $shortname has been purged on PL.</b><br>
+			<b>The event: ($incident_id) $name / $shortname has been purged on ".$conf['site_name'].".</b><br>
 			<br>
 			This is simply an audit email to keep the team aware of such changes.<br>
 			<br>
@@ -1050,7 +2467,7 @@ function em_perform_purge($incident_id, $confirm) {
 		";
 		$bodyAlt = "
 			\n
-			The event: ($incident_id) $name / $shortname has been purged on PL.\n
+			The event: ($incident_id) $name / $shortname has been purged on ".$conf['site_name'].".\n
 			\n
 			This is simply an audit email to keep the team aware of such changes.\n
 			\n
@@ -1085,6 +2502,7 @@ function em_perform_purge($incident_id, $confirm) {
 function em_perform_purge_do($incident_id) {
 
 	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 	require_once($global['approot']."/inc/lib_uuid.inc");
 	require_once($global['approot']."/inc/lib_image.inc");
 	require_once($global['approot']."/inc/lib_locale/gettext.inc");
@@ -1092,8 +2510,6 @@ function em_perform_purge_do($incident_id) {
 	$log = "";
 	$webroot = $global['approot']."www/";
 	$delPersons = 0;
-	$delImages = 0;
-	$delVn = 0;
 
 	// Reset last_count for last export log  record. (Otherwise, the first
 	// 'last_count' new records won't get exported.)
@@ -1126,89 +2542,14 @@ function em_perform_purge_do($incident_id) {
 
 	foreach($people as $p_uuid) {
 
-		// Delete any associated images...
-		$q = "
-			SELECT *
-			FROM image WHERE p_uuid = '".$p_uuid."';
-		";
-		$image_result = $global['db']->Execute($q);
-
-		if($image_result === false) {
-			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 2 ((".$q."))");
-			$errchk = $global['db']->ErrorMsg();
-			$log .= "Error getting image for this person (".$p_uuid."): <b>".$errchk."</b><br>";
-			return($log);
-
-		} elseif(count($image_result) > 0) {
-
-			while($row = $image_result->FetchRow()) {
-
-				// There is an image so delete it and its thumbnail
-				$file = $webroot.$row['url'];
-				$thumb = $webroot.$row['url_thumb'];
-
-				if(!unlink($file)) {
-					$log .= "Unable to delete <b>".$file."</b><br>";
-				} else {
-					$delImages++;
-					$original = str_replace("full.jpg", "original", $file);
-					unlink($original);
-				}
-				if($thumb != $file) {
-					if(!unlink($thumb)) {
-						$log .= "Unable to delete <b>".$thumb."</b><br>";
-					}
-				}
-			}
-		}
-
-		// Delete any associated voice notes...
-		$q = "
-			SELECT *
-			FROM voice_note WHERE p_uuid = '".$p_uuid."';
-		";
-		$result = $global['db']->Execute($q);
-
-		if($result === false) {
-			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 4 ((".$q."))");
-			$errchk = $global['db']->ErrorMsg();
-			$log .= "Error getting voice note for this person (".$p_uuid."): <b>".$errchk."</b><br>";
-			return($log);
-
-		} elseif(count($result) > 0) {
-
-			while($row = $result->FetchRow()) {
-
-				// There is a voice note so delete it nd the resampleds
-				$original = $webroot.$row['url_original'];
-				$mp3      = $webroot.$row['url_resampled_mp3'];
-				$ogg      = $webroot.$row['url_resampled_ogg'];
-
-				if(!unlink($original)) {
-					$log .= "Unable to delete <b>".$file."</b><br>";
-				} else {
-					!unlink($mp3);
-					!unlink($ogg);
-					$delVn++;
-				}
-			}
-		}
-
-		// Delete the person in question and all dependent data (such as reporter)
-		$q = "
-			CALL delete_reported_person('$p_uuid', 1);
-		";
-		$st = $global['db']->Execute($q);
-		if($st === false) {
-			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 3 ((".$q."))");
-			$errchk = $global['db']->ErrorMsg();
-			$log .= "Error calling delete_person for this incident: <b>".$errchk."</b><br>";
-		} else {
-			$delPersons++;
-			//$log .= "Deleted <b>".$p_uuid."</b><br>";
-		}
+		$p = new person();
+		$p->p_uuid = $p_uuid;
+		$p->load();
+		$p->delete();
+		$delPersons++;
+		$log .= "Deleted <b>".$p_uuid."</b><br>";
 	}
-	$log .= "<b>".$delPersons." person(s)</b>, <b>".$delImages." images</b>, and <b>".$delVn." voice notes</b> deleted.<br>";
+	$log .= "<b>".$delPersons." person(s)</b> purged.<br>";
 
         // Have SOLR do a full update of indexes.
 	$handle = fopen("http://pl:8983/solr/dataimport?command=full-import", "r");
@@ -1269,10 +2610,10 @@ function em_perform_new() {
 
 	// email audit...
 	$p = new pop();
-	$subject = "{ People Locator Event Manager Audit }";
+	$subject = "{ ".$conf['site_name']." Event Manager Audit }";
 	$bodyHTML = "
 		<br>
-		<b>A new event has been instantiated on PL.</b><br>
+		<b>A new event has been instantiated on ".$conf['site_name'].".</b><br>
 		<br>
 		This is simply an audit email to keep the team aware of such changes.<br>
 		<br>
@@ -1280,7 +2621,7 @@ function em_perform_new() {
 	";
 	$bodyAlt = "
 		\n
-		A new event has been instantiated on PL.\n\n
+		A new event has been instantiated on ".$conf['site_name'].".\n\n
 		\n
 		This is simply an audit email to keep the team aware of such changes.\n
 		\n
@@ -1297,6 +2638,7 @@ function em_perform_new() {
 // presents a gui to edit a page and its corresponding fields
 function em_perform_edit($incident_id) {
 	global $global;
+	global $conf;
 
 	//$global['xajax_res']->setFlag('debug', true);
 
@@ -1465,7 +2807,7 @@ function em_perform_edit($incident_id) {
                 $checkedSync = $rowpfif['sched_interval_minutes'] == "0" ? "" : "CHECKED";
 		$pfif = "
 			PF repository: <input type=\"text\" id=\"pfifUrl\" name=\"pfifUrl\" size=\"48\" value=\"".htmlspecialchars($rowpfif['base_url'])."\">
-                        &nbsp;&nbsp;Keep PL and PF synchronized? <input type=\"checkbox\" id=\"pfifSync\" name=\"pfifSync\" value=\"1\" ".$checkedSync."><br>
+                        &nbsp;&nbsp;Keep ".$conf['site_name']." and Google PF synchronized? <input type=\"checkbox\" id=\"pfifSync\" name=\"pfifSync\" value=\"1\" ".$checkedSync."><br>
                         (e.g. https://www.google.org/personfinder/sendong)
 		";
         // end PFIF options
@@ -1508,6 +2850,7 @@ function em_perform_edit($incident_id) {
 	// end visibility select box
 
 	$editMainHtml = "
+<!--
 <style>
 body {
   line-height:1.4em;
@@ -1540,7 +2883,7 @@ body {
 }
 
 </style>
-
+-->
 <div id=\"topBlock\" >
 <div id=\"formBlock\" >
 
@@ -1565,7 +2908,7 @@ body {
 
 
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" style=\"\">Title Line 2 (appears under People Locator)<br>ie. <b>for the Joplin Tornado</b></td>
+		<td class=\"mainRowOdd emLastWhite\" style=\"\">Title portion 2 (appears next to '".$conf['site_name']."')<br>ie. <b>for the Joplin Tornado</b></td>
 		<td class=\"mainRowOdd emFirstWhite\" style=\"\"><textarea id=\"eventDescription\" rows=1 cols=60 />".$row['description']."</textarea></td>
 	<tr>
 
@@ -1606,6 +2949,7 @@ body {
         <tr>
 </table>
 </div>
+<!--
 <div id=\"topNotify\">
  <div id=\"notifyBlock\" class=\"form-container\" >
 
@@ -1626,7 +2970,7 @@ body {
 	</table>
 
 
-        <p><input type=\"button\" value=\"Send Notification\"></p>
+        <p><input id=\"sendNoficication\" type=\"button\" value=\"Send Notification\"></p>
 
      </fieldset>
 
@@ -1634,6 +2978,7 @@ body {
  </div>
 </div>
 </div>
+-->
 <br>
 <table class=\"emTable\">
 	<tr>
@@ -1714,37 +3059,37 @@ body {
 		$global['xajax_res']->addAppend('rezLog', 'innerHTML', 'Editing event <b>#'.$incident_id.'</b>...<br>');
 		$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
 	}
-
+/*
 	$nc1 = "
 		SELECT id, trim( outType ) AS outType, trim( nckey ) AS nckey, trim( icon ) AS icon, trim( value ) AS value, (
 		SELECT sysgenid
-		FROM notification_messages
+		FROM ntfy_messages
 		WHERE configid = c.id
 		ORDER BY sent DESC
 		LIMIT 1
 		) AS genid, (
 
 		SELECT trim( message )
-		FROM notification_messages
+		FROM ntfy_messages
 		WHERE configid = c.id
 		ORDER BY sent DESC
 		LIMIT 1
 		) AS message, (
 
 		SELECT sent
-		FROM notification_messages
+		FROM ntfy_messages
 		WHERE configid = c.id
 		ORDER BY sent DESC
 		LIMIT 1
 		) AS sent, (
 
 		SELECT trim( user_name )
-		FROM notification_messages
+		FROM ntfy_messages
 		WHERE configid = c.id
 		ORDER BY sent DESC
 		LIMIT 1
 		) AS user_name
-		FROM notification_config c
+		FROM ntfy_config c
 		ORDER BY seq;
 	";
         $ncres1 = $global['db']->Execute($nc1);
@@ -1760,7 +3105,7 @@ body {
 		$ncvcount++;
 	}       
 	$i = 0;
-	// create the Notification tree
+	// create the tree-view Notification
 	$s = '$("#tree").dynatree({
 		checkbox: true,
 		imagePath: "theme/lpf3/ntfy/",
@@ -1773,6 +3118,7 @@ body {
 				if (!isNaN(node.data.key) && !isNaN(parseInt(node.data.key))) {
 					$( "#dialog" ).dialog({dialogClass: "ui-dialog-titlebar"});
 					$( "#dialog" ).dialog({title: "to " + node.parent.data.title});
+
 					em_get_prev_msg(node.data.key);
 					$( "#dialog" ).dialog( "open" );
 				}
@@ -1818,12 +3164,12 @@ $ncvalues[$j]['user_name'].($ncvalues[$j]['outType']=='Email'?' to '.$ncvalues[$
 		$i++;
 	}
 	$s .= ']});';
-
+*/
 //$global['xajax_res']->addAppend('rezLog', 'innerHTML', $s);
 				/* need to either change last sent to "new" or add
 				 a new node before last sent and enable the checkbox with checked
 				*/
-
+/*
 	$global['xajax_res']->addScript("
 var mtop = 0;
 
@@ -1865,16 +3211,16 @@ $(function () {
 
 				var title = $( \"#dialog\" ).dialog( \"option\", \"title\" );
 				title = title.replace('to ', '');
-var node = $('#tree').dynatree('getActiveNode');
-var newtitle = 'New: ' + $('#newMsg').val();
-node.setTitle(newtitle.substr(0,25));
-node.data.tooltip = newtitle;
-node.select(true);
-node.data.hideCheckbox = false;
-node.getParent().select(true);
-node.getParent().data.hideCheckbox = false;
-node.render();
-node.getParent().render();
+				var node = $('#tree').dynatree('getActiveNode');
+				//var newtitle = 'New: ' + $('#newMsg').val();
+				node.setTitle(format_title($('#newMsg').val(),1));
+				node.data.tooltip = newtitle;
+				node.select(true);
+				node.data.hideCheckbox = false;
+				node.getParent().select(true);
+				node.getParent().data.hideCheckbox = false;
+				node.render();
+				node.getParent().render();
 				$( this ).dialog( 'close' );
 			},
 			Cancel: function() {
@@ -1902,7 +3248,7 @@ node.getParent().render();
 
   }); // end function
 "); // end addScript
-
+*/
 	$global['xajax_res']->addScript("load_map(".$row['latitude'].", ".$row['longitude'].", '".$row['street']."');");
 	$global['xajax_res']->addScript("initDate();");
 	return $global['xajax_res']->getXML();

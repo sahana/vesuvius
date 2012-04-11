@@ -4,7 +4,7 @@
 ********************************************************************************************************************************************************************
 *
 * @class        voiceNote
-* @version      10
+* @version      12
 * @author       Greg Miernicki <g@miernicki.com>
 * @note         Usage of this class **REQUIRES** that ffmpeg is installed on the system.
 *
@@ -47,12 +47,27 @@ class voiceNote {
 	private $sql_url_resampled_mp3;
 	private $sql_url_resampled_ogg;
 
+	private $sql_Ovoice_id;
+	private $sql_Op_uuid;
+	private $sql_Olength;
+	private $sql_Oformat;
+	private $sql_Osample_rate;
+	private $sql_Ochannels;
+	private $sql_Ospeaker;
+	private $sql_Ourl_original;
+	private $sql_Ourl_resampled_mp3;
+	private $sql_Ourl_resampled_ogg;
+
 	public $dataBase64;
 	public $data;
+	public $Odata;
+
+	public $updated_by_p_uuid;
 
 
 	// Constructor
 	public function __construct() {
+
 		// init db
 		global $global;
 		$this->db = $global['db'];
@@ -91,13 +106,27 @@ class voiceNote {
 		$this->sql_url_resampled_mp3 = null;
 		$this->sql_url_resampled_ogg = null;
 
-		$this->dataBase64 = null;
-		$this->data       = null;
+		$this->sql_Ovoice_note_id     = null;
+		$this->sql_Op_uuid            = null;
+		$this->sql_Olength            = null;
+		$this->sql_Oformat            = null;
+		$this->sql_Osample_rate       = null;
+		$this->sql_Ochannels          = null;
+		$this->sql_Ospeaker           = null;
+		$this->sql_Ourl_original      = null;
+		$this->sql_Ourl_resampled_mp3 = null;
+		$this->sql_Ourl_resampled_ogg = null;
+
+		$this->dataBase64        = null;
+		$this->data              = null;
+		$this->Odata             = null;
+		$this->updated_by_p_uuid = null;
 	}
 
 
 	// Destructor
 	public function __destruct() {
+
 		$this->voice_note_id     = null;
 		$this->p_uuid            = null;
 		$this->length            = null;
@@ -131,24 +160,35 @@ class voiceNote {
 		$this->sql_url_resampled_mp3 = null;
 		$this->sql_url_resampled_ogg = null;
 
-		$this->dataBase64 = null;
-		$this->data       = null;
+		$this->sql_Ovoice_note_id     = null;
+		$this->sql_Op_uuid            = null;
+		$this->sql_Olength            = null;
+		$this->sql_Oformat            = null;
+		$this->sql_Osample_rate       = null;
+		$this->sql_Ochannels          = null;
+		$this->sql_Ospeaker           = null;
+		$this->sql_Ourl_original      = null;
+		$this->sql_Ourl_resampled_mp3 = null;
+		$this->sql_Ourl_resampled_ogg = null;
 
-		// make sure tables are safe :)
-		$q = "UNLOCK TABLES;";
-		$result = $this->db->Execute($q);
-		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote unlock tables ((".$q."))"); }
+		$this->dataBase64        = null;
+		$this->data              = null;
+		$this->Odata             = null;
+		$this->updated_by_p_uuid = null;
 	}
 
 
 	// initializes some values for a new instance (instead of when we load a previous instance)
 	public function init() {
+
 		$this->voice_note_id = shn_create_uuid("voice_note");
 	}
 
 
 	// load data from db
 	public function load() {
+
+		global $global;
 
 		$q = "
 			SELECT *
@@ -183,15 +223,40 @@ class voiceNote {
 			$this->Ourl_resampled_mp3 = $result->fields['url_resampled_mp3'];
 			$this->Ourl_resampled_ogg = $result->fields['url_resampled_ogg'];
 
+			$path = $global['approot']."www/";
+			$this->data = file_get_contents($path.$this->url_original);
+			$this->Odata = file_get_contents($path.$this->url_original);
+			$this->encode();
+
 		} else {
-			// we failed to load a de object for this person, so fail the load (indicate to person class there is no edxl for this person)
+			// we failed to load a de object for this person, so fail the load (indicate to person class there is no voice note for this person)
 			return false;
 		}
 	}
 
 
+	// Delete function
+	public function delete() {
+
+		// just to mysql-ready the data nodes...
+		$this->sync();
+
+		// remove from filesystem this image
+		$this->unwrite();
+
+		// delete from db
+		$q = "
+			DELETE FROM voice_note
+			WHERE voice_note_id = ".$this->sql_voice_note_id.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person voice note delete 1 ((".$q."))"); }
+	}
+
+
 	// synchronize SQL value strings with public attributes
 	private function sync() {
+
 		global $global;
 
 		// build SQL value strings
@@ -206,15 +271,55 @@ class voiceNote {
 		$this->sql_url_original      = ($this->url_original      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_original)."'";
 		$this->sql_url_resampled_mp3 = ($this->url_resampled_mp3 === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_resampled_mp3)."'";
 		$this->sql_url_resampled_ogg = ($this->url_resampled_ogg === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->url_resampled_ogg)."'";
+
+		$this->sql_Ovoice_note_id     = ($this->Ovoice_note_id     === null) ? "NULL" : (int)$this->Ovoice_note_id;
+		$this->sql_Op_uuid            = ($this->Op_uuid            === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Op_uuid)."'";
+		$this->sql_Olength            = ($this->Olength            === null) ? "NULL" : (int)$this->Olength;
+		$this->sql_Oformat            = ($this->Oformat            === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Oformat)."'";
+		$this->sql_Osample_rate       = ($this->Osample_rate       === null) ? "NULL" : (int)$this->Osample_rate;
+		$this->sql_Ochannels          = ($this->Ochannels          === null) ? "NULL" : (int)$this->Ochannels;
+		$this->sql_Ospeaker           = ($this->Ospeaker           === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ospeaker)."'";
+		$this->sql_Ourl_original      = ($this->Ourl_original      === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ourl_original)."'";
+		$this->sql_Ourl_resampled_mp3 = ($this->Ourl_resampled_mp3 === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ourl_resampled_mp3)."'";
+		$this->sql_Ourl_resampled_ogg = ($this->Ourl_resampled_ogg === null) ? "NULL" : "'".mysql_real_escape_string((string)$this->Ourl_resampled_ogg)."'";
 	}
 
 
 	private function decode() {
+
 		$this->data = base64_decode($this->dataBase64);
 	}
 
 
+	private function encode() {
+
+		$this->dataBase64 = base64_encode($this->data);
+	}
+
+
+	private function unwrite() {
+
+		global $global;
+
+		$webroot  = $global['approot']."www/";
+		$original = $webroot.$this->url_original;
+		$mp3      = $webroot.$this->url_resampled_mp3;
+		$ogg      = $webroot.$this->url_resampled_ogg;
+
+		if(!unlink($original)) {
+			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "unable to delete file", "person voicenote unwrite 1 ((".$original."))");
+		}
+		if(!unlink($mp3)) {
+			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "unable to delete file", "person voicenote unwrite 2 ((".$mp3."))");
+		}
+		if(!unlink($ogg)) {
+			daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, "unable to delete file", "person voicenote unwrite 3 ((".$ogg."))");
+		}
+	}
+
+
 	private function write() {
+
 		global $global;
 
 		// base64 to hex
@@ -243,6 +348,7 @@ class voiceNote {
 
 	// save the voice note
 	public function insert() {
+
 		$this->write();
 		$this->sync();
 		$q = "
@@ -271,6 +377,72 @@ class voiceNote {
 		";
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "voiceNote insert ((".$q."))"); }
+	}
+
+
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	// save the person (subsequent save = update)
+	public function update() {
+
+		$this->sync();
+
+		// if the binary data changed.... lets save it!
+		if($this->data != $this->Odata) {
+			$this->write();
+		}
+
+		$this->saveRevisions();
+
+		$q = "
+			UPDATE voice_note
+			SET
+				voice_note_id     = ".$this->sql_voice_note_id.",
+				p_uuid            = ".$this->sql_p_uuid.",
+				length            = ".$this->sql_length.",
+				format            = ".$this->sql_format.",
+				sample_rate       = ".$this->sql_sample_rate.",
+				channels          = ".$this->sql_channels.",
+				speaker           = ".$this->sql_speaker.",
+				url_original      = ".$this->sql_url_original.",
+				url_resampled_mp3 = ".$this->sql_url_resampled_mp3.",
+				url_resampled_ogg = ".$this->sql_url_resampled_ogg."
+
+			WHERE voice_note_id = ".$this->sql_voice_note_id.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person voiceNote update ((".$q."))"); }
+	}
+
+
+	// save any changes since object was loaded as revisions
+	function saveRevisions() {
+
+		if($this->p_uuid            != $this->Op_uuid)            { $this->saveRevision($this->sql_p_uuid,            $this->sql_Op_uuid,            'voice_note', 'p_uuid'            ); }
+		if($this->length            != $this->Olength)            { $this->saveRevision($this->sql_length,            $this->sql_Olength,            'voice_note', 'length'            ); }
+		if($this->format            != $this->Oformat)            { $this->saveRevision($this->sql_format,            $this->sql_Oformat,            'voice_note', 'format'            ); }
+		if($this->sample_rate       != $this->Osample_rate)       { $this->saveRevision($this->sql_sample_rate,       $this->sql_Osample_rate,       'voice_note', 'sample_rate'       ); }
+		if($this->channels          != $this->Ochannels)          { $this->saveRevision($this->sql_channels,          $this->sql_Ochannels,          'voice_note', 'channels'          ); }
+		if($this->speaker           != $this->Ospeaker)           { $this->saveRevision($this->sql_speaker,           $this->sql_Ospeaker,           'voice_note', 'speaker'           ); }
+		if($this->url_original      != $this->Ourl_original)      { $this->saveRevision($this->sql_url_original,      $this->sql_Ourl_original,      'voice_note', 'url_original'      ); }
+		if($this->url_resampled_mp3 != $this->Ourl_resampled_mp3) { $this->saveRevision($this->sql_url_resampled_mp3, $this->sql_Ourl_resampled_mp3, 'voice_note', 'url_resampled_mp3' ); }
+		if($this->url_resampled_ogg != $this->Ourl_resampled_ogg) { $this->saveRevision($this->sql_url_resampled_ogg, $this->sql_Ourl_resampled_ogg, 'voice_note', 'url_resampled_ogg' ); }
+	}
+
+
+	// save the revision
+	function saveRevision($newValue, $oldValue, $table, $column) {
+
+		// note the revision
+		$q = "
+			INSERT into person_updates (`p_uuid`, `updated_table`, `updated_column`, `old_value`, `new_value`, `updated_by_p_uuid`)
+			VALUES (".$this->sql_p_uuid.", '".$table."', '".$column."', ".$oldValue.", ".$newValue.", '".$this->updated_by_p_uuid."');
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person voiceNote saveRevision ((".$q."))"); }
 	}
 }
 

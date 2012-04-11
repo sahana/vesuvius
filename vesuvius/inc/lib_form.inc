@@ -1,7 +1,7 @@
 <?
 /**
  * @name         Form Library
- * @version      1.0
+ * @version      11
  * @package      framework
  * @author       Chamindra de Silva (chamindra@opensource.lk>
  * @author       Janaka Wickramasinghe <janaka@opensource.lk>
@@ -78,6 +78,7 @@ function shn_form_extra_opts($extra_opts) {
  * @return void
  */
 function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>true), $stream=null, $style="") {
+
 	global $global;
 	global $shn_form_id;
 	global $shn_tab_enabled;
@@ -140,6 +141,88 @@ function shn_form_fopen($act, $mod = null, $form_opts = array('req_message'=>tru
 
 	echo "
 		<form method=\"post\" action=\"index.php?mod=".$mod."&amp;act=".$act.$stream_param.$anchor."\" id=\"".$form_opts['id']."\" ".$form_opts['enctype']." name=\"".$form_opts['id']."\" style=\"".$style."\">
+	";
+
+	//print the tab position div
+	if ($shn_tab_enabled & !($form_opts['tab']=='float')) {
+		shn_form_drawtab();
+	}
+}
+
+
+/**
+ * This function will open the HTML Form with custom url
+ *
+ * @param mixed $act
+ * @param mixed $mod
+ * @param string $form_opts
+ * @access public
+ * @return void
+ */
+function shn_form_fopen2($act, $mod = null, $form_opts = array('req_message'=>true), $stream=null, $style="") {
+
+	global $global;
+	global $shn_form_id;
+	global $shn_tab_enabled;
+
+	if(null == $mod) {
+		$mod = $global['module'];
+	}
+
+	if ($stream != null) {
+		$stream_param = "&stream=$stream";
+	} else {
+		$stream_param = "";
+        }
+
+	static $idno=0; // generate a form id if the id is not set
+	if(!isset($form_opts['id'])) {
+		if (isset($form_opts['name'])) {// name and the id should be same XHTML
+			$form_opts['id'] = $form_opts['name']; // use the name value for id also
+		} else {
+			$form_opts['id'] = "form".$idno++;
+		}
+	}
+	$shn_form_id=$form_opts['id'];
+
+	if(isset($form_opts['tab'])) {  //check to see if the tabing is enable
+		global $shn_tab_enabled;
+		$shn_tab_enabled=true;
+	}
+
+	if(isset($form_opts['anchor'])) {
+		$anchor = '#' . $form_opts['anchor'];
+	} else {
+		$anchor = '';
+	}
+
+
+	// default some values that occassionally never get set
+	if(!isset($form_opts['enctype'])) {
+		$form_opts['enctype'] = "";
+	}
+	if(!isset($form_opts['tab'])) {
+		$form_opts['tab'] = "";
+	}
+
+	//if the class is not given set it to default
+	if(!isset($form_opts['class'])) {
+		$form_opts['class']='form-container';
+	}
+
+	echo "
+		<div onclick='event.cancelBubble = true;' class=\"popup\" id=\"help_popup\"></div><div class=\"".$form_opts['class']."\">
+	";
+
+	if(isset($form_opts['req_message']) && $form_opts['req_message'] == true) {
+		echo "
+			<br>
+			<p><b>Key:</b><b class='red'> * </b> - Fields tagged with a red asterisk&#040;<span class='red'> * </span>&#041; are mandatory and must be filled in.</p><br>
+		";
+	}
+
+	echo "
+		<form method=\"post\" action=\"".$act."\" id=\"".$form_opts['id']."\" ".$form_opts['enctype']." name=\"".$form_opts['id']."\" style=\"".$style."\">
 	";
 
 	//print the tab position div

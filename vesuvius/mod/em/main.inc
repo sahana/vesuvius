@@ -1,5 +1,5 @@
 <?php
-/**
+/*
  * @name         Event Manager
  * @version      16
  * @package      em
@@ -12,11 +12,11 @@
  */
 
 
-include_once ($global['approot'].'/inc/lib_menu.inc');
-include_once ($global['approot'].'/inc/lib_errors.inc');
-include_once ($global['approot'].'/inc/handler_db.inc');
-include_once ($global['approot'].'/inc/lib_xajax.inc');
-include_once ($global['approot'].'/mod/em/xajax.inc');
+require_once($global['approot'].'/inc/lib_menu.inc');
+require_once($global['approot'].'/inc/lib_errors.inc');
+require_once($global['approot'].'/inc/handler_db.inc');
+require_once($global['approot'].'/inc/lib_xajax.inc');
+require_once($global['approot'].'/mod/em/xajax.inc');
 
 shn_xajax_registerFunction('em_append_log');
 shn_xajax_registerFunction('em_prepend_log');
@@ -28,8 +28,19 @@ shn_xajax_registerFunction('em_perform_purge');
 shn_xajax_registerFunction('em_perform_insert');
 shn_xajax_registerFunction('em_perform_save');
 shn_xajax_registerFunction('em_perform_help');
+shn_xajax_registerFunction('em_send_post');
+shn_xajax_registerFunction('em_notify_event');
 shn_xajax_registerFunction('em_get_prev_msg');
-shn_xajax_registerFunction('shortenUrl');
+shn_xajax_registerFunction('em_get_short_url');
+shn_xajax_registerFunction('em_save_new_post');
+shn_xajax_registerFunction('em_save_post_error');
+/*
+shn_xajax_registerFunction('em_format_title');
+shn_xajax_registerFunction('em_insert_node');
+shn_xajax_registerFunction('em_edit_node');
+shn_xajax_registerFunction('em_append_node');
+shn_xajax_registerFunction('em_delete_node');
+*/
 
 function shn_em_default() {
 	global $global;
@@ -38,15 +49,30 @@ function shn_em_default() {
 		<div id=\"rezLog\" class=\"logArea\">Loading Events...<br><noscript>THIS MODULE REQUIRES THAT YOU ACTIVATE JAVASCRIPT!</noscript></div>
 		<div id=\"rezControl\" class=\"controlArea\">&nbsp;</div>
 		<div id=\"rezMain\" class=\"mainArea\"></div>
+		<link href=\"theme/lpf3/ntfy/base/jquery.ui.all.css\" rel=\"stylesheet\">
 		<link href=\"theme/lpf3/ntfy/jquery-ui-1.8.17.css\" rel=\"stylesheet\" type=\"text/css\">
-		<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\" ></script>
-		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery-ui.min-1.8.17.js\" ></script>
+		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery-1.7.1.min.js\" ></script>
+		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery-ui-1.8.17.custom.min.js\" ></script>
+		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery.textchange.min.js\" ></script>
+
+
 <!--
+		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery-ui.min-1.8.17.js\" ></script>
+		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery.min.1.7.1.js\" ></script>
+
 		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery-ui-1.8.16.custom.min.js\" ></script>
 -->
 		<link href=\"theme/lpf3/ntfy/ui.dynatree.css\" rel=\"stylesheet\" type=\"text/css\">
 
 		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery.dynatree.min.js\" ></script>
+<!--
+		<link href=\"theme/lpf3/ntfy/jquery.contextMenu.css\" rel=\"stylesheet\" type=\"text/css\">
+-->
+<!--
+		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery.contextMenu.js\" ></script>
+-->
+		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery.contextMenu-custom.js\" ></script>
+		<link href=\"theme/lpf3/ntfy/jquery.contextMenu.css\" rel=\"stylesheet\" type=\"text/css\" />
 
 		<script>".file_get_contents($global['approot']."/mod/em/em.js")."</script>
 	";

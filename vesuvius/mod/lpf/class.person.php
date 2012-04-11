@@ -4,7 +4,7 @@
 ********************************************************************************************************************************************************************
 *
 * @class        person
-* @version      11
+* @version      15
 * @author       Greg Miernicki <g@miernicki.com>
 *
 ********************************************************************************************************************************************************************
@@ -26,6 +26,7 @@ class person {
 	public $incident_id;
 	public $hospital_uuid;
 	public $expiry_date;
+
 	// original values (initialized at load and checked against when saved)
 	private $Op_uuid;
 	private $Ofull_name;
@@ -39,10 +40,17 @@ class person {
 	public $opt_status;
 	public $last_updated;
 	public $creation_time;
+
 	// original values (initialized at load and checked against when saved)
 	private $Oopt_status;
 	private $Olast_updated;
 	private $Ocreation_time;
+
+	// when true we set the last_updated_db to null (holds record from solr indexing)
+	public $useNullLastUpdatedDb;
+
+	// ignore duplicate check
+	public $ignoreDupeUuid;
 
 	// table person_details
 	public $birth_date;
@@ -55,6 +63,7 @@ class person {
 	public $last_seen;
 	public $last_clothing;
 	public $other_comments;
+
 	// original values (initialized at load and checked against when saved)
 	private $Obirth_date;
 	private $Oopt_race;
@@ -103,6 +112,7 @@ class person {
 	private $sql_last_clothing;
 	private $sql_other_comments;
 	private $sql_rep_uuid;
+
 	// and for original values..
 	private $sql_Op_uuid;
 	private $sql_Ofull_name;
@@ -148,7 +158,7 @@ class person {
 
 	// Constructor:
 	public function	__construct() {
-		// init db
+
 		global $global;
 		$this->db = $global['db'];
 
@@ -248,15 +258,13 @@ class person {
 		$this->sql_Oother_comments = null;
 		$this->sql_Orep_uuid       = null;
 
-		$this->author_name         = null;
-		$this->author_email        = null;
-
-		$this->makePfifNote        = true;
-
-		$this->ecode = 0;
-
-		$this->updated_by_p_uuid   = null;
-
+		$this->author_name           = null;
+		$this->author_email          = null;
+		$this->makePfifNote          = true;
+		$this->useNullLastUpdatedDb  = false;
+		$this->ignoreDupeUuid        = false;
+		$this->ecode                 = 0;
+		$this->updated_by_p_uuid     = null;
 		$this->arrival_triagepic     = false;
 		$this->arrival_reunite       = false;
 		$this->arrival_website       = false;
@@ -364,15 +372,13 @@ class person {
 		$this->sql_Oother_comments = null;
 		$this->sql_Orep_uuid       = null;
 
-		$this->author_name         = null;
-		$this->author_email        = null;
-
-		$this->makePfifNote        = null;
-
-		$this->ecode               = null;
-
-		$this->updated_by_p_uuid   = null;
-
+		$this->author_name           = null;
+		$this->author_email          = null;
+		$this->makePfifNote          = null;
+		$this->useNullLastUpdatedDb  = null;
+		$this->ignoreDupeUuid        = null;
+		$this->ecode                 = null;
+		$this->updated_by_p_uuid     = null;
 		$this->arrival_triagepic     = null;
 		$this->arrival_reunite       = null;
 		$this->arrival_website       = null;
@@ -382,17 +388,17 @@ class person {
 
 
 	// initializes..
-	public function init() {
-		global $global;
-		// not to do yet...
-	}
+	public function init() {}
+
 
 	// Load Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Load Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Load Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 	// loads the data from a person in the database
 	public function load() {
+
 		global $global;
 
 		$q = "
@@ -533,7 +539,6 @@ class person {
 		$recordHasEdxl = $this->edxl->load();
 		if(!$recordHasEdxl) {
 			$this->edxl = null;
-echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF!!!!!!!!!!!!!!!!!!!!!!!!!!!1\n\n";
 		}
 	}
 
@@ -553,12 +558,15 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 		// to do....
 	}
 
+
 	// Insert / FirstSave Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Insert / FirstSave Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Insert / FirstSave Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
 	// save the person (initial save = insert)
 	public function insert() {
+
 		$this->sync();
 		$q = "
 			INSERT INTO person_uuid (
@@ -581,17 +589,25 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_uuid insert ((".$q."))"); }
 
+		if($this->useNullLastUpdatedDb) {
+			$ludb = "NULL";
+		} else {
+			$ludb = "'".date('Y-m-d H:i:s')."'";
+		}
+
 		$q = "
 			INSERT INTO person_status (
 				p_uuid,
 				opt_status,
 				last_updated,
-				creation_time )
+				creation_time,
+				last_updated_db)
 			VALUES (
 				".$this->sql_p_uuid.",
 				".$this->sql_opt_status.",
 				".$this->sql_last_updated.",
-				".$this->sql_creation_time." );
+				".$this->sql_creation_time.",
+				".$ludb.");
 		";
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_status insert ((".$q."))"); }
@@ -643,6 +659,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 
 	private function insertImages() {
+
 		foreach($this->images as $image) {
 			$image->insert();
 		}
@@ -650,6 +667,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 
 	private function insertEdxl() {
+
 		if($this->edxl != null) {
 			$this->edxl->insert();
 		}
@@ -657,6 +675,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 
 	private function insertVoiceNote() {
+
 		if($this->voice_note != null) {
 			$this->voice_note->insert();
 		}
@@ -664,6 +683,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 
 	public function makeStaticPfifNote() {
+
 		// make the note unless we are explicitly asked not to...
 		if(!$this->makePfifNote) {
 			return;
@@ -720,8 +740,116 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	}
 
 
+	// Delete Functions ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Delete Functions ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Delete Functions ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	public function delete() {
+
+		// just to mysql-ready the data nodes...
+		$this->sync();
+
+		$this->deleteImages();
+		$this->deleteEdxl();
+		$this->deleteVoiceNote();
+
+		$q = "
+			DELETE FROM person_status
+			WHERE  p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete person 1 ((".$q."))"); }
+
+		$q = "
+			DELETE FROM person_details
+			WHERE  p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete person 2 ((".$q."))"); }
+
+		$q = "
+			DELETE FROM person_to_report
+			WHERE  p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete person 3 ((".$q."))"); }
+
+		$q = "
+			DELETE FROM person_uuid
+			WHERE  p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete person 4 ((".$q."))"); }
+
+		$this->deletePfif();
+	}
+
+
+	private function deletePfif() {
+
+		$q = "
+			DELETE FROM pfif_person
+			WHERE  p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete pfif 1 ((".$q."))"); }
+
+		$q = "
+			DELETE FROM pfif_note
+			WHERE  p_uuid = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete pfif 2 ((".$q."))"); }
+
+		$q = "
+			UPDATE pfif_note
+			SET linked_person_record_id = NULL
+			WHERE linked_person_record_id = ".$this->sql_p_uuid.";
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete pfif 3 ((".$q."))"); }
+
+		$q = "
+			CALL delete_reported_person('$this->p_uuid', 1);
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person delete pfif 4 ((".$q."))"); }
+	}
+
+
+	private function deleteImages() {
+
+		foreach($this->images as $image) {
+			$image->delete();
+		}
+	}
+
+
+	private function deleteEdxl() {
+
+		if($this->edxl != null) {
+			$this->edxl->delete();
+		}
+	}
+
+
+	private function deleteVoiceNote() {
+
+		if($this->voice_note != null) {
+			$this->voice_note->delete();
+		}
+	}
+
+
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Update / Save Functions ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 	// save the person (subsequent save = update)
 	public function update() {
+
 		$this->sync();
 		$this->saveRevisions();
 
@@ -743,9 +871,11 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 		$q = "
 			UPDATE person_status
 			SET
-				opt_status    = ".$this->sql_opt_status.",
-				last_updated  = '".date('Y-m-d H:i:s')."',
-				creation_time = ".$this->sql_creation_time."
+				opt_status      = ".$this->sql_opt_status.",
+				last_updated    = '".date('Y-m-d H:i:s')."',
+				creation_time   = ".$this->sql_creation_time.",
+				last_updated_db = '".date('Y-m-d H:i:s')."'
+
 			WHERE p_uuid = ".$this->sql_p_uuid.";
 		";
 		$result = $this->db->Execute($q);
@@ -779,14 +909,47 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person person_to_report update ((".$q."))"); }
 
-		//$this->updateImages();
-		//$this->updateEdxl();
-		//$this->updateVoiceNote();
+		$this->updateImages();
+		$this->updateEdxl();
+		$this->updatePfif();
+		$this->updateVoiceNote();
+	}
+
+
+	private function updateImages() {
+
+		foreach($this->images as $image) {
+			$image->updated_by_p_uuid = $this->updated_by_p_uuid;
+			$image->update();
+		}
+	}
+
+
+	private function updateEdxl() {
+
+		if($this->edxl != null) {
+			$this->edxl->updated_by_p_uuid = $this->updated_by_p_uuid;
+			$this->edxl->update();
+		}
+	}
+
+	private function updatePfif() {
+		// to do....
+	}
+
+
+	private function updateVoiceNote() {
+
+		if($this->voice_note != null) {
+			$this->voice_note->updated_by_p_uuid = $this->updated_by_p_uuid;
+			$this->voice_note->update();
+		}
 	}
 
 
 	// save any changes since object was loaded as revisions
 	function saveRevisions() {
+
 		global $global;
 		global $revisionCount;
 
@@ -815,6 +978,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 	// save the revision
 	function saveRevision($newValue, $oldValue, $table, $column) {
+
 		// note the revision
 		$q = "
 			INSERT into person_updates (`p_uuid`, `updated_table`, `updated_column`, `old_value`, `new_value`, `updated_by_p_uuid`)
@@ -824,24 +988,34 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person saveRevision ((".$q."))"); }
 	}
 
+
 	// Other Members Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Other Members Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Other Members Functions //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
 	// synchronize SQL value strings with public attributes
 	private function sync() {
+
 		global $global;
 
 		// map enum types
 
 		if($this->opt_gender == "M") {
 			$this->opt_gender = "mal";
+
 		} elseif($this->opt_gender == "F") {
 			$this->opt_gender = "fml";
+
 		} elseif($this->opt_gender == "C") {
 			$this->opt_gender = "cpx";
+
 		} elseif($this->opt_gender == "U") {
 			$this->opt_gender = null;
+
+		} elseif($this->opt_gender == "mal" || $this->opt_gender == "fml" || $this->opt_gender == "cpx") {
+			// do nothing... we are good :)
+
 		} else {
 			$this->opt_gender = null;
 		}
@@ -938,6 +1112,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 	// queues the expiration of a person
 	function expireQueue($user_id, $explanation) {
+
 		$this->sync();
 		$q = "
 			INSERT into expiry_queue (`p_uuid`, `requested_by_user_id`, `requested_when`, `requested_why`, `queued`, `approved_by_user_id`, `approved_when`, `expired`)
@@ -1010,6 +1185,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 	// insert into plus_log
 	public function plusReportLog() {
+
 		$q = "
 			INSERT INTO plus_report_log (p_uuid, enum)
 			VALUES ('".$this->p_uuid."', '".$this->xmlFormat."');
@@ -1021,6 +1197,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 	// insert into rap_log
 	public function rapReportLog() {
+
 		$q = "
 			INSERT INTO rap_log (p_uuid)
 			VALUES ('".$this->p_uuid."');
@@ -1032,6 +1209,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 
 	public function isEventOpen() {
+
 		// find if this event is open/closed
 		$q = "
 			SELECT *
@@ -1054,7 +1232,59 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 	}
 
 
+	public function getOwner() {
+
+		// find the username of the user to report this person
+		$q = "
+			SELECT *
+			FROM `users`
+			WHERE p_uuid = '".$this->rep_uuid."';
+		";
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person getOwner ((".$q."))"); }
+		if($result != NULL && !$result->EOF) {
+			$row = $result->FetchRow();
+		} else {
+			return false;
+		}
+		return $row['user_name'];
+	}
+
+
+	public function addComment($comment, $status, $authorUuid) {
+
+		// check validity of suggested status
+		if($status != "ali" && $status != "inj" && $status != "dec" && $status != "mis" && $status != "fnd" && $status != "unk") {
+			$suggested_status = "NULL";
+		} else {
+			$suggested_status = "'".$status."'";
+		}
+
+		$q = "
+			INSERT INTO person_notes (note_about_p_uuid, note_written_by_p_uuid, note, suggested_status)
+			VALUES ('".$this->p_uuid."', '".$authorUuid."', '".mysql_real_escape_string($comment)."', ".$suggested_status.");
+		";
+error_log("(((".$q.")))");
+		$result = $this->db->Execute($q);
+		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person add comment ((".$q."))"); }
+	}
+
+
+	public function getRevisionPermissionGroupIDs() {
+
+		// for now this is a hack, we allow records to be revised by admin, hs, hsa
+		// so, we will just report this back
+		// in the future, a better group manager will allow finer grained control of record revisions
+		$list = array();
+		$list[] = 1;
+		$list[] = 5;
+		$list[] = 6;
+		return(json_encode($list));
+	}
+
+
 	public function addImage($fileContentBase64, $filename) {
+
 		// create sahana image
 		if(trim($fileContentBase64) != "") {
 			$i = new personImage();
@@ -1068,6 +1298,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 
 	public function createUUID() {
+
 		if($this->p_uuid === null || $this->p_uuid == "") {
 			$this->p_uuid = shn_create_uuid("person");
 		}
@@ -1076,6 +1307,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 	// set the event id (which will be ignored by XML parser)
 	public function setEvent($eventShortName) {
+
 		$q = "
 			SELECT *
 			FROM `incident`
@@ -1135,10 +1367,11 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 
 	public function parseXml() {
+
 		global $global;
 		require_once($global['approot']."inc/lib_uuid.inc");
 
-		// save xml for debuggins?
+		// save xml for debugging?
 		if($global['debugAndSaveXmlToFile'] == true) {
 			$filename = "debugXML_".mt_rand();
 			$path = $global['approot']."www/tmp/plus_cache/".$filename.".xml";
@@ -1161,8 +1394,105 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 		$a = $aa->getArray();
 
+		// parse REUNITE4 XML
+		if($this->xmlFormat == "REUNITE4") {
+
+			$this->createUUID();
+			$this->arrival_reunite = true;
+			$this->given_name     = $a['person']['givenName'];
+			$this->family_name    = $a['person']['familyName'];
+			$this->expiry_date    = $a['person']['expiryDate'];
+			$this->opt_status     = $a['person']['status'];
+			$this->last_updated   = date('Y-m-d H:i:s');
+			$this->creation_time  = $a['person']['dateTimeSent'];
+			$this->opt_gender     = $a['person']['gender'];
+			$this->years_old      = $a['person']['estimatedAge'];
+			$this->minAge         = $a['person']['minAge'];
+			$this->maxAge         = $a['person']['maxAge'];
+			$this->other_comments = $a['person']['note'];
+
+			// only update the incident_id if not already set
+			if($this->incident_id === null) {
+
+				$q = "
+					SELECT *
+					FROM incident
+					WHERE shortname = '".mysql_real_escape_string((string)$a['person']['eventShortname'])."';
+				";
+				$result = $this->db->Execute($q);
+				if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person get incident ((".$q."))"); }
+
+				$this->incident_id = $result->fields["incident_id"];
+			}
+
+			foreach($a['person']['photos'] as $photo) {
+				if(trim($photo['data']) != "") {
+					$i = new personImage();
+					$i->init();
+					$i->p_uuid = $this->p_uuid;
+					$i->fileContentBase64 = $photo['data'];
+					foreach($photo['tags'] as $tag) {
+						$t = new personImageTag();
+						$t->init();
+						$t->image_id = $i->image_id;
+						$t->tag_x    = $tag['x'];
+						$t->tag_y    = $tag['y'];
+						$t->tag_w    = $tag['w'];
+						$t->tag_h    = $tag['h'];
+						$t->tag_text = $tag['text'];
+						$i->tags[] = $t;
+					}
+					if(!$i->invalid) {
+						$this->images[] = $i;
+						$this->ecode = 419;
+					}
+				}
+			}
+
+			// if there is actual voicenote data, save process it...
+			if(trim($a['person']['voiceNote']['data']) != "") {
+
+				$v = new voiceNote();
+				$v->init();     // reserves a voicenote id for this note
+				$v->p_uuid      = $this->p_uuid;
+				$v->dataBase64  = $a['person']['voiceNote']['data'];
+				$v->length      = $a['person']['voiceNote']['length'];
+				$v->format      = $a['person']['voiceNote']['format'];
+				$v->sample_rate = $a['person']['voiceNote']['sampleRate'];
+				$v->channels    = $a['person']['voiceNote']['numberOfChannels'];
+				$v->speaker     = $a['person']['voiceNote']['speaker'];
+				$this->voice_note = $v;
+			}
+
+			// check for p_uuid collision with already present data, return 401 error if p_uuid already exists
+			$q = "
+				SELECT count(*)
+				FROM person_uuid
+				WHERE p_uuid = '".mysql_real_escape_string((string)$this->p_uuid)."';
+			";
+			$result = $this->db->Execute($q);
+			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person check p_uuid collision ((".$q."))"); }
+
+			if(!$this->ignoreDupeUuid && (int)$result->fields['count(*)'] > 0 ) {
+				return (int)401;
+			}
+
+			// check if reported p_uuid is valid (in range of sequence) ~ 402 error if not
+			if(!shn_is_p_uuid_valid($this->p_uuid)) {
+				return (int)402;
+			}
+
+			// check if the event is closed to reporting...
+			if(!$this->isEventOpen()) {
+				return (int)405;
+			}
+
+			// no errors
+			return (int)$this->ecode;
+
+
 		// parse REUNITE3 XML
-		if($this->xmlFormat == "REUNITE3") {
+		} elseif($this->xmlFormat == "REUNITE3") {
 
 			$this->arrival_reunite = true;
 			$this->p_uuid         = $a['person']['p_uuid'];
@@ -1200,14 +1530,18 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 						$t->tag_text = $tag['text'];
 						$i->tags[] = $t;
 					}
-					$this->images[] = $i;
+					if(!$i->invalid) {
+						$this->images[] = $i;
+						$this->ecode = 419;
+					}
 				}
 			}
 
 			// if there is actual voicenote data, save process it...
 			if(trim($a['person']['voiceNote']['data']) != "") {
+
 				$v = new voiceNote();
-				$v->init();
+				$v->init();     // reserves a voicenote id for this note
 				$v->p_uuid      = $this->p_uuid;
 				$v->dataBase64  = $a['person']['voiceNote']['data'];
 				$v->length      = $a['person']['voiceNote']['length'];
@@ -1227,7 +1561,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 			$result = $this->db->Execute($q);
 			if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person check p_uuid collision ((".$q."))"); }
 
-			if((int)$result->fields['count(*)'] > 0 ) {
+			if(!$this->ignoreDupeUuid && (int)$result->fields['count(*)'] > 0 ) {
 				return (int)401;
 			}
 
@@ -1242,7 +1576,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 			}
 
 			// no errors
-			return (int)0;
+			return (int)$this->ecode;
 
 
 		// parse REUNITE2 XML
@@ -1408,9 +1742,42 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 
 			// parse all images
 			for($n = 0; $n < sizeof($a['EDXLDistribution']); $n++) {
+
 				if(isset($a['EDXLDistribution'][$n]['nonXMLContent']) && $a['EDXLDistribution'][$n]['nonXMLContent'] != null) {
 
 					$imageNode = $a['EDXLDistribution'][$n]['nonXMLContent'];
+					$cd = $a['EDXLDistribution'][$n]['contentDescription'];
+					$cd = str_replace($a['EDXLDistribution'][$ix]['xmlContent']['lpfContent']['person']['personId'], "", $cd); // remove patient id from the string
+					$cd = str_replace($this->edxl->triage_category, "", $cd); // remove triage category from the string
+					$cd = trim($cd); // remove preceding and trailing whitespace(s)
+
+					// what we should now have left is in the format: "" or "sX" or "sX - caption" or "- caption"
+
+					// primary no caption
+					if($cd === "") {
+						$primary = true;
+						$caption = null;
+
+					// secondary no caption
+					} elseif(strpos($cd, "-") === false) {
+						$primary = false;
+						$caption = null;
+
+					// has caption
+					} else {
+						$ecd = explode("-", $cd);
+
+						// primary with caption
+						if(trim($ecd[0]) == "") {
+							$primary = true;
+							$caption = $ecd[1];
+
+						// secondary with caption
+						} else {
+							$primary = false;
+							$caption = trim($ecd[1]);
+						}
+					}
 
 					// create sahana image
 					if(trim($imageNode['contentData']) != "") {
@@ -1418,8 +1785,29 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 						$i->init();
 						$i->p_uuid = $this->p_uuid;
 						$i->fileContentBase64 = $imageNode['contentData'];
+
+//$i->decode();
+//error_log("fileSHA1(".sha1($i->fileContent).") and XMLSHA1("..")");
+
 						$i->original_filename = $imageNode['uri'];
-						$this->images[] = $i;
+						if($primary) {
+							$i->principal = 1;
+						}
+						if($caption != null) {
+							$t = new personImageTag();
+							$t->init();
+							$t->image_id = $i->image_id;
+							$t->tag_x    = 0;
+							$t->tag_y    = 0;
+							$t->tag_w    = 10;
+							$t->tag_h    = 10;
+							$t->tag_text = $caption;
+							$i->tags[] = $t;
+						}
+						if(!$i->invalid) {
+							$this->images[] = $i;
+							$this->ecode = 419;
+						}
 					}
 
 					// create edxl image
@@ -1437,7 +1825,7 @@ echo "\n\nFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 			}
 
 			// exit with success
-			return (int)0;
+			return (int)$this->ecode;
 
 		// parse TRIAGEPIC0 XML
 		} elseif($this->xmlFormat == "TRIAGEPIC0") {

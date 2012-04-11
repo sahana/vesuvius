@@ -1,13 +1,13 @@
 <?
 /**
  * @name         Resources
- * @version      1.5
+ * @version      16
  * @package      rez
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.1004
+ * @lastModified 2012.0213
  */
 
 
@@ -116,15 +116,15 @@ function rez_show_pages($internal = FALSE) {
 
 		// if its the first item and there are more, show down control
 		} elseif (($i == 1) && ($count > 1)) {
-			$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_move_down(".$page_id.");\" value=\"⇩\"></td>";
+			$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_move_down(".$page_id.");\" value=\"⇣\"></td>";
 
 		// if its the last item, only show up control
 		} elseif ($i == $count) {
-			$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_move_up(".$page_id.");\" value=\"⇧\"></td>";
+			$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_move_up(".$page_id.");\" value=\"⇡\"></td>";
 
 		// its a normal item, show up and down controls
 		} else {
-			$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_move_up(".$page_id.");\" value=\"⇧\"> <input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_move_down(".$page_id.");\" value=\"⇩\"></td>";
+			$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_move_up(".$page_id.");\" value=\"⇡\"> <input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_move_down(".$page_id.");\" value=\"⇣\"></td>";
 		}
 		$htmlMain .= "</tr>";
 		$i++;
@@ -355,8 +355,9 @@ function rez_perform_new() {
 	// find last menu order #, +1
 	$q = "
 		SELECT *
-		from rez_pages
-		order by rez_menu_order desc;
+		FROM rez_pages
+		ORDER BY rez_menu_order DESC
+		LIMIT 1;
 	";
 	$result = $global['db']->Execute($q);
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez new 1"); }
@@ -366,8 +367,8 @@ function rez_perform_new() {
 
 	// insert a new page
 	$q = "
-		INSERT INTO rez_pages (rez_menu_title,rez_page_title,rez_menu_order,rez_content,rez_description,rez_timestamp,rez_visibility)
-		VALUES ('new page', 'new page', '".$mID."','new page content', 'new page description', '".date('Y-m-d H:i:s')."', 'Hidden');
+		INSERT INTO rez_pages (rez_menu_title, rez_menu_order, rez_content, rez_timestamp, rez_visibility)
+		VALUES ('new page', '".$mID."','new page content', '".date('Y-m-d H:i:s')."', 'Hidden');
 	";
 	$result = $global['db']->Execute($q);
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez new 2"); }
@@ -375,8 +376,8 @@ function rez_perform_new() {
 	// find id of newest page we just created
 	$q = "
 		SELECT *
-		from rez_pages
-		order by rez_page_id desc;
+		FROM rez_pages
+		ORDER BY rez_page_id DESC;
 	";
 	$result = $global['db']->Execute($q);
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez new 3"); }

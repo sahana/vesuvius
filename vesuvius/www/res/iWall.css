@@ -1,14 +1,17 @@
 /**
- * @name         Interactive Notification Wall
- * @version      1.6
+ * @name         Interactive Notification Wall (Search)
+ * @version      21
  * @package      inw
  * @author       Merwan Rodriguez <rodriguezmer@mail.nih.gov>
- * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @author       Leif Neve <lneve@mail.nih.gov>
+ * @author       Greg Miernicki <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @lastModified 2012.0213
  */
+
 
 
 html {
@@ -73,9 +76,9 @@ input[type="checkbox"] {
 
 .stub {
 
-	-webkit-box-shadow: 3px 3px 3px rgba(0,0,0,0.4);
-	-moz-box-shadow: 3px 3px 3px rgba(0,0,0,0.4);
-	box-shadow: 3px 3px 3px rgba(0,0,0,0.4);
+	-webkit-box-shadow: 3px 3px 6px rgba(127,127,127,0.9);
+	-moz-box-shadow: 3px 3px 6px rgba(127,127,0.9);
+	box-shadow: 3px 3px 6px rgba(127,127,127,0.9);
 
 	/*background:transparent;
        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#20CC0000,endColorstr=#20000000);
@@ -259,14 +262,20 @@ h1 {
 #searchOptions{
 	float:left;
 	width: 160px;
-	border: solid 1px #6289B0;
-	*font-size: 13px;
+	border: solid 1px #e5eaef;
+	font-size: 13px;
 
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	padding: 10px;
 	background-color: #fff;
+	box-shadow: 0px 0px 5px rgba(127,127,127,0.3);
+}
+
+
+.searchOptionsHeader {
+	font-weight: bold; background-color: #6289B0; color: white; padding:2px 10px; border-radius: 8px; margin-bottom: 5px;
 }
 
 #selectSort { width: 90px; *font-size: 14px }
@@ -280,7 +289,7 @@ h1 {
 #searchForm {
 	margin-right: 5px;
 	padding-bottom: 5px;
-	border-bottom: solid 1px #6289B0;
+	border-bottom: solid 1px #e5eaef;
 }
 
 

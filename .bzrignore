@@ -4,3 +4,5 @@ vesuvius/www/.htaccess
 .project
 .settings
 .buildpath
+vesuvius/time
+vesuvius/version
