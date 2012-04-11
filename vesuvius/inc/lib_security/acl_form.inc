@@ -70,12 +70,6 @@ function shn_acl_form_unlock_user() {
 
 	$users=shn_auth_locked_user_list();
 
-	// check if locking is disabled and the users are locked.
-	if(count($users)>0 && shn_acl_is_locking_enabled()==false){
-		add_warning(_t("Password locking is disabled system wide. Locks will not take any effect until it is enabled.").
-    	"<br/><a href='index.php?mod=admin&act=acl_enable_locking'>"._t("Click here to enable locking")."</a>");
-	}
-
 	foreach ($users as $user=>$uarray){
 		//this will be used in a hidden field to identify all the checkboxes
 		$user=$user;
