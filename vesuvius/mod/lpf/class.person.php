@@ -1373,7 +1373,7 @@ class person {
 
 		// save xml for debugging?
 		if($global['debugAndSaveXmlToFile'] == true) {
-			$filename = date("Y_md_H-i-s.u")."___".mt_rand().".xml"; // 2012_0402_17-50-33.454312___437849328789.xml
+			$filename = date("Y_md_H-i-s.".getMicrotimeComponent())."___".mt_rand().".xml"; // 2012_0402_17-50-33.454312___437849328789.xml
 			$path = $global['debugAndSaveXmlToFilePath'].$filename;
 			file_put_contents($path, $this->theString);
 		}

@@ -313,6 +313,12 @@ class mpres {
 
 	// algorithmically find the attachments in this email...
 	private function getAttachmentsAndParseXML($messageNumber) {
+
+		// we only accept one XML attachment per email, but allow multiple images...
+		// so we will save a flag for once we found an XML and ignore all other attachments of this type afterwards
+		$foundXml = false;
+
+		// get attachments
 		$structure = imap_fetchstructure($this->mailbox, $messageNumber+1);
 		if (isset($structure->parts) && count($structure->parts)) {
 			for ($i=0; $i < count($structure->parts); $i++) {
@@ -351,6 +357,8 @@ class mpres {
 				}
 			}
 		}
+
+		// process what attachments we found
 		for ($i=0; $i < count($this->currentAttachments); $i++) {
 			if ($this->currentAttachments[$i]['is_attachment'] == true) {
 
@@ -367,21 +375,25 @@ class mpres {
 					$this->currentAttachments[$i]['is_image'] = true;
 					$this->currentAttachments[$i]['type']     = "png";
 
-				} else if(strtolower(substr($f, -4)) == ".lp2" || strtolower(substr($f, -4)) == ".lpf" || strtolower(substr($f, -4)) == ".xml") { // update to tep later......
+				 // update to add tep support later......
+				} else if(strtolower(substr($f, -4)) == ".lp2" || strtolower(substr($f, -4)) == ".lpf" || strtolower(substr($f, -4)) == ".xml") {
 					$this->currentAttachments[$i]['is_xml']   = true;
 					$this->currentAttachments[$i]['type']     = "xml";
 					$this->currentMessageHasXML               = true;
 				}
 
 				// add the image to our current person...
-				if ($this->currentAttachments[$i]['is_image']) {
+				if($this->currentAttachments[$i]['is_image']) {
 					$this->messages .= "found image attachment: ".$f."<br>";
 					$this->person->createUUID(); // make sure we have a uuid already...
 					$this->person->addImage(base64_encode($this->currentAttachments[$i]['attachment']), $f);
 				}
 
 				// handle the XML LPF attachment
-				if ($this->currentAttachments[$i]['is_xml']) {
+				if(!$foundXml && ($this->currentAttachments[$i]['is_xml'])) {
+
+					$foundXml = true; // that's it, we found an xml file, ignore any others...
+
 					$this->messages .= "found XML attachment: ".$f."<br>";
 					$a = xml2array($this->currentAttachments[$i]['attachment']);
 
