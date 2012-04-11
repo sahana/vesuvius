@@ -6,6 +6,10 @@ TO DO:
 Greg: new Vesuvius 0.9.2 starter database
 Greg: Pushed packaged Vesuvius 0.9.2 to Launchpad for Download
 
+2012:0417 Update
+----------------
+Greg: Patch fixing microtime in debug XML filenames
+Greg: More resiliency in MPRES module: we only handle/process the first XML attachment ~ any others are ignored
 
 2012:0410 Update
 ----------------
