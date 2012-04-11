@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0213
  */
 
@@ -126,7 +126,8 @@ function shn_admin_build() {
 		echo "
 			<br>Build Time: <b>".$time."</b><br>
 			Bazaar revision: <b><a href=\"http://bazaar.launchpad.net/~triune/vesuvius/trunk/revision/".$version."\" target=\"_blank\">r".$version."</a></b><br>
-			Codebase: <b><a href=\"https://code.launchpad.net/vesuvius\" target=\"_blank\">https://code.launchpad.net/vesuvius</a></b>
+			Codebase: <b><a href=\"https://code.launchpad.net/vesuvius\" target=\"_blank\">https://code.launchpad.net/vesuvius</a></b><br>
+			CHANGELOG: <b><a href=\"http://bazaar.launchpad.net/~triune/vesuvius/trunk/view/head:/vesuvius/CHANGELOG\" target=\"_blank\">http://bazaar.launchpad.net/~triune/vesuvius/trunk/view/head:/vesuvius/CHANGELOG</a></b>
 		";
 	}
 

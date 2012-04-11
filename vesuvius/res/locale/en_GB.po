@@ -14,193 +14,437 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-19 05:15+0000\n"
-"X-Generator: Launchpad (build 13697)\n"
+"X-Launchpad-Export-Date: 2012-04-11 04:55+0000\n"
+"X-Generator: Launchpad (build 15070)\n"
 
-#: ../www/index.php:170
-msgid "The stream requested is not valid."
-msgstr ""
-
-#: ../www/index.php:201
-msgid "The requested module is not installed in Vesuvius"
-msgstr ""
-
-#: ../www/index.php:220
-msgid "The action requested is not available"
-msgstr ""
-
-#: ../www/index.php:224
-msgid "This action does not support the stream type."
-msgstr ""
-
-#: ../www/theme/lpf3/header.php:59 ../www/theme/vesuvius/header.php:61
-msgid "of"
-msgstr ""
-
-#: ../www/theme/lpf3/header.php:60 ../www/theme/lpf3/header.php:75
-#: ../www/theme/vesuvius/header.php:62 ../www/theme/vesuvius/header.php:76
-msgid "U.S. National Library of Medicine"
-msgstr "*ENGLISH_UK*U.S. National Library of Medicine*ENGLISH_UK*"
-
-#: ../www/theme/lpf3/header.php:61 ../www/theme/lpf3/header.php:76
-#: ../www/theme/vesuvius/header.php:63 ../www/theme/vesuvius/header.php:77
-msgid "Lister Hill National Center for Biomedical Communications"
-msgstr ""
-
+#: ../www/theme/lpf3/header.php:62 ../www/theme/lpf3/header.php:78
 #: ../www/theme/vesuvius/header.php:59 ../www/theme/vesuvius/header.php:75
 msgid "People Locator"
-msgstr "*ENGLISH_UK*People Locator*ENGLISH_UK*"
+msgstr "**ENGLISH UK** PEOPLE LOCATOR **ENGLISH UK**"
 
-#: ../www/theme/vesuvius/header.php:60
+#: ../www/theme/lpf3/header.php:63 ../www/theme/vesuvius/header.php:60
 msgid "for the "
+msgstr "for the "
+
+#: ../www/theme/lpf3/header.php:64 ../www/theme/vesuvius/header.php:61
+msgid "of"
+msgstr "of"
+
+#: ../www/theme/lpf3/header.php:65 ../www/theme/lpf3/header.php:79
+#: ../www/theme/vesuvius/header.php:62 ../www/theme/vesuvius/header.php:76
+msgid "U.S. National Library of Medicine"
+msgstr "U.S. National Library of Medicine"
+
+#: ../www/theme/lpf3/header.php:66 ../www/theme/lpf3/header.php:80
+#: ../www/theme/vesuvius/header.php:63 ../www/theme/vesuvius/header.php:77
+msgid "Lister Hill National Center for Biomedical Communications"
+msgstr "Lister Hill National Center for Biomedical Communications"
+
+#: ../www/index.php:154
+msgid "The stream requested is not valid."
+msgstr "The stream requested is not valid."
+
+#: ../www/index.php:185
+msgid "The requested module is not installed in Vesuvius"
+msgstr "The requested module is not installed in Vesuvius"
+
+#: ../www/index.php:204
+msgid "The action requested is not available"
+msgstr "The action requested is not available"
+
+#: ../www/index.php:208
+msgid "This action does not support the stream type."
+msgstr "This action does not support the stream type."
+
+#: ../inc/lib_locale/lib_locale.inc:60
+msgid "Unknown error in updating configuration value."
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:27
+#: ../inc/lib_security/acl_form.inc:41
+msgid "Disable Self Signup"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:44
+msgid "Enable Self Signup"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:70
+msgid "Disable Password Locking"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:73
+msgid "Enable Password Locking"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:90
+msgid "Enable/Disable Modules"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:92
+msgid ""
+"Rows are Modules, Columns are Roles, Intersection shows whether the module "
+"is enabled for that role or not"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:97
+msgid "Role"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:148 ../inc/lib_security/acl_form.inc:327
+#: ../inc/lib_security/acl_form.inc:399 ../mod/pref/main.inc:526
+msgid "Save"
+msgstr "Save"
+
+#: ../inc/lib_security/acl_form.inc:237
 msgid "Select the Role you want to edit permissions of"
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:33 ../mod/admin/main.inc:330
+#: ../inc/lib_security/acl_form.inc:243 ../inc/lib_security/auth_form.inc:76
 msgid "Select Role"
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:34
+#: ../inc/lib_security/acl_form.inc:244
 msgid "Roles"
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:36
+#: ../inc/lib_security/acl_form.inc:246
 msgid "Continue"
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:54
+#: ../inc/lib_security/acl_form.inc:264
+msgid "Rows are Users ,Columns are the possible status values"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:267
+msgid "<strong>Active</strong> - The user can login and perform operations."
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:268
 msgid ""
-"Rows are Locked Users, Columns are the possible status\n"
-"\tvalues"
+"<strong>Locked</strong> - The user is withheld from performing operations on "
+"the system temporarily."
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:63
-msgid "Locked User"
+#: ../inc/lib_security/acl_form.inc:269
+msgid ""
+"<strong>Banned</strong> - The user is not allowed to perform any operation "
+"on the system permanently."
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:64 ../mod/admin/main.inc:178
+#: ../inc/lib_security/acl_form.inc:279
+msgid "User"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:280 ../inc/lib_security/acl_form.inc:352
 msgid "Active"
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:65 ../mod/admin/main.inc:179
+#: ../inc/lib_security/acl_form.inc:281 ../inc/lib_security/acl_form.inc:353
 msgid "Locked"
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:66 ../mod/admin/main.inc:180
+#: ../inc/lib_security/acl_form.inc:282 ../inc/lib_security/acl_form.inc:354
 msgid "Banned"
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:75
+#: ../inc/lib_security/acl_form.inc:291 ../inc/lib_security/acl_form.inc:363
 msgid ""
 "Password locking is disabled system wide. Locks will not take any effect "
 "until it is enabled."
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:76
+#: ../inc/lib_security/acl_form.inc:292 ../inc/lib_security/acl_form.inc:364
 msgid "Click here to enable locking"
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:111 ../mod/admin/main.inc:220
-msgid "Save"
+#: ../inc/lib_security/acl_form.inc:342
+msgid ""
+"Rows are Locked Users, Columns are the possible status\n"
+"\tvalues"
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:908
+#: ../inc/lib_security/acl_form.inc:351
+msgid "Locked User"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:418
+msgid "Date"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:419
+msgid "Time"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:420
+msgid "User Name"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:421
+msgid "Full Name"
+msgstr "Full Name"
+
+#: ../inc/lib_security/acl_form.inc:422
+msgid "Event Type"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:423
+msgid "Event"
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:37 ../inc/lib_security/auth_form.inc:203
+msgid "Select User"
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:42
+msgid "Remove user"
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:66
+msgid "Account Details"
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:82
+msgid "OpenID "
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:85 ../mod/pfif/main.inc:192
+#: ../mod/pref/main.inc:375 ../mod/pref/main.inc:435
+msgid "Submit"
+msgstr "Submit"
+
+#: ../inc/lib_security/auth_form.inc:113
+msgid "You new password must adhere to following rules:"
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:120
+msgid "Fill in these required fields to change your password"
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:129
+msgid "Change Password"
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:146
+msgid "Old password cannot be empty"
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:152 ../inc/lib_security/auth_form.inc:232
+msgid "New password cannot be empty"
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:158 ../inc/lib_security/auth_form.inc:239
+msgid "Confirm password cannot be empty"
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:164 ../inc/lib_security/auth_form.inc:246
+msgid "Password and Confirm Password should match"
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:206
+msgid "New Password"
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:212
+msgid "Reset Password"
+msgstr ""
+
+#: ../inc/lib_security/auth_form.inc:257
+msgid "The Password was succesfully updated"
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:691
 msgid "First name is a required field. Please enter a value."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:916
+#: ../inc/lib_security/lib_auth.inc:699
 msgid "Last name is a required field. Please enter a value."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1273
+#: ../inc/lib_security/lib_auth.inc:845
+msgid "User does not exist"
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:847
+msgid "User was successfully removed"
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1089
 #, php-format
 msgid "The minimum password length is %d"
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1276
+#: ../inc/lib_security/lib_auth.inc:1092
 #, php-format
 msgid "The maximum password length is %d."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1279
+#: ../inc/lib_security/lib_auth.inc:1095
 msgid "The password should have at least one uppercase character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1282
+#: ../inc/lib_security/lib_auth.inc:1098
 msgid "The password should have at least one lowercase character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1285
+#: ../inc/lib_security/lib_auth.inc:1101
 msgid "The password should have at least one numeric character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1288
+#: ../inc/lib_security/lib_auth.inc:1104
 msgctxt ""
-"The password should have at least one special character. eg. !,@.#$%\\^&\\*/?"
-"`~+="
+"The password should have at least one special character. eg. !,@.#$%\\^&\\"
+"*/?`~+="
 msgid ":;-\"'"
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1291
+#: ../inc/lib_security/lib_auth.inc:1107
 msgid "The username cannot be a part of the password."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1318
+#: ../inc/lib_security/lib_auth.inc:1132
 #, php-format
 msgid "The minimum length of the password is %d characters."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1322
+#: ../inc/lib_security/lib_auth.inc:1136
 #, php-format
 msgid "The maximum length of the password is %d characters."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1326
+#: ../inc/lib_security/lib_auth.inc:1140
 msgid "Must have at least one uppercase character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1330
+#: ../inc/lib_security/lib_auth.inc:1144
 msgid "Must have at least one lowercase character."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1334
+#: ../inc/lib_security/lib_auth.inc:1148
 msgid "Must have at least one numeral (0-9)."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1338
+#: ../inc/lib_security/lib_auth.inc:1152
 msgctxt ""
 "Should have one or more of the following characters: '!@,.#$%\\^&\\*/?`~+="
 msgid ":;()-\"'[]{}<>' "
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1342
+#: ../inc/lib_security/lib_auth.inc:1156
 msgid "The password cannot contain your username."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1357
+#: ../inc/lib_security/lib_auth.inc:1169
 msgid "Please enter a valid Role name."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1373
+#: ../inc/lib_security/lib_auth.inc:1185
 #, php-format
 msgid "The role '%s' was successfully added."
 msgstr ""
 
-#: ../inc/lib_security/lib_auth.inc:1378
+#: ../inc/lib_security/lib_auth.inc:1190
 msgid ""
 "A role with the name you entered already exists. Please enter a different "
 "role name."
+msgstr ""
+
+#: ../inc/handler_footer.inc:25
+msgid "Sahana Home"
+msgstr ""
+
+#: ../inc/handler_footer.inc:25
+msgid "Sahana"
+msgstr ""
+
+#: ../inc/handler_footer.inc:26
+msgid "Sahana Wiki"
+msgstr ""
+
+#: ../inc/handler_footer.inc:26
+msgid "Wiki"
+msgstr ""
+
+#: ../inc/handler_footer.inc:27
+msgid "Chats"
+msgstr ""
+
+#: ../inc/handler_footer.inc:28
+msgid "Report a Bug"
+msgstr ""
+
+#: ../inc/handler_footer.inc:30
+msgid "OCR Form"
+msgstr ""
+
+#: ../inc/handler_footer.inc:30
+msgid "XForm"
+msgstr ""
+
+#: ../inc/handler_header.inc:24 ../inc/lib_xhtml.inc:50
+msgid "Sahana FOSS Disaster Management System"
 msgstr ""
 
 #: ../inc/handler_mainmenu.inc:22
 msgid "Main Menu"
 msgstr ""
 
-#: ../inc/lib_xhtml.inc:51 ../inc/handler_header.inc:24
-msgid "Sahana Vesuvius"
+#: ../inc/lib_errors.inc:91
+msgid "Oops! There are a few errors :"
+msgstr ""
+
+#: ../inc/lib_errors.inc:170
+msgid "You will need to login using your username and password."
+msgstr ""
+
+#: ../inc/lib_errors.inc:176 ../inc/lib_errors.inc:198
+msgid "Sorry, you do not have permisssion to access this section"
+msgstr ""
+
+#: ../inc/lib_errors.inc:180 ../inc/lib_errors.inc:202
+msgid "This could be because:"
+msgstr ""
+
+#: ../inc/lib_errors.inc:184 ../inc/lib_errors.inc:204
+msgid ""
+"You have not logged in or Anonymous access is not allowed to this section"
+msgstr ""
+
+#: ../inc/lib_errors.inc:185 ../inc/lib_errors.inc:205
+msgid "Your username has not been given permission to access this section"
+msgstr ""
+
+#: ../inc/lib_errors.inc:187 ../inc/lib_errors.inc:207
+msgid "To gain access to this section please contact the administrator"
+msgstr ""
+
+#: ../inc/lib_form.inc:839 ../mod/pref/main.inc:525
+msgid "Cancel"
+msgstr "Cancel"
+
+#: ../inc/lib_form.inc:842
+msgid "Back"
+msgstr "Back"
+
+#: ../inc/lib_form.inc:845 ../inc/lib_paging.inc:182 ../inc/lib_paging.inc:296
+msgid "Next"
+msgstr "Next"
+
+#: ../inc/lib_form.inc:847
+msgid "Finish"
+msgstr ""
+
+#: ../inc/lib_form.inc:849
+msgid "Confirm"
+msgstr ""
+
+#: ../inc/lib_form.inc:909
+msgid "Wysiwyg editor not configured correctly. Using Textarea instead."
+msgstr ""
+
+#: ../inc/lib_form.inc:944
+msgid ""
+"A required file was not found. Failed to initialize Wysiwig Editor. Using "
+"Textarea instead."
 msgstr ""
 
 #: ../inc/lib_image.inc:440
@@ -227,35 +471,91 @@ msgstr ""
 msgid "Invalid Image Type Please try again"
 msgstr ""
 
-#: ../inc/lib_image.inc:703
+#: ../inc/lib_image.inc:701
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini. (<"
 msgstr ""
 
-#: ../inc/lib_image.inc:705
+#: ../inc/lib_image.inc:703
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form."
 msgstr ""
 
-#: ../inc/lib_image.inc:707
+#: ../inc/lib_image.inc:705
 msgid "The uploaded file was only partially uploaded."
 msgstr ""
 
-#: ../inc/lib_image.inc:709
+#: ../inc/lib_image.inc:707
 msgid "No file was uploaded."
 msgstr ""
 
-#: ../inc/lib_image.inc:711
+#: ../inc/lib_image.inc:709
 msgid "Missing a temporary folder."
 msgstr ""
 
-#: ../inc/lib_image.inc:713
+#: ../inc/lib_image.inc:711
 msgid "Failed to write file to disk."
 msgstr ""
 
-#: ../inc/lib_image.inc:715
+#: ../inc/lib_image.inc:713
 msgid "File upload stopped by extension."
+msgstr ""
+
+#: ../inc/lib_misc.inc:20
+msgid "Alert"
+msgstr ""
+
+#: ../inc/lib_misc.inc:186
+msgid "Whitespace is not a valid input."
+msgstr ""
+
+#: ../inc/lib_misc.inc:193
+msgid "The type already exists in the list"
+msgstr ""
+
+#: ../inc/lib_misc.inc:202
+msgid "The Type Exists,you just added it"
+msgstr ""
+
+#: ../inc/lib_paging.inc:126 ../inc/lib_paging.inc:235
+msgid "No Records found "
+msgstr ""
+
+#: ../inc/lib_paging.inc:142 ../inc/lib_paging.inc:266
+msgid "Page "
+msgstr ""
+
+#: ../inc/lib_paging.inc:149
+msgid "Go to Previous Page"
+msgstr ""
+
+#: ../inc/lib_paging.inc:149 ../inc/lib_paging.inc:271
+msgid "Previous"
+msgstr ""
+
+#: ../inc/lib_paging.inc:151
+msgid "Go to First Page"
+msgstr ""
+
+#: ../inc/lib_paging.inc:151
+msgid "1"
+msgstr ""
+
+#: ../inc/lib_paging.inc:169
+msgid "Go to Page No "
+msgstr ""
+
+#: ../inc/lib_paging.inc:180
+msgid "Go to Last Page"
+msgstr ""
+
+#: ../inc/lib_paging.inc:182
+msgid "Go to Next Page"
+msgstr ""
+
+#: ../inc/lib_paging.inc:189 ../inc/lib_paging.inc:299
+msgid "Records per page"
 msgstr ""
 
 #: ../inc/lib_validate.inc:72
@@ -316,570 +616,590 @@ msgstr ""
 msgid "User already exists"
 msgstr ""
 
-#: ../inc/handler_footer.inc:25
-msgid "Sahana Home"
+#: ../mod/admin/acl.inc:29
+msgid "Welcome to Users= section"
 msgstr ""
 
-#: ../inc/handler_footer.inc:25
-msgid "Sahana"
+#: ../mod/admin/acl.inc:31 ../mod/admin/acl.inc:474
+msgid "Add Users"
 msgstr ""
 
-#: ../inc/handler_footer.inc:26
-msgid "Sahana Wiki"
+#: ../mod/admin/acl.inc:32 ../mod/admin/acl.inc:475
+msgid "Remove Users"
 msgstr ""
 
-#: ../inc/handler_footer.inc:26
-msgid "Wiki"
+#: ../mod/admin/acl.inc:33
+msgid "Change your password if you are logged in"
 msgstr ""
 
-#: ../inc/handler_footer.inc:27
-msgid "Chats"
+#: ../mod/admin/acl.inc:34
+msgid "Edit Roles of User "
 msgstr ""
 
-#: ../inc/handler_footer.inc:28
-msgid "Report a Bug"
+#: ../mod/admin/acl.inc:97
+msgid "The selection was not saved due to one or more errors."
 msgstr ""
 
-#: ../inc/handler_footer.inc:30
-msgid "OCR Form"
+#: ../mod/admin/acl.inc:99
+msgid "The changes were saved successfully."
 msgstr ""
 
-#: ../inc/handler_footer.inc:30
-msgid "XForm"
+#: ../mod/admin/acl.inc:152
+msgid "Self-signup is enabled now"
 msgstr ""
 
-#: ../inc/lib_form.inc:926
-msgid "Cancel"
+#: ../mod/admin/acl.inc:155
+msgid "Self-signup is disabled now"
 msgstr ""
 
-#: ../inc/lib_form.inc:929
-msgid "Back"
+#: ../mod/admin/acl.inc:253
+msgid "User roles were updated successfully."
 msgstr ""
 
-#: ../inc/lib_form.inc:932 ../inc/lib_paging.inc:182 ../inc/lib_paging.inc:296
-msgid "Next"
+#: ../mod/admin/acl.inc:306
+#, php-format
+msgid "Configure ACL user permissions for %s"
 msgstr ""
 
-#: ../inc/lib_form.inc:934
-msgid "Finish"
+#: ../mod/admin/acl.inc:342
+msgid "Users were succesfully added to Roles"
 msgstr ""
 
-#: ../inc/lib_form.inc:936
-msgid "Confirm"
+#: ../mod/admin/acl.inc:352
+msgid "Configure ACL Role permissions"
 msgstr ""
 
-#: ../inc/lib_form.inc:996
-msgid "Wysiwyg editor not configured correctly. Using Textarea instead."
+#: ../mod/admin/acl.inc:384 ../mod/admin/acl.inc:447
+msgid "Roles were succesfully given permission to action groups"
 msgstr ""
 
-#: ../inc/lib_form.inc:1031
-msgid ""
-"A required file was not found. Failed to initialize Wysiwig Editor. Using "
-"Textarea instead."
+#: ../mod/admin/acl.inc:394 ../mod/admin/acl.inc:412
+#, php-format
+msgid "Configure ACL for "
 msgstr ""
 
-#: ../inc/lib_errors.inc:113
-msgid "Oops! There are a few errors :"
+#: ../mod/admin/acl.inc:464
+msgid "The selected user account(s) has been locked."
 msgstr ""
 
-#: ../inc/lib_misc.inc:20
-msgid "Alert"
+#: ../mod/admin/acl.inc:464
+msgid "System wide locking has been enabled too."
 msgstr ""
 
-#: ../inc/lib_misc.inc:186
-msgid "Whitespace is not a valid input."
+#: ../mod/admin/acl.inc:465
+msgid "Click here if you need to disable locking"
 msgstr ""
 
-#: ../inc/lib_misc.inc:193
-msgid "The type already exists in the list"
+#: ../mod/admin/acl.inc:476
+msgid "Edit Roles of a User"
 msgstr ""
 
-#: ../inc/lib_misc.inc:202
-msgid "The Type Exists,you just added it"
+#: ../mod/admin/acl.inc:477
+msgid "Reset Password of a User"
 msgstr ""
 
-#: ../inc/lib_locale/lib_locale.inc:60
-msgid "Unknown error in updating configuration value."
+#: ../mod/admin/acl.inc:478
+msgid "Change User Status"
 msgstr ""
 
-#: ../inc/lib_paging.inc:126 ../inc/lib_paging.inc:235
-msgid "No Records found "
+#: ../mod/admin/acl.inc:493
+msgid "Add Role"
 msgstr ""
 
-#: ../inc/lib_paging.inc:142 ../inc/lib_paging.inc:266
-msgid "Page "
+#: ../mod/admin/acl.inc:494
+msgid "Remove Role"
 msgstr ""
 
-#: ../inc/lib_paging.inc:149
-msgid "Go to Previous Page"
+#: ../mod/admin/acl.inc:495
+msgid "Existing Role Permissions"
 msgstr ""
 
-#: ../inc/lib_paging.inc:149 ../inc/lib_paging.inc:271
-msgid "Previous"
+#: ../mod/admin/acl.inc:496
+msgid "Modify Role Permissions"
 msgstr ""
 
-#: ../inc/lib_paging.inc:151
-msgid "Go to First Page"
+#: ../mod/admin/conf.inc:17
+msgid "Administration"
 msgstr ""
 
-#: ../inc/lib_paging.inc:151
-msgid "1"
+#: ../mod/admin/main.inc:200
+msgid "User Locking is enabled now."
 msgstr ""
 
-#: ../inc/lib_paging.inc:169
-msgid "Go to Page No "
-msgstr ""
-
-#: ../inc/lib_paging.inc:180
-msgid "Go to Last Page"
-msgstr ""
-
-#: ../inc/lib_paging.inc:182
-msgid "Go to Next Page"
-msgstr ""
-
-#: ../inc/lib_paging.inc:189 ../inc/lib_paging.inc:299
-msgid "Records per page"
-msgstr ""
-
-#: ../mod/eq/conf.inc:15
-msgid "Expiry Queue"
-msgstr ""
-
-#: ../mod/tp/conf.inc:13
-msgid "TriagePic"
-msgstr ""
-
-#: ../mod/tp/main.inc:26
-msgid "Overview"
-msgstr ""
-
-#: ../mod/tp/main.inc:27
-msgid "Download"
-msgstr ""
-
-#: ../mod/tp/main.inc:28
-msgid "Release Notes 2011"
-msgstr ""
-
-#: ../mod/tp/main.inc:29
-msgid "Release Notes 2012"
+#: ../mod/admin/main.inc:203
+msgid "User Locking is disabled now."
 msgstr ""
 
 #: ../mod/eap/conf.inc:14
 msgid "Edit a Person"
 msgstr ""
 
-#: ../mod/pfif/conf.inc:16
-msgid "Import & Export"
-msgstr ""
+#: ../mod/em/conf.inc:15
+msgid "Event Manager"
+msgstr "Event Manager"
 
-#: ../mod/pfif/main.inc:40
-msgid "PFIF Service Status"
-msgstr ""
-
-#: ../mod/pfif/main.inc:41
-msgid "Import PFIF"
-msgstr ""
-
-#: ../mod/pfif/main.inc:42
-msgid "Export PFIF"
-msgstr ""
-
-#: ../mod/pfif/main.inc:76
-msgid "Please enter a filename to upload"
-msgstr ""
-
-#: ../mod/pfif/main.inc:106
-msgid "Import from PFIF File"
-msgstr ""
-
-#: ../mod/pfif/main.inc:108
-msgid "PFIF filename"
-msgstr ""
-
-#: ../mod/pfif/main.inc:111
-msgid "Upload"
-msgstr ""
-
-#: ../mod/pfif/main.inc:155
-msgid "Export to PFIF XML"
-msgstr ""
-
-#: ../mod/pfif/main.inc:159
-msgid "Start date"
-msgstr ""
-
-#: ../mod/pfif/main.inc:165
-msgid "End date"
-msgstr ""
-
-#: ../mod/pfif/main.inc:170
-msgid "Records originating in PL only"
-msgstr ""
-
-#: ../mod/pfif/main.inc:173 ../mod/admin/main.inc:339 ../mod/pref/main.inc:506
-#: ../mod/pref/main.inc:564
-msgid "Submit"
-msgstr ""
-
-#: ../mod/ha/conf.inc:15
+#: ../mod/ha/conf.inc:14
 msgid "Hospital Administration"
 msgstr ""
 
-#: ../mod/ha/xajax.inc:139 ../mod/ha/xajax.inc:287
-msgctxt "HOSPITAL_BUTTON"
-msgid "Add a new Hospital"
+#: ../mod/ha/main.inc:33 ../mod/ha/main.inc:35 ../mod/ha/main.inc:67
+msgctxt "HOSPITAL_VIEW"
+msgid "All Hospitals"
 msgstr ""
 
-#: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289
-msgctxt "HOSPITAL_LOG"
-msgid "Opening Help..."
+#: ../mod/ha/main.inc:39 ../mod/ha/main.inc:41
+msgctxt "HOSPITAL_VIEW"
+msgid "Add a New Hospital"
 msgstr ""
 
-#: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289
-msgctxt "HOSPITAL_BUTTON"
-msgid "Help"
+#: ../mod/ha/main.inc:69
+msgctxt "HOSPITAL_VIEW"
+msgid "PL Hospital ID"
 msgstr ""
 
-#: ../mod/ha/xajax.inc:154
-msgctxt "HOSPITAL_FOUND"
-msgid "Found <b>"
+#: ../mod/ha/main.inc:70
+msgctxt "HOSPITAL_VIEW"
+msgid "Name"
 msgstr ""
 
-#: ../mod/ha/xajax.inc:154
-msgctxt "HOSPITAL_FOUND"
-msgid "</b> Hospital(s).<br>"
+#: ../mod/ha/main.inc:71
+msgctxt "HOSPITAL_VIEW"
+msgid "Shortname"
 msgstr ""
 
-#: ../mod/ha/xajax.inc:170
-msgctxt "HOSPITAL_HTML"
-msgid "coming soon...."
+#: ../mod/ha/main.inc:72
+msgctxt "HOSPITAL_VIEW"
+msgid "Added"
 msgstr ""
 
-#: ../mod/ha/xajax.inc:175
-msgctxt "HOSPITAL_LOG"
-msgid "Closing Help..."
+#: ../mod/ha/main.inc:73
+msgctxt "HOSPITAL_VIEW"
+msgid "Edit This Hospital"
 msgstr ""
 
-#: ../mod/ha/xajax.inc:175
-msgctxt "HOSPITAL_BUTTON"
-msgid "Close Help"
+#: ../mod/ha/main.inc:114
+msgctxt "HOSPITAL_EDIT"
+msgid "Edit a Hospital"
 msgstr ""
 
-#: ../mod/ha/xajax.inc:283
-msgctxt "HOSPITAL_LOG"
-msgid "Hospital #<b>"
-msgstr ""
-
-#: ../mod/ha/xajax.inc:283
-msgctxt "HOSPITAL_LOG"
-msgid "Saved"
-msgstr ""
-
-#: ../mod/ha/xajax.inc:287
-msgctxt "HOSPITAL_LOG"
-msgid "Add a new Hospital..."
-msgstr ""
-
-#: ../mod/em/conf.inc:15
-msgid "Event Manager"
-msgstr ""
-
-#: ../mod/xst/conf.inc:14
-msgid "Streamer"
-msgstr ""
-
-#: ../mod/report/conf.inc:14
-msgid "Report a Person"
-msgstr ""
-
-#: ../mod/admin/conf.inc:15
-msgid "Administration"
-msgstr ""
-
-#: ../mod/admin/main.inc:38
-msgid "Version"
-msgstr ""
-
-#: ../mod/admin/main.inc:39
-msgid "Resource Pages"
-msgstr ""
-
-#: ../mod/admin/main.inc:40
-msgid "Add User"
-msgstr ""
-
-#: ../mod/admin/main.inc:41
-msgid "Remove User"
-msgstr ""
-
-#: ../mod/admin/main.inc:42
-msgid "User Roles"
-msgstr ""
-
-#: ../mod/admin/main.inc:43
-msgid "Password Reset"
-msgstr ""
-
-#: ../mod/admin/main.inc:44
-msgid "User Status"
-msgstr ""
-
-#: ../mod/admin/main.inc:45
-msgid "Module ACL"
-msgstr ""
-
-#: ../mod/admin/main.inc:46
-msgid "Event Log"
-msgstr ""
-
-#: ../mod/admin/main.inc:162
-msgid "Rows are Users ,Columns are the possible status values"
-msgstr ""
-
-#: ../mod/admin/main.inc:165
-msgid "<strong>Active</strong> - The user can login and perform operations."
-msgstr ""
-
-#: ../mod/admin/main.inc:166
+#: ../mod/ha/main.inc:132
+msgctxt "HOSPITAL_EDIT"
 msgid ""
-"<strong>Locked</strong> - The user is withheld from performing operations on "
-"the system temporarily."
+"Key:</b><b class=\\\"red\\\"> * </b> - Fields tagged with a red "
+"asterisk(<span class=\\\"red\\\"> * </span>) are mandatory and must be "
+"filled in."
 msgstr ""
 
-#: ../mod/admin/main.inc:167
+#: ../mod/ha/main.inc:134
+msgctxt "HOSPITAL_EDIT"
+msgid "Edit"
+msgstr ""
+
+#: ../mod/ha/main.inc:139
+msgctxt "HOSPITAL_EDIT"
+msgid "Name"
+msgstr ""
+
+#: ../mod/ha/main.inc:144
+msgctxt "HOSPITAL_EDIT"
+msgid "Short Name"
+msgstr ""
+
+#: ../mod/ha/main.inc:149
+msgctxt "HOSPITAL_EDIT"
+msgid "Street Address 1"
+msgstr ""
+
+#: ../mod/ha/main.inc:154
+msgctxt "HOSPITAL_EDIT"
+msgid "Street Address 2"
+msgstr ""
+
+#: ../mod/ha/main.inc:159
+msgctxt "HOSPITAL_EDIT"
+msgid "City"
+msgstr ""
+
+#: ../mod/ha/main.inc:164
+msgctxt "HOSPITAL_EDIT"
+msgid "County"
+msgstr ""
+
+#: ../mod/ha/main.inc:169
+msgctxt "HOSPITAL_EDIT"
+msgid "Region (State)"
+msgstr ""
+
+#: ../mod/ha/main.inc:174
+msgctxt "HOSPITAL_EDIT"
+msgid "Postal Code"
+msgstr ""
+
+#: ../mod/ha/main.inc:179
+msgctxt "HOSPITAL_EDIT"
+msgid "Country"
+msgstr ""
+
+#: ../mod/ha/main.inc:184
+msgctxt "HOSPITAL_EDIT"
+msgid "Latitude"
+msgstr ""
+
+#: ../mod/ha/main.inc:189
+msgctxt "HOSPITAL_EDIT"
+msgid "Longitude"
+msgstr ""
+
+#: ../mod/ha/main.inc:194
+msgctxt "HOSPITAL_EDIT"
+msgid "Phone"
+msgstr ""
+
+#: ../mod/ha/main.inc:199
+msgctxt "HOSPITAL_EDIT"
+msgid "Fax"
+msgstr ""
+
+#: ../mod/ha/main.inc:204
+msgctxt "HOSPITAL_EDIT"
+msgid "Email"
+msgstr ""
+
+#: ../mod/ha/main.inc:209
+msgctxt "HOSPITAL_EDIT"
+msgid "NPI"
+msgstr ""
+
+#: ../mod/ha/main.inc:214
+msgctxt "HOSPITAL_EDIT"
+msgid "Patient ID Prefix"
+msgstr ""
+
+#: ../mod/ha/main.inc:225
+msgctxt "HOSPITAL_EDIT"
 msgid ""
-"<strong>Banned</strong> - The user is not allowed to perform any operation "
-"on the system permanently."
+"<b>Note</b>: Deleting a Hospital is a permanent action and cannot be undone. "
+"In addition to this, deleting a Hospital will also remove the association of "
+"any persons there\n"
+"\t\t\t\tonce was to this organization.<br><br>"
 msgstr ""
 
-#: ../mod/admin/main.inc:177
-msgid "User"
+#: ../mod/ha/main.inc:262 ../mod/ha/main.inc:466
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>name</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/main.inc:264
-msgid "Date"
+#: ../mod/ha/main.inc:266 ../mod/ha/main.inc:470
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>short name</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/main.inc:265
-msgid "Time"
+#: ../mod/ha/main.inc:270 ../mod/ha/main.inc:474
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>street address 1</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/main.inc:266
-msgid "User Name"
+#: ../mod/ha/main.inc:274 ../mod/ha/main.inc:478
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>city</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/main.inc:267
-msgid "Full Name"
+#: ../mod/ha/main.inc:278 ../mod/ha/main.inc:482
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>county</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/main.inc:268
-msgid "Event Type"
+#: ../mod/ha/main.inc:282 ../mod/ha/main.inc:486
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>region</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/main.inc:269
-msgid "Event"
+#: ../mod/ha/main.inc:286 ../mod/ha/main.inc:490
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>postal code</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/main.inc:320
-msgid "Account Details"
+#: ../mod/ha/main.inc:290 ../mod/ha/main.inc:494
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>country</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/main.inc:336
-msgid "OpenID "
+#: ../mod/ha/main.inc:294 ../mod/ha/main.inc:498
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>latitude</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/main.inc:371
-msgid "Select User(s) to Delete"
+#: ../mod/ha/main.inc:298 ../mod/ha/main.inc:502
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>longitude</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/main.inc:376
-msgid "Remove user"
+#: ../mod/ha/main.inc:302 ../mod/ha/main.inc:506
+msgctxt "HOSPITAL_ERROR"
+msgid "Hospital <b>patient id prefix</b> may not be empty."
 msgstr ""
 
-#: ../mod/admin/main.inc:417
-msgid "User does not exist"
+#: ../mod/ha/main.inc:330 ../mod/ha/main.inc:548
+msgctxt "HOSPITAL_MESSAGE"
+msgid "Saved hospital information."
 msgstr ""
 
-#: ../mod/admin/main.inc:419
-msgid "User was successfully removed"
+#: ../mod/ha/main.inc:361
+msgctxt "HOSPITAL_ADD"
+msgid ""
+"Key:</b><b class=\\\"red\\\"> * </b> - Fields tagged with a red "
+"asterisk(<span class=\\\"red\\\"> * </span>) are mandatory and must be "
+"filled in."
 msgstr ""
 
-#: ../mod/admin/main.inc:443
-msgid "Select User"
+#: ../mod/ha/main.inc:366
+msgctxt "HOSPITAL_ADD"
+msgid "Name"
 msgstr ""
 
-#: ../mod/admin/main.inc:446
-msgid "New Password"
+#: ../mod/ha/main.inc:371
+msgctxt "HOSPITAL_ADD"
+msgid "Short Name"
 msgstr ""
 
-#: ../mod/admin/main.inc:452
-msgid "Reset Password"
+#: ../mod/ha/main.inc:376
+msgctxt "HOSPITAL_ADD"
+msgid "Street Address 1"
 msgstr ""
 
-#: ../mod/admin/main.inc:473
-msgid "New password cannot be blank."
+#: ../mod/ha/main.inc:381
+msgctxt "HOSPITAL_ADD"
+msgid "Street Address 2"
 msgstr ""
 
-#: ../mod/admin/main.inc:480
-msgid "You failed to re-enter the password."
+#: ../mod/ha/main.inc:386
+msgctxt "HOSPITAL_ADD"
+msgid "City"
 msgstr ""
 
-#: ../mod/admin/main.inc:487
-msgid "The two passwords you entered did not match."
+#: ../mod/ha/main.inc:391
+msgctxt "HOSPITAL_ADD"
+msgid "County"
 msgstr ""
 
-#: ../mod/admin/main.inc:498
-msgid "The password was succesfully reset."
+#: ../mod/ha/main.inc:396
+msgctxt "HOSPITAL_ADD"
+msgid "Region (State)"
 msgstr ""
 
-#: ../mod/admin/main.inc:592
-msgid "Save ACL"
+#: ../mod/ha/main.inc:401
+msgctxt "HOSPITAL_ADD"
+msgid "Postal Code"
 msgstr ""
 
-#: ../mod/admin/main.inc:645
-msgid "The selection was not saved due to one or more errors."
+#: ../mod/ha/main.inc:406
+msgctxt "HOSPITAL_ADD"
+msgid "Country"
 msgstr ""
 
-#: ../mod/admin/main.inc:647
-msgid "The ACL changes were saved successfully."
+#: ../mod/ha/main.inc:411
+msgctxt "HOSPITAL_ADD"
+msgid "Latitude"
 msgstr ""
 
-#: ../mod/admin/main.inc:670
-msgid "User's class updated successfully."
+#: ../mod/ha/main.inc:416
+msgctxt "HOSPITAL_ADD"
+msgid "Longitude"
 msgstr ""
 
-#: ../mod/sepl/conf.inc:16
-msgid "Search+"
+#: ../mod/ha/main.inc:421
+msgctxt "HOSPITAL_ADD"
+msgid "Phone"
 msgstr ""
 
-#: ../mod/int/conf.inc:15
+#: ../mod/ha/main.inc:426
+msgctxt "HOSPITAL_ADD"
+msgid "Fax"
+msgstr ""
+
+#: ../mod/ha/main.inc:431
+msgctxt "HOSPITAL_ADD"
+msgid "Email"
+msgstr ""
+
+#: ../mod/ha/main.inc:436
+msgctxt "HOSPITAL_ADD"
+msgid "NPI"
+msgstr ""
+
+#: ../mod/ha/main.inc:441
+msgctxt "HOSPITAL_ADD"
+msgid "Patient ID Prefix"
+msgstr ""
+
+#: ../mod/home/conf.inc:14
+msgid "Home"
+msgstr "Home"
+
+#: ../mod/int/conf.inc:14
 msgid "Internal Resources"
+msgstr "Internal Resources"
+
+#: ../mod/inw/conf.inc:15 ../mod/inw/main.inc:252
+msgid "Search for a Person"
+msgstr "Search for a Person"
+
+#: ../mod/lpf/conf.inc:15
+msgid "LPF Library"
 msgstr ""
 
-#: ../mod/snap/main.inc:32
-msgid "Snapshot ~ Database Backup and Restore Module"
+#: ../mod/mpres/conf.inc:18
+msgid "Inbound Email"
 msgstr ""
 
-#: ../mod/pref/conf.inc:14
-msgid "My Settings"
+#: ../mod/pfif/conf.inc:15
+msgid "PFIF"
 msgstr ""
 
-#: ../mod/pref/main.inc:33
-msgid "Session Information"
+#: ../mod/pfif/main.inc:116
+msgid "Import from PFIF xml to '"
 msgstr ""
 
-#: ../mod/pref/main.inc:34
-msgid "Change My Password"
+#: ../mod/pfif/main.inc:118
+msgid "Upload PFIF xml"
 msgstr ""
 
-#: ../mod/pref/main.inc:252 ../mod/pref/main.inc:577 ../mod/pref/main.inc:584
-msgid "Please provide the text in the image correctly to prove you are human."
+#: ../mod/pfif/main.inc:119
+msgid "Upload"
 msgstr ""
 
-#: ../mod/pref/main.inc:622
-msgid "You new password must adhere to following rules:"
+#: ../mod/pfif/main.inc:185
+msgid "Export from '"
 msgstr ""
 
-#: ../mod/pref/main.inc:629
-msgid "Fill in these required fields to change your password"
+#: ../mod/pfif/main.inc:187
+msgid "Start date"
 msgstr ""
 
-#: ../mod/pref/main.inc:638
-msgid "Change Password"
+#: ../mod/pfif/main.inc:189
+msgid "End date"
 msgstr ""
 
-#: ../mod/pref/main.inc:671
-msgid "Old password cannot be empty!"
+#: ../mod/pfif/main.inc:190
+msgid "Records originating in PL only"
 msgstr ""
 
-#: ../mod/pref/main.inc:679
-msgid "New password cannot be empty!"
-msgstr ""
-
-#: ../mod/pref/main.inc:687
-msgid "You left the confirm password field blank."
-msgstr ""
-
-#: ../mod/pref/main.inc:695
-msgid "Your new password did not match when you retyped it."
-msgstr ""
-
-#: ../mod/pref/main.inc:720
-msgid "You cannot change the password more than once in one day"
-msgstr ""
-
-#: ../mod/pref/main.inc:751
-msgid "You cannot choose one of the recent four passwords"
-msgstr ""
-
-#: ../mod/pref/main.inc:765
-msgid " Succesfully changed Password"
-msgstr ""
-
-#: ../mod/pref/main.inc:782
-msgid "Old password cannot be empty"
-msgstr ""
-
-#: ../mod/pref/main.inc:788
-msgid "New password cannot be empty"
-msgstr ""
-
-#: ../mod/pref/main.inc:794
-msgid "Confirm password cannot be empty"
-msgstr ""
-
-#: ../mod/pref/main.inc:800
-msgid "Password and Confirm Password should match"
-msgstr ""
+#: ../mod/plus/conf.inc:14
+msgid "Web Services"
+msgstr "Web Services"
 
 #: ../mod/pop/conf.inc:14
 msgid "Outbound Email"
 msgstr ""
 
-#: ../mod/pop/main.inc:30
-msgid "Sent Email Log"
-msgstr ""
+#: ../mod/pref/conf.inc:15
+msgid "My Settings"
+msgstr "My Settings"
 
-#: ../mod/pop/main.inc:31
-msgid "SMTP Configuration"
-msgstr ""
+#: ../mod/pref/ims_config.inc:42
+msgid "Change default incident"
+msgstr "Change default incident"
 
-#: ../mod/inw/conf.inc:17
-msgid "Search for a Person"
-msgstr ""
+#: ../mod/pref/ims_config.inc:55
+msgid "Default Incident"
+msgstr "Default Incident"
 
-#: ../mod/mpres/conf.inc:15
-msgid "Inbound Email"
-msgstr ""
+#: ../mod/pref/ims_config.inc:58
+msgid "Incident Type"
+msgstr "Incident Type"
 
-#: ../mod/mpres/main.inc:49
-msgid "Service Status"
-msgstr ""
+#: ../mod/pref/ims_config.inc:59
+msgid "Select Incident"
+msgstr "Select Incident"
 
-#: ../mod/mpres/main.inc:50 ../mod/plus/main.inc:34
-msgid "People Reported"
-msgstr ""
+#: ../mod/pref/ims_config.inc:63
+msgid "Update"
+msgstr "Update"
 
-#: ../mod/mpres/main.inc:51
-msgid "Configuration"
-msgstr ""
+#: ../mod/pref/ims_config.inc:75
+msgid "You have not completed the form"
+msgstr "You have not completed the form"
 
-#: ../mod/arrive/conf.inc:15
-msgid "Arrivals"
-msgstr ""
+#: ../mod/pref/ims_config.inc:80
+msgid "Please Select the incident type"
+msgstr "Please Select the incident type"
 
-#: ../mod/rez/conf.inc:14
-msgid "Help and Resources"
-msgstr ""
+#: ../mod/pref/ims_config.inc:85
+msgid "Please select an item from 'Select Incident' box"
+msgstr "Please select an item from 'Select Incident' box"
 
-#: ../mod/home/conf.inc:14
-msgid "Home"
+#: ../mod/pref/ims_main.inc:71
+msgid "Old password cannot be empty!"
+msgstr "Old password cannot be empty!"
+
+#: ../mod/pref/ims_main.inc:79
+msgid "New password cannot be empty!"
+msgstr "New password cannot be empty!"
+
+#: ../mod/pref/ims_main.inc:87
+msgid "You left the confirm password field blank."
+msgstr "You left the confirm password field blank."
+
+#: ../mod/pref/ims_main.inc:95
+msgid "Your new password did not match when you retyped it."
+msgstr "Your new password did not match when you retyped it."
+
+#: ../mod/pref/ims_main.inc:120
+msgid "You cannot change the password more than once in one day"
+msgstr "You cannot change the password more than once in one day"
+
+#: ../mod/pref/ims_main.inc:151
+msgid "You cannot choose one of the recent four passwords"
+msgstr "You cannot choose one of the recent four passwords"
+
+#: ../mod/pref/ims_main.inc:165
+msgid " Succesfully changed Password "
+msgstr " Succesfully changed Password "
+
+#: ../mod/pref/ims_menu.inc:24
+msgid "Change My Password"
+msgstr "Change My Password"
+
+#: ../mod/pref/ims_menu.inc:25
+msgid "Edit My Personal Details"
+msgstr "Edit My Personal Details"
+
+#: ../mod/pref/main.inc:124 ../mod/pref/main.inc:447 ../mod/pref/main.inc:454
+msgid ""
+"Please provide the text in the image correctly to prove you are human."
 msgstr ""
+"Please provide the text in the image correctly to prove you are human."
+
+#: ../mod/pref/main.inc:518
+msgid "Enable/Disable OCR XForm"
+msgstr "Enable/Disable OCR XForm"
+
+#: ../mod/pref/main.inc:520
+msgid "Enable or disable the OCR friendly form generation."
+msgstr "Enable or disable the OCR friendly form generation."
+
+#: ../mod/pref/main.inc:523
+msgid "Enabled"
+msgstr "Enabled"
+
+#: ../mod/pref/main.inc:523
+msgid "Disabled"
+msgstr "Disabled"
+
+#: ../mod/pref/main.inc:523
+msgid "OCR friendly XForm : "
+msgstr "OCR friendly XForm : "
+
+#: ../mod/pref/main.inc:539 ../mod/pref/main.inc:548
+msgid "Your preference was successfully saved."
+msgstr "Your preference was successfully saved."
+
+#: ../mod/pref/main.inc:542 ../mod/pref/main.inc:551
+msgid "An error occured while saving your preference."
+msgstr "An error occured while saving your preference."
 
 #: ../mod/rap/conf.inc:14
-msgid "Report a Person 1"
+msgid "Report a Person"
 msgstr ""
 
 #: ../mod/rap/main.inc:185
@@ -889,8 +1209,8 @@ msgstr ""
 #: ../mod/rap/main.inc:186
 msgid ""
 "<span class=\"publicText\">Public</span> Denotes information that, if "
-"provided, can be exposed to the general public.<br><br><span class="
-"\"privateText\">Private</span> Denotes information that will not be "
+"provided, can be exposed to the general public.<br><br><span "
+"class=\"privateText\">Private</span> Denotes information that will not be "
 "available to the public. <br><br>Private information may be made available "
 "to or shared with other family members and friends you designate, emergency "
 "responders, medical providers, clergy/councilors, law enforcement, or "
@@ -915,7 +1235,7 @@ msgstr ""
 
 #: ../mod/rap/main.inc:208
 msgid "Family Name"
-msgstr ""
+msgstr "Family Name"
 
 #: ../mod/rap/main.inc:208
 msgid "The person's surname or last name."
@@ -953,15 +1273,15 @@ msgstr ""
 
 #: ../mod/rap/main.inc:212
 msgid "Gender"
-msgstr ""
+msgstr "Gender"
 
 #: ../mod/rap/main.inc:213
 msgid "Religion"
-msgstr ""
+msgstr "Religion"
 
 #: ../mod/rap/main.inc:214
 msgid "Race"
-msgstr ""
+msgstr "Race"
 
 #: ../mod/rap/main.inc:217
 msgid "Person's Contact Information"
@@ -1009,11 +1329,11 @@ msgstr ""
 
 #: ../mod/rap/main.inc:230
 msgid "Height"
-msgstr ""
+msgstr "Height"
 
 #: ../mod/rap/main.inc:231
 msgid "Weight"
-msgstr ""
+msgstr "Weight"
 
 #: ../mod/rap/main.inc:233
 msgid "Other Obvious Distinctive Features"
@@ -1047,28 +1367,32 @@ msgstr ""
 
 #: ../mod/rap/main.inc:351
 msgid "Invalid image type please try again"
+msgstr "Invalid image type please try again"
+
+#: ../mod/rez/admin.inc:35
+msgid "Resources ~ Page Administration"
+msgstr ""
+
+#: ../mod/rez/conf.inc:14
+msgid "Resources"
+msgstr ""
+
+#: ../mod/snap/admin_functions.inc:27
+msgid "Snapshot ~ Database Backup and Restore Module"
+msgstr ""
+
+#: ../mod/snap/admin_menu.inc:20
+msgid "Snapshot"
 msgstr ""
 
 #: ../mod/stat/conf.inc:15
 msgid "Statistics"
-msgstr ""
+msgstr "Statistics"
 
-#: ../mod/plus/conf.inc:13
-msgid "Web Services"
-msgstr ""
+#: ../mod/tp/conf.inc:14
+msgid "TriagePic"
+msgstr "TriagePic"
 
-#: ../mod/plus/main.inc:33
-msgid "PLUS+"
-msgstr ""
-
-#: ../mod/plus/main.inc:35
-msgid "Raw Access Log"
-msgstr ""
-
-#: ../mod/plus/main.inc:36
-msgid "Access Statistics"
-msgstr ""
-
-#: ../mod/plus/main.inc:37
-msgid "Active Clients"
+#: ../mod/xst/conf.inc:14
+msgid "Streamer"
 msgstr ""
