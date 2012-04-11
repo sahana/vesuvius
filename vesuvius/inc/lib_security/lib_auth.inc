@@ -53,8 +53,8 @@ function shn_auth_user_list_and_status() {
 	$users=array();
 
 	while(!$res->EOF){
-		$name=$res->fields["full_name"].":".$res->fields["user_name"];
-		$users[$res->fields["p_uuid"]]=array($name,$res->fields["status"]);
+		$name = $res->fields["full_name"].":".$res->fields["user_name"];
+		$users[$res->fields["p_uuid"]] = array($name,$res->fields["status"]);
 		$res->MoveNext();
 	}
 	return $users;
@@ -80,13 +80,13 @@ function shn_auth_locked_user_list() {
 	$users = array();
 
 	while(!$res->EOF){
-		$name=$res->fields["full_name"].":".$res->fields["user_name"];
-		$users[$res->fields["p_uuid"]]=array($name,$res->fields["status"]);
+		$name = $res->fields["full_name"].":".$res->fields["user_name"];
+		$users[$res->fields["p_uuid"]] = array($name,$res->fields["status"]);
 		$res->MoveNext();
 	}
 	return $users;
-
 }
+
 
 
 
@@ -678,7 +678,7 @@ function shn_authenticate_user() {
 			$user_data["result"] = LOGINFAILED;
 			return $user_data;
 		}
-		if(($status == 'locked') && (shn_acl_is_locking_enabled())) {
+		if($status == 'locked') {
 			$sql = "
 				SELECT changed_timestamp
 				FROM password_event_log
@@ -699,8 +699,7 @@ function shn_authenticate_user() {
 				$now = time();
 				$diff = $now-$tstamp;
 				if($diff < LOCK) {
-					add_error("Login Failed : Password lock still valid.");
-					add_error("This account has been locked.  Please contact the Administrator to unlock the account.");
+					add_error("This account has been locked due to many failed login attempts. Please contact <a href=\"mailto:".$conf['audit_email']."\">".$conf['audit_email']."</a> to have your account unlocked. Remember to provide your username in the email to expedite the process.");
 					shn_acl_log_msg("Login Failed : Password lock still valid.",$uid,$user);
 					$user_data["user_id"] = ANONYMOUS_USER;
 					$user_data["user"] = "Anonymous";
@@ -734,17 +733,18 @@ function shn_authenticate_user() {
 
 		$res = $db->Execute($q);
 		if(($res == null) || ($res->EOF)) {
+
 			// no result ,so return 1 ,which is  not a valid user_id , the calling application can identify authentication was attempted,but failed
 			add_error("Login Failed : Invalid user name or password.");
 			shn_acl_log_msg("Login Failed : Invalid Password.", $uid, $user, 1);
 			$user_data["user_id"] = ANONYMOUS_USER;
 			$user_data["user"] = "Anonymous";
 			$user_data["result"] = LOGINFAILED;
-			_shn_auth_lock_user($uid,$status);
+			_shn_auth_lock_user($uid, $status);
 			return $user_data;
 
 		} else {
-			if((($status == 'locked') || ($status == 'try1') || ($status == 'try2')) && (shn_acl_is_locking_enabled())) {
+			if($status == 'locked' || $status == 'try1' || $status == 'try2') {
 				shn_auth_activate_user($uid);
 			}
 
@@ -756,6 +756,41 @@ function shn_authenticate_user() {
 			$user_data["doHeader"] = true;
 			$user_data["headerLocation"] = $f;
 			return $user_data;
+		}
+	}
+}
+
+
+
+function _shn_auth_lock_user($uid, $status) {
+
+	global $global;
+
+	// Do not lock the default administrator.
+	if($uid != 1) {
+		$next_status = 'locked';
+		switch($status) {
+			case 'active' :
+				$next_status = 'try1';
+				break;
+			case 'try1' :
+				$next_status = 'try2';
+				break;
+			case 'try2' :
+				$next_status = 'try3';
+				break;
+			case 'try3' :
+				$next_status = 'locked';
+				break;
+		}
+		$q = "
+			update users
+			set status = '".$next_status."'
+			where p_uuid = '".$uid."';
+		";
+		$res = $global["db"]->Execute($q);
+		if($res == false) {
+			add_error($global["db"]->ErrorMsg());
 		}
 	}
 }
@@ -820,43 +855,55 @@ function shn_change_password($user, $old_pwd, $new_pwd) {
 
 
 
-function shn_force_change_password($user=null,$new_pwd,$p_uuid=null) {
+function shn_force_change_password($user = null, $new_pwd, $p_uuid = null) {
 
+	/*
 	if(shn_validate_password($user,$new_pwd)==false){
 		return true;
 	}
+	*/
 	date_default_timezone_set('America/New_York');
 	global $global;
 	$db=$global['db'];
 	if($p_uuid=null){
-		$q = "  SELECT p_uuid,salt  FROM users
-		WHERE user_name = '$user'";
-		// AND password = '$password_digest'";
-	}else{
-		$q = "  SELECT p_uuid,salt  FROM users
-		WHERE p_uuid = '$user'";
+		$q = "
+			SELECT p_uuid,salt
+			FROM users
+			WHERE user_name = '$user';
+		";
+	} else {
+		$q = "
+			SELECT p_uuid,salt
+			FROM users
+			WHERE p_uuid = '$user';
+		";
 	}
-	$res=$db->Execute($q);
+	$res = $db->Execute($q);
 
-	if($res->EOF){
+	if($res->EOF) {
 		return true;
-	}else{
-		$salt=$res->fields["salt"];
+	} else {
+		$salt = $res->fields["salt"];
 	}
-	$time=time();
-	$new_pwd=substr($new_pwd, 0, 4).$salt.substr($new_pwd, 4);
+	$time = time();
+	$new_pwd = substr($new_pwd, 0, 4).$salt.substr($new_pwd, 4);
 	$password_digest = md5(trim($new_pwd));
-	// Formulate the SQL to find the user
-	if($p_uuid=null){
-		$q = "  update users set password = '{$password_digest}',changed_timestamp={$time}
-		WHERE user_name = '$user'";
-	}else{
-		$q = "  update users set password = '{$password_digest}',changed_timestamp={$time}
-		WHERE p_uuid = '$user'";
+
+	// update the password
+	if($p_uuid = null) {
+		$q = "
+			update users
+			set password = '{$password_digest}', changed_timestamp={$time}
+			WHERE user_name = '$user';
+		";
+	} else {
+		$q = "
+			update users
+			set password = '{$password_digest}', changed_timestamp={$time}
+			WHERE p_uuid = '$user';
+		";
 	}
-
-	$res=$db->Execute($q);
-
+	$res = $db->Execute($q);
 	return false;
 }
 
@@ -1039,41 +1086,6 @@ function _shn_generateSalt($salt = null) {
 	}
 	//$salt=$salt.
 	return $salt;
-}
-
-
-
-function _shn_auth_lock_user($uid,$status) {
-
-	global $global;
-
-	$role = REGISTERED;
-	if(_shn_acl_is_user_role_only($uid,$role)==true){
-		return true;
-	}
-
-	// Do not lock the default administrator.
-	if($uid ==1 && (!_shn_acl_is_user_role($uid,1))){
-		$db=$global["db"];
-		$next_status='locked';
-		switch ($status){
-			case 'active':
-				$next_status='try1';
-				break;
-			case 'try1':
-				$next_status='try2';
-				break;
-			case 'try2':
-				$next_status='locked';
-				break;
-
-		}
-		$sql="update users set status='{$next_status}' where p_uuid='{$uid}'";
-		$res=$db->Execute($sql);
-		if($res==false){
-			add_error($db->ErrorMsg());
-		}
-	}
 }
 
 

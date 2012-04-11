@@ -341,7 +341,6 @@ function _shn_acl_is_user_role_only($user,$role) {
 
 /** always enabled! */
 function shn_acl_is_signup_enabled() { return true; }
-function shn_acl_is_locking_enabled() { return true; }
 
 
 /**
