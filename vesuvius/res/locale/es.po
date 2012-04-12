@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: vesuvius\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2011-08-18 10:56-0400\n"
-"PO-Revision-Date: 2011-07-13 22:50+0000\n"
+"PO-Revision-Date: 2011-07-13 22:52+0000\n"
 "Last-Translator: Greg Miernicki <Unknown>\n"
-"Language-Team: Burmese <my@li.org>\n"
+"Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-04-11 04:55+0000\n"
-"X-Generator: Launchpad (build 15070)\n"
+"X-Launchpad-Export-Date: 2011-08-19 05:15+0000\n"
+"X-Generator: Launchpad (build 13697)\n"
 
 #: ../www/index.php:170
 msgid "The stream requested is not valid."
@@ -33,27 +33,49 @@ msgstr ""
 msgid "This action does not support the stream type."
 msgstr ""
 
-#: ../www/theme/lpf3/header.php:59 ../www/theme/vesuvius/header.php:61
+#: ../www/theme/lpf3/header.php:59
 msgid "of"
 msgstr ""
 
 #: ../www/theme/lpf3/header.php:60 ../www/theme/lpf3/header.php:75
-#: ../www/theme/vesuvius/header.php:62 ../www/theme/vesuvius/header.php:76
+#: ../www/theme/vesuvius/header.php:76
 msgid "U.S. National Library of Medicine"
 msgstr ""
 
 #: ../www/theme/lpf3/header.php:61 ../www/theme/lpf3/header.php:76
-#: ../www/theme/vesuvius/header.php:63 ../www/theme/vesuvius/header.php:77
+#: ../www/theme/vesuvius/header.php:77
 msgid "Lister Hill National Center for Biomedical Communications"
 msgstr ""
 
-#: ../www/theme/vesuvius/header.php:59 ../www/theme/vesuvius/header.php:75
+#: ../www/theme/vesuvius/header.php:59
+msgctxt "MAIN_HEADER"
 msgid "People Locator"
 msgstr "*Spanish*People Locator*Spanish*"
 
 #: ../www/theme/vesuvius/header.php:60
+msgctxt "MAIN_HEADER"
 msgid "for the "
 msgstr ""
+
+#: ../www/theme/vesuvius/header.php:61
+msgctxt "MAIN_HEADER"
+msgid "of"
+msgstr ""
+
+#: ../www/theme/vesuvius/header.php:62
+msgctxt "MAIN_HEADER"
+msgid "U.S. National Library of Medicine"
+msgstr ""
+
+#: ../www/theme/vesuvius/header.php:63
+msgctxt "MAIN_HEADER"
+msgid "Lister Hill National Center for Biomedical Communications"
+msgstr ""
+
+#: ../www/theme/vesuvius/header.php:75
+msgctxt "DUPLICATE_HEADER"
+msgid "People Locator"
+msgstr "*Spanish*People Locator*Spanish*"
 
 #: ../inc/lib_security/acl_form.inc:27
 msgid "Select the Role you want to edit permissions of"
@@ -517,17 +539,17 @@ msgstr ""
 msgid "Hospital Administration"
 msgstr ""
 
-#: ../mod/ha/xajax.inc:139 ../mod/ha/xajax.inc:287
+#: ../mod/ha/xajax.inc:139 ../mod/ha/xajax.inc:287 ../mod/ha/xajax.inc:322
 msgctxt "HOSPITAL_BUTTON"
 msgid "Add a new Hospital"
 msgstr ""
 
-#: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289
+#: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289 ../mod/ha/xajax.inc:324
 msgctxt "HOSPITAL_LOG"
 msgid "Opening Help..."
 msgstr ""
 
-#: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289
+#: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289 ../mod/ha/xajax.inc:324
 msgctxt "HOSPITAL_BUTTON"
 msgid "Help"
 msgstr ""
@@ -543,12 +565,12 @@ msgid "</b> Hospital(s).<br>"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:170
-msgctxt "HOSPITAL_HTML"
+msgctxt "HOSPITAL_HELP"
 msgid "coming soon...."
 msgstr ""
 
 #: ../mod/ha/xajax.inc:175
-msgctxt "HOSPITAL_LOG"
+msgctxt "HOSPITAL_HELP"
 msgid "Closing Help..."
 msgstr ""
 
@@ -570,6 +592,186 @@ msgstr ""
 #: ../mod/ha/xajax.inc:287
 msgctxt "HOSPITAL_LOG"
 msgid "Add a new Hospital..."
+msgstr ""
+
+#: ../mod/ha/xajax.inc:312
+msgctxt "HOSPITAL_LOG"
+msgid "Hospital <b>#"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:312
+msgctxt "HOSPITAL_LOG"
+msgid "removed"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:322
+msgctxt "HOSPITAL_LOG"
+msgid "Adding a new Hospital..."
+msgstr ""
+
+#: ../mod/ha/xajax.inc:406
+msgctxt "HOSPITAL_INFO"
+msgid "Hospital Information"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:409
+msgctxt "HOSPITAL_INFO"
+msgid "Hospital UUID"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:413
+msgctxt "HOSPITAL_INFO"
+msgid "Name"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:417
+msgctxt "HOSPITAL_INFO"
+msgid "Short Name"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:421
+msgctxt "HOSPITAL_INFO"
+msgid "Street 1"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:425
+msgctxt "HOSPITAL_INFO"
+msgid "Street 2"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:429
+msgctxt "HOSPITAL_INFO"
+msgid "City"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:433
+msgctxt "HOSPITAL_INFO"
+msgid "County"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:437
+msgctxt "HOSPITAL_INFO"
+msgid "State / Region"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:441
+msgctxt "HOSPITAL_INFO"
+msgid "Postal Code"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:445
+msgctxt "HOSPITAL_INFO"
+msgid "Country"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:449
+msgctxt "HOSPITAL_INFO"
+msgid "Phone"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:453
+msgctxt "HOSPITAL_INFO"
+msgid "Fax"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:457
+msgctxt "HOSPITAL_INFO"
+msgid "Email"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:461
+msgctxt "HOSPITAL_INFO"
+msgid "Web Address"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:465
+msgctxt "HOSPITAL_INFO"
+msgid "NPI #"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:470
+msgctxt "HOSPITAL_INFO"
+msgid "Enter a Street Address: "
+msgstr ""
+
+#: ../mod/ha/xajax.inc:471
+msgctxt "HOSPITAL_BUTTON"
+msgid "Detect My Current Location"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:490
+msgctxt "HOSPITAL_INFO"
+msgid "Hospital Policies"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:493
+msgctxt "HOSPITAL_INFO"
+msgid "PatientID prefix"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:497
+msgctxt "HOSPITAL_INFO"
+msgid "PatientID suffix length is variable"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:501
+msgctxt "HOSPITAL_INFO"
+msgid "PatientID suffix fixed length"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:505
+msgctxt "HOSPITAL_INFO"
+msgid "Photo Required"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:509
+msgctxt "HOSPITAL_INFO"
+msgid "Honor No Photo Request"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:513
+msgctxt "HOSPITAL_INFO"
+msgid "Photographer Name Required"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:517
+msgctxt "HOSPITAL_INFO"
+msgid "Legalese"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:521
+msgctxt "HOSPITAL_INFO"
+msgid "Anonymous Legalese"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:527
+msgctxt "HOSPITAL_INFO"
+msgid "Hospital Icon"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:539
+msgctxt "HOSPITAL_LOG"
+msgid "Canceling Changes..."
+msgstr ""
+
+#: ../mod/ha/xajax.inc:539
+msgctxt "HOSPITAL_BUTTON"
+msgid "Cancel Edit / Close"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:540
+msgctxt "HOSPITAL_LOG"
+msgid "Saving Changes..."
+msgstr ""
+
+#: ../mod/ha/xajax.inc:540
+msgctxt "HOSPITAL_BUTTON"
+msgid "Save Changes"
+msgstr ""
+
+#: ../mod/ha/xajax.inc:554
+msgctxt "HOSPITAL_BUTTON"
+msgid "Remove this Hospital"
 msgstr ""
 
 #: ../mod/em/conf.inc:15
