@@ -287,7 +287,7 @@ function shn_mpres_log() {
 
 	echo "<br><div class=\"form-container\"><form><fieldset>";
 	echo "<legend>Emails Received (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
-	echo "<a href=\"inbound?purgeReports\"><span class=\"styleTehButton\">Purge the Emails Received Log</span></a> (<i>this action is audited</i>)<br><br>";
+	echo "<a href=\"inbound?purgeReports&tabid=1\"><span class=\"styleTehButton\">Purge the Emails Received Log</span></a> (<i>this action is audited</i>)<br><br>";
 	echo "<table id=\"regLog\"><tr>
 		<td class=\"evener\"><b>Record Identifier / p_uuid</b></td>
 		<td class=\"evener\"><b>Email From</b></td>
