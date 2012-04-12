@@ -56,11 +56,11 @@ if(isset($_GET['shortname'])) {
 		// show the full event specific header...
 		echo '
 			<div id="headerText">
-				<h1><a href="'.makeBaseUrlMinusEvent().'">'._t("People Locator").'</a></h1>
-				<h2><span>'._t('for the ').'</span>'.$long.'</h1>
-				<h3>'._t("of").' '.$date.'</h2>
-				<h4>'._t("U.S. National Library of Medicine").'</h2>
-				<h4>'._t("Lister Hill National Center for Biomedical Communications").'</h2>
+				<h1><a href="'.makeBaseUrlMinusEvent().'">'._t("MAIN_HEADER|People Locator").'</a></h1>
+				<h2><span>'._t('MAIN_HEADER|for the ').'</span>'.$long.'</h1>
+				<h3>'._t("MAIN_HEADER|of").' '.$date.'</h2>
+				<h4>'._t("MAIN_HEADER|U.S. National Library of Medicine").'</h2>
+				<h4>'._t("MAIN_HEADER|Lister Hill National Center for Biomedical Communications").'</h2>
 			</div>
 		';
 		$full = true;
@@ -72,7 +72,7 @@ if(!$full) {
 	echo '
 		<div id="headerText">
 			<h1>&nbsp;</h1>
-			<h1><a href="'.makeBaseUrlMinusEvent().'">'._t("People Locator").'</a></h1>
+			<h1><a href="'.makeBaseUrlMinusEvent().'">'._t("DUPLICATE_HEADER|People Locator").'</a></h1>
 			<h4>'._t("U.S. National Library of Medicine").'</h2>
 			<h4>'._t("Lister Hill National Center for Biomedical Communications").'</h2>
 		</div>
