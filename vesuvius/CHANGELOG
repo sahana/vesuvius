@@ -10,6 +10,9 @@ Greg: Pushed packaged Vesuvius 0.9.2 to Launchpad for Download
 ----------------
 Greg: Patch fixing microtime in debug XML filenames
 Greg: More resiliency in MPRES module: we only handle/process the first XML attachment ~ any others are ignored
+Greg: Added purge log option to MPRES (emails recieved log, and persons reported log) both of which are audited.
+Greg: Updated the Audit log in Admin module to accomodate more audit types.
+
 
 2012:0410 Update
 ----------------
