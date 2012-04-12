@@ -29,7 +29,7 @@ $conf['https'] = "https://";
 #$conf['https'] = "http://";
 
 # Use this theme directory
-$conf['theme'] = "vesuvius";
+$conf['theme'] = "lpf3"; // vesuvius theme is in a state of disrepair... so use this theme instead for now!
 
 # Database Configuration
 $conf['db_name'] = "";
