@@ -86,7 +86,7 @@ function inw_checkForChanges($mode, $incident, $searchTerm, $sStatus, $sGender, 
 
 	$search = new SearchDB($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital);
 	$search->getLastUpdate();
-	$global["xajax_res"]->addAssign("lastCheck", "innerHTML", gmdate("Y-m-d H:i:s")." UTC");
+	$global["xajax_res"]->addAssign("lastCheck", "innerHTML", gmdate("Y-m-d H:i")." UTC");
 	$global["xajax_res"]->addScript("Utils.changeObserver('". $search->lastUpdated . "');");
 	return $global["xajax_res"]->getXML();
 }

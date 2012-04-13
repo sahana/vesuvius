@@ -41,13 +41,13 @@ function shn_inw_default() {
 	?>
 		<link rel="stylesheet" type="text/css" href="res/iWall.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="res/iWall_print.css" media="print" id="printSheet" />
-		<!--[if IE]>
-			<style type="text/css">
-				.ieStubBorder {
-					border-width: 1px !important;
-				}
-			</style>
-		<![endif]-->
+                <!--[if IE]>
+                        <style type="text/css">
+                                .ieStubBorder {
+                                        border-width: 1px !important;
+                                }
+                        </style>
+                <![endif]-->
 			<noscript>Your browser does not support JavaScript! You will need to enable it or use a modern browser before searching.</noscript>
 			<input type="text" id="jsonHolder" style="display:none" />
 			<input type="text" id="jsonNotes" style="display:none" />

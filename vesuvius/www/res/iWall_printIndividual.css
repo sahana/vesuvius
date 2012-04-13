@@ -14,7 +14,7 @@
 
 
 #footer, #header, #disaster_selekta, #pager, #perPageWrapper, #printLink, #map_canvas, #scrolling_content, #searchForm,
-#blueBack, #wrapper_menu, #skip, #menuwrap, #modmenuwrap, #loginform, #modmenu, #glass, #loadingX, #exitFullScreen{
+#blueBack, #wrapper_menu, #skip, #menuwrap, #loginform, #modmenu, #glass, #loadingX, #exitFullScreen{
 	display: none !important;
 }
 
