@@ -52,22 +52,6 @@ body { max-width: 320px; background-color: #eee; margin: 0; padding: 0; font-fam
 		div#wrapper_menu { }
 			p#skip { margin: 0; padding: 2px 0; text-align: center; font-weight: bold; background-color: #ddd; }
 			p#skip a { font-weight: normal; }
-			#modmenuwrap h2 { margin : 1px 0; font-size: 1.2em; padding: 4px 2px; border-top: 1px solid #9a9a9a; background-color: #ddd; color: #069; }
-			/*#modmenuwrap a { color: #418200; text-decoration: underline; }*/
-    			div#modmenuwrap ul { margin: 0px; padding: 0px; list-style-type: none; width: 100%; }
-    			div#modmenuwrap li { margin: 0px; padding: 0px; line-height: 20px; }
-    			div#modmenuwrap ul li a { display: block;  padding-left: 10px; background-color: #069; font-size: 0.9em; border-top: #07A 1px solid; border-bottom: #058 1px solid; }
-    			div#modmenuwrap ul li a.smopen { background:#069 url(img/down_arrow.gif) no-repeat right; }
-    			div#modmenuwrap ul li a.smclose { background:#069 url(img/up_arrow.gif) no-repeat right; }
-    			div#modmenuwrap ul li a:link,
-    			div#modmenuwrap ul li a:visited { color: #EEE; text-decoration: none; }
-    			div#modmenuwrap ul li a:hover { color: #FFF; background-color: #036; border-top: #025 1px solid; border-bottom: #047 1px solid; }
-    			div#modmenuwrap ul ul { display:none; }
-    			div#modmenuwrap ul ul li a { display: block; padding-left: 20px; background-color: #07A; font-size: 0.85em; }
-    			div#modmenuwrap ul ul li a:link,
-    			div#modmenuwrap ul ul li a:visited { border-top: #08B 1px solid; border-bottom: #069 1px solid; }
-    			div#modmenuwrap ul ul li a:hover { background-color: #069; border-top: #058 1px solid; border-bottom: #07A 1px solid; }
-
 
 			#menuwrap h2 { margin: 1px 0; font-size: 1.2em; padding: 4px 2px; background-color: #ddd; color: #555; }
     			#menuwrap ul { list-style: none; float: left; margin: 0; padding: 0; background-color: #555; border: #555 1px solid; }
@@ -163,22 +147,6 @@ body { max-width: 320px; background-color: #eee; margin: 0; padding: 0; font-fam
 		div#wrapper_menu { }
 			p#skip { margin: 0; padding: 2px 0; text-align: center; font-weight: bold; background-color: #ddd; }
 			p#skip a { font-weight: normal; }
-			#modmenuwrap h2 { margin : 1px 0; font-size: 1.2em; padding: 4px 2px; border-top: 1px solid #9a9a9a; background-color: #ddd; color: #069; }
-			/*#modmenuwrap a { color: #418200; text-decoration: underline; }*/
-    			div#modmenuwrap ul { margin: 0px; padding: 0px; list-style-type: none; width: 100%; }
-    			div#modmenuwrap li { margin: 0px; padding: 0px; line-height: 20px; }
-    			div#modmenuwrap ul li a { display: block;  padding-left: 10px; background-color: #069; font-size: 0.9em; border-top: #07A 1px solid; border-bottom: #058 1px solid; }
-    			div#modmenuwrap ul li a.smopen { background:#069 url(img/down_arrow.gif) no-repeat right; }
-    			div#modmenuwrap ul li a.smclose { background:#069 url(img/up_arrow.gif) no-repeat right; }
-    			div#modmenuwrap ul li a:link,
-    			div#modmenuwrap ul li a:visited { color: #EEE; text-decoration: none; }
-    			div#modmenuwrap ul li a:hover { color: #FFF; background-color: #036; border-top: #025 1px solid; border-bottom: #047 1px solid; }
-    			div#modmenuwrap ul ul { display:none; }
-    			div#modmenuwrap ul ul li a { display: block; padding-left: 20px; background-color: #07A; font-size: 0.85em; }
-    			div#modmenuwrap ul ul li a:link,
-    			div#modmenuwrap ul ul li a:visited { border-top: #08B 1px solid; border-bottom: #069 1px solid; }
-    			div#modmenuwrap ul ul li a:hover { background-color: #069; border-top: #058 1px solid; border-bottom: #07A 1px solid; }
-
 
 			#menuwrap h2 { margin: 1px 0; font-size: 1.2em; padding: 4px 2px; background-color: #ddd; color: #555; }
     			#menuwrap ul { list-style: none; float: left; margin: 0; padding: 0; background-color: #555; border: #555 1px solid; }

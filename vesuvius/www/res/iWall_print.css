@@ -15,7 +15,7 @@
 
 #footer, #header, #disaster_selekta, #detailInfo, #detailsPane,
 #pager, #perPageWrapper, #printLink, #map_canvas, #searchForm,
-#blueBack, #wrapper_menu, #skip, #menuwrap, #modmenuwrap, #loginform, #modmenu, #glass, #sortOptions
+#blueBack, #wrapper_menu, #skip, #menuwrap, #loginform, #modmenu, #glass, #sortOptions
 {
 	display: none !important;
 }

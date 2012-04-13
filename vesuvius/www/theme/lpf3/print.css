@@ -49,7 +49,7 @@ h1 { text-align: center; font-family: Georgia, "Times New Roman", Times, serif; 
  	#user_act{display:none;}
 	#wrapper { }
 	#wrapper_menu{display:none}
-		#skip, #modmenuwrap, #menuwrap, #loginform, #openid_loginform, #breadcrumbs { display: none; }
+		#skip, #menuwrap, #loginform, #openid_loginform, #breadcrumbs { display: none; }
 	#content { margin-left: 10%; padding-top: 1em; }
 		#content h1, #content h2 { text-align:center; border-bottom: 20pt; font-size: x-large; }
 
