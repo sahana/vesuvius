@@ -17,7 +17,6 @@ Array.prototype.remove = function(from, to) {
 // called when user starts the application
 $(document).ready(function start() {
 	Globals.searchMode = $("#searchMode").val();
-	Globals.sortedBy = Globals.searchMode == "solr" ? "" : "updated";
 	Globals.isiPad = window.Touch != undefined;
 	window.onorientationchange = function() {
 		ScrollView.pause();
