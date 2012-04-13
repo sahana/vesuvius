@@ -641,6 +641,21 @@ function em_perform_save($page_id, $rj) {
 	}
 
 
+	// if we are on initial save and there is a parent, find the derived values
+	if (!$useDerived && $r['eventParent'] > 0) {
+        	$q = "
+                	SELECT *
+                	FROM `incident`
+                	WHERE incident_id = '".$r['eventParent']."';
+        	";
+        	$res = $global['db']->Execute($q);
+        	$row = $res->FetchRow();
+        	$visibilityDerived = $row['private_group'];
+        	$typeDerived       = $row['type'];
+        	$useDerived = true;
+	}
+
+
 	// formulate parent
 	$parent = (int)$r['eventParent'];
 	if($parent == -1) {
