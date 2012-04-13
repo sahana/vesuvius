@@ -215,7 +215,11 @@ function _pgettext($msgid) {
 		//if context is available, split it and pass off the msgid to gettext
 		list($context,$msgidn) = explode("|", $msgid, 2);
 		echo "<p>in pgettext()</p>";
-		_gettext($msgidn);
+		$contextString = "{$context}\004{$msgidn}";
+		$translation = _gettext($contextString);
+		if ($translation == $contextString)  return $msgidn;
+		else  return $translation;
+		//_gettext($msgidn);
 	}
 }
 
