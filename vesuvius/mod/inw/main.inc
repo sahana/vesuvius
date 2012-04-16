@@ -187,7 +187,7 @@ function shn_inw_default() {
 			<div id="dt_print" onclick="Utils.printDetail();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Print</a></div>
 			<div id="dt_notesTab" onclick="Utils.showNotes();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Notes</a></div>
 			<!--div id="showMap" onclick="Utils.showMap();"><a href="#" style="color:#6694E3; text-decoration: underline">Map</a></div-->
-			<div id="dt_image" >
+			<div id="dt_image">
 				<!--span id="caption">caption here</span-->
 			</div>
 

@@ -17,3 +17,5 @@
 div#footer { color: #000; }
 
 div.form-container form fieldset { background-color: #eee; border: none; }
+
+div#dt_image { max-width:310px; } /* Jira PL-360 */
