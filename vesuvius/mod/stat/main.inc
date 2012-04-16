@@ -1,7 +1,7 @@
 <?php
 /**
  * @name         Statistics
- * @version      0.6
+ * @version      0.7
  * @package      stat
  * @author       Lan Ngoc Le <lale@mail.nih.gov>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
@@ -93,14 +93,24 @@ function shn_stat_menu() {
 			<li><a href=\"index.php?mod=stat&act=arrival\">Arrival Rates</a></li>
 			<li><a href=\"index.php?mod=stat&act=cummulative_arrival\">Cummulative Arrivals</a></li>
 			<li><a href=\"index.php?mod=stat&act=stacked_cummulative_arrival\">Stacked Cummulative Arrivals</a></li>
+			<li><a href=\"index.php?mod=stat&&act=stacked_status_daily_irregular_interval\">TriagePic Zone Status on Arrivals</a></li>
 			<li><a href=\"index.php?mod=stat&act=demographic\">Demographic Pie Charts</a></li>
 			<li><a href=\"index.php?mod=stat&act=pie_status\">People Locator Status Pie Chart</a></li>
 			<li><a href=\"index.php?mod=stat&act=transit\">Patient Transit Time</a></li>
-	";
-	if($shortname=='cmax2010' or $shortname=='new') {
-		echo "<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour#stacked\">TriagePic Zone Status on Arrival </a></li>";
-	}
-	echo "</ul></div>";
+					
+		</ul>
+		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
+		";
+	
+	//if($shortname=='test' or $shortname=='testtp') {
+	//echo "
+	//<ul>		    
+			//<li><a href=\"index.php?mod=stat&&act=stacked_status_daily_irregular_interval\">Daily Stacked Status</a></li>
+	//</ul></div>
+		//<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
+		//";
+	//}
+	//echo "</ul></div>";
 }
 
 
@@ -128,7 +138,7 @@ function shn_stat_arrival_bydate() {
 	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	join incident c ON c.incident_id= b.incident_id
-	where (c.shortname like '".$shortname."' and a.source_date >'2011-01-01')
+	where (c.shortname ='".mysql_real_escape_string($_GET['shortname'])."' and a.source_date >'2011-01-01')
 	GROUP BY DATE(source_date) order by DATE(source_date)";
 	}
 	//for hepl
@@ -265,7 +275,7 @@ function shn_stat_arrival_byhour() {
 	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	join incident c ON c.incident_id= b.incident_id
-	where (c.shortname like '".$shortname."' and a.source_date >'2011-01-01')
+	where (c.shortname ='".mysql_real_escape_string($_GET['shortname'])."' and a.source_date >'2011-01-01')
 	GROUP BY DATE(source_date), HOUR(source_date) order by DATE(source_date), HOUR(source_date)";
 	}
 	//for hepl
@@ -273,7 +283,7 @@ function shn_stat_arrival_byhour() {
 	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	join incident c ON c.incident_id= b.incident_id
-	where (c.shortname like '".$shortname."' and a.source_date >'2010-01-11')
+	where (c.shortname ='".mysql_real_escape_string($_GET['shortname'])."' and a.source_date >'2010-01-11')
 	GROUP BY DATE(source_date),HOUR(source_date) order by DATE(source_date),HOUR(source_date)";
 	}
 	//for christchurch
@@ -281,7 +291,7 @@ function shn_stat_arrival_byhour() {
 	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	join incident c ON c.incident_id= b.incident_id
-	where (c.shortname like '".$shortname."' and a.source_date >'2011-02-20')
+	where (c.shortname ='".mysql_real_escape_string($_GET['shortname'])."' and a.source_date >'2011-02-20')
 	GROUP BY DATE(source_date),HOUR(source_date) order by DATE(source_date),HOUR(source_date)";
 	}
 	//for turkey
@@ -289,7 +299,7 @@ function shn_stat_arrival_byhour() {
 	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	join incident c ON c.incident_id= b.incident_id
-	where (c.shortname like '".$shortname."' and a.source_date >'2011-10-22')
+	where (c.shortname ='".mysql_real_escape_string($_GET['shortname'])."' and a.source_date >'2011-10-22')
 	GROUP BY DATE(source_date),HOUR(source_date) order by DATE(source_date),HOUR(source_date)";
 	}
 	//for CMAX2010, cannot filter by incidentid for cmax2010
@@ -305,7 +315,7 @@ function shn_stat_arrival_byhour() {
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id
-    WHERE (c.event_name like '".$shortname."' and a.source_date like '2011-10-19%')
+    WHERE (c.event_name ='".mysql_real_escape_string($_GET['shortname'])."' and a.source_date like '2011-10-19%')
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 	}
@@ -314,7 +324,7 @@ function shn_stat_arrival_byhour() {
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id
-    WHERE c.event_name like '".$shortname."'
+    WHERE c.event_name ='".mysql_real_escape_string($_GET['shortname'])."'
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 	}
@@ -459,7 +469,7 @@ function shn_stat_arrival_byminute() {
 	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	join incident c ON c.incident_id= b.incident_id
-	where (c.shortname like '".$shortname."' and a.source_date >'2011-01-01')
+	where (c.shortname ='".mysql_real_escape_string($_GET['shortname'])."' and a.source_date >'2011-01-01')
 	GROUP BY DATE(source_date), HOUR(source_date) order by DATE(source_date), HOUR(source_date), MINUTE(source_date)";
 	}
 	//for hepl
@@ -467,7 +477,7 @@ function shn_stat_arrival_byminute() {
 	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	join incident c ON c.incident_id= b.incident_id
-	where (c.shortname like '".$shortname."' and a.source_date >'2010-01-11')
+	where (c.shortname ='".mysql_real_escape_string($_GET['shortname'])."' and a.source_date >'2010-01-11')
 	GROUP BY DATE(source_date),HOUR(source_date) order by DATE(source_date),HOUR(source_date),MINUTE(source_date)";
 	}
 	//for christchurch
@@ -475,7 +485,7 @@ function shn_stat_arrival_byminute() {
 	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	join incident c ON c.incident_id= b.incident_id
-	where (c.shortname like '".$shortname."' and a.source_date >'2011-02-20')
+	where (c.shortname ='".mysql_real_escape_string($_GET['shortname'])."' and a.source_date >'2011-02-20')
 	GROUP BY DATE(source_date),HOUR(source_date) order by DATE(source_date),HOUR(source_date),MINUTE(source_date)";
 	}
 	//for turkey
@@ -483,7 +493,7 @@ function shn_stat_arrival_byminute() {
 	$q="SELECT source_date, count(source_date) AS count_source_date  FROM `pfif_person` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	join incident c ON c.incident_id= b.incident_id
-	where (c.shortname like '".$shortname."' and a.source_date >'2011-10-23')
+	where (c.shortname ='".mysql_real_escape_string($_GET['shortname'])."' and a.source_date >'2011-10-23')
 	GROUP BY DATE(source_date),HOUR(source_date) order by DATE(source_date),HOUR(source_date),MINUTE(source_date)";
 	}
 	//for CMAX2010, cannot filter by incidentid for cmax2010
@@ -499,7 +509,7 @@ function shn_stat_arrival_byminute() {
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id
-    WHERE (c.event_name like '".$shortname."' and a.source_date like '2011-10-19%')
+    WHERE (c.event_name ='".mysql_real_escape_string($_GET['shortname'])."' and a.source_date like '2011-10-19%')
 	GROUP BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)";
 	}
@@ -508,7 +518,7 @@ function shn_stat_arrival_byminute() {
 	$q="SELECT when_sent as source_date, count(when_sent) as count_source_date FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id
-    WHERE c.event_name like '".$shortname."'
+    WHERE c.event_name ='".mysql_real_escape_string($_GET['shortname'])."'
 	GROUP BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent), MINUTE(when_sent)";
 	}
@@ -795,7 +805,7 @@ function shn_stat_TP_sub_byhour() {
 	$q="SELECT when_sent as update_time, count(when_sent) as count_update_time FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id
-	WHERE (c.event_name like '".$shortname."' and when_sent > '2011-10-19%')
+	WHERE (c.event_name like ='".mysql_real_escape_string($_GET['shortname'])."' and when_sent > '2011-10-19%')
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 	}
@@ -803,7 +813,7 @@ function shn_stat_TP_sub_byhour() {
 	$q="SELECT when_sent as update_time, count(when_sent) as count_update_time FROM `edxl_de_header` a
 	JOIN edxl_co_header b ON b.de_id = a.de_id
 	JOIN edxl_co_lpf c ON c.co_id = b.co_id
-	WHERE c.event_name like '".$shortname."'
+	WHERE c.event_name ='".mysql_real_escape_string($_GET['shortname'])."'
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 	}
@@ -910,7 +920,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	echo $_GET['shortname'];
 	$shortname = $_GET['shortname'];
 	$name=ucfirst($shortname);
-
+    
 	$queryR="SELECT count( triage_category ) AS count_statusR, '9-10 am' AS time_rangeR
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
@@ -940,7 +950,9 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'Red' AND HOUR( when_sent ) BETWEEN '2'AND '2')";
-
+	
+	
+	
 	$rR=mysql_query($queryR);
 	$rowR = mysql_fetch_array($rR);
 	//check result
@@ -963,6 +975,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	//echo json_encode($time_rangeR);
 
 	//green
+	
 	$queryG="SELECT count( triage_category ) AS count_statusG, '9-10 am' AS time_rangeG
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
@@ -992,7 +1005,8 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '2'AND '2')";
-
+    
+	
 	$rG=mysql_query($queryG);
 	$rowG = mysql_fetch_array($rG);
 	//check result
@@ -1015,6 +1029,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	//echo json_encode($time_rangeG);
 
 	//BH green
+	
 	$queryBHG="SELECT count( triage_category ) AS count_statusBHG, '9-10 am' AS time_rangeBHG
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
@@ -1044,7 +1059,8 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'BH Green' AND HOUR( when_sent ) BETWEEN '2'AND '2')";
-
+    
+		
 	$rBHG=mysql_query($queryBHG);
 	$rowBHG = mysql_fetch_array($rBHG);
 	//check result
@@ -1067,6 +1083,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	echo json_encode($time_rangeBHG);
 
 	//yellow
+	
 	$queryY="SELECT count( triage_category ) AS count_statusY, '9-10 am' AS time_rangeY
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
@@ -1096,6 +1113,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'Yellow' AND HOUR( when_sent ) BETWEEN '2'AND '2')";
+	
 
 	$rY=mysql_query($queryY);
 	$rowY = mysql_fetch_array($rY);
@@ -1120,6 +1138,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	echo json_encode($time_rangeY);
 
 	//gray
+	
 	$queryGr="SELECT count( triage_category ) AS count_statusGr, '9-10 am' AS time_rangeGr
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
@@ -1149,6 +1168,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'Gray' AND HOUR( when_sent ) BETWEEN '2'AND '2')";
+	
 
 	$rGr=mysql_query($queryGr);
 	$rowGr = mysql_fetch_array($rGr);
@@ -1169,6 +1189,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	while($rowGr = mysql_fetch_array($rGr));
 
 	//black
+	
 	$queryB="SELECT count( triage_category ) AS count_statusB, '9-10 am' AS time_rangeB
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
@@ -1198,6 +1219,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	WHERE (triage_category = 'Black' AND HOUR( when_sent ) BETWEEN '2'AND '2')";
+
 
 	$rB=mysql_query($queryB);
 	$rowB = mysql_fetch_array($rB);
@@ -1233,7 +1255,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 
 	$json_time_rangeY = implode("','",$json_time_rangeY);
 	$json_count_statusY = implode(",", $json_count_statusY);
-	/*
+	
 	$json_time_rangeBHG = implode("','",$json_time_rangeBHG);
 	$json_count_statusBHG = implode(",", $json_count_statusBHG);
 
@@ -1242,7 +1264,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 
 	$json_time_rangeB = implode("','",$json_time_rangeB);
 	$json_count_statusB = implode(",", $json_count_statusB);
-    */
+    
 	echo "<script type=\"text/javascript\"> \n" ;
 	//Red
 		echo "var pointsR = [$json_count_statusR],\n" ;
@@ -1389,6 +1411,915 @@ echo "});\n";
 echo "});\n";
 echo "</script>\n" ;
 }
+
+/***************************************
+* stacked_status_daily_regular_interval function
+***************************************/
+function shn_stat_stacked_status_daily_regular_interval() {
+
+	global $global;
+	shn_stat_menu();
+	echo "People Statistics for  ";
+	echo $_GET['shortname'];
+	$shortname = $_GET['shortname'];
+	$name=ucfirst($shortname);   
+	
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+	
+	//start and end date
+	$q_start_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
+	ORDER BY arrival_time asc limit 1";
+	$res = $global['db']->Execute($q_start_date);
+	$row = $res->FetchRow();
+	$start_date= $row[0];
+	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
+	
+	//for end date for all sources
+	$q_end_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
+	ORDER BY arrival_time desc limit 1";
+	$res = $global['db']->Execute($q_end_date);
+	$row = $res->FetchRow();
+	$end_date= $row[0];
+	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+	
+	$queryR="SELECT b.arrival_time AS time_rangeR, count( triage_category ) AS count_statusR
+	FROM `edxl_co_lpf` a
+	LEFT JOIN arrival_rate b ON ( a.p_uuid = b.person_uuid ) 
+	WHERE (	triage_category = 'Red'	AND b.arrival_time IS NOT NULL and event_name='".mysql_real_escape_string($_GET['shortname'])."')
+	GROUP BY date( b.arrival_time )";
+
+	
+	$rR=mysql_query($queryR);
+	$rowR = mysql_fetch_array($rR);
+	//check result
+	if($rowR === FALSE) {
+    	//die(mysql_error()); // TODO: better error handling
+	}
+	$json_time_rangeR = array();
+	$json_count_statusR = array();
+	do{
+		//$time_rangeR[] = $rowR['time_rangeR'];
+		//date_default_timezone_set('UTC');
+		$time_rangeR[] = (strtotime($rowR['time_rangeR'])*1000);
+		array_push($json_time_rangeR, $rowR['time_rangeR']);
+		$row['count_statusR'] = (int) $rowR['count_statusR'];
+		$count_statusR[] = $row['count_statusR'];
+		array_push($json_count_statusR, $row['count_statusR']);
+	}
+	while($rowR = mysql_fetch_array($rR));
+	echo 'red';
+	
+	//green	
+	$queryG="SELECT b.arrival_time AS time_rangeG, count( triage_category ) AS count_statusG
+	FROM `edxl_co_lpf` a
+	LEFT JOIN arrival_rate b ON ( a.p_uuid = b.person_uuid ) 
+	WHERE (	triage_category = 'Green'	AND b.arrival_time IS NOT NULL and event_name='".mysql_real_escape_string($_GET['shortname'])."')
+	GROUP BY date( b.arrival_time )";
+		
+	$rG=mysql_query($queryG);
+	$rowG = mysql_fetch_array($rG);
+	//check result
+	if($rowG === FALSE) {
+    	//die(mysql_error()); // TODO: better error handling
+	}
+	$json_time_rangeG = array();
+	$json_count_statusG = array();
+	do{
+		//$time_rangeG[] = $rowG['time_rangeG'];
+		$time_rangeG[] = (strtotime($rowG['time_rangeG'])*1000);
+		//date_default_timezone_set('UTC');
+		array_push($json_time_rangeG, $rowG['time_rangeG']);
+		$row['count_statusG'] = (int) $rowG['count_statusG'];
+		$count_statusG[] = $row['count_statusG'];
+		array_push($json_count_statusG, $row['count_statusG']);
+	}
+	while($rowG = mysql_fetch_array($rG));
+	echo 'green';	
+
+	//BH green
+	$queryBHG="SELECT b.arrival_time AS time_rangeBHG, count( triage_category ) AS count_statusBHG
+	FROM `edxl_co_lpf` a
+	LEFT JOIN arrival_rate b ON ( a.p_uuid = b.person_uuid ) 
+	WHERE (	triage_category = 'BH Green'	AND b.arrival_time IS NOT NULL and event_name='".mysql_real_escape_string($_GET['shortname'])."')
+	GROUP BY date( b.arrival_time )";
+	
+	$rBHG=mysql_query($queryBHG);
+	$rowBHG = mysql_fetch_array($rBHG);
+	//check result
+	if($rowBHG === FALSE) {
+    	//die(mysql_error()); // TODO: better error handling
+	}
+	$json_time_rangeBHG = array();
+	$json_count_statusBHG = array();
+	do{
+		//$time_rangeBHG[] = $rowBHG['time_rangeBHG'];
+		//date_default_timezone_set('UTC');
+		$time_rangeBHG[] = (strtotime($rowBHG['time_rangeBHG'])*1000);
+		array_push($json_time_rangeBHG, $rowBHG['time_rangeBHG']);
+		$row['count_statusBHG'] = (int) $rowBHG['count_statusBHG'];
+		$count_statusBHG[] = $row['count_statusBHG'];
+		array_push($json_count_statusBHG, $row['count_statusBHG']);
+	}
+	while($rowBHG = mysql_fetch_array($rBHG));
+	echo 'BH green';
+	echo json_encode($count_statusBHG);
+	echo json_encode($time_rangeBHG);
+
+	
+	//yellow
+	$queryY="SELECT b.arrival_time AS time_rangeY, count( triage_category ) AS count_statusY
+	FROM `edxl_co_lpf` a
+	LEFT JOIN arrival_rate b ON ( a.p_uuid = b.person_uuid ) 
+	WHERE (	triage_category = 'Yellow'	AND b.arrival_time IS NOT NULL and event_name='".mysql_real_escape_string($_GET['shortname'])."')
+	GROUP BY date( b.arrival_time )";
+
+	$rY=mysql_query($queryY);
+	$rowY = mysql_fetch_array($rY);
+
+	if($rowY === FALSE) {
+    	//die(mysql_error()); // TODO: better error handling
+	}
+	$json_time_rangeY = array();
+	$json_count_statusY = array();
+	do{
+		//$time_rangeY[] = $rowY['time_rangeY'];
+		$time_rangeY[] = (strtotime($rowY['time_rangeY'])*1000);
+		//date_default_timezone_set('UTC');
+		array_push($json_time_rangeY, $rowY['time_rangeY']);
+		$row['count_statusY'] = (int) $rowY['count_statusY'];
+		$count_statusY[] = $row['count_statusY'];
+		array_push($json_count_statusY, $row['count_statusY']);
+	}
+	while($rowY = mysql_fetch_array($rY));
+
+	echo 'yellow';
+	echo json_encode($count_statusY);
+	echo json_encode($time_rangeY);
+
+	
+	//gray
+	$queryGr="SELECT b.arrival_time AS time_rangeGr, count( triage_category ) AS count_statusGr
+	FROM `edxl_co_lpf` a
+	LEFT JOIN arrival_rate b ON ( a.p_uuid = b.person_uuid ) 
+	WHERE (	triage_category = 'Gray'	AND b.arrival_time IS NOT NULL and event_name='".mysql_real_escape_string($_GET['shortname'])."')
+	GROUP BY date( b.arrival_time )";
+	
+	$rGr=mysql_query($queryGr);
+	$rowGr = mysql_fetch_array($rGr);
+
+	if($rowGr === FALSE) {
+    	//die(mysql_error()); // TODO: better error handling
+	}
+	$json_time_rangeGr = array();
+	$json_count_statusGr = array();
+	do{
+		//$time_rangeGr[] = $rowGr['time_rangeGr'];
+		//date_default_timezone_set('UTC');
+		$time_rangeGr[] = (strtotime($rowGr['time_rangeGr'])*1000);
+		array_push($json_time_rangeGr, $rowGr['time_rangeGr']);
+		$row['count_statusGr'] = (int) $rowGr['count_statusGr'];
+		$count_statusGr[] = $row['count_statusGr'];
+		array_push($json_count_statusGr, $row['count_statusGr']);
+	}
+	while($rowGr = mysql_fetch_array($rGr));
+
+	
+	//black
+	$queryB="SELECT b.arrival_time AS time_rangeB, count( triage_category ) AS count_statusB
+	FROM `edxl_co_lpf` a
+	LEFT JOIN arrival_rate b ON ( a.p_uuid = b.person_uuid ) 
+	WHERE (	triage_category = 'Black'	AND b.arrival_time IS NOT NULL and event_name='".mysql_real_escape_string($_GET['shortname'])."')
+	GROUP BY date( b.arrival_time )";
+
+	$rB=mysql_query($queryB);
+	$rowB = mysql_fetch_array($rB);
+
+	if($rowB === FALSE) {
+    	//die(mysql_error()); // TODO: better error handling
+		
+	}
+	$json_time_rangeB = array();
+	$json_count_statusB = array();
+	do{
+		//$time_rangeB[] = $rowB['time_rangeB'];
+		//date_default_timezone_set('UTC');
+		$time_rangeB[] = (strtotime($rowB['time_rangeB'])*1000);
+		array_push($json_time_rangeB, $rowB['time_rangeB']);
+		$row['count_statusB'] = (int) $rowB['count_statusB'];
+		$count_statusB[] = $row['count_statusB'];
+		array_push($json_count_statusB, $row['count_statusB']);
+	}
+	while($rowB = mysql_fetch_array($rB));
+
+	echo 'black';
+	echo json_encode($count_statusB);
+	echo json_encode($time_rangeB);
+	?>
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
+	<?php
+	$shortname = $_GET['shortname'];
+	//to do
+	$json_time_rangeR = implode("','",$json_time_rangeR);
+	$json_count_statusR = implode(",", $json_count_statusR);
+
+	$json_time_rangeG = implode("','",$json_time_rangeG);
+	$json_count_statusG = implode(",", $json_count_statusG);
+
+	$json_time_rangeY = implode("','",$json_time_rangeY);
+	$json_count_statusY = implode(",", $json_count_statusY);
+	
+	$json_time_rangeBHG = implode("','",$json_time_rangeBHG);
+	$json_count_statusBHG = implode(",", $json_count_statusBHG);
+
+	$json_time_rangeGr = implode("','",$json_time_rangeGr);
+	$json_count_statusGr = implode(",", $json_count_statusGr);
+
+	$json_time_rangeB = implode("','",$json_time_rangeB);
+	$json_count_statusB = implode(",", $json_count_statusB);
+    
+	echo "<script type=\"text/javascript\"> \n" ;
+	/*
+	//Red
+		echo "var pointsR = [$json_count_statusR],\n" ;
+		echo "datesR = " .json_encode($time_rangeR);
+		echo ",\n" ;
+		echo "i, dataR = [], chart;\n" ;
+		echo "for(i=0; i<pointsR.length; i++) {\n" ;
+			echo "dataR.push([datesR[i], pointsR[i]]);\n" ;
+			echo"}\n";
+	//green
+	echo "var pointsG = [$json_count_statusG],\n";
+		echo "datesG = ".json_encode($time_rangeG);
+		echo ",\n" ;
+		echo "j, dataG = [], chart;\n" ;
+		echo "for(j=0; j<pointsG.length; j++) {\n" ;
+			echo "dataG.push([datesG[j], pointsG[j]]);\n" ;
+									echo"}\n" ;
+	//BH Green
+	echo "var pointsBHG = [$json_count_statusBHG],\n" ;
+		echo "datesBHG = ".json_encode($time_rangeBHG);
+		echo ",\n" ;
+		echo "l, dataBHG = [], chart;\n" ;
+		echo "for(l=0; l<pointsBHG.length; l++) {\n" ;
+			echo "dataBHG.push([datesBHG[l], pointsBHG[l]]);\n" ;
+									echo"}\n" ;
+	//Gray
+		echo "var pointsGr = [$json_count_statusGr],\n" ;
+		echo "datesGr= " .json_encode($time_rangeGr);
+		echo ",\n" ;
+		echo "m, dataGr = [], chart;\n" ;
+		echo "for(m=0; i<pointsGr.length; m++) {\n" ;
+			echo "dataGr.push([datesGr[m], pointsGr[m]]);\n" ;
+			echo"}\n";
+	//yellow
+	echo "var pointsY = [$json_count_statusY],\n";
+		echo "datesY = ".json_encode($time_rangeY);
+		echo ",\n" ;
+		echo "j, dataY = [], chart;\n" ;
+		echo "for(j=0; j<pointsY.length; j++) {\n" ;
+			echo "dataY.push([datesY[j], pointsY[j]]);\n" ;
+									echo"}\n" ;
+	//black
+	echo "var pointsB = [$json_count_statusB],\n" ;
+		echo "datesB = ".json_encode($time_rangeB);
+		echo ",\n" ;
+		echo "n, dataB = [], chart;\n" ;
+		echo "for(n=0; n<pointsB.length; n++) {\n" ;
+			echo "dataB.push([datesB[n], pointsB[n]]);\n" ;
+									echo"}\n" ;
+									*/
+
+echo "\$(document).ready(function() {\n";
+echo "var chart = new Highcharts.Chart({\n" ;
+    echo "chart: {\n" ;
+        echo "renderTo: 'container',\n" ;
+        echo "defaultSeriesType: 'column'\n" ;
+    echo "},\n" ;
+	echo "title: {\n" ;
+			echo "text: 'TriagePic Zone Status on Arrival $description',\n" ;
+			echo "style: {\n" ;
+            echo "color: '#000000',\n" ;
+            echo "fontWeight: 'bold'\n" ;
+					echo "}\n" ;
+			echo "},\n" ;
+		echo "subtitle: {\n" ;
+			
+			echo "text: 'First Reported: $start_date, Last Reported: $end_date. This page refreshes every 120 seconds',\n" ;
+			echo "style: {\n" ;
+            echo "color: '#FF00FF',\n" ;
+            echo "fontWeight: 'bold'\n" ;
+					echo "}\n";
+					echo "},\n";
+    echo "xAxis: {\n" ;
+         echo "type: 'datetime',\n" ;
+         echo "dateTimeLabelFormats: {\n" ;
+            echo "second: '%e. %b',\n" ;
+            echo "minute: '%e. %b',\n" ;
+            echo "hour: '%e. %b %I',\n" ;
+            echo "day: '%e. %b',\n" ;
+            echo "week: '%e. %b',\n" ;
+            echo "month: '%e. %b',\n" ;
+            echo "year: '%Y'\n" ;
+         echo "}\n" ;
+     echo "},\n" ;
+		
+    echo "yAxis: {\n" ;
+		echo "allowDecimals: false,\n";
+
+		echo "stackLabels: {\n";
+            echo "enabled: true,\n";
+            echo "style: {\n";
+               echo "fontWeight: 'bold',\n";
+               echo "color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'\n";
+            echo "}\n";
+         echo "},\n";
+		echo "title: {\n" ;
+            echo "text: 'Patient Counts'\n" ;
+			echo "}\n" ;
+		echo "},\n" ;
+	echo "
+	tooltip: {
+         formatter: function() {
+            return '<b>'+ this.x +'</b><br/>'+
+                this.series.name +': '+ this.y +'<br/>'+
+                'Total: '+ this.point.stackTotal;
+         }
+      },
+	  \n";
+    echo "plotOptions: {\n" ;
+        echo "column: {
+            stacking: 'normal',
+            dataLabels: {
+               enabled: true,
+			   color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'black'
+            },
+			//fixed point start
+			pointStart: Date.UTC(2011, 10, 1),
+            pointInterval: 150* 24 * 3600 * 1000 // 150 days 
+         	}	 
+           },\n" ;
+    echo "series: [\n" ;
+
+         echo "{\n" ;
+            echo "name: 'Green Zone',\n" ;
+			echo "color:'#339900',\n" ;
+			echo "data: pointsG\n" ;
+        echo "},\n" ;
+		echo "{\n" ;
+            echo "name: 'BH Green Zone',\n" ;
+			echo "color:'#2EFE64',\n" ;
+			echo "data: pointsBHG\n" ;
+        echo "},\n" ;
+        echo "{\n" ;
+            echo "name: 'Yellow Zone',\n" ;
+			echo "color: '#FFFF00',\n" ;
+			echo "data: pointsY\n" ;
+        echo "},\n" ;
+		echo "{\n" ;
+            echo "name: 'Red Zone',\n" ;
+			echo "color:'#FF0000',\n" ;
+			echo "data: pointsR\n" ;
+        echo "},\n" ;
+        echo "{\n" ;
+            echo "name: 'Gray Zone',\n" ;
+			echo "color:'#6E6E6E',\n" ;
+			echo "data: pointsGr\n" ;
+        echo "},\n" ;
+        echo "{\n" ;
+            echo "name: 'Black Zone',\n" ;
+			echo "color: '#000000',\n" ;
+			echo "data: pointsB\n" ;
+        echo "}\n" ;
+    echo "]\n" ;
+echo "});\n";
+echo "});\n";
+echo "</script>\n" ;
+}
+/*************************************************
+* stacked_status_daily_irregular_interval function
+*************************************************/
+function shn_stat_stacked_status_daily_irregular_interval() {
+
+	global $global;
+	shn_stat_menu();
+	echo "People Statistics for  ";
+	echo $_GET['shortname'];
+	$shortname = $_GET['shortname'];
+	$name=ucfirst($shortname);   
+	
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+	
+	//start and end date
+	$q_start_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
+	ORDER BY arrival_time asc limit 1";
+	$res = $global['db']->Execute($q_start_date);
+	
+	if($res != NULL && !$res->EOF) {
+		$row = $res->FetchRow();
+		$start_date= $row[0];
+		$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
+	} else {
+	  $start_date = "";
+	}
+	
+	//for end date for all sources
+	$q_end_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
+	ORDER BY arrival_time desc limit 1";
+	$res = $global['db']->Execute($q_end_date);
+	if($res != NULL && !$res->EOF) {
+		$row = $res->FetchRow();
+		$end_date= $row[0];
+		$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+	} else {
+	  $end_date = "";
+	}
+	
+	if ($shortname=='test' or $shortname=='testtp' or 'testind' or $shortname=='testindmon' or $shortname=='testintues' or $shortname=='testindwed'){
+	$queryR="SELECT date(b.arrival_time) AS time_rangeR, count( triage_category ) AS count_statusR
+	FROM `edxl_co_lpf` a
+	LEFT JOIN arrival_rate b ON ( a.p_uuid = b.person_uuid ) 
+	WHERE (	triage_category = 'Red'	AND b.arrival_time IS NOT NULL and event_name='".mysql_real_escape_string($_GET['shortname'])."')
+	GROUP BY date( b.arrival_time ), HOUR( b.arrival_time )
+	ORDER BY date( b.arrival_time ), HOUR( b.arrival_time )";
+	}
+    else {
+	$queryR="SELECT count( triage_category ) AS count_statusR, HOUR(when_sent) AS time_rangeR
+	FROM `edxl_co_lpf` a
+	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
+	WHERE (triage_category = 'Red' and a.event_name='".mysql_real_escape_string($_GET['shortname'])."')
+    group by DATE(when_sent),HOUR(when_sent)
+	order by DATE(when_sent),HOUR(when_sent)";
+	}
+	
+	$res = $global['db']->Execute($queryR);
+	if($res != NULL && !$res->EOF) {
+		$rR=mysql_query($queryR);
+	    
+		$rowR = mysql_fetch_array($rR);
+	} else {
+	  $rowR = "";
+	}	
+	
+	
+	$json_time_rangeR = array();
+	$json_count_statusR = array();
+	do{
+		//$time_rangeR[] = $rowR['time_rangeR'];
+		
+		$time_rangeR[] = (strtotime($rowR['time_rangeR'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_time_rangeR, $rowR['time_rangeR']);
+		$row['count_statusR'] = (int) $rowR['count_statusR'];
+		$count_statusR[] = $row['count_statusR'];
+		array_push($json_count_statusR, $row['count_statusR']);
+	}
+	while($rowR = mysql_fetch_array($rR));
+	echo 'red';
+	
+	//green	
+	if ($shortname=='test' or $shortname=='testtp' or 'testind' or $shortname=='testindmon' or $shortname=='testintues' or $shortname=='testindwed'){
+	$queryG="SELECT date(b.arrival_time) AS time_rangeG, count( triage_category ) AS count_statusG
+	FROM `edxl_co_lpf` a
+	LEFT JOIN arrival_rate b ON ( a.p_uuid = b.person_uuid ) 
+	WHERE (	triage_category = 'Green'	AND b.arrival_time IS NOT NULL and event_name='".mysql_real_escape_string($_GET['shortname'])."')
+	GROUP BY date( b.arrival_time ),HOUR( b.arrival_time )
+	ORDER BY date( b.arrival_time ),HOUR( b.arrival_time )";
+	}
+	else {
+	$queryG="SELECT count( triage_category ) AS count_statusG, HOUR(when_sent) AS time_rangeG
+	FROM `edxl_co_lpf` a
+	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
+	WHERE (triage_category = 'Green' and a.event_name='".mysql_real_escape_string($_GET['shortname'])."')
+    group by DATE(when_sent), HOUR(when_sent)
+	ORDER BY DATE(when_sent), HOUR(when_sent)";
+	}	
+	$res = $global['db']->Execute($queryG);
+	if($res != NULL && !$res->EOF) {
+		$rG=mysql_query($queryG);
+	$rowG = mysql_fetch_array($rG);
+	} else {
+	  $rowG = "";
+	}	
+	$json_time_rangeG = array();
+	$json_count_statusG = array();
+	do{
+		//$time_rangeG[] = $rowG['time_rangeG'];
+		$time_rangeG[] = (strtotime($rowG['time_rangeG'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_time_rangeG, $rowG['time_rangeG']);
+		$row['count_statusG'] = (int) $rowG['count_statusG'];
+		$count_statusG[] = $row['count_statusG'];
+		array_push($json_count_statusG, $row['count_statusG']);
+	}
+	while($rowG = mysql_fetch_array($rG));
+	echo 'green';	
+
+	//BH green
+	if ($shortname=='test' or $shortname=='testtp' or 'testind' or $shortname=='testindmon' or $shortname=='testintues' or $shortname=='testindwed'){
+	$queryBHG="SELECT date(b.arrival_time) AS time_rangeBHG, count( triage_category ) AS count_statusBHG
+	FROM `edxl_co_lpf` a
+	LEFT JOIN arrival_rate b ON ( a.p_uuid = b.person_uuid ) 
+	WHERE (	triage_category = 'BH Green' AND b.arrival_time IS NOT NULL and event_name='".mysql_real_escape_string($_GET['shortname'])."')
+	GROUP BY date( b.arrival_time )
+	ORDER BY date( b.arrival_time )";
+	}
+	else {
+	$queryBHG="SELECT count( triage_category ) AS count_statusBHG, HOUR(when_sent) AS time_rangeBHG
+	FROM `edxl_co_lpf` a
+	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
+	WHERE (triage_category = 'BH Green' and a.event_name='".mysql_real_escape_string($_GET['shortname'])."')
+    group by DATE(when_sent),HOUR(when_sent)
+	order by DATE(when_sent),HOUR(when_sent)";
+	}	
+	$res = $global['db']->Execute($queryBHG);
+	if($res != NULL && !$res->EOF) {
+		$rBHG=mysql_query($queryBHG);
+	$rowBHG = mysql_fetch_array($rBHG);
+	} 
+	else {
+	  $rowBHG = "";
+	}
+	
+	$json_time_rangeBHG = array();
+	$json_count_statusBHG = array();
+	do{
+		//$time_rangeBHG[] = $rowBHG['time_rangeBHG'];
+		date_default_timezone_set('UTC');
+		$time_rangeBHG[] = (strtotime($rowBHG['time_rangeBHG'])*1000);
+		array_push($json_time_rangeBHG, $rowBHG['time_rangeBHG']);
+		$row['count_statusBHG'] = (int) $rowBHG['count_statusBHG'];
+		$count_statusBHG[] = $row['count_statusBHG'];
+		array_push($json_count_statusBHG, $row['count_statusBHG']);
+	}
+	while($rowBHG = mysql_fetch_array($rBHG));
+	echo 'BH green';
+	echo json_encode($count_statusBHG);
+	echo json_encode($time_rangeBHG);
+
+	
+	//yellow
+	if ($shortname=='test' or $shortname=='testtp' or 'testind' or $shortname=='testindmon' or $shortname=='testintues' or $shortname=='testindwed'){
+	$queryY="SELECT date(b.arrival_time) AS time_rangeY, count( triage_category ) AS count_statusY
+	FROM `edxl_co_lpf` a
+	LEFT JOIN arrival_rate b ON ( a.p_uuid = b.person_uuid ) 
+	WHERE (	triage_category = 'Yellow'	AND b.arrival_time IS NOT NULL and event_name='".mysql_real_escape_string($_GET['shortname'])."')
+	GROUP BY date( b.arrival_time ),hour( b.arrival_time )
+	ORDER BY date( b.arrival_time ),hour( b.arrival_time )";
+    }
+	else {
+	$queryY="SELECT count( triage_category ) AS count_statusY, HOUR(when_sent) AS time_rangeY
+	FROM `edxl_co_lpf` a
+	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
+	WHERE (triage_category = 'Yellow' and a.event_name='".mysql_real_escape_string($_GET['shortname'])."')
+    group by date(when_sent),HOUR(when_sent)
+	order by date(when_sent),HOUR(when_sent)";
+	}	
+	$res = $global['db']->Execute($queryY);
+	if($res != NULL && !$res->EOF) {
+		$rY=mysql_query($queryY);
+	$rowY = mysql_fetch_array($rY);
+	} 
+	else {
+	  $rowY = "";
+	}
+	$json_time_rangeY = array();
+	$json_count_statusY = array();
+	do{
+		//$time_rangeY[] = $rowY['time_rangeY'];
+		$time_rangeY[] = (strtotime($rowY['time_rangeY'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_time_rangeY, $rowY['time_rangeY']);
+		$row['count_statusY'] = (int) $rowY['count_statusY'];
+		$count_statusY[] = $row['count_statusY'];
+		array_push($json_count_statusY, $row['count_statusY']);
+	}
+	while($rowY = mysql_fetch_array($rY));
+
+	echo 'yellow';
+	echo json_encode($count_statusY);
+	echo json_encode($time_rangeY);
+
+	
+	//gray
+	if ($shortname=='test' or $shortname=='testtp' or 'testind' or $shortname=='testindmon' or $shortname=='testintues' or $shortname=='testindwed'){
+	
+	$queryGr="SELECT date(b.arrival_time) AS time_rangeGr, count( triage_category ) AS count_statusGr
+	FROM `edxl_co_lpf` a
+	LEFT JOIN arrival_rate b ON ( a.p_uuid = b.person_uuid ) 
+	WHERE (	triage_category = 'Gray'	AND b.arrival_time IS NOT NULL and event_name='".mysql_real_escape_string($_GET['shortname'])."')
+	GROUP BY date( b.arrival_time ),hour(( b.arrival_time )
+	ORDER BY date( b.arrival_time ), hour( b.arrival_time )";
+	}
+	else {
+	$queryGr="SELECT count( triage_category ) AS count_statusGr, HOUR(when_sent) AS time_rangeGr
+	FROM `edxl_co_lpf` a
+	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
+	WHERE (triage_category = 'Gray' and a.event_name='".mysql_real_escape_string($_GET['shortname'])."')
+    group by date(when_sent),HOUR(when_sent)
+	order by date(when_sent),HOUR(when_sent)";
+	}	
+	$res = $global['db']->Execute($queryGr);
+	if($res != NULL && !$res->EOF) {
+		$rGr=mysql_query($queryGr);
+	$rowGr = mysql_fetch_array($rGr);
+	} 
+	else {
+	  $rowGr = "";
+	}
+	
+	$json_time_rangeGr = array();
+	$json_count_statusGr = array();
+	do{
+		//$time_rangeGr[] = $rowGr['time_rangeGr'];
+		//date_default_timezone_set('UTC');
+		$time_rangeGr[] = (strtotime($rowGr['time_rangeGr'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_time_rangeGr, $rowGr['time_rangeGr']);
+		$row['count_statusGr'] = (int) $rowGr['count_statusGr'];
+		$count_statusGr[] = $row['count_statusGr'];
+		array_push($json_count_statusGr, $row['count_statusGr']);
+	}
+	while($rowGr = mysql_fetch_array($rGr));
+
+	
+	//black
+	if ($shortname=='test' or $shortname=='testtp' or 'testind' or $shortname=='testindmon' or $shortname=='testintues' or $shortname=='testindwed'){
+	
+	$queryB="SELECT date(b.arrival_time) AS time_rangeB, count( triage_category ) AS count_statusB
+	FROM `edxl_co_lpf` a
+	LEFT JOIN arrival_rate b ON ( a.p_uuid = b.person_uuid ) 
+	WHERE (	triage_category = 'Black' AND b.arrival_time IS NOT NULL and event_name='".mysql_real_escape_string($_GET['shortname'])."')
+	GROUP BY date( b.arrival_time ), hour( b.arrival_time )
+	ORDER BY date( b.arrival_time ), hour( b.arrival_time )";
+    }
+	//$rB=mysql_query($queryB);
+	//$rowB = mysql_fetch_array($rB);
+
+	//if($rowB === FALSE) {
+    	////die(mysql_error()); // TODO: better error handling
+		
+	//}
+	else {
+	$queryB="SELECT count( triage_category ) AS count_statusB, HOUR(when_sent) AS time_rangeB
+	FROM `edxl_co_lpf` a
+	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
+	WHERE (triage_category = 'Black' and a.event_name='".mysql_real_escape_string($_GET['shortname'])."')
+    group by date(when_sent),HOUR(when_sent)
+	order by date(when_sent),HOUR(when_sent)";
+	}	
+	$res = $global['db']->Execute($queryB);
+	if($res != NULL && !$res->EOF) {
+		$rB=mysql_query($queryB);
+	$rowB = mysql_fetch_array($rB);
+	} 
+	else {
+	  $rowB = "";
+	}
+	$json_time_rangeB = array();
+	$json_count_statusB = array();
+	do{
+		//$time_rangeB[] = $rowB['time_rangeB'];
+		//date_default_timezone_set('UTC');
+		$time_rangeB[] = (strtotime($rowB['time_rangeB'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_time_rangeB, $rowB['time_rangeB']);
+		$row['count_statusB'] = (int) $rowB['count_statusB'];
+		$count_statusB[] = $row['count_statusB'];
+		array_push($json_count_statusB, $row['count_statusB']);
+	}
+	while($rowB = mysql_fetch_array($rB));
+
+	echo 'black';
+	echo json_encode($count_statusB);
+	echo json_encode($time_rangeB);
+	?>
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
+	<?php
+	$shortname = $_GET['shortname'];
+	//to do
+	$json_time_rangeR = implode("','",$json_time_rangeR);
+	$json_count_statusR = implode(",", $json_count_statusR);
+
+	$json_time_rangeG = implode("','",$json_time_rangeG);
+	$json_count_statusG = implode(",", $json_count_statusG);
+
+	$json_time_rangeY = implode("','",$json_time_rangeY);
+	$json_count_statusY = implode(",", $json_count_statusY);
+	
+	$json_time_rangeBHG = implode("','",$json_time_rangeBHG);
+	$json_count_statusBHG = implode(",", $json_count_statusBHG);
+
+	$json_time_rangeGr = implode("','",$json_time_rangeGr);
+	$json_count_statusGr = implode(",", $json_count_statusGr);
+
+	$json_time_rangeB = implode("','",$json_time_rangeB);
+	$json_count_statusB = implode(",", $json_count_statusB);
+    
+	echo "<script type=\"text/javascript\"> \n" ;
+	//Red
+		echo "var pointsR = [$json_count_statusR],\n" ;
+		echo "datesR = " .json_encode($time_rangeR);
+		echo ",\n" ;
+		echo "i, dataR = [], chart;\n" ;
+		echo "for(i=0; i<pointsR.length; i++) {\n" ;
+			echo "dataR.push([datesR[i], pointsR[i]]);\n" ;
+			echo"}\n";
+	//green
+	echo "var pointsG = [$json_count_statusG],\n";
+		echo "datesG = ".json_encode($time_rangeG);
+		echo ",\n" ;
+		echo "j, dataG = [], chart;\n" ;
+		echo "for(j=0; j<pointsG.length; j++) {\n" ;
+			echo "dataG.push([datesG[j], pointsG[j]]);\n" ;
+									echo"}\n" ;
+	//BH Green
+	echo "var pointsBHG = [$json_count_statusBHG],\n" ;
+		echo "datesBHG = ".json_encode($time_rangeBHG);
+		echo ",\n" ;
+		echo "l, dataBHG = [], chart;\n" ;
+		echo "for(l=0; l<pointsBHG.length; l++) {\n" ;
+			echo "dataBHG.push([datesBHG[l], pointsBHG[l]]);\n" ;
+									echo"}\n" ;
+	//Gray
+		echo "var pointsGr = [$json_count_statusGr],\n" ;
+		echo "datesGr= " .json_encode($time_rangeGr);
+		echo ",\n" ;
+		echo "m, dataGr = [], chart;\n" ;
+		echo "for(m=0; i<pointsGr.length; m++) {\n" ;
+			echo "dataGr.push([datesGr[m], pointsGr[m]]);\n" ;
+			echo"}\n";
+	//yellow
+	echo "var pointsY = [$json_count_statusY],\n";
+		echo "datesY = ".json_encode($time_rangeY);
+		echo ",\n" ;
+		echo "j, dataY = [], chart;\n" ;
+		echo "for(j=0; j<pointsY.length; j++) {\n" ;
+			echo "dataY.push([datesY[j], pointsY[j]]);\n" ;
+									echo"}\n" ;
+	//black
+	echo "var pointsB = [$json_count_statusB],\n" ;
+		echo "datesB = ".json_encode($time_rangeB);
+		echo ",\n" ;
+		echo "n, dataB = [], chart;\n" ;
+		echo "for(n=0; n<pointsB.length; n++) {\n" ;
+			echo "dataB.push([datesB[n], pointsB[n]]);\n" ;
+		echo"}\n" ;
+		
+		
+
+echo "\$(document).ready(function() {\n";
+echo "var chart = new Highcharts.Chart({\n" ;
+    echo "chart: {\n" ;
+        echo "renderTo: 'container',\n" ;
+        echo "defaultSeriesType: 'column'\n" ;
+    echo "},\n" ;
+	
+		echo "title: {\n" ;
+		 echo "style: {\n";
+				echo "color: 'Blue',\n";
+				echo "fontSize: '28px',\n";
+				echo "fontWeight: 'bold'\n";
+				echo "},\n";
+		 echo "margin: 45,\n";
+         echo "text: 'TriagePic Zone Status on Arrival $description'\n" ;
+      echo "},\n" ;
+	  echo "subtitle: {\n" ;
+		 echo "style: {\n";
+				echo "color: 'Blue',\n";
+				echo "fontSize: '20px',\n";
+				echo "fontWeight: 'bold'\n";
+				echo "},\n";
+		echo "margin: 45,\n";
+		echo "y: 50,\n";
+		 if ($startdate_has_data=true){
+         echo "text: 'First Reported: $start_date, Last Reported: $end_date. This page refreshes every 120 seconds'\n" ;
+		 }
+      echo "},\n" ;
+    echo "xAxis: {\n" ;
+         echo "type: 'datetime',\n" ;
+		 
+         echo "dateTimeLabelFormats: {\n" ;
+            echo "second: '%I:%M %H %p',\n" ;
+            echo "minute: '%I:%M %H %p',\n" ;
+            echo "hour: '%I:%M %H %p',\n" ;
+            echo "day: '%b %e',\n" ;
+            echo "week: '%b %e',\n" ;
+            echo "month: '%b %e',\n" ;
+            echo "year: '%b %e'\n" ;
+         echo "}\n" ;
+     echo "},\n" ;
+    echo "yAxis: {\n" ;
+		echo "allowDecimals: false,\n";
+
+		echo "stackLabels: {\n";
+            echo "enabled: true,\n";
+            echo "style: {\n";
+               echo "fontWeight: 'bold',\n";
+               echo "color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'\n";
+            echo "}\n";
+         echo "},\n";
+		echo "title: {\n" ;
+            echo "text: 'Patient Counts'\n" ;
+			echo "}\n" ;
+		echo "},\n" ;
+	//echo "
+	//tooltip: {
+	     
+         //formatter: function() {
+            //return '<b>'+ this.x +'</b><br/>'+
+                //this.series.name +': '+ this.y +'<br/>'+
+                //'Total: '+ this.point.stackTotal;
+         //}
+      //},
+	  //\n";
+	  echo "
+		  tooltip: {
+	shared: true
+	},
+	legend: {
+	column: {
+	align: 'right',
+	backgroundColor: '#FCFFC5',
+	enabled: true
+	}
+	},
+	\n";
+    echo "plotOptions: {\n" ;
+	    echo "pointPadding: 0,\n";
+        echo "column: {
+            stacking: 'normal',
+            dataLabels: {
+               enabled: true,
+			   color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'black'
+            }
+         	}	 
+           },\n" ;
+    echo "series: [\n" ;
+
+         echo "{\n" ;
+            echo "name: 'Green Zone',\n" ;
+			echo "color:'#339900',\n" ;
+			echo "data: dataG\n" ;
+        echo "},\n" ;
+		echo "{\n" ;
+            echo "name: 'BH Green Zone',\n" ;
+			echo "color:'#2EFE64',\n" ;
+			echo "data: dataBHG\n" ;
+        echo "},\n" ;
+        echo "{\n" ;
+            echo "name: 'Yellow Zone',\n" ;
+			echo "color: '#FFFF00',\n" ;
+			echo "data: dataY\n" ;
+        echo "},\n" ;
+		echo "{\n" ;
+            echo "name: 'Red Zone',\n" ;
+			echo "color:'#FF0000',\n" ;
+			echo "data: dataR\n" ;
+        echo "},\n" ;
+        echo "{\n" ;
+            echo "name: 'Gray Zone',\n" ;
+			echo "color:'#6E6E6E',\n" ;
+			echo "data: dataGr\n" ;
+        echo "},\n" ;
+        echo "{\n" ;
+            echo "name: 'Black Zone',\n" ;
+			echo "color: '#000000',\n" ;
+			echo "data: dataB\n" ;
+        echo "}\n" ;
+    echo "]\n" ;
+echo "});\n";
+echo "});\n";
+echo "</script>\n" ;
+}
+
 /***************************************
 * TP_stacked_status_byhour function
 ***************************************/
@@ -1562,32 +2493,32 @@ function shn_stat_new_arrival_rate() {
 	$q="SELECT arrival_time as source_date, source_all AS count_source_date
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname like '". $shortname ."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
+	WHERE (b.shortname ='".mysql_real_escape_string($_GET['shortname'])."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
 
 	$q1="SELECT arrival_time as source_date1, source_triagepic AS count_source_date1
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname like '". $shortname ."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
+	WHERE (b.shortname ='".mysql_real_escape_string($_GET['shortname'])."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
 
 	$q2="SELECT arrival_time as source_date2, source_reunite AS count_source_date2
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname like '". $shortname ."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
+	WHERE (b.shortname ='".mysql_real_escape_string($_GET['shortname'])."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
 
 	$q3="SELECT arrival_time as source_date3, source_website AS count_source_date3
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname like '". $shortname ."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
+	WHERE (b.shortname ='".mysql_real_escape_string($_GET['shortname'])."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
 
 	$q4="SELECT arrival_time as source_date4, source_pfif AS count_source_date4
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname like '". $shortname ."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
+	WHERE (b.shortname ='".mysql_real_escape_string($_GET['shortname'])."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
 
 	$q5="SELECT arrival_time as source_date5, source_vanilla_email AS count_source_date5
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname like '". $shortname ."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
+	WHERE (b.shortname ='".mysql_real_escape_string($_GET['shortname'])."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
 
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
@@ -1693,7 +2624,7 @@ function shn_stat_new_arrival_rate() {
 	$q_s="SELECT DISTINCT d.option_description as opt_status, count( opt_status ) as count_opt_status FROM person_status a
 	join field_options d ON a.opt_status=d.option_code
 	join person_uuid b ON a.p_uuid= b.p_uuid
-	join incident c ON c.incident_id= b.incident_id where c.shortname like '".$shortname."'
+	join incident c ON c.incident_id= b.incident_id where c.shortname ='".mysql_real_escape_string($_GET['shortname'])."'
 	GROUP BY opt_status";
 	$res = $global['db']->Execute($q_s);
 	$row = $res->FetchRow();
@@ -1741,12 +2672,12 @@ function shn_stat_new_arrival_rate() {
 	$q_a="SELECT 'pediatrics' as opt_age, count(years_old) as count_opt_age FROM `person_details` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
-	where (c.shortname like '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 1 and a.years_old <= 17))
+	where (c.shortname ='".mysql_real_escape_string($_GET['shortname'])."' and (a.years_old IS NOT NULL and a.years_old >= 1 and a.years_old <= 17))
 	UNION
 	SELECT 'adult' as opt_status, count(years_old) as count_status FROM `person_details` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
-	where (c.shortname like '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 18))";
+	where (c.shortname ='".mysql_real_escape_string($_GET['shortname'])."' and (a.years_old IS NOT NULL and a.years_old >= 18))";
 
 	$res = $global['db']->Execute($q_a);
 	$row = $res->FetchRow();
@@ -1769,7 +2700,7 @@ function shn_stat_new_arrival_rate() {
 	$q_tp="SELECT distinct (triage_category) as opt_category, count(distinct triage_category) as count_optcategory FROM `edxl_co_lpf` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
-	where c.shortname like '".$shortname."'
+	where c.shortname ='".mysql_real_escape_string($_GET['shortname'])."'
 	group by a.triage_category";
 
 	$res = $global['db']->Execute($q_tp);
@@ -2157,52 +3088,75 @@ function shn_stat_cummulative_arrival() {
 
 
     //start and end date
-	$q_start_date="SELECT arrival_time from arrival_rate a
-	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	/*
+	 if ($shortname=='shield2012' or $shortname=='cmax2010' or $shortname='new'){
+	 $q_start_date="SELECT when_sent as arrival_time FROM `edxl_de_header` a
+	JOIN edxl_co_header b ON b.de_id = a.de_id
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id
+	WHERE (c.event_name ='".mysql_real_escape_string($_GET['shortname'])."')
 	ORDER BY arrival_time asc limit 1";
+	 
+	 }else{
+	 */
+	$q_start_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
+	ORDER BY arrival_time asc limit 1";
+	
 	$res = $global['db']->Execute($q_start_date);
 	$row = $res->FetchRow();
 	$start_date= $row[0];
 	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
 	//for end date for all sources
+	/*
+	if ($shortname=='shield2012' or $shortname=='cmax2010' or $shortname='new'){
+	 $$q_end_date="SELECT when_sent as arrival_time FROM `edxl_de_header` a
+	JOIN edxl_co_header b ON b.de_id = a.de_id
+	JOIN edxl_co_lpf c ON c.co_id = b.co_id
+	WHERE (c.event_name ='".mysql_real_escape_string($_GET['shortname'])."')
+	ORDER BY arrival_time desc limit 1";
+	 
+	 }else{
+	 */
 	$q_end_date="SELECT arrival_time from arrival_rate a
-	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
 	ORDER BY arrival_time desc limit 1";
 	$res = $global['db']->Execute($q_end_date);
 	$row = $res->FetchRow();
 	$end_date= $row[0];
 	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+  //}
+ 
+	
+			$q="SELECT arrival_time as source_date, source_all AS count_source_date
+			FROM `arrival_rate` a
+			join incident b ON a.incident_id= b.incident_id
+			WHERE (b.shortname = '".mysql_real_escape_string($_GET['shortname'])."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
 
-	$q="SELECT arrival_time as source_date, source_all AS count_source_date
-	FROM `arrival_rate` a
-	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
+			$q1="SELECT arrival_time as source_date1, source_triagepic AS count_source_date1
+			FROM `arrival_rate` a
+			join incident b ON a.incident_id= b.incident_id
+			WHERE (b.shortname = '".mysql_real_escape_string($_GET['shortname'])."')  group by arrival_time  ORDER BY  arrival_time";
 
-	$q1="SELECT arrival_time as source_date1, source_triagepic AS count_source_date1
-	FROM `arrival_rate` a
-	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname = '". $shortname ."')  group by arrival_time  ORDER BY  arrival_time";
+			$q2="SELECT arrival_time as source_date2, source_reunite AS count_source_date2
+			FROM `arrival_rate` a
+			join incident b ON a.incident_id= b.incident_id
+			WHERE (b.shortname = '".mysql_real_escape_string($_GET['shortname'])."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
 
-	$q2="SELECT arrival_time as source_date2, source_reunite AS count_source_date2
-	FROM `arrival_rate` a
-	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
+			$q3="SELECT arrival_time as source_date3, source_website AS count_source_date3
+			FROM `arrival_rate` a
+			join incident b ON a.incident_id= b.incident_id
+			WHERE (b.shortname = '".mysql_real_escape_string($_GET['shortname'])."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
 
-	$q3="SELECT arrival_time as source_date3, source_website AS count_source_date3
-	FROM `arrival_rate` a
-	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
+			$q4="SELECT arrival_time as source_date4, source_pfif AS count_source_date4
+			FROM `arrival_rate` a
+			join incident b ON a.incident_id= b.incident_id
+			WHERE (b.shortname = '".mysql_real_escape_string($_GET['shortname'])."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
 
-	$q4="SELECT arrival_time as source_date4, source_pfif AS count_source_date4
-	FROM `arrival_rate` a
-	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
-
-	$q5="SELECT arrival_time as source_date5, source_vanilla_email AS count_source_date5
-	FROM `arrival_rate` a
-	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
-
+			$q5="SELECT arrival_time as source_date5, source_vanilla_email AS count_source_date5
+			FROM `arrival_rate` a
+			join incident b ON a.incident_id= b.incident_id
+			WHERE (b.shortname = '".mysql_real_escape_string($_GET['shortname'])."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
+		//}
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 	$res1 = $global['db']->Execute($q1);
@@ -2302,6 +3256,8 @@ function shn_stat_cummulative_arrival() {
 		}
 	while($row5 = $res5->FetchRow());
 
+	
+	
 	?>
 	<div id="container" style="width: 100%; height: 100%;">
 
@@ -2597,7 +3553,7 @@ function shn_stat_stacked_cummulative_arrival() {
 
 	//start and end date
 	$q_start_date="SELECT arrival_time from arrival_rate a
-	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
 	ORDER BY arrival_time asc limit 1";
 	$res = $global['db']->Execute($q_start_date);
 	$row = $res->FetchRow();
@@ -2605,7 +3561,7 @@ function shn_stat_stacked_cummulative_arrival() {
 	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
 	//for end date for all sources
 	$q_end_date="SELECT arrival_time from arrival_rate a
-	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
 	ORDER BY arrival_time desc limit 1";
 	$res = $global['db']->Execute($q_end_date);
 	$row = $res->FetchRow();
@@ -2620,27 +3576,27 @@ function shn_stat_stacked_cummulative_arrival() {
 	$q1="SELECT arrival_time as source_date1, source_triagepic AS count_source_date1
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
+	WHERE (b.shortname = '".mysql_real_escape_string($_GET['shortname'])."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
 
 	$q2="SELECT arrival_time as source_date2, source_reunite AS count_source_date2
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
+	WHERE (b.shortname = '".mysql_real_escape_string($_GET['shortname'])."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
 
 	$q3="SELECT arrival_time as source_date3, source_website AS count_source_date3
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
+	WHERE (b.shortname = '".mysql_real_escape_string($_GET['shortname'])."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
 
 	$q4="SELECT arrival_time as source_date4, source_pfif AS count_source_date4
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
+	WHERE (b.shortname = '".mysql_real_escape_string($_GET['shortname'])."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
 
 	$q5="SELECT arrival_time as source_date5, source_vanilla_email AS count_source_date5
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
-	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
+	WHERE (b.shortname = '".mysql_real_escape_string($_GET['shortname'])."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
 
 	//$res = $global['db']->Execute($q);
 	//$row = $res->FetchRow();
@@ -3028,6 +3984,10 @@ function shn_stat_demographic() {
 	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 
 	//shn_stat_menu();
+    //shn_stat_screen_detection();
+	
+	//echo "width: " .$width;
+	//echo " height: " .$height;
 
 	$q = "
 		SELECT *
@@ -3053,7 +4013,7 @@ function shn_stat_demographic() {
 
 	//start and end date
 	$q_start_date="SELECT arrival_time from arrival_rate a
-	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
 	ORDER BY arrival_time asc limit 1";
 	$res = $global['db']->Execute($q_start_date);
 	$row = $res->FetchRow();
@@ -3061,7 +4021,7 @@ function shn_stat_demographic() {
 	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
 	//for end date for all sources
 	$q_end_date="SELECT arrival_time from arrival_rate a
-	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
 	ORDER BY arrival_time desc limit 1";
 	$res = $global['db']->Execute($q_end_date);
 	$row = $res->FetchRow();
@@ -3081,7 +4041,7 @@ function shn_stat_demographic() {
 	LEFT JOIN field_options g ON f.option_code = g.option_code
 	JOIN person_uuid p ON p.p_uuid= s.p_uuid
 	JOIN incident i ON i.incident_id = p.incident_id
-	WHERE i.shortname = '".$shortname."'
+	WHERE i.shortname = '".mysql_real_escape_string($_GET['shortname'])."'
 	AND g.field_name = 'opt_status_color'
 	GROUP BY opt_status ";
 
@@ -3118,7 +4078,7 @@ function shn_stat_demographic() {
 	JOIN field_options d ON a.opt_gender = d.option_code
 	JOIN person_uuid b ON a.p_uuid = b.p_uuid
 	JOIN incident c ON c.incident_id = b.incident_id
-	WHERE c.shortname = '".$shortname."'
+	WHERE c.shortname = '".mysql_real_escape_string($_GET['shortname'])."'
 	GROUP BY option_description";
 	//using view gender_count
 	//$q_g="SELECT opt_gender, count_opt_gender where incident_id = '".$shortname."'";
@@ -3146,12 +4106,12 @@ function shn_stat_demographic() {
 	$q_a="SELECT 'pediatrics' as opt_age, count(years_old) as count_opt_age FROM `person_details` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
-	where (c.shortname = '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 1 and a.years_old <= 17))
+	where (c.shortname = '".mysql_real_escape_string($_GET['shortname'])."' and (a.years_old IS NOT NULL and a.years_old >= 1 and a.years_old <= 17))
 	UNION
 	SELECT 'adult' as opt_age, count(years_old) as count_opt_age FROM `person_details` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
-	where (c.shortname = '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 18))";
+	where (c.shortname = '".mysql_real_escape_string($_GET['shortname'])."' and (a.years_old IS NOT NULL and a.years_old >= 18))";
 	//using view 'age_group_age'
 	//$q_a="select opt_age, count_opt_age from age_group_count where incident_id = '".$shortname."'";
 
@@ -3177,7 +4137,7 @@ function shn_stat_demographic() {
 	$q_tp="SELECT distinct (triage_category) as opt_category, count(triage_category) as count_optcategory FROM `edxl_co_lpf` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
-	where c.shortname = '".$shortname."'
+	where c.shortname = '".mysql_real_escape_string($_GET['shortname'])."'
 	group by a.triage_category
 	order by a.triage_category";
 
@@ -3459,7 +4419,7 @@ function shn_stat_demographic() {
 		echo "dataLabels: {\n";
 			echo "enabled: true\n";
 		echo "}\n";
-        echo "}],\n" ;
+        echo "}]\n" ;
 
 		/*hide labels
 		//add labels for each pie charts
@@ -3517,9 +4477,37 @@ function shn_stat_demographic() {
 			//end if
 			echo "]}\n" ;
           end labels */
-   echo "});\n" ;
+		  
    
-
+   echo "});\n" ;
+   //for text label
+   /*
+   echo "
+   function(chart) {
+        
+        //var point = chart.series[0].data_gender[1];
+        var point = 260;
+        var text = chart.renderer.text(
+                'Testing1',
+                point.plotX + chart.plotLeft + 10,
+                point.plotY + chart.plotTop - 10
+            ).attr({
+                zIndex: 445
+            }).add();
+        
+        var box = text.getBBox();
+        chart.renderer.rect(box.x - 5, box.y - 5, box.width + 10, box.height + 10, 5)
+            .attr({
+                fill: '#FFFFEF',
+                stroke: 'gray',
+                'stroke-width': 1,
+                zIndex: 444
+            })
+            .add();
+        
+    });
+	";
+*/
 echo "});\n" ;
 
 
@@ -3568,7 +4556,7 @@ function shn_stat_arrival() {
 
 	//for starting date for all sources
 	$q_start_date="SELECT arrival_time from arrival_rate a
-	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
 	ORDER BY arrival_time asc limit 1";
 	$res = $global['db']->Execute($q_start_date);
 	$row = $res->FetchRow();
@@ -3576,7 +4564,7 @@ function shn_stat_arrival() {
 	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
 	//for end date for all sources
 	$q_end_date="SELECT arrival_time from arrival_rate a
-	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
 	ORDER BY arrival_time desc limit 1";
 	$res = $global['db']->Execute($q_end_date);
 	$row = $res->FetchRow();
@@ -3584,53 +4572,53 @@ function shn_stat_arrival() {
 	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
 
 	$q="SELECT (arrival_time) as source_date, count(*) as count_source_date from arrival_rate a
-	where ((source_all >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_all >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time)";
 
 	$q1="SELECT (arrival_time) as source_date1, count(*) as count_source_date1 from arrival_rate a
-	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time)";
 
 	$q2="SELECT (arrival_time) as source_date2, count(*) as count_source_date2 from arrival_rate a
-	where ((source_reunite >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_reunite >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time)";
 
 	$q3="SELECT (arrival_time) as source_date3, count(*) as count_source_date3 from arrival_rate a
-	where ((source_website >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_website >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time)";
 
 	$q4="SELECT (arrival_time) as source_date4, count(*) as count_source_date4 from arrival_rate a
-	where ((source_pfif >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_pfif >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time)";
 
 	$q5="SELECT (arrival_time) as source_date5, count(*) as count_source_date5 from arrival_rate a
-	where ((source_vanilla_email >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_vanilla_email >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time)";
 
 	if ($shortname=='shield2012' or $shortname=='testind' or $shortname=='testindmon' or $shortname=='testindtues' or $shortname=='testindwed' or $shortname=='testindthur'){
 
 	$q="SELECT (arrival_time) as source_date, count(*) as count_source_date from arrival_rate a
-	where ((source_all >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_all >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time), hour(arrival_time)";
 
 	$q1="SELECT (arrival_time) as source_date1, count(*) as count_source_date1 from arrival_rate a
-	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time),hour(arrival_time)";
 
 	$q2="SELECT (arrival_time) as source_date2, count(*) as count_source_date2 from arrival_rate a
-	where ((source_reunite >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_reunite >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time),hour(arrival_time)";
 
 	$q3="SELECT (arrival_time) as source_date3, count(*) as count_source_date3 from arrival_rate a
-	where ((source_website >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_website >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time),hour(arrival_time)";
 
 	$q4="SELECT (arrival_time) as source_date4, count(*) as count_source_date4 from arrival_rate a
-	where ((source_pfif >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_pfif >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time),hour(arrival_time)";
 
 	$q5="SELECT (arrival_time) as source_date5, count(*) as count_source_date5 from arrival_rate a
-	where ((source_vanilla_email >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_vanilla_email >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time),hour(arrival_time)";
 	}
 
@@ -4018,7 +5006,7 @@ function shn_stat_test_select() {
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (
-	 b.shortname like '". $shortname ."'
+	 b.shortname ='".mysql_real_escape_string($_GET['shortname'])."'
 	 and a.source_triagepic=1
 	)
 	GROUP BY DATE( arrival_time )
@@ -4029,7 +5017,7 @@ function shn_stat_test_select() {
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (
-	 b.shortname like '". $shortname ."'
+	 b.shortname ='".mysql_real_escape_string($_GET['shortname'])."'
 	)
 	GROUP BY DATE( arrival_time )
 	ORDER BY DATE( arrival_time )";
@@ -4161,7 +5149,7 @@ function shn_stat_pie_test() {
 
 	//for starting date
 	$q_start_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
+	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	ORDER BY arrival_time asc limit 1";
 	$res = $global['db']->Execute($q_start_date);
 	$row = $res->FetchRow();
@@ -4173,7 +5161,7 @@ function shn_stat_pie_test() {
 	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
 	//for end date
 	$q_end_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
+	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	ORDER BY arrival_time desc limit 1";
 	$res = $global['db']->Execute($q_end_date);
 	$row = $res->FetchRow();
@@ -4192,7 +5180,7 @@ function shn_stat_pie_test() {
 	GROUP BY opt_status";
 	*/
 	//using status_count view
-	$q_s="SELECT opt_status, count_opt_status, color as colors FROM status_count where shortname = '".$shortname."'";
+	$q_s="SELECT opt_status, count_opt_status, color as colors FROM status_count where shortname = '".mysql_real_escape_string($_GET['shortname'])."'";
 
 	$res = $global['db']->Execute($q_s);
 	$row = $res->FetchRow();
@@ -4222,7 +5210,7 @@ function shn_stat_pie_test() {
 	JOIN field_options d ON a.opt_gender = d.option_code
 	JOIN person_uuid b ON a.p_uuid = b.p_uuid
 	JOIN incident c ON c.incident_id = b.incident_id
-	WHERE c.shortname = '".$shortname."'
+	WHERE c.shortname = '".mysql_real_escape_string($_GET['shortname'])."'
 	GROUP BY option_description";
 
 	//using view gender_count
@@ -4251,12 +5239,12 @@ function shn_stat_pie_test() {
 	$q_a="SELECT 'pediatrics' as opt_age, count(years_old) as count_opt_age FROM `person_details` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
-	where (c.shortname = '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 1 and a.years_old <= 17))
+	where (c.shortname = '".mysql_real_escape_string($_GET['shortname'])."' and (a.years_old IS NOT NULL and a.years_old >= 1 and a.years_old <= 17))
 	UNION
 	SELECT 'adult' as opt_age, count(years_old) as count_opt_age FROM `person_details` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
-	where (c.shortname = '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 18))";
+	where (c.shortname = '".mysql_real_escape_string($_GET['shortname'])."' and (a.years_old IS NOT NULL and a.years_old >= 18))";
 
 	//using view 'age_group_age'
 	//$q_a="select opt_age, count_opt_age from age_group_count where shortname = '".$shortname."'";
@@ -4290,7 +5278,7 @@ function shn_stat_pie_test() {
 	*/
 
 	//using view 'tp_zonecolor_count'
-	$q_tp="SELECT opt_category, count_optcategory FROM `tp_zonecolor` where shortname = '".$shortname."'";
+	$q_tp="SELECT opt_category, count_optcategory FROM `tp_zonecolor` where shortname = '".mysql_real_escape_string($_GET['shortname'])."'";
 
 	$res = $global['db']->Execute($q_tp);
 	$row = $res->FetchRow();
@@ -4696,7 +5684,7 @@ function shn_stat_arrival_regular_interval() {
 
 	//for starting date for all sources
 	$q_start_date="SELECT arrival_time from arrival_rate a
-	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
 	ORDER BY arrival_time asc limit 1";
 	$res = $global['db']->Execute($q_start_date);
 	$row = $res->FetchRow();
@@ -4704,7 +5692,7 @@ function shn_stat_arrival_regular_interval() {
 	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
 	//for end date for all sources
 	$q_end_date="SELECT arrival_time from arrival_rate a
-	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
 	ORDER BY arrival_time desc limit 1";
 	$res = $global['db']->Execute($q_end_date);
 	$row = $res->FetchRow();
@@ -4732,27 +5720,27 @@ function shn_stat_arrival_regular_interval() {
 	*/
 
 	$q="SELECT (arrival_time) as source_date, count(*) as count_source_date from arrival_rate a
-	where ((source_all >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_all >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time)";
 
 	$q1="SELECT (arrival_time) as source_date1, count(*) as count_source_date1 from arrival_rate a
-	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time)";
 
 	$q2="SELECT (arrival_time) as source_date2, count(*) as count_source_date2 from arrival_rate a
-	where ((source_reunite >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_reunite >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time)";
 
 	$q3="SELECT (arrival_time) as source_date3, count(*) as count_source_date3 from arrival_rate a
-	where ((source_website >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_website >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time)";
 
 	$q4="SELECT (arrival_time) as source_date4, count(*) as count_source_date4 from arrival_rate a
-	where ((source_pfif >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_pfif >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time)";
 
 	$q5="SELECT (arrival_time) as source_date5, count(*) as count_source_date5 from arrival_rate a
-	where ((source_vanilla_email >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	where ((source_vanilla_email >= 1) and (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."')))
 	GROUP by date(arrival_time)";
 
 	$res = $global['db']->Execute($q);
@@ -5089,7 +6077,7 @@ global $global;
 
 	//start and end date
 	$q_start_date="SELECT arrival_time from arrival_rate a
-	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
 	ORDER BY arrival_time asc limit 1";
 	$res = $global['db']->Execute($q_start_date);
 	$row = $res->FetchRow();
@@ -5097,7 +6085,7 @@ global $global;
 	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
 	//for end date for all sources
 	$q_end_date="SELECT arrival_time from arrival_rate a
-	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	where (incident_id in (select incident_id from incident where shortname = '".mysql_real_escape_string($_GET['shortname'])."'))
 	ORDER BY arrival_time desc limit 1";
 	$res = $global['db']->Execute($q_end_date);
 	$row = $res->FetchRow();
@@ -5118,7 +6106,7 @@ global $global;
 	LEFT JOIN field_options g ON f.option_code = g.option_code
 	JOIN person_uuid p ON p.p_uuid= s.p_uuid
 	JOIN incident i ON i.incident_id = p.incident_id
-	WHERE i.shortname = '".$shortname."'
+	WHERE i.shortname = '".mysql_real_escape_string($_GET['shortname'])."'
 	AND g.field_name = 'opt_status_color'
 	GROUP BY opt_status"; 
 
@@ -5160,7 +6148,7 @@ global $global;
 	JOIN field_options d ON a.opt_gender = d.option_code
 	JOIN person_uuid b ON a.p_uuid = b.p_uuid
 	JOIN incident c ON c.incident_id = b.incident_id
-	WHERE c.shortname = '".$shortname."'
+	WHERE c.shortname = '".mysql_real_escape_string($_GET['shortname'])."'
 	GROUP BY option_description";
 	//using view gender_count
 	//$q_g="SELECT opt_gender, count_opt_gender where incident_id = '".$shortname."'";
@@ -5188,12 +6176,12 @@ global $global;
 	$q_a="SELECT 'pediatrics' as opt_age, count(years_old) as count_opt_age FROM `person_details` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
-	where (c.shortname = '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 1 and a.years_old <= 17))
+	where (c.shortname = '".mysql_real_escape_string($_GET['shortname'])."' and (a.years_old IS NOT NULL and a.years_old >= 1 and a.years_old <= 17))
 	UNION
 	SELECT 'adult' as opt_age, count(years_old) as count_opt_age FROM `person_details` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
-	where (c.shortname = '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 18))";
+	where (c.shortname = '".mysql_real_escape_string($_GET['shortname'])."' and (a.years_old IS NOT NULL and a.years_old >= 18))";
 	//using view 'age_group_age'
 	//$q_a="select opt_age, count_opt_age from age_group_count where incident_id = '".$shortname."'";
 
@@ -5219,7 +6207,7 @@ global $global;
 	$q_tp="SELECT distinct (triage_category) as opt_category, count(triage_category) as count_optcategory FROM `edxl_co_lpf` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
-	where c.shortname = '".$shortname."'
+	where c.shortname = '".mysql_real_escape_string($_GET['shortname'])."'
 	group by a.triage_category
 	order by a.triage_category";
 
@@ -5494,14 +6482,284 @@ echo "});\n" ;
 echo "</script>\n" ;
 //echo "Test area ";
 }
+/*************************
+Img stats
+**************************/
+function shn_stat_image() {
+
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+
+	
+	//shn_stat_menu();
+
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+	
+	
+	echo '
+		<script src="res/js/sorttable.js"></script>
+		';
+	//path to directory to scan
+	//$directory = "../../www/res/img/";
+    $directory = "../mod/stat/pl_images/";
+	//echo getcwd() . "\n";
+	//get all image files with a .jpg extension.
+	//$images = glob($directory . "*.jpg");
+	$images = glob($directory . "{*.jpeg,*.gif,*.png}", GLOB_BRACE);
+    $arr_listImages=array();
+	$arr_filesz=array();
+    foreach($images as $image){
+        $listImages=$image;
+		
+		if($listImages != null){
+		
+			if (is_readable($listImages)) {
+				$file_sz=filesize($listImages);
+			}
+			$res =substr_compare($listImages, "jpeg", -4, 4);
+			$res1 =substr_compare($listImages, "png", -3, 3);
+			//echo $res;
+			if ($res==0){
+			$listImages=substr($listImages, -15);
+			}
+			if($res1==0){
+			$listImages=substr($listImages, -14);
+			}
+		
+		}
+		//echo $listImages;
+		//echo ": ";
+		//echo $file_sz;
+		//echo " bytes";
+		//echo '</br>';
+		
+		$arr_listImages[]=$listImages;
+		$arr_filesz[]=$file_sz;
+		}
+		//print_r("images names: \n");
+		//print_r($arr_listImages);
+		//print_r("file size: \n");
+		//print_r($arr_filesz);
+		
+		//$arr_listImages[] = $listImages;
+		//array_push($arr_listImages, $listImages);
+		//$arr_filesz[] = $file_sz;		
+		//array_push($arr_filesz, $file_sz);
+		//}
+		//echo "listImages array:\n";
+		//echo $listImages;
+		//echo "\n file_sz array:\n";
+		//echo $file_sz;
+		//$json_filename = array();
+		//$json_filesz = array();
+	//do{
+		//$json_filename[] = $listImages;
+		//array_push($json_filename, $listImages);
+		//$json_filesz[] = $file_sz;		
+		//array_push($json_filesz, $file_sz);
+		//}
+	//while($listImages!==NULL);
+	//}
+			
+    //$json_filename = implode("','",$json_filename);
+	//$json_filesz = implode(",", $json_filesz);
+	?>
+	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
+	<?php
+	$arr_listImages = implode("','",$arr_listImages);
+	$arr_filesz = implode(",", $arr_filesz);
+    
+	//echo "\n";
+	//print_r($arr_listImages);
+	//echo "\n";
+	//print_r($arr_filesz);
+	
+	//echo json_encode($arr_listImages);
+	//echo "\n";
+	//echo json_encode($arr_filesz);
+    //}
+	
+	echo "\n";
+	echo "<script type=\"text/javascript\"> \n" ;
+	
+		
+		
+		
+		echo "var sz = $arr_filesz\n" ;
+		echo "name =  $arr_listImages\n" ;
+		echo "i, data = [], chart;\n" ;
+		//echo "for(i=0; i<sz.length; i++) {\n" ;
+			//echo "data.push([name[i], sz[i]])\n" ;
+			//echo"}\n";
+			
+	    	
+		
+	echo "\$(document).ready(function() {\n";
+	echo "var chart = new Highcharts.Chart({\n" ;
+	
+    echo "chart: {\n" ;
+        echo "renderTo: 'container',\n" ;
+        echo "defaultSeriesType: 'column'\n" ;
+			echo "},\n" ;
+	
+		echo "title: {\n" ;
+		 echo "style: {\n";
+				echo "color: 'Blue',\n";
+				echo "fontSize: '28px',\n";
+				echo "fontWeight: 'bold'\n";
+				echo "},\n";
+		 echo "margin: 45,\n";
+         echo "text: 'Image Stats $description'\n" ;
+      echo "},\n" ;
+	  echo "subtitle: {\n" ;
+		 echo "style: {\n";
+				echo "color: 'Blue',\n";
+				echo "fontSize: '20px',\n";
+				echo "fontWeight: 'bold'\n";
+				echo "},\n";
+		echo "margin: 45,\n";
+		echo "y: 50,\n";
+		 //if ($startdate_has_data=true){
+         //echo "text: 'First Reported: $start_date, Last Reported: $end_date. This page refreshes every 120 seconds'\n" ;
+		 echo "text: 'Image Stats'\n" ;
+		 echo "},\n";
+      
+    echo "xAxis: {\n" ;
+        echo "title: {\n" ;
+            echo "text: 'Status'\n" ;
+         echo "},\n" ;
+		echo "categories: ['". $arr_listImages;
+			echo "']\n";
+         
+     echo "},\n" ;
+    echo "yAxis: {\n" ;
+		echo "allowDecimals: false,\n";
+
+		echo "stackLabels: {\n";
+            echo "enabled: true,\n";
+            echo "style: {\n";
+               echo "fontWeight: 'bold',\n";
+               echo "color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'\n";
+            echo "}\n";
+         echo "},\n";
+		echo "title: {\n" ;
+            echo "text: 'File Size'\n" ;
+			echo "}\n" ;
+		echo "},\n" ;
+	
+	  echo "
+		  tooltip: {
+	shared: true
+	},
+	legend: {
+	column: {
+	align: 'right',
+	backgroundColor: '#FCFFC5',
+	enabled: true
+	}
+	},
+	\n";
+    echo "plotOptions: {\n" ;
+	    echo "pointPadding: 0,\n";
+        echo "column: {
+            stacking: 'normal',
+            dataLabels: {
+               enabled: true,
+			   color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'black'
+            }
+         	}	 
+           },\n" ;
+    echo "series: [{\n" ;
+		//echo "name: '". $shortname;
+		//echo "'";
+		//echo ",\n";
+		echo "data: [". $arr_filesz;
+		 echo "]";
+      	    echo "\n}]\n" ;
+echo "});\n";
+echo "});\n";
+
+/*
+echo "
+chart: {
+            renderTo: 'container',
+            defaultSeriesType: 'column'
+        },
+        title: {
+            text: 'Statistics'
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            categories: ['green','black', 'purple', 'blue', 'yellow'],
+            labels: {
+                rotation: 0, align: 'center',
+                style: {
+                    color: '#6D869F',
+                    fontWeight: 'bold'
+                }
+            }
+        },
+        yAxis: {
+            min: 0,
+            title: {
+                text: 'count'
+            }
+        },
+        legend: {
+            layout: 'vertical',
+            backgroundColor: '#FFFFFF',
+            align: 'left',
+            verticalAlign: 'top',
+            x: 0,
+            y: 50
+        },
+        plotOptions: {
+            column: {
+                pointPadding: 0.2,
+                borderWidth: 0,
+                events: {
+                    show: function() {
+                        var chart = this.chart,
+                            series = chart.series,
+                            i = series.length,
+                            otherSeries;
+    
+                        while(i--) {
+                            otherSeries = series[i];
+                            if (otherSeries != this && otherSeries.visible) {
+                                otherSeries.hide();
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        series: [{
+            name: 'series 1',
+            data: [846290,10864,69,710,406652]
+        }]
+    });
+});
+";
+*/
+}
 
 
-
-
-
-
-
-
+/***************************************/
 function shn_stat_transit() {
 
 	global $global;
