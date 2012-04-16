@@ -30,6 +30,7 @@ array_push($global['xajax_functions'],'em_perform_help');
 
 // adds a message to the log div @ tail
 function em_append_log($message = "no message specified?") {
+
 	global $global;
 	$global['xajax_res']->addAppend('rezLog','innerHTML',$message);
 	//---- scroll the log to the bottom
@@ -40,6 +41,7 @@ function em_append_log($message = "no message specified?") {
 
 // adds a message to the log div @ head
 function em_prepend_log($message = "no message specified?") {
+
 	global $global;
 	$global['xajax_res']->addPrepend('rezLog','innerHTML',$message);
 	return $global['xajax_res']->getXML();
@@ -48,6 +50,7 @@ function em_prepend_log($message = "no message specified?") {
 
 // shows a status message before another ajax function is executed
 function em_show_message($message = "no message specified?") {
+
 	global $global;
 	$global['xajax_res']->addAssign('rezMain','innerHTML','<div class="loadingMessage"><center><blink>'.$message.'</blink></center></div>');
 	return $global['xajax_res']->getXML();
@@ -57,6 +60,7 @@ function em_show_message($message = "no message specified?") {
 
 // reloads the mainArea div with information of what pages we have
 function em_show_events($internal = FALSE) {
+
 	global $conf;
 	global $global;
 	$htmlLog = "";
@@ -385,6 +389,7 @@ function em_show_events($internal = FALSE) {
 
 // shows help
 function em_perform_help() {
+
 	global $global;
 
 	// help content
@@ -469,6 +474,7 @@ function em_perform_help() {
 
 // find the root parent of the given event...if event is root event, return -1
 function em_find_root_parent($eventId) {
+
 	global $global;
 	$q = "
 		SELECT *
@@ -508,6 +514,7 @@ function em_find_root_parent($eventId) {
 
 // find if the event has any children
 function em_event_has_child($eventId) {
+
 	global $global;
 	$q = "
 		SELECT count(*)
@@ -529,6 +536,7 @@ function em_event_has_child($eventId) {
 
 // save all children visibilities and types
 function em_save_children($eventId, $group, $type) {
+
 	global $global;
 
 	// update all children
@@ -560,6 +568,7 @@ function em_save_children($eventId, $group, $type) {
 
 // saves the event attributes to the database
 function em_perform_save($page_id, $rj) {
+
 	global $global;
 	$useDerived = false;
 	$passOnGenes = false;
@@ -749,6 +758,7 @@ function em_perform_save($page_id, $rj) {
 
 // delete a page
 function em_perform_delete($incident_id, $confirm) {
+
 	global $global;
 	global $conf;
 
@@ -788,6 +798,9 @@ function em_perform_delete($incident_id, $confirm) {
 
 		// purge the incident of persons and related image data
 		$response = em_perform_purge_do($incident_id);
+
+		// master audit log the action
+		shn_acl_log_msg("Deleted the event named <b>".$name."</b> using Event Manager", $_SESSION['user_p_uuid'], $_SESSION['user_name'], "EVENT DELETE");
 
 		// delete the incident from the db
 		$q = "
@@ -856,6 +869,8 @@ function em_perform_purge($incident_id, $confirm) {
 		";
 		$p->sendMessage($conf['audit_email'], null, $subject, $bodyHTML, $bodyAlt);
 
+		// master audit log the action
+		shn_acl_log_msg("Purged the event named <b>".$name."</b> using Event Manager", $_SESSION['user_p_uuid'], $_SESSION['user_name'], "EVENT PURGE");
 
 		// purge the incident of persons and related image data
 		$response = em_perform_purge_do($incident_id);
@@ -945,6 +960,7 @@ function em_perform_purge_do($incident_id) {
 
 // create a new page with default content and return its new page_id
 function em_perform_new() {
+
 	global $global;
 	global $conf;
 
@@ -1007,6 +1023,8 @@ function em_perform_new() {
 	";
 	$p->sendMessage($conf['audit_email'], null, $subject, $bodyHTML, $bodyAlt);
 
+	shn_acl_log_msg("Created a new event using Event Manager", $_SESSION['user_p_uuid'], $_SESSION['user_name'], "EVENT CREATE");
+
 	return $newId;
 }
 
@@ -1014,6 +1032,7 @@ function em_perform_new() {
 
 // presents a gui to edit a page and its corresponding fields
 function em_perform_edit($incident_id) {
+
 	global $global;
 	global $conf;
 

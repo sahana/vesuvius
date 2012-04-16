@@ -412,10 +412,12 @@ function shn_validate_user_name($field){
  * @access public
  * @return bool
  */
-function shn_validate_password($user=null,$pwd) {
+function shn_validate_password($user = null, $pwd) {
+
 	global $global;
 	require_once ($global['approot'].'inc/lib_security/lib_acl.inc');
-	$result = shn_check_password_matches_policy($pwd,$user);
+
+	$result = shn_check_password_matches_policy($pwd, $user);
 	if($result !== true) {
 		add_error(shn_get_password_policy_message($result));
 		shn_acl_log_msg("Password Change error: password does not comply with the policy");

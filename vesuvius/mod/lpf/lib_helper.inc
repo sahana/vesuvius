@@ -361,3 +361,12 @@ function makeBaseUrlMinusEventForHome() {
 
 
 
+function getMicrotimeComponent() {
+	$z = microtime();
+	$z = explode(" ", $z);
+	$z = explode(".", $z[0]);
+	return $z[1];
+}
+
+
+

@@ -312,8 +312,8 @@ div#content h4 { font-size:14px; margin: 0 0 0.3em 0;margin-left:5px;}
 
 #result{ width:100%;}
 #result table { background:white; width:100%; }
-#result table thead td { text-align: center; padding:.25em .25em .25em .25em; background: #e7e7e7; color:#000; font-size: 100%; padding: 5px; border: 1px solid #c3cfff; }
-#result tr td { text-align:left; font-size: 90%; color:#000; background: #f7f7f7; padding: 5px 5px 5px 15px; border: 1px solid #c3cfff; border-top: 1px solid #fff;}
+#result table thead td { text-align: center; padding:.25em .25em .25em .25em; background: #e7e7e7; color: #000; font-size: 100%; padding: 5px; border: 1px solid #ccc; text-shadow: none; }
+#result tr td { text-align:left; font-size: 90%; color:#000; background: #f7f7f7; padding: 5px 5px 5px 15px; border: 1px solid #ccc; border-top: 1px solid #fff; border-radius: 0px;}
 #result tr:hover td { background:#eee; }
 #result tr.green td { background:#C3FFAD; }
 #result tr.yellow td { background:#FFF98F; }
