@@ -184,8 +184,7 @@ function showFacets() {
 			$("#" + facet + " > span").remove();
 			$("#" + facet).append($("<span></span>")
 						  .css("font-size", "8pt")
-						  .css("position", "absolute")
-						  .css("right", "30px")
+                                                  .css("float", "right")
 						  .css("margin-top", "5px")
 						  .css("font-weight", "bold")
 						  .html(Utils.addCommas(facets[facet])));
