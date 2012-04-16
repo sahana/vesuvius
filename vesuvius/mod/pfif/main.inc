@@ -192,10 +192,11 @@ function shn_pfif_status_code() {
       define('GREEN', 2);
    }
 
-   $export_out = "/opt/pl/www/tmp/pfif_logs/import.out";
-   $import_out = "/opt/pl/www/tmp/pfif_logs/import.out";
-   $import_err = "/opt/pl/www/tmp/pfif_logs/import.err";
-   $export_err = "/opt/pl/www/tmp/pfif_logs/export.err";
+   $log_dir = $global['approot']."www/tmp/pfif_logs/";
+   $export_out = $log_dir . "export.out";
+   $import_out = $log_dir . "import.out";
+   $import_err = $log_dir . "import.err";
+   $export_err = $log_dir . "export.err";
 
    // Check both output files to make sure they are getting updated.
    $lastImportOut = filemtime($import_out);
