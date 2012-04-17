@@ -1,6 +1,11 @@
 Changes since Vesuvius 0.9.2 was released (2012-04-12)
 ------------------------------------------------------
 
+2012:0417 Update
+----------------
+Greg: a few small cosmetic style changes related to tabs
+Greg: added a new module: feed which will be used for generating rss/atom feeds
+
 
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
 ------------------------------------------------------
