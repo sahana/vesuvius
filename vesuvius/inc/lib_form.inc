@@ -727,9 +727,9 @@ function shn_form_textarea($label, $name, $text_opts=null, $extra_opts = null) {
  */
 function shn_form_upload($label, $name, $extra_opts = null) {
 	global $shn_tabindex;
-	if ($extra_opts['public'] == true) {
+	if (isset($extra_opts['public'])) {
 		$class = 'class="public"';
-	} else if ($extra_opts['private'] == true) {
+	} else if (isset($extra_opts['private'])) {
 		$class = 'class="private"';
 	} else {
 		$class = "";

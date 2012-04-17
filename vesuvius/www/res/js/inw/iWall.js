@@ -17,7 +17,6 @@ Array.prototype.remove = function(from, to) {
 // called when user starts the application
 $(document).ready(function start() {
 	Globals.searchMode = $("#searchMode").val();
-	Globals.sortedBy = Globals.searchMode == "solr" ? "" : "updated";
 	Globals.isiPad = window.Touch != undefined;
 	window.onorientationchange = function() {
 		ScrollView.pause();
@@ -73,11 +72,6 @@ $(document).ready(function start() {
 function searchSubset(first) {
 	Globals.searchTerms = $.trim($("#searchBox").attr("value"));
 	Globals.searchTerms = Globals.searchTerms == "Enter a name..." || Globals.searchTerms == "All" ? "" : Globals.searchTerms;
-
-	if ( Globals.searchTerms.length < 2 && Globals.searchMode === "sql" ) {
-		alert("Please enter at least 2 characters of a name.");
-		return;
-	}
 
 	var missing   = $("#checkMissing")   .is(":checked"),
 		alive     = $("#checkAliveWell") .is(":checked"),
@@ -190,8 +184,7 @@ function showFacets() {
 			$("#" + facet + " > span").remove();
 			$("#" + facet).append($("<span></span>")
 						  .css("font-size", "8pt")
-						  .css("position", "absolute")
-						  .css("right", "30px")
+                                                  .css("float", "right")
 						  .css("margin-top", "5px")
 						  .css("font-weight", "bold")
 						  .html(Utils.addCommas(facets[facet])));
