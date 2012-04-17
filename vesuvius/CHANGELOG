@@ -5,6 +5,7 @@ Changes since Vesuvius 0.9.2 was released (2012-04-12)
 ----------------
 Greg: a few small cosmetic style changes related to tabs
 Greg: added a new module: feed which will be used for generating rss/atom feeds
+Lan: add TriagePic Zone Status on Arrivals
 
 
 Changes since Vesuvius 0.9.1 was released (2011-05-20)
