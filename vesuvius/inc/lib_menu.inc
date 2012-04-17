@@ -150,7 +150,7 @@ function shn_mainmenuopen($desc) {
 function shn_mainmenuclose() {
 	echo "
 		</ul>
-		</div> <!-- /modmenuwrap -->
+		</div> <!-- /menuwrap -->
 	";
 }
 

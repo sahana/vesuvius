@@ -10,6 +10,15 @@ Sophron: fixed bug https://jira.nlm.nih.gov:8443/browse/PL-353 :: https://bugs.l
 Greg: Changed Event Manager to not jump back to events list after a purge (recommended by Glenn and Leif)
 Greg: Changed Event Manager Purge button to greyed out/disabled after a purge to allow only one press
 Greg: Fixed the edit links and buttons for 2nd and 3rd level events (they were not displayed correctly)
+Leif: fix missing photo in details pane (PL-358)
+Leif: removed obsolete CSS references to modmenu*
+Leif: always use $approot/www/tmp for tmp directory
+Leif: removed 2 char requirement for SQL searches
+Leif: fix default search result order for SQL
+Leif: more section 508 fixes
+Leif: details panel formatting problems in IE8 (PL-360)
+Leif: facet counts over-write each other in Safari (PL-361)
+Leif: fixed undefined in lib_form.inc:shn_form_upload()
 
 
 Changes since Vesuvius 0.9.1 was released (2011-05-20)

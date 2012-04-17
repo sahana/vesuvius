@@ -11,14 +11,12 @@
  */
 
 
-div#modmenuwrap h2 { color: #FFF; padding: 6px 0 7px 15px; background: url(img/blueBack.jpg) #34689a repeat-x top; margin:0; font-size: 12px; font-weight: normal; }
-
 #blueBack { height: 20px; }
 #locale, #disaster_selekta { vertical-align: middle; }
 #disaster_selekta { padding-bottom: 25px; }
 #eventLabel { position: relative; top: -3px; }
 
-div#menuwrap ul li.currentMainMenuItem a, .currentModMenuItem {
+div#menuwrap ul li.currentMainMenuItem a {
 	background-color: #e6eef9;
 }
 

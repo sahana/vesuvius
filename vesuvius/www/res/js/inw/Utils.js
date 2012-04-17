@@ -281,7 +281,7 @@ var Utils = {
 			Globals.mostRecent = Globals.lastUpdated; // saving for later
 			Globals.lastUpdated = lastUpdated;
 			if ( Globals.displayMode ) {
-                                $("#lastChange").html(lastUpdated + " UTC");
+                                $("#lastChange").html(lastUpdated.toString("yyyy-MM-dd HH:mm") + " UTC");
                         } else {
 				$("#updateAlerts2").fadeIn("slow");
 			}
@@ -355,14 +355,14 @@ var Utils = {
 
 	printDetail : function() {
 		$("#loadingX").show();
-		$("#pager, #pager2, #perPageWrapper, #printLink, #scrolling_content, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap, #disaster_selekta").hide();
+		$("#pager, #pager2, #perPageWrapper, #printLink, #scrolling_content, #header, #footer, #menu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap, #disaster_selekta").hide();
 
 		$("#printSheet").attr("href", "res/iWall_printIndividual.css");
 		setTimeout(function() {
 			window.print();
 
 		$("#loadingX").hide();
-		$("#pager, #pager2, #perPageWrapper, #printLink, #scrolling_content, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap, #disaster_selekta").show();
+		$("#pager, #pager2, #perPageWrapper, #printLink, #scrolling_content, #header, #footer, #menu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap, #disaster_selekta").show();
 		}, 1000)
 
 

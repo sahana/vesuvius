@@ -267,27 +267,6 @@ div#menuwrap ul li.currentMainMenuItem a {
 
 div#menuwrap li.admin a {}
 
-div#modmenuwrap {
-	top: 172px;
-	right: 0px;
-	z-index: 6;
-	padding: 0px 0px 20px 0px;
-}
-div#modmenuwrap h2 { display: none; }
-div#modmenuwrap ul { margin: 0px; padding: 3px 0px 20px 0px; list-style-type: none; width: 100%; }
-div#modmenuwrap li { margin: 0px; padding: 0px; line-height: 15px; font-size: 12px; }
-div#modmenuwrap ul li a { display: block; padding: 0px 10px 0px 10px; text-align: right; line-height: 20px; }
-div#modmenuwrap ul ul { border-top: 1px solid #ddf;}
-div#modmenuwrap ul ul li a { display: block; padding: 0px 10px 0px 0px; text-align: right; font-size: 10px; line-height: 12px; }
-div#modmenuwrap ul ul li a:link,
-div#modmenuwrap ul ul li a:visited {}
-div#modmenuwrap ul ul li a:hover {}
-.currentModMenuItem { font-weight: bold; background-color: rgba(130,169,224,0.2);
-	border-radius: 20px;
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
-}
-
 div#loginform {
 	margin: 	0px 10px;
 	position:	absolute;

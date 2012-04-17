@@ -41,13 +41,13 @@ function shn_inw_default() {
 	?>
 		<link rel="stylesheet" type="text/css" href="res/iWall.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="res/iWall_print.css" media="print" id="printSheet" />
-		<!--[if IE]>
-			<style type="text/css">
-				.ieStubBorder {
-					border-width: 1px !important;
-				}
-			</style>
-		<![endif]-->
+                <!--[if IE]>
+                        <style type="text/css">
+                                .ieStubBorder {
+                                        border-width: 1px !important;
+                                }
+                        </style>
+                <![endif]-->
 			<noscript>Your browser does not support JavaScript! You will need to enable it or use a modern browser before searching.</noscript>
 			<input type="text" id="jsonHolder" style="display:none" />
 			<input type="text" id="jsonNotes" style="display:none" />
@@ -59,7 +59,7 @@ function shn_inw_default() {
 				<div style="float:left;">
 					<div id="sortBy" style="float:right;margin-right: 4px;width:160px; text-align: right;">
 					<b>Sort By</b>
-						<img id="sortOrderIcon" style="width:10px; height:10px; <?= $conf["enable_solr_for_search"] ? "display: none" : "" ?>" src="res/img/desc.png" title="Descending (click for ascending)"/>
+						<img id="sortOrderIcon" style="width:10px; height:10px; <?= $conf["enable_solr_for_search"] ? "display: none" : "" ?>" src="res/img/desc.png" title="Descending (click for ascending)" alt="descending sort order, click for ascending"/>
 						<select id="selectSort" onchange="Utils.sortBy( this )">
 							<? if ( $conf["enable_solr_for_search"] ) { ?>
 								<option value="">Relevance</option>
@@ -162,7 +162,7 @@ function shn_inw_default() {
 			</form>
 			<br />
 		<div id="perPageWrapper" style="display:none;float:right; margin-right:15px;">
-			Results Per Page -
+			<label for="perPage">Results Per Page -</label>
 			<select id="perPage" onchange="Globals.currPage = 1; Globals.perPage = this.value; searchSubset()">
 				<option value="25">25</option>
 				<option value="50">50</option>
@@ -187,7 +187,7 @@ function shn_inw_default() {
 			<div id="dt_print" onclick="Utils.printDetail();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Print</a></div>
 			<div id="dt_notesTab" onclick="Utils.showNotes();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Notes</a></div>
 			<!--div id="showMap" onclick="Utils.showMap();"><a href="#" style="color:#6694E3; text-decoration: underline">Map</a></div-->
-			<div id="dt_image" >
+			<div id="dt_image">
 				<!--span id="caption">caption here</span-->
 			</div>
 
