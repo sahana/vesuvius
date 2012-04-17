@@ -24,3 +24,5 @@ div#menuwrap ul li.currentMainMenuItem a {
 div#footer { color: #000; }
 
 div.form-container form fieldset { background-color: #eee; border: none; }
+
+.message { background-color: #fff; position: absolute; top: 0px; left: 0px; border: 2px solid red; }
