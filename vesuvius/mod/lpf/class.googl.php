@@ -32,7 +32,7 @@ class goo_gl{
 		curl_close($curl);
 		if($saida){
 			$json = json_decode($saida);
-			$this->resul = $json->short_url;
+			$this->resul = isset($json->short_url) ? $json->short_url : null;
 		}
 	}
 
