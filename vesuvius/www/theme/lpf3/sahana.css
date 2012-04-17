@@ -429,7 +429,6 @@ div#content ul#tabmenu li a:hover {
 }
 div#content ul#tabmenu li#active a {
 	background-color: #FFF;
-	color:#C00;
 	border: 1px solid #e5eaef;
 	border-bottom: none;
 	font-weight: bolder;
