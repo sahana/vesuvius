@@ -71,7 +71,6 @@ function inw_getAllCount($incident) {
 
 		while (!$result == NULL && !$result->EOF) {
 			$allCount = $result->fields[0];
-			mysql_free_result($result);
 			break;
 		}
 

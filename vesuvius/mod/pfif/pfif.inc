@@ -862,16 +862,16 @@ class Pfif {
       //person_details table
       $insert_array['p_uuid'] = $person->person_record_id;
       $age_info = shn_map_age_from_pfif($person->date_of_birth, $person->age, $person->source_date);
-      if (!empty($age_info['date_of_birth'])) {
+      if (array_key_exists('date_of_birth', $age_info) && !empty($age_info['date_of_birth'])) {
          $insert_array['birth_date'] = $age_info['date_of_birth'];
       }
-      if (is_numeric($age_info['years_old'])) {
+      if (array_key_exists('years_old', $age_info) && is_numeric($age_info['years_old'])) {
          $insert_array['years_old'] = $age_info['years_old'];
       } else {
-         if (is_numeric($age_info['minAge'])) {
+         if (array_key_exists('minAge', $age_info) && is_numeric($age_info['minAge'])) {
             $insert_array['minAge'] = $age_info['minAge'];
          }
-         if (is_numeric($age_info['maxAge'])) {
+         if (array_key_exists('maxAge', $age_info) && is_numeric($age_info['maxAge'])) {
             $insert_array['maxAge'] = $age_info['maxAge'];
          }
       }
