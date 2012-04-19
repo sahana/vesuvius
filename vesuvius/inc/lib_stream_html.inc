@@ -1,29 +1,29 @@
 <?
 /**
  * @name         HTML Stream Library
- * @version      1.0
+ * @version      10
  * @package      framework
- * @author       Chamindra de Silva <chamindra@opensource.lk>
- * @author       Janaka Wickramasinghe <janaka@opensource.lk>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0308
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2012.0222
  */
 
 
-require_once ($global['approot'].'inc/lib_menu.inc');
+require_once($global['approot'].'inc/lib_menu.inc');
 
 function shn_stream_init() {
+
 	global $global;
 	global $conf;
-	require_once ($global['approot'].'inc/lib_security/lib_acl.inc');
+
+	require_once($global['approot'].'inc/lib_security/lib_acl.inc');
 	$module = $global['module'];
 
 	// include the html head tags
-	shn_include_page_section('html_head',$module);
+	shn_include_page_section('html_head', $module);
 
 	// Start the body and the CSS container element
 	if(isset($_SESSION['admin']['locale']['enable']) && $_SESSION['admin']['locale']['enable']=="set") {
@@ -34,7 +34,7 @@ function shn_stream_init() {
 	echo "<div id=\"container\">";
 
 	// include the page header provided there is not a module override
-	shn_include_page_section('header',$module);
+	shn_include_page_section('header', $module);
 
 	// Now include the wrapper for the main content
 	echo "<div id=\"wrapper\" class=\"clearfix\">";
@@ -61,6 +61,7 @@ function shn_stream_init() {
 
 
 function shn_stream_close() {
+
 	global $conf;
 	global $global;
 
@@ -93,9 +94,9 @@ function shn_stream_close() {
 
 	// display the errors first before the rest of the module output
 	display_errors();
-	display_submit_message('confirmation','&nbsp;');
-	display_submit_message('warning','Warning');
-	display_submit_message('information','Information');
+	display_submit_message('confirmation', '&nbsp;');
+	display_submit_message('warning', 'Warning');
+	display_submit_message('information', 'Information');
 	if ($is_abort == false) {
 		echo $output;
 	}

@@ -1,13 +1,13 @@
 <?php
 /**
  * @name         Statistics
- * @version      0.5
+ * @version      0.6
  * @package      stat
  * @author       Lan Ngoc Le <lale@mail.nih.gov>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2011.1027
  */
 
@@ -16,57 +16,101 @@ global $global;
 global $conf;
 require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
+function shn_stat_mainmenu() {}
+function shn_stat_header() {}
+function shn_stat_footer() {}
+function shn_stat_html_head() {
+echo '
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+	<script type="text/javascript" src="res/js/jquery.js"></script>
+	<script type="text/javascript" src="res/js/highcharts.js"></script>
+	<script type="text/javascript" src="res/js/exporting.js"></script>
+	<script type="text/javascript" src="res/js/excanvas.compiled.js"></script>
+	<script type="text/javascript" src="res/js/showHide.js"></script>
+	<script type="text/javascript">
+		window.setTimeout(function(){console.log("refresh!"); location.reload(true);}, 120000);
+	</script>
+	<link rel="icon" type="image/png" href="favicon.png">
+	<style>
+		h1 {
+			color: #34689A;
+			font-family: arial;
+			font-size: 28px;
+			line-height: 28px;
+			font-weight: normal;
+		}
+
+		html {
+			height: 100%;
+		}
+		body {
+			height: 100%;
+			margin: 0px;
+		}
+		#container {
+			background: #FFFFFF;
+			margin: auto;
+// 			font: 1.5em arial, verdana, sans-serif;
+			width: 100%;
+			min-height: 100%;
+		}
+	  </style>
+	</head>
+	';
+}
+function shn_stat_login() {}
+
+
 function shn_stat_menu() {
+
 	global $global;
-		echo "		
-		<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\"></script>		
-		<script type=\"text/javascript\" src=\"res/js/statpacked.js\"></script>
-		<script type=\"text/javascript\" src=\"res/js/showHide.js\"></script>		
-		";	
-	    
-		$shortname = $_GET['shortname'];
-		echo "People Statistics for $shortname:\n";
-		echo "\n";
-		echo "Please select from the links below for avalailable statistics:\n";
-		
-		echo "
-		<ul>			
+
+	$shortname = $_GET['shortname'];
+
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+
+	echo "
+		<div style=\"margin: 20px;\">
+		<h1>People Statistics ".$description."</h1>\n
+		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; min-height:100%;\">
+		\n
+		Please select from these available statistics:\n
+		<ul>
 			<li><a href=\"index.php?mod=stat&act=arrival\">Arrival Rates</a></li>
 			<li><a href=\"index.php?mod=stat&act=cummulative_arrival\">Cummulative Arrivals</a></li>
 			<li><a href=\"index.php?mod=stat&act=stacked_cummulative_arrival\">Stacked Cummulative Arrivals</a></li>
 			<li><a href=\"index.php?mod=stat&act=demographic\">Demographic Pie Charts</a></li>
-						
-		</ul>
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		";
-		if ($shortname=='cmax2010' or $shortname=='new'){
-		echo "
-		<ul>			
-			<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour#stacked\">TriagePic Zone Status on Arrival </a></li>	
-			
-		</ul>
-		<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">
-		";
-		 }		
-	}	
-		
-/**
- * the default module action...
- * @access public
- * @return void
- */
+			<li><a href=\"index.php?mod=stat&act=pie_status\">People Locator Status Pie Chart</a></li>
+			<li><a href=\"index.php?mod=stat&act=transit\">Patient Transit Time</a></li>
+	";
+	if($shortname=='cmax2010' or $shortname=='new') {
+		echo "<li><a href=\"index.php?mod=stat&act=TP_sub_stacked_status_byhour#stacked\">TriagePic Zone Status on Arrival </a></li>";
+	}
+	echo "</ul></div>";
+}
+
+
+
+/** default module action */
 function shn_stat_default() {
+
 	global $global;
 	shn_stat_menu();
 }
-/************************
-* Disable a link function
-*************************/
-//function disableLink(e) {
-    ////cancels the event
-    //e.preventDefault();
-    //return false;
-//}
 
 
 
@@ -155,7 +199,7 @@ function shn_stat_arrival_bydate() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container',\n" ;
+         echo "renderTo: 'container'\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
          echo "text: 'Arrival Rate by Date for $shortname'\n" ;
@@ -319,7 +363,7 @@ function shn_stat_arrival_byhour() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container',\n" ;
+         echo "renderTo: 'container'\n" ;
 		 echo "zoomType: 'x',\n";
       echo "},\n" ;
       echo "title: {\n" ;
@@ -678,7 +722,7 @@ global $global;
 				echo "},\n";
 			echo "maxZoom: 24 * 3600 * 1000\n";
 				echo "},\n";
-		echo "yAxis: {\n";	
+		echo "yAxis: {\n";
 			echo "title: {\n";
 			echo "allowDecimals: false,\n";
             echo "text: 'Expiry Date Count'\n";
@@ -763,7 +807,7 @@ function shn_stat_TP_sub_byhour() {
 	GROUP BY DATE( when_sent ) , HOUR(when_sent)
 	ORDER BY DATE( when_sent ) , HOUR(when_sent)";
 	}
-	
+
 	$res = $global['db']->Execute($q);
 
 	$row = $res->FetchRow();
@@ -863,7 +907,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	global $global;
 	shn_stat_menu();
 	echo "People Statistics for  ";
-	echo $_GET['shortname'];	
+	echo $_GET['shortname'];
 	$shortname = $_GET['shortname'];
 	$name=ucfirst($shortname);
 
@@ -937,7 +981,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	SELECT count( triage_category ) AS count_statusG, '12-1 pm' AS time_rangeG
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
-	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '12'AND '12')	
+	WHERE (triage_category = 'Green' AND HOUR( when_sent ) BETWEEN '12'AND '12')
 	UNION
 	SELECT count( triage_category ) AS count_statusG, '1-2 pm' AS time_rangeG
 	FROM `edxl_co_lpf` a
@@ -1046,7 +1090,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	SELECT count( triage_category ) AS count_statusY, '1-2 pm' AS time_rangeY
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
-	WHERE (triage_category = 'Yellow' AND HOUR( when_sent ) BETWEEN '1'AND '1')	
+	WHERE (triage_category = 'Yellow' AND HOUR( when_sent ) BETWEEN '1'AND '1')
 	UNION
 	SELECT count( triage_category ) AS count_statusY, '2-3 pm' AS time_rangeY
 	FROM `edxl_co_lpf` a
@@ -1094,7 +1138,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	SELECT count( triage_category ) AS count_statusGr, '12-1 pm' AS time_rangeGr
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
-	WHERE (triage_category = 'Gray' AND HOUR( when_sent ) BETWEEN '12'AND '12')	
+	WHERE (triage_category = 'Gray' AND HOUR( when_sent ) BETWEEN '12'AND '12')
 	UNION
 	SELECT count( triage_category ) AS count_statusGr, '1-2 pm' AS time_rangeGr
 	FROM `edxl_co_lpf` a
@@ -1128,7 +1172,7 @@ function shn_stat_TP_sub_stacked_status_byhour() {
 	$queryB="SELECT count( triage_category ) AS count_statusB, '9-10 am' AS time_rangeB
 	FROM `edxl_co_lpf` a
 	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
-	WHERE (triage_category = 'Black' AND HOUR( when_sent ) BETWEEN '10'AND '10')	
+	WHERE (triage_category = 'Black' AND HOUR( when_sent ) BETWEEN '10'AND '10')
 	UNION
 	SELECT count( triage_category ) AS count_statusB, '10-11 am' AS time_rangeB
 	FROM `edxl_co_lpf` a
@@ -1278,7 +1322,7 @@ echo "var chart = new Highcharts.Chart({\n" ;
 			echo "},\n" ;
     echo "yAxis: {\n" ;
 		echo "allowDecimals: false,\n";
-		
+
 		echo "stackLabels: {\n";
             echo "enabled: true,\n";
             echo "style: {\n";
@@ -1352,16 +1396,16 @@ function shn_stat_TP_new_stacked_status_byhour() {
 	global $global;
 	shn_stat_menu();
 	echo "People Statistics for  ";
-	echo $_GET['shortname'];	
+	echo $_GET['shortname'];
 	$shortname = $_GET['shortname'];
 	$name=ucfirst($shortname);
 
 	$query="SELECT distinct(triage_category), count( triage_category ) AS count_status, hour( when_sent ) AS time_range
 	FROM `edxl_co_lpf` a
-	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id ) 	
+	LEFT JOIN edxl_de_header b ON ( a.co_id = b.de_id )
 	GROUP BY triage_category, hour(when_sent)
 	";
-    
+
 	$r=mysql_query($query);
 	$row = mysql_fetch_array($r);
 	//check result
@@ -1384,7 +1428,7 @@ function shn_stat_TP_new_stacked_status_byhour() {
 	echo json_encode($count_statusG);
 	echo json_encode($time_rangeG);
 	}
-	
+
 	?>
 	<div id="container" style="width: 600px; height: 800px; margin: 0 auto;"></div>;
 	<?php
@@ -1392,7 +1436,7 @@ function shn_stat_TP_new_stacked_status_byhour() {
 	//to do
 	$json_time_rangeG = implode("','",$json_time_rangeG);
 	$json_count_statusG = implode(",", $json_count_statusG);
-	
+
 	echo "<script type=\"text/javascript\"> \n" ;
 	//all
 		echo "var pointsG = [$json_count_statusG],\n" ;
@@ -1402,7 +1446,7 @@ function shn_stat_TP_new_stacked_status_byhour() {
 		echo "for(i=0; i<pointsG.length; i++) {\n" ;
 			echo "dataG.push([datesG[i], pointsG[i]]);\n" ;
 			echo"}\n";
-	
+
 echo "\$(document).ready(function() {\n";
 echo "var chart = new Highcharts.Chart({\n" ;
     echo "chart: {\n" ;
@@ -1432,7 +1476,7 @@ echo "var chart = new Highcharts.Chart({\n" ;
 			echo "},\n" ;
     echo "yAxis: {\n" ;
 		echo "allowDecimals: false,\n";
-		
+
 		echo "stackLabels: {\n";
             echo "enabled: true,\n";
             echo "style: {\n";
@@ -1513,52 +1557,52 @@ function shn_stat_new_arrival_rate() {
 	echo "People Statistics for  ";
 	echo $_GET['shortname'];
 	$shortname = $_GET['shortname'];
-	
-	
+
+
 	$q="SELECT arrival_time as source_date, source_all AS count_source_date
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname like '". $shortname ."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
-	
+
 	$q1="SELECT arrival_time as source_date1, source_triagepic AS count_source_date1
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname like '". $shortname ."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
-	
+
 	$q2="SELECT arrival_time as source_date2, source_reunite AS count_source_date2
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname like '". $shortname ."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
-	
+
 	$q3="SELECT arrival_time as source_date3, source_website AS count_source_date3
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname like '". $shortname ."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
-	
+
 	$q4="SELECT arrival_time as source_date4, source_pfif AS count_source_date4
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname like '". $shortname ."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
-	
+
 	$q5="SELECT arrival_time as source_date5, source_vanilla_email AS count_source_date5
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname like '". $shortname ."') GROUP BY DATE( arrival_time ) ORDER BY DATE( arrival_time )";
-	
+
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 	$res1 = $global['db']->Execute($q1);
 	$row1 = $res1->FetchRow();
-	
+
 	$res2 = $global['db']->Execute($q2);
 	$row2 = $res2->FetchRow();
 	$res3 = $global['db']->Execute($q3);
 	$row3 = $res3->FetchRow();
 	$res4 = $global['db']->Execute($q4);
 	$row4 = $res4->FetchRow();
-	$res5 = $global['db']->Execute($q5);		
+	$res5 = $global['db']->Execute($q5);
 	$row5 = $res5->FetchRow();
-    
+
 	if($row === FALSE) {
     	//die(mysql_error());
 	}
@@ -1572,8 +1616,8 @@ function shn_stat_new_arrival_rate() {
 		array_push($json_count_source_date, $row['count_source_date']);
 		}
 	while($row = $res->FetchRow());
-	
-	
+
+
 	if($row1 === FALSE) {
     	//die(mysql_error());
 	}
@@ -1587,7 +1631,7 @@ function shn_stat_new_arrival_rate() {
 		array_push($json_count_source_date1, $row1['count_source_date1']);
 		}
 	while($row1 = $res1->FetchRow());
-	
+
 	if($row2 === FALSE) {
     	//die(mysql_error());
 	}
@@ -1601,7 +1645,7 @@ function shn_stat_new_arrival_rate() {
 		array_push($json_count_source_date2, $row2['count_source_date2']);
 		}
 	while($row2 = $res2->FetchRow());
-	
+
 	if($row3 === FALSE) {
     	//die(mysql_error());
 	}
@@ -1615,7 +1659,7 @@ function shn_stat_new_arrival_rate() {
 		array_push($json_count_source_date3, $row3['count_source_date3']);
 		}
 	while($row3 = $res3->FetchRow());
-	
+
 	if($row4 === FALSE) {
     	//die(mysql_error());
 	}
@@ -1629,7 +1673,7 @@ function shn_stat_new_arrival_rate() {
 		array_push($json_count_source_date4, $row4['count_source_date4']);
 		}
 	while($row4 = $res4->FetchRow());
-	
+
 	if($row5 === FALSE) {
     	//die(mysql_error());
 	}
@@ -1643,8 +1687,8 @@ function shn_stat_new_arrival_rate() {
 		array_push($json_count_source_date5, $row5['count_source_date5']);
 		}
 	while($row5 = $res5->FetchRow());
-	
-		
+
+
 	//for status
 	$q_s="SELECT DISTINCT d.option_description as opt_status, count( opt_status ) as count_opt_status FROM person_status a
 	join field_options d ON a.opt_status=d.option_code
@@ -1666,7 +1710,7 @@ function shn_stat_new_arrival_rate() {
 		array_push($json_count_opt_status, $row['count_opt_status']);
 		}
 	while($row = $res->FetchRow());
-	
+
 	//for gender
 	$q_g="SELECT DISTINCT d.option_description as opt_gender, count( opt_gender ) AS count_opt_gender
 	FROM person_details a
@@ -1675,10 +1719,10 @@ function shn_stat_new_arrival_rate() {
 	JOIN incident c ON c.incident_id = b.incident_id
 	WHERE c.shortname LIKE '".$shortname."'
 	GROUP BY option_description";
-	
+
 	$res = $global['db']->Execute($q_g);
-	$row = $res->FetchRow();	
-	
+	$row = $res->FetchRow();
+
 	if($row === FALSE) {
     	//die(mysql_error());
 	}
@@ -1691,8 +1735,8 @@ function shn_stat_new_arrival_rate() {
 		array_push($json_count_opt_gender, $row['count_opt_gender']);
 		}
 	while($row = $res->FetchRow());
-	
-	
+
+
 	//for pediatrics/adults
 	$q_a="SELECT 'pediatrics' as opt_age, count(years_old) as count_opt_age FROM `person_details` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
@@ -1703,10 +1747,10 @@ function shn_stat_new_arrival_rate() {
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
 	where (c.shortname like '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 18))";
-	
+
 	$res = $global['db']->Execute($q_a);
-	$row = $res->FetchRow();	
-	
+	$row = $res->FetchRow();
+
 	if($row === FALSE) {
     	//die(mysql_error());
 	}
@@ -1719,18 +1763,18 @@ function shn_stat_new_arrival_rate() {
 		array_push($json_count_opt_age, $row['count_opt_age']);
 		}
 	while($row = $res->FetchRow());
-	
+
 	//for tp category
-	
+
 	$q_tp="SELECT distinct (triage_category) as opt_category, count(distinct triage_category) as count_optcategory FROM `edxl_co_lpf` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
-	where c.shortname like '".$shortname."'	 
+	where c.shortname like '".$shortname."'
 	group by a.triage_category";
-	
+
 	$res = $global['db']->Execute($q_tp);
-	$row = $res->FetchRow();	
-	
+	$row = $res->FetchRow();
+
 	if($row === FALSE) {
     	//die(mysql_error());
 	}
@@ -1742,48 +1786,46 @@ function shn_stat_new_arrival_rate() {
 		$count_optcategory[] =  (int) $row['count_optcategory'];
 		array_push($json_count_optcategory, $row['count_optcategory']);
 		}
-	while($row = $res->FetchRow());		
-	
+	while($row = $res->FetchRow());
+
 	?>
 	<div id="container" style="width: 600px; height: 800px;">
-	<button id="button">Remove first series</button>
-
 	</div>;
-	
+
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
 	$json_source_date = implode("','",$json_source_date);
-	$json_count_source_date = implode(",", $json_count_source_date);	
-	
+	$json_count_source_date = implode(",", $json_count_source_date);
+
 	$json_source_date1 = implode("','",$json_source_date1);
 	$json_count_source_date1 = implode(",", $json_count_source_date1);
-	
+
 	$json_source_date2 = implode("','",$json_source_date2);
-	$json_count_source_date2 = implode(",", $json_count_source_date2);	
-	
+	$json_count_source_date2 = implode(",", $json_count_source_date2);
+
 	$json_source_date3 = implode("','",$json_source_date3);
 	$json_count_source_date3 = implode(",", $json_count_source_date3);
-	
+
 	$json_source_date4 = implode("','",$json_source_date4);
-	$json_count_source_date4 = implode(",", $json_count_source_date4);	
-	
+	$json_count_source_date4 = implode(",", $json_count_source_date4);
+
 	$json_source_date5 = implode("','",$json_source_date5);
-	$json_count_source_date5 = implode(",", $json_count_source_date5);	
-	
+	$json_count_source_date5 = implode(",", $json_count_source_date5);
+
 	$json_opt_status = implode("','",$json_opt_status);
 	$json_count_opt_status = implode(",", $json_count_opt_status);
-	
+
 	$json_opt_gender = implode("','",$json_opt_gender);
 	$json_count_opt_gender = implode(",", $json_count_opt_gender);
-	
+
 	$json_opt_age = implode("','",$json_opt_age);
 	$json_count_opt_age = implode(",", $json_count_opt_age);
-	
-	
+
+
 	$json_opt_category = implode("','",$json_opt_category);
 	$json_count_optcategory = implode(",", $json_count_optcategory);
-	
+
 	echo "\n";
 
 	echo "<script type=\"text/javascript\">\n";
@@ -1796,7 +1838,7 @@ function shn_stat_new_arrival_rate() {
 		echo "for(i=0; i<points.length; i++) {\n";
 			echo "data.push([dates[i], points[i]]);\n";
 			echo "}\n";
-	
+
 		echo "\n";
 		echo "var points1 = [$json_count_source_date1],\n";
 		echo "dates1 = " .json_encode($source_date1);
@@ -1806,7 +1848,7 @@ function shn_stat_new_arrival_rate() {
 		echo "for(j=0; j<points1.length; j++) {\n";
 			echo "data1.push([dates1[j], points1[j]]);\n";
 			echo "}\n";
-	    
+
 		echo "\n";
 		echo "var points2 = [$json_count_source_date2],\n";
 		echo "dates2 = " .json_encode($source_date2);
@@ -1816,7 +1858,7 @@ function shn_stat_new_arrival_rate() {
 		echo "for(k=0; k<points2.length; k++) {\n";
 			echo "data2.push([dates2[k], points2[k]]);\n";
 			echo "}\n";
-		
+
 		echo "\n";
 		echo "var points3 = [$json_count_source_date3],\n";
 		echo "dates3 = " .json_encode($source_date3);
@@ -1826,7 +1868,7 @@ function shn_stat_new_arrival_rate() {
 		echo "for(l=0; l<points3.length; l++) {\n";
 			echo "data3.push([dates3[l], points3[l]]);\n";
 			echo "}\n";
-	
+
 		echo "\n";
 		echo "var points4 = [$json_count_source_date4],\n";
 		echo "dates4 = " .json_encode($source_date4);
@@ -1835,8 +1877,8 @@ function shn_stat_new_arrival_rate() {
 		echo "\n";
 		echo "for(m=0; m<points4.length; m++) {\n";
 			echo "data4.push([dates4[m], points4[m]]);\n";
-			echo "}\n";	
-	
+			echo "}\n";
+
 		echo "\n";
 		echo "var points5 = [$json_count_source_date5],\n";
 		echo "dates5 = " .json_encode($source_date5);
@@ -1846,7 +1888,7 @@ function shn_stat_new_arrival_rate() {
 		echo "for(n=0; n<points5.length; n++) {\n";
 			echo "data5.push([dates5[n], points5[n]]);\n";
 			echo "}\n";
-		
+
 		echo "var counts = [$json_count_opt_status],\n";
 		echo "names = " .json_encode($opt_status);
 		echo ",\n";
@@ -1855,7 +1897,7 @@ function shn_stat_new_arrival_rate() {
 		echo "for(j=0; j<counts.length; j++) {\n";
 			echo "data_status.push([names[j], counts[j]]);\n";
 			echo "}\n";
-			
+
 		echo "var counts_g = [$json_count_opt_gender],\n";
 		echo "names_g = " .json_encode($opt_gender);
 		echo ",\n";
@@ -1864,7 +1906,7 @@ function shn_stat_new_arrival_rate() {
 		echo "for(j=0; j<counts_g.length; j++) {\n";
 			echo "data_gender.push([names_g[j], counts_g[j]]);\n";
 			echo "}\n";
-		
+
 		echo "var counts_a = [$json_count_opt_age],\n";
 		echo "names_a = " .json_encode($opt_age);
 		echo ",\n";
@@ -1873,7 +1915,7 @@ function shn_stat_new_arrival_rate() {
 		echo "for(j=0; j<counts_a.length; j++) {\n";
 			echo "data_age.push([names_a[j], counts_a[j]]);\n";
 			echo "}\n";
-			
+
 		echo "var counts_c = [$json_count_optcategory],\n";
 		echo "names_c = " .json_encode($opt_category);
 		echo ",\n";
@@ -1882,16 +1924,16 @@ function shn_stat_new_arrival_rate() {
 		echo "for(j=0; j<counts_c.length; j++) {\n";
 			echo "data_category.push([names_c[j], counts_c[j]]);\n";
 			echo "}\n";
-        
+
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container',\n" ;
+         echo "renderTo: 'container'\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
          echo "text: 'Arrival Rate by Date (new table) from $shortname'\n" ;
       echo "},\n" ;
-	  
+
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
 		 echo "maxZoom:  3600000,\n";
@@ -1905,7 +1947,7 @@ function shn_stat_new_arrival_rate() {
             echo "year: '%b %e'\n" ;
          echo "}\n" ;
      echo "},\n" ;
-    echo "yAxis: {\n";			
+    echo "yAxis: {\n";
 			echo "allowDecimals: false,\n";
 			echo "title: {\n";
             echo "text: 'Count of Persons Reported'\n";
@@ -1920,20 +1962,20 @@ function shn_stat_new_arrival_rate() {
 		echo "legend: {\n";
 			echo "area: {\n";
 			echo "align: 'right',\n";
-			echo "backgroundColor: '#FCFFC5',\n";    
-			echo "enabled: true,\n";			
+			echo "backgroundColor: '#FCFFC5',\n";
+			echo "enabled: true,\n";
 			echo "},\n";
 			echo "pie: {\n";
-			echo "enabled: true,\n";			
+			echo "enabled: true,\n";
             echo "align: 'left',\n";
             echo "layout: 'horizontal',\n";
             echo "verticalAlign: 'top',\n";
-            echo "floating: true,\n";        
+            echo "floating: true,\n";
 			echo "backgroundColor: 'yellow'\n";
 			echo "}\n";
 				echo "},\n";
 		echo "plotOptions: {\n";
-			
+
 			echo "area: {\n";
             echo "fillColor: {\n";
                echo "linearGradient: [0, 0, 0, 300],\n";
@@ -1983,44 +2025,44 @@ function shn_stat_new_arrival_rate() {
 		echo "'";
 		echo ",\n";
 		echo "type: 'area',\n" ;
-        echo "data: data\n" ;        
+        echo "data: data\n" ;
 		echo "},\n";
 		echo "{\n" ;
 		echo "name: 'TriagePic";
 		echo "'";
 		echo ",\n";
 		echo "type: 'area',\n" ;
-        echo "data: data1\n" ;        
+        echo "data: data1\n" ;
 		echo "},\n";
-		
+
 		echo "{\n" ;
 		echo "name: 'ReUnite";
 		echo "'";
 		echo ",\n";
 		echo "type: 'area',\n" ;
-        echo "data: data2\n" ;        
+        echo "data: data2\n" ;
 		echo "},\n";
-		
+
 		echo "{\n" ;
 		echo "name: 'Website";
 		echo "'";
 		echo ",\n";
 		echo "type: 'area',\n" ;
-        echo "data: data3\n" ;        
+        echo "data: data3\n" ;
 		echo "},\n";
 		echo "{\n" ;
 		echo "name: 'PFIF";
 		echo "'";
 		echo ",\n";
 		echo "type: 'area',\n" ;
-        echo "data: data4\n" ;        
+        echo "data: data4\n" ;
 		echo "},\n";
 		echo "{\n" ;
 		echo "name: 'Vanilla Email";
 		echo "'";
 		echo ",\n";
 		echo "type: 'area',\n" ;
-        echo "data: data5\n" ;        
+        echo "data: data5\n" ;
 		echo "},\n";
 		echo "{\n";
 		echo "type: 'pie',\n";
@@ -2044,7 +2086,7 @@ function shn_stat_new_arrival_rate() {
 			echo "enabled: true\n";
 		echo "}\n";
 		echo "},\n";
-	
+
 		echo "{\n";
 		echo "type: 'pie',\n";
 		echo "data: data_category,\n" ;
@@ -2056,7 +2098,7 @@ function shn_stat_new_arrival_rate() {
 			echo "enabled: true\n";
 			echo "}\n";
 		echo "},\n";
-		
+
 		//echo "{\n";
 		echo "{\n";
 		echo "type: 'pie',\n";
@@ -2093,69 +2135,88 @@ function shn_stat_cummulative_arrival() {
 	$shortname = $_GET['shortname'];
 	$name=ucfirst($shortname);
 	//$item = $_GET['item'];
-	
-	//for starting date
+
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+
+	//shn_stat_menu();
+
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+
+
+    //start and end date
 	$q_start_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic>=1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
 	ORDER BY arrival_time asc limit 1";
 	$res = $global['db']->Execute($q_start_date);
 	$row = $res->FetchRow();
-	$start_date= $row[0];	
+	$start_date= $row[0];
 	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
-	
-	//for end date
+	//for end date for all sources
 	$q_end_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic>=1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
 	ORDER BY arrival_time desc limit 1";
 	$res = $global['db']->Execute($q_end_date);
 	$row = $res->FetchRow();
 	$end_date= $row[0];
 	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
-	
+
 	$q="SELECT arrival_time as source_date, source_all AS count_source_date
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
-	
+
 	$q1="SELECT arrival_time as source_date1, source_triagepic AS count_source_date1
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname = '". $shortname ."')  group by arrival_time  ORDER BY  arrival_time";
-	
+
 	$q2="SELECT arrival_time as source_date2, source_reunite AS count_source_date2
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
-	
+
 	$q3="SELECT arrival_time as source_date3, source_website AS count_source_date3
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
-	
+
 	$q4="SELECT arrival_time as source_date4, source_pfif AS count_source_date4
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
-	
+
 	$q5="SELECT arrival_time as source_date5, source_vanilla_email AS count_source_date5
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
-	
+
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 	$res1 = $global['db']->Execute($q1);
 	$row1 = $res1->FetchRow();
-	
+
 	$res2 = $global['db']->Execute($q2);
 	$row2 = $res2->FetchRow();
 	$res3 = $global['db']->Execute($q3);
 	$row3 = $res3->FetchRow();
 	$res4 = $global['db']->Execute($q4);
 	$row4 = $res4->FetchRow();
-	$res5 = $global['db']->Execute($q5);		
+	$res5 = $global['db']->Execute($q5);
 	$row5 = $res5->FetchRow();
-    
+
 	if($row === FALSE) {
     	//die(mysql_error());
 	}
@@ -2169,8 +2230,8 @@ function shn_stat_cummulative_arrival() {
 		array_push($json_count_source_date, $row['count_source_date']);
 		}
 	while($row = $res->FetchRow());
-	
-	
+
+
 	if($row1 === FALSE) {
     	//die(mysql_error());
 	}
@@ -2184,7 +2245,7 @@ function shn_stat_cummulative_arrival() {
 		array_push($json_count_source_date1, $row1['count_source_date1']);
 		}
 	while($row1 = $res1->FetchRow());
-	
+
 	if($row2 === FALSE) {
     	//die(mysql_error());
 	}
@@ -2198,7 +2259,7 @@ function shn_stat_cummulative_arrival() {
 		array_push($json_count_source_date2, $row2['count_source_date2']);
 		}
 	while($row2 = $res2->FetchRow());
-	
+
 	if($row3 === FALSE) {
     	//die(mysql_error());
 	}
@@ -2212,7 +2273,7 @@ function shn_stat_cummulative_arrival() {
 		array_push($json_count_source_date3, $row3['count_source_date3']);
 		}
 	while($row3 = $res3->FetchRow());
-	
+
 	if($row4 === FALSE) {
     	//die(mysql_error());
 	}
@@ -2226,7 +2287,7 @@ function shn_stat_cummulative_arrival() {
 		array_push($json_count_source_date4, $row4['count_source_date4']);
 		}
 	while($row4 = $res4->FetchRow());
-	
+
 	if($row5 === FALSE) {
     	//die(mysql_error());
 	}
@@ -2239,33 +2300,33 @@ function shn_stat_cummulative_arrival() {
 		$count_source_date5[] = $row5['count_source_date5'];
 		array_push($json_count_source_date5, $row5['count_source_date5']);
 		}
-	while($row5 = $res5->FetchRow());		
-	
-	?>
-	<div id="container" style="width: 600px; height: 800px;">
+	while($row5 = $res5->FetchRow());
 
-	</div>;	
+	?>
+	<div id="container" style="width: 100%; height: 100%;">
+
+	</div>;
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
 	$json_source_date = implode("','",$json_source_date);
-	$json_count_source_date = implode(",", $json_count_source_date);	
-	
+	$json_count_source_date = implode(",", $json_count_source_date);
+
 	$json_source_date1 = implode("','",$json_source_date1);
 	$json_count_source_date1 = implode(",", $json_count_source_date1);
-	
+
 	$json_source_date2 = implode("','",$json_source_date2);
-	$json_count_source_date2 = implode(",", $json_count_source_date2);	
-	
+	$json_count_source_date2 = implode(",", $json_count_source_date2);
+
 	$json_source_date3 = implode("','",$json_source_date3);
 	$json_count_source_date3 = implode(",", $json_count_source_date3);
-	
+
 	$json_source_date4 = implode("','",$json_source_date4);
-	$json_count_source_date4 = implode(",", $json_count_source_date4);	
-	
+	$json_count_source_date4 = implode(",", $json_count_source_date4);
+
 	$json_source_date5 = implode("','",$json_source_date5);
-	$json_count_source_date5 = implode(",", $json_count_source_date5);		
-	
+	$json_count_source_date5 = implode(",", $json_count_source_date5);
+
 	echo "\n";
 
 	echo "<script type=\"text/javascript\">\n";
@@ -2278,7 +2339,7 @@ function shn_stat_cummulative_arrival() {
 		echo "for(i=0; i<points.length; i++) {\n";
 			echo "data.push([dates[i], points[i]]);\n";
 			echo "}\n";
-	
+
 		echo "\n";
 		echo "var points1 = [$json_count_source_date1],\n";
 		echo "dates1 = " .json_encode($source_date1);
@@ -2288,7 +2349,7 @@ function shn_stat_cummulative_arrival() {
 		echo "for(j=0; j<points1.length; j++) {\n";
 			echo "data1.push([dates1[j], points1[j]]);\n";
 			echo "}\n";
-	    
+
 		echo "\n";
 		echo "var points2 = [$json_count_source_date2],\n";
 		echo "dates2 = " .json_encode($source_date2);
@@ -2298,7 +2359,7 @@ function shn_stat_cummulative_arrival() {
 		echo "for(k=0; k<points2.length; k++) {\n";
 			echo "data2.push([dates2[k], points2[k]]);\n";
 			echo "}\n";
-		
+
 		echo "\n";
 		echo "var points3 = [$json_count_source_date3],\n";
 		echo "dates3 = " .json_encode($source_date3);
@@ -2308,7 +2369,7 @@ function shn_stat_cummulative_arrival() {
 		echo "for(l=0; l<points3.length; l++) {\n";
 			echo "data3.push([dates3[l], points3[l]]);\n";
 			echo "}\n";
-	
+
 		echo "\n";
 		echo "var points4 = [$json_count_source_date4],\n";
 		echo "dates4 = " .json_encode($source_date4);
@@ -2317,8 +2378,8 @@ function shn_stat_cummulative_arrival() {
 		echo "\n";
 		echo "for(m=0; m<points4.length; m++) {\n";
 			echo "data4.push([dates4[m], points4[m]]);\n";
-			echo "}\n";	
-	
+			echo "}\n";
+
 		echo "\n";
 		echo "var points5 = [$json_count_source_date5],\n";
 		echo "dates5 = " .json_encode($source_date5);
@@ -2328,11 +2389,11 @@ function shn_stat_cummulative_arrival() {
 		echo "for(n=0; n<points5.length; n++) {\n";
 			echo "data5.push([dates5[n], points5[n]]);\n";
 			echo "}\n";
-		        
+
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container',\n" ;
+         echo "renderTo: 'container'\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
 		 echo "style: {\n";
@@ -2340,7 +2401,7 @@ function shn_stat_cummulative_arrival() {
 				echo "fontSize: '28px',\n";
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
-         echo "text: 'Cummulative Arrivals During $name Event'\n" ;
+         echo "text: 'Cummulative Arrivals $description Event'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n" ;
 		 echo "style: {\n";
@@ -2349,8 +2410,8 @@ function shn_stat_cummulative_arrival() {
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
 		 echo "y: 50,\n";
-         echo "text: 'From: $start_date to $end_date',\n" ;
-         echo "},\n" ;	  
+         echo "text: 'First Reported: $start_date, Last Reported: $end_date. This page refreshes every 120 seconds'\n" ;
+         echo "},\n" ;
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
 		 echo "maxZoom:  3600000,\n";
@@ -2367,33 +2428,39 @@ function shn_stat_cummulative_arrival() {
             echo "year: '%b %e'\n" ;
          echo "}\n" ;
      echo "},\n" ;
-    echo "yAxis: {\n";			
-			echo "allowDecimals: false,\n";
-			echo "labels: {\n";
-            echo "formatter: function() {\n";
-                echo "return '<b>'+this.value;\n";
-				echo "}\n";
-			echo "},\n";
-			echo "title: {\n";
-            echo "text: 'Count of Persons Reported'\n";
-					echo "},\n";
-			echo "min: 0.6,\n";
-			echo "startOnTick: true,\n";
-			echo "showFirstLabel: true\n";
-				echo "},\n";
+    echo "yAxis:  [{
+	        allowDecimals: false,
+			lineWidth: 3,
+			title: {
+				text: 'Total People Count'
+			}
+		}, {
+		    allowDecimals: false,
+			lineWidth: 3,
+			opposite: true,
+			title: {
+				text: 'Total People Count'
+			}
+		}],\n";
+
+			//echo "min: 0.6,\n";
+			//echo "startOnTick: true,\n";
+			//echo "showFirstLabel: true\n";
+				//echo "},\n";
+
 		echo "tooltip: {\n";
 			echo "shared: true\n";
 				echo "},\n";
 		echo "legend: {\n";
 			echo "area: {\n";
 			echo "align: 'right',\n";
-			echo "backgroundColor: '#FCFFC5',\n";    
-			echo "enabled: true,\n";			
-			echo "},\n";
-			
-				echo "},\n";
-		echo "plotOptions: {\n";								
-			echo "area: {\n";			
+			echo "backgroundColor: '#FCFFC5',\n";
+			echo "enabled: true\n";
+			echo "}\n";
+
+		echo "},\n";
+		echo "plotOptions: {\n";
+			echo "line: {\n";
             echo "fillColor: {\n";
                echo "linearGradient: [0, 0, 0, 300],\n";
                echo "stops: [\n";
@@ -2401,7 +2468,7 @@ function shn_stat_cummulative_arrival() {
                   echo "[1, 'rgba(2,1,0,0)']\n";
                echo "]\n";
             echo "},\n";
-			
+
             echo "lineWidth: 1,\n";
             echo "marker: {\n";
 				echo "enabled: true,\n";
@@ -2421,12 +2488,12 @@ function shn_stat_cummulative_arrival() {
          echo "},\n";
 		 echo "area: {\n" ;
             echo "dataLabels: {\n" ;
-               echo "enabled: true\n" ;
+               echo "enabled: false\n" ; //disable the point labels
             echo "},\n" ;
             echo "enableMouseTracking: false\n" ;
          echo "}\n" ;
 		//echo "
-		//series: {		    
+		//series: {
             //events: {
                 //hide: function(event) {
                     //alert ('The series was just hidden');
@@ -2434,53 +2501,53 @@ function shn_stat_cummulative_arrival() {
             //}
         //}
 		//";
-		 
+
       echo "},\n";
      echo "series: [{\n" ;
         //echo "name: '". $shortname;
 		echo "name: 'All sources";
 		echo "'";
 		echo ",\n";
-		echo "type: 'area',\n" ;
-        echo "data: data\n" ;        
+		echo "type: 'line',\n" ;
+        echo "data: data\n" ;
 		echo "},\n";
 		echo "{\n" ;
 		echo "name: 'TriagePic";
 		echo "'";
 		echo ",\n";
-		echo "type: 'area',\n" ;
-        echo "data: data1\n" ;        
+		echo "type: 'line',\n" ;
+        echo "data: data1\n" ;
 		echo "},\n";
-		
+
 		echo "{\n" ;
 		echo "name: 'ReUnite";
 		echo "'";
 		echo ",\n";
-		echo "type: 'area',\n" ;
-        echo "data: data2\n" ;        
+		echo "type: 'line',\n" ;
+        echo "data: data2\n" ;
 		echo "},\n";
-		
+
 		echo "{\n" ;
 		echo "name: 'Website";
 		echo "'";
 		echo ",\n";
-		echo "type: 'area',\n" ;
-        echo "data: data3\n" ;        
+		echo "type: 'line',\n" ;
+        echo "data: data3\n" ;
 		echo "},\n";
 		echo "{\n" ;
 		echo "name: 'PFIF";
 		echo "'";
 		echo ",\n";
-		echo "type: 'area',\n" ;
-        echo "data: data4\n" ;        
+		echo "type: 'line',\n" ;
+        echo "data: data4\n" ;
 		echo "},\n";
 		echo "{\n" ;
 		echo "name: 'Vanilla Email";
 		echo "'";
 		echo ",\n";
-		echo "type: 'area',\n" ;
-        echo "data: data5\n" ;    
-		
+		echo "type: 'line',\n" ;
+        echo "data: data5\n" ;
+
         echo "}]\n" ;
    echo "});\n" ;
 echo "});\n" ;
@@ -2497,7 +2564,7 @@ $('#button').click(function() {
 */
 echo "</script>\n" ;
 //echo "Test area ";
-}	
+}
 /***********************************************************
 Stacked Cummulative arrivals- from arrival rate table
 ***********************************************************/
@@ -2508,68 +2575,85 @@ function shn_stat_stacked_cummulative_arrival() {
 	$shortname = $_GET['shortname'];
 	$name=ucfirst($shortname);
 	//$item = $_GET['item'];
-	
-	//for starting date
+
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+
+	//shn_stat_menu();
+
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+
+	//start and end date
 	$q_start_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic>=1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
 	ORDER BY arrival_time asc limit 1";
 	$res = $global['db']->Execute($q_start_date);
 	$row = $res->FetchRow();
-	$start_date= $row[0];	
+	$start_date= $row[0];
 	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
-	
-	//for end date
+	//for end date for all sources
 	$q_end_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic>=1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
 	ORDER BY arrival_time desc limit 1";
 	$res = $global['db']->Execute($q_end_date);
 	$row = $res->FetchRow();
 	$end_date= $row[0];
 	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
-	
-	
+
 	//$q="SELECT arrival_time as source_date, source_all AS count_source_date
 	//FROM `arrival_rate` a
 	//join incident b ON a.incident_id= b.incident_id
 	//WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
-	
+
 	$q1="SELECT arrival_time as source_date1, source_triagepic AS count_source_date1
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
-	
+
 	$q2="SELECT arrival_time as source_date2, source_reunite AS count_source_date2
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
-	
+
 	$q3="SELECT arrival_time as source_date3, source_website AS count_source_date3
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
-	
+
 	$q4="SELECT arrival_time as source_date4, source_pfif AS count_source_date4
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
-	
+
 	$q5="SELECT arrival_time as source_date5, source_vanilla_email AS count_source_date5
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (b.shortname = '". $shortname ."') GROUP BY ( arrival_time ) ORDER BY ( arrival_time )";
-	
+
 	//$res = $global['db']->Execute($q);
 	//$row = $res->FetchRow();
 	$res1 = $global['db']->Execute($q1);
 	$row1 = $res1->FetchRow();
-	
+
 	$res2 = $global['db']->Execute($q2);
 	$row2 = $res2->FetchRow();
 	$res3 = $global['db']->Execute($q3);
 	$row3 = $res3->FetchRow();
 	$res4 = $global['db']->Execute($q4);
 	$row4 = $res4->FetchRow();
-	$res5 = $global['db']->Execute($q5);		
+	$res5 = $global['db']->Execute($q5);
 	$row5 = $res5->FetchRow();
     /*
 	if($row === FALSE) {
@@ -2586,7 +2670,7 @@ function shn_stat_stacked_cummulative_arrival() {
 		}
 	while($row = $res->FetchRow());
 	*/
-	
+
 	if($row1 === FALSE) {
     	//die(mysql_error());
 	}
@@ -2600,7 +2684,7 @@ function shn_stat_stacked_cummulative_arrival() {
 		array_push($json_count_source_date1, $row1['count_source_date1']);
 		}
 	while($row1 = $res1->FetchRow());
-	
+
 	if($row2 === FALSE) {
     	//die(mysql_error());
 	}
@@ -2614,7 +2698,7 @@ function shn_stat_stacked_cummulative_arrival() {
 		array_push($json_count_source_date2, $row2['count_source_date2']);
 		}
 	while($row2 = $res2->FetchRow());
-	
+
 	if($row3 === FALSE) {
     	//die(mysql_error());
 	}
@@ -2628,7 +2712,7 @@ function shn_stat_stacked_cummulative_arrival() {
 		array_push($json_count_source_date3, $row3['count_source_date3']);
 		}
 	while($row3 = $res3->FetchRow());
-	
+
 	if($row4 === FALSE) {
     	//die(mysql_error());
 	}
@@ -2642,7 +2726,7 @@ function shn_stat_stacked_cummulative_arrival() {
 		array_push($json_count_source_date4, $row4['count_source_date4']);
 		}
 	while($row4 = $res4->FetchRow());
-	
+
 	if($row5 === FALSE) {
     	//die(mysql_error());
 	}
@@ -2655,35 +2739,35 @@ function shn_stat_stacked_cummulative_arrival() {
 		$count_source_date5[] = $row5['count_source_date5'];
 		array_push($json_count_source_date5, $row5['count_source_date5']);
 		}
-	while($row5 = $res5->FetchRow());	
-			
-	
+	while($row5 = $res5->FetchRow());
+
+
 	?>
-	<div id="container" style="width: 600px; height: 800px;">	
+	<div id="container" style="width: 100%; height: 100%;">
 
 	</div>;
-	
+
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
 	//$json_source_date = implode("','",$json_source_date);
-	//$json_count_source_date = implode(",", $json_count_source_date);	
-	
+	//$json_count_source_date = implode(",", $json_count_source_date);
+
 	$json_source_date1 = implode("','",$json_source_date1);
 	$json_count_source_date1 = implode(",", $json_count_source_date1);
-	
+
 	$json_source_date2 = implode("','",$json_source_date2);
-	$json_count_source_date2 = implode(",", $json_count_source_date2);	
-	
+	$json_count_source_date2 = implode(",", $json_count_source_date2);
+
 	$json_source_date3 = implode("','",$json_source_date3);
 	$json_count_source_date3 = implode(",", $json_count_source_date3);
-	
+
 	$json_source_date4 = implode("','",$json_source_date4);
-	$json_count_source_date4 = implode(",", $json_count_source_date4);	
-	
+	$json_count_source_date4 = implode(",", $json_count_source_date4);
+
 	$json_source_date5 = implode("','",$json_source_date5);
-	$json_count_source_date5 = implode(",", $json_count_source_date5);		
-	
+	$json_count_source_date5 = implode(",", $json_count_source_date5);
+
 	echo "\n";
 
 	echo "<script type=\"text/javascript\">\n";
@@ -2696,7 +2780,7 @@ function shn_stat_stacked_cummulative_arrival() {
 		//echo "for(i=0; i<points.length; i++) {\n";
 			//echo "data.push([dates[i], points[i]]);\n";
 			//echo "}\n";
-	
+
 		echo "\n";
 		echo "var points1 = [$json_count_source_date1],\n";
 		echo "dates1 = " .json_encode($source_date1);
@@ -2706,7 +2790,7 @@ function shn_stat_stacked_cummulative_arrival() {
 		echo "for(j=0; j<points1.length; j++) {\n";
 			echo "data1.push([dates1[j], points1[j]]);\n";
 			echo "}\n";
-	    
+
 		echo "\n";
 		echo "var points2 = [$json_count_source_date2],\n";
 		echo "dates2 = " .json_encode($source_date2);
@@ -2716,7 +2800,7 @@ function shn_stat_stacked_cummulative_arrival() {
 		echo "for(k=0; k<points2.length; k++) {\n";
 			echo "data2.push([dates2[k], points2[k]]);\n";
 			echo "}\n";
-		
+
 		echo "\n";
 		echo "var points3 = [$json_count_source_date3],\n";
 		echo "dates3 = " .json_encode($source_date3);
@@ -2726,7 +2810,7 @@ function shn_stat_stacked_cummulative_arrival() {
 		echo "for(l=0; l<points3.length; l++) {\n";
 			echo "data3.push([dates3[l], points3[l]]);\n";
 			echo "}\n";
-	
+
 		echo "\n";
 		echo "var points4 = [$json_count_source_date4],\n";
 		echo "dates4 = " .json_encode($source_date4);
@@ -2735,8 +2819,8 @@ function shn_stat_stacked_cummulative_arrival() {
 		echo "\n";
 		echo "for(m=0; m<points4.length; m++) {\n";
 			echo "data4.push([dates4[m], points4[m]]);\n";
-			echo "}\n";	
-	
+			echo "}\n";
+
 		echo "\n";
 		echo "var points5 = [$json_count_source_date5],\n";
 		echo "dates5 = " .json_encode($source_date5);
@@ -2746,7 +2830,7 @@ function shn_stat_stacked_cummulative_arrival() {
 		echo "for(n=0; n<points5.length; n++) {\n";
 			echo "data5.push([dates5[n], points5[n]]);\n";
 			echo "}\n";
-		        
+
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
@@ -2758,7 +2842,7 @@ function shn_stat_stacked_cummulative_arrival() {
 				echo "fontSize: '28px',\n";
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
-         echo "text: 'Cummulative Arrivals During $name Event'\n" ;
+         echo "text: 'Stacked Cummulative Arrivals $description Event'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n" ;
 		 echo "style: {\n";
@@ -2767,8 +2851,8 @@ function shn_stat_stacked_cummulative_arrival() {
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
 		 echo "y: 50,\n";
-         echo "text: 'From: $start_date to $end_date',\n" ;
-         echo "},\n" ;	  
+         echo "text: 'First Reported: $start_date, Last Reported: $end_date. This page refreshes every 120 seconds'\n" ;
+         echo "},\n" ;
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
 		 echo "maxZoom:  3600000,\n";
@@ -2782,7 +2866,8 @@ function shn_stat_stacked_cummulative_arrival() {
             echo "year: '%b %e'\n" ;
          echo "}\n" ;
      echo "},\n" ;
-    echo "yAxis: {\n";			
+	 /*
+    echo "yAxis: {\n";
 			echo "allowDecimals: false,\n";
 			echo "labels: {\n";
             echo "formatter: function() {\n";
@@ -2796,22 +2881,38 @@ function shn_stat_stacked_cummulative_arrival() {
 			echo "startOnTick: true,\n";
 			echo "showFirstLabel: true\n";
 				echo "},\n";
+	*/
+	echo "yAxis: [{
+		    allowDecimals: false,
+			lineWidth: 3,
+			title: {
+				text: 'Total People Count'
+			}
+		}, {
+		    allowDecimals: false,
+			lineWidth: 3,
+			opposite: true,
+			title: {
+				text: 'Total People Count'
+			}
+		}],\n";
+
 		echo "tooltip: {\n";
 			echo "shared: true\n";
 				echo "},\n";
 		echo "legend: {\n";
 			echo "area: {\n";
 			echo "align: 'right',\n";
-			echo "backgroundColor: '#FCFFC5',\n";    
-			echo "enabled: true,\n";			
-			echo "},\n";
-			
-				echo "},\n";
+			echo "backgroundColor: '#FCFFC5',\n";
+			echo "enabled: true\n";
+			echo "}\n";
+
+		echo "},\n";
 		echo "plotOptions: {\n";
 			echo "series: {\n";
                         echo "stacking: 'normal'\n";
-                    echo "},\n";					
-			echo "area: {\n";			
+                    echo "},\n";
+			echo "area: {\n";
             echo "fillColor: {\n";
                echo "linearGradient: [0, 0, 0, 300],\n";
                echo "stops: [\n";
@@ -2819,7 +2920,7 @@ function shn_stat_stacked_cummulative_arrival() {
                   echo "[1, 'rgba(2,1,0,0)']\n";
                echo "]\n";
             echo "},\n";
-			
+
             echo "lineWidth: 1,\n";
             echo "marker: {\n";
 				echo "enabled: true,\n";
@@ -2839,12 +2940,12 @@ function shn_stat_stacked_cummulative_arrival() {
          echo "},\n";
 		 echo "area: {\n" ;
             echo "dataLabels: {\n" ;
-               echo "enabled: true\n" ;
+               echo "enabled: false\n" ;//disable the point labels
             echo "},\n" ;
             echo "enableMouseTracking: false\n" ;
          echo "}\n" ;
 		//echo "
-		//series: {		    
+		//series: {
             //events: {
                 //hide: function(event) {
                     //alert ('The series was just hidden');
@@ -2852,7 +2953,7 @@ function shn_stat_stacked_cummulative_arrival() {
             //}
         //}
 		//";
-		 
+
       echo "},\n";
      echo "series: [{\n" ;
         //echo "name: '". $shortname;
@@ -2860,45 +2961,45 @@ function shn_stat_stacked_cummulative_arrival() {
 		//echo "'";
 		//echo ",\n";
 		//echo "type: 'area',\n" ;
-        //echo "data: data\n" ;        
+        //echo "data: data\n" ;
 		//echo "},\n";
 		//echo "{\n" ;
 		echo "name: 'TriagePic";
 		echo "'";
 		echo ",\n";
 		echo "type: 'area',\n" ;
-        echo "data: data1\n" ;        
+        echo "data: data1\n" ;
 		echo "},\n";
-		
+
 		echo "{\n" ;
 		echo "name: 'ReUnite";
 		echo "'";
 		echo ",\n";
 		echo "type: 'area',\n" ;
-        echo "data: data2\n" ;        
+        echo "data: data2\n" ;
 		echo "},\n";
-		
+
 		echo "{\n" ;
 		echo "name: 'Website";
 		echo "'";
 		echo ",\n";
 		echo "type: 'area',\n" ;
-        echo "data: data3\n" ;        
+        echo "data: data3\n" ;
 		echo "},\n";
 		echo "{\n" ;
 		echo "name: 'PFIF";
 		echo "'";
 		echo ",\n";
 		echo "type: 'area',\n" ;
-        echo "data: data4\n" ;        
+        echo "data: data4\n" ;
 		echo "},\n";
 		echo "{\n" ;
 		echo "name: 'Vanilla Email";
 		echo "'";
 		echo ",\n";
 		echo "type: 'area',\n" ;
-        echo "data: data5\n" ;    
-		
+        echo "data: data5\n" ;
+
         echo "}]\n" ;
    echo "});\n" ;
 echo "});\n" ;
@@ -2917,11 +3018,31 @@ echo "</script>\n" ;
 //echo "Test area ";
 }
 /***************************************
-demographic charts 
+demographic charts
 ****************************************/
 function shn_stat_demographic() {
 	global $global;
 	shn_stat_menu();
+
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+
+	//shn_stat_menu();
+
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+
 	echo "People Statistics for  ";
 	echo $_GET['shortname'];
 	$shortname = $_GET['shortname'];
@@ -2929,40 +3050,44 @@ function shn_stat_demographic() {
 	$groupID = $_SESSION['group_id'];
 	//echo "Shortname: " .$shortname."";
 	//echo "Group ID: " .$groupID."";
-	
-	//for starting date
+
+	//start and end date
 	$q_start_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
 	ORDER BY arrival_time asc limit 1";
 	$res = $global['db']->Execute($q_start_date);
 	$row = $res->FetchRow();
-	if($row === FALSE) {
-    	//die(mysql_error());
-		$startdate_has_data=false;
-	}
 	$start_date= $row[0];
 	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
-	//for end date
+	//for end date for all sources
 	$q_end_date="SELECT arrival_time from arrival_rate a
-	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
 	ORDER BY arrival_time desc limit 1";
 	$res = $global['db']->Execute($q_end_date);
 	$row = $res->FetchRow();
-	if($row === FALSE) {
-    	//die(mysql_error());
-		$enddate_has_data=false;
-	}
 	$end_date= $row[0];
-    $end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+
 	//for status
-	$q_s="SELECT DISTINCT d.option_description as opt_status, count( opt_status ) as count_opt_status FROM person_status a
-	join field_options d ON a.opt_status=d.option_code
-	join person_uuid b ON a.p_uuid= b.p_uuid
-	join incident c ON c.incident_id= b.incident_id where c.shortname = '".$shortname."'
-	GROUP BY opt_status";
+
+	//$q_s="SELECT DISTINCT d.option_code as opt_status, d.option_description as color, count( opt_code ) as count_opt_status FROM person_status a
+	//join field_options d ON a.opt_status=d.option_code where (d.field_name ='opt_status_color')
+	//join person_uuid b ON a.p_uuid= b.p_uuid
+	//join incident c ON c.incident_id= b.incident_id where c.shortname = '".$shortname."'
+	//GROUP BY opt_status";
+	$q_s="SELECT DISTINCT f.option_description AS opt_status, COUNT( opt_status ) AS count_opt_status, g.option_description
+	FROM person_status s
+	LEFT JOIN field_options f ON s.opt_status = f.option_code
+	LEFT JOIN field_options g ON f.option_code = g.option_code
+	JOIN person_uuid p ON p.p_uuid= s.p_uuid
+	JOIN incident i ON i.incident_id = p.incident_id
+	WHERE i.shortname = '".$shortname."'
+	AND g.field_name = 'opt_status_color'
+	GROUP BY opt_status ";
+
 	//using status_count view
-	//$q_s="SELECT opt_status, count_opt_status FROM status_count where incident_id = '".$shortname."'";
-	
+	//$q_s="SELECT opt_status, count_opt_status, color FROM status_count where incident_id = '".$shortname."'";
+
 	$res = $global['db']->Execute($q_s);
 	$row = $res->FetchRow();
 
@@ -2973,14 +3098,20 @@ function shn_stat_demographic() {
 	$status_has_data=true;
 	$json_opt_status = array();
 	$json_count_opt_status = array();
+	//to match color
+	$json_colors=array();
 	do{
 		$opt_status[] = $row['opt_status'];
 		array_push($json_opt_status, $row['opt_status']);
 		$count_opt_status[] = $row['count_opt_status'];
 		array_push($json_count_opt_status, $row['count_opt_status']);
+		//color
+		$color[] = $row['option_description'];
+		array_push($json_colors, $row['option_description']);
 		}
 	while($row = $res->FetchRow());
-	
+
+	//if ($shortname!=='testind') {
 	//for gender
 	$q_g="SELECT DISTINCT d.option_description as opt_gender, count( opt_gender ) AS count_opt_gender
 	FROM person_details a
@@ -2991,10 +3122,10 @@ function shn_stat_demographic() {
 	GROUP BY option_description";
 	//using view gender_count
 	//$q_g="SELECT opt_gender, count_opt_gender where incident_id = '".$shortname."'";
-	
+
 	$res = $global['db']->Execute($q_g);
-	$row = $res->FetchRow();	
-	
+	$row = $res->FetchRow();
+
 	if($row === FALSE) {
     	//die(mysql_error());
 		$gender_has_data=false;
@@ -3009,8 +3140,8 @@ function shn_stat_demographic() {
 		array_push($json_count_opt_gender, $row['count_opt_gender']);
 		}
 	while($row = $res->FetchRow());
-	
-	
+
+
 	//for pediatrics/adults
 	$q_a="SELECT 'pediatrics' as opt_age, count(years_old) as count_opt_age FROM `person_details` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
@@ -3023,12 +3154,12 @@ function shn_stat_demographic() {
 	where (c.shortname = '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 18))";
 	//using view 'age_group_age'
 	//$q_a="select opt_age, count_opt_age from age_group_count where incident_id = '".$shortname."'";
-	
+
 	$res = $global['db']->Execute($q_a);
-	$row = $res->FetchRow();	
-	
+	$row = $res->FetchRow();
+
 	if($row === FALSE) {
-    	//die(mysql_error());		
+    	//die(mysql_error());
 		$agegroup_has_data=false;
 	}
 	$agegroup_has_data=true;
@@ -3041,23 +3172,23 @@ function shn_stat_demographic() {
 		array_push($json_count_opt_age, $row['count_opt_age']);
 		}
 	while($row = $res->FetchRow());
-	
-	//for tp category	
+
+	//for tp category
 	$q_tp="SELECT distinct (triage_category) as opt_category, count(triage_category) as count_optcategory FROM `edxl_co_lpf` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
-	where c.shortname = '".$shortname."'	 
+	where c.shortname = '".$shortname."'
 	group by a.triage_category
 	order by a.triage_category";
-	
+
 	//using view 'tp_zonecolor_count'
 	//$q_tp="SELECT opt_category, count_optcategory FROM `tp_zonecolor_count` where incident_id = '".$shortname."'";
-	
+
 	$res = $global['db']->Execute($q_tp);
-	$row = $res->FetchRow();	
-	
+	$row = $res->FetchRow();
+
 	if($row === FALSE) {
-    	//echo 'No data available: ' . mysql_error();		
+    	//echo 'No data available: ' . mysql_error();
      $TP_has_data=false;
 	}
 	$TP_has_data=true;
@@ -3069,52 +3200,58 @@ function shn_stat_demographic() {
 		$count_optcategory[] = $row['count_optcategory'];
 		array_push($json_count_optcategory, $row['count_optcategory']);
 		}
-	while($row = $res->FetchRow());		
-	
+	while($row = $res->FetchRow());
+	//}//end if event not=testIND
 	?>
-	<div id="container" style="width: 300px; height: 400px;">
-	<--!div id="container2" style="width: 300px; height: 400px;"-->
-	<--!button id="button">Remove first series</button-->
 
-	<div>;
+
+	<div id="container" style="width: 100%; height: 100%;">
 	
+	</div>
+   
+
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
-		
+
 	$json_opt_status = implode("','",$json_opt_status);
 	$json_count_opt_status = implode(",", $json_count_opt_status);
-	
+    $json_colors= implode("','", $json_colors);
+
 	$json_opt_gender = implode("','",$json_opt_gender);
 	$json_count_opt_gender = implode(",", $json_count_opt_gender);
-	
+
 	$json_opt_age = implode("','",$json_opt_age);
-	$json_count_opt_age = implode(",", $json_count_opt_age);	
-	
+	$json_count_opt_age = implode(",", $json_count_opt_age);
+
 	$json_opt_category = implode("','",$json_opt_category);
 	$json_count_optcategory = implode(",", $json_count_optcategory);
-	
+
 	echo "\n";
 
 	echo "<script type=\"text/javascript\">\n";
-			
-		echo "counts = [$json_count_opt_status],\n";		
+
+		echo "counts = [$json_count_opt_status],\n";
 		echo "names = " .json_encode($opt_status);		
 		echo ",\n";
-		echo "colors= ['#348017','#000000', '#990033','red','blue','#333333'],\n";
+		echo "colors = ['".$json_colors ;
+		echo "'], \n";
+		
+		//echo "colors = [$json_colors],\n";
+		//echo "colors= ['#348017','#000000', '#990033','red','blue','#333333'],\n";
 		echo "j, data_status = [], chart;";
 		echo "\n";
-		echo "for(j=0; j<counts.length; j++) {\n";		
-			
+		echo "for(j=0; j<counts.length; j++) {\n";
+
 			echo "
 			data_status.push({
 			name: names[j],
 			y: counts[j],
-            color: colors[j]			
+            color: colors[j]
 			});
-			";			
+			";
 			echo "}\n";
-			
+
 		echo "var counts_g = [$json_count_opt_gender],\n";
 		echo "names_g = " .json_encode($opt_gender);
 		echo ",\n";
@@ -3131,8 +3268,8 @@ function shn_stat_demographic() {
 			});
 			";
 		echo "}\n";
-			
-		
+
+
 		echo "var counts_a = [$json_count_opt_age],\n";
 		echo "names_a = " .json_encode($opt_age);
 		echo ",\n";
@@ -3149,15 +3286,15 @@ function shn_stat_demographic() {
 			});
 			";
 			echo "}\n";
-		
+
 		echo "var counts_c = [$json_count_optcategory],\n";
 		echo "names_c = " .json_encode($opt_category);
 		echo ",\n";
 		//echo "colors: ['#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";
 		echo "j, data_category = [], chart;";
 		echo "\n";
-		echo "for(j=0; j<counts_c.length; j++) {\n";	
-		
+		echo "for(j=0; j<counts_c.length; j++) {\n";
+
 			//echo "data_category.push([names_c[j], counts_c[j]])\n";
 		echo "
 			data_category.push({
@@ -3166,25 +3303,25 @@ function shn_stat_demographic() {
 			color: names_c[j]
 			});
 			";
-		echo "}\n";       
-		
+		echo "}\n";
+
 
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container',\n" ;
+         echo "renderTo: 'container'\n" ;
       echo "},\n" ;
-	  //echo "colors: ['pink', 'cyan', 'lime', 'cinnabar', 'orange', 'lilac', 'green', 'black', 'royal blue','blue','emerald', 'lime', 'yellow', 'red','gray','black'],\n"; 
+	  //echo "colors: ['pink', 'cyan', 'lime', 'cinnabar', 'orange', 'lilac', 'green', 'black', 'royal blue','blue','emerald', 'lime', 'yellow', 'red','gray','black'],\n";
 	  echo "colors: ['#FCDFFF', '#00FFFF', '#8AFB17', '#7E2217', '#F87217', '#D462FF', '#4CC417', '#000000', '#151B8D','#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";
-      
+
 	  echo "title: {\n" ;
 		 echo "style: {\n";
 				echo "color: 'Blue',\n";
 				echo "fontSize: '28px',\n";
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
-		 echo "margin: 45,\n";  
-         echo "text: 'Arrivals During $name Event'\n" ;
+		 echo "margin: 45,\n";
+         echo "text: 'Arrivals $description Event'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n" ;
 		 echo "style: {\n";
@@ -3194,9 +3331,11 @@ function shn_stat_demographic() {
 				echo "},\n";
 		echo "margin: 45,\n";
 		echo "y: 50,\n";
-         echo "text: 'From: $start_date to $end_date'\n" ;
+		 if ($startdate_has_data=true){
+         echo "text: 'First Reported: $start_date, Last Reported: $end_date. This page refreshes every 120 seconds'\n" ;
+		 }
       echo "},\n" ;
-	  
+
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
 		 echo "maxZoom:  3600000,\n";
@@ -3210,9 +3349,9 @@ function shn_stat_demographic() {
             echo "year: '%b %e'\n" ;
          echo "}\n" ;
      echo "},\n" ;
-    echo "yAxis: {\n";			
-			echo "allowDecimals: false,\n";			
-			echo "title: {\n";			
+    echo "yAxis: {\n";
+			echo "allowDecimals: false,\n";
+			echo "title: {\n";
             echo "text: 'Count of Persons Reported'\n";
 					echo "},\n";
 			echo "min: 0.6,\n";
@@ -3223,18 +3362,18 @@ function shn_stat_demographic() {
 			echo "shared: true\n";
 				echo "},\n";
 		echo "legend: {\n";
-			
+
 			echo "pie: {\n";
-			echo "enabled: false,\n";			
+			echo "enabled: false,\n";
             echo "align: 'left',\n";
             echo "layout: 'horizontal',\n";
             echo "verticalAlign: 'top',\n";
-            echo "floating: true,\n";        
+            echo "floating: true,\n";
 			echo "backgroundColor: 'yellow'\n";
 			echo "}\n";
 				echo "},\n";
-				
-		echo "plotOptions: {\n";	
+
+		echo "plotOptions: {\n";
 		//display more details
 		 echo "pie: {\n" ;
 			echo "allowPointSelect: true,\n" ;
@@ -3247,7 +3386,7 @@ function shn_stat_demographic() {
                echo "}\n" ;
             echo "}\n" ;
          echo "},\n" ;
-		 
+
 		 //test
 		 echo "
 		 series: {
@@ -3258,15 +3397,15 @@ function shn_stat_demographic() {
             }
         }
 		 ";
-        
+
       echo "},\n";
 	  //test
      echo "series: [{\n" ;
         //echo "name: '". $shortname;
 		echo "name: 'Gender";
 		echo "'";
-		echo ",\n";	
-		
+		echo ",\n";
+
 		//echo "{\n";
 		echo "type: 'pie',\n";
 		echo "data: data_gender,\n" ;
@@ -3291,12 +3430,12 @@ function shn_stat_demographic() {
 			echo "enabled: true\n";
 		echo "}\n";
 		echo "},\n";
-	
+
 		echo "{\n";
 		echo "type: 'pie',\n";
 		echo "data: data_status,\n" ;
-		//echo "colors: ['#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";	
-	    //echo "colors: ['Green','Cyan', 'Yellow', 'Red', 'Grey', 'Black'],\n";		
+		//echo "colors: ['#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";
+	    //echo "colors: ['Green','Cyan', 'Yellow', 'Red', 'Grey', 'Black'],\n";
 		//echo "center: [900, 300],\n";
 		echo "center: ['60%', '50%'],\n";
 		echo "size: 200,\n";
@@ -3306,45 +3445,46 @@ function shn_stat_demographic() {
 			echo "enabled: true\n";
 			echo "}\n";
 		echo "},\n";
-		
+
 		//echo "{\n";
 		echo "{\n";
 		echo "name: 'Initial Triage Zones',\n";
-		echo "type: 'pie',\n";		
-		echo "data: data_category,\n" ;		
+		echo "type: 'pie',\n";
+		echo "data: data_category,\n" ;
 		//echo "center: [1250, 300],\n";
 		echo "center: ['85%', '50%'],\n";
-		echo "size: 200,\n";		
-		echo "showInLegend: false,\n";		
+		echo "size: 200,\n";
+		echo "showInLegend: false,\n";
 		echo "showLegend: true,\n";
 		echo "dataLabels: {\n";
 			echo "enabled: true\n";
 		echo "}\n";
         echo "}],\n" ;
-		
-		
+
+		/*hide labels
 		//add labels for each pie charts
-		//if ($has_data=true) then 
+		//if ($has_data=true) then
 		echo "labels: {\n" ;
         echo "items: [{\n" ;
 		    if ($gender_has_data=='true'){
             echo "html: 'Gender',\n" ;
             echo "style: {\n" ;
-                echo "left: '160px',\n" ;
+                echo "left: '260px',\n" ;
                 echo "top: '600px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'blue'\n" ;				
-            echo "}\n" ;			
+                echo "color: 'blue'\n" ;
+            echo "}\n" ;
 			echo "}\n";
 			}
 			if ($agegroup_has_data=='true'){
 			echo ",{\n" ;
 			echo "html: 'Age Group',\n" ;
             echo "style: {\n" ;
-                echo "left: '510px',\n" ;
+                echo "left: '630px',\n" ;
                 echo "top: '600px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'blue'\n" ;            
+                echo "color: 'blue'\n" ;
+                //echo "zIndex=\"2\"\n";
             echo "}\n" ;
 			echo "}\n";
 			}
@@ -3352,10 +3492,11 @@ function shn_stat_demographic() {
 			echo ",{\n" ;
 			echo "html: 'People Locator Status',\n" ;
             echo "style: {\n" ;
-                echo "left: '830px',\n" ;
+                echo "left: '1100px',\n" ;
                 echo "top: '600px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'blue'\n" ;            
+                echo "color: 'blue'\n" ;
+                //echo "zIndex=\"2\"\n";
             echo "}\n" ;
 			echo "}\n";
 			}
@@ -3365,17 +3506,20 @@ function shn_stat_demographic() {
 			echo ",{\n" ;
             echo "html:'Based on Initial Triage Zones ',\n" ;
             echo "style: {\n" ;
-                echo "left: '1180px',\n" ;
+                echo "left: '1500px',\n" ;
                 echo "top: '600px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'blue'\n" ;            
-            echo "}\n" ;			
+                echo "color: 'blue'\n" ;
+				//echo "zIndex=\"2\"\n";
+            echo "}\n" ;
 			echo "}\n";
 			}
 			//end if
-			echo "]}\n" ;      
-		
+			echo "]}\n" ;
+          end labels */
    echo "});\n" ;
+   
+
 echo "});\n" ;
 
 
@@ -3390,7 +3534,7 @@ echo "});\n" ;
 
 
 echo "</script>\n" ;
-//echo "Test area ";
+echo "Test area ";
 }
 /***********************************************************
 arrivals- from arrival rate table
@@ -3402,7 +3546,26 @@ function shn_stat_arrival() {
 	$shortname = $_GET['shortname'];
 	$name=ucfirst($shortname);
 	//$item = $_GET['item'];
-	
+
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+
+	//shn_stat_menu();
+
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+
 	//for starting date for all sources
 	$q_start_date="SELECT arrival_time from arrival_rate a
 	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
@@ -3419,44 +3582,72 @@ function shn_stat_arrival() {
 	$row = $res->FetchRow();
 	$end_date= $row[0];
 	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+
 	$q="SELECT (arrival_time) as source_date, count(*) as count_source_date from arrival_rate a
 	where ((source_all >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
-	GROUP by (arrival_time)";
-	
+	GROUP by date(arrival_time)";
+
 	$q1="SELECT (arrival_time) as source_date1, count(*) as count_source_date1 from arrival_rate a
 	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
-	GROUP by (arrival_time)"; 
-	
+	GROUP by date(arrival_time)";
+
 	$q2="SELECT (arrival_time) as source_date2, count(*) as count_source_date2 from arrival_rate a
 	where ((source_reunite >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
-	GROUP by (arrival_time)";
-	
+	GROUP by date(arrival_time)";
+
 	$q3="SELECT (arrival_time) as source_date3, count(*) as count_source_date3 from arrival_rate a
 	where ((source_website >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
-	GROUP by (arrival_time)";
-	
+	GROUP by date(arrival_time)";
+
 	$q4="SELECT (arrival_time) as source_date4, count(*) as count_source_date4 from arrival_rate a
 	where ((source_pfif >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
-	GROUP by (arrival_time)";
-	
+	GROUP by date(arrival_time)";
+
 	$q5="SELECT (arrival_time) as source_date5, count(*) as count_source_date5 from arrival_rate a
 	where ((source_vanilla_email >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
-	GROUP by (arrival_time)";
-	
+	GROUP by date(arrival_time)";
+
+	if ($shortname=='shield2012' or $shortname=='testind' or $shortname=='testindmon' or $shortname=='testindtues' or $shortname=='testindwed' or $shortname=='testindthur'){
+
+	$q="SELECT (arrival_time) as source_date, count(*) as count_source_date from arrival_rate a
+	where ((source_all >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time), hour(arrival_time)";
+
+	$q1="SELECT (arrival_time) as source_date1, count(*) as count_source_date1 from arrival_rate a
+	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time),hour(arrival_time)";
+
+	$q2="SELECT (arrival_time) as source_date2, count(*) as count_source_date2 from arrival_rate a
+	where ((source_reunite >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time),hour(arrival_time)";
+
+	$q3="SELECT (arrival_time) as source_date3, count(*) as count_source_date3 from arrival_rate a
+	where ((source_website >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time),hour(arrival_time)";
+
+	$q4="SELECT (arrival_time) as source_date4, count(*) as count_source_date4 from arrival_rate a
+	where ((source_pfif >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time),hour(arrival_time)";
+
+	$q5="SELECT (arrival_time) as source_date5, count(*) as count_source_date5 from arrival_rate a
+	where ((source_vanilla_email >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time),hour(arrival_time)";
+	}
+
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 	$res1 = $global['db']->Execute($q1);
 	$row1 = $res1->FetchRow();
-	
+
 	$res2 = $global['db']->Execute($q2);
 	$row2 = $res2->FetchRow();
 	$res3 = $global['db']->Execute($q3);
 	$row3 = $res3->FetchRow();
 	$res4 = $global['db']->Execute($q4);
 	$row4 = $res4->FetchRow();
-	$res5 = $global['db']->Execute($q5);		
+	$res5 = $global['db']->Execute($q5);
 	$row5 = $res5->FetchRow();
-    
+
 	if($row === FALSE) {
     	//die(mysql_error());
 	}
@@ -3470,8 +3661,8 @@ function shn_stat_arrival() {
 		array_push($json_count_source_date, $row['count_source_date']);
 		}
 	while($row = $res->FetchRow());
-	
-	
+
+
 	if($row1 === FALSE) {
     	//die(mysql_error());
 	}
@@ -3485,7 +3676,7 @@ function shn_stat_arrival() {
 		array_push($json_count_source_date1, $row1['count_source_date1']);
 		}
 	while($row1 = $res1->FetchRow());
-	
+
 	if($row2 === FALSE) {
     	//die(mysql_error());
 	}
@@ -3499,7 +3690,7 @@ function shn_stat_arrival() {
 		array_push($json_count_source_date2, $row2['count_source_date2']);
 		}
 	while($row2 = $res2->FetchRow());
-	
+
 	if($row3 === FALSE) {
     	//die(mysql_error());
 	}
@@ -3513,7 +3704,7 @@ function shn_stat_arrival() {
 		array_push($json_count_source_date3, $row3['count_source_date3']);
 		}
 	while($row3 = $res3->FetchRow());
-	
+
 	if($row4 === FALSE) {
     	//die(mysql_error());
 	}
@@ -3527,7 +3718,7 @@ function shn_stat_arrival() {
 		array_push($json_count_source_date4, $row4['count_source_date4']);
 		}
 	while($row4 = $res4->FetchRow());
-	
+
 	if($row5 === FALSE) {
     	//die(mysql_error());
 	}
@@ -3540,35 +3731,35 @@ function shn_stat_arrival() {
 		$count_source_date5[] = $row5['count_source_date5'];
 		array_push($json_count_source_date5, $row5['count_source_date5']);
 		}
-	while($row5 = $res5->FetchRow());	
-			
-	
+	while($row5 = $res5->FetchRow());
+
+
 	?>
-	<div id="container" style="width: 600px; height: 800px;"></div>;
-	<!--button id="button">Remove first series</button--!>
-	
-	
+	<div id="container" style="width: 100%; min-height: 100%;"></div>;
+
+
+
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
 	$json_source_date = implode("','",$json_source_date);
-	$json_count_source_date = implode(",", $json_count_source_date);	
-	
+	$json_count_source_date = implode(",", $json_count_source_date);
+
 	$json_source_date1 = implode("','",$json_source_date1);
 	$json_count_source_date1 = implode(",", $json_count_source_date1);
-	
+
 	$json_source_date2 = implode("','",$json_source_date2);
-	$json_count_source_date2 = implode(",", $json_count_source_date2);	
-	
+	$json_count_source_date2 = implode(",", $json_count_source_date2);
+
 	$json_source_date3 = implode("','",$json_source_date3);
 	$json_count_source_date3 = implode(",", $json_count_source_date3);
-	
+
 	$json_source_date4 = implode("','",$json_source_date4);
-	$json_count_source_date4 = implode(",", $json_count_source_date4);	
-	
+	$json_count_source_date4 = implode(",", $json_count_source_date4);
+
 	$json_source_date5 = implode("','",$json_source_date5);
-	$json_count_source_date5 = implode(",", $json_count_source_date5);		
-	
+	$json_count_source_date5 = implode(",", $json_count_source_date5);
+
 	echo "\n";
 
 	echo "<script type=\"text/javascript\">\n";
@@ -3581,7 +3772,7 @@ function shn_stat_arrival() {
 		echo "for(i=0; i<points.length; i++) {\n";
 			echo "data.push([dates[i], points[i]]);\n";
 			echo "}\n";
-	
+
 		echo "\n";
 		echo "var points1 = [$json_count_source_date1],\n";
 		echo "dates1 = " .json_encode($source_date1);
@@ -3591,7 +3782,7 @@ function shn_stat_arrival() {
 		echo "for(j=0; j<points1.length; j++) {\n";
 			echo "data1.push([dates1[j], points1[j]]);\n";
 			echo "}\n";
-	    
+
 		echo "\n";
 		echo "var points2 = [$json_count_source_date2],\n";
 		echo "dates2 = " .json_encode($source_date2);
@@ -3601,7 +3792,7 @@ function shn_stat_arrival() {
 		echo "for(k=0; k<points2.length; k++) {\n";
 			echo "data2.push([dates2[k], points2[k]]);\n";
 			echo "}\n";
-		
+
 		echo "\n";
 		echo "var points3 = [$json_count_source_date3],\n";
 		echo "dates3 = " .json_encode($source_date3);
@@ -3611,7 +3802,7 @@ function shn_stat_arrival() {
 		echo "for(l=0; l<points3.length; l++) {\n";
 			echo "data3.push([dates3[l], points3[l]]);\n";
 			echo "}\n";
-	
+
 		echo "\n";
 		echo "var points4 = [$json_count_source_date4],\n";
 		echo "dates4 = " .json_encode($source_date4);
@@ -3620,8 +3811,8 @@ function shn_stat_arrival() {
 		echo "\n";
 		echo "for(m=0; m<points4.length; m++) {\n";
 			echo "data4.push([dates4[m], points4[m]]);\n";
-			echo "}\n";	
-	
+			echo "}\n";
+
 		echo "\n";
 		echo "var points5 = [$json_count_source_date5],\n";
 		echo "dates5 = " .json_encode($source_date5);
@@ -3631,11 +3822,11 @@ function shn_stat_arrival() {
 		echo "for(n=0; n<points5.length; n++) {\n";
 			echo "data5.push([dates5[n], points5[n]]);\n";
 			echo "}\n";
-		        
+
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container',\n" ;
+         echo "renderTo: 'container'\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
 		 echo "style: {\n";
@@ -3643,7 +3834,7 @@ function shn_stat_arrival() {
 				echo "fontSize: '28px',\n";
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
-         echo "text: 'Reported Rate During $name Event'\n" ;
+         echo "text: 'Reported Rate $description Event'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n" ;
 		 echo "style: {\n";
@@ -3652,8 +3843,8 @@ function shn_stat_arrival() {
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
 		 echo "y: 50,\n";
-         echo "text: 'From: $start_date to $end_date'\n" ;
-         echo "},\n" ;	  
+         echo "text: 'First Reported: $start_date, Last Reported: $end_date. This page refreshes every 120 seconds'\n" ;
+         echo "},\n" ;
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
 		 echo "maxZoom:  3600000,\n";
@@ -3664,11 +3855,11 @@ function shn_stat_arrival() {
             echo "day: '%b %e',\n" ;
             echo "week: '%b %e',\n" ;
             echo "month: '%b %e',\n" ;
-            echo "year: '%b %e'\n" ;		
+            echo "year: '%b %e'\n" ;
          echo "}\n" ;
 		 //echo "categories: ['dates']\n";
      echo "},\n" ;
-    echo "yAxis: {\n";			
+    echo "yAxis: {\n";
 			echo "allowDecimals: false,\n";
 			echo "labels: {\n";
             echo "formatter: function() {\n";
@@ -3688,13 +3879,13 @@ function shn_stat_arrival() {
 		echo "legend: {\n";
 			echo "line: {\n";
 			echo "align: 'right',\n";
-			echo "backgroundColor: '#FCFFC5',\n";    
-			echo "enabled: true,\n";			
-			echo "},\n";
-			
-				echo "},\n";
+			echo "backgroundColor: '#FCFFC5',\n";
+			echo "enabled: true\n";
+			echo "}\n";
+
+	  echo "},\n";
 		echo "plotOptions: {\n";
-			
+
 			echo "area: {\n";
             echo "fillColor: {\n";
                echo "linearGradient: [0, 0, 0, 300],\n";
@@ -3725,8 +3916,8 @@ function shn_stat_arrival() {
                echo "enabled: true\n" ;
             echo "},\n" ;
             echo "enableMouseTracking: false\n" ;
-         echo "},\n" ;
-		 
+         echo "}\n" ;
+
       echo "},\n";
      echo "series: [{\n" ;
         //echo "name: '". $shortname;
@@ -3734,45 +3925,45 @@ function shn_stat_arrival() {
 		echo "'";
 		echo ",\n";
 		echo "type: 'line',\n" ;
-        echo "data: data\n" ;        
+        echo "data: data\n" ;
 		echo "},\n";
 		echo "{\n" ;
 		echo "name: 'TriagePic";
 		echo "'";
 		echo ",\n";
 		echo "type: 'line',\n" ;
-        echo "data: data1\n" ;        
+        echo "data: data1\n" ;
 		echo "},\n";
-		
+
 		echo "{\n" ;
 		echo "name: 'ReUnite";
 		echo "'";
 		echo ",\n";
 		echo "type: 'line',\n" ;
-        echo "data: data2\n" ;        
+        echo "data: data2\n" ;
 		echo "},\n";
-		
+
 		echo "{\n" ;
 		echo "name: 'Website";
 		echo "'";
 		echo ",\n";
 		echo "type: 'line',\n" ;
-        echo "data: data3\n" ;        
+        echo "data: data3\n" ;
 		echo "},\n";
 		echo "{\n" ;
 		echo "name: 'PFIF";
 		echo "'";
 		echo ",\n";
 		echo "type: 'line',\n" ;
-        echo "data: data4\n" ;        
+        echo "data: data4\n" ;
 		echo "},\n";
 		echo "{\n" ;
 		echo "name: 'Vanilla Email";
 		echo "'";
 		echo ",\n";
 		echo "type: 'line',\n" ;
-        echo "data: data5\n" ;    
-		
+        echo "data: data5\n" ;
+
         echo "}]\n" ;
    echo "});\n" ;
 echo "});\n" ;
@@ -3790,7 +3981,7 @@ $('#button').click(function() {
 
 echo "</script>\n" ;
 
-}	
+}
 /***********************************************************
 Testing-new arrival_rate table
 ***********************************************************/
@@ -3800,21 +3991,21 @@ function shn_stat_test_select() {
 	echo "People Statistics for  ";
 	echo $_GET['shortname'];
 	$shortname = $_GET['shortname'];
-	
-	
+
+
 	/*testing
-	if (is_array($_POST['col'])) { 
-		//$sql = "SELECT "; 
-		foreach($_POST['col'] AS $value) { 
-			//$sql .= "{$value}, "; 
-		} 
-		//$sql  = substr($sql, 0, -2); 
-		//$sql .= " FROM table"; 
-		//echo "sql= " . $sql . "<br /><br />\n"; 
-		echo $value; 
-	} else { 
-		echo "No column was selected<br /><br />\n"; 
-	} 
+	if (is_array($_POST['col'])) {
+		//$sql = "SELECT ";
+		foreach($_POST['col'] AS $value) {
+			//$sql .= "{$value}, ";
+		}
+		//$sql  = substr($sql, 0, -2);
+		//$sql .= " FROM table";
+		//echo "sql= " . $sql . "<br /><br />\n";
+		echo $value;
+	} else {
+		echo "No column was selected<br /><br />\n";
+	}
 	end testing
 	*/
 	$quantity = $_POST['quantity'];
@@ -3830,19 +4021,19 @@ function shn_stat_test_select() {
 	 b.shortname like '". $shortname ."'
 	 and a.source_triagepic=1
 	)
-	GROUP BY DATE( arrival_time ) 
+	GROUP BY DATE( arrival_time )
 	ORDER BY DATE( arrival_time )";
-	
+
 	//for all sources
 	$q_all="SELECT arrival_time as source_date, count( arrival_time ) AS count_source_date
 	FROM `arrival_rate` a
 	join incident b ON a.incident_id= b.incident_id
 	WHERE (
-	 b.shortname like '". $shortname ."'	
+	 b.shortname like '". $shortname ."'
 	)
-	GROUP BY DATE( arrival_time ) 
+	GROUP BY DATE( arrival_time )
 	ORDER BY DATE( arrival_time )";
-	
+
 	$res = $global['db']->Execute($q);
 	$row = $res->FetchRow();
 
@@ -3863,18 +4054,18 @@ function shn_stat_test_select() {
 	echo json_encode($count_source_date);
 	echo json_encode($source_date);
 	?>
-	<div id="container1" style="width: 300px; height: 200px; margin: 0 auto;">	
-	
-			<form action="" method="post">				
+	<div id="container1" style="width: 300px; height: 200px; margin: 0 auto;">
+
+			<form action="" method="post">
 				<label><input type="radio" name="col[]" value="Status">Status</label><br>
 				<label><input type="radio" name="col[]" value="Age">Age</label><br>
 				<label><input type="radio" name="col[]" value="Gender">Gender</label><br>
 				<input type="submit" name="submit" value="Submit">
-				<input type="submit" style="background-color: #fff; border: 0; text-decoration: underline; color: #00c;" name="submit" value=a href="index.php?mod=stat&act=test_arrival_rate\"> 
-				
+				<input type="submit" style="background-color: #fff; border: 0; text-decoration: underline; color: #00c;" name="submit" value=a href="index.php?mod=stat&act=test_arrival_rate\">
+
 			</form>
 		</div>;
-	<?php	
+	<?php
 
 	$shortname = $_GET['shortname'];
 	echo "\n";
@@ -3898,7 +4089,7 @@ function shn_stat_test_select() {
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container1',\n" ;
+         echo "renderTo: 'container'\n" ;
       echo "},\n" ;
       echo "title: {\n" ;
          echo "text: 'Arrival Rate by Date (new table) from $shortname'\n" ;
@@ -3949,13 +4140,13 @@ function shn_stat_test_select() {
         echo "data: data\n" ;
         echo "}]\n" ;
    echo "});\n" ;
-echo "});\n" ;	
+echo "});\n" ;
 //echo "</script>\n" ;
 echo "Test area ";
 }
 
 /***************************************
-demographic charts 
+demographic charts
 ****************************************/
 function shn_stat_pie_test() {
 	global $global;
@@ -3967,7 +4158,7 @@ function shn_stat_pie_test() {
 	$groupID = $_SESSION['group_id'];
 	//echo "Shortname: " .$shortname."";
 	//echo "Group ID: " .$groupID."";
-	
+
 	//for starting date
 	$q_start_date="SELECT arrival_time from arrival_rate a
 	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '".$shortname."')))
@@ -4002,7 +4193,7 @@ function shn_stat_pie_test() {
 	*/
 	//using status_count view
 	$q_s="SELECT opt_status, count_opt_status, color as colors FROM status_count where shortname = '".$shortname."'";
-	
+
 	$res = $global['db']->Execute($q_s);
 	$row = $res->FetchRow();
 
@@ -4023,9 +4214,9 @@ function shn_stat_pie_test() {
 		array_push($json_colors, $row['colors']);
 		}
 	while($row = $res->FetchRow());
-	
+
 	//for gender
-	
+
 	$q_g="SELECT DISTINCT d.option_description as opt_gender, count( opt_gender ) AS count_opt_gender
 	FROM person_details a
 	JOIN field_options d ON a.opt_gender = d.option_code
@@ -4033,13 +4224,13 @@ function shn_stat_pie_test() {
 	JOIN incident c ON c.incident_id = b.incident_id
 	WHERE c.shortname = '".$shortname."'
 	GROUP BY option_description";
-	
+
 	//using view gender_count
 	//$q_g="SELECT opt_gender, count_opt_gender from gender_count where shortname = '".$shortname."'";
-	
+
 	$res = $global['db']->Execute($q_g);
-	$row = $res->FetchRow();	
-	
+	$row = $res->FetchRow();
+
 	if($row === FALSE) {
     	//die(mysql_error());
 		$gender_has_data=false;
@@ -4054,9 +4245,9 @@ function shn_stat_pie_test() {
 		array_push($json_count_opt_gender, $row['count_opt_gender']);
 		}
 	while($row = $res->FetchRow());
-	
+
 	//for pediatrics/adults
-	
+
 	$q_a="SELECT 'pediatrics' as opt_age, count(years_old) as count_opt_age FROM `person_details` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
@@ -4066,15 +4257,15 @@ function shn_stat_pie_test() {
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
 	where (c.shortname = '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 18))";
-	
+
 	//using view 'age_group_age'
 	//$q_a="select opt_age, count_opt_age from age_group_count where shortname = '".$shortname."'";
-	
+
 	$res = $global['db']->Execute($q_a);
-	$row = $res->FetchRow();	
-	
+	$row = $res->FetchRow();
+
 	if($row === FALSE) {
-    	//die(mysql_error());		
+    	//die(mysql_error());
 		$agegroup_has_data=false;
 	}
 	$agegroup_has_data=true;
@@ -4087,25 +4278,25 @@ function shn_stat_pie_test() {
 		array_push($json_count_opt_age, $row['count_opt_age']);
 		}
 	while($row = $res->FetchRow());
-	
+
 	//for tp category
-    /*	
+    /*
 	$q_tp="SELECT distinct (triage_category) as opt_category, count(triage_category) as count_optcategory FROM `edxl_co_lpf` a
 	join person_uuid b ON a.p_uuid= b.p_uuid
 	JOIN incident c ON b.incident_id = c.incident_id
-	where c.shortname = '".$shortname."'	 
+	where c.shortname = '".$shortname."'
 	group by a.triage_category
 	order by a.triage_category";
 	*/
-	
+
 	//using view 'tp_zonecolor_count'
 	$q_tp="SELECT opt_category, count_optcategory FROM `tp_zonecolor` where shortname = '".$shortname."'";
-	
+
 	$res = $global['db']->Execute($q_tp);
-	$row = $res->FetchRow();	
-	
+	$row = $res->FetchRow();
+
 	if($row === FALSE) {
-    	//echo 'No data available: ' . mysql_error();		
+    	//echo 'No data available: ' . mysql_error();
      $TP_has_data=false;
 	}
 	$TP_has_data=true;
@@ -4117,53 +4308,53 @@ function shn_stat_pie_test() {
 		$count_optcategory[] = $row['count_optcategory'];
 		array_push($json_count_optcategory, $row['count_optcategory']);
 		}
-	while($row = $res->FetchRow());	
-	
+	while($row = $res->FetchRow());
+
 	?>
-	<div id="container" style="width: 300px; height: 400px;">	
+	<div id="container" style="width: 300px; height: 400px;">
 	<button id="button">Hide series</button>
-	<button id="button">Export Chart</button>	
+	<button id="button">Export Chart</button>
 	</div>;
-	
+
 	<?php
 	$shortname = $_GET['shortname'];
 	echo "\n";
-		
+
 	$json_opt_status = implode("','",$json_opt_status);
 	$json_count_opt_status = implode(",", $json_count_opt_status);
 	$json_colors = implode(",",$json_colors);
-	
+
 	$json_opt_gender = implode("','",$json_opt_gender);
 	$json_count_opt_gender = implode(",", $json_count_opt_gender);
-	
+
 	$json_opt_age = implode("','",$json_opt_age);
-	$json_count_opt_age = implode(",", $json_count_opt_age);	
-	
+	$json_count_opt_age = implode(",", $json_count_opt_age);
+
 	$json_opt_category = implode("','",$json_opt_category);
 	$json_count_optcategory = implode(",", $json_count_optcategory);
-	
+
 	echo "\n";
 
 	echo "<script type=\"text/javascript\">\n";
 		echo "colors = [$json_colors],\n";
-		echo "counts = [$json_count_opt_status],\n";		
+		echo "counts = [$json_count_opt_status],\n";
 		echo "names = " .json_encode($opt_status);
-        		
+
 		echo ",\n";
 		//echo "colors= ['#348017','#000000', '#990033','red','blue','#333333'],\n";
 		echo "j, data_status = [], chart;";
 		echo "\n";
-		echo "for(j=0; j<counts.length; j++) {\n";		
-			
+		echo "for(j=0; j<counts.length; j++) {\n";
+
 			echo "
 			data_status.push({
 			name: names[j],
 			y: counts[j],
-            color: colors[j]			
+            color: colors[j]
 			});
-			";			
+			";
 			echo "}\n";
-			
+
 		echo "var counts_g = [$json_count_opt_gender],\n";
 		echo "names_g = " .json_encode($opt_gender);
 		echo ",\n";
@@ -4179,8 +4370,8 @@ function shn_stat_pie_test() {
 			color: colors[j]
 			});
 			";
-		echo "}\n";		
-		
+		echo "}\n";
+
 		echo "var counts_a = [$json_count_opt_age],\n";
 		echo "names_a = " .json_encode($opt_age);
 		echo ",\n";
@@ -4197,15 +4388,15 @@ function shn_stat_pie_test() {
 			});
 			";
 			echo "}\n";
-		
+
 		echo "var counts_c = [$json_count_optcategory],\n";
 		echo "names_c = " .json_encode($opt_category);
 		echo ",\n";
 		//echo "colors: ['#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";
 		echo "j, data_category = [], chart;";
 		echo "\n";
-		echo "for(j=0; j<counts_c.length; j++) {\n";	
-		
+		echo "for(j=0; j<counts_c.length; j++) {\n";
+
 			//echo "data_category.push([names_c[j], counts_c[j]])\n";
 		echo "
 			data_category.push({
@@ -4214,13 +4405,13 @@ function shn_stat_pie_test() {
 			color: names_c[j]
 			});
 			";
-		echo "}\n";       
-		
+		echo "}\n";
+
 
 	echo "\$(document).ready(function() {\n" ;
 	echo "chart = new Highcharts.Chart({\n" ;
       echo "chart: {\n" ;
-         echo "renderTo: 'container',\n";
+         echo "renderTo: 'container'\n";
 		 /* add logo to the chart
 		 echo "
 		 events: {
@@ -4231,16 +4422,16 @@ function shn_stat_pie_test() {
         }\n" ;
 		*/
       echo "},\n" ;
-	  //echo "colors: ['pink', 'cyan', 'lime', 'cinnabar', 'orange', 'lilac', 'green', 'black', 'royal blue','blue','emerald', 'lime', 'yellow', 'red','gray','black'],\n"; 
+	  //echo "colors: ['pink', 'cyan', 'lime', 'cinnabar', 'orange', 'lilac', 'green', 'black', 'royal blue','blue','emerald', 'lime', 'yellow', 'red','gray','black'],\n";
 	  //echo "colors: ['#FCDFFF', '#00FFFF', '#8AFB17', '#7E2217', '#F87217', '#D462FF', '#4CC417', '#000000', '#151B8D','#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";
-      
+
 	  echo "title: {\n" ;
 		 echo "style: {\n";
 				echo "color: 'Blue',\n";
 				echo "fontSize: '28px',\n";
 				echo "fontWeight: 'bold'\n";
 				echo "},\n";
-		 echo "margin: 45,\n";  
+		 echo "margin: 45,\n";
          echo "text: 'Arrivals During $name Event'\n" ;
       echo "},\n" ;
 	  echo "subtitle: {\n" ;
@@ -4253,7 +4444,7 @@ function shn_stat_pie_test() {
 		echo "y: 50,\n";
          echo "text: 'From: $start_date to $end_date'\n" ;
       echo "},\n" ;
-	  
+
 	  echo "xAxis: {\n" ;
          echo "type: 'datetime',\n" ;
 		 echo "maxZoom:  3600000,\n";
@@ -4267,9 +4458,9 @@ function shn_stat_pie_test() {
             echo "year: '%b %e'\n" ;
          echo "}\n" ;
      echo "},\n" ;
-    echo "yAxis: {\n";			
-			echo "allowDecimals: false,\n";			
-			echo "title: {\n";			
+    echo "yAxis: {\n";
+			echo "allowDecimals: false,\n";
+			echo "title: {\n";
             echo "text: 'Count of Persons Reported'\n";
 					echo "},\n";
 			echo "min: 0.6,\n";
@@ -4283,18 +4474,18 @@ function shn_stat_pie_test() {
             echo "}";
 	echo "},\n";
 	echo "legend: {\n";
-			
+
 			echo "pie: {\n";
-			echo "enabled: false,\n";			
+			echo "enabled: false,\n";
             echo "align: 'left',\n";
             echo "layout: 'horizontal',\n";
             echo "verticalAlign: 'top',\n";
-            echo "floating: true,\n";        
+            echo "floating: true,\n";
 			echo "backgroundColor: 'yellow'\n";
 			echo "}\n";
 	echo "},\n";
-				
-	echo "plotOptions: {\n";	
+
+	echo "plotOptions: {\n";
 		//display more details
 		 echo "pie: {\n" ;
 			echo "allowPointSelect: true,\n" ;
@@ -4308,7 +4499,7 @@ function shn_stat_pie_test() {
                echo "}\n" ;
             echo "}\n" ;
          echo "},\n" ;
-		 
+
 		 //test
 		 echo "
 		 series: {
@@ -4319,15 +4510,15 @@ function shn_stat_pie_test() {
             }
         }
 		 ";
-        
+
    echo "},\n";
 	  //test
    echo "series: [{\n" ;
         //echo "name: '". $shortname;
 		echo "name: 'Gender";
 		echo "'";
-		echo ",\n";	
-		
+		echo ",\n";
+
 		//echo "{\n";
 		echo "type: 'pie',\n";
 		echo "data: data_gender,\n" ;
@@ -4352,13 +4543,13 @@ function shn_stat_pie_test() {
 			echo "enabled: true\n";
 		echo "}\n";
 		echo "},\n";
-	
+
 		echo "{\n";
 		echo "type: 'pie',\n";
 		echo "data: data_status,\n" ;
-		//echo "colors: ['#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";	
-	    //echo "colors: ['Green','Cyan', 'Yellow', 'Red', 'Grey', 'Black'],\n";		
-		//echo "center: [900, 300],\n";		
+		//echo "colors: ['#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";
+	    //echo "colors: ['Green','Cyan', 'Yellow', 'Red', 'Grey', 'Black'],\n";
+		//echo "center: [900, 300],\n";
 		echo "center: ['60%', '50%'],\n";
 		echo "size: 200,\n";
 		echo "showInLegend: false,\n";
@@ -4367,25 +4558,25 @@ function shn_stat_pie_test() {
 			echo "enabled: true\n";
 			echo "}\n";
 		echo "},\n";
-		
+
 		//echo "{\n";
 		echo "{\n";
 		echo "name: 'Initial Triage Zones',\n";
-		echo "type: 'pie',\n";		
-		echo "data: data_category,\n" ;		
+		echo "type: 'pie',\n";
+		echo "data: data_category,\n" ;
 		//echo "center: [1250, 300],\n";
 		echo "center: ['85%', '50%'],\n";
-		echo "size: 200,\n";		
-		echo "showInLegend: false,\n";		
+		echo "size: 200,\n";
+		echo "showInLegend: false,\n";
 		echo "showLegend: true,\n";
 		echo "dataLabels: {\n";
 			echo "enabled: true\n";
 		echo "}\n";
         echo "}],\n" ;
-		
-		
+
+
 		//add labels for each pie charts
-		//if ($has_data=true) then 
+		//if ($has_data=true) then
 	echo "labels: {\n" ;
         echo "items: [{\n" ;
 		    if ($gender_has_data=='true'){
@@ -4394,8 +4585,8 @@ function shn_stat_pie_test() {
                 echo "left: '160px',\n" ;
                 echo "top: '480px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'blue'\n" ;				
-            echo "}\n" ;			
+                echo "color: 'blue'\n" ;
+            echo "}\n" ;
 			echo "}\n";
 			}
 			if ($agegroup_has_data=='true'){
@@ -4405,7 +4596,7 @@ function shn_stat_pie_test() {
                 echo "left: '510px',\n" ;
                 echo "top: '480px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'blue'\n" ;            
+                echo "color: 'blue'\n" ;
             echo "}\n" ;
 			echo "}\n";
 			}
@@ -4416,7 +4607,7 @@ function shn_stat_pie_test() {
                 echo "left: '830px',\n" ;
                 echo "top: '480px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'blue'\n" ;            
+                echo "color: 'blue'\n" ;
             echo "}\n" ;
 			echo "}\n";
 			}
@@ -4428,8 +4619,8 @@ function shn_stat_pie_test() {
                 echo "left: '1130px',\n" ;
                 echo "top: '600px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'Blue'\n" ;            
-            echo "}\n" ;			
+                echo "color: 'Blue'\n" ;
+            echo "}\n" ;
 			echo "}\n";
 			}//end if
 			//add button
@@ -4439,7 +4630,7 @@ function shn_stat_pie_test() {
                 echo "left: '70px',\n" ;
                 echo "top: '0px',\n" ;
 				echo "fontSize: '16px',\n";
-                echo "color: 'Red'\n" ;            
+                echo "color: 'Red'\n" ;
             echo "}\n" ;
 			echo "}\n";
 			//the Export button
@@ -4451,11 +4642,11 @@ function shn_stat_pie_test() {
                 echo "top: '20px',\n" ;
 				echo "fontSize: '16px',\n";
 				echo "z-index:2,\n";
-                echo "color: 'Red'\n"; 				           
+                echo "color: 'Red'\n";
             echo "}\n" ;
 			echo "}\n";
-			
-			echo "]},\n" ;      
+
+			echo "]},\n" ;
 		 //for navigation
 		 echo"
 		navigation: {
@@ -4467,12 +4658,12 @@ function shn_stat_pie_test() {
         type: 'image/jpeg'
     }
 	";
-   echo "})\n" ;//end chart   
+   echo "})\n" ;//end chart
 echo "})\n" ;//end document
 // the button action
 /*
 echo "
-var new_button = $('<button id="button">Click</button>');     
+var new_button = $('<button id="button">Click</button>');
 
 
 $button = $('#button');
@@ -4492,3 +4683,998 @@ echo "
 </script>\n" ;
 echo "Test area ";
 }//end function
+/***********************************************************
+arrivals rate- regular interval-from arrival rate table
+***********************************************************/
+function shn_stat_arrival_regular_interval() {
+	global $global;
+	shn_stat_menu();
+	echo $_GET['shortname'];
+	$shortname = $_GET['shortname'];
+	$name=ucfirst($shortname);
+	//$item = $_GET['item'];
+
+	//for starting date for all sources
+	$q_start_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	ORDER BY arrival_time asc limit 1";
+	$res = $global['db']->Execute($q_start_date);
+	$row = $res->FetchRow();
+	$start_date= $row[0];
+	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
+	//for end date for all sources
+	$q_end_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	ORDER BY arrival_time desc limit 1";
+	$res = $global['db']->Execute($q_end_date);
+	$row = $res->FetchRow();
+	$end_date= $row[0];
+	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+
+	//create a range dates
+
+	$range = array();
+    /*
+	if (is_string($start_date) === true) $start_date = strtotime($start_date);
+	if (is_string($end_date) === true ) $end_date = strtotime($end_date);
+
+	if ($start_date > $end_date) return createDateRangeArray($end_date, $start_date);
+
+	do {
+	$range[] = date('Y-m-d', $start_date);
+	$start_date = strtotime("+ 1 day", $start_date);
+	}
+	while($start_date < $end_date);
+
+	return $range;
+	}
+    echo $range;
+	*/
+
+	$q="SELECT (arrival_time) as source_date, count(*) as count_source_date from arrival_rate a
+	where ((source_all >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time)";
+
+	$q1="SELECT (arrival_time) as source_date1, count(*) as count_source_date1 from arrival_rate a
+	where ((source_triagepic >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time)";
+
+	$q2="SELECT (arrival_time) as source_date2, count(*) as count_source_date2 from arrival_rate a
+	where ((source_reunite >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time)";
+
+	$q3="SELECT (arrival_time) as source_date3, count(*) as count_source_date3 from arrival_rate a
+	where ((source_website >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time)";
+
+	$q4="SELECT (arrival_time) as source_date4, count(*) as count_source_date4 from arrival_rate a
+	where ((source_pfif >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time)";
+
+	$q5="SELECT (arrival_time) as source_date5, count(*) as count_source_date5 from arrival_rate a
+	where ((source_vanilla_email >= 1) and (incident_id in (select incident_id from incident where shortname = '". $shortname ."')))
+	GROUP by date(arrival_time)";
+
+	$res = $global['db']->Execute($q);
+	$row = $res->FetchRow();
+	$res1 = $global['db']->Execute($q1);
+	$row1 = $res1->FetchRow();
+
+	$res2 = $global['db']->Execute($q2);
+	$row2 = $res2->FetchRow();
+	$res3 = $global['db']->Execute($q3);
+	$row3 = $res3->FetchRow();
+	$res4 = $global['db']->Execute($q4);
+	$row4 = $res4->FetchRow();
+	$res5 = $global['db']->Execute($q5);
+	$row5 = $res5->FetchRow();
+
+	if($row === FALSE) {
+    	//die(mysql_error());
+	}
+	$json_source_date = array();
+	$json_count_source_date = array();
+	do{
+		$source_date[] = (strtotime($row['source_date'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_source_date, $row['source_date']);
+		$count_source_date[] = $row['count_source_date'];
+		array_push($json_count_source_date, $row['count_source_date']);
+		}
+	while($row = $res->FetchRow());
+
+
+	if($row1 === FALSE) {
+    	//die(mysql_error());
+	}
+	$json_source_date1 = array();
+	$json_count_source_date1 = array();
+	do{
+		$source_date1[] = (strtotime($row1['source_date1'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_source_date1, $row1['source_date1']);
+		$count_source_date1[] = $row1['count_source_date1'];
+		array_push($json_count_source_date1, $row1['count_source_date1']);
+		}
+	while($row1 = $res1->FetchRow());
+
+	if($row2 === FALSE) {
+    	//die(mysql_error());
+	}
+	$json_source_date2 = array();
+	$json_count_source_date2 = array();
+	do{
+		$source_date2[] = (strtotime($row2['source_date2'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_source_date2, $row2['source_date2']);
+		$count_source_date2[] = $row2['count_source_date2'];
+		array_push($json_count_source_date2, $row2['count_source_date2']);
+		}
+	while($row2 = $res2->FetchRow());
+
+	if($row3 === FALSE) {
+    	//die(mysql_error());
+	}
+	$json_source_date3 = array();
+	$json_count_source_date3 = array();
+	do{
+		$source_date3[] = (strtotime($row3['source_date3'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_source_date3, $row3['source_date3']);
+		$count_source_date3[] = $row3['count_source_date3'];
+		array_push($json_count_source_date3, $row3['count_source_date3']);
+		}
+	while($row3 = $res3->FetchRow());
+
+	if($row4 === FALSE) {
+    	//die(mysql_error());
+	}
+	$json_source_date4 = array();
+	$json_count_source_date4 = array();
+	do{
+		$source_date4[] = (strtotime($row4['source_date4'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_source_date4, $row4['source_date4']);
+		$count_source_date4[] = $row4['count_source_date4'];
+		array_push($json_count_source_date4, $row4['count_source_date4']);
+		}
+	while($row4 = $res4->FetchRow());
+
+	if($row5 === FALSE) {
+    	//die(mysql_error());
+	}
+	$json_source_date5 = array();
+	$json_count_source_date5 = array();
+	do{
+		$source_date5[] = (strtotime($row5['source_date5'])*1000);
+		date_default_timezone_set('UTC');
+		array_push($json_source_date5, $row5['source_date5']);
+		$count_source_date5[] = $row5['count_source_date5'];
+		array_push($json_count_source_date5, $row5['count_source_date5']);
+		}
+	while($row5 = $res5->FetchRow());
+
+
+	?>
+	<div id="container" style="width: 600px; height: 800px;"></div>;
+	<!--button id="button">Remove first series</button--!>
+
+
+	<?php
+	$shortname = $_GET['shortname'];
+	echo "\n";
+	$json_source_date = implode("','",$json_source_date);
+	$json_count_source_date = implode(",", $json_count_source_date);
+
+	$json_source_date1 = implode("','",$json_source_date1);
+	$json_count_source_date1 = implode(",", $json_count_source_date1);
+
+	$json_source_date2 = implode("','",$json_source_date2);
+	$json_count_source_date2 = implode(",", $json_count_source_date2);
+
+	$json_source_date3 = implode("','",$json_source_date3);
+	$json_count_source_date3 = implode(",", $json_count_source_date3);
+
+	$json_source_date4 = implode("','",$json_source_date4);
+	$json_count_source_date4 = implode(",", $json_count_source_date4);
+
+	$json_source_date5 = implode("','",$json_source_date5);
+	$json_count_source_date5 = implode(",", $json_count_source_date5);
+
+	echo "\n";
+
+	echo "<script type=\"text/javascript\">\n";
+		echo "\n";
+		echo "var points = [$json_count_source_date],\n";
+		echo "dates = " .json_encode($source_date);
+		echo ",\n";
+		echo "i, data = [], chart;";
+		echo "\n";
+		echo "for(i=0; i<points.length; i++) {\n";
+			echo "data.push([dates[i], points[i]]);\n";
+			echo "}\n";
+
+		echo "\n";
+		echo "var points1 = [$json_count_source_date1],\n";
+		echo "dates1 = " .json_encode($source_date1);
+		echo ",\n";
+		echo "j, data1 = [], chart;";
+		echo "\n";
+		echo "for(j=0; j<points1.length; j++) {\n";
+			echo "data1.push([dates1[j], points1[j]]);\n";
+			echo "}\n";
+
+		echo "\n";
+		echo "var points2 = [$json_count_source_date2],\n";
+		echo "dates2 = " .json_encode($source_date2);
+		echo ",\n";
+		echo "k, data2 = [], chart;";
+		echo "\n";
+		echo "for(k=0; k<points2.length; k++) {\n";
+			echo "data2.push([dates2[k], points2[k]]);\n";
+			echo "}\n";
+
+		echo "\n";
+		echo "var points3 = [$json_count_source_date3],\n";
+		echo "dates3 = " .json_encode($source_date3);
+		echo ",\n";
+		echo "l, data3 = [], chart;";
+		echo "\n";
+		echo "for(l=0; l<points3.length; l++) {\n";
+			echo "data3.push([dates3[l], points3[l]]);\n";
+			echo "}\n";
+
+		echo "\n";
+		echo "var points4 = [$json_count_source_date4],\n";
+		echo "dates4 = " .json_encode($source_date4);
+		echo ",\n";
+		echo "m, data4 = [], chart;";
+		echo "\n";
+		echo "for(m=0; m<points4.length; m++) {\n";
+			echo "data4.push([dates4[m], points4[m]]);\n";
+			echo "}\n";
+
+		echo "\n";
+		echo "var points5 = [$json_count_source_date5],\n";
+		echo "dates5 = " .json_encode($source_date5);
+		echo ",\n";
+		echo "n, data5 = [], chart;";
+		echo "\n";
+		echo "for(n=0; n<points5.length; n++) {\n";
+			echo "data5.push([dates5[n], points5[n]]);\n";
+			echo "}\n";
+
+	echo "\$(document).ready(function() {\n" ;
+	echo "chart = new Highcharts.Chart({\n" ;
+      echo "chart: {
+         renderTo: 'container',
+         zoomType: 'x',
+         spacingRight: 20
+      },
+       title: {
+         text: 'Arrival Rate for $name'
+      },
+       subtitle: {
+         text: document.ontouchstart === undefined ?
+            'Click and drag in the plot area to zoom in' :
+            'Drag your finger over the plot to zoom in'
+      },
+      xAxis: {
+         type: 'datetime',
+
+         title: {
+            text: null
+         }
+      },
+      yAxis: {
+         title: {
+            text: 'People Count'
+         },
+
+         min: 0.6,
+         startOnTick: false,
+         showFirstLabel: false
+      },
+      tooltip: {
+         shared: true
+      },
+      legend: {
+         enabled: false
+      },
+      plotOptions: {
+         series: {
+            pointStart: Date.UTC(2011, 11, 1),
+            pointInterval: 24 * 3600 * 1000 // one day
+        }
+      },
+
+      series: [{
+         type: 'area',
+         name: 'All Sources',
+
+		 data:[points]
+		 },{
+         type: 'area',
+         name: 'TriagePic',
+
+		 data:[points1]
+		 },{
+		 type: 'area',
+         name: 'ReUnite',
+
+		 data:[points2]
+		 },{
+		 type: 'area',
+         name: 'Website',
+
+		 data:[points3]
+		 },{
+		 type: 'area',
+         name: 'PFIF',
+
+		 data:[points4]
+		 },{
+		 type: 'area',
+         name: 'Vanilla Email',
+
+		 data:[points5]
+		}\n";
+
+        echo "]\n" ;
+   echo "});\n" ;
+echo "});\n" ;
+
+
+echo "</script>\n" ;
+}
+/*****************************************/
+
+function shn_stat_range_date() {
+
+	global $global;
+
+	//create a range dates
+
+	$range = array();
+
+	if (is_string($start_date) === true) $start_date = strtotime($start_date);
+	if (is_string($end_date) === true ) $end_date = strtotime($end_date);
+	if ($start_date > $end_date) return createDateRangeArray($end_date, $start_date);
+
+	do {
+	  $range[] = date('Y-m-d', $start_date);
+	  $start_date = strtotime("+ 1 day", $start_date);
+	}
+	while($start_date < $end_date);
+
+	return $range;
+}
+
+
+
+/***************************************
+status pie chart
+****************************************/
+function shn_stat_pie_status() {
+global $global;
+	shn_stat_menu();
+
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+
+	//shn_stat_menu();
+
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+
+
+	echo "People Statistics for  ";
+	echo $_GET['shortname'];
+	$shortname = $_GET['shortname'];
+	$name=ucfirst($shortname);
+	$groupID = $_SESSION['group_id'];
+	//echo "Shortname: " .$shortname."";
+	//echo "Group ID: " .$groupID."";
+
+	//start and end date
+	$q_start_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	ORDER BY arrival_time asc limit 1";
+	$res = $global['db']->Execute($q_start_date);
+	$row = $res->FetchRow();
+	$start_date= $row[0];
+	$start_date = date('m/d/Y \a\t g:i A', strtotime($start_date));
+	//for end date for all sources
+	$q_end_date="SELECT arrival_time from arrival_rate a
+	where (incident_id in (select incident_id from incident where shortname = '".$shortname."'))
+	ORDER BY arrival_time desc limit 1";
+	$res = $global['db']->Execute($q_end_date);
+	$row = $res->FetchRow();
+	$end_date= $row[0];
+	$end_date = date('m/d/Y \a\t g:i A', strtotime($end_date));
+
+	//for status
+
+	//$q_s="SELECT DISTINCT d.option_description as opt_status, d.color as color, count( opt_status ) as count_opt_status FROM person_status a
+	//join field_options d ON a.opt_status=d.option_code
+	//join person_uuid b ON a.p_uuid= b.p_uuid
+	//join incident c ON c.incident_id= b.incident_id where c.shortname = '".$shortname."'
+	//GROUP BY opt_status";
+	
+	$q_s="SELECT DISTINCT f.option_description AS opt_status, COUNT( opt_status ) AS count_opt_status, g.option_description
+	FROM person_status s
+	LEFT JOIN field_options f ON s.opt_status = f.option_code
+	LEFT JOIN field_options g ON f.option_code = g.option_code
+	JOIN person_uuid p ON p.p_uuid= s.p_uuid
+	JOIN incident i ON i.incident_id = p.incident_id
+	WHERE i.shortname = '".$shortname."'
+	AND g.field_name = 'opt_status_color'
+	GROUP BY opt_status"; 
+
+
+	//using status_count view
+	//$q_s="SELECT opt_status, count_opt_status, color FROM status_count where incident_id = '".$shortname."'";
+
+	$res = $global['db']->Execute($q_s);
+	$row = $res->FetchRow();
+
+	if($row === FALSE) {
+    	//die(mysql_error());
+		$status_has_data=false;
+	}
+	$status_has_data=true;
+	$json_opt_status = array();
+	$json_count_opt_status = array();
+	//to match color
+	$json_colors=array();
+	do{
+		$opt_status[] = $row['opt_status'];
+		array_push($json_opt_status, $row['opt_status']);
+		$count_opt_status[] = $row['count_opt_status'];
+		array_push($json_count_opt_status, $row['count_opt_status']);
+		//color
+		//$color[] = $row['color'];
+		//array_push($json_colors, $row['color']);
+		
+		$color[] =  $row['option_description'];
+		
+		array_push($json_colors, $row['option_description']);
+		}
+	while($row = $res->FetchRow());
+       
+	//if ($shortname!=='testind') {
+	//for gender
+	$q_g="SELECT DISTINCT d.option_description as opt_gender, count( opt_gender ) AS count_opt_gender
+	FROM person_details a
+	JOIN field_options d ON a.opt_gender = d.option_code
+	JOIN person_uuid b ON a.p_uuid = b.p_uuid
+	JOIN incident c ON c.incident_id = b.incident_id
+	WHERE c.shortname = '".$shortname."'
+	GROUP BY option_description";
+	//using view gender_count
+	//$q_g="SELECT opt_gender, count_opt_gender where incident_id = '".$shortname."'";
+
+	$res = $global['db']->Execute($q_g);
+	$row = $res->FetchRow();
+
+	if($row === FALSE) {
+    	//die(mysql_error());
+		$gender_has_data=false;
+	}
+	$gender_has_data=true;
+	$json_opt_gender = array();
+	$json_count_opt_gender = array();
+	do{
+		$opt_gender[] = $row['opt_gender'];
+		array_push($json_opt_gender, $row['opt_gender']);
+		$count_opt_gender[] = $row['count_opt_gender'];
+		array_push($json_count_opt_gender, $row['count_opt_gender']);
+		}
+	while($row = $res->FetchRow());
+
+
+	//for pediatrics/adults
+	$q_a="SELECT 'pediatrics' as opt_age, count(years_old) as count_opt_age FROM `person_details` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	JOIN incident c ON b.incident_id = c.incident_id
+	where (c.shortname = '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 1 and a.years_old <= 17))
+	UNION
+	SELECT 'adult' as opt_age, count(years_old) as count_opt_age FROM `person_details` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	JOIN incident c ON b.incident_id = c.incident_id
+	where (c.shortname = '".$shortname."' and (a.years_old IS NOT NULL and a.years_old >= 18))";
+	//using view 'age_group_age'
+	//$q_a="select opt_age, count_opt_age from age_group_count where incident_id = '".$shortname."'";
+
+	$res = $global['db']->Execute($q_a);
+	$row = $res->FetchRow();
+
+	if($row === FALSE) {
+    	//die(mysql_error());
+		$agegroup_has_data=false;
+	}
+	$agegroup_has_data=true;
+	$json_opt_age = array();
+	$json_count_opt_age = array();
+	do{
+		$opt_age[] = ucfirst($row['opt_age']);
+		array_push($json_opt_age, $row['opt_age']);
+		$count_opt_age[] =  $row['count_opt_age'];
+		array_push($json_count_opt_age, $row['count_opt_age']);
+		}
+	while($row = $res->FetchRow());
+
+	//for tp category
+	$q_tp="SELECT distinct (triage_category) as opt_category, count(triage_category) as count_optcategory FROM `edxl_co_lpf` a
+	join person_uuid b ON a.p_uuid= b.p_uuid
+	JOIN incident c ON b.incident_id = c.incident_id
+	where c.shortname = '".$shortname."'
+	group by a.triage_category
+	order by a.triage_category";
+
+	//using view 'tp_zonecolor_count'
+	//$q_tp="SELECT opt_category, count_optcategory FROM `tp_zonecolor_count` where incident_id = '".$shortname."'";
+
+	$res = $global['db']->Execute($q_tp);
+	$row = $res->FetchRow();
+
+	if($row === FALSE) {
+    	//echo 'No data available: ' . mysql_error();
+     $TP_has_data=false;
+	}
+	$TP_has_data=true;
+	$json_opt_category = array();
+	$json_count_optcategory = array();
+	do{
+		$opt_category[] = $row['opt_category'];
+		array_push($json_opt_category, $row['opt_category']);
+		$count_optcategory[] = $row['count_optcategory'];
+		array_push($json_count_optcategory, $row['count_optcategory']);
+		}
+	while($row = $res->FetchRow());
+	//}//end if event not=testIND
+	?>
+
+
+	<div id="container" style="width: 100%; min-height: 100%;"></div>
+
+
+	<?php
+	$shortname = $_GET['shortname'];
+	echo "\n";
+
+	$json_opt_status = implode("','",$json_opt_status);
+	$json_count_opt_status = implode(",", $json_count_opt_status);
+	//color
+	
+	$json_colors = implode("','",$json_colors);
+
+	$json_opt_gender = implode("','",$json_opt_gender);
+	$json_count_opt_gender = implode(",", $json_count_opt_gender);
+
+	$json_opt_age = implode("','",$json_opt_age);
+	$json_count_opt_age = implode(",", $json_count_opt_age);
+
+	$json_opt_category = implode("','",$json_opt_category);
+	$json_count_optcategory = implode(",", $json_count_optcategory);
+
+	echo "\n";
+
+	echo "<script type=\"text/javascript\">\n";
+
+		echo "var counts = [$json_count_opt_status],\n";
+		echo "names = " .json_encode($opt_status);
+        echo ",\n";
+		//echo "colors = [$json_colors],\n";
+        echo "colors = ['".$json_colors ;
+		echo "'], \n";
+		
+
+		echo "j, data_status = [], chart;";
+		echo "\n";
+		echo "for(j=0; j<counts.length; j++) {\n";
+			echo "
+			data_status.push({
+			name: names[j],
+			y: counts[j],
+			color: colors[j]
+			});
+			";
+			echo "}\n";
+
+		echo "var counts_g = [$json_count_opt_gender],\n";
+		echo "names_g = " .json_encode($opt_gender);
+		echo ",\n";
+		echo "colors_g= ['#9900FF', '#0099FF','#CCFFCC'],\n";
+		echo "j, data_gender = [], chart;";
+		echo "\n";
+		echo "for(j=0; j<counts_g.length; j++) {\n";
+			//echo "data_gender.push([names_g[j], counts_g[j]]);\n";
+
+			echo "
+			data_gender.push({
+			name: names_g[j],
+			y: counts_g[j],
+			color: colors_g[j]
+			});
+			";
+			echo "}\n";
+
+
+		echo "var counts_a = [$json_count_opt_age],\n";
+		echo "names_a = " .json_encode($opt_age);
+		echo ",\n";
+		echo "colors_a= ['#FFCCCC', '#FFCC99'],\n";
+		echo "j, data_age = [], chart;";
+		echo "\n";
+		echo "for(j=0; j<counts_a.length; j++) {\n";
+			//echo "data_age.push([names_a[j], counts_a[j]]);\n";
+			echo "
+			data_age.push({
+			name: names_a[j],
+			y: counts_a[j],
+			color: colors_a[j]
+			});
+			";
+			echo "}\n";
+
+		echo "var counts_c = [$json_count_optcategory],\n";
+		echo "names_c = " .json_encode($opt_category);
+		echo ",\n";
+		//echo "colors: ['#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";
+		echo "j, data_category = [], chart;";
+		echo "\n";
+		echo "for(j=0; j<counts_c.length; j++) {\n";
+
+			//echo "data_category.push([names_c[j], counts_c[j]])\n";
+		echo "
+			data_category.push({
+			name: names_c[j],
+			y: counts_c[j],
+			color: names_c[j]
+			});
+			";
+		echo "}\n";
+
+
+	echo "\$(document).ready(function() {\n" ;
+	echo "chart = new Highcharts.Chart({\n" ;
+      echo "chart: {\n" ;
+         echo "renderTo: 'container'\n" ;
+		 //echo "backgroundColor: '#FCFFC5'\n";
+      echo "},\n" ;
+	  //echo "colors: ['pink', 'cyan', 'lime', 'cinnabar', 'orange', 'lilac', 'green', 'black', 'royal blue','blue','emerald', 'lime', 'yellow', 'red','gray','black'],\n";
+	  //echo "colors: ['#FCDFFF', '#00FFFF', '#8AFB17', '#7E2217', '#F87217', '#D462FF', '#4CC417', '#000000', '#151B8D','#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";
+
+	  echo "title: {\n" ;
+		 echo "style: {\n";
+				echo "color: 'Blue',\n";
+				echo "fontSize: '28px',\n";
+				echo "fontWeight: 'bold'\n";
+				echo "},\n";
+		 echo "margin: 45,\n";
+         echo "text: 'People Locator Status $description Event'\n" ;
+      echo "},\n" ;
+	  echo "subtitle: {\n" ;
+		 echo "style: {\n";
+				echo "color: 'Blue',\n";
+				echo "fontSize: '20px',\n";
+				echo "fontWeight: 'bold'\n";
+				echo "},\n";
+		echo "margin: 45,\n";
+		echo "y: 50,\n";
+		 if ($startdate_has_data=true){
+         echo "text: 'First Reported: $start_date, Last Reported: $end_date. The page refreshes every 120 seconds.'\n" ;
+		 //echo "text: ''\n" ;
+		 }
+      echo "},\n" ;
+
+	  echo "xAxis: {\n" ;
+         echo "type: 'datetime',\n" ;
+		 echo "maxZoom:  3600000,\n";
+         echo "dateTimeLabelFormats: {\n" ;
+            echo "second: '%I:%M %p',\n" ;
+            echo "minute: '%I:%M %p',\n" ;
+            echo "hour: '%I:%M %p',\n" ;
+            echo "day: '%b %e',\n" ;
+            echo "week: '%b %e',\n" ;
+            echo "month: '%b %e',\n" ;
+            echo "year: '%b %e'\n" ;
+         echo "}\n" ;
+     echo "},\n" ;
+    echo "yAxis: {\n";
+			echo "allowDecimals: false,\n";
+			echo "title: {\n";
+            echo "text: 'Count of Persons Reported'\n";
+					echo "},\n";
+			echo "min: 0.6,\n";
+			echo "startOnTick: true,\n";
+			echo "showFirstLabel: true\n";
+				echo "},\n";
+		echo "tooltip: {\n";
+			echo "shared: true\n";
+				echo "},\n";
+		echo "legend: {\n";
+
+			echo "pie: {\n";
+			echo "enabled: false,\n";
+            echo "align: 'left',\n";
+            echo "layout: 'horizontal',\n";
+            echo "verticalAlign: 'top',\n";
+            echo "floating: true,\n";
+			echo "backgroundColor: 'yellow'\n";
+			echo "}\n";
+				echo "},\n";
+
+		echo "plotOptions: {\n";
+		//display more details
+		 echo "pie: {\n" ;
+			echo "allowPointSelect: true,\n" ;
+				echo "cursor: 'pointer',\n" ;
+				echo "dataLabels: {\n" ;
+					echo "enabled: true,\n" ;
+					echo "formatter: function() {\n" ;
+                  echo "return '<b>'+ this.point.name +'</b><br/>'+\n" ;
+				echo "this.y;\n" ;
+               echo "}\n" ;
+            echo "}\n" ;
+         echo "},\n" ;
+
+		 //test
+		 echo "
+		 series: {
+            events: {
+                hide: function(event) {
+                    alert ('The series was just hidden');
+                }
+            }
+        }
+		 ";
+
+      echo "},\n";
+	  //test
+     echo "series: [{\n" ;
+        //echo "name: '". $shortname;
+		echo "name: 'Status";
+		echo "'";
+		echo ",\n";
+
+		//echo "{\n";
+		echo "type: 'pie',\n";
+		echo "data: data_status,\n" ;
+		//echo "center: [200, 300],\n";
+		echo "center: ['50%', '50%'],\n";
+		echo "size: 400,\n";
+		echo "showInLegend: false,\n";
+		echo "showLegend: true,\n";
+		echo "dataLabels: {\n";
+			echo "enabled: true\n";
+			echo "}\n";
+		//echo "}\n";
+
+        echo "}],\n" ;
+
+
+		//add labels for each pie charts
+		//if ($has_data=true) then
+
+		echo "labels: {\n" ;
+        echo "items: [{\n" ;
+
+		    if ($gender_has_data=='true'){
+            echo "html: '',\n" ;
+            echo "style: {\n" ;
+                echo "left: '160px',\n" ;
+                echo "top: '600px',\n" ;
+				echo "fontSize: '16px',\n";
+                echo "color: 'blue'\n" ;
+            echo "}\n" ;
+			echo "}\n";
+			}
+
+
+			echo "]}\n" ;
+
+   echo "});\n" ;
+
+
+echo "});\n" ;
+
+echo "</script>\n" ;
+//echo "Test area ";
+}
+
+
+
+
+
+
+
+
+function shn_stat_transit() {
+
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+
+	//shn_stat_menu();
+
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+	echo '
+		<script src="res/js/sorttable.js"></script>
+
+	<style>
+table thead td, table tr th {
+text-align: center;
+padding: .25em;
+background: #AAA;
+color: white;
+font-size: 100%;
+font-weight: bold;
+border-radius: 5px;
+box-shadow: inset 2px 2px 6px rgba(255,255,255,0.6), inset -2px -2px 6px rgba(192,191,191,0.1);
+-webkit-touch-callout: none;
+-webkit-user-select: none;
+-khtml-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+-o-user-select: none;
+user-select: none;
+cursor: default;
+text-shadow: 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.odder {
+background-color: #E0E0E7;
+-webkit-border-radius: 5px;
+-moz-border-radius: 5px;
+border-radius: 5px;
+box-shadow: inset 2px 2px 6px rgba(255,255,255,0.6), inset -2px -2px 6px rgba(192,191,191,0.1);
+}
+
+
+table { width: 100%; }
+
+td { text-align: center; }
+
+	</style>
+		<div style="margin: 20px;">
+		<h1>Patient Transit Times '.$description.'</h1>
+
+		<ul>
+		<li>click on a column header to sort by that column</li>
+		<li>only shows last 100 updated persons</li>
+		<li>page refreshed every 120 seconds</li>
+		<li><a href="index.php?mod=stat&act=transitCsv&stream=text">Download tabular data as a .csv file</a></li>
+		<li>Age may be used to indicate Ambulance #</li>
+		<li>Creation Time may denote Departure time</li>
+		<li>Last Updated may denote Arrival time</li>
+		</ul>
+		<table id="regLog" class="sortable">
+		<thead>	<tr>
+			<th>Full Name</th>
+			<th>Family Name</th>
+			<th>Age</th>
+			<th>Record ID</th>
+			<th>Creation Time</th>
+			<th>Last Updated</th>
+			<th>Delta</th>
+		</thead>
+		<tbody>
+	';
+
+	$count = 1;
+	$q = "
+		SELECT *, TIMEDIFF(s.last_updated, s.creation_time)
+		FROM `person_status` s, incident i, person_uuid p, person_details d
+		WHERE s.opt_status = 'fnd'
+		AND i.shortname = '".mysql_real_escape_string($_GET['shortname'])."'
+		AND p.incident_id = i.incident_id
+		AND s.p_uuid = p.p_uuid
+		AND d.p_uuid = p.p_uuid
+		ORDER BY s.last_updated DESC
+		LIMIT 100;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 1"); }
+	while(!$result == NULL && !$result->EOF) {
+
+		if(($count%2)==0) {
+			$odd = "class=\"odder\"";
+		} else {
+			$odd = "class=\"evener\"";
+		}
+		echo '<tr>
+			<td '.$odd.'>'.$result->fields["full_name"].'</td>
+			<td '.$odd.'>'.$result->fields["family_name"].'</td>
+			<td '.$odd.'>'.$result->fields["years_old"].'</td>
+			<td '.$odd.'><a href="'.makePersonUrl($result->fields["p_uuid"]).'" target="_blank">'.$result->fields["p_uuid"].'</a></td>
+			<td '.$odd.'>'.$result->fields["creation_time"].'</td>
+			<td '.$odd.'>'.$result->fields["last_updated"].'</td>
+			<td '.$odd.'>'.$result->fields["TIMEDIFF(s.last_updated, s.creation_time)"].'</td>
+		</tr>';
+		$result->MoveNext();
+		$count++;
+	}
+	echo '
+		</tbody>
+		</table>
+		</div>
+	';
+}
+
+
+
+
+function shn_text_stat_transitCsv() {
+
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+
+	$q = "
+		SELECT *
+		FROM incident
+		WHERE shortname = '".mysql_real_escape_string($_GET['shortname'])."' ;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 0"); }
+	if($result != NULL && !$result->EOF) {
+		$row = $result->FetchRow();
+		$description = $row["description"];
+	} else {
+	  $description = "";
+	}
+
+	$csv = "Full Name,Family Name,Age,Record ID,Departing Time,Arrival Time,Delta\n";
+
+	$count = 1;
+	$q = "
+		SELECT *, TIMEDIFF(s.last_updated, s.creation_time)
+		FROM `person_status` s, incident i, person_uuid p, person_details d
+		WHERE s.opt_status = 'fnd'
+		AND i.shortname = '".mysql_real_escape_string($_GET['shortname'])."'
+		AND p.incident_id = i.incident_id
+		AND s.p_uuid = p.p_uuid
+		AND d.p_uuid = p.p_uuid
+		ORDER BY s.last_updated DESC
+		LIMIT 100;
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "transit table 1"); }
+	while(!$result == NULL && !$result->EOF) {
+
+		$csv .= $result->fields["full_name"].",".$result->fields["family_name"].",".$result->fields["years_old"].",".$result->fields["p_uuid"].",".$result->fields["creation_time"].",".$result->fields["last_updated"].",".$result->fields["TIMEDIFF(s.last_updated, s.creation_time)"]."\n";
+
+		$result->MoveNext();
+		$count++;
+	}
+	header("Content-type: application/csv");
+	header("Content-Disposition: attachment; filename=transit_times.csv");
+	header("Pragma: no-cache");
+	header("Expires: 0");
+	echo $csv;
+}
+
+

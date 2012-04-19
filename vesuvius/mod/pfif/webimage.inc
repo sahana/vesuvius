@@ -1,17 +1,18 @@
 <?php
-
 /**
  * @name         Person Finder Interchange Format
- * @version      1.5
+ * @version      2
  * @package      pfif
  * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
- * @author       Leif Neve <lneve at aquilent dot com>
- * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @author       Leif Neve <lneve@mail.nih.gov>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
- * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0720
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2012.0223
  */
+
+
 // WebImage -- a class to encapsulate the image table
 
 require_once($global['approot'] . "/inc/lib_image.inc");

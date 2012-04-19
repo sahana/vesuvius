@@ -1,125 +1,125 @@
 <?php
 /**
  * @name         Person Finder Interchange Format
- * @version      0.1
+ * @version      2
  * @package      pfif
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
  * @author       Leif Neve <lneve@mail.nih.gov>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0622
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2012.0223
  */
 
+
+global $tabid;
+$tabid = isset($_GET['tabid']) ? $_GET['tabid'] : 0;
+$tabid = "&tabid=".$tabid;
 
 global $global;
 global $conf;
-include_once $global['approot'] . '/inc/lib_modules.inc';
-include_once $global['approot'] . '/inc/lib_menu.inc';
-include_once $global['approot'] . '/inc/lib_form.inc';
-include_once $global['approot'] . '/inc/lib_validate.inc';
-include_once $global['approot'] . '/inc/lib_errors.inc';
-include_once $global['approot'] . '/inc/lib_image.inc';
-include_once 'lib_pfif.inc';
-include_once 'pfif.inc';
-
-function shn_pfif_menu() {
-	echo "<ul>";
-        $text = "View PFIF Service Status";
-        if ((isset($_GET['act']) && $_GET['act'] == "status")
-             || (isset($_GET['act']) && $_GET['act'] == "default")) {
-	   echo "<li><b>$text</b></li>";
-        } else {
-	   echo "<li><a href=\"index.php?mod=pfif&act=status\">$text</a></li>";
-        }
-        $text = "Import from PFIF File";
-        if (isset($_GET['act']) && $_GET['act'] == "import") {
-	   echo "<li><b>$text</b></li>";
-        } else {
-	   echo "<li><a href=\"index.php?mod=pfif&act=import\">$text</a></li>";
-        }
-        $text = "Export to PFIF File";
-        if (isset($_GET['act']) && $_GET['act'] == "export") {
-	   echo "<li><b>$text</b></li>";
-        } else {
-	   echo "<li><a href=\"index.php?mod=pfif&act=export\">$text</a></li>";
-        }
-	echo "<hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
-	echo "</ul>";
-}
+require_once($global['approot'].'/inc/lib_modules.inc');
+require_once($global['approot'].'/inc/lib_form.inc');
+require_once($global['approot'].'/inc/lib_validate.inc');
+require_once($global['approot'].'/inc/lib_errors.inc');
+require_once($global['approot'].'/inc/lib_image.inc');
+require_once('lib_pfif.inc');
+require_once('pfif.inc');
 
 
-/**
- * the default module action...
- * @access public
- * @return void
- */
+
+/** the default module action... */
 function shn_pfif_default() {
+
 	global $global;
-	shn_pfif_status();
+
+	$control = "";
+
+	shn_tabmenu_open();
+	shn_tabmenu_item("status", _t("PFIF Service Status"), "pfif");
+	shn_tabmenu_item("import", _t("Import PFIF"),         "pfif");
+	shn_tabmenu_item("export", _t("Export PFIF"),         "pfif");
+	shn_tabmenu_close();
+
+	if(isset($_GET['status'])) {
+		$control = "shn_pfif_status";
+
+	} elseif(isset($_GET['import'])) {
+		$control = "shn_pfif_import";
+
+	} elseif(isset($_GET['export'])) {
+		$control = "shn_pfif_export";
+	}
+
+	if($control == "") {
+		$control = "shn_pfif_status";
+	}
+
+	$control();
 }
 
 
-/**
- * Manage PFIF Import sessions
- *
- */
+
+/** Manage PFIF Import sessions */
 function shn_pfif_import() {
-    global $global;
 
-    // If there is no post, render the form to upload.
-    if (!isset( $_POST['upload'])) {
-        shn_pfif_menu();
+	global $global;
+	global $tabid;
+
+	echo "<br>";
+
+	// If there is no post, render the form to upload.
+	if(isset( $_POST['upload'])) {
+		if( $_FILES['xml']['error'] != 0){
+			// Validate
+			add_error(_t('Please enter a filename to upload'));
+			unset($_FILES); unset($_POST);
+			shn_pfif_import();
+		} else {
+			// If there is a post, upload the file and import the file to the database.
+			if (is_uploaded_file($_FILES['xml']['tmp_name'])) {
+				$pfif = new Pfif();
+				$loaded = $pfif->loadFromXML($_FILES['xml']['tmp_name']);
+				if ($loaded > 0) {
+					//$xml = $pfif->storeInXML();
+					//print "<pre>$xml</pre>";
+					$stored = $pfif->storeInDatabase($_POST['pfif_incident_id']);
+					// Get incident name.
+					$sql = "SELECT name from incident where incident_id=".$_POST['pfif_incident_id'];
+					$res = $global['db']->GetRow($sql);
+					$name = $res['name'];
+					if($stored['person']==0 && $stored['note']==0) {
+						add_error("No records were imported into the '$name' event.");
+					} else {
+						add_confirmation('Successfully imported '.$stored['person'].' persons and '.$stored['note']." notes into the '$name' event.");
+					}
+				} else {
+					add_error('File not loaded. Please confirm that it contains valid XML.');
+				}
+			}
+		}
+	}
         // Submitted form calls this function again.
-        shn_form_fopen("import",null,array('enctype'=>'enctype="multipart/form-data"','req_message' => false));
-        //add_warning('Please make sure that you are adding a PFIF xml file.');
-        shn_form_fsopen(_t('Import from PFIF File'));
-        shn_form_hidden(array('upload'=>'upload'));
-        shn_form_upload(_t('PFIF filename'),'xml',array('max_file_size'=>'128M'));
-        shn_pfif_incident_select("Import to this event");
-        echo "<br><br><span style=\"margin-left: 200pt;\"></span>";
-        shn_form_submit(_t('Upload'));
-        shn_form_fsclose();
+	shn_form_fopen2("pfif?import".$tabid, null, array('enctype'=>'enctype="multipart/form-data"', 'req_message' => false));
+        //shn_form_fopen("import",null,array('enctype'=>'enctype="multipart/form-data"','req_message' => false));
+		shn_form_fsopen(_t('Import from PFIF File'));
+		shn_form_hidden(array('upload'=>'upload'));
+		shn_form_upload(_t('PFIF filename'),'xml',array('max_file_size'=>'128M'));
+		shn_pfif_incident_select("Import to this event");
+		echo "<br><br><span style=\"margin-left: 200pt;\"></span>";
+		shn_form_submit(_t("Upload"), "class=\"styleTehButton\"");
+		shn_form_fsclose();
         shn_form_fclose();
-    } else {
-        if( $_FILES['xml']['error'] != 0){
-            // Validate
-            add_error(_t('Please enter a filename to upload'));
-            unset($_FILES); unset($_POST);
-            shn_pfif_import();
-        } else {
-             // If there is a post, upload the file and import the file to the database.
-             if (is_uploaded_file($_FILES['xml']['tmp_name'])) {
-                 $pfif = new Pfif();
-                 $loaded = $pfif->loadFromXML($_FILES['xml']['tmp_name']);
-                 if ($loaded > 0) {
-                    //$xml = $pfif->storeInXML();
-                    //print "<pre>$xml</pre>";
-                    $stored = $pfif->storeInDatabase($_POST['pfif_incident_id']);
-                    // Get incident name.
-                    $sql = "SELECT name from incident where incident_id=".$_POST['pfif_incident_id'];
-                    $res = $global['db']->GetRow($sql);
-                    $name = $res['name'];
-                    if($stored['person']==0 && $stored['note']==0) {
-                        add_error("No records were imported into the '$name' event.");
-                    } else {
-                        add_confirmation('Successfully imported '.$stored['person'].' persons and '.$stored['note']." notes into the '$name' event.");
-                    }
-                 } else {
-                    add_error('File not loaded. Please confirm that it contains valid XML.');
-                 }
-                 shn_pfif_menu();
-             }
-        }
-
-    }
 }
 
-/**
- * Note: This could be made a more generic "shn_incident_select" if others could benefit from it.
- */
-function shn_pfif_incident_select($label){
+
+
+/** Note: This could be made a more generic "shn_incident_select" if others could benefit from it. */
+function shn_pfif_incident_select($label) {
+
         global $global;
+
         // For now, leave everything unselected. (First event selected by default.)
         $incident_id = 999;
         ?> <label for="pfif_incident"><?php echo $label;?></label><select name="pfif_incident_id"><?php
@@ -142,47 +142,46 @@ function shn_pfif_incident_select($label){
 }
 
 
-/**
- * Manage PFIF Export sessions
- *
- */
+/** Manage PFIF Export sessions */
 function shn_pfif_export() {
-    global $global;
-    echo "<script type=\"text/javascript\" src=\"res/datetimepicker/datetimepicker_css.js\"></script>";
 
-    shn_pfif_menu();
+	global $global;
 
-    // Create a form that when submitted calls shn_xml_pfif_export() below.
-    shn_form_fopen("export",null,array('req_message' => false),"xml");
-    shn_form_fsopen(_t('Export to PFIF XML'));
-    shn_pfif_incident_select("Export from this event");
-    echo "<br><div class='brake'></div>";
-    $extra_opts['br'] = false;
-    shn_form_text(_t('Start date'),'since','',$extra_opts);
-    echo "<img src=\"res/datetimepicker/cal.gif\"
-          onclick=\"javascript:NewCssCal('since','yyyyMMdd','arrow',true,24,true,'past')\"
-          style=\"cursor:pointer\"/>";
-    echo "<br><div class='brake'></div>";
-    $extra_opts['br'] = false;
-    shn_form_text(_t('End date'),'before','',$extra_opts);
-    echo "<img src=\"res/datetimepicker/cal.gif\"
-          onclick=\"javascript:NewCssCal('before','yyyyMMdd','arrow',true,24,true,'past')\"
-          style=\"cursor:pointer\"/>";
-    echo "<br><div class='brake'></div>";
-    shn_form_checkbox(_t('Records originating in PL only'),'original');
-    shn_form_hidden(array('filename'=>'export.xml','download'=>'download'));
-    echo "<span style=\"margin-left: 200pt;\"></span>";
-    shn_form_submit(_t('Submit'));
-    shn_form_fsclose();
-    shn_form_fclose();
+	echo "<br><script type=\"text/javascript\" src=\"res/datetimepicker/datetimepicker_css.js\"></script>";
+
+	// Create a form that when submitted calls shn_xml_pfif_export() below.
+	shn_form_fopen("export",null,array('req_message' => false),"xml");
+
+	shn_form_fsopen(_t('Export to PFIF XML'));
+	shn_pfif_incident_select("Export from this event");
+	echo "<br><div class='brake'></div>";
+	$extra_opts['br'] = false;
+	shn_form_text(_t('Start date'),'since','',$extra_opts);
+	echo "<img src=\"res/datetimepicker/cal.gif\"
+		onclick=\"javascript:NewCssCal('since','yyyyMMdd','arrow',true,24,true,'past')\"
+		style=\"cursor:pointer\"/>";
+	echo "<br><div class='brake'></div>";
+	$extra_opts['br'] = false;
+	shn_form_text(_t('End date'),'before','',$extra_opts);
+	echo "<img src=\"res/datetimepicker/cal.gif\"
+		onclick=\"javascript:NewCssCal('before','yyyyMMdd','arrow',true,24,true,'past')\"
+		style=\"cursor:pointer\"/>";
+	echo "<br><div class='brake'></div>";
+	shn_form_checkbox(_t('Records originating in PL only'),'original');
+	shn_form_hidden(array('filename'=>'export.xml','download'=>'download'));
+	echo "<span style=\"margin-left: 200pt;\"></span>";
+	shn_form_submit(_t('Submit'));
+	shn_form_fsclose();
+	shn_form_fclose();
 }
 
-/**
- * Return system cron status.
- * Used for navigation menu status indicator.
- */
+
+
+/** Return system cron status. Used for navigation menu status indicator. */
 function shn_pfif_status_code() {
+
    global $global, $deltaOut;
+
    if(!defined('RED')) {
       define('RED', 0);
    }
@@ -230,16 +229,14 @@ function shn_pfif_status_code() {
    }
 }
 
-/**
- * Show status of automated imports and exports.
- *
- */
+
+
+/** Show status of automated imports and exports. */
 function shn_pfif_status() {
+
    global $global, $deltaOut;
 
-   shn_pfif_menu();
-
-   echo "<div id=\"home\">";
+   echo "<br><div id=\"home\">";
 
    if(shn_pfif_status_code() == GREEN) {
       $statusMsg = "Cron Status: <span style=\"color: green;\"><b>Nominal</b></span>";
@@ -361,12 +358,11 @@ function shn_pfif_status() {
    echo "</div>";
 }
 
-/**
- * Stream PFIF in raw xml format.  (Used by above form.)
- * @access public
- * @return string
- */
+
+
+/** Stream PFIF in raw xml format.  (Used by above form.) */
 function shn_xml_pfif_export() {
+
     global $global;
 
     // Get incident name.
@@ -391,6 +387,8 @@ function shn_xml_pfif_export() {
     }
 }
 
+
+
 /**
  * Stream PFIF in raw xml format.
  * Used for URL-type feeds. Accepts Google-style params min_entry_date, max_results, and skip.
@@ -399,6 +397,7 @@ function shn_xml_pfif_export() {
  * @return string
  */
 function shn_xml_pfif_feed() {
+
     global $global;
 
     // Get shortname from _GET variable.

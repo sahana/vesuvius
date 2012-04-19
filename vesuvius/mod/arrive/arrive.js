@@ -6,7 +6,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0213
  */
 
@@ -32,6 +32,7 @@ if(typeof anchor2 === 'undefined') {
 	window.rezLog = unescape(anchor2);
 }
 if(window.rezLog == '') {
+
 	if(window.all_events) {
 		window.rezLog = 'Showing arrivals from <b>ALL events</b>.';
 	} else {
@@ -44,6 +45,7 @@ rL.innerHTML = window.rezLog;
 
 
 function updateMenu() {
+
 	if(window.all_events) {
 		var a = document.getElementById('allButton');
 		a.disabled = true;
@@ -59,11 +61,16 @@ function updateMenu() {
 		b.disabled = true;
 		b.style.opacity = '0.2';
 	}
-	window.history.pushState(null, null, '#'+window.all_events+'zZ||Zz'+escape(window.rezLog));
+	if(typeof window.history.pushState == 'function') {
+		window.history.pushState(null, null, '#'+window.all_events+'zZ||Zz'+escape(window.rezLog));
+	} else {
+		window.location.href = '#'+window.all_events+'zZ||Zz'+escape(window.rezLog);
+	}
 }
 
 
 function updateLastArrival(val, initial) {
+
 	if(window.last_arrival_time != val) {
 		window.last_arrival_time = val;
 		if(initial == 1) {
@@ -76,6 +83,7 @@ function updateLastArrival(val, initial) {
 
 
 function showAll(val) {
+
 	window.all_events = val;
 	fetch(1);
 	updateMenu();
@@ -84,12 +92,14 @@ function showAll(val) {
 
 
 function fetch(val) {
+
 	cleanLog();
 	arrive_fetch_last_updated(window.all_events, val);
 }
 
 
 function cleanLog() {
+
 	window.increments++;
 
 	// add a dot to the log every minute...
@@ -110,10 +120,15 @@ function cleanLog() {
 
 
 function reloadPage() {
+
 	var r = document.getElementById('rezLog');
 	window.rezLog = r.innerHTML;
 	window.rezLog = window.rezLog+'<br>Reloading page to keep session alive.';
-	window.history.pushState(null, null, '#'+window.all_events+'zZ||Zz'+escape(window.rezLog));
+	if(typeof window.history.pushState == 'function') {
+		window.history.pushState(null, null, '#'+window.all_events+'zZ||Zz'+escape(window.rezLog));
+	} else {
+		window.location.href = '#'+window.all_events+'zZ||Zz'+escape(window.rezLog);
+	}
 	window.location.reload();
 }
 
@@ -122,10 +137,11 @@ arrive_show_list('false', window.all_events);
 setInterval('fetch(0)', 5000);
 
 
-
 //////////// other help functions
 
+
 function explode (delimiter, string, limit) {
+
 	var emptyArray = {0: ''	};
 
 	// third argument is not required

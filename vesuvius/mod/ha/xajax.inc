@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2011.1205
  */
 
@@ -538,7 +538,7 @@ function ha_perform_edit($hospital_uuid) {
 
 	// if Admin... show delete button
 	if($_SESSION['group_id'] == "1") {
-		if($hasChildren) {
+		if(isset($hasChildren) && $hasChildren == true) {
 			$disabled = "DISABLED style=\"opacity: 0.2;\"";
 		} else {
 			$disabled = "";

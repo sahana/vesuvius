@@ -8,7 +8,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0213
  */
 
@@ -341,7 +341,6 @@ function _shn_acl_is_user_role_only($user,$role) {
 
 /** always enabled! */
 function shn_acl_is_signup_enabled() { return true; }
-function shn_acl_is_locking_enabled() { return true; }
 
 
 /**

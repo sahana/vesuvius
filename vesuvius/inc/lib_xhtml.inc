@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2011.0420
  */
 
@@ -22,6 +22,7 @@
  */
 
 function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = null ) {
+
 	global $conf;
 	global $global;
 
@@ -47,7 +48,7 @@ function shn_display_xhtml_head( $arrPostfix = null, $theme = null, $title = nul
 
 		$title_part_1 = $conf['mod_'.$global['module'].'_name']; # the current module
 		$title_part_2 = $title_result[0]['name'];                # the current incident
-		$title_part_3 = (shn_db_get_config("base", "alternate_title_string")!== FALSE) ? shn_db_get_config("base", "alternate_title_string") : _t("Sahana FOSS Disaster Management System");
+		$title_part_3 = (shn_db_get_config("base", "alternate_title_string")!== FALSE) ? shn_db_get_config("base", "alternate_title_string") : _t("Sahana Vesuvius");
 
 		#if an incident has been created
 		if ( count($title_result) != 0) {

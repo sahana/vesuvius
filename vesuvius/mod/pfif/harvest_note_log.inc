@@ -1,11 +1,25 @@
 <?php
+/**
+ * @name         Person Finder Interchange Format
+ * @version      2
+ * @package      pfif
+ * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
+ * @author       Leif Neve <lneve@mail.nih.gov>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2012.0223
+ */
+
+
 require_once("log.inc");
 
 class Pfif_Harvest_Note_Log extends Pfif_Log {
     const MY_LOG_TABLE = "pfif_harvest_note_log";
 
     public function __construct() {}
-    
+
     public function start($repos_id, $start_time, $mode, $dir) {
         //var_dump('harvest_log.start: before update', $this);
         $this->direction = $dir; // TODO: will parent copy vars pick this up?
@@ -33,12 +47,12 @@ class Pfif_Harvest_Note_Log extends Pfif_Log {
           return false;
       }
     }
-    
+
     // TODO: Is this being used?
     public function pause($end_time,$log_info) {
         return $this->stop($end_time,$log_info,array(),'paused');
     }
-    
+
     // TODO: can we overload base class' reset and update methods?
     public function reset_harvest_counts() {
 //        parent::reset_counts(); // update common counts
@@ -48,33 +62,33 @@ class Pfif_Harvest_Note_Log extends Pfif_Log {
 //        parent::update_counts($counts); // update common counts
         // var_dump('update_harvest_counts: info',$log_info);
     }
-    
+
     /*
             * DB layer methods
             */
     public function save() {
         return parent::save(self::MY_LOG_TABLE);
     }
-    
+
     public function update() {
         // var_dump("pfif_harvest_note_log.update:",$this);
 
         return parent::update(self::MY_LOG_TABLE);
     }
 
-    public static function find_by($columns, 
+    public static function find_by($columns,
                                    $conditions = null) {
         $rs = parent::find_by('pfif_harvest_repository',
                               $columns, $conditions);
         return $rs;
     }
 
-    public static function get_last($repository_id, 
+    public static function get_last($repository_id,
                                     $direction) {
         global $global;
 
         $log = null;
-    
+
         $global['db']->SetFetchMode(ADODB_FETCH_ASSOC);
         $where_clause = "`repository_id`='".$repository_id."' ";
         $where_clause .= "AND `direction` = '".$direction."' ";
@@ -89,7 +103,7 @@ class Pfif_Harvest_Note_Log extends Pfif_Log {
         $rs = $global['db']->GetAssoc($sql);
         // var_dump("Log resultset",$rs);
         if ($rs) {
-            /* DEBUGGING .... 
+            /* DEBUGGING ....
             foreach ($rs as $id => $row) {
                 var_dump($id,$row);
             }
@@ -108,10 +122,10 @@ class Pfif_Harvest_Note_Log extends Pfif_Log {
         } else {
             // print "No log records found for query\n$sql\n";
         }
-        
+
         return $log;
     }
-    
+
     private static function fetch_object($rs_row,$key = null) {
         // var_dump("Log row:",$rs_row,"key:",$key);
         $log = new Pfif_Harvest_Note_Log();

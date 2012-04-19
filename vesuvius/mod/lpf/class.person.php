@@ -1253,7 +1253,7 @@ class person {
 
 	public function addComment($comment, $status, $authorUuid) {
 
-		// check validity of suggested status
+		// check validity of suggested status ** HACK!!! ~ update to use opt_codes later....
 		if($status != "ali" && $status != "inj" && $status != "dec" && $status != "mis" && $status != "fnd" && $status != "unk") {
 			$suggested_status = "NULL";
 		} else {
@@ -1264,7 +1264,7 @@ class person {
 			INSERT INTO person_notes (note_about_p_uuid, note_written_by_p_uuid, note, suggested_status)
 			VALUES ('".$this->p_uuid."', '".$authorUuid."', '".mysql_real_escape_string($comment)."', ".$suggested_status.");
 		";
-error_log("(((".$q.")))");
+
 		$result = $this->db->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $this->db->ErrorMsg(), "person add comment ((".$q."))"); }
 	}
@@ -1373,8 +1373,8 @@ error_log("(((".$q.")))");
 
 		// save xml for debugging?
 		if($global['debugAndSaveXmlToFile'] == true) {
-			$filename = "debugXML_".mt_rand();
-			$path = $global['approot']."www/tmp/plus_cache/".$filename.".xml";
+			$filename = date("Y_md_H-i-s.u")."___".mt_rand().".xml"; // 2012_0402_17-50-33.454312___437849328789.xml
+			$path = $global['debugAndSaveXmlToFilePath'].$filename;
 			file_put_contents($path, $this->theString);
 		}
 
@@ -1399,17 +1399,26 @@ error_log("(((".$q.")))");
 
 			$this->createUUID();
 			$this->arrival_reunite = true;
-			$this->given_name     = $a['person']['givenName'];
-			$this->family_name    = $a['person']['familyName'];
-			$this->expiry_date    = $a['person']['expiryDate'];
-			$this->opt_status     = $a['person']['status'];
+			$this->given_name     = isset($a['person']['givenName'])  ? $a['person']['givenName']  : null;
+			$this->family_name    = isset($a['person']['familyName']) ? $a['person']['familyName'] : null;
+			$this->expiry_date    = isset($a['person']['expiryDate']) ? $a['person']['expiryDate'] : null;
+			$this->opt_status     = isset($a['person']['status'])     ? $a['person']['status']     : null;
 			$this->last_updated   = date('Y-m-d H:i:s');
-			$this->creation_time  = $a['person']['dateTimeSent'];
-			$this->opt_gender     = $a['person']['gender'];
-			$this->years_old      = $a['person']['estimatedAge'];
-			$this->minAge         = $a['person']['minAge'];
-			$this->maxAge         = $a['person']['maxAge'];
-			$this->other_comments = $a['person']['note'];
+
+			$datetime      = isset($a['person']['dateTimeSent']) ? $a['person']['dateTimeSent'] : null;
+			$timezoneUTC   = new DateTimeZone("UTC");
+			$timezoneLocal = new DateTimeZone(date_default_timezone_get());
+			$datetime2     = new DateTime();
+			$datetime2->setTimezone($timezoneUTC);
+			$datetime2->setTimestamp(strtotime($datetime));
+			$datetime2->setTimezone($timezoneLocal);
+			$this->creation_time = $datetime2->format('Y-m-d H:i:s');
+
+			$this->opt_gender     = isset($a['person']['gender'])       ? $a['person']['gender']       : null;
+			$this->years_old      = isset($a['person']['estimatedAge']) ? $a['person']['estimatedAge'] : null;
+			$this->minAge         = isset($a['person']['minAge'])       ? $a['person']['minAge']       : null;
+			$this->maxAge         = isset($a['person']['maxAge'])       ? $a['person']['maxAge']       : null;
+			$this->other_comments = isset($a['person']['note'])         ? $a['person']['note']         : null;
 
 			// only update the incident_id if not already set
 			if($this->incident_id === null) {
@@ -1425,32 +1434,33 @@ error_log("(((".$q.")))");
 				$this->incident_id = $result->fields["incident_id"];
 			}
 
-			foreach($a['person']['photos'] as $photo) {
-				if(trim($photo['data']) != "") {
-					$i = new personImage();
-					$i->init();
-					$i->p_uuid = $this->p_uuid;
-					$i->fileContentBase64 = $photo['data'];
-					foreach($photo['tags'] as $tag) {
-						$t = new personImageTag();
-						$t->init();
-						$t->image_id = $i->image_id;
-						$t->tag_x    = $tag['x'];
-						$t->tag_y    = $tag['y'];
-						$t->tag_w    = $tag['w'];
-						$t->tag_h    = $tag['h'];
-						$t->tag_text = $tag['text'];
-						$i->tags[] = $t;
-					}
-					if(!$i->invalid) {
+			if(isset($a['person']['photos']['photo'])) {
+				foreach($a['person']['photos'] as $photo) {
+					if(trim($photo['data']) != "") {
+						$i = new personImage();
+						$i->init();
+						$i->p_uuid = $this->p_uuid;
+						$i->fileContentBase64 = $photo['data'];
+						if(isset($photo['tags'])) {
+							foreach($photo['tags'] as $tag) {
+								$t = new personImageTag();
+								$t->init();
+								$t->image_id = $i->image_id;
+								$t->tag_x    = $tag['x'];
+								$t->tag_y    = $tag['y'];
+								$t->tag_w    = $tag['w'];
+								$t->tag_h    = $tag['h'];
+								$t->tag_text = $tag['text'];
+								$i->tags[] = $t;
+							}
+						}
 						$this->images[] = $i;
-						$this->ecode = 419;
 					}
 				}
 			}
 
 			// if there is actual voicenote data, save process it...
-			if(trim($a['person']['voiceNote']['data']) != "") {
+			if(isset($a['person']['voiceNote']['data']) && trim($a['person']['voiceNote']['data']) != "") {
 
 				$v = new voiceNote();
 				$v->init();     // reserves a voicenote id for this note
@@ -1781,13 +1791,23 @@ error_log("(((".$q.")))");
 
 					// create sahana image
 					if(trim($imageNode['contentData']) != "") {
+
 						$i = new personImage();
 						$i->init();
 						$i->p_uuid = $this->p_uuid;
 						$i->fileContentBase64 = $imageNode['contentData'];
+						$i->decode();
 
-//$i->decode();
-//error_log("fileSHA1(".sha1($i->fileContent).") and XMLSHA1("..")");
+						$xmlSha1 = $imageNode['digest'];
+						$realSha1 = sha1($i->fileContent);
+
+						if(strcasecmp($realSha1, $xmlSha1) != 0) {
+							//error_log("420 ERROR!! realSha1(".$realSha1.") xmlSha1(".$xmlSha1.")");
+							$i->invalid = true;
+							$this->ecode = 420;
+						} else {
+							//error_log("strings match! realSha1(".$realSha1.") xmlSha1(".$xmlSha1.")");
+						}
 
 						$i->original_filename = $imageNode['uri'];
 						if($primary) {
@@ -1806,7 +1826,6 @@ error_log("(((".$q.")))");
 						}
 						if(!$i->invalid) {
 							$this->images[] = $i;
-							$this->ecode = 419;
 						}
 					}
 
@@ -1815,6 +1834,7 @@ error_log("(((".$q.")))");
 					$this->edxl->uris[]         = $imageNode['uri'];
 					$this->edxl->contentDatas[] = $imageNode['contentData'];
 					$this->edxl->image_ids[]    = $i->image_id;
+					$this->edxl->image_sha1[]   = $realSha1;
 					$this->edxl->image_co_ids[] = shn_create_uuid("edxl_co_header");
 				}
 			}

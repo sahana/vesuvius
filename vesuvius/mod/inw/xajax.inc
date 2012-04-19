@@ -9,7 +9,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0213
  */
 
@@ -53,9 +53,10 @@ function inw_getNotes($uuid) {
 
 		$result->MoveNext();
 	}
-	mysql_free_result($result);
 
-	$global["xajax_res"]->addAssign("jsonNotes", "value", json_encode($list));
+        if (!empty($list)) {
+                $global["xajax_res"]->addAssign("jsonNotes", "value", json_encode($list));
+        }
 	$global["xajax_res"]->addScript("Utils.loadNotes()");
 	return $global["xajax_res"]->getXML();
 }
@@ -85,6 +86,7 @@ function inw_checkForChanges($mode, $incident, $searchTerm, $sStatus, $sGender, 
 
 	$search = new SearchDB($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital);
 	$search->getLastUpdate();
+	$global["xajax_res"]->addAssign("lastCheck", "innerHTML", gmdate("Y-m-d H:i:s")." UTC");
 	$global["xajax_res"]->addScript("Utils.changeObserver('". $search->lastUpdated . "');");
 	return $global["xajax_res"]->getXML();
 }

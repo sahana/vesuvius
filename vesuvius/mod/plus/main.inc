@@ -6,15 +6,21 @@
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0221
  */
 
 
 
 global $tabid;
-$tabid = "&tabid=".$_GET['tabid'];
+$tabid = isset($_GET['tabid']) ? $_GET['tabid'] : 0;
+$tabid = "&tabid=".$tabid;
 
+//function shn_plus_mainmenu() {}
+//function shn_plus_header() {}
+//function shn_plus_footer() {}
+//function shn_plus_html_head() {}
+//function shn_plus_login() {}
 
 
 function shn_plus_default() {
