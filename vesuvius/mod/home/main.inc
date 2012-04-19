@@ -6,13 +6,15 @@
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0206
  */
 
 
 // array of events used for generating the home page...
 $events = array();
+
+function shn_home_mainmenu() {}
 
 
 /**
@@ -51,13 +53,6 @@ function shn_home_default() {
 		echo "<br><br><h3>For these events you can search only :</h3>";
 		showList();
 	}
-
-	echo "
-		<script>
-			document.getElementById('menu').style.visibility = 'hidden';
-		</script>
-		</div>
-	";
 }
 
 

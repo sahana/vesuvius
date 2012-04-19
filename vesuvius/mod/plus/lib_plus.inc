@@ -6,7 +6,7 @@
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0221
  */
 
@@ -75,11 +75,19 @@ function shn_plus_logAccess($call="", $username=null) {
 		$user_name = "'".$username."'";
 	}
 
-	$agent  = explode(" ", $_SERVER['HTTP_USER_AGENT']);
-	$appver = explode("/", $agent[0]);
-	$app    = $appver[0];
-	$ver    = $appver[1];
-	$ip     = $_SERVER['REMOTE_ADDR'];
+	if(isset($_SERVER['HTTP_USER_AGENT'])) {
+
+		$agent  = explode(" ", $_SERVER['HTTP_USER_AGENT']);
+		$appver = explode("/", $agent[0]);
+		$app    = $appver[0];
+		$ver    = $appver[1];
+
+	} else {
+		$app = "";
+		$ver = "";
+	}
+
+	$ip = $_SERVER['REMOTE_ADDR'];
 
 	// see if this ip accessed plus in the last 10 minutes (for rate throttling ip lookups)
 	$q = "
@@ -113,8 +121,8 @@ function shn_plus_logAccess($call="", $username=null) {
 		INSERT INTO plus_access_log (`access_time`, `application`, `version`, `ip`, `call`, `api_version`, `latitude`, `longitude`, `user_name`)
 		VALUES (CURRENT_TIMESTAMP, '".$app."', '".$ver."', '".$ip."', '".$call."', '".mysql_real_escape_string($global['apiVersion'])."', ".$lat.", ".$lon.", ".$user_name.");
 	";
-	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus log access 3 ((".$q."))"); }
 	$result = $global['db']->Execute($q);
+	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "plus log access 3 ((".$q."))"); }
 }
 
 
@@ -125,6 +133,7 @@ function shn_plus_logAccess($call="", $username=null) {
 * error code: 0 for user/password valid and user is active
 * error code: 1 invalid username or password
 * error code: 2 user account is not active
+* error code: 3 user account is banned
 */
 function shn_plus_checkCredz($username, $password) {
 
@@ -145,9 +154,16 @@ function shn_plus_checkCredz($username, $password) {
 	if(($res == null) || ($res->EOF)) {
 		return 1;
 	} else {
-		if($res->fields["status"] != "active") {
+		if($res->fields["status"] == "pending") {
 			return 2;
+
+		} elseif($res->fields["status"] == "banned") {
+			return 3;
+
+		} elseif($res->fields["status"] == "locked") {
+			return 4;
 		}
+
 		$salt = $res->fields["salt"];
 		$pwd  = substr($password, 0, 4) .$salt. substr($password, 4);
 

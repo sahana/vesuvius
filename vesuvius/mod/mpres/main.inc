@@ -7,10 +7,14 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0206
  */
 
+
+global $tabid;
+$tabid = isset($_GET['tabid']) ? $_GET['tabid'] : 0;
+$tabid = "&tabid=".$tabid;
 
 
 /** for mainmenu to figure out which status color to show */
@@ -41,8 +45,24 @@ function shn_mpres_default() {
 
 	$control = "";
 
-	echo "<ul>";
+	shn_tabmenu_open();
+	shn_tabmenu_item("stat",          _t("Service Status"),  "inbound");
+	shn_tabmenu_item("log",           _t("People Reported"), "inbound");
+	shn_tabmenu_item("configuration", _t("Configuration"),   "inbound");
+	shn_tabmenu_close();
 
+	if(isset($_GET['log'])) {
+		$control = "shn_mpres_log";
+
+	} elseif(isset($_GET['configuration'])) {
+		$control = "shn_mpres_configuration";
+
+	} else {
+		$control = "shn_mpres_status";
+	}
+
+
+/*
 	if(isset($_GET['log'])) {
 		echo "<li>Inbound Person Log</li>";
 		$control = "shn_mpres_log";
@@ -61,9 +81,7 @@ function shn_mpres_default() {
 	} else {
 		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"inbound?status\">Service Status</a></li>";
 	}
-
-	echo "</ul><hr style=\"height: 1px; background-color: #fff; border: none; border-top: 1px solid #e5eaef; margin-bottom: 15px; \">";
-
+*/
 	$control();
 }
 
@@ -106,6 +124,7 @@ function shn_mpres_status() {
 	}
 
 	echo '
+		<br>
 		<div class="form-container">
 			<form>
 				<fieldset>
@@ -238,7 +257,7 @@ function shn_mpres_log() {
 		$msg = "showing emails ".($startPoint+1)." to ".$totalCount;
 	}
 
-	echo "<div class=\"form-container\"><form><fieldset>";
+	echo "<br><div class=\"form-container\"><form><fieldset>";
 	echo "<legend>Emails Received (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
 	echo "<table id=\"regLog\"><tr>
 		<td class=\"evener\"><b>Record Identifier / p_uuid</b></td>
@@ -282,6 +301,7 @@ function shn_mpres_log() {
 function shn_mpres_configuration() {
 
 	global $global;
+	global $tabid;
 
 	$posted = 0;
 	// if its a post ~ save configuration after we validate
@@ -354,7 +374,7 @@ function shn_mpres_configuration() {
 			$popimapOption = "IMAP";
 		}
 	}
-	shn_form_fopen2("inbound?configuration", null, array('req_message'=>true));
+	shn_form_fopen2("inbound?configuration".$tabid, null, array('req_message'=>true));
 		shn_form_fsopen("POP / IMAP Settings");
 			shn_form_text("Host or IP (ie. mail.google.com)", "mpres_host", null, array("req"=>true, "value"=>$host));
 			shn_form_text("Port (ie. 110 or 993,995 for SSL)", "mpres_port",null, array("req"=>true, "value"=>$port));

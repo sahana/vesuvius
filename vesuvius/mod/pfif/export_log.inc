@@ -1,15 +1,15 @@
 <?php
 /**
  * @name         Person Finder Interchange Format
- * @version      1.5
+ * @version      2
  * @package      pfif
  * @author       Carl H. Cornwell <ccornwell at aqulient dor com>
- * @author       Leif Neve <lneve at aquilent dot com>
- * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @author       Leif Neve <lneve@mail.nih.gov>
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
- * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0720
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2012.0223
  */
 
 require_once("log.inc");
@@ -18,9 +18,9 @@ class Pfif_Export_Log extends Pfif_Log {
     const MY_LOG_TABLE = "pfif_export_log";
 
     public function __construct() {}
-    
+
     public function start_harvest($repos_id, $start_time, $mode, $dir) {
-        $this->direction = $dir; 
+        $this->direction = $dir;
         if ($this->status == null || $this->status == 'completed' || $this->status == 'error') {
             $this->reset_harvest_counts(); // Reset harvest counts counts when starting a new entry
         }
@@ -44,38 +44,38 @@ class Pfif_Export_Log extends Pfif_Log {
           return false;
       }
     }
-    
+
     //TODO: Is this being used?
     public function pause($end_time,$log_info) {
         return $this->stop($end_time,$log_info,'paused');
     }
-    
+
     /*
      * DB layer methods
      */
     public function save() {
         return parent::save(self::MY_LOG_TABLE);
     }
-    
+
     public function update() {
         // var_dump("pfif_harvest_person_log.update:",$this);
         return parent::update(self::MY_LOG_TABLE);
     }
 
     // TODO: Is this being used?
-    public static function find_by($columns, 
+    public static function find_by($columns,
                                    $conditions = null) {
         $rs = parent::find_by('pfif_export_repository',
                               $columns, $conditions);
         return $rs;
     }
 
-    public static function get_last($repository_id, 
+    public static function get_last($repository_id,
                                     $direction) {
         global $global;
 
         $log = null;
-    
+
         $global['db']->SetFetchMode(ADODB_FETCH_ASSOC);
         $where_clause = "`repository_id`='".$repository_id."' ";
         $where_clause .= "AND `direction` = '".$direction."' ";
@@ -83,12 +83,12 @@ class Pfif_Export_Log extends Pfif_Log {
         // $where_clause .= "AND NOT `status` = 'completed' ";
 
         $sql = "SELECT * from `pfif_export_log` WHERE $where_clause ".
-               "ORDER BY start_time DESC LIMIT 1"; 
+               "ORDER BY start_time DESC LIMIT 1";
         // print "Log QUERY: $sql";
         $rs = $global['db']->GetAssoc($sql);
         // var_dump("Log resultset",$rs);
         if ($rs) {
-            /* DEBUGGING .... 
+            /* DEBUGGING ....
             foreach ($rs as $id => $row) {
                 var_dump($id,$row);
             }
@@ -107,10 +107,10 @@ class Pfif_Export_Log extends Pfif_Log {
         } else {
             // print "No log records found for query\n$sql\n";
         }
-        
+
         return $log;
     }
-    
+
     private static function fetch_object($rs_row,$key = null) {
         // var_dump("Log row:",$rs_row,"key:",$key);
         $log = new Pfif_Export_Log();

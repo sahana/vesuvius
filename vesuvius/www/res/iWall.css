@@ -8,7 +8,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0213
  */
 
@@ -160,9 +160,12 @@ input[type="checkbox"] {
 	-moz-border-radius-bottomleft: 5px;
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;
-	float:left;
-	max-height:96px;
-	max-width:71px;
+	float: left;
+	max-height: 96px;
+	max-width: 71px;
+        /* for some reason, these help IE maintain proper aspect ratio */
+        height: auto;
+        width: auto;
 	display: block;
 	margin: auto;
 	padding: 2px;
@@ -270,12 +273,19 @@ h1 {
 	-webkit-border-radius: 5px;
 	padding: 10px;
 	background-color: #fff;
-	box-shadow: 0px 0px 5px rgba(127,127,127,0.3);
+	box-shadow: 1px 1px 5px rgba(127,127,127,0.3);
 }
 
 
 .searchOptionsHeader {
-	font-weight: bold; background-color: #6289B0; color: white; padding:2px 10px; border-radius: 8px; margin-bottom: 5px;
+	font-weight: bold; 
+	background-color: #6289B0; 
+	color: white; 
+	border-radius: 8px; 
+	padding:2px 10px; 
+	margin-bottom: 5px;
+ 	/*behavior: url(res/pie/PIE.htc);*/ /* path must be relative to HTML */
+	/*position:relative;*/          /* addresses z-index problem w/ PIE */
 }
 
 #selectSort { width: 90px; *font-size: 14px }
@@ -456,7 +466,7 @@ h1 {
 #detailInfo {
 	border: solid 1px #CCC;
 	margin-top: 20px;
-
+	margin-bottom: 20px;
 }
 
 #dt_image {
@@ -734,7 +744,7 @@ h1 {
 }
 
 p {padding: 10px; }
-table {border-collapse: collapse; border: 3px solid #444;}
+table {border-collapse: collapse; }
 td {padding: 4px;}
 
 #aboutUsLogos {
@@ -870,3 +880,5 @@ td {padding: 4px;}
 	display: none;
 	z-index: 1000;
 }
+
+div#footer { position: relative !important; }

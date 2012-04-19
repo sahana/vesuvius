@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0213
  */
 
@@ -69,12 +69,6 @@ function shn_acl_form_unlock_user() {
 	<?php
 
 	$users=shn_auth_locked_user_list();
-
-	// check if locking is disabled and the users are locked.
-	if(count($users)>0 && shn_acl_is_locking_enabled()==false){
-		add_warning(_t("Password locking is disabled system wide. Locks will not take any effect until it is enabled.").
-    	"<br/><a href='index.php?mod=admin&act=acl_enable_locking'>"._t("Click here to enable locking")."</a>");
-	}
 
 	foreach ($users as $user=>$uarray){
 		//this will be used in a hidden field to identify all the checkboxes

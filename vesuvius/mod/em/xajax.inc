@@ -12,16 +12,14 @@
  */
 
 // xajax.inc
-require 'facebook/src/facebook.php';
-include 'twitter/EpiCurl.php';
-include 'twitter/EpiOAuth.php';
-include 'twitter/EpiTwitter.php';
+require '../mod/lpf/facebook/src/facebook.php';
+include '../mod/lpf/twitter/EpiCurl.php';
+include '../mod/lpf/twitter/EpiOAuth.php';
+include '../mod/lpf/twitter/EpiTwitter.php';
 
-require 'googlevoice/class.googlevoice.php';
+require '../mod/lpf/googlevoice/class.googlevoice.php';
 
 global $global;
-
-$isNew = 0;
 
 // create an array as it does not exist previosuly and will make warnings
 $global['xajax_functions'] = array();
@@ -780,7 +778,7 @@ function em_notify_event ($disaster_id, $longname, $shortname) {
 	// create tree-view ui that hosts the post receivers
 	$('#tree').dynatree({
 		checkbox: true,
-		imagePath: \"theme/lpf3/ntfy/\",
+		imagePath: \"res/emntfy/base/images/\",
 		selectMode: 3,
 		expand: true,
 		onClick: function(node, event) {
@@ -888,8 +886,8 @@ function em_notify_event ($disaster_id, $longname, $shortname) {
 
 				$t_title = $ncvalues[$j]['nckey'];
 				$arr = explode('|', $ncvalues[$j]['value']);
-				if ($ncvalues[$j]['outType']=='Email' || $ncvalues[$j]['outType']=='SMS')
-					$t_title = $arr[0];
+				if ($ncvalues[$j]['nckey']=='Email' || $ncvalues[$j]['nckey']=='SMS')
+					$t_title = $ncvalues[$j]['nckey'] . ' [' . $arr[0]. ']';
 
 				$ttt = em_format_title( $ncvalues[$j]['message']);
 								//{title: \"Last sent: ".$ncvalues[$j]['sent']." [". $tmp ."]\", key: \"".$ncvalues[$j]['id']."\", 
@@ -993,6 +991,8 @@ $('#twitter').bind('textchange', function (event, previousText) {
 			});
 		}
 	";
+
+	$s2 = "";
 
 	$s2 .= "
 		jQuery(document).ready(function() {
@@ -1154,35 +1154,6 @@ $('#twitter').bind('textchange', function (event, previousText) {
 //				$(this).addClass('disabled').attr('disabled', true);
 				var button = $(\":button:contains('Save New Message')\");
 				disableButton(button);
-/*
-				$(node).contextMenu({
-					selector: '.context-menu-one', 
-					items: {
-						key: {
-							name: \"Something Clickable\", 
-							callback: $.noop
-						}
-					}, 
-					events: {
-						show: function(opt) {
-							// this is the trigger element
-							var $this = this;
-							// import states from data store 
-							$.contextMenu.setInputValues(opt, $this.data());
-							// this basically fills the input commands from an object
-							// like {name: \"foo\", yesno: true, radio: \"3\", }
-						}, 
-						hide: function(opt) {
-							// this is the trigger element
-							var $this = this;
-							// export states to data store
-							$.contextMenu.getInputValues(opt, $this.data());
-							// this basically dumps the input commands' values to an object
-							// like {name: \"foo\", yesno: true, radio: \"3\", }
-						}
-					}
-				});
-*/
 			});
 
 			$('#prevMsg').change(function () {
@@ -2173,8 +2144,10 @@ function em_save_children($eventId, $group, $type) {
 
 
 // saves the event attributes to the database
-function em_perform_save($page_id, $rj) {
+function em_perform_save($page_id, $rj, $isNew) {
 	global $global;
+	global $conf;
+
 	$useDerived = false;
 	$passOnGenes = false;
 	$r = json_decode($rj, true);
@@ -2189,7 +2162,7 @@ function em_perform_save($page_id, $rj) {
 	$shortName   = preg_replace("/[^a-zA-Z0-9\s]/", "", $shortName);
 	$shortName   = strtolower($shortName);
 	$shortName   = mysql_real_escape_string($shortName);
-$msgSocial = mysql_real_escape_string($r['msgSocial']);
+//	$msgSocial = mysql_real_escape_string($r['msgSocial']);
 
 //$msgSocial = $name." (Event ID# ".$row['incident_id'].") has been created";
 	if($r['shortName'] != $shortName) {
@@ -2348,6 +2321,31 @@ $msgSocial = mysql_real_escape_string($r['msgSocial']);
 
 	//$msgSocial = $name." (Event ID# ".$eventId.") has been created";
 	//em_send_post($msgSocial);
+
+	if ($isNew) {
+		// email audit...
+		$p = new pop();
+		$subject = "{ ".$conf['site_name']." Event Manager Audit - new event ($eventId) $name / $shortName }";
+		$bodyHTML = "
+			<br>
+			<b>A new event ($eventId) $name / $shortName has been instantiated on ".$conf['site_name'].".</b><br>
+			<br>
+			This is simply an audit email to keep the team aware of such changes.<br>
+			<br>
+			The event creation was initiated by: <b>".$_SESSION['user']." | ".$_SESSION['full_name']."</b><br><br>
+		";
+		$bodyAlt = "
+			\n
+			A new event ($eventId) $name / $shortName has been instantiated on ".$conf['site_name'].".\n\n
+			\n
+			This is simply an audit email to keep the team aware of such changes.\n
+			\n
+			The event creation was initiated by: ".$_SESSION['user']." | ".$_SESSION['full_name']."\n\n
+		";
+		
+		$p->sendMessage($conf['audit_email'], null, $subject, $bodyHTML, $bodyAlt);
+		$global['xajax_res']->addAppend('rezLog', 'innerHTML', '<br>email new event '.$name.'/'.$shortName. ' to '. $conf['audit_email'] .'<br>');
+	}
 
 	$log .= "Event #<b>".$page_id."</b> <span style=\"color: green;\">Saved</span>.<b><br>";
 
@@ -2609,6 +2607,7 @@ function em_perform_new() {
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "new 7"); }
 
 	// email audit...
+/*
 	$p = new pop();
 	$subject = "{ ".$conf['site_name']." Event Manager Audit }";
 	$bodyHTML = "
@@ -2629,7 +2628,7 @@ function em_perform_new() {
 	";
 
 //	$p->sendMessage($conf['audit_email'], null, $subject, $bodyHTML, $bodyAlt);
-
+*/
 	return $newId;
 }
 
@@ -2640,6 +2639,7 @@ function em_perform_edit($incident_id) {
 	global $global;
 	global $conf;
 
+	$new = false;
 	//$global['xajax_res']->setFlag('debug', true);
 
 	// if incident_id = 0, must create a new incident then continue to edit it
@@ -2850,40 +2850,6 @@ function em_perform_edit($incident_id) {
 	// end visibility select box
 
 	$editMainHtml = "
-<!--
-<style>
-body {
-  line-height:1.4em;
-}
-
-#formBlock {
-  float:left;
-  width:700px;
-}
-
-#topBlock{
-  position: relative;
-}
-
-#topNotify{ /* required to avoid jumping */
-  left: 700px;
-  position: absolute;
-  margin-left: 10px;
-  margin-top: 1px;
-  width:280px;
-}
-
-#notifyBlock{
-  position: absolute;
-  top: 0;
-  width:280px;
-  //margin-top: 20px;
-  //border-top: 1px solid purple;
-  //padding-top: 19px;
-}
-
-</style>
--->
 <div id=\"topBlock\" >
 <div id=\"formBlock\" >
 
@@ -3030,7 +2996,7 @@ body {
 
 	// control HTML
 	$editControlHtml = '
-		<input class="styleTehButton" type="button" onclick="javascript: em_append_log(\'Saving Changes...<br>\'); setTimeout(\'em_perform_save('.$incident_id.', em_get_data());\', 250);" value="Save Changes and Close">
+		<input class="styleTehButton" type="button" onclick="javascript: em_append_log(\'Saving Changes...<br>\'); setTimeout(\'em_perform_save('.$incident_id.', em_get_data(), '.(($new)?1:0).');\', 250);" value="Save Changes and Close">
 		<input class="styleTehButton" type="button" onclick="javascript: em_append_log(\'Canceling Changes...<br>\'); setTimeout(\'em_show_events();\', 250);" value="Cancel Editing and Close">
 	';
 

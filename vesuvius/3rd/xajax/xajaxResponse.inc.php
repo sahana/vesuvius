@@ -12,7 +12,7 @@
 // reloading the page.
 //
 // xajax is released under the terms of the LGPL license
-// http://www.gnu.org/copyleft/lesser.html#SEC3
+// http://www.gnu.org/licenses/lgpl-2.1.html#SEC3
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public

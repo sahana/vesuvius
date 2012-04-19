@@ -81,10 +81,7 @@ class SearchDB {
 		}
 
 		// Search string "unknown" means return records with no names (PL-225).
-		$this->searchUnknown = false;
-                if (strpos($searchTerm, "unknown") !== false) {
-			$this->searchUnknown = true;
-                }
+                $this->searchUnknown = (strpos($searchTerm, "unknown") !== false)? true : false;
 
 		// Removed a number of symbols to allow power users to exploit SOLR syntax (PL-265).
 		$toReplace = array(",", ".", "/", "\\", "@", "$", "%", "^", "&", "#", "[image]", "[-image]", "unknown");
@@ -265,10 +262,14 @@ class SearchDB {
 			$this->perPage = 2000;
 		}
 
+                // Set "unknown" flag for SQL search (PL-225).
+                if ($this->searchUnknown) $this->searchTerm = 'unknown';
+
 		$proc = "CALL PLSearch('$this->searchTerm', '$this->statusString', '$this->genderString', '$this->ageString', '$this->hospitalString', '$this->incident', '$this->sortBy', $this->pageStart, $this->perPage)";
 
 		$res = $mysqli->multi_query( "$proc; SELECT @allCount;" );
 
+		$this->numRowsFound = 0;
 		if($res) {
 			$results = 0;
 			$c = 0;
@@ -283,6 +284,8 @@ class SearchDB {
 								'p_uuid'             => $row["p_uuid"],
 								'encodedUUID'        => $encodedUUID,
 								'full_name'          => htmlspecialchars($row["full_name"]),
+								'given_name'         => htmlspecialchars($row["given_name"]),
+								'family_name'        => htmlspecialchars($row["family_name"]),
 								'opt_status'         => str_replace("\"", "", $row["opt_status"]),
 								'imageUrl'           => htmlspecialchars($row["url_thumb"]),
 								'imageWidth'         => $row["image_width"],
@@ -297,6 +300,7 @@ class SearchDB {
 								'hospitalIcon'       => $row["icon_url"],
 								'mass_casualty_id'   => $row["mass_casualty_id"]
 							);
+						$this->numRowsFound++;
 						}
 					}
 					$result->close();
@@ -349,7 +353,7 @@ class SearchDB {
 		curl_close($ch);
 
 		$date = new DateTime($temp->response->docs[0]->updated);
-		$this->lastUpdated = $date->format('m/d/y @ g:i:s A');
+		$this->lastUpdated = $date->format("Y-m-d H:i:s");
 	}
 
 
@@ -465,6 +469,8 @@ class SearchDB {
 				'p_uuid' => $doc->p_uuid,
 				'encodedUUID'         => $conf['https'].$conf['base_uuid']."edit?puuid=".urlencode($doc->p_uuid),
 				'full_name'           => isset($doc->full_name)        ? htmlspecialchars($doc->full_name) : null,
+				'given_name'          => isset($doc->given_name)       ? htmlspecialchars($doc->given_name) : null,
+				'family_name'         => isset($doc->family_name)      ? htmlspecialchars($doc->family_name) : null,
 				'opt_status'          => isset($doc->opt_status)       ? $doc->opt_status : null,
 				'imageUrl'            => isset($doc->url_thumb)        ? $doc->url_thumb : null,
 				'imageWidth'          => isset($doc->image_width)      ? $doc->image_width : null,

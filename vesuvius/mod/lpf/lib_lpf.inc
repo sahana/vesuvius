@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.0126
  */
 
@@ -23,6 +23,7 @@ $global['enumXmlFormats']        = array('REUNITE2', 'REUNITE3', 'REUNITE4', 'TR
 
 // whether to save the xml attachments for debug purposes
 $global['debugAndSaveXmlToFile'] = true;
+$global['debugAndSaveXmlToFilePath'] = $global['approot']."www/tmp/debug_cache/";
 
 // load uuid library for generating id's
 require_once($global['approot']."/inc/lib_uuid.inc");

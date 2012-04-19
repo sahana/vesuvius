@@ -132,13 +132,14 @@ function searchSubset(first) {
 	}
 
 	$("#foundLabel").show();
+	$("#refreshLabel").hide();
 	if ( Globals.displayMode && Globals.searchMode != "sql" )
 		$("#maxShown").hide();
 	else
 		$("#maxShown").show();
 
 	$("#menuwrap").append($("#searchOptions").css({marginTop: "5px", marginLeft: "10px"}).show());
-	if ( !$("#shortName").val().match(/cmax/) ) $("#hospital").hide();
+	if ( !$("#shortName").val().match(/(cmax|shield)/) ) $("#hospital").hide();
 	$("#content").css({marginRight: "0px", paddingRight: "20px"});
         $("#buttonHelp").show();
 
@@ -191,7 +192,7 @@ function showFacets() {
 						  .css("font-size", "8pt")
 						  .css("position", "absolute")
 						  .css("right", "30px")
-						  .css("margin-top", "7px")
+						  .css("margin-top", "5px")
 						  .css("font-weight", "bold")
 						  .html(Utils.addCommas(facets[facet])));
                         // obsolete?

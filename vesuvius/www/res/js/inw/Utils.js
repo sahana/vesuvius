@@ -6,7 +6,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2011.0308
  */
 
@@ -65,11 +65,11 @@ var Utils = {
 		$("#dt_eapLink > a").attr("href", person.encodedUUID ).attr("target", "_new");
 
                 if ( person.hospitalIcon != "" )
-                        $("#dt_hospitalIcon").html("<img src='" + person.hospitalIcon + "' />");
+                        $("#dt_hospitalIcon").html('<img src="' + person.hospitalIcon + '" alt="hospital symbol"/>');
                 else
                         $("#dt_hospitalIcon").html("");
 
-                $("#dt_image").html('<img style="position:relative;max-height:300px;max-width:300px" src="'+person.imageUrl+'">');
+                $("#dt_image").html('<img style="position:relative;max-height:300px;max-width:300px" src="'+person.imageUrl+'" alt="'+(isNaN(person.imageHeight) ? "no photo available" : "photo of person")+'">');
                 doc.location.hash += "_details";
                 Globals.pollerId = setInterval(
                         function() {
@@ -271,6 +271,7 @@ var Utils = {
 	},
 
 	changeObserver : function( lastUpdated ) {
+		$("#refreshLabel").show();
 		if ( !Globals.lastUpdated ) {
 			Globals.lastUpdated = lastUpdated
 			return;
@@ -279,9 +280,9 @@ var Utils = {
 		if ( lastUpdated != Globals.lastUpdated ) {
 			Globals.mostRecent = Globals.lastUpdated; // saving for later
 			Globals.lastUpdated = lastUpdated;
-			if ( Globals.displayMode )
-				$("#updateAlerts").fadeIn("slow");
-			else {
+			if ( Globals.displayMode ) {
+                                $("#lastChange").html(lastUpdated + " UTC");
+                        } else {
 				$("#updateAlerts2").fadeIn("slow");
 			}
 			searchSubset(false);
@@ -292,6 +293,7 @@ var Utils = {
 		if ( el.src.indexOf("desc") > 0 ) {
 			el.src = "res/img/asc.png";
 			el.title = "Ascending (click for descending)";
+			el.alt = "ascending sort order, click for descending";
 
 			if ( $("#selectSort").val() != "" )
 				Globals.sortedBy = $("#selectSort").val() + " asc"
@@ -299,6 +301,7 @@ var Utils = {
 		else {
 			el.src = "res/img/desc.png";
 			el.title = "Descending (click for ascending)"
+			el.alt = "descending sort order, click for ascending";
 
 			if ( $("#selectSort").val() != "" )
 				Globals.sortedBy = $("#selectSort").val() + " desc"
@@ -314,15 +317,17 @@ var Utils = {
 			$("#sortOrderIcon").hide();
 		}
 		else {
-                        if ( el.value == "full_name" || el.value == "years_old" ) {
+                        if ( el.value == "full_name" || el.value == "years_old" || el.value == "mass_casualty_id") {
 				Globals.sortedBy = el.value + " " + "asc";
 				$("#sortOrderIcon").attr("src", "res/img/asc.png")
 			        	.attr("title", "Ascending (click for descending)")
+			        	.attr("alt", "ascending sort order, click for descending")
 			                .show();
                         } else {
 				Globals.sortedBy = el.value + " " + "desc";
 				$("#sortOrderIcon").attr("src", "res/img/desc.png")
 			        	.attr("title", "Descending (click for ascending)")
+			        	.attr("alt", "descending sort order, click for ascending")
  					.show();
                         }
 		}

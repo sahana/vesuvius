@@ -49,30 +49,17 @@ function shn_em_default() {
 		<div id=\"rezLog\" class=\"logArea\">Loading Events...<br><noscript>THIS MODULE REQUIRES THAT YOU ACTIVATE JAVASCRIPT!</noscript></div>
 		<div id=\"rezControl\" class=\"controlArea\">&nbsp;</div>
 		<div id=\"rezMain\" class=\"mainArea\"></div>
-		<link href=\"theme/lpf3/ntfy/base/jquery.ui.all.css\" rel=\"stylesheet\">
-		<link href=\"theme/lpf3/ntfy/jquery-ui-1.8.17.css\" rel=\"stylesheet\" type=\"text/css\">
-		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery-1.7.1.min.js\" ></script>
-		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery-ui-1.8.17.custom.min.js\" ></script>
-		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery.textchange.min.js\" ></script>
+		<link href=\"res/emntfy/base/jquery.ui.all.css\" rel=\"stylesheet\">
+		<link href=\"res/emntfy/base/jquery-ui-1.8.17.css\" rel=\"stylesheet\" type=\"text/css\">
+		<script type=\"text/javascript\" src=\"res/js/jquery.js\" ></script>
+		<script type=\"text/javascript\" src=\"res/js/jquery-ui-1.8.17.custom.min.js\" ></script>
+		<script type=\"text/javascript\" src=\"res/js/jquery.textchange.min.js\" ></script>
 
+		<link href=\"res/emntfy/base/ui.dynatree.css\" rel=\"stylesheet\" type=\"text/css\">
 
-<!--
-		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery-ui.min-1.8.17.js\" ></script>
-		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery.min.1.7.1.js\" ></script>
-
-		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery-ui-1.8.16.custom.min.js\" ></script>
--->
-		<link href=\"theme/lpf3/ntfy/ui.dynatree.css\" rel=\"stylesheet\" type=\"text/css\">
-
-		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery.dynatree.min.js\" ></script>
-<!--
-		<link href=\"theme/lpf3/ntfy/jquery.contextMenu.css\" rel=\"stylesheet\" type=\"text/css\">
--->
-<!--
-		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery.contextMenu.js\" ></script>
--->
-		<script type=\"text/javascript\" src=\"theme/lpf3/ntfy/jquery.contextMenu-custom.js\" ></script>
-		<link href=\"theme/lpf3/ntfy/jquery.contextMenu.css\" rel=\"stylesheet\" type=\"text/css\" />
+		<script type=\"text/javascript\" src=\"res/js/jquery.dynatree.min.js\" ></script>
+		<script type=\"text/javascript\" src=\"res/js/jquery.contextMenu-custom.js\" ></script>
+		<link href=\"res/emntfy/base/jquery.contextMenu.css\" rel=\"stylesheet\" type=\"text/css\" />
 
 		<script>".file_get_contents($global['approot']."/mod/em/em.js")."</script>
 	";
