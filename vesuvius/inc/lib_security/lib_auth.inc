@@ -679,34 +679,12 @@ function shn_authenticate_user() {
 			return $user_data;
 		}
 		if($status == 'locked') {
-			$sql = "
-				SELECT changed_timestamp
-				FROM password_event_log
-				WHERE p_uuid='{$uid}'
-				AND event_type = 1
-				ORDER BY changed_timestamp desc;
-			";
-			$res=$db->Execute($sql);
-			if(($res == null) || ($res->EOF)){
-				add_error("Login Failed : Attack Logged.");
-				shn_acl_log_msg("Login Failed : Attack Logged.", $uid, $user,1);
-				$user_data["user_id"] = ANONYMOUS_USER;
-				$user_data["user"] = "Anonymous";
-				$user_data["result"] = LOGINFAILED;
-				return $user_data;
-			} else {
-				$tstamp = $res->fields["changed_timestamp"];
-				$now = time();
-				$diff = $now-$tstamp;
-				if($diff < LOCK) {
-					add_error("This account has been locked due to many failed login attempts. Please contact <a href=\"mailto:".$conf['audit_email']."\">".$conf['audit_email']."</a> to have your account unlocked. Remember to provide your username in the email to expedite the process.");
-					shn_acl_log_msg("Login Failed : Password lock still valid.",$uid,$user);
-					$user_data["user_id"] = ANONYMOUS_USER;
-					$user_data["user"] = "Anonymous";
-					$user_data["result"] = LOGINFAILED;
-					return $user_data;
-				}
-			}
+			add_error("This account has been locked due to many failed login attempts. Please contact <a href=\"mailto:".$conf['audit_email']."\">".$conf['audit_email']."</a> to have your account unlocked. Remember to provide your username in the email to expedite the process.");
+			shn_acl_log_msg("Login Failed : Password lock still valid.",$uid,$user);
+			$user_data["user_id"] = ANONYMOUS_USER;
+			$user_data["user"] = "Anonymous";
+			$user_data["result"] = LOGINFAILED;
+			return $user_data;
 		}
 		// banned user
 		if($status == 'banned') {
@@ -735,7 +713,6 @@ function shn_authenticate_user() {
 		if(($res == null) || ($res->EOF)) {
 
 			// no result ,so return 1 ,which is  not a valid user_id , the calling application can identify authentication was attempted,but failed
-			add_error("Login Failed : Invalid user name or password.");
 			shn_acl_log_msg("Login Failed : Invalid Password.", $uid, $user, 1);
 			$user_data["user_id"] = ANONYMOUS_USER;
 			$user_data["user"] = "Anonymous";
@@ -744,7 +721,7 @@ function shn_authenticate_user() {
 			return $user_data;
 
 		} else {
-			if($status == 'locked' || $status == 'try1' || $status == 'try2') {
+			if($status == 'try1' || $status == 'try2' || $status == 'try3' || $status == 'active') {
 				shn_auth_activate_user($uid);
 			}
 
@@ -772,14 +749,22 @@ function _shn_auth_lock_user($uid, $status) {
 		switch($status) {
 			case 'active' :
 				$next_status = 'try1';
+				add_error("Login Failure #1 : Invalid user name or password.");
 				break;
 			case 'try1' :
 				$next_status = 'try2';
+				add_error("Login Failure #2 : Invalid user name or password.");
 				break;
 			case 'try2' :
 				$next_status = 'try3';
+				add_error("Login Failure #3 : Invalid user name or password.");
 				break;
 			case 'try3' :
+				add_error('Login Failure #4 : You have failed to successfully login 4 successive times. If you fail one more time your account will become disabled. You may wish to try the "Forgot my password" button below to reset your password to avoid being locked out of your account.');
+				$next_status = 'locked';
+				break;
+			case 'locked' :
+				add_warning('your fucked');
 				$next_status = 'locked';
 				break;
 		}

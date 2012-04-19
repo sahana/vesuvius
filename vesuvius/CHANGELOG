@@ -1,6 +1,13 @@
 Changes since Vesuvius 0.9.2 was released (2012-04-12)
 ------------------------------------------------------
 
+2012:0423 Update
+----------------
+Greg: street address from REUNITE4 kluged into last seen field if an address is present
+Greg: updated failed login verbiage to persuade user to reset password before account becomes locked
+
+
+
 2012:0417 Update
 ----------------
 Greg: a few small cosmetic style changes related to tabs
