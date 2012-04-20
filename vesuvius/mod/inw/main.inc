@@ -150,7 +150,7 @@ function shn_inw_default() {
 					<span id="solrFoundLabel" style="display:none">Found <span id="recordsFound">0</span> out of <span id="totalRecordsSOLR">0</span> records in <span id="timeElapsedSOLR">0</span> seconds </span>
 					<span id="sqlFoundLabel"  style="display:none">Searched <span id="totalRecordsSQL">0</span> records in <span id="timeElapsedSQL">0</span> seconds </span>
 					<span id="maxShown" style="display:none;font-size:.6em">(max 2,000 shown)</span>
-					<span id="refreshLabel" style="display:none"> | Last updated: <span id="lastCheck"></span>, last new record: <span id="lastChange">none</span></span>
+					<span id="refreshLabel" style="display:none;"> | Last updated: <span id="lastCheck"></span>, last new record: <span id="lastChange">none</span></span>
 				</div>
 				<div id="updateAlerts2" style="float:left;font-size: .85em; font-weight: bold; display: none; margin-left: 5px; color: #C00">
 					<span style="color: black"> | </span> There are new or updated records in the database, the results will be automatically refreshed in 1 minute.
@@ -170,7 +170,7 @@ function shn_inw_default() {
 			</select>
 		</div>
 		<div id="pager" style="display:none;float:left;margin-right:25px;margin-top:5px;"></div>
-		<div style="clear:both;" id="beforeScrollingContent"></div> <!-- for IE -->
+		<div style="clear:both;" id="beforeScrollingContent"></div>
 		<div id="scrolling_content">
 			<ul>
 			  <li>Enter "unknown" to search records without names.</li>

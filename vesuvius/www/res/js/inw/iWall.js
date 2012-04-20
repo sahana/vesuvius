@@ -126,7 +126,7 @@ function searchSubset(first) {
 	}
 
 	$("#foundLabel").show();
-	$("#refreshLabel").hide();
+ 	if (first) $("#refreshLabel").hide();
 	if ( Globals.displayMode && Globals.searchMode != "sql" )
 		$("#maxShown").hide();
 	else
