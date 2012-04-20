@@ -542,102 +542,102 @@ msgstr ""
 #: ../mod/ha/xajax.inc:139 ../mod/ha/xajax.inc:287 ../mod/ha/xajax.inc:322
 msgctxt "HOSPITAL_BUTTON"
 msgid "Add a new Hospital"
-msgstr ""
+msgstr "Ajouter un nouvel hôpital"
 
 #: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289 ../mod/ha/xajax.inc:324
 msgctxt "HOSPITAL_LOG"
 msgid "Opening Help..."
-msgstr ""
+msgstr "Ouverture de l'aide ..."
 
 #: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289 ../mod/ha/xajax.inc:324
 msgctxt "HOSPITAL_BUTTON"
 msgid "Help"
-msgstr ""
+msgstr "Aider"
 
 #: ../mod/ha/xajax.inc:154
 msgctxt "HOSPITAL_FOUND"
 msgid "Found <b>"
-msgstr ""
+msgstr "Trouvé <b>"
 
 #: ../mod/ha/xajax.inc:154
 msgctxt "HOSPITAL_FOUND"
 msgid "</b> Hospital(s).<br>"
-msgstr ""
+msgstr "</ b> Hôpital (s). <br>"
 
 #: ../mod/ha/xajax.inc:170
 msgctxt "HOSPITAL_HELP"
 msgid "coming soon...."
-msgstr ""
+msgstr "bientôt ...."
 
 #: ../mod/ha/xajax.inc:175
 msgctxt "HOSPITAL_HELP"
 msgid "Closing Help..."
-msgstr ""
+msgstr "Fermeture Aide ..."
 
 #: ../mod/ha/xajax.inc:175
 msgctxt "HOSPITAL_BUTTON"
 msgid "Close Help"
-msgstr ""
+msgstr "Fermer Aide"
 
 #: ../mod/ha/xajax.inc:283
 msgctxt "HOSPITAL_LOG"
 msgid "Hospital #<b>"
-msgstr ""
+msgstr "Hôpital # <b>"
 
 #: ../mod/ha/xajax.inc:283
 msgctxt "HOSPITAL_LOG"
 msgid "Saved"
-msgstr ""
+msgstr "Saved"
 
 #: ../mod/ha/xajax.inc:287
 msgctxt "HOSPITAL_LOG"
 msgid "Add a new Hospital..."
-msgstr ""
+msgstr "Ajouter un nouvel hôpital ..."
 
 #: ../mod/ha/xajax.inc:312
 msgctxt "HOSPITAL_LOG"
 msgid "Hospital <b>#"
-msgstr ""
+msgstr "Hôpital <b> #"
 
 #: ../mod/ha/xajax.inc:312
 msgctxt "HOSPITAL_LOG"
 msgid "removed"
-msgstr ""
+msgstr "retiré"
 
 #: ../mod/ha/xajax.inc:322
 msgctxt "HOSPITAL_LOG"
 msgid "Adding a new Hospital..."
-msgstr ""
+msgstr "Ajout d'un nouvel hôpital ..."
 
 #: ../mod/ha/xajax.inc:406
 msgctxt "HOSPITAL_INFO"
 msgid "Hospital Information"
-msgstr ""
+msgstr "Information Hospitalier"
 
 #: ../mod/ha/xajax.inc:409
 msgctxt "HOSPITAL_INFO"
 msgid "Hospital UUID"
-msgstr ""
+msgstr "Hôpital UUID"
 
 #: ../mod/ha/xajax.inc:413
 msgctxt "HOSPITAL_INFO"
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: ../mod/ha/xajax.inc:417
 msgctxt "HOSPITAL_INFO"
 msgid "Short Name"
-msgstr ""
+msgstr "Nom court"
 
 #: ../mod/ha/xajax.inc:421
 msgctxt "HOSPITAL_INFO"
 msgid "Street 1"
-msgstr ""
+msgstr "Rue 1"
 
 #: ../mod/ha/xajax.inc:425
 msgctxt "HOSPITAL_INFO"
 msgid "Street 2"
-msgstr ""
+msgstr "Rue 2"
 
 #: ../mod/ha/xajax.inc:429
 msgctxt "HOSPITAL_INFO"
@@ -647,12 +647,12 @@ msgstr ""
 #: ../mod/ha/xajax.inc:433
 msgctxt "HOSPITAL_INFO"
 msgid "County"
-msgstr ""
+msgstr "Ville"
 
 #: ../mod/ha/xajax.inc:437
 msgctxt "HOSPITAL_INFO"
 msgid "State / Region"
-msgstr ""
+msgstr "Etat / Région"
 
 #: ../mod/ha/xajax.inc:441
 msgctxt "HOSPITAL_INFO"
@@ -662,47 +662,47 @@ msgstr ""
 #: ../mod/ha/xajax.inc:445
 msgctxt "HOSPITAL_INFO"
 msgid "Country"
-msgstr ""
+msgstr "Pays"
 
 #: ../mod/ha/xajax.inc:449
 msgctxt "HOSPITAL_INFO"
 msgid "Phone"
-msgstr ""
+msgstr "Téléphone"
 
 #: ../mod/ha/xajax.inc:453
 msgctxt "HOSPITAL_INFO"
 msgid "Fax"
-msgstr ""
+msgstr "Fax"
 
 #: ../mod/ha/xajax.inc:457
 msgctxt "HOSPITAL_INFO"
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: ../mod/ha/xajax.inc:461
 msgctxt "HOSPITAL_INFO"
 msgid "Web Address"
-msgstr ""
+msgstr "Adresse Web"
 
 #: ../mod/ha/xajax.inc:465
 msgctxt "HOSPITAL_INFO"
 msgid "NPI #"
-msgstr ""
+msgstr "NPI #"
 
 #: ../mod/ha/xajax.inc:470
 msgctxt "HOSPITAL_INFO"
 msgid "Enter a Street Address: "
-msgstr ""
+msgstr "Entrez une adresse de rue:"
 
 #: ../mod/ha/xajax.inc:471
 msgctxt "HOSPITAL_BUTTON"
 msgid "Detect My Current Location"
-msgstr ""
+msgstr "Détecter ma position actuelle"
 
 #: ../mod/ha/xajax.inc:490
 msgctxt "HOSPITAL_INFO"
 msgid "Hospital Policies"
-msgstr ""
+msgstr "Les politiques des hôpitaux"
 
 #: ../mod/ha/xajax.inc:493
 msgctxt "HOSPITAL_INFO"
