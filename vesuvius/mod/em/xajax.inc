@@ -241,13 +241,13 @@ function em_show_events($internal = FALSE) {
 			$htmlMain .= "
 				<tr>
 					<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$type."</td>
-					<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$longname."</td>
+					<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\"><a href=\"#\" onclick=\"em_append_log('Editting Event #<b>".$incident_id."</b> ...<br>'); em_perform_edit(".$incident_id.");\" value=\"Edit\">".$longname."</a></td>
 					<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$shortname."</td>
 					<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$type2."</td>
 					<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$defaultText."</td>
 					<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$groupText."</td>
 					<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$closedText."</td>
-					<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: em_append_log('Editting Event #<b>".$incident_id."</b> ...<br>'); em_perform_edit(".$incident_id.");\">Edit</a></td>
+					<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"em_append_log('Editting Event #<b>".$incident_id."</b> ...<br>'); em_perform_edit(".$incident_id.");\" value=\"Edit\"></td>
 				</tr>
 			";
 
@@ -328,13 +328,14 @@ function em_show_events($internal = FALSE) {
 				$htmlMain .= "
 					<tr>
 						<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$type."</td>
-						<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$longname."</td>
+						<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\"><a href=\"#\" onclick=\"em_append_log('Editting Event #<b>".$event_id."</b> ...<br>'); em_perform_edit(".$event_id.");\" value=\"Edit\">".$longname."</a></td>
 						<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">".$shortname."</td>
 						<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$type2."</td>
 						<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$defaultText."</td>
 						<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$groupText."</td>
 						<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$closedText."</td>
-						<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: em_append_log('Editting Event #<b>".$event_id."</b> ...<br>'); em_perform_edit(".$event_id.");\">Edit</a></td>
+						<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"em_append_log('Editting Event #<b>".$event_id."</b> ...<br>'); em_perform_edit(".$event_id.");\" value=\"Edit\"></td>
+
 					</tr>
 				";
 				$k++;
@@ -641,6 +642,21 @@ function em_perform_save($page_id, $rj) {
 	}
 
 
+	// if we are on initial save and there is a parent, find the derived values
+	if (!$useDerived && $r['eventParent'] > 0) {
+        	$q = "
+                	SELECT *
+                	FROM `incident`
+                	WHERE incident_id = '".$r['eventParent']."';
+        	";
+        	$res = $global['db']->Execute($q);
+        	$row = $res->FetchRow();
+        	$visibilityDerived = $row['private_group'];
+        	$typeDerived       = $row['type'];
+        	$useDerived = true;
+	}
+
+
 	// formulate parent
 	$parent = (int)$r['eventParent'];
 	if($parent == -1) {
@@ -756,7 +772,7 @@ function em_perform_save($page_id, $rj) {
 
 
 
-// delete a page
+// delete an event
 function em_perform_delete($incident_id, $confirm) {
 
 	global $global;
@@ -830,7 +846,9 @@ function em_perform_delete($incident_id, $confirm) {
 	return $global['xajax_res']->getXML();
 }
 
-// delete a page
+
+
+// purge event
 function em_perform_purge($incident_id, $confirm) {
 	global $global;
 	global $conf;
@@ -882,19 +900,15 @@ function em_perform_purge($incident_id, $confirm) {
 	}
 
 	//---- update UI
-	$pageControlHtml = '
-		<input class="styleTehButton" type="button" onclick="javascript: em_append_log(\'Creating a new Event...<br>\'); em_perform_edit(0);" value="Create a new Disaster / Incident / Event">
-		&nbsp; &nbsp; &nbsp; &nbsp;
-		<input class="styleTehButton red" type="button" onclick="javascript: em_append_log(\'Opening Help...<br>\'); em_perform_help();" value="Help">
-	';
-	$global['xajax_res']->addAssign('rezControl','style.opacity','1.0');
-	$global['xajax_res']->addAssign('rezControl','innerHTML',$pageControlHtml);
-
-	$global['xajax_res']->addAssign('rezMain', 'innerHTML', em_show_events(TRUE));
+	$global['xajax_res']->addAssign('purgeButton','style.opacity','0.2');
+	$global['xajax_res']->addAssign('purgeButton','disabled','true');
 	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
 	return $global['xajax_res']->getXML();
 }
 
+
+
+// purge all persons from an event
 function em_perform_purge_do($incident_id) {
 
 	global $global;
@@ -909,11 +923,13 @@ function em_perform_purge_do($incident_id) {
 
 	// Reset last_count for last export log  record. (Otherwise, the first
 	// 'last_count' new records won't get exported.)
-	$q = "UPDATE pfif_export_log pe, pfif_repository pr SET pe.last_count=0 WHERE " .
-       		"pr.incident_id=$incident_id " .
-       		"AND pe.repository_id = pr.id " .
-       		"AND pe.status = 'paused'";
-   	$st = $global['db']->Execute($q);
+	$q = "
+		UPDATE pfif_export_log pe, pfif_repository pr SET pe.last_count=0
+		WHERE pr.incident_id = ".$incident_id."
+		AND pe.repository_id = pr.id
+		AND pe.status = 'paused';
+	";
+	$st = $global['db']->Execute($q);
 	if($st === false) {
 		daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "purge 0 ((".$q."))");
 		$errchk = $global['db']->ErrorMsg();
@@ -1345,18 +1361,22 @@ function em_perform_edit($incident_id) {
 
 	// if Admin... show delete/purge buttons
 	if($_SESSION['group_id'] == "1") {
+
+		$deleteButtonTitle = "Delete Event";
+
 		if($hasChildren) {
 			$disabled = "DISABLED style=\"opacity: 0.2;\"";
+			$deleteButtonTitle = "Cannot Delete Event ~ Has Children";
 		} else {
 			$disabled = "";
 		}
 		$editControlHtml .= '
 			&nbsp; &nbsp; &nbsp; &nbsp;
-			<input class="styleTehButton red" type="button" onclick="javascript: em_delete('.$incident_id.');" value="Delete Event" '.$disabled.' >
+			<input class="styleTehButton red" type="button" id="deleteButton" onclick="javascript: em_delete('.$incident_id.');" value="'.$deleteButtonTitle.'" '.$disabled.' >
 		';
 		$editControlHtml .= '
 			&nbsp; &nbsp;
-			<input class="styleTehButton red" type="button" onclick="javascript: em_purge('.$incident_id.');" value="Purge Event" '.$disabled.' >
+			<input class="styleTehButton red" type="button" id="purgeButton" onclick="javascript: em_purge('.$incident_id.');" value="Purge Event">
 		';
 	}
 
