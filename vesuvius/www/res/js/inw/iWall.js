@@ -144,8 +144,7 @@ function searchSubset(first) {
         if (first) {
         	clearInterval(Globals.updaterId);
        		Globals.updaterId = setInterval(
-                        "inw_checkForChanges('"+Globals.searchMode+"','"+Globals.incident+"','"+Globals.searchTerms+"','"+sStatus+"','"+sGender+"','"+sAge+"','"+sHospital+"')",
-        		Globals.updaterTimer);
+                        "inw_checkForChanges('"+Globals.searchMode+"','"+Globals.incident+"','"+Globals.searchTerms+"','"+sStatus+"','"+sGender+"','"+sAge+"','"+sHospital+"')", Globals.updaterTimer);
         }
 }
 
