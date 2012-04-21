@@ -44,7 +44,7 @@ var Globals = {
 	incident : $("#shortName").val(),
 	results : [],
 	updaterId : null,
-	updaterTimer : 60000,  //1min
+	updaterTimer : 5000,  //5 seconds
 	doRefresh : true,
 	isiPad : false,
 	timeElapsed : 0,
