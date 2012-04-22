@@ -1420,6 +1420,19 @@ class person {
 			$this->maxAge         = isset($a['person']['maxAge'])       ? $a['person']['maxAge']       : null;
 			$this->other_comments = isset($a['person']['note'])         ? $a['person']['note']         : null;
 
+			// TEMP HACK KLUGE to stuff person location data into the person_status last_known_location field
+			$kluge = "";
+			$kluge .= isset($a['person']['location']['street1'])      ? $a['person']['location']['street1']."\n"      : "";
+			$kluge .= isset($a['person']['location']['street2'])      ? $a['person']['location']['street2']."\n"      : "";
+			$kluge .= isset($a['person']['location']['neighborhood']) ? $a['person']['location']['neighborhood']."\n" : "";
+			$kluge .= isset($a['person']['location']['city'])         ? $a['person']['location']['city']."\n"         : "";
+			$kluge .= isset($a['person']['location']['region'])       ? $a['person']['location']['region']."\n"       : "";
+			$kluge .= isset($a['person']['location']['postalCode'])   ? $a['person']['location']['postalCode']."\n"   : "";
+			$kluge .= isset($a['person']['location']['country'])      ? $a['person']['location']['country']."\n"      : "";
+			if(trim($kluge) != "") {
+				$this->last_seen = $kluge;
+			}
+
 			// only update the incident_id if not already set
 			if($this->incident_id === null) {
 
