@@ -216,6 +216,7 @@ function _pgettext($msgid) {
 		list($context,$msgidn) = explode("|", $msgid, 2);
 		$contextString = "{$context}\004{$msgidn}";
 		$translation = _gettext($contextString);
+		//If translated string does not exist, return the original string
 		if ($translation == $contextString)  return $msgidn;
 		else  return $translation;
 		//_gettext($msgidn);
