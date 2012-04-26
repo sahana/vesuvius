@@ -307,13 +307,13 @@ function shn_pop_configuration() {
 <tr><td><b>Account Credentials</b></td><td colspan=2>&nbsp;</td></tr>
 <tr>
 	<td class="odder">Account Username</td>
-	<td class="odder"><input type="text" name="pop_username1" id="pop_username1" value="<?php echo $pop_username1; ?>" tabindex="1"  /><span class='req'>*</span></td>
-	<td class="odder"><input type="text" name="pop_username2" id="pop_username2" value="<?php echo $pop_username2; ?>" tabindex="41" /></td>
+	<td class="odder"><input type="text" name="pop_username1" size=40 id="pop_username1" value="<?php echo $pop_username1; ?>" tabindex="1"  /><span class='req'>*</span></td>
+	<td class="odder"><input type="text" name="pop_username2" size=40 id="pop_username2" value="<?php echo $pop_username2; ?>" tabindex="41" /></td>
 </tr>
 <tr>
 	<td class="evener">Account Password</td>
-	<td class="evener"><input type="text" name="pop_password1" id="pop_password1" value="<?php echo $pop_password1; ?>" tabindex="2"  /><span class='req'>*</span></td>
-	<td class="evener"><input type="text" name="pop_password2" id="pop_password2" value="<?php echo $pop_password2; ?>" tabindex="42" /></td>
+	<td class="evener"><input type="text" name="pop_password1" size=40 id="pop_password1" value="<?php echo $pop_password1; ?>" tabindex="2"  /><span class='req'>*</span></td>
+	<td class="evener"><input type="text" name="pop_password2" size=40 id="pop_password2" value="<?php echo $pop_password2; ?>" tabindex="42" /></td>
 </tr>
 <tr><td colspan=3>&nbsp;</td></tr>
 <tr><td><b>Outbound Email Settings</b></td><td colspan=2>&nbsp;</td></tr>
@@ -324,18 +324,18 @@ function shn_pop_configuration() {
 </tr>
 <tr>
 	<td class="evener">From/Reply-To Email Address</td>
-	<td class="evener"><input size=30 type="text" name="smtp_reply_address1" id="smtp_reply_address1" value="<?php echo $smtp_reply_address1; ?>" tabindex="8"  /><span class='req'>*</span></td>
-	<td class="evener"><input size=30 type="text" name="smtp_reply_address2" id="smtp_reply_address2" value="<?php echo $smtp_reply_address2; ?>" tabindex="48" /></td>
+	<td class="evener"><input type="text" name="smtp_reply_address1" size=40 id="smtp_reply_address1" value="<?php echo $smtp_reply_address1; ?>" tabindex="8"  /><span class='req'>*</span></td>
+	<td class="evener"><input type="text" name="smtp_reply_address2" size=40 id="smtp_reply_address2" value="<?php echo $smtp_reply_address2; ?>" tabindex="48" /></td>
 </tr>
 <tr>
 	<td class="odder">SMTP Server Hostname/IP</td>
-	<td class="odder"><input type="text" name="smtp_host1" id="smtp_host1" value="<?php echo $smtp_host1; ?>" tabindex="10"  /><span class='req'>*</span></td>
-	<td class="odder"><input type="text" name="smtp_host2" id="smtp_host2" value="<?php echo $smtp_host2; ?>" tabindex="50" /></td>
+	<td class="odder"><input type="text" name="smtp_host1" size=40 id="smtp_host1" value="<?php echo $smtp_host1; ?>" tabindex="10"  /><span class='req'>*</span></td>
+	<td class="odder"><input type="text" name="smtp_host2" size=40 id="smtp_host2" value="<?php echo $smtp_host2; ?>" tabindex="50" /></td>
 </tr>
 <tr>
 	<td class="evener">SMTP Server Port</td>
-	<td class="evener"><input type="text" name="smtp_port1" id="smtp_port1" value="<?php echo $smtp_port1; ?>" tabindex="11"  /><span class='req'>*</span></td>
-	<td class="evener"><input type="text" name="smtp_port2" id="smtp_port2" value="<?php echo $smtp_port2; ?>" tabindex="51" /></td>
+	<td class="evener"><input type="text" name="smtp_port1" size=5 id="smtp_port1" value="<?php echo $smtp_port1; ?>" tabindex="11"  /><span class='req'>*</span></td>
+	<td class="evener"><input type="text" name="smtp_port2" size=5 id="smtp_port2" value="<?php echo $smtp_port2; ?>" tabindex="51" /></td>
 </tr>
 <tr>
 	<td class="odder">Use SSL for SMTP?</td>

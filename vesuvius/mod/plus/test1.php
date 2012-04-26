@@ -16,9 +16,9 @@ $uuid = "pl.nlm.nih.gov/person.2958785";
 //$uuid = "ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/person.4001921";
 require_once("../../3rd/nusoap/lib/nusoap.php");
 
-//$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=24";
+$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=24";
 //$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=24";
-$wsdl = "http://ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/?wsdl&api=24";
+//$wsdl = "http://ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/?wsdl&api=24";
 $client = new nusoap_client($wsdl);
 
 

@@ -146,26 +146,30 @@ class pop {
 		$messageLog = "";
 		$sendStatus = "";
 		require_once($global['approot']."3rd/phpmailer/class.phpmailer.php");
-		require_once($global['approot']."3rd/phpmailer/class.smtp.php");
-		$mail = new PHPMailer(true);  // the true param means it will throw exceptions on errors, which we need to catch
-		$mail->IsSMTP();              // telling the class to use SMTP
 
 		try {
-			$mail->SMTPDebug  = 0;                                       // enables SMTP debug information (for testing)
+			$mail = new PHPMailer(true);  // true=enable exceptions
+
+			$mail->IsSMTP();
 			$mail->SMTPAuth   = ($this->smtp_auth == 1) ? true  : false; // enable SMTP authentication
-			$mail->SMTPSecure = ($this->smtp_ssl  == 1) ? "ssl" : "";    // sets the prefix to the servier
-			$mail->Host       = $this->smtp_host;                        // sets SMTP server
 			$mail->Port       = $this->smtp_port;                        // set the SMTP port
+			$mail->Host       = $this->smtp_host;                        // sets SMTP server
 			$mail->Username   = $this->pop_username;                     // username
 			$mail->Password   = $this->pop_password;                     // password
+			//$mail->IsSendmail();                                         // tell the class to use Sendmail
+			$mail->SMTPDebug  = true;                                    // enables SMTP debug information (for testing)
+			$mail->SMTPSecure = ($this->smtp_ssl  == 1) ? "ssl" : "";    // sets the prefix to the servier
 
 			$mail->AddReplyTo($this->smtp_reply_address, $conf['site_name']);
-			$mail->SetFrom(   $this->smtp_reply_address, $conf['site_name']);
+			$mail->From       = $this->smtp_reply_address;
+			$mail->FromName   = $conf['site_name'];
 
 			$mail->AddAddress($toEmail, $toName);
 			$mail->Subject = $subject;
 			$mail->AltBody = $bodyAlt;
 			$mail->MsgHTML($bodyHTML);
+			$mail->WordWrap = 80;
+			$mail->IsHTML(true); // send as HTML
 
 			//$mail->AddAttachment('example/file.gif');
 			$mail->Send();

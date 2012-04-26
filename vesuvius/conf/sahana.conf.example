@@ -17,9 +17,8 @@ $conf['site_name'] = "Sahana Vesuvius";
 # enable the built-in PHP-Console debugger (requires http://goo.gl/KNTi0)
 $conf['enable_debugger'] = false;
 
-# Unique identifier for all resources contained in the system
-# Must be unique and 4 or more alphanumberic characters
-# this also is used throughout Vesuvius as the base URL for all URLs that are generated, so it must be correct (also must have a trailing slash)
+# Unique identifier for all resources contained in the system which  is used throughout Vesuvius as the base URL
+# for all URLs that are generated, so it must be correct (also must have a trailing slash)
 $conf['base_uuid'] = "vesuvius.sahanafoundation.org/";
 #$conf['base_uuid'] = "pl.nlm.nih.gov/";
 #$conf['base_uuid'] = "ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/";

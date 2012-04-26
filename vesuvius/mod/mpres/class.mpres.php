@@ -153,6 +153,9 @@ class mpres {
 		// loop through each message
 		for($i = $this->size-1; $i >= 0; $i--) {
 
+			$raw = imap_fetchstructure($this->mailbox, $i);
+			error_log("DUMPPPPPP::>>".var_export($raw)."<<::::");
+
 			$this->person = null; // clear out the last person...
 			$this->person = new person();
 			$this->person->init();
@@ -177,8 +180,18 @@ class mpres {
 			$this->messages .= "From: ".$this->currentFrom."<br>";
 			$this->messages .= "Subject: ".$this->currentSubject."<br>";
 
+			// Time Sensitive Action Required: NIH Password Expires on 04/04/2012 19:07:11
+			$needle[] = "/Time Sensitive Action Required/";
+			if(preg_match($needle[$i], $this->currentSubject) > 0) {
+				global $conf;
+
+				$body = "Please update the password on this account before it expires: <b>".shn_db_get_config("mpres","username")."</b><br><br>Email Subject:<br>".$this->currentSubject;
+				$p = new pop();
+				$p->sendMessage($conf['audit_email'], "", "{ ".$conf['site_name']." Password Expiration Notice }", $body, $body);
+				echo $p->spit();
+
 			// email has XML attachment....
-			if ($this->currentMessageHasXML) {
+			} elseif($this->currentMessageHasXML) {
 
 				// catch all parsing errors...
 				if($this->ecode != 0) {
