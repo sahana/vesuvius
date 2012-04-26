@@ -1,0 +1,55 @@
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US"
+     xmlns:fb="https://www.facebook.com/2008/fbml"> 
+
+ <head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# lpfnotify: http://ogp.me/ns/fb/lpfnotify#">
+  <meta property="fb:app_id"      content="272810739444941" /> 
+  <meta property="og:type"        content="lpfnotify:notify" /> 
+  <meta property="og:url"         content="http://ceb-stage-lx.nlm.nih.gov/~jochow/vesuvius/vesuvius/www/phpinfo.php" /> 
+  <meta property="og:title"       content="Sample Notify" /> 
+  <meta property="og:description" content="Some Arbitrary String" /> 
+  <meta property="og:image"       content="https://s-static.ak.fbcdn.net/images/devsite/attachment_blank.png" /> 
+
+    <script type="text/javascript">
+    function postCook()
+    {
+        FB.api('/me/lpfnotify:cook' + 
+                    '?recipe=http://example.com/cookie.html','post',
+                    function(response) {
+            if (!response || response.error) {
+                    alert('Error occured');
+            } else {
+                alert('Post was successful! Action ID: ' + response.id);
+                }
+        });
+    }
+    </script>
+</head> 
+
+<body> 
+    <div id="fb-root"></div>
+    <script src="http://connect.facebook.net/en_US/all.js"></script>
+    <script>
+        FB.init({ 
+            appId:'272810739444941', cookie:true, 
+            status:true, xfbml:true, oauth:true
+        });
+        </script>
+
+        <fb:add-to-timeline></fb:add-to-timeline>
+
+        <h3>
+            <font size="30" face="verdana" color="grey">
+                Stuffed Cookies
+            </font> 
+        </h3> 
+        <p>
+            <img title="Stuffed Cookies" 
+                            src="http://example.com/cookie.jpg" 
+                            width="550"/><br />
+        </p>       
+
+        <form>
+            <input type="button" value="Cook" onclick="postCook()" />
+        </form>
+    </body> 
+    </html>
