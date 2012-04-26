@@ -1,8 +1,9 @@
 Changes since Vesuvius 0.9.2 was released (2012-04-12)
 ------------------------------------------------------
 
-2012:0423 Update
+2012:0xxx Update
 ----------------
+Greg: switched BZR to internal
 Greg: street address from REUNITE4 kluged into last seen field if an address is present
 Greg: updated failed login verbiage to persuade user to reset password before account becomes locked
 Greg: updated phpmailer (3rd party app) to v5.2.1
