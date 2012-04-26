@@ -271,17 +271,19 @@ var Utils = {
 	},
 
 	changeObserver : function( lastUpdated ) {
+                if ( !Globals.lastUpdated ) {
+			// Initialize with last update from initial search results.
+                        Globals.lastUpdated = lastUpdated;
+                        return;
+                }
 		$("#refreshLabel").show();
-		if ( !Globals.lastUpdated ) {
-			Globals.lastUpdated = lastUpdated
-			return;
-		}
-
 		if ( lastUpdated != Globals.lastUpdated ) {
 			Globals.mostRecent = Globals.lastUpdated; // saving for later
 			Globals.lastUpdated = lastUpdated;
-			if ( Globals.displayMode ) {
-                                $("#lastChange").html(lastUpdated.toString("yyyy-MM-dd HH:mm") + " UTC");
+			if ( Globals.displayMode) {
+                                if (lastUpdated != "0001-01-01 01:01:01") {
+                                	$("#lastChange").html(lastUpdated.substr(0, lastUpdated.length-3) + " UTC");
+ 				}
                         } else {
 				$("#updateAlerts2").fadeIn("slow");
 			}

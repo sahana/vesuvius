@@ -126,7 +126,7 @@ function searchSubset(first) {
 	}
 
 	$("#foundLabel").show();
-	$("#refreshLabel").hide();
+ 	if (first) $("#refreshLabel").hide();
 	if ( Globals.displayMode && Globals.searchMode != "sql" )
 		$("#maxShown").hide();
 	else
@@ -144,8 +144,7 @@ function searchSubset(first) {
         if (first) {
         	clearInterval(Globals.updaterId);
        		Globals.updaterId = setInterval(
-                        "inw_checkForChanges('"+Globals.searchMode+"','"+Globals.incident+"','"+Globals.searchTerms+"','"+sStatus+"','"+sGender+"','"+sAge+"','"+sHospital+"')",
-        		Globals.updaterTimer);
+                        "inw_checkForChanges('"+Globals.searchMode+"','"+Globals.incident+"','"+Globals.searchTerms+"','"+sStatus+"','"+sGender+"','"+sAge+"','"+sHospital+"')", Globals.updaterTimer);
         }
 }
 
