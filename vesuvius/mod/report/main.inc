@@ -56,7 +56,7 @@ function shn_report_default() {
 	// check if the person is not logged in or is anonymous (must be logged in and not anonymous to report)
 	if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != 1 || !isset($_SESSION['group_id']) || $_SESSION['group_id'] == 3) {
 		echo '
-			<div class="message information"><br/>You must be loggged in to report a new person to this registry. Please login or register as a new user.<br><br></div>
+			<div class="message information"><br/>You must log in before you can report a new person to the registry.<br><br></div>
 			<br>
 		';
 		require_once($global['approot'].'mod/pref/main.inc');

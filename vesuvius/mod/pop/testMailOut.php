@@ -19,17 +19,17 @@ error_reporting(E_ALL);
 $global['approot'] = getcwd()."/../../";
 
 // include required libraries
-require("../../mod/lpf/lib_lpf.inc");
-require("../../conf/sahana.conf");
-require("../../3rd/adodb/adodb.inc.php");
-require("../../inc/handler_db.inc");
-require("../../inc/lib_uuid.inc");
-require("../../inc/lib_image.inc");
+require_once("../../mod/lpf/lib_lpf.inc");
+require_once("../../conf/sahana.conf");
+require_once("../../3rd/adodb/adodb.inc.php");
+require_once("../../inc/handler_db.inc");
+require_once("../../inc/lib_uuid.inc");
+require_once("../../inc/lib_image.inc");
 
 $body = "Here is a test message.";
 
 echo "ok\n";
 
 $p = new pop();
-$p->sendMessage("g@miernicki.com", "g", "subject", $body, $body);
+$p->sendMessage("triune@gmail.com", "t", "subject", $body, $body);
 echo $p->spit();

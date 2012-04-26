@@ -1,6 +1,9 @@
 // Vesuvius 0.9.2 Installation Instructions
 ==============================================
 
+Prerequisites: Apache 2.2+, MySQL 5+, PHP 5.3+ (configured to use short tags in php.ini)
+
+
 Currently, Vesuvius lacks an installer, so the installation process is done manually.
 Please follow the steps below to instantiate an instance of Vesuvius >>
 
@@ -12,6 +15,12 @@ https://code.launchpad.net/vesuvius
 (or download a packaged version) from >>
 https://launchpad.net/vesuvius/+download
 
+Sahana Vesuvius requires Apache, MySQL, and PHP to function. We will not cover here how
+to setup and install Apache, MySQL, or PHP. But, what you will need to do is place the code you
+have downloaded to the appropriate place on your filesystem so that the /www/ directory of Sahana
+Vesuvius is clearly visible from your web server. On some systems, this would mean placing
+the code in /opt, like /opt/vesuvius and pointing your apache server's virtualhost to the
+folder /opt/vesuvius/www.
 
 
 2) Create a configuration file. You can do this by going to /conf and manually copying
@@ -58,7 +67,7 @@ cd www ;
 mkdir tmp ;
 chmod 777 tmp ;
 
-(the above may be unnecesary as the packaged version of Vesuvius v0.9.2 has these folder packaged)
+(the above may be unnecesary as the packaged version of Vesuvius v0.9.2 has these folders packaged)
 
 
 

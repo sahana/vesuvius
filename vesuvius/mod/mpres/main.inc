@@ -359,8 +359,8 @@ function shn_mpres_configuration() {
 			shn_db_config_update("mpres","port",           $_POST['mpres_port']);
 			shn_db_config_update("mpres","popimap",        $popimap);
 			shn_db_config_update("mpres","ssl",            $ssl);
-			shn_db_config_update("mpres","username",       $_POST['mpres_username']);
-			shn_db_config_update("mpres","password",       $_POST['mpres_password']);
+			shn_db_config_update("mpres","username",       htmlspecialchars_decode($_POST['mpres_username']));
+			shn_db_config_update("mpres","password",       htmlspecialchars_decode($_POST['mpres_password']));
 			shn_db_config_update("mpres","incident_id",    $_POST['mpres_incident_id']);
 		} else {
 			add_warning('Errors were encountered, configuration not saved.');
@@ -389,8 +389,8 @@ function shn_mpres_configuration() {
 		$popimap         = shn_db_get_config("mpres","popimap");
 		$port            = shn_db_get_config("mpres","port");
 		$ssl             = shn_db_get_config("mpres","ssl");
-		$username        = shn_db_get_config("mpres","username");
-		$password        = shn_db_get_config("mpres","password");
+		$username        = htmlspecialchars(shn_db_get_config("mpres","username"));
+		$password        = htmlspecialchars(shn_db_get_config("mpres","password"));
 		$incident_id     = shn_db_get_config("mpres","incident_id");
 		if ($ssl=="1") {
 			$sslText = "CHECKED";
@@ -412,8 +412,8 @@ function shn_mpres_configuration() {
 		shn_form_fsclose();
 
 		shn_form_fsopen("Email Account Credentials");
-			shn_form_text("Username", "mpres_username", null, array("req"=>true, "value"=>$username));
-			shn_form_text("Password", "mpres_password", null, array("req"=>true, "value"=>$password));
+			shn_form_text("Username", "mpres_username", 'size=40', array("req"=>true, "value"=>$username));
+			shn_form_text("Password", "mpres_password", 'size=40', array("req"=>true, "value"=>$password));
 		shn_form_fsclose();
 
 		shn_form_fsopen("Default Event");
