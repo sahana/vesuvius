@@ -270,6 +270,7 @@ class SearchDB {
 		$res = $mysqli->multi_query( "$proc; SELECT @allCount;" );
 
 		$this->numRowsFound = 0;
+		$maxDate = new DateTime('0001-01-01 01:01:01');   // initialize to some old date
 		if($res) {
 			$results = 0;
 			$c = 0;
@@ -300,7 +301,11 @@ class SearchDB {
 								'hospitalIcon'       => $row["icon_url"],
 								'mass_casualty_id'   => $row["mass_casualty_id"]
 							);
-						$this->numRowsFound++;
+		        				$date = new DateTime($row["updated"]);
+							if ($date > $maxDate) {
+                         					$maxDate = $date;
+							}
+							$this->numRowsFound++;
 						}
 					}
 					$result->close();
@@ -311,6 +316,7 @@ class SearchDB {
 			} while($mysqli->more_results() && $mysqli->next_result());
 		}
 		$mysqli->close();
+		$this->lastUpdated = $maxDate->format('Y-m-d H:i:s');
 	}
 
 
@@ -352,8 +358,12 @@ class SearchDB {
 		$temp = json_decode(curl_exec($ch));
 		curl_close($ch);
 
-		$date = new DateTime($temp->response->docs[0]->updated);
-		$this->lastUpdated = $date->format("Y-m-d H:i:s");
+  		if ($temp->response->numFound == 0) {
+			$this->lastUpdated = '0001-01-01 01:01:01';
+                } else {
+			$date = new DateTime($temp->response->docs[0]->updated);
+			$this->lastUpdated = $date->format("Y-m-d H:i:s");
+		}
 	}
 
 
@@ -369,6 +379,7 @@ class SearchDB {
 
 		$res = $mysqli->multi_query( "$proc; SELECT @allCount;" );
 
+                $this->lastUpdated = '0001-01-01 01:01:01';
 		if($res) {
 			$results = 0;
 			$c = 0;
@@ -389,7 +400,7 @@ class SearchDB {
 		$mysqli->close();
 
 		$date = new DateTime($this->lastUpdated);
-		$this->lastUpdated = $date->format('m/d/y @ g:i:s A');
+		$this->lastUpdated = $date->format('Y-m-d H:i:s');
 	}
 
 
@@ -462,8 +473,8 @@ class SearchDB {
 		// get query time
 		$this->SOLRqueryTime = $tempObject->responseHeader->QTime;
 
+		$maxDate = new DateTime('0001-01-01 01:01:01');   // initialize to some old date
 		foreach ($tempObject->response->docs as $doc) {
-
                         // Don't camelcase full_name (PL-273).
 			$this->results[] = array(
 				'p_uuid' => $doc->p_uuid,
@@ -489,7 +500,12 @@ class SearchDB {
 				'hospitalIcon'        => isset($doc->icon_url)         ? $doc->icon_url : null,
 				'mass_casualty_id'    => isset($doc->mass_casualty_id) ? $doc->mass_casualty_id : null
 			);
+		        $date = new DateTime($doc->updated);
+			if ($date > $maxDate) {
+                         	$maxDate = $date;
+                        } 
 		}
+		$this->lastUpdated = $maxDate->format('Y-m-d H:i:s');
 	}
 
 	private function buildSOLRQuery() {

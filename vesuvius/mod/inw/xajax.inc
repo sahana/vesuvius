@@ -71,7 +71,6 @@ function inw_getAllCount($incident) {
 
 		while (!$result == NULL && !$result->EOF) {
 			$allCount = $result->fields[0];
-			mysql_free_result($result);
 			break;
 		}
 
@@ -86,7 +85,7 @@ function inw_checkForChanges($mode, $incident, $searchTerm, $sStatus, $sGender, 
 
 	$search = new SearchDB($mode, $incident, $searchTerm, $sStatus, $sGender, $sAge, $sHospital);
 	$search->getLastUpdate();
-	$global["xajax_res"]->addAssign("lastCheck", "innerHTML", gmdate("Y-m-d H:i")." UTC");
+	$global["xajax_res"]->addAssign("lastCheck", "innerHTML", gmdate("Y-m-d H:i:s")." UTC");
 	$global["xajax_res"]->addScript("Utils.changeObserver('". $search->lastUpdated . "');");
 	return $global["xajax_res"]->getXML();
 }
@@ -133,6 +132,7 @@ function inw_hasNextPage($mode, $incident, $searchTerm, $sStatus, $sGender, $sAg
 		$global["xajax_res"]->addAssign("recordsFound", "innerHTML", $search->numRowsFound);
 		$global["xajax_res"]->addAssign("totalRecordsSQL", "innerHTML", $search->allCount);
 		$global["xajax_res"]->addAssign("totalRecordsSOLR", "innerHTML", $search->allCount);
+		$global["xajax_res"]->addScript("Utils.changeObserver('". $search->lastUpdated . "');");
 		$global["xajax_res"]->addAssign("timeElapsedSQL", "innerHTML", substr($timeElapsed, 0, 5));
 		$global["xajax_res"]->addAssign("timeElapsedSOLR", "innerHTML", substr($timeElapsed, 0, 5));
 		if ( $mode == "solr" )
@@ -146,6 +146,7 @@ function inw_hasNextPage($mode, $incident, $searchTerm, $sStatus, $sGender, $sAg
 		$global["xajax_res"]->addScript("Globals.totalResults = 0; $('#recordsFound').html('0');");
 		$global["xajax_res"]->addAssign("totalRecordsSQL", "innerHTML", $search->allCount);
 		$global["xajax_res"]->addAssign("totalRecordsSOLR", "innerHTML", $search->allCount);
+		$global["xajax_res"]->addScript("Utils.changeObserver('". $search->lastUpdated . "');");
 		if ( $mode == "solr" )
 			$global["xajax_res"]->addScript("Globals.totalRecords = " . $search->allCount . ";");
 		$global["xajax_res"]->addScript("showFacets();$('#pager').hide();$('#pager2').hide();$('#perPageWrapper').hide()");
