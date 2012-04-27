@@ -7,47 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vesuvius\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-08-18 10:56-0400\n"
-"PO-Revision-Date: 2011-07-13 22:52+0000\n"
+"POT-Creation-Date: 2012-04-12 21:18+0530\n"
+"PO-Revision-Date: 2011-07-13 22:51+0000\n"
 "Last-Translator: Greg Miernicki <Unknown>\n"
-"Language-Team: English (United Kingdom) <en_GB@li.org>\n"
+"Language-Team: Spanish <es@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-<<<<<<< TREE
-"X-Launchpad-Export-Date: 2012-04-18 05:10+0000\n"
-"X-Generator: Launchpad (build 15108)\n"
-
-#: ../www/theme/lpf3/header.php:62 ../www/theme/lpf3/header.php:78
-#: ../www/theme/vesuvius/header.php:59 ../www/theme/vesuvius/header.php:75
-msgid "People Locator"
-msgstr "**SPANISH** PEOPLE LOCATOR **SPANISH**"
-
-#: ../www/theme/lpf3/header.php:63 ../www/theme/vesuvius/header.php:60
-msgid "for the "
-msgstr ""
-
-#: ../www/theme/lpf3/header.php:64 ../www/theme/vesuvius/header.php:61
-msgid "of"
-msgstr ""
-
-#: ../www/theme/lpf3/header.php:65 ../www/theme/lpf3/header.php:79
-#: ../www/theme/vesuvius/header.php:62 ../www/theme/vesuvius/header.php:76
-msgid "U.S. National Library of Medicine"
-msgstr ""
-
-#: ../www/theme/lpf3/header.php:66 ../www/theme/lpf3/header.php:80
-#: ../www/theme/vesuvius/header.php:63 ../www/theme/vesuvius/header.php:77
-msgid "Lister Hill National Center for Biomedical Communications"
-msgstr ""
-
-#: ../www/index.php:154
-=======
-"X-Launchpad-Export-Date: 2011-08-19 05:15+0000\n"
-"X-Generator: Launchpad (build 13697)\n"
+"X-Launchpad-Export-Date: 2012-04-27 05:06+0000\n"
+"X-Generator: Launchpad (build 15149)\n"
 
 #: ../www/index.php:170
->>>>>>> MERGE-SOURCE
 msgid "The stream requested is not valid."
 msgstr ""
 
@@ -80,7 +50,7 @@ msgstr ""
 #: ../www/theme/vesuvius/header.php:59
 msgctxt "MAIN_HEADER"
 msgid "People Locator"
-msgstr "*Spanish*People Locator*Spanish*"
+msgstr ""
 
 #: ../www/theme/vesuvius/header.php:60
 msgctxt "MAIN_HEADER"
@@ -105,7 +75,7 @@ msgstr ""
 #: ../www/theme/vesuvius/header.php:75
 msgctxt "DUPLICATE_HEADER"
 msgid "People Locator"
-msgstr "*Spanish*People Locator*Spanish*"
+msgstr ""
 
 #: ../inc/lib_security/acl_form.inc:27
 msgid "Select the Role you want to edit permissions of"
@@ -181,8 +151,8 @@ msgstr ""
 
 #: ../inc/lib_security/lib_auth.inc:1300
 msgctxt ""
-"The password should have at least one special character. eg. !,@.#$%\\^&\\*/?"
-"`~+="
+"The password should have at least one special character. eg. !,@.#$%\\^&\\"
+"*/?`~+="
 msgid ":;-\"'"
 msgstr ""
 
@@ -997,7 +967,8 @@ msgid "Change My Password"
 msgstr ""
 
 #: ../mod/pref/main.inc:256 ../mod/pref/main.inc:581 ../mod/pref/main.inc:588
-msgid "Please provide the text in the image correctly to prove you are human."
+msgid ""
+"Please provide the text in the image correctly to prove you are human."
 msgstr ""
 
 #: ../mod/pref/main.inc:626
@@ -1111,8 +1082,8 @@ msgstr ""
 #: ../mod/rap/main.inc:186
 msgid ""
 "<span class=\"publicText\">Public</span> Denotes information that, if "
-"provided, can be exposed to the general public.<br><br><span class="
-"\"privateText\">Private</span> Denotes information that will not be "
+"provided, can be exposed to the general public.<br><br><span "
+"class=\"privateText\">Private</span> Denotes information that will not be "
 "available to the public. <br><br>Private information may be made available "
 "to or shared with other family members and friends you designate, emergency "
 "responders, medical providers, clergy/councilors, law enforcement, or "
@@ -1294,3 +1265,6 @@ msgstr ""
 #: ../mod/plus/main.inc:37
 msgid "Active Clients"
 msgstr ""
+
+#~ msgid "People Locator"
+#~ msgstr "**SPANISH** PEOPLE LOCATOR **SPANISH**"

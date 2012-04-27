@@ -1,4 +1,4 @@
-# French translation for vesuvius
+# Japanese translation for vesuvius
 # Copyright (c) 2011 Rosetta Contributors and Canonical Ltd 2011
 # This file is distributed under the same license as the vesuvius package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
@@ -8,9 +8,9 @@ msgstr ""
 "Project-Id-Version: vesuvius\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2012-04-12 21:18+0530\n"
-"PO-Revision-Date: 2011-07-13 22:50+0000\n"
+"PO-Revision-Date: 2011-07-13 22:51+0000\n"
 "Last-Translator: Greg Miernicki <Unknown>\n"
-"Language-Team: French <fr@li.org>\n"
+"Language-Team: Japanese <ja@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -1267,4 +1267,4 @@ msgid "Active Clients"
 msgstr ""
 
 #~ msgid "People Locator"
-#~ msgstr "**FRENCH** PEOPLE LOCATOR **FRENCH**"
+#~ msgstr "**JAPANESE** PEOPLE LOCATOR **JAPANESE**"
