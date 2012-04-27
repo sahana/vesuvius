@@ -7,80 +7,50 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vesuvius\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-08-18 10:56-0400\n"
+"POT-Creation-Date: 2012-04-12 21:18+0530\n"
 "PO-Revision-Date: 2011-07-13 22:52+0000\n"
 "Last-Translator: Greg Miernicki <Unknown>\n"
 "Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-<<<<<<< TREE
-"X-Launchpad-Export-Date: 2012-04-18 05:10+0000\n"
-"X-Generator: Launchpad (build 15108)\n"
-
-#: ../www/theme/lpf3/header.php:62 ../www/theme/lpf3/header.php:78
-#: ../www/theme/vesuvius/header.php:59 ../www/theme/vesuvius/header.php:75
-msgid "People Locator"
-msgstr "**ENGLISH UK** PEOPLE LOCATOR **ENGLISH UK**"
-
-#: ../www/theme/lpf3/header.php:63 ../www/theme/vesuvius/header.php:60
-msgid "for the "
-msgstr "for the "
-
-#: ../www/theme/lpf3/header.php:64 ../www/theme/vesuvius/header.php:61
-msgid "of"
-msgstr "of"
-
-#: ../www/theme/lpf3/header.php:65 ../www/theme/lpf3/header.php:79
-#: ../www/theme/vesuvius/header.php:62 ../www/theme/vesuvius/header.php:76
-msgid "U.S. National Library of Medicine"
-msgstr "U.S. National Library of Medicine"
-
-#: ../www/theme/lpf3/header.php:66 ../www/theme/lpf3/header.php:80
-#: ../www/theme/vesuvius/header.php:63 ../www/theme/vesuvius/header.php:77
-msgid "Lister Hill National Center for Biomedical Communications"
-msgstr "Lister Hill National Center for Biomedical Communications"
-
-#: ../www/index.php:154
-=======
-"X-Launchpad-Export-Date: 2011-08-19 05:15+0000\n"
-"X-Generator: Launchpad (build 13697)\n"
+"X-Launchpad-Export-Date: 2012-04-27 05:06+0000\n"
+"X-Generator: Launchpad (build 15149)\n"
 
 #: ../www/index.php:170
->>>>>>> MERGE-SOURCE
 msgid "The stream requested is not valid."
-msgstr ""
+msgstr "The stream requested is not valid."
 
 #: ../www/index.php:201
 msgid "The requested module is not installed in Vesuvius"
-msgstr ""
+msgstr "The requested module is not installed in Vesuvius"
 
 #: ../www/index.php:220
 msgid "The action requested is not available"
-msgstr ""
+msgstr "The action requested is not available"
 
 #: ../www/index.php:224
 msgid "This action does not support the stream type."
-msgstr ""
+msgstr "This action does not support the stream type."
 
 #: ../www/theme/lpf3/header.php:59
 msgid "of"
-msgstr ""
+msgstr "of"
 
 #: ../www/theme/lpf3/header.php:60 ../www/theme/lpf3/header.php:75
 #: ../www/theme/vesuvius/header.php:76
 msgid "U.S. National Library of Medicine"
-msgstr ""
+msgstr "U.S. National Library of Medicine"
 
 #: ../www/theme/lpf3/header.php:61 ../www/theme/lpf3/header.php:76
 #: ../www/theme/vesuvius/header.php:77
 msgid "Lister Hill National Center for Biomedical Communications"
-msgstr ""
+msgstr "Lister Hill National Center for Biomedical Communications"
 
 #: ../www/theme/vesuvius/header.php:59
 msgctxt "MAIN_HEADER"
 msgid "People Locator"
-msgstr "*English_UK*People Locator*English_UK*"
+msgstr ""
 
 #: ../www/theme/vesuvius/header.php:60
 msgctxt "MAIN_HEADER"
@@ -105,7 +75,7 @@ msgstr ""
 #: ../www/theme/vesuvius/header.php:75
 msgctxt "DUPLICATE_HEADER"
 msgid "People Locator"
-msgstr "*English_UK*People Locator*English_UK*"
+msgstr ""
 
 #: ../inc/lib_security/acl_form.inc:27
 msgid "Select the Role you want to edit permissions of"
@@ -147,7 +117,7 @@ msgstr ""
 
 #: ../inc/lib_security/acl_form.inc:105 ../mod/admin/main.inc:221
 msgid "Save"
-msgstr ""
+msgstr "Save"
 
 #: ../inc/lib_security/lib_auth.inc:955
 msgid "First name is a required field. Please enter a value."
@@ -181,8 +151,8 @@ msgstr ""
 
 #: ../inc/lib_security/lib_auth.inc:1300
 msgctxt ""
-"The password should have at least one special character. eg. !,@.#$%\\^&\\*/?"
-"`~+="
+"The password should have at least one special character. eg. !,@.#$%\\^&\\"
+"*/?`~+="
 msgid ":;-\"'"
 msgstr ""
 
@@ -392,15 +362,15 @@ msgstr ""
 
 #: ../inc/lib_form.inc:926
 msgid "Cancel"
-msgstr ""
+msgstr "Cancel"
 
 #: ../inc/lib_form.inc:929
 msgid "Back"
-msgstr ""
+msgstr "Back"
 
 #: ../inc/lib_form.inc:932 ../inc/lib_paging.inc:182 ../inc/lib_paging.inc:296
 msgid "Next"
-msgstr ""
+msgstr "Next"
 
 #: ../inc/lib_form.inc:934
 msgid "Finish"
@@ -490,7 +460,7 @@ msgstr ""
 
 #: ../mod/tp/conf.inc:13
 msgid "TriagePic"
-msgstr ""
+msgstr "TriagePic"
 
 #: ../mod/tp/main.inc:26
 msgid "Overview"
@@ -563,7 +533,7 @@ msgstr ""
 #: ../mod/pfif/main.inc:173 ../mod/admin/main.inc:340 ../mod/pref/main.inc:510
 #: ../mod/pref/main.inc:568
 msgid "Submit"
-msgstr ""
+msgstr "Submit"
 
 #: ../mod/ha/conf.inc:15
 msgid "Hospital Administration"
@@ -806,7 +776,7 @@ msgstr ""
 
 #: ../mod/em/conf.inc:15
 msgid "Event Manager"
-msgstr ""
+msgstr "Event Manager"
 
 #: ../mod/xst/conf.inc:14
 msgid "Streamer"
@@ -894,7 +864,7 @@ msgstr ""
 
 #: ../mod/admin/main.inc:268
 msgid "Full Name"
-msgstr ""
+msgstr "Full Name"
 
 #: ../mod/admin/main.inc:269
 msgid "Event Type"
@@ -978,7 +948,7 @@ msgstr ""
 
 #: ../mod/int/conf.inc:15
 msgid "Internal Resources"
-msgstr ""
+msgstr "Internal Resources"
 
 #: ../mod/snap/main.inc:32
 msgid "Snapshot ~ Database Backup and Restore Module"
@@ -986,7 +956,7 @@ msgstr ""
 
 #: ../mod/pref/conf.inc:14
 msgid "My Settings"
-msgstr ""
+msgstr "My Settings"
 
 #: ../mod/pref/main.inc:33
 msgid "Session Information"
@@ -994,11 +964,13 @@ msgstr ""
 
 #: ../mod/pref/main.inc:34
 msgid "Change My Password"
-msgstr ""
+msgstr "Change My Password"
 
 #: ../mod/pref/main.inc:256 ../mod/pref/main.inc:581 ../mod/pref/main.inc:588
-msgid "Please provide the text in the image correctly to prove you are human."
+msgid ""
+"Please provide the text in the image correctly to prove you are human."
 msgstr ""
+"Please provide the text in the image correctly to prove you are human."
 
 #: ../mod/pref/main.inc:626
 msgid "You new password must adhere to following rules:"
@@ -1014,27 +986,27 @@ msgstr ""
 
 #: ../mod/pref/main.inc:675
 msgid "Old password cannot be empty!"
-msgstr ""
+msgstr "Old password cannot be empty!"
 
 #: ../mod/pref/main.inc:683
 msgid "New password cannot be empty!"
-msgstr ""
+msgstr "New password cannot be empty!"
 
 #: ../mod/pref/main.inc:691
 msgid "You left the confirm password field blank."
-msgstr ""
+msgstr "You left the confirm password field blank."
 
 #: ../mod/pref/main.inc:699
 msgid "Your new password did not match when you retyped it."
-msgstr ""
+msgstr "Your new password did not match when you retyped it."
 
 #: ../mod/pref/main.inc:724
 msgid "You cannot change the password more than once in one day"
-msgstr ""
+msgstr "You cannot change the password more than once in one day"
 
 #: ../mod/pref/main.inc:755
 msgid "You cannot choose one of the recent four passwords"
-msgstr ""
+msgstr "You cannot choose one of the recent four passwords"
 
 #: ../mod/pref/main.inc:769
 msgid " Succesfully changed Password"
@@ -1070,7 +1042,7 @@ msgstr ""
 
 #: ../mod/inw/conf.inc:17
 msgid "Search for a Person"
-msgstr ""
+msgstr "Search for a Person"
 
 #: ../mod/mpres/conf.inc:15
 msgid "Inbound Email"
@@ -1098,7 +1070,7 @@ msgstr ""
 
 #: ../mod/home/conf.inc:14
 msgid "Home"
-msgstr ""
+msgstr "Home"
 
 #: ../mod/rap/conf.inc:14
 msgid "Report a Person 1"
@@ -1111,8 +1083,8 @@ msgstr ""
 #: ../mod/rap/main.inc:186
 msgid ""
 "<span class=\"publicText\">Public</span> Denotes information that, if "
-"provided, can be exposed to the general public.<br><br><span class="
-"\"privateText\">Private</span> Denotes information that will not be "
+"provided, can be exposed to the general public.<br><br><span "
+"class=\"privateText\">Private</span> Denotes information that will not be "
 "available to the public. <br><br>Private information may be made available "
 "to or shared with other family members and friends you designate, emergency "
 "responders, medical providers, clergy/councilors, law enforcement, or "
@@ -1137,7 +1109,7 @@ msgstr ""
 
 #: ../mod/rap/main.inc:208
 msgid "Family Name"
-msgstr ""
+msgstr "Family Name"
 
 #: ../mod/rap/main.inc:208
 msgid "The person's surname or last name."
@@ -1175,15 +1147,15 @@ msgstr ""
 
 #: ../mod/rap/main.inc:212
 msgid "Gender"
-msgstr ""
+msgstr "Gender"
 
 #: ../mod/rap/main.inc:213
 msgid "Religion"
-msgstr ""
+msgstr "Religion"
 
 #: ../mod/rap/main.inc:214
 msgid "Race"
-msgstr ""
+msgstr "Race"
 
 #: ../mod/rap/main.inc:217
 msgid "Person's Contact Information"
@@ -1231,11 +1203,11 @@ msgstr ""
 
 #: ../mod/rap/main.inc:230
 msgid "Height"
-msgstr ""
+msgstr "Height"
 
 #: ../mod/rap/main.inc:231
 msgid "Weight"
-msgstr ""
+msgstr "Weight"
 
 #: ../mod/rap/main.inc:233
 msgid "Other Obvious Distinctive Features"
@@ -1269,15 +1241,15 @@ msgstr ""
 
 #: ../mod/rap/main.inc:351
 msgid "Invalid image type please try again"
-msgstr ""
+msgstr "Invalid image type please try again"
 
 #: ../mod/stat/conf.inc:15
 msgid "Statistics"
-msgstr ""
+msgstr "Statistics"
 
 #: ../mod/plus/conf.inc:13
 msgid "Web Services"
-msgstr ""
+msgstr "Web Services"
 
 #: ../mod/plus/main.inc:33
 msgid "PLUS+"
@@ -1294,3 +1266,60 @@ msgstr ""
 #: ../mod/plus/main.inc:37
 msgid "Active Clients"
 msgstr ""
+
+#~ msgid "for the "
+#~ msgstr "for the "
+
+#~ msgid " Succesfully changed Password "
+#~ msgstr " Succesfully changed Password "
+
+#~ msgid "Default Incident"
+#~ msgstr "Default Incident"
+
+#~ msgid "Change default incident"
+#~ msgstr "Change default incident"
+
+#~ msgid "Edit My Personal Details"
+#~ msgstr "Edit My Personal Details"
+
+#~ msgid "Enable/Disable OCR XForm"
+#~ msgstr "Enable/Disable OCR XForm"
+
+#~ msgid "Enable or disable the OCR friendly form generation."
+#~ msgstr "Enable or disable the OCR friendly form generation."
+
+#~ msgid "Please select an item from 'Select Incident' box"
+#~ msgstr "Please select an item from 'Select Incident' box"
+
+#~ msgid "Please Select the incident type"
+#~ msgstr "Please Select the incident type"
+
+#~ msgid "You have not completed the form"
+#~ msgstr "You have not completed the form"
+
+#~ msgid "Update"
+#~ msgstr "Update"
+
+#~ msgid "Select Incident"
+#~ msgstr "Select Incident"
+
+#~ msgid "Incident Type"
+#~ msgstr "Incident Type"
+
+#~ msgid "An error occured while saving your preference."
+#~ msgstr "An error occured while saving your preference."
+
+#~ msgid "Your preference was successfully saved."
+#~ msgstr "Your preference was successfully saved."
+
+#~ msgid "OCR friendly XForm : "
+#~ msgstr "OCR friendly XForm : "
+
+#~ msgid "Disabled"
+#~ msgstr "Disabled"
+
+#~ msgid "Enabled"
+#~ msgstr "Enabled"
+
+#~ msgid "People Locator"
+#~ msgstr "**ENGLISH UK** PEOPLE LOCATOR **ENGLISH UK**"
