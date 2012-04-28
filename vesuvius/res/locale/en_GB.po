@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-04-27 05:06+0000\n"
+"X-Launchpad-Export-Date: 2012-04-28 05:17+0000\n"
 "X-Generator: Launchpad (build 15149)\n"
 
 #: ../www/index.php:170
@@ -1266,60 +1266,3 @@ msgstr ""
 #: ../mod/plus/main.inc:37
 msgid "Active Clients"
 msgstr ""
-
-#~ msgid "for the "
-#~ msgstr "for the "
-
-#~ msgid " Succesfully changed Password "
-#~ msgstr " Succesfully changed Password "
-
-#~ msgid "Default Incident"
-#~ msgstr "Default Incident"
-
-#~ msgid "Change default incident"
-#~ msgstr "Change default incident"
-
-#~ msgid "Edit My Personal Details"
-#~ msgstr "Edit My Personal Details"
-
-#~ msgid "Enable/Disable OCR XForm"
-#~ msgstr "Enable/Disable OCR XForm"
-
-#~ msgid "Enable or disable the OCR friendly form generation."
-#~ msgstr "Enable or disable the OCR friendly form generation."
-
-#~ msgid "Please select an item from 'Select Incident' box"
-#~ msgstr "Please select an item from 'Select Incident' box"
-
-#~ msgid "Please Select the incident type"
-#~ msgstr "Please Select the incident type"
-
-#~ msgid "You have not completed the form"
-#~ msgstr "You have not completed the form"
-
-#~ msgid "Update"
-#~ msgstr "Update"
-
-#~ msgid "Select Incident"
-#~ msgstr "Select Incident"
-
-#~ msgid "Incident Type"
-#~ msgstr "Incident Type"
-
-#~ msgid "An error occured while saving your preference."
-#~ msgstr "An error occured while saving your preference."
-
-#~ msgid "Your preference was successfully saved."
-#~ msgstr "Your preference was successfully saved."
-
-#~ msgid "OCR friendly XForm : "
-#~ msgstr "OCR friendly XForm : "
-
-#~ msgid "Disabled"
-#~ msgstr "Disabled"
-
-#~ msgid "Enabled"
-#~ msgstr "Enabled"
-
-#~ msgid "People Locator"
-#~ msgstr "**ENGLISH UK** PEOPLE LOCATOR **ENGLISH UK**"
