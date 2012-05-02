@@ -127,6 +127,7 @@ function _encode($text) {
  */
 function _setlocale($category, $locale) {
     global $CURRENTLOCALE, $EMULATEGETTEXT;
+    $loc_lang = substr($CURRENTLOCALE, 0, 2);
     if ($locale === 0) { // use === to differentiate between string "0"
         if ($CURRENTLOCALE != '')
             return $CURRENTLOCALE;
@@ -142,7 +143,7 @@ function _setlocale($category, $locale) {
             $EMULATEGETTEXT = 0;
             $CURRENTLOCALE = $ret;
         } else {
-  	    if ($locale == '') // emulate variable support
+  	    if ($locale == '' && $loc_lang != 'en') // emulate variable support
  	        $CURRENTLOCALE = getenv('LANG');
 	    else
 	        $CURRENTLOCALE = $locale;
