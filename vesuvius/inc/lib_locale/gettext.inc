@@ -126,6 +126,10 @@ function _encode($text) {
  * Sets a requested locale, if needed emulates it.
  */
 function _setlocale($category, $locale) {
+	/*
+	 * Edit by Ramindu: Forcing $EMULATEGETTEXT to be 1 in all instances
+	 * 		to support Vesuvius's custom translation methodology
+	 */
     global $CURRENTLOCALE, $EMULATEGETTEXT;
     $loc_lang = substr($CURRENTLOCALE, 0, 2);
     if ($locale === 0) { // use === to differentiate between string "0"
@@ -140,10 +144,10 @@ function _setlocale($category, $locale) {
         if (function_exists('setlocale')) // I don't know if this ever happens ;)
            $ret = setlocale($category, $locale);
         if (($ret and $locale == '') or ($ret == $locale)) {
-            $EMULATEGETTEXT = 0;
+            $EMULATEGETTEXT = 1; //Old value: 0
             $CURRENTLOCALE = $ret;
         } else {
-  	    if ($locale == '' && $loc_lang != 'en') // emulate variable support
+  	    if ($locale == '') // emulate variable support
  	        $CURRENTLOCALE = getenv('LANG');
 	    else
 	        $CURRENTLOCALE = $locale;
