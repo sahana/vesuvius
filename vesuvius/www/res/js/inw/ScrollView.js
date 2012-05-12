@@ -452,7 +452,7 @@ var ScrollView = {
 					  height: "100%",
 					  width: "100%",
 					  position: "absolute"}).show();
-			$("#headerText, #build, #dt_print, #content, #pager, #perPageWrapper, #printLink, #disaster_selekta, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap").hide();
+			$("#headerText, #build, #dt_print, #content, #pager, #perPageWrapper, #printLink, #disaster_selekta, #header, #footer, #menu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap").hide();
 			$("body").css({backgroundColor : "white" });
 			Globals.maxRows = Math.ceil($(window).height()/350) > 4 ? 4 : Math.ceil($(window).height()/350)
 			Globals.imageHeight = Math.floor(($(window).height() - (2*(Globals.rowPadding+Globals.imageBorder))) / Globals.maxRows);
@@ -469,7 +469,7 @@ var ScrollView = {
 
 	exitFullScreen : function() {
 		$(document).unbind("keyup");
-		$("#headerText, #dt_print, #content, #pager, #perPageWrapper, #printLink, #disaster_selekta, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap").show();
+		$("#headerText, #dt_print, #content, #pager, #perPageWrapper, #printLink, #disaster_selekta, #header, #footer,  #menu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap").show();
 		$("#scrolling_content, #detailsPane, #glass").insertAfter("#beforeScrollingContent");
 		$("#scrolling_content").css({ position: "relative" });
                 // Why did someone code this? Comment out for PL-345.

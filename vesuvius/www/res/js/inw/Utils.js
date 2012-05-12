@@ -271,17 +271,19 @@ var Utils = {
 	},
 
 	changeObserver : function( lastUpdated ) {
+                if ( !Globals.lastUpdated ) {
+			// Initialize with last update from initial search results.
+                        Globals.lastUpdated = lastUpdated;
+                        return;
+                }
 		$("#refreshLabel").show();
-		if ( !Globals.lastUpdated ) {
-			Globals.lastUpdated = lastUpdated
-			return;
-		}
-
 		if ( lastUpdated != Globals.lastUpdated ) {
 			Globals.mostRecent = Globals.lastUpdated; // saving for later
 			Globals.lastUpdated = lastUpdated;
-			if ( Globals.displayMode ) {
-                                $("#lastChange").html(lastUpdated + " UTC");
+			if ( Globals.displayMode) {
+                                if (lastUpdated != "0001-01-01 01:01:01") {
+                                	$("#lastChange").html(lastUpdated.substr(0, lastUpdated.length-3) + " UTC");
+ 				}
                         } else {
 				$("#updateAlerts2").fadeIn("slow");
 			}
@@ -355,14 +357,14 @@ var Utils = {
 
 	printDetail : function() {
 		$("#loadingX").show();
-		$("#pager, #pager2, #perPageWrapper, #printLink, #scrolling_content, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap, #disaster_selekta").hide();
+		$("#pager, #pager2, #perPageWrapper, #printLink, #scrolling_content, #header, #footer, #menu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap, #disaster_selekta").hide();
 
 		$("#printSheet").attr("href", "res/iWall_printIndividual.css");
 		setTimeout(function() {
 			window.print();
 
 		$("#loadingX").hide();
-		$("#pager, #pager2, #perPageWrapper, #printLink, #scrolling_content, #header, #footer, #modmenuwrap, #modmenu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap, #disaster_selekta").show();
+		$("#pager, #pager2, #perPageWrapper, #printLink, #scrolling_content, #header, #footer, #menu, #searchForm, #blueBack, #blueBack, #wrapper_menu, #skip, #menuwrap, #disaster_selekta").show();
 		}, 1000)
 
 

@@ -1,7 +1,7 @@
 <?
 /**
  * @name         ACL Form Library
- * @version      11
+ * @version      12
  * @package      framework
  * @author       Ravindra De Silva <ravindra@opensource.lk><ravidesilva@iee.org>
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
@@ -9,17 +9,18 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0213
+ * @lastModified 2012.0411
  */
 
 
 require_once "constants.inc";
 
-function shn_acl_log_msg($comment, $p_uuid = null, $user_name = null, $event_type=1) {
+function shn_acl_log_msg($comment, $p_uuid = null, $user_name = null, $event_type=null) {
 
 	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
 	$db = $global["db"];
-	$timestamp = time();
+
 	if($p_uuid == null) {
 		$p_uuid = $_SESSION['user_id'];
 	}
@@ -27,10 +28,11 @@ function shn_acl_log_msg($comment, $p_uuid = null, $user_name = null, $event_typ
 		$user_name = $_SESSION['user'];
 	}
 	$sql = "
-		insert into password_event_log(changed_timestamp, p_uuid, user_name, comment, event_type)
-		values($timestamp, '{$p_uuid}', '{$user_name}','{$comment}',{$event_type});
+		insert into password_event_log(p_uuid, user_name, comment, event_type)
+		values('{$p_uuid}', '{$user_name}','{$comment}','{$event_type}');
 	";
 	$res = $db->Execute($sql);
+	if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "ACL LOG (".$sql.")"); }
 }
 
 

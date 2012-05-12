@@ -57,31 +57,15 @@ function shn_mpres_default() {
 	} elseif(isset($_GET['configuration'])) {
 		$control = "shn_mpres_configuration";
 
+	} elseif(isset($_GET['purgeEvents'])) {
+		$control = "shn_mpres_purgeEvents";
+
+	} elseif(isset($_GET['purgeReports'])) {
+		$control = "shn_mpres_purgeReports";
+
 	} else {
 		$control = "shn_mpres_status";
 	}
-
-
-/*
-	if(isset($_GET['log'])) {
-		echo "<li>Inbound Person Log</li>";
-		$control = "shn_mpres_log";
-	} else {
-		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"inbound?log\">Inbound Person Log</a></li>";
-	}
-	if(isset($_GET['configuration'])) {
-		echo "<li>Configuration Options</li>";
-		$control = "shn_mpres_configuration";
-	} else {
-		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"inbound?configuration\">Configuration Options</a></li>";
-	}
-	if(isset($_GET['status']) || $control == "") {
-		echo "<li>Service Status</li>";
-		$control = "shn_mpres_status";
-	} else {
-		echo "<li><a style=\"font-size: 13px;\" class=\"rezLink\" href=\"inbound?status\">Service Status</a></li>";
-	}
-*/
 	$control();
 }
 
@@ -180,6 +164,7 @@ function shn_mpres_status() {
 
 	echo "<div class=\"form-container\"><form><fieldset>";
 	echo "<legend>Email Event Log (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
+	echo "<a href=\"inbound?purgeEvents\"><span class=\"styleTehButton\">Purge the Event Log</span></a> (<i>this action is audited</i>)<br><br>";
 	echo "<table id=\"regLog\"><tr>
 		<td class=\"evener left\"><b>Time</b></td>
 		<td class=\"evener left\"><b>Messages</b></td>
@@ -211,6 +196,49 @@ function shn_mpres_status() {
 	}
 	echo "</table>";
 	echo "</fieldset></form></div>";
+}
+
+
+
+/** Truncates the Event Log */
+function shn_mpres_purgeEvents() {
+
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+	$db = $global["db"];
+
+	shn_acl_log_msg("Purged the MPRES Email Event Log", $_SESSION['user_p_uuid'], $_SESSION['user_name'], "LOG PURGE");
+
+	$q = "
+		TRUNCATE mpres_messages ;
+	";
+	$res = $db->Execute($q);
+	if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "mpres event log purge (".$q.")"); }
+
+	add_confirmation("Email Event Log purged.");
+
+	shn_mpres_status();
+}
+
+
+/** Truncates the Report Log */
+function shn_mpres_purgeReports() {
+
+	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+	$db = $global["db"];
+
+	shn_acl_log_msg("Purged the MPRES Emails Received Log", $_SESSION['user_p_uuid'], $_SESSION['user_name'], "LOG PURGE");
+
+	$q = "
+		TRUNCATE mpres_log ;
+	";
+	$res = $db->Execute($q);
+	if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "mpres emails recieved log purge (".$q.")"); }
+
+	add_confirmation("Emails Recieved Log purged.");
+
+	shn_mpres_log();
 }
 
 
@@ -259,6 +287,7 @@ function shn_mpres_log() {
 
 	echo "<br><div class=\"form-container\"><form><fieldset>";
 	echo "<legend>Emails Received (".$msg." of ".$totalCount." total) ".$previous." ".$next."</legend>";
+	echo "<a href=\"inbound?purgeReports&tabid=1\"><span class=\"styleTehButton\">Purge the Emails Received Log</span></a> (<i>this action is audited</i>)<br><br>";
 	echo "<table id=\"regLog\"><tr>
 		<td class=\"evener\"><b>Record Identifier / p_uuid</b></td>
 		<td class=\"evener\"><b>Email From</b></td>
@@ -330,8 +359,8 @@ function shn_mpres_configuration() {
 			shn_db_config_update("mpres","port",           $_POST['mpres_port']);
 			shn_db_config_update("mpres","popimap",        $popimap);
 			shn_db_config_update("mpres","ssl",            $ssl);
-			shn_db_config_update("mpres","username",       $_POST['mpres_username']);
-			shn_db_config_update("mpres","password",       $_POST['mpres_password']);
+			shn_db_config_update("mpres","username",       htmlspecialchars_decode($_POST['mpres_username']));
+			shn_db_config_update("mpres","password",       htmlspecialchars_decode($_POST['mpres_password']));
 			shn_db_config_update("mpres","incident_id",    $_POST['mpres_incident_id']);
 		} else {
 			add_warning('Errors were encountered, configuration not saved.');
@@ -360,8 +389,8 @@ function shn_mpres_configuration() {
 		$popimap         = shn_db_get_config("mpres","popimap");
 		$port            = shn_db_get_config("mpres","port");
 		$ssl             = shn_db_get_config("mpres","ssl");
-		$username        = shn_db_get_config("mpres","username");
-		$password        = shn_db_get_config("mpres","password");
+		$username        = htmlspecialchars(shn_db_get_config("mpres","username"));
+		$password        = htmlspecialchars(shn_db_get_config("mpres","password"));
 		$incident_id     = shn_db_get_config("mpres","incident_id");
 		if ($ssl=="1") {
 			$sslText = "CHECKED";
@@ -383,8 +412,8 @@ function shn_mpres_configuration() {
 		shn_form_fsclose();
 
 		shn_form_fsopen("Email Account Credentials");
-			shn_form_text("Username", "mpres_username", null, array("req"=>true, "value"=>$username));
-			shn_form_text("Password", "mpres_password", null, array("req"=>true, "value"=>$password));
+			shn_form_text("Username", "mpres_username", 'size=40', array("req"=>true, "value"=>$username));
+			shn_form_text("Password", "mpres_password", 'size=40', array("req"=>true, "value"=>$password));
 		shn_form_fsclose();
 
 		shn_form_fsopen("Default Event");

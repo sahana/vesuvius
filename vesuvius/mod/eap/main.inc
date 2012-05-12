@@ -924,7 +924,7 @@ function shn_eap_edit() {
 
 			} elseif($type == "image/gif" || $type == "image/jpeg" || $type == "image/png") {
 
-				if ($_FILES["file"]["error"] > 0) {
+				if ($_FILES["add_image"]["error"] > 0) {
 					echo "Return Code: " . $_FILES["file"]["error"] . "<br />";
 
 				} else {

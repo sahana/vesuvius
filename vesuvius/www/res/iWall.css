@@ -98,7 +98,6 @@ input[type="checkbox"] {
 	*height: 110px;
 	position: relative;
 	cursor: pointer;
-
 }
 
 .stubText {
@@ -284,8 +283,6 @@ h1 {
 	border-radius: 8px; 
 	padding:2px 10px; 
 	margin-bottom: 5px;
- 	/*behavior: url(res/pie/PIE.htc);*/ /* path must be relative to HTML */
-	/*position:relative;*/          /* addresses z-index problem w/ PIE */
 }
 
 #selectSort { width: 90px; *font-size: 14px }
@@ -474,7 +471,7 @@ h1 {
 	padding:0px 5px 5px 5px;
 	border:solid 0px #CCC;
 	position:relative;
-	z-index:2;
+	z-index: 2;
 }
 
 #dt_image ul {

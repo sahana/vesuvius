@@ -123,8 +123,13 @@ function shn_mainmenuitem($action, $desc, $module = null) {
 		$module = "tracking";
 		$action = "default";
 	}
+/** >>>>>>> MERGE-SOURCE */
 
+/** <<<<<<< TREE */
+	// a 3rd hack to show the proper home linl (it doesn't have the shortname in the url)
+/** ======= */
 	// a 3rd hack to show the proper home link (it doesn't have the shortname in the url)
+/** //>>>>>>> MERGE-SOURCE */
 	if($desc == "Home") {
 		echo "<li ".$class."><a href=\"".makeBaseUrlMinusEvent()."\">".$desc."</a></li>";
 	} elseif($action != "default") {
@@ -150,7 +155,7 @@ function shn_mainmenuopen($desc) {
 function shn_mainmenuclose() {
 	echo "
 		</ul>
-		</div> <!-- /modmenuwrap -->
+		</div> <!-- /menuwrap -->
 	";
 }
 

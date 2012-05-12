@@ -267,27 +267,6 @@ div#menuwrap ul li.currentMainMenuItem a {
 
 div#menuwrap li.admin a {}
 
-div#modmenuwrap {
-	top: 172px;
-	right: 0px;
-	z-index: 6;
-	padding: 0px 0px 20px 0px;
-}
-div#modmenuwrap h2 { display: none; }
-div#modmenuwrap ul { margin: 0px; padding: 3px 0px 20px 0px; list-style-type: none; width: 100%; }
-div#modmenuwrap li { margin: 0px; padding: 0px; line-height: 15px; font-size: 12px; }
-div#modmenuwrap ul li a { display: block; padding: 0px 10px 0px 10px; text-align: right; line-height: 20px; }
-div#modmenuwrap ul ul { border-top: 1px solid #ddf;}
-div#modmenuwrap ul ul li a { display: block; padding: 0px 10px 0px 0px; text-align: right; font-size: 10px; line-height: 12px; }
-div#modmenuwrap ul ul li a:link,
-div#modmenuwrap ul ul li a:visited {}
-div#modmenuwrap ul ul li a:hover {}
-.currentModMenuItem { font-weight: bold; background-color: rgba(130,169,224,0.2);
-	border-radius: 20px;
-	border-top-right-radius: 0px;
-	border-bottom-right-radius: 0px;
-}
-
 div#loginform {
 	margin: 	0px 10px;
 	position:	absolute;
@@ -333,8 +312,8 @@ div#content h4 { font-size:14px; margin: 0 0 0.3em 0;margin-left:5px;}
 
 #result{ width:100%;}
 #result table { background:white; width:100%; }
-#result table thead td { text-align: center; padding:.25em .25em .25em .25em; background: #e7e7e7; color:#000; font-size: 100%; padding: 5px; border: 1px solid #c3cfff; }
-#result tr td { text-align:left; font-size: 90%; color:#000; background: #f7f7f7; padding: 5px 5px 5px 15px; border: 1px solid #c3cfff; border-top: 1px solid #fff;}
+#result table thead td { text-align: center; padding:.25em .25em .25em .25em; background: #e7e7e7; color: #000; font-size: 100%; padding: 5px; border: 1px solid #ccc; text-shadow: none; }
+#result tr td { text-align:left; font-size: 90%; color:#000; background: #f7f7f7; padding: 5px 5px 5px 15px; border: 1px solid #ccc; border-top: 1px solid #fff; border-radius: 0px;}
 #result tr:hover td { background:#eee; }
 #result tr.green td { background:#C3FFAD; }
 #result tr.yellow td { background:#FFF98F; }
@@ -429,7 +408,6 @@ div#content ul#tabmenu li a:hover {
 }
 div#content ul#tabmenu li#active a {
 	background-color: #FFF;
-	color:#C00;
 	border: 1px solid #e5eaef;
 	border-bottom: none;
 	font-weight: bolder;

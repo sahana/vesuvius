@@ -41,13 +41,13 @@ function shn_inw_default() {
 	?>
 		<link rel="stylesheet" type="text/css" href="res/iWall.css" media="screen" />
 		<link rel="stylesheet" type="text/css" href="res/iWall_print.css" media="print" id="printSheet" />
-		<!--[if IE]>
-			<style type="text/css">
-				.ieStubBorder {
-					border-width: 1px !important;
-				}
-			</style>
-		<![endif]-->
+                <!--[if IE]>
+                        <style type="text/css">
+                                .ieStubBorder {
+                                        border-width: 1px !important;
+                                }
+                        </style>
+                <![endif]-->
 			<noscript>Your browser does not support JavaScript! You will need to enable it or use a modern browser before searching.</noscript>
 			<input type="text" id="jsonHolder" style="display:none" />
 			<input type="text" id="jsonNotes" style="display:none" />
@@ -59,7 +59,7 @@ function shn_inw_default() {
 				<div style="float:left;">
 					<div id="sortBy" style="float:right;margin-right: 4px;width:160px; text-align: right;">
 					<b>Sort By</b>
-						<img id="sortOrderIcon" style="width:10px; height:10px; <?= $conf["enable_solr_for_search"] ? "display: none" : "" ?>" src="res/img/desc.png" title="Descending (click for ascending)"/>
+						<img id="sortOrderIcon" style="width:10px; height:10px; <?= $conf["enable_solr_for_search"] ? "display: none" : "" ?>" src="res/img/desc.png" title="Descending (click for ascending)" alt="descending sort order, click for ascending"/>
 						<select id="selectSort" onchange="Utils.sortBy( this )">
 							<? if ( $conf["enable_solr_for_search"] ) { ?>
 								<option value="">Relevance</option>
@@ -150,7 +150,7 @@ function shn_inw_default() {
 					<span id="solrFoundLabel" style="display:none">Found <span id="recordsFound">0</span> out of <span id="totalRecordsSOLR">0</span> records in <span id="timeElapsedSOLR">0</span> seconds </span>
 					<span id="sqlFoundLabel"  style="display:none">Searched <span id="totalRecordsSQL">0</span> records in <span id="timeElapsedSQL">0</span> seconds </span>
 					<span id="maxShown" style="display:none;font-size:.6em">(max 2,000 shown)</span>
-					<span id="refreshLabel" style="display:none"> | Last updated: <span id="lastCheck"></span>, last new record: <span id="lastChange">none</span></span>
+					<span id="refreshLabel" style="display:none;"> | Last updated: <span id="lastCheck"></span>, last new record: <span id="lastChange">none</span></span>
 				</div>
 				<div id="updateAlerts2" style="float:left;font-size: .85em; font-weight: bold; display: none; margin-left: 5px; color: #C00">
 					<span style="color: black"> | </span> There are new or updated records in the database, the results will be automatically refreshed in 1 minute.
@@ -162,7 +162,7 @@ function shn_inw_default() {
 			</form>
 			<br />
 		<div id="perPageWrapper" style="display:none;float:right; margin-right:15px;">
-			Results Per Page -
+			<label for="perPage">Results Per Page -</label>
 			<select id="perPage" onchange="Globals.currPage = 1; Globals.perPage = this.value; searchSubset()">
 				<option value="25">25</option>
 				<option value="50">50</option>
@@ -170,7 +170,7 @@ function shn_inw_default() {
 			</select>
 		</div>
 		<div id="pager" style="display:none;float:left;margin-right:25px;margin-top:5px;"></div>
-		<div style="clear:both;" id="beforeScrollingContent"></div> <!-- for IE -->
+		<div style="clear:both;" id="beforeScrollingContent"></div>
 		<div id="scrolling_content">
 			<ul>
 			  <li>Enter "unknown" to search records without names.</li>
@@ -187,7 +187,7 @@ function shn_inw_default() {
 			<div id="dt_print" onclick="Utils.printDetail();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Print</a></div>
 			<div id="dt_notesTab" onclick="Utils.showNotes();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Notes</a></div>
 			<!--div id="showMap" onclick="Utils.showMap();"><a href="#" style="color:#6694E3; text-decoration: underline">Map</a></div-->
-			<div id="dt_image" >
+			<div id="dt_image">
 				<!--span id="caption">caption here</span-->
 			</div>
 
