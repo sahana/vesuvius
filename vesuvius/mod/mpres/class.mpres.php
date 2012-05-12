@@ -153,6 +153,9 @@ class mpres {
 		// loop through each message
 		for($i = $this->size-1; $i >= 0; $i--) {
 
+			$raw = imap_fetchstructure($this->mailbox, $i);
+			error_log("DUMPPPPPP::>>".var_export($raw)."<<::::");
+
 			$this->person = null; // clear out the last person...
 			$this->person = new person();
 			$this->person->init();
@@ -177,8 +180,18 @@ class mpres {
 			$this->messages .= "From: ".$this->currentFrom."<br>";
 			$this->messages .= "Subject: ".$this->currentSubject."<br>";
 
+			// Time Sensitive Action Required: NIH Password Expires on 04/04/2012 19:07:11
+			$needle[] = "/Time Sensitive Action Required/";
+			if(preg_match($needle[$i], $this->currentSubject) > 0) {
+				global $conf;
+
+				$body = "Please update the password on this account before it expires: <b>".shn_db_get_config("mpres","username")."</b><br><br>Email Subject:<br>".$this->currentSubject;
+				$p = new pop();
+				$p->sendMessage($conf['audit_email'], "", "{ ".$conf['site_name']." Password Expiration Notice }", $body, $body);
+				echo $p->spit();
+
 			// email has XML attachment....
-			if ($this->currentMessageHasXML) {
+			} elseif($this->currentMessageHasXML) {
 
 				// catch all parsing errors...
 				if($this->ecode != 0) {
@@ -313,6 +326,12 @@ class mpres {
 
 	// algorithmically find the attachments in this email...
 	private function getAttachmentsAndParseXML($messageNumber) {
+
+		// we only accept one XML attachment per email, but allow multiple images...
+		// so we will save a flag for once we found an XML and ignore all other attachments of this type afterwards
+		$foundXml = false;
+
+		// get attachments
 		$structure = imap_fetchstructure($this->mailbox, $messageNumber+1);
 		if (isset($structure->parts) && count($structure->parts)) {
 			for ($i=0; $i < count($structure->parts); $i++) {
@@ -351,6 +370,8 @@ class mpres {
 				}
 			}
 		}
+
+		// process what attachments we found
 		for ($i=0; $i < count($this->currentAttachments); $i++) {
 			if ($this->currentAttachments[$i]['is_attachment'] == true) {
 
@@ -367,21 +388,25 @@ class mpres {
 					$this->currentAttachments[$i]['is_image'] = true;
 					$this->currentAttachments[$i]['type']     = "png";
 
-				} else if(strtolower(substr($f, -4)) == ".lp2" || strtolower(substr($f, -4)) == ".lpf" || strtolower(substr($f, -4)) == ".xml") { // update to tep later......
+				 // update to add tep support later......
+				} else if(strtolower(substr($f, -4)) == ".lp2" || strtolower(substr($f, -4)) == ".lpf" || strtolower(substr($f, -4)) == ".xml") {
 					$this->currentAttachments[$i]['is_xml']   = true;
 					$this->currentAttachments[$i]['type']     = "xml";
 					$this->currentMessageHasXML               = true;
 				}
 
 				// add the image to our current person...
-				if ($this->currentAttachments[$i]['is_image']) {
+				if($this->currentAttachments[$i]['is_image']) {
 					$this->messages .= "found image attachment: ".$f."<br>";
 					$this->person->createUUID(); // make sure we have a uuid already...
 					$this->person->addImage(base64_encode($this->currentAttachments[$i]['attachment']), $f);
 				}
 
 				// handle the XML LPF attachment
-				if ($this->currentAttachments[$i]['is_xml']) {
+				if(!$foundXml && ($this->currentAttachments[$i]['is_xml'])) {
+
+					$foundXml = true; // that's it, we found an xml file, ignore any others...
+
 					$this->messages .= "found XML attachment: ".$f."<br>";
 					$a = xml2array($this->currentAttachments[$i]['attachment']);
 

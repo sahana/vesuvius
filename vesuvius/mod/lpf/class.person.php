@@ -1373,7 +1373,7 @@ class person {
 
 		// save xml for debugging?
 		if($global['debugAndSaveXmlToFile'] == true) {
-			$filename = date("Y_md_H-i-s.u")."___".mt_rand().".xml"; // 2012_0402_17-50-33.454312___437849328789.xml
+			$filename = date("Y_md_H-i-s.".getMicrotimeComponent())."___".mt_rand().".xml"; // 2012_0402_17-50-33.454312___437849328789.xml
 			$path = $global['debugAndSaveXmlToFilePath'].$filename;
 			file_put_contents($path, $this->theString);
 		}
@@ -1419,6 +1419,19 @@ class person {
 			$this->minAge         = isset($a['person']['minAge'])       ? $a['person']['minAge']       : null;
 			$this->maxAge         = isset($a['person']['maxAge'])       ? $a['person']['maxAge']       : null;
 			$this->other_comments = isset($a['person']['note'])         ? $a['person']['note']         : null;
+
+			// TEMP HACK KLUGE to stuff person location data into the person_status last_known_location field
+			$kluge = "";
+			$kluge .= isset($a['person']['location']['street1'])      ? $a['person']['location']['street1']."\n"      : "";
+			$kluge .= isset($a['person']['location']['street2'])      ? $a['person']['location']['street2']."\n"      : "";
+			$kluge .= isset($a['person']['location']['neighborhood']) ? $a['person']['location']['neighborhood']."\n" : "";
+			$kluge .= isset($a['person']['location']['city'])         ? $a['person']['location']['city']."\n"         : "";
+			$kluge .= isset($a['person']['location']['region'])       ? $a['person']['location']['region']."\n"       : "";
+			$kluge .= isset($a['person']['location']['postalCode'])   ? $a['person']['location']['postalCode']."\n"   : "";
+			$kluge .= isset($a['person']['location']['country'])      ? $a['person']['location']['country']."\n"      : "";
+			if(trim($kluge) != "") {
+				$this->last_seen = $kluge;
+			}
 
 			// only update the incident_id if not already set
 			if($this->incident_id === null) {
@@ -1833,8 +1846,8 @@ class person {
 					$this->edxl->mimeTypes[]    = $imageNode['mimeType'];
 					$this->edxl->uris[]         = $imageNode['uri'];
 					$this->edxl->contentDatas[] = $imageNode['contentData'];
-					$this->edxl->image_ids[]    = $i->image_id;
-					$this->edxl->image_sha1[]   = $realSha1;
+					$this->edxl->image_ids[]    = isset($i->image_id) ? $i->image_id : null;
+					$this->edxl->image_sha1[]   = isset($realSha1) ? $realSha1 : null;
 					$this->edxl->image_co_ids[] = shn_create_uuid("edxl_co_header");
 				}
 			}

@@ -256,14 +256,15 @@ function shn_admin_acl_change_user_status_p($error = false) {
 function shn_admin_acl_event_log($error=false) {
 
 	global $global;
+	require_once($global['approot']."/mod/lpf/lib_lpf.inc");
+	$count = 0;
 
 	$db=$global['db'];
 	?>
 	<div id="result">
 	<table>
 	<thead>
-		<td><strong><?php echo _t("Date") ?></strong></td>
-		<td><strong><?php echo _t("Time") ?></strong></td>
+		<td><strong><?php echo _t("Date/Time") ?></strong></td>
 		<td><strong><?php echo _t("User Name") ?></strong></td>
 		<td><strong><?php echo _t("Full Name") ?></strong></td>
 		<td><strong><?php echo _t("Event Type") ?></strong></td>
@@ -272,21 +273,21 @@ function shn_admin_acl_event_log($error=false) {
 	<tbody>
 	<?php
 
-	$sql="SELECT * FROM password_event_log ORDER BY changed_timestamp DESC";
-	$res=$db->Execute($sql);
-	while(($res!=null) &&(!$res->EOF)){
-		$timestamp=$res->fields["changed_timestamp"];
-		$full_name=shn_get_user_details($res->fields["p_uuid"]);
-		$date=date("m.d.y",$timestamp);
-		$time=date("H:m:s",$timestamp);
-		$type=($res->fields["event_type"]==null)?1:$res->fields["event_type"];
-		$sql="SELECT option_description FROM field_options WHERE option_code='{$type}' AND field_name='opt_acl_event_type'";
-		$res2=$db->Execute($sql);
-		$type=$res2->fields["option_description"];
+	$sql =
+		"SELECT *
+		FROM password_event_log
+		ORDER BY changed_timestamp DESC ;
+	";
+	$res = $db->Execute($sql);
+	if($res === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "acl event log display (".$sql.")"); }
+
+	while(($res != null) && (!$res->EOF)) {
+		$timestamp = $res->fields["changed_timestamp"];
+		$full_name = shn_get_user_details($res->fields["p_uuid"]);
+		$type = ($res->fields["event_type"] == null) ? "" : $res->fields["event_type"];
 		?>
 		<tr>
-			<td><?php echo $date;?></td>
-			<td><?php echo $time;?></td>
+			<td><?php echo $timestamp;?></td>
 			<td><?php echo $res->fields["user_name"];?></td>
 			<td><?php echo $full_name;?></td>
 			<td style="color: red; font-weight: bold;"><?php echo $type;?></td>
@@ -294,6 +295,10 @@ function shn_admin_acl_event_log($error=false) {
 		</tr>
 		<?php
 		$res->MoveNext();
+		$count++;
+	}
+	if($count == 0) {
+		echo "<tr><td colspan=5><center>No log entries thus far.</center></td></tr>";
 	}
 	?>
 		</tbody>

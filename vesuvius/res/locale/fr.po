@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: vesuvius\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2011-08-18 10:56-0400\n"
-"PO-Revision-Date: 2011-07-13 22:52+0000\n"
+"POT-Creation-Date: 2012-04-12 21:18+0530\n"
+"PO-Revision-Date: 2011-07-13 22:50+0000\n"
 "Last-Translator: Greg Miernicki <Unknown>\n"
-"Language-Team: English (United Kingdom) <en_GB@li.org>\n"
+"Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2011-08-19 05:15+0000\n"
-"X-Generator: Launchpad (build 13697)\n"
+"X-Launchpad-Export-Date: 2012-04-28 05:17+0000\n"
+"X-Generator: Launchpad (build 15149)\n"
 
 #: ../www/index.php:170
 msgid "The stream requested is not valid."
@@ -542,17 +542,17 @@ msgstr "Ouverture de l'aide ..."
 #: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289 ../mod/ha/xajax.inc:324
 msgctxt "HOSPITAL_BUTTON"
 msgid "Help"
-msgstr "aide"
+msgstr "Aider"
 
 #: ../mod/ha/xajax.inc:154
 msgctxt "HOSPITAL_FOUND"
 msgid "Found <b>"
-msgstr "<b> Trouvé"
+msgstr "Trouvé <b>"
 
 #: ../mod/ha/xajax.inc:154
 msgctxt "HOSPITAL_FOUND"
 msgid "</b> Hospital(s).<br>"
-msgstr "</ B> Hôpital (s). <br>"
+msgstr "</ b> Hôpital (s). <br>"
 
 #: ../mod/ha/xajax.inc:170
 msgctxt "HOSPITAL_HELP"
@@ -592,7 +592,7 @@ msgstr "Hôpital <b> #"
 #: ../mod/ha/xajax.inc:312
 msgctxt "HOSPITAL_LOG"
 msgid "removed"
-msgstr "a supprimé à ."
+msgstr "retiré"
 
 #: ../mod/ha/xajax.inc:322
 msgctxt "HOSPITAL_LOG"
@@ -612,7 +612,7 @@ msgstr "Hôpital UUID"
 #: ../mod/ha/xajax.inc:413
 msgctxt "HOSPITAL_INFO"
 msgid "Name"
-msgstr "Dénomination"
+msgstr "Nom"
 
 #: ../mod/ha/xajax.inc:417
 msgctxt "HOSPITAL_INFO"
@@ -637,7 +637,7 @@ msgstr "Ville"
 #: ../mod/ha/xajax.inc:433
 msgctxt "HOSPITAL_INFO"
 msgid "County"
-msgstr "Comté"
+msgstr "Ville"
 
 #: ../mod/ha/xajax.inc:437
 msgctxt "HOSPITAL_INFO"
@@ -667,7 +667,7 @@ msgstr "Fax"
 #: ../mod/ha/xajax.inc:457
 msgctxt "HOSPITAL_INFO"
 msgid "Email"
-msgstr "E-mail"
+msgstr "Email"
 
 #: ../mod/ha/xajax.inc:461
 msgctxt "HOSPITAL_INFO"
@@ -682,7 +682,7 @@ msgstr "NPI #"
 #: ../mod/ha/xajax.inc:470
 msgctxt "HOSPITAL_INFO"
 msgid "Enter a Street Address: "
-msgstr "Entrez une adresse de rue: "
+msgstr "Entrez une adresse de rue:"
 
 #: ../mod/ha/xajax.inc:471
 msgctxt "HOSPITAL_BUTTON"
@@ -958,7 +958,7 @@ msgstr "Changer mon mot de passe"
 
 #: ../mod/pref/main.inc:256 ../mod/pref/main.inc:581 ../mod/pref/main.inc:588
 msgid "Please provide the text in the image correctly to prove you are human."
-msgstr "S'il vous plaît fournir le texte dans l'image correctement pour prouver que vous êtes un être humain."
+msgstr ""
 
 #: ../mod/pref/main.inc:626
 msgid "You new password must adhere to following rules:"
@@ -1071,8 +1071,8 @@ msgstr "Confidentialité de l'information"
 #: ../mod/rap/main.inc:186
 msgid ""
 "<span class=\"publicText\">Public</span> Denotes information that, if "
-"provided, can be exposed to the general public.<br><br><span class="
-"\"privateText\">Private</span> Denotes information that will not be "
+"provided, can be exposed to the general public.<br><br><span "
+"class=\"privateText\">Private</span> Denotes information that will not be "
 "available to the public. <br><br>Private information may be made available "
 "to or shared with other family members and friends you designate, emergency "
 "responders, medical providers, clergy/councilors, law enforcement, or "

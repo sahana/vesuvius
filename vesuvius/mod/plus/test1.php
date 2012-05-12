@@ -16,14 +16,14 @@ $uuid = "pl.nlm.nih.gov/person.2958785";
 //$uuid = "ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/person.4001921";
 require_once("../../3rd/nusoap/lib/nusoap.php");
 
-//$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=24";
+$wsdl = "https://pl.nlm.nih.gov/?wsdl&api=24";
 //$wsdl = "https://plstage.nlm.nih.gov/?wsdl&api=24";
-$wsdl = "http://ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/?wsdl&api=24";
+//$wsdl = "http://ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/?wsdl&api=24";
 $client = new nusoap_client($wsdl);
 
 
-//$x = file_get_contents("reference_REUNITE4.xml");
-//$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE4', 'username'=>$user, 'password'=>$pass));
+$x = file_get_contents("reference_REUNITE4.xml");
+$result = $client->call('reportPerson', array('personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE4', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('reReportPerson', array('uuid'=>'pl.nlm.nih.gov/person.2970291', 'personXML'=>$x, 'eventShortName'=>'test', 'xmlFormat'=>'REUNITE3', 'username'=>$user, 'password'=>$pass));
 
 //$x = file_get_contents("reference_TRIAGEPIC1.xml");
@@ -38,7 +38,7 @@ $client = new nusoap_client($wsdl);
 //$result = $client->call('ping', array(null));
 //$result = $client->call('getNullTokenList', array('tokenStart'=>'0', 'tokenEnd'=>'120', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('getImageListBlock', array('tokenStart'=>'314', 'stride'=>2, 'username'=>$user, 'password'=>$pass));
-$result = $client->call('getImageList', array('tokenStart'=>'1', 'tokenEnd'=>'1', 'username'=>$user, 'password'=>$pass));
+//$result = $client->call('getImageList', array('tokenStart'=>'1', 'tokenEnd'=>'1', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('getImageCountsAndTokens', array('username'=>$user, 'password'=>$pass));
 //$result = $client->call('expirePerson', array('uuid'=>'pl.nlm.nih.gov/person.4001018', 'explanation'=>'because!!!!', 'username'=>$user, 'password'=>$pass));
 //$result = $client->call('setPersonExpiryDate', array('uuid'=>'pl.nlm.nih.gov/person.4001018', 'expiryDate'=>'2011-01-01 01:23:46', 'username'=>$user, 'password'=>$pass));

@@ -147,9 +147,10 @@ function shn_map_gender_to_pfif($personRecord, $source_person) {
 }
 
 function shn_map_gender_from_pfif($pfif_sex) {
-   $gender_map = array('male' => 'mal', 'female' => 'fml', 'other' => 'cpx'); // PFIF defines an 'oth)er' category, but it is not clear what that means.
+   $gender_map = array('male' => 'mal', 'female' => 'fml', 'other' => 'cpx'); 
+   // PFIF defines an 'oth)er' category, but it is not clear what that means.
    // It does not mean unknown, however. So we map it to complex.
-   return $gender_map[$pfif_sex];
+   return array_key_exists($pfif_sex, $gender_map)? $gender_map[$pfif_sex] : null;
 }
 
 /**
@@ -231,7 +232,7 @@ function fetch_image($photo_url, $person_record_id) {
          $result['original_filename'] = $photo_url;
 
          // Gen cache filename from id, ..
-         $filePath = '/pl/'.PFIF_IMG_CACHE_DIR;
+         $filePath = '/opt/pl/www/'.PFIF_IMG_CACHE_DIR;
          $fileName = str_replace("/", "SLASH", $person_record_id) . "__" . rand(1000000000, 1999999999) . "." . $image->type;
          $localUrl = PFIF_IMG_CACHE_DIR . $fileName;
 
