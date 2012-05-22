@@ -20,7 +20,17 @@
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 */
-
+/** @name        Gettext library
+ * @version      1.0
+ * @package      framework
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @author		 Ramindu Deshapriya <rasade88@gmail.com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2012.05.13
+ */
 /**
  * Provides a simple gettext replacement that works independently from
  * the system's gettext abilities.
