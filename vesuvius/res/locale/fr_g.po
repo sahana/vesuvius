@@ -532,17 +532,17 @@ msgstr "Hôpital d'administration"
 #: ../mod/ha/xajax.inc:139 ../mod/ha/xajax.inc:287 ../mod/ha/xajax.inc:322
 msgctxt "HOSPITAL_BUTTON"
 msgid "Add a new Hospital"
-msgstr "Ajouter un nouvel hôpital"
+msgstr "Ajouter un nouvel hôpital (Wrong Google Translation)"
 
 #: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289 ../mod/ha/xajax.inc:324
 msgctxt "HOSPITAL_LOG"
 msgid "Opening Help..."
-msgstr ""
+msgstr "Ouverture de l'aide ..."
 
 #: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289 ../mod/ha/xajax.inc:324
 msgctxt "HOSPITAL_BUTTON"
 msgid "Help"
-msgstr ""
+msgstr "Aider"
 
 #: ../mod/ha/xajax.inc:154
 msgctxt "HOSPITAL_FOUND"
@@ -552,37 +552,37 @@ msgstr "Trouvé <b>"
 #: ../mod/ha/xajax.inc:154
 msgctxt "HOSPITAL_FOUND"
 msgid "</b> Hospital(s).<br>"
-msgstr ""
+msgstr "</ b> Hôpital (s). <br>"
 
 #: ../mod/ha/xajax.inc:170
 msgctxt "HOSPITAL_HELP"
 msgid "coming soon...."
-msgstr ""
+msgstr "Bientôt disponible."
 
 #: ../mod/ha/xajax.inc:175
 msgctxt "HOSPITAL_HELP"
 msgid "Closing Help..."
-msgstr ""
+msgstr "Fermeture Aide ..."
 
 #: ../mod/ha/xajax.inc:175
 msgctxt "HOSPITAL_BUTTON"
 msgid "Close Help"
-msgstr ""
+msgstr "Fermer Aide"
 
 #: ../mod/ha/xajax.inc:283
 msgctxt "HOSPITAL_LOG"
 msgid "Hospital #<b>"
-msgstr ""
+msgstr "Hôpital # <b>"
 
 #: ../mod/ha/xajax.inc:283
 msgctxt "HOSPITAL_LOG"
 msgid "Saved"
-msgstr ""
+msgstr "Saved"
 
 #: ../mod/ha/xajax.inc:287
 msgctxt "HOSPITAL_LOG"
 msgid "Add a new Hospital..."
-msgstr ""
+msgstr "Ajouter un nouvel hôpital ..."
 
 #: ../mod/ha/xajax.inc:312
 msgctxt "HOSPITAL_LOG"
@@ -592,12 +592,12 @@ msgstr "Hôpital <b> #"
 #: ../mod/ha/xajax.inc:312
 msgctxt "HOSPITAL_LOG"
 msgid "removed"
-msgstr ""
+msgstr "retiré"
 
 #: ../mod/ha/xajax.inc:322
 msgctxt "HOSPITAL_LOG"
 msgid "Adding a new Hospital..."
-msgstr ""
+msgstr "Ajout d'un nouvel hôpital ..."
 
 #: ../mod/ha/xajax.inc:406
 msgctxt "HOSPITAL_INFO"

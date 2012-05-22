@@ -28,6 +28,17 @@ LC_MONETARY 4
 LC_MESSAGES 5
 LC_ALL      6
 */
+/** @name        Gettext library
+ * @version      1.0
+ * @package      framework
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @author		 Ramindu Deshapriya <rasade88@gmail.com>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2012.05.13
+ */
 
 require('streams.php');
 require('gettext.php');
@@ -59,14 +70,44 @@ function _get_reader($domain=null, $category=5, $enable_cache=true) {
 		$p = isset($text_domains[$domain]->path) ? $text_domains[$domain]->path : './';
 		//$path = $p . "$locale/". $LC_CATEGORIES[$category] ."/$domain.mo";
 		$path = $p . "$locale.mo";
-		if (file_exists($path)) {
+
+		if ( file_exists($path) ) {
 			$input = new FileReader($path);
+			
 		} else {
 			$input = null;
+		
 		}
-		$text_domains[$domain]->l10n = new gettext_reader($input, $enable_cache);
+		$text_domains[$domain]->l10n = new gettext_reader($input, $enable_cache);				
 	}
-	return $text_domains[$domain]->l10n;
+		return $text_domains[$domain]->l10n;
+}
+
+/**
+ * Utility function to get a Google Translate StreamReader for the given text domain.
+ */
+function _get_reader_g($domain=null, $category=5, $enable_cache=true) {
+	global $text_domains, $default_domain, $LC_CATEGORIES;
+	if (!isset($domain)) {
+		$domain = $default_domain;
+	}
+	if (!isset($text_domains[$domain]->l10n_g)) {
+		// get the current locale
+		$locale = _setlocale(LC_MESSAGES, 0);
+		$p = isset($text_domains[$domain]->path) ? $text_domains[$domain]->path : './';
+		//$path = $p . "$locale/". $LC_CATEGORIES[$category] ."/$domain.mo";
+		//Google Translated PO Path
+		$path = $p. $locale.'_g.mo';
+		if ( file_exists($path) ) {
+			$input = new FileReader($path);
+				
+		} else {
+			$input = null;
+
+		}
+		$text_domains[$domain]->l10n_g = new gettext_reader($input, $enable_cache);
+	}
+	return $text_domains[$domain]->l10n_g;
 }
 
 
@@ -141,7 +182,7 @@ function _setlocale($category, $locale) {
             return _setlocale($category, $CURRENTLOCALE);
     } else {
         $ret = 0;
-        if (function_exists('setlocale')) // I don't know if this ever happens ;)
+        if (function_exists('setlocale')) // This is called if PHP gettext module is installed and enabled
            $ret = setlocale($category, $locale);
         if (($ret and $locale == '') or ($ret == $locale)) {
             $EMULATEGETTEXT = 1; //Old value: 0
@@ -201,9 +242,15 @@ function _textdomain($domain) {
  */
 function _gettext($msgid) {
 	$l10n = _get_reader();
-
+	$l10n_g = _get_reader_g();
 	//return $l10n->translate($msgid);
-	return _encode($l10n->translate($msgid));
+	$l10n_trans = _encode($l10n->translate($msgid));
+	if ( $l10n_trans == $msgid ) {
+		return _encode($l10n_g->translate($msgid));
+	}
+	else {
+		return _encode($l10n->translate($msgid));
+	}
 }
 
 
