@@ -2,13 +2,12 @@
 /**
  * @name         Google Translate
  * @version      1.2
- * @package      rez
+ * @package      res
  * @author       Ramindu Deshapriya <rasade88@gmail.com>
- * @author       Greg Miernicki <g@miernicki.com>
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
- * @lastModified 2011.0808
+ * @lastModified 2012.06.01
  */
 
 
@@ -161,6 +160,5 @@ function shn_google_translate_element($text) {
 	echo "<div id=\"google_translate_element\">".$text."</div>";
 
 }
-
 
 
