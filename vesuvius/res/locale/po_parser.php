@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 /**
- * @name         Google Translate
+ * @name         PO Parser for Google Translation implementation
  * @version      1.2
  * @package      res
  * @author       Ramindu Deshapriya <rasade88@gmail.com>
@@ -73,8 +73,8 @@ class POParser
         if (!is_file($filename)) {
             throw new Exception('The specified file does not exist.');
         }
-        if (substr($filename, strrpos($filename, '.')) !== '.po') {
-            throw new Exception('The specified file is not a PO file.');
+        if (substr($filename, strrpos($filename, '.')) !== '.pot') {
+            throw new Exception('The specified file is not a POT file.');
         }
 
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
@@ -197,6 +197,14 @@ class POParser
                     }
                     $entry['msgstr'][] = $this->_dequote(substr($line, strpos($line, ' ') + 1));
                 }
+            }
+            /**
+             * Added support for msgctxt - RD
+             */
+            else if (strpos($line, 'msgctxt') === 0) {
+            	if ($line[7] === ' ') {
+            		$entry['msgctxt'] = $this->_dequote(substr($line, 8));
+            	}
             }
             else if ($line[0] === '"' && isset($entry['msgstr'])) {
                 $line = "\n" . preg_replace('/([^\\\\])\\\\n$/', "\$1\n", $this->_dequote($line));
