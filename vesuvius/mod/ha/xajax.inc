@@ -136,9 +136,9 @@ function ha_show_hospitals($internal = FALSE) {
 	$htmlMain .= "</table>";
 
 	$pageControlHtml = '
-		<input class="styleTehButton" type="button" onclick="javascript: ha_perform_edit(0);" value="'._t('HOSPITAL_BUTTON|Add a new Hospital').'">
+		<input class="styleTehButton" type="button" onclick="javascript: ha_perform_edit(0);" value="'._t('Hospitals-Add-Button|Add a new Hospital').'">
 		&nbsp; &nbsp; &nbsp; &nbsp;
-		<input class="styleTehButton red" type="button" onclick="javascript: ha_append_log(\''._t('HOSPITAL_LOG|Opening Help...').'<br>\'); ha_perform_help();" value="'._t('HOSPITAL_BUTTON|Help').'">
+		<input class="styleTehButton red" type="button" onclick="javascript: ha_append_log(\''._t('Hospitals-Help-Message|Opening Help...').'<br>\'); ha_perform_help();" value="'._t('Hospitals-Help-Button|Help').'">
 	';
 
 	//---- internally, no ajax, just pass back data
@@ -151,7 +151,7 @@ function ha_show_hospitals($internal = FALSE) {
 		$global['xajax_res']->addAssign('rezMain','style.opacity','1.0');
 		$global['xajax_res']->addAssign('rezMain','innerHTML',$htmlMain);
 
-		$htmlLog .= _t("HOSPITAL_FOUND|Found <b>").$total._t("HOSPITAL_FOUND|</b> Hospital(s).<br>");
+		$htmlLog .= _t("Hospitals-Search-Found|Found <b>").$total._t("Hospitals-Search-Found|</b> Hospital(s).<br>");
 		$global['xajax_res']->addAppend('rezLog','innerHTML',$htmlLog);
 		$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
 		return $global['xajax_res']->getXML();
@@ -167,12 +167,12 @@ function ha_perform_help() {
 
 	// help content
 	$pageMainHtml = "
-		"._t('HOSPITAL_HELP|coming soon....')."
+		"._t('Hospitals-Help|coming soon....')."
 	";
 
 	// update log/ui
 	$pageControlHtml = '
-		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('HOSPITAL_HELP|Closing Help...').'<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="'._t('HOSPITAL_BUTTON|Close Help').'">
+		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('Hospitals-Help-Close|Closing Help...').'<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="'._t('Hospitals-Help-Button|Close Help').'">
 	';
 
 	$global['xajax_res']->addAssign('rezMain', 'innerHTML', $pageMainHtml);
@@ -280,13 +280,13 @@ function ha_perform_save($hospital_uuid, $rj) {
 	$result = $global['db']->Execute($q);
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital save 2"); }
 
-	$log .= _t("HOSPITAL_LOG|Hospital #<b>").$hospital_uuid."</b> <span style=\"color: green;\">"._t('HOSPITAL_LOG|Saved')."</span>.<b><br>";
+	$log .= _t("Hospitals-Save-Message|Hospital #<b>").$hospital_uuid."</b> <span style=\"color: green;\">"._t('Hospitals-Save-Message|Saved')."</span>.<b><br>";
 
 	// update log/ui
 	$pageControlHtml = '
-		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('HOSPITAL_LOG|Add a new Hospital...').'<br>\'); ha_perform_edit(0);" value="'._t("HOSPITAL_BUTTON|Add a new Hospital").'">
+		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('Hospitals-Add-Message|Add a new Hospital...').'<br>\'); ha_perform_edit(0);" value="'._t("Hospitals-Add-Button|Add a new Hospital").'">
 		&nbsp; &nbsp; &nbsp; &nbsp;
-		<input class="styleTehButton red" type="button" onclick="javascript: ha_append_log(\''._t('HOSPITAL_LOG|Opening Help...').'<br>\'); ha_perform_help();" value="'._t("HOSPITAL_BUTTON|Help").'">
+		<input class="styleTehButton red" type="button" onclick="javascript: ha_append_log(\''._t('Hospitals-Help-Message|Opening Help...').'<br>\'); ha_perform_help();" value="'._t("Hospitals-Help-Button|Help").'">
 	';
 	$global['xajax_res']->addAssign('rezControl','innerHTML',$pageControlHtml);
 	$global['xajax_res']->addAssign('rezMain', 'innerHTML', ha_show_hospitals(TRUE));
@@ -309,19 +309,19 @@ function ha_perform_delete($hospital_uuid, $confirm) {
 		";
 
 		$res = $global['db']->Execute($q);
-		$global['xajax_res']->addAppend('rezLog', 'innerHTML', _t('HOSPITAL_LOG|Hospital <b>#').$hospital_uuid.'</b> <span style="color: red;">'._t('HOSPITAL_LOG|removed').'</span>.<br>');
+		$global['xajax_res']->addAppend('rezLog', 'innerHTML', _t('Hospitals-Remove-Message|Hospital <b>#').$hospital_uuid.'</b> <span style="color: red;">'._t('Hospitals-Remove-Message|removed').'</span>.<br>');
 		$result = $global['db']->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "hospital delete 1"); }
 		$global['xajax_res']->addAppend('rezLog', 'innerHTML', 'Hospital <b>#'.$hospital_uuid.'</b> <span style="color: red;">removed</span>.<br>');
 	} else {
-		$global['xajax_res']->addAppend('rezLog', 'innerHTML', "Remove operation aborted.<br>");
+		$global['xajax_res']->addAppend('rezLog', 'innerHTML', _t("Hospitals-Remove-Aborted|Remove operation aborted.<br>"));
 	}
 
 	// update UI
 	$pageControlHtml = '
-		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('HOSPITAL_LOG|Adding a new Hospital...').'<br>\'); ha_perform_edit(0);" value="'._t('HOSPITAL_BUTTON|Add a new Hospital').'">
+		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('Hospitals-Add-Message|Adding a new Hospital...').'<br>\'); ha_perform_edit(0);" value="'._t('Hospitals-Add-Button|Add a new Hospital').'">
 		&nbsp; &nbsp; &nbsp; &nbsp;
-		<input class="styleTehButton red" type="button" onclick="javascript: ha_append_log(\''._t('HOSPITAL_LOG|Opening Help...').'<br>\'); ha_perform_help();" value="'._t('HOSPITAL_BUTTON|Help').'">
+		<input class="styleTehButton red" type="button" onclick="javascript: ha_append_log(\''._t('Hospitals-Help-Message|Opening Help...').'<br>\'); ha_perform_help();" value="'._t('Hospitals-Help-Button|Help').'">
 	';
 	$global['xajax_res']->addAssign('rezControl','style.opacity','1.0');
 	$global['xajax_res']->addAssign('rezControl','innerHTML',$pageControlHtml);
@@ -403,72 +403,72 @@ function ha_perform_edit($hospital_uuid) {
 <table class=\"emTable\">
 
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" colspan=2 ><b>"._t('HOSPITAL_INFO|Hospital Information')."</b></td>
+		<td class=\"mainRowEven emFirst emLast\" colspan=2 ><b>"._t('Hospitals-Info-Form|Hospital Information')."</b></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\">"._t('HOSPITAL_INFO|Hospital UUID')."</td>
+		<td class=\"mainRowOdd emLastWhite\">"._t('Hospitals-Info-Form|Hospital UUID')."</td>
 		<td class=\"mainRowOdd emFirstWhite\"><input id=\"hospital_uuid\" type=\"text\" value=\"".$row['hospital_uuid']."\" size=8 readonly /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\">"._t('HOSPITAL_INFO|Name')."</td>
+		<td class=\"mainRowEven emFirst emLast\">"._t('Hospitals-Info-Form|Name')."</td>
 		<td class=\"mainRowEven emFirst emLast\"><input id=\"name\" type=\"text\" size=60 maxlength=60 value=\"".$row['name']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\">"._t('HOSPITAL_INFO|Short Name')."</td>
+		<td class=\"mainRowOdd emLastWhite\">"._t('Hospitals-Info-Form|Short Name')."</td>
 		<td class=\"mainRowOdd emFirstWhite\"><input id=\"short_name\" type=\"text\" size=30 maxlength=30 value=\"".$row['short_name']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\">"._t('HOSPITAL_INFO|Street 1')."</td>
+		<td class=\"mainRowEven emFirst emLast\">"._t('Hospitals-Info-Form|Street 1')."</td>
 		<td class=\"mainRowEven emFirst emLast\"><input id=\"street1\" type=\"text\" size=60 maxlength=120 value=\"".$row['street1']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\">"._t('HOSPITAL_INFO|Street 2')."</td>
+		<td class=\"mainRowOdd emLastWhite\">"._t('Hospitals-Info-Form|Street 2')."</td>
 		<td class=\"mainRowOdd emFirstWhite\"><input id=\"street2\" type=\"text\" size=60 maxlength=120 value=\"".$row['street2']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" >"._t('HOSPITAL_INFO|City')."</td>
+		<td class=\"mainRowEven emFirst emLast\" >"._t('Hospitals-Info-Form|City')."</td>
 		<td class=\"mainRowEven emFirst emLast\" ><input id=\"city\" type=\"text\" size=60 maxlength=60 value=\"".$row['city']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" >"._t('HOSPITAL_INFO|County')."</td>
+		<td class=\"mainRowOdd emLastWhite\" >"._t('Hospitals-Info-Form|County')."</td>
 		<td class=\"mainRowOdd emFirstWhite\" ><input id=\"county\" type=\"text\" size=60 maxlength=60 value=\"".$row['county']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" >"._t('HOSPITAL_INFO|State / Region')."</td>
+		<td class=\"mainRowEven emFirst emLast\" >"._t('Hospitals-Info-Form|State / Region')."</td>
 		<td class=\"mainRowEven emFirst emLast\" ><input id=\"region\" type=\"text\" size=60 maxlength=60 value=\"".$row['region']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" >"._t('HOSPITAL_INFO|Postal Code')."</td>
+		<td class=\"mainRowOdd emLastWhite\" >"._t('Hospitals-Info-Form|Postal Code')."</td>
 		<td class=\"mainRowOdd emFirstWhite\" ><input id=\"postal_code\" type=\"text\" size=60 maxlength=60 value=\"".$row['postal_code']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" >"._t('HOSPITAL_INFO|Country')."</td>
+		<td class=\"mainRowEven emFirst emLast\" >"._t('Hospitals-Info-Form|Country')."</td>
 		<td class=\"mainRowEven emFirst emLast\" ><input id=\"country\" type=\"text\" size=60 maxlength=60 value=\"".$row['country']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" >"._t('HOSPITAL_INFO|Phone')."</td>
+		<td class=\"mainRowOdd emLastWhite\" >"._t('Hospitals-Info-Form|Phone')."</td>
 		<td class=\"mainRowOdd emFirstWhite\" ><input id=\"phone\" type=\"text\" size=16 maxlength=16 value=\"".$row['phone']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" >"._t('HOSPITAL_INFO|Fax')."</td>
+		<td class=\"mainRowEven emFirst emLast\" >"._t('Hospitals-Info-Form|Fax')."</td>
 		<td class=\"mainRowEven emFirst emLast\" ><input id=\"fax\" type=\"text\" size=16 maxlength=16 value=\"".$row['fax']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" >"._t('HOSPITAL_INFO|Email')."</td>
+		<td class=\"mainRowOdd emLastWhite\" >"._t('Hospitals-Info-Form|Email')."</td>
 		<td class=\"mainRowOdd emFirstWhite\" ><input id=\"email\" type=\"text\" size=64 maxlength=64 value=\"".$row['email']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" >"._t('HOSPITAL_INFO|Web Address')."</td>
+		<td class=\"mainRowEven emFirst emLast\" >"._t('Hospitals-Info-Form|Web Address')."</td>
 		<td class=\"mainRowEven emFirst emLast\" ><input id=\"www\" type=\"text\" size=64 maxlength=256 value=\"".$row['www']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" >"._t('HOSPITAL_INFO|NPI #')."</td>
+		<td class=\"mainRowOdd emLastWhite\" >"._t('Hospitals-Info-Form|NPI #')."</td>
 		<td class=\"mainRowOdd emFirstWhite\" ><input id=\"npi\" type=\"text\" size=32 maxlength=32 value=\"".$row['npi']."\" /></td>
 	</tr>
 	<tr>
 		<td class=\"mainRowEven\" style=\" border-bottom: none;\" colspan=2>
-			<label>"._t('HOSPITAL_INFO|Enter a Street Address: ')."</label>
-			<input id=\"address\" type=\"text\" /> &nbsp; -OR- &nbsp; <input type=\"button\" style=\"position: relative; top: -2px;\" class=\"styleTehButton\" onclick=\"detect_load();\" value=\""._t('HOSPITAL_BUTTON|Detect My Current Location')."\" />
+			<label>"._t('Hospital-Info-Form|Enter a Street Address: ')."</label>
+			<input id=\"address\" type=\"text\" /> &nbsp; -OR- &nbsp; <input type=\"button\" style=\"position: relative; top: -2px;\" class=\"styleTehButton\" onclick=\"detect_load();\" value=\""._t('Hospitals-Info-Form|Detect My Current Location')."\" />
 		</td>
 	</tr>
 	<tr>
@@ -487,44 +487,44 @@ function ha_perform_edit($hospital_uuid) {
 </table>
 <table class=\"emTable\">
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" colspan=2 style=\"\"><b>"._t('HOSPITAL_INFO|Hospital Policies')."</b></td>
+		<td class=\"mainRowEven emFirst emLast\" colspan=2 style=\"\"><b>"._t('Hospitals-Info-Form|Hospital Policies')."</b></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" style=\"\">"._t('HOSPITAL_INFO|PatientID prefix')."</td>
+		<td class=\"mainRowOdd emLastWhite\" style=\"\">"._t('Hospitals-Info-Form|PatientID prefix')."</td>
 		<td class=\"mainRowOdd emFirstWhite\" style=\"\"><input id=\"patient_id_prefix\" type=\"text\" size=32 maxlength=32 value=\"".$row['patient_id_prefix']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" style=\"\">"._t('HOSPITAL_INFO|PatientID suffix length is variable')."</td>
+		<td class=\"mainRowEven emFirst emLast\" style=\"\">"._t('Hospitals-Info-Form|PatientID suffix length is variable')."</td>
 		<td class=\"mainRowEven emFirst emLast\" style=\"\">".$patient_id_suffix_variable."</td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" style=\"\">"._t('HOSPITAL_INFO|PatientID suffix fixed length')."</td>
+		<td class=\"mainRowOdd emLastWhite\" style=\"\">"._t('Hospitals-Info-Form|PatientID suffix fixed length')."</td>
 		<td class=\"mainRowOdd emFirstWhite\" style=\"\"><input id=\"patient_id_suffix_fixed_length\" type=\"text\" size=32 maxlength=32 value=\"".$row['patient_id_suffix_fixed_length']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" style=\"\">"._t('HOSPITAL_INFO|Photo Required')."</td>
+		<td class=\"mainRowEven emFirst emLast\" style=\"\">"._t('Hospitals-Info-Form|Photo Required')."</td>
 		<td class=\"mainRowEven emFirst emLast\" style=\"\">".$photo_required."</td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" style=\"\">"._t('HOSPITAL_INFO|Honor No Photo Request')."</td>
+		<td class=\"mainRowOdd emLastWhite\" style=\"\">"._t('Hospitals-Info-Form|Honor No Photo Request')."</td>
 		<td class=\"mainRowOdd emFirstWhite\" style=\"\">".$honor_no_photo_request."</td>
 	</tr>
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" style=\"\">"._t('HOSPITAL_INFO|Photographer Name Required')."</td>
+		<td class=\"mainRowEven emFirst emLast\" style=\"\">"._t('Hospitals-Info-Form|Photographer Name Required')."</td>
 		<td class=\"mainRowEven emFirst emLast\" style=\"\">".$photographer_name_required."</td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" style=\"\">"._t('HOSPITAL_INFO|Legalese')."</td>
+		<td class=\"mainRowOdd emLastWhite\" style=\"\">"._t('Hospitals-Info-Form|Legalese')."</td>
 		<td class=\"mainRowOdd emFirstWhite\" style=\"\"><textarea name=\"legalese\" id=\"legalese\" style=\"height: 100px; width: 90%;\">".$row['legalese']."</textarea></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" style=\"\">"._t('HOSPITAL_INFO|Anonymous Legalese')."</td>
+		<td class=\"mainRowEven emFirst emLast\" style=\"\">"._t('Hospitals-Info-Form|Anonymous Legalese')."</td>
 		<td class=\"mainRowEven emFirst emLast\" style=\"\"><textarea name=\"legaleseAnon\" id=\"legaleseAnon\" style=\"height: 100px; width: 90%;\">".$row['legaleseAnon']."</textarea></td>
 	</tr>
 </table>
 <table class=\"emTable\">
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" colspan=2 style=\"\"><b>"._t('HOSPITAL_INFO|Hospital Icon')."</b></td>
+		<td class=\"mainRowEven emFirst emLast\" colspan=2 style=\"\"><b>"._t('Hospital-Info-Form|Hospital Icon')."</b></td>
 	</tr>
 	<tr>
 		<td class=\"mainRowOdd emLastWhite\" style=\"\">Icon URL</td>
@@ -536,10 +536,10 @@ function ha_perform_edit($hospital_uuid) {
 	// control HTML
 	$editControlHtml = '
 
-		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('HOSPITAL_LOG|Canceling Changes...').'<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="'._t('HOSPITAL_BUTTON|Cancel Edit / Close').'">
-		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('HOSPITAL_LOG|Saving Changes...').'<br>\'); setTimeout(\'ha_perform_save('.$hospital_uuid.', ha_get_data());\', 250);" value="'._t('HOSPITAL_BUTTON|Save Changes').'">
-		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\'Saving Changes...<br>\'); setTimeout(\'ha_perform_save('.$hospital_uuid.', ha_get_data());\', 250);" value="Save Changes and Close">
-		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\'Canceling Changes...<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="Cancel Editing and Close">
+		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('Hospitals-Edit-Message|Canceling Changes...').'<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="'._t('Hospitals-Edit-Button|Cancel Edit / Close').'">
+		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('Hospitals-Edit-Message|Saving Changes...').'<br>\'); setTimeout(\'ha_perform_save('.$hospital_uuid.', ha_get_data());\', 250);" value="'._t('Hospitals-Edit-Button|Save Changes').'">
+		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('Hospitals-Edit-Message|Saving Changes...<br>').'\'); setTimeout(\'ha_perform_save('.$hospital_uuid.', ha_get_data());\', 250);" value="'._t('Hospitals-Edit-Button|Save Changes and Close').'">
+		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('Hospitals-Edit-Message|Canceling Changes...<br>').'\'); setTimeout(\'ha_show_hospitals();\', 250);" value="'._t('Hospitals-Edit-Button|Cancel Editing and Close').'">
 	';
 
 	// if Admin... show delete button
@@ -551,7 +551,7 @@ function ha_perform_edit($hospital_uuid) {
 		}
 		$editControlHtml .= '
 			&nbsp; &nbsp; &nbsp; &nbsp;
-			<input class="styleTehButton red" type="button" onclick="javascript: ha_delete('.$hospital_uuid.');" value="'._t('HOSPITAL_BUTTON|Remove this Hospital').'" '.$disabled.' >
+			<input class="styleTehButton red" type="button" onclick="javascript: ha_delete('.$hospital_uuid.');" value="'._t('Hospitals-Remove-Button|Remove this Hospital').'" '.$disabled.' >
 		';
 	}
 
