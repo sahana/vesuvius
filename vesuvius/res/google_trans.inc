@@ -14,151 +14,168 @@
 global $global;
 define('GOOGLE_TRANS_ATTRIB', 'id="google_translate_element"');
 include_once ($global['approot'].'/inc/lib_errors.inc');
+include_once ($global['approot'].'/res/locale/po_parser.inc');
 
-
-/**
- *
- * @desc Function to get the current locale from the locale file
- * @return The current locale
- */
-function shn_getLocale() {
-	global $global;
-	if ( isset($_SESSION['locale']) ) {
-		$locale = substr($_SESSION['locale'], 0, 2);
-		return $locale;
-	} else {
-		return 'en';
+class GTranslator {
+	private $_parser;
+	
+	/**
+	 * This function utilises the PO Parser to build a Google Translated PO file
+	 * @param unknown_type $locale
+	 */
+	function buildGooglePO($locale) {
+		$filename = 'locale/'.$locale.'_g.po';
+		$_parser = new POParser();
+		$_parser->parse($filename);
+		$entries = $_parser->getEntries();
+		foreach ( $entries as &$entry ) {
+			$entry['msgstr'] = shn_google_translate($entry['msgid']);
+		}
+		$_parser->setEntries($entries);
 	}
-}
+	/**
+	 *
+	 * @desc Function to get the current locale from the locale file
+	 * @return The current locale
+	 */
+	function shn_getLocale() {
+		global $global;
+		if ( isset($_SESSION['locale']) ) {
+			$locale = substr($_SESSION['locale'], 0, 2);
+			return $locale;
+		} else {
+			return 'en';
+		}
+	}
 
 
 
-/**
- * @param $text String String to be translated
- * @desc Function to use Google Translate API to translate strings
- * @return The string translated into the relevant language
- */
-function shn_google_translate($text) {
-	global $global;
-	global $conf;
+	/**
+	 * @param $text String String to be translated
+	 * @desc Function to use Google Translate API to translate strings
+	 * @return The string translated into the relevant language
+	 */
+	function shn_google_translate($text) {
+		global $global;
+		global $conf;
 
-	// removing context filter, contexts are filtered out before they come here
-	/*if ( strpos($text, "|") != false ) {
+		// removing context filter, contexts are filtered out before they come here
+		/*if ( strpos($text, "|") != false ) {
 		list($context,$msgid) = explode("|", $text);
 		$text = $msgid;
-	}*/
-	$lang = shn_getLocale();
+		}*/
+		$lang = shn_getLocale();
 
-	// if locale is same as original, return original
-	if($lang == 'en' || $conf['google_translate_enable'] == false) {
-		return $text;
-	}
-	if($conf['google_translate_api_key'] == '') {
-		// generic key from Ramindu
-		$key = 'AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM';
-	} else {
-		//get the Google Translate API Key from the configuration
-		$key = $conf['google_translate_api_key'];
-	}
+		// if locale is same as original, return original
+		if($lang == 'en' || $conf['google_translate_enable'] == false) {
+			return $text;
+		}
+		if($conf['google_translate_api_key'] == '') {
+			// generic key from Ramindu
+			$key = 'AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM';
+		} else {
+			//get the Google Translate API Key from the configuration
+			$key = $conf['google_translate_api_key'];
+		}
 
-	//first, we have to check whether the current locale is supported by Google Translate API
-	$crl = curl_init();
+		//first, we have to check whether the current locale is supported by Google Translate API
+		$crl = curl_init();
 
-	/*curl_setopt($crl , CURLOPT_URL, 'https://www.googleapis.com/language/translate/v2/languages?key=AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM');
-	$langResult = json_decode(curl_exec($crl));*/
+		/*curl_setopt($crl , CURLOPT_URL, 'https://www.googleapis.com/language/translate/v2/languages?key=AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM');
+		 $langResult = json_decode(curl_exec($crl));*/
 
-	//Since we're sending a GET request to Google Translate REST API, we need to make some characters URI-friendly
-	$text = urlencode($text);
+		//Since we're sending a GET request to Google Translate REST API, we need to make some characters URI-friendly
+		$text = urlencode($text);
 
-	/*$fields = array (
-				'key'	=>	'AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM',
+		/*$fields = array (
+		 'key'	=>	'AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM',
 				'q'		=>	$text,
 				'source'=>	'en',
 				'target'=>	$lang
-			);
-	$header = array ('X-HTTP-Method-Override: GET');*/
+		);
+		$header = array ('X-HTTP-Method-Override: GET');*/
 
-	curl_setopt($crl, CURLOPT_URL, "https://www.googleapis.com/language/translate/v2?key={$key}&q={$text}&source=en&target={$lang}");
-	curl_setopt($crl, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt($crl, CURLOPT_URL, "https://www.googleapis.com/language/translate/v2?key={$key}&q={$text}&source=en&target={$lang}");
+		curl_setopt($crl, CURLOPT_RETURNTRANSFER, 1);
 
-	/*post request
-	 POST request needs to be sent with header change
-	curl_setopt($crl, CURLOPT_POST, 1);
-	curl_setopt($crl, CURLOPT_POSTFIELDS, $fields);
-	curl_setopt($crl, CURLOPT_HTTPHEADER, $header);
-	*/
+		/*post request
+		 POST request needs to be sent with header change
+		curl_setopt($crl, CURLOPT_POST, 1);
+		curl_setopt($crl, CURLOPT_POSTFIELDS, $fields);
+		curl_setopt($crl, CURLOPT_HTTPHEADER, $header);
+		*/
 
-	$result = curl_exec($crl);
-	$result = json_decode($result, true);
-	curl_close($crl);
+		$result = curl_exec($crl);
+		$result = json_decode($result, true);
+		curl_close($crl);
 
-	//echo "<pre>".print_r($result, true)."</pre>";
+		//echo "<pre>".print_r($result, true)."</pre>";
 
-	//check for first 'data' level of json string
-	if (!is_array($result) || !array_key_exists('data', $result)) {
-		add_error('Upper Level data key not found in JSON string');
+		//check for first 'data' level of json string
+		if (!is_array($result) || !array_key_exists('data', $result)) {
+			add_error('Upper Level data key not found in JSON string');
+		}
+
+		// Check for second 'translations' level in json string
+		if (!array_key_exists('translations', $result['data'])) {
+			add_error('2nd Level translations key not found in JSON string');
+		}
+
+		//Ensure that the result is an array
+		if (!is_array($result['data']['translations'])) {
+			add_error('Translations array not returned properly');
+		}
+
+		return urldecode($result['data']['translations'][0]['translatedText']);
+
+		//Exception if final step fails
+		add_error('Could not translate!');
 	}
 
-	// Check for second 'translations' level in json string
-	if (!array_key_exists('translations', $result['data'])) {
-		add_error('2nd Level translations key not found in JSON string');
-	}
-
-	//Ensure that the result is an array
-	if (!is_array($result['data']['translations'])) {
-		add_error('Translations array not returned properly');
-	}
-
-	return urldecode($result['data']['translations'][0]['translatedText']);
-
-	//Exception if final step fails
-	add_error('Could not translate!');
-}
 
 
-
-/**
- *
- * @desc Initialize Google Translate element for a page
- */
-function shn_google_translate_element_init() {
-	if ( isset($_SESSION["locale"]) ) {
-		$loc = $_SESSION["locale"];
-	}
-	else $loc = shn_getLocale();
-	$loc = 'de';
-	echo "
+	/**
+	 *
+	 * @desc Initialize Google Translate element for a page
+	 */
+	function shn_google_translate_element_init() {
+		if ( isset($_SESSION["locale"]) ) {
+			$loc = $_SESSION["locale"];
+		}
+		else $loc = shn_getLocale();
+		$loc = 'de';
+		echo "
 		<script>
-			function googleTranslateElementInit() {
-				new google.translate.TranslateElement( {
-					pageLanguage: 'en',
-					includedLanguages: '{$loc}',
-					layout: google.translate.TranslateElement.InlineLayout.SIMPLE
-				}, 'google_translate_element');
-			}
-		</script>
-		<script src=\"//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit\"></script>";
+		function googleTranslateElementInit() {
+		new google.translate.TranslateElement( {
+		pageLanguage: 'en',
+		includedLanguages: '{$loc}',
+		layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+	}, 'google_translate_element');
+	}
+	</script>
+	<script src=\"//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit\"></script>";
+	}
+
+
+
+	/**
+	 *
+	 * @desc Function to add Google Translate attribute to HTML elements
+	 */
+	function shn_add_gtrans_attrib() {
+		return "id=\"google_translate_element\"";
+	}
+
+
+
+	/**
+	 * @param String $text Text to add the translate element to
+	 * @desc Function to add Google Translate element to the page
+	 */
+	function shn_google_translate_element($text) {
+		echo "<div id=\"google_translate_element\">".$text."</div>";
+
+	}
+
 }
-
-
-
-/**
- *
- * @desc Function to add Google Translate attribute to HTML elements
- */
-function shn_add_gtrans_attrib() {
-	return "id=\"google_translate_element\"";
-}
-
-
-
-/**
- * @param String $text Text to add the translate element to
- * @desc Function to add Google Translate element to the page
- */
-function shn_google_translate_element($text) {
-	echo "<div id=\"google_translate_element\">".$text."</div>";
-
-}
-
-

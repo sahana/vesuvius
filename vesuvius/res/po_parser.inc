@@ -29,6 +29,7 @@
 class POParser
 {
     private $_filename;
+    private $_parsedData;
 
     /**
      * Format of a msgid entry:
@@ -61,7 +62,19 @@ class POParser
      *
      * @see http://www.gnu.org/software/gettext/manual/gettext.html#PO-Files
      */
-
+    // Getter and Setter functions for headers and entries in parsed data
+	public function setHeaders($headers) {
+		$_parsedData['headers'] = $headers; 
+	}
+	public function getHeaders() {
+		return $_parsedData['headers'];
+	}
+	public function setEntries($entries) {
+		$_parsedData['entries'] = $entries;
+	}
+	public function getEntries() {
+		return $_parsedData['entries'];
+	}
     protected function _dequote($str)
     {
         return substr($str, 1, -1);
@@ -216,6 +229,6 @@ class POParser
                 }
             }
         }
-        return array($headers, $entries);
+        $_parsedData = array('headers' => $headers, 'entries' => $entries);
     }
 }
