@@ -25,11 +25,11 @@ class GTranslator {
 	 */
 	function buildGooglePO($locale) {
 		$filename = 'locale/'.$locale.'_g.po';
-		$_parser = new POParser();
-		$_parser->parse($filename);
-		$entries = $_parser->getEntries();
+		$this->_parser = new POParser();
+		$this->_parser->parse($filename);
+		$entries = $this->_parser->getEntries();
 		foreach ( $entries as &$entry ) {
-			$entry['msgstr'] = shn_google_translate($entry['msgid']);
+			$entry['msgstr'] = $this->shn_google_translate_dummy($entry['msgid']);
 		}
 		$_parser->setEntries($entries);
 	}
@@ -49,7 +49,19 @@ class GTranslator {
 	}
 
 
-
+	/**
+	 * Dummy function
+	 */
+	function shn_google_translate_dummy($text) {
+		$translations = array ('Add a new Hospital' => 'Ajouter un nouvel hôpital',
+								'Opening Help...'	=> 'Ouverture de l\'aide ...');
+		foreach ( $translations as $msgid => $msgstr ) {
+			if ( $msgid == $text ) {
+				return $msgstr;
+			}
+			else return '';
+		}
+	}
 	/**
 	 * @param $text String String to be translated
 	 * @desc Function to use Google Translate API to translate strings
