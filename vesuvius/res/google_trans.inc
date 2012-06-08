@@ -32,6 +32,7 @@ class GTranslator {
 			$entry['msgstr'] = $this->shn_google_translate_dummy($entry['msgid']);
 		}
 		$_parser->setEntries($entries);
+		$_parser->writeToFile();
 	}
 	/**
 	 *

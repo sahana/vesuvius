@@ -86,10 +86,10 @@ class POParser
         if (!is_file($filename)) {
             throw new Exception('The specified file does not exist.');
         }
-        if (substr($filename, strrpos($filename, '.')) !== '.pot') {
-            throw new Exception('The specified file is not a POT file.');
+        if (substr($filename, strrpos($filename, '.')) !== '.po') {
+            throw new Exception('The specified file is not a PO file.');
         }
-
+		$this->_filename = $filename;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
 
         // on the first two lines I'm expecting msgid respectively msgstr,
@@ -230,5 +230,26 @@ class POParser
             }
         }
         $_parsedData = array('headers' => $headers, 'entries' => $entries);
+    }
+    /**
+     * Function to write parsed (and translated) PO data back to file
+     */
+    function writeToFile() {
+    	$fileoutput =  '';
+    	$fileoutput .= 'msgid ""\nmsgstr ""\n';
+    	foreach ( $this->_parsedData['headers'] as $id=>$header ) {
+    		$fileoutput .= '"'.$id.':'.$header.'\\n"\n';
+    	}
+    	foreach ( $this->_parsedData['entries'] as $entry ) {
+    		$fileoutput .= '\n';
+    		foreach ( $entry['references'] as $reference ) {
+    			$fileoutput .= '#: '.$reference.'\n';
+    		}
+    		$fileoutput .= 'msgid "'.$entry['msgid'].'"\n';
+    		$fileoutput .= 'msgstr "'.$entry['msgstr'].'"\n';
+    	}
+    	$file = fopen($this->_filename, 'w');
+    	fwrite($file, $fileoutput);
+    	fclose($file);
     }
 }
