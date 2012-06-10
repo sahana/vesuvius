@@ -18,21 +18,24 @@ include_once ($global['approot'].'/res/locale/po_parser.inc');
 
 class GTranslator {
 	private $_parser;
-	
+	public function GTranslator() {
+		$this->_parser = new POParser();
+	}
 	/**
 	 * This function utilises the PO Parser to build a Google Translated PO file
 	 * @param unknown_type $locale
 	 */
 	function buildGooglePO($locale) {
 		$filename = 'locale/'.$locale.'_g.po';
-		$this->_parser = new POParser();
 		$this->_parser->parse($filename);
 		$entries = $this->_parser->getEntries();
-		foreach ( $entries as &$entry ) {
+		foreach ( $entries as &$entry ) { 
+			echo $entry['msgid'].': ';
 			$entry['msgstr'] = $this->shn_google_translate_dummy($entry['msgid']);
+			echo $entry['msgstr'].'\n';
 		}
-		$_parser->setEntries($entries);
-		$_parser->writeToFile();
+		$this->_parser->setEntries($entries);
+		$this->_parser->writeToFile();
 	}
 	/**
 	 *

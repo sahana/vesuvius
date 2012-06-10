@@ -25,11 +25,12 @@
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2012.06.01
  */
-
+global $global;
+include_once ($global['approot'].'/inc/lib_errors.inc');
 class POParser
 {
-    private $_filename;
-    private $_parsedData;
+    private $_filename = '';
+    private $_parsedData = array();
 
     /**
      * Format of a msgid entry:
@@ -64,16 +65,16 @@ class POParser
      */
     // Getter and Setter functions for headers and entries in parsed data
 	public function setHeaders($headers) {
-		$_parsedData['headers'] = $headers; 
+		$this->_parsedData['headers'] = $headers; 
 	}
 	public function getHeaders() {
-		return $_parsedData['headers'];
+		return $this->_parsedData['headers'];
 	}
 	public function setEntries($entries) {
-		$_parsedData['entries'] = $entries;
+		$this->_parsedData['entries'] = $entries;
 	}
 	public function getEntries() {
-		return $_parsedData['entries'];
+		return $this->_parsedData['entries'];
 	}
     protected function _dequote($str)
     {
@@ -229,27 +230,40 @@ class POParser
                 }
             }
         }
-        $_parsedData = array('headers' => $headers, 'entries' => $entries);
+        $this->_parsedData = array('headers' => $headers, 'entries' => $entries);
     }
     /**
      * Function to write parsed (and translated) PO data back to file
      */
     function writeToFile() {
-    	$fileoutput =  '';
-    	$fileoutput .= 'msgid ""\nmsgstr ""\n';
+    	$fileoutput =  "# French translation for vesuvius\n".
+					   "# This file is distributed under the same license as the vesuvius package.\n";
+    	$fileoutput .= "msgid \"\"\nmsgstr \"\"\n";
     	foreach ( $this->_parsedData['headers'] as $id=>$header ) {
-    		$fileoutput .= '"'.$id.':'.$header.'\\n"\n';
+    		$fileoutput .= "\"".$id.':'.$header."\\n\"\n";
     	}
     	foreach ( $this->_parsedData['entries'] as $entry ) {
-    		$fileoutput .= '\n';
-    		foreach ( $entry['references'] as $reference ) {
-    			$fileoutput .= '#: '.$reference.'\n';
+    		$fileoutput .= "\n";
+    		if ( array_key_exists('references', $entry) ) {
+    			foreach ( $entry['references'] as $reference ) {
+    				$fileoutput .= "#: ".$reference."\n";
+    			}
+    			if ( array_key_exists('msgctxt', $entry) ) {
+    				$fileoutput .= "msgctxt \"".$entry['msgctxt']."\"\n";
+    			}
+    			$fileoutput .= "msgid \"".$entry['msgid']."\"\n";
+    			$fileoutput .= "msgstr \"".$entry['msgstr']."\"\n";
     		}
-    		$fileoutput .= 'msgid "'.$entry['msgid'].'"\n';
-    		$fileoutput .= 'msgstr "'.$entry['msgstr'].'"\n';
+    		
     	}
     	$file = fopen($this->_filename, 'w');
-    	fwrite($file, $fileoutput);
-    	fclose($file);
+    	if ( $file != false ) {
+    		fwrite($file, $fileoutput);
+    		fclose($file);
+    	}
+    	else {
+    		echo "File could not be opened!";
+    	}
+    	
     }
 }
