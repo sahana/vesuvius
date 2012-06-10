@@ -30,9 +30,7 @@ class GTranslator {
 		$this->_parser->parse($filename);
 		$entries = $this->_parser->getEntries();
 		foreach ( $entries as &$entry ) { 
-			echo $entry['msgid'].': ';
 			$entry['msgstr'] = $this->shn_google_translate_dummy($entry['msgid']);
-			echo $entry['msgstr'].'\n';
 		}
 		$this->_parser->setEntries($entries);
 		$this->_parser->writeToFile();
