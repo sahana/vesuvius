@@ -403,10 +403,10 @@ function ha_perform_edit($hospital_uuid) {
 <table class=\"emTable\">
 
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" colspan=2 ><b>"._t('Hospitals-Info-Form|Hospital Information')."</b></td>
+		<td class=\"mainRowEven emFirst emLast\" colspan=2 ><b>"._t('Hospitals-Info-Title|Hospital Information')."</b></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\">"._t('Hospitals-Info-Form|Hospital UUID')."</td>
+		<td class=\"mainRowOdd emLastWhite\">"._t('Hospitals-Info-Form-Text|Hospital UUID')."</td>
 		<td class=\"mainRowOdd emFirstWhite\"><input id=\"hospital_uuid\" type=\"text\" value=\"".$row['hospital_uuid']."\" size=8 readonly /></td>
 	</tr>
 	<tr>
@@ -442,7 +442,7 @@ function ha_perform_edit($hospital_uuid) {
 		<td class=\"mainRowOdd emFirstWhite\" ><input id=\"postal_code\" type=\"text\" size=60 maxlength=60 value=\"".$row['postal_code']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" >"._t('Hospitals-Info-Form|Country')."</td>
+		<td class=\"mainRowEven emFirst emLast\" >"._t('Hospitals-Info|Country')."</td>
 		<td class=\"mainRowEven emFirst emLast\" ><input id=\"country\" type=\"text\" size=60 maxlength=60 value=\"".$row['country']."\" /></td>
 	</tr>
 	<tr>
@@ -450,24 +450,24 @@ function ha_perform_edit($hospital_uuid) {
 		<td class=\"mainRowOdd emFirstWhite\" ><input id=\"phone\" type=\"text\" size=16 maxlength=16 value=\"".$row['phone']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" >"._t('Hospitals-Info-Form|Fax')."</td>
+		<td class=\"mainRowEven emFirst emLast\" >"._t('Hospitals-Info|Fax')."</td>
 		<td class=\"mainRowEven emFirst emLast\" ><input id=\"fax\" type=\"text\" size=16 maxlength=16 value=\"".$row['fax']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" >"._t('Hospitals-Info-Form|Email')."</td>
+		<td class=\"mainRowOdd emLastWhite\" >"._t('Hospitals-Info|Email')."</td>
 		<td class=\"mainRowOdd emFirstWhite\" ><input id=\"email\" type=\"text\" size=64 maxlength=64 value=\"".$row['email']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowEven emFirst emLast\" >"._t('Hospitals-Info-Form|Web Address')."</td>
+		<td class=\"mainRowEven emFirst emLast\" >"._t('Hospitals-Info|Web Address')."</td>
 		<td class=\"mainRowEven emFirst emLast\" ><input id=\"www\" type=\"text\" size=64 maxlength=256 value=\"".$row['www']."\" /></td>
 	</tr>
 	<tr>
-		<td class=\"mainRowOdd emLastWhite\" >"._t('Hospitals-Info-Form|NPI #')."</td>
+		<td class=\"mainRowOdd emLastWhite\" >"._t('Hospitals-Info|NPI #')."</td>
 		<td class=\"mainRowOdd emFirstWhite\" ><input id=\"npi\" type=\"text\" size=32 maxlength=32 value=\"".$row['npi']."\" /></td>
 	</tr>
 	<tr>
 		<td class=\"mainRowEven\" style=\" border-bottom: none;\" colspan=2>
-			<label>"._t('Hospital-Info-Form|Enter a Street Address: ')."</label>
+			<label>"._t('Hospital-Info-Grouptitle|Enter a Street Address: ')."</label>
 			<input id=\"address\" type=\"text\" /> &nbsp; -OR- &nbsp; <input type=\"button\" style=\"position: relative; top: -2px;\" class=\"styleTehButton\" onclick=\"detect_load();\" value=\""._t('Hospitals-Info-Form|Detect My Current Location')."\" />
 		</td>
 	</tr>
