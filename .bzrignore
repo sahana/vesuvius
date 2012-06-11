@@ -6,3 +6,4 @@ vesuvius/www/.htaccess
 .buildpath
 vesuvius/time
 vesuvius/version
+vesuvius/.externalToolBuilders

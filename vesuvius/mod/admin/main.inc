@@ -8,7 +8,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0213
+ * @lastModified 2012.0612
  */
 
 
@@ -35,15 +35,15 @@ function shn_admin_default() {
 	$control = "";
 
 	shn_tabmenu_open();
-	shn_tabmenu_item("version", _t("Version"),        "admin");
-	shn_tabmenu_item("rez",     _t("Resource Pages"), "admin");
-	shn_tabmenu_item("adduser", _t("Add User"),       "admin");
-	shn_tabmenu_item("deluser", _t("Remove User"),    "admin");
-	shn_tabmenu_item("roles",   _t("User Roles"),     "admin");
-	shn_tabmenu_item("passwd",  _t("Password Reset"), "admin");
-	shn_tabmenu_item("status",  _t("User Status"),    'admin');
-	shn_tabmenu_item("mods",    _t("Module ACL"),     'admin');
-	shn_tabmenu_item("log",     _t("Event Log"),      'admin');
+	shn_tabmenu_item("version", _t("Admin-Menu|Version"),        "admin");
+	shn_tabmenu_item("rez",     _t("Admin-Menu|Resource Pages"), "admin");
+	shn_tabmenu_item("adduser", _t("Admin-Menu|Add User"),       "admin");
+	shn_tabmenu_item("deluser", _t("Admin-Menu|Remove User"),    "admin");
+	shn_tabmenu_item("roles",   _t("Admin-Menu|User Roles"),     "admin");
+	shn_tabmenu_item("passwd",  _t("Admin-Menu|Password Reset"), "admin");
+	shn_tabmenu_item("status",  _t("Admin-Menu|User Status"),    'admin');
+	shn_tabmenu_item("mods",    _t("Admin-Menu|Module ACL"),     'admin');
+	shn_tabmenu_item("log",     _t("Admin-Menu|Event Log"),      'admin');
 	shn_tabmenu_close();
 
 
@@ -163,9 +163,9 @@ function shn_admin_acl_change_user_status($error = false) {
 	<div id="home"><?php echo _t("Rows are Users ,Columns are the possible status values"); ?>
 	<br><br>
 	<ul>
-	<li><?php echo _t("<strong>Active</strong> - The user can login and perform operations."); ?></li>
-	<li><?php echo _t("<strong>Locked</strong> - The user is withheld from performing operations on the system temporarily."); ?></li>
-	<li><?php echo _t("<strong>Banned</strong> - The user is not allowed to perform any operation on the system permanently."); ?></li>
+	<li><?php echo _t("Admin-UserPermission|<strong>Active</strong> - The user can login and perform operations."); ?></li>
+	<li><?php echo _t("Admin-UserPermission|<strong>Locked</strong> - The user is withheld from performing operations on the system temporarily."); ?></li>
+	<li><?php echo _t("Admin-UserPermission|<strong>Banned</strong> - The user is not allowed to perform any operation on the system permanently."); ?></li>
 	</ul>
 	</div>
 
@@ -175,10 +175,10 @@ function shn_admin_acl_change_user_status($error = false) {
 	<div id="result">
 	<table>
 	<thead>
-		<td><strong><?php echo _t("User"); ?></strong></td>
-		<td><?php echo _t("Active") ?></td>
-		<td><?php echo _t("Locked") ?></td>
-		<td><?php echo _t("Banned") ?></td>
+		<td><strong><?php echo _t("Admin-UserStatus-Title|User"); ?></strong></td>
+		<td><?php echo _t("Admin-UserStatus|Active") ?></td>
+		<td><?php echo _t("Admin-UserStatus|Locked") ?></td>
+		<td><?php echo _t("Admin-UserStatus|Banned") ?></td>
 	</thead>
 	<tbody>
 	<?php
@@ -218,7 +218,7 @@ function shn_admin_acl_change_user_status($error = false) {
 	<center><?php
 	shn_form_hidden(array("perms"=>$perms));
 	shn_form_hidden(array("users"=>$users));
-	shn_form_submit(_t("Save"), "class=\"styleTehButton\"");
+	shn_form_submit(_t("Admin-UserPermission|Save"), "class=\"styleTehButton\"");
 	?></center><br><br>
 	<?php
 	//close the form
@@ -246,7 +246,7 @@ function shn_admin_acl_change_user_status_p($error = false) {
 			$res = $db->Execute($sql);
 		}
 	}
-	add_confirmation("Status of user accounts saved!");
+	add_confirmation(_t("Admin-UserStatus-Save|Status of user accounts saved!"));
 
 	shn_admin_acl_change_user_status();
 }
@@ -264,11 +264,11 @@ function shn_admin_acl_event_log($error=false) {
 	<div id="result">
 	<table>
 	<thead>
-		<td><strong><?php echo _t("Date/Time") ?></strong></td>
-		<td><strong><?php echo _t("User Name") ?></strong></td>
-		<td><strong><?php echo _t("Full Name") ?></strong></td>
-		<td><strong><?php echo _t("Event Type") ?></strong></td>
-		<td><strong><?php echo _t("Event") ?></strong></td>
+		<td><strong><?php echo _t("Admin-User-EventLog|Date/Time") ?></strong></td>
+		<td><strong><?php echo _t("Admin-User-EventLog|User Name") ?></strong></td>
+		<td><strong><?php echo _t("Admin-User-EventLog|Full Name") ?></strong></td>
+		<td><strong><?php echo _t("Admin-User-EventLog|Event Type") ?></strong></td>
+		<td><strong><?php echo _t("Admin-User-EventLog|Event") ?></strong></td>
 	</thead>
 	<tbody>
 	<?php
@@ -298,7 +298,7 @@ function shn_admin_acl_event_log($error=false) {
 		$count++;
 	}
 	if($count == 0) {
-		echo "<tr><td colspan=5><center>No log entries thus far.</center></td></tr>";
+		echo "<tr><td colspan=5><center>."._t("Admin-User-EventLog-Message|No log entries thus far.")."</center></td></tr>";
 	}
 	?>
 		</tbody>
@@ -325,24 +325,24 @@ function shn_admin_add_user($error = false) {
 	shn_form_fopen2("admin?adduserp&tabid=2");
 	shn_form_fsopen(_t("Account Details"));
 	$extra_opts['req'] = true;
-	shn_form_text("First Name ",    'given_name',    'size="30" autocomplete="off"', $extra_opts);
-	shn_form_text("Last Name ",     'family_name',   'size="30" autocomplete="off"', $extra_opts);
-	shn_form_text("User Name ",     'user_name',     'size="30" autocomplete="oo"', $extra_opts);
-	shn_form_text("Email Address ", 'email_address', 'size="30" autocomplete="off"', $extra_opts);
-	shn_form_password("Password for Login", "password", 'autocomplete="off"', $extra_opts);
-	shn_form_password("Confirm Password", "re_password", 'autocomplete="off"', $extra_opts);
+	shn_form_text(_t("Admin-User-Form|First Name "),    'given_name',    'size="30" autocomplete="off"', $extra_opts);
+	shn_form_text(_t("Admin-User-Form|Last Name "),     'family_name',   'size="30" autocomplete="off"', $extra_opts);
+	shn_form_text(_t("Admin-User-Form|User Name "),     'user_name',     'size="30" autocomplete="oo"', $extra_opts);
+	shn_form_text(_t("Admin-User-Form|Email Address "), 'email_address', 'size="30" autocomplete="off"', $extra_opts);
+	shn_form_password(_t("Admin-User-Form|Password for Login"), "password", 'autocomplete="off"', $extra_opts);
+	shn_form_password(_t("Admin-User-Form|Confirm Password"), "re_password", 'autocomplete="off"', $extra_opts);
 	shn_form_fsclose();
 	$roles=_shn_acl_get_roles(null, false);
 	shn_form_fsopen(_t("Select Role"));
-	shn_form_select($roles,"Roles", 'roles', null, $extra_opts);
+	shn_form_select($roles,_t("Admin-User-Form|Roles"), 'roles', null, $extra_opts);
 	shn_form_fsclose();
 	$extra_opts['req'] = true;
-	shn_form_fsopen("OpenId Login Details", "openIdSignup");
-	echo "<div class=\"info\">Option to use an OpenID instead of a username/password if you'd like.</div><br />";
-	shn_form_text(_t("OpenID "), 'openid', 'size="30"', null);
+	shn_form_fsopen(_t("Admin-User-Form|OpenId Login Details"), "openIdSignup");
+	echo _t("Admin-User-Form|<div class=\"info\">Option to use an OpenID instead of a username/password if you'd like.</div><br />");
+	shn_form_text(_t("Admin-User-Form|OpenID "), 'openid', 'size="30"', null);
 	shn_form_fsclose();
 	echo "</br>";
- 	shn_form_submit(_t("Submit"), "class=\"styleTehButton\"");
+ 	shn_form_submit(_t("Admin-User-Form-Button|Submit"), "class=\"styleTehButton\"");
 	echo "</br>";
 	shn_form_fclose();
 	echo "</div>";
@@ -379,7 +379,7 @@ function shn_admin_del_user($error=false) {
 			shn_form_multi_select('users', $users, "Users", null, null);
 		shn_form_fsclose();
 		echo "<br>";
-		shn_form_submit(_t("Remove user"), "class=\"styleTehButton\"");
+		shn_form_submit(_t("Admin-User-Delete|Remove user"), "class=\"styleTehButton\"");
 		echo "<br>";
 	shn_form_fclose();
 	echo "</div>";
@@ -420,9 +420,9 @@ function shn_admin_del_user_p() {
 		}
 	}
 	if($res==false) {
-		add_error(_t("User does not exist"));
+		add_error(_t("Admin-User-Delete|User does not exist"));
 	} else {
-		add_confirmation(_t("User was successfully removed"));
+		add_confirmation(_t("Admin-User-Delete-Message|User was successfully removed"));
 	}
 	shn_admin_del_user($error);
 }
@@ -437,7 +437,7 @@ function shn_admin_reset_pwd($error = false) {
 	";
 	$policy = shn_get_password_policy();
 	if(count($policy) > 0) {
-		echo "<h4>Password must adhere to following rules:</h4>";
+		echo _t("Admin-User-PasswordReset-Title|<h4>Password must adhere to following rules:</h4>");
 		for($i=0; $i<count($policy); $i++) {
 			echo ($i+1).". ".$policy[$i]."<br/>";
 		}
@@ -446,16 +446,16 @@ function shn_admin_reset_pwd($error = false) {
 	shn_form_fopen2("admin?passwdp&tabid=5");
 	$extra_opts['req'] = true;
 	$users = shn_auth_user_list(true);
-	shn_form_fsopen(_t("Select User"));
+	shn_form_fsopen(_t("Admin-User-PasswordReset-Form|Select User"));
 	shn_form_select($users,"Users", 'user', null, $extra_opts);
 	shn_form_fsclose();
-	shn_form_fsopen(_t("New Password"));
+	shn_form_fsopen(_t("Admin-User-PasswordReset-Form|New Password"));
 	$extra_opts['req'] = true;
-	shn_form_password("New Password", "password", null, $extra_opts);
-	shn_form_password("Confirm New Password", "re_password", null, $extra_opts);
+	shn_form_password(_t("Admin-User-PasswordReset-Form|New Password"), "password", null, $extra_opts);
+	shn_form_password(_t("Admin-User-PasswordReset-Form|Confirm New Password"), "re_password", null, $extra_opts);
 	shn_form_fsclose();
 	echo "<br>";
-	shn_form_submit(_t("Reset Password"), "class=\"styleTehButton\"");
+	shn_form_submit(_t("Admin-User-PasswordReset-Form-Button|Reset Password"), "class=\"styleTehButton\"");
 	echo "<br>";
 	shn_form_fclose();
 	echo "<br><br>";
@@ -476,21 +476,21 @@ function shn_admin_reset_pwd_p() {
 
 	if(!isset($_POST["password"]) || $_POST["password"] == null) {
 		$error = true;
-		add_error(_t("New password cannot be blank."));
+		add_error(_t("Admin-User-PasswordReset-Message|New password cannot be blank."));
 	} else {
 		$password = trim($_POST["password"]);
 	}
 
 	if(!isset($_POST["re_password"]) || $_POST["re_password"] == null) {
 		$error = true;
-		add_error(_t("You failed to re-enter the password."));
+		add_error(_t("Admin-User-PasswordReset-Message|You failed to re-enter the password."));
 	} else {
 		$re_password = trim($_POST["re_password"]);
 	}
 
 	if(!$error && !($password == $re_password)) {
 		$error = true;
-		add_error(_t("The two passwords you entered did not match."));
+		add_error(_t("Admin-User-PasswordReset-Message|The two passwords you entered did not match."));
 	}
 
 	if($error == true) {
@@ -501,7 +501,7 @@ function shn_admin_reset_pwd_p() {
 		return;
 	}
 
-	add_confirmation(_t("The password was succesfully reset."));
+	add_confirmation(_t("Admin-User-PasswordReset-Message|The password was succesfully reset."));
 
 	shn_admin_reset_pwd();
 }
@@ -520,9 +520,9 @@ function shn_admin_ch_pwd_cr() {
 	$error=_shn_admin_ch_pwd_cr();
 	echo "<div id=\"result_msg\">";
 	if($error) {
-		$msg="An error ocurred";
+		$msg=_t("Admin-User-PasswordReset-Message|An error ocurred");
 	} else {
-		$msg="The password was succesfully updated.";
+		$msg=_t("Admin-User-PasswordReset-Message|The password was succesfully updated.");
 	}
 	if($error) {
 		display_errors();
@@ -541,10 +541,10 @@ function shn_admin_acl_enable_mods() {
 	$db = $global['db'];
 	$perms = "";
 
-	echo '
+	echo _t('Admin-Modules-Enable|
 		<br><b>Enable/Disable Modules</b> ~ rows are modules, columns are groups, intersection shows whether the module is enabled not<br><br>
 		<div id="formcontainer">
-	';
+	');
 	shn_form_fopen2("admin?modsp&tabid=7", null, array('req_message'=>false));
 	echo '
 		<div id="result">
@@ -595,7 +595,7 @@ function shn_admin_acl_enable_mods() {
 		</div>
 	';
 	shn_form_hidden(array("perms" => $perms));
-	shn_form_submit(_t("Save ACL"), "class=\"styleTehButton\"");
+	shn_form_submit(_t("Admin-Modules-Button|Save ACL"), "class=\"styleTehButton\"");
 	shn_form_fclose();
 	echo '</div>';
 }
@@ -648,9 +648,9 @@ function shn_admin_acl_enable_mods_p() {
 	}
 
 	if($error_flag){
-		add_error(_t("The selection was not saved due to one or more errors."));
+		add_error(_t("Admin-Modules-Message|The selection was not saved due to one or more errors."));
 	}else{
-		add_confirmation(_t("The ACL changes were saved successfully."));
+		add_confirmation(_t("Admin-Modules-Message|The ACL changes were saved successfully."));
 	}
 
 	shn_admin_acl_enable_mods();
@@ -673,7 +673,7 @@ function shn_admin_changeClass() {
 	";
 	$res2 = $db->Execute($q2);
 	shn_admin_acl_user_edit_roles();
-	add_confirmation(_t("User's class updated successfully."));
+	add_confirmation(_t("Admin-User-Message|User's class updated successfully."));
 }
 
 
@@ -684,11 +684,11 @@ function shn_admin_acl_user_edit_roles($error=false) {
 	global $global;
 	$db = $global['db'];
 
-	echo "
+	echo _t("Admin-User-ChangeRoles|
 		<br>
 		<div id=\"home\">Designate which group each use is apart of by clicking assign to change it to the desired group. The box colored <span style=\"color: orange; font-weight: bold;\">orange</span> denotes which group the user is currently apart of.</div><br>
 		<div id=\"formcontainer\">
-	";
+	");
 
 	shn_form_fopen2("rolesp", "admin", array('req_message' => false));
 
@@ -696,9 +696,9 @@ function shn_admin_acl_user_edit_roles($error=false) {
 		<div id=\"result\">
 		<table>
 		<thead>
-		<td><strong><center>UserID</center></strong></td>
-		<td><strong>Username</strong></td>
-		<td><strong>Real Name</strong></td>
+		<td><strong><center>"._t("Admin-User-Roles-Form|UserID")."</center></strong></td>
+		<td><strong>"._t("Admin-User-Roles-Form|Username")."</strong></td>
+		<td><strong>"._t("Admin-User-Roles-Form|Real Name")."</strong></td>
 	";
 
 	$roles = _shn_acl_get_roles();
