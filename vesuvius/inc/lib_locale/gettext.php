@@ -45,9 +45,7 @@
  */
 
 
-//include Google Translate functions
-global $global;
-require_once($global['approot'].'/res/google_trans.inc');
+
 
 
 class gettext_reader {
@@ -260,7 +258,7 @@ class gettext_reader {
 	*/
 	function translate($string) {
 		if ($this->short_circuit) {
-			return shn_google_translate($string);
+			return $string;
 		}
 		$this->load_tables();
 
@@ -269,13 +267,13 @@ class gettext_reader {
 			if (array_key_exists($string, $this->cache_translations)) {
 				return $this->cache_translations[$string];
 			} else {
-				return shn_google_translate($string);
+				return $string;
 			}
 		} else {
 			// Caching not enabled, try to find string
 			$num = $this->find_string($string);
 			if ($num == -1) {
-				return shn_google_translate($string);
+				return $string;
 			} else {
 				return $this->get_translation_string($num);
 			}

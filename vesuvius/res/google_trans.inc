@@ -18,6 +18,7 @@ include_once ($global['approot'].'/res/locale/po_parser.inc');
 
 class GTranslator {
 	private $_parser;
+	private $_po_rewrite_locales = array();
 	public function GTranslator() {
 		$this->_parser = new POParser();
 	}
@@ -30,10 +31,22 @@ class GTranslator {
 		$this->_parser->parse($filename);
 		$entries = $this->_parser->getEntries();
 		foreach ( $entries as &$entry ) { 
-			$entry['msgstr'] = $this->shn_google_translate_dummy($entry['msgid']);
+			if ( $entry['msgstr'] == '' ) {
+				$entry['msgstr'] = $this->shn_google_translate_dummy($entry['msgid']);
+			}
 		}
 		$this->_parser->setEntries($entries);
 		$this->_parser->writeToFile();
+	}
+	/**
+	 * Add a locale for PO rewrite in the near future
+	 * @param string $locale
+	 */
+	function set_po_rewrite_locale($locale) {
+		$this->_po_rewrite_locales[] = $locale;
+	}
+	function get_po_rewrite_locales() {
+		return $this->_po_rewrite_locales;
 	}
 	/**
 	 *
@@ -56,9 +69,10 @@ class GTranslator {
 	 */
 	function shn_google_translate_dummy($text) {
 		$translations = array ('Add a new Hospital' => 'Ajouter un nouvel hôpital',
-								'Opening Help...'	=> 'Ouverture de l\'aide ...');
+								'Hospital Information'	=> 'Information Hospitalier',
+								'Name' => 'Nom');
 		foreach ( $translations as $msgid => $msgstr ) {
-			if ( $msgid == $text ) {
+			if ( strcmp($msgid, $text) == 0 ) {
 				return $msgstr;
 			}
 			else return '';
