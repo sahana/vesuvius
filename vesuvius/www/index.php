@@ -402,9 +402,12 @@ function shn_main_plus_register() {
 global $gtrans;
 $gtransLocales = $gtrans->get_po_rewrite_locales();
 if ( !empty($gtransLocales) ) {
-	foreach ( $gtransLocales as $locale ) {
+	//rebuild only first PO in queue, and move the queue up
+	$gtrans->buildGooglePO($gtransLocales[0]);
+	array_splice($gtransLocales, 0, 1);
+	/*foreach ( $gtransLocales as $locale ) {
 		$gtrans->buildGooglePO($locale);
-	}
+	}*/
 }
 
 
