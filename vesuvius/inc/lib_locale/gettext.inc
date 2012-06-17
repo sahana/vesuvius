@@ -46,12 +46,15 @@ require('gettext.php');
 
 // Variables
 
-global $text_domains, $default_domain, $LC_CATEGORIES, $EMULATEGETTEXT, $CURRENTLOCALE;
+global $text_domains, $default_domain, $LC_CATEGORIES, $EMULATEGETTEXT, $CURRENTLOCALE, $global;
 $text_domains = array();
 $default_domain = 'sahana';
 $LC_CATEGORIES = array('LC_CTYPE', 'LC_NUMERIC', 'LC_TIME', 'LC_COLLATE', 'LC_MONETARY', 'LC_MESSAGES', 'LC_ALL');
 $EMULATEGETTEXT = 0;
 $CURRENTLOCALE = '';
+
+//include Google Translate functions
+require_once($global['approot'].'/res/google_trans.inc');
 
 
 // Utility functions
@@ -246,7 +249,13 @@ function _gettext($msgid) {
 	//return $l10n->translate($msgid);
 	$l10n_trans = _encode($l10n->translate($msgid));
 	if ( $l10n_trans == $msgid ) {
-		return _encode($l10n_g->translate($msgid));
+		$l10n_g_trans = _encode($l10n_g->translate($msgid));
+		if ( $l10n_g_trans == $msgid ) {
+			global $gtrans;
+			$gtrans = new GTranslator();
+			$gtrans->set_po_rewrite_locale($gtrans->shn_getLocale());
+			return $gtrans->shn_google_translate_dummy($msgid);
+		}
 	}
 	else {
 		return _encode($l10n->translate($msgid));

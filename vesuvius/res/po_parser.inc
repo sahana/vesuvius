@@ -85,10 +85,10 @@ class POParser
     {
         // basic file verification
         if (!is_file($filename)) {
-            throw new Exception('The specified file does not exist.');
+            add_error('POParser says: The specified PO file does not exist.');
         }
         if (substr($filename, strrpos($filename, '.')) !== '.po') {
-            throw new Exception('The specified file is not a PO file.');
+            add_error('POParser says: The specified file is not a PO file.');
         }
 		$this->_filename = $filename;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
@@ -256,13 +256,13 @@ class POParser
     		}
     		
     	}
-    	$file = fopen($this->_filename, 'w');
+    	$file = fopen($this->_filename.'_g.pog', 'w');
     	if ( $file != false ) {
     		fwrite($file, $fileoutput);
     		fclose($file);
     	}
     	else {
-    		echo "File could not be opened!";
+    		add_error("Google PO file write failed");
     	}
     	
     }
