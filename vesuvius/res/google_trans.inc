@@ -14,7 +14,7 @@
 global $global;
 define('GOOGLE_TRANS_ATTRIB', 'id="google_translate_element"');
 include_once ($global['approot'].'/inc/lib_errors.inc');
-include_once ($global['approot'].'/res/locale/po_parser.inc');
+include_once ($global['approot'].'/res/po_parser.inc');
 
 class GTranslator {
 	private $_parser;
