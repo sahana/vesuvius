@@ -151,7 +151,7 @@ function ha_show_hospitals($internal = FALSE) {
 		$global['xajax_res']->addAssign('rezMain','style.opacity','1.0');
 		$global['xajax_res']->addAssign('rezMain','innerHTML',$htmlMain);
 
-		$htmlLog .= _t("Hospitals-Search-Found|Found <b>").$total._t("Hospitals-Search-Found|</b> Hospital(s).<br>");
+		$htmlLog .= _t("Hospitals-Search-Result|Found <b>").$total._t("Hospitals-Search-Result|</b> Hospital(s).<br>");
 		$global['xajax_res']->addAppend('rezLog','innerHTML',$htmlLog);
 		$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
 		return $global['xajax_res']->getXML();
@@ -172,7 +172,7 @@ function ha_perform_help() {
 
 	// update log/ui
 	$pageControlHtml = '
-		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('Hospitals-Help-Close|Closing Help...').'<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="'._t('Hospitals-Help-Button|Close Help').'">
+		<input class="styleTehButton" type="button" onclick="javascript: ha_append_log(\''._t('Hospitals-Help-ClosingMessage|Closing Help...').'<br>\'); setTimeout(\'ha_show_hospitals();\', 250);" value="'._t('Hospitals-Help-Button|Close Help').'">
 	';
 
 	$global['xajax_res']->addAssign('rezMain', 'innerHTML', $pageMainHtml);
