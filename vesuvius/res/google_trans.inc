@@ -27,8 +27,7 @@ class GTranslator {
 	 * @param unknown_type $locale
 	 */
 	function buildGooglePO($locale) {
-		$filename = 'locale/'.$locale.'_g.po';
-		$this->_parser->parse($filename);
+		$this->_parser->parse($locale);
 		$entries = $this->_parser->getEntries();
 		foreach ( $entries as &$entry ) { 
 			if ( $entry['msgstr'] == '' ) {
@@ -100,7 +99,7 @@ class GTranslator {
 		}
 		if($conf['google_translate_api_key'] == '') {
 			// generic key from Ramindu
-			$key = 'AIzaSyBeTv-NoFYl3LdDUZh1Ysd0H_fpZn2SrYM';
+			$key = 'AIzaSyCEPIfY5Gy4Fb0q89pmC2Um_BpTD2qebck';
 		} else {
 			//get the Google Translate API Key from the configuration
 			$key = $conf['google_translate_api_key'];
