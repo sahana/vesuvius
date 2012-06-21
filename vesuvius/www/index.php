@@ -399,7 +399,7 @@ function shn_main_plus_register() {
 /*
  * Rebuild Google POs, if needed - RD
  */
-global $gtrans;
+/*global $gtrans;
 $gtransLocales = $gtrans->get_po_rewrite_locales();
 if ( !empty($gtransLocales) ) {
 	//rebuild only first PO in queue, and move the queue up
@@ -408,7 +408,7 @@ if ( !empty($gtransLocales) ) {
 	/*foreach ( $gtransLocales as $locale ) {
 		$gtrans->buildGooglePO($locale);
 	}*/
-}
+//}
 
 
 

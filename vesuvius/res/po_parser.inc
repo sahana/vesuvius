@@ -30,6 +30,7 @@ include_once ($global['approot'].'/inc/lib_errors.inc');
 class POParser
 {
     private $_filename = '';
+    private $_pogfile = '';
     private $_parsedData = array();
 
     /**
@@ -81,16 +82,19 @@ class POParser
         return substr($str, 1, -1);
     }
 
-    public function parse($filename)
+    public function parse($locale)
     {
+    	$this->_filename = $filename = 'locale/'.$locale.'.po';
+    	$this->_pogfile = 'locale/'.$locale.'_g.pog';
         // basic file verification
         if (!is_file($filename)) {
             add_error('POParser says: The specified PO file does not exist.');
+            return null;
         }
         if (substr($filename, strrpos($filename, '.')) !== '.po') {
             add_error('POParser says: The specified file is not a PO file.');
+            return null;
         }
-		$this->_filename = $filename;
         $lines = file($filename, FILE_IGNORE_NEW_LINES);
 
         // on the first two lines I'm expecting msgid respectively msgstr,
@@ -256,7 +260,7 @@ class POParser
     		}
     		
     	}
-    	$file = fopen($this->_filename.'_g.pog', 'w');
+    	$file = fopen($this->_pogfile, 'w');
     	if ( $file != false ) {
     		fwrite($file, $fileoutput);
     		fclose($file);
