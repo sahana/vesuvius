@@ -396,19 +396,6 @@ function shn_main_plus_register() {
 	require_once($global['approot'].'mod/plus/register.php');
 }
 
-/*
- * Rebuild Google POs, if needed - RD
- */
-/*global $gtrans;
-$gtransLocales = $gtrans->get_po_rewrite_locales();
-if ( !empty($gtransLocales) ) {
-	//rebuild only first PO in queue, and move the queue up
-	$gtrans->buildGooglePO($gtransLocales[0]);
-	array_splice($gtransLocales, 0, 1);
-	/*foreach ( $gtransLocales as $locale ) {
-		$gtrans->buildGooglePO($locale);
-	}*/
-//}
 
 
 
