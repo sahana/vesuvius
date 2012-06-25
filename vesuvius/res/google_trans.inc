@@ -41,8 +41,10 @@ class GTranslator {
 	 * Add a locale for PO rewrite in the near future
 	 * @param string $locale
 	 */
-	function set_po_rewrite_locale($locale) {
-		$this->_po_rewrite_locales[] = $locale;
+	function rewrite_po($locale) {
+		$po_list = fopen('rewrite_pos_list.txt', 'a');
+		fwrite($po_list, $locale.',');
+		fclose($po_list);
 	}
 	function get_po_rewrite_locales() {
 		return $this->_po_rewrite_locales;

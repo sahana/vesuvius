@@ -28,13 +28,13 @@ function shn_home_default() {
 
 	echo "
 		<div style=\"padding: 20px 0px 0px 36px;\">
-		<h3>To Locate Someone After a Disaster...</h3>
-		begin by choosing an event from the list below :<br>
+		<h3>"._t("Home-SelectEvent-Message|To Locate Someone After a Disaster...</h3>
+		begin by choosing an event from the list below :")."<br>
 	";
 
 	getList(0);
 	if(sizeof($events) > 0 ){
-		echo "<br><br><h3>For these events you can search and report new information directly to this registry :</h3>";
+		echo "<br><br><h3>"._t("Home-AvailableEvents-PersonLocator|For these events you can search and report new information directly to this registry :")."</h3>";
 		showList();
 	}
 
@@ -42,7 +42,7 @@ function shn_home_default() {
 	$events = array(); // reset
 	getList(2);
 	if(sizeof($events) > 0 ){
-		echo "<br><br><h3>For these events you can search locally and report new information through Google :</h3>";
+		echo "<br><br><h3>"._t("Home-AvailableEvents-Google|For these events you can search locally and report new information through Google :")."</h3>";
 		showList();
 	}
 
@@ -50,7 +50,7 @@ function shn_home_default() {
 	$events = array(); // reset
 	getList(1);
 	if(sizeof($events) > 0 ){
-		echo "<br><br><h3>For these events you can search only :</h3>";
+		echo "<br><br><h3>"._t("Home-AvailableEvents-SearchOnly|For these events you can search only :")."</h3>";
 		showList();
 	}
 }
