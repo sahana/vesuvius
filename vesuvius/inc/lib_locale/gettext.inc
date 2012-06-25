@@ -257,7 +257,7 @@ function _gettext($msgid) {
 			$googleString = $gtrans->shn_google_translate_dummy($msgid);
 			if ( $googleString != $msgid ) {
 				//Google has returned a new translation, add this Google PO to rebuild queue
-				$gtrans->set_po_rewrite_locale($gtrans->shn_getLocale());
+				$gtrans->rewrite_po($gtrans->shn_getLocale());
 				return $googleString;
 			}
 			else return _encode($l10n->translate($msgid));

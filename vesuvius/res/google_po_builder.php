@@ -15,11 +15,16 @@ if ( !defined($access) ) die('No direct access!!');
 
 include_once('google_trans.inc');
 
+$localelist = file_get_contents('rewrite_pos_list.txt');
 
-$filelist = array();
+if ( $localelist != null ) {
+	$filelist = explode(',', $localelist);
 
-$gtrans = new GTranslator(); 
+	$gtrans = new GTranslator();
 
-foreach ( $filelist as $locale ) {
-	$gtrans->buildGooglePO($locale);
+	foreach ( $filelist as $locale ) {
+		$gtrans->buildGooglePO($locale);
+	}
+	$del = fopen('rewrite_pos_list.txt', 'w');
+	fclose($del);
 }
