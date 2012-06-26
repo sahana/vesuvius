@@ -95,9 +95,7 @@ msgid "Continue"
 msgstr ""
 
 #: ../inc/lib_security/acl_form.inc:54
-msgid ""
-"Rows are Locked Users, Columns are the possible status\n"
-"\tvalues"
+msgid "Rows are Locked Users, Columns are the possible status\n\tvalues"
 msgstr ""
 
 #: ../inc/lib_security/acl_form.inc:63
@@ -151,10 +149,7 @@ msgid "The password should have at least one numeric character."
 msgstr ""
 
 #: ../inc/lib_security/lib_auth.inc:1285
-msgctxt ""
-"The password should have at least one special character. eg. !,@.#$%\\^&\\*/?"
-"`~+="
-msgid ":;-\"'"
+msgid "The password should have at least one special character. eg. !,@.#$%\\^&\\*/?`~+=:;-\"'"
 msgstr ""
 
 #: ../inc/lib_security/lib_auth.inc:1288
@@ -184,9 +179,7 @@ msgid "Must have at least one numeral (0-9)."
 msgstr ""
 
 #: ../inc/lib_security/lib_auth.inc:1335
-msgctxt ""
-"Should have one or more of the following characters: '!@,.#$%\\^&\\*/?`~+="
-msgid ":;()-\"'[]{}<>' "
+msgid "Should have one or more of the following characters: '!@,.#$%\\^&\\*/?`~+=:;()-\"'[]{}<>' "
 msgstr ""
 
 #: ../inc/lib_security/lib_auth.inc:1339
@@ -203,9 +196,7 @@ msgid "The role '%s' was successfully added."
 msgstr ""
 
 #: ../inc/lib_security/lib_auth.inc:1375
-msgid ""
-"A role with the name you entered already exists. Please enter a different "
-"role name."
+msgid "A role with the name you entered already exists. Please enter a different role name."
 msgstr ""
 
 #: ../inc/handler_mainmenu.inc:22
@@ -241,14 +232,11 @@ msgid "Invalid Image Type Please try again"
 msgstr ""
 
 #: ../inc/lib_image.inc:703
-msgid ""
-"The uploaded file exceeds the upload_max_filesize directive in php.ini. (<"
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini. (<"
 msgstr ""
 
 #: ../inc/lib_image.inc:705
-msgid ""
-"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
-"the HTML form."
+msgid "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form."
 msgstr ""
 
 #: ../inc/lib_image.inc:707
@@ -288,12 +276,7 @@ msgid "The postcode must have 2 digits, a dash, and then 3 digits"
 msgstr ""
 
 #: ../inc/lib_validate.inc:109
-msgid ""
-"The postcode must begin with a string of the format\n"
-"\t\t\tA9, A99, AA9, AA99, AA9A, A9A, or AAA,\n"
-"\t\t\tand then be followed by a space and a string\n"
-"\t\t\tof the form 9AA.\n"
-"\t\t\tA is any letter and 9 is any number."
+msgid "The postcode must begin with a string of the format\n\t\t\tA9, A99, AA9, AA99, AA9A, A9A, or AAA,\n\t\t\tand then be followed by a space and a string\n\t\t\tof the form 9AA.\n\t\t\tA is any letter and 9 is any number."
 msgstr ""
 
 #: ../inc/lib_validate.inc:136
@@ -301,8 +284,7 @@ msgid "The "
 msgstr ""
 
 #: ../inc/lib_validate.inc:136
-msgid ""
-" field must be 8 digits in length, with an optional 2 or 3 digit area code"
+msgid "field must be 8 digits in length, with an optional 2 or 3 digit area code"
 msgstr ""
 
 #: ../inc/lib_validate.inc:187
@@ -386,9 +368,7 @@ msgid "Wysiwyg editor not configured correctly. Using Textarea instead."
 msgstr ""
 
 #: ../inc/lib_form.inc:1031
-msgid ""
-"A required file was not found. Failed to initialize Wysiwig Editor. Using "
-"Textarea instead."
+msgid "A required file was not found. Failed to initialize Wysiwig Editor. Using Textarea instead."
 msgstr ""
 
 #: ../inc/lib_errors.inc:113
