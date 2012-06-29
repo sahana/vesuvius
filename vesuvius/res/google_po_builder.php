@@ -11,7 +11,7 @@
  * NOTE: This is only intended as a script, not to be called from a web context under any circumstances.
  */
 
-if ( !defined($access) ) die('No direct access!!');
+//if ( !defined($access) ) die('No direct access!!');
 
 include_once('google_trans.inc');
 
