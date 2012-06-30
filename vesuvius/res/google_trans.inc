@@ -42,7 +42,8 @@ class GTranslator {
 	 * @param string $locale
 	 */
 	function rewrite_po($locale) {
-		$po_list = fopen('rewrite_pos_list.txt', 'a');
+		global $global;
+		$po_list = fopen($global['approot'].'/res/rewrite_pos_list.txt', 'a');
 		fwrite($po_list, $locale.',');
 		fclose($po_list);
 	}
@@ -76,7 +77,7 @@ class GTranslator {
 			if ( strcmp($msgid, $text) == 0 ) {
 				return $msgstr;
 			}
-			else return '';
+			else return $text;
 		}
 	}
 	/**
