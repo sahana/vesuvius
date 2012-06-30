@@ -40,12 +40,12 @@ function shn_rez_header2() {
 			while($row = $result->FetchRow() ) {
 				if($row['rez_page_id'] == $_GET['page']) {
 					echo "
-						<li><b>".shn_google_translate($row['rez_menu_title'])."</b></li>
+						<li><b>".$row['rez_menu_title']."</b></li>
 					";
 				} else {
 					echo "
 						<li>
-							<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."\">".shn_google_translate($row['rez_menu_title'])."</a>
+							<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."\">".$row['rez_menu_title']."</a>
 						</li>
 					";
 				}
@@ -66,7 +66,7 @@ function shn_rez_header2() {
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez pages header"); }
 		if($result) {
 			while($row = $result->FetchRow() ) {
-				echo "<h2>".shn_google_translate($row['rez_menu_title'])."</h2>";
+				echo "<h2>".$row['rez_menu_title']."</h2>";
 			}
 		}
 	}
@@ -82,7 +82,7 @@ function shn_rez_default() {
 	global $global;
 
 	//initialize the Google Translate element JS
-	shn_google_translate_element_init();
+	//shn_google_translate_element_init();
 
 	// if page, then render that page from db
 	if(isset($_GET['page'])) {
@@ -100,7 +100,7 @@ function shn_rez_default() {
 
 		if($row = $result->FetchRow() ){
 			shn_rez_header2();
-			echo shn_google_translate($row['rez_content']);
+			echo $row['rez_content'];
 		} else {
 			// page doesn't exist
 			echo "<h2>Error 404 ~ Page not found.</h2>";
@@ -125,7 +125,7 @@ function shn_rez_default() {
 					echo "
 						<li>
 							<a class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."\">
-							".shn_google_translate($row['rez_menu_title'])."</a>
+							".$row['rez_menu_title']."</a>
 						</li>
 					";
 				}

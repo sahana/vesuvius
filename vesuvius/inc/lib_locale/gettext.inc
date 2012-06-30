@@ -262,6 +262,7 @@ function _gettext($msgid) {
 			}
 			else return _encode($l10n->translate($msgid));
 		}
+		else return _encode($l10n_g->translate($msgid));
 	}
 	else {
 		return _encode($l10n->translate($msgid));
