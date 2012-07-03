@@ -106,17 +106,17 @@ function snap_show_backups($internal = FALSE) {
 
 	//---- error on read permissions
 	if (!$dirHandle) {
-		$htmlLog .= "<b><span style=\"color: red;\">Unable to open storage folder. Please check that the folder exists and has read/write permission for the webserver.</span></b> <a href=\"javascript:window.location.reload();\">Check Again</a><br>";
+		$htmlLog .= "<b><span style=\"color: red;\">"._t("Snapshot-FolderError-Message|Unable to open storage folder. Please check that the folder exists and has read/write permission for the webserver.")."</span></b> <a href=\"javascript:window.location.reload();\">"._t("Snapshot-FolderError-Link|Check Again")."</a><br>";
 		$permsError = TRUE;
 
 	//---- error on write permissions
 	} elseif (!$dirHandle2) {
-		$htmlLog .= "<b><span style=\"color: red;\">Storage folder is not writeable by the webserver. Please correct its permissions.</span></b> <a href=\"javascript:window.location.reload();\">Check Again</a><br>";
+		$htmlLog .= "<b><span style=\"color: red;\">"._t("Snapshot-FolderPermission-Message|Storage folder is not writeable by the webserver. Please correct its permissions.")."</span></b> <a href=\"javascript:window.location.reload();\">"._t("Snapshot-FolderPermission-Link|Check Again")."</a><br>";
 		$permsError = TRUE;
 
 	//---- read/write permissions are okay
 	} else {
-		$htmlLog .= "Storage folder is readable/writeable. Opening...<br>";
+		$htmlLog .= _t("Snapshot-FolderOpen-Message|Storage folder is readable/writeable. Opening...")."<br>";
 		$permsError = FALSE;
 		fclose($dirHandle2);
 	}
@@ -137,7 +137,8 @@ function snap_show_backups($internal = FALSE) {
 
 	//---- sort data and build html table
 	$sortedData = msort($data, "filename");
-	$htmlBackups .= "<table class=\"mainTable\"><tr><td style=\"padding-left: 8px;\" ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filename (databaseName@date_time.sql)</b></td><td style=\"text-align: center;\" ><b>Rename</b></td><td style=\"text-align: center;\" ><b>Size</b></td><td style=\"text-align: center;\" ><b>Delete</b></td><td style=\"text-align: center;\"><b>Restore</b></td></tr>";
+	$htmlBackups .= "<table class=\"mainTable\"><tr><td style=\"padding-left: 8px;\" ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Filename (databaseName@date_time.sql)</b></td><td style=\"text-align: center;\" ><b>"._t("Snapshot-Operations-TableHeading|Rename")."</b></td><td style=\"text-align: center;\" ><b>"._t("Snapshot-Operations-TableHeading|Size")."</b></td><td style=\"text-align: center;\" ><b>"._t("Snapshot-Operations-TableHeading|Delete")."</b></td><td style=\"text-align: center;\"><b>"
+				 ._t("Snapshot-Operations-TableHeading|Restore")."</b></td></tr>";
 	if (($count == 0) || ($permsError)) {
 		$htmlBackups .= "<tr><td colspan=5 class=\"mainRowEven\" style=\"text-align: center;\">No Backups</td></tr>";
 	} else {
@@ -151,13 +152,22 @@ function snap_show_backups($internal = FALSE) {
 			$size = $row['size'];
                         $htmlBackups .= "<tr><td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;". $row['filename'] ."</td>";
 
-			$htmlBackups .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: snap_append_log('Renaming Snapshot ...<br>'); e = document.getElementById('newSnapshot'); e.disabled=true; snap_dim(); setTimeout('snap_perform_rename(\'".$row['filename']."\',prompt(\'Please enter a new filename:\',\'".$row['filename']."\'));', 100);\">Rename</a></td>";
+			$htmlBackups .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: snap_append_log('"
+						 ._t("Snapshot-Rename-Message|Renaming Snapshot ...")."<br>'); e = document.getElementById('newSnapshot'); e.disabled=true; snap_dim(); setTimeout('snap_perform_rename(\'".$row['filename']."\',prompt(\'"
+						 ._t("Snapshot-Rename-Prompt|Please enter a new filename:")."\',\'".$row['filename']."\'));', 100);\">"
+						 ._t("Snapshot-Rename-Link|Rename")."</a></td>";
 
 			$htmlBackups .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\">". round( $row['size']/1000000, 4) ." MB</td>";
 
-			$htmlBackups .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: snap_append_log('Deleting Snapshot ...<br>'); e = document.getElementById('newSnapshot'); e.disabled=true; snap_dim(); setTimeout('snap_perform_delete(\'".$row['filename']."\',confirm(\'Are you sure you want to delete ".$row['filename']." ?\'));', 100);\">Delete</a></td>";
+			$htmlBackups .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: snap_append_log('"
+						 ._t("Snapshot-Delete-Message|Deleting Snapshot ...")."<br>'); e = document.getElementById('newSnapshot'); e.disabled=true; snap_dim(); setTimeout('snap_perform_delete(\'".$row['filename']."\',confirm(\'"
+						 ._t("Snapshot-Delete-Confirm|Are you sure you want to delete ").$row['filename']." ?\'));', 100);\">"
+						 ._t("Snapshot-Delete-Link|Delete")."</a></td>";
 
-			$htmlBackups .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: snap_append_log('Restoring Snapshot ...<br>'); e = document.getElementById('newSnapshot'); e.disabled=true;  snap_dim(); setTimeout('snap_perform_restore(\'".$row['filename']."\',confirm(\'Are you sure you want to restore from the ".$row['filename']." snapshot? Doing this will replace your current database with this snapshot.\'));', 100);\">Restore</a></td></tr>";
+			$htmlBackups .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><a onclick=\"javascript: snap_append_log('"
+						 ._t("Snapshot-Restore-Message|Restoring Snapshot ...")."<br>'); e = document.getElementById('newSnapshot'); e.disabled=true;  snap_dim(); setTimeout('snap_perform_restore(\'".$row['filename']."\',confirm(\'"
+						 ._t("Snapshot-Restore-Confirm|Are you sure you want to restore from the ").$row['filename']._t("Snapshot-Restore-Confirm|snapshot? Doing this will replace your current database with this snapshot.")."\'));', 100);\">"
+						 ._t("Snapshot-Restore-Link|Restore")."</a></td></tr>";
 
 			$eo++;
 			$eo %= 2;
@@ -184,7 +194,7 @@ function snap_show_backups($internal = FALSE) {
 		if ( $permsError ) {
 			$global['xajax_res']->addScript("e = document.getElementById('newSnapshot'); e.disabled=true;");
 		} else {
-			$htmlLog .= "Found <b>".$count."</b> Snapshots.<br>";
+			$htmlLog .= _t("Snapshot-Found-Message|Found")." <b>".$count."</b> "._t("Snapshot-Found-Message|Snapshots.")."<br>";
 		}
 		$global['xajax_res']->addAppend('snapshotLog','innerHTML',$htmlLog);
 		$global['xajax_res']->addAssign('snapshots','style.opacity','1.0');
@@ -262,9 +272,9 @@ function snap_perform_restore($filename, $confirm) {
 
 		//---- do the actual database restoration
 		$backup->restore();
-		$global['xajax_res']->addAppend('snapshotLog','innerHTML',"Database restored from Snapshot: <b>".$filename."</b><br>");
+		$global['xajax_res']->addAppend('snapshotLog','innerHTML',_t("Snapshot-Log-Message|Database restored from Snapshot:")." <b>".$filename."</b><br>");
 	} else {
-		$global['xajax_res']->addAppend('snapshotLog','innerHTML',"Restore operation aborted.<br>");
+		$global['xajax_res']->addAppend('snapshotLog','innerHTML',_t("Snapshot-Log-Message|Restore operation aborted.")."<br>");
 	}
 
 	//---- update UI
@@ -321,9 +331,9 @@ function snap_perform_rename($oldFilename, $newFilename) {
 
 		//---- rename the snapshot file
 		rename($dir . $oldFilename, $dir . $newFilename);
-		$global['xajax_res']->addAppend('snapshotLog','innerHTML',"Renamed Snapshot: <b>".$oldFilename." </b> to <b>".$newFilename."</b>.<br>");
+		$global['xajax_res']->addAppend('snapshotLog','innerHTML',_t("Snapshot-Log-Message|Renamed Snapshot:")." <b>".$oldFilename." </b> to <b>".$newFilename."</b>.<br>");
 	} else {
-		$global['xajax_res']->addAppend('snapshotLog','innerHTML',"Rename operation aborted.<br>");
+		$global['xajax_res']->addAppend('snapshotLog','innerHTML',_t("Snapshot-Log-Message|Rename operation aborted.")."<br>");
 	}
 
 	//---- update UI
