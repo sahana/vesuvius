@@ -43,9 +43,13 @@ class GTranslator {
 	 */
 	function rewrite_po($locale) {
 		global $global;
-		$po_list = fopen($global['approot'].'/res/rewrite_pos_list.txt', 'a');
-		fwrite($po_list, $locale.',');
-		fclose($po_list);
+		$localelist = file_get_contents($global['approot'].'/res/rewrite_pos_list.txt');
+		$localelist = explode(',', $localelist);
+		if ( !array_search($locale, $localelist) ) {
+			$po_list = fopen($global['approot'].'/res/rewrite_pos_list.txt', 'a');
+			fwrite($po_list, $locale.',');
+			fclose($po_list);
+		}
 	}
 	function get_po_rewrite_locales() {
 		return $this->_po_rewrite_locales;
