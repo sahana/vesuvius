@@ -541,7 +541,7 @@ function shn_admin_acl_enable_mods() {
 	$db = $global['db'];
 	$perms = "";
 
-	echo _t('Admin-Modules-Enable|
+	echo _t('Admin-EnableModules-Help|
 		<br><b>Enable/Disable Modules</b> ~ rows are modules, columns are groups, intersection shows whether the module is enabled not<br><br>
 		<div id="formcontainer">
 	');
