@@ -524,7 +524,7 @@ msgstr "Envoyer"
 
 #: ../mod/ha/conf.inc:15
 msgid "Hospital Administration"
-msgstr "Hôpital d'administration"
+msgstr ""
 
 #: ../mod/ha/xajax.inc:139 ../mod/ha/xajax.inc:287 ../mod/ha/xajax.inc:322
 msgctxt "Hospitals-Add-Button"
@@ -579,7 +579,7 @@ msgstr "Saved"
 #: ../mod/ha/xajax.inc:287
 msgctxt "Hospitals-Add-Message"
 msgid "Add a new Hospital..."
-msgstr "Ajouter un nouvel hôpital ..."
+msgstr ""
 
 #: ../mod/ha/xajax.inc:312
 msgctxt "Hospitals-Remove-Message"

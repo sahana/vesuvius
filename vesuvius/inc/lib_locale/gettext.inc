@@ -248,12 +248,18 @@ function _gettext($msgid) {
 	$l10n_g = _get_reader_g();
 	//return $l10n->translate($msgid);
 	$l10n_trans = _encode($l10n->translate($msgid));
-	if ( $l10n_trans == $msgid ) {
+	//echo $msgid.' => PO: '.$l10n_trans;
+	if ( $l10n_trans == $msgid || $l10n_trans == '' ) {
 		$l10n_g_trans = _encode($l10n_g->translate($msgid));
 		global $gtrans;
-		$gtrans = new GTranslator();
+		
+		if ( !isset($gtrans) )
+			$gtrans = new GTranslator();
+			
 		$locale = $gtrans->shn_getLocale();
-		if ( $l10n_g_trans == $msgid && $locale != 'en' ) {
+		//echo $msgid.' => GPOTrans: '.$l10n_g_trans;
+		if ( ($l10n_g_trans == $msgid || $l10n_g_trans == '') && $locale != 'en' ) {
+			//echo 'Passing '.$msgid.' to GTranslate.';
 			$googleString = $gtrans->shn_google_translate_dummy($msgid);
 			if ( $googleString != $msgid ) {
 				//Google has returned a new translation, add this Google PO to rebuild queue
