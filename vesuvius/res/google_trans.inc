@@ -44,8 +44,8 @@ class GTranslator {
 	function rewrite_po($locale) {
 		global $global;
 		$localelist = file_get_contents($global['approot'].'/res/rewrite_pos_list.txt');
-		$localelist = explode(',', $localelist);
-		if ( !array_search($locale, $localelist) ) {
+		$localelist = explode(',', $localelist, -1);
+		if ( array_search($locale, $localelist) === false ) {
 			$po_list = fopen($global['approot'].'/res/rewrite_pos_list.txt', 'a');
 			fwrite($po_list, $locale.',');
 			fclose($po_list);
@@ -74,15 +74,18 @@ class GTranslator {
 	 * Dummy function
 	 */
 	function shn_google_translate_dummy($text) {
+		//echo $text.' was passed to GTranslate function\n';
 		$translations = array ('Add a new Hospital' => 'Ajouter un nouvel hôpital',
 								'Hospital Information'	=> 'Information Hospitalier',
-								'Name' => 'Nom');
-		foreach ( $translations as $msgid => $msgstr ) {
-			if ( strcmp($msgid, $text) == 0 ) {
-				return $msgstr;
-			}
-			else return $text;
+								'Name' => 'Nom',
+								'Hospital Administration' => 'Hôpital d\'administration');
+		
+		if ( array_key_exists($text, $translations) ) {
+			return $translations[$text];
 		}
+		else return $text;
+		
+		
 	}
 	/**
 	 * @param $text String String to be translated

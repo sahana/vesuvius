@@ -21,7 +21,7 @@ catch ( Exception $e ) {
 	echo $e->getMessage();
 }
 if ( $localelist != null ) {
-	$filelist = explode(',', $localelist);
+	$filelist = explode(',', $localelist, -1);
 
 	$gtrans = new GTranslator();
 
