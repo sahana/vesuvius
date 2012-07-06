@@ -37,7 +37,7 @@ function shn_report_default() {
 
 	// status 1 means event is closed to all reporting
 	if($closed == 1) {
-		echo _t("Report-ReportingClosed-Message|
+		echo _t("ReportAPerson-ReportingClosed-Message|
 			<h2>Reporting Closed</h2>
 			<br>
 			This event is closed and is no longer accepting new person reports.
@@ -46,7 +46,7 @@ function shn_report_default() {
 
 	// status 2 means we can still report via an external iframe widget
 	} elseif($closed == 2) {
-		echo _t("Report-External-Heading|
+		echo _t("ReportAPerson-External-Heading|
 			<h2>External Reporting</h2>
 			").htmlspecialchars_decode($external)."<br>
 		";
@@ -56,7 +56,7 @@ function shn_report_default() {
 	// check if the person is not logged in or is anonymous (must be logged in and not anonymous to report)
 	if(!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] != 1 || !isset($_SESSION['group_id']) || $_SESSION['group_id'] == 3) {
 		echo '
-			<div class="message information"><br/>'._t('Report-LoginRequired|You must log in before you can report a new person to the registry.').'
+			<div class="message information"><br/>'._t('ReportAPerson-Message|You must log in before you can report a new person to the registry.').'
 			<br><br></div>
 			<br>
 		';
@@ -69,10 +69,10 @@ function shn_report_default() {
 	echo _t('Report-Header|
 		<h2>Report a Person</h2>').
 		'<br>
-		'_t('Report-QuickSearch-Link|You may wish to perform a <a href="search">quick search</a> before reporting. Otherwise...').'<br>
+		'._t('ReportAPerson-QuickSearch-Link|You may wish to perform a <a href="search">quick search</a> before reporting. Otherwise...').'<br>
 		<br>
 		<br>
-		<input id="login" class="styleTehButton" type="button" value="'._t('Report-CreateNew-Button|Create a New Person Report').'" onclick="report();">
+		<input id="login" class="styleTehButton" type="button" value="'._t('ReportAPerson-CreateNew-Button|Create a New Person Report').'" onclick="report();">
 		<script>
 			function report() {
 				window.location = \'report?create\';
@@ -110,7 +110,7 @@ function shn_report_create() {
 		<script>
 			window.location = '".$url."';
 		</script>
-		<a href=\"".$url."\">"._t("Report-NoRedirect-Link|click here if not automatically redirected...")."</a>
+		<a href=\"".$url."\">"._t("ReportAPerson-NoRedirect-Link|click here if not automatically redirected...")."</a>
 	";
 }
 
