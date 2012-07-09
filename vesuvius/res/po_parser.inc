@@ -240,7 +240,7 @@ class POParser
      * Function to write parsed (and translated) PO data back to file
      */
     function writeToFile() {
-    	$fileoutput =  "# French translation for vesuvius\n".
+    	$fileoutput =  "# Google translation for vesuvius\n".
 					   "# This file is distributed under the same license as the vesuvius package.\n";
     	$fileoutput .= "msgid \"\"\nmsgstr \"\"\n";
     	foreach ( $this->_parsedData['headers'] as $id=>$header ) {
