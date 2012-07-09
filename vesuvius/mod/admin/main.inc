@@ -437,7 +437,7 @@ function shn_admin_reset_pwd($error = false) {
 	";
 	$policy = shn_get_password_policy();
 	if(count($policy) > 0) {
-		echo _t("Admin-ChangeUserPassword-Guide|<h4>Password must adhere to following rules:</h4>");
+		echo _t("Admin-ChangeUserPassword-Message|<h4>Password must adhere to following rules:</h4>");
 		for($i=0; $i<count($policy); $i++) {
 			echo ($i+1).". ".$policy[$i]."<br/>";
 		}

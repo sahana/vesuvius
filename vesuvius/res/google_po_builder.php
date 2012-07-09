@@ -14,6 +14,7 @@
 //if ( !defined($access) ) die('No direct access!!');
 
 include_once('google_trans.inc');
+include_once('po_parser.inc');
 try {
 	$localelist = file_get_contents('rewrite_pos_list.txt');
 }
