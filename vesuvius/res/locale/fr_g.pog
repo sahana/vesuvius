@@ -1,8 +1,5 @@
-# French translation for vesuvius
-# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2011
+# Google translation for vesuvius
 # This file is distributed under the same license as the vesuvius package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
-#
 msgid ""
 msgstr ""
 "Project-Id-Version: vesuvius\n"
@@ -11,11 +8,9 @@ msgstr ""
 "PO-Revision-Date: 2012-05-22 17:57+0000\n"
 "Last-Translator: Ramindu Deshapriya <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
-"MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Launchpad-Export-Date: 2012-06-29 03:44+0000\n"
-"X-Generator: Launchpad (build 15505)\n"
+"Plural-Forms:\n"
 
 #: ../www/index.php:170
 msgid "The stream requested is not valid."
@@ -95,7 +90,7 @@ msgstr "Continuer"
 
 #: ../inc/lib_security/acl_form.inc:54
 msgid "Rows are Locked Users, Columns are the possible status\n\tvalues"
-msgstr "Les lignes sont Verrouillé utilisateurs, les colonnes sont le statut possible \n \tvalues"
+msgstr "Rows are Locked Users, Columns are the possible status\n\tvalues"
 
 #: ../inc/lib_security/acl_form.inc:63
 msgid "Locked User"
@@ -126,12 +121,10 @@ msgid "Last name is a required field. Please enter a value."
 msgstr "Nom de famille est un champ obligatoire. S'il vous plaît entrer une valeur."
 
 #: ../inc/lib_security/lib_auth.inc:1270
-#, php-format
 msgid "The minimum password length is %d"
 msgstr "La longueur minimale du mot est% d"
 
 #: ../inc/lib_security/lib_auth.inc:1273
-#, php-format
 msgid "The maximum password length is %d."
 msgstr "La longueur de mot de passe maximale est% d."
 
@@ -149,19 +142,17 @@ msgstr "Le mot de passe doit avoir au moins un caractère numérique."
 
 #: ../inc/lib_security/lib_auth.inc:1285
 msgid "The password should have at least one special character. eg. !,@.#$%\\^&\\*/?`~+=:;-\"'"
-msgstr "Le mot de passe doit avoir au moins un caractère spécial. par exemple. !@#$%\\^&\\*/`~+=:;.?-\"'"
+msgstr "The password should have at least one special character. eg. !,@.#$%\\^&\\*/?`~+=:;-\"'"
 
 #: ../inc/lib_security/lib_auth.inc:1288
 msgid "The username cannot be a part of the password."
 msgstr "Le nom d'utilisateur ne peut pas être une partie du mot de passe."
 
 #: ../inc/lib_security/lib_auth.inc:1315
-#, php-format
 msgid "The minimum length of the password is %d characters."
 msgstr "La longueur minimale du mot de passe est% d caractères."
 
 #: ../inc/lib_security/lib_auth.inc:1319
-#, php-format
 msgid "The maximum length of the password is %d characters."
 msgstr "La longueur maximale du mot de passe est% d caractères."
 
@@ -179,7 +170,7 @@ msgstr "Doit avoir au moins un chiffre (0-9)."
 
 #: ../inc/lib_security/lib_auth.inc:1335
 msgid "Should have one or more of the following characters: '!@,.#$%\\^&\\*/?`~+=:;()-\"'[]{}<>' "
-msgstr "Il devrait y avoir un ou plusieurs des caractères suivants: «@,#$%\\^&\\*/`~+=:;!.?()-\"'[]{}<>'"
+msgstr "Should have one or more of the following characters: '!@,.#$%\\^&\\*/?`~+=:;()-\"'[]{}<>' "
 
 #: ../inc/lib_security/lib_auth.inc:1339
 msgid "The password cannot contain your username."
@@ -190,14 +181,11 @@ msgid "Please enter a valid Role name."
 msgstr "S'il vous plaît entrez un nom de rôle valable."
 
 #: ../inc/lib_security/lib_auth.inc:1370
-#, php-format
 msgid "The role '%s' was successfully added."
-msgstr "«Le rôle %s 'a été ajouté avec succès."
+msgstr "The role '%s' was successfully added."
 
 #: ../inc/lib_security/lib_auth.inc:1375
-msgid ""
-"A role with the name you entered already exists. Please enter a different "
-"role name."
+msgid "A role with the name you entered already exists. Please enter a different role name."
 msgstr "Un rôle avec le nom que vous avez entré existe déjà. S'il vous plaît entrez un nom de rôle différent."
 
 #: ../inc/handler_mainmenu.inc:22
@@ -233,14 +221,11 @@ msgid "Invalid Image Type Please try again"
 msgstr "Blancs type d'image S'il vous plaît essayez de nouveau"
 
 #: ../inc/lib_image.inc:703
-msgid ""
-"The uploaded file exceeds the upload_max_filesize directive in php.ini. (<"
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini. (<"
 msgstr "Le fichier téléchargé excède la directive upload_max_filesize dans php.ini. (<"
 
 #: ../inc/lib_image.inc:705
-msgid ""
-"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
-"the HTML form."
+msgid "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form."
 msgstr "Le fichier téléchargé excède la directive MAX_FILE_SIZE qui a été spécifié dans le formulaire HTML."
 
 #: ../inc/lib_image.inc:707
@@ -281,16 +266,15 @@ msgstr "Le code postal doit avoir 2 chiffres, un tiret, puis 3 chiffres"
 
 #: ../inc/lib_validate.inc:109
 msgid "The postcode must begin with a string of the format\n\t\t\tA9, A99, AA9, AA99, AA9A, A9A, or AAA,\n\t\t\tand then be followed by a space and a string\n\t\t\tof the form 9AA.\n\t\t\tA is any letter and 9 is any number."
-msgstr "Le code postal doit commencer par une chaîne de format \n\t\t\tA9, A99, AA9, AA99, AA9A, A9A, ou AAA, \n\t\t\tet alors être suivie par un espace et une chaîne \n\t\t\tof du 9AA formulaire. \n\t\t\tA est une lettre et 9 est un nombre quelconque."
+msgstr "The postcode must begin with a string of the format\n\t\t\tA9, A99, AA9, AA99, AA9A, A9A, or AAA,\n\t\t\tand then be followed by a space and a string\n\t\t\tof the form 9AA.\n\t\t\tA is any letter and 9 is any number."
 
 #: ../inc/lib_validate.inc:136
 msgid "The "
 msgstr "La "
 
 #: ../inc/lib_validate.inc:136
-msgid ""
-"field must be 8 digits in length, with an optional 2 or 3 digit area code"
-msgstr "domaine doit être de 8 chiffres dans la longueur, avec une option 2 ou 3 chiffres du code région"
+msgid "field must be 8 digits in length, with an optional 2 or 3 digit area code"
+msgstr "field must be 8 digits in length, with an optional 2 or 3 digit area code"
 
 #: ../inc/lib_validate.inc:187
 msgid "Date of birth should be less than or equal to current date"
@@ -373,9 +357,7 @@ msgid "Wysiwyg editor not configured correctly. Using Textarea instead."
 msgstr "Éditeur wysiwyg pas configuré correctement. Utilisation Textarea lieu."
 
 #: ../inc/lib_form.inc:1031
-msgid ""
-"A required file was not found. Failed to initialize Wysiwig Editor. Using "
-"Textarea instead."
+msgid "A required file was not found. Failed to initialize Wysiwig Editor. Using Textarea instead."
 msgstr "Un fichier requis n'a pas été trouvé. Échec d'initialisation éditeur WYSIWIG. Utilisation Textarea lieu."
 
 #: ../inc/lib_errors.inc:113
@@ -524,7 +506,7 @@ msgstr "Envoyer"
 
 #: ../mod/ha/conf.inc:15
 msgid "Hospital Administration"
-msgstr ""
+msgstr "Hôpital d'administration"
 
 #: ../mod/ha/xajax.inc:139 ../mod/ha/xajax.inc:287 ../mod/ha/xajax.inc:322
 msgctxt "Hospitals-Add-Button"
@@ -534,42 +516,42 @@ msgstr "Ajouter un nouvel hôpital"
 #: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289 ../mod/ha/xajax.inc:324
 msgctxt "Hospitals-Help-Message"
 msgid "Opening Help..."
-msgstr "Ouverture de l'aide ..."
+msgstr "Opening Help..."
 
 #: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289 ../mod/ha/xajax.inc:324
 msgctxt "Hospitals-Help-Button"
 msgid "Help"
-msgstr "Entraide"
+msgstr "Help"
 
 #: ../mod/ha/xajax.inc:154
 msgctxt "Hospitals-Search-Result"
 msgid "Found <b>"
-msgstr "<b> Trouvé"
+msgstr "Found <b>"
 
 #: ../mod/ha/xajax.inc:154
 msgctxt "Hospitals-Search-Result"
 msgid "</b> Hospital(s).<br>"
-msgstr "</ B> Hôpital (s). <br>"
+msgstr "</b> Hospital(s).<br>"
 
 #: ../mod/ha/xajax.inc:170
 msgctxt "Hospitals-Help"
 msgid "coming soon...."
-msgstr "Bientôt disponible."
+msgstr "coming soon...."
 
 #: ../mod/ha/xajax.inc:175
 msgctxt "Hospitals-Help-ClosingMessage"
 msgid "Closing Help..."
-msgstr "Fermeture Aide ..."
+msgstr "Closing Help..."
 
 #: ../mod/ha/xajax.inc:175
 msgctxt "Hospitals-Help-Button"
 msgid "Close Help"
-msgstr "Fermer Aide"
+msgstr "Close Help"
 
 #: ../mod/ha/xajax.inc:283
 msgctxt "Hospitals-Save-Message"
 msgid "Hospital #<b>"
-msgstr "Hôpital # <b>"
+msgstr "Hospital #<b>"
 
 #: ../mod/ha/xajax.inc:283
 msgctxt "Hospitals-Save-Message"
@@ -579,27 +561,27 @@ msgstr "Saved"
 #: ../mod/ha/xajax.inc:287
 msgctxt "Hospitals-Add-Message"
 msgid "Add a new Hospital..."
-msgstr ""
+msgstr "Add a new Hospital..."
 
 #: ../mod/ha/xajax.inc:312
 msgctxt "Hospitals-Remove-Message"
 msgid "Hospital <b>#"
-msgstr "Hôpital <b> #"
+msgstr "Hospital <b>#"
 
 #: ../mod/ha/xajax.inc:312
 msgctxt "Hospitals-Remove-Message"
 msgid "removed"
-msgstr "a supprimé à ."
+msgstr "removed"
 
 #: ../mod/ha/xajax.inc:317
 msgctxt "Hospitals-Remove-Aborted"
 msgid "Remove operation aborted.<br>"
-msgstr "Retirer opération avortée. <br>"
+msgstr "Remove operation aborted.<br>"
 
 #: ../mod/ha/xajax.inc:322
 msgctxt "Hospitals-Add-Message"
 msgid "Adding a new Hospital..."
-msgstr "Ajout d'un nouvel hôpital ..."
+msgstr "Adding a new Hospital..."
 
 #: ../mod/ha/xajax.inc:406
 msgctxt "Hospitals-Info-Title"
@@ -609,57 +591,57 @@ msgstr "Information Hospitalier"
 #: ../mod/ha/xajax.inc:409
 msgctxt "Hospitals-Info-Form-Text"
 msgid "Hospital UUID"
-msgstr "Hôpital UUID"
+msgstr "Hospital UUID"
 
 #: ../mod/ha/xajax.inc:413
 msgctxt "Hospitals-Info-Form"
 msgid "Name"
-msgstr "Dénomination"
+msgstr "Nom"
 
 #: ../mod/ha/xajax.inc:417
 msgctxt "Hospitals-Info-Form"
 msgid "Short Name"
-msgstr "Nom court"
+msgstr "Short Name"
 
 #: ../mod/ha/xajax.inc:421
 msgctxt "Hospitals-Info-Form"
 msgid "Street 1"
-msgstr "Rue 1"
+msgstr "Street 1"
 
 #: ../mod/ha/xajax.inc:425
 msgctxt "Hospitals-Info-Form"
 msgid "Street 2"
-msgstr "Rue 2"
+msgstr "Street 2"
 
 #: ../mod/ha/xajax.inc:429
 msgctxt "Hospitals-Info-Form"
 msgid "City"
-msgstr "Ville"
+msgstr "City"
 
 #: ../mod/ha/xajax.inc:433
 msgctxt "Hospitals-Info-Form"
 msgid "County"
-msgstr "Comté"
+msgstr "County"
 
 #: ../mod/ha/xajax.inc:437
 msgctxt "Hospitals-Info-Form"
 msgid "State / Region"
-msgstr "Etat / Région"
+msgstr "State / Region"
 
 #: ../mod/ha/xajax.inc:441
 msgctxt "Hospitals-Info-Form"
 msgid "Postal Code"
-msgstr "Code postal"
+msgstr "Postal Code"
 
 #: ../mod/ha/xajax.inc:445
 msgctxt "Hospitals-Info"
 msgid "Country"
-msgstr "Pays"
+msgstr "Country"
 
 #: ../mod/ha/xajax.inc:449
 msgctxt "Hospitals-Info-Form"
 msgid "Phone"
-msgstr "Téléphone"
+msgstr "Phone"
 
 #: ../mod/ha/xajax.inc:453
 msgctxt "Hospitals-Info"
@@ -669,12 +651,12 @@ msgstr "Fax"
 #: ../mod/ha/xajax.inc:457
 msgctxt "Hospitals-Info"
 msgid "Email"
-msgstr "Courriel"
+msgstr "Email"
 
 #: ../mod/ha/xajax.inc:461
 msgctxt "Hospitals-Info"
 msgid "Web Address"
-msgstr "Adresse Web"
+msgstr "Web Address"
 
 #: ../mod/ha/xajax.inc:465
 msgctxt "Hospitals-Info"
@@ -684,47 +666,47 @@ msgstr "NPI #"
 #: ../mod/ha/xajax.inc:470
 msgctxt "Hospital-Info-Grouptitle"
 msgid "Enter a Street Address: "
-msgstr "Entrez une adresse de rue: "
+msgstr "Enter a Street Address: "
 
 #: ../mod/ha/xajax.inc:471
 msgctxt "Hospitals-Info-Form"
 msgid "Detect My Current Location"
-msgstr "Détecter ma position actuelle"
+msgstr "Detect My Current Location"
 
 #: ../mod/ha/xajax.inc:490
 msgctxt "Hospitals-Info-Form"
 msgid "Hospital Policies"
-msgstr "Les politiques des hôpitaux"
+msgstr "Hospital Policies"
 
 #: ../mod/ha/xajax.inc:493
 msgctxt "Hospitals-Info-Form"
 msgid "PatientID prefix"
-msgstr "Préfixe PatientID"
+msgstr "PatientID prefix"
 
 #: ../mod/ha/xajax.inc:497
 msgctxt "Hospitals-Info-Form"
 msgid "PatientID suffix length is variable"
-msgstr "La longueur est variable suffixe PatientID"
+msgstr "PatientID suffix length is variable"
 
 #: ../mod/ha/xajax.inc:501
 msgctxt "Hospitals-Info-Form"
 msgid "PatientID suffix fixed length"
-msgstr "Longueur suffixe PatientID fixe"
+msgstr "PatientID suffix fixed length"
 
 #: ../mod/ha/xajax.inc:505
 msgctxt "Hospitals-Info-Form"
 msgid "Photo Required"
-msgstr "Photo obligatoire"
+msgstr "Photo Required"
 
 #: ../mod/ha/xajax.inc:509
 msgctxt "Hospitals-Info-Form"
 msgid "Honor No Photo Request"
-msgstr "Honorez Aucune demande de photo"
+msgstr "Honor No Photo Request"
 
 #: ../mod/ha/xajax.inc:513
 msgctxt "Hospitals-Info-Form"
 msgid "Photographer Name Required"
-msgstr "Nom photographe requis"
+msgstr "Photographer Name Required"
 
 #: ../mod/ha/xajax.inc:517
 msgctxt "Hospitals-Info-Form"
@@ -739,52 +721,52 @@ msgstr "Anonymous Legalese"
 #: ../mod/ha/xajax.inc:527
 msgctxt "Hospital-Info-Form"
 msgid "Hospital Icon"
-msgstr "Hôpital Icône"
+msgstr "Hospital Icon"
 
 #: ../mod/ha/xajax.inc:539
 msgctxt "Hospitals-Edit-Message"
 msgid "Canceling Changes..."
-msgstr "Changements Annulation internautes"
+msgstr "Canceling Changes..."
 
 #: ../mod/ha/xajax.inc:539
 msgctxt "Hospitals-Edit-Button"
 msgid "Cancel Edit / Close"
-msgstr "Annuler Modifier / Fermer"
+msgstr "Cancel Edit / Close"
 
 #: ../mod/ha/xajax.inc:540
 msgctxt "Hospitals-Edit-Message"
 msgid "Saving Changes..."
-msgstr "Enregistrement des modifications..."
+msgstr "Saving Changes..."
 
 #: ../mod/ha/xajax.inc:540
 msgctxt "Hospitals-Edit-Button"
 msgid "Save Changes"
-msgstr "Enregistrer les modifications"
+msgstr "Save Changes"
 
 #: ../mod/ha/xajax.inc:541
 msgctxt "Hospitals-Edit-Message"
 msgid "Saving Changes...<br>"
-msgstr "Enregistrement des modifications ... <br>"
+msgstr "Saving Changes...<br>"
 
 #: ../mod/ha/xajax.inc:541
 msgctxt "Hospitals-Edit-Button"
 msgid "Save Changes and Close"
-msgstr "Sauvegarder les modifications et fermer."
+msgstr "Save Changes and Close"
 
 #: ../mod/ha/xajax.inc:542
 msgctxt "Hospitals-Edit-Message"
 msgid "Canceling Changes...<br>"
-msgstr "Changements Annulation ... <br>"
+msgstr "Canceling Changes...<br>"
 
 #: ../mod/ha/xajax.inc:542
 msgctxt "Hospitals-Edit-Button"
 msgid "Cancel Editing and Close"
-msgstr "Annuler l'édition et fermer"
+msgstr "Cancel Editing and Close"
 
 #: ../mod/ha/xajax.inc:554
 msgctxt "Hospitals-Remove-Button"
 msgid "Remove this Hospital"
-msgstr "Retirez cet hôpital"
+msgstr "Remove this Hospital"
 
 #: ../mod/em/conf.inc:15
 msgid "Event Manager"
@@ -800,53 +782,42 @@ msgstr "Rapport d'une personne"
 
 #: ../mod/report/main.inc:40
 msgctxt "Report-ReportingClosed-Message"
-msgid ""
-"\n"
-"\t\t\t\t\t\t<br>\n"
-"\t\t\tThis event is closed and is no longer accepting new person reports.\n"
-"\t\t"
-msgstr "\n\t\t\t\t\t\t <br> \n\t\t\tLe événement est fermé et n'est plus accepter les rapports de nouvelles personnes. \n\t\t"
+msgid "\n\t\t\t\t\t\t<br>\n\t\t\tThis event is closed and is no longer accepting new person reports.\n\t\t"
+msgstr "\n\t\t\t\t\t\t<br>\n\t\t\tThis event is closed and is no longer accepting new person reports.\n\t\t"
 
 #: ../mod/report/main.inc:49
 msgctxt "Report-External-Heading"
-msgid ""
-"\n"
-"\t\t\t<h2>External Reporting</h2>\n"
-"\t\t\t"
-msgstr "\n\t\t\t <h2> rapports externes </ h2> \n\t\t\t"
+msgid "\n\t\t\t<h2>External Reporting</h2>\n\t\t\t"
+msgstr "\n\t\t\t<h2>External Reporting</h2>\n\t\t\t"
 
 #: ../mod/report/main.inc:59
 msgctxt "Report-LoginRequired"
 msgid "You must log in before you can report a new person to the registry."
-msgstr "Vous devez vous connecter avant de pouvoir déclarer une nouvelle personne à la base de registre."
+msgstr "You must log in before you can report a new person to the registry."
 
 #: ../mod/report/main.inc:69
 msgctxt "Report-Header"
-msgid ""
-"\n"
-"\t\t<h2>Report a Person</h2>"
-msgstr "\n\t\t <h2> rapport d'une personne </ h2>"
+msgid "\n\t\t<h2>Report a Person</h2>"
+msgstr "\n\t\t<h2>Report a Person</h2>"
 
 #: ../mod/report/main.inc:72
 msgctxt "Report-QuickSearch-Link"
-msgid ""
-"You may wish to perform a <a href=\"search\">quick search</a> before "
-"reporting. Otherwise..."
-msgstr "Vous pouvez effectuer une recherche rapide href=\"search\"> <a </ a> avant de rapports. Sinon ..."
+msgid "You may wish to perform a <a href=\"search\">quick search</a> before reporting. Otherwise..."
+msgstr "You may wish to perform a <a href=\"search\">quick search</a> before reporting. Otherwise..."
 
 #: ../mod/report/main.inc:75
 msgctxt "Report-CreateNew-Button"
 msgid "Create a New Person Report"
-msgstr "Créer un rapport de nouvelle personne"
+msgstr "Create a New Person Report"
 
 #: ../mod/report/main.inc:113
 msgctxt "Report-NoRedirect-Link"
 msgid "click here if not automatically redirected..."
-msgstr "cliquez ici si ce n'est pas redirigé automatiquement ..."
+msgstr "click here if not automatically redirected..."
 
 #: ../mod/feed/conf.inc:14
 msgid "RSS Feed"
-msgstr "Flux RSS"
+msgstr "RSS Feed"
 
 #: ../mod/admin/conf.inc:15
 msgid "Administration"
@@ -860,32 +831,32 @@ msgstr "Version"
 #: ../mod/admin/main.inc:39
 msgctxt "Admin-Menu"
 msgid "Resource Pages"
-msgstr "Pages de ressources"
+msgstr "Resource Pages"
 
 #: ../mod/admin/main.inc:40
 msgctxt "Admin-Menu"
 msgid "Add User"
-msgstr "Ajouter Utilisateur"
+msgstr "Add User"
 
 #: ../mod/admin/main.inc:41
 msgctxt "Admin-Menu"
 msgid "Remove User"
-msgstr "Supprimer un Utilisateur"
+msgstr "Remove User"
 
 #: ../mod/admin/main.inc:42
 msgctxt "Admin-Menu"
 msgid "User Roles"
-msgstr "Rôles de l'utilisateur"
+msgstr "User Roles"
 
 #: ../mod/admin/main.inc:43
 msgctxt "Admin-Menu"
 msgid "Password Reset"
-msgstr "Réinitialisation de Mot de Passe"
+msgstr "Password Reset"
 
 #: ../mod/admin/main.inc:44
 msgctxt "Admin-Menu"
 msgid "User Status"
-msgstr "Statut de l'utilisateur"
+msgstr "User Status"
 
 #: ../mod/admin/main.inc:45
 msgctxt "Admin-Menu"
@@ -895,7 +866,7 @@ msgstr "Module ACL"
 #: ../mod/admin/main.inc:46
 msgctxt "Admin-Menu"
 msgid "Event Log"
-msgstr "= Journal d’évènements"
+msgstr "Event Log"
 
 #: ../mod/admin/main.inc:163
 msgid "Rows are Users ,Columns are the possible status values"
@@ -904,81 +875,77 @@ msgstr "Les lignes sont les utilisateurs, les colonnes sont les valeurs d'état 
 #: ../mod/admin/main.inc:166
 msgctxt "Admin-UserPermission"
 msgid "<strong>Active</strong> - The user can login and perform operations."
-msgstr "<strong> active </ strong> - L'utilisateur peut se connecter et effectuer des opérations."
+msgstr "<strong>Active</strong> - The user can login and perform operations."
 
 #: ../mod/admin/main.inc:167
 msgctxt "Admin-UserPermission"
-msgid ""
-"<strong>Locked</strong> - The user is withheld from performing operations on "
-"the system temporarily."
-msgstr "<strong> Verrouillé </ strong> - L'utilisateur est retenu d'effectuer des opérations sur le système temporairement."
+msgid "<strong>Locked</strong> - The user is withheld from performing operations on the system temporarily."
+msgstr "<strong>Locked</strong> - The user is withheld from performing operations on the system temporarily."
 
 #: ../mod/admin/main.inc:168
 msgctxt "Admin-UserPermission"
-msgid ""
-"<strong>Banned</strong> - The user is not allowed to perform any operation "
-"on the system permanently."
-msgstr "<strong> Banned </ strong> - L'utilisateur n'est pas autorisé à effectuer toute opération sur le système de façon permanente."
+msgid "<strong>Banned</strong> - The user is not allowed to perform any operation on the system permanently."
+msgstr "<strong>Banned</strong> - The user is not allowed to perform any operation on the system permanently."
 
 #: ../mod/admin/main.inc:178
 msgctxt "Admin-UserStatus-Title"
 msgid "User"
-msgstr "Userful"
+msgstr "User"
 
 #: ../mod/admin/main.inc:179
 msgctxt "Admin-UserStatus"
 msgid "Active"
-msgstr "Actif"
+msgstr "Active"
 
 #: ../mod/admin/main.inc:180
 msgctxt "Admin-UserStatus"
 msgid "Locked"
-msgstr "Verrouillé"
+msgstr "Locked"
 
 #: ../mod/admin/main.inc:181
 msgctxt "Admin-UserStatus"
 msgid "Banned"
-msgstr "Interdit"
+msgstr "Banned"
 
 #: ../mod/admin/main.inc:221
 msgctxt "Admin-UserPermission"
 msgid "Save"
-msgstr "Enregistrement..."
+msgstr "Save"
 
 #: ../mod/admin/main.inc:249
 msgctxt "Admin-UserStatus-Save"
 msgid "Status of user accounts saved!"
-msgstr "Statut des comptes d'utilisateurs enregistrés!"
+msgstr "Status of user accounts saved!"
 
 #: ../mod/admin/main.inc:267
 msgctxt "Admin-User-EventLog"
 msgid "Date/Time"
-msgstr "Date/Heure"
+msgstr "Date/Time"
 
 #: ../mod/admin/main.inc:268
 msgctxt "Admin-User-EventLog"
 msgid "User Name"
-msgstr "Nom utilisateur"
+msgstr "User Name"
 
 #: ../mod/admin/main.inc:269
 msgctxt "Admin-User-EventLog"
 msgid "Full Name"
-msgstr "Nom complet"
+msgstr "Full Name"
 
 #: ../mod/admin/main.inc:270
 msgctxt "Admin-User-EventLog"
 msgid "Event Type"
-msgstr "Type d'événement"
+msgstr "Event Type"
 
 #: ../mod/admin/main.inc:271
 msgctxt "Admin-User-EventLog"
 msgid "Event"
-msgstr "Événement"
+msgstr "Event"
 
 #: ../mod/admin/main.inc:301
 msgctxt "Admin-User-EventLog-Message"
 msgid "No log entries thus far."
-msgstr "Pas d'entrées de journal à ce jour."
+msgstr "No log entries thus far."
 
 #: ../mod/admin/main.inc:326
 msgid "Account Details"
@@ -987,49 +954,47 @@ msgstr "Détails du compte"
 #: ../mod/admin/main.inc:328
 msgctxt "Admin-User-Form"
 msgid "First Name "
-msgstr "Prénom "
+msgstr "First Name "
 
 #: ../mod/admin/main.inc:329
 msgctxt "Admin-User-Form"
 msgid "Last Name "
-msgstr "Nom "
+msgstr "Last Name "
 
 #: ../mod/admin/main.inc:330
 msgctxt "Admin-User-Form"
 msgid "User Name "
-msgstr "Nom utilisateur "
+msgstr "User Name "
 
 #: ../mod/admin/main.inc:331
 msgctxt "Admin-User-Form"
 msgid "Email Address "
-msgstr "Adresse courriel "
+msgstr "Email Address "
 
 #: ../mod/admin/main.inc:332
 msgctxt "Admin-User-Form"
 msgid "Password for Login"
-msgstr "Mot de passe pour la connexion"
+msgstr "Password for Login"
 
 #: ../mod/admin/main.inc:333
 msgctxt "Admin-User-Form"
 msgid "Confirm Password"
-msgstr "Confirmer le mot de passe"
+msgstr "Confirm Password"
 
 #: ../mod/admin/main.inc:337
 msgctxt "Admin-User-Form"
 msgid "Roles"
-msgstr "Rôles"
+msgstr "Roles"
 
 #: ../mod/admin/main.inc:340
 msgctxt "Admin-User-Form"
 msgid "OpenId Login Details"
-msgstr "OpenId Détails Connexion"
+msgstr "OpenId Login Details"
 
 #: ../mod/admin/main.inc:341
 msgctxt "Admin-User-Form"
-msgid ""
-"<div class=\"info\">Option to use an OpenID instead of a username/password "
-"if you'd like.</div><br />"
-msgstr "<div class=\"info\"> Option pour utiliser OpenID au lieu d'un nom d'utilisateur / mot de passe si vous le souhaitez. </ div> <br />"
+msgid "<div class=\"info\">Option to use an OpenID instead of a username/password if you'd like.</div><br />"
+msgstr "<div class=\"info\">Option to use an OpenID instead of a username/password if you'd like.</div><br />"
 
 #: ../mod/admin/main.inc:342
 msgctxt "Admin-User-Form"
@@ -1039,7 +1004,7 @@ msgstr "OpenID "
 #: ../mod/admin/main.inc:345
 msgctxt "Admin-User-Form-Button"
 msgid "Submit"
-msgstr "Soumettre"
+msgstr "Submit"
 
 #: ../mod/admin/main.inc:377
 msgid "Select User(s) to Delete"
@@ -1048,122 +1013,117 @@ msgstr "Sélectionnez Utilisateur (s) pour supprimer"
 #: ../mod/admin/main.inc:382
 msgctxt "Admin-User-Delete"
 msgid "Remove user"
-msgstr "Supprimer un Utilisateur"
+msgstr "Remove user"
 
 #: ../mod/admin/main.inc:423
 msgctxt "Admin-User-Delete"
 msgid "User does not exist"
-msgstr "L'utilisateur n'existe pas"
+msgstr "User does not exist"
 
 #: ../mod/admin/main.inc:425
 msgctxt "Admin-User-Delete-Message"
 msgid "User was successfully removed"
-msgstr "L'utilisateur a été supprimé avec succès"
+msgstr "User was successfully removed"
 
 #: ../mod/admin/main.inc:440
 msgctxt "Admin-User-PasswordReset-Title"
 msgid "<h4>Password must adhere to following rules:</h4>"
-msgstr "Mot de passe <h4> doivent se conformer aux règles suivantes: </ h4>"
+msgstr "<h4>Password must adhere to following rules:</h4>"
 
 #: ../mod/admin/main.inc:449
 msgctxt "Admin-User-PasswordReset-Form"
 msgid "Select User"
-msgstr "Sélectionnez un utilisateur"
+msgstr "Select User"
 
 #: ../mod/admin/main.inc:452 ../mod/admin/main.inc:454
 msgctxt "Admin-User-PasswordReset-Form"
 msgid "New Password"
-msgstr "Nouveau mot de passe"
+msgstr "New Password"
 
 #: ../mod/admin/main.inc:455
 msgctxt "Admin-User-PasswordReset-Form"
 msgid "Confirm New Password"
-msgstr "Confirmer le Nouveau Mot de Passe"
+msgstr "Confirm New Password"
 
 #: ../mod/admin/main.inc:458
 msgctxt "Admin-User-PasswordReset-Form-Button"
 msgid "Reset Password"
-msgstr "Réinitialiser le mot de passe"
+msgstr "Reset Password"
 
 #: ../mod/admin/main.inc:479
 msgctxt "Admin-User-PasswordReset-Message"
 msgid "New password cannot be blank."
-msgstr "Nouveau mot de passe ne peut pas être vide."
+msgstr "New password cannot be blank."
 
 #: ../mod/admin/main.inc:486
 msgctxt "Admin-User-PasswordReset-Message"
 msgid "You failed to re-enter the password."
-msgstr "Vous avez omis de réintégrer le mot de passe."
+msgstr "You failed to re-enter the password."
 
 #: ../mod/admin/main.inc:493
 msgctxt "Admin-User-PasswordReset-Message"
 msgid "The two passwords you entered did not match."
-msgstr "Les deux mots de passe que vous avez saisi ne correspond."
+msgstr "The two passwords you entered did not match."
 
 #: ../mod/admin/main.inc:504
 msgctxt "Admin-User-PasswordReset-Message"
 msgid "The password was succesfully reset."
-msgstr "Le mot de passe a été réinitialisé avec succès."
+msgstr "The password was succesfully reset."
 
 #: ../mod/admin/main.inc:523
 msgctxt "Admin-User-PasswordReset-Message"
 msgid "An error ocurred"
-msgstr "Une erreur ocurred"
+msgstr "An error ocurred"
 
 #: ../mod/admin/main.inc:525
 msgctxt "Admin-User-PasswordReset-Message"
 msgid "The password was succesfully updated."
-msgstr "Le mot de passe a été mis à jour avec succès."
+msgstr "The password was succesfully updated."
 
 #: ../mod/admin/main.inc:544
 msgctxt "Admin-Modules-Enable"
-msgid ""
-"\n"
-"\t\t<br><b>Enable/Disable Modules</b> ~ rows are modules, columns are "
-"groups, intersection shows whether the module is enabled not<br><br>\n"
-"\t\t<div id=\"formcontainer\">\n"
-"\t"
-msgstr "\n\t\t <br> <b> Activer / désactiver les modules </ b> ~ de lignes sont des modules, les colonnes sont des groupes, des spectacles d'intersection si le module est activé pas <br> \n\t\t < div id = \"formcontainer \"> \n\t"
+msgid "\n\t\t<br><b>Enable/Disable Modules</b> ~ rows are modules, columns are groups, intersection shows whether the module is enabled not<br><br>\n\t\t<div id=\"formcontainer\">\n\t"
+msgstr "\n\t\t<br><b>Enable/Disable Modules</b> ~ rows are modules, columns are groups, intersection shows whether the module is enabled not<br><br>\n\t\t<div id=\"formcontainer\">\n\t"
 
 #: ../mod/admin/main.inc:598
 msgctxt "Admin-Modules-Button"
 msgid "Save ACL"
-msgstr "Enregistrer ACL"
+msgstr "Save ACL"
 
 #: ../mod/admin/main.inc:651
 msgctxt "Admin-Modules-Message"
 msgid "The selection was not saved due to one or more errors."
-msgstr "La sélection n'a pas été enregistré en raison de une ou plusieurs erreurs."
+msgstr "The selection was not saved due to one or more errors."
 
 #: ../mod/admin/main.inc:653
 msgctxt "Admin-Modules-Message"
 msgid "The ACL changes were saved successfully."
-msgstr "Les modifications de LCA ont été sauvegardés avec succès."
+msgstr "The ACL changes were saved successfully."
 
 #: ../mod/admin/main.inc:676
 msgctxt "Admin-User-Message"
 msgid "User's class updated successfully."
-msgstr "Classe de l'utilisateur mis à jour avec succès."
+msgstr "User's class updated successfully."
 
 #: ../mod/admin/main.inc:687
 msgctxt "Admin-User-ChangeRoles"
 msgid "\n\t\t<br>\n\t\t<div id=\"home\">Designate which group each use is apart of by clicking assign to change it to the desired group. The box colored <span style=\"color: orange; font-weight: bold;\">orange</span> denotes which group the user is currently apart of.</div><br>\n\t\t<div id=\"formcontainer\">\n\t"
-msgstr "\n\t\t <br> \n\t\t <div id=\"home\"> Désigner le groupe auquel chaque utilisation est en dehors de la en cliquant sur assignation de le changer pour le groupe souhaité. Le <span boîte colorée style=\"color: orange; font-weight: bold;\"> orange </ span> indique le groupe auquel l'utilisateur est actuellement en dehors de. </ Div> <br> \n\t\t <div id=\"formcontainer\"> \n\t"
+msgstr "\n\t\t<br>\n\t\t<div id=\"home\">Designate which group each use is apart of by clicking assign to change it to the desired group. The box colored <span style=\"color: orange; font-weight: bold;\">orange</span> denotes which group the user is currently apart of.</div><br>\n\t\t<div id=\"formcontainer\">\n\t"
 
 #: ../mod/admin/main.inc:699
 msgctxt "Admin-User-Roles-Form"
 msgid "UserID"
-msgstr "Identifiant de l'utilisateur"
+msgstr "UserID"
 
 #: ../mod/admin/main.inc:700
 msgctxt "Admin-User-Roles-Form"
 msgid "Username"
-msgstr "Nom d'utilisateur"
+msgstr "Username"
 
 #: ../mod/admin/main.inc:701
 msgctxt "Admin-User-Roles-Form"
 msgid "Real Name"
-msgstr "Nom réel"
+msgstr "Real Name"
 
 #: ../mod/sepl/conf.inc:16
 msgid "Search+"
@@ -1191,7 +1151,7 @@ msgstr "Changer mon mot de passe"
 
 #: ../mod/pref/main.inc:256 ../mod/pref/main.inc:581 ../mod/pref/main.inc:588
 msgid "Please provide the text in the image correctly to prove you are human."
-msgstr "S'il vous plaît fournir le texte dans l'image correctement pour prouver que vous êtes un être humain."
+msgstr "Please provide the text in the image correctly to prove you are human."
 
 #: ../mod/pref/main.inc:626
 msgid "You new password must adhere to following rules:"
@@ -1231,7 +1191,7 @@ msgstr "Vous ne pouvez pas choisir l'un des quatre dernières mots de passe"
 
 #: ../mod/pref/main.inc:769
 msgid " Succesfully changed Password"
-msgstr " Mot de passe avec succès changé"
+msgstr "Mot de passe avec succès changé"
 
 #: ../mod/pref/main.inc:786
 msgid "Old password cannot be empty"
@@ -1296,22 +1256,22 @@ msgstr "Accueil"
 #: ../mod/home/main.inc:31
 msgctxt "Home-SelectEvent-Message"
 msgid "To Locate Someone After a Disaster...</h3>\n\t\tbegin by choosing an event from the list below :"
-msgstr "Pour trouver une personne après un sinistre ... </ h3> \n\t\tbegin en choisissant un évènement dans la liste ci-dessous:"
+msgstr "To Locate Someone After a Disaster...</h3>\n\t\tbegin by choosing an event from the list below :"
 
 #: ../mod/home/main.inc:37
 msgctxt "Home-AvailableEvents-PersonLocator"
 msgid "For these events you can search and report new information directly to this registry :"
-msgstr "Pour ces événements, vous pouvez rechercher et communiquer de nouvelles informations directement à ce registre:"
+msgstr "For these events you can search and report new information directly to this registry :"
 
 #: ../mod/home/main.inc:45
 msgctxt "Home-AvailableEvents-Google"
 msgid "For these events you can search locally and report new information through Google :"
-msgstr "Pour ces événements, vous pouvez lancer une recherche au niveau local et communiquer de nouvelles informations via Google:"
+msgstr "For these events you can search locally and report new information through Google :"
 
 #: ../mod/home/main.inc:53
 msgctxt "Home-AvailableEvents-SearchOnly"
 msgid "For these events you can search only :"
-msgstr "Pour ces événements, vous pouvez lancer une recherche uniquement:"
+msgstr "For these events you can search only :"
 
 #: ../mod/rap/conf.inc:14
 msgid "Report a Person 1"
@@ -1354,8 +1314,7 @@ msgid "Age"
 msgstr "Age"
 
 #: ../mod/rap/main.inc:209
-msgid "The exact age for the person or a best guess (can be combined with the age "
-"range below if an exact number is not known)."
+msgid "The exact age for the person or a best guess (can be combined with the age range below if an exact number is not known)."
 msgstr "L'âge exact de la personne ou la meilleure estimation (peut être combiné avec la tranche d'âge ci-dessous si le nombre exact n'est pas connu)."
 
 #: ../mod/rap/main.inc:210
@@ -1363,8 +1322,7 @@ msgid "Lower End of Age Range"
 msgstr "Inférieure de la fourchette d'âge"
 
 #: ../mod/rap/main.inc:210
-msgid "The lower limit for a person's age if an exact age is not known. (optional "
-"if exact age is known)"
+msgid "The lower limit for a person's age if an exact age is not known. (optional if exact age is known)"
 msgstr "La limite inférieure pour l'âge d'une personne si l'âge exact n'est pas connu. (Facultatif si l'âge exact est connu)"
 
 #: ../mod/rap/main.inc:211
@@ -1372,8 +1330,7 @@ msgid "Upper End of Age Range"
 msgstr "Haut de la fourchette d'âge"
 
 #: ../mod/rap/main.inc:211
-msgid "The upper limit for a person's age if an exact age is not known. (optional "
-"if exact age is known)"
+msgid "The upper limit for a person's age if an exact age is not known. (optional if exact age is known)"
 msgstr "La limite supérieure pour l'âge d'une personne si l'âge exact n'est pas connu. (Facultatif si l'âge exact est connu)"
 
 #: ../mod/rap/main.inc:212
@@ -1461,9 +1418,7 @@ msgid "Other Comments"
 msgstr "Autres commentaires:"
 
 #: ../mod/rap/main.inc:276
-msgid ""
-"Please fill out the form with as much information as possible about the "
-"person you are reporting."
+msgid "Please fill out the form with as much information as possible about the person you are reporting."
 msgstr "S'il vous plaît remplir le formulaire avec les informations autant que possible sur la personne que vous déclarez."
 
 #: ../mod/rap/main.inc:282
@@ -1493,8 +1448,3 @@ msgstr "Connexion d'accès Raw"
 #: ../mod/plus/main.inc:36
 msgid "Access Statistics"
 msgstr "Statistiques sur les accès"
-
-#: ../mod/plus/main.inc:37
-msgid "Active Clients"
-msgstr "Clients actifs"
-
