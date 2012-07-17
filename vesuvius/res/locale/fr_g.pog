@@ -521,7 +521,7 @@ msgstr "Opening Help..."
 #: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289 ../mod/ha/xajax.inc:324
 msgctxt "Hospitals-Help-Button"
 msgid "Help"
-msgstr "Help"
+msgstr "Aider"
 
 #: ../mod/ha/xajax.inc:154
 msgctxt "Hospitals-Search-Result"
