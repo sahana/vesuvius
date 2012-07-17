@@ -94,9 +94,7 @@ msgid "Continue"
 msgstr "Continuer"
 
 #: ../inc/lib_security/acl_form.inc:54
-msgid ""
-"Rows are Locked Users, Columns are the possible status\n"
-"\tvalues"
+msgid "Rows are Locked Users, Columns are the possible status\n\tvalues"
 msgstr ""
 
 #: ../inc/lib_security/acl_form.inc:63
@@ -125,8 +123,7 @@ msgstr "Prénom est un champ obligatoire. S'il vous plaît entrer une valeur."
 
 #: ../inc/lib_security/lib_auth.inc:948
 msgid "Last name is a required field. Please enter a value."
-msgstr ""
-"Nom de famille est un champ obligatoire. S'il vous plaît entrer une valeur."
+msgstr "Nom de famille est un champ obligatoire. S'il vous plaît entrer une valeur."
 
 #: ../inc/lib_security/lib_auth.inc:1270
 #, php-format
@@ -151,9 +148,7 @@ msgid "The password should have at least one numeric character."
 msgstr "Le mot de passe doit avoir au moins un caractère numérique."
 
 #: ../inc/lib_security/lib_auth.inc:1285
-msgid ""
-"The password should have at least one special character. eg. !,@.#$%\\^&\\"
-"*/?`~+=:;-\"'"
+msgid "The password should have at least one special character. eg. !,@.#$%\\^&\\*/?`~+=:;-\"'"
 msgstr ""
 
 #: ../inc/lib_security/lib_auth.inc:1288
@@ -183,9 +178,7 @@ msgid "Must have at least one numeral (0-9)."
 msgstr "Doit avoir au moins un chiffre (0-9)."
 
 #: ../inc/lib_security/lib_auth.inc:1335
-msgid ""
-"Should have one or more of the following characters: '!@,.#$%\\^&\\"
-"*/?`~+=:;()-\"'[]{}<>' "
+msgid "Should have one or more of the following characters: '!@,.#$%\\^&\\*/?`~+=:;()-\"'[]{}<>' "
 msgstr ""
 
 #: ../inc/lib_security/lib_auth.inc:1339
@@ -202,12 +195,8 @@ msgid "The role '%s' was successfully added."
 msgstr ""
 
 #: ../inc/lib_security/lib_auth.inc:1375
-msgid ""
-"A role with the name you entered already exists. Please enter a different "
-"role name."
-msgstr ""
-"Un rôle avec le nom que vous avez entré existe déjà. S'il vous plaît entrez "
-"un nom de rôle différent."
+msgid "A role with the name you entered already exists. Please enter a different role name."
+msgstr "Un rôle avec le nom que vous avez entré existe déjà. S'il vous plaît entrez un nom de rôle différent."
 
 #: ../inc/handler_mainmenu.inc:22
 msgid "Main Menu"
@@ -242,19 +231,12 @@ msgid "Invalid Image Type Please try again"
 msgstr "Blancs type d'image S'il vous plaît essayez de nouveau"
 
 #: ../inc/lib_image.inc:703
-msgid ""
-"The uploaded file exceeds the upload_max_filesize directive in php.ini. (<"
-msgstr ""
-"Le fichier téléchargé excède la directive upload_max_filesize dans php.ini. "
-"(<"
+msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini. (<"
+msgstr "Le fichier téléchargé excède la directive upload_max_filesize dans php.ini. (<"
 
 #: ../inc/lib_image.inc:705
-msgid ""
-"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
-"the HTML form."
-msgstr ""
-"Le fichier téléchargé excède la directive MAX_FILE_SIZE qui a été spécifié "
-"dans le formulaire HTML."
+msgid "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form."
+msgstr "Le fichier téléchargé excède la directive MAX_FILE_SIZE qui a été spécifié dans le formulaire HTML."
 
 #: ../inc/lib_image.inc:707
 msgid "The uploaded file was only partially uploaded."
@@ -293,12 +275,7 @@ msgid "The postcode must have 2 digits, a dash, and then 3 digits"
 msgstr "Le code postal doit avoir 2 chiffres, un tiret, puis 3 chiffres"
 
 #: ../inc/lib_validate.inc:109
-msgid ""
-"The postcode must begin with a string of the format\n"
-"\t\t\tA9, A99, AA9, AA99, AA9A, A9A, or AAA,\n"
-"\t\t\tand then be followed by a space and a string\n"
-"\t\t\tof the form 9AA.\n"
-"\t\t\tA is any letter and 9 is any number."
+msgid "The postcode must begin with a string of the format\n\t\t\tA9, A99, AA9, AA99, AA9A, A9A, or AAA,\n\t\t\tand then be followed by a space and a string\n\t\t\tof the form 9AA.\n\t\t\tA is any letter and 9 is any number."
 msgstr ""
 
 #: ../inc/lib_validate.inc:136
@@ -306,8 +283,7 @@ msgid "The "
 msgstr "La "
 
 #: ../inc/lib_validate.inc:136
-msgid ""
-"field must be 8 digits in length, with an optional 2 or 3 digit area code"
+msgid "field must be 8 digits in length, with an optional 2 or 3 digit area code"
 msgstr ""
 
 #: ../inc/lib_validate.inc:187
@@ -388,16 +364,11 @@ msgstr "Confirmer"
 
 #: ../inc/lib_form.inc:996
 msgid "Wysiwyg editor not configured correctly. Using Textarea instead."
-msgstr ""
-"Éditeur wysiwyg pas configuré correctement. Utilisation Textarea lieu."
+msgstr "Éditeur wysiwyg pas configuré correctement. Utilisation Textarea lieu."
 
 #: ../inc/lib_form.inc:1031
-msgid ""
-"A required file was not found. Failed to initialize Wysiwig Editor. Using "
-"Textarea instead."
-msgstr ""
-"Un fichier requis n'a pas été trouvé. Échec d'initialisation éditeur "
-"WYSIWIG. Utilisation Textarea lieu."
+msgid "A required file was not found. Failed to initialize Wysiwig Editor. Using Textarea instead."
+msgstr "Un fichier requis n'a pas été trouvé. Échec d'initialisation éditeur WYSIWIG. Utilisation Textarea lieu."
 
 #: ../inc/lib_errors.inc:113
 msgid "Oops! There are a few errors :"
@@ -821,19 +792,12 @@ msgstr "Rapport d'une personne"
 
 #: ../mod/report/main.inc:40
 msgctxt "Report-ReportingClosed-Message"
-msgid ""
-"\n"
-"\t\t\t\t\t\t<br>\n"
-"\t\t\tThis event is closed and is no longer accepting new person reports.\n"
-"\t\t"
+msgid "\n\t\t\t\t\t\t<br>\n\t\t\tThis event is closed and is no longer accepting new person reports.\n\t\t"
 msgstr ""
 
 #: ../mod/report/main.inc:49
 msgctxt "Report-External-Heading"
-msgid ""
-"\n"
-"\t\t\t<h2>External Reporting</h2>\n"
-"\t\t\t"
+msgid "\n\t\t\t<h2>External Reporting</h2>\n\t\t\t"
 msgstr ""
 
 #: ../mod/report/main.inc:59
@@ -843,16 +807,12 @@ msgstr ""
 
 #: ../mod/report/main.inc:69
 msgctxt "Report-Header"
-msgid ""
-"\n"
-"\t\t<h2>Report a Person</h2>"
+msgid "\n\t\t<h2>Report a Person</h2>"
 msgstr ""
 
 #: ../mod/report/main.inc:72
 msgctxt "Report-QuickSearch-Link"
-msgid ""
-"You may wish to perform a <a href=\"search\">quick search</a> before "
-"reporting. Otherwise..."
+msgid "You may wish to perform a <a href=\"search\">quick search</a> before reporting. Otherwise..."
 msgstr ""
 
 #: ../mod/report/main.inc:75
@@ -920,9 +880,7 @@ msgstr ""
 
 #: ../mod/admin/main.inc:163
 msgid "Rows are Users ,Columns are the possible status values"
-msgstr ""
-"Les lignes sont les utilisateurs, les colonnes sont les valeurs d'état "
-"possibles"
+msgstr "Les lignes sont les utilisateurs, les colonnes sont les valeurs d'état possibles"
 
 #: ../mod/admin/main.inc:166
 msgctxt "Admin-UserPermission"
@@ -931,16 +889,12 @@ msgstr ""
 
 #: ../mod/admin/main.inc:167
 msgctxt "Admin-UserPermission"
-msgid ""
-"<strong>Locked</strong> - The user is withheld from performing operations on "
-"the system temporarily."
+msgid "<strong>Locked</strong> - The user is withheld from performing operations on the system temporarily."
 msgstr ""
 
 #: ../mod/admin/main.inc:168
 msgctxt "Admin-UserPermission"
-msgid ""
-"<strong>Banned</strong> - The user is not allowed to perform any operation "
-"on the system permanently."
+msgid "<strong>Banned</strong> - The user is not allowed to perform any operation on the system permanently."
 msgstr ""
 
 #: ../mod/admin/main.inc:178
@@ -1049,9 +1003,7 @@ msgstr ""
 
 #: ../mod/admin/main.inc:341
 msgctxt "Admin-User-Form"
-msgid ""
-"<div class=\"info\">Option to use an OpenID instead of a username/password "
-"if you'd like.</div><br />"
+msgid "<div class=\"info\">Option to use an OpenID instead of a username/password if you'd like.</div><br />"
 msgstr ""
 
 #: ../mod/admin/main.inc:342
@@ -1140,12 +1092,7 @@ msgstr ""
 
 #: ../mod/admin/main.inc:544
 msgctxt "Admin-Modules-Enable"
-msgid ""
-"\n"
-"\t\t<br><b>Enable/Disable Modules</b> ~ rows are modules, columns are "
-"groups, intersection shows whether the module is enabled not<br><br>\n"
-"\t\t<div id=\"formcontainer\">\n"
-"\t"
+msgid "\n\t\t<br><b>Enable/Disable Modules</b> ~ rows are modules, columns are groups, intersection shows whether the module is enabled not<br><br>\n\t\t<div id=\"formcontainer\">\n\t"
 msgstr ""
 
 #: ../mod/admin/main.inc:598
@@ -1170,15 +1117,7 @@ msgstr ""
 
 #: ../mod/admin/main.inc:687
 msgctxt "Admin-User-ChangeRoles"
-msgid ""
-"\n"
-"\t\t<br>\n"
-"\t\t<div id=\"home\">Designate which group each use is apart of by clicking "
-"assign to change it to the desired group. The box colored <span "
-"style=\"color: orange; font-weight: bold;\">orange</span> denotes which "
-"group the user is currently apart of.</div><br>\n"
-"\t\t<div id=\"formcontainer\">\n"
-"\t"
+msgid "\n\t\t<br>\n\t\t<div id=\"home\">Designate which group each use is apart of by clicking assign to change it to the desired group. The box colored <span style=\"color: orange; font-weight: bold;\">orange</span> denotes which group the user is currently apart of.</div><br>\n\t\t<div id=\"formcontainer\">\n\t"
 msgstr ""
 
 #: ../mod/admin/main.inc:699
@@ -1206,8 +1145,7 @@ msgstr "Ressources internes"
 
 #: ../mod/snap/main.inc:32
 msgid "Snapshot ~ Database Backup and Restore Module"
-msgstr ""
-"Instantané de base de données de sauvegarde et de restauration ~ Module"
+msgstr "Instantané de base de données de sauvegarde et de restauration ~ Module"
 
 #: ../mod/pref/conf.inc:14
 msgid "My Settings"
@@ -1222,8 +1160,7 @@ msgid "Change My Password"
 msgstr "Changer mon mot de passe"
 
 #: ../mod/pref/main.inc:256 ../mod/pref/main.inc:581 ../mod/pref/main.inc:588
-msgid ""
-"Please provide the text in the image correctly to prove you are human."
+msgid "Please provide the text in the image correctly to prove you are human."
 msgstr ""
 
 #: ../mod/pref/main.inc:626
@@ -1252,13 +1189,11 @@ msgstr "Vous avez quitté le champ mot de passe vierge confirment."
 
 #: ../mod/pref/main.inc:699
 msgid "Your new password did not match when you retyped it."
-msgstr ""
-"Votre nouveau mot de passe ne correspondent pas lorsque vous le retaper."
+msgstr "Votre nouveau mot de passe ne correspondent pas lorsque vous le retaper."
 
 #: ../mod/pref/main.inc:724
 msgid "You cannot change the password more than once in one day"
-msgstr ""
-"Vous ne pouvez pas changer le mot de passe plus d'une fois en une journée"
+msgstr "Vous ne pouvez pas changer le mot de passe plus d'une fois en une journée"
 
 #: ../mod/pref/main.inc:755
 msgid "You cannot choose one of the recent four passwords"
@@ -1266,7 +1201,7 @@ msgstr "Vous ne pouvez pas choisir l'un des quatre dernières mots de passe"
 
 #: ../mod/pref/main.inc:769
 msgid " Succesfully changed Password"
-msgstr " Mot de passe avec succès changé"
+msgstr "Mot de passe avec succès changé"
 
 #: ../mod/pref/main.inc:786
 msgid "Old password cannot be empty"
@@ -1330,23 +1265,17 @@ msgstr "Accueil"
 
 #: ../mod/home/main.inc:31
 msgctxt "Home-SelectEvent-Message"
-msgid ""
-"To Locate Someone After a Disaster...</h3>\n"
-"\t\tbegin by choosing an event from the list below :"
+msgid "To Locate Someone After a Disaster...</h3>\n\t\tbegin by choosing an event from the list below :"
 msgstr ""
 
 #: ../mod/home/main.inc:37
 msgctxt "Home-AvailableEvents-PersonLocator"
-msgid ""
-"For these events you can search and report new information directly to this "
-"registry :"
+msgid "For these events you can search and report new information directly to this registry :"
 msgstr ""
 
 #: ../mod/home/main.inc:45
 msgctxt "Home-AvailableEvents-Google"
-msgid ""
-"For these events you can search locally and report new information through "
-"Google :"
+msgid "For these events you can search locally and report new information through Google :"
 msgstr ""
 
 #: ../mod/home/main.inc:53
@@ -1363,23 +1292,8 @@ msgid "Information Privacy"
 msgstr "Confidentialité de l'information"
 
 #: ../mod/rap/main.inc:186
-msgid ""
-"<span class=\"publicText\">Public</span> Denotes information that, if "
-"provided, can be exposed to the general public.<br><br><span "
-"class=\"privateText\">Private</span> Denotes information that will not be "
-"available to the public. <br><br>Private information may be made available "
-"to or shared with other family members and friends you designate, emergency "
-"responders, medical providers, clergy/councilors, law enforcement, or "
-"authorized displaced-person agencies."
-msgstr ""
-"<span class=\"publicText\"> publique </ span> Signifie que l'information, si "
-"elle est fournie, peut être exposée au grand public. <br> <span "
-"class=\"privateText\"> privé </ span > Indique les informations qui ne sera "
-"pas à la disposition du public. <br> informations privées peuvent être mis à "
-"la disposition ou partagés avec d'autres membres de famille et les amis que "
-"vous désignez, les intervenants d'urgence, prestataires médicaux, membres du "
-"clergé ou les conseillers, l'application de la loi, ou qui sont autorisés "
-"déplacées personne agences."
+msgid "<span class=\"publicText\">Public</span> Denotes information that, if provided, can be exposed to the general public.<br><br><span class=\"privateText\">Private</span> Denotes information that will not be available to the public. <br><br>Private information may be made available to or shared with other family members and friends you designate, emergency responders, medical providers, clergy/councilors, law enforcement, or authorized displaced-person agencies."
+msgstr "<span class=\"publicText\"> publique </ span> Signifie que l'information, si elle est fournie, peut être exposée au grand public. <br> <span class=\"privateText\"> privé </ span > Indique les informations qui ne sera pas à la disposition du public. <br> informations privées peuvent être mis à la disposition ou partagés avec d'autres membres de famille et les amis que vous désignez, les intervenants d'urgence, prestataires médicaux, membres du clergé ou les conseillers, l'application de la loi, ou qui sont autorisés déplacées personne agences."
 
 #: ../mod/rap/main.inc:190
 msgid "Person's Status"
@@ -1410,36 +1324,24 @@ msgid "Age"
 msgstr "Age"
 
 #: ../mod/rap/main.inc:209
-msgid ""
-"The exact age for the person or a best guess (can be combined with the age "
-"range below if an exact number is not known)."
-msgstr ""
-"L'âge exact de la personne ou la meilleure estimation (peut être combiné "
-"avec la tranche d'âge ci-dessous si le nombre exact n'est pas connu)."
+msgid "The exact age for the person or a best guess (can be combined with the age range below if an exact number is not known)."
+msgstr "L'âge exact de la personne ou la meilleure estimation (peut être combiné avec la tranche d'âge ci-dessous si le nombre exact n'est pas connu)."
 
 #: ../mod/rap/main.inc:210
 msgid "Lower End of Age Range"
 msgstr "Inférieure de la fourchette d'âge"
 
 #: ../mod/rap/main.inc:210
-msgid ""
-"The lower limit for a person's age if an exact age is not known. (optional "
-"if exact age is known)"
-msgstr ""
-"La limite inférieure pour l'âge d'une personne si l'âge exact n'est pas "
-"connu. (Facultatif si l'âge exact est connu)"
+msgid "The lower limit for a person's age if an exact age is not known. (optional if exact age is known)"
+msgstr "La limite inférieure pour l'âge d'une personne si l'âge exact n'est pas connu. (Facultatif si l'âge exact est connu)"
 
 #: ../mod/rap/main.inc:211
 msgid "Upper End of Age Range"
 msgstr "Haut de la fourchette d'âge"
 
 #: ../mod/rap/main.inc:211
-msgid ""
-"The upper limit for a person's age if an exact age is not known. (optional "
-"if exact age is known)"
-msgstr ""
-"La limite supérieure pour l'âge d'une personne si l'âge exact n'est pas "
-"connu. (Facultatif si l'âge exact est connu)"
+msgid "The upper limit for a person's age if an exact age is not known. (optional if exact age is known)"
+msgstr "La limite supérieure pour l'âge d'une personne si l'âge exact n'est pas connu. (Facultatif si l'âge exact est connu)"
 
 #: ../mod/rap/main.inc:212
 msgid "Gender"
@@ -1463,8 +1365,7 @@ msgstr "Adresse du domicile:"
 
 #: ../mod/rap/main.inc:218
 msgid "Please specify the address of the person you are reporting."
-msgstr ""
-"S'il vous plaît spécifier l'adresse de la personne que vous déclarez."
+msgstr "S'il vous plaît spécifier l'adresse de la personne que vous déclarez."
 
 #: ../mod/rap/main.inc:219
 msgid "Home Zip Code"
@@ -1527,12 +1428,8 @@ msgid "Other Comments"
 msgstr "Autres commentaires:"
 
 #: ../mod/rap/main.inc:276
-msgid ""
-"Please fill out the form with as much information as possible about the "
-"person you are reporting."
-msgstr ""
-"S'il vous plaît remplir le formulaire avec les informations autant que "
-"possible sur la personne que vous déclarez."
+msgid "Please fill out the form with as much information as possible about the person you are reporting."
+msgstr "S'il vous plaît remplir le formulaire avec les informations autant que possible sur la personne que vous déclarez."
 
 #: ../mod/rap/main.inc:282
 msgid "Please enter the Given Name of the person you are reporting."
