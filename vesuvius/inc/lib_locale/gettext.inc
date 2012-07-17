@@ -1,24 +1,24 @@
 <?php
 /*
-   Copyright (c) 2005 Steven Armstrong <sa at c-area dot ch>
+ Copyright (c) 2005 Steven Armstrong <sa at c-area dot ch>
 
-   Drop in replacement for native gettext.
+Drop in replacement for native gettext.
 
-   This file is part of PHP-gettext.
+This file is part of PHP-gettext.
 
-   PHP-gettext is free software; you can redistribute it and/or modify
-   it under the terms of the GNU General Public License as published by
-   the Free Software Foundation; either version 2 of the License, or
-   (at your option) any later version.
+PHP-gettext is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-   PHP-gettext is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
+PHP-gettext is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-   You should have received a copy of the GNU General Public License
-   along with PHP-gettext; if not, write to the Free Software
-   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+You should have received a copy of the GNU General Public License
+along with PHP-gettext; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 LC_CTYPE    0
 LC_NUMERIC  1
@@ -32,13 +32,13 @@ LC_ALL      6
  * @version      1.0
  * @package      framework
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
- * @author		 Ramindu Deshapriya <rasade88@gmail.com>
- * @about        Developed in whole or part by the U.S. National Library of Medicine
- * @link         https://pl.nlm.nih.gov/about
- * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.05.13
- */
+* @author		 Ramindu Deshapriya <rasade88@gmail.com>
+* @about        Developed in whole or part by the U.S. National Library of Medicine
+* @link         https://pl.nlm.nih.gov/about
+* @link         http://sahanafoundation.org
+* @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
+* @lastModified 2012.05.13
+*/
 
 require('streams.php');
 require('gettext.php');
@@ -76,14 +76,14 @@ function _get_reader($domain=null, $category=5, $enable_cache=true) {
 
 		if ( file_exists($path) ) {
 			$input = new FileReader($path);
-			
+				
 		} else {
 			$input = null;
-		
+
 		}
-		$text_domains[$domain]->l10n = new gettext_reader($input, $enable_cache);				
+		$text_domains[$domain]->l10n = new gettext_reader($input, $enable_cache);
 	}
-		return $text_domains[$domain]->l10n;
+	return $text_domains[$domain]->l10n;
 }
 
 /**
@@ -103,7 +103,7 @@ function _get_reader_g($domain=null, $category=5, $enable_cache=true) {
 		$path = $p. $locale.'_g.mo';
 		if ( file_exists($path) ) {
 			$input = new FileReader($path);
-				
+
 		} else {
 			$input = null;
 
@@ -119,8 +119,8 @@ function _get_reader_g($domain=null, $category=5, $enable_cache=true) {
  * Returns whether we are using our emulated gettext API or PHP built-in one.
  */
 function locale_emulation() {
-    global $EMULATEGETTEXT;
-    return $EMULATEGETTEXT;
+	global $EMULATEGETTEXT;
+	return $EMULATEGETTEXT;
 }
 
 
@@ -129,8 +129,8 @@ function locale_emulation() {
  * Checks if the current locale is supported on this system.
  */
 function _check_locale() {
-    global $EMULATEGETTEXT;
-    return !$EMULATEGETTEXT;
+	global $EMULATEGETTEXT;
+	return !$EMULATEGETTEXT;
 }
 
 
@@ -172,33 +172,33 @@ function _encode($text) {
 function _setlocale($category, $locale) {
 	/*
 	 * Edit by Ramindu: Forcing $EMULATEGETTEXT to be 1 in all instances
-	 * 		to support Vesuvius's custom translation methodology
-	 */
-    global $CURRENTLOCALE, $EMULATEGETTEXT;
-    $loc_lang = substr($CURRENTLOCALE, 0, 2);
-    if ($locale === 0) { // use === to differentiate between string "0"
-        if ($CURRENTLOCALE != '')
-            return $CURRENTLOCALE;
-        else
-            // obey LANG variable, maybe extend to support all of LC_* vars
-            // even if we tried to read locale without setting it first
-            return _setlocale($category, $CURRENTLOCALE);
-    } else {
-        $ret = 0;
-        if (function_exists('setlocale')) // This is called if PHP gettext module is installed and enabled
-           $ret = setlocale($category, $locale);
-        if (($ret and $locale == '') or ($ret == $locale)) {
-            $EMULATEGETTEXT = 1; //Old value: 0
-            $CURRENTLOCALE = $ret;
-        } else {
-  	    if ($locale == '') // emulate variable support
- 	        $CURRENTLOCALE = getenv('LANG');
-	    else
-	        $CURRENTLOCALE = $locale;
-            $EMULATEGETTEXT = 1;
-        }
-        return $CURRENTLOCALE;
-    }
+	* 		to support Vesuvius's custom translation methodology
+	*/
+	global $CURRENTLOCALE, $EMULATEGETTEXT;
+	$loc_lang = substr($CURRENTLOCALE, 0, 2);
+	if ($locale === 0) { // use === to differentiate between string "0"
+		if ($CURRENTLOCALE != '')
+			return $CURRENTLOCALE;
+		else
+			// obey LANG variable, maybe extend to support all of LC_* vars
+			// even if we tried to read locale without setting it first
+			return _setlocale($category, $CURRENTLOCALE);
+	} else {
+		$ret = 0;
+		if (function_exists('setlocale')) // This is called if PHP gettext module is installed and enabled
+			$ret = setlocale($category, $locale);
+		if (($ret and $locale == '') or ($ret == $locale)) {
+			$EMULATEGETTEXT = 1; //Old value: 0
+			$CURRENTLOCALE = $ret;
+		} else {
+			if ($locale == '') // emulate variable support
+				$CURRENTLOCALE = getenv('LANG');
+			else
+				$CURRENTLOCALE = $locale;
+			$EMULATEGETTEXT = 1;
+		}
+		return $CURRENTLOCALE;
+	}
 }
 
 
@@ -246,31 +246,33 @@ function _textdomain($domain) {
 function _gettext($msgid) {
 	$l10n = _get_reader();
 	$l10n_g = _get_reader_g();
-	//return $l10n->translate($msgid);
+	//Original code: return $l10n->translate($msgid);
 	$l10n_trans = _encode($l10n->translate($msgid));
-	//echo $msgid.' => PO: '.$l10n_trans;
+	//Debug: echo $msgid.' => PO: '.$l10n_trans;
 	if ( $l10n_trans == $msgid || $l10n_trans == '' ) {
 		$l10n_g_trans = _encode($l10n_g->translate($msgid));
 		global $gtrans;
-		
 		if ( !isset($gtrans) )
 			$gtrans = new GTranslator();
-			
 		$locale = $gtrans->shn_getLocale();
-		//echo $msgid.' => GPOTrans: '.$l10n_g_trans;
+		//Debug: echo $msgid.' => GPOTrans: '.$l10n_g_trans;
 		if ( ($l10n_g_trans == $msgid || $l10n_g_trans == '') && $locale != 'en' ) {
-			//echo 'Passing '.$msgid.' to GTranslate.';
-			$googleString = $gtrans->shn_google_translate_dummy($msgid);
+			/* Neither Human PO nor Google PO has returned a translation, queueing for Google PO rewrite*/
+			$gtrans->rewrite_po($locale);
+			//Debug: echo 'Passing '.$msgid.' to GTranslate.';
+			/*$googleString = $gtrans->shn_google_translate_dummy($msgid);
 			if ( $googleString != $msgid ) {
-				//Google has returned a new translation, add this Google PO to rebuild queue
-				$gtrans->rewrite_po($gtrans->shn_getLocale());
-				return $googleString;
+			//Google has returned a new translation, add this Google PO to rebuild queue
+			$gtrans->rewrite_po($gtrans->shn_getLocale());
+			return $googleString;
 			}
-			else return _encode($l10n->translate($msgid));
+			else return _encode($l10n->translate($msgid));*/
 		}
 		else return _encode($l10n_g->translate($msgid));
 	}
-	else return _encode($l10n->translate($msgid));
+	else {
+		return _encode($l10n->translate($msgid));
+	}
 
 }
 
@@ -367,7 +369,7 @@ function _dcngettext($domain, $single, $plural, $number, $category) {
 // Use the standard impl if the current locale is supported, use the custom impl otherwise.
 
 function T_setlocale($category, $locale) {
-    return _setlocale($category, $locale);
+	return _setlocale($category, $locale);
 }
 
 
@@ -380,7 +382,7 @@ function T_bindtextdomain($domain, $path) {
 
 
 function T_bind_textdomain_codeset($domain, $codeset) {
-    // bind_textdomain_codeset is available only in PHP 4.2.0+
+	// bind_textdomain_codeset is available only in PHP 4.2.0+
 	if (_check_locale() and function_exists('bind_textdomain_codeset')) return bind_textdomain_codeset($domain, $codeset);
 	else return _bind_textdomain_codeset($domain, $codeset);
 }
