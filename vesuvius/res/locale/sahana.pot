@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-26 23:51+0530\n"
+"POT-Creation-Date: 2012-07-19 15:49+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -82,7 +82,7 @@ msgstr ""
 msgid "Select the Role you want to edit permissions of"
 msgstr ""
 
-#: ../inc/lib_security/acl_form.inc:33 ../mod/admin/main.inc:336
+#: ../inc/lib_security/acl_form.inc:33
 msgid "Select Role"
 msgstr ""
 
@@ -95,7 +95,9 @@ msgid "Continue"
 msgstr ""
 
 #: ../inc/lib_security/acl_form.inc:54
-msgid "Rows are Locked Users, Columns are the possible status\n\tvalues"
+msgid ""
+"Rows are Locked Users, Columns are the possible status\n"
+"\tvalues"
 msgstr ""
 
 #: ../inc/lib_security/acl_form.inc:63
@@ -149,7 +151,10 @@ msgid "The password should have at least one numeric character."
 msgstr ""
 
 #: ../inc/lib_security/lib_auth.inc:1285
-msgid "The password should have at least one special character. eg. !,@.#$%\\^&\\*/?`~+=:;-\"'"
+msgctxt ""
+"The password should have at least one special character. eg. !,@.#$%\\^&\\*/?"
+"`~+="
+msgid ":;-\"'"
 msgstr ""
 
 #: ../inc/lib_security/lib_auth.inc:1288
@@ -276,7 +281,7 @@ msgid "The postcode must have 2 digits, a dash, and then 3 digits"
 msgstr ""
 
 #: ../inc/lib_validate.inc:109
-msgid "The postcode must begin with a string of the format\n\t\t\tA9, A99, AA9, AA99, AA9A, A9A, or AAA,\n\t\t\tand then be followed by a space and a string\n\t\t\tof the form 9AA.\n\t\t\tA is any letter and 9 is any number."
+msgid "The postcode must begin with a string of the format\n\t\t\tA9, A99, AA9, AA99, AA9A, A9A, or AAA,and then be followed by a space and a string of the form 9AA. A is any letter and 9 is any number."
 msgstr ""
 
 #: ../inc/lib_validate.inc:136
@@ -524,7 +529,7 @@ msgctxt "Hospitals-Add-Button"
 msgid "Add a new Hospital"
 msgstr ""
 
-#: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289 ../mod/ha/xajax.inc:324
+#: ../mod/ha/xajax.inc:141
 msgctxt "Hospitals-Help-Message"
 msgid "Opening Help..."
 msgstr ""
@@ -535,22 +540,22 @@ msgid "Help"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:154
-msgctxt "Hospitals-Search-Result"
+msgctxt "Hospitals-Log-Message"
 msgid "Found <b>"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:154
-msgctxt "Hospitals-Search-Result"
+msgctxt "Hospitals-Log-Message"
 msgid "</b> Hospital(s).<br>"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:170
-msgctxt "Hospitals-Help"
+msgctxt "Hospitals-Help-Text"
 msgid "coming soon...."
 msgstr ""
 
 #: ../mod/ha/xajax.inc:175
-msgctxt "Hospitals-Help-ClosingMessage"
+msgctxt "Hospitals-Log-Message"
 msgid "Closing Help..."
 msgstr ""
 
@@ -560,122 +565,132 @@ msgid "Close Help"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:283
-msgctxt "Hospitals-Save-Message"
+msgctxt "Hospitals-Log-Message"
 msgid "Hospital #<b>"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:283
-msgctxt "Hospitals-Save-Message"
+msgctxt "Hospitals-Log-Message"
 msgid "Saved"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:287
-msgctxt "Hospitals-Add-Message"
+msgctxt "Hospitals-Log-Message"
 msgid "Add a new Hospital..."
 msgstr ""
 
+#: ../mod/ha/xajax.inc:289 ../mod/ha/xajax.inc:324
+msgctxt "Hospitals-Log-Message"
+msgid "Opening Help..."
+msgstr ""
+
 #: ../mod/ha/xajax.inc:312
-msgctxt "Hospitals-Remove-Message"
+msgctxt "Hospitals-Log-Message"
 msgid "Hospital <b>#"
 msgstr ""
 
-#: ../mod/ha/xajax.inc:312
-msgctxt "Hospitals-Remove-Message"
+#: ../mod/ha/xajax.inc:312 ../mod/ha/xajax.inc:315
+msgctxt "Hospitals-Log-Message"
 msgid "removed"
 msgstr ""
 
+#: ../mod/ha/xajax.inc:315
+msgctxt "Hospitals-Log-Message"
+msgid "Hospital"
+msgstr ""
+
 #: ../mod/ha/xajax.inc:317
-msgctxt "Hospitals-Remove-Aborted"
+msgctxt "Hospitals-Log-Message"
 msgid "Remove operation aborted.<br>"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:322
-msgctxt "Hospitals-Add-Message"
+msgctxt "Hospitals-Log-Message"
 msgid "Adding a new Hospital..."
 msgstr ""
 
 #: ../mod/ha/xajax.inc:406
-msgctxt "Hospitals-Info-Title"
+msgctxt "Hospitals-EditHospitalForm-Title"
 msgid "Hospital Information"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:409
-msgctxt "Hospitals-Info-Form-Text"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "Hospital UUID"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:413
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "Name"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:417
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "Short Name"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:421
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "Street 1"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:425
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "Street 2"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:429
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "City"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:433
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "County"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:437
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "State / Region"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:441
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "Postal Code"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:445
-msgctxt "Hospitals-Info"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "Country"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:449
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "Phone"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:453
-msgctxt "Hospitals-Info"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "Fax"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:457
-msgctxt "Hospitals-Info"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "Email"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:461
-msgctxt "Hospitals-Info"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "Web Address"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:465
-msgctxt "Hospitals-Info"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "NPI #"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:470
-msgctxt "Hospital-Info-Grouptitle"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "Enter a Street Address: "
 msgstr ""
 
@@ -685,57 +700,61 @@ msgid "Detect My Current Location"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:490
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-Text"
 msgid "Hospital Policies"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:493
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "PatientID prefix"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:497
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "PatientID suffix length is variable"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:501
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "PatientID suffix fixed length"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:505
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-Message"
 msgid "Photo Required"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:509
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-Text"
 msgid "Honor No Photo Request"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:513
-msgctxt "Hospitals-Info-Form"
-msgid "Photographer Name Required"
-msgstr ""
+msgid "Hospitals-EditHospitalForm-Message"
+msgstr "Photographer Name Required"
 
 #: ../mod/ha/xajax.inc:517
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "Legalese"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:521
-msgctxt "Hospitals-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-TextField"
 msgid "Anonymous Legalese"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:527
-msgctxt "Hospital-Info-Form"
+msgctxt "Hospitals-EditHospitalForm-Text"
 msgid "Hospital Icon"
 msgstr ""
 
+#: ../mod/ha/xajax.inc:530
+msgctxt "Hospitals-EditHospitalForm-TextField"
+msgid "Icon URL"
+msgstr ""
+
 #: ../mod/ha/xajax.inc:539
-msgctxt "Hospitals-Edit-Message"
+msgctxt "Hospitals-Log-Message"
 msgid "Canceling Changes..."
 msgstr ""
 
@@ -745,7 +764,7 @@ msgid "Cancel Edit / Close"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:540
-msgctxt "Hospitals-Edit-Message"
+msgctxt "Hospitals-Log-Message"
 msgid "Saving Changes..."
 msgstr ""
 
@@ -755,7 +774,7 @@ msgid "Save Changes"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:541
-msgctxt "Hospitals-Edit-Message"
+msgctxt "Hospitals-Log-Message"
 msgid "Saving Changes...<br>"
 msgstr ""
 
@@ -765,7 +784,7 @@ msgid "Save Changes and Close"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:542
-msgctxt "Hospitals-Edit-Message"
+msgctxt "Hospitals-Log-Message"
 msgid "Canceling Changes...<br>"
 msgstr ""
 
@@ -792,37 +811,37 @@ msgid "Report a Person"
 msgstr ""
 
 #: ../mod/report/main.inc:40
-msgctxt "Report-ReportingClosed-Message"
-msgid "\n\t\t\t\t\t\t<br>\n\t\t\tThis event is closed and is no longer accepting new person reports.\n\t\t"
+msgctxt "ReportAPerson-ReportingClosed-Message"
+msgid "<h2>Reporting Closed</h2><br>This event is closed and is no longer accepting new person reports."
 msgstr ""
 
 #: ../mod/report/main.inc:49
-msgctxt "Report-External-Heading"
-msgid "\n\t\t\t<h2>External Reporting</h2>\n\t\t\t"
+msgctxt "ReportAPerson-External-Heading"
+msgid "<h2>External Reporting</h2>"
 msgstr ""
 
 #: ../mod/report/main.inc:59
-msgctxt "Report-LoginRequired"
+msgctxt "ReportAPerson-Message"
 msgid "You must log in before you can report a new person to the registry."
 msgstr ""
 
 #: ../mod/report/main.inc:69
 msgctxt "Report-Header"
-msgid "\n\t\t<h2>Report a Person</h2>"
+msgid "<h2>Report a Person</h2>"
 msgstr ""
 
 #: ../mod/report/main.inc:72
-msgctxt "Report-QuickSearch-Link"
+msgctxt "ReportAPerson-QuickSearch-Link"
 msgid "You may wish to perform a <a href=\"search\">quick search</a> before reporting. Otherwise..."
 msgstr ""
 
 #: ../mod/report/main.inc:75
-msgctxt "Report-CreateNew-Button"
+msgctxt "ReportAPerson-CreateNew-Button"
 msgid "Create a New Person Report"
 msgstr ""
 
 #: ../mod/report/main.inc:113
-msgctxt "Report-NoRedirect-Link"
+msgctxt "ReportAPerson-NoRedirect-Link"
 msgid "click here if not automatically redirected..."
 msgstr ""
 
@@ -884,216 +903,228 @@ msgid "Rows are Users ,Columns are the possible status values"
 msgstr ""
 
 #: ../mod/admin/main.inc:166
-msgctxt "Admin-UserPermission"
+msgctxt "Admin-UserPermission-Text"
 msgid "<strong>Active</strong> - The user can login and perform operations."
 msgstr ""
 
 #: ../mod/admin/main.inc:167
-msgctxt "Admin-UserPermission"
+msgctxt "Admin-UserPermission-Text"
 msgid "<strong>Locked</strong> - The user is withheld from performing operations on the system temporarily."
 msgstr ""
 
 #: ../mod/admin/main.inc:168
-msgctxt "Admin-UserPermission"
+msgctxt "Admin-UserPermission-Text"
 msgid "<strong>Banned</strong> - The user is not allowed to perform any operation on the system permanently."
 msgstr ""
 
 #: ../mod/admin/main.inc:178
-msgctxt "Admin-UserStatus-Title"
+msgctxt "Admin-UserStatus-Heading"
 msgid "User"
 msgstr ""
 
 #: ../mod/admin/main.inc:179
-msgctxt "Admin-UserStatus"
+msgctxt "Admin-UserStatus-Text"
 msgid "Active"
 msgstr ""
 
 #: ../mod/admin/main.inc:180
-msgctxt "Admin-UserStatus"
+msgctxt "Admin-UserStatus-Text"
 msgid "Locked"
 msgstr ""
 
 #: ../mod/admin/main.inc:181
-msgctxt "Admin-UserStatus"
+msgctxt "Admin-UserStatus-Text"
 msgid "Banned"
 msgstr ""
 
 #: ../mod/admin/main.inc:221
-msgctxt "Admin-UserPermission"
+msgctxt "Admin-UserPermission-Button"
 msgid "Save"
 msgstr ""
 
 #: ../mod/admin/main.inc:249
-msgctxt "Admin-UserStatus-Save"
+msgctxt "Admin-UserStatus-Message"
 msgid "Status of user accounts saved!"
 msgstr ""
 
 #: ../mod/admin/main.inc:267
-msgctxt "Admin-User-EventLog"
+msgctxt "Admin-UserEventLog-TableHeader"
 msgid "Date/Time"
 msgstr ""
 
 #: ../mod/admin/main.inc:268
-msgctxt "Admin-User-EventLog"
+msgctxt "Admin-UserEventLog-TableHeader"
 msgid "User Name"
 msgstr ""
 
 #: ../mod/admin/main.inc:269
-msgctxt "Admin-User-EventLog"
+msgctxt "Admin-UserEventLog-TableHeader"
 msgid "Full Name"
 msgstr ""
 
 #: ../mod/admin/main.inc:270
-msgctxt "Admin-User-EventLog"
+msgctxt "Admin-UserEventLog-TableHeader"
 msgid "Event Type"
 msgstr ""
 
 #: ../mod/admin/main.inc:271
-msgctxt "Admin-User-EventLog"
+msgctxt "Admin-UserEventLog-TableHeader"
 msgid "Event"
 msgstr ""
 
 #: ../mod/admin/main.inc:301
-msgctxt "Admin-User-EventLog-Message"
+msgctxt "Admin-UserEventLog-Message"
 msgid "No log entries thus far."
 msgstr ""
 
 #: ../mod/admin/main.inc:326
+msgctxt "Admin-AddUser-Form"
 msgid "Account Details"
 msgstr ""
 
 #: ../mod/admin/main.inc:328
-msgctxt "Admin-User-Form"
+msgctxt "Admin-AddUser-TextField"
 msgid "First Name "
 msgstr ""
 
 #: ../mod/admin/main.inc:329
-msgctxt "Admin-User-Form"
+msgctxt "Admin-AddUser-TextField"
 msgid "Last Name "
 msgstr ""
 
 #: ../mod/admin/main.inc:330
-msgctxt "Admin-User-Form"
+msgctxt "Admin-AddUser-TextField"
 msgid "User Name "
 msgstr ""
 
 #: ../mod/admin/main.inc:331
-msgctxt "Admin-User-Form"
+msgctxt "Admin-AddUser-TextField"
 msgid "Email Address "
 msgstr ""
 
 #: ../mod/admin/main.inc:332
-msgctxt "Admin-User-Form"
+msgctxt "Admin-AddUser-Password"
 msgid "Password for Login"
 msgstr ""
 
 #: ../mod/admin/main.inc:333
-msgctxt "Admin-User-Form"
+msgctxt "Admin-AddUser-Password"
 msgid "Confirm Password"
 msgstr ""
 
+#: ../mod/admin/main.inc:336
+msgctxt "Admin-AddUser-Text"
+msgid "Select Role"
+msgstr ""
+
 #: ../mod/admin/main.inc:337
-msgctxt "Admin-User-Form"
+msgctxt "Admin-AddUser-Select"
 msgid "Roles"
 msgstr ""
 
 #: ../mod/admin/main.inc:340
-msgctxt "Admin-User-Form"
+msgctxt "Admin-AddUser-TextField"
 msgid "OpenId Login Details"
 msgstr ""
 
 #: ../mod/admin/main.inc:341
-msgctxt "Admin-User-Form"
-msgid "<div class=\"info\">Option to use an OpenID instead of a username/password if you'd like.</div><br />"
+msgctxt "Admin-AddUser-Message"
+msgid "Option to use an OpenID instead of a username/password if you'd like."
 msgstr ""
 
 #: ../mod/admin/main.inc:342
-msgctxt "Admin-User-Form"
+msgctxt "Admin-AddUser-Text"
 msgid "OpenID "
 msgstr ""
 
 #: ../mod/admin/main.inc:345
-msgctxt "Admin-User-Form-Button"
+msgctxt "Admin-AddUser-Form"
 msgid "Submit"
 msgstr ""
 
 #: ../mod/admin/main.inc:377
+msgctxt "Admin-RemoveUser-Text"
 msgid "Select User(s) to Delete"
 msgstr ""
 
 #: ../mod/admin/main.inc:382
-msgctxt "Admin-User-Delete"
+msgctxt "Admin-RemoveUser-Button"
 msgid "Remove user"
 msgstr ""
 
 #: ../mod/admin/main.inc:423
-msgctxt "Admin-User-Delete"
+msgctxt "Admin-RemoveUser-Error"
 msgid "User does not exist"
 msgstr ""
 
 #: ../mod/admin/main.inc:425
-msgctxt "Admin-User-Delete-Message"
+msgctxt "Admin-RemoveUser-Message"
 msgid "User was successfully removed"
 msgstr ""
 
 #: ../mod/admin/main.inc:440
-msgctxt "Admin-User-PasswordReset-Title"
+msgctxt "Admin-ChangeUserPassword-Message"
 msgid "<h4>Password must adhere to following rules:</h4>"
 msgstr ""
 
 #: ../mod/admin/main.inc:449
-msgctxt "Admin-User-PasswordReset-Form"
+msgctxt "Admin-ChangeUserPassword-Select"
 msgid "Select User"
 msgstr ""
 
-#: ../mod/admin/main.inc:452 ../mod/admin/main.inc:454
-msgctxt "Admin-User-PasswordReset-Form"
+#: ../mod/admin/main.inc:452
+msgctxt "Admin-ChangeUserPassword-Text"
+msgid "New Password"
+msgstr ""
+
+#: ../mod/admin/main.inc:454
+msgctxt "Admin-ChangeUserPassword-Password"
 msgid "New Password"
 msgstr ""
 
 #: ../mod/admin/main.inc:455
-msgctxt "Admin-User-PasswordReset-Form"
+msgctxt "Admin-ChangeUserPassword-Password"
 msgid "Confirm New Password"
 msgstr ""
 
 #: ../mod/admin/main.inc:458
-msgctxt "Admin-User-PasswordReset-Form-Button"
+msgctxt "Admin-ChangeUserPassword-Button"
 msgid "Reset Password"
 msgstr ""
 
 #: ../mod/admin/main.inc:479
-msgctxt "Admin-User-PasswordReset-Message"
+msgctxt "Admin-ChangeUserPassword-Error"
 msgid "New password cannot be blank."
 msgstr ""
 
 #: ../mod/admin/main.inc:486
-msgctxt "Admin-User-PasswordReset-Message"
+msgctxt "Admin-ChangeUserPassword-Error"
 msgid "You failed to re-enter the password."
 msgstr ""
 
 #: ../mod/admin/main.inc:493
-msgctxt "Admin-User-PasswordReset-Message"
+msgctxt "Admin-ChangeUserPassword-Error"
 msgid "The two passwords you entered did not match."
 msgstr ""
 
 #: ../mod/admin/main.inc:504
-msgctxt "Admin-User-PasswordReset-Message"
+msgctxt "Admin-ChangeUserPassword-Message"
 msgid "The password was succesfully reset."
 msgstr ""
 
 #: ../mod/admin/main.inc:523
-msgctxt "Admin-User-PasswordReset-Message"
+msgctxt "Admin-ChangeUserPassword-Message"
 msgid "An error ocurred"
 msgstr ""
 
 #: ../mod/admin/main.inc:525
-msgctxt "Admin-User-PasswordReset-Message"
+msgctxt "Admin-ChangeUserPassword-Message"
 msgid "The password was succesfully updated."
 msgstr ""
 
 #: ../mod/admin/main.inc:544
-msgctxt "Admin-Modules-Enable"
-msgid "\n\t\t<br><b>Enable/Disable Modules</b> ~ rows are modules, columns are groups, intersection shows whether the module is enabled not<br><br>\n\t\t<div id=\"formcontainer\">\n\t"
+msgctxt "Admin-EnableModules-Help"
+msgid "<br><b>Enable/Disable Modules</b> ~ rows are modules, columns are groups, intersection shows whether the module is enabled not<br><br><div id=\"formcontainer\">"
 msgstr ""
 
 #: ../mod/admin/main.inc:598
@@ -1116,24 +1147,28 @@ msgctxt "Admin-User-Message"
 msgid "User's class updated successfully."
 msgstr ""
 
-#: ../mod/admin/main.inc:687
-msgctxt "Admin-User-ChangeRoles"
-msgid "\n\t\t<br>\n\t\t<div id=\"home\">Designate which group each use is apart of by clicking assign to change it to the desired group. The box colored <span style=\"color: orange; font-weight: bold;\">orange</span> denotes which group the user is currently apart of.</div><br>\n\t\t<div id=\"formcontainer\">\n\t"
+#: ../mod/admin/main.inc:690
+msgctxt "Admin-ChangeUserRole-Message"
+msgid "Designate which group each use is apart of by clicking assign to change it to the desired group. The box colored <span style=\"color: orange; font-weight: bold;\">orange</span> denotes which group the user is currently apart of."
 msgstr ""
 
 #: ../mod/admin/main.inc:699
-msgctxt "Admin-User-Roles-Form"
+msgctxt "Admin-ChangeUserRole-TextField"
 msgid "UserID"
 msgstr ""
 
 #: ../mod/admin/main.inc:700
-msgctxt "Admin-User-Roles-Form"
+msgctxt "Admin-ChangeUserRole-TextField"
 msgid "Username"
 msgstr ""
 
 #: ../mod/admin/main.inc:701
-msgctxt "Admin-User-Roles-Form"
-msgid "Real Name"
+msgid "Admin-ChangeUserRole-TextFieldReal Name"
+msgstr ""
+
+#: ../mod/admin/main.inc:728
+msgctxt "Admin-ChangeUserRole-Link"
+msgid "assign"
 msgstr ""
 
 #: ../mod/sepl/conf.inc:16
@@ -1144,7 +1179,133 @@ msgstr ""
 msgid "Internal Resources"
 msgstr ""
 
+#: ../mod/snap/xajax.inc:109
+msgctxt "Snapshot-FolderError-Message"
+msgid "Unable to open storage folder. Please check that the folder exists and has read/write permission for the webserver."
+msgstr ""
+
+#: ../mod/snap/xajax.inc:109
+msgctxt "Snapshot-FolderError-Link"
+msgid "Check Again"
+msgstr ""
+
+#: ../mod/snap/xajax.inc:114
+msgctxt "Snapshot-FolderPermission-Message"
+msgid "Storage folder is not writeable by the webserver. Please correct its permissions."
+msgstr ""
+
+#: ../mod/snap/xajax.inc:114
+msgctxt "Snapshot-FolderPermission-Link"
+msgid "Check Again"
+msgstr ""
+
+#: ../mod/snap/xajax.inc:119
+msgctxt "Snapshot-FolderOpen-Message"
+msgid "Storage folder is readable/writeable. Opening..."
+msgstr ""
+
+#: ../mod/snap/xajax.inc:140
+msgctxt "Snapshot-Operations-TableHeading"
+msgid "Rename"
+msgstr ""
+
+#: ../mod/snap/xajax.inc:140
+msgctxt "Snapshot-Operations-TableHeading"
+msgid "Size"
+msgstr ""
+
+#: ../mod/snap/xajax.inc:140
+msgctxt "Snapshot-Operations-TableHeading"
+msgid "Delete"
+msgstr ""
+
+#: ../mod/snap/xajax.inc:141
+msgctxt "Snapshot-Operations-TableHeading"
+msgid "Restore"
+msgstr ""
+
+#: ../mod/snap/xajax.inc:156
+msgctxt "Snapshot-Rename-Message"
+msgid "Renaming Snapshot ..."
+msgstr ""
+
+#: ../mod/snap/xajax.inc:157
+msgctxt "Snapshot-Rename-Prompt"
+msgid "Please enter a new filename:"
+msgstr ""
+
+#: ../mod/snap/xajax.inc:158
+msgctxt "Snapshot-Rename-Link"
+msgid "Rename"
+msgstr ""
+
+#: ../mod/snap/xajax.inc:163
+msgctxt "Snapshot-Delete-Message"
+msgid "Deleting Snapshot ..."
+msgstr ""
+
+#: ../mod/snap/xajax.inc:164
+msgctxt "Snapshot-Delete-Confirm"
+msgid "Are you sure you want to delete "
+msgstr ""
+
+#: ../mod/snap/xajax.inc:165
+msgctxt "Snapshot-Delete-Link"
+msgid "Delete"
+msgstr ""
+
+#: ../mod/snap/xajax.inc:168
+msgctxt "Snapshot-Restore-Message"
+msgid "Restoring Snapshot ..."
+msgstr ""
+
+#: ../mod/snap/xajax.inc:169
+msgctxt "Snapshot-Restore-Confirm"
+msgid "Are you sure you want to restore from the "
+msgstr ""
+
+#: ../mod/snap/xajax.inc:169
+msgctxt "Snapshot-Restore-Confirm"
+msgid "snapshot? Doing this will replace your current database with this snapshot."
+msgstr ""
+
+#: ../mod/snap/xajax.inc:170
+msgctxt "Snapshot-Restore-Link"
+msgid "Restore"
+msgstr ""
+
+#: ../mod/snap/xajax.inc:197
+msgctxt "Snapshot-Found-Message"
+msgid "Found"
+msgstr ""
+
+#: ../mod/snap/xajax.inc:197
+msgctxt "Snapshot-Found-Message"
+msgid "Snapshots."
+msgstr ""
+
+#: ../mod/snap/xajax.inc:275
+msgctxt "Snapshot-Log-Message"
+msgid "Database restored from Snapshot:"
+msgstr ""
+
+#: ../mod/snap/xajax.inc:277
+msgctxt "Snapshot-Log-Message"
+msgid "Restore operation aborted."
+msgstr ""
+
+#: ../mod/snap/xajax.inc:334
+msgctxt "Snapshot-Log-Message"
+msgid "Renamed Snapshot:"
+msgstr ""
+
+#: ../mod/snap/xajax.inc:336
+msgctxt "Snapshot-Log-Message"
+msgid "Rename operation aborted."
+msgstr ""
+
 #: ../mod/snap/main.inc:32
+msgctxt "Snapshot-Heading"
 msgid "Snapshot ~ Database Backup and Restore Module"
 msgstr ""
 
@@ -1266,22 +1427,23 @@ msgstr ""
 
 #: ../mod/home/main.inc:31
 msgctxt "Home-SelectEvent-Message"
-msgid "To Locate Someone After a Disaster...</h3>\n\t\tbegin by choosing an event from the list below :"
+msgid "To Locate Someone After a Disaster...</h3>begin by choosing an event from the list below :"
 msgstr ""
 
 #: ../mod/home/main.inc:37
-msgctxt "Home-AvailableEvents-PersonLocator"
-msgid "For these events you can search and report new information directly to this "
+msgctxt "Home-AvailableEvents-Text"
+msgid ""
+"For these events you can search and report new information directly to this "
 "registry :"
 msgstr ""
 
 #: ../mod/home/main.inc:45
-msgctxt "Home-AvailableEvents-Google"
+msgctxt "Home-AvailableEvents-Text"
 msgid "For these events you can search locally and report new information through Google :"
 msgstr ""
 
 #: ../mod/home/main.inc:53
-msgctxt "Home-AvailableEvents-SearchOnly"
+msgctxt "Home-AvailableEvents-Text"
 msgid "For these events you can search only :"
 msgstr ""
 
@@ -1294,7 +1456,7 @@ msgid "Information Privacy"
 msgstr ""
 
 #: ../mod/rap/main.inc:186
-msgid "<span class=\"publicText\">Public</span> Denotes information that, if provided, can be exposed to the general public.<br><br><span class=\"privateText\">Private</span> Denotes information that will not be available to the public. <br><br>Private information may be made available to or shared with other family members and friends you designate, emergency responders, medical providers, clergy/councilors, law enforcement, or authorized displaced-person agencies."
+msgid "<span class=\"publicText\">Public</span> Denotes information that, if provided, can be exposed to the general public.<br><br><span class="\"privateText\">Private</span> Denotes information that will not be available to the public. <br><br>Private information may be made available to or shared with other family members and friends you designate, emergency responders, medical providers, clergy/councilors, law enforcement, or authorized displaced-person agencies."
 msgstr ""
 
 #: ../mod/rap/main.inc:190
