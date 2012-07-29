@@ -13,6 +13,7 @@
 
 global $global;
 require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
+require_once($global['approot'].'/mod/rez/handler_locale.inc');
 
 // create an array as it does not exist previosuly and will make warnings
 $global['xajax_functions'] = array();
