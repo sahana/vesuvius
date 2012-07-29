@@ -7,15 +7,15 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0213
+ * @lastModified 2012.0729
  */
 
 
 require_once($global['approot'].'/inc/lib_menu.inc');
 require_once($global['approot'].'/inc/lib_errors.inc');
 require_once($global['approot'].'/inc/handler_db.inc');
-require_once($global['approot'].'/res/google_trans.inc');
 require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
+require_once($global['approot'].'/mod/rez/handler_locale.inc');
 
 
 function shn_rez_header2() {
@@ -38,14 +38,14 @@ function shn_rez_header2() {
 		if($result){
 			// build page info
 			while($row = $result->FetchRow() ) {
-				if($row['rez_page_id'] == $_GET['page']) {
+				if( $row['rez_page_id'] == $_GET['page'] && $row['rez_locale'] == $_GET['locale'] ) {
 					echo "
 						<li><b>".$row['rez_menu_title']."</b></li>
 					";
 				} else {
 					echo "
 						<li>
-							<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."\">".$row['rez_menu_title']."</a>
+							<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."&locale=".$row['rez_locale']."\">".$row['rez_menu_title']."</a>
 						</li>
 					";
 				}
@@ -60,6 +60,7 @@ function shn_rez_header2() {
 			SELECT *
 			FROM rez_pages
 			WHERE rez_page_id = '".mysql_real_escape_string($_GET['page'])."'
+			AND rez_locale = '".mysql_real_escape_string($_GET['locale'])."'
 			LIMIT 1;
 		";
 		$result = $global['db']->Execute($q);
@@ -89,10 +90,12 @@ function shn_rez_default() {
 
 		// get page info
 		$page = intval(mysql_real_escape_string($_GET['page']));
+		$locale = mysql_real_escape_string($_GET['locale']);
 		$q = "
 			select *
 			from rez_pages
 			where rez_page_id = '".$page."'
+			and rez_locale = '".$locale."'
 			and rez_visibility <> 'INTERNAL';
 		";
 		$result = $global['db']->Execute($q);
@@ -124,7 +127,7 @@ function shn_rez_default() {
 				while($row = $result->FetchRow() ) {
 					echo "
 						<li>
-							<a class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."\">
+							<a class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."&locale=".$row['rez_locale']."\">
 							".$row['rez_menu_title']."</a>
 						</li>
 					";
@@ -133,5 +136,3 @@ function shn_rez_default() {
 		echo "</ul>";
 	}
 }
-
-
