@@ -45,14 +45,14 @@ function shn_rez_header2() {
 			// build page info
 			while($row = $result->FetchRow() ) {
 				$locale_ids[] = $row['rez_page_id'];
-				if( $row['rez_page_id'] == $_GET['page'] && $row['rez_locale'] == $_GET['locale'] ) {
+				if( $row['rez_page_id'] == $_GET['page'] && $row['rez_locale'] == $_GET['l'] ) {
 					echo "
 					<li><b>".$row['rez_menu_title']."</b></li>
 					";
 				} else {
 					echo "
 					<li>
-					<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."&locale=".$row['rez_locale']."\">".$row['rez_menu_title']."</a>
+					<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."&l=".$row['rez_locale']."\">".$row['rez_menu_title']."</a>
 					</li>
 					";
 				}
@@ -71,14 +71,15 @@ function shn_rez_header2() {
 		if($result){
 			// build page info
 			while($row = $result->FetchRow() ) {
-				if( $row['rez_page_id'] == $_GET['page'] && $row['rez_locale'] == $_GET['locale'] ) {
+				if( $row['rez_page_id'] == $_GET['page'] && $row['rez_locale'] == $_GET['l'] && 
+						array_search($row['rez_page_id'], $locale_ids) === false ) {
 					echo "
 					<li><b>".$row['rez_menu_title']."</b></li>
 					";
 				} else if ( array_search($row['rez_page_id'], $locale_ids) === false ) {
 					echo "
 					<li>
-					<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."&locale=".$row['rez_locale']."\">".$row['rez_menu_title']."</a>
+					<a style=\"font-size: 13px;\" class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."&l=".$row['rez_locale']."\">".$row['rez_menu_title']."</a>
 					</li>
 					";
 						
@@ -94,7 +95,7 @@ function shn_rez_header2() {
 		SELECT *
 		FROM rez_pages
 		WHERE rez_page_id = '".mysql_real_escape_string($_GET['page'])."'
-		AND rez_locale = '".mysql_real_escape_string($_GET['locale'])."'
+		AND rez_locale = '".mysql_real_escape_string($_GET['l'])."'
 		LIMIT 1;
 		";
 		$result = $global['db']->Execute($q);
@@ -127,7 +128,7 @@ function shn_rez_default() {
 
 		// get page info
 		$page = intval(mysql_real_escape_string($_GET['page']));
-		$locale = mysql_real_escape_string($_GET['locale']);
+		$locale = $_GET['l'];
 		$q = "
 		select *
 		from rez_pages
@@ -170,7 +171,7 @@ function shn_rez_default() {
 				$locale_ids[] = $row['rez_page_id'];
 				echo "
 				<li>
-				<a class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."&locale=".$row['rez_locale']."\">
+				<a class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."&l=".$row['rez_locale']."\">
 				".$row['rez_menu_title']."</a>
 				</li>
 				";
@@ -193,7 +194,7 @@ function shn_rez_default() {
 				if ( array_search($row['rez_page_id'], $locale_ids) === false ) {
 					echo "
 					<li>
-					<a class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."&locale=".$row['rez_locale']."\">
+					<a class=\"rezLink\" href=\"resources?page=".$row['rez_page_id']."&l=".$row['rez_locale']."\">
 					".$row['rez_menu_title']."</a>
 					</li>
 					";
