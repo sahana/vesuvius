@@ -24,16 +24,16 @@ function shn_acl_form_role_select() {
 
 	$db=$global['db'];
 	?>
-	<div id="home"><?php echo _t("Select the Role you want to edit permissions of") ?></div>
+	<div id="home"><?php echo _t("Securty-Form-Text|Select the Role you want to edit permissions of") ?></div>
 
 	<div id="formcontainer"><?php
 	shn_form_fopen("acl_role_edit_perms","admin");
 	$extra_opts['req']=true;
 	$roles=_shn_acl_get_roles();
-	shn_form_fsopen(_t("Select Role"));
-	shn_form_select($roles,_t("Roles"),'roles',null,$extra_opts);
+	shn_form_fsopen(_t("Security-Form-Text|Select Role"));
+	shn_form_select($roles,_t("Security-Form-Select|Roles"),'roles',null,$extra_opts);
 	shn_form_fsclose();
-	shn_form_submit(_t("Continue"), "class=\"styleTehButton\"");
+	shn_form_submit(_t("Security-Form-Button|Continue"), "class=\"styleTehButton\"");
 	?>
 	</center>
 	<?php
@@ -51,8 +51,7 @@ function shn_acl_form_unlock_user() {
 
 	$db=$global['db'];
 	?>
-	<div id="home"><strong><?php echo _t("Rows are Locked Users, Columns are the possible status
-	values") ?></strong></div>
+	<div id="home"><strong><?php echo _t("Security-UnlockUser-Text|Rows are Locked Users, Columns are the possible status values") ?></strong></div>
 
 	<div id="formcontainer"><?php
 	shn_form_fopen("acl_unlock_user_cr","admin");
@@ -60,10 +59,10 @@ function shn_acl_form_unlock_user() {
 	<div id="result">
 	<table>
 	<thead>
-		<td><strong><?php echo _t("Locked User")?></strong></td>
-		<td><?php echo _t("Active")?></td>
-		<td><?php echo _t("Locked")?></td>
-		<td><?php echo _t("Banned")?></td>
+		<td><strong><?php echo _t("Security-UnlockUser-Text|Locked User")?></strong></td>
+		<td><?php echo _t("Security-UnlockUser-Text|Active")?></td>
+		<td><?php echo _t("Security-UnlockUser-Text|Locked")?></td>
+		<td><?php echo _t("Security-UnlockUser-Text|Banned")?></td>
 	</thead>
 	<tbody>
 	<?php
@@ -102,7 +101,7 @@ function shn_acl_form_unlock_user() {
 	<center><?php
 	shn_form_hidden(array("perms"=>$perms));
 	shn_form_hidden(array("users"=>$users));
-	shn_form_submit(_t("Save"), "class=\"styleTehButton\"");
+	shn_form_submit(_t("Security-UnlockUser-Button|Save"), "class=\"styleTehButton\"");
 	?></center>
 	<?php
 	//close the form

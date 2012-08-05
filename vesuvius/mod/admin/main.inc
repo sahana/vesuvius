@@ -698,7 +698,7 @@ function shn_admin_acl_user_edit_roles($error=false) {
 		<thead>
 		<td><strong><center>"._t("Admin-ChangeUserRole-TextField|UserID")."</center></strong></td>
 		<td><strong>"._t("Admin-ChangeUserRole-TextField|Username")."</strong></td>
-		<td><strong>"._t("Admin-ChangeUserRole-TextFieldReal Name")."</strong></td>
+		<td><strong>"._t("Admin-ChangeUserRole-TextField|Real Name")."</strong></td>
 	";
 
 	$roles = _shn_acl_get_roles();
