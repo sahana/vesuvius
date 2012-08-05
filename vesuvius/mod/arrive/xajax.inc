@@ -108,10 +108,10 @@ function arrive_show_list($isAnUpdate, $allEvents) {
 	$htmlMain .= "
 		<table class=\"emTable\">
 			<tr>
-				<td style=\"font-size: 120%; padding-left: 8px; text-align: center;\" ><b>Arrival Time</b></td>
-				<td style=\"font-size: 120%; padding-left: 8px; text-align: center;\" ><b>Event</b></td>
-				<td style=\"font-size: 120%; padding-left: 8px; text-align: center;\" ><b>Person UUID</b></td>
-				<td style=\"font-size: 120%; padding-left: 8px; text-align: center;\" ><b>Person Name</b></td>
+				<td style=\"font-size: 120%; padding-left: 8px; text-align: center;\" ><b>"._t("Arrivals-Table-Header|Arrival Time")."</b></td>
+				<td style=\"font-size: 120%; padding-left: 8px; text-align: center;\" ><b>"._t("Arrivals-Table-Header|Event")."</b></td>
+				<td style=\"font-size: 120%; padding-left: 8px; text-align: center;\" ><b>"._t("Arrivals-Table-Header|Person UUID")."</b></td>
+				<td style=\"font-size: 120%; padding-left: 8px; text-align: center;\" ><b>"._t("Arrivals-Table-Header|Person Name")."</b></td>
 			</tr>
 	";
 
@@ -143,7 +143,7 @@ function arrive_show_list($isAnUpdate, $allEvents) {
 		$count++;
 
 		if($isAnUpdate && $count == 1) {
-			$htmlLog .= "<br>New person arrived >> <b>".$row['person_uuid']." </b>";
+			$htmlLog .= "<br>"._t("Arrivals-Message|New person arrived >> ")."<b>".$row['person_uuid']." </b>";
 		}
 
 		// find class to color the row...
@@ -169,14 +169,14 @@ function arrive_show_list($isAnUpdate, $allEvents) {
 	}
 
 	if($count == 0) {
-		$htmlMain .= "<tr><td colspan=4 class=\"mainRowEven\" style=\"text-align: center;\">No persons have arrived thus far.</td></tr>";
+		$htmlMain .= "<tr><td colspan=4 class=\"mainRowEven\" style=\"text-align: center;\">"._t("Arrivals-Message|No persons have arrived thus far.")."</td></tr>";
 	}
 	$htmlMain .= "</table>";
 
 	$pageControlHtml = '
-		<input class="styleTehButton" id="allButton" type="button" onclick="arrive_append_log(\'<br>Showing arrivals from <b>ALL events</b>.\'); showAll(true);" value="Show Arrivals from ALL events">
+		<input class="styleTehButton" id="allButton" type="button" onclick="arrive_append_log(\'<br>'._t("Arrivals-ShowArrivals-Text|Showing arrivals from <b>ALL events</b>.").'\'); showAll(true);" value="Show Arrivals from ALL events">
 		&nbsp; &nbsp; &nbsp; &nbsp;
-		<input class="styleTehButton" id="currentButton" type="button" onclick="arrive_append_log(\'<br>Showing arrivals from <b>only the current event</b>.\'); showAll(false);" value="Show Arrivals from only the current event">
+		<input class="styleTehButton" id="currentButton" type="button" onclick="arrive_append_log(\'<br>'._t("Arrivals-ShowArrivals-Text|Showing arrivals from <b>only the current event</b>.").'\'); showAll(false);" value="Show Arrivals from only the current event">
 	';
 
 	$global['xajax_res']->addAssign('rezControl', 'innerHTML', $pageControlHtml);

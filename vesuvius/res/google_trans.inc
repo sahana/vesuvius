@@ -31,7 +31,7 @@ class GTranslator {
 		$entries = $this->_parser->getEntries();
 		foreach ( $entries as &$entry ) { 
 			if ( $entry['msgstr'] == '' ) {
-				$entry['msgstr'] = $this->shn_google_translate_dummy($entry['msgid']);
+				$entry['msgstr'] = $this->shn_google_translate($entry['msgid'], $locale);
 			}
 		}
 		$this->_parser->setEntries($entries);
@@ -92,28 +92,20 @@ class GTranslator {
 	 * @desc Function to use Google Translate API to translate strings
 	 * @return The string translated into the relevant language
 	 */
-	function shn_google_translate($text) {
-		global $global;
-		global $conf;
+	function shn_google_translate($text, $locale) {
 
 		// removing context filter, contexts are filtered out before they come here
 		/*if ( strpos($text, "|") != false ) {
 		list($context,$msgid) = explode("|", $text);
 		$text = $msgid;
 		}*/
-		$lang = shn_getLocale();
-
+		$lang = $locale;
 		// if locale is same as original, return original
-		if($lang == 'en' || $conf['google_translate_enable'] == false) {
+		if( $lang == 'en' )  {
 			return $text;
 		}
-		if($conf['google_translate_api_key'] == '') {
-			// generic key from Ramindu
-			$key = 'AIzaSyCEPIfY5Gy4Fb0q89pmC2Um_BpTD2qebck';
-		} else {
-			//get the Google Translate API Key from the configuration
-			$key = $conf['google_translate_api_key'];
-		}
+		$key = 'AIzaSyBC0pNz4quKZdoqv9s2ughgMAgQiFzz_p4';
+		
 
 		//first, we have to check whether the current locale is supported by Google Translate API
 		$crl = curl_init();
@@ -150,23 +142,23 @@ class GTranslator {
 
 		//check for first 'data' level of json string
 		if (!is_array($result) || !array_key_exists('data', $result)) {
-			add_error('Upper Level data key not found in JSON string');
+			print('Upper Level data key not found in JSON string');
 		}
 
 		// Check for second 'translations' level in json string
 		if (!array_key_exists('translations', $result['data'])) {
-			add_error('2nd Level translations key not found in JSON string');
+			print('2nd Level translations key not found in JSON string');
 		}
 
 		//Ensure that the result is an array
 		if (!is_array($result['data']['translations'])) {
-			add_error('Translations array not returned properly');
+			print('Translations array not returned properly');
 		}
 
 		return urldecode($result['data']['translations'][0]['translatedText']);
 
 		//Exception if final step fails
-		add_error('Could not translate!');
+		print('Could not translate!');
 	}
 
 

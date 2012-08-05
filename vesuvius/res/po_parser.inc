@@ -266,7 +266,7 @@ class POParser
     		fclose($file);
     	}
     	else {
-    		add_error("Google PO file write failed");
+    		print("Google PO file write failed");
     	}
     	
     }
