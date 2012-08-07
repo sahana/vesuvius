@@ -26,12 +26,20 @@ array_push($global['xajax_functions'],'rez_show_pages');
 array_push($global['xajax_functions'],'rez_show_help');
 array_push($global['xajax_functions'],'rez_perform_edit');
 array_push($global['xajax_functions'],'rez_perform_delete');
+array_push($global['xajax_functions'],'rez_perform_translate');
 array_push($global['xajax_functions'],'rez_perform_insert');
 array_push($global['xajax_functions'],'rez_perform_save');
 array_push($global['xajax_functions'],'rez_perform_move_up');
 array_push($global['xajax_functions'],'rez_perform_move_down');
 array_push($global['xajax_functions'],'rez_perform_change_visibility');
 array_push($global['xajax_functions'],'rez_perform_change_locale');
+
+//Initialize locale array
+global $global;
+//@TODO: This should be built on a query.
+$global['rez_locales'] = array( 
+		'en_US' => 'English US',
+		'fr' => 'French' );
 
 // adds a message to the log div @ tail
 function rez_append_log($message = "no message specified?") {
@@ -73,13 +81,15 @@ function rez_show_pages($internal = FALSE) {
 	$htmlMain .= "<table class=\"mainTable\"><tr><td style=\"padding-left: 8px; width: 50px; text-align: center;\" ><b>"._t("ResourcePages-Table-Header|Page #")."</b></td>"
 				."<td style=\"padding-left: 8px;\" ><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"._t("ResourcePages-Table-Header|Menu/Page Title")."</b></td>"
 				."<td style=\"text-align: center;\" ><b>"._t("ResourcePages-Table-Header|Visibility")."</b></td>"
+				."<td style=\"text-align: center;\" ><b>"._t("ResourcePages-Table-Header|Locale")."</b></td>"
 				."<td style=\"text-align: center;\" ><b>"._t("ResourcePages-Table-Header|Edit")."</b></td>"
 				."<td style=\"text-align: center;\" ><b>"._t("ResourcePages-Table-Header|Delete")."</b></td>"
+				."<td style=\"text-align: center;\" ><b>"._t("ResourcePages-Table-Header|Translate")."</b></td>"
 				."<td style=\"text-align: center;\"><b>"._t("ResourcePages-Table-Header|Move")."</b></td></tr>";
 	
 
 	$q = "
-		select rez_page_id, rez_menu_title, rez_menu_order, rez_visibility, rez_timestamp
+		select rez_page_id, rez_locale, rez_menu_title, rez_menu_order, rez_visibility, rez_timestamp
 		from rez_pages
 		where rez_page_id > -1
 		order by rez_menu_order asc;
@@ -95,13 +105,14 @@ function rez_show_pages($internal = FALSE) {
 		$pages[$count] = $row;
 		$count++;
 	}
-
+	$rez_locales = $global['rez_locales'];
 	// build pages Table
 	$i = 1;
 	$eo = 0;
 	while($i <= $count) {
 		$row = $pages[$i-1];
 		$page_id    = $row['rez_page_id'];
+		$page_locale= $row['rez_locale'];
 		$menu_title = $row['rez_menu_title'];
 		$menu_order = $row['rez_menu_order'];
 		$visibility = $row['rez_visibility'];
@@ -115,10 +126,12 @@ function rez_show_pages($internal = FALSE) {
 		$htmlMain .= "<tr><td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$page_id."</td>"
 					."<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"#\" onclick=\"rez_perform_edit(".$page_id.");\">".$int.$menu_title."</a></td>"
 					."<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><b><select name=\"visibility\" onchange=\"javascript: rez_perform_change_visibility(".$page_id.", this.value);\"><option value=\"Public\" ".(($visibility == 'Public')?'SELECTED':'').">"._t("ResourcePages-Visibility-Select|Public")."<option value=\"Hidden\" ".(($visibility == 'Hidden')?'SELECTED':'').">"._t("ResourcePages-Visibility-Select|Hidden")."<option value=\"INTERNAL\" ".(($visibility == 'INTERNAL')?'SELECTED':'').">"._t("ResourcePages-Visibility-Select|INTERNAL")."</select></b></td>";
-
+		
+		$htmlMain .= "<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$rez_locales[$page_locale]."</td>";
 		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_edit(".$page_id.");\" value=\""._t("ResourcePages-Button|Edit")."\"></td>";
 
 		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_append_log('Deleting Page ".$page_id." ...<br>'); setTimeout('rez_perform_delete(".$page_id.",confirm(\'"._t("ResourcePages-Delete-Confirm|Are you sure you want to delete this page?")."\'));', 100);\" value=\""._t("ResourcePages-Button|Delete")."\"></td>";
+		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_translate(".$page_id.");\" value=\""._t("ResourcePages-Button|Translate")."\"></td>";
 
 		// if its the first and only item, no move up/down controls
 		if (($i == 1) && ($count == 1)) {
@@ -212,9 +225,11 @@ function rez_show_pages($internal = FALSE) {
 
 	$pageControlHtml = '<input class="styleTehButton" type="button" onclick="javascript: rez_append_log(\''._t("ResourcePages-Message|Creating a new page...").'<br>\'); rez_perform_edit(0);" value="'._t("ResourcePages-Button|Create a new Page").'">'
 					.'&nbsp;&nbsp;&nbsp;&nbsp;'
-					."<select name=\"locale\" onchange=\"javascript: rez_perform_change_locale(this.value);\">"
-					."<option value=\"English US\"> English US</option>"
-					."<option value=\"French\">French</option></select>"; // <input class="controlButton" type="button" onclick="javascript: rez_append_log(\'Showing Help...<br>\'); rez_show_help();" value="Help">';
+					."<select name=\"locale\" onchange=\"javascript: rez_perform_change_locale(this.value);\">";
+	foreach ( $global['rez_locales'] as $key=>$value ) {
+		$pageControlHtml .= "<option value=\"".$key."\">".$value."</option>";
+	}
+	$pageControlHtml .= "</select>"; // <input class="controlButton" type="button" onclick="javascript: rez_append_log(\'Showing Help...<br>\'); rez_show_help();" value="Help">';
 
 	//---- internally, no ajax, just pass back data
 	if ( $internal ) {
@@ -508,7 +523,13 @@ function rez_perform_delete($page_id, $confirm) {
 	return $global['xajax_res']->getXML();
 }
 
-
+/**
+ * Translate a single page
+ * @param string $page_id
+ */
+function rez_perform_translate($page_id) {
+	
+}
 
 // presents a gui to edit a page and its corresponding fields
 function rez_show_help() {
@@ -530,7 +551,7 @@ function rez_show_help() {
  * @author Ramindu Deshapriya
  */
 function rez_perform_change_locale($locale) {
-	
+	$_SESSION['rez_locale'] = $locale;
 }
 
 
