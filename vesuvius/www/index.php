@@ -11,7 +11,6 @@
  * @lastModified 2012.0306
  */
 
-
 // define global $global['approot'] for convenience and efficiency;
 $global['approot']  = realpath(dirname(__FILE__)).'/../';
 $global['previous'] = false;

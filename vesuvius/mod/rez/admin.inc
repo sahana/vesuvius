@@ -24,6 +24,8 @@ shn_xajax_registerFunction('rez_perform_save');
 shn_xajax_registerFunction('rez_perform_move_up');
 shn_xajax_registerFunction('rez_perform_move_down');
 shn_xajax_registerFunction('rez_perform_change_visibility');
+shn_xajax_registerFunction('rez_perform_change_locale');
+shn_xajax_registerFunction('rez_perform_translate');
 
 
 /** setup admin GUI for modRez and then let xajax do all the work */
