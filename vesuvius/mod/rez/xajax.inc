@@ -10,7 +10,6 @@
  * @lastModified 2012.0213
  */
 
-
 global $global;
 require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 require_once($global['approot'].'/mod/rez/handler_locale.inc');
@@ -92,6 +91,7 @@ function rez_show_pages($internal = FALSE) {
 		select rez_page_id, rez_locale, rez_menu_title, rez_menu_order, rez_visibility, rez_timestamp
 		from rez_pages
 		where rez_page_id > -1
+		and rez_locale = 'en_US'
 		order by rez_menu_order asc;
 	";
 	$result = $global['db']->Execute($q);
