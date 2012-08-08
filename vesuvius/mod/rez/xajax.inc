@@ -86,12 +86,12 @@ function rez_show_pages($internal = FALSE) {
 				."<td style=\"text-align: center;\" ><b>"._t("ResourcePages-Table-Header|Translate")."</b></td>"
 				."<td style=\"text-align: center;\"><b>"._t("ResourcePages-Table-Header|Move")."</b></td></tr>";
 	
-
+	$currentlocale = shn_rez_getlocale();
 	$q = "
 		select rez_page_id, rez_locale, rez_menu_title, rez_menu_order, rez_visibility, rez_timestamp
 		from rez_pages
 		where rez_page_id > -1
-		and rez_locale = 'en_US'
+		and rez_locale = '".mysql_real_escape_string($currentlocale)."'
 		order by rez_menu_order asc;
 	";
 	$result = $global['db']->Execute($q);
@@ -224,12 +224,8 @@ function rez_show_pages($internal = FALSE) {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	$pageControlHtml = '<input class="styleTehButton" type="button" onclick="javascript: rez_append_log(\''._t("ResourcePages-Message|Creating a new page...").'<br>\'); rez_perform_edit(0);" value="'._t("ResourcePages-Button|Create a new Page").'">'
-					.'&nbsp;&nbsp;&nbsp;&nbsp;'
-					."<select name=\"locale\" onchange=\"javascript: rez_perform_change_locale(this.value);\">";
-	foreach ( $global['rez_locales'] as $key=>$value ) {
-		$pageControlHtml .= "<option value=\"".$key."\">".$value."</option>";
-	}
-	$pageControlHtml .= "</select>"; // <input class="controlButton" type="button" onclick="javascript: rez_append_log(\'Showing Help...<br>\'); rez_show_help();" value="Help">';
+					.'&nbsp;&nbsp;&nbsp;&nbsp;';
+	 // <input class="controlButton" type="button" onclick="javascript: rez_append_log(\'Showing Help...<br>\'); rez_show_help();" value="Help">';
 
 	//---- internally, no ajax, just pass back data
 	if ( $internal ) {
@@ -529,6 +525,14 @@ function rez_perform_delete($page_id, $confirm) {
  */
 function rez_perform_translate($page_id) {
 	
+	$pageControlHtml .= "<select name=\"locale\" onchange=\"javascript: rez_perform_change_locale(this.value);\">";
+	foreach ( $global['rez_locales'] as $key=>$value ) {
+		$pageControlHtml .= "<option value=\"".$key."\">".$value."</option>";
+	}
+	$pageControlHtml .= "</select>";
+	$global['xajax_res']->addAssign('rezControl','style.opacity','1.0');
+	$global['xajax_res']->addAssign('rezControl','innerHTML',$pageControlHtml);
+	return $global['xajax_res']->getXML();
 }
 
 // presents a gui to edit a page and its corresponding fields
@@ -552,6 +556,12 @@ function rez_show_help() {
  */
 function rez_perform_change_locale($locale) {
 	$_SESSION['rez_locale'] = $locale;
+	$global['xajax_res']->addAssign('rezControl','style.opacity','1.0');
+	$global['xajax_res']->addAssign('rezMain','innerHTML',rez_show_pages(TRUE));
+	$global['xajax_res']->addAssign('rezMain','style.opacity','1.0');
+	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
+	
+	return $global['xajax_res']->getXML();
 }
 
 
