@@ -524,7 +524,7 @@ function rez_perform_delete($page_id, $confirm) {
  * @param string $page_id
  */
 function rez_perform_translate($page_id) {
-	
+	global $global;
 	$pageControlHtml .= "<select name=\"locale\" onchange=\"javascript: rez_perform_change_locale(this.value);\">";
 	foreach ( $global['rez_locales'] as $key=>$value ) {
 		$pageControlHtml .= "<option value=\"".$key."\">".$value."</option>";
@@ -555,6 +555,7 @@ function rez_show_help() {
  * @author Ramindu Deshapriya
  */
 function rez_perform_change_locale($locale) {
+	global $global;
 	$_SESSION['rez_locale'] = $locale;
 	$global['xajax_res']->addAssign('rezControl','style.opacity','1.0');
 	$global['xajax_res']->addAssign('rezMain','innerHTML',rez_show_pages(TRUE));
