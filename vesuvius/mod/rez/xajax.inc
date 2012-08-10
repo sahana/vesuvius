@@ -525,13 +525,55 @@ function rez_perform_delete($page_id, $confirm) {
  */
 function rez_perform_translate($page_id) {
 	global $global;
+	
+	// get page info
+	$q = "
+	select *
+	from rez_pages
+	where rez_page_id = '".$page_id."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) {
+		daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez edit 1");
+	}
+	$row = $result->FetchRow();
+	
+	if((int)$row['rez_page_id'] < 0) {
+		$sistim = "SYSTEM";
+	} else {
+		$sistim = "";
+	}
+	$pageIdText = $sistim." ". abs($row['rez_page_id']);
+	
+	$editMainHtml =
+	"<form id=\"editPageForm\" name=\"editPageForm\">
+	<table class=\"mainTable\">
+	<tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Page #")."</td><td class=\"mainRowOdd\"> &nbsp; <b>".$pageIdText."</b></td></tr>
+	<tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Menu/Page Title")."</td><td class=\"mainRowEven\"><input name=\"menuTitle\" type=\"text\" id=\"menuTitle\" value=\"".$row['rez_menu_title']."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td></tr>
+	<tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Locale")."</td><td class=\"mainRowEven\"><input name=\"locale\" type=\"text\" id=\"locale\" value=\"".$row['rez_locale']."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td></tr>
+	<tr><td class=\"mainRowEOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Last Modified")."</td><td class=\"mainRowOdd\"> &nbsp; ".$row['rez_timestamp']."</td></tr>
+	</table>
+	<div class=\"wysiwyg\"><textarea name=\"pageContent\" onchange=\"window.rezPageSaved = false;\" id=\"pageContent\" style=\"height: 300px; width: 100%;\">".$row['rez_content']."</textarea></div>
+	</form>";
+	$pageControlHtml = '
+	<input class="styleTehButton" type="button" onclick="javascript:  window.rezPageSaved = true; if(nicEditors.editors.length>0){nicEditors.findEditor(\'pageContent\').saveContent();} rez_perform_save('.$page_id.', xajax.getFormValues(\'editPageForm\'));" value="'._t("ResourcePages-EditForm-Button|Save and Publish Changes").'">
+	<input class="styleTehButton" type="button" onclick="checkSaved()" value="Close Editor">
+	&nbsp; &nbsp; &nbsp; <span class="toggle">View editor as:
+	<input id="wysiwyg" class="styleTehButton" type="button" onclick="javascript: document.getElementById(\'wysiwyg\').disabled = true; document.getElementById(\'htmlcode\').disabled = false; area2 = new nicEditor({fullPanel : true}).panelInstance(\'pageContent\');" value="WYSIWYG">
+	<input id="htmlcode" class="styleTehButton" type="button" onclick="javascript: area2.removeInstance(\'pageContent\'); document.getElementById(\'wysiwyg\').disabled = false; document.getElementById(\'htmlcode\').disabled = true; nicEditors.editors = []; " value="HTML"></span>';
 	$pageControlHtml .= "<select name=\"locale\" onchange=\"javascript: rez_perform_change_locale(this.value);\">";
 	foreach ( $global['rez_locales'] as $key=>$value ) {
 		$pageControlHtml .= "<option value=\"".$key."\">".$value."</option>";
 	}
 	$pageControlHtml .= "</select>";
+	
+	$global['xajax_res']->addAssign('rezMain','style.opacity','1.0');
+	$global['xajax_res']->addAssign('rezMain','innerHTML',$editMainHtml);
 	$global['xajax_res']->addAssign('rezControl','style.opacity','1.0');
 	$global['xajax_res']->addAssign('rezControl','innerHTML',$pageControlHtml);
+	
+	$global['xajax_res']->addScript('area2 = new nicEditor({fullPanel : true}).panelInstance(\'pageContent\'); document.getElementById(\'wysiwyg\').disabled = true;');
+	
 	return $global['xajax_res']->getXML();
 }
 
