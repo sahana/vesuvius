@@ -259,6 +259,7 @@ function _gettext($msgid) {
 		if ( ($l10n_g_trans == $msgid || $l10n_g_trans == '') && $locale != 'en' ) {
 			/* Neither Human PO nor Google PO has returned a translation, queueing for Google PO rewrite*/
 			$gtrans->rewrite_po($locale);
+			return $msgid;
 			//Debug: echo 'Passing '.$msgid.' to GTranslate.';
 			/*$googleString = $gtrans->shn_google_translate_dummy($msgid);
 			if ( $googleString != $msgid ) {
