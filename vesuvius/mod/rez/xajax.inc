@@ -131,7 +131,7 @@ function rez_show_pages($internal = FALSE) {
 		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_edit(".$page_id.");\" value=\""._t("ResourcePages-Button|Edit")."\"></td>";
 
 		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_append_log('Deleting Page ".$page_id." ...<br>'); setTimeout('rez_perform_delete(".$page_id.",confirm(\'"._t("ResourcePages-Delete-Confirm|Are you sure you want to delete this page?")."\'));', 100);\" value=\""._t("ResourcePages-Button|Delete")."\"></td>";
-		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_translate(".$page_id.");\" value=\""._t("ResourcePages-Button|Translate")."\"></td>";
+		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_translate(".$page_id.",'".$currentlocale."');\" value=\""._t("ResourcePages-Button|Translate")."\"></td>";
 
 		// if its the first and only item, no move up/down controls
 		if (($i == 1) && ($count == 1)) {
@@ -523,21 +523,38 @@ function rez_perform_delete($page_id, $confirm) {
  * Translate a single page
  * @param string $page_id
  */
-function rez_perform_translate($page_id) {
+function rez_perform_translate($page_id, $locale) {
 	global $global;
 	
 	// get page info
 	$q = "
+	select rez_content
+	from rez_pages
+	where rez_page_id = '".$page_id."'
+	and rez_locale = '".$locale."';
+	";
+	$result = $global['db']->Execute($q);
+	if($result === false) {
+		daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez edit 1");
+	}
+	$original_row = $result->FetchRow();
+	
+	if ( isset($_SESSION['rez_locale']) ) {
+		$rez_locale = $_SESSION['rez_locale'];
+	}
+	else $rez_locale = shn_rez_getlocale();
+	
+	$q = "
 	select *
 	from rez_pages
-	where rez_page_id = '".$page_id."';
+	where rez_page_id = '".$page_id."'
+	and rez_locale = '".$rez_locale."';
 	";
 	$result = $global['db']->Execute($q);
 	if($result === false) {
 		daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez edit 1");
 	}
 	$row = $result->FetchRow();
-	
 	if((int)$row['rez_page_id'] < 0) {
 		$sistim = "SYSTEM";
 	} else {
@@ -553,7 +570,10 @@ function rez_perform_translate($page_id) {
 	<tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Locale")."</td><td class=\"mainRowEven\"><input name=\"locale\" type=\"text\" id=\"locale\" value=\"".$row['rez_locale']."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td></tr>
 	<tr><td class=\"mainRowEOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Last Modified")."</td><td class=\"mainRowOdd\"> &nbsp; ".$row['rez_timestamp']."</td></tr>
 	</table>
-	<div class=\"wysiwyg\"><textarea name=\"pageContent\" onchange=\"window.rezPageSaved = false;\" id=\"pageContent\" style=\"height: 300px; width: 100%;\">".$row['rez_content']."</textarea></div>
+	<div class=\"wysiwyg\"><table width=\"100%\" border=\"0\">"
+	."<tr><td width=\"50%\"><textarea style=\"height: 300px; width: 100%;\" readonly=\"readonly\">".$original_row['rez_content']."</textarea></td>"
+	."<td width=\"50%\"><textarea name=\"pageContent\" onchange=\"window.rezPageSaved = false;\" id=\"pageContent\" style=\"height: 300px; width: 100%;\">".$row['rez_content']."</textarea></td></tr>"
+	."</table></div>
 	</form>";
 	$pageControlHtml = '
 	<input class="styleTehButton" type="button" onclick="javascript:  window.rezPageSaved = true; if(nicEditors.editors.length>0){nicEditors.findEditor(\'pageContent\').saveContent();} rez_perform_save('.$page_id.', xajax.getFormValues(\'editPageForm\'));" value="'._t("ResourcePages-EditForm-Button|Save and Publish Changes").'">
@@ -600,7 +620,6 @@ function rez_perform_change_locale($locale) {
 	global $global;
 	$_SESSION['rez_locale'] = $locale;
 	$global['xajax_res']->addAssign('rezControl','style.opacity','1.0');
-	$global['xajax_res']->addAssign('rezMain','innerHTML',rez_show_pages(TRUE));
 	$global['xajax_res']->addAssign('rezMain','style.opacity','1.0');
 	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
 	
