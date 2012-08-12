@@ -571,7 +571,7 @@ function rez_perform_translate($page_id, $locale) {
 	<tr><td class=\"mainRowEOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Last Modified")."</td><td class=\"mainRowOdd\"> &nbsp; ".$row['rez_timestamp']."</td></tr>
 	</table>
 	<div class=\"wysiwyg\"><table width=\"100%\" border=\"0\">"
-	."<tr><td width=\"50%\"><textarea style=\"height: 300px; width: 100%;\" readonly=\"readonly\">".$original_row['rez_content']."</textarea></td>"
+	."<tr><td width=\"50%\"><div style=\"height: 100%; width: 100%;\">".$original_row['rez_content']."</div></td>"
 	."<td width=\"50%\"><textarea name=\"pageContent\" onchange=\"window.rezPageSaved = false;\" id=\"pageContent\" style=\"height: 300px; width: 100%;\">".$row['rez_content']."</textarea></td></tr>"
 	."</table></div>
 	</form>";
@@ -583,7 +583,10 @@ function rez_perform_translate($page_id, $locale) {
 	<input id="htmlcode" class="styleTehButton" type="button" onclick="javascript: area2.removeInstance(\'pageContent\'); document.getElementById(\'wysiwyg\').disabled = false; document.getElementById(\'htmlcode\').disabled = true; nicEditors.editors = []; " value="HTML"></span>';
 	$pageControlHtml .= "<select name=\"locale\" onchange=\"javascript: rez_perform_change_locale(this.value);\">";
 	foreach ( $global['rez_locales'] as $key=>$value ) {
-		$pageControlHtml .= "<option value=\"".$key."\">".$value."</option>";
+		if ($key == $rez_locale) {
+			$pageControlHtml .= "<option value=\"".$key."\" selected=\"selected\">".$value."</option>";
+		}
+		else $pageControlHtml .= "<option value=\"".$key."\">".$value."</option>";
 	}
 	$pageControlHtml .= "</select>";
 	
