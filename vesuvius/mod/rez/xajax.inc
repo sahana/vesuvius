@@ -91,7 +91,6 @@ function rez_show_pages($internal = FALSE) {
 		select rez_page_id, rez_locale, rez_menu_title, rez_menu_order, rez_visibility, rez_timestamp
 		from rez_pages
 		where rez_page_id > -1
-		and rez_locale = '".mysql_real_escape_string($currentlocale)."'
 		order by rez_menu_order asc;
 	";
 	$result = $global['db']->Execute($q);
@@ -124,14 +123,14 @@ function rez_show_pages($internal = FALSE) {
 		}
 		$int = ($visibility == 'INTERNAL') ? "<b>INTERNAL</b> " : "";
 		$htmlMain .= "<tr><td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$page_id."</td>"
-					."<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"#\" onclick=\"rez_perform_edit(".$page_id.");\">".$int.$menu_title."</a></td>"
+					."<td style=\"padding-left: 8px;\" class=\"".$evenOddClass."\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"#\" onclick=\"rez_perform_edit(".$page_id.",'".$page_locale."');\">".$int.$menu_title."</a></td>"
 					."<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><b><select name=\"visibility\" onchange=\"javascript: rez_perform_change_visibility(".$page_id.", this.value);\"><option value=\"Public\" ".(($visibility == 'Public')?'SELECTED':'').">"._t("ResourcePages-Visibility-Select|Public")."<option value=\"Hidden\" ".(($visibility == 'Hidden')?'SELECTED':'').">"._t("ResourcePages-Visibility-Select|Hidden")."<option value=\"INTERNAL\" ".(($visibility == 'INTERNAL')?'SELECTED':'').">"._t("ResourcePages-Visibility-Select|INTERNAL")."</select></b></td>";
 		
 		$htmlMain .= "<td style=\"padding-left: 8px; text-align: center;\" class=\"".$evenOddClass."\">".$rez_locales[$page_locale]."</td>";
-		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_edit(".$page_id.");\" value=\""._t("ResourcePages-Button|Edit")."\"></td>";
+		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_edit(".$page_id.",'".$page_locale."');\" value=\""._t("ResourcePages-Button|Edit")."\"></td>";
 
-		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_append_log('Deleting Page ".$page_id." ...<br>'); setTimeout('rez_perform_delete(".$page_id.",confirm(\'"._t("ResourcePages-Delete-Confirm|Are you sure you want to delete this page?")."\'));', 100);\" value=\""._t("ResourcePages-Button|Delete")."\"></td>";
-		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_translate(".$page_id.",'".$currentlocale."');\" value=\""._t("ResourcePages-Button|Translate")."\"></td>";
+		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_append_log('Deleting Page ".$page_id." ...<br>'); setTimeout('rez_perform_delete(".$page_id.",'".$page_locale."',confirm(\'"._t("ResourcePages-Delete-Confirm|Are you sure you want to delete this page?")."\'));', 100);\" value=\""._t("ResourcePages-Button|Delete")."\"></td>";
+		$htmlMain .= "<td style=\"text-align: center;\" class=\"".$evenOddClass."\"><input class=\"styleTehButton\" type=\"button\" onclick=\"rez_perform_translate(".$page_id.",'".$page_locale."');\" value=\""._t("ResourcePages-Button|Translate")."\"></td>";
 
 		// if its the first and only item, no move up/down controls
 		if (($i == 1) && ($count == 1)) {
@@ -423,7 +422,7 @@ function rez_perform_save($page_id, $r) {
 	// update table data
 	$q = "
 		update rez_pages
-		set rez_menu_title = '".mysql_escape_string($r['menuTitle'])."', rez_content = '".mysql_escape_string($r['pageContent'])."', rez_timestamp = '".date('Y-m-d H:i:s')."' where `rez_page_id` = ".$page_id." ;
+		set rez_menu_title = '".mysql_escape_string($r['menuTitle'])."', rez_content = '".mysql_escape_string($r['pageContent'])."', rez_timestamp = '".date('Y-m-d H:i:s')."' where `rez_page_id` = ".$page_id." and `rez_locale` = '".$r['locale']."' ;
 	";
 	$result = $global['db']->Execute($q);
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez save"); }
@@ -436,7 +435,7 @@ function rez_perform_save($page_id, $r) {
 
 
 // presents a gui to edit a page and its corresponding fields
-function rez_perform_edit($page_id) {
+function rez_perform_edit($page_id, $locale) {
 	global $global;
 
 	// if page_id = 0, must create a new page then continue to edit it
@@ -448,7 +447,8 @@ function rez_perform_edit($page_id) {
 	$q = "
 		select *
 		from rez_pages
-		where rez_page_id = '".$page_id."';
+		where rez_page_id = '".$page_id."'
+		and rez_locale = '".$locale."';
 	";
 	$result = $global['db']->Execute($q);
 	if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez edit 1"); }
@@ -466,7 +466,8 @@ function rez_perform_edit($page_id) {
 <table class=\"mainTable\">
 <tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Page #")."</td><td class=\"mainRowOdd\"> &nbsp; <b>".$pageIdText."</b></td></tr>
 <tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Menu/Page Title")."</td><td class=\"mainRowEven\"><input name=\"menuTitle\" type=\"text\" id=\"menuTitle\" value=\"".$row['rez_menu_title']."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td></tr>
-<tr><td class=\"mainRowEOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Last Modified")."</td><td class=\"mainRowOdd\"> &nbsp; ".$row['rez_timestamp']."</td></tr>
+<tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Locale")."</td><td class=\"mainRowOdd\"><input name=\"locale\" type=\"text\" id=\"locale\" value=\"".$row['rez_locale']."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td></tr>
+<tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Last Modified")."</td><td class=\"mainRowEven\"> &nbsp; ".$row['rez_timestamp']."</td></tr>
 </table>
 <div class=\"wysiwyg\"><textarea name=\"pageContent\" onchange=\"window.rezPageSaved = false;\" id=\"pageContent\" style=\"height: 300px; width: 100%;\">".$row['rez_content']."</textarea></div>
 </form>";
@@ -492,7 +493,7 @@ function rez_perform_edit($page_id) {
 
 
 // delete a page
-function rez_perform_delete($page_id, $confirm) {
+function rez_perform_delete($page_id, $locale, $confirm) {
 	global $global;
 
 	if($confirm == "true") {
@@ -500,7 +501,8 @@ function rez_perform_delete($page_id, $confirm) {
 		//---- delete the page from db table
 		$q = "
 			delete from rez_pages
-			where rez_page_id = '".$page_id."';
+			where rez_page_id = '".$page_id."'
+			and rez_locale = '".$locale."';
 		";
 		$result = $global['db']->Execute($q);
 		if($result === false) { daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez delete 1"); }
@@ -528,7 +530,7 @@ function rez_perform_translate($page_id, $locale) {
 	
 	// get page info
 	$q = "
-	select rez_content
+	select rez_page_id, rez_content
 	from rez_pages
 	where rez_page_id = '".$page_id."'
 	and rez_locale = '".$locale."';
@@ -560,15 +562,16 @@ function rez_perform_translate($page_id, $locale) {
 	} else {
 		$sistim = "";
 	}
-	$pageIdText = $sistim." ". abs($row['rez_page_id']);
+
+	$pageIdText = $sistim." ". abs($page_id);
 	
 	$editMainHtml =
 	"<form id=\"editPageForm\" name=\"editPageForm\">
 	<table class=\"mainTable\">
 	<tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Page #")."</td><td class=\"mainRowOdd\"> &nbsp; <b>".$pageIdText."</b></td></tr>
 	<tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Menu/Page Title")."</td><td class=\"mainRowEven\"><input name=\"menuTitle\" type=\"text\" id=\"menuTitle\" value=\"".$row['rez_menu_title']."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td></tr>
-	<tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Locale")."</td><td class=\"mainRowEven\"><input name=\"locale\" type=\"text\" id=\"locale\" value=\"".$row['rez_locale']."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td></tr>
-	<tr><td class=\"mainRowEOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Last Modified")."</td><td class=\"mainRowOdd\"> &nbsp; ".$row['rez_timestamp']."</td></tr>
+	<tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Locale")."</td><td class=\"mainRowOdd\"><input name=\"locale\" type=\"text\" id=\"locale\" value=\"".$rez_locale."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td></tr>
+	<tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Last Modified")."</td><td class=\"mainRowEven\"> &nbsp; ".$row['rez_timestamp']."</td></tr>
 	</table>
 	<div class=\"wysiwyg\"><table width=\"100%\" border=\"0\">"
 	."<tr><td width=\"50%\"><div style=\"height: 100%; width: 100%;\">".$original_row['rez_content']."</div></td>"
