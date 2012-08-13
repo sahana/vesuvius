@@ -38,7 +38,8 @@ global $global;
 //@TODO: This should be built on a query.
 $global['rez_locales'] = array( 
 		'en_US' => 'English US',
-		'fr' => 'French' );
+		'fr' => 'French',
+		'es' => 'Spanish' );
 
 // adds a message to the log div @ tail
 function rez_append_log($message = "no message specified?") {
@@ -584,7 +585,7 @@ function rez_perform_translate($page_id, $locale) {
 	&nbsp; &nbsp; &nbsp; <span class="toggle">View editor as:
 	<input id="wysiwyg" class="styleTehButton" type="button" onclick="javascript: document.getElementById(\'wysiwyg\').disabled = true; document.getElementById(\'htmlcode\').disabled = false; area2 = new nicEditor({fullPanel : true}).panelInstance(\'pageContent\');" value="WYSIWYG">
 	<input id="htmlcode" class="styleTehButton" type="button" onclick="javascript: area2.removeInstance(\'pageContent\'); document.getElementById(\'wysiwyg\').disabled = false; document.getElementById(\'htmlcode\').disabled = true; nicEditors.editors = []; " value="HTML"></span>';
-	$pageControlHtml .= "<select name=\"locale\" onchange=\"javascript: rez_perform_change_locale(this.value);\">";
+	$pageControlHtml .= "<select name=\"locale\" onchange=\"javascript: rez_perform_change_locale(this.value, '".$pageIdText."','".$locale."');\">";
 	foreach ( $global['rez_locales'] as $key=>$value ) {
 		if ($key == $rez_locale) {
 			$pageControlHtml .= "<option value=\"".$key."\" selected=\"selected\">".$value."</option>";
@@ -622,9 +623,10 @@ function rez_show_help() {
  * @param string $locale
  * @author Ramindu Deshapriya
  */
-function rez_perform_change_locale($locale) {
+function rez_perform_change_locale($locale, $pageId, $oldLocale) {
 	global $global;
 	$_SESSION['rez_locale'] = $locale;
+	rez_perform_translate($pageId, $oldLocale);
 	$global['xajax_res']->addAssign('rezControl','style.opacity','1.0');
 	$global['xajax_res']->addAssign('rezMain','style.opacity','1.0');
 	$global['xajax_res']->addScript("setTimeout('e = document.getElementById(\'rezLog\'); e.scrollTop = e.scrollHeight+1000;', 500);");
