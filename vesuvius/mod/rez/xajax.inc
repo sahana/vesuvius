@@ -531,7 +531,7 @@ function rez_perform_translate($page_id, $locale) {
 	
 	// get page info
 	$q = "
-	select rez_page_id, rez_content
+	select *
 	from rez_pages
 	where rez_page_id = '".$page_id."'
 	and rez_locale = '".$locale."';
@@ -569,10 +569,14 @@ function rez_perform_translate($page_id, $locale) {
 	$editMainHtml =
 	"<form id=\"editPageForm\" name=\"editPageForm\">
 	<table class=\"mainTable\">
-	<tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Page #")."</td><td class=\"mainRowOdd\"> &nbsp; <b>".$pageIdText."</b></td></tr>
-	<tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Menu/Page Title")."</td><td class=\"mainRowEven\"><input name=\"menuTitle\" type=\"text\" id=\"menuTitle\" value=\"".$row['rez_menu_title']."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td></tr>
-	<tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Locale")."</td><td class=\"mainRowOdd\"><input name=\"locale\" type=\"text\" id=\"locale\" value=\"".$rez_locale."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td></tr>
-	<tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Last Modified")."</td><td class=\"mainRowEven\"> &nbsp; ".$row['rez_timestamp']."</td></tr>
+	<tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Page #")."</td><td class=\"mainRowOdd\"> &nbsp; <b>".$pageIdText."</b></td>
+	<td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Page #")."</td><td class=\"mainRowOdd\"> &nbsp; <b>".$pageIdText."</b></td></tr>
+	<tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Menu/Page Title")."</td><td class=\"mainRowEven\"><input name=\"menuTitle\" type=\"text\" id=\"menuTitle\" value=\"".$original_row['rez_menu_title']."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td>
+	<td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Menu/Page Title")."</td><td class=\"mainRowEven\"><input name=\"menuTitle\" type=\"text\" id=\"menuTitle\" value=\"".$row['rez_menu_title']."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td></tr>
+	<tr><td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Locale")."</td><td class=\"mainRowOdd\"><input name=\"locale\" type=\"text\" id=\"locale\" value=\"".$original_row['rez_locale']."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td>
+	<td class=\"mainRowOdd\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Locale")."</td><td class=\"mainRowOdd\"><input name=\"locale\" type=\"text\" id=\"locale\" value=\"".$rez_locale."\" onchange=\"window.rezPageSaved = false;\" size=\"64\" /></td></tr>
+	<tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Last Modified")."</td><td class=\"mainRowEven\"> &nbsp; ".$original_row['rez_timestamp']."</td>
+	<td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Last Modified")."</td><td class=\"mainRowEven\"> &nbsp; ".$row['rez_timestamp']."</td></tr>
 	</table>
 	<div class=\"wysiwyg\"><table width=\"100%\" border=\"0\">"
 	."<tr><td width=\"50%\"><div id=\"original\" style=\"height: 100%; width: 100%;\">".$original_row['rez_content']."</div></td>"
