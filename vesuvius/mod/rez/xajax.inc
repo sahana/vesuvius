@@ -575,7 +575,7 @@ function rez_perform_translate($page_id, $locale) {
 	<tr><td class=\"mainRowEven\" style=\"text-align: center; text-weight: bold;\">"._t("ResourcePages-Table-Header|Last Modified")."</td><td class=\"mainRowEven\"> &nbsp; ".$row['rez_timestamp']."</td></tr>
 	</table>
 	<div class=\"wysiwyg\"><table width=\"100%\" border=\"0\">"
-	."<tr><td width=\"50%\"><div style=\"height: 100%; width: 100%;\">".$original_row['rez_content']."</div></td>"
+	."<tr><td width=\"50%\"><div id=\"original\" style=\"height: 100%; width: 100%;\">".$original_row['rez_content']."</div></td>"
 	."<td width=\"50%\"><textarea name=\"pageContent\" onchange=\"window.rezPageSaved = false;\" id=\"pageContent\" style=\"height: 300px; width: 100%;\">".$row['rez_content']."</textarea></td></tr>"
 	."</table></div>
 	</form>";
@@ -584,8 +584,11 @@ function rez_perform_translate($page_id, $locale) {
 	<input class="styleTehButton" type="button" onclick="checkSaved()" value="Close Editor">
 	&nbsp; &nbsp; &nbsp; <span class="toggle">View editor as:
 	<input id="wysiwyg" class="styleTehButton" type="button" onclick="javascript: document.getElementById(\'wysiwyg\').disabled = true; document.getElementById(\'htmlcode\').disabled = false; area2 = new nicEditor({fullPanel : true}).panelInstance(\'pageContent\');" value="WYSIWYG">
-	<input id="htmlcode" class="styleTehButton" type="button" onclick="javascript: area2.removeInstance(\'pageContent\'); document.getElementById(\'wysiwyg\').disabled = false; document.getElementById(\'htmlcode\').disabled = true; nicEditors.editors = []; " value="HTML"></span>';
+	<input id="htmlcode" class="styleTehButton" type="button" '
+			.'onclick="javascript: var s = document.getElementById(\'original\').innerHTML;document.getElementById(\'original\').innerHTML = \'<textarea>\'+s+\'</textarea>\';' 
+			.'area2.removeInstance(\'pageContent\'); document.getElementById(\'wysiwyg\').disabled = false; document.getElementById(\'htmlcode\').disabled = true; nicEditors.editors = []; " value="HTML"></span>';
 	$pageControlHtml .= "<select name=\"locale\" onchange=\"javascript: rez_perform_change_locale(this.value, '".$pageIdText."','".$locale."');\">";
+	//@TODO: textarea values: disabled="yes" height="300px" width="100%"
 	foreach ( $global['rez_locales'] as $key=>$value ) {
 		if ($key == $rez_locale) {
 			$pageControlHtml .= "<option value=\"".$key."\" selected=\"selected\">".$value."</option>";
