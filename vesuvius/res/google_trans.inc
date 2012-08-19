@@ -143,22 +143,23 @@ class GTranslator {
 		//check for first 'data' level of json string
 		if (!is_array($result) || !array_key_exists('data', $result)) {
 			print('Upper Level data key not found in JSON string');
+			return '';
 		}
 
 		// Check for second 'translations' level in json string
 		if (!array_key_exists('translations', $result['data'])) {
 			print('2nd Level translations key not found in JSON string');
+			return '';
 		}
 
 		//Ensure that the result is an array
 		if (!is_array($result['data']['translations'])) {
 			print('Translations array not returned properly');
+			return '';
 		}
 
 		return urldecode($result['data']['translations'][0]['translatedText']);
 
-		//Exception if final step fails
-		print('Could not translate!');
 	}
 
 
