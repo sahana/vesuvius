@@ -1,0 +1,28 @@
+# French translation for vesuvius
+# Copyright (c) 2012 Rosetta Contributors and Canonical Ltd 2011
+# This file is distributed under the same license as the vesuvius package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: vesuvius\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-08-08 11:15+0530\n"
+"PO-Revision-Date: 2012-05-22 17:57+0000\n"
+"Last-Translator: Ramindu Deshapriya <Unknown>\n"
+"Language-Team: French <fr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2012-08-10 01:56+0000\n"
+"X-Generator: Launchpad (build 15761)\n"
+
+#: ../mod/home/main.inc:31
+msgctxt "Home-SelectEvent-Message"
+msgid "To Locate Someone After a Disaster...</h3>begin by choosing an event from the list below :"
+msgstr ""
+
+#: ../mod/home/main.inc:37
+msgctxt "Home-AvailableEvents-Text"
+msgid "For these events you can search and report new information directly to this registry :"
+msgstr ""

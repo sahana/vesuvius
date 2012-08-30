@@ -104,6 +104,10 @@ class GTranslator {
 		if( $lang == 'en' )  {
 			return $text;
 		}
+		if ( $locale == 'test' ) {
+			//Test condition, we are setting the language to Welsh
+			$lang = 'cy';
+		}
 		$key = 'AIzaSyBC0pNz4quKZdoqv9s2ughgMAgQiFzz_p4';
 		
 
