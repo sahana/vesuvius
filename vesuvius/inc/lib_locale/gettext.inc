@@ -63,7 +63,7 @@ require_once($global['approot'].'/res/google_trans.inc');
  * Utility function to get a StreamReader for the given text domain.
  */
 function _get_reader($domain=null, $category=5, $enable_cache=true) {
-	global $text_domains, $default_domain, $LC_CATEGORIES;
+	global $global, $text_domains, $default_domain, $LC_CATEGORIES;
 	if (!isset($domain)) {
 		$domain = $default_domain;
 	}
@@ -76,6 +76,7 @@ function _get_reader($domain=null, $category=5, $enable_cache=true) {
 
 		if ( file_exists($path) ) {
 			$input = new FileReader($path);
+			$global['translation_log']->writeLog('Created translation instance from '.$path);
 				
 		} else {
 			$input = null;
@@ -90,7 +91,7 @@ function _get_reader($domain=null, $category=5, $enable_cache=true) {
  * Utility function to get a Google Translate StreamReader for the given text domain.
  */
 function _get_reader_g($domain=null, $category=5, $enable_cache=true) {
-	global $text_domains, $default_domain, $LC_CATEGORIES;
+	global $global, $text_domains, $default_domain, $LC_CATEGORIES;
 	if (!isset($domain)) {
 		$domain = $default_domain;
 	}
@@ -103,6 +104,7 @@ function _get_reader_g($domain=null, $category=5, $enable_cache=true) {
 		$path = $p. $locale.'_g.mo';
 		if ( file_exists($path) ) {
 			$input = new FileReader($path);
+			$global['translation_log']->writeLog('Created translation instance from '.$path);
 
 		} else {
 			$input = null;
@@ -244,6 +246,12 @@ function _textdomain($domain) {
  * Lookup a message in the current domain.
  */
 function _gettext($msgid) {
+	global $global, $gtrans;
+	//if google translate global var not available, create new object and assign
+	if ( !isset($gtrans) ) {
+		$gtrans = new GTranslator();
+	}
+	$locale = $gtrans->shn_getLocale();
 	$l10n = _get_reader();
 	$l10n_g = _get_reader_g();
 	//Original code: return $l10n->translate($msgid);
@@ -251,27 +259,23 @@ function _gettext($msgid) {
 	//Debug: echo $msgid.' => PO: '.$l10n_trans;
 	if ( $l10n_trans == $msgid || $l10n_trans == '' ) {
 		$l10n_g_trans = _encode($l10n_g->translate($msgid));
-		global $gtrans;
-		if ( !isset($gtrans) )
-			$gtrans = new GTranslator();
 		$locale = $gtrans->shn_getLocale();
 		//Debug: echo $msgid.' => GPOTrans: '.$l10n_g_trans;
 		if ( ($l10n_g_trans == $msgid || $l10n_g_trans == '') && $locale != 'en' ) {
 			/* Neither Human PO nor Google PO has returned a translation, queueing for Google PO rewrite*/
 			$gtrans->rewrite_po($locale);
+			$global['translation_log']->writeLog('Translated string not found, queuing locale '.$locale.' for Google PO rewrite');
 			return $msgid;
 			//Debug: echo 'Passing '.$msgid.' to GTranslate.';
-			/*$googleString = $gtrans->shn_google_translate_dummy($msgid);
-			if ( $googleString != $msgid ) {
-			//Google has returned a new translation, add this Google PO to rebuild queue
-			$gtrans->rewrite_po($gtrans->shn_getLocale());
-			return $googleString;
-			}
-			else return _encode($l10n->translate($msgid));*/
+			/*$googleString = $gtrans->shn_google_translate_dummy($msgid);*/
 		}
-		else return _encode($l10n_g->translate($msgid));
+		else {
+			$global['translation_log']->writeLog('Translation for string "'.$msgid.'" for locale "'.$locale.'" found in Google PO file.');
+			return _encode($l10n_g->translate($msgid));
+		}
 	}
 	else {
+		$global['translation_log']->writeLog('Translation for string "'.$msgid.'" for locale "'.$locale.'" found in Human PO file.');
 		return _encode($l10n->translate($msgid));
 	}
 

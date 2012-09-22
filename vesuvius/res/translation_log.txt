@@ -1,0 +1,201 @@
+2012-09-23 01:22:53 Created log object.
+2012-09-23 01:22:53 Created translation instance from /home/ramindu/public_html/vesuvius/vesuvius/www/../res/locale/fr.mo
+2012-09-23 01:22:53 Created translation instance from /home/ramindu/public_html/vesuvius/vesuvius/www/../res/locale/fr_g.mo
+2012-09-23 01:22:53 Translation for string "Expiry Queue" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:53 Translation for string "Edit a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Import & Export" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Hospital Administration" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Event Manager" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Streamer" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Report a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:53 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:53 Translation for string "Search+" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Internal Resources" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "My Settings" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Outbound Email" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Search for a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Inbound Email" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Arrivals" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Help and Resources" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Home" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Report a Person 1" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Statistics" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Web Services" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:53 Translation for string "Sahana Vesuvius" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "U.S. National Library of Medicine" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:53 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:53 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:53 Translation for string "Oops! There are a few errors :" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Created log object.
+2012-09-23 01:22:53 Created translation instance from /home/ramindu/public_html/vesuvius/vesuvius/www/../res/locale/fr.mo
+2012-09-23 01:22:53 Created translation instance from /home/ramindu/public_html/vesuvius/vesuvius/www/../res/locale/fr_g.mo
+2012-09-23 01:22:53 Translation for string "Expiry Queue" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:53 Translation for string "Edit a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Import & Export" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Hospital Administration" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Event Manager" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Streamer" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Report a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:53 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:53 Translation for string "Search+" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Internal Resources" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "My Settings" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Outbound Email" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Search for a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Inbound Email" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Arrivals" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Help and Resources" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Home" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Report a Person 1" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Statistics" for locale "fr" found in Human PO file.
+2012-09-23 01:22:53 Translation for string "Web Services" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Created log object.
+2012-09-23 01:22:55 Created translation instance from /home/ramindu/public_html/vesuvius/vesuvius/www/../res/locale/fr.mo
+2012-09-23 01:22:55 Created translation instance from /home/ramindu/public_html/vesuvius/vesuvius/www/../res/locale/fr_g.mo
+2012-09-23 01:22:55 Translation for string "Expiry Queue" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:55 Translation for string "Edit a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Import & Export" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Hospital Administration" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Event Manager" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Streamer" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Report a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:55 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:55 Translation for string "Search+" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Internal Resources" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "My Settings" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Outbound Email" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Search for a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Inbound Email" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Arrivals" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Help and Resources" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Home" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Report a Person 1" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Statistics" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Web Services" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:55 Translation for string "Sahana Vesuvius" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "U.S. National Library of Medicine" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:55 Translation for string "Main Menu" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Session Information" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Change My Password" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Oops! There are a few errors :" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Created log object.
+2012-09-23 01:22:55 Created translation instance from /home/ramindu/public_html/vesuvius/vesuvius/www/../res/locale/fr.mo
+2012-09-23 01:22:55 Created translation instance from /home/ramindu/public_html/vesuvius/vesuvius/www/../res/locale/fr_g.mo
+2012-09-23 01:22:55 Translation for string "Expiry Queue" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:55 Translation for string "Edit a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Import & Export" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Hospital Administration" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Event Manager" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Streamer" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Report a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:55 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:55 Translation for string "Search+" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Internal Resources" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "My Settings" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Outbound Email" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Search for a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Inbound Email" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Arrivals" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Help and Resources" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Home" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Report a Person 1" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Statistics" for locale "fr" found in Human PO file.
+2012-09-23 01:22:55 Translation for string "Web Services" for locale "fr" found in Human PO file.
+2012-09-23 01:22:56 Created log object.
+2012-09-23 01:22:57 Created translation instance from /home/ramindu/public_html/vesuvius/vesuvius/www/../res/locale/fr.mo
+2012-09-23 01:22:57 Created translation instance from /home/ramindu/public_html/vesuvius/vesuvius/www/../res/locale/fr_g.mo
+2012-09-23 01:22:57 Translation for string "Expiry Queue" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:57 Translation for string "Edit a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Import & Export" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Hospital Administration" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Event Manager" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Streamer" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Report a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:57 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:57 Translation for string "Search+" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Internal Resources" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "My Settings" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Outbound Email" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Search for a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Inbound Email" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Arrivals" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Help and Resources" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Home" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Report a Person 1" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Statistics" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Web Services" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:57 Translation for string "Sahana Vesuvius" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "U.S. National Library of Medicine" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:57 Translation for string "Main Menu" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Oops! There are a few errors :" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Created log object.
+2012-09-23 01:22:57 Created translation instance from /home/ramindu/public_html/vesuvius/vesuvius/www/../res/locale/fr.mo
+2012-09-23 01:22:57 Created translation instance from /home/ramindu/public_html/vesuvius/vesuvius/www/../res/locale/fr_g.mo
+2012-09-23 01:22:57 Translation for string "Expiry Queue" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:57 Translation for string "Edit a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Import & Export" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Hospital Administration" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Event Manager" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Streamer" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Report a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:57 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:57 Translation for string "Search+" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Internal Resources" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "My Settings" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Outbound Email" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Search for a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Inbound Email" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Arrivals" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Help and Resources" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Home" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Report a Person 1" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Statistics" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Web Services" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Created log object.
+2012-09-23 01:22:57 Created translation instance from /home/ramindu/public_html/vesuvius/vesuvius/www/../res/locale/fr.mo
+2012-09-23 01:22:57 Created translation instance from /home/ramindu/public_html/vesuvius/vesuvius/www/../res/locale/fr_g.mo
+2012-09-23 01:22:57 Translation for string "Expiry Queue" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:57 Translation for string "Edit a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Import & Export" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Hospital Administration" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Event Manager" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Streamer" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Report a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:57 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:57 Translation for string "Search+" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Internal Resources" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "My Settings" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Outbound Email" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Search for a Person" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Inbound Email" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Arrivals" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Help and Resources" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Home" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Report a Person 1" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Statistics" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Web Services" for locale "fr" found in Human PO file.
+2012-09-23 01:22:57 Translation for string "Hospitals-Add-ButtonAdd a new Hospital" for locale "fr" found in Google PO file.
+2012-09-23 01:22:57 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:57 Translation for string "Hospitals-Help-ButtonHelp" for locale "fr" found in Google PO file.
+2012-09-23 01:22:57 Translated string not found, queuing locale fr for Google PO rewrite
+2012-09-23 01:22:57 Translated string not found, queuing locale fr for Google PO rewrite

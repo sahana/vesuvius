@@ -16,6 +16,14 @@ $global['approot']  = realpath(dirname(__FILE__)).'/../';
 $global['previous'] = false;
 $global["setup"]    = false;
 
+//Include Translation log
+require_once($global['approot'].'res/translation_log.inc');
+//define Translation log global var
+if ( !isset($global['translation_log']) ) {
+	$global['translation_log'] = new TranslationLog();
+	$global['translation_log']->writeLog('Created log object.');
+}
+
 // include the main sysconf file
 require($global['approot'].'conf/sahana.conf');
 

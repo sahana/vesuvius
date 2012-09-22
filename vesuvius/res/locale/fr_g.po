@@ -531,7 +531,7 @@ msgstr "Hôpital d'administration"
 #: ../mod/ha/xajax.inc:139 ../mod/ha/xajax.inc:287 ../mod/ha/xajax.inc:322
 msgctxt "Hospitals-Add-Button"
 msgid "Add a new Hospital"
-msgstr ""
+msgstr "Ajouter un nouvel hopital"
 
 #: ../mod/ha/xajax.inc:141
 msgctxt "Hospitals-Help-Message"
@@ -541,7 +541,7 @@ msgstr ""
 #: ../mod/ha/xajax.inc:141 ../mod/ha/xajax.inc:289 ../mod/ha/xajax.inc:324
 msgctxt "Hospitals-Help-Button"
 msgid "Help"
-msgstr ""
+msgstr "Aider"
 
 #: ../mod/ha/xajax.inc:154
 msgctxt "Hospitals-Log-Message"
