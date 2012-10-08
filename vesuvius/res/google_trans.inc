@@ -27,11 +27,19 @@ class GTranslator {
 	 * @param unknown_type $locale
 	 */
 	function buildGooglePO($locale) {
+		global $global; 
+		if ( !isset($global['translation_log']) ) {
+			if ( is_writable('translation_log.txt') ) {
+				$global['translation_log'] = new TranslationLog();
+			}
+		
+		}
 		$this->_parser->parse($locale);
 		$entries = $this->_parser->getEntries();
 		foreach ( $entries as &$entry ) { 
 			if ( $entry['msgstr'] == '' ) {
 				$entry['msgstr'] = $this->shn_google_translate($entry['msgid'], $locale);
+				$global['translation_log']->writeLog('Google translation for string "'.$entry['msgid'].'" for locale '.$locale.': "'.$entry['msgstr'].'"');
 			}
 		}
 		$this->_parser->setEntries($entries);
