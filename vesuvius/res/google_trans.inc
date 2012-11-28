@@ -13,8 +13,11 @@
 
 global $global;
 define('GOOGLE_TRANS_ATTRIB', 'id="google_translate_element"');
+//Defining approot for when google_trans will be called by google_po_builder
+$global['approot']  = realpath(dirname(__FILE__)).'/../';
 include_once ($global['approot'].'/inc/lib_errors.inc');
 include_once ($global['approot'].'/res/po_parser.inc');
+include_once ('translation_log.inc');
 
 class GTranslator {
 	private $_parser;
@@ -150,7 +153,6 @@ class GTranslator {
 		$result = json_decode($result, true);
 		curl_close($crl);
 
-		//echo "<pre>".print_r($result, true)."</pre>";
 
 		//check for first 'data' level of json string
 		if (!is_array($result) || !array_key_exists('data', $result)) {
