@@ -31,6 +31,9 @@ class GTranslator {
 	 */
 	function buildGooglePO($locale) {
 		global $global; 
+		$total_chars = 0;
+		$translated_chars = 0;
+		$untranslated_chars = 0;
 		if ( !isset($global['translation_log']) ) {
 			if ( is_writable('translation_log.txt') ) {
 				$global['translation_log'] = new TranslationLog();
@@ -40,11 +43,22 @@ class GTranslator {
 		$this->_parser->parse($locale);
 		$entries = $this->_parser->getEntries();
 		foreach ( $entries as &$entry ) { 
+			$total_chars += strlen($entry['msgid']);
 			if ( $entry['msgstr'] == '' ) {
 				$entry['msgstr'] = $this->shn_google_translate($entry['msgid'], $locale);
+				if ( $entry['msgstr'] == '' ) {
+					$untranslated_chars += strlen($entry['msgid']);
+				}
+				else {
+					$translated_chars += strlen($entry['msgid']);
+				}
 				$global['translation_log']->writeLog('Google translation for string "'.$entry['msgid'].'" for locale '.$locale.': "'.$entry['msgstr'].'"');
 			}
 		}
+		$global['translation_log']->writeLog('Google PO rebuild for locale '.$locale.' done.');
+		$global['translation_log']->writeLog('Total characters in PO: '.$total_chars);
+		$global['translation_log']->writeLog('Total translated characters: '.$translated_chars);
+		$global['translation_log']->writeLog('Total untranslated characters: '.$untranslated_chars);
 		$this->_parser->setEntries($entries);
 		$this->_parser->writeToFile();
 	}
