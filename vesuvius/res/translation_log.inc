@@ -10,12 +10,23 @@
  * @lastModified 2012.09.18
  */
 class TranslationLog {
+	var $_enabled = false;
+	
+	/**
+	 * Set whether the Log should be enabled (disabled in case of lack of write permissions to log file)
+	 * @param Boolean $enabled
+	 */
+	function setEnabled($enabled) {
+		$this->_enabled = $enabled;
+	}
 	function writeLog($message) {
-		global $global;
-		$datetime = date('Y-m-d H:i:s');
-		$file = fopen($global['approot'].'res/translation_log.txt', 'a');
-		fwrite($file, $datetime." ".$message."\n");
-		fclose($file);
+		if ( $this->_enabled ) {
+			global $global;
+			$datetime = date('Y-m-d H:i:s');
+			$file = fopen($global['approot'].'res/translation_log.txt', 'a');
+			fwrite($file, $datetime." ".$message."\n");
+			fclose($file);
+		}
 	}
 	
 }
