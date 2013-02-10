@@ -22,7 +22,13 @@ require_once($global['approot'].'res/translation_log.inc');
 if ( !isset($global['translation_log']) ) {
 	if ( is_writable($global['approot'].'/res/translation_log.txt') ) {
 		$global['translation_log'] = new TranslationLog();
+		$global['translation_log']->setEnabled(true);
 		$global['translation_log']->writeLog('Created log object.');
+	}
+	else {
+		$global['translation_log'] = new TranslationLog();
+		//Log file is not writable, disabling log
+		$global['translation_log']->setEnabled(false);
 	}
 	
 }
