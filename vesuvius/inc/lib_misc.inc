@@ -17,7 +17,7 @@
 function _shn_html_print_alert($alert) {
 	?>
 	<div class="alert"> <!-- TODO: change style -->
-	<strong><?php print _t("Alert") . " : $alert"?></strong>
+	<strong><?php print _t("Misc-HTMLprintalert-Prompt|Alert") . " : $alert"?></strong>
 	</div>
 	<?php
 }
@@ -190,7 +190,7 @@ function shn_add_remove_javascript($name,$db_arr,$sort=true) {
 				var exist=search(db_str,y[0].value);
 
 				if(exist){
-			alert("<?php echo _t("The type already exists in the list") ?>");
+			alert("<?php echo _t("Misc-Javascript-Prompt|The type already exists in the list") ?>");
 			return;
 		}
 			/*Now we need to check whether we added it during this session
@@ -199,7 +199,7 @@ function shn_add_remove_javascript($name,$db_arr,$sort=true) {
 		if(add[0].value!=0){
 				exist=search(add[0].value,y[0].value);
 				if(exist){
-					alert("<?php echo _t("The Type Exists,you just added it") ?>");
+					alert("<?php echo _t("Misc-Javascript-Prompt|The Type Exists,you just added it") ?>");
 					return;
 				}
 			}

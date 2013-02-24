@@ -937,7 +937,7 @@ function shn_auth_add_user_cr(){
 	if(isset($_POST['given_name']) && strlen(shn_clean($_POST['given_name'])) > 0) {
 		list($error, $given_name) = (shn_validate_field($_POST['given_name'], "First Name", $VARCHAR, true)) ? array($error, $_POST["given_name"]) : array(true, NULL);
 	} else {
-		add_error(_t("First name is a required field. Please enter a value."));
+		add_error(_t("Security-Name-Prompt|First name is a required field. Please enter a value."));
 		$error = true;
 	}
 
@@ -945,7 +945,7 @@ function shn_auth_add_user_cr(){
 	if(isset($_POST['family_name']) && strlen(shn_clean($_POST['family_name'])) > 0) {
 		list($error, $family_name) = (shn_validate_field($_POST['family_name'], "Last Name", $VARCHAR, true)) ? array($error, $_POST["family_name"]) : array(true,NULL);
 	} else {
-		add_error(_t("Last name is a required field. Please enter a value."));
+		add_error(_t("Security-Name-Prompt|Last name is a required field. Please enter a value."));
 		$error = true;
 	}
 
@@ -1267,25 +1267,25 @@ function shn_get_password_policy_message($error_code, $extra_opts = null) {
 	$msg = "";
 	switch($error_code) {
 		case LESS_MIN_CHARS:
-			$msg = sprintf(_t("The minimum password length is %d"),$rule_array['pwd_min_chars']);
+			$msg = sprintf(_t("Security-PWlength-Prompt|The minimum password length is %d"),$rule_array['pwd_min_chars']);
 			break;
 		case MORE_MAX_CHARS:
-			$msg = sprintf(_t("The maximum password length is %d."),$rule_array['pwd_max_chars']);
+			$msg = sprintf(_t("Security-PWlength-Prompt|The maximum password length is %d."),$rule_array['pwd_max_chars']);
 			break;
 		case REQ_UPPERCASE:
-			$msg = _t("The password should have at least one uppercase character.");
+			$msg = _t("Security-PWtype-Prompt|The password should have at least one uppercase character.");
 			break;
 		case REQ_LOWERCASE:
-			$msg = _t("The password should have at least one lowercase character.");
+			$msg = _t("Security-PWtype-Prompt|The password should have at least one lowercase character.");
 			break;
 		case REQ_NUMBERS:
-			$msg = _t("The password should have at least one numeric character.")	;
+			$msg = _t("Security-PWtype-Prompt|The password should have at least one numeric character.")	;
 			break;
 		case REQ_SPECIAL_CHARS:
-			$msg = _t("The password should have at least one special character. eg. !,@.#$%\^&\*/?`~+=|:;-\"'");
+			$msg = _t("Security-PWtype-Prompt|The password should have at least one special character. eg. !,@.#$%\^&\*/?`~+=|:;-\"'");
 			break;
 		case HAS_USERNAME:
-			$msg = _t("The username cannot be a part of the password.");
+			$msg = _t("Security-PWtype-Prompt|The username cannot be a part of the password.");
 			break;
 	}
 	return $msg;
@@ -1312,31 +1312,31 @@ function shn_get_password_policy($extra_opts = null) {
 	}
 
 	if(isset($rule_array['pwd_min_chars']) && $rule_array['pwd_min_chars'] == true) {
-		array_push($policy,sprintf(_t("The minimum length of the password is %d characters."),$rule_array['pwd_min_chars']));
+		array_push($policy,sprintf(_t("Security-PWlength-Prompt|The minimum length of the password is %d characters."),$rule_array['pwd_min_chars']));
 	}
 
 	if(isset($rule_array['pwd_max_chars']) && $rule_array['pwd_max_chars'] == true) {
-		array_push($policy,sprintf(_t("The maximum length of the password is %d characters."),$rule_array['pwd_max_chars']));
+		array_push($policy,sprintf(_t("Security-PWlength-Prompt|The maximum length of the password is %d characters."),$rule_array['pwd_max_chars']));
 	}
 
 	if(isset($rule_array['pwd_has_uppercase']) && $rule_array['pwd_has_uppercase'] == true) {
-		array_push($policy,_t("Must have at least one uppercase character."));
+		array_push($policy,_t("Security-PWtype-Prompt|Must have at least one uppercase character."));
 	}
 
 	if(isset($rule_array['pwd_has_lowercase']) && $rule_array['pwd_has_lowercase'] == true) {
-		array_push($policy,_t("Must have at least one lowercase character."));
+		array_push($policy,_t("Security-PWtype-Prompt|Must have at least one lowercase character."));
 	}
 
 	if(isset($rule_array['pwd_has_numbers']) && $rule_array['pwd_has_numbers'] == true) {
-		array_push($policy,_t("Must have at least one numeral (0-9)."));
+		array_push($policy,_t("Security-PWtype-Prompt|Must have at least one numeral (0-9)."));
 	}
 
 	if(isset($rule_array['pwd_has_spchars']) && $rule_array['pwd_has_spchars'] == true) {
-		array_push($policy,_t("Should have one or more of the following characters: '!@,.#$%\^&\*/?`~+=|:;()-\"'[]{}<>' "));
+		array_push($policy,_t("Security-PWtype-Prompt|Should have one or more of the following characters: '!@,.#$%\^&\*/?`~+=|:;()-\"'[]{}<>' "));
 	}
 
 	if(isset($rule_array['pwd_has_username']) && $rule_array['pwd_has_username'] == true) {
-		array_push($policy,_t("The password cannot contain your username."));
+		array_push($policy,_t("Security-PWtype-Prompt|The password cannot contain your username."));
 	}
 
 	return $policy;
@@ -1351,7 +1351,7 @@ function shn_auth_add_role_cr() {
 	$db = $global['db'];
 
 	if($_POST['role_name']==null || strlen(trim($_POST['role_name']))==0){
-		add_error(_t("Please enter a valid Role name."));
+		add_error(_t("Security-role-Prompt|Please enter a valid Role name."));
 	}else{
 		$role_name = ucwords(trim($_POST['role_name']));
 		$select_query = "SELECT COUNT(group_name) FROM sys_user_groups WHERE group_name=?";
@@ -1367,12 +1367,12 @@ function shn_auth_add_role_cr() {
 				$query = "INSERT INTO sys_user_groups(group_id,group_name) VALUES(?,?)";
 				$global['db']->Execute($query,array($max_id,$role_name));
 
-				add_confirmation(sprintf(_t("The role '%s' was successfully added."),$role_name));
+				add_confirmation(sprintf(_t("Security-role-Confirm|The role '%s' was successfully added."),$role_name));
 				// clear the value so that the text box becomes empty.
 				$_POST['role_name'] = "";
 			}
 		}else{
-			add_error(_t("A role with the name you entered already exists. Please enter a different role name."));
+			add_error(_t("Security-role-Error|A role with the name you entered already exists. Please enter a different role name."));
 		}
 	}
 	shn_admin_add_role();

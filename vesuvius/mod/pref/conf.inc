@@ -11,7 +11,7 @@
  */
 
 
-$conf['mod_pref_name']         = _t("My Settings");
+$conf['mod_pref_name']         = _t("Conf-Link|My Settings");
 $conf['mod_pref_menuorder']    = 70;
 $conf['mod_pref_version']      = 11;
 $conf['mod_pref_hide_in_menu'] = true;
