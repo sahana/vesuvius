@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.09.18
+ * @lastModified 2013.0224
  */
 class TranslationLog {
 	var $_enabled = false;
@@ -19,6 +19,10 @@ class TranslationLog {
 	function setEnabled($enabled) {
 		$this->_enabled = $enabled;
 	}
+	/**
+	 * Write $message to the log file
+	 * @param String $message The message to be written
+	 */
 	function writeLog($message) {
 		if ( $this->_enabled ) {
 			global $global;

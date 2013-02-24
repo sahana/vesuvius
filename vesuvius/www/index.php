@@ -4,11 +4,12 @@
  * @version      13
  * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
  * @author       Chamindra de Silva <chamindra@opensource.lk>
+ * @author		 Ramindu Deshapriya <rasade88@gmail.com> 
  * @about        Developed in whole or part by the U.S. National Library of Medicine
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
- * @lastModified 2012.0306
+ * @lastModified 2013.0120
  */
 
 // define global $global['approot'] for convenience and efficiency;
