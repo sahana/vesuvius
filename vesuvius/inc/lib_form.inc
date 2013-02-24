@@ -923,17 +923,17 @@ function shn_form_still_camera($act = null, $mod = null) {
  */
 function shn_form_submit_set($button_set = array('cancel' => true, 'back' => true, 'next' => true)) {
 	if(isset($button_set['cancel'])) {
-		shn_form_submit(_t('Cancel'), 'name="cancel"');
+		shn_form_submit(_t('Form-Submit-Button|Cancel'), 'name="cancel"');
 	}
 	if(isset($button_set['back'])) {
-		shn_form_submit(_t('Back'), 'name="back"');
+		shn_form_submit(_t('Form-Submit-Button|Back'), 'name="back"');
 	}
 	if(isset($button_set['next'])) {
-		shn_form_submit(_t('Next'), 'name="next"');
+		shn_form_submit(_t('Form-Submit-Button|Next'), 'name="next"');
 	} elseif(isset($button_set['finish'])) {
-		shn_form_submit(_t('Finish'), 'name="finish"');
+		shn_form_submit(_t('Form-Submit-Button|Finish'), 'name="finish"');
 	} elseif(isset($button_set['confim'])) {
-		shn_form_submit(_t('Confirm'), 'name="confirm"');
+		shn_form_submit(_t('Form-Submit-Button|Confirm'), 'name="confirm"');
 	}
 	if(isset($button_set['custom'])) {
 		$custom_buttons = $button_set['custom'];
@@ -993,7 +993,7 @@ function shn_form_wysiwyg($label, $name, $extra_opts = array()) {
 	}
 	?><h4><?php echo $label?></h4><?php
 	if(isset($conf['wysiwyg'])==false || strlen(trim($conf['wysiwyg']))==0){
-		echo "<div class='error message'>"._t("Wysiwyg editor not configured correctly. Using Textarea instead.")."<br/><br/></div>";
+		echo "<div class='error message'>"._t("Form-Wysiwyg-Text|Wysiwyg editor not configured correctly. Using Textarea instead.")."<br/><br/></div>";
 		shn_form_textarea($label,$name,null,$extra_opts);
 	}
 	switch($conf['wysiwyg']){
@@ -1028,7 +1028,7 @@ function shn_form_wysiwyg($label, $name, $extra_opts = array()) {
 				$oFCKeditor->Create() ;
 			}else{
 				// show normal text area
-				echo "<div class='error message'>"._t("A required file was not found. Failed to initialize Wysiwig Editor. Using Textarea instead.")."<br/><br/></div>";
+				echo "<div class='error message'>"._t("Form-Wysiwyg-Text|A required file was not found. Failed to initialize Wysiwig Editor. Using Textarea instead.")."<br/><br/></div>";
 				shn_form_textarea($label,$name,null,$extra_opts);
 			}
 		break;

@@ -30,8 +30,8 @@ function shn_pref_default() {
 	global $global;
 
 	shn_tabmenu_open();
-	shn_tabmenu_item("session",  _t("Session Information"), "pref");
-	shn_tabmenu_item("password", _t("Change My Password"),  "pref");
+	shn_tabmenu_item("session",  _t("Pref-TableHeader|Session Information"), "pref");
+	shn_tabmenu_item("password", _t("Pref-TableHeader|Change My Password"),  "pref");
 	shn_tabmenu_close();
 
 	$control = "";
@@ -253,7 +253,7 @@ function shn_pref_forgotPassword() {
 	// step 1 ~ verify captcha/email and send 1st email with confirmation link
 	} else if($_REQUEST['zz'] == "1") {
 		if($_SESSION['security_captcha_key'] != md5($_POST["captcha"])) {
-			add_error(_t("Please provide the text in the image correctly to prove you are human."));
+			add_error(_t("Pref-ForgetPassword-Error|Please provide the text in the image correctly to prove you are human."));
 			shn_pref_emailCaptchaForm();
 		} else {
 			// check if the email address is associated with a sahana account
@@ -507,7 +507,7 @@ function shn_pref_emailCaptchaForm() {
 			}
 			shn_form_text("Enter the text in the above image ", 'captcha', 'size="30"', $extra_opts);
 		shn_form_fsclose();
-		shn_form_submit(_t("Submit"), "class=\"styleTehButton\"");
+		shn_form_submit(_t("Pref-ForgetPassword-Button|Submit"), "class=\"styleTehButton\"");
 		echo "</br>";
 	shn_form_fclose();
 	echo "</div>";
@@ -565,7 +565,7 @@ function shn_pref_signup($title="Create Your Account", $mod="pref", $act="signup
 	}
 	shn_form_text("Enter the text in the above image ", 'captcha', 'size="30"', $extra_opts);
 	shn_form_fsclose();
- 	shn_form_submit(_t("Submit"), "class=\"styleTehButton\"");
+ 	shn_form_submit(_t("Pref-adduser-Button|Submit"), "class=\"styleTehButton\"");
 	echo "</br><br/><br/>";
 	shn_form_fclose();
 	echo "</div>";
@@ -578,14 +578,14 @@ function shn_pref_signup2() {
 	if(shn_auth_self_signup_cr() == true){
 		shn_pref_signup();
 		if(!isset($_POST["captcha"]) || ($_SESSION['security_captcha_key'] != md5($_POST["captcha"]))) {
-			add_error(_t("Please provide the text in the image correctly to prove you are human."));
+			add_error(_t("Pref-Signup-Error|Please provide the text in the image correctly to prove you are human."));
 			return;
 		}
 		shn_pref_signup();
 
 	} else {
 		if($_SESSION['security_captcha_key'] != md5($_POST["captcha"])) {
-			add_error(_t("Please provide the text in the image correctly to prove you are human."));
+			add_error(_t("Pref-Signup-Error|Please provide the text in the image correctly to prove you are human."));
 			shn_pref_signup();
 			return;
 		}
@@ -623,14 +623,14 @@ function shn_pref_ch_passwd() {
 	$policy = shn_get_password_policy();
 
 	if(count($policy) > 0){
-		?><h4><?php echo _t("You new password must adhere to following rules:") ?></h4><br><?php
+		?><h4><?php echo _t("Pref-ChangePassword-Text|You new password must adhere to following rules:") ?></h4><br><?php
 		for($i=0; $i < count($policy); $i++) {
 			echo ($i+1).". ".$policy[$i]."<br/>";
 		}
 	}
 	?><br><br><?php
 	shn_form_fopen2("pref?passwdp", null, null, null, "width: 600px;");
-	shn_form_fsopen(_t("Fill in these required fields to change your password"));
+	shn_form_fsopen(_t("Pref-ChangePassword-TableHeader|Fill in these required fields to change your password"));
 	$extra_opts['req']=true;
 	shn_form_password("Old Password", "old_password", null, $extra_opts);
 	shn_form_password("New Password", "password", null, $extra_opts);
@@ -639,7 +639,7 @@ function shn_pref_ch_passwd() {
 	shn_form_hidden(array('user'=>$user_id));
 	shn_form_fsclose();
 	echo "<br>";
- 	shn_form_submit(_t("Change Password"), "class=\"styleTehButton\"");
+ 	shn_form_submit(_t("Pref-ChangePassword-Button|Change Password"), "class=\"styleTehButton\"");
 	echo "<br>";
 	shn_form_fclose();
 	echo "</div>";
@@ -672,7 +672,7 @@ function shn_pref_ch_passwd_p() {
 
 	if((null == $_POST["old_password"]) or (is_null($_POST["old_password"]))) {
 		$error=true;
-		add_error(_t("Old password cannot be empty!"));
+		add_error(_t("Pref-ChangePassword-Error|Old password cannot be empty!"));
 		shn_acl_log_msg("Password Change error: Old password cannot be empty");
 	} else {
 		$old_password=trim($_POST{"old_password"});
@@ -680,7 +680,7 @@ function shn_pref_ch_passwd_p() {
 
 	if((null == $_POST["password"]) or (is_null($_POST["password"]))) {
 		$error = true;
-		add_error(_t("New password cannot be empty!"));
+		add_error(_t("Pref-ChangePassword-Error|New password cannot be empty!"));
 		shn_acl_log_msg("Password Change error: User password cannot be empty");
 	} else {
 		$new_password=trim($_POST{"password"});
@@ -688,7 +688,7 @@ function shn_pref_ch_passwd_p() {
 
 	if((null==$_POST["re_password"])or(is_null($_POST["re_password"]))) {
 		$error=true;
-		add_error(_t("You left the confirm password field blank."));
+		add_error(_t("Pref-ChangePassword-Error|You left the confirm password field blank."));
 		shn_acl_log_msg("Password Change error: User Confirm password cannot be empty");
 	} else {
 		$re_password=trim($_POST{"re_password"});
@@ -696,7 +696,7 @@ function shn_pref_ch_passwd_p() {
 
 	if(!($new_password==$re_password)) {
 		$error=true;
-		add_error(_t("Your new password did not match when you retyped it."));
+		add_error(_t("Pref-ChangePassword-Error|Your new password did not match when you retyped it."));
 		shn_acl_log_msg("Password Change error: User password and confirm password should match");
 	}
 
@@ -721,7 +721,7 @@ function shn_pref_ch_passwd_p() {
     	if(!isset($conf['pwd_no_change_limit']) && ($conf['pwd_no_change_limit'] == true) && ($date == $curr_date)){
 		global $conf;
 		echo "<pre>ok".print_r($conf, true)."</pre>";
-    		add_error(_t("You cannot change the password more than once in one day"));
+    		add_error(_t("Pref-ChangePassword-Error|You cannot change the password more than once in one day"));
     		shn_acl_log_msg("Password Change error: tried to change the password more than once in one day");
     		shn_auth_form_ch_pwd();
     		return false;
@@ -752,7 +752,7 @@ function shn_pref_ch_passwd_p() {
 			$sql="update old_passwords set password='{$old_pwd}', changed_timestamp=$curr where p_uuid='{$user}' and password='{$tmp}'";
 			$res=$db->Execute($sql);
 		}else{
-			add_error(_t("You cannot choose one of the recent four passwords"));
+			add_error(_t("Pref-ChangePassword-Error|You cannot choose one of the recent four passwords"));
 			shn_acl_log_msg("Password Change error: tried to choose one of the recent four passwords");
 			shn_auth_form_ch_pwd();
 			return false;
@@ -766,7 +766,7 @@ function shn_pref_ch_passwd_p() {
 	if(shn_change_password($user, $old_password, $new_password) == false) {
 		shn_auth_form_ch_pwd();
 	} else {
-		$msg = _t(" Succesfully changed Password");
+		$msg = _t("Pref-ChangePassword-Confirm| Succesfully changed Password");
 		add_confirmation($msg);
 	}
 	shn_pref_session();
@@ -783,25 +783,25 @@ function _shn_admin_ch_pwd_cr() {
 
 	if((null == $_POST["old_password"])  || (is_null($_POST["old_password"]))) {
 		$error = true;
-		add_error(_t("Old password cannot be empty"));
+		add_error(_t("Pref-AdminChangePassword-Error|Old password cannot be empty"));
 	} else {
 		$old_password = trim($_POST{"old_password"});
 	}
 	if((null == $_POST["password"]) || (is_null($_POST["password"]))) {
 		$error = true;
-		add_error(_t("New password cannot be empty"));
+		add_error(_t("Pref-AdminChangePassword-Error|New password cannot be empty"));
 	} else {
 		$password = trim($_POST{"password"});
 	}
 	if((null == $_POST["re_password"]) || (is_null($_POST["re_password"]))) {
 		$error = true;
-		add_error(_t("Confirm password cannot be empty"));
+		add_error(_t("Pref-AdminChangePassword-Error|Confirm password cannot be empty"));
 	} else {
 		$re_password = trim($_POST{"re_password"});
 	}
 	if(!($password == $re_password)){
 		$error = true;
-		add_error(_t("Password and Confirm Password should match"));
+		add_error(_t("Pref-AdminChangePassword-Error|Password and Confirm Password should match"));
 	}
 	if($error == true) {
 		return $error;

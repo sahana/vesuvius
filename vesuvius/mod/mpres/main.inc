@@ -46,9 +46,9 @@ function shn_mpres_default() {
 	$control = "";
 
 	shn_tabmenu_open();
-	shn_tabmenu_item("stat",          _t("Service Status"),  "inbound");
-	shn_tabmenu_item("log",           _t("People Reported"), "inbound");
-	shn_tabmenu_item("configuration", _t("Configuration"),   "inbound");
+	shn_tabmenu_item("stat",          _t("Mpres-Text|Service Status"),  "inbound");
+	shn_tabmenu_item("log",           _t("Mpres-Text|People Reported"), "inbound");
+	shn_tabmenu_item("configuration", _t("Mpres-Text|Configuration"),   "inbound");
 	shn_tabmenu_close();
 
 	if(isset($_GET['log'])) {
