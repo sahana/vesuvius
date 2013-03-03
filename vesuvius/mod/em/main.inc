@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * @name         Event Manager
  * @version      16
  * @package      em
@@ -7,7 +7,7 @@
  * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
- * @license	 http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License (LGPL)
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2011.1205
  */
 
@@ -28,19 +28,7 @@ shn_xajax_registerFunction('em_perform_purge');
 shn_xajax_registerFunction('em_perform_insert');
 shn_xajax_registerFunction('em_perform_save');
 shn_xajax_registerFunction('em_perform_help');
-shn_xajax_registerFunction('em_send_post');
-shn_xajax_registerFunction('em_notify_event');
-shn_xajax_registerFunction('em_get_prev_msg');
-shn_xajax_registerFunction('em_get_short_url');
-shn_xajax_registerFunction('em_save_new_post');
-shn_xajax_registerFunction('em_save_post_error');
-/*
-shn_xajax_registerFunction('em_format_title');
-shn_xajax_registerFunction('em_insert_node');
-shn_xajax_registerFunction('em_edit_node');
-shn_xajax_registerFunction('em_append_node');
-shn_xajax_registerFunction('em_delete_node');
-*/
+
 
 function shn_em_default() {
 	global $global;
@@ -49,18 +37,6 @@ function shn_em_default() {
 		<div id=\"rezLog\" class=\"logArea\">Loading Events...<br><noscript>THIS MODULE REQUIRES THAT YOU ACTIVATE JAVASCRIPT!</noscript></div>
 		<div id=\"rezControl\" class=\"controlArea\">&nbsp;</div>
 		<div id=\"rezMain\" class=\"mainArea\"></div>
-		<link href=\"res/emntfy/base/jquery.ui.all.css\" rel=\"stylesheet\">
-		<link href=\"res/emntfy/base/jquery-ui-1.8.17.css\" rel=\"stylesheet\" type=\"text/css\">
-		<script type=\"text/javascript\" src=\"res/js/jquery.js\" ></script>
-		<script type=\"text/javascript\" src=\"res/js/jquery-ui-1.8.17.custom.min.js\" ></script>
-		<script type=\"text/javascript\" src=\"res/js/jquery.textchange.min.js\" ></script>
-
-		<link href=\"res/emntfy/base/ui.dynatree.css\" rel=\"stylesheet\" type=\"text/css\">
-
-		<script type=\"text/javascript\" src=\"res/js/jquery.dynatree.min.js\" ></script>
-		<script type=\"text/javascript\" src=\"res/js/jquery.contextMenu-custom.js\" ></script>
-		<link href=\"res/emntfy/base/jquery.contextMenu.css\" rel=\"stylesheet\" type=\"text/css\" />
-
 		<script>".file_get_contents($global['approot']."/mod/em/em.js")."</script>
 	";
 
@@ -79,12 +55,21 @@ function shn_em_default() {
 	}
 
 	echo "
-<<<<<<< TREE
-		<script type=\"text/javascript\" src=\"res/js/jquery.js\" ></script>
-=======
->>>>>>> MERGE-SOURCE
+		<script type=\"text/javascript\" src=\"res/js/jquery-1.6.4.min.js\" ></script>
 		<script type=\"text/javascript\" src=\"res/js/jquery-ui-autocomplete.min.js\" ></script>
 		<script type=\"text/javascript\" src=\"res/js/jquery-ui-datepicker.min.js\" ></script>
 	";
 }
+
+
+
+
+
+
+
+
+
+
+
+
 
