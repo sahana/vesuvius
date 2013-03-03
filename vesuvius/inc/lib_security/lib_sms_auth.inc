@@ -147,7 +147,6 @@ function _shn_auth_user_list($fullname=false,$admin=true){
 
 
 
-*/
 /**
  *Check if a user has an account that matches the user name and password
  *therefore this is the function you need to call for authentication

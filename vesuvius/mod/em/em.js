@@ -285,3 +285,4 @@ function htmlspecialchars(string, quote_style, charset, double_encode) {
 	return string;
 }
 
+
