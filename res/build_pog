@@ -1,0 +1,17 @@
+# Shell script to generate Google PO (*.pog) files and then *.mo files from them
+# Author - Ramindu Deshapriya
+
+#run the php script to build POG files based on Google Translations
+php -f google_po_builder.php
+
+#procedure for *.pog files
+find locale -name "*.pog" | cut -d "." -f1 > pog_files.txt
+
+# Get the file list and build a set of *.mo files from it
+while read line
+do
+msgfmt -cv -o $line.mo $line.pog
+done < "pog_files.txt"
+
+# Delete pog_files.txt
+rm pog_files.txt

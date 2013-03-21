@@ -1,0 +1,15 @@
+Log of all Changes to the schema since Vesuvius v0.9.2
+------------------------------------------------------
+
+///////////////////////////////////////////////// GREG'S CHANGES THAT ARE IN PRODUCTION ////////////////////////////////////////////////////////////////////////
+
+2012:04xx Greg
+--------------
+
+
+///////////////////////////////////////////////// LEIF'S CHANGES THAT ARE IN PRODUCTION ////////////////////////////////////////////////////////////////////////
+
+2012:04xx Leif
+--------------
+
+ALTER TABLE `pfif_repository` CHANGE `subdomain` `subdomain` VARCHAR( 32 ) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL 

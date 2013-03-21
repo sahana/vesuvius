@@ -1,0 +1,73 @@
+##### Use PHP for all these filetypes
+AddType application/x-httpd-php .php .xml
+
+##### Use this page as the 404 document
+ErrorDocument 404 index.php
+
+##### Disallow Directory Listings
+DirectoryIndex index.php
+
+##### Turn on mod_rewrite to capture the shortname from a url and pass it on as a url parameter
+RewriteEngine On
+
+##### Only use 1 of the following RewriteBase options ~ comment the other out
+##### for when Sahana is installed on a virtual host at root level ie. http://domain.com/
+#RewriteBase /
+##### for when Sahana is installed in a user homedir ie. http://domain.gov/~gmiernicki/sahanaDev/www/
+RewriteBase /public_html/vesuvius/vesuvius/www/
+
+##### make mod_rewrite skip the subsequent rules if the file or folder exists already (the number must be incremented each time a new rule is added below)
+RewriteCond %{REQUEST_FILENAME} -d [OR]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule .* - [S=37]
+
+##### matches /person.XXXXX for the person uuid's as urls
+RewriteRule ^(person.[0-9]+)$ ?mod=eap&val=$1 [L]
+
+##### handle resource pages
+RewriteRule ^(about)$   ?mod=rez&page=-30 [L]
+RewriteRule ^(privacy)$ ?mod=rez&page=44  [L]
+
+##### handle actions
+RewriteRule ^(login)$              ?mod=pref&act=loginForm [L]
+RewriteRule ^(auth)$               ?doLogin=1 [L]
+RewriteRule ^(password)$           ?mod=pref&act=ch_passwd [L]
+RewriteRule ^(logout)$             ?act=logout [L]
+RewriteRule ^(register)$           ?mod=pref&act=signup [L]
+RewriteRule ^(register2)$          ?mod=pref&act=signup2 [L]
+RewriteRule ^(forgot)$             ?mod=pref&act=forgotPassword [L]
+RewriteRule ^(tracking)$           ?mod=pref&act=tracking [L]
+RewriteRule ^(reza|resourceadmin)$ ?mod=rez&act=adm_default [L]
+
+##### handle all modules requests
+RewriteRule ^(admin|administration)$           $2?mod=admin [QSA]
+RewriteRule ^(arrive|arrivals)$                $2?mod=arrive [QSA]
+RewriteRule ^(edit|eap)$                       $2?mod=eap [QSA]
+RewriteRule ^(em|events|eventmanager)$         $2?mod=em [QSA]
+RewriteRule ^(eq|expiry|expiryqueue)$          $2?mod=eq [QSA]
+RewriteRule ^(ha|hospitals|hospitaladmin)$     $2?mod=ha [QSA]
+RewriteRule ^(home)$                           $2?mod=home [QSA]
+RewriteRule ^(int|internal|internalresources)$ $2?mod=int [QSA]
+RewriteRule ^(inw|search)$                     $2?mod=inw [QSA]
+RewriteRule ^(mpres|inbound)$                  $2?mod=mpres [QSA]
+RewriteRule ^(pfif|importandexport)$           $2?mod=pfif [QSA]
+RewriteRule ^(plus|webservices)$               $2?mod=plus [QSA]
+RewriteRule ^(pop|outbound)$                   $2?mod=pop [QSA]
+RewriteRule ^(rap)$                            $2?mod=rap [QSA]
+RewriteRule ^(report)$                         $2?mod=report [QSA]
+RewriteRule ^(rez|resources)$                  $2?mod=rez [QSA]
+RewriteRule ^(sepl|searchplus)$                $2?mod=sepl [QSA]
+RewriteRule ^(snap|snapshot)$                  $2?mod=snap [QSA]
+RewriteRule ^(stat|statistics)$                $2?mod=stat [QSA]
+RewriteRule ^(tp|triagepic)$                   $2?mod=tp [QSA]
+RewriteRule ^(pref|settings)$                  $2?mod=pref [QSA]
+RewriteRule ^(xst|xmlstreamer)$                $2?mod=xst [QSA]
+
+##### matches /shortname
+RewriteRule ^([^/][a-z0-9]+)$ $2?shortname=$1 [QSA]
+
+##### matches /shortname/
+RewriteRule ^([^/][a-z0-9]+)/$ $2?shortname=$1 [QSA]
+
+##### matches /shortname/index.php?vars=params
+RewriteRule ^([^/][a-z0-9]+)/(.+)$ $2?shortname=$1 [QSA]
