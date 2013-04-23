@@ -5845,7 +5845,6 @@ function shn_stat_arrival_regular_interval() {
 
 	?>
 	<div id="container" style="width: 600px; height: 800px;"></div>;
-	<!--button id="button">Remove first series</button--!>
 
 
 	<?php
