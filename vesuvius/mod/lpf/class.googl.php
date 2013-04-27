@@ -23,17 +23,19 @@ class goo_gl{
 
 		$this->url = $url;
 
-		$curl = curl_init();
-		curl_setopt($curl, CURLOPT_URL, 'http://goo.gl/api/url');
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-		curl_setopt($curl, CURLOPT_POST, 1);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, 'user=toolbar@google.com&url='.urlencode($this->url).'&auth_token='.$this->googlToken($url));
-		$saida = curl_exec($curl);
-		curl_close($curl);
-		if($saida){
-			$json = json_decode($saida);
-			$this->resul = isset($json->short_url) ? $json->short_url : null;
-		}
+	if(function_exists('curl_init')){
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, 'http://goo.gl/api/url');
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, 'user=toolbar@google.com&url='.urlencode($this->url).'&auth_token='.$this->googlToken($url));
+            $saida = curl_exec($curl);
+            curl_close($curl);
+            if($saida){
+                $json = json_decode($saida);
+                $this->resul = isset($json->short_url) ? $json->short_url : null;
+            }
+        }
 	}
 
 	//show url shorted by goo.gl
