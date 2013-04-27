@@ -16,17 +16,40 @@ global $global;
 global $conf;
 require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
-function shn_stat_mainmenu() {
+/* function shn_stat_mainmenu() {
 }
 function shn_stat_header() {
 }
 function shn_stat_footer() {
-}
+} */
 function shn_stat_html_head() {
 	echo '
 			<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 			<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 			<head>
+			<title>People Statistics</title>
+			<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+			<meta name="Software " content="US National Library of Medicine People Locator" />
+			<meta name="Website" content="http://pl.nlm.nih.gov" />
+			<meta name="Licence" content="Lesser General Public Licence, Version 2.1" />
+			<meta name="Licence Website" content="http://www.gnu.org/licenses/lgpl-2.1.txt" />
+			<meta name="google-site-verification" content="Y2Ts00HnBQEr3M3KegrKRRAMVuQPejmqeqPKDsMGRGw" />
+			<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/fbnpmpdcnjkhfcgeeklebjmopaheplce">
+			<link rel="stylesheet" media="screen, projection" type="text/css" href="theme/lpf3/sahana.css" />
+			<link rel="stylesheet" media="print" type="text/css" href="theme/lpf3/print.css" />
+			<link rel="stylesheet" media="handheld" type="text/css" href="theme/lpf3/mobile.css" />
+			<!--[if IE 6]>
+			<link rel="stylesheet" type="text/css" href="theme/lpf3/ie6.css" />
+			<![endif]-->
+			<!--[if IE 7]>
+			<link rel="stylesheet" type="text/css" href="theme/lpf3/ie7.css" />
+			<![endif]-->
+			<!--[if IE 8]>
+			<link rel="stylesheet" type="text/css" href="theme/lpf3/ie8.css" />
+			<![endif]-->
+			<!--[if IE 9]>
+			<link rel="stylesheet" type="text/css" href="theme/lpf3/ie9.css" />
+			<![endif]-->
 			<script type="text/javascript" src="res/js/jquery.js"></script>
 			<script type="text/javascript" src="res/js/highcharts.js"></script>
 			<script type="text/javascript" src="res/js/exporting.js"></script>
@@ -126,6 +149,7 @@ function shn_stat_default() {
 
 	global $global;
 	shn_stat_menu();
+	shn_stat_html_head();
 }
 
 
@@ -217,7 +241,7 @@ echo "}\n";
 echo "\$(document).ready(function() {\n" ;
 echo "chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container'\n" ;
+echo "renderTo: 'content'\n" ;
 echo "},\n" ;
 echo "title: {\n" ;
 echo "text: 'Arrival Rate by Date for $shortname'\n" ;
@@ -383,7 +407,7 @@ echo "}\n";
 echo "\$(document).ready(function() {\n" ;
 echo "chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container'\n" ;
+echo "renderTo: 'content'\n";
 echo "zoomType: 'x',\n";
 echo "},\n" ;
 echo "title: {\n" ;
@@ -579,7 +603,7 @@ echo "}\n";
 echo "\$(document).ready(function() {\n" ;
 echo "chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container',\n" ;
+echo "renderTo: 'content'\n" ;
 echo "zoomType: 'x',\n";
 echo "},\n" ;
 echo "title: {\n" ;
@@ -727,7 +751,7 @@ echo "}\n";
 echo "$(document).ready(function() {\n";
 echo "chart = new Highcharts.Chart({\n";
 echo "chart: {\n";
-echo "renderTo: 'container',\n";
+echo "renderTo: 'content'\n";
 echo "zoomType: 'x'\n";
 echo "},\n";
 echo "title: {\n";
@@ -876,7 +900,7 @@ echo "}\n";
 echo "\$(document).ready(function() {\n" ;
 echo "chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container',\n" ;
+echo "renderTo: 'content'\n" ;
 echo "defaultSeriesType: 'areaspline'\n";
 echo "},\n" ;
 echo "title: {\n" ;
@@ -1336,7 +1360,7 @@ echo"}\n" ;
 echo "\$(document).ready(function() {\n";
 echo "var chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container',\n" ;
+echo "renderTo: 'content'\n" ;
 echo "defaultSeriesType: 'column'\n" ;
 echo "},\n" ;
 echo "title: {\n" ;
@@ -1728,7 +1752,7 @@ echo"}\n" ;
 echo "\$(document).ready(function() {\n";
 echo "var chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container',\n" ;
+echo "renderTo: 'content'\n" ;
 echo "defaultSeriesType: 'column'\n" ;
 echo "},\n" ;
 echo "title: {\n" ;
@@ -2224,7 +2248,7 @@ echo"}\n" ;
 echo "\$(document).ready(function() {\n";
 echo "var chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container',\n" ;
+echo "renderTo: 'content'\n" ;
 echo "defaultSeriesType: 'column'\n" ;
 echo "},\n" ;
 
@@ -2409,7 +2433,7 @@ echo"}\n";
 echo "\$(document).ready(function() {\n";
 echo "var chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container',\n" ;
+echo "renderTo: 'content'\n" ;
 echo "defaultSeriesType: 'column'\n" ;
 echo "},\n" ;
 echo "title: {\n" ;
@@ -2887,7 +2911,7 @@ echo "}\n";
 echo "\$(document).ready(function() {\n" ;
 echo "chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container'\n" ;
+echo "renderTo: 'content'\n" ;
 echo "},\n" ;
 echo "title: {\n" ;
 echo "text: 'Arrival Rate by Date (new table) from $shortname'\n" ;
@@ -3378,7 +3402,7 @@ echo "}\n";
 echo "\$(document).ready(function() {\n" ;
 echo "chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container'\n" ;
+echo "renderTo: 'content'\n" ;
 echo "},\n" ;
 echo "title: {\n" ;
 echo "style: {\n";
@@ -3820,7 +3844,7 @@ echo "}\n";
 echo "\$(document).ready(function() {\n" ;
 echo "chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container'\n" ;
+echo "renderTo: 'content'\n" ;
 echo "},\n" ;
 echo "title: {\n" ;
 echo "style: {\n";
@@ -4299,7 +4323,7 @@ echo "}\n";
 echo "\$(document).ready(function() {\n" ;
 echo "chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container'\n" ;
+echo "renderTo: 'content'\n" ;
 echo "},\n" ;
 //echo "colors: ['pink', 'cyan', 'lime', 'cinnabar', 'orange', 'lilac', 'green', 'black', 'royal blue','blue','emerald', 'lime', 'yellow', 'red','gray','black'],\n";
 echo "colors: ['#FCDFFF', '#00FFFF', '#8AFB17', '#7E2217', '#F87217', '#D462FF', '#4CC417', '#000000', '#151B8D','#348017','#54C571', '#FFFF00', '#FF0000', '#666362', '#000000'],\n";
@@ -4848,7 +4872,7 @@ echo "}\n";
 echo "\$(document).ready(function() {\n" ;
 echo "chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container'\n" ;
+echo "renderTo: 'content'\n" ;
 echo "},\n" ;
 echo "title: {\n" ;
 echo "style: {\n";
@@ -5115,7 +5139,7 @@ echo "}\n";
 echo "\$(document).ready(function() {\n" ;
 echo "chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container'\n" ;
+echo "renderTo: 'content'\n" ;
 echo "},\n" ;
 echo "title: {\n" ;
 echo "text: 'Arrival Rate by Date (new table) from $shortname'\n" ;
@@ -5438,7 +5462,7 @@ echo "}\n";
 echo "\$(document).ready(function() {\n" ;
 echo "chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container'\n";
+echo "renderTo: 'content'\n";
 /* add logo to the chart
  echo "
 events: {
@@ -5976,7 +6000,7 @@ echo "}\n";
 echo "\$(document).ready(function() {\n" ;
 echo "chart = new Highcharts.Chart({\n" ;
 echo "chart: {
-renderTo: 'container',
+renderTo: 'content',
 zoomType: 'x',
 spacingRight: 20
 },
@@ -6319,7 +6343,7 @@ echo "for(j=0; j<counts.length; j++) {\n";
 echo "
 					data_status.push({
 					name: names[j],
-					y: counts[j],
+					y: counts[j]/2,
 					color: colors[j]
 			});
 					";
@@ -6383,7 +6407,7 @@ echo "}\n";
 echo "\$(document).ready(function() {\n" ;
 echo "chart = new Highcharts.Chart({\n" ;
 echo "chart: {\n" ;
-echo "renderTo: 'container'\n" ;
+echo "renderTo: 'content'\n" ;
 //echo "backgroundColor: '#FCFFC5'\n";
 echo "},\n" ;
 //echo "colors: ['pink', 'cyan', 'lime', 'cinnabar', 'orange', 'lilac', 'green', 'black', 'royal blue','blue','emerald', 'lime', 'yellow', 'red','gray','black'],\n";
@@ -6487,7 +6511,7 @@ if ($startdate_has_data=true){
 		 echo "data: data_status,\n" ;
 		 //echo "center: [200, 300],\n";
 		 echo "center: ['50%', '50%'],\n";
-		 echo "size: 400,\n";
+		 echo "size: 200,\n";
 		 echo "showInLegend: false,\n";
 		 echo "showLegend: true,\n";
 		 echo "dataLabels: {\n";
@@ -6658,7 +6682,7 @@ echo "\$(document).ready(function() {\n";
 echo "var chart = new Highcharts.Chart({\n" ;
 
 echo "chart: {\n" ;
-echo "renderTo: 'container',\n" ;
+echo "renderTo: 'content'\n" ;
 echo "defaultSeriesType: 'column'\n" ;
 echo "},\n" ;
 
