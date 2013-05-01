@@ -606,7 +606,7 @@ function rez_perform_translate($page_id, $locale) {
 	";
 	$result = $global['db']->Execute($q);
 	if($result === false) {
-		daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez edit 1");
+		daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez translate 1");
 	}
 	$original_row = $result->FetchRow();
 
@@ -623,7 +623,7 @@ function rez_perform_translate($page_id, $locale) {
 	";
 	$result = $global['db']->Execute($q);
 	if($result === false) {
-		daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez edit 1");
+		daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "rez translate 1");
 	}
 	$row = $result->FetchRow();
 	if((int)$row['rez_page_id'] < 0) {
@@ -648,7 +648,7 @@ function rez_perform_translate($page_id, $locale) {
 	</table>
 	<div class=\"wysiwyg\"><table width=\"100%\" border=\"0\">"
 	."<tr><td width=\"50%\"><div id=\"original\" style=\"height: 100%; width: 100%;\">".$original_row['rez_content']."</div></td>"
-	."<td width=\"50%\"><textarea name=\"pageContent\" onchange=\"window.rezPageSaved = false;\" id=\"pageContent\" style=\"height: 300px; width: 90%;\">".$row['rez_content']."</textarea></td></tr>"
+	."<td width=\"50%\" style=\"vertical-align:top;\"><textarea name=\"pageContent\" onchange=\"window.rezPageSaved = false;\" id=\"pageContent\" style=\"height: 300px; width: 90%;\">".$row['rez_content']."</textarea></td></tr>"
 	."</table></div>
 	</form>";
 	$pageControlHtml = '
