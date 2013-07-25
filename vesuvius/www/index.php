@@ -13,10 +13,13 @@
  */
 
 // define global $global['approot'] for convenience and efficiency;
+
 $global['approot']  = realpath(dirname(__FILE__)).'/../';
 $global['previous'] = false;
 $global["setup"]    = false;
 
+if (!defined('LC_MESSAGES'))
+	define('LC_MESSAGES', 6);
 //Include Translation log
 require_once($global['approot'].'res/translation_log.inc');
 //define Translation log global var
