@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<dynamic-portable-app>
+  <end_point>http://localhost/vesuvius-repo/index.php</end_point>
+  <version>0.1</version>
+</dynamic-portable-app>
