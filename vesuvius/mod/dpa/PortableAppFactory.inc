@@ -116,7 +116,7 @@ function shn_dpa_clean_archive($tmp_zip) {
     copy($vesuvius_conf, $tmp_conf);
 
     $pear_path = realpath(dirname(__FILE__)) . '/PEAR/';
-    set_include_path('.;' . $pear_path . ';');
+    set_include_path($pear_path);
 
     require_once ('Beautifier.php');
     require_once ('Beautifier/Batch.php');
