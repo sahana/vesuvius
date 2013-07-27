@@ -17,7 +17,7 @@ define('DPA_STATUS_FAIL', -1);
 define('DPA_STATUS_DOWNLOADING', 2);
 
 // Portable wrappers filename definitions
-define('DPA_WRAPPER_WIN', 'portable-wrapper_win.zip'); // Portable wrappers for Microsoft Windows Platform
+define('DPA_WRAPPER_WIN', 'portable-wrapper_win.zip'); // Portable wrapper for Microsoft Windows Platform
 
 include_once ($global['approot'] . '/mod/dpa/lib_portableapp.inc');
 include_once ($global['approot'] . '/mod/dpa/lib_portablewrapper.inc');
@@ -35,7 +35,7 @@ function shn_dpa_default() {
 
     // check module status
     $dpa_status = (shn_dpa_isActive()) ? $active_html : $failure_html;
-    echo "<h3>Dynamic Portable App Status: " . $dpa_status . "</h3><br/>";
+    echo '<span style="font-size: 16px;color: #039;">Dynamic Portable App Status:&nbsp; ' . $dpa_status . '</span><span class="dpa_tooltip_icon">?</span><br/><br/>';
     $control = "";
     shn_tabmenu_open();
     shn_tabmenu_item("status", _t("DPA-Menu|Status"), 'dpa');
@@ -185,6 +185,10 @@ function shn_dpa_download() {
 
     echo '
 			<div id="result">
+				<div style="margin: 0 0 10px 5px;">
+					<a id="dpa_checkall" class="dpa_toolbar" href="#">Check All</a> 
+					<a id="dpa_uncheckall" class="dpa_toolbar" href="#" style="padding-left: 10px;">Uncheck All</a>
+				</div>
 				<table style="width: 100%;">
 				<thead>
 					<td style="width: 20px; ">&nbsp;</td>
@@ -200,13 +204,16 @@ function shn_dpa_download() {
         $checked = "";
         if (in_array($mod_arr[0], $conf['mod_dpa_required'])) {
             $checked = 'checked = "checked" disabled="disabled"';
-        }
+			$class = 'required_modules';
+        }else{
+			$class = 'modules';
+		}
         echo '
                 <tr>
                     <td style="text-align: center; padding: 5px 5px 5px 5px;">
              ';
 
-        echo '<input type="checkbox" class="modules" name="' . $mod_arr[0] . '" align="right" ' . $checked . ' />';
+        echo '<input type="checkbox" class="'.$class.'" name="' . $mod_arr[0] . '" align="right" ' . $checked . ' />';
 
         echo '
                 </td>

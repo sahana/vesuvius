@@ -95,6 +95,24 @@ $(document).ready(function() {
             $(status_tbl_id).find("input, select, button, textarea").prop("disabled", false);
         });
     });
+	
+	$('#dpa_checkall').click(function() {
+		$('.modules').attr('checked', 'checked');
+	});
+	
+	$('#dpa_uncheckall').click(function() {
+		$('.modules').removeAttr('checked');
+	});
+	
+	$(".dpa_tooltip_icon").hover(
+		function () {
+			$(this).append('<div class="dpa_tooltip"><p>This shows whether Dynamic Portable App module has all the required resources to perform correctly. Please see whether prerequisites are fully met. In some cases module is able to perform correctly with partial completion of  prerequisites.</p></div>');
+		}, 
+		function () {
+			$(".dpa_tooltip").remove();
+		}
+	);
+	
 });
     
 

@@ -59,6 +59,58 @@ function shn_dpa_load_html() {
                     border: 2px solid rgba(52, 104, 154, 0.15);
                     text-align: center;
                 }
+				.dpa_toolbar{
+					font-weight: bold;
+					font-size: 105%;
+				}
+				.dpa_tooltip_icon{
+					cursor: pointer;
+					display: inline-block;
+					font-size: 13px;
+					width: 20px;
+					height: 20px;
+					background-color: #89A4CC;
+					line-height: 20px;
+					color: white;
+					font-weight: bold;
+					border-radius: 10px;
+					text-align: center;
+					position: relative;
+					margin: 0 0 0 20px;
+				}
+				.dpa_tooltip_icon:hover { background-color: #3D6199; }
+				
+				.dpa_tooltip {
+					background-color: #E5EAEF;
+					color: White;
+					position: absolute;
+					left: 25px;
+					top: -25px;
+					z-index: 1000000;
+					width: 500px;
+					height: 80px;
+					border-radius: 5px;
+				}
+				.dpa_tooltip:before {
+					border-color: transparent #3D6199 transparent transparent;
+					border-right: 6px solid #3D6199;
+					border-style: solid;
+					border-width: 6px 6px 6px 0px;
+					content: "";
+					display: block;
+					height: 0;
+					width: 0;
+					line-height: 0;
+					position: absolute;
+					top: 40%;
+					left: -6px;
+				}
+				.dpa_tooltip p {
+					margin: 10px;
+					color: #34689A;
+					text-align: left;
+					font-size: 90%;
+				}
             </style>
          ';
 
