@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @name         Dynamic Portable App Helper Functions
  * @version      0.1
@@ -10,10 +11,7 @@
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2013.0726
  */
- 
- 
- 
- function shn_dpa_check_status() {
+function shn_dpa_check_status() {
     global $global, $conf;
     $bin_dir_status = (file_exists($conf['mod_dpa_bin']) && is_writable($conf['mod_dpa_bin'])) ? DPA_STATUS_OK : DPA_STATUS_FAIL;
     $repository_status = (shn_dpa_get_repo_status()) ? DPA_STATUS_OK : DPA_STATUS_FAIL;
@@ -164,11 +162,10 @@ function shn_dpa_precheck() {
     }
 }
 
-
 function shn_dpa_get_repo_data() {
     $dpa_config = shn_dpa_read_config();
-    $service_url = (isset($dpa_config['end_point'])) ? $dpa_config['end_point'] : "";
-    if ($service_url === "") {
+    $service_url = (isset($dpa_config['end_point'])) ? $dpa_config['end_point'] : false;
+    if ($service_url === false) {
         return false;
     }
     $curl = curl_init($service_url);
@@ -183,7 +180,6 @@ function shn_dpa_get_repo_data() {
     return false;
 }
 
-
 function shn_dpa_get_repo_status() {
     $repo_response = shn_dpa_get_repo_data();
     if ($repo_response !== false) {
@@ -193,13 +189,14 @@ function shn_dpa_get_repo_status() {
     return false;
 }
 
-
 function shn_dpa_read_config() {
     global $conf;
     $config_file = $conf['mod_dpa_bin'] . $conf['mod_dpa_config_file'];
     if (!file_exists($config_file)) {
-        add_error("Error reading Portable App module configuration. File could not be found.");
-        return false;
+        $config_arr = array(
+            'end_point' => 'http://ravihansa3000.com/vesuvius-repo/index.php'
+        );
+        shn_dpa_save_config($config_arr);
     }
     $doc = new DOMDocument();
     $doc->preserveWhiteSpace = false;
@@ -281,36 +278,33 @@ function readfile_chunked($filename) {
     return $conn_aborted;
 }
 
-function shn_dpa_get_mod_desc($mod_name){
-	$mod_desc = array(
-					"admin" => "Allows initial and on-going system configuration and control.",
-					"pref" => "Permits user-specific settings.",
-					"xst" => "Allows streaming of XML content.",
-					"arrive" => "AJAX modue to watch the realtime influx of persons.",
-					"ha" => "Allows hospital administrators/emergency managers to enter & edit organizational & event data.",
-					"inw" => "Offers search and display capabilities for missing and found persons reported from multiple sources",
-					"mpres" => "The Missing Person Registery Email Service parses incoming information about missing & found people",
-					"plus" => "Provides SOAP Document Literal web services",
-					"em" => "Allows a hospital admin or Sahana admin to define and geolocate disasters/incidents/events.",
-					"rez" => "Defines the content of the home and other web pages.",
-					"snap" => "Allows backup and restore of database instances, provided they are under 200MB.",
-					"pop" => "Handles outbound email.",
-					"eap" => "For a previously-reported person, whose record is retrieved, this allows revision or expansion.",
-					"edit" => "Edit a Person module with a myriad of new features",
-					"cam" => "Allows controlled capture of a photo from a webcam.",
-					"eq" => "Allows the management of record expiration requests made by users without sufficient privileges to manually expire records.",
-					"aq" => "Allows the management of reported abuse cases.",
-					"stat" => "For a particular event, this will provide all-person data in tabular and graphical form, categorized by time, status, and other features.",
-					"tp" => "This exposes a face for the download of the TriagePic application for hospital personnel.",
-					"pfif" => "This supports supervision of data import/export in PFIF 1.2, 1.3 formats with accompanying photos.",
-					"dpa" => "This will create a Portable App by dynamically cloning hosted code and data. Portable App can be downloaded as a zip archive."
-					
-					
-				);
-	if (isset($mod_desc[(string)$mod_name])){
-		return $mod_desc[(string)$mod_name];
-	}else{
-		return "No description available";
-	}
-	
+function shn_dpa_get_mod_desc($mod_name) {
+    $mod_desc = array(
+        "admin" => "Allows initial and on-going system configuration and control.",
+        "pref" => "Permits user-specific settings.",
+        "xst" => "Allows streaming of XML content.",
+        "arrive" => "AJAX modue to watch the realtime influx of persons.",
+        "ha" => "Allows hospital administrators/emergency managers to enter & edit organizational & event data.",
+        "inw" => "Offers search and display capabilities for missing and found persons reported from multiple sources",
+        "mpres" => "The Missing Person Registery Email Service parses incoming information about missing & found people",
+        "plus" => "Provides SOAP Document Literal web services",
+        "em" => "Allows a hospital admin or Sahana admin to define and geolocate disasters/incidents/events.",
+        "rez" => "Defines the content of the home and other web pages.",
+        "snap" => "Allows backup and restore of database instances, provided they are under 200MB.",
+        "pop" => "Handles outbound email.",
+        "eap" => "For a previously-reported person, whose record is retrieved, this allows revision or expansion.",
+        "edit" => "Edit a Person module with a myriad of new features",
+        "cam" => "Allows controlled capture of a photo from a webcam.",
+        "eq" => "Allows the management of record expiration requests made by users without sufficient privileges to manually expire records.",
+        "aq" => "Allows the management of reported abuse cases.",
+        "stat" => "For a particular event, this will provide all-person data in tabular and graphical form, categorized by time, status, and other features.",
+        "tp" => "This exposes a face for the download of the TriagePic application for hospital personnel.",
+        "pfif" => "This supports supervision of data import/export in PFIF 1.2, 1.3 formats with accompanying photos.",
+        "dpa" => "This will create a Portable App by dynamically cloning hosted code and data. Portable App can be downloaded as a zip archive."
+    );
+    if (isset($mod_desc[(string) $mod_name])) {
+        return $mod_desc[(string) $mod_name];
+    } else {
+        return "No description available";
+    }
 }

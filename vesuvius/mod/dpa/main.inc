@@ -56,7 +56,7 @@ function shn_dpa_default() {
     } elseif (isset($_GET['downloadp'])) {
         $control = "shn_dpa_download_p";
     } elseif (isset($_GET['winwrapperfix'])) {
-        $control = "shn_dpa_win_wrapper_fix";
+        $control = "shn_dpa_wrapper_fix_win";
     } elseif (isset($_GET['winwrapperstatus'])) {
         $control = "shn_dpa_win_wrapper_status";
     }
@@ -64,7 +64,7 @@ function shn_dpa_default() {
     if ($control == "") {
         $control = "shn_dpa_status";
     }
-    $control();
+    call_user_func($control);
 }
 
 function shn_dpa_status() {
@@ -301,7 +301,7 @@ function shn_dpa_log() {
             <div id="result" class="logArea" style="height: 400px; padding: 10px 5px 10px 15px;">
             <table style="width: 100%;">
                             <thead>
-                    <td style="width: 50px;"><strong>Date</strong></td>
+                    <td style="width: 75px;"><strong>Date</strong></td>
                     <td style="width: 50px;"><strong>Time</strong></td>
                     <td style="width: 25px;"><strong>User IP</strong></td>
                     <td style="width: 30px;"><strong>Username</strong></td>
