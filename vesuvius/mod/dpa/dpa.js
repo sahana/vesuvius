@@ -46,13 +46,13 @@ $(document).ready(function() {
     });
 	
     $('#btn_status_repo_fix').click(function() {
-        $(dialog_id).html('<h5 style="text-align: left;">Repository did not respond as expected. Goto configuration section to update repository URL.</h5><div style="padding: 10px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
+        $(dialog_id).html('<h5>Repository did not respond as expected. Goto configuration section to update repository URL.</h5><div style="padding: 25px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
         show_dialog();
     });
         
     $('#btn_status_win_wrapper_fix').click(function() {
         $(status_tbl_id).find("input, select, button, textarea").prop("disabled", true);       
-        $(dialog_id).html('<h5 id="dpa_progress">Wrapper file is being downloaded to the server. Please wait...</h5><div style="padding: 0;"><div style="padding: 2px 0;"><img src="res/img/ajax-loader.gif" /></div><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
+        $(dialog_id).html('<h5 id="dpa_progress">Portable wrapper file is being downloaded to the server.<br/>You may close this window. The download process will continue in the background.</h5><div style="padding: 0;"><div style="padding: 5px 0 10px 0;"><img src="res/img/ajax-loader.gif" /></div><input type="button" value="OK" class="styleTehButton" onclick="close_dialog();" /></div>');
         show_dialog();        
         var jqxhr = $.ajax({
             type: "GET",
@@ -60,11 +60,15 @@ $(document).ready(function() {
             dataType: "text",
             cache: false,
             success: function(result) {
-                var obj = jQuery.parseJSON(result);
-                $(dialog_id).html('<h5 id="dpa_progress">'+obj.response+'</h5><div style="padding: 10px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
+                try{
+                    var obj = jQuery.parseJSON(result);
+                    $(dialog_id).html('<h5 id="dpa_progress">'+obj.response+'</h5><div style="padding: 25px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
+                }catch (ex){
+                    $(dialog_id).html('<h5 id="dpa_progress">Error! Invalid response from the server.</h5><h5>'+result+'</h5><div style="padding: 25px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');   
+                }               
             },
             error:function (xhr, ajaxOptions, thrownError){
-                $(dialog_id).html('<h5>Error! Unable to send the request. Please try again later.</h5><div style="padding: 10px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
+                $(dialog_id).html('<h5>Error! Unable to send the request. Please try again later.</h5><div style="padding: 25px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
             },              
             async: true
         });
@@ -75,19 +79,23 @@ $(document).ready(function() {
     
     $('#btn_status_win_wrapper_progress').click(function() {
         $(status_tbl_id).find("input, select, button, textarea").prop("disabled", true);       
-        $(dialog_id).html('<h5 id="dpa_progress">Requesting status. Please wait...</h5><div style="padding: 0;"><div style="padding: 2px 0;"><img src="res/img/ajax-loader.gif" /></div><input type="button" value="Cancel" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
+        $(dialog_id).html('<h5 id="dpa_progress">Requesting status. Please wait...</h5><div style="padding: 0;"><div style="padding: 15px 0 10px 0;"><img src="res/img/ajax-loader.gif" /></div><input type="button" value="Cancel" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
         show_dialog();
         var jqxhr = $.ajax({
             type: "GET",
             url: "?dpa&winwrapperstatus",
             dataType: "text",
             cache: false,
-            success: function(result) {                
-                var obj = jQuery.parseJSON(result);
-                $(dialog_id).html('<h5 id="dpa_progress">'+obj.response+'</h5><div style="padding: 10px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
+            success: function(result) {     
+                try{
+                    var obj = jQuery.parseJSON(result);
+                    $(dialog_id).html('<h5 id="dpa_progress">'+obj.response+'</h5><div style="padding: 25px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');           
+                }catch (ex){
+                    $(dialog_id).html('<h5 id="dpa_progress">Error! Invalid response from the server.</h5><div style="padding: 25px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');   
+                }   
             },
             error:function (xhr, ajaxOptions, thrownError){
-                $(dialog_id).html('<h5>Error! Unable to send the request. Please try again later.</h5><div style="padding: 10px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
+                $(dialog_id).html('<h5>Error! Unable to send the request. Please try again later.</h5><div style="padding: 25px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
             },              
             async: true
         });
@@ -96,25 +104,29 @@ $(document).ready(function() {
         });
     });
 	
-	$('#dpa_checkall').click(function() {
-		$('.modules').attr('checked', 'checked');
-	});
+    $('#dpa_checkall').click(function() {
+        $('.modules').attr('checked', 'checked');
+    });
 	
-	$('#dpa_uncheckall').click(function() {
-		$('.modules').removeAttr('checked');
-	});
+    $('#dpa_uncheckall').click(function() {
+        $('.modules').removeAttr('checked');
+    });
 	
-	$(".dpa_tooltip_icon").hover(
-		function () {
-			$(this).append('<div class="dpa_tooltip"><p>This shows whether Dynamic Portable App module has all the required resources to perform correctly. Please see whether prerequisites are fully met. In some cases module is able to perform correctly with partial completion of  prerequisites.</p></div>');
-		}, 
-		function () {
-			$(".dpa_tooltip").remove();
-		}
-	);
+    $(".dpa_tooltip_icon").hover(
+        function () {
+            $(this).append('<div class="dpa_tooltip"><p>This shows whether Dynamic Portable App module has all the required resources to perform correctly. Please see whether prerequisites are fully met. In some cases module is able to perform correctly with partial completion of  prerequisites.</p></div>');
+        }, 
+        function () {
+            $(".dpa_tooltip").remove();
+        }
+        );
 	
 });
     
+function close_dialog(){
+    $(dialog_id).hide();
+    $(status_tbl_id).find("input, select, button, textarea").prop("disabled", false);    
+}
 
 function loadError(){
     clearInterval(refreshIntervalId);
@@ -134,8 +146,8 @@ function loadComplete(checksum){
     var inputs = form.find("input, select, button, textarea");
     inputs.prop("disabled", false);    
     $(dialog_id).html('<h5>OK! Download has started. After the file is downloaded extract the zip archive and launch vesuvius.exe</h5>' +
-                        '<div style="padding: 5px 0;">MD5 File Checksum: ' + checksum + '</div>' +
-                       '<div style="padding: 10px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
+        '<div style="padding: 5px 0;">MD5 File Checksum: ' + checksum + '</div>' +
+        '<div style="padding: 10px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
                    
                    
 }

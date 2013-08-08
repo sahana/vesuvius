@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @name         Dynamic Portable App Portable Wrapper Download Functions
  * @version      0.1
@@ -8,64 +9,61 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
- * @lastModified 2013.0726
+ * @lastModified 2013.0808
  */
- 
+function shn_dpa_wrapper_fix_win() {
+    global $conf;
+    $wrapper_file = $conf['mod_dpa_bin'] . DPA_WRAPPER_WIN;
+    $wrapper_dlprogress = 'shn_dpa_win_wrapper_dlprogress';
+    shn_dpa_wrapper_fix($wrapper_file, $wrapper_dlprogress, "Windows");
+}
 
-
- 
-function shn_dpa_win_wrapper_fix() {
-    global $global, $conf;
+function shn_dpa_wrapper_fix($wrapper_file, $wrapper_dlprogress, $platform) {
     ignore_user_abort(true); // run script in background 
     set_time_limit(0); // run script forever     
     // end any previously started output buffer handlers
     while (ob_get_level()) {
         ob_end_clean();
     }
-
     ob_start();
-	$filename = $conf['mod_dpa_bin'] . DPA_WRAPPER_WIN;
-    $filename_tmp = $filename . '.tmp';
-    $filename_status = $filename . '.status';
-    
+
+    $wrapper_file_tmp = $wrapper_file . '.tmp';
+    $wrapper_file_status = $wrapper_file . '.status';
     $ch_status = false;
     $repo = shn_dpa_get_repo_data();
 
-    if (file_exists($filename_tmp)) {
+    if (file_exists($wrapper_file_tmp)) {
         $response = "Wrapper file download has already started.";
         $data = array('response' => $response);
         echo json_encode($data);
         exit;
     }
 
-    if (file_exists($filename)) {
-        $response = "Wrapper file already exists.";
+    if (file_exists($wrapper_file)) {
+        $response = "Wrapper file already exists." . $wrapper_file;
         $data = array('response' => $response);
         echo json_encode($data);
         exit;
     }
 
     if ($repo['status'] === "active") {
+        //This is the file where we save the data received from the repository
+        $fp = fopen($wrapper_file_tmp, 'w+');
+        // close the session before starting the long running process
+        session_write_close();
         $url = $repo['url'];
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_BUFFERSIZE, (1024 * 1024));
-
-		//This is the file where we save the data received from the repository
-        $fp = fopen($filename_tmp, 'w+'); 
-		
-		// close the session before starting the long running process
-        session_write_close(); 
-
+        curl_setopt($ch, CURLOPT_BUFFERSIZE, 1024);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, 'shn_dpa_win_wrapper_dlprogress');
+        curl_setopt($ch, CURLOPT_PROGRESSFUNCTION, $wrapper_dlprogress);
         curl_setopt($ch, CURLOPT_FILE, $fp); // write curl response to file
         curl_setopt($ch, CURLOPT_NOPROGRESS, false); // needed to make progress function work
         curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_FORBID_REUSE, 0);
         $ch_status = curl_exec($ch);
+        shn_dpa_add_log("Portable wrapper file download started for " . $platform . ", CURL returned: " . $ch_status);
         curl_close($ch);
     } else {
         $response = "Portable wrappers repository did not repond. Please check repository URL";
@@ -74,18 +72,22 @@ function shn_dpa_win_wrapper_fix() {
         exit;
     }
     $file_status = false;
-    if (file_exists($filename_tmp)) {
+    if (file_exists($wrapper_file_tmp)) {
         fclose($fp);
-        if (hash_file('md5', $filename_tmp) === $repo['checksum']) {
+        if (hash_file('md5', $wrapper_file_tmp) === $repo['checksum']) {
             $file_status = true;
-            rename($filename_tmp, $filename);
-        }else{
-            unlink($filename_tmp);
-        }        
+            rename($wrapper_file_tmp, $wrapper_file);
+            shn_dpa_add_log("Portable wrapper file successfully downloaded for ". $platform);
+        } else {
+            unlink($wrapper_file_tmp);
+            shn_dpa_add_log("Portable wrapper file download error for ". $platform . ". File integrity check failed.");
+        }
+    }else{
+        shn_dpa_add_log("Portable wrapper file download error for ". $platform . ". File not downloaded.");
     }
 
-    if (file_exists($filename_status))
-        unlink($filename_status);
+    if (file_exists($wrapper_file_status))
+        unlink($wrapper_file_status);
 
     if ($file_status !== false) {
         $response = "OK! Wrapper file successfully downloaded. Page will be refreshed now.<script>setTimeout(function() { location.reload();}, 2000); </script>";
@@ -98,20 +100,20 @@ function shn_dpa_win_wrapper_fix() {
 }
 
 function shn_dpa_win_wrapper_dlprogress($download_size, $downloaded, $upload_size, $uploaded) {
-    global $global, $conf;
-    $filename_status = $conf['mod_dpa_bin'] . '/portable-bin_win.zip.status';
+    global $conf;
+    $filename_status = $conf['mod_dpa_bin'] . DPA_WRAPPER_WIN . ".status";
     if ($download_size > 0) {
         $progress = $downloaded / $download_size * 100;
-        $progress = number_format((float)$progress, 2, '.', '');
+        $progress = number_format((float) $progress, 2, '.', '');
         file_put_contents($filename_status, $progress);
     }
 }
 
 function shn_dpa_win_wrapper_status() {
-    global $global, $conf;
-    $filename = $conf['mod_dpa_bin'] . '/portable-wrapper_win.zip';
-    $filename_tmp = $filename . '.tmp';
-    $filename_status = $filename . '.status';
+    global $conf;
+    $wrapper_file = $conf['mod_dpa_bin'] . DPA_WRAPPER_WIN;
+    $wrapper_file_tmp = $wrapper_file . '.tmp';
+    $wrapper_file_status = $wrapper_file . '.status';
 
     // end any previously started output buffer handlers
     while (ob_get_level()) {
@@ -119,10 +121,10 @@ function shn_dpa_win_wrapper_status() {
     }
     ob_start();
     $res = "";
-    if (file_exists($filename)) {
+    if (file_exists($wrapper_file)) {
         $res = "Portable wrapper file download is complete! Page will be refreshed now.<script>setTimeout(function() { location.reload();}, 2000); </script>";
-    } elseif (file_exists($filename_tmp) && file_exists($filename_status)) {
-        $res = "Portable wrapper file is being downloaded. Download Progess: " . file_get_contents($filename_status) . " %";
+    } elseif (file_exists($wrapper_file_tmp) && file_exists($wrapper_file_status)) {
+        $res = "Portable wrapper file is being downloaded. Download Progess: " . file_get_contents($wrapper_file_status) . " %";
     } else {
         $res = "Portable wrapper file download has failed.";
     }
