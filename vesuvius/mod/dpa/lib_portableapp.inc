@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @name         Dynamic Portable App Core Functions
  * @version      0.1
@@ -8,11 +9,8 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
- * @lastModified 2013.0726
+ * @lastModified 2013.0808
  */
- 
- 
- 
 define('DPA_BASE_DIR', "PortableApps/SahanaFoundation.org/www/vesuvius/");
 define('DPA_DBDUMP_DIR', "PortableApps/SahanaFoundation.org/www/local/db_dump/");
 
@@ -32,8 +30,8 @@ function shn_dpa_create_portable_app($portable_bin) {
     $tmp_zip = $conf['mod_dpa_bin'] . $tmpfname . '.zip';
     if (!copy($portable_bin, $tmp_zip)) {
         return false;
-    }    
-    
+    }
+
     $dpa_zip = new ZipArchive();
     if (!$dpa_zip->open($tmp_zip)) {
         unlink($tmp_zip);
@@ -41,7 +39,7 @@ function shn_dpa_create_portable_app($portable_bin) {
     }
     $dpa_zip->deleteName(DPA_BASE_DIR); // Remove BASE_DIR if it already exists from the archive
     $dpa_zip->close();
-    
+
     $dpa_zip->open($tmp_zip);
     if (!$dpa_zip->addEmptyDir(DPA_BASE_DIR)) {
         $dpa_zip->close();
@@ -71,8 +69,8 @@ function shn_dpa_create_portable_app($portable_bin) {
 function shn_dpa_add_dbdump($tmp_zip) {
     global $global, $conf;
     $dpa_zip = new ZipArchive();
-    
-    // short variables for readability
+    $dpa_zip->open($tmp_zip);
+    // short variables - database login 
     $dbhost = $conf['db_host'];
     $dbname = $conf['db_name'];
     $dbuser = $conf['db_user'];
@@ -89,15 +87,16 @@ function shn_dpa_add_dbdump($tmp_zip) {
     exec($cmd, $output2, $return_val2);
 
     // check whether command executed without errors
-    if ($return_val1 !== 0 || $return_val2 !== 0) {   
+    if ($return_val1 !== 0 || $return_val2 !== 0) {
+        shn_dpa_add_log("Database dump process failed...mysqldump returned " . $return_val1 . ", " . $return_val2);
         unlink($db_dump_file);
         return false;
     }
-    
-    if (!$dpa_zip->open($tmp_zip) || !($dpa_zip->addFile($db_dump_file, DPA_DBDUMP_DIR . 'vesuvius-portable-db-dump.sql'))) {     
+
+    if (!($dpa_zip->addFile($db_dump_file, DPA_DBDUMP_DIR . 'vesuvius-portable-db-dump.sql'))) {
         unlink($db_dump_file);
         return false;
-    }    
+    }
     $dpa_zip->close();
     unlink($db_dump_file);
     return true;
@@ -157,7 +156,11 @@ function shn_dpa_clean_archive($tmp_zip) {
     fclose($sh);
     fclose($th);
 
-    $dpa_zip->addFile($new_conf, DPA_BASE_DIR . "conf/sahana.conf");
+    if (!$dpa_zip->addFile($new_conf, DPA_BASE_DIR . "conf/sahana.conf")) {
+        unlink($tmp_conf);
+        unlink($new_conf);
+        return false;
+    }
     $dpa_zip->close();
 
     unlink($tmp_conf);

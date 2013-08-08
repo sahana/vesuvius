@@ -8,9 +8,8 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
- * @lastModified 2013.0726
+ * @lastModified 2013.0808
  */
- 
 // Module Status definitions
 define('DPA_STATUS_OK', 1);
 define('DPA_STATUS_FAIL', -1);
@@ -115,7 +114,6 @@ function shn_dpa_status() {
     <?php
 }
 
-
 function shn_dpa_config_p() {
 
     $end_point_txt = (isset($_POST['end_point'])) ? trim($_POST['end_point']) : "";
@@ -204,16 +202,16 @@ function shn_dpa_download() {
         $checked = "";
         if (in_array($mod_arr[0], $conf['mod_dpa_required'])) {
             $checked = 'checked = "checked" disabled="disabled"';
-			$class = 'required_modules';
-        }else{
-			$class = 'modules';
-		}
+            $class = 'required_modules';
+        } else {
+            $class = 'modules';
+        }
         echo '
                 <tr>
                     <td style="text-align: center; padding: 5px 5px 5px 5px;">
              ';
 
-        echo '<input type="checkbox" class="'.$class.'" name="' . $mod_arr[0] . '" align="right" ' . $checked . ' />';
+        echo '<input type="checkbox" class="' . $class . '" name="' . $mod_arr[0] . '" align="right" ' . $checked . ' />';
 
         echo '
                 </td>
@@ -260,8 +258,8 @@ function shn_dpa_download_p() {
         $portable_wrapper_file = $conf['mod_dpa_bin'] . DPA_WRAPPER_WIN;
     }
 
-	// unique string to identify file download session
-    $nonce_str = (isset($_GET['nonce'])) ? trim($_GET['nonce']) : "";    
+    // unique string to identify file download session
+    $nonce_str = (isset($_GET['nonce'])) ? trim($_GET['nonce']) : "";
 
     if (file_exists($portable_wrapper_file)) {
         $download_file = shn_dpa_create_portable_app($portable_wrapper_file);
@@ -289,6 +287,7 @@ function shn_dpa_download_p() {
 
         unlink($download_file);
     } else {
+        shn_dpa_add_log("Failed to create Portable App.");
         setcookie("FILE_READY", $nonce_str . ":ERROR", 0, "/");
     }
     ob_end_flush();
