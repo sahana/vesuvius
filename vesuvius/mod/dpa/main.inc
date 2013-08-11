@@ -8,14 +8,13 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
- * @lastModified 2013.0808
+ * @lastModified 2013.0811
  */
 // Module Status definitions
 define('DPA_STATUS_OK', 1);
 define('DPA_STATUS_FAIL', -1);
 define('DPA_STATUS_DOWNLOADING', 2);
-
-// Portable wrappers filename definitions
+define('DPA_DEBUG', false);
 define('DPA_WRAPPER_WIN', 'portable-wrapper_win.zip'); // Portable wrapper for Microsoft Windows Platform
 
 include_once ($global['approot'] . '/mod/dpa/lib_portableapp.inc');
@@ -23,6 +22,12 @@ include_once ($global['approot'] . '/mod/dpa/lib_portablewrapper.inc');
 include_once ($global['approot'] . '/mod/dpa/lib_helper.inc');
 
 function shn_dpa_default() {
+    /* DEBUG INFO */
+    if (DPA_DEBUG) {
+        echo 'REQUEST_URI: ' . $_SERVER['REQUEST_URI'] . PHP_EOL;
+        echo 'REQUEST_URI: ' . $_SERVER['PHP_SELF'] . PHP_EOL;
+    }
+
     // perform a pre-check to make sure everything is in place
     shn_dpa_precheck();
 

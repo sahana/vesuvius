@@ -9,13 +9,12 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
- * @lastModified 2013.0808
+ * @lastModified 2013.0811
  */
 function shn_dpa_wrapper_fix_win() {
     global $conf;
     $wrapper_file = $conf['mod_dpa_bin'] . DPA_WRAPPER_WIN;
-    $wrapper_dlprogress = 'shn_dpa_win_wrapper_dlprogress';
-    shn_dpa_wrapper_fix($wrapper_file, $wrapper_dlprogress, "Windows");
+    shn_dpa_wrapper_fix($wrapper_file, 'shn_dpa_win_wrapper_dlprogress', "Windows");
 }
 
 function shn_dpa_wrapper_fix($wrapper_file, $wrapper_dlprogress, $platform) {
@@ -62,8 +61,8 @@ function shn_dpa_wrapper_fix($wrapper_file, $wrapper_dlprogress, $platform) {
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 10);
         curl_setopt($ch, CURLOPT_FORBID_REUSE, 0);
+        shn_dpa_add_log("Starting portable wrapper file download for " . $platform);
         $ch_status = curl_exec($ch);
-        shn_dpa_add_log("Portable wrapper file download started for " . $platform . ", CURL returned: " . $ch_status);
         curl_close($ch);
     } else {
         $response = "Portable wrappers repository did not repond. Please check repository URL";
@@ -77,13 +76,13 @@ function shn_dpa_wrapper_fix($wrapper_file, $wrapper_dlprogress, $platform) {
         if (hash_file('md5', $wrapper_file_tmp) === $repo['checksum']) {
             $file_status = true;
             rename($wrapper_file_tmp, $wrapper_file);
-            shn_dpa_add_log("Portable wrapper file successfully downloaded for ". $platform);
+            shn_dpa_add_log("Portable wrapper file successfully downloaded for " . $platform);
         } else {
             unlink($wrapper_file_tmp);
-            shn_dpa_add_log("Portable wrapper file download error for ". $platform . ". File integrity check failed.");
+            shn_dpa_add_log("Portable wrapper file download failed for " . $platform . ". File integrity check failed.");
         }
-    }else{
-        shn_dpa_add_log("Portable wrapper file download error for ". $platform . ". File not downloaded.");
+    } else {
+        shn_dpa_add_log("Portable wrapper file download failed for " . $platform . ". Connection error.");
     }
 
     if (file_exists($wrapper_file_status))
@@ -92,7 +91,7 @@ function shn_dpa_wrapper_fix($wrapper_file, $wrapper_dlprogress, $platform) {
     if ($file_status !== false) {
         $response = "OK! Wrapper file successfully downloaded. Page will be refreshed now.<script>setTimeout(function() { location.reload();}, 2000); </script>";
     } else {
-        $response = "Error! Something went wrong. Please try again later";
+        $response = "Error! Something went wrong. Goto View Log section for more details. Please try again later";
     }
     $data = array('response' => $response);
     echo json_encode($data);

@@ -11,8 +11,8 @@
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
  * @lastModified 2013.0808
  */
-define('DPA_BASE_DIR', "PortableApps/SahanaFoundation.org/www/vesuvius/");
-define('DPA_DBDUMP_DIR', "PortableApps/SahanaFoundation.org/www/local/db_dump/");
+define('DPA_BASE_DIR', "PortableApps/SahanaFoundation.org/www/vesuvius");
+define('DPA_DBDUMP_DIR', "PortableApps/SahanaFoundation.org/www/local/db_dump");
 
 function shn_dpa_create_portable_app($portable_bin) {
     global $global, $conf;
@@ -48,7 +48,7 @@ function shn_dpa_create_portable_app($portable_bin) {
     }
 
     // Add subdirectories under approot to zip archive
-    shn_dpa_add_dir(realpath($global['approot']) . '/', $dpa_zip, $selected_mods);
+    shn_dpa_add_dir($global['approot'], $dpa_zip, $selected_mods);
     $dpa_zip->close();
 
     // Remove sensitive information in sahana.conf
@@ -67,7 +67,7 @@ function shn_dpa_create_portable_app($portable_bin) {
 }
 
 function shn_dpa_add_dbdump($tmp_zip) {
-    global $global, $conf;
+    global $conf;
     $dpa_zip = new ZipArchive();
     $dpa_zip->open($tmp_zip);
     // short variables - database login 
@@ -93,7 +93,7 @@ function shn_dpa_add_dbdump($tmp_zip) {
         return false;
     }
 
-    if (!($dpa_zip->addFile($db_dump_file, DPA_DBDUMP_DIR . 'vesuvius-portable-db-dump.sql'))) {
+    if (!($dpa_zip->addFile($db_dump_file, DPA_DBDUMP_DIR . '/vesuvius-portable-db-dump.sql'))) {
         unlink($db_dump_file);
         return false;
     }
@@ -106,7 +106,7 @@ function shn_dpa_clean_archive($tmp_zip) {
     global $global, $conf;
     $dpa_zip = new ZipArchive();
     $dpa_zip->open($tmp_zip);
-    $dpa_zip->deleteName(DPA_BASE_DIR . "conf/sahana.conf");
+    $dpa_zip->deleteName(DPA_BASE_DIR . "/conf/sahana.conf");
     $dpa_zip->close();
     $dpa_zip->open($tmp_zip);
 
@@ -156,7 +156,7 @@ function shn_dpa_clean_archive($tmp_zip) {
     fclose($sh);
     fclose($th);
 
-    if (!$dpa_zip->addFile($new_conf, DPA_BASE_DIR . "conf/sahana.conf")) {
+    if (!$dpa_zip->addFile($new_conf, DPA_BASE_DIR . "/conf/sahana.conf")) {
         unlink($tmp_conf);
         unlink($new_conf);
         return false;
@@ -170,8 +170,6 @@ function shn_dpa_clean_archive($tmp_zip) {
 
 function shn_dpa_add_dir($dir, $dpa_zip, $selected_mods) {
     global $global, $conf;
-
-    $app_root = realpath($global['approot']) . '/';
     if (!is_dir($dir)) {
         return;
     }
@@ -179,28 +177,26 @@ function shn_dpa_add_dir($dir, $dpa_zip, $selected_mods) {
     if (!$dh) {
         return;
     }
-
-    //Add directories except for the 'app_root'
-    if ($app_root !== $dir) {
-        $dpa_zip->addEmptyDir(DPA_BASE_DIR . str_replace($app_root, '', $dir));
-    }
-
+    $app_base = realpath($global['approot']);
+    $dir = realpath($dir);
     // Loop through all the files
     while (($file = readdir($dh)) !== false) {
-        //If it's a folder, run the function again!
-        if (!is_file($dir . $file)) {
+        $item = realpath($dir . '/' . $file);
+        //If it's a folder, run the function again
+        if (!is_file($item)) {
             // Skip parent and root directories
             if (($file !== '.') && ($file !== '..')) {
-                // Skip unselected modules
-                if ((($dir === $app_root . "mod/") && !in_array($file, $selected_mods)) || (realpath($dir . $file) === realpath($conf['mod_dpa_bin']))) {
-                    continue;
+                if (($dir === realpath($app_base . "/mod")) && !in_array($file, $selected_mods)) {
+                    // Skip unselected modules
+                } else if ($item === realpath($conf['mod_dpa_bin'])) {
+                    // Skip DPA bin directory
+                } else {
+                    shn_dpa_add_dir($item, $dpa_zip, $selected_mods);
                 }
-                // Recursive call to add subdirectories
-                shn_dpa_add_dir($dir . $file . '/', $dpa_zip, $selected_mods);
             }
         } else {
-            // Add files						
-            $dpa_zip->addFile($dir . $file, DPA_BASE_DIR . str_replace($app_root, '', $dir . $file));
+            // Add file to zip archive					
+            $dpa_zip->addFile($item, DPA_BASE_DIR . str_replace($app_base, '', $item));
         }
     }
 }
