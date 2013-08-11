@@ -130,26 +130,20 @@ function close_dialog(){
 
 function loadError(){
     clearInterval(refreshIntervalId);
-    var form = $(form_id);	
-    var inputs = form.find("input, select, button, textarea");
-    inputs.prop("disabled", false);    
-    $(dialog_id).html('<h5>Error! Something went wrong. Please try again later.</h5><div style="padding: 20px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
-	
-
+    $(form_id).find("input, select, button, textarea").prop("disabled", false);
+    $('.required_modules').attr('disabled', 'disabled');
+    $(dialog_id).html('<h5>Error! Something went wrong. Please try again later.</h5><div style="padding: 20px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');	
 }
 
 
 
 function loadComplete(checksum){
-    clearInterval(refreshIntervalId);
-    var form = $(form_id);	
-    var inputs = form.find("input, select, button, textarea");
-    inputs.prop("disabled", false);    
+    clearInterval(refreshIntervalId);    	
+    $(form_id).find("input, select, button, textarea").prop("disabled", false);
+    $('.required_modules').attr('disabled', 'disabled');
     $(dialog_id).html('<h5>OK! Download has started. After the file is downloaded extract the zip archive and launch vesuvius.exe</h5>' +
         '<div style="padding: 5px 0;">MD5 File Checksum: ' + checksum + '</div>' +
-        '<div style="padding: 10px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
-                   
-                   
+        '<div style="padding: 10px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');                   
 }
 
 function getUrl(){
