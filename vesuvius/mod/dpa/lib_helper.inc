@@ -9,7 +9,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
- * @lastModified 2013.0726
+ * @lastModified 2013.0813
  */
 function shn_dpa_check_status() {
     global $global, $conf;
@@ -264,18 +264,24 @@ function readfile_chunked($filename) {
         return false;
     }
 
-    $conn_aborted = false;
-    while (!feof($handle) && !$conn_aborted) {
+    $abort_download = false;
+    while (!feof($handle) && !$abort_download) {
         $buffer = fread($handle, $chunksize);
-        echo $buffer;
+        if ($buffer === false) {
+            $abort_download = true;
+            shn_dpa_add_log("Portable App download failed...file read error.");
+        } else {
+            echo $buffer;
+        }
         if (connection_status() != CONNECTION_NORMAL) {
-            $conn_aborted = true;
+            $abort_download = true;
+            shn_dpa_add_log("Portable App download failed...connection was closed.");
         }
         ob_flush();
         flush();
     }
     fclose($handle);
-    return $conn_aborted;
+    return !$abort_download;
 }
 
 function shn_dpa_get_mod_desc($mod_name) {
@@ -306,5 +312,23 @@ function shn_dpa_get_mod_desc($mod_name) {
         return $mod_desc[(string) $mod_name];
     } else {
         return "No description available";
+    }
+}
+
+function shn_dpa_add_log($msg) {
+    global $conf;
+    $log_file = $conf['mod_dpa_bin'] . $conf['mod_dpa_log_file'];
+
+    $date = getdate();
+
+    $data = $date['year'] . " " . $date['month'] . " " . $date['mday'] . "|";
+    $data = $data . $date['hours'] . ":" . $date['minutes'] . ":" . $date['seconds'] . "|";
+    $data = $data . $_SERVER['REMOTE_ADDR'] . "|" . $_SESSION['user'] . "|" . $msg . PHP_EOL;
+
+    $fp = fopen($log_file, "a+");
+    if ($fp && flock($fp, LOCK_EX)) { // lock the log file
+        fwrite($fp, $data);
+        flock($fp, LOCK_UN); // release the lock
+        fclose($fp);
     }
 }

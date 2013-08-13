@@ -8,7 +8,7 @@
  * @link         https://pl.nlm.nih.gov/about
  * @link         http://sahanafoundation.org
  * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
- * @lastModified 2013.0811
+ * @lastModified 2013.0813
  */
 // Module Status definitions
 define('DPA_STATUS_OK', 1);
@@ -274,19 +274,32 @@ function shn_dpa_download_p() {
         shn_dpa_add_log("Portable App successfully created.");
         setcookie("FILE_READY", $nonce_str, 0, "/");
         setcookie("FILE_CHECKSUM", hash_file('md5', $download_file), 0, "/");
+        $file_url = "vesuviusportable.zip";
         session_write_close();
 
-        header("Cache-Control: no-cache, must-revalidate"); // HTTP/1.1
-        header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); // Date in the past
-        header('Content-Type: application/zip');
-        header('Content-Transfer-Encoding: binary');
-        header('Content-Disposition: attachment; ');
-        header("Content-Description: File Transfer");
-        header('Content-Length: ' . filesize($download_file));
+        if (ini_get('zlib.output_compression')) {
+            ini_set('zlib.output_compression', 'Off');
+        }
 
-        if (readfile_chunked($download_file)) {
-            shn_dpa_add_log("Portable App download failed...connection was closed.");
+        if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
+            header("Content-Type: application/zip");
+            //header('Content-Disposition: attachment;filename="' . basename($file_url) . '"');
+            header('Content-Disposition: attachment;');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header("Content-Transfer-Encoding: binary");
+            header('Pragma: public');
+            header("Content-Length: " . filesize($file_url));
         } else {
+            header("Content-Type: application/zip");
+            header('Content-Disposition: attachment;');
+            //header('Content-Disposition: attachment;filename="' . basename($file_url) . '"');
+            header('Content-Transfer-Encoding: binary');
+            header("Expires: 0");
+            header('Pragma: no-cache');
+            header('Content-Length: ' . filesize($download_file));
+        }
+        if (readfile_chunked($download_file)) {
             shn_dpa_add_log("Portable App successfully downloaded by the user.");
         }
 
@@ -302,7 +315,15 @@ function shn_dpa_download_p() {
 function shn_dpa_log() {
     global $conf;
     $log_file = $conf['mod_dpa_bin'] . $conf['mod_dpa_log_file'];
-    echo '
+
+    if (!file_exists($log_file)) {
+        file_put_contents($log_file, "");
+    }
+    $file_handle = fopen($log_file, "r");
+    if ($file_handle === false) {
+        echo '<div id="result"><h2>Error reading log file.</h2></div>';
+    } else {
+        echo '
             <div id="result" class="logArea" style="height: 400px; padding: 10px 5px 10px 15px;">
             <table style="width: 100%;">
                             <thead>
@@ -314,51 +335,25 @@ function shn_dpa_log() {
                     
                 </thead>
 	';
-    if (!file_exists($log_file)) {
-        file_put_contents($log_file, "", LOCK_EX);
-    }
-    $file_handle = fopen($log_file, "r");
-    while (!feof($file_handle)) {
+        while (!feof($file_handle)) {
 
-        $line = trim(fgets($file_handle));
-        if ($line !== "") {
-            $arr = explode("|", $line, 5);
-            echo "<tr>";
-            echo "<td>" . $arr[0] . "</td>";
-            echo "<td>" . $arr[1] . "</td>";
-            echo "<td>" . $arr[2] . "</td>";
-            echo "<td>" . $arr[3] . "</td>";
-            echo "<td>" . $arr[4] . "</td>";
+            $line = trim(fgets($file_handle));
+            if ($line !== "") {
+                $arr = explode("|", $line, 5);
+                echo "<tr>";
+                echo "<td>" . $arr[0] . "</td>";
+                echo "<td>" . $arr[1] . "</td>";
+                echo "<td>" . $arr[2] . "</td>";
+                echo "<td>" . $arr[3] . "</td>";
+                echo "<td>" . $arr[4] . "</td>";
 
-            echo "</tr>";
+                echo "</tr>";
+            }
         }
-    }
-    fclose($file_handle);
-
-    echo "
+        echo "
             </table>
             </div>
         ";
-}
-
-function shn_dpa_add_log($msg) {
-    global $conf;
-    $log_file = $conf['mod_dpa_bin'] . $conf['mod_dpa_log_file'];
-
-    $date = getdate();
-
-    $data = $date['year'] . " " . $date['month'] . " " . $date['mday'] . "|";
-    $data = $data . $date['hours'] . ":" . $date['minutes'] . ":" . $date['seconds'] . "|";
-    $data = $data . $_SERVER['REMOTE_ADDR'] . "|" . $_SESSION['user'] . "|" . $msg . PHP_EOL;
-
-    if (!file_exists($log_file)) {
-        file_put_contents($log_file, "", LOCK_EX);
-    }
-
-    $fp = fopen($log_file, "a+");
-    if ($fp && flock($fp, LOCK_EX)) { // lock the log file
-        fwrite($fp, $data);
-        flock($fp, LOCK_UN); // release the lock
-        fclose($fp);
+        fclose($file_handle);
     }
 }

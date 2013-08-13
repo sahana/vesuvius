@@ -188,15 +188,16 @@ function shn_dpa_add_dir($dir, $dpa_zip, $selected_mods) {
             if (($file !== '.') && ($file !== '..')) {
                 if (($dir === realpath($app_base . "/mod")) && !in_array($file, $selected_mods)) {
                     // Skip unselected modules
-                } else if ($item === realpath($conf['mod_dpa_bin'])) {
+                } else if ($item === realpath($conf['mod_dpa_bin'])) { 
                     // Skip DPA bin directory
                 } else {
                     shn_dpa_add_dir($item, $dpa_zip, $selected_mods);
                 }
             }
         } else {
-            // Add file to zip archive					
-            $dpa_zip->addFile($item, DPA_BASE_DIR . str_replace($app_base, '', $item));
+            // Add file to zip archive		
+            $filepathname = str_replace('\\', '/', DPA_BASE_DIR . str_replace($app_base, '', $item));
+            $dpa_zip->addFile($item, $filepathname);
         }
     }
 }
