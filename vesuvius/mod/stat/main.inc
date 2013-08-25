@@ -16,51 +16,43 @@ global $global;
 global $conf;
 require_once($global['approot'].'/mod/lpf/lib_lpf.inc');
 
-function shn_stat_mainmenu() {}
-function shn_stat_header() {}
-function shn_stat_footer() {}
-function shn_stat_html_head() {
-echo '
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-<head>
-	<script type="text/javascript" src="res/js/jquery.js"></script>
-	<script type="text/javascript" src="res/js/highcharts.js"></script>
-	<script type="text/javascript" src="res/js/exporting.js"></script>
-	<script type="text/javascript" src="res/js/excanvas.compiled.js"></script>
-	<script type="text/javascript" src="res/js/showHide.js"></script>
-	<script type="text/javascript">
-		window.setTimeout(function(){console.log("refresh!"); location.reload(true);}, 120000);
-	</script>
-	<link rel="icon" type="image/png" href="favicon.png">
-	<style>
-		h1 {
-			color: #34689A;
-			font-family: arial;
-			font-size: 28px;
-			line-height: 28px;
-			font-weight: normal;
-		}
-
-		html {
-			height: 100%;
-		}
-		body {
-			height: 100%;
-			margin: 0px;
-		}
-		#container {
-			background: #FFFFFF;
-			margin: auto;
-// 			font: 1.5em arial, verdana, sans-serif;
-			width: 100%;
-			min-height: 100%;
-		}
-	  </style>
+//function shn_stat_mainmenu() {}
+//function shn_stat_header() {}
+//function shn_stat_footer() {}
+ function shn_stat_html_head() {
+ echo '
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+ <head>
+	<title>People Statistics</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="Software " content="US National Library of Medicine People Locator" />
+	<meta name="Website" content="http://pl.nlm.nih.gov" />
+	<meta name="Licence" content="Lesser General Public Licence, Version 2.1" />
+	<meta name="Licence Website" content="http://www.gnu.org/licenses/lgpl-2.1.txt" />
+	<meta name="google-site-verification" content="Y2Ts00HnBQEr3M3KegrKRRAMVuQPejmqeqPKDsMGRGw" />
+	<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/fbnpmpdcnjkhfcgeeklebjmopaheplce">
+	<link rel="stylesheet" media="screen, projection" type="text/css" href="theme/lpf3/sahana.css" />
+	<link rel="stylesheet" media="print" type="text/css" href="theme/lpf3/print.css" />
+	<link rel="stylesheet" media="handheld" type="text/css" href="theme/lpf3/mobile.css" />
+	<!--[if IE 6]>
+	<link rel="stylesheet" type="text/css" href="theme/lpf3/ie6.css" />
+	<![endif]-->
+	<!--[if IE 7]>
+	<link rel="stylesheet" type="text/css" href="theme/lpf3/ie7.css" />
+	<![endif]-->
+	<!--[if IE 8]>
+	<link rel="stylesheet" type="text/css" href="theme/lpf3/ie8.css" />
+	<![endif]-->
+	<!--[if IE 9]>
+	<link rel="stylesheet" type="text/css" href="theme/lpf3/ie9.css" />
+	<![endif]-->
+ 	<script type="text/javascript" src="res/js/jquery.js"></script>
+ 	<script type="text/javascript" src="res/js/highcharts.js"></script>
+ 	<script type="text/javascript" src="res/js/exporting.js"></script>
 	</head>
 	';
 }
-function shn_stat_login() {}
 
 
 function shn_stat_menu() {
@@ -120,6 +112,7 @@ function shn_stat_default() {
 
 	global $global;
 	shn_stat_menu();
+	shn_stat_html_head();
 }
 
 
