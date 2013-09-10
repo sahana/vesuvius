@@ -60,6 +60,10 @@ require_once($global['approot'].'inc/lib_locale/handler_locale.inc');
 require_once($global['approot'].'inc/lib_exception.inc');
 require_once($global['approot'].'inc/lib_user_pref.inc');
 
+
+//Installer check
+shn_main_install_check();
+
 // clean post/get variables
 shn_main_clean_getpost();
 
@@ -387,18 +391,26 @@ function shn_main_redirect() {
 
 // check if we should install Agasti
 function shn_main_install_check() {
+    global $global;
 
 	// does the sahana.conf exist in the conf directory? if not start the web installer
 	if (!file_exists($global['approot'].'conf/sahana.conf')) {
 		$global["setup"] = true;
-		//shn_main_web_installer();
-		// we have to come up with a new web installer... since the old one is gone!
+		shn_main_web_installer();
+
 	}
 }
 
+/**
+ * Method for installation
+ */
+function shn_main_installer() {
 
+}
 
-// provide SOAP Services
+/**
+ * Provide SOAP services
+ */
 function shn_main_plus_server() {
 
 	global $global;
