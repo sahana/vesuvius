@@ -210,7 +210,10 @@ function shn_main_front_controller() {
 	if(file_exists($module_stream_file)) {
 		include_once($module_stream_file);
 	}
-
+    if ( $global['setup'] == true ) {
+        $global['effective_module'] = $module = 'install';
+        $global['effective_action'] = $action = 'default';
+    }
 	// identify the correct module file based on action and module
 	$module_file = $global['approot'].'mod/'.$module.'/main.inc';
 
@@ -396,23 +399,15 @@ function shn_main_install_check() {
 	// does the sahana.conf exist in the conf directory? if not start the web installer
 	if (!file_exists($global['approot'].'conf/sahana.conf')) {
 		$global["setup"] = true;
-		shn_main_web_installer();
 
 	}
 }
 
-/**
- * Method for installation
- */
-function shn_main_installer() {
-
-}
 
 /**
  * Provide SOAP services
  */
 function shn_main_plus_server() {
-
 	global $global;
 	require_once($global['approot'].'mod/plus/server.php');
 }
