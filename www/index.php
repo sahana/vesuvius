@@ -17,22 +17,7 @@ $global['approot']  = realpath(dirname(__FILE__)).'/../';
 $global['previous'] = false;
 $global["setup"]    = false;
 
-//Include Translation log
-require_once($global['approot'].'res/translation_log.inc');
-//define Translation log global var
-if ( !isset($global['translation_log']) ) {
-	if ( is_writable($global['approot'].'/res/translation_log.txt') ) {
-		$global['translation_log'] = new TranslationLog();
-		$global['translation_log']->setEnabled(true);
-		$global['translation_log']->writeLog('Created log object.');
-	}
-	else {
-		$global['translation_log'] = new TranslationLog();
-		//Log file is not writable, disabling log
-		$global['translation_log']->setEnabled(false);
-	}
-	
-}
+
 
 // include the main sysconf file
 require($global['approot'].'conf/sahana.conf');
@@ -67,8 +52,14 @@ shn_main_install_check();
 // clean post/get variables
 shn_main_clean_getpost();
 
-// load all the configurations based on the priority specified files and database, base and mods
-shn_config_load_in_order();
+if ( !$global['setup'] ) {
+    // load all the configurations based on the priority specified files and database, base and mods
+    shn_config_load_in_order();
+}
+
+
+//Initialize translation log file
+shn_load_translation_log();
 
 // find defaults
 shn_main_defaults();
@@ -316,7 +307,28 @@ function shn_main_front_controller() {
 }
 
 
+function shn_load_translation_log() {
+    global $global;
+    global $conf;
 
+    //Include Translation log
+    require_once($global['approot'].'res/translation_log.inc');
+
+//define Translation log global var
+    if ( !isset($global['translation_log']) ) {
+        if ( is_writable($global['approot'].'/res/translation_log.txt') ) {
+            $global['translation_log'] = new TranslationLog();
+            $global['translation_log']->setEnabled(true);
+            $global['translation_log']->writeLog('Created log object.');
+        }
+        else {
+            $global['translation_log'] = new TranslationLog();
+            //Log file is not writable, disabling log
+            $global['translation_log']->setEnabled(false);
+        }
+
+    }
+}
 // check if the event manager is installed and if so, check if the current user has group permission to the currently chosen incident
 function shn_main_checkEventPermissions() {
 
