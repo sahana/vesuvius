@@ -332,3 +332,41 @@ function shn_dpa_add_log($msg) {
         fclose($fp);
     }
 }
+
+function shn_dpa_get_disasters() {
+    global $global;
+    $q = "
+		SELECT *
+		FROM incident i
+		LEFT JOIN sys_user_groups g
+		ON i.private_group = g.group_id		
+		ORDER BY date desc;
+	";
+    $result = $global['db']->Execute($q);
+    if ($result === false) {
+        daoErrorLog(__FILE__, __LINE__, __METHOD__, __CLASS__, __FUNCTION__, $global['db']->ErrorMsg(), "show events 1");
+    }
+
+    $root_parents = array();
+    $disasters = array();
+    $dcount = 0;
+    while ($row = $result->FetchRow()) {
+        if (is_null($row['parent_id']))
+            $root_parents[$row['incident_id']] = $row['name'];
+        else
+            $disasters[$row['incident_id']] = array($row['name'], $row['parent_id']);
+
+        $dcount++;
+    }
+    $event_arr[] = $root_parents;
+    $event_arr[] = $disasters;
+    return $event_arr;
+}
+
+function shn_dpa_event_js($child_events) {
+?>
+    <script type="text/javascript">
+        var event_list = <? echo json_encode($child_events); ?>;       
+    </script>
+<?
+}

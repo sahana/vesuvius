@@ -42,9 +42,9 @@ function shn_dpa_default() {
     echo '<span style="font-size: 16px;color: #039;">Dynamic Portable App Status:&nbsp; ' . $dpa_status . '</span><span class="dpa_tooltip_icon">?</span><br/><br/>';
     $control = "";
     shn_tabmenu_open();
+    shn_tabmenu_item("download", _t("DPA-Menu|Download"), 'dpa');
     shn_tabmenu_item("status", _t("DPA-Menu|Status"), 'dpa');
     shn_tabmenu_item("config", _t("DPA-Menu|Configuration"), 'dpa');
-    shn_tabmenu_item("download", _t("DPA-Menu|Download"), 'dpa');
     shn_tabmenu_item("log", _t("DPA-Menu|View Log"), 'dpa');
     shn_tabmenu_close();
 
@@ -67,7 +67,7 @@ function shn_dpa_default() {
     }
 
     if ($control == "") {
-        $control = "shn_dpa_status";
+        $control = "shn_dpa_download";
     }
     call_user_func($control);
 }
@@ -176,30 +176,45 @@ function shn_dpa_download() {
         return;
     }
 
-    echo '
-            <b>Select/Unselect Modules</b> ~ Only selected modules will be available in the Portable App created.<br/><br/>
-            <h5>*Note: Existing user accounts will <u>not</u> be available in the downloaded Portable App. You will be prompted to create a new admin account at the first run.</h5>
-            <h5>*Note: Some important modules are selected by default.</h5>
-			<h5>*Note: For a complete description of each module and its functionality please follow this <a href="http://wiki.sahanafoundation.org/doku.php/agasti:vesuvius:modules" target="_blank">link</a>.</h5>
-            
-            <div id="dpa_download" style="padding: 10px 5px 10px 15px;">
-         ';
+    echo '<div id="dpa_download" style="padding: 10px 5px 10px 15px;">';
+
     shn_form_fopen2("vesuvius-portable?downloadp", null, array('req_message' => false, 'id' => 'dpa_download_form'));
+    shn_form_fsopen("About Dynamic Portable App");
+    echo '
+            <p style="text-align:justify; color: black; font-size:13px; font-weight: bold; line-height:200%">
+            Dynamic Portable App is created by copying the hosted code of a Vesuvius instance and packaging all that inside a portable wrapper archive.
+            Portable App can be deployed into a portable device and launch without any configuration or installation overhead. Also it does not rely on network connectivity since Vesuvius instance is running locally.
+            It can be taken into shelters in disaster zones for data collection when public communication infrastructure is impaired.
+            </p>
+            <p style="text-align:justify; color: black; font-size:13px; font-weight: bold; line-height:200%">
+            Portable App can be customized to support only certain modules that exist in the parent Vesvuvius instance. Also it can be customized to contain only data related to a specific event. 
+            </p>
+        ';
+    shn_form_fsclose();
+
+    shn_form_fsopen("Select Modules");
+
+    echo '        
+            <h5>Note: Only selected modules will be available in the Portable App created.<h5>
+            <h5>Note: Existing user accounts will <u>not</u> be available in the downloaded Portable App. You will be prompted to create a new admin account at the first run.</h5>
+            <h5>Note: Some important modules are selected by default.</h5>
+            <h5>Note: For a complete description of each module and its functionality please follow <a href="http://wiki.sahanafoundation.org/doku.php/agasti:vesuvius:modules" target="_blank">this link</a>.</h5>
+         ';
 
     echo '
-			<div id="result">
-				<div style="margin: 0 0 10px 5px;">
-					<a id="dpa_checkall" class="dpa_toolbar" href="#">Check All</a> 
-					<a id="dpa_uncheckall" class="dpa_toolbar" href="#" style="padding-left: 10px;">Uncheck All</a>
-				</div>
-				<table style="width: 100%;">
-				<thead>
-					<td style="width: 20px; ">&nbsp;</td>
-					<td style="width: 180px; ">Module Name</td>
-					<td style="width: 75%; ">Module Description</td>
-				</thead>
-				<tbody>
-		 ';
+            <div id="result">
+                    <div style="margin: 20px 0 10px 5px;">
+                            <a id="dpa_checkall" class="dpa_toolbar" href="#">Check All</a> 
+                            <a id="dpa_uncheckall" class="dpa_toolbar" href="#" style="padding-left: 10px;">Uncheck All</a>
+                    </div>
+                    <table style="width: 100%;">
+                    <thead>
+                            <td style="width: 20px; ">&nbsp;</td>
+                            <td style="width: 180px; ">Module Name</td>
+                            <td style="width: 75%; ">Module Description</td>
+                    </thead>
+                    <tbody>
+        ';
 
     $mods = shn_get_all_modules();
 
@@ -230,13 +245,43 @@ function shn_dpa_download() {
 		</table>
 		</div>
 	';
+    shn_form_fsclose();
+
+    $disasters = shn_dpa_get_disasters();
+    shn_dpa_event_js($disasters[1]);
+    shn_form_fsopen("Select Filters");
+    echo '<table><tr><td style="width: 20px; "><input type="checkbox" id="dpa_event_filter" name="dpa_event_filter" /></td><td>Enable filter by event</td></tr></table><br/>';
+    echo '<h5>Note: Only the selected event will be available in the portable app.</h5>';
+    echo '<h5>Note: Parent events will be automatically added.</h5>';
+
+    shn_form_select($disasters[0], "Parent Disaster", 'dpa_selected_disaster', 'style="width: 200px" disabled');
+    shn_form_select(array('-1' => 'N/A'), "Incident", 'dpa_selected_incident', 'style="width: 200px" disabled');
+    shn_form_select(array('-1' => 'N/A'), "Event", 'dpa_selected_event', 'style="width: 200px" disabled=disabled');
+
+    echo '<table><tr><td style="width: 20px; "><input type="checkbox" id="dpa_image_filter" name="dpa_image_filter" /></td><td>Include profile images</td></tr></table><br/>';
+    echo '<h5>Note: Portable app file size will increase depending on the number of person records with images.</h5>';
+
+    shn_form_fsclose();
 
     shn_form_fsopen("Select Operating System");
     $extra_opts['req'] = true;
-    shn_form_select(array("windows" => 'Microsoft Windows Platform'), "Download Portable App for ", 'os', null, $extra_opts);
+    shn_form_select(array("windows" => 'Microsoft Windows Platform'), "Download Portable App for", 'dpa_target_os', null, $extra_opts);
     shn_form_fsclose();
 
-    shn_form_submit("Download", 'class="styleTehButton" id="#btn_download" ');
+    shn_form_fsopen("Publish to Site");
+    echo '<table><tr><td style="width: 20px; "><input type="checkbox" id="dpa_enable_publish" name="dpa_enable_publish" /></td><td>Enable publish to site</td></tr></table><br/>';
+    echo '
+            <p style="text-align:justify; color: black; font-size:13px; line-height:200%">Allow registered users to download the portable app that will be created by publishing it to site. You will only get a confirmation message once
+            the portable app creation process is successfully completed. Goto Manage section to manage previously published portable app instances.</p>
+            <br/>
+            <h5>Enter a description for this portable instance that will be displayed to other users.</h5>
+         ';
+    shn_form_text("Description", 'dpa_publish_desc', 'size="80" autocomplete="on" disabled=disabled');
+    echo '<br/>';
+    shn_form_submit("Publish only", 'class="styleTehButton" id="dpa_btn_publish" value="publish" disabled=disabled');
+    shn_form_fsclose();
+
+    shn_form_submit("Download", 'class="styleTehButton" id="dpa_btn_download" value="download" ');
     shn_form_fclose();
 
     echo "</div>";
@@ -258,20 +303,22 @@ function shn_dpa_download_p() {
     $download_file = false;
     $portable_wrapper_file = "";
     // Get user selected platform
-    $os = (isset($_GET['os'])) ? trim($_GET['os']) : "";
+    $os = (isset($_GET['dpa_target_os'])) ? trim($_GET['dpa_target_os']) : "";
     if ($os === "windows") {
         $portable_wrapper_file = $conf['mod_dpa_bin'] . DPA_WRAPPER_WIN;
     }
-
-    // unique string to identify file download session
-    $nonce_str = (isset($_GET['nonce'])) ? trim($_GET['nonce']) : "";
 
     if (file_exists($portable_wrapper_file)) {
         $download_file = shn_dpa_create_portable_app($portable_wrapper_file);
     }
 
-    if ($download_file !== false && file_exists($download_file)) {
+    if (isset($_GET['enable_publish']) && $download_file !== false && file_exists($download_file)) {
+        
+    }
+    if (isset($_GET['enable_download']) && $download_file !== false && file_exists($download_file)) {
         shn_dpa_add_log("Portable App successfully created.");
+        // unique string to identify file download session
+        $nonce_str = (isset($_GET['nonce'])) ? trim($_GET['nonce']) : "";
         setcookie("FILE_READY", $nonce_str, 0, "/");
         setcookie("FILE_CHECKSUM", hash_file('md5', $download_file), 0, "/");
         $file_url = "vesuviusportable.zip";
@@ -302,9 +349,9 @@ function shn_dpa_download_p() {
         if (readfile_chunked($download_file)) {
             shn_dpa_add_log("Portable App successfully downloaded by the user.");
         }
-
         unlink($download_file);
-    } else {
+    }
+    if ($download_file === false || !file_exists($download_file)) {
         shn_dpa_add_log("Failed to create Portable App.");
         setcookie("FILE_READY", $nonce_str . ":ERROR", 0, "/");
     }
