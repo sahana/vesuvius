@@ -68,6 +68,7 @@ function shn_dpa_create_portable_app($portable_bin) {
 
 function shn_dpa_add_dbdump($tmp_zip) {
     global $conf;
+
     $dpa_zip = new ZipArchive();
     $dpa_zip->open($tmp_zip);
     // short variables - database login 
@@ -82,9 +83,28 @@ function shn_dpa_add_dbdump($tmp_zip) {
     $cmd = 'mysqldump --user=' . $dbuser . ' --password=' . $dbpass . ' --host=' . $dbhost . ' --port=' . $dbport . ' --compact --skip-comments --routines --triggers --events --single-transaction --no-data ' . $dbname . ' > ' . $db_dump_file;
     exec($cmd, $output1, $return_val1);
 
-    // Append data to the db dump file except for the 'users' table
-    $cmd = 'mysqldump --user=' . $dbuser . ' --password=' . $dbpass . ' --host=' . $dbhost . ' --port=' . $dbport . ' --compact --skip-comments --single-transaction  --no-create-info --ignore-table=' . $dbname . '.users ' . $dbname . ' >> ' . $db_dump_file;
-    exec($cmd, $output2, $return_val2);
+    if (isset($_GET['dpa_event_filter']) && isset($_GET['disaster']) && isset($_GET['incident']) && isset($_GET['event'])) {        
+        
+        if ($_GET['disaster'] !== "-1"){
+            $selected_events_arr[]  = $_GET['disaster'];
+        }        
+        if ($_GET['incident'] !== "-1"){
+            $selected_events_arr[]  = $_GET['incident'];
+        }
+        if ($_GET['event'] !== "-1"){
+            $selected_events_arr[]  = $_GET['event'];
+        }        
+        
+        $selected_event_id = $selected_events_arr[sizeof($selected_events_arr) - 1];
+        
+        // Append data to the db dump file except for the 'users' table + filtered events
+        $cmd = 'mysqldump --user=' . $dbuser . ' --password=' . $dbpass . ' --host=' . $dbhost . ' --port=' . $dbport . ' --skip-comments --single-transaction  --no-create-info --ignore-table=' . $dbname . '.users ' . $dbname . ' incident --where=incident_id='.$selected_event_id.'>> ' . $db_dump_file;
+        exec($cmd, $output2, $return_val2);
+    } else {
+        // Append data to the db dump file except for the 'users' table
+        $cmd = 'mysqldump --user=' . $dbuser . ' --password=' . $dbpass . ' --host=' . $dbhost . ' --port=' . $dbport . ' --skip-comments --single-transaction  --no-create-info --ignore-table=' . $dbname . '.users ' . $dbname . ' >> ' . $db_dump_file;
+        exec($cmd, $output2, $return_val2);
+    }
 
     // check whether command executed without errors
     if ($return_val1 !== 0 || $return_val2 !== 0) {
@@ -188,8 +208,10 @@ function shn_dpa_add_dir($dir, $dpa_zip, $selected_mods) {
             if (($file !== '.') && ($file !== '..')) {
                 if (($dir === realpath($app_base . "/mod")) && !in_array($file, $selected_mods)) {
                     // Skip unselected modules
-                } else if ($item === realpath($conf['mod_dpa_bin'])) { 
-                    // Skip DPA bin directory
+                } else if (isset($_GET['dpa_image_filter']) && $item === realpath($global['approot']."www/tmp/plus_cache")) {
+                    // Skip profile images container directory
+                }else if ($item === realpath($conf['mod_dpa_bin'])) {
+                    
                 } else {
                     shn_dpa_add_dir($item, $dpa_zip, $selected_mods);
                 }
