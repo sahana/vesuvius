@@ -12,6 +12,9 @@
 
 var iframe_id = "#dpa_ifrm_dl";
 var dialog_id = "#dpa_dialog";
+var wizard_id = "#dpa_wizard_box";
+var monthNames = ["January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"];
 var nonce_str;
 var refreshIntervalId;
 
@@ -34,7 +37,16 @@ $(document).ready(function() {
             var ready = getCookie("FILE_READY");
             if (ready === nonce_str) {
                 var checksum = getCookie("FILE_CHECKSUM");
-                loadComplete(checksum);
+                if ($('#dpa_btn_download').val() === "Download and Publish") {
+                    var publish_status = getCookie("FILE_PUBLISH");
+                    if (publish_status === "success") {
+                        load_publish_Complete(checksum, true);
+                    } else {
+                        load_publish_Complete(checksum, false);
+                    }
+                } else {
+                    loadComplete(checksum);
+                }
             } else if (ready === nonce_str + ":ERROR" || ready === ":ERROR") {
                 loadError();
             }
@@ -53,7 +65,7 @@ $(document).ready(function() {
         inputs.prop("disabled", true);
         $(dialog_id).html('<h5>Please wait while we are processing your request. Do not close this window or browse to another page.</h5><div style="padding: 20px 0;"><img src="res/img/ajax-loader.gif" /></div>');
         show_dialog();
-        var url = getUrl() + '&enable_publish';
+        var url = getUrl();
         var jqxhr = $.ajax({
             type: "GET",
             url: url,
@@ -62,7 +74,7 @@ $(document).ready(function() {
             success: function(result) {
                 try {
                     var obj = jQuery.parseJSON(result);
-                    $(dialog_id).html('<h5 id="dpa_progress">' + obj.response + '</h5><div style="padding: 25px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
+                    $(dialog_id).html('<h5 id="dpa_result">' + obj.response + '</h5><div style="padding: 25px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
                 } catch (ex) {
                     $(dialog_id).html('<h5 id="dpa_progress">Error! Invalid response from the server.</h5><h5>' + result + '</h5><div style="padding: 25px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
                 }
@@ -73,7 +85,8 @@ $(document).ready(function() {
             async: true
         });
         jqxhr.always(function() {
-            $('#tbl_dpa_status').find("input, select, button, textarea").prop("disabled", false);
+            $('#dpa_download_form').find("input, select, button, textarea").prop("disabled", false);
+            update_download_form_inputs();
         });
 
     });
@@ -143,11 +156,32 @@ $(document).ready(function() {
     });
 
     $('#dpa_checkall').click(function() {
-        $('.modules').attr('checked', 'checked');
+        $('#dpa_download_form .modules').attr('checked', 'checked');
     });
 
     $('#dpa_uncheckall').click(function() {
-        $('.modules').removeAttr('checked');
+        $('#dpa_download_form .modules').removeAttr('checked');
+    });
+
+    $('#dpa_wizard').click(function() {
+        show_wizard();
+    });
+
+    $('#dpa_wizard_ok').click(function() {
+        $('#dpa_download_form .modules').removeAttr('checked');
+        var matches = [];
+        $(".dpa_wizard_feature:checked").each(function() {
+            matches = matches.concat(this.value.split(","));
+        });
+        for (var i = 0; i < matches.length; i++) {
+            module = matches[i].trim();
+            $("#dpa_download_form input[name='" + module + "']").prop('checked', true);
+        }
+        $(wizard_id).hide();
+    });
+
+    $('#dpa_wizard_cancel').click(function() {
+        $(wizard_id).hide();
     });
 
     $(".dpa_tooltip_icon").hover(
@@ -164,19 +198,37 @@ $(document).ready(function() {
     $("#dpa_selected_incident").change(update_event_list);
 
     $('#dpa_enable_publish').click(function() {
-        if ($("#dpa_enable_publish").is(":checked")) {
-            $('#dpa_publish_desc').removeAttr('disabled');
-            $('#dpa_btn_publish').removeAttr('disabled');
-            $("#dpa_btn_download").val("Download and Publish");
-        } else {
-            $("#dpa_publish_desc").prop('disabled', 'disabled');
-            $("#dpa_btn_publish").prop('disabled', 'disabled');
-            $("#dpa_btn_download").val("Download");
-        }
+        update_publish();
     });
 
-    update_event_filter();
+    $('.dpa_manage_datetime, .dpa_log_datetime, .dpa_download_datetime').each(function() {
+        var date = new Date($(this).attr("utc_date") + 'T' + $(this).attr("utc_time") + '+00:00');
+        console.log(date.toString());
+        var localDate = date.getFullYear() + ' ' + monthNames[date.getMonth()] + ' ' + date.getDate();
+        var localTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+        $(this).html(localDate + ' ' + localTime);
+    });
+
+    update_download_form_inputs();
 });
+
+function update_download_form_inputs() {
+    $('.required_modules').attr('disabled', 'disabled');
+    update_event_filter();
+    update_publish();
+}
+
+function update_publish() {
+    if ($("#dpa_enable_publish").is(":checked")) {
+        $('#dpa_publish_desc').removeAttr('disabled');
+        $('#dpa_btn_publish').removeAttr('disabled');
+        $("#dpa_btn_download").val("Download and Publish");
+    } else {
+        $("#dpa_publish_desc").prop('disabled', 'disabled');
+        $("#dpa_btn_publish").prop('disabled', 'disabled');
+        $("#dpa_btn_download").val("Download");
+    }
+}
 
 function update_event_filter() {
     if ($("#dpa_event_filter").is(":checked")) {
@@ -234,19 +286,39 @@ function close_dialog() {
 function loadError() {
     clearInterval(refreshIntervalId);
     $('#dpa_download_form').find("input, select, button, textarea").prop("disabled", false);
+    update_download_form_inputs();
     $('.required_modules').attr('disabled', 'disabled');
     $(dialog_id).html('<h5>Error! Something went wrong. Please try again later.</h5><div style="padding: 20px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
 }
 
-
-
 function loadComplete(checksum) {
     clearInterval(refreshIntervalId);
     $('#dpa_download_form').find("input, select, button, textarea").prop("disabled", false);
+    update_download_form_inputs();
     $('.required_modules').attr('disabled', 'disabled');
     $(dialog_id).html('<h5>OK! Download has started. After the file is downloaded extract the zip archive and launch vesuvius.exe</h5>' +
             '<div style="padding: 5px 0;">MD5 File Checksum: ' + checksum + '</div>' +
             '<div style="padding: 10px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
+}
+
+function load_publish_Complete(checksum, publish_status) {
+    clearInterval(refreshIntervalId);
+    $('#dpa_download_form').find("input, select, button, textarea").prop("disabled", false);
+    update_download_form_inputs();
+    $('.required_modules').attr('disabled', 'disabled');
+
+    if (publish_status === true) {
+        $(dialog_id).html('<h5>OK! Download has started. After the file is downloaded extract the zip archive and launch vesuvius.exe</h5>' +
+                '<div style="padding: 0;">MD5 File Checksum: ' + checksum + '</div>' +
+                '<hr><div style="padding: 0;">File successfully published.</div>' +
+                '<div style="padding: 8px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
+    } else {
+        $(dialog_id).html('<h5>OK! Download has started. After the file is downloaded extract the zip archive and launch vesuvius.exe</h5>' +
+                '<div style="padding: 0;">MD5 File Checksum: ' + checksum + '</div>' +
+                '<div style="padding: 0;">Error! Failed to publish the file.</div>' +
+                '<div style="padding: 8px 0;"><input type="button" value="OK" class="styleTehButton" onclick="$(dialog_id).hide();" /></div>');
+    }
+
 }
 
 function getUrl() {
@@ -269,15 +341,15 @@ function getUrl() {
 
     if ($("#dpa_event_filter").is(":checked")) {
         params += "&dpa_event_filter";
-        params += "&disaster=" + $("#dpa_selected_disaster").val();        
+        params += "&disaster=" + $("#dpa_selected_disaster").val();
         params += "&incident=" + $("#dpa_selected_incident").val();
-        params += "&event=" + $("#dpa_selected_event").val();       
+        params += "&event=" + $("#dpa_selected_event").val();
     }
     if ($("#dpa_image_filter").is(":checked")) {
         params += "&dpa_image_filter";
     }
     if ($("#dpa_enable_publish").is(":checked")) {
-        params += "&dpa_enable_publish";
+        params += "&enable_publish";
         params += "&dpa_publish_desc=" + $("#dpa_publish_desc").val();
     }
     params += "&nonce=" + nonce_str;
@@ -295,6 +367,19 @@ function show_dialog() {
 
     //transition effect
     $(dialog_id).fadeIn(200);
+}
+
+function show_wizard() {
+    //Get the window height and width
+    var winH = $(window).height();
+    var winW = $(window).width();
+
+    //Set the popup window to center
+    $(wizard_id).css('top', winH / 2 - $(wizard_id).height() / 2);
+    $(wizard_id).css('left', winW / 2 - $(wizard_id).width() / 2);
+
+    //transition effect
+    $(wizard_id).fadeIn(200);
 }
 
 

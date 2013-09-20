@@ -12,7 +12,7 @@
  * @lastModified 2013.0813
  */
 function shn_dpa_check_status() {
-    global $global, $conf;
+    global $conf;
     $bin_dir_status = (file_exists($conf['mod_dpa_bin']) && is_writable($conf['mod_dpa_bin'])) ? DPA_STATUS_OK : DPA_STATUS_FAIL;
     $repository_status = (shn_dpa_get_repo_status()) ? DPA_STATUS_OK : DPA_STATUS_FAIL;
     $win_wrapper_status = (file_exists($conf['mod_dpa_bin'] . "portable-wrapper_win.zip")) ? DPA_STATUS_OK : DPA_STATUS_FAIL;
@@ -37,7 +37,7 @@ function shn_dpa_isActive() {
 }
 
 function shn_dpa_load_html() {
-    global $global, $conf;
+    global $global;
     echo '
             <style type="text/css">
                 .window {
@@ -51,68 +51,90 @@ function shn_dpa_load_html() {
                 
                 #dpa_dialog {
                     width:700px; 
-                    height:100px;
+                    height:110px;
                     padding:10px;
                     background-color:#E5EAEF;
                     border: 2px solid rgba(52, 104, 154, 0.15);
                     text-align: center;
                 }
-				.dpa_toolbar{
-					font-weight: bold;
-					font-size: 105%;
-				}
-				.dpa_tooltip_icon{
-					cursor: pointer;
-					display: inline-block;
-					font-size: 13px;
-					width: 20px;
-					height: 20px;
-					background-color: #89A4CC;
-					line-height: 20px;
-					color: white;
-					font-weight: bold;
-					border-radius: 10px;
-					text-align: center;
-					position: relative;
-					margin: 0 0 0 20px;
-				}
-				.dpa_tooltip_icon:hover { background-color: #3D6199; }
-				
-				.dpa_tooltip {
-					background-color: #E5EAEF;
-					color: White;
-					position: absolute;
-					left: 25px;
-					top: -25px;
-					z-index: 1000000;
-					width: 500px;
-					height: 80px;
-					border-radius: 5px;
-				}
-				.dpa_tooltip:before {
-					border-color: transparent #3D6199 transparent transparent;
-					border-right: 6px solid #3D6199;
-					border-style: solid;
-					border-width: 6px 6px 6px 0px;
-					content: "";
-					display: block;
-					height: 0;
-					width: 0;
-					line-height: 0;
-					position: absolute;
-					top: 40%;
-					left: -6px;
-				}
-				.dpa_tooltip p {
-					margin: 10px;
-					color: #34689A;
-					text-align: left;
-					font-size: 90%;
-				}
+                
+                #dpa_wizard_box {
+                    width:750px; 
+                    height:600px;
+                    padding:10px;
+                    background-color:#E5EAEF;
+                    border: 2px solid rgba(52, 104, 154, 0.15);
+                    
+                }
+                
+                .dpa_toolbar{
+                        font-weight: bold;
+                        font-size: 105%;
+                }
+                
+                .dpa_tooltip_icon{
+                        cursor: pointer;
+                        display: inline-block;
+                        font-size: 13px;
+                        width: 20px;
+                        height: 20px;
+                        background-color: #89A4CC;
+                        line-height: 20px;
+                        color: white;
+                        font-weight: bold;
+                        border-radius: 10px;
+                        text-align: center;
+                        position: relative;
+                        margin: 0 0 0 20px;
+                }
+                
+                .dpa_tooltip_icon:hover { background-color: #3D6199; }
+
+                .dpa_tooltip {
+                        background-color: #E5EAEF;
+                        color: White;
+                        position: absolute;
+                        left: 25px;
+                        top: -25px;
+                        z-index: 1000000;
+                        width: 500px;
+                        height: 80px;
+                        border-radius: 5px;
+                }
+                
+                .dpa_tooltip:before {
+                        border-color: transparent #3D6199 transparent transparent;
+                        border-right: 6px solid #3D6199;
+                        border-style: solid;
+                        border-width: 6px 6px 6px 0px;
+                        content: "";
+                        display: block;
+                        height: 0;
+                        width: 0;
+                        line-height: 0;
+                        position: absolute;
+                        top: 40%;
+                        left: -6px;
+                }
+                
+                .dpa_tooltip p {
+                        margin: 10px;
+                        color: #34689A;
+                        text-align: left;
+                        font-size: 90%;
+                }
+                .message_container { 
+                    margin:0 0 20px 0; 
+                    padding: 5px; 
+                    border: #E5EAEF 1px solid; 
+                    background-color: #fcfcfc; 
+                    -moz-border-radius: 5px; border-radius: 5px; 
+                    -webkit-border-radius: 5px; box-shadow: 0px 0px 5px rgba(191,191,191,0.4);
+                }
             </style>
          ';
 
-    echo '<div id="dpa_dialog" class="window" title="Dynamic Portable App"></div>';
+    echo '<div id="dpa_dialog" class="window"></div>';
 
     echo '
             <script type="text/javascript" src="res/js/jquery-1.6.4.min.js" ></script>
@@ -153,11 +175,23 @@ function shn_dpa_precheck() {
     if (!file_exists($conf['mod_dpa_bin'])) {
         if (!mkdir($conf['mod_dpa_bin'], 0755, true)) {
             add_error("Could not create 'bin' directory. Portable App module may not function properly.");
-            add_error("Please set a valid path as the 'bin' directory.");
+            add_error("Please set a valid path for the 'bin' directory.");
         }
     } else {
         if (!is_writable($conf['mod_dpa_bin'])) {
             chmod($conf['mod_dpa_bin'], 0755);
+        }
+    }
+
+    // check publish directory exists, try to create if not
+    if (!file_exists($conf['mod_dpa_publish'])) {
+        if (!mkdir($conf['mod_dpa_publish'], 0755, true)) {
+            add_error("Could not create 'publish' directory. Portable App module may not function properly.");
+            add_error("Please set a valid path for the 'publish' directory.");
+        }
+    } else {
+        if (!is_writable($conf['mod_dpa_publish'])) {
+            chmod($conf['mod_dpa_publish'], 0755);
         }
     }
 }
@@ -220,7 +254,6 @@ function shn_dpa_save_config($config_arr) {
         $doc->load($config_file);
         $nodes = $doc->getElementsByTagName("dynamic-portable-app")->item(0)->childNodes;
         foreach ($nodes as $node) {
-
             if ($node->nodeType === 1) {
                 if (!array_key_exists($node->nodeName, $config_arr)) {
                     $config_arr[(string) $node->nodeName] = (string) $node->nodeValue;
@@ -240,12 +273,116 @@ function shn_dpa_save_config($config_arr) {
         $r->appendChild($node);
     }
 
-    $res = $doc->save($config_file);
-    if ($res === false) {
-        return false;
-    } else {
-        return true;
+    return $doc->save($config_file);
+}
+
+function shn_dpa_save_publish($publish_filename) {
+    global $conf;
+    $publish_list_file = $conf['mod_dpa_bin'] . $conf['mod_dpa_publish_list_file'];
+    date_default_timezone_set('UTC');
+    $desc = (isset($_GET['dpa_publish_desc']) ? $_GET['dpa_publish_desc'] : '');
+    $publish_arr = array(
+        'description' => $desc,
+        'md5' => md5($publish_filename),
+        'created_by' => $_SESSION['user'],
+        'date' => date("Y-m-d"),
+        'time' => date("H:i:s")
+    );
+
+    if (!file_exists($publish_list_file)) {
+        $doc = new DOMDocument();
+        $doc->formatOutput = true;
+
+        $r = $doc->createElement("dynamic-portable-app");
+        $doc->appendChild($r);
+        if (!$doc->save($publish_list_file)) {
+            return false;
+        }
     }
+
+    $doc = new DOMDocument();
+    $doc->formatOutput = true;
+    $doc->load($publish_list_file);
+    $root_node = $doc->getElementsByTagName("dynamic-portable-app")->item(0);
+    $file_node = $doc->createElement("file");
+    $nameAttribute = $doc->createAttribute('name');
+    $nameAttribute->value = $publish_filename;
+    $file_node->setAttribute('name', $publish_filename);
+    foreach ($publish_arr as $key => $value) {
+        $node = $doc->createElement($key);
+        $node->appendChild($doc->createTextNode($value));
+        $file_node->appendChild($node);
+    }
+    $root_node->appendChild($file_node);
+    return $doc->save($publish_list_file);
+}
+
+function shn_dpa_get_published() {
+    global $conf;
+    $publish_list_file = $conf['mod_dpa_bin'] . $conf['mod_dpa_publish_list_file'];
+    if (!file_exists($publish_list_file)) {
+        return false;
+    }
+
+    $doc = new DOMDocument();
+    $doc->preserveWhiteSpace = false;
+    $doc->load(realpath($publish_list_file));
+    $nodes = $doc->getElementsByTagName("file");
+    $published_list = array();
+    foreach ($nodes as $node) {
+        if ($node->nodeType === 1) {
+            $file_item = array();
+            $file_item['filename'] = (string) $node->getAttribute('name');
+            $file_item['description'] = (string) $node->getElementsByTagName("description")->item(0)->nodeValue;
+            $file_item['md5'] = (string) $node->getElementsByTagName("md5")->item(0)->nodeValue;
+            $file_item['created_by'] = (string) $node->getElementsByTagName("created_by")->item(0)->nodeValue;
+            $file_item['date'] = (string) $node->getElementsByTagName("date")->item(0)->nodeValue;
+            $file_item['time'] = (string) $node->getElementsByTagName("time")->item(0)->nodeValue;
+            $published_list[] = $file_item;
+        }
+    }
+    return $published_list;
+}
+
+function shn_dpa_get_features() {
+    global $conf;
+    $feature_list_file = $conf['mod_dpa_bin'] . $conf['mod_dpa_feature_list_file'];
+    if (!file_exists($feature_list_file)) {
+        return false;
+    }
+
+    $doc = new DOMDocument();
+    $doc->preserveWhiteSpace = false;
+    $doc->load(realpath($feature_list_file));
+    $nodes = $doc->getElementsByTagName("feature");
+    $feature_list = array();
+    foreach ($nodes as $node) {
+        if ($node->nodeType === 1) {
+            $feature_item = array();
+            $feature_item['modules'] = (string) $node->getAttribute('modules');
+            $feature_item['description'] = (string) $node->getAttribute('description');
+            $feature_list[] = $feature_item;
+        }
+    }
+    return $feature_list;
+}
+
+function shn_dpa_delete_published($filename) {
+    global $conf;
+    $publish_list_file = $conf['mod_dpa_bin'] . $conf['mod_dpa_publish_list_file'];
+    if (!file_exists($publish_list_file)) {
+        return false;
+    }
+    $doc = new DOMDocument();
+    $doc->load(realpath($publish_list_file));
+    $doc_el = $doc->documentElement;
+    $file_nodes = $doc_el->getElementsByTagName('file');
+    foreach ($file_nodes as $node) {
+        if (((string) $node->getAttribute('name')) === $filename) {
+            $doc_el->removeChild($node);
+        }
+    }
+    $doc->save($publish_list_file);
 }
 
 function _is_curl_installed() {
@@ -318,11 +455,9 @@ function shn_dpa_get_mod_desc($mod_name) {
 function shn_dpa_add_log($msg) {
     global $conf;
     $log_file = $conf['mod_dpa_bin'] . $conf['mod_dpa_log_file'];
-
-    $date = getdate();
-
-    $data = $date['year'] . " " . $date['month'] . " " . $date['mday'] . "|";
-    $data = $data . $date['hours'] . ":" . $date['minutes'] . ":" . $date['seconds'] . "|";
+    date_default_timezone_set('UTC');
+    $data = date("Y-m-d") . "|";
+    $data = $data . date("H:i:s") . "|";
     $data = $data . $_SERVER['REMOTE_ADDR'] . "|" . $_SESSION['user'] . "|" . $msg . PHP_EOL;
 
     $fp = fopen($log_file, "a+");
@@ -364,9 +499,84 @@ function shn_dpa_get_disasters() {
 }
 
 function shn_dpa_event_js($child_events) {
-?>
+    ?>
     <script type="text/javascript">
-        var event_list = <? echo json_encode($child_events); ?>;       
+        var event_list = <? echo json_encode($child_events); ?>;
     </script>
-<?
+    <?
+}
+
+function shn_dpa_send_file_data($download_file) {
+
+    $file_url = "vesuviusportable.zip";
+    session_write_close();
+
+    if (ini_get('zlib.output_compression')) {
+        ini_set('zlib.output_compression', 'Off');
+    }
+
+    if (strstr($_SERVER['HTTP_USER_AGENT'], "MSIE")) {
+        header("Content-Type: application/zip");
+        //header('Content-Disposition: attachment;filename="' . basename($file_url) . '"');
+        header('Content-Disposition: attachment;');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header("Content-Transfer-Encoding: binary");
+        header('Pragma: public');
+        header("Content-Length: " . filesize($file_url));
+    } else {
+        header("Content-Type: application/zip");
+        header('Content-Disposition: attachment;');
+        //header('Content-Disposition: attachment;filename="' . basename($file_url) . '"');
+        header('Content-Transfer-Encoding: binary');
+        header("Expires: 0");
+        header('Pragma: no-cache');
+        header('Content-Length: ' . filesize($download_file));
+    }
+    if (readfile_chunked($download_file)) {
+        shn_dpa_add_log("Portable App successfully downloaded by the user.");
+    }
+}
+
+function shn_dpa_load_wizard() {
+    echo '
+            <div id="dpa_wizard_box" class="window">
+                <div style="text-align: right; font-weight: bold;">
+                    <a id="dpa_hide_wizard" href="javascript:void(0);" onclick="$(wizard_id).hide();">[close]</a>            
+                </div>               
+         ';
+    echo '
+                <div style="margin: 10px 0;" class="message_container">
+                    <p style="text-align:justify; color: black; font-size:13px; font-weight: bold; line-height:200%">
+                        The wizard will help you with selecting required modules to support the features you need. You may find a list of
+                        features that are available in this Vesuvius instance. Select the ones you need to integrate with the portable app and click OK.
+                        It will then select the required modules that should be cloned to support those features.
+                    </p>
+                </div>
+         ';
+    echo '      
+                <table style="width: 97%; margin: 20px 0;">
+                    <thead>
+                        <td style="width: 15px;"><strong></strong></td>
+                        <td style="width: 500px;"><strong>Feature description</strong></td>                   
+                    </thead>
+	';
+    $feature_list = shn_dpa_get_features();
+    if ($feature_list) {
+        foreach ($feature_list as $feature) {
+            echo '<tr>';
+            echo '<td><input class="dpa_wizard_feature" type="checkbox" value="' . $feature['modules'] . '" /></td>';
+            echo '<td>' . $feature['description'] . '</td>';
+            echo '</tr>';
+        }
+    }
+
+    echo '
+                </table>
+                <div style="text-align: center;">
+                    <input id="dpa_wizard_ok" type="button" class="styleTehButton" value="OK" />
+                    <input id="dpa_wizard_cancel" type="button" class="styleTehButton" value="Cancel" style="margin-left: 15px;" />
+                </div>
+            </div>            
+       ';
 }
