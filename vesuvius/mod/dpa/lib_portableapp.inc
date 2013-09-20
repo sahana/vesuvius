@@ -14,6 +14,33 @@
 define('DPA_BASE_DIR', "PortableApps/SahanaFoundation.org/www/vesuvius");
 define('DPA_DBDUMP_DIR', "PortableApps/SahanaFoundation.org/www/local/db_dump");
 
+function shn_dpa_get_db_schema() {
+    $dbschema = array(
+        'person_uuid' => 'p_uuid',
+        'person_status' => 'p_uuid',
+        'user_preference' => 'p_uuid',
+        'voice_note' => 'p_uuid',
+        'sys_user_to_group' => 'p_uuid',
+        'arrival_rate' => 'person_uuid',
+        'users' => 'p_uuid',
+        'person_to_report' => 'p_uuid',
+        'person_deceased' => 'p_uuid',
+        'contact' => 'p_uuid',
+        'person_details' => 'p_uuid',
+        'person_updates' => 'p_uuid',
+        'edxl_co_photos' => 'p_uuid',
+        'edxl_co_lpf' => 'p_uuid',
+        'person_notes' => 'note_about_p_uuid',
+        'edxl_co_header' => 'p_uuid',
+        'rap_log' => 'p_uuid',
+        'edxl_co_lpf' => 'p_uuid',
+        'image' => 'p_uuid',
+        'mpres_log' => 'p_uuid',
+        'person_physical' => 'p_uuid'
+    );
+    return $dbschema;
+}
+
 function shn_dpa_create_portable_app($portable_bin) {
     global $global, $conf;
     $selected_mods = array();
@@ -81,38 +108,81 @@ function shn_dpa_add_dbdump($tmp_zip) {
     // Get database dump only with entire structure
     $db_dump_file = $conf['mod_dpa_bin'] . uniqid("dpa_dbdump_");
     $cmd = 'mysqldump --user=' . $dbuser . ' --password=' . $dbpass . ' --host=' . $dbhost . ' --port=' . $dbport . ' --compact --skip-comments --routines --triggers --events --single-transaction --no-data ' . $dbname . ' > ' . $db_dump_file;
-    exec($cmd, $output1, $return_val1);
-
-    if (isset($_GET['dpa_event_filter']) && isset($_GET['disaster']) && isset($_GET['incident']) && isset($_GET['event'])) {        
-        
-        if ($_GET['disaster'] !== "-1"){
-            $selected_events_arr[]  = $_GET['disaster'];
-        }        
-        if ($_GET['incident'] !== "-1"){
-            $selected_events_arr[]  = $_GET['incident'];
-        }
-        if ($_GET['event'] !== "-1"){
-            $selected_events_arr[]  = $_GET['event'];
-        }        
-        
-        $selected_event_id = $selected_events_arr[sizeof($selected_events_arr) - 1];
-        
-        // Append data to the db dump file except for the 'users' table + filtered events
-        $cmd = 'mysqldump --user=' . $dbuser . ' --password=' . $dbpass . ' --host=' . $dbhost . ' --port=' . $dbport . ' --skip-comments --single-transaction  --no-create-info --ignore-table=' . $dbname . '.users ' . $dbname . ' incident --where=incident_id='.$selected_event_id.'>> ' . $db_dump_file;
-        exec($cmd, $output2, $return_val2);
-    } else {
-        // Append data to the db dump file except for the 'users' table
-        $cmd = 'mysqldump --user=' . $dbuser . ' --password=' . $dbpass . ' --host=' . $dbhost . ' --port=' . $dbport . ' --skip-comments --single-transaction  --no-create-info --ignore-table=' . $dbname . '.users ' . $dbname . ' >> ' . $db_dump_file;
-        exec($cmd, $output2, $return_val2);
-    }
-
-    // check whether command executed without errors
-    if ($return_val1 !== 0 || $return_val2 !== 0) {
-        shn_dpa_add_log("Database dump process failed...mysqldump returned " . $return_val1 . ", " . $return_val2);
+    exec($cmd, $output, $return_val);
+    if ($return_val !== 0) {
+        shn_dpa_add_log("Database dump process failed...(structure only) mysqldump returned " . $return_val);
         unlink($db_dump_file);
         return false;
     }
 
+    if (isset($_GET['dpa_event_filter']) && isset($_GET['disaster']) && isset($_GET['incident']) && isset($_GET['event'])) {
+        $selected_events_arr = array();
+        if ($_GET['disaster'] !== "-1") {
+            $selected_events_arr[] = $_GET['disaster'];
+        }
+        if ($_GET['incident'] !== "-1") {
+            $selected_events_arr[] = $_GET['incident'];
+        }
+        if ($_GET['event'] !== "-1") {
+            $selected_events_arr[] = $_GET['event'];
+        }
+        $events_comma_separated = implode(",", $selected_events_arr);
+
+        // Dump incident table with selected event and parent events
+        $cmd = 'mysqldump --user=' . $dbuser . ' --password=' . $dbpass . ' --host=' . $dbhost . ' --port=' . $dbport . ' --quick --skip-comments --single-transaction  --no-create-info ' . $dbname . ' incident --where="incident_id in (' . $events_comma_separated . ')" >> ' . $db_dump_file;
+        exec($cmd, $output, $return_val);
+        if ($return_val !== 0) {
+            shn_dpa_add_log("Database dump process failed...(selected event and parent events) mysqldump returned " . $return_val);
+            unlink($db_dump_file);
+            return false;
+        }
+        // selected event is the last child in the event heirarchy
+        $selected_event_id = $selected_events_arr[sizeof($selected_events_arr) - 1];
+
+        // get db schema
+        $dbschema = shn_dpa_get_db_schema();
+
+        // dump each table by filtering out everything other than selected event related person recods
+        foreach ($dbschema as $table_name => $key_field) {
+            $cmd = 'mysqldump --user=' . $dbuser . ' --password=' . $dbpass . ' --host=' . $dbhost . ' --port=' . $dbport . ' --quick --skip-comments --single-transaction  --no-create-info ' . $dbname . ' ' . $table_name . ' --where="' . $key_field . ' in (SELECT p_uuid FROM person_uuid WHERE incident_id=' . $selected_event_id . ')" >> ' . $db_dump_file;
+            exec($cmd, $output, $return_val);
+            if ($return_val !== 0) {
+                shn_dpa_add_log("Database dump process failed...(table records with related p_uuid) mysqldump returned " . $return_val);
+                unlink($db_dump_file);
+                return false;
+            }
+        }
+
+        // dump everything else without filters
+        $ignore_option_str = " ";
+        $ignore_option_str = $ignore_option_str . "--ignore-table=" . $dbname . ".incident ";
+        $ignore_option_str = $ignore_option_str . "--ignore-table=" . $dbname . ".plus_report_log ";
+        $ignore_option_str = $ignore_option_str . "--ignore-table=" . $dbname . ".password_event_log ";
+        $ignore_option_str = $ignore_option_str . "--ignore-table=" . $dbname . ".person_followers ";
+        foreach ($dbschema as $table_name => $key_field) {
+            $ignore_option_str = $ignore_option_str . "--ignore-table=" . $dbname . "." . $table_name . " ";
+        }
+
+        $cmd = 'mysqldump --user=' . $dbuser . ' --password=' . $dbpass . ' --host=' . $dbhost . ' --port=' . $dbport . ' --quick --skip-comments --single-transaction  --no-create-info ' . $dbname . ' ' . $ignore_option_str . ' >> ' . $db_dump_file;;
+        exec($cmd, $output, $return_val);
+        
+        if ($return_val !== 0) {
+            shn_dpa_add_log("Database dump process failed...(all records from unrelated tables) mysqldump returned " . $return_val);
+            unlink($db_dump_file);
+            return false;
+        }
+    } else {
+        // Append data to the db dump file except for the 'users' table
+        $cmd = 'mysqldump --user=' . $dbuser . ' --password=' . $dbpass . ' --host=' . $dbhost . ' --port=' . $dbport . ' --quick --skip-comments --single-transaction --no-create-info --ignore-table=' . $dbname . '.users ' . $dbname . ' >> ' . $db_dump_file;
+        exec($cmd, $output, $return_val);
+
+        // check whether command executed without errors
+        if ($return_val !== 0) {
+            shn_dpa_add_log("Database dump process failed...(full db clone) mysqldump returned " . $return_val);
+            unlink($db_dump_file);
+            return false;
+        }
+    }
     if (!($dpa_zip->addFile($db_dump_file, DPA_DBDUMP_DIR . '/vesuvius-portable-db-dump.sql'))) {
         unlink($db_dump_file);
         return false;
@@ -208,9 +278,9 @@ function shn_dpa_add_dir($dir, $dpa_zip, $selected_mods) {
             if (($file !== '.') && ($file !== '..')) {
                 if (($dir === realpath($app_base . "/mod")) && !in_array($file, $selected_mods)) {
                     // Skip unselected modules
-                } else if (isset($_GET['dpa_image_filter']) && $item === realpath($global['approot']."www/tmp/plus_cache")) {
+                } else if (isset($_GET['dpa_image_filter']) && $dir === realpath($app_base . "/www/tmp/plus_cache")) {
                     // Skip profile images container directory
-                }else if ($item === realpath($conf['mod_dpa_bin'])) {
+                } else if ($item === realpath($conf['mod_dpa_bin'])) {
                     
                 } else {
                     shn_dpa_add_dir($item, $dpa_zip, $selected_mods);
