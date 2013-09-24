@@ -1,5 +1,6 @@
 vesuvius/conf/sahana.conf
 vesuvius/www/tmp
+vesuvius/www/.htaccess
 .project
 .settings
 .buildpath
@@ -7,3 +8,4 @@ vesuvius/time
 vesuvius/version
 vesuvius/.externalToolBuilders
 vesuvius/mod/dpa/bin/*
+.idea

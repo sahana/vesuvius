@@ -1,51 +1,48 @@
 <?php
 /** ******************************************************************************************************************************************************************
- *********************************************************************************************************************************************************************
- ********************************************************************************************************************************************************************
- *
- * @class        goo_gl
- * @author       Marcus Nunes - marcusnunes.com - 09/18/2010
- *
- * eg:
- * $googl = new goo_gl('http://marcusnunes.com/api-goo.gl.php');
- * echo $googl->result();
- *
- ********************************************************************************************************************************************************************
- *********************************************************************************************************************************************************************
- **********************************************************************************************************************************************************************/
+*********************************************************************************************************************************************************************
+********************************************************************************************************************************************************************
+*
+* @class        goo_gl
+* @author       Marcus Nunes - marcusnunes.com - 09/18/2010
+*
+* eg:
+* $googl = new goo_gl('http://marcusnunes.com/api-goo.gl.php');
+* echo $googl->result();
+*
+********************************************************************************************************************************************************************
+*********************************************************************************************************************************************************************
+**********************************************************************************************************************************************************************/
 
 class goo_gl{
 
 	var $url, $resul;
 
 	//goo.gl construct method
+
 	function goo_gl($url){
 
 		$this->url = $url;
 
-		if(function_exists('curl_init')){
-			$curl = curl_init();
-			curl_setopt($curl, CURLOPT_URL, 'http://goo.gl/api/url');
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($curl, CURLOPT_POST, 1);
-			curl_setopt($curl, CURLOPT_POSTFIELDS, 'user=toolbar@google.com&url='.urlencode($this->url).'&auth_token='.$this->googlToken($url));
-			$saida = curl_exec($curl);
-			curl_close($curl);
-			if($saida){
-				$json = json_decode($saida);
-				$this->resul = isset($json->short_url) ? $json->short_url : null;
-			}
-		} else {
-			add_error(_t('Warning: The cURL extension is not found. Please check your PHP configuration.'));
-		}
+        if( function_exists('curl_init') ) {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, 'http://goo.gl/api/url');
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, 'user=toolbar@google.com&url='.urlencode($this->url).'&auth_token='.$this->googlToken($url));
+            $saida = curl_exec($curl);
+            curl_close($curl);
+            if($saida){
+                $json = json_decode($saida);
+                $this->resul = isset($json->short_url) ? $json->short_url : null;
+            }
+        } else {
+            add_error(_t('Warning: The cURL extension is not found. Please check your PHP configuration.'));
+        }
 	}
 
 	//show url shorted by goo.gl
-	function result(){
-		return $this->resul;
-	}
 
-	//token code
 	function googlToken($b){
 		$i = $this->tke($b);
 		$i = $i >> 2 & 1073741823;
@@ -62,6 +59,16 @@ class goo_gl{
 		return $j;
 	}
 
+	//token code
+
+	function tke($l){
+		$m = 5381;
+		for($o = 0; $o < strlen($l); $o++){
+			$m = $this->tkc($m << 5, $m, ord($l[$o]));
+		}
+		return $m;
+	}
+
 	function tkc(){
 		$l = 0;
 		foreach(func_get_args() as $val){
@@ -71,6 +78,14 @@ class goo_gl{
 			$l   += $l > 2147483647 ? -4294967296 : ($l < -2147483647 ? 4294967296 : 0);
 		}
 		return $l;
+	}
+
+	function tkf($l){
+		$m = 0;
+		for($o = 0; $o < strlen($l); $o++){
+			$m = $this->tkc(ord($l[$o]), $m << 6, $m << 16, -$m);
+		}
+		return $m;
 	}
 
 	function tkd($l){
@@ -102,20 +117,8 @@ class goo_gl{
 		return "$o$l";
 	}
 
-	function tke($l){
-		$m = 5381;
-		for($o = 0; $o < strlen($l); $o++){
-			$m = $this->tkc($m << 5, $m, ord($l[$o]));
-		}
-		return $m;
-	}
-
-	function tkf($l){
-		$m = 0;
-		for($o = 0; $o < strlen($l); $o++){
-			$m = $this->tkc(ord($l[$o]), $m << 6, $m << 16, -$m);
-		}
-		return $m;
+	function result(){
+		return $this->resul;
 	}
 
 }
