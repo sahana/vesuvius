@@ -429,9 +429,9 @@ function shn_main_install_check()
  */
 function shn_run_installer() {
     global $global;
-    $global['theme'] = 'vesuvius';
-    include_once($global['approot'].'/www/theme/vesuvius/head.php');
-    include_once($global['approot'].'/www/theme/vesuvius/header.php');
+    $global['theme'] = $theme = 'vesuvius';
+    include_once($global['approot'].'/www/theme/'.$theme.'/head.php');
+    include_once($global['approot'].'/www/theme/'.$theme.'/header.php');
 
 
 
@@ -447,7 +447,7 @@ function shn_run_installer() {
         shn_install_default();
     }
 
-    include_once($global['approot'].'/www/theme/vesuvius/footer.php');
+    include_once($global['approot'].'/www/theme/'.$theme.'/footer.php');
 
     shn_install_stream_close();
 }

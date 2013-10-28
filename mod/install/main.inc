@@ -18,13 +18,21 @@ function shn_install_default() {
 	echo "<p>Installer under construction</p>";
 }
 
+
 function shn_install_stream_init() {
     echo "<body>";
     echo "<div id=\"container\">";
 
     echo "<div id=\"wrapper\" class=\"clearfix\">";
     echo "<div id=\"wrapper_menu\">";
-
+    echo "
+		<div id=\"menuwrap\">
+		<ul id=\"menu\">
+	";
+    echo "
+		</ul>
+		</div> <!-- /menuwrap -->
+	";
     ob_start();
 }
 function shn_install_stream_close() {
@@ -83,6 +91,7 @@ function shn_install_stream_close() {
 
     echo "</body>";
     echo "</html>";
+    ob_flush();
 }
 
 
