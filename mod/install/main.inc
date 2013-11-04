@@ -32,6 +32,7 @@ function shn_install_stream_init() {
     echo "
 		</ul>
 		</div> <!-- /menuwrap -->
+		</div>
 	";
     ob_start();
 }

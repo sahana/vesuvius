@@ -431,6 +431,9 @@ function shn_run_installer() {
     global $global;
     $global['theme'] = $theme = 'vesuvius';
     include_once($global['approot'].'/www/theme/'.$theme.'/head.php');
+
+    //load the head tag
+    shn_theme_head();
     include_once($global['approot'].'/www/theme/'.$theme.'/header.php');
 
 
