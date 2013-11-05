@@ -18,10 +18,18 @@ function shn_install_default() {
 	echo "<p>Installer under construction</p>";
 }
 
+function shn_write_htaccess() {
+    global $global;
+}
 
 function shn_install_stream_init() {
+
+    global $global;
+
     echo "<body>";
     echo "<div id=\"container\">";
+
+    include_once($global['approot'].'/www/theme/'.$global['theme'].'/header.php');
 
     echo "<div id=\"wrapper\" class=\"clearfix\">";
     echo "<div id=\"wrapper_menu\">";
@@ -33,6 +41,8 @@ function shn_install_stream_init() {
 		</ul>
 		</div> <!-- /menuwrap -->
 		</div>
+		<div id=\"content\">
+		<div style=\"padding: 20px 0px 0px 36px; font-size: 16px;\">
 	";
     ob_start();
 }
@@ -76,6 +86,8 @@ function shn_install_stream_close() {
     }
 
     echo "</div>";
+
+    echo "</div>";
     echo "<!-- /content -->";
 
     // if xajax object exists print the javascript
@@ -83,9 +95,10 @@ function shn_install_stream_close() {
         shn_xajax_printJavascript();
     }
 
+    include_once($global['approot'].'/www/theme/'.$global['theme'].'/footer.php');
+
     echo "</div>";
     echo "<!-- /wrapper -->";
-
 
     echo "</div>";
     echo "<!-- /container -->";

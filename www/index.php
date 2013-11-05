@@ -434,8 +434,6 @@ function shn_run_installer() {
 
     //load the head tag
     shn_theme_head();
-    include_once($global['approot'].'/www/theme/'.$theme.'/header.php');
-
 
 
     include_once($global['approot'].'/mod/install/main.inc');
@@ -450,9 +448,10 @@ function shn_run_installer() {
         shn_install_default();
     }
 
-    include_once($global['approot'].'/www/theme/'.$theme.'/footer.php');
-
     shn_install_stream_close();
+
+
+
 }
 
 
@@ -472,7 +471,6 @@ function shn_main_plus_register()
     global $global;
     require_once($global['approot'] . 'mod/plus/register.php');
 }
-
 
 
 
