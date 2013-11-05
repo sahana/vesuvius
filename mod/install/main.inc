@@ -20,6 +20,15 @@ function shn_install_default() {
 
 function shn_write_htaccess() {
     global $global;
+
+    $htxml = simplexml_load_file($global['approot']."/mod/install/htaccess.xml");
+
+    $file_contents = "AddType application/x-httpd-php .php .xml\n";
+    $file_contents .= "ErrorDocument 404 index.php\n";
+
+    $file = fopen($global['approot']."/www/.htaccess", 'w+');
+    fwrite($file, $file_contents);
+    fclose($file);
 }
 
 function shn_install_stream_init() {
