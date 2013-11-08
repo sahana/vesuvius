@@ -3,13 +3,14 @@
   <component name="ChangeListManager">
     <list default="true" id="df46a06c-8452-4f7c-a471-c451a16e7930" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mod/install/main.inc" afterPath="$PROJECT_DIR$/mod/install/main.inc" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="vesuvius.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Dummy.txt" changelist="df46a06c-8452-4f7c-a471-c451a16e7930" time="1383647950313" ignored="false" />
+    <file path="/Dummy.txt" changelist="df46a06c-8452-4f7c-a471-c451a16e7930" time="1383893173679" ignored="false" />
     <file path="/index.php" changelist="df46a06c-8452-4f7c-a471-c451a16e7930" time="1383653351290" ignored="false" />
     <file path="/htaccess.xml" changelist="df46a06c-8452-4f7c-a471-c451a16e7930" time="1378907063630" ignored="false" />
-    <file path="/main.inc" changelist="df46a06c-8452-4f7c-a471-c451a16e7930" time="1383658276809" ignored="false" />
+    <file path="/main.inc" changelist="df46a06c-8452-4f7c-a471-c451a16e7930" time="1383913775157" ignored="false" />
     <file path="/lib_config.inc" changelist="df46a06c-8452-4f7c-a471-c451a16e7930" time="1378992784449" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,7 +34,7 @@
       <file leaf-file-name="index.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="435" column="21" selection-start="15109" selection-end="15109" vertical-scroll-proportion="-10.333333">
+            <state line="435" column="21" selection-start="15109" selection-end="15109" vertical-scroll-proportion="-8.125">
               <folding />
             </state>
           </provider>
@@ -42,11 +43,8 @@
       <file leaf-file-name="footer.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/theme/vesuvius/footer.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="13" selection-start="1562" selection-end="1562" vertical-scroll-proportion="-26.25">
-              <folding>
-                <element signature="e#3#461#0" expanded="true" />
-                <element signature="e#1618#1671#0" expanded="true" />
-              </folding>
+            <state line="40" column="27" selection-start="1546" selection-end="1546" vertical-scroll-proportion="-15.625">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -54,7 +52,7 @@
       <file leaf-file-name="header.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/theme/vesuvius/header.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="74" column="53" selection-start="1978" selection-end="1978" vertical-scroll-proportion="-40.0">
+            <state line="74" column="53" selection-start="1978" selection-end="1978" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -72,7 +70,7 @@
       <file leaf-file-name="lib_stream_html.inc" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/inc/lib_stream_html.inc">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="23" column="0" selection-start="687" selection-end="687" vertical-scroll-proportion="-4.375">
+            <state line="23" column="0" selection-start="687" selection-end="687" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -81,14 +79,14 @@
       <file leaf-file-name="main.inc" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mod/install/main.inc">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="26" column="52" selection-start="648" selection-end="648" vertical-scroll-proportion="0.51258993">
+            <state line="32" column="46" selection-start="989" selection-end="989" vertical-scroll-proportion="0.26978418">
               <folding>
-                <marker date="1383658293780" expanded="true" signature="1092:1113" placeholder="..." />
-                <marker date="1383658293780" expanded="true" signature="1194:1198" placeholder="..." />
-                <marker date="1383658293780" expanded="true" signature="1194:1207" placeholder="..." />
-                <marker date="1383658293780" expanded="true" signature="1194:1208" placeholder="..." />
-                <marker date="1383658293780" expanded="true" signature="1194:1254" placeholder="..." />
-                <marker date="1383658293780" expanded="true" signature="1194:1259" placeholder="..." />
+                <marker date="1383914108021" expanded="true" signature="1435:1456" placeholder="..." />
+                <marker date="1383914108021" expanded="true" signature="1537:1541" placeholder="..." />
+                <marker date="1383914108021" expanded="true" signature="1537:1550" placeholder="..." />
+                <marker date="1383914108021" expanded="true" signature="1537:1551" placeholder="..." />
+                <marker date="1383914108021" expanded="true" signature="1537:1597" placeholder="..." />
+                <marker date="1383914108021" expanded="true" signature="1537:1602" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -106,7 +104,7 @@
       <file leaf-file-name="htaccess.example" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/htaccess.example">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="0" selection-start="121" selection-end="148" vertical-scroll-proportion="0.0">
+            <state line="21" column="0" selection-start="888" selection-end="911" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -134,8 +132,9 @@
         <option value="$PROJECT_DIR$/mod/install/conf.inc" />
         <option value="$PROJECT_DIR$/inc/lib_config.inc" />
         <option value="$PROJECT_DIR$/www/theme/vesuvius/head.php" />
-        <option value="$PROJECT_DIR$/www/theme/vesuvius/footer.php" />
         <option value="$PROJECT_DIR$/www/index.php" />
+        <option value="$PROJECT_DIR$/www/htaccess.example" />
+        <option value="$PROJECT_DIR$/www/theme/vesuvius/footer.php" />
         <option value="$PROJECT_DIR$/mod/install/main.inc" />
       </list>
     </option>
@@ -215,6 +214,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="www" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="theme" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vesuvius" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="vesuvius_installer" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="mod" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -249,6 +266,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/www/theme/lpf3/img" />
       <recent name="$PROJECT_DIR$/mod/install" />
     </key>
   </component>
@@ -306,7 +324,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24960998" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20062943" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.20377655" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -429,33 +447,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/www/theme/vesuvius/footer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="13" selection-start="1562" selection-end="1562" vertical-scroll-proportion="-26.25">
-          <folding>
-            <element signature="e#3#461#0" expanded="true" />
-            <element signature="e#1618#1671#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/theme/vesuvius/header.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="74" column="53" selection-start="1978" selection-end="1978" vertical-scroll-proportion="-40.0">
+        <state line="74" column="53" selection-start="1978" selection-end="1978" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/inc/lib_stream_html.inc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="23" column="0" selection-start="687" selection-end="687" vertical-scroll-proportion="-4.375">
+        <state line="23" column="0" selection-start="687" selection-end="687" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/theme/vesuvius/footer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="40" column="27" selection-start="1546" selection-end="1546" vertical-scroll-proportion="-15.625">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/www/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="435" column="21" selection-start="15109" selection-end="15109" vertical-scroll-proportion="-10.333333">
+        <state line="435" column="21" selection-start="15109" selection-end="15109" vertical-scroll-proportion="-8.125">
           <folding />
         </state>
       </provider>
@@ -469,21 +484,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/www/htaccess.example">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="0" selection-start="121" selection-end="148" vertical-scroll-proportion="0.0">
+        <state line="21" column="0" selection-start="888" selection-end="911" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mod/install/main.inc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="52" selection-start="648" selection-end="648" vertical-scroll-proportion="0.51258993">
+        <state line="32" column="46" selection-start="989" selection-end="989" vertical-scroll-proportion="0.26978418">
           <folding>
-            <marker date="1383658293780" expanded="true" signature="1092:1113" placeholder="..." />
-            <marker date="1383658293780" expanded="true" signature="1194:1198" placeholder="..." />
-            <marker date="1383658293780" expanded="true" signature="1194:1207" placeholder="..." />
-            <marker date="1383658293780" expanded="true" signature="1194:1208" placeholder="..." />
-            <marker date="1383658293780" expanded="true" signature="1194:1254" placeholder="..." />
-            <marker date="1383658293780" expanded="true" signature="1194:1259" placeholder="..." />
+            <marker date="1383914108021" expanded="true" signature="1435:1456" placeholder="..." />
+            <marker date="1383914108021" expanded="true" signature="1537:1541" placeholder="..." />
+            <marker date="1383914108021" expanded="true" signature="1537:1550" placeholder="..." />
+            <marker date="1383914108021" expanded="true" signature="1537:1551" placeholder="..." />
+            <marker date="1383914108021" expanded="true" signature="1537:1597" placeholder="..." />
+            <marker date="1383914108021" expanded="true" signature="1537:1602" placeholder="..." />
           </folding>
         </state>
       </provider>

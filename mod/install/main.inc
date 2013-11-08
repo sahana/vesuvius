@@ -15,7 +15,7 @@
 function shn_install_default() {
 
 	global $global;
-	echo "<p>Installer under construction</p>";
+	echo "<p>Installer under construction</p><br>";
 }
 
 function shn_write_htaccess() {
@@ -25,6 +25,12 @@ function shn_write_htaccess() {
 
     $file_contents = "AddType application/x-httpd-php .php .xml\n";
     $file_contents .= "ErrorDocument 404 index.php\n";
+    $file_contents .= "DirectoryIndex index.php\n";
+    $file_contents .= "RewriteEngine On\n";
+    $file_contents .= "RewriteBase ".$_SERVER['REQUEST_URI']."\n";
+    $file_contents .= "RewriteCond %{REQUEST_FILENAME} -d [OR]
+                       RewriteCond %{REQUEST_FILENAME} -f\n";
+    $file_contents .= "RewriteRule .* - [S=37]\n";
 
     $file = fopen($global['approot']."/www/.htaccess", 'w+');
     fwrite($file, $file_contents);
