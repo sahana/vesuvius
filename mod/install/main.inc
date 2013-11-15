@@ -15,7 +15,9 @@
 function shn_install_default() {
 
 	global $global;
-	echo "<p>Installer under construction</p><br>";
+	echo '<p>Installer under construction</p><br>';
+
+    shn_write_htaccess();
 }
 
 function shn_write_htaccess() {
@@ -23,14 +25,43 @@ function shn_write_htaccess() {
 
     $htxml = simplexml_load_file($global['approot']."/mod/install/htaccess.xml");
 
-    $file_contents = "AddType application/x-httpd-php .php .xml\n";
-    $file_contents .= "ErrorDocument 404 index.php\n";
-    $file_contents .= "DirectoryIndex index.php\n";
-    $file_contents .= "RewriteEngine On\n";
-    $file_contents .= "RewriteBase ".$_SERVER['REQUEST_URI']."\n";
-    $file_contents .= "RewriteCond %{REQUEST_FILENAME} -d [OR]
-                       RewriteCond %{REQUEST_FILENAME} -f\n";
-    $file_contents .= "RewriteRule .* - [S=37]\n";
+    $file_contents = "AddType application/x-httpd-php .php .xml\n"
+                        ."ErrorDocument 404 index.php\n"
+                        ."DirectoryIndex index.php\n"
+                        ."RewriteEngine On\n"
+                        ."RewriteBase ".$_SERVER['REQUEST_URI']."\n"
+                        ."RewriteCond %{REQUEST_FILENAME} -d [OR] RewriteCond %{REQUEST_FILENAME} -f\n"
+                        ."RewriteRule .* - [S=".$htxml->rulecount."]\n"
+                        ."RewriteRule ^(person.[0-9]+)$ ?mod=eap&val=$1 [L]\n"
+                        ."RewriteRule ^(about)$   ?mod=rez&page=-30 [L]\n"
+                        ."RewriteRule ^(privacy)$ ?mod=rez&page=44  [L]\n"
+                        ."RewriteRule ^(login)$              ?mod=pref&act=loginForm [L]\n"
+                        ."RewriteRule ^(auth)$               ?doLogin=1 [L]\n"
+                        ."RewriteRule ^(password)$           ?mod=pref&act=ch_passwd [L]\n"
+                        ."RewriteRule ^(logout)$             ?act=logout [L]\n"
+                        ."RewriteRule ^(register)$           ?mod=pref&act=signup [L]\n"
+                        ."RewriteRule ^(register2)$          ?mod=pref&act=signup2 [L]\n"
+                        ."RewriteRule ^(forgot)$             ?mod=pref&act=forgotPassword [L]\n"
+                        ."RewriteRule ^(tracking)$           ?mod=pref&act=tracking [L]\n"
+                        ."RewriteRule ^(reza|resourceadmin)$ ?mod=rez&act=adm_default [L]\n";
+    $module_string = "";
+    foreach($htxml->modules->module as $module) {
+        $module_string .= "RewriteRule ^(";
+        for( $i=0;$i<count($module->alias);$i++ ) {
+            if ( $i != count($module->alias) - 1 ) {
+                $module_string .= $module->alias[$i]."|";
+            }
+            else {
+                $module_string .= $module->alias[$i].")";
+            }
+        }
+        $module_string .= "$           $2?mod=".$module->name." [QSA]\n";
+    }
+    $file_contents .= $module_string;
+    $file_contents .= "RewriteRule ^([^/][a-z0-9]+)$ $2?shortname=$1 [QSA]\n"
+                        ."RewriteRule ^([^/][a-z0-9]+)/$ $2?shortname=$1 [QSA]\n"
+                        ."RewriteRule ^([^/][a-z0-9]+)/(.+)$ $2?shortname=$1 [QSA]\n";
+
 
     $file = fopen($global['approot']."/www/.htaccess", 'w+');
     fwrite($file, $file_contents);
@@ -92,10 +123,10 @@ function shn_install_stream_close() {
     }
 
     // display the errors first before the rest of the module output
-    display_errors();
+    /*display_errors();
     display_submit_message('confirmation', '&nbsp;');
     display_submit_message('warning', 'Warning');
-    display_submit_message('information', 'Information');
+    display_submit_message('information', 'Information');*/
     if ($is_abort == false) {
         echo $output;
     }
@@ -104,11 +135,6 @@ function shn_install_stream_close() {
 
     echo "</div>";
     echo "<!-- /content -->";
-
-    // if xajax object exists print the javascript
-    if (isset($global['xajax'])) {
-        shn_xajax_printJavascript();
-    }
 
     include_once($global['approot'].'/www/theme/'.$global['theme'].'/footer.php');
 

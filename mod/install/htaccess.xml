@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <htaccess>
-    <rulecount>37</rulecount>
+    <rulecount>38</rulecount>
     <modules>
         <module>
             <name>admin</name>
