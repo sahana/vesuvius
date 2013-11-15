@@ -22,7 +22,7 @@ function shn_install_default() {
 
 function shn_write_htaccess() {
     global $global;
-
+    $error = false;
     $htxml = simplexml_load_file($global['approot']."/mod/install/htaccess.xml");
 
     $file_contents = "AddType application/x-httpd-php .php .xml\n"
@@ -64,7 +64,9 @@ function shn_write_htaccess() {
 
 
     $file = fopen($global['approot']."/www/.htaccess", 'w+');
-    fwrite($file, $file_contents);
+    if ( fwrite($file, $file_contents) ) {
+     add_confirmation("Successfully wrote .htaccess file");
+    }
     fclose($file);
 }
 
@@ -123,10 +125,10 @@ function shn_install_stream_close() {
     }
 
     // display the errors first before the rest of the module output
-    /*display_errors();
+    display_errors();
     display_submit_message('confirmation', '&nbsp;');
     display_submit_message('warning', 'Warning');
-    display_submit_message('information', 'Information');*/
+    display_submit_message('information', 'Information');
     if ($is_abort == false) {
         echo $output;
     }
@@ -147,6 +149,19 @@ function shn_install_stream_close() {
     echo "</body>";
     echo "</html>";
     ob_flush();
+}
+
+function _shn_text_display_errors() {
+    global $global;
+    if (count($global['submit_errors']) > 0) {
+        echo "Uhoh.. There were a few errors!<br><br>";
+        $i = 1;
+        foreach ($global['submit_errors'] as $err) {
+            echo "#".$i." ".$err."<br>";
+            $i++;
+        }
+    }
+
 }
 
 
