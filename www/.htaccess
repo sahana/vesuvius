@@ -2,7 +2,7 @@ AddType application/x-httpd-php .php .xml
 ErrorDocument 404 index.php
 DirectoryIndex index.php
 RewriteEngine On
-RewriteBase /public_html/vesuvius_installer/vesuvius/www/index.php?stream=text&mod=xst&act=help
+RewriteBase /public_html/vesuvius_installer/vesuvius/www/
 RewriteCond %{REQUEST_FILENAME} -d [OR] RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule .* - [S=38]
 RewriteRule ^(person.[0-9]+)$ ?mod=eap&val=$1 [L]

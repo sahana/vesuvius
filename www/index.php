@@ -429,7 +429,7 @@ function shn_main_install_check()
  */
 function shn_run_installer() {
     global $global;
-    $global['theme'] = $theme = 'lpf3';
+    $global['theme'] = $theme = 'vesuvius';
     include_once($global['approot'].'/www/theme/'.$theme.'/head.php');
 
     //load the head tag
@@ -439,15 +439,15 @@ function shn_run_installer() {
     include_once($global['approot'].'/mod/install/main.inc');
 
     shn_install_stream_init();
-    /*if ( isset($_GET['act']) ) {
+    if ( isset($_GET['act']) && $_GET['mod'] ) {
         $act = $_GET['act'];
-        $call_function = 'shn_install_'.$act;
+        $module = $_GET['module'];
+        $call_function = 'shn_'.$module.'_'.$act;
         $call_function();
     }
     else {
         shn_install_default();
-    }*/
-    shn_install_default();
+    }
 
     shn_install_stream_close();
 

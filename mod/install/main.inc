@@ -9,17 +9,22 @@
  */
 
 
-
-
-
+/**
+ * Default function for install module
+ */
 function shn_install_default() {
 
 	global $global;
 	echo '<p>Installer under construction</p><br>';
 
     shn_write_htaccess();
+
+    shn_write_conf_init();
 }
 
+/**
+ * Write .htaccess file
+ */
 function shn_write_htaccess() {
     global $global;
     $error = false;
@@ -65,11 +70,29 @@ function shn_write_htaccess() {
 
     $file = fopen($global['approot']."/www/.htaccess", 'w+');
     if ( fwrite($file, $file_contents) ) {
-     add_confirmation("Successfully wrote .htaccess file");
+        add_confirmation("Successfully wrote .htaccess file. Please ensure that Apache mod_rewrite is enabled.");
+    }
+    else {
+        add_error("Failed to write .htaccess file");
     }
     fclose($file);
 }
 
+/**
+ * Function to write conf file
+ */
+function shn_write_conf_init() {
+    shn_form_fopen("conf", "install", array('enctype'=>'enctype="multipart/form-data"', 'req_message' => true));
+        shn_form_fsopen('Database details');
+            shn_form_text('Database Host', 'db_host', null, array('value'=>'localhost', 'help' => 'Your database server\'s host.'));
+            shn_form_text('Database port', 'db_port', null, array('value'=>'3306', 'help' => 'Your database server\'s port.'));
+            shn_form_text('Database name', 'db_name', null, array('help' => 'The name of the database you\'ll be using for Vesuvius'));
+            shn_form_text('Database username', 'db_user', null, array('help' => 'Database username'));
+            shn_form_password('Database password', 'db_pass', null, array('help' => 'The password for the database user you have specified.'));
+            shn_form_submit('Submit Configuration');
+        shn_form_fsclose();
+    shn_form_fclose();
+}
 function shn_install_stream_init() {
 
     global $global;
