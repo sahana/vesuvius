@@ -442,7 +442,7 @@ function shn_run_installer() {
     if ( isset($_GET['act']) && $_GET['mod'] ) {
         $act = $_GET['act'];
         $module = $_GET['module'];
-        $call_function = 'shn_'.$module.'_'.$act;
+        $call_function = 'shn_install_'.$act;
         $call_function();
     }
     else {

@@ -4364,3 +4364,346 @@
 2013-11-17 02:15:24 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
 2013-11-17 02:15:24 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
 2013-11-17 02:15:24 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:39:49 Created log object.
+2013-11-18 00:39:49 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:39:49 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:39:49 Created log object.
+2013-11-18 00:39:49 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:39:49 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:43:07 Created log object.
+2013-11-18 00:43:07 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:43:07 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:43:07 Created log object.
+2013-11-18 00:43:07 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:43:07 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:43:08 Created log object.
+2013-11-18 00:43:08 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:43:08 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:43:08 Created log object.
+2013-11-18 00:43:08 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:43:08 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:45:16 Created log object.
+2013-11-18 00:45:16 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:45:16 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:45:16 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:45:16 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:45:16 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:45:16 Translation for string "Oops! There are a few errors :" for locale "en" found in Google PO file.
+2013-11-18 00:45:16 Created log object.
+2013-11-18 00:45:16 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:45:16 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:45:16 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:45:16 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:45:16 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:46:35 Created log object.
+2013-11-18 00:46:35 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:46:35 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:46:35 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:46:35 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:46:35 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:46:35 Translation for string "Oops! There are a few errors :" for locale "en" found in Google PO file.
+2013-11-18 00:46:35 Created log object.
+2013-11-18 00:46:35 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:46:35 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:46:35 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:46:35 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:46:35 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:46:45 Created log object.
+2013-11-18 00:46:45 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:46:45 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:46:45 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:46:45 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:46:45 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:46:45 Created log object.
+2013-11-18 00:46:45 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:46:45 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:46:45 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:46:45 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:46:45 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:48:05 Created log object.
+2013-11-18 00:48:05 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:48:05 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:48:05 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:48:05 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:48:05 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:48:05 Created log object.
+2013-11-18 00:48:05 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:48:05 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:48:05 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:48:05 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:48:05 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:49:01 Created log object.
+2013-11-18 00:49:01 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:49:01 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:49:01 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:49:01 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:49:01 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:49:01 Translation for string "Oops! There are a few errors :" for locale "en" found in Google PO file.
+2013-11-18 00:49:19 Created log object.
+2013-11-18 00:49:19 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:49:19 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:49:20 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:49:20 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:49:20 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:49:52 Created log object.
+2013-11-18 00:49:52 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:49:52 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:49:52 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:49:52 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:49:52 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:49:52 Translation for string "Oops! There are a few errors :" for locale "en" found in Google PO file.
+2013-11-18 00:50:47 Created log object.
+2013-11-18 00:50:47 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:50:47 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:50:47 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:50:47 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:50:47 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:50:47 Translation for string "Oops! There are a few errors :" for locale "en" found in Google PO file.
+2013-11-18 00:51:22 Created log object.
+2013-11-18 00:51:22 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:51:22 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:51:22 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:51:22 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:51:22 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:52:26 Created log object.
+2013-11-18 00:52:26 Translation for string "Home" for locale "en" found in Google PO file.
+2013-11-18 00:52:26 Translation for string "Outbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:52:26 Translation for string "Hospital Administration" for locale "en" found in Google PO file.
+2013-11-18 00:52:26 Translation for string "Administration" for locale "en" found in Google PO file.
+2013-11-18 00:52:26 Translation for string "Search for a Person" for locale "en" found in Google PO file.
+2013-11-18 00:52:26 Translation for string "Help and Resources" for locale "en" found in Google PO file.
+2013-11-18 00:52:26 Translation for string "Arrivals" for locale "en" found in Google PO file.
+2013-11-18 00:52:26 Translation for string "Statistics" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Streamer" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Event Manager" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Installer" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Import & Export" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "TriagePic" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Conf-LinkMy Settings" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Search+" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Internal Resources" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Web Services" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Expiry Queue" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "RSS Feed" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Report a Person 1" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Report a Person" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Edit a Person" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Inbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "People Locator" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Sahana Vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Main Menu" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Oops! There are a few errors :" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Created log object.
+2013-11-18 00:52:27 Translation for string "Home" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Outbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Hospital Administration" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Administration" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Search for a Person" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Help and Resources" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Arrivals" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Statistics" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Streamer" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Event Manager" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Installer" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Import & Export" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "TriagePic" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Conf-LinkMy Settings" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Search+" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Internal Resources" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Web Services" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Expiry Queue" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "RSS Feed" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Report a Person 1" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Report a Person" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Edit a Person" for locale "en" found in Google PO file.
+2013-11-18 00:52:27 Translation for string "Inbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:54:50 Created log object.
+2013-11-18 00:54:50 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:54:50 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:54:50 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:54:50 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:54:50 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:54:50 Translation for string "Oops! There are a few errors :" for locale "en" found in Google PO file.
+2013-11-18 00:55:06 Created log object.
+2013-11-18 00:55:06 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:55:06 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:55:06 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:55:06 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:55:06 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Created log object.
+2013-11-18 00:55:12 Translation for string "Home" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Outbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Hospital Administration" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Administration" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Search for a Person" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Help and Resources" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Arrivals" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Statistics" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Streamer" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Event Manager" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Installer" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Import & Export" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "TriagePic" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Conf-LinkMy Settings" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Search+" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Internal Resources" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Web Services" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Expiry Queue" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "RSS Feed" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Report a Person 1" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Report a Person" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Edit a Person" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Inbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "People Locator" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Sahana Vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Main Menu" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Oops! There are a few errors :" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Created log object.
+2013-11-18 00:55:12 Translation for string "Home" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Outbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Hospital Administration" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Administration" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Search for a Person" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Help and Resources" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Arrivals" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Statistics" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Streamer" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Event Manager" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Installer" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Import & Export" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "TriagePic" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Conf-LinkMy Settings" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Search+" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Internal Resources" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Web Services" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Expiry Queue" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "RSS Feed" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Report a Person 1" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Report a Person" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Edit a Person" for locale "en" found in Google PO file.
+2013-11-18 00:55:12 Translation for string "Inbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:56:13 Created log object.
+2013-11-18 00:56:13 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:56:13 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:56:13 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:56:13 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:56:13 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:56:13 Translation for string "Oops! There are a few errors :" for locale "en" found in Google PO file.
+2013-11-18 00:56:24 Created log object.
+2013-11-18 00:56:24 Translation for string "" for locale "en" found in Google PO file.
+2013-11-18 00:56:24 Translation for string "vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:56:24 Translation for string "DUPLICATE_HEADERPeople Locator" for locale "en" found in Google PO file.
+2013-11-18 00:56:24 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:56:24 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Created log object.
+2013-11-18 00:56:29 Translation for string "Home" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Outbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Hospital Administration" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Administration" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Search for a Person" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Help and Resources" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Arrivals" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Statistics" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Streamer" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Event Manager" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Installer" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Import & Export" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "TriagePic" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Conf-LinkMy Settings" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Search+" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Internal Resources" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Web Services" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Expiry Queue" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "RSS Feed" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Report a Person 1" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Report a Person" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Edit a Person" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Inbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "People Locator" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Sahana Vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Main Menu" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Oops! There are a few errors :" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Created log object.
+2013-11-18 00:56:29 Translation for string "Home" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Outbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Hospital Administration" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Administration" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Search for a Person" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Help and Resources" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Arrivals" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Statistics" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Streamer" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Event Manager" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Installer" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Import & Export" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "TriagePic" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Conf-LinkMy Settings" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Search+" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Internal Resources" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Web Services" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Expiry Queue" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "RSS Feed" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Report a Person 1" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Report a Person" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Edit a Person" for locale "en" found in Google PO file.
+2013-11-18 00:56:29 Translation for string "Inbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Created log object.
+2013-11-18 00:56:34 Translation for string "Home" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Outbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Hospital Administration" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Administration" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Search for a Person" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Help and Resources" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Arrivals" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Statistics" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Streamer" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Event Manager" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Installer" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Import & Export" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "TriagePic" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Conf-LinkMy Settings" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Search+" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Internal Resources" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Web Services" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Expiry Queue" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "RSS Feed" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Report a Person 1" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Report a Person" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Edit a Person" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Inbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "People Locator" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Sahana Vesuvius" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "U.S. National Library of Medicine" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Lister Hill National Center for Biomedical Communications" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Main Menu" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Oops! There are a few errors :" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Created log object.
+2013-11-18 00:56:34 Translation for string "Home" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Outbound Email" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Hospital Administration" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Administration" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Search for a Person" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Help and Resources" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Arrivals" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Statistics" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Streamer" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Event Manager" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Installer" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Import & Export" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "TriagePic" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Conf-LinkMy Settings" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Search+" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Internal Resources" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Web Services" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Expiry Queue" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "RSS Feed" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Report a Person 1" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Report a Person" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Edit a Person" for locale "en" found in Google PO file.
+2013-11-18 00:56:34 Translation for string "Inbound Email" for locale "en" found in Google PO file.

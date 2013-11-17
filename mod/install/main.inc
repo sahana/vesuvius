@@ -79,7 +79,7 @@ function shn_write_htaccess() {
 }
 
 /**
- * Function to write conf file
+ * Function to get database details for conf file
  */
 function shn_write_conf_init() {
     shn_form_fopen("conf", "install", array('enctype'=>'enctype="multipart/form-data"', 'req_message' => true));
@@ -92,6 +92,81 @@ function shn_write_conf_init() {
             shn_form_submit('Submit Configuration');
         shn_form_fsclose();
     shn_form_fclose();
+}
+
+/**
+ * Write the configuration file
+ */
+function shn_install_conf() {
+    global $global;
+    if ( shn_install_conf_validate() ) {
+        $db_params = $_SESSION['conf_fields'];
+        $db_name_string = '$conf[\'db_name\']';
+        $db_user_string = '$conf[\'db_user\']';
+        $db_pass_string = '$conf[\'db_pass\']';
+        $db_port_string = '$conf[\'db_port\']';
+        $db_host_string = '$conf[\'db_host\']';
+        $conf_file_contents = file_get_contents($global['approot'].'/conf/sahana.conf.example');
+
+        $conf_file_contents .= "\n# Database Configuration\n".
+            "$db_name_string = \"{$db_params['db_name']}\";\n".
+            "$db_host_string = \"{$db_params['db_host']}\";\n".
+            "$db_user_string = \"{$db_params['db_user']}\";\n".
+            "$db_pass_string = \"{$db_params['db_pass']}\";\n".
+            "$db_port_string = \"{$db_params['db_port']}\";\n";
+
+        if ( file_put_contents($global['approot'].'/conf/sahana.conf', $conf_file_contents) ) {
+            add_confirmation("Wrote sahana.conf successfully.");
+        }
+        //Include the ADOdb Library
+        require_once($global['approot'].'3rd/adodb/adodb.inc.php');
+        $db = new ADOConnection($db_params['db_host'], $db_params['db_user'], $db_params['pass'], $db_params['db_name']);
+        if ( $db->Connect() ) {
+
+        }
+        else {
+
+            add_error("Data import encountered an error.");
+            shn_write_conf_init();
+        }
+    }
+    else {
+        shn_write_conf_init();
+    }
+
+}
+
+function shn_install_conf_validate() {
+    $local_post = array();
+    $no_errors = true;
+    //clean the post -- trim them all
+    foreach($_POST as $k => $v) {
+        $v = trim($v);
+        if($v != '') {
+            $local_post[$k] = $v;
+        }
+    }
+    $_SESSION['conf_fields'] = $local_post;
+    if ( empty($local_post) ) {
+        $no_errors = false;
+        $error_text = "Please fill in all the fields.";
+    }
+    if ( empty($local_post['db_name']) ) {
+        $no_errors = false;
+        $error_text = "Please add a name for the Vesuvius database you created.";
+    }
+    if ( empty($local_post['db_user']) ) {
+        $no_errors = false;
+        $error_text = "Please add a username for the Vesuvius database you created.";
+    }
+    /*if ( empty($local_post['db_pass']) ) {
+        $no_errors = false;
+        $error_text = "Please add a password for the Vesuvius database you created.";
+    }*/
+    if ( !$no_errors ) {
+        add_error($error_text);
+    }
+    return $no_errors;
 }
 function shn_install_stream_init() {
 
