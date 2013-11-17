@@ -2,53 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="df46a06c-8452-4f7c-a471-c451a16e7930" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/goes_back_to_www_when_completed/README_FOR_INSTALLER" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/LICENSE" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/css/main.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/css/menu.css" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/Sahana_logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/Search_Button.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/agasti_logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/arrowDownGrey.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/arrowDownOrange.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/arrowUpGrey.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/arrowUpOrange.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/config.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/database.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/edit_button.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/error.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/favicon.ico" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/indicator.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/info.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/inst_completed.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/inst_current.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/inst_step.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/nyc_logo.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/ok.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/pk-icon-time.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/question.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/spinner.gif" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/warn.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/images/warning.png" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/install.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/lib/agasti_lib/Config/Config.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/lib/agasti_lib/Config/Htaccess.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/lib/agasti_lib/Yaml/Yaml.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/lib/agasti_lib/Yaml/YamlDumper.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/lib/agasti_lib/Yaml/YamlInline.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/lib/agasti_lib/Yaml/YamlParser.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/lib/agasti_lib/agasti.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/lib/agasti_lib/agasti2.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/lib/func.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/tmp_home_for_installer/install/lib/requirements.inc.php" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/www/install.php" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/theme/vesuvius/head.php" afterPath="$PROJECT_DIR$/www/theme/vesuvius/head.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/index.php" afterPath="$PROJECT_DIR$/www/index.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mod/install/main.inc" afterPath="$PROJECT_DIR$/mod/install/main.inc" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/sahana.conf.example" afterPath="$PROJECT_DIR$/conf/sahana.conf.example" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/translation_log.txt" afterPath="$PROJECT_DIR$/res/translation_log.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="vesuvius.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -98,10 +52,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sahana.conf.example" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="sahana.conf.example" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/conf/sahana.conf.example">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="82" column="40" selection-start="3145" selection-end="3145" vertical-scroll-proportion="0.0" vertical-offset="932" max-vertical-offset="1638">
+            <state line="30" column="26" selection-start="1359" selection-end="1359" vertical-scroll-proportion="0.28611898" vertical-offset="338" max-vertical-offset="1638">
               <folding />
             </state>
           </provider>
@@ -146,10 +100,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sahana.conf" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="sahana.conf" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/conf/sahana.conf">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="92" column="0" selection-start="3330" selection-end="3330" vertical-scroll-proportion="0.8470255" vertical-offset="1058" max-vertical-offset="1764">
+            <state line="73" column="0" selection-start="2837" selection-end="2837" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1764">
               <folding />
             </state>
           </provider>
@@ -214,10 +168,10 @@
         <option value="$PROJECT_DIR$/www/htaccess.example" />
         <option value="$PROJECT_DIR$/www/theme/vesuvius/footer.php" />
         <option value="$PROJECT_DIR$/mod/install/htaccess.xml" />
-        <option value="$PROJECT_DIR$/conf/sahana.conf.example" />
         <option value="$PROJECT_DIR$/www/theme/vesuvius/head.php" />
         <option value="$PROJECT_DIR$/www/index.php" />
         <option value="$PROJECT_DIR$/mod/install/main.inc" />
+        <option value="$PROJECT_DIR$/conf/sahana.conf.example" />
       </list>
     </option>
   </component>
@@ -628,13 +582,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conf/sahana.conf.example">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="40" selection-start="3145" selection-end="3145" vertical-scroll-proportion="0.0" vertical-offset="932" max-vertical-offset="1638">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/theme/vesuvius/head.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="83" column="100" selection-start="2994" selection-end="2994" vertical-scroll-proportion="-17.148148" vertical-offset="851" max-vertical-offset="1530">
@@ -688,7 +635,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/conf/sahana.conf">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="0" selection-start="3330" selection-end="3330" vertical-scroll-proportion="0.8470255" vertical-offset="1058" max-vertical-offset="1764">
+        <state line="73" column="0" selection-start="2837" selection-end="2837" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1764">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf/sahana.conf.example">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="26" selection-start="1359" selection-end="1359" vertical-scroll-proportion="0.28611898" vertical-offset="338" max-vertical-offset="1638">
           <folding />
         </state>
       </provider>
