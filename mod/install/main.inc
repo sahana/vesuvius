@@ -120,9 +120,14 @@ function shn_install_conf() {
         }
         //Include the ADOdb Library
         require_once($global['approot'].'3rd/adodb/adodb.inc.php');
-        $db = new ADOConnection($db_params['db_host'], $db_params['db_user'], $db_params['pass'], $db_params['db_name']);
-        if ( $db->Connect() ) {
-
+        $db = NewADOConnection('mysql');
+        if ( $db->Connect($db_params['db_host'], $db_params['db_user'], $db_params['pass'], $db_params['db_name']) ) {
+            if (!$db->Execute("LOAD DATA INFILE 'vesuviusStarterDb_v092.sql'")) {
+                add_error("Failed at data import.".$db->ErrorMsg());
+            }
+            else {
+                add_confirmation("Data import completed successfully.");
+            }
         }
         else {
 
