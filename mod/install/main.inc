@@ -122,7 +122,9 @@ function shn_install_conf() {
         require_once($global['approot'].'3rd/adodb/adodb.inc.php');
         $db = NewADOConnection('mysql');
         if ( $db->Connect($db_params['db_host'], $db_params['db_user'], $db_params['pass'], $db_params['db_name']) ) {
-            if (!$db->Execute("LOAD DATA INFILE 'vesuviusStarterDb_v092.sql'")) {
+            $sql = file_get_contents($global['approot'].'/backups/vesuviusStarterDb_v092.sql');
+            $sql = $db->Prepare($sql);
+            if (!$db->Execute($sql)) {
                 add_error("Failed at data import.".$db->ErrorMsg());
             }
             else {
