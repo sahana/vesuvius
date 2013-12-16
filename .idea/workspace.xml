@@ -2,8 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="df46a06c-8452-4f7c-a471-c451a16e7930" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/mod/install/vesuviusStarterDb_v092.sql" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/conf/sahana.conf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/www/.htaccess" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/www/index.php" afterPath="$PROJECT_DIR$/www/index.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mod/install/main.inc" afterPath="$PROJECT_DIR$/mod/install/main.inc" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/sahana.conf.example" afterPath="$PROJECT_DIR$/conf/sahana.conf.example" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/translation_log.txt" afterPath="$PROJECT_DIR$/res/translation_log.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -31,7 +34,7 @@
       <file leaf-file-name="index.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="444" column="37" selection-start="15356" selection-end="15356" vertical-scroll-proportion="4.0" vertical-offset="7902" max-vertical-offset="8568">
+            <state line="393" column="9" selection-start="13976" selection-end="13976" vertical-scroll-proportion="-6.5185184" vertical-offset="6700" max-vertical-offset="8568">
               <folding />
             </state>
           </provider>
@@ -49,35 +52,43 @@
       <file leaf-file-name="head.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/www/theme/vesuvius/head.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="83" column="100" selection-start="2994" selection-end="2994" vertical-scroll-proportion="0.0" vertical-offset="1494" max-vertical-offset="1710">
+            <state line="83" column="100" selection-start="2994" selection-end="2994" vertical-scroll-proportion="-18.037037" vertical-offset="827" max-vertical-offset="1530">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sahana.conf.example" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="sahana.conf.example" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/conf/sahana.conf.example">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="26" selection-start="1359" selection-end="1359" vertical-scroll-proportion="0.0" vertical-offset="338" max-vertical-offset="1638">
+            <state line="22" column="40" selection-start="1075" selection-end="1075" vertical-scroll-proportion="0.5609065" vertical-offset="0" max-vertical-offset="1638">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.inc" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="main.inc" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mod/install/main.inc">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="125" column="38" selection-start="5734" selection-end="5734" vertical-scroll-proportion="0.5945946" vertical-offset="1728" max-vertical-offset="4968">
+            <state line="129" column="111" selection-start="6142" selection-end="6142" vertical-scroll-proportion="-17.185184" vertical-offset="1732" max-vertical-offset="4950">
               <folding>
-                <marker date="1384805408025" expanded="true" signature="7226:7290" placeholder="..." />
-                <marker date="1384805408025" expanded="true" signature="7261:7290" placeholder="..." />
-                <marker date="1384805408025" expanded="true" signature="7398:7863" placeholder="..." />
-                <marker date="1384805408025" expanded="true" signature="7436:7552" placeholder="..." />
-                <marker date="1384805408025" expanded="true" signature="7473:7524" placeholder="..." />
-                <marker date="1384805408025" expanded="true" signature="7473:7494" placeholder="..." />
-                <marker date="1384805408025" expanded="true" signature="7473:7494" placeholder="..." />
-                <marker date="1384805408025" expanded="true" signature="7575:7640" placeholder="..." />
-                <marker date="1384805408025" expanded="false" signature="7592:7636" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="397:541" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7429:7493" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7464:7493" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7601:8066" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7639:7755" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7676:7727" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7676:7697" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7676:7697" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7695:7718" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7695:7718" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7695:7718" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7778:8066" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7778:7843" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7795:7839" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7841:8066" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7841:8066" placeholder="..." />
+                <marker date="1387203783259" expanded="true" signature="7841:8066" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -86,7 +97,7 @@
       <file leaf-file-name="adodb.inc.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/3rd/adodb/adodb.inc.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="2795" column="40" selection-start="81627" selection-end="81627" vertical-scroll-proportion="-8.222222" vertical-offset="49908" max-vertical-offset="79452">
+            <state line="2795" column="40" selection-start="81627" selection-end="81627" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="79632">
               <folding />
             </state>
           </provider>
@@ -95,7 +106,7 @@
       <file leaf-file-name="handler_db.inc" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/inc/handler_db.inc">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="26" selection-start="802" selection-end="802" vertical-scroll-proportion="-7.3333335" vertical-offset="0" max-vertical-offset="3906">
+            <state line="25" column="26" selection-start="802" selection-end="802" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="4158">
               <folding />
             </state>
           </provider>
@@ -105,15 +116,6 @@
         <entry file="file://$PROJECT_DIR$/inc/lib_form.inc">
           <provider selected="true" editor-type-id="text-editor">
             <state line="337" column="9" selection-start="8670" selection-end="8670" vertical-scroll-proportion="0.0" vertical-offset="6066" max-vertical-offset="18828">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.inc" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mod/rap/main.inc">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="253" column="9" selection-start="9046" selection-end="9046" vertical-scroll-proportion="0.0" vertical-offset="4554" max-vertical-offset="14580">
               <folding />
             </state>
           </provider>
@@ -182,7 +184,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -333,20 +334,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="inc" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vesuvius" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="vesuvius" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="conf" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -381,6 +368,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -454,10 +442,9 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32674572" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2568379" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23082055" sideWeight="0.6732543" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2048032" sideWeight="0.6732543" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
@@ -466,6 +453,7 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32674572" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -483,23 +471,9 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/mod/install/htaccess.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="17" selection-start="50" selection-end="50" vertical-scroll-proportion="0.0" vertical-offset="18" max-vertical-offset="2304">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/www/theme/vesuvius/header.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="74" column="53" selection-start="1978" selection-end="1978" vertical-scroll-proportion="0.0" vertical-offset="1332" max-vertical-offset="1602">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/.htaccess">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="918">
           <folding />
         </state>
       </provider>
@@ -513,16 +487,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mod/ha/main.inc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.16216215" vertical-offset="108" max-vertical-offset="1278">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.16216215" vertical-offset="108" max-vertical-offset="1278" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mod/ha/xajax.inc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="366" column="9" selection-start="15403" selection-end="15403" vertical-scroll-proportion="-2.6666667" vertical-offset="8184" max-vertical-offset="10278">
-          <folding />
-        </state>
+        <state line="366" column="9" selection-start="15403" selection-end="15403" vertical-scroll-proportion="-2.6666667" vertical-offset="8184" max-vertical-offset="10278" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mod/rap/main.inc">
@@ -534,67 +504,85 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/inc/lib_security/lib_auth.inc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="513" column="55" selection-start="12500" selection-end="12500" vertical-scroll-proportion="13.594595" vertical-offset="0" max-vertical-offset="25740">
-          <folding />
-        </state>
+        <state line="513" column="55" selection-start="12500" selection-end="12500" vertical-scroll-proportion="13.594595" vertical-offset="0" max-vertical-offset="25740" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/inc/handler_session.inc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="28" selection-start="952" selection-end="952" vertical-scroll-proportion="0.21621622" vertical-offset="108" max-vertical-offset="5148">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/theme/vesuvius/head.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="100" selection-start="2994" selection-end="2994" vertical-scroll-proportion="0.0" vertical-offset="1494" max-vertical-offset="1710">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/www/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="444" column="37" selection-start="15356" selection-end="15356" vertical-scroll-proportion="4.0" vertical-offset="7902" max-vertical-offset="8568">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conf/sahana.conf.example">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="26" selection-start="1359" selection-end="1359" vertical-scroll-proportion="0.0" vertical-offset="338" max-vertical-offset="1638">
-          <folding />
-        </state>
+        <state line="25" column="28" selection-start="952" selection-end="952" vertical-scroll-proportion="0.21621622" vertical-offset="108" max-vertical-offset="5148" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/inc/handler_db.inc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="26" selection-start="802" selection-end="802" vertical-scroll-proportion="-7.3333335" vertical-offset="0" max-vertical-offset="3906">
+        <state line="25" column="26" selection-start="802" selection-end="802" vertical-scroll-proportion="0.0" vertical-offset="450" max-vertical-offset="4158">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/3rd/adodb/adodb.inc.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="2795" column="40" selection-start="81627" selection-end="81627" vertical-scroll-proportion="-8.222222" vertical-offset="49908" max-vertical-offset="79452">
+        <state line="2795" column="40" selection-start="81627" selection-end="81627" vertical-scroll-proportion="0.0" vertical-offset="50310" max-vertical-offset="79632">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/theme/vesuvius/head.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="83" column="100" selection-start="2994" selection-end="2994" vertical-scroll-proportion="-18.037037" vertical-offset="827" max-vertical-offset="1530">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/htaccess.example">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1422">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mod/install/htaccess.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="2" column="17" selection-start="50" selection-end="50" vertical-scroll-proportion="0.0056657223" vertical-offset="32" max-vertical-offset="2304">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/www/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="393" column="9" selection-start="13976" selection-end="13976" vertical-scroll-proportion="-6.5185184" vertical-offset="6700" max-vertical-offset="8568">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/mod/install/main.inc">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="125" column="38" selection-start="5734" selection-end="5734" vertical-scroll-proportion="0.5945946" vertical-offset="1728" max-vertical-offset="4968">
+        <state line="129" column="111" selection-start="6142" selection-end="6142" vertical-scroll-proportion="-17.185184" vertical-offset="1732" max-vertical-offset="4950">
           <folding>
-            <marker date="1384805408025" expanded="true" signature="7226:7290" placeholder="..." />
-            <marker date="1384805408025" expanded="true" signature="7261:7290" placeholder="..." />
-            <marker date="1384805408025" expanded="true" signature="7398:7863" placeholder="..." />
-            <marker date="1384805408025" expanded="true" signature="7436:7552" placeholder="..." />
-            <marker date="1384805408025" expanded="true" signature="7473:7524" placeholder="..." />
-            <marker date="1384805408025" expanded="true" signature="7473:7494" placeholder="..." />
-            <marker date="1384805408025" expanded="true" signature="7473:7494" placeholder="..." />
-            <marker date="1384805408025" expanded="true" signature="7575:7640" placeholder="..." />
-            <marker date="1384805408025" expanded="false" signature="7592:7636" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="397:541" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7429:7493" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7464:7493" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7601:8066" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7639:7755" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7676:7727" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7676:7697" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7676:7697" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7695:7718" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7695:7718" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7695:7718" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7778:8066" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7778:7843" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7795:7839" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7841:8066" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7841:8066" placeholder="..." />
+            <marker date="1387203783259" expanded="true" signature="7841:8066" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf/sahana.conf.example">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="40" selection-start="1075" selection-end="1075" vertical-scroll-proportion="0.5609065" vertical-offset="0" max-vertical-offset="1638">
+          <folding />
         </state>
       </provider>
     </entry>

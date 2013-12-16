@@ -15,7 +15,8 @@
 function shn_install_default() {
 
 	global $global;
-	echo '<p>Installer under construction</p><br>';
+	echo '<p>Installer under construction. Please report any issues at
+	        <a href="https://github.com/ramdesh/vesuvius/issues">the Github page.</a></p><br>';
 
     shn_write_htaccess();
 
@@ -31,11 +32,10 @@ function shn_write_htaccess() {
     $htxml = simplexml_load_file($global['approot']."/mod/install/htaccess.xml");
 
     $file_contents = "AddType application/x-httpd-php .php .xml\n"
-                        ."ErrorDocument 404 index.php\n"
                         ."DirectoryIndex index.php\n"
                         ."RewriteEngine On\n"
                         ."RewriteBase ".$_SERVER['REQUEST_URI']."\n"
-                        ."RewriteCond %{REQUEST_FILENAME} -d [OR] RewriteCond %{REQUEST_FILENAME} -f\n"
+                        ."RewriteCond %{REQUEST_FILENAME} -d [OR] \nRewriteCond %{REQUEST_FILENAME} -f\n"
                         ."RewriteRule .* - [S=".$htxml->rulecount."]\n"
                         ."RewriteRule ^(person.[0-9]+)$ ?mod=eap&val=$1 [L]\n"
                         ."RewriteRule ^(about)$   ?mod=rez&page=-30 [L]\n"
@@ -118,22 +118,21 @@ function shn_install_conf() {
         if ( file_put_contents($global['approot'].'/conf/sahana.conf', $conf_file_contents) ) {
             add_confirmation("Wrote sahana.conf successfully.");
         }
-        //Include the ADOdb Library
-        require_once($global['approot'].'3rd/adodb/adodb.inc.php');
-        $db = NewADOConnection('mysql');
-        if ( $db->Connect($db_params['db_host'], $db_params['db_user'], $db_params['pass'], $db_params['db_name']) ) {
-            $sql = file_get_contents($global['approot'].'/backups/vesuviusStarterDb_v092.sql');
-            $sql = $db->Prepare($sql);
-            if (!$db->Execute($sql)) {
-                add_error("Failed at data import.".$db->ErrorMsg());
-            }
-            else {
-                add_confirmation("Data import completed successfully.");
-            }
+        if ( $db_params['db_pass'] == "" ) {
+            $mysql_import_command = "mysql -h {$db_params['db_host']} -u {$db_params['db_user']} {$db_params['db_name']} < {$global['approot']}backups/vesuviusStarterDb_v092.sql";
+        }
+        else {
+            $mysql_import_command = "mysql -h {$db_params['db_host']} -u {$db_params['db_user']} -p{$db_params['db_pass']} {$db_params['db_name']} < {$global['approot']}backups/vesuviusStarterDb_v092.sql";
+        }
+        exec($mysql_import_command, $output = array(), $exit_value);
+        if ( $exit_value == 0 ) {
+            add_confirmation("Data import completed successfully.");
+            echo '<p>Installation Complete. Now you can <a href="index.php">go to the Vesuvius main page.</a>';
+
         }
         else {
 
-            add_error("Data import encountered an error.");
+            add_error("Data import encountered an error: $mysql_import_command");
             shn_write_conf_init();
         }
     }
