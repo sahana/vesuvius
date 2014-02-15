@@ -9,6 +9,7 @@ vesuvius/version
 vesuvius/.externalToolBuilders
 vesuvius/mod/dpa/bin/*
 .idea
+.idea/*
 .htaccess
 www/.htaccess
 # Keep empty directories:
