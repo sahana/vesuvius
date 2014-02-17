@@ -24,18 +24,11 @@ $conf['base_uuid'] = "vesuvius.sahanafoundation.org/";
 #$conf['base_uuid'] = "ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/";
 
 # server uses https or http ~ some modules use this plus the base_uuid to form url's
-$conf['https'] = "https://";
-#$conf['https'] = "http://";
+$conf['https'] = "http://";
+#$conf['http'] = "http://";
 
 # Use this theme directory
-$conf['theme'] = "lpf3"; // vesuvius theme is in a state of disrepair... so use this theme instead for now!
-
-# Database Configuration
-$conf['db_name'] = "";
-$conf['db_host'] = "";
-$conf['db_port'] = "3306";
-$conf['db_user'] = "";
-$conf['db_pass'] = "";
+$conf['theme'] = "vesuvius"; // vesuvius theme is in a state of disrepair... so use this theme instead for now!
 
 # Database Type / Engine / Abstraction Layer / Audit Logging
 $conf['db_engine']          = "mysql";

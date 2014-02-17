@@ -32,16 +32,16 @@ function shn_theme_head() {
 
 <meta name="google-site-verification" content="Y2Ts00HnBQEr3M3KegrKRRAMVuQPejmqeqPKDsMGRGw" />
 
-<link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?php echo _t($global['theme']);?>/sahana.css" />
-<link rel="stylesheet" media="print" type="text/css" href="theme/<?php echo _t($global['theme']);?>/print.css" />
-<link rel="stylesheet" media="handheld" type="text/css" href="theme/<?php echo _t($global['theme']);?>/mobile.css" />
+<link rel="stylesheet" media="screen, projection" type="text/css" href="theme/<?php echo $global['theme'];?>/sahana.css" />
+<link rel="stylesheet" media="print" type="text/css" href="theme/<?php echo $global['theme'];?>/print.css" />
+<link rel="stylesheet" media="handheld" type="text/css" href="theme/<?php echo $global['theme'];?>/mobile.css" />
 <?
 //--- Provide Stylesheets to hack different versions of IEs' css ---//
 
 // IE6
 if (file_exists($global['approot']."www/theme/".$global['theme']."/ie6.css")) { ?>
 <!--[if IE 6]>
-<link rel="stylesheet" type="text/css" href="theme/<?php echo _t($global['theme']);?>/ie6.css" />
+<link rel="stylesheet" type="text/css" href="theme/<?php echo $global['theme'];?>/ie6.css" />
 <![endif]-->
 <?
 }
@@ -49,7 +49,7 @@ if (file_exists($global['approot']."www/theme/".$global['theme']."/ie6.css")) { 
 // IE7
 if (file_exists($global['approot']."www/theme/".$global['theme']."/ie7.css")) { ?>
 <!--[if IE 7]>
-<link rel="stylesheet" type="text/css" href="theme/<?php echo _t($global['theme']);?>/ie7.css" />
+<link rel="stylesheet" type="text/css" href="theme/<?php echo $global['theme'];?>/ie7.css" />
 <![endif]-->
 <?
 }
@@ -81,7 +81,7 @@ if (file_exists($global['approot']."www/theme/".$global['theme']."/ie9.css")) { 
 ?>
 
 <script type="text/javascript" src="res/js/vesuvius.js"></script>
-<script type="text/javascript" src="index.php?stream=text&amp;mod=xst&amp;act=help"></script>
+<!--<script type="text/javascript" src="index.php?stream=text&amp;mod=xst&amp;act=help"></script>-->
 
 <?php
 }
