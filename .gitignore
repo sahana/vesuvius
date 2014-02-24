@@ -6,3 +6,6 @@ vesuvius/www/.htaccess
 .buildpath
 vesuvius/time
 vesuvius/version
+
+# Keep empty directories:
+!*/.git*
