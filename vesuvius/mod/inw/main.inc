@@ -55,39 +55,38 @@ function shn_inw_default() {
 			<input type="text" id="shortName" style="display:none" value="<?= $_REQUEST["shortname"] ?>" />
 			<input type="hidden" id="searchMode" value="<?= $conf["enable_solr_for_search"] ? "solr" : "sql" ?>" />
 			<div id="searchOptions" style="display:none;">
-				<div class="searchOptionsHeader">Search Options</div>
+				<div class="searchOptionsHeader"><?php echo _t('SearchForAPerson-SearchOptions-Header|Search Options'); ?></div>
 				<div style="float:left;">
 					<div id="sortBy" style="float:right;margin-right: 4px;width:160px; text-align: right;">
-					<b>Sort By</b>
-						<img id="sortOrderIcon" style="width:10px; height:10px; <?= $conf["enable_solr_for_search"] ? "display: none" : "" ?>" src="res/img/desc.png" title="Descending (click for ascending)" alt="descending sort order, click for ascending"/>
+					<b><?php echo _t('SearchForAPerson-SortBy-Text|Sort By'); ?></b>
+						<img id="sortOrderIcon" style="width:10px; height:10px; <?= $conf["enable_solr_for_search"] ? "display: none" : "" ?>" src="res/img/desc.png" title="<?php echo _t('SearchForAPerson-SortBy-Message|Descending (click for ascending)'); ?>" alt="<?php echo _t('SearchForAPerson-SortBy-Message|descending sort order, click for ascending'); ?>"/>
 						<select id="selectSort" onchange="Utils.sortBy( this )">
 							<? if ( $conf["enable_solr_for_search"] ) { ?>
-								<option value="">Relevance</option>
+								<option value=""><?php echo _t('SearchForAPerson-SortByOption-Select|Relevance'); ?></option>
 							<? } ?>
-							<option value="updated">Time</option>
-							<option value="full_name">Name</option>
-							<option value="years_old">Age</option>
-							<option value="opt_status">Status</option>
+							<option value="updated"><?php echo _t('SearchForAPerson-SortByOption-Select|Time'); ?></option>
+							<option value="full_name"><?php echo _t('SearchForAPerson-SortByOption-Select|Name'); ?></option>
+							<option value="years_old"><?php echo _t('SearchForAPerson-SortByOption-Select|Age'); ?></option>
+							<option value="opt_status"><?php echo _t('SearchForAPerson-SortByOption-Select|Status'); ?></option>
 							<? if ( preg_match('(cmax|shield)',$_REQUEST["shortname"])) { ?>
-							        <option value="mass_casualty_id">Mass Casualty ID</option>
+							        <option value="mass_casualty_id"><?php echo _t('SearchForAPerson-SortByOption-Select|Mass Casualty ID'); ?></option>
 							<? } ?>
 						</select>
 					</div>
 					<div style="clear:both;"></div>
 					<div id="displayModeWrapper" style="float:right;margin-right: 4px; margin-top:5px;">
-						<b>Mode</b>
+						<b><?php echo _t('SearchForAPerson-Mode-Text|Mode'); ?></b>
 						<select id="displayMode" onchange="Utils.displayMode(this.value)">
-							<option value="interactive">Interactive</option>
-							<option value="handsFree">Hands Free</option>
-							<option value="fullScreen">Full Screen</option>
+							<option value="interactive"><?php echo _t('SearchForAPerson-ModeOptions-Select|Interactive'); ?></option>
+							<option value="handsFree"><?php echo _t('SearchForAPerson-ModeOptions-Select|Hands Free'); ?></option>
+							<option value="fullScreen"><?php echo _t('SearchForAPerson-ModeOptions-Select|Full Screen'); ?></option>
 						</select>
 					</div>
 					<div style="clear:both;"></div>
 					<div id="scrollControls">
-						<img src="res/img/play_up.png" title="Play" onmousedown="this.src='res/img/play_down.png'" onmouseup="ScrollView.play();this.src='res/img/play_up.png'" alt="play"/>
-						<img src="res/img/pause_up.png" title="Pause" onmousedown="this.src='res/img/pause_down.png'" onmouseup="ScrollView.pause();this.src='res/img/pause_up.png'" alt="pause"/>
-						<img src="res/img/faster_up.png" title="Scroll faster" onmousedown="this.src='res/img/faster_down.png'" onmouseup="ScrollView.increaseSpeed();this.src='res/img/faster_up.png'" alt="faster"/>
-						<img src="res/img/slower_up.png" title="Scroll slower" onmousedown="this.src='res/img/slower_down.png'" onmouseup="ScrollView.decreaseSpeed();this.src='res/img/slower_up.png'" alt="slower"/>
+						<img src="res/img/play_up.png" title="<?php echo _t('SearchForAPerson-SearchOptionsImage-Text|Play'); ?>" onmousedown="this.src='res/img/play_down.png'" onmouseup="ScrollView.play();this.src='res/img/play_up.png'" alt="<?php echo _t('SearchForAPerson-SearchOptionsImage-Text|play'); ?>"/>
+						<img src="res/img/pause_up.png" title="<?php echo _t('SearchForAPerson-SearchOptionsImage-Text|Pause'); ?>" onmousedown="this.src='res/img/pause_down.png'" onmouseup="ScrollView.pause();this.src='res/img/pause_up.png'" alt="<?php echo _t('SearchForAPerson-SearchOptionsImage-Text|pause'); ?>"/>
+						<img src="res/img/faster_up.png" title="<?php echo _t('SearchForAPerson-SearchOptionsImage-Text|Scroll faster'); ?>" onmousedown="this.src='res/img/faster_down.png'" onmouseup="ScrollView.increaseSpeed();this.src='res/img/faster_up.png'" alt="<?php echo _t('SearchForAPerson-SearchOptionsImage-Text|slower'); ?>"/>
 						<div style="height: 20px;" id="speedDisplayWrapper">
 							<div style="display: none;" id="speedDisplay">
 								0
@@ -98,7 +97,7 @@ function shn_inw_default() {
 					<br/>
 					<div id="filtersWrapper">
 						<div id="filtersBox" style="display: block;">
-							<div class="searchOptionsHeader">Status</div>
+							<div class="searchOptionsHeader"><?php echo _t('SearchForAPerson-Status-Text|Status'); ?></div>
 							<input type="checkbox" id="checkMissing" name="checkMissing" checked onclick="Utils.formSearch()" /><label for="checkMissing" id="missing" class="bold"><? echo MISSING; ?></label>
 							<br />
 							<input type="checkbox" id="checkAliveWell" name="checkAliveWell" checked onclick="Utils.formSearch()" /><label for="checkAliveWell" id="alive" class="bold"><? echo ALIVE_AND_WELL; ?></label>
@@ -116,22 +115,22 @@ function shn_inw_default() {
 								<div class="searchOptionsHeader"><? echo GENDER; ?> </div>
 								<input type="checkbox" id="checkSexMale"    checked onclick="Utils.formSearch()" /><label for="checkSexMale" id="male"><? echo MALE; ?></label><br />
 								<input type="checkbox" id="checkSexFemale"  checked onclick="Utils.formSearch()" /><label for="checkSexFemale" id="female"><? echo FEMALE; ?></label><br />
-								<input type="checkbox" id="checkSexComplex" checked onclick="Utils.formSearch()" /><label for="checkSexComplex" id="complex">Complex</label><br />
+								<input type="checkbox" id="checkSexComplex" checked onclick="Utils.formSearch()" /><label for="checkSexComplex" id="complex"><?= _t('SearchForAPerson-GenderOptions-Text|Complex') ?></label><br />
 								<input type="checkbox" id="checkSexOther"   checked onclick="Utils.formSearch()" /><label for="checkSexOther" id="otherGender"><? echo OTHER_UNKNOWN; ?></label><br />
 							</div>
 							<br />
 							<div id="age">
 								<div class="searchOptionsHeader"><? echo AGE; ?></div>
-								<input type="checkbox" id="checkAgeChild"   checked onclick="Utils.formSearch()" /><label for="checkAgeChild" id="child">Youth (0-17)</label><br />
-								<input type="checkbox" id="checkAgeYouth"   checked onclick="Utils.formSearch()" /><label for="checkAgeYouth" id="adult">Adult (18+)</label><br />
+								<input type="checkbox" id="checkAgeChild"   checked onclick="Utils.formSearch()" /><label for="checkAgeChild" id="child"><?php echo _t('SearchForAPerson-AgeOptions-Text|Youth (0-17)'); ?></label><br />
+								<input type="checkbox" id="checkAgeYouth"   checked onclick="Utils.formSearch()" /><label for="checkAgeYouth" id="adult"><?php echo _t('SearchForAPerson-AgeOptions-Text|Adult (18+)'); ?></label><br />
 								<input type="checkbox" id="checkAgeUnknown" checked onclick="Utils.formSearch()" /><label for="checkAgeUnknown" id="otherAge"><? echo UNKNOWN; ?></label><br />
 							</div>
 							<br />
 							<div id="hospital">
-								<div class="searchOptionsHeader">Source</div>
-								<input type="checkbox" id="checkSuburban"   checked onclick="Utils.formSearch()" /><label for="checkSuburban" id="suburban">Suburban Hospital</label><br />
-								<input type="checkbox" id="checkNNMC"   checked onclick="Utils.formSearch()" /><label for="checkNNMC" id="nnmc">Navy Medical Center</label><br />
-								<input type="checkbox" id="checkOtherHosp"   checked onclick="Utils.formSearch()" /><label for="checkOtherHospital" id="otherHospital">Public/Other</label><br />
+								<div class="searchOptionsHeader"><?php echo _t('SearchForAPerson-Source-Text|Source'); ?></div>
+								<input type="checkbox" id="checkSuburban"   checked onclick="Utils.formSearch()" /><label for="checkSuburban" id="suburban"><?php echo _t('SearchForAPerson-SourceOptions-Text|Suburban Hospital'); ?></label><br />
+								<input type="checkbox" id="checkNNMC"   checked onclick="Utils.formSearch()" /><label for="checkNNMC" id="nnmc"><?php echo _t('SearchForAPerson-SourceOptions-Text|Navy Medical Center'); ?></label><br />
+								<input type="checkbox" id="checkOtherHosp"   checked onclick="Utils.formSearch()" /><label for="checkOtherHospital" id="otherHospital"><?php echo _t('SearchForAPerson-SourceOptions-Text|Public/Other'); ?></label><br />
 							</div>
 						</div>
 					</div>
@@ -141,9 +140,9 @@ function shn_inw_default() {
 			<form action="javascript:Utils.formSearch()" id="searchForm">
 				<input type="textbox" autocomplete="off" value="Enter a name..." id="searchBox" x-webkit-speech="" x-webkit-grammar="builtin:search"/>
 				<div id="searchButtonWrapper" style="float:left">
-					<input type="submit" value="Search" id="buttonSearch" class="styleTehButton"/>
-					<input type="button" value="Clear"  id="buttonClear" class="styleTehButton" onclick="Utils.clear()"/>
-					<input type="button" style="margin-left: 20px; display: none;" value="Help"  id="buttonHelp" class="styleTehButton" onclick="Utils.showHelp()"/>
+					<input type="submit" value="<?php echo _t('SearchForAPerson-SearchForm-Button|Search'); ?>" id="buttonSearch" class="styleTehButton"/>
+					<input type="button" value="<?php echo _t('SearchForAPerson-SearchForm-Button|Clear'); ?>"  id="buttonClear" class="styleTehButton" onclick="Utils.clear()"/>
+					<input type="button" style="margin-left: 20px; display: none;" value="<?php echo _t('SearchForAPerson-SearchForm-Button|Help'); ?>"  id="buttonHelp" class="styleTehButton" onclick="Utils.showHelp()"/>
 				</div>
 				<div style="clear:both;"></div>
 				<div id="foundLabel" style="float:left;font-size:.85em;display:none;margin-top: 2px;">
@@ -156,13 +155,13 @@ function shn_inw_default() {
 					<span style="color: black"> | </span> There are new or updated records in the database, the results will be automatically refreshed in 1 minute.
 				</div>
 				<span id="printLink" style="display: none;float: right;margin-right:15px;margin-top:0px;">
-					<a href="#" onclick="Utils.printSet()">Print Results Page</a>
+					<a href="#" onclick="Utils.printSet()"><?php echo _t('SearchForAPerson-Print-Link|Print Results Page'); ?></a>
 				</span>
 				<div style="clear:both;"></div>
 			</form>
 			<br />
 		<div id="perPageWrapper" style="display:none;float:right; margin-right:15px;">
-			<label for="perPage">Results Per Page -</label>
+			<label for="perPage"><?php echo _t('SearchForAPerson-ResultsPerPage-Text|Results Per Page'); ?> -</label>
 			<select id="perPage" onchange="Globals.currPage = 1; Globals.perPage = this.value; searchSubset()">
 				<option value="25">25</option>
 				<option value="50">50</option>
@@ -173,19 +172,19 @@ function shn_inw_default() {
 		<div style="clear:both;" id="beforeScrollingContent"></div>
 		<div id="scrolling_content">
 			<ul>
-			  <li>Enter "unknown" to search records without names.</li>
-			  <li>Leave the box blank to browse all records.</li>
-			  <li>Use * as a wildcard (for example: "Cath*" will find "Catherine").</li>
-			  <li>Search is case-insensitive.</li>
+			  <li><?php echo _t('SearchForAPerson-SearchForm-Message|Enter "unknown" to search records without names.'); ?></li>
+			  <li><?php echo _t('SearchForAPerson-SearchForm-Message|Leave the box blank to browse all records.'); ?></li>
+			  <li><?php echo _t('SearchForAPerson-SearchForm-Message|Use * as a wildcard (for example: "Cath*" will find "Catherine").'); ?></li>
+			  <li><?php echo _t('SearchForAPerson-SearchForm-Message|Search is case-insensitive.'); ?></li>
 			</ul>
 
 		</div>
 		<div id="pager2" style="display:none;float:left;margin-right:25px;margin-top:5px;"></div>
 		<div id="detailsPane">
-			<div id="dt_eapLink" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline">See more information about this person (full record)</a></div>
-			<div id="close" onclick="Utils.closeDetail();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Close</a></div>
-			<div id="dt_print" onclick="Utils.printDetail();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Print</a></div>
-			<div id="dt_notesTab" onclick="Utils.showNotes();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Notes</a></div>
+			<div id="dt_eapLink" onclick="Utils.closeDetail();"><a href="#" style="color:#6694E3; text-decoration: underline"><?php echo _t('SearchForAPerson-DetailsPane-Link|See more information about this person (full record)'); ?></a></div>
+			<div id="close" onclick="Utils.closeDetail();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline"><?php echo _t('SearchForAPerson-DetailsPane-Link|Close'); ?></a></div>
+			<div id="dt_print" onclick="Utils.printDetail();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline"><?php echo _t('SearchForAPerson-DetailsPane-Link|Print'); ?></a></div>
+			<div id="dt_notesTab" onclick="Utils.showNotes();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline"><?php echo _t('SearchForAPerson-DetailsPane-Link|Notes'); ?></a></div>
 			<!--div id="showMap" onclick="Utils.showMap();"><a href="#" style="color:#6694E3; text-decoration: underline">Map</a></div-->
 			<div id="dt_image">
 				<!--span id="caption">caption here</span-->
@@ -194,33 +193,33 @@ function shn_inw_default() {
 			<div id="detailInfo" style="text-align:left;float:left;margin-top:5px;margin-left:20px; width:300px; position:relative; border: solid 0px #CCC;">
 				<!--label for="dt_uuid">ID</label>
 				<div id="dt_uuid" style="font-weight:normal;"></div-->
-				<label for="dt_fullName">Name</label>
+				<label for="dt_fullName"><?php echo _t('SearchForAPerson-DetailInfo-Text|Name'); ?></label>
 				<div id="dt_fullName" style="font-weight:normal;"></div>
-				<label for="dt_age">Age</label>
+				<label for="dt_age"><?php echo _t('SearchForAPerson-DetailInfo-Text|Age'); ?></label>
 				<div id="dt_age" style="font-weight:normal;"></div>
-				<label for="dt_gender">Gender </label>
+				<label for="dt_gender"><?php echo _t('SearchForAPerson-DetailInfo-Text|Gender'); ?> </label>
 				<div id="dt_gender" style="font-weight:normal;"></div>
-				<label for="dt_status">Status </label>
+				<label for="dt_status"><?php echo _t('SearchForAPerson-DetailInfo-Text|Status'); ?> </label>
 				<div id="dt_status" style="font-weight:normal;"></div>
-				<label for="dt_statusSahanaUpdated">When Reported</label>
+				<label for="dt_statusSahanaUpdated"><?php echo _t('SearchForAPerson-DetailInfo-Text|When Reported'); ?></label>
 				<div id="dt_statusSahanaUpdated" style="font-weight:normal;"></div>
-				<label for="dt_location">Last Known Location</label>
+				<label for="dt_location"><?php echo _t('SearchForAPerson-DetailInfo-Text|Last Known Location'); ?></label>
 				<div id="dt_location" style="font-weight:normal;"></div>
-				<label for="dt_comments">Comments</label>
+				<label for="dt_comments"><?php echo _t('SearchForAPerson-DetailInfo-Text|Comments'); ?></label>
 				<div id="dt_comments" style="font-weight: normal; height: 50px; overflow-y: auto;"></div>
 				<!--label id="dt_notes_label" for="dt_notes" style="display:none;">Note Contents</label-->
 				<div id="dt_notes"></div>
 			</div>
 			<div id="dt_hospitalIcon" ></div>
-			<div id="map_canvas" class="map">Loading...</div>
+			<div id="map_canvas" class="map"><?php echo _t('SearchForAPerson-Loading-Text|Loading'); ?>...</div>
 			<div style="clear:both;"></div>
 		</div>
 		<div id="exitFullScreen"></div>
-		<div id="exitFullScreenIpad" onclick="ScrollView.exitFullScreen()">Tap here to exit...</div>
+		<div id="exitFullScreenIpad" onclick="ScrollView.exitFullScreen()"><?php echo _t('SearchForAPerson-Exit-Text|Tap here to exit'); ?>...</div>
 		<div id="glass" onclick="Utils.closePopup();">&nbsp;</div>
 
 		<div id="helpPane">
-			<div id="close" onclick="Utils.closeHelp();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline">Close</a></div>
+			<div id="close" onclick="Utils.closeHelp();"><a href="javascript:void(0)" style="color:#6694E3; text-decoration: underline"><?php echo _t('SearchForAPerson-Close-Text|Close'); ?></a></div>
 			<div id="helpInfo" style="text-align:left;float:left;margin-top:35px;margin-left:20px; position:relative; border: solid 0px #CCC;">
 			</div>
 			<div style="clear:both;"></div>
