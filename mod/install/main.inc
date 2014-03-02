@@ -1,4 +1,4 @@
-<?php
+<?
 /**
  * @name         Installer
  * @version      1
