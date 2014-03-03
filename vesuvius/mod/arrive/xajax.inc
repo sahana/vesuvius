@@ -18,10 +18,10 @@ global $global;
 $global['xajax_functions'] = array();
 
 // publicly register accessible xajax funtions
-array_push($global['xajax_functions'], 'arrive_append_log');
-array_push($global['xajax_functions'], 'arrive_fetch_last_updated');
-array_push($global['xajax_functions'], 'arrive_show_list');
-array_push($global['xajax_functions'], 'arrive_add_spacer');
+$global['xajax_functions'][] = 'arrive_append_log';
+$global['xajax_functions'][] = 'arrive_fetch_last_updated';
+$global['xajax_functions'][] = 'arrive_show_list';
+$global['xajax_functions'][] = 'arrive_add_spacer';
 
 
 // adds a message to the log div @ tail

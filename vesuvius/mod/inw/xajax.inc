@@ -21,11 +21,11 @@ require_once($global['approot'].'/mod/inw/SearchDB.php');
 // publicly register accessible xajax funtions
 $global['xajax_functions'] = array();
 
-array_push($global['xajax_functions'],'inw_getData');
-array_push($global['xajax_functions'],'inw_checkForChanges');
-array_push($global['xajax_functions'],'inw_hasNextPage');
-array_push($global['xajax_functions'],'inw_getNotes');
-array_push($global['xajax_functions'],'inw_getAllCount');
+$global['xajax_functions'][] = 'inw_getData';
+$global['xajax_functions'][] = 'inw_checkForChanges';
+$global['xajax_functions'][] = 'inw_hasNextPage';
+$global['xajax_functions'][] = 'inw_getNotes';
+$global['xajax_functions'][] = 'inw_getAllCount';
 
 function inw_getNotes($uuid) {
 	global $global;
