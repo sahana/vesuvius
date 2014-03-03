@@ -14,3 +14,5 @@ vesuvius/mod/dpa/bin/*
 www/.htaccess
 # Keep empty directories:
 !*/.git*
+conf/sahana.conf
+sahana.conf
