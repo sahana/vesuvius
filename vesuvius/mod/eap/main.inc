@@ -602,8 +602,8 @@ function shn_eap_edit() {
 	}
 
 	// make goo.gl short url
-	$googl = new goo_gl(makePageUrl());
-	$global['googl'] = $googl->result();
+	$googl = new googlUrl(makePageUrl());
+	$global['googl'] = $googl->short();
 
 	$debug = false;
 	$debugParam = "";
