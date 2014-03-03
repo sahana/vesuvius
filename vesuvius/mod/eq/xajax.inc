@@ -17,15 +17,15 @@ global $global;
 $global['xajax_functions'] = array();
 
 // publicly register accessible xajax funtions
-array_push($global['xajax_functions'],'em_append_log');
-array_push($global['xajax_functions'],'em_prepend_log');
-array_push($global['xajax_functions'],'em_show_message');
-array_push($global['xajax_functions'],'em_show_events');
-array_push($global['xajax_functions'],'em_perform_edit');
-array_push($global['xajax_functions'],'em_perform_delete');
-array_push($global['xajax_functions'],'em_perform_insert');
-array_push($global['xajax_functions'],'em_perform_save');
-array_push($global['xajax_functions'],'em_perform_help');
+$global['xajax_functions'][] = 'em_append_log';
+$global['xajax_functions'][] = 'em_prepend_log';
+$global['xajax_functions'][] = 'em_show_message';
+$global['xajax_functions'][] = 'em_show_events';
+$global['xajax_functions'][] = 'em_perform_edit';
+$global['xajax_functions'][] = 'em_perform_delete';
+$global['xajax_functions'][] = 'em_perform_insert';
+$global['xajax_functions'][] = 'em_perform_save';
+$global['xajax_functions'][] = 'em_perform_help';
 
 // adds a message to the log div @ tail
 function em_append_log($message = "no message specified?") {

@@ -18,20 +18,20 @@ require_once($global['approot'].'/mod/rez/handler_locale.inc');
 $global['xajax_functions'] = array();
 
 // publicly register accessible xajax funtions
-array_push($global['xajax_functions'],'rez_append_log');
-array_push($global['xajax_functions'],'rez_prepend_log');
-array_push($global['xajax_functions'],'rez_show_message');
-array_push($global['xajax_functions'],'rez_show_pages');
-array_push($global['xajax_functions'],'rez_show_help');
-array_push($global['xajax_functions'],'rez_perform_edit');
-array_push($global['xajax_functions'],'rez_perform_delete');
-array_push($global['xajax_functions'],'rez_perform_translate');
-array_push($global['xajax_functions'],'rez_perform_insert');
-array_push($global['xajax_functions'],'rez_perform_save');
-array_push($global['xajax_functions'],'rez_perform_move_up');
-array_push($global['xajax_functions'],'rez_perform_move_down');
-array_push($global['xajax_functions'],'rez_perform_change_visibility');
-array_push($global['xajax_functions'],'rez_perform_change_locale');
+$global['xajax_functions'][] = 'rez_append_log';
+$global['xajax_functions'][] = 'rez_prepend_log';
+$global['xajax_functions'][] = 'rez_show_message';
+$global['xajax_functions'][] = 'rez_show_pages';
+$global['xajax_functions'][] = 'rez_show_help';
+$global['xajax_functions'][] = 'rez_perform_edit';
+$global['xajax_functions'][] = 'rez_perform_delete';
+$global['xajax_functions'][] = 'rez_perform_translate';
+$global['xajax_functions'][] = 'rez_perform_insert';
+$global['xajax_functions'][] = 'rez_perform_save';
+$global['xajax_functions'][] = 'rez_perform_move_up';
+$global['xajax_functions'][] = 'rez_perform_move_down';
+$global['xajax_functions'][] = 'rez_perform_change_visibility';
+$global['xajax_functions'][] = 'rez_perform_change_locale';
 
 //Initialize locale array
 global $global;

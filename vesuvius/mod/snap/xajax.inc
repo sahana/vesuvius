@@ -17,15 +17,15 @@ global $global;
 $global['xajax_functions'] = array();
 
 // publicly register accessible xajax funtions
-array_push($global['xajax_functions'],'snap_dim');
-array_push($global['xajax_functions'],'snap_append_log');
-array_push($global['xajax_functions'],'snap_prepend_log');
-array_push($global['xajax_functions'],'snap_show_message');
-array_push($global['xajax_functions'],'snap_show_backups');
-array_push($global['xajax_functions'],'snap_perform_backup');
-array_push($global['xajax_functions'],'snap_perform_restore');
-array_push($global['xajax_functions'],'snap_perform_delete');
-array_push($global['xajax_functions'],'snap_perform_rename');
+$global['xajax_functions'][] = 'snap_dim';
+$global['xajax_functions'][] = 'snap_append_log';
+$global['xajax_functions'][] = 'snap_prepend_log';
+$global['xajax_functions'][] = 'snap_show_message';
+$global['xajax_functions'][] = 'snap_show_backups';
+$global['xajax_functions'][] = 'snap_perform_backup';
+$global['xajax_functions'][] = 'snap_perform_restore';
+$global['xajax_functions'][] = 'snap_perform_delete';
+$global['xajax_functions'][] = 'snap_perform_rename';
 
 
 // dims the snapshotDiv while an action is being performed

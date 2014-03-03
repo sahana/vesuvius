@@ -19,15 +19,15 @@ global $global;
 $global['xajax_functions'] = array();
 
 // publicly register accessible xajax funtions
-array_push($global['xajax_functions'],'ha_append_log');
-array_push($global['xajax_functions'],'ha_prepend_log');
-array_push($global['xajax_functions'],'ha_show_message');
-array_push($global['xajax_functions'],'ha_show_hospitals');
-array_push($global['xajax_functions'],'ha_perform_edit');
-array_push($global['xajax_functions'],'ha_perform_delete');
-array_push($global['xajax_functions'],'ha_perform_insert');
-array_push($global['xajax_functions'],'ha_perform_save');
-array_push($global['xajax_functions'],'ha_perform_help');
+$global['xajax_functions'][] = 'ha_append_log';
+$global['xajax_functions'][] = 'ha_prepend_log';
+$global['xajax_functions'][] = 'ha_show_message';
+$global['xajax_functions'][] = 'ha_show_hospitals';
+$global['xajax_functions'][] = 'ha_perform_edit';
+$global['xajax_functions'][] = 'ha_perform_delete';
+$global['xajax_functions'][] = 'ha_perform_insert';
+$global['xajax_functions'][] = 'ha_perform_save';
+$global['xajax_functions'][] = 'ha_perform_help';
 
 // adds a message to the log div @ tail
 function ha_append_log($message = "no message specified?") {
