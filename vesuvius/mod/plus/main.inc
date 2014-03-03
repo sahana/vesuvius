@@ -146,7 +146,7 @@ function shn_plus_reported() {
 		$count++;
 	}
 	if($count==0) {
-		echo "<tr><td colspan=3 class=\"odder\">No People Rported Yet!</td></tr>";
+		echo "<tr><td colspan=3 class=\"odder\">No People Reported Yet!</td></tr>";
 	}
 	echo "</table>";
 	echo "</fieldset></form></div>";
