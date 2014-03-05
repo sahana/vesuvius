@@ -1570,5 +1570,10 @@ div.shr-bookmarks{margin:20px 0;clear:both !important}div.shr-bookmarks-expand{h
 	height: 200px; /*must have*/
 }
 
+div#container div#wrapper.clearfix div#content div div#submit_confirmation.confirmation {
+	background: url("img/dialog-confirmation.png") no-repeat scroll 20px 10px #E5FFE5;
+}
 
-
+div#container div#wrapper.clearfix div#content div div.error {
+	background: url(img/dialog-error.png) #FFE5E5 no-repeat 20px 10px;
+}
