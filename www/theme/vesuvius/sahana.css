@@ -1571,9 +1571,13 @@ div.shr-bookmarks{margin:20px 0;clear:both !important}div.shr-bookmarks-expand{h
 }
 
 div#container div#wrapper.clearfix div#content div div#submit_confirmation.confirmation {
-	background: url("img/dialog-confirmation.png") no-repeat scroll 20px 10px #E5FFE5;
+	background: url("img/dialog-confirmation.png") no-repeat scroll 20px 50% #E5FFE5;
 }
 
 div#container div#wrapper.clearfix div#content div div.error {
-	background: url(img/dialog-error.png) #FFE5E5 no-repeat 20px 10px;
+	background: url(img/dialog-error.png) #FFE5E5 no-repeat 20px 50%;
+}
+
+div#container div#wrapper.clearfix div#content.clearfix div#errorMessage.error {
+        background: url("img/dialog-error.png") no-repeat scroll 20px 50% #FFE5E5;
 }
