@@ -14,13 +14,41 @@
  */
 function shn_install_default() {
 
-	global $global;
-	echo '<p>Installer under construction. Please report any issues at
-	        <a href="https://github.com/ramdesh/vesuvius/issues">the Github page.</a></p><br>';
+    global $global;
+    echo '<p>Installer under construction. Please report any issues at
+            <a href="https://github.com/ramdesh/vesuvius/issues">the Github page.</a></p><br>';
+    
+    $error = shn_system_error_check();
+     if (!$error){
+         shn_write_htaccess();
+         shn_write_conf_init();
+     }
+}
 
-    shn_write_htaccess();
-
-    shn_write_conf_init();
+/**
+ * check if system is configured to continue installation
+ * @todo: check for version compatibility of php, mysql, etc..
+ */
+function shn_system_error_check(){
+    global $global;
+    $error = false;
+    if(!is_writable($global['approot'] . '/conf')){
+        add_error("no write access to \" /conf \" directory");
+        $error = true;
+    } 
+    if (!is_writable($global['approot'] . '/www')){
+        add_error("no write access to \" /www \" directory");
+        $error = true;
+    } 
+    if ($error){
+        shn_form_fopen2("", null, false);
+            shn_form_fsopen("System Configurations");
+                echo "Please modify your system according to the errors above and click recheck to continue installation<br/><br/>";
+                shn_form_submit('Recheck');
+            shn_form_fsclose();
+        shn_form_fclose();
+    }
+    return $error;
 }
 
 /**
@@ -267,10 +295,3 @@ function _shn_text_display_errors() {
     }
 
 }
-
-
-
-
-
-
-
