@@ -86,6 +86,7 @@ function shn_write_conf_init() {
         shn_form_fsopen('Database details');
             shn_form_text('Database Host', 'db_host', null, array('value'=>'localhost', 'help' => 'Your database server\'s host.', 'req' => true));
             shn_form_text('Database port', 'db_port', null, array('value'=>'3306', 'help' => 'Your database server\'s port.', 'req' => true));
+            shn_form_radio(array('Create New', 'Use Existing'), '', 'db_preference', null, null);
             shn_form_text('Database name', 'db_name', null, array('help' => 'The name of the database you\'ll be using for Vesuvius', 'req' => true));
             shn_form_text('Database username', 'db_user', null, array('help' => 'Database username', 'req' => true));
             shn_form_password('Database password', 'db_pass', null, array('help' => 'The password for the database user you have specified.'));
@@ -118,25 +119,91 @@ function shn_install_conf() {
         if ( file_put_contents($global['approot'].'/conf/sahana.conf', $conf_file_contents) ) {
             add_confirmation("Wrote sahana.conf successfully.");
         }
-        if ( $db_params['db_pass'] == "" ) {
-            $mysql_import_command = "mysql -h {$db_params['db_host']} -u {$db_params['db_user']} {$db_params['db_name']} < {$global['approot']}backups/vesuviusStarterDb_v092.sql";
+        
+        if ($db_params['db_preference'] == 0) {
+            if (shn_create_database($db_params)) {
+                shn_import_data($db_params);
+            }
+        } else {
+            shn_import_data($db_params);
         }
-        else {
-            $mysql_import_command = "mysql -h {$db_params['db_host']} -u {$db_params['db_user']} -p{$db_params['db_pass']} {$db_params['db_name']} < {$global['approot']}backups/vesuviusStarterDb_v092.sql";
-        }
-        exec($mysql_import_command, $output = array(), $exit_value);
-        if ( $exit_value == 0 ) {
-            add_confirmation("Data import completed successfully.");
-            echo '<p>Installation Complete. Now you can <a href="index.php">go to the Vesuvius main page.</a>';
-
-        }
-        else {
-
-            add_error("Data import encountered an error: $mysql_import_command");
-            shn_write_conf_init();
-        }
+        
     }
     else {
+        shn_write_conf_init();
+    }
+
+}
+
+/**
+ * Create database while the instalation process.
+ *
+ * @param Array $db_params Parameters array obtained from the installation form.
+ * @return boolean Whether creating is success or not. 
+ */
+function shn_create_database($db_params) {
+
+    // This option is needed showing errors
+    define('ADODB_ERROR_HANDLER_TYPE', E_USER_WARNING);
+
+    // Include required ADOdb classes
+    require_once('../3rd/adodb/adodb-errorhandler.inc.php');
+    require_once('../3rd/adodb/adodb.inc.php');
+
+    $db_type = 'mysql';
+    $db = ADONewConnection($db_type);
+    $db->debug = FALSE;
+
+    // Connect to the dbms server
+    $ok = $db->Connect($db_params['db_host'], $db_params['db_user'], $db_params['db_pass']);
+
+    // If connection is successful
+    if ($ok) {
+
+        // Get creata database query
+        $dict = NewDataDictionary($db);
+        $sql = $dict->CreateDatabase($db_params['db_name']);
+
+        // Try to create the database
+        if ($dict->ExecuteSQLArray($sql) == 2) {
+            return true;
+        } else {
+            add_error("Create database encountered an error: " . $db->ErrorMsg());
+        }
+
+    } else {
+        add_error("Connecting to server encountered an error: " . $db->ErrorMsg());
+    }
+
+    return false;
+
+}
+
+/**
+ * Import sample data to the database.
+ *
+ * @global Array $global Global variable containing meta data.
+ * @param Array $db_params Array $db_params Parameters array obtained from the installation form.
+ */
+function shn_import_data($db_params) {
+
+    global $global;
+
+    if ( $db_params['db_pass'] == "" ) {
+        $mysql_import_command = "mysql -h {$db_params['db_host']} -u {$db_params['db_user']} {$db_params['db_name']} < {$global['approot']}backups/vesuviusStarterDb_v092.sql";
+    }
+    else {
+        $mysql_import_command = "mysql -h {$db_params['db_host']} -u {$db_params['db_user']} -p{$db_params['db_pass']} {$db_params['db_name']} < {$global['approot']}backups/vesuviusStarterDb_v092.sql";
+    }
+
+    exec($mysql_import_command, $output = array(), $exit_value);
+
+    if ( $exit_value == 0 ) {
+        add_confirmation("Data import completed successfully.");
+        echo '<p>Installation Complete. Now you can <a href="index.php">go to the Vesuvius main page.</a>';
+    }
+    else {
+        add_error("Data import encountered an error: $mysql_import_command");
         shn_write_conf_init();
     }
 
