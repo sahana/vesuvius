@@ -1467,7 +1467,7 @@ msgstr "<H2>報告人</ H2>"
 #: ../mod/report/main.inc:72
 msgctxt "ReportAPerson-QuickSearch-Link"
 msgid "You may wish to perform a <a href=\"search\">quick search</a> before reporting. Otherwise..."
-msgstr "あなたは、</>のレポートの前には、<a href=\"search\">クイック検索を実行したい場合があります。そうでなければ..."
+msgstr "あなたはのレポートの前には、<a href='search'>クイック検索を実行</a>したい場合があります。そうでなければ..."
 
 #: ../mod/report/main.inc:75
 msgctxt "ReportAPerson-CreateNew-Button"
