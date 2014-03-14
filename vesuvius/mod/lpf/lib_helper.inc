@@ -327,7 +327,7 @@ function makePersonUrl($uuid) {
 function makePageUrl() {
 
 	global $conf;
-	$link = $conf['https'].$conf['base_uuid'].$_SERVER['REQUEST_URI'];
+	$link = $conf['https'].$conf['base_uuid'] . substr($_SERVER['REQUEST_URI'], 1);
 	return $link;
 }
 

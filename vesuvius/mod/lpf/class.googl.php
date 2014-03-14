@@ -1,127 +1,82 @@
 <?php
-/** ******************************************************************************************************************************************************************
-*********************************************************************************************************************************************************************
-********************************************************************************************************************************************************************
+/*
+* @class              googlUrl
+* @author             Akshay Kalose (http://www.kalose.net/)
+* @release            12/18/2013
+* @version            1.0
 *
-* @class        goo_gl
-* @author       Marcus Nunes - marcusnunes.com - 09/18/2010
-*
-* eg:
-* $googl = new goo_gl('http://marcusnunes.com/api-goo.gl.php');
-* echo $googl->result();
-*
-********************************************************************************************************************************************************************
-*********************************************************************************************************************************************************************
-**********************************************************************************************************************************************************************/
+* Usage:
+* Instantiate:        $googl = new googlUrl('http://google.com/');
+* Recieve Short Link: $short = $googl->short();
+* 
+* Instantiate:        $googl = new googlUrl('http://goo.gl/DE1y3W');
+* Recieve Long Link:  $long = $googl->long();
+*/
+class googlUrl
+{
+	//Key is recommended, but not required.
+	private $key = '';
+	public $short, $long;
 
-class goo_gl{
-
-	var $url, $resul;
-
-	//goo.gl construct method
-
-	function goo_gl($url){
-
-		$this->url = $url;
-
-        if( function_exists('curl_init') ) {
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, 'http://goo.gl/api/url');
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($curl, CURLOPT_POST, 1);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, 'user=toolbar@google.com&url='.urlencode($this->url).'&auth_token='.$this->googlToken($url));
-            $saida = curl_exec($curl);
-            curl_close($curl);
-            if($saida){
-                $json = json_decode($saida);
-                $this->resul = isset($json->short_url) ? $json->short_url : null;
-            }
-        } else {
-            add_error(_t('Warning: The cURL extension is not found. Please check your PHP configuration.'));
-        }
-	}
-
-	//show url shorted by goo.gl
-
-	function googlToken($b){
-		$i = $this->tke($b);
-		$i = $i >> 2 & 1073741823;
-		$i = $i >> 4 & 67108800 | $i & 63;
-		$i = $i >> 4 & 4193280 | $i & 1023;
-		$i = $i >> 4 & 245760 | $i & 16383;
-		$j = "7";
-		$h = $this->tkf($b);
-		$k = ($i >> 2 & 15) << 4 | $h & 15;
-		$k |= ($i >> 6 & 15) << 12 | ($h >> 8 & 15) << 8;
-		$k |= ($i >> 10 & 15) << 20 | ($h >> 16 & 15) << 16;
-		$k |= ($i >> 14 & 15) << 28 | ($h >> 24 & 15) << 24;
-		$j .= $this->tkd($k);
-		return $j;
-	}
-
-	//token code
-
-	function tke($l){
-		$m = 5381;
-		for($o = 0; $o < strlen($l); $o++){
-			$m = $this->tkc($m << 5, $m, ord($l[$o]));
+	public function __construct($url)
+	{
+		if (strpos($url, 'goo.gl') === false) {
+			$this->long = $url;
+			$this->short = null;
+		} else {
+			$this->long = null;
+			$this->short = $url;
 		}
-		return $m;
 	}
 
-	function tkc(){
-		$l = 0;
-		foreach(func_get_args() as $val){
-			$val &= 4294967295;
-			$val += $val > 2147483647 ? -4294967296 : ($val < -2147483647 ? 4294967296 : 0);
-			$l   += $val;
-			$l   += $l > 2147483647 ? -4294967296 : ($l < -2147483647 ? 4294967296 : 0);
+	public function short()
+	{
+		if (isset($this->short)) {
+			return $this->short;
 		}
-		return $l;
-	}
 
-	function tkf($l){
-		$m = 0;
-		for($o = 0; $o < strlen($l); $o++){
-			$m = $this->tkc(ord($l[$o]), $m << 6, $m << 16, -$m);
-		}
-		return $m;
-	}
-
-	function tkd($l){
-		$l = $l > 0 ? $l : $l + 4294967296;
-		$m = "$l";  //deve ser uma string
-		$o = 0;
-		$n = false;
-		for($p = strlen($m) - 1; $p >= 0; --$p){
-			$q = $m[$p];
-			if($n){
-				$q *= 2;
-				$o += floor($q / 10) + $q % 10;
+		if (isset($this->long)) {
+			if (function_exists('curl_init')) {
+				$curl = curl_init();
+				$sendData = '{"longUrl":"' . $this->long . '"}';
+				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, !(strpos($config['https'], 'https') === false));
+				curl_setopt($curl, CURLOPT_URL, 'https://www.googleapis.com/urlshortener/v1/url?' . ($this->key ? $this->key . '&' : ''));
+				curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($curl, CURLOPT_POST, true);
+				curl_setopt($curl, CURLOPT_POSTFIELDS, $sendData);
+				curl_setopt($curl, CURLOPT_HTTPHEADER, Array('Content-Type: application/json'));
+				$result = json_decode(curl_exec($curl));
+				curl_close($curl);
+				return $result->id;
 			} else {
-				$o += $q;
+				add_error(_t('Warning: The cURL extension is not found. Please check your PHP configuration.'));
 			}
-			$n = !$n;
+		} else {
+			return false;
 		}
-		$m = $o % 10;
-		$o = 0;
-		if($m != 0){
-			$o = 10 - $m;
-			if(strlen($l) % 2 == 1){
-				if ($o % 2 == 1){
-					$o += 9;
-				}
-				$o /= 2;
-			}
-		}
-		return "$o$l";
 	}
 
-	function result(){
-		return $this->resul;
-	}
+	public function long()
+	{
+		if (isset($this->long)) {
+			return $this->long;
+		}
 
+		if (isset($this->short)) {
+			if (function_exists('curl_init')) {
+				$curl = curl_init();
+				curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, !(strpos($config['https'], 'https') === false));
+				curl_setopt($curl, CURLOPT_URL, 'https://www.googleapis.com/urlshortener/v1/url?' . ($this->key ? $this->key . '&' : '') . 'shortUrl=' . $this->short);
+				curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($curl, CURLOPT_HTTPGET, true);
+				$result = json_decode(curl_exec($curl));
+				curl_close($curl);
+				return $result->longUrl;
+			} else {
+				add_error(_t('Warning: The cURL extension is not found. Please check your PHP configuration.'));
+			}
+		} else {
+			return false;
+		}
+	}
 }
-
-
-
