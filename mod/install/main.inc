@@ -62,7 +62,7 @@ function shn_write_htaccess() {
     $file_contents = "AddType application/x-httpd-php .php .xml\n"
                         ."DirectoryIndex index.php\n"
                         ."RewriteEngine On\n"
-                        ."RewriteBase ".$_SERVER['REQUEST_URI']."\n"
+                        ."RewriteBase ".dirname($_SERVER['PHP_SELF'])."\n"
                         ."RewriteCond %{REQUEST_FILENAME} -d [OR] \nRewriteCond %{REQUEST_FILENAME} -f\n"
                         ."RewriteRule .* - [S=".$htxml->rulecount."]\n"
                         ."RewriteRule ^(person.[0-9]+)$ ?mod=eap&val=$1 [L]\n"
@@ -301,7 +301,9 @@ function shn_install_stream_close() {
     ob_end_clean();
 
     // check for exceptions
-    $exception_list = $global['exception_list'];
+    if(array_key_exists("exception_list",$global)){
+		$exception_list = $global['exception_list'];
+		}
     $result = null;
     $exception = null;
     $is_abort = false;
