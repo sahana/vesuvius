@@ -390,8 +390,8 @@ div.form-container form {}
 div.form-container p { margin: 0.5em 0 0 0; }
 div.form-container form p { margin: 0; }
 div.form-container form p.note { font-style: italic; margin-left: 18em; font-size: 80%; color: #666; }
-div.form-container form fieldset { margin: 20px auto; padding: 50px 20px 20px; border: #e0ecff 1px solid; background-color:#f7f7f7; -moz-border-radius: 5px; border-radius: 5px; -webkit-border-radius: 5px;}
-div.form-container form legend { font-weight: bold; color: #666; position:absolute; top:400px;}
+div.form-container form fieldset { margin:0 0 10px 0; padding: 20px; border: #e0ecff 1px solid; background-color:#f7f7f7; -moz-border-radius: 5px; border-radius: 5px; -webkit-border-radius: 5px;}
+div.form-container form legend { font-weight: bold; color: #666; }
 div.form-container form fieldset div.brake { padding: 0.3em; }
 div.form-container form fieldset label{ position:relative; margin-right: 10px; padding-right: 10px; width: 15em; display: block; float: left; text-align: right;min-height:1em;top:0.25em;}
 div.form-container form fieldset label.errorfield,
