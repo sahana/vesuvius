@@ -17,7 +17,8 @@ require_once("lib_locale.inc");
 require_once("gettext.inc");
 
 // Set default locale
-define("DEFAULT_LOCALE", $conf['locale']);
+if(isset($conf)){define("DEFAULT_LOCALE", $conf['locale']);}
+else {define("DEFAULT_LOCALE","en_US");}
 
 // many institutions do not allow public websites they host to store persistent cookies,
 // therefore, we will only make them persist as long as the session itself
