@@ -301,7 +301,9 @@ function shn_install_stream_close() {
     ob_end_clean();
 
     // check for exceptions
-    $exception_list = $global['exception_list'];
+    if(array_key_exists("exception_list",$global)){
+		$exception_list = $global['exception_list'];
+		}
     $result = null;
     $exception = null;
     $is_abort = false;

@@ -101,8 +101,8 @@ function display_submit_message($type = 'warning', $msg = 'please note the follo
 function display_errors($error_title = null, $return = false, $clean_errors = true) {
 
 	global $global;
-	$mod = $global['module'];
-	$act = $global['action'];
+	if(array_key_exists("module",$global)){$mod = $global['module'];}
+	if(array_key_exists("action",$global)){$act = $global['action'];}
 	$stream = isset($_REQUEST['stream']) ? $_REQUEST['stream'] : "";
 	if(strlen($stream) == 0) {
 		$stream = 'html';
