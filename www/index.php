@@ -446,7 +446,7 @@ function shn_run_installer() {
     else {
 		if(isset($_GET['act']) && isset($_GET['mod'])){
 			if($_GET['act']=='conf' && $_GET['mod']=='install'){
-				shn_install_default();
+				shn_install_conf();
 				}
 			else {
 				header("Location: $global[root_dir]");
