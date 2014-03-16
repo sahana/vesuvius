@@ -439,20 +439,25 @@ function shn_run_installer() {
     include_once($global['approot'].'/mod/install/main.inc');
 
     shn_install_stream_init();
-    if ( isset($_GET['act']) && $_GET['mod'] ) {
-        $act = $_GET['act'];
-        $module = $_GET['module'];
-        $call_function = 'shn_install_'.$act;
-        $call_function();
-    }
+	$global["root_dir"]=dirname($_SERVER["PHP_SELF"]);
+    if (!isset($_GET['act']) && !isset($_GET['mod']) ) {
+		shn_install_default();
+		}
     else {
-        shn_install_default();
-    }
+		if(isset($_GET['act']) && isset($_GET['mod'])){
+			if($_GET['act']=='conf' && $_GET['mod']=='install'){
+				shn_install_conf();
+				}
+			else {
+				header("Location: $global[root_dir]");
+				}
+			}
+		else{
+			header("Location: $global[root_dir]");
+			}        
+		}
 
     shn_install_stream_close();
-
-
-
 }
 
 
@@ -476,6 +481,3 @@ function shn_main_plus_register()
 
 
 //echo "<h1>DEBUGGING INFO</h1><pre>".print_r(get_defined_vars(), true)."</pre><h1>END DEBUG INFO</h1>";
-
-
-
