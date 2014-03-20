@@ -138,7 +138,7 @@ function shn_inw_default() {
 				</div>
 			</div>
 			<form action="javascript:Utils.formSearch()" id="searchForm">
-				<input type="textbox" autocomplete="off" value="Enter a name..." id="searchBox" x-webkit-speech="" x-webkit-grammar="builtin:search"/>
+				<input type="textbox" autocomplete="off" value="" id="searchBox" placeholder="<?php echo _t('Enter a name'); ?>..." x-webkit-speech="" x-webkit-grammar="builtin:search"/>
 				<div id="searchButtonWrapper" style="float:left">
 					<input type="submit" value="<?php echo _t('SearchForAPerson-SearchForm-Button|Search'); ?>" id="buttonSearch" class="styleTehButton"/>
 					<input type="button" value="<?php echo _t('SearchForAPerson-SearchForm-Button|Clear'); ?>"  id="buttonClear" class="styleTehButton" onclick="Utils.clear()"/>
