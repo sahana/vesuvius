@@ -42,13 +42,6 @@ $(document).ready(function start() {
         // obsolete? (maybe should be detailsPane anyway?)
 	//$("#details").hide();
 
-	// add an event to monitor when the search box gains focus
-	var box = doc.getElementById("searchBox");
-	box.onfocus = function() {
-		box.style.color = "#000000";
-		box.value = box.value == "Enter a name..." ? "" : box.value;
-	}
-
 	$("#sortOrderIcon").click(function() { Utils.ascDesc(this) }).css({cursor: "pointer"});
 
 	$("#buttonPlay").css("opacity", 0.3);
@@ -62,7 +55,6 @@ $(document).ready(function start() {
 		if ( hash === "#searchAll" ) {
 			hash = "";
 		} else {
-			box.style.color = "#000000";
 			$("#searchBox").val(unescape(hash).replace('#', ''));
 		}
 		searchSubset(true);
@@ -71,7 +63,7 @@ $(document).ready(function start() {
 
 function searchSubset(first) {
 	Globals.searchTerms = $.trim($("#searchBox").attr("value"));
-	Globals.searchTerms = Globals.searchTerms == "Enter a name..." || Globals.searchTerms == "All" ? "" : Globals.searchTerms;
+    Globals.searchTerms = Globals.searchTerms == "" || Globals.searchTerms == "All" ? "" : Globals.searchTerms;
 
 	var missing   = $("#checkMissing")   .is(":checked"),
 		alive     = $("#checkAliveWell") .is(":checked"),
