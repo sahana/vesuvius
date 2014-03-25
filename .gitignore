@@ -11,6 +11,6 @@ vesuvius/mod/dpa/bin/*
 .idea
 .idea/*
 .htaccess
-www/.htaccess
+vesuvius/res/translation_log.txt
 # Keep empty directories:
 !*/.git*
