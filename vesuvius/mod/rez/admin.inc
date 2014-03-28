@@ -40,7 +40,17 @@ function shn_rez_adm_default() {
 		rez_show_message("Loading Pages...");
 		setTimeout("rez_show_pages();", 1500);
 		window.rezPageSaved = true;
-
+		window.onbeforeunload = function(e) {
+			e = e || window.event;  
+			if (!window.rezPageSaved) {
+				// For IE and Firefox
+				if (e) {
+					e.returnValue = "Are you sure you want to close this document? It has not been saved.";
+				}
+				// For Safari
+				return "Are you sure you want to close this document? It has not been saved.";
+			}
+		};
 		function checkSaved() {
 			if(!window.rezPageSaved) {
 				var answer = confirm('Are you sure you want to close this document? It has not been saved.');
