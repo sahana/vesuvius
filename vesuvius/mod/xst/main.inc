@@ -10,6 +10,7 @@
  * @lastModified 2011.0810
  */
 
+header("content-type: application/javascript");
 
 function shn_text_xst_help() {
 	if(empty($_GET['help_id'])) {
