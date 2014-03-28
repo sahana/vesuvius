@@ -12,6 +12,8 @@
  * @lastModified 2013.0120
  */
 
+header('Content-Type: text/javascript; charset=UTF-8');
+
 // define global $global['approot'] for convenience and efficiency;
 
 $global['approot']  = realpath(dirname(__FILE__)).'/../';
