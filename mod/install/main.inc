@@ -111,15 +111,15 @@ function shn_write_htaccess() {
  */
 function shn_write_conf_init() {
     shn_form_fopen("conf", "install", array('enctype'=>'enctype="multipart/form-data"', 'req_message' => true));
-        shn_form_fsopen('Database details');
-            shn_form_text('Database Host', 'db_host', null, array('value'=>'localhost', 'help' => 'Your database server\'s host.', 'req' => true));
-            shn_form_text('Database port', 'db_port', null, array('value'=>'3306', 'help' => 'Your database server\'s port.', 'req' => true));
-            shn_form_radio(array('Create New', 'Use Existing'), '', 'db_preference', null, null);
-            shn_form_text('Database name', 'db_name', null, array('help' => 'The name of the database you\'ll be using for Vesuvius', 'req' => true));
-            shn_form_text('Database username', 'db_user', null, array('help' => 'Database username', 'req' => true));
-            shn_form_password('Database password', 'db_pass', null, array('help' => 'The password for the database user you have specified.'));
-            shn_form_submit('Submit Configuration');
-        shn_form_fsclose();
+    shn_form_fsopen('Database details');
+    shn_form_text('Database Host', 'db_host', null, array('value'=>'localhost', 'help' => 'Your database server\'s host.', 'req' => true));
+    shn_form_text('Database port', 'db_port', null, array('value'=>'3306', 'help' => 'Your database server\'s port.', 'req' => true));
+    shn_form_radio(array('Create New', 'Use Existing'), '', 'db_preference', null, null);
+    shn_form_text('Database name', 'db_name', null, array('help' => 'The name of the database you\'ll be using for Vesuvius', 'req' => true));
+    shn_form_text('Database username', 'db_user', null, array('help' => 'Database username', 'req' => true));
+    shn_form_password('Database password', 'db_pass', null, array('help' => 'The password for the database user you have specified.'));
+    shn_form_submit('Submit Configuration');
+    shn_form_fsclose();
     shn_form_fclose();
 }
 
