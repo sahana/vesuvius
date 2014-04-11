@@ -540,7 +540,7 @@ function rez_perform_edit($page_id, $locale) {
 	</form>";
 
 	$editControlHtml = '
-	<input class="styleTehButton" type="button" onclick="javascript:  window.rezPageSaved = true; if(nicEditors.editors.length>0){nicEditors.findEditor(\'pageContent\').saveContent();} rez_perform_save('.$page_id.', xajax.getFormValues(\'editPageForm\'));" value="'._t("ResourcePages-EditForm-Button|Save and Publish Changes").'">
+	<input class="styleTehButton" type="button" onclick="javascript:  window.rezPageSaved = true; if(nicEditors.editors.length>0){nicEditors.findEditor(\'pageContent\').saveContent();}window.orginalPageContent = document.getElementById(\'pageContent\').value; rez_perform_save('.$page_id.', xajax.getFormValues(\'editPageForm\'));" value="'._t("ResourcePages-EditForm-Button|Save and Publish Changes").'">
 	<input class="styleTehButton" type="button" onclick="checkSaved()" value="Close Editor">
 	&nbsp; &nbsp; &nbsp; <span class="toggle">View editor as:
 	<input id="wysiwyg" class="styleTehButton" type="button" onclick="javascript: document.getElementById(\'wysiwyg\').disabled = true; document.getElementById(\'htmlcode\').disabled = false; area2 = new nicEditor({fullPanel : true}).panelInstance(\'pageContent\');" value="WYSIWYG">
@@ -553,6 +553,7 @@ function rez_perform_edit($page_id, $locale) {
 	$global['xajax_res']->addAssign('rezControl','innerHTML',$editControlHtml);
 
 	$global['xajax_res']->addScript('area2 = new nicEditor({fullPanel : true}).panelInstance(\'pageContent\'); document.getElementById(\'wysiwyg\').disabled = true;');
+	$global['xajax_res']->addScript('area2.instanceById("pageContent").saveContent();window.orginalPageContent = document.getElementById("pageContent").value;');
 
 	return $global['xajax_res']->getXML();
 }

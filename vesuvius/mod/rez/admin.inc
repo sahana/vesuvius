@@ -40,9 +40,10 @@ function shn_rez_adm_default() {
 		rez_show_message("Loading Pages...");
 		setTimeout("rez_show_pages();", 1500);
 		window.rezPageSaved = true;
+		window.orginalPageContent = "";
 		window.onbeforeunload = function(e) {
 			e = e || window.event;  
-			if (!window.rezPageSaved) {
+			if (hasUnSaved()) {
 				// For IE and Firefox
 				if (e) {
 					e.returnValue = "Are you sure you want to close this document? It has not been saved.";
@@ -51,8 +52,28 @@ function shn_rez_adm_default() {
 				return "Are you sure you want to close this document? It has not been saved.";
 			}
 		};
-		function checkSaved() {
+		function hasUnSaved() {
 			if(!window.rezPageSaved) {
+				return true;
+			}
+			else{
+				// if in wysiwyg mode
+				if(document.getElementById('wysiwyg').disabled){ 
+					area2.instanceById('pageContent').saveContent();
+				}
+				if( window.orginalPageContent != document.getElementById('pageContent').value ) {
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+			
+			
+			
+		}
+		function checkSaved() {
+			if(hasUnSaved()) {
 				var answer = confirm('Are you sure you want to close this document? It has not been saved.');
 				if(answer) {
 					rez_append_log('Closing editor...<br>');
