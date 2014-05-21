@@ -283,7 +283,7 @@ function shn_install_stream_init() {
         . '<div id="menuwrap">'
         . '<ul id="menu">'
         . '</ul>'
-        . '</div> <!-- /menuwrap -->'
+        . '</div>'
         . '</div>'
         . '<div id="content">'
         . '<div style="padding: 20px 0px 0px 36px; font-size: 16px;">';
@@ -331,16 +331,13 @@ function shn_install_stream_close() {
         echo $output;
     }
 
-    echo '</div>'
-        . '</div>'
-        . '<!-- /content -->';
+    echo  '</div>'
+        . '</div>';
 
     include_once($global['approot'].'/www/theme/'.$global['theme'].'/footer.php');
 
-    echo '</div>'
-        . '<!-- /wrapper -->'
+    echo  '</div>'
         . '</div>'
-        . '<!-- /container -->'
         . '</body>'
         . '</html>';
     ob_flush();
