@@ -273,24 +273,21 @@ function shn_install_stream_init() {
 
     global $global;
 
-    echo "<body>"
-        . "<div id=\"container\">";
+    echo '<body>'
+        . '<div id="container">';
 
     include_once($global['approot'].'/www/theme/'.$global['theme'].'/header.php');
 
-    echo "<div id=\"wrapper\" class=\"clearfix\">"
-        . "<div id=\"wrapper_menu\">"
-        . "
-		<div id=\"menuwrap\">
-		<ul id=\"menu\">
-	"
-        . "
-		</ul>
-		</div> <!-- /menuwrap -->
-		</div>
-		<div id=\"content\">
-		<div style=\"padding: 20px 0px 0px 36px; font-size: 16px;\">
-	";
+    echo  '<div id="wrapper" class="clearfix">'
+        . '<div id="wrapper_menu">'
+        . '<div id="menuwrap">'
+        . '<ul id="menu">'
+        . '</ul>'
+        . '</div> <!-- /menuwrap -->'
+        . '</div>'
+        . '<div id="content">'
+        . '<div style="padding: 20px 0px 0px 36px; font-size: 16px;">';
+    
     ob_start();
 }
 function shn_install_stream_close() {
@@ -334,18 +331,18 @@ function shn_install_stream_close() {
         echo $output;
     }
 
-    echo "</div>"
-        . "</div>"
-        . "<!-- /content -->";
+    echo '</div>'
+        . '</div>'
+        . '<!-- /content -->';
 
     include_once($global['approot'].'/www/theme/'.$global['theme'].'/footer.php');
 
-    echo "</div>"
-        . "<!-- /wrapper -->"
-        . "</div>"
-        . "<!-- /container -->"
-        . "</body>"
-        . "</html>";
+    echo '</div>'
+        . '<!-- /wrapper -->'
+        . '</div>'
+        . '<!-- /container -->'
+        . '</body>'
+        . '</html>';
     ob_flush();
 }
 
