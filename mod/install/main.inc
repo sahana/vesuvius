@@ -15,7 +15,7 @@
 function shn_install_default() {
 
     global $global;
-    echo  '<p>Installer under construction. Please report any issues at'
+    echo  '<p>Installer under construction. Please report any issues at '
         . '<a href="https://github.com/ramdesh/vesuvius_installer/issues">the Github page.</a></p><br>';
     
     $error = shn_system_error_check();
