@@ -28,7 +28,7 @@ class SHN_ConfigurationGenerator
     /**
      * Function to get database details for conf file
      */
-    private function _writeConfInit()
+    public function _writeConfInit()
     {
         
         shn_form_fopen("conf", "install", array('enctype'=>'enctype="multipart/form-data"', 'req_message' => true));

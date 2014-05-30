@@ -21,7 +21,7 @@ function shn_install_default($confGenerator) {
     $error = shn_system_error_check();
      if (!$error){
          shn_write_htaccess();
-         $confGenerator->installConf();
+         $confGenerator->_writeConfInit();
      }
 }
 
