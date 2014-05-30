@@ -13,7 +13,7 @@
  * This class is reponsible for generating sahana.conf file,
  * while the installation process.
  */
-class SHN_ConfGenerator
+class SHN_ConfigurationGenerator
 {
     
     private $_appRoot = null;
@@ -28,7 +28,7 @@ class SHN_ConfGenerator
     /**
      * Function to get database details for conf file
      */
-    private function shn_write_conf_init()
+    private function _writeConfInit()
     {
         
         shn_form_fopen("conf", "install", array('enctype'=>'enctype="multipart/form-data"', 'req_message' => true));
@@ -49,10 +49,10 @@ class SHN_ConfGenerator
     /**
      * Write the configuration file
      */
-    public function shn_install_conf()
+    public function installConf()
     {
         
-        if ($this->shn_install_conf_validate() ) {
+        if ($this->_installConfValidate() ) {
             $db_params = $_SESSION['conf_fields'];
             $db_name_string = '$conf[\'db_name\']';
             $db_user_string = '$conf[\'db_user\']';
@@ -74,21 +74,21 @@ class SHN_ConfGenerator
 
             if ($db_params['db_preference'] == 0) {
                 if (shn_create_database($db_params)) {
-                    $this->shn_import_data($db_params);
+                    $this->_importData($db_params);
                 }
             } else {
-                $this->shn_import_data($db_params);
+                $this->_importData($db_params);
             }
 
         }
         else {
-            $this->shn_write_conf_init();
+            $this->_writeConfInit();
         }
 
     }
     
     
-    private function shn_install_conf_validate()
+    private function _installConfValidate()
     {
         $local_post = array();
         $no_errors = true;
@@ -128,7 +128,7 @@ class SHN_ConfGenerator
      * @global Array $global Global variable containing meta data.
      * @param Array $db_params Array $db_params Parameters array obtained from the installation form.
      */
-    private function shn_import_data($db_params) {
+    private function _importData($db_params) {
 
         global $global;
 
@@ -147,28 +147,11 @@ class SHN_ConfGenerator
         }
         else {
             add_error("Data import encountered an error: $mysql_import_command");
-            shn_write_conf_init();
+            $this->_writeConfInit();
         }
 
     }
-    
-    
-    /**
-     * Function to get database details for conf file
-     */
-    private function shn_write_conf_init() {
-        shn_form_fopen("conf", "install", array('enctype'=>'enctype="multipart/form-data"', 'req_message' => true));
-        shn_form_fsopen('Database details');
-        shn_form_text('Database Host', 'db_host', null, array('value'=>'localhost', 'help' => 'Your database server\'s host.', 'req' => true));
-        shn_form_text('Database port', 'db_port', null, array('value'=>'3306', 'help' => 'Your database server\'s port.', 'req' => true));
-        shn_form_radio(array('Create New', 'Use Existing'), '', 'db_preference', null, null);
-        shn_form_text('Database name', 'db_name', null, array('help' => 'The name of the database you\'ll be using for Vesuvius', 'req' => true));
-        shn_form_text('Database username', 'db_user', null, array('help' => 'Database username', 'req' => true));
-        shn_form_password('Database password', 'db_pass', null, array('help' => 'The password for the database user you have specified.'));
-        shn_form_submit('Submit Configuration');
-        shn_form_fsclose();
-        shn_form_fclose();
-    }
+
     
 }
 

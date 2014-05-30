@@ -438,15 +438,19 @@ function shn_run_installer() {
 
     include_once($global['approot'].'/mod/install/main.inc');
 
+    include_once($global['approot'].'/mod/install/SHN_ConfigurationGenerator.php');
+    
+    $confGenerator = new SHN_ConfigurationGenerator($global['approot']);
+    
     shn_install_stream_init();
 	$global["root_dir"]=dirname($_SERVER["PHP_SELF"]);
     if (!isset($_GET['act']) && !isset($_GET['mod']) ) {
-		shn_install_default();
+		shn_install_default($confGenerator);
 		}
     else {
 		if(isset($_GET['act']) && isset($_GET['mod'])){
 			if($_GET['act']=='conf' && $_GET['mod']=='install'){
-				shn_install_conf();
+				$confGenerator->installConf();
 				}
 			else {
 				header("Location: $global[root_dir]");
