@@ -13,48 +13,70 @@
  * This class is reponsible for generating .htaccess file,
  * while the installation process.
  */
-class SHN_AccessGenerator {
+class SHN_AccessGenerator
+{
+    
+    const HTACCESS_FILE_RELATIVE_PATH = "/www/.htaccess";
+    
+    const RULES_CONF_FILE_RELATIVE_PATH = "/mod/install/rewriteBaseConf.xml";
+    
+    const HTACCESS_CONF_FILE_RELATIVE_PATH = "/mod/install/htaccess.xml";
     
     private $_appRoot = null;
     
+    /**
+     * The constrctor.
+     * 
+     * @param   String  $appRoot    The absolute path for the application root directory.
+     */
     public function __construct($appRoot)
     {
-        
         $this->_appRoot = $appRoot;
-        
     }
     
     /**
-     * Write .htaccess file
+     * Controll the process of writing the .htaccess file.
      */
     public function writeHtaccess()
     {
         
-        global $global;
-        $error = false;
-        $htxml = simplexml_load_file($global['approot']."/mod/install/htaccess.xml");
-
+        $htxml = simplexml_load_file($this->_appRoot . self::HTACCESS_CONF_FILE_RELATIVE_PATH);
+        
         $file_contents = "AddType application/x-httpd-php .php .xml\n"
-                            ."DirectoryIndex index.php\n"
-                            ."RewriteEngine On\n"
-                            ."RewriteBase ".dirname($_SERVER['PHP_SELF'])."\n"
-                            ."RewriteCond %{REQUEST_FILENAME} -d [OR] \nRewriteCond %{REQUEST_FILENAME} -f\n"
-                            ."RewriteRule .* - [S=".$htxml->rulecount."]\n"
-                            ."RewriteRule ^(person.[0-9]+)$ ?mod=eap&val=$1 [L]\n"
-                            ."RewriteRule ^(about)$   ?mod=rez&page=-30 [L]\n"
-                            ."RewriteRule ^(privacy)$ ?mod=rez&page=44  [L]\n"
-                            ."RewriteRule ^(login)$              ?mod=pref&act=loginForm [L]\n"
-                            ."RewriteRule ^(auth)$               ?doLogin=1 [L]\n"
-                            ."RewriteRule ^(password)$           ?mod=pref&act=ch_passwd [L]\n"
-                            ."RewriteRule ^(logout)$             ?act=logout [L]\n"
-                            ."RewriteRule ^(register)$           ?mod=pref&act=signup [L]\n"
-                            ."RewriteRule ^(register2)$          ?mod=pref&act=signup2 [L]\n"
-                            ."RewriteRule ^(forgot)$             ?mod=pref&act=forgotPassword [L]\n"
-                            ."RewriteRule ^(tracking)$           ?mod=pref&act=tracking [L]\n"
-                            ."RewriteRule ^(reza|resourceadmin)$ ?mod=rez&act=adm_default [L]\n";
+                         . "DirectoryIndex index.php\n"
+                         . "RewriteEngine On\n"
+                         . "RewriteBase " . dirname($_SERVER['PHP_SELF']) . "\n"
+                         . "RewriteCond %{REQUEST_FILENAME} -d [OR] \nRewriteCond %{REQUEST_FILENAME} -f\n"
+                         . "RewriteRule .* - [S=" . $htxml->rulecount . "]\n";
+        
+        $file_contents .= $this->_getRewriteBaseString();
+        
+        $file_contents .= $this->_getModuleString($htxml);
+        
+        $file_contents .= "RewriteRule ^([^/][a-z0-9]+)$ $2?shortname=$1 [QSA]\n"
+                            ."RewriteRule ^([^/][a-z0-9]+)/$ $2?shortname=$1 [QSA]\n"
+                            ."RewriteRule ^([^/][a-z0-9]+)/(.+)$ $2?shortname=$1 [QSA]\n";
+        
+        $this->_writeToHtaccessFile($file_contents);
+        
+    }
+    
+    /**
+     * Create the string represent modules, which should be placed in .htaccess file.
+     * 
+     * @param   object  $htxml  SimpleXMLElement Object representation for the module xml file.
+     * 
+     * @return string 
+     */
+    private function _getModuleString($htxml)
+    {
+        
         $module_string = "";
+        
         foreach($htxml->modules->module as $module) {
+            
             $module_string .= "RewriteRule ^(";
+            
             for( $i=0;$i<count($module->alias);$i++ ) {
                 if ( $i != count($module->alias) - 1 ) {
                     $module_string .= $module->alias[$i]."|";
@@ -63,22 +85,72 @@ class SHN_AccessGenerator {
                     $module_string .= $module->alias[$i].")";
                 }
             }
+            
             $module_string .= "$           $2?mod=".$module->name." [QSA]\n";
+            
         }
-        $file_contents .= $module_string;
-        $file_contents .= "RewriteRule ^([^/][a-z0-9]+)$ $2?shortname=$1 [QSA]\n"
-                            ."RewriteRule ^([^/][a-z0-9]+)/$ $2?shortname=$1 [QSA]\n"
-                            ."RewriteRule ^([^/][a-z0-9]+)/(.+)$ $2?shortname=$1 [QSA]\n";
-
-
-        $file = fopen($this->_appRoot."/www/.htaccess", 'w+');
-        if ( fwrite($file, $file_contents) ) {
+        
+        return $module_string;
+        
+    }
+    
+    /**
+     * Get set of rewrite rules as string, which should be placed in .htaccess file.
+     * 
+     * @return string 
+     */
+    private function _getRewriteBaseString()
+    {
+        
+        $rewriteBaseConfXml = simplexml_load_file($this->_appRoot . self::RULES_CONF_FILE_RELATIVE_PATH);
+        
+        $rewriteRulesString = "";
+        
+        foreach ($rewriteBaseConfXml->reWriteRule as $rule)
+        {
+            
+            $rewriteRulesString .= "RewriteRule ^(" . $rule->name . ")$ ?";
+            $isFirst = true;
+            
+            foreach ($rule->params->param as $param)
+            {
+                if ($isFirst)
+                {
+                    $rewriteRulesString .= $param->name . "=" . $param->value;
+                    $isFirst = false;
+                }
+                else {
+                    $rewriteRulesString .= "&" . $param->name . "=" . $param->value;
+                }
+            }
+            
+            $rewriteRulesString .= " [L]\n";
+            
+        }
+        
+        return $rewriteRulesString;
+        
+    }
+    
+    /**
+     * Write the generated content in to the .htaccess file.
+     * 
+     * @param   String  $fileContent    The content for the file.
+     */
+    private function _writeToHtaccessFile($fileContent)
+    {
+        
+        $htaccessFile = fopen($this->_appRoot . self::HTACCESS_FILE_RELATIVE_PATH, 'w+');
+        
+        if (fwrite($htaccessFile, $fileContent)) {
             add_confirmation("Successfully wrote .htaccess file. Please ensure that Apache mod_rewrite is enabled.");
         }
         else {
             add_error("Failed to write .htaccess file");
         }
-        fclose($file);
+        
+        fclose($htaccessFile);
+        
     }
     
 }
