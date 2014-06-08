@@ -18,11 +18,14 @@ class SHN_ConfigurationGenerator
     
     private $_appRoot = null;
     
+    /**
+     * The constructor.
+     * 
+     * @param   String  $appRoot    The root directory of the application.
+     */
     public function __construct($appRoot)
     {
-        
         $this->_appRoot = $appRoot;
-        
     }
     
     /**
@@ -52,7 +55,8 @@ class SHN_ConfigurationGenerator
     public function installConf()
     {
         
-        if ($this->_installConfValidate() ) {
+        if ($this->_installConfValidate() )
+        {
             $db_params = $_SESSION['conf_fields'];
             $db_name_string = '$conf[\'db_name\']';
             $db_user_string = '$conf[\'db_user\']';
@@ -68,12 +72,15 @@ class SHN_ConfigurationGenerator
                 "$db_pass_string = \"{$db_params['db_pass']}\";\n".
                 "$db_port_string = \"{$db_params['db_port']}\";\n";
 
-            if ( file_put_contents($this->_appRoot . '/conf/sahana.conf', $conf_file_contents) ) {
+            if ( file_put_contents($this->_appRoot . '/conf/sahana.conf', $conf_file_contents) )
+            {
                 add_confirmation("Wrote sahana.conf successfully.");
             }
 
-            if ($db_params['db_preference'] == 0) {
-                if (shn_create_database($db_params)) {
+            if ($db_params['db_preference'] == 0)
+            {
+                if (shn_create_database($db_params))
+                {
                     $this->_importData($db_params);
                 }
             } else {
@@ -87,38 +94,55 @@ class SHN_ConfigurationGenerator
 
     }
     
-    
+    /**
+     * Validate configurations.
+     * 
+     * @return boolean 
+     */
     private function _installConfValidate()
     {
         $local_post = array();
         $no_errors = true;
+        
         //clean the post -- trim them all
-        foreach($_POST as $k => $v) {
+        foreach($_POST as $k => $v)
+        {
             $v = trim($v);
             if($v != '') {
                 $local_post[$k] = $v;
             }
         }
+        
         $_SESSION['conf_fields'] = $local_post;
-        if ( empty($local_post) ) {
+        
+        if ( empty($local_post) )
+        {
             $no_errors = false;
             $error_text = "Please fill in all the fields.";
         }
-        if ( empty($local_post['db_name']) ) {
+        
+        if ( empty($local_post['db_name']) )
+        {
             $no_errors = false;
             $error_text = "Please add a name for the Vesuvius database you created.";
         }
-        if ( empty($local_post['db_user']) ) {
+        
+        if ( empty($local_post['db_user']) )
+        {
             $no_errors = false;
             $error_text = "Please add a username for the Vesuvius database you created.";
         }
+        
         /*if ( empty($local_post['db_pass']) ) {
             $no_errors = false;
             $error_text = "Please add a password for the Vesuvius database you created.";
         }*/
-        if ( !$no_errors ) {
+        
+        if ( !$no_errors )
+        {
             add_error($error_text);
         }
+        
         return $no_errors;
     }
     
@@ -132,7 +156,8 @@ class SHN_ConfigurationGenerator
 
         global $global;
 
-        if ( $db_params['db_pass'] == "" ) {
+        if ( $db_params['db_pass'] == "" )
+        {
             $mysql_import_command = "mysql -h {$db_params['db_host']} -u {$db_params['db_user']} {$db_params['db_name']} < {$global['approot']}backups/vesuviusStarterDb_v092.sql";
         }
         else {
@@ -141,7 +166,8 @@ class SHN_ConfigurationGenerator
 
         exec($mysql_import_command, $output = array(), $exit_value);
 
-        if ( $exit_value == 0 ) {
+        if ( $exit_value == 0 )
+        {
             add_confirmation("Data import completed successfully.");
             echo '<p>Installation Complete. Now you can <a href="index.php">go to the Vesuvius main page.</a>';
         }
@@ -152,7 +178,6 @@ class SHN_ConfigurationGenerator
 
     }
 
-    
 }
 
 ?>

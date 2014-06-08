@@ -77,7 +77,8 @@ class SHN_AccessGenerator
             
             $module_string .= "RewriteRule ^(";
             
-            for( $i=0;$i<count($module->alias);$i++ ) {
+            for( $i=0;$i<count($module->alias);$i++ )
+            {
                 if ( $i != count($module->alias) - 1 ) {
                     $module_string .= $module->alias[$i]."|";
                 }
@@ -129,7 +130,6 @@ class SHN_AccessGenerator
         }
         
         return $rewriteRulesString;
-        
     }
     
     /**
@@ -142,7 +142,8 @@ class SHN_AccessGenerator
         
         $htaccessFile = fopen($this->_appRoot . self::HTACCESS_FILE_RELATIVE_PATH, 'w+');
         
-        if (fwrite($htaccessFile, $fileContent)) {
+        if (fwrite($htaccessFile, $fileContent))
+        {
             add_confirmation("Successfully wrote .htaccess file. Please ensure that Apache mod_rewrite is enabled.");
         }
         else {
