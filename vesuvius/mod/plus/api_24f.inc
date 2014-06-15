@@ -1323,7 +1323,7 @@ function reportPerson($personXML, $eventShortName, $xmlFormat, $username, $passw
 	$eCodes = unserialize(ERRORCODES);
 	if($error) {
 		return array(
-			'url'          => (string)$p->p_uuid,
+			'url'          => isset($p) ? (string)$p->p_uuid : null,
 			'errorCode'    => (int)$ecode,
 			'errorMessage' => (string)$eCodes[$ecode]
 		);
