@@ -31,7 +31,7 @@ class SHN_ConfigurationGenerator
     /**
      * Function to get database details for conf file
      */
-    public function _writeConfInit()
+    public function writeConfInit()
     {
         
         shn_form_fopen("conf", "install", array('enctype'=>'enctype="multipart/form-data"', 'req_message' => true));
@@ -89,7 +89,7 @@ class SHN_ConfigurationGenerator
 
         }
         else {
-            $this->_writeConfInit();
+            $this->writeConfInit();
         }
 
     }
@@ -173,7 +173,7 @@ class SHN_ConfigurationGenerator
         }
         else {
             add_error("Data import encountered an error: $mysql_import_command");
-            $this->_writeConfInit();
+            $this->writeConfInit();
         }
 
     }

@@ -26,7 +26,7 @@ function shn_install_default($confGenerator) {
          $accessGenerator = new SHN_AccessGenerator($global['approot']);
          $accessGenerator->writeHtaccess();
          
-         $confGenerator->_writeConfInit();
+         $confGenerator->writeConfInit();
      }
 }
 
