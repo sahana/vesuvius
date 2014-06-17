@@ -73,6 +73,7 @@ if ( !$global['setup'] ) {
 
 }
 else {
+    $conf['enable_locale'] = true;
     shn_run_installer();
 }
 

@@ -144,10 +144,10 @@ class SHN_AccessGenerator
         
         if (fwrite($htaccessFile, $fileContent))
         {
-            add_confirmation("Successfully wrote .htaccess file. Please ensure that Apache mod_rewrite is enabled.");
+            add_confirmation(_t("Successfully wrote .htaccess file. Please ensure that Apache mod_rewrite is enabled."));
         }
         else {
-            add_error("Failed to write .htaccess file");
+            add_error(_t("Failed to write .htaccess file"));
         }
         
         fclose($htaccessFile);

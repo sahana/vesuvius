@@ -36,12 +36,12 @@ class SHN_ConfigurationGenerator
         
         shn_form_fopen("conf", "install", array('enctype'=>'enctype="multipart/form-data"', 'req_message' => true));
         shn_form_fsopen('Database details');
-        shn_form_text('Database Host', 'db_host', null, array('value'=>'localhost', 'help' => 'Your database server\'s host.', 'req' => true));
-        shn_form_text('Database port', 'db_port', null, array('value'=>'3306', 'help' => 'Your database server\'s port.', 'req' => true));
-        shn_form_radio(array('Create New', 'Use Existing'), '', 'db_preference', null, null);
-        shn_form_text('Database name', 'db_name', null, array('help' => 'The name of the database you\'ll be using for Vesuvius', 'req' => true));
-        shn_form_text('Database username', 'db_user', null, array('help' => 'Database username', 'req' => true));
-        shn_form_password('Database password', 'db_pass', null, array('help' => 'The password for the database user you have specified.'));
+        shn_form_text('Database Host', 'db_host', null, array('value'=>'localhost', 'help' => _t("Your database server's host."), 'req' => true));
+        shn_form_text('Database port', 'db_port', null, array('value'=>'3306', 'help' => _t("Your database server's port."), 'req' => true));
+        shn_form_radio(array(_t('Create New'), _t('Use Existing')), '', 'db_preference', null, null);
+        shn_form_text('Database name', 'db_name', null, array('help' => _t("The name of the database you'll be using for Vesuvius"), 'req' => true));
+        shn_form_text('Database username', 'db_user', null, array('help' => _t('Database username'), 'req' => true));
+        shn_form_password('Database password', 'db_pass', null, array('help' => _t('The password for the database user you have specified.')));
         shn_form_submit('Submit Configuration');
         shn_form_fsclose();
         shn_form_fclose();
@@ -74,7 +74,7 @@ class SHN_ConfigurationGenerator
 
             if ( file_put_contents($this->_appRoot . '/conf/sahana.conf', $conf_file_contents) )
             {
-                add_confirmation("Wrote sahana.conf successfully.");
+                add_confirmation(_t("Wrote sahana.conf successfully."));
             }
 
             if ($db_params['db_preference'] == 0)
@@ -118,19 +118,19 @@ class SHN_ConfigurationGenerator
         if ( empty($local_post) )
         {
             $no_errors = false;
-            $error_text = "Please fill in all the fields.";
+            $error_text = _t("Please fill in all the fields.");
         }
         
         if ( empty($local_post['db_name']) )
         {
             $no_errors = false;
-            $error_text = "Please add a name for the Vesuvius database you created.";
+            $error_text = _t("Please add a name for the Vesuvius database you created.");
         }
         
         if ( empty($local_post['db_user']) )
         {
             $no_errors = false;
-            $error_text = "Please add a username for the Vesuvius database you created.";
+            $error_text = _t("Please add a username for the Vesuvius database you created.");
         }
         
         /*if ( empty($local_post['db_pass']) ) {
@@ -168,11 +168,11 @@ class SHN_ConfigurationGenerator
 
         if ( $exit_value == 0 )
         {
-            add_confirmation("Data import completed successfully.");
-            echo '<p>Installation Complete. Now you can <a href="index.php">go to the Vesuvius main page.</a>';
+            add_confirmation(_t("Data import completed successfully."));
+            echo _t('<p>Installation Complete. Now you can ') . '<a href="index.php">' . _t('go to the Vesuvius main page.') . '</a>';
         }
         else {
-            add_error("Data import encountered an error: $mysql_import_command");
+            add_error(_t("Data import encountered an error: ") . $mysql_import_command);
             $this->writeConfInit();
         }
 

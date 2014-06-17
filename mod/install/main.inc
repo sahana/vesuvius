@@ -15,8 +15,8 @@
 function shn_install_default($confGenerator) {
 
     global $global;
-    echo  '<p>Installer under construction. Please report any issues at '
-        . '<a href="https://github.com/ramdesh/vesuvius_installer/issues">the Github page.</a></p><br>';
+    echo  _t('<p>Installer under construction. Please report any issues at ')
+        . '<a href="https://github.com/ramdesh/vesuvius_installer/issues">' . _t('the Github page.</a></p><br>');
     
     $error = shn_system_error_check();
      if (!$error){
@@ -48,7 +48,7 @@ function shn_system_error_check(){
     if ($error){
         shn_form_fopen2("", null, false);
             shn_form_fsopen("System Configurations");
-                echo "Please modify your system according to the errors above and click recheck to continue installation<br/><br/>";
+                echo _t("Please modify your system according to the errors above and click recheck to continue installation<br/><br/>");
                 shn_form_submit('Recheck');
             shn_form_fsclose();
         shn_form_fclose();
@@ -90,11 +90,11 @@ function shn_create_database($db_params) {
         if ($dict->ExecuteSQLArray($sql) == 2) {
             return true;
         } else {
-            add_error("Create database encountered an error: " . $db->ErrorMsg());
+            add_error(_t("Create database encountered an error: ") . $db->ErrorMsg());
         }
 
     } else {
-        add_error("Connecting to server encountered an error: " . $db->ErrorMsg());
+        add_error(_t("Connecting to server encountered an error: ") . $db->ErrorMsg());
     }
 
     return false;
@@ -180,7 +180,7 @@ function shn_install_stream_close() {
 function _shn_text_display_errors() {
     global $global;
     if (count($global['submit_errors']) > 0) {
-        echo "Uhoh.. There were a few errors!<br><br>";
+        echo _t("Uhoh.. There were a few errors!<br><br>");
         $i = 1;
         foreach ($global['submit_errors'] as $err) {
             echo "#".$i." ".$err."<br>";
