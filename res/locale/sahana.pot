@@ -9,17 +9,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-03-30 21:12+0530\n"
+"POT-Creation-Date: 2014-06-18 00:30+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../www/theme/lpf3/header.php:59
+#: ../www/theme/vesuvius2/header.php:64 ../www/theme/lpf3/header.php:59
 msgid "of"
+msgstr ""
+
+#: ../www/theme/vesuvius2/header.php:65 ../www/theme/vesuvius2/header.php:80
+msgid "Sahana Software Foundation"
+msgstr ""
+
+#: ../www/theme/vesuvius2/header.php:66 ../www/theme/vesuvius2/header.php:81
+msgid "http://sahanafoundation.org"
 msgstr ""
 
 #: ../www/theme/lpf3/header.php:60 ../www/theme/lpf3/header.php:75
@@ -62,39 +69,117 @@ msgctxt "DUPLICATE_HEADER"
 msgid "People Locator"
 msgstr ""
 
-#: ../www/index.php:187
+#: ../www/index.php:190
 msgid "The stream requested is not valid."
 msgstr ""
 
-#: ../www/index.php:218
+#: ../www/index.php:221
 msgid "The requested module is not installed in Vesuvius"
 msgstr ""
 
-#: ../www/index.php:237
+#: ../www/index.php:240
 msgid "The action requested is not available"
 msgstr ""
 
-#: ../www/index.php:241
+#: ../www/index.php:244
 msgid "This action does not support the stream type."
 msgstr ""
 
-#: ../mod/home/conf.inc:14
-msgid "Home"
+#: ../mod/lpf/class.googl.php:39
+msgid ""
+"Warning: The cURL extension is not found. Please check your PHP "
+"configuration."
+msgstr ""
+
+#: ../mod/install/SHN_AccessGenerator.php:147
+msgid ""
+"Successfully wrote .htaccess file. Please ensure that Apache mod_rewrite is "
+"enabled."
+msgstr ""
+
+#: ../mod/install/SHN_AccessGenerator.php:150
+msgid "Failed to write .htaccess file"
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:39
+msgid "Your database server's host."
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:40
+msgid "Your database server's port."
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:41
+msgid "Create New"
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:41
+msgid "Use Existing"
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:42
+msgid "The name of the database you'll be using for Vesuvius"
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:43
+msgid "Database username"
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:44
+msgid "The password for the database user you have specified."
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:77
+msgid "Wrote sahana.conf successfully."
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:121
+msgid "Please fill in all the fields."
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:127
+msgid "Please add a name for the Vesuvius database you created."
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:133
+msgid "Please add a username for the Vesuvius database you created."
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:171
+msgid "Data import completed successfully."
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:172
+msgid "<p>Installation Complete. Now you can "
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:172
+msgid "go to the Vesuvius main page."
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:175
+msgid "Data import encountered an error: "
 msgstr ""
 
 #: ../mod/home/main.inc:31
 msgctxt "Home-SelectEvent-Message"
-msgid "To Locate Someone After a Disaster...</h3> begin by choosing an event from the list below :"
+msgid ""
+"To Locate Someone After a Disaster...</h3>\n"
+"\t\tbegin by choosing an event from the list below :"
 msgstr ""
 
 #: ../mod/home/main.inc:37
 msgctxt "Home-AvailableEvents-Text"
-msgid "For these events you can search and report new information directly to this registry :"
+msgid ""
+"For these events you can search and report new information directly to this "
+"registry :"
 msgstr ""
 
 #: ../mod/home/main.inc:45
 msgctxt "Home-AvailableEvents-Text"
-msgid "For these events you can search locally and report new information through Google :"
+msgid ""
+"For these events you can search locally and report new information through "
+"Google :"
 msgstr ""
 
 #: ../mod/home/main.inc:53
@@ -102,21 +187,15 @@ msgctxt "Home-AvailableEvents-Text"
 msgid "For these events you can search only :"
 msgstr ""
 
-#: ../mod/pop/conf.inc:14
-msgid "Outbound Email"
-msgstr ""
-
-#: ../mod/pop/main.inc:30
-msgid "Sent Email Log"
-msgstr ""
-
-#: ../mod/pop/main.inc:31
-msgid "SMTP Configuration"
+#: ../mod/home/conf.inc:14
+msgid "Home"
 msgstr ""
 
 #: ../mod/snap/xajax.inc:109
 msgctxt "Snapshot-FolderError-Message"
-msgid "Unable to open storage folder. Please check that the folder exists and has read/write permission for the webserver."
+msgid ""
+"Unable to open storage folder. Please check that the folder exists and has "
+"read/write permission for the webserver."
 msgstr ""
 
 #: ../mod/snap/xajax.inc:109
@@ -126,7 +205,9 @@ msgstr ""
 
 #: ../mod/snap/xajax.inc:114
 msgctxt "Snapshot-FolderPermission-Message"
-msgid "Storage folder is not writeable by the webserver. Please correct its permissions."
+msgid ""
+"Storage folder is not writeable by the webserver. Please correct its "
+"permissions."
 msgstr ""
 
 #: ../mod/snap/xajax.inc:114
@@ -201,7 +282,8 @@ msgstr ""
 
 #: ../mod/snap/xajax.inc:169
 msgctxt "Snapshot-Restore-Confirm"
-msgid "snapshot? Doing this will replace your current database with this snapshot."
+msgid ""
+"snapshot? Doing this will replace your current database with this snapshot."
 msgstr ""
 
 #: ../mod/snap/xajax.inc:170
@@ -242,6 +324,378 @@ msgstr ""
 #: ../mod/snap/main.inc:32
 msgctxt "Snapshot-Heading"
 msgid "Snapshot ~ Database Backup and Restore Module"
+msgstr ""
+
+#: ../mod/inw/conf.inc:17
+msgid "Search for a Person"
+msgstr ""
+
+#: ../mod/report/main.inc:40
+msgctxt "ReportAPerson-ReportingClosed-Message"
+msgid ""
+"\n"
+"\t\t\t<h2>Reporting Closed</h2>\n"
+"\t\t\t<br>\n"
+"\t\t\tThis event is closed and is no longer accepting new person reports.\n"
+"\t\t"
+msgstr ""
+
+#: ../mod/report/main.inc:49
+msgctxt "ReportAPerson-External-Heading"
+msgid ""
+"\n"
+"\t\t\t<h2>External Reporting</h2>\n"
+"\t\t\t"
+msgstr ""
+
+#: ../mod/report/main.inc:59
+msgctxt "ReportAPerson-Message"
+msgid "You must log in before you can report a new person to the registry."
+msgstr ""
+
+#: ../mod/report/main.inc:69
+msgctxt "Report-Header"
+msgid ""
+"\n"
+"\t\t<h2>Report a Person</h2>"
+msgstr ""
+
+#: ../mod/report/main.inc:72
+msgctxt "ReportAPerson-QuickSearch-Link"
+msgid ""
+"You may wish to perform a <a href=\"search\">quick search</a> before "
+"reporting. Otherwise..."
+msgstr ""
+
+#: ../mod/report/main.inc:75
+msgctxt "ReportAPerson-CreateNew-Button"
+msgid "Create a New Person Report"
+msgstr ""
+
+#: ../mod/report/main.inc:113
+msgctxt "ReportAPerson-NoRedirect-Link"
+msgid "click here if not automatically redirected..."
+msgstr ""
+
+#: ../mod/report/conf.inc:14
+msgid "Report a Person"
+msgstr ""
+
+#: ../mod/int/conf.inc:15
+msgid "Internal Resources"
+msgstr ""
+
+#: ../mod/xst/conf.inc:14
+msgid "Streamer"
+msgstr ""
+
+#: ../mod/pref/main.inc:33
+msgctxt "Pref-TableHeader"
+msgid "Session Information"
+msgstr ""
+
+#: ../mod/pref/main.inc:34
+msgctxt "Pref-TableHeader"
+msgid "Change My Password"
+msgstr ""
+
+#: ../mod/pref/main.inc:256
+msgctxt "Pref-ForgetPassword-Error"
+msgid "Please provide the text in the image correctly to prove you are human."
+msgstr ""
+
+#: ../mod/pref/main.inc:510
+msgctxt "Pref-ForgetPassword-Button"
+msgid "Submit"
+msgstr ""
+
+#: ../mod/pref/main.inc:568
+msgctxt "Pref-adduser-Button"
+msgid "Submit"
+msgstr ""
+
+#: ../mod/pref/main.inc:581 ../mod/pref/main.inc:588
+msgctxt "Pref-Signup-Error"
+msgid "Please provide the text in the image correctly to prove you are human."
+msgstr ""
+
+#: ../mod/pref/main.inc:626
+msgctxt "Pref-ChangePassword-Text"
+msgid "You new password must adhere to following rules:"
+msgstr ""
+
+#: ../mod/pref/main.inc:633
+msgctxt "Pref-ChangePassword-TableHeader"
+msgid "Fill in these required fields to change your password"
+msgstr ""
+
+#: ../mod/pref/main.inc:642
+msgctxt "Pref-ChangePassword-Button"
+msgid "Change Password"
+msgstr ""
+
+#: ../mod/pref/main.inc:675
+msgctxt "Pref-ChangePassword-Error"
+msgid "Old password cannot be empty!"
+msgstr ""
+
+#: ../mod/pref/main.inc:683
+msgctxt "Pref-ChangePassword-Error"
+msgid "New password cannot be empty!"
+msgstr ""
+
+#: ../mod/pref/main.inc:691
+msgctxt "Pref-ChangePassword-Error"
+msgid "You left the confirm password field blank."
+msgstr ""
+
+#: ../mod/pref/main.inc:699
+msgctxt "Pref-ChangePassword-Error"
+msgid "Your new password did not match when you retyped it."
+msgstr ""
+
+#: ../mod/pref/main.inc:724
+msgctxt "Pref-ChangePassword-Error"
+msgid "You cannot change the password more than once in one day"
+msgstr ""
+
+#: ../mod/pref/main.inc:755
+msgctxt "Pref-ChangePassword-Error"
+msgid "You cannot choose one of the recent four passwords"
+msgstr ""
+
+#: ../mod/pref/main.inc:769
+msgctxt "Pref-ChangePassword-Confirm"
+msgid " Succesfully changed Password"
+msgstr ""
+
+#: ../mod/pref/main.inc:786
+msgctxt "Pref-AdminChangePassword-Error"
+msgid "Old password cannot be empty"
+msgstr ""
+
+#: ../mod/pref/main.inc:792
+msgctxt "Pref-AdminChangePassword-Error"
+msgid "New password cannot be empty"
+msgstr ""
+
+#: ../mod/pref/main.inc:798
+msgctxt "Pref-AdminChangePassword-Error"
+msgid "Confirm password cannot be empty"
+msgstr ""
+
+#: ../mod/pref/main.inc:804
+msgctxt "Pref-AdminChangePassword-Error"
+msgid "Password and Confirm Password should match"
+msgstr ""
+
+#: ../mod/pref/conf.inc:14
+msgctxt "Conf-Link"
+msgid "My Settings"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:81 ../mod/rez/xajax.inc:173 ../mod/rez/xajax.inc:534
+#: ../mod/rez/xajax.inc:640 ../mod/rez/xajax.inc:641
+msgctxt "ResourcePages-Table-Header"
+msgid "Page #"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:82 ../mod/rez/xajax.inc:174 ../mod/rez/xajax.inc:535
+#: ../mod/rez/xajax.inc:642 ../mod/rez/xajax.inc:643
+msgctxt "ResourcePages-Table-Header"
+msgid "Menu/Page Title"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:83
+msgctxt "ResourcePages-Table-Header"
+msgid "Visibility"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:84 ../mod/rez/xajax.inc:536 ../mod/rez/xajax.inc:644
+#: ../mod/rez/xajax.inc:645
+msgctxt "ResourcePages-Table-Header"
+msgid "Locale"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:85 ../mod/rez/xajax.inc:175
+msgctxt "ResourcePages-Table-Header"
+msgid "Edit"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:86
+msgctxt "ResourcePages-Table-Header"
+msgid "Delete"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:87
+msgctxt "ResourcePages-Table-Header"
+msgid "Translate"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:88
+msgctxt "ResourcePages-Table-Header"
+msgid "Move"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:130
+msgctxt "ResourcePages-Visibility-Select"
+msgid "Public"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:130
+msgctxt "ResourcePages-Visibility-Select"
+msgid "Hidden"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:130
+msgctxt "ResourcePages-Visibility-Select"
+msgid "INTERNAL"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:133 ../mod/rez/xajax.inc:215
+msgctxt "ResourcePages-Button"
+msgid "Edit"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:135
+msgctxt "ResourcePages-Delete-Confirm"
+msgid "Are you sure you want to delete this page?"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:135
+msgctxt "ResourcePages-Button"
+msgid "Delete"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:136
+msgctxt "ResourcePages-Button"
+msgid "Translate"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:160 ../mod/rez/xajax.inc:222
+msgctxt "ResourcePages-Message"
+msgid "No Pages have been created."
+msgstr ""
+
+#: ../mod/rez/xajax.inc:172
+msgctxt "ResourcePages-Heading"
+msgid "System Pages"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:230
+msgctxt "ResourcePages-Message"
+msgid "Creating a new page..."
+msgstr ""
+
+#: ../mod/rez/xajax.inc:230
+msgctxt "ResourcePages-Button"
+msgid "Create a new Page"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:268
+msgctxt "ResourcePages-Changed-Message"
+msgid "Changed visibility of page"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:268
+msgctxt "ResourcePages-Changed-Message"
+msgid "to"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:330 ../mod/rez/xajax.inc:393
+msgctxt "ResourcePages-Moved-Message"
+msgid "Moved page #"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:330
+msgctxt "ResourcePages-Moved-Message"
+msgid "down."
+msgstr ""
+
+#: ../mod/rez/xajax.inc:393
+msgctxt "ResourcePages-Moved-Message"
+msgid "up."
+msgstr ""
+
+#: ../mod/rez/xajax.inc:496
+msgctxt "ResourcePages-Saved-Message"
+msgid "Page #"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:496
+msgctxt "ResourcePages-Saved-Message"
+msgid "Saved"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:537 ../mod/rez/xajax.inc:646 ../mod/rez/xajax.inc:647
+msgctxt "ResourcePages-Table-Header"
+msgid "Last Modified"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:543 ../mod/rez/xajax.inc:655
+msgctxt "ResourcePages-EditForm-Button"
+msgid "Save and Publish Changes"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:579
+msgctxt "ResourcePages-Deleted-Message"
+msgid "Page <b>#"
+msgstr ""
+
+#: ../mod/rez/xajax.inc:579
+msgctxt "ResourcePages-Deleted-Message"
+msgid " deleted."
+msgstr ""
+
+#: ../mod/rez/xajax.inc:581
+msgctxt "ResourcePages-Message"
+msgid "Delete operation aborted."
+msgstr ""
+
+#: ../mod/rez/conf.inc:14
+msgid "Help and Resources"
+msgstr ""
+
+#: ../mod/pop/main.inc:30
+msgid "Sent Email Log"
+msgstr ""
+
+#: ../mod/pop/main.inc:31
+msgid "SMTP Configuration"
+msgstr ""
+
+#: ../mod/pop/conf.inc:14
+msgid "Outbound Email"
+msgstr ""
+
+#: ../mod/install/main.inc:18
+msgid "<p>Installer under construction. Please report any issues at "
+msgstr ""
+
+#: ../mod/install/main.inc:19
+msgid "the Github page.</a></p><br>"
+msgstr ""
+
+#: ../mod/install/main.inc:51
+msgid ""
+"Please modify your system according to the errors above and click recheck to "
+"continue installation<br/><br/>"
+msgstr ""
+
+#: ../mod/install/main.inc:93
+msgid "Create database encountered an error: "
+msgstr ""
+
+#: ../mod/install/main.inc:97
+msgid "Connecting to server encountered an error: "
+msgstr ""
+
+#: ../mod/install/main.inc:183
+msgid "Uhoh.. There were a few errors!<br><br>"
+msgstr ""
+
+#: ../mod/install/conf.inc:13
+msgid "Installer"
 msgstr ""
 
 #: ../mod/ha/xajax.inc:139 ../mod/ha/xajax.inc:287 ../mod/ha/xajax.inc:322
@@ -523,8 +977,31 @@ msgstr ""
 msgid "Hospital Administration"
 msgstr ""
 
-#: ../mod/admin/conf.inc:15
-msgid "Administration"
+#: ../mod/stat/conf.inc:15
+msgid "Statistics"
+msgstr ""
+
+#: ../mod/mpres/main.inc:49
+msgctxt "Mpres-Text"
+msgid "Service Status"
+msgstr ""
+
+#: ../mod/mpres/main.inc:50
+msgctxt "Mpres-Text"
+msgid "People Reported"
+msgstr ""
+
+#: ../mod/mpres/main.inc:51
+msgctxt "Mpres-Text"
+msgid "Configuration"
+msgstr ""
+
+#: ../mod/mpres/conf.inc:15
+msgid "Inbound Email"
+msgstr ""
+
+#: ../mod/sepl/conf.inc:16
+msgid "Search+"
 msgstr ""
 
 #: ../mod/admin/main.inc:38
@@ -583,12 +1060,16 @@ msgstr ""
 
 #: ../mod/admin/main.inc:167
 msgctxt "Admin-UserPermission-Text"
-msgid "<strong>Locked</strong> - The user is withheld from performing operations on the system temporarily."
+msgid ""
+"<strong>Locked</strong> - The user is withheld from performing operations on "
+"the system temporarily."
 msgstr ""
 
 #: ../mod/admin/main.inc:168
 msgctxt "Admin-UserPermission-Text"
-msgid "<strong>Banned</strong> - The user is not allowed to perform any operation on the system permanently."
+msgid ""
+"<strong>Banned</strong> - The user is not allowed to perform any operation "
+"on the system permanently."
 msgstr ""
 
 #: ../mod/admin/main.inc:178
@@ -798,7 +1279,12 @@ msgstr ""
 
 #: ../mod/admin/main.inc:544
 msgctxt "Admin-EnableModules-Help"
-msgid "<br><b>Enable/Disable Modules</b> ~ rows are modules, columns are groups, intersection shows whether the module is enabled not<br><br><div id=\"formcontainer\">"
+msgid ""
+"\n"
+"\t\t<br><b>Enable/Disable Modules</b> ~ rows are modules, columns are "
+"groups, intersection shows whether the module is enabled not<br><br>\n"
+"\t\t<div id=\"formcontainer\">\n"
+"\t"
 msgstr ""
 
 #: ../mod/admin/main.inc:598
@@ -823,7 +1309,11 @@ msgstr ""
 
 #: ../mod/admin/main.inc:690
 msgctxt "Admin-ChangeUserRole-Message"
-msgid "Designate which group each use is apart of by clicking assign to change it to the desired group. The box colored <span style=\"color: orange; font-weight: bold;\">orange</span> denotes which group the user is currently apart of."
+msgid ""
+"Designate which group each use is apart of by clicking assign to change it "
+"to the desired group. The box colored <span style=\"color: orange; font-"
+"weight: bold;\">orange</span> denotes which group the user is currently "
+"apart of."
 msgstr ""
 
 #: ../mod/admin/main.inc:699
@@ -846,230 +1336,32 @@ msgctxt "Admin-ChangeUserRole-Link"
 msgid "assign"
 msgstr ""
 
-#: ../mod/inw/conf.inc:17
-msgid "Search for a Person"
+#: ../mod/admin/conf.inc:15
+msgid "Administration"
 msgstr ""
 
-#: ../mod/rez/xajax.inc:81 ../mod/rez/xajax.inc:173 ../mod/rez/xajax.inc:534
-#: ../mod/rez/xajax.inc:640 ../mod/rez/xajax.inc:641
-msgctxt "ResourcePages-Table-Header"
-msgid "Page #"
+#: ../mod/plus/main.inc:33
+msgid "PLUS+"
 msgstr ""
 
-#: ../mod/rez/xajax.inc:82 ../mod/rez/xajax.inc:174 ../mod/rez/xajax.inc:535
-#: ../mod/rez/xajax.inc:642 ../mod/rez/xajax.inc:643
-msgctxt "ResourcePages-Table-Header"
-msgid "Menu/Page Title"
+#: ../mod/plus/main.inc:34
+msgid "People Reported"
 msgstr ""
 
-#: ../mod/rez/xajax.inc:83
-msgctxt "ResourcePages-Table-Header"
-msgid "Visibility"
+#: ../mod/plus/main.inc:35
+msgid "Raw Access Log"
 msgstr ""
 
-#: ../mod/rez/xajax.inc:84 ../mod/rez/xajax.inc:536 ../mod/rez/xajax.inc:644
-#: ../mod/rez/xajax.inc:645
-msgctxt "ResourcePages-Table-Header"
-msgid "Locale"
+#: ../mod/plus/main.inc:36
+msgid "Access Statistics"
 msgstr ""
 
-#: ../mod/rez/xajax.inc:85 ../mod/rez/xajax.inc:175
-msgctxt "ResourcePages-Table-Header"
-msgid "Edit"
+#: ../mod/plus/main.inc:37
+msgid "Active Clients"
 msgstr ""
 
-#: ../mod/rez/xajax.inc:86
-msgctxt "ResourcePages-Table-Header"
-msgid "Delete"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:87
-msgctxt "ResourcePages-Table-Header"
-msgid "Translate"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:88
-msgctxt "ResourcePages-Table-Header"
-msgid "Move"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:130
-msgctxt "ResourcePages-Visibility-Select"
-msgid "Public"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:130
-msgctxt "ResourcePages-Visibility-Select"
-msgid "Hidden"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:130
-msgctxt "ResourcePages-Visibility-Select"
-msgid "INTERNAL"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:133 ../mod/rez/xajax.inc:215
-msgctxt "ResourcePages-Button"
-msgid "Edit"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:135
-msgctxt "ResourcePages-Delete-Confirm"
-msgid "Are you sure you want to delete this page?"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:135
-msgctxt "ResourcePages-Button"
-msgid "Delete"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:136
-msgctxt "ResourcePages-Button"
-msgid "Translate"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:160 ../mod/rez/xajax.inc:222
-msgctxt "ResourcePages-Message"
-msgid "No Pages have been created."
-msgstr ""
-
-#: ../mod/rez/xajax.inc:172
-msgctxt "ResourcePages-Heading"
-msgid "System Pages"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:230
-msgctxt "ResourcePages-Message"
-msgid "Creating a new page..."
-msgstr ""
-
-#: ../mod/rez/xajax.inc:230
-msgctxt "ResourcePages-Button"
-msgid "Create a new Page"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:268
-msgctxt "ResourcePages-Changed-Message"
-msgid "Changed visibility of page"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:268
-msgctxt "ResourcePages-Changed-Message"
-msgid "to"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:330 ../mod/rez/xajax.inc:393
-msgctxt "ResourcePages-Moved-Message"
-msgid "Moved page #"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:330
-msgctxt "ResourcePages-Moved-Message"
-msgid "down."
-msgstr ""
-
-#: ../mod/rez/xajax.inc:393
-msgctxt "ResourcePages-Moved-Message"
-msgid "up."
-msgstr ""
-
-#: ../mod/rez/xajax.inc:496
-msgctxt "ResourcePages-Saved-Message"
-msgid "Page #"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:496
-msgctxt "ResourcePages-Saved-Message"
-msgid "Saved"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:537 ../mod/rez/xajax.inc:646 ../mod/rez/xajax.inc:647
-msgctxt "ResourcePages-Table-Header"
-msgid "Last Modified"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:543 ../mod/rez/xajax.inc:655
-msgctxt "ResourcePages-EditForm-Button"
-msgid "Save and Publish Changes"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:579
-msgctxt "ResourcePages-Deleted-Message"
-msgid "Page <b>#"
-msgstr ""
-
-#: ../mod/rez/xajax.inc:579
-msgctxt "ResourcePages-Deleted-Message"
-msgid " deleted."
-msgstr ""
-
-#: ../mod/rez/xajax.inc:581
-msgctxt "ResourcePages-Message"
-msgid "Delete operation aborted."
-msgstr ""
-
-#: ../mod/rez/conf.inc:14
-msgid "Help and Resources"
-msgstr ""
-
-#: ../mod/arrive/xajax.inc:111
-msgctxt "Arrivals-Table-Header"
-msgid "Arrival Time"
-msgstr ""
-
-#: ../mod/arrive/xajax.inc:112
-msgctxt "Arrivals-Table-Header"
-msgid "Event"
-msgstr ""
-
-#: ../mod/arrive/xajax.inc:113
-msgctxt "Arrivals-Table-Header"
-msgid "Person UUID"
-msgstr ""
-
-#: ../mod/arrive/xajax.inc:114
-msgctxt "Arrivals-Table-Header"
-msgid "Person Name"
-msgstr ""
-
-#: ../mod/arrive/xajax.inc:146
-msgctxt "Arrivals-Message"
-msgid "New person arrived >> "
-msgstr ""
-
-#: ../mod/arrive/xajax.inc:172
-msgctxt "Arrivals-Message"
-msgid "No persons have arrived thus far."
-msgstr ""
-
-#: ../mod/arrive/xajax.inc:177
-msgctxt "Arrivals-ShowArrivals-Text"
-msgid "Showing arrivals from <b>ALL events</b>."
-msgstr ""
-
-#: ../mod/arrive/xajax.inc:179
-msgctxt "Arrivals-ShowArrivals-Text"
-msgid "Showing arrivals from <b>only the current event</b>."
-msgstr ""
-
-#: ../mod/arrive/conf.inc:15
-msgid "Arrivals"
-msgstr ""
-
-#: ../mod/stat/conf.inc:15
-msgid "Statistics"
-msgstr ""
-
-#: ../mod/xst/conf.inc:14
-msgid "Streamer"
-msgstr ""
-
-#: ../mod/em/conf.inc:15
-msgid "Event Manager"
-msgstr ""
-
-#: ../mod/pfif/conf.inc:16
-msgid "Import & Export"
+#: ../mod/plus/conf.inc:13
+msgid "Web Services"
 msgstr ""
 
 #: ../mod/pfif/main.inc:40
@@ -1120,173 +1412,64 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: ../mod/tp/conf.inc:13
-msgid "TriagePic"
+#: ../mod/pfif/conf.inc:16
+msgid "Import & Export"
 msgstr ""
 
-#: ../mod/tp/main.inc:26
-msgid "Overview"
+#: ../mod/arrive/xajax.inc:111
+msgctxt "Arrivals-Table-Header"
+msgid "Arrival Time"
 msgstr ""
 
-#: ../mod/tp/main.inc:27
-msgid "Download"
+#: ../mod/arrive/xajax.inc:112
+msgctxt "Arrivals-Table-Header"
+msgid "Event"
 msgstr ""
 
-#: ../mod/tp/main.inc:28
-msgid "Release Notes 2011"
+#: ../mod/arrive/xajax.inc:113
+msgctxt "Arrivals-Table-Header"
+msgid "Person UUID"
 msgstr ""
 
-#: ../mod/tp/main.inc:29
-msgid "Release Notes 2012"
+#: ../mod/arrive/xajax.inc:114
+msgctxt "Arrivals-Table-Header"
+msgid "Person Name"
 msgstr ""
 
-#: ../mod/pref/conf.inc:14
-msgctxt "Conf-Link"
-msgid "My Settings"
+#: ../mod/arrive/xajax.inc:146
+msgctxt "Arrivals-Message"
+msgid "New person arrived >> "
 msgstr ""
 
-#: ../mod/pref/main.inc:33
-msgctxt "Pref-TableHeader"
-msgid "Session Information"
+#: ../mod/arrive/xajax.inc:172
+msgctxt "Arrivals-Message"
+msgid "No persons have arrived thus far."
 msgstr ""
 
-#: ../mod/pref/main.inc:34
-msgctxt "Pref-TableHeader"
-msgid "Change My Password"
+#: ../mod/arrive/xajax.inc:177
+msgctxt "Arrivals-ShowArrivals-Text"
+msgid "Showing arrivals from <b>ALL events</b>."
 msgstr ""
 
-#: ../mod/pref/main.inc:256
-msgctxt "Pref-ForgetPassword-Error"
-msgid "Please provide the text in the image correctly to prove you are human."
+#: ../mod/arrive/xajax.inc:179
+msgctxt "Arrivals-ShowArrivals-Text"
+msgid "Showing arrivals from <b>only the current event</b>."
 msgstr ""
 
-#: ../mod/pref/main.inc:510
-msgctxt "Pref-ForgetPassword-Button"
-msgid "Submit"
-msgstr ""
-
-#: ../mod/pref/main.inc:568
-msgctxt "Pref-adduser-Button"
-msgid "Submit"
-msgstr ""
-
-#: ../mod/pref/main.inc:581 ../mod/pref/main.inc:588
-msgctxt "Pref-Signup-Error"
-msgid "Please provide the text in the image correctly to prove you are human."
-msgstr ""
-
-#: ../mod/pref/main.inc:626
-msgctxt "Pref-ChangePassword-Text"
-msgid "You new password must adhere to following rules:"
-msgstr ""
-
-#: ../mod/pref/main.inc:633
-msgctxt "Pref-ChangePassword-TableHeader"
-msgid "Fill in these required fields to change your password"
-msgstr ""
-
-#: ../mod/pref/main.inc:642
-msgctxt "Pref-ChangePassword-Button"
-msgid "Change Password"
-msgstr ""
-
-#: ../mod/pref/main.inc:675
-msgctxt "Pref-ChangePassword-Error"
-msgid "Old password cannot be empty!"
-msgstr ""
-
-#: ../mod/pref/main.inc:683
-msgctxt "Pref-ChangePassword-Error"
-msgid "New password cannot be empty!"
-msgstr ""
-
-#: ../mod/pref/main.inc:691
-msgctxt "Pref-ChangePassword-Error"
-msgid "You left the confirm password field blank."
-msgstr ""
-
-#: ../mod/pref/main.inc:699
-msgctxt "Pref-ChangePassword-Error"
-msgid "Your new password did not match when you retyped it."
-msgstr ""
-
-#: ../mod/pref/main.inc:724
-msgctxt "Pref-ChangePassword-Error"
-msgid "You cannot change the password more than once in one day"
-msgstr ""
-
-#: ../mod/pref/main.inc:755
-msgctxt "Pref-ChangePassword-Error"
-msgid "You cannot choose one of the recent four passwords"
-msgstr ""
-
-#: ../mod/pref/main.inc:769
-msgctxt "Pref-ChangePassword-Confirm"
-msgid " Succesfully changed Password"
-msgstr ""
-
-#: ../mod/pref/main.inc:786
-msgctxt "Pref-AdminChangePassword-Error"
-msgid "Old password cannot be empty"
-msgstr ""
-
-#: ../mod/pref/main.inc:792
-msgctxt "Pref-AdminChangePassword-Error"
-msgid "New password cannot be empty"
-msgstr ""
-
-#: ../mod/pref/main.inc:798
-msgctxt "Pref-AdminChangePassword-Error"
-msgid "Confirm password cannot be empty"
-msgstr ""
-
-#: ../mod/pref/main.inc:804
-msgctxt "Pref-AdminChangePassword-Error"
-msgid "Password and Confirm Password should match"
-msgstr ""
-
-#: ../mod/sepl/conf.inc:16
-msgid "Search+"
-msgstr ""
-
-#: ../mod/int/conf.inc:15
-msgid "Internal Resources"
-msgstr ""
-
-#: ../mod/plus/conf.inc:13
-msgid "Web Services"
-msgstr ""
-
-#: ../mod/plus/main.inc:33
-msgid "PLUS+"
-msgstr ""
-
-#: ../mod/plus/main.inc:34
-msgid "People Reported"
-msgstr ""
-
-#: ../mod/plus/main.inc:35
-msgid "Raw Access Log"
-msgstr ""
-
-#: ../mod/plus/main.inc:36
-msgid "Access Statistics"
-msgstr ""
-
-#: ../mod/plus/main.inc:37
-msgid "Active Clients"
-msgstr ""
-
-#: ../mod/eq/conf.inc:15
-msgid "Expiry Queue"
+#: ../mod/arrive/conf.inc:15
+msgid "Arrivals"
 msgstr ""
 
 #: ../mod/feed/conf.inc:14
 msgid "RSS Feed"
 msgstr ""
 
-#: ../mod/rap/conf.inc:14
-msgid "Report a Person 1"
+#: ../mod/eq/conf.inc:15
+msgid "Expiry Queue"
+msgstr ""
+
+#: ../mod/em/conf.inc:15
+msgid "Event Manager"
 msgstr ""
 
 #: ../mod/rap/main.inc:185
@@ -1294,7 +1477,14 @@ msgid "Information Privacy"
 msgstr ""
 
 #: ../mod/rap/main.inc:186
-msgid "<span class=\"publicText\">Public</span> Denotes information that, if provided, can be exposed to the general public.<br><br><span class=\"privateText\">Private</span> Denotes information that will not be available to the public. <br><br>Private information may be made available to or shared with other family members and friends you designate, emergency responders, medical providers, clergy/councilors, law enforcement, or authorized displaced-person agencies."
+msgid ""
+"<span class=\"publicText\">Public</span> Denotes information that, if "
+"provided, can be exposed to the general public.<br><br><span class="
+"\"privateText\">Private</span> Denotes information that will not be "
+"available to the public. <br><br>Private information may be made available "
+"to or shared with other family members and friends you designate, emergency "
+"responders, medical providers, clergy/councilors, law enforcement, or "
+"authorized displaced-person agencies."
 msgstr ""
 
 #: ../mod/rap/main.inc:190
@@ -1326,7 +1516,9 @@ msgid "Age"
 msgstr ""
 
 #: ../mod/rap/main.inc:209
-msgid "The exact age for the person or a best guess (can be combined with the age range below if an exact number is not known)."
+msgid ""
+"The exact age for the person or a best guess (can be combined with the age "
+"range below if an exact number is not known)."
 msgstr ""
 
 #: ../mod/rap/main.inc:210
@@ -1334,7 +1526,9 @@ msgid "Lower End of Age Range"
 msgstr ""
 
 #: ../mod/rap/main.inc:210
-msgid "The lower limit for a person's age if an exact age is not known. (optional if exact age is known)"
+msgid ""
+"The lower limit for a person's age if an exact age is not known. (optional "
+"if exact age is known)"
 msgstr ""
 
 #: ../mod/rap/main.inc:211
@@ -1342,7 +1536,9 @@ msgid "Upper End of Age Range"
 msgstr ""
 
 #: ../mod/rap/main.inc:211
-msgid "The upper limit for a person's age if an exact age is not known. (optional if exact age is known)"
+msgid ""
+"The upper limit for a person's age if an exact age is not known. (optional "
+"if exact age is known)"
 msgstr ""
 
 #: ../mod/rap/main.inc:212
@@ -1430,7 +1626,9 @@ msgid "Other Comments"
 msgstr ""
 
 #: ../mod/rap/main.inc:276
-msgid "Please fill out the form with as much information as possible about the person you are reporting."
+msgid ""
+"Please fill out the form with as much information as possible about the "
+"person you are reporting."
 msgstr ""
 
 #: ../mod/rap/main.inc:282
@@ -1441,70 +1639,32 @@ msgstr ""
 msgid "Invalid image type please try again"
 msgstr ""
 
-#: ../mod/report/conf.inc:14
-msgid "Report a Person"
+#: ../mod/rap/conf.inc:14
+msgid "Report a Person 1"
 msgstr ""
 
-#: ../mod/report/main.inc:40
-msgctxt "ReportAPerson-ReportingClosed-Message"
-msgid "<h2>Reporting Closed</h2><br>This event is closed and is no longer accepting new person reports."
+#: ../mod/tp/main.inc:26
+msgid "Overview"
 msgstr ""
 
-#: ../mod/report/main.inc:49
-msgctxt "ReportAPerson-External-Heading"
-msgid "<h2>External Reporting</h2>"
+#: ../mod/tp/main.inc:27
+msgid "Download"
 msgstr ""
 
-#: ../mod/report/main.inc:59
-msgctxt "ReportAPerson-Message"
-msgid "You must log in before you can report a new person to the registry."
+#: ../mod/tp/main.inc:28
+msgid "Release Notes 2011"
 msgstr ""
 
-#: ../mod/report/main.inc:69
-msgctxt "Report-Header"
-msgid "<h2>Report a Person</h2>"
+#: ../mod/tp/main.inc:29
+msgid "Release Notes 2012"
 msgstr ""
 
-#: ../mod/report/main.inc:72
-msgctxt "ReportAPerson-QuickSearch-Link"
-msgid "You may wish to perform a <a href=\"search\">quick search</a> before reporting. Otherwise..."
-msgstr ""
-
-#: ../mod/report/main.inc:75
-msgctxt "ReportAPerson-CreateNew-Button"
-msgid "Create a New Person Report"
-msgstr ""
-
-#: ../mod/report/main.inc:113
-msgctxt "ReportAPerson-NoRedirect-Link"
-msgid "click here if not automatically redirected..."
+#: ../mod/tp/conf.inc:13
+msgid "TriagePic"
 msgstr ""
 
 #: ../mod/eap/conf.inc:14
 msgid "Edit a Person"
-msgstr ""
-
-#: ../mod/mpres/conf.inc:15
-msgid "Inbound Email"
-msgstr ""
-
-#: ../mod/mpres/main.inc:49
-msgctxt "Mpres-Text"
-msgid "Service Status"
-msgstr ""
-
-#: ../mod/mpres/main.inc:50
-msgctxt "Mpres-Text"
-msgid "People Reported"
-msgstr ""
-
-#: ../mod/mpres/main.inc:51
-msgctxt "Mpres-Text"
-msgid "Configuration"
-msgstr ""
-
-#: ../inc/lib_errors.inc:113
-msgid "Oops! There are a few errors :"
 msgstr ""
 
 #: ../inc/lib_form.inc:926
@@ -1539,7 +1699,259 @@ msgstr ""
 
 #: ../inc/lib_form.inc:1031
 msgctxt "Form-Wysiwyg-Text"
-msgid "A required file was not found. Failed to initialize Wysiwig Editor. Using Textarea instead."
+msgid ""
+"A required file was not found. Failed to initialize Wysiwig Editor. Using "
+"Textarea instead."
+msgstr ""
+
+#: ../inc/lib_misc.inc:20
+msgctxt "Misc-HTMLprintalert-Prompt"
+msgid "Alert"
+msgstr ""
+
+#: ../inc/lib_misc.inc:186
+msgid "Whitespace is not a valid input."
+msgstr ""
+
+#: ../inc/lib_misc.inc:193
+msgctxt "Misc-Javascript-Prompt"
+msgid "The type already exists in the list"
+msgstr ""
+
+#: ../inc/lib_misc.inc:202
+msgctxt "Misc-Javascript-Prompt"
+msgid "The Type Exists,you just added it"
+msgstr ""
+
+#: ../inc/lib_locale/lib_locale.inc:60
+msgid "Unknown error in updating configuration value."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:940
+msgctxt "Security-Name-Prompt"
+msgid "First name is a required field. Please enter a value."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:948
+msgctxt "Security-Name-Prompt"
+msgid "Last name is a required field. Please enter a value."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1270
+#, php-format
+msgctxt "Security-PWlength-Prompt"
+msgid "The minimum password length is %d"
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1273
+#, php-format
+msgctxt "Security-PWlength-Prompt"
+msgid "The maximum password length is %d."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1276
+msgctxt "Security-PWtype-Prompt"
+msgid "The password should have at least one uppercase character."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1279
+msgctxt "Security-PWtype-Prompt"
+msgid "The password should have at least one lowercase character."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1282
+msgctxt "Security-PWtype-Prompt"
+msgid "The password should have at least one numeric character."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1285
+msgctxt "Security-PWtype-Prompt"
+msgid ""
+"The password should have at least one special character. eg. !,@.#$%\\^&\\*/?"
+"`~+=|:;-\"'"
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1288
+msgctxt "Security-PWtype-Prompt"
+msgid "The username cannot be a part of the password."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1315
+#, php-format
+msgctxt "Security-PWlength-Prompt"
+msgid "The minimum length of the password is %d characters."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1319
+#, php-format
+msgctxt "Security-PWlength-Prompt"
+msgid "The maximum length of the password is %d characters."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1323
+msgctxt "Security-PWtype-Prompt"
+msgid "Must have at least one uppercase character."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1327
+msgctxt "Security-PWtype-Prompt"
+msgid "Must have at least one lowercase character."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1331
+msgctxt "Security-PWtype-Prompt"
+msgid "Must have at least one numeral (0-9)."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1335
+msgctxt "Security-PWtype-Prompt"
+msgid ""
+"Should have one or more of the following characters: '!@,.#$%\\^&\\*/?`~+=|:;"
+"()-\"'[]{}<>' "
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1339
+msgctxt "Security-PWtype-Prompt"
+msgid "The password cannot contain your username."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1354
+msgctxt "Security-role-Prompt"
+msgid "Please enter a valid Role name."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1370
+#, php-format
+msgctxt "Security-role-Confirm"
+msgid "The role '%s' was successfully added."
+msgstr ""
+
+#: ../inc/lib_security/lib_auth.inc:1375
+msgctxt "Security-role-Error"
+msgid ""
+"A role with the name you entered already exists. Please enter a different "
+"role name."
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:27
+msgctxt "Securty-Form-Text"
+msgid "Select the Role you want to edit permissions of"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:33
+msgctxt "Security-Form-Text"
+msgid "Select Role"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:34
+msgctxt "Security-Form-Select"
+msgid "Roles"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:36
+msgctxt "Security-Form-Button"
+msgid "Continue"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:54
+msgctxt "Security-UnlockUser-Text"
+msgid "Rows are Locked Users, Columns are the possible status values"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:62
+msgctxt "Security-UnlockUser-Text"
+msgid "Locked User"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:63
+msgctxt "Security-UnlockUser-Text"
+msgid "Active"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:64
+msgctxt "Security-UnlockUser-Text"
+msgid "Locked"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:65
+msgctxt "Security-UnlockUser-Text"
+msgid "Banned"
+msgstr ""
+
+#: ../inc/lib_security/acl_form.inc:104
+msgctxt "Security-UnlockUser-Button"
+msgid "Save"
+msgstr ""
+
+#: ../inc/lib_validate.inc:72
+msgctxt "Validate-Zipcode-Error"
+msgid "The postcode/zipcode must be 5 digits in length"
+msgstr ""
+
+#: ../inc/lib_validate.inc:79 ../inc/lib_validate.inc:100
+msgctxt "Validate-Zipcode-Error"
+msgid "The postcode must have 3 digits, a space, and then 2 digits"
+msgstr ""
+
+#: ../inc/lib_validate.inc:86
+msgctxt "Validate-Zipcode-Error"
+msgid "The postcode must have 4 digits, a space, and then 2 letters"
+msgstr ""
+
+#: ../inc/lib_validate.inc:93
+msgctxt "Validate-Zipcode-Error"
+msgid "The postcode must have 2 digits, a dash, and then 3 digits"
+msgstr ""
+
+#: ../inc/lib_validate.inc:109
+msgctxt "Validate-Zipcode-Error"
+msgid ""
+"The postcode must begin with a string of the format\n"
+"\t\t\tA9, A99, AA9, AA99, AA9A, A9A, or AAA,\n"
+"\t\t\tand then be followed by a space and a string\n"
+"\t\t\tof the form 9AA.\n"
+"\t\t\tA is any letter and 9 is any number."
+msgstr ""
+
+#: ../inc/lib_validate.inc:136
+msgctxt "Validate-Zipcode-Error"
+msgid "The "
+msgstr ""
+
+#: ../inc/lib_validate.inc:136
+msgctxt "Validate-Zipcode-Error"
+msgid ""
+" field must be 8 digits in length, with an optional 2 or 3 digit area code"
+msgstr ""
+
+#: ../inc/lib_validate.inc:187
+msgctxt "Validate-DOB-Error"
+msgid "Date of birth should be less than or equal to current date"
+msgstr ""
+
+#: ../inc/lib_validate.inc:211
+msgctxt "Validate-Date-Error"
+msgid " is a required field, Please enter a value."
+msgstr ""
+
+#: ../inc/lib_validate.inc:220
+msgctxt "Validate-Date-Error"
+msgid " field should be valid (yyyy-mm-dd)"
+msgstr ""
+
+#: ../inc/lib_validate.inc:329
+msgctxt "Validate-Field-Error"
+msgid " is a required field, please enter a value."
+msgstr ""
+
+#: ../inc/lib_validate.inc:363 ../inc/lib_validate.inc:372
+msgctxt "Validate-list-Error"
+msgid "You have to select a value from the list box"
+msgstr ""
+
+#: ../inc/lib_validate.inc:396
+msgctxt "Validate-User-Error"
+msgid "User already exists"
 msgstr ""
 
 #: ../inc/lib_image.inc:440
@@ -1573,12 +1985,15 @@ msgstr ""
 
 #: ../inc/lib_image.inc:703
 msgctxt "Image-Upload-Error"
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini. (<"
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini. (<"
 msgstr ""
 
 #: ../inc/lib_image.inc:705
 msgctxt "Image-Upload-Error"
-msgid "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form."
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form."
 msgstr ""
 
 #: ../inc/lib_image.inc:707
@@ -1606,72 +2021,7 @@ msgctxt "Image-Upload-Error"
 msgid "File upload stopped by extension."
 msgstr ""
 
-#: ../inc/lib_validate.inc:72
-msgctxt "Validate-Zipcode-Error"
-msgid "The postcode/zipcode must be 5 digits in length"
-msgstr ""
-
-#: ../inc/lib_validate.inc:79 ../inc/lib_validate.inc:100
-msgctxt "Validate-Zipcode-Error"
-msgid "The postcode must have 3 digits, a space, and then 2 digits"
-msgstr ""
-
-#: ../inc/lib_validate.inc:86
-msgctxt "Validate-Zipcode-Error"
-msgid "The postcode must have 4 digits, a space, and then 2 letters"
-msgstr ""
-
-#: ../inc/lib_validate.inc:93
-msgctxt "Validate-Zipcode-Error"
-msgid "The postcode must have 2 digits, a dash, and then 3 digits"
-msgstr ""
-
-#: ../inc/lib_validate.inc:109
-msgctxt "Validate-Zipcode-Error"
-msgid "The postcode must begin with a string of the format A9, A99, AA9, AA99, AA9A, A9A, or AAA, and then be followed by a space and a string of the form 9AA. A is any letter and 9 is any number."
-msgstr ""
-
-#: ../inc/lib_validate.inc:136
-msgctxt "Validate-Zipcode-Error"
-msgid "The "
-msgstr ""
-
-#: ../inc/lib_validate.inc:136
-msgctxt "Validate-Zipcode-Error"
-msgid " field must be 8 digits in length, with an optional 2 or 3 digit area code"
-msgstr ""
-
-#: ../inc/lib_validate.inc:187
-msgctxt "Validate-DOB-Error"
-msgid "Date of birth should be less than or equal to current date"
-msgstr ""
-
-#: ../inc/lib_validate.inc:211
-msgctxt "Validate-Date-Error"
-msgid " is a required field, Please enter a value."
-msgstr ""
-
-#: ../inc/lib_validate.inc:220
-msgctxt "Validate-Date-Error"
-msgid " field should be valid (yyyy-mm-dd)"
-msgstr ""
-
-#: ../inc/lib_validate.inc:329
-msgctxt "Validate-Field-Error"
-msgid " is a required field, please enter a value."
-msgstr ""
-
-#: ../inc/lib_validate.inc:363 ../inc/lib_validate.inc:372
-msgctxt "Validate-list-Error"
-msgid "You have to select a value from the list box"
-msgstr ""
-
-#: ../inc/lib_validate.inc:396
-msgctxt "Validate-User-Error"
-msgid "User already exists"
-msgstr ""
-
-#: ../inc/handler_header.inc:24 ../inc/lib_xhtml.inc:51
+#: ../inc/lib_xhtml.inc:51 ../inc/handler_header.inc:24
 msgid "Sahana Vesuvius"
 msgstr ""
 
@@ -1707,23 +2057,8 @@ msgstr ""
 msgid "XForm"
 msgstr ""
 
-#: ../inc/lib_misc.inc:20
-msgctxt "Misc-HTMLprintalert-Prompt"
-msgid "Alert"
-msgstr ""
-
-#: ../inc/lib_misc.inc:186
-msgid "Whitespace is not a valid input."
-msgstr ""
-
-#: ../inc/lib_misc.inc:193
-msgctxt "Misc-Javascript-Prompt"
-msgid "The type already exists in the list"
-msgstr ""
-
-#: ../inc/lib_misc.inc:202
-msgctxt "Misc-Javascript-Prompt"
-msgid "The Type Exists,you just added it"
+#: ../inc/lib_errors.inc:113
+msgid "Oops! There are a few errors :"
 msgstr ""
 
 #: ../inc/lib_paging.inc:126 ../inc/lib_paging.inc:235
@@ -1783,158 +2118,4 @@ msgstr ""
 
 #: ../inc/handler_mainmenu.inc:22
 msgid "Main Menu"
-msgstr ""
-
-#: ../inc/lib_locale/lib_locale.inc:60
-msgid "Unknown error in updating configuration value."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:940
-msgctxt "Security-Name-Prompt"
-msgid "First name is a required field. Please enter a value."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:948
-msgctxt "Security-Name-Prompt"
-msgid "Last name is a required field. Please enter a value."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1270
-#, php-format
-msgctxt "Security-PWlength-Prompt"
-msgid "The minimum password length is %d"
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1273
-#, php-format
-msgctxt "Security-PWlength-Prompt"
-msgid "The maximum password length is %d."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1276
-msgctxt "Security-PWtype-Prompt"
-msgid "The password should have at least one uppercase character."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1279
-msgctxt "Security-PWtype-Prompt"
-msgid "The password should have at least one lowercase character."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1282
-msgctxt "Security-PWtype-Prompt"
-msgid "The password should have at least one numeric character."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1285
-msgctxt "Security-PWtype-Prompt"
-msgid "The password should have at least one special character. eg. !,@.#$%\\^&\\*/?`~+=|:;-\"'"
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1288
-msgctxt "Security-PWtype-Prompt"
-msgid "The username cannot be a part of the password."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1315
-#, php-format
-msgctxt "Security-PWlength-Prompt"
-msgid "The minimum length of the password is %d characters."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1319
-#, php-format
-msgctxt "Security-PWlength-Prompt"
-msgid "The maximum length of the password is %d characters."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1323
-msgctxt "Security-PWtype-Prompt"
-msgid "Must have at least one uppercase character."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1327
-msgctxt "Security-PWtype-Prompt"
-msgid "Must have at least one lowercase character."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1331
-msgctxt "Security-PWtype-Prompt"
-msgid "Must have at least one numeral (0-9)."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1335
-msgctxt "Security-PWtype-Prompt"
-msgid "Should have one or more of the following characters: '!@,.#$%\\^&\\*/?`~+=|:;()-\"'[]{}<>' "
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1339
-msgctxt "Security-PWtype-Prompt"
-msgid "The password cannot contain your username."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1354
-msgctxt "Security-role-Prompt"
-msgid "Please enter a valid Role name."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1370
-#, php-format
-msgctxt "Security-role-Confirm"
-msgid "The role '%s' was successfully added."
-msgstr ""
-
-#: ../inc/lib_security/lib_auth.inc:1375
-msgctxt "Security-role-Error"
-msgid "A role with the name you entered already exists. Please enter a different role name."
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:27
-msgctxt "Securty-Form-Text"
-msgid "Select the Role you want to edit permissions of"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:33
-msgctxt "Security-Form-Text"
-msgid "Select Role"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:34
-msgctxt "Security-Form-Select"
-msgid "Roles"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:36
-msgctxt "Security-Form-Button"
-msgid "Continue"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:54
-msgctxt "Security-UnlockUser-Text"
-msgid "Rows are Locked Users, Columns are the possible status values"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:62
-msgctxt "Security-UnlockUser-Text"
-msgid "Locked User"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:63
-msgctxt "Security-UnlockUser-Text"
-msgid "Active"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:64
-msgctxt "Security-UnlockUser-Text"
-msgid "Locked"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:65
-msgctxt "Security-UnlockUser-Text"
-msgid "Banned"
-msgstr ""
-
-#: ../inc/lib_security/acl_form.inc:104
-msgctxt "Security-UnlockUser-Button"
-msgid "Save"
 msgstr ""
