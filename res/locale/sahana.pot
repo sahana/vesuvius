@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-06-18 00:30+0530\n"
+"POT-Creation-Date: 2014-06-21 08:43+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -101,8 +101,20 @@ msgstr ""
 msgid "Failed to write .htaccess file"
 msgstr ""
 
+#: ../mod/install/SHN_ConfigurationGenerator.php:38
+msgid "Database details"
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:39
+msgid "Database Host"
+msgstr ""
+
 #: ../mod/install/SHN_ConfigurationGenerator.php:39
 msgid "Your database server's host."
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:40
+msgid "Database port"
 msgstr ""
 
 #: ../mod/install/SHN_ConfigurationGenerator.php:40
@@ -118,6 +130,10 @@ msgid "Use Existing"
 msgstr ""
 
 #: ../mod/install/SHN_ConfigurationGenerator.php:42
+msgid "Database name"
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:42
 msgid "The name of the database you'll be using for Vesuvius"
 msgstr ""
 
@@ -126,7 +142,15 @@ msgid "Database username"
 msgstr ""
 
 #: ../mod/install/SHN_ConfigurationGenerator.php:44
+msgid "Database password"
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:44
 msgid "The password for the database user you have specified."
+msgstr ""
+
+#: ../mod/install/SHN_ConfigurationGenerator.php:45
+msgid "Submit Configuration"
 msgstr ""
 
 #: ../mod/install/SHN_ConfigurationGenerator.php:77

@@ -35,14 +35,14 @@ class SHN_ConfigurationGenerator
     {
         
         shn_form_fopen("conf", "install", array('enctype'=>'enctype="multipart/form-data"', 'req_message' => true));
-        shn_form_fsopen('Database details');
-        shn_form_text('Database Host', 'db_host', null, array('value'=>'localhost', 'help' => _t("Your database server's host."), 'req' => true));
-        shn_form_text('Database port', 'db_port', null, array('value'=>'3306', 'help' => _t("Your database server's port."), 'req' => true));
+        shn_form_fsopen(_t('Database details'));
+        shn_form_text(_t('Database Host'), 'db_host', null, array('value'=>'localhost', 'help' => _t("Your database server's host."), 'req' => true));
+        shn_form_text(_t('Database port'), 'db_port', null, array('value'=>'3306', 'help' => _t("Your database server's port."), 'req' => true));
         shn_form_radio(array(_t('Create New'), _t('Use Existing')), '', 'db_preference', null, null);
-        shn_form_text('Database name', 'db_name', null, array('help' => _t("The name of the database you'll be using for Vesuvius"), 'req' => true));
-        shn_form_text('Database username', 'db_user', null, array('help' => _t('Database username'), 'req' => true));
-        shn_form_password('Database password', 'db_pass', null, array('help' => _t('The password for the database user you have specified.')));
-        shn_form_submit('Submit Configuration');
+        shn_form_text(_t('Database name'), 'db_name', null, array('help' => _t("The name of the database you'll be using for Vesuvius"), 'req' => true));
+        shn_form_text(_t('Database username'), 'db_user', null, array('help' => _t('Database username'), 'req' => true));
+        shn_form_password(_t('Database password'), 'db_pass', null, array('help' => _t('The password for the database user you have specified.')));
+        shn_form_submit(_t('Submit Configuration'));
         shn_form_fsclose();
         shn_form_fclose();
         
