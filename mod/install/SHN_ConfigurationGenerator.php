@@ -16,6 +16,8 @@
 class SHN_ConfigurationGenerator
 {
     
+    const LICENSE_AGREEMENT_FILE_RELATIVE_PATH = '/mod/install/licenseAgreement.txt';
+    
     private $_appRoot = null;
     
     /**
@@ -42,6 +44,8 @@ class SHN_ConfigurationGenerator
         shn_form_text(_t('Database name'), 'db_name', null, array('help' => _t("The name of the database you'll be using for Vesuvius"), 'req' => true));
         shn_form_text(_t('Database username'), 'db_user', null, array('help' => _t('Database username'), 'req' => true));
         shn_form_password(_t('Database password'), 'db_pass', null, array('help' => _t('The password for the database user you have specified.')));
+        shn_form_textarea('', 'license', ' readonly style="font-size:11px;"', array('value' => $this->_getLicenseAgreementText(), 'cols' => '45', 'rows' => '8'));
+        shn_form_checkbox(_t('I agree with the terms of the License Agreement'), 'license_agreement', null, array('req' => true, 'value' => 1));
         shn_form_submit(_t('Submit Configuration'));
         shn_form_fsclose();
         shn_form_fclose();
@@ -133,6 +137,12 @@ class SHN_ConfigurationGenerator
             $error_text = _t("Please add a username for the Vesuvius database you created.");
         }
         
+        if (empty($local_post['license_agreement']))
+        {
+            $no_errors = false;
+            $error_text = _t("If you do not agree to the terms of this license agreement, please do not install the software.");
+        }
+        
         /*if ( empty($local_post['db_pass']) ) {
             $no_errors = false;
             $error_text = "Please add a password for the Vesuvius database you created.";
@@ -176,6 +186,31 @@ class SHN_ConfigurationGenerator
             $this->writeConfInit();
         }
 
+    }
+    
+    /**
+     * Get the GNU LGPL V3 agreement text.
+     * 
+     * @return type 
+     */
+    private function _getLicenseAgreementText()
+    {
+        
+        $licenseText =  file_get_contents($this->_appRoot . self::LICENSE_AGREEMENT_FILE_RELATIVE_PATH);
+        return ($licenseText === false) ? $this->_getLicenseAgreementTextOnError() : $licenseText;
+        
+    }
+    
+    /**
+     * Additional license agreement text in case, read licenseAgreement.txt file fais.
+     * 
+     * @return type 
+     */
+    private function _getLicenseAgreementTextOnError()
+    {
+        
+        return "This software follows GNU Lesser General Public License (LGPL) at http://www.gnu.org/licenses/lgpl.html. Please go through the all terms and conditions.";
+        
     }
 
 }
