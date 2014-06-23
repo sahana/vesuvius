@@ -429,13 +429,13 @@ function shn_main_install_check()
  * Run the installer
  */
 function shn_run_installer() {
+    
     global $global;
     $global['theme'] = $theme = 'vesuvius';
     include_once($global['approot'].'/www/theme/'.$theme.'/head.php');
 
     //load the head tag
     shn_theme_head();
-
 
     include_once($global['approot'].'/mod/install/main.inc');
 
@@ -444,23 +444,28 @@ function shn_run_installer() {
     $confGenerator = new SHN_ConfigurationGenerator($global['approot']);
     
     shn_install_stream_init();
-	$global["root_dir"]=dirname($_SERVER["PHP_SELF"]);
+    
+    $global["root_dir"]=dirname($_SERVER["PHP_SELF"]);
+    
     if (!isset($_GET['act']) && !isset($_GET['mod']) ) {
-		shn_install_default($confGenerator);
-		}
-    else {
-		if(isset($_GET['act']) && isset($_GET['mod'])){
-			if($_GET['act']=='conf' && $_GET['mod']=='install'){
-				$confGenerator->installConf();
-				}
-			else {
-				header("Location: $global[root_dir]");
-				}
-			}
-		else{
-			header("Location: $global[root_dir]");
-			}        
-		}
+        shn_install_default($confGenerator);
+    } else {
+        
+        if (isset($_GET['act']) && isset($_GET['mod'])) {
+            
+            if ($_GET['act']=='conf' && $_GET['mod']=='install') {
+                $confGenerator->installConf();
+            }
+            else {
+                header("Location: $global[root_dir]");
+            }
+            
+        }
+        else {
+            header("Location: $global[root_dir]");
+        }
+        
+    }
 
     shn_install_stream_close();
 }
