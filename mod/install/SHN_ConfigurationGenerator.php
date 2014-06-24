@@ -76,21 +76,36 @@ class SHN_ConfigurationGenerator
                 "$db_pass_string = \"{$db_params['db_pass']}\";\n".
                 "$db_port_string = \"{$db_params['db_port']}\";\n";
 
-            if ( file_put_contents($this->_appRoot . '/conf/sahana.conf', $conf_file_contents) )
-            {
-                add_confirmation(_t("Wrote sahana.conf successfully."));
-            }
-
+            $isImportSuccess = false;
+            
             if ($db_params['db_preference'] == 0)
             {
                 if (shn_create_database($db_params))
                 {
-                    $this->_importData($db_params);
+                    $isImportSuccess = $this->_importData($db_params);
                 }
             } else {
-                $this->_importData($db_params);
+                $isImportSuccess = $this->_importData($db_params);
             }
-
+            
+            if ($isImportSuccess)
+            {
+                
+                add_confirmation(_t("Data import completed successfully."));
+                
+                if ( file_put_contents($this->_appRoot . '/conf/sahana.conf', $conf_file_contents) )
+                {
+                    add_confirmation(_t("Wrote sahana.conf successfully."));
+                    echo _t('<p>Installation Complete. Now you can ') . '<a href="index.php">' . _t('go to the Vesuvius main page.') . '</a>';
+                }
+                
+            } else {
+                
+                add_error(_t("Data import encountered an error: ") . $mysql_import_command);
+                $this->writeConfInit();
+                
+            }
+            
         }
         else {
             $this->writeConfInit();
@@ -175,16 +190,8 @@ class SHN_ConfigurationGenerator
         }
 
         exec($mysql_import_command, $output = array(), $exit_value);
-
-        if ( $exit_value == 0 )
-        {
-            add_confirmation(_t("Data import completed successfully."));
-            echo _t('<p>Installation Complete. Now you can ') . '<a href="index.php">' . _t('go to the Vesuvius main page.') . '</a>';
-        }
-        else {
-            add_error(_t("Data import encountered an error: ") . $mysql_import_command);
-            $this->writeConfInit();
-        }
+        
+        return ($exit_value == 0);
 
     }
     
