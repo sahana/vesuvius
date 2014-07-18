@@ -1,0 +1,28 @@
+# Shell script to generate *.mo files from *.po files
+# Author - Ramindu Deshapriya
+
+# This script searches for *.po files from the /res/locale folder and generates *.mo files from them
+
+# Get a list of *.po files and build po_files.txt
+find locale -name "*.po" | cut -d "." -f1 > po_files.txt
+
+# Get the file list and build a set of *.mo files from it
+while read line
+do
+msgfmt -cv -o $line.mo $line.po
+done < "po_files.txt"
+
+# Delete po_files.txt
+rm po_files.txt
+
+#procedure for *.pog files
+find locale -name "*.pog" | cut -d "." -f1 > pog_files.txt
+
+# Get the file list and build a set of *.mo files from it
+while read line
+do
+msgfmt -cv -o $line.mo $line.pog
+done < "pog_files.txt"
+
+# Delete pog_files.txt
+rm pog_files.txt

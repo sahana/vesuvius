@@ -1,0 +1,307 @@
+Changes since Vesuvius 0.9.2 was released (2012-04-12)
+------------------------------------------------------
+
+2012:0xxx Update
+----------------
+Greg: switched BZR to internal
+Greg: street address from REUNITE4 kluged into last seen field if an address is present
+Greg: updated failed login verbiage to persuade user to reset password before account becomes locked
+Greg: updated phpmailer (3rd party app) to v5.2.1
+Greg: made out-bound email more resilient to weird mail smtp servers
+Greg: Check for password expires notifications from NIH and alert the audit email address if a password is about to expire
+
+
+2012:0417 Update
+----------------
+Greg: a few small cosmetic style changes related to tabs
+Greg: added a new module: feed which will be used for generating rss/atom feeds
+Lan: add TriagePic Zone Status on Arrivals
+Sophron: fixed bug https://jira.nlm.nih.gov:8443/browse/PL-353 :: https://bugs.launchpad.net/vesuvius/+bug/806268
+Greg: Changed Event Manager to not jump back to events list after a purge (recommended by Glenn and Leif)
+Greg: Changed Event Manager Purge button to greyed out/disabled after a purge to allow only one press
+Greg: Fixed the edit links and buttons for 2nd and 3rd level events (they were not displayed correctly)
+Leif: fix missing photo in details pane (PL-358)
+Leif: removed obsolete CSS references to modmenu*
+Leif: always use $approot/www/tmp for tmp directory
+Leif: removed 2 char requirement for SQL searches
+Leif: fix default search result order for SQL
+Leif: more section 508 fixes
+Leif: details panel formatting problems in IE8 (PL-360)
+Leif: facet counts over-write each other in Safari (PL-361)
+Leif: fixed undefined in lib_form.inc:shn_form_upload()
+
+
+Changes since Vesuvius 0.9.1 was released (2011-05-20)
+------------------------------------------------------
+
+2012:0412 Update
+----------------
+Greg: /INSTALL updated to help with the installer-less setup of Vesuvius v0.9.2
+Greg: /CHANGELOG_DB truncated (starter db and production/trunk are in sync)
+Greg: new Vesuvius 0.9.2 starter database added /backups/vesuviusStarterDb_v092.sql (old db's removed)
+Greg: Patch fixing microtime in debug XML filenames
+Greg: More resiliency in MPRES module: we only handle/process the first XML attachment ~ any others are ignored
+Greg: Added purge log option to MPRES (emails recieved log, and persons reported log) both of which are audited.
+Greg: Updated the Audit log in Admin module to accomodate more audit types.
+Greg: Tied Event Manager's 3 auditable actions: new event, event delete, event purge to the Admin audit log.
+Greg: Pushed packaged Vesuvius 0.9.2 to Launchpad for Download
+
+
+2012:0410 Update
+----------------
+Greg: Enforce accounts being locked after 4 invalid login attempts.
+Greg: Admin module now has a link to this CHANGLEOG
+Greg: Change LGPL url reference to new URL across all source code
+Greg: Various E_STRICT warnings patches
+Greg: Fixed Web Service Tests and user accounts
+Greg: PL-359, fixed pushState javascript errors in arrival module
+Leif: Fix missing photo in details pane (PL-358)
+
+
+2012:0403 Update
+----------------
+Greg: changed OAuth to on by default with additional verbiage on the login page
+Greg: patch to make given_name, family_name visible in the search object and consequently, the search web services
+Greg: patch to save debug xmls to a separate folder
+Leif Neve 2012-03-23 minor tweaks for facet count alignment
+Leif Neve 2012-03-22 added alt attribute to all img tags
+Leif Neve 2012-03-19 allow 'unknown' search term for SQL (PL-225)
+Leif Neve 2012-03-19 Exiting fullscreen left behind blue background (PL-345)
+
+
+2012:0313 Update
+----------------
+Greg: added transit time table to stats module.
+Greg: UTC time support for REUNITE4 XML
+Lan: Stat module updates (bug fixes, tweaks, graphical errors)
+Greg: added CSV download option for Transit data
+Greg: many a E_STRICT patches
+
+
+2012:0306 Update
+----------------
+Greg: changed web service auth codes to return good, pending, locked, banned account status codes
+Greg: patch to only enable debugger when enabled in conf
+Greg: added google-api-php-client
+Greg: initial implementation of OAuth Google login
+Greg: theme tweaks including 508 compliance, alt tags, and trademarks
+Leif: Tweak positioning in details pane (PL-332)
+
+
+2012:0228 Update
+----------------
++ tabbed Inbound / Outbound / PFIF modules
++ fixed login/auth redirection bug
++ 508'd the LPF site
++ Admins can now view/edit all records regardless if they have permission to the event.
++ Event Manager : Event Visiblity choice have been narrow to: Public, Admin, HS, HSA, Researcher (registered user and anonymous removed)
++ updated TP to use newest version of jQuery / collapsible script
++ Error / Confirmation / Information dialogs menus better styled
++ New style for the footer (assistance from Mike Chung)
+
+2012:0221 Update
+----------------
++ added IP geocoded lookup of web service calls to track the location of TriagePic and ReUnite users for data visualization
++ added total api calls to API_VERSION in PLus Access Stats
++ added "Hits by User" section to PLUS Access Statistics
++ added "Active Clients" tab to PLUS to monitor on a Google Map the currently active web service clients (for the moment, this shows all clients over time)
++ added getPersonPermissions and addComment services to the new PLUS v24 API_VERSION
++ updated EAP (Full Record Page) to show added comments and suggested statuses
+Leif: Tweaked SOLR invocations to wring out additional efficiencies.
+
+2012:0214 Update
+----------------
+Greg:
++ Login Redirection ~ after logging in, you are directed back to the last page you were on / also from the login link, you are directed to /settings now after successful login.
++ Report module now has the login box if you are not logged in.
++ URL cleanup-age : htaccess updated with defaults for all modules, ie. /search to get to search, /admin to get to admin section, /triagepic or /tp to get to TriagePic.
++ Snapshot module broken out from Admin module (so it could be disabled in Module Access Control as we no longer use it)
++ Internal Resources module: moved version information to admin module (removed all internal pages as they are now on the NLM wiki)
++ Admin module ~ new tabbed menu structure merged and removed old code files and old code
++ Removed user signup disable function from admin
++ Removed user account lock disable feature from admin
++ moved VERSION and TIME from theme (public folder) to app root (non-public)
++ error, information, and confirmation messages appear absolutely positioned from the top of the page not to disturb page content and fade out after 10 seconds
++ PLUS module migrated to tabbed interface
++ TP module migrated to tabbed interface
++ PREF module update URLs and login/forgot password procedure
+Leif Neve 2012-02-12 Optimize SQL queries for 'People I'm Tracking' (PL-323)
+Leif Neve 2012-02-11 PFIF found=true should always map to PL alive (PL-318)
+Leif Neve 2012-02-08 adjust SQL datetimes for UTC (PL-319), order search pop-up notes by source date (PL-317)
+Leif Neve 2012-02-03 person_status.opt_status can't be null
+
+
+2012:0131 Update
+----------------
+Greg:
++ PLUS v2.3 in production
++ Changed 1 web service: resetUserPassword() to handle both password and username "forgot scenarios"
++ Added 2 additional web services: searchCount() and searchCountWithAuth()
++/- Fixed PLUS::search() and searchWithAuth() to perform as expected (dropped the mode parameter fixed perPage parameter)
++ PLUS Stats: Log all hits (before we excluded internal ips)
++ PLUS Stats: 2 new reports: Hits in the last 30 days and Hits in the last 30 days not internal
++ PLUS Stats: added geoip lookups when clicking on ip addresses
++ finishing work on last DAO object ~ class.personEDXL.php
+- removed old xmlrpc code from codebase (app store related)
++/- fixed getEventList ws showing non-public events
++ began work on REUNITE4 XML format
+
++/- PFIF saves image_urls without a preceding slash (fixed)
+
+Leif Neve 2012-01-31 image.primary -> image.principal
+Leif Neve 2012-01-30 Cleaned up PFIF export code
+Leif Neve 2012-01-28 cleaned up unnecessary 'dummy node' business
+Leif Neve 2012-01-27 Fix search problem that arose from multiple images (PL-303)
+Leif Neve 2012-01-27 Omit leading / for image url's (PL-308)
+
+
+2012:0124 Leif
+--------------
++ Timestamp PFIF log messages
+
+2012:0124 Greg
+--------------
++ Added the ability to upload images to a person record in EAP
+
+2012:0119 Greg
+--------------
++ Fixed javascript for the search box to empty text on a click of the microphone icon (Chrome only) so that voice searches now work properly.
++ Gave Vesuvius a global configuration variable $conf['site_name'] which defines the global name of the site, ie. People Locator. This will be used throughout the site in various communications to refer to the proper name of the site (it was hard coded to People Locator in many instances).
++ POP module (outbound email) now uses the new global site name in the configuration page as well as in all outbound emails sent.
++ MPRES, PLUS, PREF, ARRIVE, EAP, INW, REPORT updated for link compatibility
++ MPRES/POP/PFIF menu item order changed ~ grouped together
+
+2011:1116 Greg
+--------------
+
+5000th revision to the source code!
+
+PLUS 2.0
++ expirePerson
++ getPersonExpiryDate
++ setPersonExpiryDate
++ setPersonExpiryDateOneYear
++ getUuidByMassCasualtyId
++ changeMassCasualtyId
++ hasRecordBeenRevised
+
+
+2011:1004 Greg
+--------------
+
+PLUS 1.9.9
++ getEventList and getEventListUser added the closed field to the returned list
+
+PLUS 1.9.8
++ getHospitalLegalese
++ getHospitalLegaleseAnon
++ getHospitalLegaleseTimestamps
+
+PLUS 1.9.7
++ getHospitalPolicy() added photoRequired, honorNoPhotoRequest, and photographerNameRequired return parameters
+
+PLUS v1.9.6
+~ search() parameter filterHospitalNMMC was renamed to filterHospitalWRNMMC
+- reportPeson() had the success return parameter removed
+
+
+
+2011:0920 Greg
+--------------
+
+HA 2.0
+
+
+2011:0909 Greg
+--------------
+
+MPRES v2.0
+
+
+2011:0823 Greg
+--------------
+
++ mod/pref - people I'm tracking cleaned up ALOT
+
++ mod/ha - ui cleanup
+
+- mod/admin ripped and torn up (aka cleaned up of all old legacy code)
+
++ mod/pop ~  renamed outbound email and has a traversable log page and status indicator
++ mod/mpres ~  renamed inbound email and has a traversable log page and cron status monitor
+
+
+PLUS 1.9.5
++ new api version
++ new GUI module
++ raw access log
++ report person log
++ access statistics
++ reportPerson (TRIAGEPIC1, REUNITE3) compatibility
+
+PLUS SPECIFI CHANGES:
+
+Changes in v1.9.5
++ reportPerson
++ createPersonUuid
++ createPersonUuidBatch
++ createNoteUuid
++ createNoteUuidBatch
+
+Changes in v1.9.4
++ search
++ searchWithAuth
+
+Changes in v1.9.3
++ registerUser
++ changeUserPassword
++ resetUserPassword
++ forgotUsername
++ checkUserAuth
++ getUserStatus
++ getUserGroup
++ getSessionTimeout
+
+Changes in v1.9.2
+- getIncidentList (deprecated and removed)
++ getEventList
++ getEventListUser
++ getGroupList
+
+
+2011:0801 Greg
+--------------
+LOGIN Failure goes back to login screen
+INT 1.1, all pages now come from mod rez (no need to hand code them into int source code)
+REZ 1.4, "external pages" gone ~ INTERNAL pages added to handle INT pages (also, INT pages are not publicly viewable any longer)
+
+2011:0728 Greg
+--------------
+MPRES v1.9:
++ Promoted to full module from Admin Setting
++ Added Service Status page which show cron job status and last 10 emails received
++ MPR Email Service main menu item shows green/red status depending on service status to better alert Admins
+
+2011:0719 Leif
+--------------
+removed old MPR module
+migrated all PFIF code to new PFIF module
+
+2011:0701 Merwan
+----------------
+SOLR config moved to sahana source tree!
+
+2011:0615 Greg
+--------------
+image.x_uuid renamed to image.p_uuid in database ~ codebase updated to reflect this change
+contact.pgoc_uuid renamed to contact.p_uuid in database ~ ""
+
+2011:0608 Greg
+--------------
+added PLUS Web Services v1.9.2 which implements all of the General API Functions
+
+2011:0526 Greg
+--------------
+added: $conf['default_action_event'] and  $conf['default_module_event'] to sahana.conf so that users coming into the site with a specific event can land on a different set of default module/actions versus a user that comes into the system without specifiying an event
+
+

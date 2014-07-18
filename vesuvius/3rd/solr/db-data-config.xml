@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataConfig>
+	<dataSource type="JdbcDataSource" name="ds-1" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost/<db name>" user="<your username>" password="<your password>"/>
+	<document>
+		<!-- Root entity: person_search table -->
+		<entity
+			dataSource="ds-1"
+			name="person_search"
+			pk="p_uuid"
+			query="select * from person_search"
+			deltaImportQuery="select * from person_search where p_uuid='${dataimporter.delta.p_uuid}'"
+			deltaQuery="select p_uuid from person_status where updated > '${dataimporter.last_index_time}' or updated_server > '${dataimporter.last_index_time}'">
+		</entity>
+	</document>
+</dataConfig>
+
+
