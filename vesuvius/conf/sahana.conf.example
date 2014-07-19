@@ -1,0 +1,92 @@
+<?php
+/**
+ * @name         Main Sahana Configuration File
+ * @version      17
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2012.0119
+ */
+
+# The official name of your site, ie. People Locator
+# This is used throughout Vesuvius for string replacement when referring to your site.
+$conf['site_name'] = "Sahana Vesuvius";
+
+# enable the built-in PHP-Console debugger (requires http://goo.gl/KNTi0)
+$conf['enable_debugger'] = false;
+
+# Unique identifier for all resources contained in the system which  is used throughout Vesuvius as the base URL
+# for all URLs that are generated, so it must be correct (also must have a trailing slash)
+$conf['base_uuid'] = "vesuvius.sahanafoundation.org/";
+#$conf['base_uuid'] = "pl.nlm.nih.gov/";
+#$conf['base_uuid'] = "ceb-stage-lx.nlm.nih.gov/~miernickig/vesuvius/vesuvius/www/";
+
+# server uses https or http ~ some modules use this plus the base_uuid to form url's
+$conf['https'] = "https://";
+#$conf['https'] = "http://";
+
+# Use this theme directory
+$conf['theme'] = "lpf3"; // vesuvius theme is in a state of disrepair... so use this theme instead for now!
+
+# Database Configuration
+$conf['db_name'] = "";
+$conf['db_host'] = "";
+$conf['db_port'] = "3306";
+$conf['db_user'] = "";
+$conf['db_pass'] = "";
+
+# Database Type / Engine / Abstraction Layer / Audit Logging
+$conf['db_engine']          = "mysql";
+$conf['storage_engine']     = "innodb";
+$conf['dbal_lib_name']      = "adodb";
+$conf['enable_monitor_sql'] = false;
+
+# Default locale
+$conf['locale'] = "en_US";
+
+# Whether to enable multiple language support
+$conf['enable_locale'] = false;
+
+# Whether to enable the use of Google Translations, and Google Translate settings
+$conf['google_translate_enable'] = false;
+$conf['google_translate_api_key'] = '';
+
+// The Default Module/Action performed when a user first visits the site (w/o an event)
+$conf['default_module'] = 'home';
+$conf['default_action'] = 'default';
+
+// The Default Module/Action performed when a user first visits the site (w/ an event)
+$conf['default_module_event'] = 'inw';
+$conf['default_action_event'] = 'default';
+
+# Password Policy
+$conf['pwd_min_chars']       = 8;
+$conf['pwd_max_chars']       = 16;
+$conf['pwd_has_uppercase']   = true;
+$conf['pwd_has_lowercase']   = true;
+$conf['pwd_has_numbers']     = true;
+$conf['pwd_has_spchars']     = false;
+$conf['pwd_has_username']    = true;
+$conf['pwd_no_change_limit'] = true;
+
+# Turn on Web Services via PLUS module?
+$conf['enable_plus_web_services'] = true;
+
+# Enable SOLR for search? If not default to MySQL
+$conf['enable_solr_for_search'] = false;
+$conf["SOLR_root"] = "http://localhost/solr/";
+$conf["SOLR_port"] = 8983;
+
+# Audit email address
+$conf['audit_email'] = "audit@example.com";
+
+# Enable login via Google OAuth?
+$conf['oauth_google_enable']       = false;
+$conf['oauth_google_clientId']     = '';
+$conf['oauth_google_clientSecret'] = '';
+$conf['oauth_google_redirectUri']  = '';
+$conf['oauth_google_developerKey'] = '';
+
+

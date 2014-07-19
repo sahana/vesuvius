@@ -1,0 +1,33 @@
+Vesuvius Installation Instructions
+==================================
+
+1). Get the codebase.(you have it already, since you're reading this?)
+
+2). Place the vesuvius directory in the web root directory. 
+
+3). Create a new MYSQL database on your server. Assign a new user to the database. Please keep in mind the database name you created and also the accessing 
+	information of the database.
+
+4). If the current user don't have access to the vesuvius directory that placed in the webroot directory then you have to set the permissions to access that.
+	For that first of all using the terminal go to the webroot directory. Type the below command in the terminal and press enter.
+
+	chmod 777 dirname
+
+	You will be promoted to give the password if you are not the root user. Then you have to give the password also and press enter.
+
+		*Note: Please replace the 'dirname' with the name of the vesuvius directory that you place inside the webroot directory.
+
+5). Then in the terminal go inside the vesuvius root directory that placed inside the web root directory. You have to set the permissions to the www/,conf/,
+	backups/ and 3rd/ directories using the following commands in the terminal. Execute the below commands one by one in the terminal. In each command if you
+	are promoted to give the password then give it in the terminal.
+	
+	sudo chmod -R 777 www/
+	sudo chmod -R 777 conf/
+	sudo chmod -R 755 backups/
+	sudo chmod -R 777 3rd/
+
+6). Then run the install.php file that lies in the www/ directory of the vesuvius directory through the browser. Now you are in the Vesuvius installer and going 
+	going forward and giving appropriate configurations you will be able to successfully install the vesuvius in your computer.
+	
+	Important: Read all the installation results in the Install Summary step and if there are any errors then you have to do them manually, specially setting 
+				permissions and creating directories and sub directories.

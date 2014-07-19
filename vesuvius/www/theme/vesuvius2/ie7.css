@@ -1,0 +1,28 @@
+/**
+ * @name         Lost Person Finder Theme
+ * @version      3.0
+ * @package      lpf
+ * @author       Greg Miernicki <g@miernicki.com> <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2011.0308
+ */
+
+
+#locale, #disaster_selekta { vertical-align: middle; }
+#disaster_selekta { padding-bottom: 25px; }
+#eventLabel { position: relative; top: -3px; }
+
+div#menuwrap ul li.currentMainMenuItem a {
+	background-color: #e6eef9;
+}
+
+.inlineHelp { border: 1px solid #000; }
+
+div#footer { color: #000; }
+
+div.form-container form fieldset { background-color: #eee; border: none; }
+
+.message { background-color: #fff; position: absolute; top: 0px; left: 0px; border: 2px solid red; }

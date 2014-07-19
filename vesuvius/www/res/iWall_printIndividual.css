@@ -1,0 +1,141 @@
+/**
+ * @name         Interactive Notification Wall (Search)
+ * @version      21
+ * @package      inw
+ * @author       Merwan Rodriguez <rodriguezmer@mail.nih.gov>
+ * @author       Leif Neve <lneve@mail.nih.gov>
+ * @author       Greg Miernicki <gregory.miernicki@nih.gov>
+ * @about        Developed in whole or part by the U.S. National Library of Medicine and the Sahana Foundation
+ * @link         https://pl.nlm.nih.gov/about
+ * @link         http://sahanafoundation.org
+ * @license	 http://www.gnu.org/licenses/lgpl-2.1.html GNU Lesser General Public License (LGPL)
+ * @lastModified 2012.0213
+ */
+
+
+#footer, #header, #disaster_selekta, #pager, #perPageWrapper, #printLink, #map_canvas, #scrolling_content, #searchForm,
+#blueBack, #wrapper_menu, #skip, #menuwrap, #loginform, #modmenu, #glass, #loadingX, #exitFullScreen{
+	display: none !important;
+}
+
+
+#detailsPane {
+	position: absolute;
+	background-color: white;
+	border: 4px solid #E0ECFF;
+	color: black;
+	font-weight: bold;
+	font-size: 1em;
+	z-index: 99999;
+	min-height: 400px;
+	width: 750px;
+	text-align: center;
+	padding: 15px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	top: 10px !important;
+	left: 10px !important;
+
+	top: 0;
+	left: 0;
+}
+
+#detailInfo {
+	border: solid 1px #CCC;
+	margin-top: 20px;
+
+}
+
+#detailInfo div  {
+	margin-bottom: 10px;
+	/*background-color: #E0ECFF;*/
+	border: solid 2px #E0ECFF;
+	width: 350px;
+	padding:5px;
+	/*border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;*/
+}
+
+#detailInfo label {
+	margin-bottom: 0px;
+	background-color: #E0ECFF;
+	color: black;
+	font-weight: bold;
+	width: 350px;
+	padding:5px;
+	padding-bottom:0px;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+#detailsPane #close{
+	border:solid 0px #E0ECFF;
+	position:absolute;
+	background-color: white;
+	z-index:99999;
+	right: 3px;
+	top: 3px;
+	height: 17px;
+	padding:5px;
+	cursor: pointer;
+	width: 42px;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+	display: none;
+}
+
+.picDetails {
+	font-size: 0.78em;
+	position: relative;
+	background-color: #FFF;
+	width: 95%;
+	margin: 5px auto 5px auto;
+	padding-top:10px;
+	overflow: hidden;
+	zIndex: 2;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+
+	/*filter:alpha(opacity=95);
+	-moz-opacity:0.95;
+	-khtml-opacity: 0.95;
+	opacity: 0.95;*/
+}
+
+.picDetails div {
+	margin-bottom: 5px;
+	/*background-color: #E0ECFF;*/
+	border: solid 2px #E0ECFF;
+
+	/*width: 90%;*/
+	margin: 0px 5px 0px 5px;
+	padding:5px;
+}
+
+.picDetails label{
+	margin-bottom: 0px;
+	margin-top: 0px;
+	margin-left:5px;
+	background-color: #E0ECFF;
+	color: black;
+	font-weight: normal;
+	padding:2px 3px 0px 3px;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+#detailsPane #dt_hospitalIcon {
+	position: absolute;
+	top: 50px;
+	right: 5px;
+}
+
+#detailsPane #dt_print, #detailsPane #showMap, #detailsPane #dt_eapLink {
+	display: none;
+}
