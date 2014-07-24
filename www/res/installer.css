@@ -1,0 +1,19 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 24/07/2014, 7:00:15 PM
+    Author     : chanaka
+*/
+
+#db_host_err_msg, #db_port_err_msg, #db_name_err_msg, #db_user_err_msg, #license_agreement_err_msg {
+    color: #FF0000;
+    font-size: 14px;
+    padding-left: 5px;
+}
+
+.error {
+    background-position: right center;
+}

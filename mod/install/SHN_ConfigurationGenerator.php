@@ -36,19 +36,26 @@ class SHN_ConfigurationGenerator
     public function writeConfInit()
     {
         
+        echo "<link rel=\"stylesheet\" type=\"text/css\" href=\"res/installer.css\" />";
+        echo "<script type=\"text/javascript\" src=\"res/js/jquery.min.js\"></script>";
+        echo "<script type=\"text/javascript\" src=\"res/js/installerValidateHelper.js\"></script>";
+        echo "<script type=\"text/javascript\" src=\"res/js/jquery.form-validator.min.js\"></script>";
+        
         shn_form_fopen("conf", "install", array('enctype'=>'enctype="multipart/form-data"', 'req_message' => true));
         shn_form_fsopen(_t('Database details'));
-        shn_form_text(_t('Database Host'), 'db_host', null, array('value'=>'localhost', 'help' => _t("Your database server's host."), 'req' => true));
-        shn_form_text(_t('Database port'), 'db_port', null, array('value'=>'3306', 'help' => _t("Your database server's port."), 'req' => true));
+        shn_form_text(_t('Database host'), 'db_host', " data-validation=\"required\" data-validation-error-msg=\"" . _t("Please enter the Database host") . "\" ", array('value'=>'localhost', 'help' => _t("Your database server's host."), 'req' => true));
+        shn_form_text(_t('Database port'), 'db_port', " data-validation=\"required\" data-validation-error-msg=\"" . _t("Please enter the Database port") . "\" ", array('value'=>'3306', 'help' => _t("Your database server's port."), 'req' => true));
         shn_form_radio(array(_t('Create New'), _t('Use Existing')), '', 'db_preference', null, null);
-        shn_form_text(_t('Database name'), 'db_name', null, array('help' => _t("The name of the database you'll be using for Vesuvius"), 'req' => true));
-        shn_form_text(_t('Database username'), 'db_user', null, array('help' => _t('Database username'), 'req' => true));
+        shn_form_text(_t('Database name'), 'db_name', " data-validation=\"required\" data-validation-error-msg=\"" . _t("Please enter the Database name") . "\" ", array('help' => _t("The name of the database you'll be using for Vesuvius"), 'req' => true));
+        shn_form_text(_t('Database username'), 'db_user', " data-validation=\"required\" data-validation-error-msg=\"" . _t("Please enter Database username") . "\" ", array('help' => _t('Database username'), 'req' => true));
         shn_form_password(_t('Database password'), 'db_pass', null, array('help' => _t('The password for the database user you have specified.')));
         shn_form_textarea('', 'license', ' readonly style="font-size:11px;"', array('value' => $this->_getLicenseAgreementText(), 'cols' => '45', 'rows' => '8'));
-        shn_form_checkbox(_t('I agree with the terms of the License Agreement'), 'license_agreement', null, array('req' => true, 'value' => 1));
+        shn_form_checkbox(_t('I agree with the terms of the License Agreement'), 'license_agreement', " data-validation=\"required\" data-validation-error-msg=\"" . _t("You should agree to the terms") . "\" ", array('req' => true, 'value' => 1));
         shn_form_submit(_t('Submit Configuration'));
         shn_form_fsclose();
         shn_form_fclose();
+        
+        echo "<script> $.validate(); </script>";
         
     }
     
