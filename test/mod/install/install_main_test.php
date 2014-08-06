@@ -6,7 +6,7 @@ require_once 'mod/plus/unitTestLib.php';
 /**
  * This class test the functions of mod/install/main.inc file
  */
-class INW_MAIN_TEST extends PHPUnit_Framework_TestCase
+class INSTALL_MAIN_TEST extends PHPUnit_Framework_TestCase
 {
     
     /**

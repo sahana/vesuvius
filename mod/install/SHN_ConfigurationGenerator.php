@@ -50,7 +50,7 @@ class SHN_ConfigurationGenerator
         shn_form_text(_t('Database username'), 'db_user', " data-validation=\"required\" data-validation-error-msg=\"" . _t("Please enter Database username") . "\" ", array('help' => _t('Database username'), 'req' => true));
         shn_form_password(_t('Database password'), 'db_pass', null, array('help' => _t('The password for the database user you have specified.')));
         shn_form_textarea('', 'license', ' readonly style="font-size:11px;"', array('value' => $this->_getLicenseAgreementText(), 'cols' => '45', 'rows' => '8'));
-        shn_form_checkbox(_t('I agree with the terms of the License Agreement'), 'license_agreement', " data-validation=\"required\" data-validation-error-msg=\"" . _t("You should agree to the terms") . "\" ", array('req' => true, 'value' => 1));
+        shn_form_checkbox(_t('I agree with the terms of the License Agreement'), 'license_agreement', " data-validation=\"required\" data-validation-error-msg=\"" . _t("You should agree to the terms") . "\" ", array('req' => true, 'value' => 1, 'disabled' => false));
         shn_form_submit(_t('Submit Configuration'));
         shn_form_fsclose();
         shn_form_fclose();
