@@ -2,7 +2,6 @@
 
 require_once 'mod/install/main.inc';
 require_once 'mod/plus/unitTestLib.php';
-require 'inc/lib_errors.inc';
 
 /**
  * This class test the functions of mod/install/main.inc file
