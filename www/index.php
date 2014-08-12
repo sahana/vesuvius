@@ -36,7 +36,6 @@ require_once($global['approot'] . 'inc/lib_errors.inc');
 require_once($global['approot'] . 'inc/lib_security/lib_crypt.inc');
 
 //require_once($global['approot'].'inc/lib_security/handler_openid.inc'); // replacing openID lib soon....
-require_once($global['approot'] . 'inc/lib_locale/handler_locale.inc');
 require_once($global['approot'] . 'inc/lib_exception.inc');
 require_once($global['approot'] . 'inc/lib_user_pref.inc');
 
@@ -54,6 +53,7 @@ if ( !$global['setup'] ) {
     require_once($global['approot'] . 'conf/sahana.conf');
     require_once($global['approot'] . 'inc/handler_db.inc');
     require_once($global['approot'] . 'inc/handler_session.inc');
+    require_once($global['approot'] . 'inc/lib_locale/handler_locale.inc');
     // load all the configurations based on the priority specified files and database, base and mods
     shn_config_load_in_order();
 
@@ -73,6 +73,7 @@ if ( !$global['setup'] ) {
 
 }
 else {
+    require_once($global['approot'] . 'inc/lib_locale/handler_locale.inc');
     $conf['enable_locale'] = true;
     shn_run_installer();
 }
