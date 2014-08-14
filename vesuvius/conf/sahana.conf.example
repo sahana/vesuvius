@@ -28,7 +28,7 @@ $conf['https'] = "https://";
 #$conf['https'] = "http://";
 
 # Use this theme directory
-$conf['theme'] = "lpf3"; // vesuvius theme is in a state of disrepair... so use this theme instead for now!
+$conf['theme'] = "vesuvius2"; // Veusuvius 2 theme based on lpf3 
 
 # Database Configuration
 $conf['db_name'] = "";
