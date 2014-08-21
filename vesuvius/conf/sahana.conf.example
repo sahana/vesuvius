@@ -89,4 +89,5 @@ $conf['oauth_google_clientSecret'] = '';
 $conf['oauth_google_redirectUri']  = '';
 $conf['oauth_google_developerKey'] = '';
 
-
+# If portable mobile server 
+$conf['mobile_server'] = false;
