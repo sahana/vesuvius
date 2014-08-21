@@ -16,3 +16,4 @@ vesuvius/res/translation_log.txt
 !*/.git*
 conf/sahana.conf
 sahana.conf
+.DS_Store
