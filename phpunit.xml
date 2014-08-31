@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/3.7/phpunit.xsd">
+    
+    <testsuites>
+        <testsuite name="Installer Module Test Suite">
+            <file>test/mod/install/install_main_test.php</file>
+            <file>test/mod/install/SHN_ConfigurationGenerator_Test.php</file>
+        </testsuite>
+    </testsuites>
+    
+</phpunit>

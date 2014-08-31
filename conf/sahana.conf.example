@@ -28,7 +28,7 @@ $conf['https'] = "http://";
 #$conf['http'] = "http://";
 
 # Use this theme directory
-$conf['theme'] = "vesuvius"; // vesuvius theme is in a state of disrepair... so use this theme instead for now!
+$conf['theme'] = "vesuvius2"; // vesuvius theme is in a state of disrepair... so use this theme instead for now!
 
 # Database Type / Engine / Abstraction Layer / Audit Logging
 $conf['db_engine']          = "mysql";

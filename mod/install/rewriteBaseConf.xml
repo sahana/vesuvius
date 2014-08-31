@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<reWriteBase>
+
+    <reWriteRule>
+        
+        <name>person.[0-9]+</name>
+        
+        <params>
+            <param>
+                <name>mod</name>
+                <value>eap</value>
+            </param>
+            <param>
+                <name>val</name>
+                <value>$1</value>
+            </param>
+        </params>
+        
+    </reWriteRule>
+    
+    <reWriteRule>
+        
+        <name>about</name>
+        
+        <params>
+            <param>
+                <name>mod</name>
+                <value>rez</value>
+            </param>
+            <param>
+                <name>page</name>
+                <value>-30</value>
+            </param>
+        </params>
+        
+    </reWriteRule>
+    
+    <reWriteRule>
+        
+        <name>privacy</name>
+        
+        <params>
+            <param>
+                <name>mod</name>
+                <value>rez</value>
+            </param>
+            <param>
+                <name>page</name>
+                <value>44</value>
+            </param>
+        </params>
+        
+    </reWriteRule>
+    
+    <reWriteRule>
+        
+        <name>login</name>
+        
+        <params>
+            <param>
+                <name>mod</name>
+                <value>pref</value>
+            </param>
+            <param>
+                <name>act</name>
+                <value>loginForm</value>
+            </param>
+        </params>
+        
+    </reWriteRule>
+    
+    <reWriteRule>
+        
+        <name>auth</name>
+        
+        <params>
+            <param>
+                <name>doLogin</name>
+                <value>1</value>
+            </param>
+        </params>
+        
+    </reWriteRule>
+    
+    <reWriteRule>
+        
+        <name>password</name>
+        
+        <params>
+            <param>
+                <name>mod</name>
+                <value>pref</value>
+            </param>
+            <param>
+                <name>act</name>
+                <value>ch_passwd</value>
+            </param>
+        </params>
+        
+    </reWriteRule>
+    
+    <reWriteRule>
+        
+        <name>logout</name>
+        
+        <params>
+            <param>
+                <name>act</name>
+                <value>logout</value>
+            </param>
+        </params>
+        
+    </reWriteRule>
+    
+    <reWriteRule>
+        
+        <name>register</name>
+        
+        <params>
+            <param>
+                <name>mod</name>
+                <value>pref</value>
+            </param>
+            <param>
+                <name>act</name>
+                <value>signup</value>
+            </param>
+        </params>
+        
+    </reWriteRule>
+    
+    <reWriteRule>
+        
+        <name>register2</name>
+        
+        <params>
+            <param>
+                <name>mod</name>
+                <value>pref</value>
+            </param>
+            <param>
+                <name>act</name>
+                <value>signup2</value>
+            </param>
+        </params>
+        
+    </reWriteRule>
+    
+    <reWriteRule>
+        
+        <name>forgot</name>
+        
+        <params>
+            <param>
+                <name>mod</name>
+                <value>pref</value>
+            </param>
+            <param>
+                <name>act</name>
+                <value>forgotPassword</value>
+            </param>
+        </params>
+        
+    </reWriteRule>
+    
+    <reWriteRule>
+        
+        <name>tracking</name>
+        
+        <params>
+            <param>
+                <name>mod</name>
+                <value>pref</value>
+            </param>
+            <param>
+                <name>act</name>
+                <value>tracking</value>
+            </param>
+        </params>
+        
+    </reWriteRule>
+    
+    <reWriteRule>
+        
+        <name>reza|resourceadmin</name>
+        
+        <params>
+            <param>
+                <name>mod</name>
+                <value>rez</value>
+            </param>
+            <param>
+                <name>act</name>
+                <value>adm_default</value>
+            </param>
+        </params>
+        
+    </reWriteRule>
+
+</reWriteBase>

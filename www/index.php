@@ -36,7 +36,6 @@ require_once($global['approot'] . 'inc/lib_errors.inc');
 require_once($global['approot'] . 'inc/lib_security/lib_crypt.inc');
 
 //require_once($global['approot'].'inc/lib_security/handler_openid.inc'); // replacing openID lib soon....
-require_once($global['approot'] . 'inc/lib_locale/handler_locale.inc');
 require_once($global['approot'] . 'inc/lib_exception.inc');
 require_once($global['approot'] . 'inc/lib_user_pref.inc');
 
@@ -54,6 +53,7 @@ if ( !$global['setup'] ) {
     require_once($global['approot'] . 'conf/sahana.conf');
     require_once($global['approot'] . 'inc/handler_db.inc');
     require_once($global['approot'] . 'inc/handler_session.inc');
+    require_once($global['approot'] . 'inc/lib_locale/handler_locale.inc');
     // load all the configurations based on the priority specified files and database, base and mods
     shn_config_load_in_order();
 
@@ -73,6 +73,8 @@ if ( !$global['setup'] ) {
 
 }
 else {
+    require_once($global['approot'] . 'inc/lib_locale/handler_locale.inc');
+    $conf['enable_locale'] = true;
     shn_run_installer();
 }
 
@@ -428,6 +430,7 @@ function shn_main_install_check()
  * Run the installer
  */
 function shn_run_installer() {
+    
     global $global;
     $global['theme'] = $theme = 'vesuvius2';
     include_once($global['approot'].'/www/theme/'.$theme.'/head.php');
@@ -435,27 +438,35 @@ function shn_run_installer() {
     //load the head tag
     shn_theme_head();
 
-
     include_once($global['approot'].'/mod/install/main.inc');
 
+    include_once($global['approot'].'/mod/install/SHN_ConfigurationGenerator.php');
+    
+    $confGenerator = new SHN_ConfigurationGenerator($global['approot']);
+    
     shn_install_stream_init();
-	$global["root_dir"]=dirname($_SERVER["PHP_SELF"]);
+    
+    $global["root_dir"]=dirname($_SERVER["PHP_SELF"]);
+    
     if (!isset($_GET['act']) && !isset($_GET['mod']) ) {
-		shn_install_default();
-		}
-    else {
-		if(isset($_GET['act']) && isset($_GET['mod'])){
-			if($_GET['act']=='conf' && $_GET['mod']=='install'){
-				shn_install_conf();
-				}
-			else {
-				header("Location: $global[root_dir]");
-				}
-			}
-		else{
-			header("Location: $global[root_dir]");
-			}        
-		}
+        shn_install_default($confGenerator);
+    } else {
+        
+        if (isset($_GET['act']) && isset($_GET['mod'])) {
+            
+            if ($_GET['act']=='conf' && $_GET['mod']=='install') {
+                $confGenerator->installConf();
+            }
+            else {
+                header("Location: $global[root_dir]");
+            }
+            
+        }
+        else {
+            header("Location: $global[root_dir]");
+        }
+        
+    }
 
     shn_install_stream_close();
 }

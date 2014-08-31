@@ -79,7 +79,7 @@ if (file_exists($global['approot']."www/theme/".$global['theme']."/ie9.css")) { 
 //--- end IE styles ---//
 ?>
 
-<link rel="icon" type="image/png" href="favicon.png">
+<link rel="icon" type="image/png" href="favicon_vesuvius2.png">
 
 <?php
 
